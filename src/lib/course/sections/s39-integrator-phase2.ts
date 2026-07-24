@@ -12,7 +12,7 @@ export const section39: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-violet-500 to-fuchsia-900",
   jobRelevance:
-    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en el Perú, cierras **CP-N3-C** con **Responsible ML Case Triage**: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Id de plataforma `integrator-phase2` se conserva. La promoción de nivel requiere CP-N3-A/B/C, **regresión S27–S39** y **CF-3** calificada en otra lane (esta autoría no escribe PASS en ledger ni seed).",
+    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en el Perú, cierras el entregable **CP-N3-C** con **Responsible ML Case Triage**: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Para la promoción de nivel documentas CP-N3-A/B/C, un **smoke de regresión S27–S39** y el expediente **CF-3** listo para revisión externa: dejas evidencia reproducible, sin auto-declarar el cierre del nivel.",
   learningOutcomes: [
     { text: "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados" },
     { text: "Registrar ownership, semver y política de compatibilidad por artefacto del triage" },
@@ -22,15 +22,15 @@ export const section39: CourseSection = {
     { text: "Monitorear drift, activar human_only, rollback de modelo/umbral y abstención" },
     { text: "Definir criterios de aceptación, demo e2e sintético y smoke de regresión S27–S39" },
     { text: "Publicar model/data/system cards, métricas de valor operativo y postmortem blameless" },
-    { text: "Documentar CF-3 y gates N3 sin auto-marcar section_passed en la lane de autoría" },
+    { text: "Documentar el expediente CF-3 y los gates N3 con evidencia reproducible, sin auto-declarar la promoción de nivel" },
   ],
   theory: [
     {
       heading: "Cierre CP-N3-C + regresión N3 + CF-3",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos N3 en **lane separada** (esta autoría no escribe PASS). **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
-        "En V3, **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
-        "Contrato de promoción (conceptual, no auto-ejecutado aquí). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de **CF-3**. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: reclamar PASS en ledger, seed o checkpoint desde la lane de autoría. Criterio: la calificación de promoción y CF-3 ocurre en lane separada; aquí solo dejas evidencia reproducible.",
+        "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos del nivel 3 revisado por un evaluador externo. **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
+        "**S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
+        "Contrato de promoción (conceptual). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de **CF-3**. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: auto-declarar promoción sin revisión externa. Criterio: dejas evidencia reproducible; la decisión de cierre del nivel la registra un revisor, no tu script.",
         "Orden pedagógico de esta sección: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y postmortem). El caso sintético `CASO-LIM-039` modela una cola de revisión para una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude.",
       ],
       code: {
@@ -39,33 +39,33 @@ export const section39: CourseSection = {
         code: `def section_contract():
     return {
         "case": "CASO-LIM-039",
-        "gates": ["CP-N3-C", "regression_S27_S39", "CF-3_separate_lane"],
+        "gates": ["CP-N3-C", "regression_S27_S39", "CF-3_external_review"],
         "auto_fraud": False,
-        "section_passed_written_here": False,
+        "self_declared_promotion": False,
     }
 
 c = section_contract()
 print("case", c["case"])
 print("auto_fraud", c["auto_fraud"])
-print("section_passed_written_here", c["section_passed_written_here"])
+print("self_declared_promotion", c["self_declared_promotion"])
 `,
         output: `case CASO-LIM-039
 auto_fraud False
-section_passed_written_here False`,
+self_declared_promotion False`,
       },
       callout: {
         type: "info",
         title: "Gate CP-N3-C + regresión",
         content:
-          "Entregable de S39: triage responsable demoable. Promoción N3 = CP-N3-A/B/C + regresión S27–S39 + CF-3 en lane de calificación. Esta autoría no escribe section_passed ni edita seed/checkpoint/ledger.",
+          "Entregable de S39: triage responsable demoable. Promoción N3 = CP-N3-A/B/C + regresión S27–S39 + CF-3 con revisión externa. Tú dejas el expediente; no auto-declaras el cierre del nivel.",
       },
     },
     {
-      heading: "intake → ER → relación → features → modelo",
+      heading: "Pipeline canónico: intake → ER → relación → features → modelo",
       subtopicId: "S39-T1-A",
       paragraphs: [
         "El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **grafo relacional** expone paths de co-ocurrencia; **features** se materializan sin leakage de labels futuros; el **modelo** emite un score de prioridad; la **cola** recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato. El score **nunca** es veredicto de conducta indebida.",
-        "Contrato operativo. Entrada: payload con `run_id`, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, `label_space` en `needs_review` y bandera `auto_fraud=False` siempre. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal o de parentesco. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano con HITL.",
+        "Por qué este orden importa: ER antes del grafo evita filtrar features con una identidad mal resuelta; features antes del score impiden que el modelo use labels futuros de la cola; la cola al final fuerza **HITL** (human-in-the-loop: un revisor decide, no el score solo). Entrada: payload con `run_id`, registros de intake y umbral. Salida: stages ordenados, `label_space=needs_review` y `auto_fraud=False`. Error: reordenar etapas, saltar ER o mapear score a veredicto legal. Éxito: fallas se aíslan por frontera y el score solo ordena trabajo humano.",
         "Aplicación al caso sintético `CASO-LIM-039-T1A` (cola de onboarding digital en Lima, fintech ficticia): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet con citas y path.",
       ],
       code: {
@@ -99,12 +99,12 @@ auto_fraud False`,
       },
     },
     {
-      heading: "contratos, versiones y ownership",
+      heading: "Contratos, versiones y ownership (semver)",
       subtopicId: "S39-T1-B",
       paragraphs: [
         "Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **política de compatibilidad**. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende.",
-        "Contrato operativo. Entrada: registry de artefactos con `ver`, `owner` y flag de breaking change. Salida: inventario ordenado, conteo de owners distintos y decisión major/minor. Error: publicar un breaking change como patch o dejar un artefacto sin owner. Criterio de éxito: todo artefacto en producción del triage tiene dueño contactable y bump major documentado cuando el contrato se rompe.",
-        "En `CASO-LIM-039-T1B`, el equipo de plataforma en Lima versiona `er_engine 1.2.0` (data-quality), `graph_schema 3.0.0` (investigations), `feature_set fs-v3` (ml-platform) y `ranker 2.1.0` (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática.",
+        "Semver no es adorno: un breaking change en el schema del grafo invalida paths ya guardados en packets de cola. Entrada: registry con `ver`, `owner` y flag de breaking. Salida: inventario, owners distintos y bump major/minor. Error: publicar breaking como patch o artefacto sin owner. Éxito: cada artefacto en producción tiene dueño contactable y major documentado cuando el contrato se rompe.",
+        "En `CASO-LIM-039-T1B`, el equipo de plataforma en Lima versiona `er_engine 1.2.0` (data-quality), `graph_schema 3.0.0` (investigations), `feature_set 3.0.0` (ml-platform) y `ranker 2.1.0` (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática.",
       ],
       code: {
         language: 'python',
@@ -115,12 +115,13 @@ auto_fraud False`,
 registry = {
     "er_engine": {"ver": "1.2.0", "owner": "data-quality"},
     "graph_schema": {"ver": "3.0.0", "owner": "investigations"},
-    "feature_set": {"ver": "fs-v3", "owner": "ml-platform"},
+    "feature_set": {"ver": "3.0.0", "owner": "ml-platform"},
     "ranker": {"ver": "2.1.0", "owner": "ml-risk"},
 }
+compat = "semver" if all("." in meta["ver"] for meta in registry.values()) else "unknown"
 print(sorted(registry))
 print("owners", owner_count(registry))
-print("compat", "semver")`,
+print("compat", compat)`,
         output: `['er_engine', 'feature_set', 'graph_schema', 'ranker']
 owners 4
 compat semver`,
@@ -133,12 +134,12 @@ compat semver`,
       },
     },
     {
-      heading: "queue, evidence packet y explicación",
+      heading: "Cola, evidence packet y explicación",
       subtopicId: "S39-T2-A",
       paragraphs: [
-        "La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo».",
-        "Contrato operativo. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcionalmente model_contrib. Salida: packet mínimo con claves auditables y capas de explicación (S35). Error: packet con solo score o sin graph_path cuando el modelo usó señales relacionales. Criterio de éxito: el revisor puede reconstruir por qué el caso llegó a cola sin confiar en magia del modelo.",
-        "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. La UI didáctica puede ser un dict en CLI: lo importante es la estructura, no el framework. El revisor decide; el modelo solo prioriza.",
+        "La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo». **Calibración** aquí significa que el umbral se eligió para una tasa de cola sostenible (S34), no que el score sea probabilidad de fraude.",
+        "El packet mínimo no es un dump del modelo: es el set de hechos que un revisor puede citar. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcional model_contrib. Salida: packet auditable + capas de explicación (S35) + bucket de prioridad por umbrales. Error: score solo o path omitido cuando el modelo usó señales relacionales. Éxito: el revisor reconstruye por qué el caso llegó a cola sin magia del modelo.",
+        "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. Con thr_hi=0.75 y thr_lo=0.40 el bucket es `queue_now`; un score 0.55 iría a `queue_batch` y 0.20 a `skip`. La UI didáctica puede ser un dict en CLI: lo importante es la estructura. El revisor decide; el modelo solo prioriza.",
       ],
       code: {
         language: 'python',
@@ -146,6 +147,14 @@ compat semver`,
         code: `def packet_ok(packet):
     need = ("case_id", "score", "evidence", "graph_path")
     return all(k in packet and packet[k] for k in need)
+
+def priority_bucket(score: float, thr_hi: float, thr_lo: float) -> str:
+    # Umbrales de validación (S34), no «a ojo»
+    if score >= thr_hi:
+        return "queue_now"
+    if score >= thr_lo:
+        return "queue_batch"
+    return "skip"
 
 packet = {
     "case_id": "CASO-LIM-039-T2A",
@@ -155,12 +164,20 @@ packet = {
     "uncertainty": "in_distribution",
     "model_contrib": {"shared_phone": 0.4},
 }
+layers = sum([
+    bool(packet.get("case_id")),
+    "score" in packet,
+    bool(packet.get("evidence")),
+    bool(packet.get("graph_path")),
+])
 print(packet["case_id"], packet["score"])
 print("path", packet["graph_path"])
-print("layers", 4 if packet_ok(packet) else 0)`,
+print("layers", layers if packet_ok(packet) else 0)
+print("bucket", priority_bucket(packet["score"], 0.75, 0.40))`,
         output: `CASO-LIM-039-T2A 0.81
 path ['E1', 'ph:900', 'E2']
-layers 4`,
+layers 4
+bucket queue_now`,
       },
       callout: {
         type: "tip",
@@ -170,11 +187,11 @@ layers 4`,
       },
     },
     {
-      heading: "decisión, override, feedback y apelación",
+      heading: "Decisión, override, feedback y apelación",
       subtopicId: "S39-T2-B",
       paragraphs: [
         "Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere; el **override humano gana** y debe quedar en audit log con actor, razón y timestamp. Sin audit, el override es un riesgo de gobernanza, no un control.",
-        "Contrato operativo. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento en log. Error: override sin registro, o feedback de revisor reinyectado al training set con leakage. Criterio de éxito: cada cambio de decisión es reconstruible y la apelación reabre con otro revisor o supervisor.",
+        "El audit no es un log de debug: es la prueba de que un humano mandó sobre el auto. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento con actor/razón/timestamp. Error: override sin registro, o feedback reinyectado al training con leakage temporal. Éxito: cada cambio es reconstruible y la apelación reabre con otro revisor.",
         "En `CASO-LIM-039-T2B`, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con reviewer distinto. El feedback mejora reglas o datasets con cuidado de ventana temporal: nunca uses el label de cola como feature del mismo score que la generó.",
       ],
       code: {
@@ -206,12 +223,12 @@ overrides 1`,
       },
     },
     {
-      heading: "privacidad, fairness y seguridad",
+      heading: "Privacidad, fairness y seguridad",
       subtopicId: "S39-T3-A",
       paragraphs: [
         "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe secretos o tokens en el repo. Fairness operativa: mide tasas de envío a cola y de override por slices sintéticos de producto o canal, no para afirmar culpa de un grupo real.",
-        "Contrato operativo. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: `release_ok` booleano y blockers nominados. Error: secrets_in_repo True, packet sin control de rol, o ausencia de métricas por slice. Criterio de éxito: checklist firmado por owner de riesgo antes de promover el flujo a demo de aceptación.",
-        "Para `CASO-LIM-039-T3A`, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin SSRF a evidence remota) y slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable.",
+        "Un AUC alto no «compensa» un secreto en el repo ni la falta de RBAC: son blockers duros de release. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: `release_ok` y blockers nominados. Error: secrets_in_repo True, packet sin control de rol o sin métricas por slice. Éxito: owner de riesgo firma el checklist antes de la demo de aceptación.",
+        "Para `CASO-LIM-039-T3A`, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin **SSRF**: el servidor no debe abrir URLs arbitrarias de evidence remota) y slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable.",
       ],
       code: {
         language: 'python',
@@ -231,10 +248,11 @@ checklist = {
     "secrets_in_repo": False,
     "slice_metrics": True,
     "input_limits": True,
+    "auto_fraud": False,
 }
 print("release_ok", release_ok(checklist))
-print("items", len(checklist))
-print("fraud_auto", False)`,
+print("items", len([k for k in checklist if k != "auto_fraud"]))
+print("fraud_auto", checklist["auto_fraud"])`,
         output: `release_ok True
 items 5
 fraud_auto False`,
@@ -247,11 +265,11 @@ fraud_auto False`,
       },
     },
     {
-      heading: "drift, incidentes, rollback y human control",
+      heading: "Drift, incidentes, rollback y control humano",
       subtopicId: "S39-T3-B",
       paragraphs: [
         "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un veredicto moral: es una señal de que el ranking puede estar desalineado y hay que abstener más o recalibrar. El control humano no se optimiza fuera del sistema para «subir throughput».",
-        "Contrato operativo. Entrada: flags de drift_high e incident, versión de modelo/umbral y runbook. Salida: modo `normal`, `abstain_more` o `human_only`, más target de rollback. Error: seguir en auto cuando hay incidente de política o de seguridad. Criterio de éxito: interruptor human_only documentado, rollback a modelo/umbral previos y alertas accionables.",
+        "Prioridad de modos: incident > drift > normal. Si hay incidente de política o seguridad, el throughput se sacrifica. Entrada: flags drift_high/incident, versión de modelo/umbral y runbook. Salida: `normal` | `abstain_more` | `human_only` + target de rollback versionado. Error: seguir en auto durante incidente. Éxito: interruptor human_only documentado y alertas accionables.",
         "En `CASO-LIM-039-T3B`, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior. El score nunca se convierte en etiqueta masiva de fraude mientras se investiga.",
       ],
       code: {
@@ -263,9 +281,13 @@ fraud_auto False`,
     if drift_high:
         return "abstain_more"
     return "normal"
+
+def rollback_target(prev_model_id):
+    return prev_model_id if prev_model_id else "REQUEST_PREV_MODEL"
+
 print(mode(False, True))
 print(mode(True, False))
-print("rollback", "model_previous")`,
+print("rollback", rollback_target("model_previous"))`,
         output: `human_only
 abstain_more
 rollback model_previous`,
@@ -278,12 +300,12 @@ rollback model_previous`,
       },
     },
     {
-      heading: "aceptación y demo",
+      heading: "Aceptación, demo e2e y regresión N3",
       subtopicId: "S39-T4-A",
       paragraphs: [
         "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstención, audit log de decisiones, prohibición de auto-label de fraude y smoke de regresión S27–S39 documentado.",
-        "Contrato operativo. Entrada: checklist de aceptación y tres rutas de demo (happy, override, ood_abstain). Salida: conteo de criterios en verde y nota de que CF-3/PASS de promoción es lane separada. Error: demo solo del camino feliz o auto-marcar section_passed. Criterio de éxito: un revisor externo puede repetir la demo sin secretos ni datos reales.",
-        "Para `CASO-LIM-039-T4A`, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada OOD que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Esta lane deja el expediente listo; no escribe el PASS de CF-3.",
+        "Una demo creíble cubre tres caminos, no solo el feliz: happy, override y ood_abstain. Entrada: checklist de aceptación + rutas de demo. Salida: criterios en verde y expediente CF-3 listo para revisor externo. Error: demo solo happy o auto-declarar promoción. Éxito: un evaluador externo repite la demo sin secretos ni datos reales.",
+        "Para `CASO-LIM-039-T4A`, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada **OOD** (out-of-distribution: el caso cae fuera de la distribución de validación) que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Dejas el expediente listo; no auto-declaras el cierre del nivel ni el PASS de CF-3.",
       ],
       code: {
         language: 'python',
@@ -300,31 +322,34 @@ rollback model_previous`,
     return {
         "n_criteria": len(criteria),
         "demo_paths": ["happy", "override", "ood_abstain"],
-        "cf3_note": "separate_lane_for_pass",
+        "cf3_review": "external",
+        "self_declared_promotion": False,
     }
 
 bundle = acceptance_bundle()
 print("n_criteria", bundle["n_criteria"])
 print("demo_paths", bundle["demo_paths"])
-print("cf3_note", bundle["cf3_note"])`,
+print("cf3_review", bundle["cf3_review"])
+print("self_declared_promotion", bundle["self_declared_promotion"])`,
         output: `n_criteria 6
 demo_paths ['happy', 'override', 'ood_abstain']
-cf3_note separate_lane_for_pass`,
+cf3_review external
+self_declared_promotion False`,
       },
       callout: {
         type: "info",
         title: "CF-3 / regresión",
         content:
-          "PASS de promoción y CF-3 no se escriben en esta autoría. Documenta smoke S27–S39 y deja section_passed en false hasta la lane de calificación.",
+          "Documenta smoke S27–S39 y deja el expediente CF-3 listo. La promoción la confirma un revisor externo; tu script no auto-declara el cierre del nivel.",
       },
     },
     {
-      heading: "model/data/system cards, métricas de valor y postmortem",
+      heading: "Model/data/system cards, métricas de valor y postmortem",
       subtopicId: "S39-T4-B",
       paragraphs: [
         "El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owners, rollback). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
-        "Contrato operativo. Entrada: métricas de valor, plantillas de cards y plantilla de postmortem. Salida: tres cards publicables y un postmortem blameless con timeline, root_cause y actions. Error: card vacía, métrica de negocio ausente o postmortem que busca culpables en lugar de causas de sistema. Criterio de éxito: un stakeholder no-ML entiende qué hace el score y cuándo interviene un humano.",
-        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para la lane de CF-3 — sin auto-declarar promoción.",
+        "Cards y postmortem cierran el aprendizaje del sistema, no la cacería de culpables. Entrada: métricas de valor, plantillas de cards y de postmortem. Salida: tres cards publicables + postmortem blameless (timeline, root_cause, actions). Error: card vacía, solo AUC offline o postmortem con nombres de personas como causa. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
+        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para revisión CF-3 — sin auto-declarar promoción.",
       ],
       code: {
         language: 'python',
@@ -334,7 +359,11 @@ cf3_note separate_lane_for_pass`,
     return all(k in value for k in keys)
 
 def postmortem_ok(pm):
-    return pm.get("blameless") is True and "root_cause" in pm and pm.get("actions")
+    return (
+        pm.get("blameless") is True
+        and bool(pm.get("root_cause"))
+        and bool(pm.get("actions"))
+    )
 
 value = {
     "precision_at_k": 0.55,
@@ -347,12 +376,13 @@ postmortem = {
     "actions": ["rollback", "recalibrate"],
     "blameless": True,
 }
+card_types = sorted(["model", "data", "system"])
 print(value if value_metrics(value) else {})
 print(postmortem["root_cause"] if postmortem_ok(postmortem) else "missing")
-print("cards", ["model", "data", "system"])`,
+print("cards", card_types)`,
         output: `{'precision_at_k': 0.55, 'override_rate': 0.12, 'median_review_s': 90}
 calib_drift
-cards ['model', 'data', 'system']`,
+cards ['data', 'model', 'system']`,
       },
       callout: {
         type: "tip",
@@ -363,23 +393,30 @@ cards ['model', 'data', 'system']`,
     },
   ],
   iDo: {
-    intro: "Te muestro el cierre del nivel N3: pipeline canónico, registry con owners, evidence packet, decisiones con override, checklist de riesgo, modos ops, aceptación/regresión y cards de valor — siempre con fixtures sintéticos y sin auto-PASS de CF-3.",
+    intro: "Te muestro el cierre del nivel N3: pipeline canónico, registry con owners, evidence packet, decisiones con override, checklist de riesgo, modos ops, aceptación/regresión y cards de valor — siempre con fixtures sintéticos y sin auto-declarar promoción ni CF-3.",
     steps: [
       {
         demoId: "S39-T1-A-DEMO",
         subtopicId: "S39-T1-A",
         environment: "local-python",
-        description: "Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-039.",
+        description: "Pipeline canónico N3: stages derivados del run, label_space needs_review y auto_fraud en false sobre CASO-LIM-039.",
         code: {
           language: 'python',
           title: "pipe_demo.py",
-          code: `def pipeline_line() -> str:
+          code: `def build_run(case_id: str, score: float) -> dict:
     stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
-    return " > ".join(stages)
+    return {
+        "case_id": case_id,
+        "stages": stages,
+        "score": score,
+        "label_space": "needs_review",
+        "auto_fraud": False,
+    }
 
-print(pipeline_line())
-print("label_space", "needs_review")
-print("auto_fraud", False)`,
+run = build_run("CASO-LIM-039", 0.66)
+print(" > ".join(run["stages"]))
+print("label_space", run["label_space"])
+print("auto_fraud", run["auto_fraud"])`,
           output: `intake > er > relation_graph > features > model_score > queue
 label_space needs_review
 auto_fraud False`,
@@ -390,19 +427,25 @@ auto_fraud False`,
         demoId: "S39-T1-B-DEMO",
         subtopicId: "S39-T1-B",
         environment: "local-python",
-        description: "Registry mínimo: conteo de owners y política semver para artefactos del triage.",
+        description: "Registry mínimo: conteo de owners y política semver derivados de metadatos de artefactos.",
         code: {
           language: 'python',
           title: "reg_demo.py",
-          code: `def distinct_owners(reg: dict) -> int:
-    return len(set(reg.values()))
+          code: `def registry_ok(reg: dict) -> bool:
+    return all(meta.get("owner") for meta in reg.values()) and len(reg) >= 2
 
-reg = {"er_engine": "dq", "ranker": "ml-risk"}
-print(distinct_owners(reg))
-print("semver", True)
-print("owner_required", True)`,
+def semver_policy(breaking: bool) -> str:
+    return "major_on_breaking" if breaking else "patch_or_minor"
+
+reg = {
+    "er_engine": {"ver": "1.2.0", "owner": "dq", "breaking": False},
+    "ranker": {"ver": "2.1.0", "owner": "ml-risk", "breaking": True},
+}
+print(len({m["owner"] for m in reg.values()}))
+print("semver_policy", semver_policy(any(m.get("breaking") for m in reg.values())))
+print("owner_required", registry_ok(reg))`,
           output: `2
-semver True
+semver_policy major_on_breaking
 owner_required True`,
         },
         why: "Ownership y semver son el contrato de evolución del triage: sin ellos no hay on-call ni regresión confiable.",
@@ -411,39 +454,54 @@ owner_required True`,
         demoId: "S39-T2-A-DEMO",
         subtopicId: "S39-T2-A",
         environment: "local-python",
-        description: "Evidence packet: claves mínimas ordenadas y cuatro capas de explicación.",
+        description: "Evidence packet: claves mínimas, capas contadas y bucket de prioridad por umbrales calibrados.",
         code: {
           language: 'python',
           title: "pkt_demo.py",
           code: `def packet_keys(keys):
     return sorted(keys)
 
+def priority_bucket(score: float, thr_hi: float, thr_lo: float) -> str:
+    if score >= thr_hi:
+        return "queue_now"
+    if score >= thr_lo:
+        return "queue_batch"
+    return "skip"
+
 keys = packet_keys(["case_id", "score", "evidence", "graph_path"])
+layers = len(keys)
+score_alone_ok = keys == ["score"]
 print(keys)
-print("layers", 4)
-print("score_alone_ok", "score" in keys and len(keys) > 1 and False)`,
+print("layers", layers)
+print("score_alone_ok", score_alone_ok)
+print("bucket", priority_bucket(0.81, 0.75, 0.40))`,
           output: `['case_id', 'evidence', 'graph_path', 'score']
 layers 4
-score_alone_ok False`,
+score_alone_ok False
+bucket queue_now`,
         },
-        why: "El revisor necesita path y evidencia; el score solo no constituye workbench ni justificación de cola.",
+        why: "El revisor necesita path y evidencia; el score solo no constituye workbench. El umbral calibrado ordena capacidad de cola.",
       },
       {
         demoId: "S39-T2-B-DEMO",
         subtopicId: "S39-T2-B",
         environment: "local-python",
-        description: "Override humano a skip con flag de audit y conteo de overrides.",
+        description: "Override humano a skip con flag de audit y conteo de overrides derivados del log.",
         code: {
           language: 'python',
           title: "dec_demo.py",
-          code: `def log_override(final: str) -> dict:
-    return {"final": final, "override": True, "audit": True}
+          code: `log = []
 
-event = log_override("skip")
-print({"final": event["final"], "override": event["override"]})
-print("n_overrides", 1)
-print("audit", event["audit"])`,
-          output: `{'final': 'skip', 'override': True}
+def decide(case_id: str, score: float, human=None) -> str:
+    auto = "queue" if score >= 0.7 else "skip"
+    final = human if human is not None else auto
+    log.append({"case_id": case_id, "final": final, "override": human is not None, "audit": True})
+    return final
+
+print(decide("CASO-LIM-039-T2B", 0.9, human="skip"))
+print("n_overrides", sum(1 for e in log if e["override"]))
+print("audit", all(e["audit"] for e in log if e["override"]))`,
+          output: `skip
 n_overrides 1
 audit True`,
         },
@@ -453,16 +511,23 @@ audit True`,
         demoId: "S39-T3-A-DEMO",
         subtopicId: "S39-T3-A",
         environment: "local-python",
-        description: "Checklist de release: sin secretos en repo y sin auto-fraude.",
+        description: "Checklist de release: release_ok derivado de flags (sin secretos, sin auto-fraude).",
         code: {
           language: 'python',
           title: "risk_demo.py",
-          code: `def risk_release_ok(secrets_in_repo: bool, auto_fraud: bool) -> bool:
-    return (not secrets_in_repo) and (not auto_fraud)
+          code: `checklist = {
+    "secrets_in_repo": False,
+    "auto_fraud": False,
+    "rbac": True,
+    "pii_minimized": True,
+}
 
-print(risk_release_ok(False, False))
-print("secrets_in_repo", False)
-print("auto_fraud", False)`,
+def risk_release_ok(c: dict) -> bool:
+    return (not c["secrets_in_repo"]) and (not c["auto_fraud"]) and c["rbac"] and c["pii_minimized"]
+
+print(risk_release_ok(checklist))
+print("secrets_in_repo", checklist["secrets_in_repo"])
+print("auto_fraud", checklist["auto_fraud"])`,
           output: `True
 secrets_in_repo False
 auto_fraud False`,
@@ -473,7 +538,7 @@ auto_fraud False`,
         demoId: "S39-T3-B-DEMO",
         subtopicId: "S39-T3-B",
         environment: "local-python",
-        description: "Modo human_only ante incidente y target de rollback al modelo previo.",
+        description: "Modo human_only ante incidente y target de rollback derivado del artefacto previo.",
         code: {
           language: 'python',
           title: "ops_demo.py",
@@ -484,9 +549,13 @@ auto_fraud False`,
         return "abstain_more"
     return "normal"
 
-print(ops_mode(True, False))
-print("rollback", "prev_model")
-print("priority", "incident_over_drift")`,
+ops = {"incident": True, "drift_high": False, "prev_model": "prev_model"}
+mode = ops_mode(ops["incident"], ops["drift_high"])
+rollback = ops["prev_model"] if mode == "human_only" else "n/a"
+priority = "incident_over_drift" if ops_mode(True, True) == "human_only" else "drift_first"
+print(mode)
+print("rollback", rollback)
+print("priority", priority)`,
           output: `human_only
 rollback prev_model
 priority incident_over_drift`,
@@ -497,46 +566,63 @@ priority incident_over_drift`,
         demoId: "S39-T4-A-DEMO",
         subtopicId: "S39-T4-A",
         environment: "local-python",
-        description: "Seis criterios de aceptación, scope de regresión S27–S39 y CF-3 en lane separada.",
+        description: "Seis criterios de aceptación contados, scope de regresión S27–S39 y CF-3 con revisión externa.",
         code: {
           language: 'python',
           title: "acc_demo.py",
-          code: `def n_acceptance_criteria() -> int:
-    return len([
-        "e2e_synthetic_run",
-        "baseline_in_metrics",
-        "abstention_path",
-        "audit_log",
-        "no_auto_fraud_label",
-        "regression_smoke_s27_s39",
-    ])
-
-print(n_acceptance_criteria())
-print("regression", "S27-S39")
-print("cf3_pass_lane", "separate")`,
+          code: `criteria = [
+    "e2e_synthetic_run",
+    "baseline_in_metrics",
+    "abstention_path",
+    "audit_log",
+    "no_auto_fraud_label",
+    "regression_smoke_s27_s39",
+]
+gate_notes = {
+    "regression_scope": "S27-S39",
+    "cf3_review": "external",
+    "self_declared_promotion": False,
+}
+print(len(criteria))
+print("regression", gate_notes["regression_scope"])
+print("cf3_review", gate_notes["cf3_review"])
+print("self_declared_promotion", gate_notes["self_declared_promotion"])`,
           output: `6
 regression S27-S39
-cf3_pass_lane separate`,
+cf3_review external
+self_declared_promotion False`,
         },
-        why: "Aceptación medible y regresión documentada; el PASS de CF-3 no se auto-escribe en esta lane.",
+        why: "Aceptación medible y regresión documentada; la promoción la confirma un revisor externo sobre el expediente.",
       },
       {
         demoId: "S39-T4-B-DEMO",
         subtopicId: "S39-T4-B",
         environment: "local-python",
-        description: "Métricas de valor operativo, tres cards y flag de postmortem blameless.",
+        description: "Métricas de valor operativo, tres cards y postmortem blameless derivados de estructuras.",
         code: {
           language: 'python',
           title: "val_demo.py",
-          code: `def value_metrics() -> list:
-    return ["precision_at_k", "override_rate", "median_review_s"]
+          code: `def postmortem_ready(pm: dict) -> bool:
+    return (
+        pm.get("blameless") is True
+        and bool(pm.get("root_cause"))
+        and bool(pm.get("actions"))
+    )
 
-def card_types() -> list:
-    return sorted(["model", "data", "system"])
-
-print(value_metrics())
-print(card_types())
-print("postmortem", True)`,
+value = {
+    "precision_at_k": 0.55,
+    "override_rate": 0.12,
+    "median_review_s": 90,
+}
+cards = sorted(["model", "data", "system"])
+postmortem = {
+    "blameless": True,
+    "root_cause": "calib_drift",
+    "actions": ["rollback", "recalibrate"],
+}
+print(list(value.keys()))
+print(cards)
+print("postmortem", postmortem_ready(postmortem))`,
           output: `['precision_at_k', 'override_rate', 'median_review_s']
 ['data', 'model', 'system']
 postmortem True`,
@@ -546,7 +632,7 @@ postmortem True`,
     ],
   },
   weDo: {
-    intro: "S39 · Laboratorio Responsible ML Case Triage (CASO-LIM-039, sintético Perú): 24 retos locales. E1 repara un predicado de dominio, E2 separa válido/adverso/missing y E3 demuestra fail-closed con tokens de error exactos. Sin auto-fraude ni PASS de CF-3.",
+    intro: "S39 · Laboratorio Responsible ML Case Triage (CASO-LIM-039, sintético Perú): 24 retos locales. E1 repara un predicado de dominio, E2 separa válido/adverso/missing y E3 demuestra fail-closed con tokens de error exactos. Sin auto-fraude ni auto-declarar promoción de nivel.",
     steps: [
       {
         id: "S39-T1-A-E1",
@@ -869,25 +955,25 @@ print(assess(valid), assess(invalid), assess(incomplete))
         subtopicId: "S39-T1-B",
         kind: "transfer",
         instruction:
-          "S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking con bump distinto de major → `REJECT_BUMP_POLICY`; si todos OK → `CONTINUE` y reporta `n_art` = 4. El starter ignora owners vacíos y cuenta mal el tamaño. Salida de la línea principal: `CONTINUE 4` en el happy path del fixture base.",
-        hint: "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.",
+          "S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos en tres rutas visibles. Happy: todos con owner y bump correcto → imprime `CONTINUE` y `n_art=4`. Adverso sin owner en `ranker` → `ESCALATE_NO_OWNER`. Breaking con bump `minor` en `graph_schema` → `REJECT_BUMP_POLICY`. El starter ignora owners vacíos y usa `len(registry) - 1` (off-by-one). Salida exacta: `CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY`.",
+        hint: "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
         hints: [
-          "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.",
-          "n_art es len(registry); no hardcodees 3 por error de off-by-one del starter.",
+          "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
+          "n_art es len(registry) (=4). Corrige el off-by-one del starter y valida owner + bump major ante breaking.",
         ],
         edgeCases: ["owner vacío en un artefacto", "breaking sin major", "registry incompleto"],
-        tests: "Happy path imprime CONTINUE 4; fixtures adversos cubiertos en asserts de solución.",
+        tests: "Salida: CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY",
         feedback: "S39-T1-B-E3: el registry es un conjunto: basta un artefacto sin owner para escalar.",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e3.py",
           code: `# CASO-LIM-039 · registry owners+bump
-# DEFECT: decide no valida owners ni bump
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: decide no valida owners ni bump
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 registry = {
     "er_engine": {"ver": "1.2.0", "owner": "data-quality", "breaking": False, "bump": "patch"},
     "graph_schema": {"ver": "3.0.0", "owner": "investigations", "breaking": True, "bump": "major"},
-    "feature_set": {"ver": "fs-v3", "owner": "ml-platform", "breaking": False, "bump": "minor"},
+    "feature_set": {"ver": "3.0.0", "owner": "ml-platform", "breaking": False, "bump": "minor"},
     "ranker": {"ver": "2.1.0", "owner": "ml-risk", "breaking": False, "bump": "patch"},
 }
 
@@ -895,7 +981,11 @@ def decide(reg: dict) -> str:
     # DEFECTO: no valida owners ni bump
     return "CONTINUE"
 
-print(decide(registry), len(registry) - 1)
+# Tres rutas visibles: happy (CONTINUE 4), sin owner, breaking sin major
+no_owner = {**registry, "ranker": {**registry["ranker"], "owner": ""}}
+bad_bump = {**registry, "graph_schema": {**registry["graph_schema"], "bump": "minor"}}
+# Happy path: imprime CONTINUE 4 (corrige el off-by-one y las validaciones)
+print(decide(registry), len(registry) - 1, decide(no_owner), decide(bad_bump))
 `,
         },
         solutionCode: {
@@ -904,7 +994,7 @@ print(decide(registry), len(registry) - 1)
           code: `registry = {
     "er_engine": {"ver": "1.2.0", "owner": "data-quality", "breaking": False, "bump": "patch"},
     "graph_schema": {"ver": "3.0.0", "owner": "investigations", "breaking": True, "bump": "major"},
-    "feature_set": {"ver": "fs-v3", "owner": "ml-platform", "breaking": False, "bump": "minor"},
+    "feature_set": {"ver": "3.0.0", "owner": "ml-platform", "breaking": False, "bump": "minor"},
     "ranker": {"ver": "2.1.0", "owner": "ml-risk", "breaking": False, "bump": "patch"},
 }
 
@@ -918,10 +1008,14 @@ def decide(reg: dict) -> str:
 
 status = decide(registry)
 n_art = len(registry)
-print(status, n_art)
+no_owner = {**registry, "ranker": {**registry["ranker"], "owner": ""}}
+bad_bump = {**registry, "graph_schema": {**registry["graph_schema"], "bump": "minor"}}
 assert status == "CONTINUE" and n_art == 4
+assert decide(no_owner) == "ESCALATE_NO_OWNER"
+assert decide(bad_bump) == "REJECT_BUMP_POLICY"
+print(status, n_art, decide(no_owner), decide(bad_bump))
 `,
-          output: `CONTINUE 4`,
+          output: `CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY`,
         },
       },
       {
@@ -1043,14 +1137,14 @@ print(assess(valid), assess(invalid), assess(incomplete))
         subtopicId: "S39-T2-A",
         kind: "transfer",
         instruction:
-          "S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El starter siempre continúa y reporta layers=1. Salida happy path: `CONTINUE 4`. No inventes path si no viene en el fixture adverso.",
+          "S39-T2-A-E3 · Workbench fail-closed sobre tres fixtures: packet OK → `CONTINUE` y layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El starter siempre continúa y reporta layers=1. Salida exacta de la línea: `CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY`. No inventes path si no viene en el fixture adverso.",
         hint: "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
         hints: [
           "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
           "uncertainty ausente es incertidumbre de contrato → REQUEST_UNCERTAINTY, no inventes in_distribution.",
         ],
         edgeCases: ["solo score", "sin uncertainty", "evidence vacía"],
-        tests: "Happy: CONTINUE 4; adversos: REJECT_SCORE_ALONE y REQUEST_UNCERTAINTY",
+        tests: "Salida: CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY",
         feedback: "S39-T2-A-E3: explicación en capas exige evidencia; no enmascares gaps del packet.",
         starterCode: {
           language: 'python',
@@ -1066,7 +1160,10 @@ ok = {
     "graph_path": ["E1", "ph:900", "E2"],
     "uncertainty": "in_distribution",
 }
-print(*decide(ok))
+score_only = {"case_id": "CASO-LIM-039-T2A", "score": 0.99}
+no_unc = {k: v for k, v in ok.items() if k != "uncertainty"}
+# Tres rutas visibles: corrige decide() para happy/adverso/missing
+print(*decide(ok), decide(score_only)[0], decide(no_unc)[0])
 `,
         },
         solutionCode: {
@@ -1095,9 +1192,9 @@ no_unc = {k: v for k, v in ok.items() if k != "uncertainty"}
 assert decide(ok) == ("CONTINUE", 4)
 assert decide(score_only)[0] == "REJECT_SCORE_ALONE"
 assert decide(no_unc)[0] == "REQUEST_UNCERTAINTY"
-print(*decide(ok))
+print(*decide(ok), decide(score_only)[0], decide(no_unc)[0])
 `,
-          output: `CONTINUE 4`,
+          output: `CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY`,
         },
       },
       {
@@ -1217,14 +1314,14 @@ print(assess(auto_q), assess(override), assess(appeal))
         subtopicId: "S39-T2-B",
         kind: "transfer",
         instruction:
-          "S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin audit_entry → `REJECT_NO_AUDIT`; si falta feedback_id cuando feedback=True → `REQUEST_FEEDBACK_ID`. Happy path imprime `LOGGED True`. El starter marca LOGGED aunque no haya audit.",
+          "S39-T2-B-E3 · Audit log de feedback sobre tres eventos: happy con leakage_care → `LOGGED True`; override sin audit_entry → `REJECT_NO_AUDIT`; feedback sin feedback_id → `REQUEST_FEEDBACK_ID`. El starter marca LOGGED aunque no haya audit. Salida exacta: `LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID`.",
         hint: "Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.",
         hints: [
           "Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.",
           "leakage_care True es obligatorio al loguear feedback hacia datasets o reglas.",
         ],
         edgeCases: ["override sin audit", "feedback sin id", "leakage_care False"],
-        tests: "Happy: LOGGED True; adversos con tokens REJECT_NO_AUDIT y REQUEST_FEEDBACK_ID",
+        tests: "Salida: LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID",
         feedback: "S39-T2-B-E3: feedback y override solo cuentan si el audit es completo y sin leakage.",
         starterCode: {
           language: 'python',
@@ -1241,7 +1338,9 @@ happy = {
     "feedback_id": "fb-01",
     "leakage_care": True,
 }
-print(*decide(happy))
+no_audit = {**happy, "audit_entry": False}
+no_fb_id = {**happy, "feedback_id": None}
+print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
 `,
         },
         solutionCode: {
@@ -1264,12 +1363,14 @@ happy = {
     "feedback_id": "fb-01",
     "leakage_care": True,
 }
+no_audit = {**happy, "audit_entry": False}
+no_fb_id = {**happy, "feedback_id": None}
 assert decide(happy) == ("LOGGED", True)
-assert decide({**happy, "audit_entry": False})[0] == "REJECT_NO_AUDIT"
-assert decide({**happy, "feedback_id": None})[0] == "REQUEST_FEEDBACK_ID"
-print(*decide(happy))
+assert decide(no_audit)[0] == "REJECT_NO_AUDIT"
+assert decide(no_fb_id)[0] == "REQUEST_FEEDBACK_ID"
+print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
 `,
-          output: `LOGGED True`,
+          output: `LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID`,
         },
       },
       {
@@ -1352,8 +1453,8 @@ assert meets is True
           language: 'python',
           title: "s39-t3-a-e2.py",
           code: `# CASO-LIM-039 · secrets_in_repo block
-# DEFECT: assess PASS sin bloquear secrets_in_repo
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: assess PASS sin bloquear secrets_in_repo
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def assess(c: dict) -> str:
     required = {"pii_minimized", "rbac", "secrets_in_repo", "slice_metrics", "input_limits"}
     missing = sorted(required - c.keys())
@@ -1411,14 +1512,14 @@ print(assess(valid), assess(invalid), assess(incomplete))
         subtopicId: "S39-T3-A",
         kind: "transfer",
         instruction:
-          "S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_SLICE_FP`; si OK → `CONTINUE` con metric `fp_rate`. El starter siempre continúa y no lee slices. Happy path: `CONTINUE fp_rate`. No uses el score para afirmar fraude en un slice.",
+          "S39-T3-A-E3 · Fairness de cola sobre tres payloads: OK → `CONTINUE fp_rate`; slices vacíos → `REQUEST_SLICE_METRICS`; fp_rate sobre umbral → `REJECT_SLICE_FP`. El starter siempre continúa y no lee slices. Salida exacta: `CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP`. No uses el score para afirmar fraude en un slice.",
         hint: "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
         hints: [
           "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
           "REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía.",
         ],
         edgeCases: ["sin slices", "fp_rate sobre umbral", "metric nombre fp_rate"],
-        tests: "Happy CONTINUE fp_rate; adversos REQUEST_SLICE_METRICS y REJECT_SLICE_FP",
+        tests: "Salida: CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP",
         feedback: "S39-T3-A-E3: fairness operativa mide daño de revisión por slice, no culpa grupal.",
         starterCode: {
           language: 'python',
@@ -1432,7 +1533,9 @@ happy = {
     "slices": [{"name": "canal_app", "fp_rate": 0.08}],
     "fp_threshold": 0.15,
 }
-print(*decide(happy))
+empty = {**happy, "slices": []}
+high_fp = {**happy, "slices": [{"name": "canal_app", "fp_rate": 0.4}]}
+print(*decide(happy), decide(empty)[0], decide(high_fp)[0])
 `,
         },
         solutionCode: {
@@ -1453,12 +1556,14 @@ happy = {
     "slices": [{"name": "canal_app", "fp_rate": 0.08}],
     "fp_threshold": 0.15,
 }
+empty = {**happy, "slices": []}
+high_fp = {**happy, "slices": [{"name": "canal_app", "fp_rate": 0.4}]}
 assert decide(happy) == ("CONTINUE", "fp_rate")
-assert decide({**happy, "slices": []})[0] == "REQUEST_SLICE_METRICS"
-assert decide({**happy, "slices": [{"name": "canal_app", "fp_rate": 0.4}]})[0] == "REJECT_SLICE_FP"
-print(*decide(happy))
+assert decide(empty)[0] == "REQUEST_SLICE_METRICS"
+assert decide(high_fp)[0] == "REJECT_SLICE_FP"
+print(*decide(happy), decide(empty)[0], decide(high_fp)[0])
 `,
-          output: `CONTINUE fp_rate`,
+          output: `CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP`,
         },
       },
       {
@@ -1531,8 +1636,8 @@ assert meets is True
           language: 'python',
           title: "s39-t3-b-e2.py",
           code: `# CASO-LIM-039 · drift/incident modes
-# DEFECT: ramas invertidas human_only/abstain
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: ramas invertidas human_only/abstain
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def mode(drift_high, incident):
     # DEFECTO: ramas invertidas
     if drift_high:
@@ -1564,14 +1669,14 @@ print(mode(False, False), mode(True, False), mode(False, True))
         subtopicId: "S39-T3-B",
         kind: "transfer",
         instruction:
-          "S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si solo drift → modo abstain_more sin rollback forzado (`MONITOR`). Happy path incidente: `ROLLBACK previous_model`. El starter siempre imprime current_model.",
+          "S39-T3-B-E3 · Rollback versionado sobre tres escenarios: incident con prev → `ROLLBACK previous_model`; falta prev_model_id → `REQUEST_PREV_MODEL`; solo drift → `MONITOR abstain_more`. El starter siempre imprime current_model. Salida exacta: `ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more`.",
         hint: "Rollback apunta a artefacto versionado previo, no al working tree local.",
         hints: [
           "Rollback apunta a artefacto versionado previo, no al working tree local.",
           "Sin prev_model_id no inventes un id; pide REQUEST_PREV_MODEL.",
         ],
         edgeCases: ["sin prev_model_id", "solo drift", "incident con prev"],
-        tests: "Happy: ROLLBACK previous_model; missing y drift con tokens propios",
+        tests: "Salida: ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more",
         feedback: "S39-T3-B-E3: rollback y abstención son controles distintos; no los mezcles.",
         starterCode: {
           language: 'python',
@@ -1587,7 +1692,9 @@ happy = {
     "prev_model_id": "previous_model",
     "prev_thr": "previous",
 }
-print(*decide(happy))
+missing = {**happy, "prev_model_id": None}
+drift_only = {"incident": False, "drift_high": True}
+print(*decide(happy), decide(missing)[0], *decide(drift_only))
 `,
         },
         solutionCode: {
@@ -1609,12 +1716,14 @@ happy = {
     "prev_model_id": "previous_model",
     "prev_thr": "previous",
 }
+missing = {**happy, "prev_model_id": None}
+drift_only = {"incident": False, "drift_high": True}
 assert decide(happy) == ("ROLLBACK", "previous_model")
-assert decide({**happy, "prev_model_id": None})[0] == "REQUEST_PREV_MODEL"
-assert decide({"incident": False, "drift_high": True}) == ("MONITOR", "abstain_more")
-print(*decide(happy))
+assert decide(missing)[0] == "REQUEST_PREV_MODEL"
+assert decide(drift_only) == ("MONITOR", "abstain_more")
+print(*decide(happy), decide(missing)[0], *decide(drift_only))
 `,
-          output: `ROLLBACK previous_model`,
+          output: `ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more`,
         },
       },
       {
@@ -1635,8 +1744,8 @@ print(*decide(happy))
           language: 'python',
           title: "s39-t4-a-e1.py",
           code: `# CASO-LIM-039 · acceptance no auto_fraud
-# DEFECT: clave auto_fraud_ok incorrecta
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: clave auto_fraud_ok incorrecta
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 acceptance = [
     "e2e_synthetic_run",
     "baseline_in_metrics",
@@ -1679,35 +1788,35 @@ assert meets is True
         subtopicId: "S39-T4-A",
         kind: "independent",
         instruction:
-          "S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría. Entrada: dict gate_notes. Adverso: section_passed True → `REJECT_AUTO_PASS`. Missing scope → `MISSING:regression_scope`. Salidas: `PASS REJECT_AUTO_PASS MISSING:regression_scope`. El starter permite section_passed True.",
-        hint: "Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.",
+          "S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_review=`external`, self_declared_promotion debe ser False. Entrada: dict gate_notes. Adverso: self_declared_promotion True → `REJECT_AUTO_PASS`. Missing scope → `MISSING:regression_scope`. Salidas: `PASS REJECT_AUTO_PASS MISSING:regression_scope`. El starter permite auto-declarar promoción.",
+        hint: "No auto-declares promoción: self_declared_promotion True es rechazo de política. CF-3 se confirma con revisión externa.",
         hints: [
-          "Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.",
-          "cf3_lane separate_lane es el recordatorio de calificación externa.",
+          "No auto-declares promoción: self_declared_promotion True es rechazo de política. CF-3 se confirma con revisión externa.",
+          "cf3_review external recuerda que un evaluador externo cierra el gate.",
         ],
-        edgeCases: ["section_passed True", "scope incompleto", "cf3 en misma lane"],
+        edgeCases: ["self_declared_promotion True", "scope incompleto", "cf3_review no external"],
         tests: "Salida: PASS REJECT_AUTO_PASS MISSING:regression_scope",
-        feedback: "S39-T4-A-E2: regresión se documenta; PASS lo escribe otra lane.",
+        feedback: "S39-T4-A-E2: regresión y expediente se documentan; la promoción la confirma un revisor externo.",
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e2.py",
           code: `# CASO-LIM-039 · regression notes gate
-# DEFECT: acepta section_passed True (auto pass)
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: acepta self_declared_promotion True (auto pass)
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def assess(notes: dict) -> str:
-    required = {"regression_scope", "cf3_lane", "section_passed"}
+    required = {"regression_scope", "cf3_review", "self_declared_promotion"}
     missing = sorted(required - notes.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    # DEFECTO: acepta auto pass
+    # DEFECTO: acepta auto-declarar promoción
     return "PASS"
 
 valid = {
     "regression_scope": "S27-S39",
-    "cf3_lane": "separate_lane",
-    "section_passed": False,
+    "cf3_review": "external",
+    "self_declared_promotion": False,
 }
-invalid = {**valid, "section_passed": True}
+invalid = {**valid, "self_declared_promotion": True}
 incomplete = {k: v for k, v in valid.items() if k != "regression_scope"}
 print(assess(valid), assess(invalid), assess(incomplete))
 `,
@@ -1716,22 +1825,22 @@ print(assess(valid), assess(invalid), assess(incomplete))
           language: 'python',
           title: "s39-t4-a-e2.py",
           code: `def assess(notes: dict) -> str:
-    required = {"regression_scope", "cf3_lane", "section_passed"}
+    required = {"regression_scope", "cf3_review", "self_declared_promotion"}
     missing = sorted(required - notes.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    if notes["section_passed"] is True:
+    if notes["self_declared_promotion"] is True:
         return "REJECT_AUTO_PASS"
-    if notes["regression_scope"] != "S27-S39" or notes["cf3_lane"] != "separate_lane":
+    if notes["regression_scope"] != "S27-S39" or notes["cf3_review"] != "external":
         return "REJECT_AUTO_PASS"
     return "PASS"
 
 valid = {
     "regression_scope": "S27-S39",
-    "cf3_lane": "separate_lane",
-    "section_passed": False,
+    "cf3_review": "external",
+    "self_declared_promotion": False,
 }
-invalid = {**valid, "section_passed": True}
+invalid = {**valid, "self_declared_promotion": True}
 incomplete = {k: v for k, v in valid.items() if k != "regression_scope"}
 print(assess(valid), assess(invalid), assess(incomplete))
 `,
@@ -1743,26 +1852,29 @@ print(assess(valid), assess(invalid), assess(incomplete))
         subtopicId: "S39-T4-A",
         kind: "transfer",
         instruction:
-          "S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_DEMO_PATH`; si hay solo happy → `REJECT_HAPPY_ONLY`; si completo → `CONTINUE 3`. El starter cuenta mal y acepta un solo path. Salida happy: `CONTINUE 3`.",
+          "S39-T4-A-E3 · Demo paths sobre tres listas: completo → `CONTINUE 3`; solo happy → `REJECT_HAPPY_ONLY`; falta ood_abstain → `REQUEST_DEMO_PATH`. El starter cuenta mal y acepta cualquier lista. Salida exacta: `CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH`.",
         hint: "Compara como conjunto los nombres canónicos; el orden de la lista no importa.",
         hints: [
           "Compara como conjunto los nombres canónicos; el orden de la lista no importa.",
           "ood_abstain es distinto de ood; usa el token canónico del theory block.",
         ],
         edgeCases: ["solo happy", "path mal nombrado", "lista vacía"],
-        tests: "Happy CONTINUE 3; adversos REQUEST_DEMO_PATH / REJECT_HAPPY_ONLY",
+        tests: "Salida: CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH",
         feedback: "S39-T4-A-E3: la demo de triage debe cubrir override y abstención, no solo el caso feliz.",
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e3.py",
           code: `# CASO-LIM-039 · e2e path matrix
-# DEFECT: decide CONTINUE sin validar paths
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: decide CONTINUE sin validar paths
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def decide(paths: list):
     # DEFECTO
     return "CONTINUE", len(paths)
 
-print(*decide(["happy", "override", "ood_abstain"]))
+full = ["happy", "override", "ood_abstain"]
+happy_only = ["happy"]
+partial = ["happy", "override"]
+print(*decide(full), decide(happy_only)[0], decide(partial)[0])
 `,
         },
         solutionCode: {
@@ -1780,12 +1892,15 @@ def decide(paths: list):
         return "REQUEST_DEMO_PATH", len(s)
     return "CONTINUE", 3
 
-assert decide(["happy", "override", "ood_abstain"]) == ("CONTINUE", 3)
-assert decide(["happy"])[0] == "REJECT_HAPPY_ONLY"
-assert decide(["happy", "override"])[0] == "REQUEST_DEMO_PATH"
-print(*decide(["happy", "override", "ood_abstain"]))
+full = ["happy", "override", "ood_abstain"]
+happy_only = ["happy"]
+partial = ["happy", "override"]
+assert decide(full) == ("CONTINUE", 3)
+assert decide(happy_only)[0] == "REJECT_HAPPY_ONLY"
+assert decide(partial)[0] == "REQUEST_DEMO_PATH"
+print(*decide(full), decide(happy_only)[0], decide(partial)[0])
 `,
-          output: `CONTINUE 3`,
+          output: `CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH`,
         },
       },
       {
@@ -1806,8 +1921,8 @@ print(*decide(["happy", "override", "ood_abstain"]))
           language: 'python',
           title: "s39-t4-b-e1.py",
           code: `# CASO-LIM-039 · model/data/system cards
-# DEFECT: exige ops extra innecesariamente
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: exige ops extra innecesariamente
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 cards = ["model", "data", "system"]
 # DEFECTO: exige ops
 meets = set(cards) == {"model", "data", "system", "ops"}
@@ -1845,8 +1960,8 @@ assert meets is True
           language: 'python',
           title: "s39-t4-b-e2.py",
           code: `# CASO-LIM-039 · value metrics not only auc
-# DEFECT: acepta auc solo como value
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECTO: acepta auc solo como value
+# Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def assess(payload: dict) -> str:
     if "value" not in payload:
         return "MISSING:value"
@@ -1883,15 +1998,15 @@ print(assess(valid), assess(invalid), assess(incomplete))
         subtopicId: "S39-T4-B",
         kind: "transfer",
         instruction:
-          "S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`; si falta root_cause → `REQUEST_ROOT_CAUSE`; si OK → `CONTINUE`. Happy path imprime `CONTINUE True`. El starter acepta postmortems con culpa personal y sin acciones.",
-        hint: "Blameless mira procesos y sistemas; no nombres de personas como root_cause.",
+          "S39-T4-B-E3 · Postmortem blameless sobre cuatro fixtures: OK → `CONTINUE True`; blameless False → `REJECT_BLAMEFUL`; root_cause vacío → `REQUEST_ROOT_CAUSE`; actions vacía → `REQUEST_ACTIONS`. El starter acepta postmortems con culpa personal y sin acciones. Salida exacta: `CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS`.",
+        hint: "Blameless mira procesos y sistemas; no nombres de personas como root_cause. actions vacía tiene token propio (REQUEST_ACTIONS).",
         hints: [
           "Blameless mira procesos y sistemas; no nombres de personas como root_cause.",
-          "actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.).",
+          "actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.); si falta → REQUEST_ACTIONS.",
         ],
         edgeCases: ["blameless False", "root_cause vacío", "actions []"],
-        tests: "Happy CONTINUE True; adversos REJECT_BLAMEFUL y REQUEST_ROOT_CAUSE",
-        feedback: "S39-T4-B-E3: el postmortem cierra el aprendizaje del incidente sin cacería de brujas.",
+        tests: "Salida: CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS",
+        feedback: "S39-T4-B-E3: el postmortem cierra el aprendizaje del incidente sin cacería de brujas; root_cause y actions no se confunden.",
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e3.py",
@@ -1905,7 +2020,10 @@ happy = {
     "root_cause": "calib_drift",
     "actions": ["rollback", "recalibrate"],
 }
-print(*decide(happy))
+blameful = {**happy, "blameless": False}
+no_rc = {**happy, "root_cause": ""}
+no_actions = {**happy, "actions": []}
+print(*decide(happy), decide(blameful)[0], decide(no_rc)[0], decide(no_actions)[0])
 `,
         },
         solutionCode: {
@@ -1917,7 +2035,7 @@ print(*decide(happy))
     if not pm.get("root_cause"):
         return "REQUEST_ROOT_CAUSE", False
     if not pm.get("actions"):
-        return "REQUEST_ROOT_CAUSE", False
+        return "REQUEST_ACTIONS", False
     return "CONTINUE", True
 
 happy = {
@@ -1926,12 +2044,16 @@ happy = {
     "root_cause": "calib_drift",
     "actions": ["rollback", "recalibrate"],
 }
+blameful = {**happy, "blameless": False}
+no_rc = {**happy, "root_cause": ""}
+no_actions = {**happy, "actions": []}
 assert decide(happy) == ("CONTINUE", True)
-assert decide({**happy, "blameless": False})[0] == "REJECT_BLAMEFUL"
-assert decide({**happy, "root_cause": ""})[0] == "REQUEST_ROOT_CAUSE"
-print(*decide(happy))
+assert decide(blameful)[0] == "REJECT_BLAMEFUL"
+assert decide(no_rc)[0] == "REQUEST_ROOT_CAUSE"
+assert decide(no_actions)[0] == "REQUEST_ACTIONS"
+print(*decide(happy), decide(blameful)[0], decide(no_rc)[0], decide(no_actions)[0])
 `,
-          output: `CONTINUE True`,
+          output: `CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS`,
         },
       },
     ],
@@ -1939,7 +2061,7 @@ print(*decide(happy))
   youDo: {
     title: "Responsible ML Case Triage (cierre CP-N3-C) + notas regresión N3/CF-3",
     context:
-      "Entrega el sistema e2e sintético de triage para `CASO-LIM-039`: contratos versionados, evidence packet, decisiones/overrides auditados, checklist de riesgo, modos human_only, demo de aceptación, cards y postmortem. Incluye **checklist de regresión S27–S39** y referencia a **CF-3**. No auto-fraude ni parentesco automático. Platform id `integrator-phase2` conservado. **No** marcar section_passed ni editar seed/checkpoint/ledger; PASS de gates es otra lane.",
+      "Entrega el sistema e2e sintético de triage para `CASO-LIM-039`: contratos versionados, evidence packet, decisiones/overrides auditados, checklist de riesgo, modos human_only, demo de aceptación, cards y postmortem. Incluye **checklist de regresión S27–S39** y referencia a **CF-3**. No auto-fraude ni parentesco automático. Deja evidencia para revisión externa; no auto-declares la promoción de nivel.",
     objectives: [
       "Pipeline intake→queue con label_space needs_review y auto_fraud False",
       "Registry de versiones/owners con semver y bump major en breaking",
@@ -1948,15 +2070,15 @@ print(*decide(happy))
       "Checklist de privacidad/fairness/seguridad firmable",
       "Modos drift/incident + rollback versionado",
       "Aceptación, tres demo paths, cards, métricas de valor y postmortem blameless",
-      "Notas de regresión N3 y CF-3 sin auto-PASS",
+      "Notas de regresión N3 y CF-3 sin auto-declarar promoción",
     ],
     requirements: [
       "E2e sintético reproducible en local-python",
       "Cero auto-label de fraude o parentesco",
-      "Audit log de decisiones y overrides",
+      "Audit log de decisiones y overrides (incl. queue vs skip por umbral)",
       "Checklist regresión S27–S39 documentado",
       "es-PE en prosa; sin secretos ni PII real",
-      "section_passed permanece false en esta lane de autoría",
+      "manifest declara self_declared_promotion=false hasta revisión externa",
     ],
     starterCode: `# CP-N3-C — bundle local de Responsible ML Case Triage (CASO-LIM-039)
 from dataclasses import asdict, dataclass
@@ -1975,18 +2097,24 @@ class EvidencePacket:
     label_space: str = "needs_review"
     auto_fraud: bool = False
 
-def triage(case: dict, *, threshold: float, human_only: bool) -> EvidencePacket:
+def triage(case: dict, *, threshold: float, human_only: bool) -> tuple:
+    """Score + acción de cola por umbral calibrado (threshold). Score ≠ fraude."""
     required = {"case_id", "shared_signal", "graph_path"}
     missing = required - case.keys()
     if missing:
         raise ValueError(f"missing fields: {sorted(missing)}")
-    score = 0.0 if human_only else min(1.0, 0.35 + 0.45 * bool(case["shared_signal"]))
-    return EvidencePacket(
+    if human_only:
+        score = 0.0
+    else:
+        score = min(1.0, 0.35 + 0.45 * bool(case["shared_signal"]))
+    packet = EvidencePacket(
         case_id=case["case_id"],
         score=score,
         graph_path=list(case["graph_path"]),
         evidence=["shared_signal"] if case["shared_signal"] else [],
     )
+    action = "queued_for_review" if packet.score >= threshold else "skip_low_priority"
+    return packet, action
 
 def append_audit(path: Path, event: dict) -> None:
     with path.open("a", encoding="utf-8") as stream:
@@ -1999,23 +2127,36 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
         {"case_id": "CASO-LIM-039-c001", "shared_signal": True, "graph_path": ["entity:a", "phone:x", "entity:b"]},
         {"case_id": "CASO-LIM-039-c002", "shared_signal": False, "graph_path": ["entity:c"]},
     ]
+    thr = 0.70
     packets = []
     try:
         for case in cases:
-            packet = triage(case, threshold=0.70, human_only=False)
+            packet, action = triage(case, threshold=thr, human_only=False)
             packets.append(asdict(packet))
-            append_audit(audit, {"case_id": packet.case_id, "action": "queued_for_review"})
+            append_audit(audit, {"case_id": packet.case_id, "action": action, "score": packet.score})
         if force_failure:
             raise RuntimeError("forced regression failure")
         (out / "packets.json").write_text(json.dumps(packets, indent=2), encoding="utf-8")
         (out / "model-card.md").write_text(
-            "# Model card\\nLabel: needs_review; no auto-fraud.\\n", encoding="utf-8"
+            "# Model card\\n"
+            "Intended use: priorizar cola de revisión (label_space=needs_review).\\n"
+            "Limitations: score ≠ fraude/parentesco; no auto-fraud.\\n"
+            "Human oversight: override + audit obligatorios.\\n"
+            "Monitoring: override_rate, precision@k, drift de score.\\n",
+            encoding="utf-8",
         )
         (out / "data-card.md").write_text(
-            "# Data card\\nOnly synthetic fixtures (CASO-LIM-039).\\n", encoding="utf-8"
+            "# Data card\\n"
+            "Sources: fixtures sintéticos CASO-LIM-039 (sin PII real).\\n"
+            "Windows: batch de laboratorio; no training labels de cola.\\n"
+            "Minimización: solo shared_signal + graph_path en packet.\\n",
+            encoding="utf-8",
         )
         (out / "system-card.md").write_text(
-            "# System card\\nModes: normal | abstain_more | human_only. Rollback versioned.\\n",
+            "# System card\\n"
+            "Modes: normal | abstain_more | human_only.\\n"
+            "Owners: ml-risk (ranker), data-quality (ER).\\n"
+            "Rollback: prev_model versionado; force_failure → human_only.\\n",
             encoding="utf-8",
         )
         status = "ready_for_human_acceptance"
@@ -2028,28 +2169,29 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
         "files": files,
         "stages": list(STAGES),
         "regression_scope": "S27-S39",
-        "cf3_lane": "separate_lane",
-        "section_passed": False,
+        "cf3_review": "external",
+        "self_declared_promotion": False,
+        "threshold": thr,
     }
     manifest["sha256"] = sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return manifest
 
-# Acceptance: run normal and forced-failure paths; inspect manifest, packets,
-# audit, model/data/system cards. A human validator records promotion results.
-# No escribas PASS en ledger/seed/checkpoint desde esta lane.
+# Aceptación: corre caminos normal y force_failure; inspecciona manifest, packets,
+# audit y model/data/system cards. Deja el expediente listo; no auto-declares promoción
+# — un revisor externo evalúa la evidencia.
 `,
     portfolioNote:
-      "Cierre CP-N3-C + artefactos para regresión N3/CF-3. No escribe PASS en ledger/checkpoint; calificación es lane separada.",
+      "Cierre CP-N3-C + artefactos para regresión N3/CF-3. El expediente queda listo para revisión externa; no auto-declares promoción.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección (CP-N3-C)", weight: "25%" },
+      { criterion: "Alineación al entregable CP-N3-C (triage e2e responsable)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno local-python", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos / sin auto-fraude ni parentesco", weight: "20%" },
       { criterion: "Pruebas o casos de borde documentados (override, OOD, incident)", weight: "15%" },
       { criterion: "Código legible y límites claros por etapa", weight: "10%" },
       { criterion: "Documentación en español profesional (es-PE)", weight: "10%" },
       { criterion: "E2e triage + evidence packet + audit overrides", weight: "bonus checklist" },
-      { criterion: "Regresión N3/CF-3 documentada sin auto-PASS", weight: "gate process" },
+      { criterion: "Regresión N3/CF-3 documentada sin auto-declarar promoción", weight: "gate process" },
       { criterion: "Sin fraude/parentesco automático; ER=misma entidad", weight: "gate privacy" },
     ],
   },
@@ -2063,11 +2205,16 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
           "El score ordena trabajo humano en la cola; needs_review (o prioridad de cola) es el espacio de etiquetas correcto. No declares fraude, parentesco ni culpabilidad automática a partir del ranking.",
       },
       {
-        question: "CF-3 y regresión S27–S39 en esta lane de autoría:",
-        options: ["Se documentan; PASS lo califica otra lane", "Marcan PASS solos en el ledger", "Se borran al exportar el bundle", "Solo aplican a S01"],
+        question: "Sobre regresión S27–S39 y CF-3 en tu entrega de S39:",
+        options: [
+          "Documentas smoke y expediente; la promoción la confirma un revisor externo",
+          "Tu script marca promoción automáticamente si el e2e imprime OK",
+          "Borras el checklist al exportar el bundle",
+          "Solo aplican a la sección 01",
+        ],
         correctIndex: 0,
         explanation:
-          "Dejas smoke de regresión y expediente listos, pero section_passed y el PASS de CF-3/promoción se escriben en una lane de calificación separada, no en la autoría del material.",
+          "Dejas smoke de regresión y el expediente CF-3 listos. La confirmación de promoción es una revisión externa sobre esa evidencia, no un auto-PASS del script.",
       },
       {
         question: "Evidence packet debe incluir:",

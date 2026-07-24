@@ -6,7 +6,7 @@ export const section01: CourseSection = {
   title: 'Entorno reproducible y trabajo seguro',
   shortTitle: 'Entorno reproducible',
   tagline:
-    'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1',
+    'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1 · Ritmo sugerido: 3–4 h núcleo, 6–8 h GitHub/Ruff, resto para pulir CP-N1-A',
   estimatedHours: 19,
   level: 'Principiante',
   phase: 0,
@@ -38,13 +38,13 @@ export const section01: CourseSection = {
       heading: 'Por qué el setup importa más de lo que crees',
       paragraphs: [
         '**Diccionario de la sección** (léelo antes de seguir; el resto profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.',
-        'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `pip install -r requirements.txt` (instala los paquetes listados) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
+        'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `python -m pip install -r requirements.txt` (instala los paquetes listados atados al mismo intérprete) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
         'En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y **entornos virtuales** con el módulo `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` (más rápido), pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos.',
         'La regla de oro: **un proyecto = un entorno virtual = un requirements.txt**. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las **dependencias** (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar. Caso sintético de laboratorio: `CASO-LIM-001` (setup reproducible sin secretos en el repo).',
       ],
       code: {
         language: 'python',
-        title: 's01_map_contract.py',
+        title: 'contrato_seccion.py — gates del día 1',
         code: `def section_contract():
     return {
         "case": "CASO-LIM-001",
@@ -64,9 +64,9 @@ secrets_in_repo_ok False`,
       },
       callout: {
         type: 'tip',
-        title: 'Cómo usar este diccionario',
+        title: 'Diccionario + ritmo sugerido (19 h totales)',
         content:
-          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. En lecciones siguientes el hover te refresca la misma definición sin volver a leer toda S01.',
+          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. **Ritmo:** 3–4 h núcleo (Python + venv + pip + git local), 6–8 h GitHub/PR/Ruff/ignore, el resto para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. No hace falta terminar el portafolio en un solo día.',
       },
     },
     {
@@ -108,21 +108,28 @@ if __name__ == "__main__":
       heading: 'El intérprete en la terminal (comandos de verificación)',
       subtopicId: 'S01-T1-A',
       paragraphs: [
-        'Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes.',
+        'Además del script, verifica el intérprete **desde la shell** antes de crear venvs o instalar paquetes. El orden del día 1 es corto y repetible: (1) `python3 --version` (o `python --version` si ese es el que responde), (2) entrar al REPL con el mismo comando sin argumentos, probar una expresión y salir con `quit()`, (3) atar pip al mismo binario con `python3 -m pip --version`. Anota la versión exacta que ves (ej. 3.12.3): es el ancla de todo lo que sigue.',
+        'Si `python` falla y `python3` funciona, usa **`python3` de forma consistente** en esta sección (o configura el alias/PATH). En Windows, al instalar desde python.org, marca "Add python.exe to PATH"; el launcher `py --version` también sirve para diagnosticar. Nunca instales paquetes "a ciegas" sin saber qué `python` los va a recibir: el prefijo `python3 -m pip` evita el pip huérfano que apunta a otro intérprete.',
+        'Los comandos de abajo son **copy-paste real** de terminal (bash/zsh o PowerShell con `python`/`py`). La salida de ejemplo usa Python 3.12.x — tu número de parche puede variar si es 3.12+; 3.10+ es aceptable si lo documentas en el README del proyecto. Cuando el REPL muestre `>>>`, escribes la expresión y Enter; `quit()` te devuelve al prompt de la shell, no cierra la ventana.',
       ],
       code: {
         language: 'bash',
         title: 'Verificar intérprete y entrar al REPL',
-        code: `def s01_th_2():
-    # REPL vs script: el intérprete responde a --version y a un one-liner
-    import sys
-    print("version", sys.version.split()[0])
-    print("mode", "repl_then_script")
-    print("check", sys.version_info >= (3, 10))
+        code: `# Verifica el intérprete (usa python3 si python no responde)
+python3 --version
+# Python 3.12.3
 
-s01_th_2()
+# Entra al REPL, prueba y sal
+python3
+# >>> 2 + 2
+# 4
+# >>> quit()
+
+# Ata pip al mismo intérprete
+python3 -m pip --version
 `,
-        output: 'Python 3.12.3  (ejemplo; tu versión puede variar si es 3.12+)',
+        output: `Python 3.12.3
+pip 24.0 from ... (python 3.12)`,
       },
       callout: {
         type: 'tip',
@@ -165,23 +172,37 @@ executable: /ruta/a/python`,
       heading: 'cwd, PATH y códigos de salida en la shell',
       subtopicId: 'S01-T1-B',
       paragraphs: [
-        'Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa `sys.exit`.',
+        'Desde la shell, confirma el **cwd** (dónde estás), prueba un comando que no existe (exit 127 en bash) y lee códigos 0/1 con los mismos números que usa `sys.exit`. En bash/zsh: `echo $?`. En PowerShell: `echo $LASTEXITCODE` (no confundas con `$?`, que en PowerShell es booleano).',
+        'El **PATH** es la lista de carpetas donde el sistema busca ejecutables (`python`, `git`, `code`). No es la carpeta de tu proyecto: puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese binario no está en el PATH. Al revés: Python en el PATH y un `FileNotFoundError` al abrir un script casi siempre es **cwd incorrecto** o ruta mal escrita. Diagnostica en este orden: (1) ¿el ejecutable responde (`python3 --version`)? (2) ¿`pwd` / `Get-Location` es la carpeta del repo? (3) ¿el proceso salió con 0?',
+        'Los bloques de abajo son la misma lección en **comandos reales**: `pwd` ancla el cwd; un one-liner con `sys.exit(0)` y otro con `sys.exit(1)` te dejan ver el contrato 0/no-cero; un comando inexistente suele devolver **127** en bash/zsh (en PowerShell el número puede diferir — anota el de tu shell). Cuando un pipeline o un colega diga “el job falló”, el primer dato útil es ese entero, no solo el color del mensaje en pantalla.',
       ],
       code: {
         language: 'bash',
         title: 'cwd, PATH conceptual y códigos de salida',
-        code: `def s01_th_4():
-    # cwd + exit codes conceptual (sin shell): simula códigos de proceso
-    steps = [("mkdir_ok", 0), ("python_ok", 0), ("python_fail", 1)]
-    for name, code in steps:
-        print(name, "exit", code, "ok" if code == 0 else "fail")
+        code: `# 1) ¿Dónde estoy? (cwd)
+pwd
+# .../demo_ruta   (o Get-Location en PowerShell)
 
-s01_th_4()
+# 2) Éxito → exit 0
+python3 -c "import sys; print('ok'); sys.exit(0)"
+echo $?
+# 0
+
+# 3) Fallo controlado → exit 1
+python3 -c "import sys; sys.exit(1)"
+echo $?
+# 1
+
+# 4) Comando inexistente (bash/zsh) → suele ser 127
+comando_que_no_existe 2>/dev/null
+echo $?
+# 127
 `,
         output: `.../demo_ruta
+ok
 0
 1
-127   # ejemplo típico en bash para "command not found"`,
+127`,
       },
       callout: {
         type: 'warning',
@@ -196,12 +217,51 @@ s01_th_4()
         'Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS Code. Cada una tiene su rol específico y no se mezclan. Python es el lenguaje. VS Code es el editor donde escribes código. Git es el sistema de control de versiones que registra cada cambio. GitHub es la nube donde publicas tu código para que otros lo vean y colaboren.',
         'Una decisión clave: **¿venv o conda?** Para data science en Perú, `venv` es suficiente y es lo estándar. `conda` es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a veces entra en conflicto con pip. Solo te recomiendo conda si trabajas con investigadores que ya lo usan, o si necesitas CUDA/GPU para deep learning. En el 90% de los casos de data analysis (pandas, numpy, sklearn, matplotlib), `venv` + pip es lo correcto.',
         'Python viene con una biblioteca estándar que incluye módulos como `sys` (información del sistema), `datetime` (fechas y horas), `os` (sistema operativo), y `json` (manejo de JSON). Estos módulos **no necesitan `pip install`** — funcionan con solo hacer `import sys` o `from datetime import datetime`. En contraste, paquetes de terceros como `pandas`, `numpy`, o `matplotlib` NO vienen con Python y sí necesitan `pip install` antes de poder importarlos. Esta distinción es la causa #1 del error `ModuleNotFoundError` en principiantes: intentan `import pandas` sin haber hecho `pip install pandas` primero.',
+        'Después de instalar, **verifica en la terminal** (no asumas que el instalador “ya quedó”). El bloque de abajo es el checklist copy-paste del día 1: Python responde con 3.12.x, Git responde con su versión, y el editor está listo (CLI `code` o menú de VS Code). Solo entonces pasas a crear `.venv` y a `python -m pip`. Si un comando falla, repara esa pieza antes de seguir — no encadenes installs a ciegas.',
       ],
+      code: {
+        language: 'bash',
+        title: 'Orden del stack: verificar lo instalado',
+        code: `# 1) Python 3.12+ (instalador: https://www.python.org/downloads/)
+python3 --version
+# Python 3.12.3   (o python --version / py --version en Windows)
+
+# 2) Git (instalador: https://git-scm.com/)
+git --version
+# git version 2.43.0
+
+# 3) VS Code (https://code.visualstudio.com/) — CLI opcional:
+#    Paleta de comandos → "Shell Command: Install 'code' command in PATH"
+code --version
+# 1.85.0  (si no hay CLI, abre VS Code desde el menú y sigue)
+
+# 4) Extensiones en VS Code (UI Extensions): Python + Ruff (+ Jupyter si usas notebooks)
+# Luego: File → Open Folder del proyecto y Terminal integrada
+`,
+        output: `Python 3.12.3
+git version 2.43.0
+1.85.0
+...`,
+      },
       callout: {
         type: 'info',
         title: 'Biblioteca estándar vs paquetes de terceros',
         content:
           'Biblioteca estándar (sin pip install): sys, datetime, os, json, csv, pathlib, math, random. Paquetes de terceros (con pip install): pandas, numpy, matplotlib, scikit-learn, requests. Si te sale `ModuleNotFoundError`, primero revisa si es de la biblioteca estándar (no necesita install) o de terceros (necesita `pip install nombre_paquete`).',
+      },
+    },
+    {
+      heading: 'Mapa rápido Windows · macOS/Linux (día 1)',
+      paragraphs: [
+        'Antes de crear el `.venv`, fíjate en esta tabla mental de **comandos por sistema**. No son lenguajes distintos: es la misma idea (intérprete → entorno → pip atado) con rutas y nombres que cambian. Si copias el bloque de un SO en otro, el error típico es “no se reconoce el comando” o “no such file or directory” — no es que Python “esté mal”, es la ruta o el nombre del binario.',
+        '**Interprete:** Windows suele responder a `python` o `py`; macOS/Linux a `python3` (a veces también `python`). **Activar venv:** Unix → `source .venv/bin/activate`; PowerShell → `.venv\\Scripts\\Activate.ps1`; cmd → `.venv\\Scripts\\activate.bat`. **Código de salida:** bash/zsh → `echo $?`; PowerShell → `echo $LASTEXITCODE` (en PowerShell `$?` es booleano, no el entero del programa). **Dónde estoy:** `pwd` vs `Get-Location`. Guarda esta correspondencia: la usarás en cada demo de esta sección.',
+        'Si un comando del I Do falla, pregunta en este orden: (1) ¿estoy en el SO correcto para ese snippet? (2) ¿el intérprete responde con `--version`? (3) ¿activé el venv antes de `pip`? (4) ¿leí el código de salida? Ese hábito reduce la carga cognitiva cuando el material muestra un camino y tu laptop usa el otro.',
+      ],
+      callout: {
+        type: 'tip',
+        title: 'Tabla de bolsillo (skimmers)',
+        content:
+          '**Versión:** `python --version` / `py --version` (Win) · `python3 --version` (macOS/Linux). **Venv on:** `.venv\\Scripts\\Activate.ps1` (Win PS) · `source .venv/bin/activate` (Unix). **Exit code:** `$LASTEXITCODE` (Win PS) · `$?` (bash/zsh). **pip atado:** siempre `python -m pip …` o `python3 -m pip …` con el mismo binario que acabas de verificar.',
       },
     },
     {
@@ -215,22 +275,25 @@ s01_th_4()
       code: {
         language: 'bash',
         title: 'Crear, activar y desactivar .venv',
-        code: `def s01_th_5():
-    # PATH conceptual: python -m usa el intérprete activo, no un pip huérfano
-    import sys
-    print("executable", sys.executable)
-    print("prefer", "python -m pip")
+        code: `python3 -m venv .venv
+# macOS/Linux:
+source .venv/bin/activate
+# Windows PowerShell:
+# .venv\\Scripts\\Activate.ps1
 
-s01_th_5()
+python -c "import sys; print(sys.executable); print(sys.prefix)"
+which python || where python
+# deactivate   # cuando termines
 `,
         output: `.../python-ds-journey/.venv/bin/python3
-.../python-ds-journey/.venv`,
+.../python-ds-journey/.venv
+.../python-ds-journey/.venv/bin/python`,
       },
       callout: {
         type: 'tip',
-        title: '.venv vs .env',
+        title: '.venv vs .env · activar por SO',
         content:
-          '`.venv` = entorno virtual (código y paquetes). `.env` = variables de entorno y secretos (no va al repo). No los mezcles ni los subas. En `.gitignore` incluye ambos: `.venv/`, `venv/` y `.env`.',
+          '`.venv` = entorno virtual (código y paquetes). `.env` = secretos locales (no va al repo). **Activar:** macOS/Linux → `source .venv/bin/activate` · Windows PowerShell → `.venv\\Scripts\\Activate.ps1` · cmd → `.venv\\Scripts\\activate.bat`. Verifica con `python -c "import sys; print(sys.prefix)"` (debe terminar en `.venv`). En `.gitignore`: `.venv/`, `venv/` y `.env`.',
       },
     },
     {
@@ -244,17 +307,16 @@ s01_th_5()
       code: {
         language: 'bash',
         title: 'python -m pip: install, freeze, install -r',
-        code: `def s01_th_6():
-    # .venv vs .env: entorno vs secretos
-    layout = {".venv": "interprete_aislado", ".env": "secretos_no_git"}
-    for k, v in layout.items():
-        print(k, "->", v)
-    print("never_commit", ".env")
+        code: `# Con .venv activado:
+python -m pip install requests==2.32.3
+python -m pip freeze > requirements.txt
+grep -i "requests==" requirements.txt
 
-s01_th_6()
+python -c "import requests; print(requests.__version__)"
+# stdlib (sin pip): import sys / datetime — no van en requirements.txt
 `,
-        output: `2.32.3
-stdlib ok`,
+        output: `requests==2.32.3
+2.32.3`,
       },
       callout: {
         type: 'info',
@@ -274,17 +336,20 @@ stdlib ok`,
       code: {
         language: 'bash',
         title: 'init, commit Conventional Commits, show',
-        code: `def s01_th_7():
-    # Git mínimo: init + primer commit (modelo de estados)
-    state = ["workdir", "staged", "committed"]
-    print("flow", " -> ".join(state))
-    print("msg", "feat: mensaje conventional")
-
-s01_th_7()
+        code: `git init
+echo "# python-ds-journey" > README.md
+git add README.md
+git commit -m "docs: agregar README inicial"
+echo "Setup con venv." >> README.md
+git add README.md
+git commit -m "docs: documentar setup con venv"
+git log --oneline -2
+git show HEAD --stat
 `,
         output: `docs: documentar setup con venv
 docs: agregar README inicial
-# git show: líneas + con el texto nuevo del README`,
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)`,
       },
       callout: {
         type: 'tip',
@@ -304,22 +369,24 @@ docs: agregar README inicial
       code: {
         language: 'bash',
         title: 'Rama feature, restore y stash (sin force-push)',
-        code: `def s01_th_8():
-    # ramas y PR: main estable, feat/* temporal
-    print("branch", "feat/practica-s01")
-    print("base", "main")
-    print("forbid", "force-push main")
+        code: `git switch main
+git switch -c feat/hello-env
+# edita, add, commit…
+git push -u origin feat/hello-env
+# PR: UI de GitHub o: gh pr create
 
-s01_th_8()
+# Recuperación no destructiva (sin force-push a main):
+# git restore archivo.md
+# git stash push -m "wip" && git stash pop
 `,
-        output: `# Rama local feat/hello-env creada; push -u configura upstream
+        output: `branch 'feat/hello-env' set up to track 'origin/feat/hello-env'
 # PR se abre en la UI de GitHub (o: gh pr create)`,
       },
       callout: {
         type: 'danger',
         title: 'Errores típicos + prohibido force-push a main',
         content:
-          'Del material original del curso: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya trackeaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
+          'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya trackeaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
       },
     },
     {
@@ -333,15 +400,14 @@ s01_th_8()
       code: {
         language: 'toml',
         title: 'pyproject.toml — Ruff mínimo',
-        code: `def s01_th_9():
-    # Ruff config mínima como dict (espejo de pyproject)
-    ruff = {"line-length": 88, "target-version": "py310", "select": ["E", "F", "I"]}
-    print("ruff", ruff)
-    print("day1_select_all", False)
+        code: `[tool.ruff]
+line-length = 88
+target-version = "py312"
 
-s01_th_9()
+[tool.ruff.lint]
+select = ["E", "F", "I"]
 `,
-        output: 'All checks passed!  (tras corregir violaciones)',
+        output: 'All checks passed!  (tras corregir violaciones con: python -m ruff check .)',
       },
       callout: {
         type: 'tip',
@@ -361,14 +427,19 @@ s01_th_9()
       code: {
         language: 'bash',
         title: '.gitignore + .env.example (verificación)',
-        code: `def s01_th_10():
-    # ignore + secretos
-    ignore = [".venv/", "venv/", "__pycache__/", ".env", "*.pyc"]
-    print("gitignore_lines", len(ignore))
-    print("env_example", "API_TOKEN=")
-    print("secret_in_git", False)
+        code: `# .gitignore mínimo (fragmento)
+# .venv/
+# venv/
+# __pycache__/
+# *.pyc
+# .env
+# .ipynb_checkpoints/
 
-s01_th_10()
+# .env.example (sí se versiona; sin secretos)
+# API_TOKEN=
+# DATABASE_URL=
+
+git check-ignore -v .env
 `,
         output: `.gitignore:5:.env    .env`,
       },
@@ -382,7 +453,7 @@ s01_th_10()
   ],
   iDo: {
     intro:
-      'Te muestro paso a paso cómo configuro un entorno completo desde cero en una laptop con Windows 11 (el caso más común en Perú). Si usas macOS o Linux, los comandos son casi idénticos — voy a anotar las diferencias. Acompáñame con tu laptop abierta y repite cada paso. Empezamos por el intérprete/REPL (S01-T1-A) y los códigos de salida (S01-T1-B) antes de crear entornos virtuales.',
+      'Te muestro paso a paso cómo configuro un entorno completo desde cero. Los bloques son comandos **copy-paste reales** de terminal: en macOS/Linux verás `python3` y `source .venv/bin/activate`; en Windows 11 (muy común en Perú) usa `python` o `py`, y activa con `.venv\\Scripts\\Activate.ps1` (PowerShell) o `activate.bat` (cmd). Acompáñame con tu laptop abierta y **repite cada paso** en tu shell. Empezamos por el intérprete/REPL (S01-T1-A) y los códigos de salida (S01-T1-B) antes de crear entornos virtuales.',
     steps: [
       {
         demoId: 'S01-T1-A-DEMO',
@@ -392,11 +463,17 @@ s01_th_10()
         code: {
           language: 'bash',
           title: 'Terminal + REPL',
-          code: `def s01_ido_1():
-    import sys
-    print("interpreter", sys.version.split()[0])
-
-s01_ido_1()
+          code: `python3 --version
+python3
+# >>> 2 + 2
+# 4
+# >>> import sys
+# >>> sys.version.split()[0]
+# '3.12.3'
+# >>> type("hola")
+# <class 'str'>
+# >>> quit()
+python3 -m pip --version
 `,
           output: `Python 3.12.3
 4
@@ -414,37 +491,43 @@ pip 24.0 from ... (python 3.12)`,
         code: {
           language: 'bash',
           title: 'Terminal — exit codes',
-          code: `def s01_ido_2():
-    # proceso termina 0
-    code = 0
-    print("exit", code, "success", code == 0)
+          code: `pwd
+# .../python-ds-journey  (o Get-Location en PowerShell)
 
-s01_ido_2()
+python3 -c "import sys; print('ok'); sys.exit(0)"
+echo $?
+# 0   # PowerShell: echo $LASTEXITCODE
+
+python3 -c "import sys; print('fallo controlado'); sys.exit(1)"
+echo $?
+# 1
 `,
-          output: `ok
-exit_ok=0
+          output: `.../python-ds-journey
+ok
+0
 fallo controlado
-exit_fail=1
-exit_false=1
-/Users/...
-/tmp/s01_t1b_demo`,
+1`,
         },
         why: 'El código de salida es el contrato entre tu script y todo lo que lo invoca (shell, CI, orquestadores). 0 = sigamos; no-cero = detente o reintenta. Separar cwd (dónde estoy) de PATH (qué ejecutables existen) evita el clásico "en mi máquina funciona" cuando solo cambió la carpeta o el PATH del job.',
       },
       {
+        demoId: 'S01-SETUP-PROJECT-DEMO',
+        environment: 'local-python',
         description: 'Verificar instalación de Python y crear carpeta del proyecto',
         code: {
           language: 'bash',
-          title: 'Terminal',
-          code: `def s01_ido_3():
-    import sys
-    print("installed", True)
-    print("executable", bool(sys.executable))
+          title: 'Terminal — versión + carpeta del proyecto',
+          code: `python3 --version
+# Python 3.12.3
 
-s01_ido_3()
+mkdir -p ~/proyectos/python-ds-journey
+cd ~/proyectos/python-ds-journey
+pwd
 `,
+          output: `Python 3.12.3
+.../proyectos/python-ds-journey`,
         },
-        why: 'Siempre empezamos verificando que Python responde. En Windows, el PATH es el problema #1 — si te dice "python no se reconoce como comando", es porque no marcaste la casilla durante la instalación. La solución es reinstalar y asegurarte de marcarla.',
+        why: 'Siempre empezamos verificando que Python responde antes de crear carpetas o venvs. En Windows, el PATH es el problema #1 — si te dice "python no se reconoce como comando", reinstala desde python.org marcando "Add python.exe to PATH" (o prueba `py --version`). En macOS/Linux, si `python` falla, usa `python3` de forma consistente.',
       },
       {
         demoId: 'S01-T2-A-DEMO',
@@ -454,14 +537,17 @@ s01_ido_3()
         code: {
           language: 'bash',
           title: 'Terminal — python -m venv .venv',
-          code: `def s01_ido_4():
-    print("venv_dir", ".venv")
-    print("activate", "source .venv/bin/activate")
+          code: `python3 -m venv .venv
+# macOS/Linux:
+source .venv/bin/activate
+# Windows PowerShell:
+# .venv\\Scripts\\Activate.ps1
 
-s01_ido_4()
+python -c "import sys; print(sys.prefix)"
+which python || where python
 `,
-          output: `.../python-ds-journey/.venv/bin/python3
-.../python-ds-journey/.venv`,
+          output: `.../python-ds-journey/.venv
+.../python-ds-journey/.venv/bin/python`,
         },
         why: 'El entorno virtual aísla las dependencias por proyecto. `python -m venv` usa el mismo intérprete que acabas de verificar. Si rompes paquetes, borras `.venv/` y la recreas — no reinstalas el sistema. Activar no es opcional en el flujo diario: sin activar, `pip` puede caer en el Python global.',
       },
@@ -473,14 +559,14 @@ s01_ido_4()
         code: {
           language: 'bash',
           title: 'Terminal — pip install / freeze / install -r',
-          code: `def s01_ido_5():
-    print("pip_via", "python -m pip")
-    print("global_install", False)
-
-s01_ido_5()
+          code: `# Con .venv activado:
+python -m pip install requests==2.32.3
+python -m pip freeze > requirements.txt
+grep -i "requests==" requirements.txt
+python -c "import requests; print(requests.__version__)"
+python -c "import sys; print(sys.version.split()[0])"
 `,
           output: `requests==2.32.3
-...
 2.32.3
 3.12.3`,
         },
@@ -494,16 +580,20 @@ s01_ido_5()
         code: {
           language: 'bash',
           title: 'Terminal — git init / commit / show',
-          code: `def s01_ido_6():
-    print("git", "init")
-    print("first_commit", "docs: README practica")
-
-s01_ido_6()
+          code: `git init
+echo "# python-ds-journey" > README.md
+git add README.md
+git commit -m "docs: agregar README inicial"
+echo "Esqueleto CP-N1-A" >> README.md
+git add README.md
+git commit -m "docs: mencionar esqueleto CP-N1-A"
+git log --oneline -2
+git show HEAD --stat
 `,
           output: `docs: mencionar esqueleto CP-N1-A
 docs: agregar README inicial
- README.md | 2 ++
- 1 file changed, 2 insertions(+)`,
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)`,
         },
         why: 'Un commit con prefijo docs:/feat: es legible en el historial y en el PR. git show es la misma habilidad de lectura de diff que usarás al revisar código ajeno.',
       },
@@ -515,11 +605,12 @@ docs: agregar README inicial
         code: {
           language: 'bash',
           title: 'Terminal — branch + PR',
-          code: `def s01_ido_7():
-    print("branch", "main")
-    print("clean_tree", True)
-
-s01_ido_7()
+          code: `git switch main
+git switch -c feat/hello-env
+# edita scripts/hello_env.py, add, commit con feat: …
+git push -u origin feat/hello-env
+# Abre el PR en la UI de GitHub (o: gh pr create)
+# Nunca: git push --force origin main
 `,
           output: `branch 'feat/hello-env' set up to track 'origin/feat/hello-env'
 # PR abierto en la UI de GitHub`,
@@ -534,16 +625,16 @@ s01_ido_7()
         code: {
           language: 'bash',
           title: 'Terminal + pyproject.toml',
-          code: `def s01_ido_8():
-    # ruff atrapa import sin usar
-    unused = "sys"
-    print("ruff_rule", "F401")
-    print("unused_import", unused)
-
-s01_ido_8()
+          code: `# pyproject.toml ya tiene [tool.ruff] select = ["E","F","I"]
+python -m pip install ruff
+# hello_lint.py con: import sys  (sin usar)
+python -m ruff check hello_lint.py
+# hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
+# → borra el import y repite:
+python -m ruff check hello_lint.py
 `,
-          output: `ruff_rule F401
-unused_import sys`,
+          output: `hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
+All checks passed!`,
         },
         why: 'Ruff atrapa basura barata (imports muertos, errores F/E) antes del review. La config en pyproject.toml es el contrato del repo, no solo del editor.',
       },
@@ -555,11 +646,10 @@ unused_import sys`,
         code: {
           language: 'bash',
           title: 'Terminal — ignore + env example',
-          code: `def s01_ido_9():
-    ignore = [".venv/", "venv/", ".env"]
-    print("ignore", ignore)
-
-s01_ido_9()
+          code: `# Crea .gitignore (.venv/, venv/, .env, …), .env.example y README
+git add .gitignore .env.example README.md
+git status
+git check-ignore -v .env
 `,
           output: `A  .env.example
 A  .gitignore
@@ -569,16 +659,23 @@ A  README.md
         why: '.env se ignora; .env.example se versiona sin secretos. El README cierra el circuito: un clon limpio debe poder instalar y correr el smoke sin adivinar.',
       },
       {
+        demoId: 'S01-SETUP-REMOTE-DEMO',
+        environment: 'local-python',
         description: 'Crear repo remoto en GitHub y subir main (cierre del setup)',
         code: {
           language: 'bash',
           title: 'Terminal — remote + push main',
-          code: `def s01_ido_10():
-    print("remote", "gh repo create --private")
-    print("or", "git remote add origin")
+          code: `# Opción A — GitHub CLI:
+# gh repo create python-ds-journey --private --source=. --remote=origin --push
 
-s01_ido_10()
+# Opción B — remoto manual:
+git remote add origin https://github.com/TU_USUARIO/python-ds-journey.git
+git branch -M main
+git push -u origin main
 `,
+          output: `To https://github.com/TU_USUARIO/python-ds-journey.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'`,
         },
         why: 'GitHub es tu portafolio público. El remote conecta tu historial local con el equipo y con reclutadores; el trabajo diario de calidad sigue siendo rama + PR + ignore de secretos.',
       },
@@ -610,10 +707,9 @@ s01_ido_10()
         starterCode: {
           language: 'python',
           title: 'repl_transcript.py (solo como guía — ejecuta en el REPL real)',
-          code: `# CASO-LIM-001 · REPL transcript suma/type/sys
-# DEFECT: blanks ____ en transcript REPL incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-# Completa las líneas marcadas con ____
+          code: `# CASO-LIM-001 · laboratorio REPL
+# TAREA: completa los ____ y reproduce la sesión en tu terminal real
+# Éxito: cumple el checklist (suma, type, sys.version, quit)
 # Esto NO se ejecuta como script: cópialo al REPL línea por línea.
 
 # >>> ____ + ____
@@ -638,11 +734,11 @@ s01_ido_10()
 # <class 'str'>
 # >>> import sys
 # >>> sys.version.split()[0]
-# '3.9.6'   # o la versión de tu máquina
+# '3.12.3'   # o la 3.12+ de tu máquina; 3.10+ aceptable si documentas
 # >>> quit()`,
           output: `4
 <class 'str'>
-'3.9.6'`,
+'3.12.3'`,
         },
       },
       {
@@ -668,8 +764,8 @@ s01_ido_10()
           language: 'python',
           title: 'hello_sys.py',
           code: `# CASO-LIM-001 · hello_sys.py nombre+versión
-# DEFECT: script incompleto o sin sys.version
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa los ____ (nombre, sys.version, entrypoint)
+# Éxito: python hello_sys.py → exit 0 con nombre y versión 3.x
 import sys
 
 def main() -> None:
@@ -696,7 +792,7 @@ def main() -> None:
 if __name__ == "__main__":
     main()`,
           output: `Hola, soy Maria Quispe
-Python 3.9.6`,
+Python 3.12.3`,
         },
       },
       {
@@ -722,8 +818,8 @@ Python 3.9.6`,
           language: 'markdown',
           title: 'diagnostico_interprete.md',
           code: `# CASO-LIM-001 · diagnóstico Windows python
-# DEFECT: diagnóstico incompleto sin pasos OS/oficial
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa los ____ del procedimiento (fuente oficial + OS)
+# Éxito: 4–6 pasos claros y verificación final 3.12+
 # Diagnóstico: intérprete no encontrado
 
 ## Contexto
@@ -788,9 +884,8 @@ Python 3.9.6`,
           language: 'bash',
           title: 'exit_codes_lab.sh (o .ps1 equivalente)',
           code: `# CASO-LIM-001 · exit codes 0 y non-zero
-# DEFECT: transcript exit codes con blanks
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-# Completa los ____ y ejecuta en tu shell
+# TAREA: completa los ____ y ejecuta en tu shell
+# Éxito: documentas exit 0 y exit 1 con $? o $LASTEXITCODE
 
 # 1) Éxito
 python3 -c "import sys; print('ok'); sys.exit(____)"
@@ -848,8 +943,8 @@ codigo_fail=1`,
           language: 'python',
           title: 'check_arg.py',
           code: `# CASO-LIM-001 · check_arg.py argc
-# DEFECT: validación de argv incompleta
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa los ____ (len, stderr, exit 0/1)
+# Éxito: un arg → OK:… exit 0; sin arg o >1 → uso en stderr exit 1
 import sys
 
 def main() -> None:
@@ -912,8 +1007,8 @@ $ echo $?
           language: 'markdown',
           title: 'diagnostico_pip_vs_path.md',
           code: `# CASO-LIM-001 · pip PATH vs intérprete
-# DEFECT: forense pip incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: clasifica A/B y completa los 3 pasos por escenario
+# Éxito: priorizas python -m pip y sys.executable
 # pip falla: ¿PATH o paquete/intérprete?
 
 ## Escenario A — "pip no se reconoce como comando"
@@ -980,8 +1075,8 @@ $ echo $?
           language: 'bash',
           title: 'lab_venv.sh',
           code: `# CASO-LIM-001 · crear .venv y activar
-# DEFECT: pasos venv con blanks
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa los ____ (carpeta, activate, sys.prefix, deactivate)
+# Éxito: sys.prefix termina en .venv; luego deactivate
 mkdir -p lab_venv_t2a && cd lab_venv_t2a
 
 # 1) Crear
@@ -1032,8 +1127,8 @@ deactivate`,
           language: 'bash',
           title: 'recrear_venv.sh',
           code: `# CASO-LIM-001 · venv roto recrear
-# DEFECT: recuperación venv incompleta
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa los ____ para borrar y recrear .venv sin tocar el código
+# Éxito: activate funciona y hello.py sigue en el proyecto
 # Supón que ya tienes hello.py en el proyecto y un .venv roto.
 # Completa:
 
@@ -1087,8 +1182,8 @@ ls hello.py 2>/dev/null || echo "(tu código fuente permanece en el proyecto)"`,
           language: 'markdown',
           title: 'por_que_venv.md',
           code: `# CASO-LIM-001 · no pip global
-# DEFECT: justificación anti-global incompleta
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa escenario, flujo .venv y nota sobre stdlib
+# Éxito: argumentas aislamiento sin pip global ni sudo
 # ¿Por qué no instalar pandas en el Python global?
 
 ## Escenario de conflicto
@@ -1146,8 +1241,8 @@ El Proyecto A (reporte legacy) necesita una API de pandas 1.x. El Proyecto B (pi
           language: 'bash',
           title: 'lab_freeze.sh',
           code: `# CASO-LIM-001 · pip pin + freeze
-# DEFECT: install pinneado incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa versión pinneada, freeze y verificación
+# Éxito: requirements.txt contiene requests==…
 source .venv/bin/activate   # o Activate.ps1 en Windows
 
 python -m pip install requests==____
@@ -1192,8 +1287,8 @@ python -c "import requests; print(requests.__version__)"`,
           language: 'bash',
           title: 'lab_install_r.sh',
           code: `# CASO-LIM-001 · requirements clean
-# DEFECT: requirements limpio incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: instala desde -r en un entorno limpio y verifica import
+# Éxito: import requests OK en .venv_replica
 # Parte de un requirements.txt existente en la raíz
 python3 -m venv .venv_replica
 source .venv_replica/bin/activate
@@ -1234,8 +1329,8 @@ python -c "import requests; print('ok', requests.__version__)"`,
           language: 'markdown',
           title: 'forense_modulenotfound.md',
           code: `# CASO-LIM-001 · ModuleNotFoundError forense
-# DEFECT: forense import incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa hipótesis A/B y el protocolo de 5 pasos
+# Éxito: usas sys.executable y python -m pip; clasificas stdlib vs terceros
 # Forense ModuleNotFoundError
 
 ## Hipótesis A — nunca instalado
@@ -1302,8 +1397,8 @@ El módulo de terceros no está en el site-packages del intérprete actual.
           language: 'bash',
           title: 'lab_commit.sh',
           code: `# CASO-LIM-001 · git init commit
-# DEFECT: git add/commit con blanks
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa git add y el mensaje Conventional Commits
+# Éxito: git log -1 muestra docs: o feat: …
 mkdir -p lab_git_t3a && cd lab_git_t3a
 git init
 echo "# lab" > README.md
@@ -1346,8 +1441,8 @@ git log -1 --oneline`,
           language: 'markdown',
           title: 'lectura_diff.md',
           code: `# CASO-LIM-001 · git diff lectura
-# DEFECT: diff incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: responde las 3 preguntas tras un commit real
+# Éxito: narras líneas +/− y un resumen en una frase
 # Lectura de diff
 
 ## Comandos usados
@@ -1404,8 +1499,8 @@ El commit documenta en el README que el setup usa venv.`,
           language: 'markdown',
           title: 'mejor_mensaje.md',
           code: `# CASO-LIM-001 · conventional commit
-# DEFECT: mensaje commit vago sin tipo
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: elige el mejor mensaje y reescribe A y C
+# Éxito: justificación legible + prefijos válidos
 # Mejor mensaje de commit
 
 Candidatos:
@@ -1467,8 +1562,8 @@ Informa el tipo (nueva capacidad), el artefacto y el propósito (smoke). Un cole
           language: 'bash',
           title: 'lab_branch.sh',
           code: `# CASO-LIM-001 · rama feat desde main
-# DEFECT: branch workflow incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa el nombre de rama y el prefijo del commit
+# Éxito: HEAD en feat/practica-s01 con mensaje feat:
 git switch main
 git switch -c ____/practica-s01
 echo "ok" > nota.txt
@@ -1512,8 +1607,8 @@ git branch`,
           language: 'markdown',
           title: 'pr_hello_env.md',
           code: `# CASO-LIM-001 · PR description
-# DEFECT: PR markdown incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa título, resumen, plan de prueba y checklist
+# Éxito: revisor puede copiar el cuerpo a GitHub sin adivinar
 # Título del PR
 ____
 
@@ -1577,8 +1672,8 @@ feat: agregar smoke hello_env y documentar install
           language: 'markdown',
           title: 'recuperacion_segura.md',
           code: `# CASO-LIM-001 · recuperación no destructiva
-# DEFECT: recuperación incompleta
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: completa restore, stash y por qué no force-push a main
+# Éxito: priorizas restore/stash; prohíbes force-push a main
 # Recuperación no destructiva
 
 ## Situación
@@ -1643,16 +1738,14 @@ Borra cambios no commiteados de forma fácil de lamentar. Primero restore/stash;
           language: 'toml',
           title: 'pyproject.toml',
           code: `# CASO-LIM-001 · pyproject ruff mínimo
-# DEFECT: ruff config incompleta
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-# Fixture del paquete (conserva datos; no reescribas asserts)
+# TAREA: completa line-length, target-version y select (E, F, I)
+# Éxito: config válida para ruff check con el mínimo del curso
 [tool.ruff]
-line-length = 88
-target-version = "py312"
+line-length = ____
+target-version = "____"
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
-# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
+select = [____, ____, ____]
 `,
         },
         solutionCode: {
@@ -1690,8 +1783,8 @@ select = ["E", "F", "I"]`,
           language: 'python',
           title: 'hello_lint.py',
           code: `# CASO-LIM-001 · ruff check imports
-# DEFECT: ruff CLI incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: corre ruff check y elimina imports sin usar (sys, os)
+# Éxito: python -m ruff check hello_lint.py → exit 0
 import sys
 import os
 from datetime import datetime
@@ -1702,8 +1795,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1744,8 +1836,8 @@ if __name__ == "__main__":
           language: 'markdown',
           title: 'ruff_select_minimo.md',
           code: `# CASO-LIM-001 · select ALL día 1
-# DEFECT: select ALL sin justificación
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: propone select mínimo y justifica por qué no ALL el día 1
+# Éxito: set acotado + plan de ampliación
 # Select mínimo para repo de datos (S01)
 
 ## Propuesta
@@ -1804,23 +1896,21 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
           language: 'gitignore',
           title: '.gitignore',
           code: `# CASO-LIM-001 · .gitignore python/data
-# DEFECT: gitignore incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-# Fixture del paquete (conserva datos; no reescribas asserts)
+# TAREA: completa los ____ (entornos, bytecode, secretos)
+# Éxito: git check-ignore -v .env confirma el ignore
 # Entornos
-.venv/
-venv/
+____/
+____/
 
 # Bytecode
-__pycache__/
-*.pyc
+____/
+____
 
 # Secretos
-.env
+____
 
 # Jupyter
 .ipynb_checkpoints/
-# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
 `,
         },
         solutionCode: {
@@ -1863,19 +1953,19 @@ __pycache__/
         feedback:
           'El example es el contrato de configuración. El secreto vive solo en la máquina o en un gestor de secretos del equipo.',
         starterCode: {
-          language: 'bash',
+          language: 'dotenv',
           title: '.env.example',
           code: `# CASO-LIM-001 · .env.example sintético
-# DEFECT: placeholders vacíos sin ejemplo
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: rellena placeholders de ejemplo (valores ficticios, sin secretos reales)
+# Éxito: ≥3 KEY= con ejemplos no sensibles; .env real no se commitea
 # Copia a .env y completa valores locales (nunca commitees .env)
-API_URL=
-DB_HOST=
-LOG_LEVEL=
-# DEFECT: rellena solo placeholders de ejemplo (sin secretos reales)`,
+API_URL=____
+DB_HOST=____
+LOG_LEVEL=____
+`,
         },
         solutionCode: {
-          language: 'bash',
+          language: 'dotenv',
           title: '.env.example',
           code: `# Copia a .env y completa valores locales (nunca commitees .env)
 API_URL=https://example.com/api
@@ -1908,8 +1998,8 @@ LOG_LEVEL=INFO
           language: 'markdown',
           title: 'checklist_maquina_limpia.md',
           code: `# CASO-LIM-001 · checklist máquina limpia CP-N1-A
-# DEFECT: checklist incompleto
-# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+# TAREA: escribe 5 ítems verificables (comando + resultado esperado)
+# Éxito: clon → venv → install -r → smoke → ignore .env + datos sintéticos
 # Checklist máquina limpia — esqueleto CP-N1-A
 
 - [ ] 1. ____
@@ -2023,10 +2113,15 @@ if __name__ == "__main__":
       },
       {
         question: '¿Qué comando te permite replicar el entorno de otro desarrollador?',
-        options: ['pip install pandas numpy', 'pip install -r requirements.txt', 'python -m venv venv', 'git clone https://github.com/usuario/repo.git'],
+        options: [
+          'pip install pandas numpy',
+          'python -m pip install -r requirements.txt',
+          'python -m venv venv',
+          'git clone https://github.com/usuario/repo.git',
+        ],
         correctIndex: 1,
         explanation:
-          'Preferible `python -m pip install -r requirements.txt` (atado al mismo intérprete). Lee versiones pinneadas e instala el snapshot. `git clone` solo trae código; `python -m venv` crea el entorno vacío sin paquetes de terceros.',
+          '`python -m pip install -r requirements.txt` ata el instalador al mismo intérprete y lee versiones pinneadas del snapshot. `git clone` solo trae código; `python -m venv` crea el entorno vacío sin paquetes de terceros. Evita un `pip` suelto que pueda apuntar a otro Python.',
       },
       {
         question: '¿Por qué NO debes subir el archivo .env a GitHub?',
@@ -2147,6 +2242,7 @@ if __name__ == "__main__":
   resources: {
     docs: [
       { label: 'Python.org — Downloads', url: 'https://python.org/downloads/', note: 'Instalador oficial de Python' },
+      { label: 'Python — venv', url: 'https://docs.python.org/3/library/venv.html', note: 'Entornos virtuales oficiales (stdlib)' },
       { label: 'VS Code — Python extension', url: 'https://marketplace.visualstudio.com/items?itemName=ms-python.python', note: 'Extensión oficial de Microsoft' },
       { label: 'Git — official book', url: 'https://git-scm.com/book/es/v2', note: 'Libro gratuito de Git en español' },
       { label: 'Conventional Commits', url: 'https://www.conventionalcommits.org/', note: 'Estándar para mensajes de commit' },
@@ -2155,12 +2251,18 @@ if __name__ == "__main__":
       { label: 'pip — User Guide', url: 'https://pip.pypa.io/en/stable/user_guide/', note: 'python -m pip, requirements, freeze' },
     ],
     books: [
-      { label: 'Python 101', note: 'Capítulo sobre instalación y setup. Base para entender el entorno.' },
-      { label: 'Python Apprentice to Master', note: 'Capítulo inicial sobre entorno profesional y convenciones.' },
+      {
+        label: 'Python 101 (2nd ed.) — Michael Driscoll',
+        note: 'Capítulos de instalación y setup del entorno. Referencia: https://python101.pythonlibrary.org/',
+      },
+      {
+        label: 'Python Basics / Real Python',
+        note: 'Base de entorno profesional y convenciones. Referencia: https://realpython.com/products/python-basics-book/',
+      },
     ],
     courses: [
       { label: 'CS50P — Harvard', url: 'https://cs50.harvard.edu/python', note: 'Semana 0 cubre setup detalladamente' },
-      { label: 'GitHub Learning Lab', url: 'https://lab.github.com/', note: 'Cursos interactivos gratuitos de Git/GitHub' },
+      { label: 'GitHub Skills', url: 'https://skills.github.com/', note: 'Labs interactivos oficiales de Git/GitHub (sucesor de Learning Lab)' },
     ],
   },
 }

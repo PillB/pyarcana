@@ -2406,56 +2406,30 @@ print(f"  Drift score: {drift:.3f} ({'ALTO' if drift > 0.3 else 'OK'})")`,
     },
     // === Phase 2 demos (S30-S39) ===
     'security-infra': {
-      title: 'Practica Zero Trust y logging',
-      code: `# Simulacion de Zero Trust: verificar cada request
-import hashlib
-import time
+      title: 'Practica blocking y candidate recall',
+      code: `from collections import defaultdict
 
-# Simular logging estructurado (como structlog)
-def log_event(event, **kwargs):
-    """Log estructurado en formato JSON."""
-    entry = {"event": event, "timestamp": time.time(), **kwargs}
-    print(f"  [{entry['event']}] {kwargs}")
+def fold(s: str) -> str:
+    """casefold + pliega tildes para claves de blocking estables."""
+    s = s.casefold()
+    for a, b in (("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u")):
+        s = s.replace(a, b)
+    return s
 
-# Simular middleware de seguridad
-def security_check(user_id, ip, endpoint):
-    """Verifica cada request como en Zero Trust."""
-    # 1. Verificar autenticacion
-    if not user_id:
-        log_event("auth_failed", ip=ip, reason="no_token")
-        return False
-    # 2. Verificar autorizacion
-    if endpoint == "/admin" and user_id != "admin":
-        log_event("authz_denied", user=user_id, endpoint=endpoint)
-        return False
-    # 3. Log de acceso
-    log_event("access_granted", user=user_id, ip=ip, endpoint=endpoint)
-    return True
-
-# Probar
-print("=== Zero Trust: cada request se verifica ===")
-print(security_check("user1", "190.x.x.x", "/predict"))
-print(security_check("user1", "190.x.x.x", "/admin"))
-print(security_check("", "190.x.x.x", "/predict"))
-
-# Hash de integridad (verificar que archivos no fueron modificados)
-file_content = b"modelo_v2.pkl"
-hash_original = hashlib.sha256(file_content).hexdigest()
-print(f"\\nHash original: {hash_original[:32]}...")
-print(f"Hash verificado: {hashlib.sha256(file_content).hexdigest()[:32]}...")
-print(f"Integridad OK: {hashlib.sha256(file_content).hexdigest() == hash_original}")`,
-      expectedOutput: `=== Zero Trust: cada request se verifica ===
-  [access_granted] {'user': 'user1', 'ip': '190.x.x.x', 'endpoint': '/predict'}
-True
-  [authz_denied] {'user': 'user1', 'endpoint': '/admin'}
-False
-  [auth_failed] {'ip': '190.x.x.x', 'reason': 'no_token'}
-False
-
-Hash original: 9ca69c5e8ad72087c36bcd6291c98886...
-Hash verificado: 9ca69c5e8ad72087c36bcd6291c98886...
-Integridad OK: True`,
-      hint: 'Que pasa si cambias el contenido del archivo? El hash cambia',
+recs = [
+    ("r1", "López", "Lima"),
+    ("r2", "Lopez", "Lima"),
+    ("r3", "Díaz", "Cusco"),
+]
+buckets = defaultdict(list)
+for rid, last, city in recs:
+    buckets[f"{fold(last)}|{fold(city)[:3]}"].append(rid)
+print(dict(buckets))
+print("candidate_pairs", sum(len(v) * (len(v) - 1) // 2 for v in buckets.values()))
+`,
+      expectedOutput: `{'lopez|lim': ['r1', 'r2'], 'diaz|cus': ['r3']}
+candidate_pairs 1`,
+      hint: 'Sin plegar acentos, López y Lopez caen en bloques distintos y el candidate recall baja a 0',
     },
     'streaming-data': {
       title: 'Practica windowing y backpressure',

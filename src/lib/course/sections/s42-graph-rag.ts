@@ -5,32 +5,32 @@ export const section42: CourseSection = {
   index: 42,
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
-  tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
+  tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redactados",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **schemas, seguridad y privacidad de servicios** convierten la API de S41 en un control plane fail-closed: validación estricta, authz deny-by-default y minimización de datos. La práctica entrega allow/deny auditable y vistas pseudonimizadas; se promueve solo cuando un actor no lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups. Id legacy `graph-rag` se conserva; el path V3 es seguridad/privacidad de servicios, no GraphRAG/LLM retrieval.",
+    "En equipos de plataforma y producto, **schemas, seguridad y privacidad de servicios** convierten la API de S41 en un control plane fail-closed: validación estricta, authz deny-by-default y minimización de datos. La práctica entrega allow/deny auditable y vistas pseudonimizadas; se promueve solo cuando un actor no lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.",
   learningOutcomes: [
-    { text: "Define schemas Pydantic/JSON Schema" },
-    { text: "Evoluciona schemas con validación de negocio" },
-    { text: "Implementa authn/authz RBAC" },
-    { text: "Aplica scopes y deny-by-default" },
-    { text: "Mitiga injection/SSRF/path traversal" },
-    { text: "Gestiona secretos, cifrado y deps" },
-    { text: "Minimiza datos y fija retención" },
-    { text: "Audita, borra y seudonimiza accesos" },
+    { text: "Definir un schema de borde estricto (tipos + rechazo de campos extra) y exportar fixtures válidos/inválidos" },
+    { text: "Evolucionar contratos con cambios aditivos y discriminated unions exhaustivas sin romper lectores previos" },
+    { text: "Implementar authn≠authz con RBAC y resource binding que deniega lectura cross-tenant" },
+    { text: "Aplicar scopes e identidades de servicio con política deny-by-default en rutas no declaradas" },
+    { text: "Rechazar input no confiable: límites de tamaño, SSRF por allowlist y path confinement" },
+    { text: "Gestionar secretos fuera del repo, cifrado en reposo y dependencias fijadas sin CVE críticas abiertas" },
+    { text: "Minimizar campos al propósito declarado y fijar retención finita con bloqueo al vencer" },
+    { text: "Auditar sin PII, purgar derivados y verificar que un campo redactado no reaparece" },
   ],
   theory: [
     {
       heading: "Ruta de S42: Schemas, seguridad y privacidad de servicios",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URLs o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redaction:** campo sensible no reaparece en logs, respuestas ni backups activos.",
-        "Esta sección endurece el control plane de S41 (HTTP versionado) con **schemas, authz y privacidad**. Solo stdlib + contratos al estilo Pydantic/JSON Schema/OWASP (referencia profesional). El caso `CASO-CUS-042` (soporte sintético en Cusco) no usa credenciales reales, PII ni red externa.",
-        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redaction y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo.",
-        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Teoría con criterio medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de seguridad por ejercicio. Id legacy `graph-rag` no implica GraphRAG; V3 es seguridad del servicio gobernado. Stack didáctico: **stdlib** (dicts, sets) modelando contratos Pydantic/OWASP sin cluster.",
+        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URLs o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redacción:** campo sensible no reaparece en logs, respuestas ni backups activos.",
+        "Esta sección endurece el control plane de S41 (HTTP versionado) con **schemas, authz y privacidad**. Modelamos con **stdlib** (dicts, sets) contratos al estilo Pydantic/JSON Schema y controles OWASP sin levantar un cluster. El caso `CASO-CUS-042` (soporte sintético en Cusco) no usa credenciales reales, PII ni red externa.",
+        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redacción y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo.",
+        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Primero la forma del payload (como en S41), luego el permiso sobre el recurso, después el abuso de entrada y al final el ciclo de privacidad. Cada subtema tiene un contrato local medible; el gate global CP-N4-A solo se aprueba cuando no hay lectura cross-tenant y la redacción se sostiene.",
       ],
       code: {
         language: 'python',
@@ -39,18 +39,32 @@ export const section42: CourseSection = {
     return {
         "case": "CASO-CUS-042",
         "gates": ["strict_schema", "deny_by_default", "no_cross_tenant", "redaction_holds"],
-        "graph_rag_topic": False,
         "cross_tenant_read_ok": False,
+        "redaction_holds": True,
     }
+
+def handle(req: dict, actor: str, owner: str, scopes: set) -> str:
+    """Misma petición de S41, ahora con schema + authz fail-closed."""
+    allowed = {"case_id", "status"}
+    if not {"case_id", "status"}.issubset(req) or set(req) - allowed:
+        return "REJECT_SCHEMA"
+    if "cases:read" not in scopes or actor != owner:
+        return "DENY_CROSS_TENANT"
+    return "CONTINUE"
 
 c = section_contract()
 print("case", c["case"])
-print("graph_rag_topic", c["graph_rag_topic"])
 print("cross_tenant_read_ok", c["cross_tenant_read_ok"])
+print("redaction_holds", c["redaction_holds"])
+print(
+    "s41_request",
+    handle({"case_id": "CASO-CUS-042", "status": "open"}, "u1", "u2", {"cases:read"}),
+)
 `,
         output: `case CASO-CUS-042
-graph_rag_topic False
-cross_tenant_read_ok False`,
+cross_tenant_read_ok False
+redaction_holds True
+s41_request DENY_CROSS_TENANT`,
       },
       callout: {
         type: "info",
@@ -62,22 +76,27 @@ cross_tenant_read_ok False`,
       heading: "Pydantic y JSON Schema",
       subtopicId: "S42-T1-A",
       paragraphs: [
-        "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP; el schema de borde es **estricto** (rechaza campos extra) y **no sustituye** invariantes del negocio (p. ej. «un analista no lee el caso de otro tenant»). La validación de forma es el primer fail-closed; la autorización y la retención vienen después.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: schema exportado y fixtures válidos/inválidos ejecutables. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `Pydantic y JSON Schema` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es schema exportado y fixtures válidos/inválidos (`case_id`+`status` OK; `extra` rechazado). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP. Un schema de borde **estricto** modela `extra=forbid` / `additionalProperties: false`: solo las claves en un conjunto *allowed* pasan. Eso **no sustituye** invariantes de negocio (p. ej. `status ∈ {open, closed}`); la forma es el primer fail-closed y la autorización viene después.",
+        "Contrato local de schema. Entrada: `payload` dict, conjuntos `required` y `allowed`. Salida: `True` solo si `required ⊆ keys(payload) ⊆ allowed` y la regla de negocio del campo `status` se cumple. Error: aceptar cualquier clave no listada o un `status` fuera del vocabulario. Criterio medible: el fixture con `note_interna` o `status=\"maybe\"` devuelve `False` antes de tocar authz.",
+        "En `CASO-CUS-042-1A` (ticket de soporte sintético en Cusco), el borde acepta `{\"case_id\",\"status\"}` y rechaza un cuerpo con `extra` o `note_interna`. El lab usa stdlib como modelo de Pydantic/JSON Schema: no hay cluster ni PII; la evidencia son fixtures válidos/inválidos ejecutables.",
       ],
       code: {
         language: 'python',
         title: "pydantic_jsonschema.py",
-        code: `def validate_case(payload: dict, required: set) -> bool:
-    return required.issubset(payload) and "extra" not in payload
+        code: `def validate_case(payload: dict, required: set, allowed: set) -> bool:
+    if not required.issubset(payload):
+        return False
+    if not set(payload).issubset(allowed):
+        return False
+    return payload.get("status") in {"open", "closed"}
 
-print(validate_case({"case_id": "C1", "status": "open"}, {"case_id", "status"}))
-print(validate_case({"case_id": "C1", "extra": 1}, {"case_id", "status"}))
-print("jsonschema", True)`,
+required = allowed = {"case_id", "status"}
+print(validate_case({"case_id": "C1", "status": "open"}, required, allowed))
+print(validate_case({"case_id": "C1", "status": "open", "note": 1}, required, allowed))
+print(validate_case({"case_id": "C1", "status": "maybe"}, required, allowed))`,
         output: `True
 False
-jsonschema True`,
+False`,
       },
       callout: {
         type: "tip",
@@ -87,12 +106,12 @@ jsonschema True`,
       },
     },
     {
-      heading: "evolución, discriminated unions y validación de negocio",
+      heading: "Evolución, discriminated unions y validación de negocio",
       subtopicId: "S42-T1-B",
       paragraphs: [
-        "La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: lector anterior conserva contrato. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `evolución, discriminated unions y validación de negocio` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es lector anterior conserva contrato. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "La evolución segura prefiere campos opcionales **aditivos** y discriminated unions **exhaustivas**. Renombrar o reinterpretar un campo obligatorio rompe lectores previos: exige versión o migración explícita, no un silent cast.",
+        "Contrato local de evolución. Entrada: tipo de `change`, bandera `old_reader_passes` y conjuntos `union_tags` / `handled_tags`. Salida: evolución segura solo si el cambio es aditivo, el lector v1 sigue pasando y cada tag de la unión está manejado. Error: `rename_required` o un tag nuevo sin rama. Criterio: ante incompleto → `MIGRATE_CONSUMERS`; ante rupture → `VERSION_SCHEMA`.",
+        "En `CASO-CUS-042-1B`, el canal de notificaciones de Cusco añade `currency` opcional sin tocar `amount`. El lector v1 ignora lo opcional y sigue leyendo montos; si aparece `type=push` sin handler, el despliegue se bloquea hasta migrar consumidores.",
       ],
       code: {
         language: 'python',
@@ -105,40 +124,51 @@ jsonschema True`,
         return "SmsEvent"
     raise ValueError("unknown_event")
 
+def evolution_ok(change: str, old_ok: bool, tags: set, handled: set) -> bool:
+    return change == "add_optional" and old_ok and tags == handled
+
 print(event_kind({"type": "email", "to": "a@example.pe"}))
 print(event_kind({"type": "sms", "to": "+51"}))
-print("union", "discriminated")`,
+print("compat", evolution_ok("add_optional", True, {"email", "sms"}, {"email", "sms"}))
+try:
+    event_kind({"type": "push"})
+except ValueError as e:
+    print("unknown", e)`,
         output: `EmailEvent
 SmsEvent
-union discriminated`,
+compat True
+unknown unknown_event`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S42-T1-B, audita lector anterior conserva contrato. Un breach activa `VERSION_SCHEMA` y una ausencia activa `MIGRATE_CONSUMERS`.",
+          "Antes de promover S42-T1-B, audita que el lector anterior conserve el contrato. Un breach activa `VERSION_SCHEMA` y una ausencia activa `MIGRATE_CONSUMERS`.",
       },
     },
     {
-      heading: "authn/authz y RBAC",
+      heading: "Authn/authz y RBAC",
       subtopicId: "S42-T2-A",
       paragraphs: [
-        "Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.",
-        "Contrato de autorización. Entrada: actor_id, owner_id del caso y rol. Salida: allow solo si admin o actor==owner. Error: confiar en el user-agent o en un claim sin resource binding. Criterio: la prueba `can_read(u1,u2,analyst)` es False en el lab de Cusco sintético antes de abrir el control plane.",
-        "Aplicación a `CASO-CUS-042-T2A`: el analista u1 lee su caso; el caso de u2 se deniega. Authn ≠ authz: conocer la identidad no otorga permiso cruzado.",
+        "Authentication identifica al actor; authorization decide una **acción sobre un recurso**. RBAC arranca con roles mínimos y exige *resource binding*: el token no basta si el caso pertenece a otro tenant.",
+        "Contrato local de lectura de caso. Entrada: `actor`, `owner` del caso, `role` y permiso `case:read`. Salida de lab (camino analista): `allow` solo si está autenticado, `actor == owner` y tiene `case:read`. El rol `admin` es un override explícito documentado, no un atajo silencioso. Error: tratar identidad (authn) como permiso cross-tenant. Criterio: `can_read(u1, u2, analyst)` es False antes de abrir el control plane.",
+        "En `CASO-CUS-042-2A` (mesa de soporte sintética en Cusco), el analista `user-a` abre su ticket y recibe vista mínima; el mismo actor sobre el ticket de `user-b` recibe `DENY_CROSS_TENANT` con audit. La identidad correcta no basta: falta binding al recurso.",
       ],
       code: {
         language: 'python',
         title: "authn_authz_rbac.py",
-        code: `def can_read(actor: str, owner: str, role: str) -> bool:
-    return role == "admin" or actor == owner
+        code: `def can_read(actor: str, owner: str, role: str, scopes=None) -> bool:
+    scopes = scopes or set()
+    if role == "admin" and "case:admin" in scopes:
+        return True
+    return actor == owner and "case:read" in scopes
 
-print(can_read("u1", "u1", "analyst"))
-print(can_read("u1", "u2", "analyst"))
-print("authn_vs_authz", "identity!=permission")`,
-        output: `True
-False
-authn_vs_authz identity!=permission`,
+print("same_tenant", can_read("u1", "u1", "analyst", {"case:read"}))
+print("cross_tenant", can_read("u1", "u2", "analyst", {"case:read"}))
+print("admin_override", can_read("u1", "u2", "admin", {"case:admin"}))`,
+        output: `same_tenant True
+cross_tenant False
+admin_override True`,
       },
       callout: {
         type: "tip",
@@ -148,25 +178,29 @@ authn_vs_authz identity!=permission`,
       },
     },
     {
-      heading: "scopes, service identities y deny-by-default",
+      heading: "Scopes, service identities y deny-by-default",
       subtopicId: "S42-T2-B",
       paragraphs: [
-        "Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: matriz de scopes con denegaciones explícitas. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `scopes, service identities y deny-by-default` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es matriz de scopes con denegaciones explícitas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Un scope nombra una capacidad estrecha (`report:prepare`, no `*`). Cada microservicio tiene **identidad propia** (`svc-reporter`); un principal genérico `shared-admin` es olor de privilegio excesivo. Deny-by-default: si la ruta no está declarada o el scope no está granted, se deniega.",
+        "Contrato local de scopes. Entrada: `requested_scope`, `granted_scopes`, `service_id`, `route_declared`. Salida: `PASS` solo si el scope está granted, el `service_id` es de servicio (`svc-…`) y la ruta está en catálogo. Error: pedir `prod:write` con grant de solo lectura o ruta no registrada. Criterio: matriz con al menos una denegación explícita en evidencia.",
+        "En `CASO-CUS-042-2B`, el worker de reportes de Cusco solo tiene `report:prepare` sobre `/reports/prepare`. Un intento de `prod:write` sobre una ruta no declarada cae en `DENY_SCOPE`; si falta el flag de ruta, se deriva a `REQUEST_NARROW_GRANT` (missing ≠ breach).",
       ],
       code: {
         language: 'python',
         title: "scopes_service_ids_deny.py",
-        code: `def allow(scope_set: set, needed: str) -> bool:
-    return needed in scope_set  # deny-by-default if missing
+        code: `def allow(scope_set: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    if needed not in scope_set:
+        return False
+    if not service_id.startswith("svc-"):
+        return False
+    return route_declared
 
-print(allow({"jobs:run", "jobs:read"}, "jobs:run"))
-print(allow({"jobs:read"}, "jobs:admin"))
-print("deny_by_default", True)`,
+print(allow({"jobs:run", "jobs:read"}, "jobs:run", "svc-worker", True))
+print(allow({"jobs:read"}, "jobs:admin", "svc-worker", True))
+print(allow({"jobs:run"}, "jobs:run", "shared-admin", True))`,
         output: `True
 False
-deny_by_default True`,
+False`,
       },
       callout: {
         type: "tip",
@@ -176,28 +210,40 @@ deny_by_default True`,
       },
     },
     {
-      heading: "input limits, injection y SSRF/path traversal",
+      heading: "Input limits, injection y SSRF/path traversal",
       subtopicId: "S42-T3-A",
       paragraphs: [
-        "Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: payload/URL/ruta adversarial rechazada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `input limits, injection y SSRF/path traversal` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es payload/URL/ruta adversarial rechazada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts** y **confinamiento de ruta**. Una URL o un path del usuario nunca se convierte directamente en socket o filesystem sin esas tres puertas.",
+        "Contrato local anti-abuso. Entrada: tamaño del body, host de la URL, path resuelto y raíz permitida. Salida: aceptar solo si `bytes ≤ max`, `host ∈ allowlist` y el path queda bajo `root/`. Error: metadata IP `169.254.169.254`, path `/etc/passwd` o `..` de traversal. Criterio: el caso adverso debe fallar por contenido, no por un print precomputado.",
+        "En `CASO-CUS-042-3A`, el adjunto de un ticket de Cusco se guarda bajo `/safe/reports/`. Un body de 9999 bytes, host de metadata cloud o path `/etc/passwd` produce `REJECT_UNTRUSTED_INPUT`. Si falta la raíz de confinamiento, se abre `SECURITY_REVIEW` (no se asume breach).",
       ],
       code: {
         language: 'python',
         title: "limits_injection_ssrf_path.py",
         code: `def safe_path(base: str, user_path: str) -> str:
-    joined = f"{base.rstrip('/')}/{user_path.lstrip('/')}"
     if ".." in user_path.split("/"):
         raise ValueError("traversal")
+    joined = f"{base.rstrip('/')}/{user_path.lstrip('/')}"
+    root = base.rstrip("/")
+    if not joined.startswith(root + "/") and joined != root:
+        raise ValueError("escape")
     return joined
 
+def url_allowed(url: str, allow: set) -> bool:
+    host = url.split("://", 1)[-1].split("/", 1)[0]
+    return host in allow
+
 print(safe_path("/data", "a.txt"))
-print("blocked", "traversal")
-print("ssrf_guard", "allowlist")`,
+try:
+    safe_path("/data", "../etc/passwd")
+except ValueError as e:
+    print("blocked", e)
+print("ssrf_ok", url_allowed("https://docs.example.pe/a", {"docs.example.pe"}))
+print("ssrf_block", url_allowed("http://169.254.169.254/", {"docs.example.pe"}))`,
         output: `/data/a.txt
 blocked traversal
-ssrf_guard allowlist`,
+ssrf_ok True
+ssrf_block False`,
       },
       callout: {
         type: "tip",
@@ -207,12 +253,12 @@ ssrf_guard allowlist`,
       },
     },
     {
-      heading: "secretos, cifrado y dependency risk",
+      heading: "Secretos, cifrado y dependency risk",
       subtopicId: "S42-T3-B",
       paragraphs: [
-        "Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: scan sin secreto y rotación ensayada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `secretos, cifrado y dependency risk` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es scan sin secreto y rotación ensayada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Los secretos entran por runtime (env/vault), **nunca** por repo ni logs. El cifrado en reposo necesita gestión de claves; las dependencias se fijan por versión y se revisan por CVE y provenance.",
+        "Contrato local de secretos y deps. Entrada: flags de secreto en repo/log, rotación ensayada, pin de dependencias y conteo de CVE críticas. Salida: `PASS` solo si no hay secreto en artefacto, la rotación se probó, hay pin y `critical_cves == 0`. Error: API key en `.env` commiteado o paquete sin pin con CVE abierta. Criterio: evidencia de scan + ensayo de rotación, no solo política en un wiki.",
+        "En `CASO-CUS-042-3B`, el pipeline de Cusco falla el promote si `secret_in_repo` o deps sin pin. Un hallazgo real dispara `ROTATE_AND_BLOCK`; si falta el inventario de CVE, se deriva a `ASSESS_DEPENDENCY_RISK` sin inventar un cero.",
       ],
       code: {
         language: 'python',
@@ -222,12 +268,17 @@ ssrf_guard allowlist`,
 def secret_fingerprint(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()[:12]
 
+def promote_ok(secret_in_repo: bool, pinned: bool, critical_cves: int) -> bool:
+    return (not secret_in_repo) and pinned and critical_cves == 0
+
 print("fp", secret_fingerprint(b"not-a-real-secret"))
-print("store", "env_or_vault")
-print("never_log_raw", True)`,
+print("promote", promote_ok(False, True, 0))
+print("block", promote_ok(True, False, 2))
+print("block_unpinned", promote_ok(False, False, 0))`,
         output: `fp ed24bc0bb03d
-store env_or_vault
-never_log_raw True`,
+promote True
+block False
+block_unpinned False`,
       },
       callout: {
         type: "tip",
@@ -237,12 +288,12 @@ never_log_raw True`,
       },
     },
     {
-      heading: "minimización, purpose y retención",
+      heading: "Minimización, purpose y retención",
       subtopicId: "S42-T4-A",
       paragraphs: [
-        "Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: inventario propósito-campo-retención aprobado. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `minimización, purpose y retención` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es inventario propósito-campo-retención aprobado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Privacidad exige el **mínimo de campos** para un propósito declarado y una **retención finita**. «Podría servir después» no es finalidad: o se documenta el propósito o no se recolecta el campo.",
+        "Contrato local de minimización. Entrada: conjuntos `collected`/`needed`, `purpose`, `retention_days` y techo `max_retention_days`. Salida: inventario aprobado solo si `collected ⊆ needed`, el purpose es el del caso de uso y la retención no excede el techo. Error: recolectar `full_name` para un status-report o retener 3650 días. Criterio: inventario propósito-campo-retención revisable por el dueño de privacidad.",
+        "En `CASO-CUS-042-4A`, el tablero de estado de Cusco solo necesita `case_id` y `region` por 30 días. Si el payload arrastra `full_name` o purpose `maybe-useful`, se emite `MINIMIZE_AND_EXPIRE`. Sin techo de retención → `PRIVACY_OWNER_REVIEW`.",
       ],
       code: {
         language: 'python',
@@ -250,12 +301,15 @@ never_log_raw True`,
         code: `def minimize(fields: dict, allow: set) -> list:
     return sorted(k for k in fields if k in allow)
 
+def retention_ok(collected: set, needed: set, purpose: str, days: int, max_days: int) -> bool:
+    return collected <= needed and purpose == "status-report" and days <= max_days
+
 print("minimized", minimize({"case_id": "C1", "status": "open", "email": "x"}, {"case_id", "status"}))
-print("purpose", "case_ops")
-print("retention", 90)`,
+print("ok", retention_ok({"case_id", "region"}, {"case_id", "region"}, "status-report", 30, 30))
+print("over", retention_ok({"case_id", "full_name"}, {"case_id"}, "maybe-useful", 3650, 30))`,
         output: `minimized ['case_id', 'status']
-purpose case_ops
-retention 90`,
+ok True
+over False`,
       },
       callout: {
         type: "tip",
@@ -265,12 +319,12 @@ retention 90`,
       },
     },
     {
-      heading: "audit, deletion, pseudonymization y acceso",
+      heading: "Audit, deletion, pseudonymization y acceso",
       subtopicId: "S42-T4-B",
       paragraphs: [
-        "Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: borrado y no-reaparición verificados. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `audit, deletion, pseudonymization y acceso` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es borrado y no-reaparición verificados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "El audit registra quién/qué/cuándo **sin copiar PII**. El borrado debe cubrir primarios y **derivados** (cachés, índices, exports). La pseudonimización separa la llave de reidentificación; el acceso a la llave queda revisable.",
+        "Contrato local de ciclo de vida. Entrada: campos de audit, conjunto PII, flags de borrado primario/derivado y `key_separate`. Salida: `PASS` solo si audit ∩ PII = ∅, ambos borrados y la llave está separada. Error: email en el log de audit o un export CSV que sobrevive al soft-delete. Criterio: prueba de no-reaparición del campo redactado en logs, respuestas y backups activos.",
+        "En `CASO-CUS-042-4B`, al cerrar un ticket de Cusco se purgan la fila, el snapshot de búsqueda y el export. El audit solo guarda `actor_id`, `action`, `at` y un `case_token` pseudónimo. Si reaparece `email` en audit o un derivado vivo → `PURGE_DERIVATIVES`.",
       ],
       code: {
         language: 'python',
@@ -280,12 +334,15 @@ retention 90`,
 def pseudonym(subject: str) -> str:
     return hashlib.sha256(f"synth:{subject}".encode()).hexdigest()[:16]
 
+def purge_ok(audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool) -> bool:
+    return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate
+
 print("pseudo", pseudonym("user-1"))
-print("audit_n", 1)
-print("delete", "soft+hard_policy")`,
+print("ok", purge_ok({"actor_id", "action", "case_token"}, {"email", "full_name"}, True, True, True))
+print("leak", purge_ok({"actor_id", "email"}, {"email"}, True, False, False))`,
         output: `pseudo d6e07b73dc2ab4b4
-audit_n 1
-delete soft+hard_policy`,
+ok True
+leak False`,
       },
       callout: {
         type: "tip",
@@ -296,102 +353,116 @@ delete soft+hard_policy`,
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S42 (Schemas, seguridad y privacidad de servicios) alineadas a CP-N4-A (control plane).",
+    intro: "Te muestro 8 demos de S42 (Schemas, seguridad y privacidad de servicios) alineadas a CP-N4-A. Cada una calcula el control en un caso local de Cusco sintético — no imprime la etiqueta sin derivarla.",
     steps: [
       {
         demoId: "S42-T1-A-DEMO",
         subtopicId: "S42-T1-A",
         environment: "local-python",
-        description: "Demo: Pydantic y JSON Schema",
+        description: "Demo: schema estricto (extra=forbid) + regla de negocio",
         code: {
           language: 'python',
           title: "demo_pydantic_jsonschema.py",
-          code: `def strict_age(payload: dict) -> dict:
-    if not isinstance(payload.get("age"), int) or payload["age"] < 0:
-        raise ValueError("invalid_age")
-    return {"age": payload["age"]}
+          code: `def validate_case(payload: dict, required: set, allowed: set) -> bool:
+    if not required.issubset(payload):
+        return False
+    if not set(payload).issubset(allowed):
+        return False
+    return payload.get("status") in {"open", "closed"}
 
-print(strict_age({"age": 3}))
-print("pydantic_like", True)
-print("strict", True)`,
-          output: `{'age': 3}
-pydantic_like True
-strict True`,
+req = allow = {"case_id", "status"}
+print("valid", validate_case({"case_id": "CASO-CUS-042-1A", "status": "open"}, req, allow))
+print("extra", validate_case({"case_id": "CASO-CUS-042-1A", "status": "open", "note": 1}, req, allow))
+print("biz", validate_case({"case_id": "CASO-CUS-042-1A", "status": "maybe"}, req, allow))`,
+          output: `valid True
+extra False
+biz False`,
         },
-        why: "Hace observable `Pydantic y JSON Schema` con un caso local pequeño y deja como evidencia schema exportado y fixtures válidos/inválidos; el demo modela el contrato, no un servicio externo.",
+        why: "Muestra el modelo de extra=forbid: el ticket válido de Cusco pasa; un campo extra o un status fuera de vocabulario fallan antes de authz.",
       },
       {
         demoId: "S42-T1-B-DEMO",
         subtopicId: "S42-T1-B",
         environment: "local-python",
-        description: "Demo: evolución, discriminated unions y validación de negocio",
+        description: "Demo: lector v1 sobre cambio aditivo",
         code: {
           language: 'python',
           title: "demo_evolution_unions_business_val.py",
           code: `def business_amount(v1: dict) -> int:
-    # v1 readers ignore optional fields; amount remains required
     if "amount" not in v1:
         raise ValueError("amount")
     return int(v1["amount"])
 
+def evolution_ok(change: str, old_ok: bool, tags: set, handled: set) -> bool:
+    return change == "add_optional" and old_ok and tags == handled
+
 print(business_amount({"amount": 10, "currency": "PEN"}))
-print("err", "amount")
-print("evol", "add_optional")`,
+try:
+    business_amount({"currency": "PEN"})
+except ValueError as e:
+    print("err", e)
+print(
+    "evol",
+    evolution_ok("add_optional", True, {"email", "sms"}, {"email", "sms"}),
+)`,
           output: `10
 err amount
-evol add_optional`,
+evol True`,
         },
-        why: "Hace observable `evolución, discriminated unions y validación de negocio` con un caso local pequeño y deja como evidencia lector anterior conserva contrato; el demo modela el contrato, no un servicio externo.",
+        why: "El lector v1 sigue leyendo `amount` cuando aparece `currency` opcional; sin `amount` falla de verdad. `evolution_ok` confirma cambio aditivo con unión exhaustiva.",
       },
       {
         demoId: "S42-T2-A-DEMO",
         subtopicId: "S42-T2-A",
         environment: "local-python",
-        description: "Demo: authn/authz y RBAC",
+        description: "Demo: authn ≠ authz y no cross-tenant",
         code: {
           language: 'python',
           title: "demo_authn_authz_rbac.py",
-          code: `def authn(user_id: str) -> str:
-    return user_id
+          code: `def can_read(actor: str, owner: str, role: str, scopes=None) -> bool:
+    scopes = scopes or set()
+    if role == "admin" and "case:admin" in scopes:
+        return True
+    return actor == owner and "case:read" in scopes
 
-def roles_for(user_id: str) -> list:
-    return ["analyst"] if user_id else []
-
-print("authn", authn("u1"))
-print("roles", roles_for("u1"))
-print("authz_needed", True)`,
-          output: `authn u1
-roles ['analyst']
-authz_needed True`,
+print("same_tenant", can_read("u1", "u1", "analyst", {"case:read"}))
+print("cross_tenant", can_read("u1", "u2", "analyst", {"case:read"}))
+print("admin_override", can_read("u1", "u2", "admin", {"case:admin"}))`,
+          output: `same_tenant True
+cross_tenant False
+admin_override True`,
         },
-        why: "Hace observable `authn/authz y RBAC` con un caso local pequeño y deja como evidencia prueba actor A no lee caso B; el demo modela el contrato, no un servicio externo.",
+        why: "Separa identidad de permiso: el analista u1 lee su caso, se deniega el de u2, y solo admin con scope explícito cruza tenants — evidencia del gate no cross-tenant.",
       },
       {
         demoId: "S42-T2-B-DEMO",
         subtopicId: "S42-T2-B",
         environment: "local-python",
-        description: "Demo: scopes, service identities y deny-by-default",
+        description: "Demo: catálogo de scopes por identidad de servicio",
         code: {
           language: 'python',
           title: "demo_scopes_service_ids_deny.py",
           code: `def service_scopes(service_id: str) -> list:
-    catalog = {"er-worker": ["jobs:run"], "api": ["jobs:read"]}
+    catalog = {"svc-er-worker": ["jobs:run"], "svc-api": ["jobs:read"]}
     return catalog.get(service_id, [])
 
-print("er-worker")
-print(service_scopes("er-worker"))
-print("service_identity", True)`,
-          output: `er-worker
-['jobs:run']
-service_identity True`,
+def allow(service_id: str, needed: str) -> bool:
+    return needed in service_scopes(service_id)
+
+print("worker_run", allow("svc-er-worker", "jobs:run"))
+print("worker_admin", allow("svc-er-worker", "jobs:admin"))
+print("unknown", allow("shared-admin", "jobs:run"))`,
+          output: `worker_run True
+worker_admin False
+unknown False`,
         },
-        why: "Hace observable `scopes, service identities y deny-by-default` con un caso local pequeño y deja como evidencia matriz de scopes con denegaciones explícitas; el demo modela el contrato, no un servicio externo.",
+        why: "Deny-by-default por catálogo: el worker solo corre jobs; admin no granted y un principal desconocido no reciben scopes fantasma.",
       },
       {
         demoId: "S42-T3-A-DEMO",
         subtopicId: "S42-T3-A",
         environment: "local-python",
-        description: "Demo: input limits, injection y SSRF/path traversal",
+        description: "Demo: allowlist SSRF + path confinement",
         code: {
           language: 'python',
           title: "demo_limits_injection_ssrf_path.py",
@@ -399,104 +470,132 @@ service_identity True`,
     host = url.split("://", 1)[-1].split("/", 1)[0]
     return host in allow
 
+def safe_path(base: str, user_path: str) -> str:
+    if ".." in user_path.split("/"):
+        raise ValueError("traversal")
+    joined = f"{base.rstrip('/')}/{user_path.lstrip('/')}"
+    root = base.rstrip("/")
+    if not joined.startswith(root + "/") and joined != root:
+        raise ValueError("escape")
+    return joined
+
 print(url_allowed("https://docs.example.pe/a", {"docs.example.pe"}))
 print(url_allowed("http://169.254.169.254/", {"docs.example.pe"}))
-print("injection", "parameterized")`,
+try:
+    safe_path("/safe/reports", "../etc/passwd")
+except ValueError as e:
+    print("path", e)
+print("ok_path", safe_path("/safe/reports", "a.txt"))`,
           output: `True
 False
-injection parameterized`,
+path traversal
+ok_path /safe/reports/a.txt`,
         },
-        why: "Hace observable `input limits, injection y SSRF/path traversal` con un caso local pequeño y deja como evidencia payload/URL/ruta adversarial rechazada; el demo modela el contrato, no un servicio externo.",
+        why: "Calcula el rechazo: host de docs permitido, metadata cloud bloqueada y path con `..` lanza traversal — no hay print de etiqueta fija.",
       },
       {
         demoId: "S42-T3-B-DEMO",
         subtopicId: "S42-T3-B",
         environment: "local-python",
-        description: "Demo: secretos, cifrado y dependency risk",
+        description: "Demo: deps envejecidas y promote de secretos",
         code: {
           language: 'python',
           title: "demo_secrets_crypto_deps.py",
           code: `def risk_deps(deps: list, max_age_days: int = 180) -> list:
     return [d["name"] for d in deps if d.get("age_days", 0) > max_age_days]
 
-print("high", risk_deps([{"name": "old", "age_days": 400}]))
-print("crypto", "AES-GCM-at-rest")
-print("rotate", True)`,
+def promote_ok(secret_in_repo: bool, pinned: bool, cves: int) -> bool:
+    return (not secret_in_repo) and pinned and cves == 0
+
+print("high", risk_deps([{"name": "old", "age_days": 400}, {"name": "fresh", "age_days": 10}]))
+print("promote", promote_ok(False, True, 0))
+print("block", promote_ok(True, False, 2))`,
           output: `high ['old']
-crypto AES-GCM-at-rest
-rotate True`,
+promote True
+block False`,
         },
-        why: "Hace observable `secretos, cifrado y dependency risk` con un caso local pequeño y deja como evidencia scan sin secreto y rotación ensayada; el demo modela el contrato, no un servicio externo.",
+        why: "Deriva riesgo de deps viejas y bloquea promote si hay secreto en repo o CVE críticas — evidencia de ROTATE_AND_BLOCK.",
       },
       {
         demoId: "S42-T4-A-DEMO",
         subtopicId: "S42-T4-A",
         environment: "local-python",
-        description: "Demo: minimización, purpose y retención",
+        description: "Demo: drop de email en logs y purpose-bound",
         code: {
           language: 'python',
           title: "demo_minimize_purpose_retention.py",
-          code: `def for_log(record: dict) -> dict:
-    return {k: v for k, v in record.items() if k != "email"}
+          code: `def for_log(record: dict, allow: set) -> dict:
+    return {k: v for k, v in record.items() if k in allow}
 
-print(for_log({"case_id": "C1", "email": "x@example.pe"}))
-print("drop_email_for_log", True)
-print("purpose_bound", True)`,
-          output: `{'case_id': 'C1'}
-drop_email_for_log True
-purpose_bound True`,
+def retention_ok(days: int, max_days: int, purpose: str) -> bool:
+    return purpose == "status-report" and 0 < days <= max_days
+
+raw = {"case_id": "CASO-CUS-042-4A", "email": "x@example.pe", "region": "CUS"}
+view = for_log(raw, {"case_id", "region"})
+print(view)
+print("email_in_log", "email" in view)
+print("retention_ok", retention_ok(30, 30, "status-report"))`,
+          output: `{'case_id': 'CASO-CUS-042-4A', 'region': 'CUS'}
+email_in_log False
+retention_ok True`,
         },
-        why: "Hace observable `minimización, purpose y retención` con un caso local pequeño y deja como evidencia inventario propósito-campo-retención aprobado; el demo modela el contrato, no un servicio externo.",
+        why: "Minimiza el log al purpose de operaciones: el email no reaparece; la retención se calcula contra el techo del inventario de Cusco.",
       },
       {
         demoId: "S42-T4-B-DEMO",
         subtopicId: "S42-T4-B",
         environment: "local-python",
-        description: "Demo: audit, deletion, pseudonymization y acceso",
+        description: "Demo: borrado primario vs derivado vivo",
         code: {
           language: 'python',
           title: "demo_audit_delete_pseudo_access.py",
           code: `def deleted_gone(store: dict, case_id: str) -> bool:
     return case_id not in store
 
-store = {"C1": {"status": "open"}}
-del store["C1"]
-print(deleted_gone(store, "C1"))
-print(deleted_gone({"C1": {}}, "C1"))
-print("no_cross_tenant", True)`,
-          output: `True
-False
-no_cross_tenant True`,
+def purge_complete(primary: dict, derived: dict, case_id: str) -> bool:
+    return deleted_gone(primary, case_id) and deleted_gone(derived, case_id)
+
+primary = {"C1": {"status": "open"}}
+derived = {"C1": {"export": "snapshot.csv"}}
+del primary["C1"]
+print("primary_gone", deleted_gone(primary, "C1"))
+print("derived_still", not deleted_gone(derived, "C1"))
+print("must_purge_derived", not purge_complete(primary, derived, "C1"))`,
+          output: `primary_gone True
+derived_still True
+must_purge_derived True`,
         },
-        why: "Hace observable `audit, deletion, pseudonymization y acceso` con un caso local pequeño y deja como evidencia borrado y no-reaparición verificados; el demo modela el contrato, no un servicio externo.",
+        why: "Borrar la fila primaria no basta: `purge_complete` es False mientras el export derivado sigue vivo — evidencia de PURGE_DERIVATIVES pendiente.",
       },
     ],
   },
   weDo: {
-    intro: "S42 · Laboratorio Threat model y matriz de permisos del control plane: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
+    intro: "S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre CASO-CUS-042. Cada E1 repara el cuerpo de una función de decisión de seguridad (schema, evolución, can_read, allow/scopes, trusted/SSRF-path, promote_ok, inventory_ok, purge_ok). E2 separa valid/adversarial/missing (missing ≠ breach) y E3 cierra fail-closed con códigos de acción. Entrena el control, no el «flip» de un booleano precomputado.",
     steps: [
       {
         id: "S42-T1-A-E1",
         subtopicId: "S42-T1-A",
         kind: "guided",
-        instruction: "S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más regla de negocio. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_SCHEMA` en E2.",
-        hint: "Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.",
+        instruction: "S42-T1-A-E1 · Valida el payload de `CASO-CUS-042-1A` con schema estricto (required ⊆ keys ⊆ allowed) y regla de negocio sobre `status`. El starter acepta cualquier dict con las claves required e ignora extras y el vocabulario de status. Corrige solo el predicado. Salida exacta: `S42-T1-A PASS`.",
+        hint: "Modelo de extra=forbid: `set(payload) ⊆ allowed` y `status ∈ {open, closed}`.",
         hints: [
-          "Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva schema exportado y fixtures válidos/inválidos; revisa dirección de comparación, conjuntos y negaciones.",
+          "Modelo de extra=forbid: `set(payload) ⊆ allowed` y `status ∈ {open, closed}`.",
+          "El fixture válido solo tiene case_id y status=open; no inventes campos ni cambies los datos.",
         ],
-        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
-        tests: "El fixture `CASO-CUS-042-1A` satisface un predicado de dominio real; imprime `S42-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S42-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
+        edgeCases: ["campo extra no listado", "status fuera de vocabulario", "CASO-CUS-042-1A es sintético"],
+        tests: "El fixture `CASO-CUS-042-1A` satisface el schema estricto; imprime `S42-T1-A PASS` y el assert booleano pasa.",
+        feedback: "S42-T1-A-E1: explica por qué required⊆keys⊆allowed modela extra=forbid y por qué un status inválido es REJECT_SCHEMA, no authz.",
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e1.py",
-          code: `# CASO-LIM-042 · Pydantic extra=forbid + business rule
-# DEFECT: PASS si extra allow y no business_rule
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-# DEFECT: extra debe rechazarse; business_rule es obligatoria
-meets_contract = record["extra_policy"] == "allow" and not record["business_rule"]
+          code: `# CASO-CUS-042 · schema estricto (extra=forbid) + status
+# Defecto didáctico: el predicado solo exige required; acepta extras y status basura.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+payload = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+required = {"case_id", "status"}
+allowed = {"case_id", "status"}
+# Defecto: incompleto — no rechaza claves extra ni valida status
+meets_contract = required.issubset(payload)
 status = "PASS" if meets_contract else "REJECT_SCHEMA"
 print("S42-T1-A", status)
 ` ,
@@ -504,8 +603,14 @@ print("S42-T1-A", status)
         solutionCode: {
           language: 'python',
           title: "s42-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-meets_contract = record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule"))
+          code: `payload = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+required = {"case_id", "status"}
+allowed = {"case_id", "status"}
+meets_contract = (
+    required.issubset(payload)
+    and set(payload).issubset(allowed)
+    and payload.get("status") in {"open", "closed"}
+)
 status = "PASS" if meets_contract else "REJECT_SCHEMA"
 print("S42-T1-A", status)
 assert meets_contract is True` ,
@@ -516,32 +621,30 @@ assert meets_contract is True` ,
         id: "S42-T1-A-E2",
         subtopicId: "S42-T1-A",
         kind: "independent",
-        instruction: "S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, valid_fixture, business_rule. Salidas exactas: `PASS`, `REJECT_SCHEMA`, `MISSING:business_rule`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.",
+        instruction: "S42-T1-A-E2 · Tres rutas de schema: payload válido, payload con campo extra (breach) y registro sin `status` (missing). Salidas exactas: `PASS`, `REJECT_SCHEMA`, `MISSING:status`. Missing se evalúa antes del contenido; el adverso falla por clave no permitida, no por un flag inventado.",
+        hint: "Si falta `status`, devuelve MISSING:status sin mirar extras.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T1-A: schema estricto más regla de negocio. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta `status`, devuelve MISSING:status sin mirar extras.",
+          "Con payload completo: required ⊆ keys ⊆ allowed y status ∈ {open, closed}; si no, REJECT_SCHEMA.",
         ],
-        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `business_rule` ausente y produce exactamente `PASS REJECT_SCHEMA MISSING:business_rule`.",
-        feedback: "S42-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
+        edgeCases: ["falta status", "campo extra adversarial", "CASO-CUS-042-1A es sintético"],
+        tests: "La tabla cubre válido/extra/sin status y produce exactamente `PASS REJECT_SCHEMA MISSING:status`.",
+        feedback: "S42-T1-A-E2: missing ≠ breach — faltar status no es lo mismo que aceptar un extra; explica la diferencia al revisor.",
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e2.py",
-          code: `# CASO-LIM-042 · assess schema reject
-# DEFECT: PASS con extra allow sin business_rule
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-def assess(record: dict) -> str:
-    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "MISSING:" + ",".join(missing)
-    return "PASS" if record["extra_policy"] == "allow" and not record["business_rule"] else "REJECT_SCHEMA"
+          code: `# CASO-CUS-042 · assess schema reject sobre payloads reales
+# Defecto didáctico: PASS si hay cualquier clave (incluye extras) y no valida status.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def assess(payload: dict) -> str:
+    if "status" not in payload:
+        return "MISSING:status"
+    # Defecto: acepta cualquier payload con status, incluso con extras basura
+    return "PASS" if "case_id" in payload else "REJECT_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
-incomplete = {**valid}
-incomplete.pop("business_rule")
+valid = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+invalid = {"case_id": "CASO-CUS-042-1A", "status": "open", "note_interna": "x"}
+incomplete = {"case_id": "CASO-CUS-042-1A"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -549,53 +652,55 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "MISSING:" + ",".join(missing)
-    return "PASS" if record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule")) else "REJECT_SCHEMA"
+          code: `def assess(payload: dict) -> str:
+    if "status" not in payload:
+        return "MISSING:status"
+    required = {"case_id", "status"}
+    allowed = {"case_id", "status"}
+    ok = (
+        required.issubset(payload)
+        and set(payload).issubset(allowed)
+        and payload.get("status") in {"open", "closed"}
+    )
+    return "PASS" if ok else "REJECT_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
-incomplete = {**valid}
-incomplete.pop("business_rule")
+valid = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+invalid = {"case_id": "CASO-CUS-042-1A", "status": "open", "note_interna": "x"}
+incomplete = {"case_id": "CASO-CUS-042-1A"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
-          output: `PASS REJECT_SCHEMA MISSING:business_rule` ,
+          output: `PASS REJECT_SCHEMA MISSING:status` ,
         },
       },
       {
         id: "S42-T1-A-E3",
         subtopicId: "S42-T1-A",
         kind: "transfer",
-        instruction: "S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule` debe devolver `REVIEW_BUSINESS_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.",
+        instruction: "S42-T1-A-E3 · Fail-closed sobre tres payloads: válido → `CONTINUE`, extra no permitido → `REJECT_SCHEMA`, sin `status` → `REVIEW_BUSINESS_INVARIANT`. El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas sin inventar evidencia.",
+        hint: "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró schema estricto más regla de negocio; solo ese caso devuelve `CONTINUE`.",
+          "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
+          "Con payload completo reutiliza required ⊆ keys ⊆ allowed y status en vocabulario; solo ese caso es CONTINUE.",
         ],
-        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
-        tests: "Fixtures `CASO-CUS-042-1A`, adverso y sin `business_rule` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
+        edgeCases: ["falta status", "campo extra adversarial", "CASO-CUS-042-1A es sintético"],
+        tests: "Fixtures válido, con extra y sin status prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T1-A-E3: explica por qué REVIEW_BUSINESS_INVARIANT preserva auditabilidad cuando falta status y por qué el extra no se convierte en CONTINUE.",
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e3.py",
-          code: `# CASO-LIM-042 · decide REJECT_SCHEMA
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-def decide(record: dict) -> str:
-    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
-    missing = sorted(required - record.keys())
-    if missing:
+          code: `# CASO-CUS-042 · decide REJECT_SCHEMA sobre payloads
+# Defecto didáctico: missing→CONTINUE; extras se aceptan como CONTINUE.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def decide(payload: dict) -> str:
+    if "status" not in payload:
         return "CONTINUE"
-    return "CONTINUE" if record["extra_policy"] == "allow" and not record["business_rule"] else "REJECT_SCHEMA"
+    # Defecto: cualquier status presente continúa, aunque haya extras
+    return "CONTINUE" if "case_id" in payload else "REJECT_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
-uncertain = {**valid}
-uncertain.pop("business_rule")
+valid = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+invalid = {"case_id": "CASO-CUS-042-1A", "status": "open", "note_interna": "x"}
+uncertain = {"case_id": "CASO-CUS-042-1A"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -603,17 +708,21 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
-    missing = sorted(required - record.keys())
-    if missing:
+          code: `def decide(payload: dict) -> str:
+    if "status" not in payload:
         return "REVIEW_BUSINESS_INVARIANT"
-    return "CONTINUE" if record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule")) else "REJECT_SCHEMA"
+    required = {"case_id", "status"}
+    allowed = {"case_id", "status"}
+    ok = (
+        required.issubset(payload)
+        and set(payload).issubset(allowed)
+        and payload.get("status") in {"open", "closed"}
+    )
+    return "CONTINUE" if ok else "REJECT_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
-invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
-uncertain = {**valid}
-uncertain.pop("business_rule")
+valid = {"case_id": "CASO-CUS-042-1A", "status": "open"}
+invalid = {"case_id": "CASO-CUS-042-1A", "status": "open", "note_interna": "x"}
+uncertain = {"case_id": "CASO-CUS-042-1A"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_SCHEMA", "REVIEW_BUSINESS_INVARIANT"]` ,
@@ -624,24 +733,30 @@ assert results == ["CONTINUE", "REJECT_SCHEMA", "REVIEW_BUSINESS_INVARIANT"]` ,
         id: "S42-T1-B-E1",
         subtopicId: "S42-T1-B",
         kind: "guided",
-        instruction: "S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación debe demostrar cambio aditivo y union exhaustiva. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `VERSION_SCHEMA` en E2.",
-        hint: "Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.",
+        instruction: "S42-T1-B-E1 · Sobre `CASO-CUS-042-1B`, implementa `evolution_ok(change, old_reader_passes, union_tags, handled_tags)`: PASS solo con cambio aditivo, lector v1 OK y tags de unión exhaustivos. El starter marca PASS ante `rename_required` o tags incompletos (invertido). Salida exacta: `S42-T1-B PASS`.",
+        hint: "PASS si change=='add_optional' y old_reader_passes y union_tags == handled_tags.",
         hints: [
-          "Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva lector anterior conserva contrato; revisa dirección de comparación, conjuntos y negaciones.",
+          "PASS si change=='add_optional' y old_reader_passes y union_tags == handled_tags.",
+          "Un rename_required o un tag sin handler no es evolución segura: VERSION_SCHEMA.",
         ],
-        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
-        tests: "El fixture `CASO-CUS-042-1B` satisface un predicado de dominio real; imprime `S42-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S42-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
+        edgeCases: ["rename_required", "tag push sin handler", "CASO-CUS-042-1B es sintético"],
+        tests: "El fixture aditivo con tags email/phone manejados imprime `S42-T1-B PASS`.",
+        feedback: "S42-T1-B-E1: la evolución segura es aditiva y exhaustiva; rename o tags huérfanos rompen lectores previos.",
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e1.py",
-          code: `# CASO-LIM-042 · schema evolution compatibility
-# DEFECT: PASS si rename_required o union tags incompletos
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-# DEFECT: rename_required y unions incompletas bloquean evolución
-meets_contract = record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"]
+          code: `# CASO-CUS-042 · evolución aditiva + union exhaustiva
+# Defecto didáctico: evolution_ok acepta rename o tags incompletos.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def evolution_ok(change: str, old_ok: bool, tags: set, handled: set) -> bool:
+    # Defecto: invierte el criterio de compatibilidad
+    return change == "rename_required" or tags != handled
+
+change = "add_optional"
+old_reader_passes = True
+union_tags = {"email", "phone"}
+handled_tags = {"email", "phone"}
+meets_contract = evolution_ok(change, old_reader_passes, union_tags, handled_tags)
 status = "PASS" if meets_contract else "VERSION_SCHEMA"
 print("S42-T1-B", status)
 ` ,
@@ -649,8 +764,14 @@ print("S42-T1-B", status)
         solutionCode: {
           language: 'python',
           title: "s42-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-meets_contract = record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"]
+          code: `def evolution_ok(change: str, old_ok: bool, tags: set, handled: set) -> bool:
+    return change == "add_optional" and old_ok and tags == handled
+
+change = "add_optional"
+old_reader_passes = True
+union_tags = {"email", "phone"}
+handled_tags = {"email", "phone"}
+meets_contract = evolution_ok(change, old_reader_passes, union_tags, handled_tags)
 status = "PASS" if meets_contract else "VERSION_SCHEMA"
 print("S42-T1-B", status)
 assert meets_contract is True` ,
@@ -661,30 +782,31 @@ assert meets_contract is True` ,
         id: "S42-T1-B-E2",
         subtopicId: "S42-T1-B",
         kind: "independent",
-        instruction: "S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con case_id, change, old_reader_passes, union_tags, handled_tags. Salidas exactas: `PASS`, `VERSION_SCHEMA`, `MISSING:handled_tags`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.",
+        instruction: "S42-T1-B-E2 · Tres rutas de evolución: aditiva exhaustiva → `PASS`; rename + tag huérfano → `VERSION_SCHEMA`; sin `handled_tags` → `MISSING:handled_tags`. El starter invierte el criterio de compatibilidad.",
+        hint: "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T1-B: cambio aditivo y union exhaustiva. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
+          "El adverso (rename_required + push sin handler) debe fallar por contenido de evolución, no por schema vacío.",
         ],
-        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `handled_tags` ausente y produce exactamente `PASS VERSION_SCHEMA MISSING:handled_tags`.",
-        feedback: "S42-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
+        edgeCases: ["falta handled_tags", "rename_required", "tag push sin handler", "CASO-CUS-042-1B es sintético"],
+        tests: "Produce exactamente `PASS VERSION_SCHEMA MISSING:handled_tags`.",
+        feedback: "S42-T1-B-E2: VERSION_SCHEMA es rupture de contrato; MISSING:handled_tags es incertidumbre de migración (missing ≠ breach).",
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e2.py",
-          code: `# CASO-LIM-042 · assess VERSION_SCHEMA
-# DEFECT: PASS con breaking change o tags no handled
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess VERSION_SCHEMA
+# Defecto didáctico: PASS con rename o tags incompletos.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
 def assess(record: dict) -> str:
     required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
+    # Defecto: invierte compatibilidad
     return "PASS" if record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"] else "VERSION_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+valid = {"case_id": "CASO-CUS-042-1B", "change": "add_optional", "old_reader_passes": True, "union_tags": {"email", "phone"}, "handled_tags": {"email", "phone"}}
+invalid = {"case_id": "CASO-CUS-042-1B", "change": "rename_required", "old_reader_passes": False, "union_tags": {"email", "phone", "push"}, "handled_tags": {"email", "phone"}}
 incomplete = {**valid}
 incomplete.pop("handled_tags")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -699,10 +821,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"] else "VERSION_SCHEMA"
+    ok = (
+        record["change"] == "add_optional"
+        and record["old_reader_passes"]
+        and record["union_tags"] == record["handled_tags"]
+    )
+    return "PASS" if ok else "VERSION_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+valid = {"case_id": "CASO-CUS-042-1B", "change": "add_optional", "old_reader_passes": True, "union_tags": {"email", "phone"}, "handled_tags": {"email", "phone"}}
+invalid = {"case_id": "CASO-CUS-042-1B", "change": "rename_required", "old_reader_passes": False, "union_tags": {"email", "phone", "push"}, "handled_tags": {"email", "phone"}}
 incomplete = {**valid}
 incomplete.pop("handled_tags")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -715,21 +842,21 @@ print(*results)
         id: "S42-T1-B-E3",
         subtopicId: "S42-T1-B",
         kind: "transfer",
-        instruction: "S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCHEMA` y la ausencia de `handled_tags` debe devolver `MIGRATE_CONSUMERS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.",
+        instruction: "S42-T1-B-E3 · Fail-closed de evolución: aditiva → `CONTINUE`, rupture → `VERSION_SCHEMA`, sin `handled_tags` → `MIGRATE_CONSUMERS`. El starter trata missing como CONTINUE y acepta rename.",
+        hint: "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró cambio aditivo y union exhaustiva; solo ese caso devuelve `CONTINUE`.",
+          "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
+          "Missing no es breach: no lo enrutes a CONTINUE ni a VERSION_SCHEMA.",
         ],
-        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
-        tests: "Fixtures `CASO-CUS-042-1B`, adverso y sin `handled_tags` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
+        edgeCases: ["falta handled_tags", "rename_required", "CASO-CUS-042-1B es sintético"],
+        tests: "Produce `CONTINUE VERSION_SCHEMA MIGRATE_CONSUMERS` en ese orden.",
+        feedback: "S42-T1-B-E3: MIGRATE_CONSUMERS es la rama humana cuando no hay mapa de handlers; VERSION_SCHEMA es la rupture demostrada.",
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e3.py",
-          code: `# CASO-LIM-042 · decide VERSION_SCHEMA
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide VERSION_SCHEMA
+# Defecto didáctico: missing→CONTINUE; rename→CONTINUE.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
 def decide(record: dict) -> str:
     required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
     missing = sorted(required - record.keys())
@@ -737,8 +864,8 @@ def decide(record: dict) -> str:
         return "CONTINUE"
     return "CONTINUE" if record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"] else "VERSION_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+valid = {"case_id": "CASO-CUS-042-1B", "change": "add_optional", "old_reader_passes": True, "union_tags": {"email", "phone"}, "handled_tags": {"email", "phone"}}
+invalid = {"case_id": "CASO-CUS-042-1B", "change": "rename_required", "old_reader_passes": False, "union_tags": {"email", "phone", "push"}, "handled_tags": {"email", "phone"}}
 uncertain = {**valid}
 uncertain.pop("handled_tags")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -753,10 +880,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MIGRATE_CONSUMERS"
-    return "CONTINUE" if record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"] else "VERSION_SCHEMA"
+    ok = (
+        record["change"] == "add_optional"
+        and record["old_reader_passes"]
+        and record["union_tags"] == record["handled_tags"]
+    )
+    return "CONTINUE" if ok else "VERSION_SCHEMA"
 
-valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
-invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+valid = {"case_id": "CASO-CUS-042-1B", "change": "add_optional", "old_reader_passes": True, "union_tags": {"email", "phone"}, "handled_tags": {"email", "phone"}}
+invalid = {"case_id": "CASO-CUS-042-1B", "change": "rename_required", "old_reader_passes": False, "union_tags": {"email", "phone", "push"}, "handled_tags": {"email", "phone"}}
 uncertain = {**valid}
 uncertain.pop("handled_tags")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -769,24 +901,29 @@ assert results == ["CONTINUE", "VERSION_SCHEMA", "MIGRATE_CONSUMERS"]` ,
         id: "S42-T2-A-E1",
         subtopicId: "S42-T2-A",
         kind: "guided",
-        instruction: "S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y pertenencia del recurso. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_CROSS_TENANT` en E2.",
-        hint: "Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.",
+        instruction: "S42-T2-A-E1 · Sobre `CASO-CUS-042-2A`, repara `can_read(actor, owner, scopes)` del camino analista: allow solo si `actor == owner` y `case:read` ∈ scopes. El starter permite cross-tenant (actor ≠ owner). Salida exacta: `S42-T2-A PASS`.",
+        hint: "return actor == owner and 'case:read' in scopes (no uses admin aquí).",
         hints: [
-          "Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva prueba actor A no lee caso B; revisa dirección de comparación, conjuntos y negaciones.",
+          "return actor == owner and 'case:read' in scopes (no uses admin aquí).",
+          "El fixture válido es user-a sobre su propio caso; user-a sobre user-b debe ser DENY en E2.",
         ],
-        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
-        tests: "El fixture `CASO-CUS-042-2A` satisface un predicado de dominio real; imprime `S42-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S42-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
+        edgeCases: ["cross-tenant user-a→user-b", "falta scope case:read", "CASO-CUS-042-2A es sintético"],
+        tests: "can_read(user-a, user-a, {case:read}) es True e imprime `S42-T2-A PASS`.",
+        feedback: "S42-T2-A-E1: authn del actor no basta; el resource binding actor==owner + scope cierra el cross-tenant.",
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e1.py",
-          code: `# CASO-LIM-042 · authz actor==owner
-# DEFECT: PASS si authenticated y actor≠owner (cross-tenant)
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-# DEFECT: authn sin authz cross-tenant es DENY
-meets_contract = record["authenticated"] and record["actor"] != record["resource_owner"]
+          code: `# CASO-CUS-042 · can_read con resource binding
+# Defecto didáctico: allow si actor ≠ owner (cross-tenant abierto).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def can_read(actor: str, owner: str, scopes: set) -> bool:
+    # Defecto: privilegio cruzado
+    return actor != owner
+
+actor = "user-a"
+owner = "user-a"
+scopes = {"case:read"}
+meets_contract = can_read(actor, owner, scopes)
 status = "PASS" if meets_contract else "DENY_CROSS_TENANT"
 print("S42-T2-A", status)
 ` ,
@@ -794,8 +931,13 @@ print("S42-T2-A", status)
         solutionCode: {
           language: 'python',
           title: "s42-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-meets_contract = record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"]
+          code: `def can_read(actor: str, owner: str, scopes: set) -> bool:
+    return actor == owner and "case:read" in scopes
+
+actor = "user-a"
+owner = "user-a"
+scopes = {"case:read"}
+meets_contract = can_read(actor, owner, scopes)
 status = "PASS" if meets_contract else "DENY_CROSS_TENANT"
 print("S42-T2-A", status)
 assert meets_contract is True` ,
@@ -806,30 +948,31 @@ assert meets_contract is True` ,
         id: "S42-T2-A-E2",
         subtopicId: "S42-T2-A",
         kind: "independent",
-        instruction: "S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner, roles. Salidas exactas: `PASS`, `DENY_CROSS_TENANT`, `MISSING:roles`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.",
+        instruction: "S42-T2-A-E2 · Tres rutas de lectura: mismo tenant + `case:read` → `PASS`; actor sobre caso ajeno → `DENY_CROSS_TENANT`; sin scopes en el registro → `MISSING:roles`. El starter abre cross-tenant y no exige el scope.",
+        hint: "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T2-A: identidad, permiso y pertenencia del recurso. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
+          "Missing ≠ breach: no inventes scopes vacíos como allow.",
         ],
-        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `roles` ausente y produce exactamente `PASS DENY_CROSS_TENANT MISSING:roles`.",
-        feedback: "S42-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
+        edgeCases: ["falta roles", "cross-tenant user-a→user-b", "CASO-CUS-042-2A es sintético"],
+        tests: "Produce exactamente `PASS DENY_CROSS_TENANT MISSING:roles`.",
+        feedback: "S42-T2-A-E2: el DENY es por resource binding fallido; el MISSING es incertidumbre de permiso, no lectura cruzada probada.",
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e2.py",
-          code: `# CASO-LIM-042 · assess DENY_CROSS_TENANT
-# DEFECT: PASS con actor distinto del resource_owner
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess DENY_CROSS_TENANT
+# Defecto didáctico: PASS si actor ≠ owner; ignora case:read.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
 def assess(record: dict) -> str:
     required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
+    # Defecto: cross-tenant abierto y sin chequear scope
     return "PASS" if record["authenticated"] and record["actor"] != record["resource_owner"] else "DENY_CROSS_TENANT"
 
-valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+valid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-a", "roles": {"case:read"}}
+invalid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-b", "roles": {"case:read"}}
 incomplete = {**valid}
 incomplete.pop("roles")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -844,10 +987,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"] else "DENY_CROSS_TENANT"
+    ok = (
+        record["authenticated"]
+        and record["actor"] == record["resource_owner"]
+        and "case:read" in record["roles"]
+    )
+    return "PASS" if ok else "DENY_CROSS_TENANT"
 
-valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+valid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-a", "roles": {"case:read"}}
+invalid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-b", "roles": {"case:read"}}
 incomplete = {**valid}
 incomplete.pop("roles")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -860,21 +1008,21 @@ print(*results)
         id: "S42-T2-A-E3",
         subtopicId: "S42-T2-A",
         kind: "transfer",
-        instruction: "S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe devolver `VERIFY_RESOURCE_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.",
+        instruction: "S42-T2-A-E3 · Fail-closed de lectura: mismo tenant → `CONTINUE`, cross-tenant → `DENY_CROSS_TENANT`, sin `roles` → `VERIFY_RESOURCE_OWNER`. El starter trata missing como CONTINUE y abre el cross-tenant.",
+        hint: "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró identidad, permiso y pertenencia del recurso; solo ese caso devuelve `CONTINUE`.",
+          "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
+          "Missing no es breach: no lo conviertas en CONTINUE silencioso.",
         ],
-        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
-        tests: "Fixtures `CASO-CUS-042-2A`, adverso y sin `roles` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
+        edgeCases: ["falta roles", "cross-tenant user-a→user-b", "CASO-CUS-042-2A es sintético"],
+        tests: "Produce `CONTINUE DENY_CROSS_TENANT VERIFY_RESOURCE_OWNER` en ese orden.",
+        feedback: "S42-T2-A-E3: VERIFY_RESOURCE_OWNER es la rama humana cuando no hay matriz de permisos; DENY es la prueba de cross-tenant.",
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e3.py",
-          code: `# CASO-LIM-042 · decide DENY_CROSS_TENANT
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide DENY_CROSS_TENANT
+# Defecto didáctico: missing→CONTINUE; cross-tenant→CONTINUE.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
 def decide(record: dict) -> str:
     required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
     missing = sorted(required - record.keys())
@@ -882,8 +1030,8 @@ def decide(record: dict) -> str:
         return "CONTINUE"
     return "CONTINUE" if record["authenticated"] and record["actor"] != record["resource_owner"] else "DENY_CROSS_TENANT"
 
-valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+valid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-a", "roles": {"case:read"}}
+invalid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-b", "roles": {"case:read"}}
 uncertain = {**valid}
 uncertain.pop("roles")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -898,10 +1046,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "VERIFY_RESOURCE_OWNER"
-    return "CONTINUE" if record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"] else "DENY_CROSS_TENANT"
+    ok = (
+        record["authenticated"]
+        and record["actor"] == record["resource_owner"]
+        and "case:read" in record["roles"]
+    )
+    return "CONTINUE" if ok else "DENY_CROSS_TENANT"
 
-valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
-invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+valid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-a", "roles": {"case:read"}}
+invalid = {"case_id": "CASO-CUS-042-2A", "authenticated": True, "actor": "user-a", "resource_owner": "user-b", "roles": {"case:read"}}
 uncertain = {**valid}
 uncertain.pop("roles")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -914,24 +1067,30 @@ assert results == ["CONTINUE", "DENY_CROSS_TENANT", "VERIFY_RESOURCE_OWNER"]` ,
         id: "S42-T2-B-E1",
         subtopicId: "S42-T2-B",
         kind: "guided",
-        instruction: "S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar scope estrecho, identidad propia y ruta declarada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DENY_SCOPE` en E2.",
-        hint: "Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.",
+        instruction: "S42-T2-B-E1 · Implementa `allow(granted, needed, service_id, route_declared)` para el worker de reportes de Cusco: True solo si `needed ∈ granted`, `service_id` empieza por `svc-` y la ruta está en catálogo. El starter deniega cuando el scope *sí* está granted (cuerpo invertido). No toques los datos del fixture. Salida exacta: `S42-T2-B PASS`.",
+        hint: "return needed in granted and service_id.startswith('svc-') and route_declared",
         hints: [
-          "Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva matriz de scopes con denegaciones explícitas; revisa dirección de comparación, conjuntos y negaciones.",
+          "return needed in granted and service_id.startswith('svc-') and route_declared",
+          "Un principal `shared-admin` no es identidad de servicio: en E2 debe caer en DENY_SCOPE junto con prod:write.",
         ],
-        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
-        tests: "El fixture `CASO-CUS-042-2B` satisface un predicado de dominio real; imprime `S42-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S42-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
+        edgeCases: ["scope prod:write no granted", "service_id shared-admin", "falta route_declared", "CASO-CUS-042-2B es sintético"],
+        tests: "allow({report:prepare}, report:prepare, svc-reporter, True) es True e imprime `S42-T2-B PASS`.",
+        feedback: "S42-T2-B-E1: deny-by-default exige las tres condiciones a la vez; grant de report no autoriza prod:write ni un principal genérico.",
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e1.py",
-          code: `# CASO-LIM-042 · OAuth scopes on route
-# DEFECT: PASS si scope no granted o route no declared
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-# DEFECT: scope faltante o ruta no declarada → DENY
-meets_contract = record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"]
+          code: `# CASO-CUS-042 · scopes + identidad de servicio + ruta
+# Defecto didáctico: allow cuando el scope NO está granted o la ruta no está.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    # Defecto: predicado invertido e incompleto (no exige svc-)
+    return needed not in granted or not route_declared
+
+granted = {"report:prepare"}
+needed = "report:prepare"
+service_id = "svc-reporter"
+route_declared = True
+meets_contract = allow(granted, needed, service_id, route_declared)
 status = "PASS" if meets_contract else "DENY_SCOPE"
 print("S42-T2-B", status)
 ` ,
@@ -939,8 +1098,14 @@ print("S42-T2-B", status)
         solutionCode: {
           language: 'python',
           title: "s42-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-meets_contract = record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"]
+          code: `def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    return needed in granted and service_id.startswith("svc-") and route_declared
+
+granted = {"report:prepare"}
+needed = "report:prepare"
+service_id = "svc-reporter"
+route_declared = True
+meets_contract = allow(granted, needed, service_id, route_declared)
 status = "PASS" if meets_contract else "DENY_SCOPE"
 print("S42-T2-B", status)
 assert meets_contract is True` ,
@@ -951,30 +1116,39 @@ assert meets_contract is True` ,
         id: "S42-T2-B-E2",
         subtopicId: "S42-T2-B",
         kind: "independent",
-        instruction: "S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, requested_scope, granted_scopes, service_id, route_declared. Salidas exactas: `PASS`, `DENY_SCOPE`, `MISSING:route_declared`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.",
+        instruction: "S42-T2-B-E2 · Tres filas de la matriz de scopes: (1) `svc-reporter` + `report:prepare` + ruta OK → `PASS`; (2) `prod:write` con grant de report y `shared-admin` → `DENY_SCOPE`; (3) sin `route_declared` → `MISSING:route_declared`. El starter invierte el allow y trata el adverso como PASS.",
+        hint: "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T2-B: scope estrecho, identidad propia y ruta declarada. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
+          "Missing ≠ breach: no inventes route_declared=True para «arreglar» la fila incompleta.",
         ],
-        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `route_declared` ausente y produce exactamente `PASS DENY_SCOPE MISSING:route_declared`.",
-        feedback: "S42-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
+        edgeCases: ["falta route_declared", "prod:write + shared-admin", "CASO-CUS-042-2B es sintético"],
+        tests: "Produce exactamente `PASS DENY_SCOPE MISSING:route_declared`.",
+        feedback: "S42-T2-B-E2: DENY_SCOPE es privilege real (scope/identidad/ruta); MISSING es catálogo incompleto — no lo confundes con allow.",
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e2.py",
-          code: `# CASO-LIM-042 · assess DENY_SCOPE
-# DEFECT: PASS sin scope o sin route_declared
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess DENY_SCOPE sobre filas de matriz
+# Defecto didáctico: allow invertido (PASS sin scope o sin route).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    return needed not in granted or not route_declared
+
 def assess(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"] else "DENY_SCOPE"
+    ok = allow(
+        record["granted_scopes"],
+        record["requested_scope"],
+        record["service_id"],
+        record["route_declared"],
+    )
+    return "PASS" if ok else "DENY_SCOPE"
 
-valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+valid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "report:prepare", "granted_scopes": {"report:prepare"}, "service_id": "svc-reporter", "route_declared": True}
+invalid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "prod:write", "granted_scopes": {"report:prepare"}, "service_id": "shared-admin", "route_declared": False}
 incomplete = {**valid}
 incomplete.pop("route_declared")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -984,15 +1158,24 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    return needed in granted and service_id.startswith("svc-") and route_declared
+
+def assess(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"] else "DENY_SCOPE"
+    ok = allow(
+        record["granted_scopes"],
+        record["requested_scope"],
+        record["service_id"],
+        record["route_declared"],
+    )
+    return "PASS" if ok else "DENY_SCOPE"
 
-valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+valid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "report:prepare", "granted_scopes": {"report:prepare"}, "service_id": "svc-reporter", "route_declared": True}
+invalid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "prod:write", "granted_scopes": {"report:prepare"}, "service_id": "shared-admin", "route_declared": False}
 incomplete = {**valid}
 incomplete.pop("route_declared")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1005,30 +1188,39 @@ print(*results)
         id: "S42-T2-B-E3",
         subtopicId: "S42-T2-B",
         kind: "transfer",
-        instruction: "S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausencia de `route_declared` debe devolver `REQUEST_NARROW_GRANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.",
+        instruction: "S42-T2-B-E3 · Fail-closed de scopes: grant estrecho → `CONTINUE`, prod:write/shared-admin → `DENY_SCOPE`, sin ruta en catálogo → `REQUEST_NARROW_GRANT`. El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas.",
+        hint: "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró scope estrecho, identidad propia y ruta declarada; solo ese caso devuelve `CONTINUE`.",
+          "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
+          "REQUEST_NARROW_GRANT es la rama humana de catálogo incompleto; no es un DENY de privilege.",
         ],
-        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
-        tests: "Fixtures `CASO-CUS-042-2B`, adverso y sin `route_declared` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
+        edgeCases: ["falta route_declared", "prod:write no granted", "CASO-CUS-042-2B es sintético"],
+        tests: "Produce `CONTINUE DENY_SCOPE REQUEST_NARROW_GRANT` en ese orden.",
+        feedback: "S42-T2-B-E3: el transfer cierra la matriz — allow real, denegación explícita y grant estrecho pendiente cuando falta la ruta.",
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e3.py",
-          code: `# CASO-LIM-042 · decide DENY_SCOPE
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide DENY_SCOPE / REQUEST_NARROW_GRANT
+# Defecto didáctico: missing→CONTINUE; allow invertido.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    return needed not in granted or not route_declared
+
 def decide(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"] else "DENY_SCOPE"
+    ok = allow(
+        record["granted_scopes"],
+        record["requested_scope"],
+        record["service_id"],
+        record["route_declared"],
+    )
+    return "CONTINUE" if ok else "DENY_SCOPE"
 
-valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+valid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "report:prepare", "granted_scopes": {"report:prepare"}, "service_id": "svc-reporter", "route_declared": True}
+invalid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "prod:write", "granted_scopes": {"report:prepare"}, "service_id": "shared-admin", "route_declared": False}
 uncertain = {**valid}
 uncertain.pop("route_declared")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1038,15 +1230,24 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:
+    return needed in granted and service_id.startswith("svc-") and route_declared
+
+def decide(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_NARROW_GRANT"
-    return "CONTINUE" if record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"] else "DENY_SCOPE"
+    ok = allow(
+        record["granted_scopes"],
+        record["requested_scope"],
+        record["service_id"],
+        record["route_declared"],
+    )
+    return "CONTINUE" if ok else "DENY_SCOPE"
 
-valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
-invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+valid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "report:prepare", "granted_scopes": {"report:prepare"}, "service_id": "svc-reporter", "route_declared": True}
+invalid = {"case_id": "CASO-CUS-042-2B", "requested_scope": "prod:write", "granted_scopes": {"report:prepare"}, "service_id": "shared-admin", "route_declared": False}
 uncertain = {**valid}
 uncertain.pop("route_declared")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1059,24 +1260,30 @@ assert results == ["CONTINUE", "DENY_SCOPE", "REQUEST_NARROW_GRANT"]` ,
         id: "S42-T3-A-E1",
         subtopicId: "S42-T3-A",
         kind: "guided",
-        instruction: "S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostrar límite, host allowlisted y ruta confinada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNTRUSTED_INPUT` en E2.",
-        hint: "Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.",
+        instruction: "S42-T3-A-E1 · Implementa `trusted(size, max_bytes, host, allowed_hosts, path, root)` para el adjunto de `CASO-CUS-042-3A`: True solo si size≤max, host∈allowlist y path bajo `root/`. El starter aprueba oversize o path `/etc` e ignora la allowlist. Corrige el cuerpo de la función. Salida exacta: `S42-T3-A PASS`.",
+        hint: "return size <= max_bytes and host in allowed_hosts and path.startswith(root + '/')",
         hints: [
-          "Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva payload/URL/ruta adversarial rechazada; revisa dirección de comparación, conjuntos y negaciones.",
+          "return size <= max_bytes and host in allowed_hosts and path.startswith(root + '/')",
+          "El defecto no mira la allowlist de hosts: un SSRF a 169.254… pasaría si solo miras `/etc`.",
         ],
-        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
-        tests: "El fixture `CASO-CUS-042-3A` satisface un predicado de dominio real; imprime `S42-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S42-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
+        edgeCases: ["falta root", "host metadata cloud", "path /etc/passwd", "CASO-CUS-042-3A es sintético"],
+        tests: "trusted(2048, 4096, docs.local, {docs.local}, /safe/reports/a.txt, /safe/reports) es True e imprime `S42-T3-A PASS`.",
+        feedback: "S42-T3-A-E1: las tres puertas (size, host, path) son conjuntas; falla una y es REJECT_UNTRUSTED_INPUT.",
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e1.py",
-          code: `# CASO-LIM-042 · upload size + path traversal
-# DEFECT: PASS si bytes>max o path bajo /etc
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-# DEFECT: path/size traversal no confiable
-meets_contract = record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc")
+          code: `# CASO-CUS-042 · size + host allowlist + path confinement
+# Defecto didáctico: aprueba oversize o path /etc; ignora allowed_hosts.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    # Defecto: invertido e incompleto (no consulta allowed_hosts)
+    return size > max_bytes or path.startswith("/etc")
+
+meets_contract = trusted(
+    2048, 4096, "docs.local", {"docs.local"}, "/safe/reports/a.txt", "/safe/reports"
+)
 status = "PASS" if meets_contract else "REJECT_UNTRUSTED_INPUT"
 print("S42-T3-A", status)
 ` ,
@@ -1084,8 +1291,18 @@ print("S42-T3-A", status)
         solutionCode: {
           language: 'python',
           title: "s42-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-meets_contract = record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/")
+          code: `def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    return (
+        size <= max_bytes
+        and host in allowed_hosts
+        and path.startswith(root + "/")
+    )
+
+meets_contract = trusted(
+    2048, 4096, "docs.local", {"docs.local"}, "/safe/reports/a.txt", "/safe/reports"
+)
 status = "PASS" if meets_contract else "REJECT_UNTRUSTED_INPUT"
 print("S42-T3-A", status)
 assert meets_contract is True` ,
@@ -1096,30 +1313,43 @@ assert meets_contract is True` ,
         id: "S42-T3-A-E2",
         subtopicId: "S42-T3-A",
         kind: "independent",
-        instruction: "S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salidas exactas: `PASS`, `REJECT_UNTRUSTED_INPUT`, `MISSING:root`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.",
+        instruction: "S42-T3-A-E2 · Tres rutas: upload confinado (PASS), adverso con oversize + host 169.254.169.254 + `/etc/passwd` (REJECT_UNTRUSTED_INPUT), sin `root` (MISSING:root). El starter invierte el predicado y no usa la allowlist: corrige la decisión de dominio.",
+        hint: "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T3-A: límite, host allowlisted y ruta confinada. El fixture adverso debe fallar por contenido, no por schema.",
+          "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
+          "El adverso debe fallar por contenido (bytes, host y path), no solo porque el path empiece por /etc.",
         ],
-        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `root` ausente y produce exactamente `PASS REJECT_UNTRUSTED_INPUT MISSING:root`.",
-        feedback: "S42-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
+        edgeCases: ["falta root", "SSRF metadata IP", "path traversal a /etc", "CASO-CUS-042-3A es sintético"],
+        tests: "Produce exactamente `PASS REJECT_UNTRUSTED_INPUT MISSING:root`.",
+        feedback: "S42-T3-A-E2: el host 169.254.169.254 es el clásico SSRF a metadata; allowlist lo corta aunque el path parezca inocente.",
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e2.py",
-          code: `# CASO-LIM-042 · assess REJECT_UNTRUSTED_INPUT
-# DEFECT: PASS con oversize o path traversal
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess REJECT_UNTRUSTED_INPUT (size/host/path)
+# Defecto didáctico: trusted invertido e incompleto (ignora host allowlist).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    return size > max_bytes or path.startswith("/etc")
+
 def assess(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc") else "REJECT_UNTRUSTED_INPUT"
+    ok = trusted(
+        record["bytes"],
+        record["max_bytes"],
+        record["host"],
+        record["allowed_hosts"],
+        record["resolved_path"],
+        record["root"],
+    )
+    return "PASS" if ok else "REJECT_UNTRUSTED_INPUT"
 
-valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+valid = {"case_id": "CASO-CUS-042-3A", "bytes": 2048, "max_bytes": 4096, "host": "docs.local", "allowed_hosts": {"docs.local"}, "resolved_path": "/safe/reports/a.txt", "root": "/safe/reports"}
+invalid = {"case_id": "CASO-CUS-042-3A", "bytes": 9999, "max_bytes": 4096, "host": "169.254.169.254", "allowed_hosts": {"docs.local"}, "resolved_path": "/etc/passwd", "root": "/safe/reports"}
 incomplete = {**valid}
 incomplete.pop("root")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1129,15 +1359,32 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    return (
+        size <= max_bytes
+        and host in allowed_hosts
+        and path.startswith(root + "/")
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/") else "REJECT_UNTRUSTED_INPUT"
+    ok = trusted(
+        record["bytes"],
+        record["max_bytes"],
+        record["host"],
+        record["allowed_hosts"],
+        record["resolved_path"],
+        record["root"],
+    )
+    return "PASS" if ok else "REJECT_UNTRUSTED_INPUT"
 
-valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+valid = {"case_id": "CASO-CUS-042-3A", "bytes": 2048, "max_bytes": 4096, "host": "docs.local", "allowed_hosts": {"docs.local"}, "resolved_path": "/safe/reports/a.txt", "root": "/safe/reports"}
+invalid = {"case_id": "CASO-CUS-042-3A", "bytes": 9999, "max_bytes": 4096, "host": "169.254.169.254", "allowed_hosts": {"docs.local"}, "resolved_path": "/etc/passwd", "root": "/safe/reports"}
 incomplete = {**valid}
 incomplete.pop("root")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1150,30 +1397,43 @@ print(*results)
         id: "S42-T3-A-E3",
         subtopicId: "S42-T3-A",
         kind: "transfer",
-        instruction: "S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INPUT` y la ausencia de `root` debe devolver `SECURITY_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.",
+        instruction: "S42-T3-A-E3 · Fail-closed: confinado → `CONTINUE`, adverso (oversize/SSRF/path) → `REJECT_UNTRUSTED_INPUT`, sin `root` → `SECURITY_REVIEW`. Missing no es breach; el starter lo trata como CONTINUE y tiene el predicado invertido.",
+        hint: "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró límite, host allowlisted y ruta confinada; solo ese caso devuelve `CONTINUE`.",
+          "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
+          "Solo el fixture confinado devuelve CONTINUE; el de 169.254… y /etc/passwd es REJECT.",
         ],
-        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
-        tests: "Fixtures `CASO-CUS-042-3A`, adverso y sin `root` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
+        edgeCases: ["falta root", "SSRF metadata IP", "path /etc/passwd", "CASO-CUS-042-3A es sintético"],
+        tests: "Produce `CONTINUE REJECT_UNTRUSTED_INPUT SECURITY_REVIEW` en ese orden.",
+        feedback: "S42-T3-A-E3: SECURITY_REVIEW es la rama humana cuando no hay raíz de confinamiento; no inventes un root por defecto.",
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e3.py",
-          code: `# CASO-LIM-042 · decide REJECT_UNTRUSTED_INPUT
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide REJECT_UNTRUSTED_INPUT / SECURITY_REVIEW
+# Defecto didáctico: missing→CONTINUE; trusted invertido e ignora host.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    return size > max_bytes or path.startswith("/etc")
+
 def decide(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc") else "REJECT_UNTRUSTED_INPUT"
+    ok = trusted(
+        record["bytes"],
+        record["max_bytes"],
+        record["host"],
+        record["allowed_hosts"],
+        record["resolved_path"],
+        record["root"],
+    )
+    return "CONTINUE" if ok else "REJECT_UNTRUSTED_INPUT"
 
-valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+valid = {"case_id": "CASO-CUS-042-3A", "bytes": 2048, "max_bytes": 4096, "host": "docs.local", "allowed_hosts": {"docs.local"}, "resolved_path": "/safe/reports/a.txt", "root": "/safe/reports"}
+invalid = {"case_id": "CASO-CUS-042-3A", "bytes": 9999, "max_bytes": 4096, "host": "169.254.169.254", "allowed_hosts": {"docs.local"}, "resolved_path": "/etc/passwd", "root": "/safe/reports"}
 uncertain = {**valid}
 uncertain.pop("root")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1183,15 +1443,32 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def trusted(
+    size: int, max_bytes: int, host: str, allowed_hosts: set, path: str, root: str
+) -> bool:
+    return (
+        size <= max_bytes
+        and host in allowed_hosts
+        and path.startswith(root + "/")
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
         return "SECURITY_REVIEW"
-    return "CONTINUE" if record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/") else "REJECT_UNTRUSTED_INPUT"
+    ok = trusted(
+        record["bytes"],
+        record["max_bytes"],
+        record["host"],
+        record["allowed_hosts"],
+        record["resolved_path"],
+        record["root"],
+    )
+    return "CONTINUE" if ok else "REJECT_UNTRUSTED_INPUT"
 
-valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
-invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+valid = {"case_id": "CASO-CUS-042-3A", "bytes": 2048, "max_bytes": 4096, "host": "docs.local", "allowed_hosts": {"docs.local"}, "resolved_path": "/safe/reports/a.txt", "root": "/safe/reports"}
+invalid = {"case_id": "CASO-CUS-042-3A", "bytes": 9999, "max_bytes": 4096, "host": "169.254.169.254", "allowed_hosts": {"docs.local"}, "resolved_path": "/etc/passwd", "root": "/safe/reports"}
 uncertain = {**valid}
 uncertain.pop("root")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1204,24 +1481,32 @@ assert results == ["CONTINUE", "REJECT_UNTRUSTED_INPUT", "SECURITY_REVIEW"]` ,
         id: "S42-T3-B-E1",
         subtopicId: "S42-T3-B",
         kind: "guided",
-        instruction: "S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secretos fuera del artefacto y dependencias revisadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROTATE_AND_BLOCK` en E2.",
-        hint: "Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.",
+        instruction: "S42-T3-B-E1 · Implementa `promote_ok(secret_in_repo, secret_in_log, rotation_tested, pinned, critical_cves)` para el pipeline de Cusco: True solo sin secreto en repo/log, rotación ensayada, deps fijadas y 0 CVE críticas. El starter aprueba si *hay* secreto o deps sin pin (cuerpo incompleto). Salida exacta: `S42-T3-B PASS`.",
+        hint: "return (not secret_in_repo) and (not secret_in_log) and rotation_tested and pinned and critical_cves == 0",
         hints: [
-          "Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva scan sin secreto y rotación ensayada; revisa dirección de comparación, conjuntos y negaciones.",
+          "return (not secret_in_repo) and (not secret_in_log) and rotation_tested and pinned and critical_cves == 0",
+          "El defecto no mira rotation_tested ni critical_cves: un promote «limpio» de secretos aún puede ser inseguro.",
         ],
-        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
-        tests: "El fixture `CASO-CUS-042-3B` satisface un predicado de dominio real; imprime `S42-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S42-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
+        edgeCases: ["secret_in_repo", "deps unpinned", "critical_cves>0", "CASO-CUS-042-3B es sintético"],
+        tests: "promote_ok(False, False, True, True, 0) es True e imprime `S42-T3-B PASS`.",
+        feedback: "S42-T3-B-E1: promote fail-closed es conjunción de cinco controles; un solo hallazgo (secreto o CVE) bloquea.",
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e1.py",
-          code: `# CASO-LIM-042 · secrets + dependency CVEs
-# DEFECT: PASS si secret_in_repo o deps sin pin
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-# DEFECT: secreto en repo o dep sin pin bloquea
-meets_contract = record["secret_in_repo"] or not record["dependency_pinned"]
+          code: `# CASO-CUS-042 · secrets + dependency CVEs
+# Defecto didáctico: aprueba si hay secreto o deps sin pin (invertido e incompleto).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    # Defecto: no exige rotación ni CVE==0; además invierte secret/pin
+    return secret_in_repo or not pinned
+
+meets_contract = promote_ok(False, False, True, True, 0)
 status = "PASS" if meets_contract else "ROTATE_AND_BLOCK"
 print("S42-T3-B", status)
 ` ,
@@ -1229,8 +1514,22 @@ print("S42-T3-B", status)
         solutionCode: {
           language: 'python',
           title: "s42-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-meets_contract = not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0
+          code: `def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    return (
+        (not secret_in_repo)
+        and (not secret_in_log)
+        and rotation_tested
+        and pinned
+        and critical_cves == 0
+    )
+
+meets_contract = promote_ok(False, False, True, True, 0)
 status = "PASS" if meets_contract else "ROTATE_AND_BLOCK"
 print("S42-T3-B", status)
 assert meets_contract is True` ,
@@ -1241,30 +1540,46 @@ assert meets_contract is True` ,
         id: "S42-T3-B-E2",
         subtopicId: "S42-T3-B",
         kind: "independent",
-        instruction: "S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo, secret_in_log, rotation_tested, dependency_pinned, critical_cves. Salidas exactas: `PASS`, `ROTATE_AND_BLOCK`, `MISSING:critical_cves`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.",
+        instruction: "S42-T3-B-E2 · Tres rutas de promote: limpio → `PASS`; secreto en repo + unpinned + 2 CVE → `ROTATE_AND_BLOCK`; sin campo `critical_cves` → `MISSING:critical_cves`. El starter invierte el criterio y no exige rotación ni CVE==0.",
+        hint: "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T3-B: secretos fuera del artefacto y dependencias revisadas. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
+          "No inventes critical_cves=0 cuando el campo no viene: missing ≠ «cero riesgos».",
         ],
-        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `critical_cves` ausente y produce exactamente `PASS ROTATE_AND_BLOCK MISSING:critical_cves`.",
-        feedback: "S42-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
+        edgeCases: ["falta critical_cves", "secret_in_repo True", "critical_cves=2", "CASO-CUS-042-3B es sintético"],
+        tests: "Produce exactamente `PASS ROTATE_AND_BLOCK MISSING:critical_cves`.",
+        feedback: "S42-T3-B-E2: ROTATE_AND_BLOCK es hallazgo demostrable; MISSING:critical_cves es inventario incompleto (ASSESS en E3), no un PASS optimista.",
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e2.py",
-          code: `# CASO-LIM-042 · assess ROTATE_AND_BLOCK
-# DEFECT: PASS con secret en repo o unpinned deps
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess ROTATE_AND_BLOCK
+# Defecto didáctico: promote_ok incompleto/invertido (secret o unpinned → PASS).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    return secret_in_repo or not pinned
+
 def assess(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["secret_in_repo"] or not record["dependency_pinned"] else "ROTATE_AND_BLOCK"
+    ok = promote_ok(
+        record["secret_in_repo"],
+        record["secret_in_log"],
+        record["rotation_tested"],
+        record["dependency_pinned"],
+        record["critical_cves"],
+    )
+    return "PASS" if ok else "ROTATE_AND_BLOCK"
 
-valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+valid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": False, "secret_in_log": False, "rotation_tested": True, "dependency_pinned": True, "critical_cves": 0}
+invalid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": True, "secret_in_log": True, "rotation_tested": False, "dependency_pinned": False, "critical_cves": 2}
 incomplete = {**valid}
 incomplete.pop("critical_cves")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1274,15 +1589,37 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    return (
+        (not secret_in_repo)
+        and (not secret_in_log)
+        and rotation_tested
+        and pinned
+        and critical_cves == 0
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0 else "ROTATE_AND_BLOCK"
+    ok = promote_ok(
+        record["secret_in_repo"],
+        record["secret_in_log"],
+        record["rotation_tested"],
+        record["dependency_pinned"],
+        record["critical_cves"],
+    )
+    return "PASS" if ok else "ROTATE_AND_BLOCK"
 
-valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+valid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": False, "secret_in_log": False, "rotation_tested": True, "dependency_pinned": True, "critical_cves": 0}
+invalid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": True, "secret_in_log": True, "rotation_tested": False, "dependency_pinned": False, "critical_cves": 2}
 incomplete = {**valid}
 incomplete.pop("critical_cves")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1295,30 +1632,46 @@ print(*results)
         id: "S42-T3-B-E3",
         subtopicId: "S42-T3-B",
         kind: "transfer",
-        instruction: "S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausencia de `critical_cves` debe devolver `ASSESS_DEPENDENCY_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.",
+        instruction: "S42-T3-B-E3 · Fail-closed de promote: limpio → `CONTINUE`, secreto/CVE → `ROTATE_AND_BLOCK`, sin inventario CVE → `ASSESS_DEPENDENCY_RISK`. El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas.",
+        hint: "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró secretos fuera del artefacto y dependencias revisadas; solo ese caso devuelve `CONTINUE`.",
+          "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
+          "ASSESS es la rama humana cuando no hay scan; no la conviertas en CONTINUE ni en ROTATE sin evidencia.",
         ],
-        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
-        tests: "Fixtures `CASO-CUS-042-3B`, adverso y sin `critical_cves` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
+        edgeCases: ["falta critical_cves", "secret_in_repo + CVE abiertas", "CASO-CUS-042-3B es sintético"],
+        tests: "Produce `CONTINUE ROTATE_AND_BLOCK ASSESS_DEPENDENCY_RISK` en ese orden.",
+        feedback: "S42-T3-B-E3: rotar y bloquear es la respuesta a un hallazgo; ASSESS es la respuesta a no tener inventario — no las mezcles.",
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e3.py",
-          code: `# CASO-LIM-042 · decide ROTATE_AND_BLOCK
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide ROTATE_AND_BLOCK / ASSESS_DEPENDENCY_RISK
+# Defecto didáctico: missing→CONTINUE; promote_ok invertido.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    return secret_in_repo or not pinned
+
 def decide(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["secret_in_repo"] or not record["dependency_pinned"] else "ROTATE_AND_BLOCK"
+    ok = promote_ok(
+        record["secret_in_repo"],
+        record["secret_in_log"],
+        record["rotation_tested"],
+        record["dependency_pinned"],
+        record["critical_cves"],
+    )
+    return "CONTINUE" if ok else "ROTATE_AND_BLOCK"
 
-valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+valid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": False, "secret_in_log": False, "rotation_tested": True, "dependency_pinned": True, "critical_cves": 0}
+invalid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": True, "secret_in_log": True, "rotation_tested": False, "dependency_pinned": False, "critical_cves": 2}
 uncertain = {**valid}
 uncertain.pop("critical_cves")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1328,15 +1681,37 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def promote_ok(
+    secret_in_repo: bool,
+    secret_in_log: bool,
+    rotation_tested: bool,
+    pinned: bool,
+    critical_cves: int,
+) -> bool:
+    return (
+        (not secret_in_repo)
+        and (not secret_in_log)
+        and rotation_tested
+        and pinned
+        and critical_cves == 0
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
         return "ASSESS_DEPENDENCY_RISK"
-    return "CONTINUE" if not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0 else "ROTATE_AND_BLOCK"
+    ok = promote_ok(
+        record["secret_in_repo"],
+        record["secret_in_log"],
+        record["rotation_tested"],
+        record["dependency_pinned"],
+        record["critical_cves"],
+    )
+    return "CONTINUE" if ok else "ROTATE_AND_BLOCK"
 
-valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
-invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+valid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": False, "secret_in_log": False, "rotation_tested": True, "dependency_pinned": True, "critical_cves": 0}
+invalid = {"case_id": "CASO-CUS-042-3B", "secret_in_repo": True, "secret_in_log": True, "rotation_tested": False, "dependency_pinned": False, "critical_cves": 2}
 uncertain = {**valid}
 uncertain.pop("critical_cves")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1349,24 +1724,30 @@ assert results == ["CONTINUE", "ROTATE_AND_BLOCK", "ASSESS_DEPENDENCY_RISK"]` ,
         id: "S42-T4-A-E1",
         subtopicId: "S42-T4-A",
         kind: "guided",
-        instruction: "S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos mínimos, propósito y retención finita. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `MINIMIZE_AND_EXPIRE` en E2.",
-        hint: "Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.",
+        instruction: "S42-T4-A-E1 · Implementa `inventory_ok(collected, needed, purpose, days, max_days)` para el tablero de estado de Cusco: True solo si collected ⊆ needed, purpose es `status-report` y days ≤ max_days. El starter aprueba over-collection o retención excesiva (cuerpo invertido). Salida exacta: `S42-T4-A PASS`.",
+        hint: "return collected <= needed and purpose == 'status-report' and days <= max_days",
         hints: [
-          "Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva inventario propósito-campo-retención aprobado; revisa dirección de comparación, conjuntos y negaciones.",
+          "return collected <= needed and purpose == 'status-report' and days <= max_days",
+          "En E2, full_name + purpose maybe-useful + 3650 días es el adverso de minimización.",
         ],
-        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
-        tests: "El fixture `CASO-CUS-042-4A` satisface un predicado de dominio real; imprime `S42-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S42-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
+        edgeCases: ["full_name de más", "purpose maybe-useful", "retención 3650", "CASO-CUS-042-4A es sintético"],
+        tests: "inventory_ok({case_id,region}, {case_id,region}, status-report, 30, 30) es True e imprime `S42-T4-A PASS`.",
+        feedback: "S42-T4-A-E1: minimización es inclusion de conjuntos + purpose + techo de retención; no basta «parecer pocos campos».",
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e1.py",
-          code: `# CASO-LIM-042 · data minimisation + retention
-# DEFECT: PASS si collected>needed o retention>max
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-# DEFECT: minimización y retención vencida
-meets_contract = record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"]
+          code: `# CASO-CUS-042 · minimización + purpose + retención
+# Defecto didáctico: aprueba over-collection o retención sobre el techo.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    # Defecto: invertido e incompleto (no fija purpose)
+    return collected > needed or days > max_days
+
+meets_contract = inventory_ok(
+    {"case_id", "region"}, {"case_id", "region"}, "status-report", 30, 30
+)
 status = "PASS" if meets_contract else "MINIMIZE_AND_EXPIRE"
 print("S42-T4-A", status)
 ` ,
@@ -1374,8 +1755,14 @@ print("S42-T4-A", status)
         solutionCode: {
           language: 'python',
           title: "s42-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-meets_contract = record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"]
+          code: `def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    return collected <= needed and purpose == "status-report" and days <= max_days
+
+meets_contract = inventory_ok(
+    {"case_id", "region"}, {"case_id", "region"}, "status-report", 30, 30
+)
 status = "PASS" if meets_contract else "MINIMIZE_AND_EXPIRE"
 print("S42-T4-A", status)
 assert meets_contract is True` ,
@@ -1386,30 +1773,42 @@ assert meets_contract is True` ,
         id: "S42-T4-A-E2",
         subtopicId: "S42-T4-A",
         kind: "independent",
-        instruction: "S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, needed, purpose, retention_days, max_retention_days. Salidas exactas: `PASS`, `MINIMIZE_AND_EXPIRE`, `MISSING:max_retention_days`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.",
+        instruction: "S42-T4-A-E2 · Tres inventarios: mínimo 30d → `PASS`; full_name + maybe-useful + 3650d → `MINIMIZE_AND_EXPIRE`; sin techo `max_retention_days` → `MISSING:max_retention_days`. El starter invierte el criterio de minimización.",
+        hint: "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T4-A: campos mínimos, propósito y retención finita. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
+          "Sin techo no inventes 30: es incertidumbre de privacidad, no un PASS.",
         ],
-        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `max_retention_days` ausente y produce exactamente `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days`.",
-        feedback: "S42-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
+        edgeCases: ["falta max_retention_days", "full_name + 3650 días", "CASO-CUS-042-4A es sintético"],
+        tests: "Produce exactamente `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days`.",
+        feedback: "S42-T4-A-E2: MINIMIZE_AND_EXPIRE es over-collection o retención abusiva; MISSING:max es falta de política de techo.",
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e2.py",
-          code: `# CASO-LIM-042 · assess MINIMIZE_AND_EXPIRE
-# DEFECT: PASS con over-collection o over-retention
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess MINIMIZE_AND_EXPIRE
+# Defecto didáctico: inventory_ok invertido (over-collection → PASS).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    return collected > needed or days > max_days
+
 def assess(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+    ok = inventory_ok(
+        record["collected"],
+        record["needed"],
+        record["purpose"],
+        record["retention_days"],
+        record["max_retention_days"],
+    )
+    return "PASS" if ok else "MINIMIZE_AND_EXPIRE"
 
-valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+valid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region"}, "needed": {"case_id", "region"}, "purpose": "status-report", "retention_days": 30, "max_retention_days": 30}
+invalid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region", "full_name"}, "needed": {"case_id", "region"}, "purpose": "maybe-useful", "retention_days": 3650, "max_retention_days": 30}
 incomplete = {**valid}
 incomplete.pop("max_retention_days")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1419,15 +1818,27 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    return collected <= needed and purpose == "status-report" and days <= max_days
+
+def assess(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+    ok = inventory_ok(
+        record["collected"],
+        record["needed"],
+        record["purpose"],
+        record["retention_days"],
+        record["max_retention_days"],
+    )
+    return "PASS" if ok else "MINIMIZE_AND_EXPIRE"
 
-valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+valid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region"}, "needed": {"case_id", "region"}, "purpose": "status-report", "retention_days": 30, "max_retention_days": 30}
+invalid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region", "full_name"}, "needed": {"case_id", "region"}, "purpose": "maybe-useful", "retention_days": 3650, "max_retention_days": 30}
 incomplete = {**valid}
 incomplete.pop("max_retention_days")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1440,30 +1851,42 @@ print(*results)
         id: "S42-T4-A-E3",
         subtopicId: "S42-T4-A",
         kind: "transfer",
-        instruction: "S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia de `max_retention_days` debe devolver `PRIVACY_OWNER_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.",
+        instruction: "S42-T4-A-E3 · Fail-closed de privacidad: inventario mínimo → `CONTINUE`, over-collection → `MINIMIZE_AND_EXPIRE`, sin techo de retención → `PRIVACY_OWNER_REVIEW`. El starter trata missing como CONTINUE y acepta el adverso.",
+        hint: "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró campos mínimos, propósito y retención finita; solo ese caso devuelve `CONTINUE`.",
+          "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
+          "PRIVACY_OWNER_REVIEW es dueño de privacidad, no un soft-allow del payload.",
         ],
-        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
-        tests: "Fixtures `CASO-CUS-042-4A`, adverso y sin `max_retention_days` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
+        edgeCases: ["falta max_retention_days", "full_name + purpose basura", "CASO-CUS-042-4A es sintético"],
+        tests: "Produce `CONTINUE MINIMIZE_AND_EXPIRE PRIVACY_OWNER_REVIEW` en ese orden.",
+        feedback: "S42-T4-A-E3: el transfer separa violación demostrable (MINIMIZE) de política incompleta (OWNER_REVIEW).",
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e3.py",
-          code: `# CASO-LIM-042 · decide MINIMIZE_AND_EXPIRE
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide MINIMIZE_AND_EXPIRE / PRIVACY_OWNER_REVIEW
+# Defecto didáctico: missing→CONTINUE; inventory_ok invertido.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    return collected > needed or days > max_days
+
 def decide(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+    ok = inventory_ok(
+        record["collected"],
+        record["needed"],
+        record["purpose"],
+        record["retention_days"],
+        record["max_retention_days"],
+    )
+    return "CONTINUE" if ok else "MINIMIZE_AND_EXPIRE"
 
-valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+valid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region"}, "needed": {"case_id", "region"}, "purpose": "status-report", "retention_days": 30, "max_retention_days": 30}
+invalid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region", "full_name"}, "needed": {"case_id", "region"}, "purpose": "maybe-useful", "retention_days": 3650, "max_retention_days": 30}
 uncertain = {**valid}
 uncertain.pop("max_retention_days")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1473,15 +1896,27 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def inventory_ok(
+    collected: set, needed: set, purpose: str, days: int, max_days: int
+) -> bool:
+    return collected <= needed and purpose == "status-report" and days <= max_days
+
+def decide(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
         return "PRIVACY_OWNER_REVIEW"
-    return "CONTINUE" if record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+    ok = inventory_ok(
+        record["collected"],
+        record["needed"],
+        record["purpose"],
+        record["retention_days"],
+        record["max_retention_days"],
+    )
+    return "CONTINUE" if ok else "MINIMIZE_AND_EXPIRE"
 
-valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
-invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+valid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region"}, "needed": {"case_id", "region"}, "purpose": "status-report", "retention_days": 30, "max_retention_days": 30}
+invalid = {"case_id": "CASO-CUS-042-4A", "collected": {"case_id", "region", "full_name"}, "needed": {"case_id", "region"}, "purpose": "maybe-useful", "retention_days": 3650, "max_retention_days": 30}
 uncertain = {**valid}
 uncertain.pop("max_retention_days")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1494,24 +1929,34 @@ assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
         id: "S42-T4-B-E1",
         subtopicId: "S42-T4-B",
         kind: "guided",
-        instruction: "S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar audit sin PII, borrado derivado y llave separada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `PURGE_DERIVATIVES` en E2.",
-        hint: "Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.",
+        instruction: "S42-T4-B-E1 · Implementa `purge_ok(audit, pii, deleted, derived_deleted, key_separate)` para el cierre de ticket en Cusco: True solo si audit ∩ PII = ∅, primario y derivado borrados y llave de reidentificación separada. El starter aprueba intersección audit∩PII o derivado vivo (cuerpo invertido). Salida exacta: `S42-T4-B PASS`.",
+        hint: "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
         hints: [
-          "Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva borrado y no-reaparición verificados; revisa dirección de comparación, conjuntos y negaciones.",
+          "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
+          "En E2, email en audit + export vivo es el adverso clásico de purga incompleta.",
         ],
-        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
-        tests: "El fixture `CASO-CUS-042-4B` satisface un predicado de dominio real; imprime `S42-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S42-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
+        edgeCases: ["email en audit", "derived_deleted False", "key_separate False", "CASO-CUS-042-4B es sintético"],
+        tests: "purge_ok({actor,action,at,case_token}, {email,full_name}, True, True, True) es True e imprime `S42-T4-B PASS`.",
+        feedback: "S42-T4-B-E1: soft-delete del primario no basta; audit limpio + derivados + llave separada cierran el ciclo.",
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e1.py",
-          code: `# CASO-LIM-042 · audit without PII + purge derivatives
-# DEFECT: PASS si audit∩PII o derived no deleted
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-# DEFECT: PII en audit o derivados no purgados
-meets_contract = bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"]
+          code: `# CASO-CUS-042 · audit sin PII + purga de derivados
+# Defecto didáctico: aprueba si hay audit∩PII o el derivado sigue vivo.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    # Defecto: invertido e incompleto (no exige deleted ni key_separate)
+    return bool(audit & pii) or not derived_deleted
+
+meets_contract = purge_ok(
+    {"actor_id", "action", "at", "case_token"},
+    {"full_name", "email"},
+    True,
+    True,
+    True,
+)
 status = "PASS" if meets_contract else "PURGE_DERIVATIVES"
 print("S42-T4-B", status)
 ` ,
@@ -1519,8 +1964,18 @@ print("S42-T4-B", status)
         solutionCode: {
           language: 'python',
           title: "s42-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-meets_contract = record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"]
+          code: `def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate
+
+meets_contract = purge_ok(
+    {"actor_id", "action", "at", "case_token"},
+    {"full_name", "email"},
+    True,
+    True,
+    True,
+)
 status = "PASS" if meets_contract else "PURGE_DERIVATIVES"
 print("S42-T4-B", status)
 assert meets_contract is True` ,
@@ -1531,30 +1986,42 @@ assert meets_contract is True` ,
         id: "S42-T4-B-E2",
         subtopicId: "S42-T4-B",
         kind: "independent",
-        instruction: "S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fields, pii_fields, deleted, derived_deleted, key_separate. Salidas exactas: `PASS`, `PURGE_DERIVATIVES`, `MISSING:key_separate`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.",
+        instruction: "S42-T4-B-E2 · Tres cierres: purga completa → `PASS`; email en audit + derivado vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `MISSING:key_separate`. El starter invierte el criterio de purga.",
+        hint: "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S42-T4-B: audit sin PII, borrado derivado y llave separada. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
+          "Missing de key_separate no es «llave separada por defecto»: es incertidumbre de diseño.",
         ],
-        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `key_separate` ausente y produce exactamente `PASS PURGE_DERIVATIVES MISSING:key_separate`.",
-        feedback: "S42-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
+        edgeCases: ["falta key_separate", "email en audit", "export derivado vivo", "CASO-CUS-042-4B es sintético"],
+        tests: "Produce exactamente `PASS PURGE_DERIVATIVES MISSING:key_separate`.",
+        feedback: "S42-T4-B-E2: PURGE es reaparición o derivado vivo; MISSING:key es alcance de borrado no declarado.",
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e2.py",
-          code: `# CASO-LIM-042 · assess PURGE_DERIVATIVES
-# DEFECT: PASS con PII en audit o derived vivos
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · assess PURGE_DERIVATIVES
+# Defecto didáctico: purge_ok invertido (PII en audit o derived vivo → PASS).
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    return bool(audit & pii) or not derived_deleted
+
 def assess(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"] else "PURGE_DERIVATIVES"
+    ok = purge_ok(
+        record["audit_fields"],
+        record["pii_fields"],
+        record["deleted"],
+        record["derived_deleted"],
+        record["key_separate"],
+    )
+    return "PASS" if ok else "PURGE_DERIVATIVES"
 
-valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+valid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "action", "at", "case_token"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": True, "key_separate": True}
+invalid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "email", "action"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": False, "key_separate": False}
 incomplete = {**valid}
 incomplete.pop("key_separate")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1564,15 +2031,27 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate
+
+def assess(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"] else "PURGE_DERIVATIVES"
+    ok = purge_ok(
+        record["audit_fields"],
+        record["pii_fields"],
+        record["deleted"],
+        record["derived_deleted"],
+        record["key_separate"],
+    )
+    return "PASS" if ok else "PURGE_DERIVATIVES"
 
-valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+valid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "action", "at", "case_token"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": True, "key_separate": True}
+invalid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "email", "action"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": False, "key_separate": False}
 incomplete = {**valid}
 incomplete.pop("key_separate")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1585,30 +2064,42 @@ print(*results)
         id: "S42-T4-B-E3",
         subtopicId: "S42-T4-B",
         kind: "transfer",
-        instruction: "S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la ausencia de `key_separate` debe devolver `VERIFY_DELETION_SCOPE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.",
+        instruction: "S42-T4-B-E3 · Fail-closed de borrado: purga completa → `CONTINUE`, leak/derivado vivo → `PURGE_DERIVATIVES`, sin `key_separate` → `VERIFY_DELETION_SCOPE`. El starter trata missing como CONTINUE y aprueba el adverso.",
+        hint: "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró audit sin PII, borrado derivado y llave separada; solo ese caso devuelve `CONTINUE`.",
+          "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
+          "VERIFY_DELETION_SCOPE es revisión humana del alcance; no es un soft-delete silencioso.",
         ],
-        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
-        tests: "Fixtures `CASO-CUS-042-4B`, adverso y sin `key_separate` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
+        edgeCases: ["falta key_separate", "email en audit + export vivo", "CASO-CUS-042-4B es sintético"],
+        tests: "Produce `CONTINUE PURGE_DERIVATIVES VERIFY_DELETION_SCOPE` en ese orden.",
+        feedback: "S42-T4-B-E3: cierra el ciclo de vida — CONTINUE solo con evidencia de no-reaparición; el resto es purga o verificación humana.",
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e3.py",
-          code: `# CASO-LIM-042 · decide PURGE_DERIVATIVES
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-CUS-042 · decide PURGE_DERIVATIVES / VERIFY_DELETION_SCOPE
+# Defecto didáctico: missing→CONTINUE; purge_ok invertido.
+# Corrige solo la decisión de dominio; conserva datos y la salida esperada.
+def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    return bool(audit & pii) or not derived_deleted
+
 def decide(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"] else "PURGE_DERIVATIVES"
+    ok = purge_ok(
+        record["audit_fields"],
+        record["pii_fields"],
+        record["deleted"],
+        record["derived_deleted"],
+        record["key_separate"],
+    )
+    return "CONTINUE" if ok else "PURGE_DERIVATIVES"
 
-valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+valid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "action", "at", "case_token"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": True, "key_separate": True}
+invalid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "email", "action"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": False, "key_separate": False}
 uncertain = {**valid}
 uncertain.pop("key_separate")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1618,15 +2109,27 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s42-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def purge_ok(
+    audit: set, pii: set, deleted: bool, derived_deleted: bool, key_separate: bool
+) -> bool:
+    return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate
+
+def decide(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
         return "VERIFY_DELETION_SCOPE"
-    return "CONTINUE" if record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"] else "PURGE_DERIVATIVES"
+    ok = purge_ok(
+        record["audit_fields"],
+        record["pii_fields"],
+        record["deleted"],
+        record["derived_deleted"],
+        record["key_separate"],
+    )
+    return "CONTINUE" if ok else "PURGE_DERIVATIVES"
 
-valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
-invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+valid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "action", "at", "case_token"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": True, "key_separate": True}
+invalid = {"case_id": "CASO-CUS-042-4B", "audit_fields": {"actor_id", "email", "action"}, "pii_fields": {"full_name", "email"}, "deleted": True, "derived_deleted": False, "key_separate": False}
 uncertain = {**valid}
 uncertain.pop("key_separate")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1639,42 +2142,82 @@ assert results == ["CONTINUE", "PURGE_DERIVATIVES", "VERIFY_DELETION_SCOPE"]` ,
   },
   youDo: {
     title: "Schemas, seguridad y privacidad de servicios",
-    context: "Threat model y matriz de permisos del control plane. Trabaja sobre casos sintéticos de soporte para una organización ficticia en Cusco. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida: decisión allow/deny auditable y vista pseudonimizada mínima. El gate se bloquea ante: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto.",
+    context: "Threat model y matriz de permisos del control plane para soporte sintético en Cusco (`CASO-CUS-042`). Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable y vista pseudonimizada mínima. El gate se bloquea ante campo extra, lectura cross-tenant, path/URL no permitidos o retención vencida.",
     objectives: [
-      "Convertir schemas estrictos, identidad de servicio, scope, propósito y plazo de retención en decisión allow/deny auditable y vista pseudonimizada mínima.",
-      "Demostrar el gate: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-      "Probar el fallo: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto.",
-      "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
+      "Implementar un mini `policy_engine` stdlib que encadene schema → authz → SSRF/path → redacción.",
+      "Demostrar CP-N4-A: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs ni respuestas.",
+      "Cubrir tres rutas automatizadas: normal (CONTINUE), breach (DENY/REJECT) e incertidumbre (HUMAN_PRIVACY_REVIEW).",
+      "Empaquetar evidencia reproducible sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
-      "Usa exclusivamente fixtures sintéticos identificados por `CASO-CUS-042`.",
-      "Incluye JSON Schemas compatibles y casos inválidos.",
-      "Incluye matriz RBAC/scopes deny-by-default.",
-      "Incluye controles contra injection/SSRF/path traversal.",
-      "Incluye flujo de acceso, redacción, borrado y auditoría.",
-      "Automatiza un caso normal, uno de breach (`DENY`) y uno incierto (`HUMAN_PRIVACY_REVIEW`).",
-      "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
-      "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
+      "Usa exclusivamente fixtures sintéticos `CASO-CUS-042-*`.",
+      "Incluye validación de borde (required ⊆ keys ⊆ allowed) y fixtures inválidos con campo extra.",
+      "Incluye matriz RBAC/scopes deny-by-default con al menos un DENY_CROSS_TENANT.",
+      "Incluye rechazo de host no allowlisted (p. ej. 169.254.169.254) y path fuera de root.",
+      "Incluye flujo de redacción, purga de derivados y audit sin PII.",
+      "Automatiza caso normal, breach y uncertain con salidas exactas documentadas.",
+      "Incluye comandos locales reproducibles, deps fijadas y salida esperada.",
+      "Registra riesgo residual, responsable, rollback y limitaciones.",
     ],
     starterCode: `CASE_ID = "CASO-CUS-042"
-REQUIRED = ['json_schemas_compatibles_y_casos_invalidos', 'matriz_rbac_scopes_deny_by_default', 'controles_contra_injection_ssrf_path_traversal', 'flujo_de_acceso_redaccion_borrado_y_auditoria']
-evidence = {
-    "json_schemas_compatibles_y_casos_invalidos": False,
-    "matriz_rbac_scopes_deny_by_default": False,
-    "controles_contra_injection_ssrf_path_traversal": False,
-    "flujo_de_acceso_redaccion_borrado_y_auditoria": False
-}
+REQUIRED = [
+    "json_schemas_compatibles_y_casos_invalidos",
+    "matriz_rbac_scopes_deny_by_default",
+    "controles_contra_injection_ssrf_path_traversal",
+    "flujo_de_acceso_redaccion_borrado_y_auditoria",
+]
 
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
+def policy_engine(req: dict, actor: str, owner: str, scopes: set, host: str, allow_hosts: set) -> str:
+    """Cadena fail-closed: schema → SSRF host → authz resource binding."""
+    allowed = {"case_id", "status"}
+    if not {"case_id", "status"}.issubset(req) or set(req) - allowed:
+        return "REJECT_SCHEMA"
+    if host not in allow_hosts:
+        return "REJECT_UNTRUSTED_INPUT"
+    if "cases:read" not in scopes or actor != owner:
+        return "DENY_CROSS_TENANT"
+    return "CONTINUE"
+
+def redact_view(record: dict, allow: set) -> dict:
+    return {k: v for k, v in record.items() if k in allow}
+
+# Evidencia calculada (no flips manuales): cada artefacto debe pasar su assert
+schema_ok = policy_engine(
+    {"case_id": CASE_ID, "status": "open", "note": 1}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"}
+) == "REJECT_SCHEMA"
+authz_ok = (
+    policy_engine({"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"})
+    == "CONTINUE"
+    and policy_engine({"case_id": CASE_ID, "status": "open"}, "u1", "u2", {"cases:read"}, "docs.local", {"docs.local"})
+    == "DENY_CROSS_TENANT"
+)
+ssrf_ok = policy_engine(
+    {"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "169.254.169.254", {"docs.local"}
+) == "REJECT_UNTRUSTED_INPUT"
+view = redact_view({"case_id": CASE_ID, "email": "x@example.pe", "region": "CUS"}, {"case_id", "region"})
+privacy_ok = "email" not in view and view.get("region") == "CUS"
+
+evidence = {
+    "json_schemas_compatibles_y_casos_invalidos": schema_ok,
+    "matriz_rbac_scopes_deny_by_default": authz_ok,
+    "controles_contra_injection_ssrf_path_traversal": ssrf_ok,
+    "flujo_de_acceso_redaccion_borrado_y_auditoria": privacy_ok,
+}
+
 status, missing = readiness(evidence)
 print(CASE_ID, status)
 print("missing", ",".join(missing))
-assert status in {"READY", "BLOCKED"}
+print("deny_cross", policy_engine(
+    {"case_id": CASE_ID, "status": "open"}, "u1", "u2", {"cases:read"}, "docs.local", {"docs.local"}
+))
+assert status == "READY"
+assert not missing
 `,
-    portfolioNote: "Evidencia de CP-N4-A · control plane seguro y privado: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+    portfolioNote: "Evidencia de CP-N4-A: el starter ya calcula READY desde asserts del policy_engine (extra→REJECT, cross-tenant→DENY, SSRF→REJECT, email no reaparece). Amplía con path confinement, purga de derivados, rollback y riesgo residual en tu repo — no basta un checklist de booleans a mano.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1687,34 +2230,34 @@ assert status in {"READY", "BLOCKED"}
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?",
-        options: ["un print sin assert ni versión", "schema exportado y fixtures válidos/inválidos", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
+        question: "¿Qué evidencia permite aprobar schema estricto en CASO-CUS-042?",
+        options: ["un print sin assert ni versión", "fixtures válidos/inválidos con rechazo de campos extra", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
         correctIndex: 1,
-        explanation: "La teoría exige schema exportado y fixtures válidos/inválidos; evidencia decorativa o PII no satisface el contrato.",
+        explanation: "Se exige forma estricta comprobable: válidos pasan y extras/status basura fallan; evidencia decorativa o PII no cuenta.",
       },
       {
-        question: "Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: ["continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido", "emitir DENY y conservar evidencia"],
+        question: "Si un actor autenticado pide el caso de otro tenant sin resource binding, ¿qué respuesta preserva seguridad y auditabilidad?",
+        options: ["continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido", "emitir DENY_CROSS_TENANT y conservar evidencia"],
         correctIndex: 3,
-        explanation: "El contrato falla cerrado con DENY; no convierte incertidumbre o breach en éxito.",
+        explanation: "Authn ≠ authz: identidad correcta sin pertenencia del recurso → DENY con audit trail; no se convierte breach en éxito.",
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?",
         options: ["un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos", "el archivo S42 existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva"],
         correctIndex: 0,
-        explanation: "El gate es conductual y medible: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        explanation: "El gate es conductual y medible: no cross-tenant + redacción sostenida.",
       },
       {
         question: "¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?",
-        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "inferir fraude o parentesco desde ER"],
+        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "inferir fraude o parentesco desde señales de entidad"],
         correctIndex: 2,
-        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
+        explanation: "Los casos son sintéticos de soporte en Cusco; ninguna señal del lab prueba fraude, parentesco ni intención.",
       },
       {
-        question: "Política deny-by-default de scopes: si el scope pedido no está en los granted…",
-        options: ["se permite el acceso y se loguea un warning", "se deniega y se conserva evidencia de la decisión", "se elevan privilegios temporalmente", "se devuelve 200 con el body completo del otro tenant"],
+        question: "Una URL de adjunto apunta a `http://169.254.169.254/` (metadata cloud). ¿Qué control fail-closed aplica en S42-T3-A?",
+        options: ["confiar en el esquema https del cliente", "allowlist de hosts: rechazar si el host no está en el catálogo", "aceptar y filtrar el body después del fetch", "bloquear solo si el path contiene `passwd`"],
         correctIndex: 1,
-        explanation: "Authz fail-closed: scope insuficiente → DENY con audit trail; nunca silently allow ni cross-tenant.",
+        explanation: "SSRF se corta antes del socket: host ∉ allowlist → REJECT_UNTRUSTED_INPUT. No se mitiga después del fetch ni solo por path.",
       },
     ],
   },

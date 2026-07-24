@@ -1,0 +1,431 @@
+{
+  "timestamp": "2026-07-24T17:16:21",
+  "metas": 52,
+  "reports": 52,
+  "anti_ab_ok": 52,
+  "explorer_bound": 52,
+  "avg_before": 6.184615384615386,
+  "avg_after": 9.100961538461537,
+  "headless_running": [],
+  "ready_to_deploy": true,
+  "min_after": 8.6,
+  "max_after": 9.55,
+  "rows": [
+    {
+      "n": 1,
+      "status": "complete",
+      "score_before": 6.8,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 2,
+      "status": "complete",
+      "score_before": 7.2,
+      "score_after": 9.3,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 3,
+      "status": "fixed_validated",
+      "score_before": 7.5,
+      "score_after": 9.3,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 4,
+      "status": "fixed_validated",
+      "score_before": 6.2,
+      "score_after": 9.4,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 5,
+      "status": "fixed_validated",
+      "score_before": 7.8,
+      "score_after": 9.4,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 6,
+      "status": "fixed_validated",
+      "score_before": 7.6,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 7,
+      "status": "fixed_validated",
+      "score_before": 6.4,
+      "score_after": 9.3,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 8,
+      "status": "fixed_validated",
+      "score_before": 5.5,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 9,
+      "status": "complete",
+      "score_before": 7.3,
+      "score_after": 9.5,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 10,
+      "status": "complete",
+      "score_before": 7.0,
+      "score_after": 9.5,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 11,
+      "status": "complete",
+      "score_before": 6.4,
+      "score_after": 9.0,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 12,
+      "status": "complete",
+      "score_before": 6.4,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 13,
+      "status": "fixed_validated",
+      "score_before": 7.3,
+      "score_after": 9.4,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 14,
+      "status": "fixed_validated",
+      "score_before": 7.2,
+      "score_after": 9.4,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 15,
+      "status": "fixed_validated",
+      "score_before": 6.2,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 16,
+      "status": "fixed_validated",
+      "score_before": 6.5,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 17,
+      "status": "fixed_validated",
+      "score_before": 6.7,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 18,
+      "status": "fixed_validated",
+      "score_before": 7.0,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 19,
+      "status": "fixed_validated",
+      "score_before": 6.4,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 20,
+      "status": "fixed_validated",
+      "score_before": 5.8,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 21,
+      "status": "fixed_validated",
+      "score_before": 6.0,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 22,
+      "status": "fixed_validated",
+      "score_before": 7.2,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 23,
+      "status": "fixed_validated",
+      "score_before": 6.2,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 24,
+      "status": "fixed_validated",
+      "score_before": 6.8,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 25,
+      "status": "complete",
+      "score_before": 5.8,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 26,
+      "status": "fixed_validated",
+      "score_before": 6.2,
+      "score_after": 8.6,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 27,
+      "status": "fixed_validated",
+      "score_before": 4.8,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 28,
+      "status": "fixed_validated",
+      "score_before": 3.8,
+      "score_after": 8.7,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 29,
+      "status": "fixed_validated",
+      "score_before": 4.6,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 30,
+      "status": "fixed_validated",
+      "score_before": 4.2,
+      "score_after": 9.3,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 31,
+      "status": "fixed_validated",
+      "score_before": 5.5,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 32,
+      "status": "fixed_validated",
+      "score_before": 5.0,
+      "score_after": 9.0,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 33,
+      "status": "fixed_validated",
+      "score_before": 5.5,
+      "score_after": 9.0,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 34,
+      "status": "complete",
+      "score_before": 4.6,
+      "score_after": 8.8,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 35,
+      "status": "fixed_validated",
+      "score_before": 7.3,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 36,
+      "status": "complete",
+      "score_before": 6.6,
+      "score_after": 8.6,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 37,
+      "status": "fixed_validated",
+      "score_before": 6.0,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 38,
+      "status": "fixed_validated",
+      "score_before": 7.0,
+      "score_after": 9.0,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 39,
+      "status": "complete",
+      "score_before": 7.9,
+      "score_after": 9.55,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 40,
+      "status": "complete",
+      "score_before": 6.4,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 41,
+      "status": "fixed_validated",
+      "score_before": 5.0,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 42,
+      "status": "fixed_pending_recrawl",
+      "score_before": 6.0,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 43,
+      "status": "fixed_validated",
+      "score_before": 6.7,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 44,
+      "status": "fixed_validated",
+      "score_before": 5.5,
+      "score_after": 8.7,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 45,
+      "status": "complete",
+      "score_before": 5.8,
+      "score_after": 8.6,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 46,
+      "status": "fixed_validated",
+      "score_before": 4.8,
+      "score_after": 9.1,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 47,
+      "status": "complete",
+      "score_before": 5.7,
+      "score_after": 9.3,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 48,
+      "status": "complete",
+      "score_before": 5.8,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 49,
+      "status": "fixed_high_medium",
+      "score_before": 5.8,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 50,
+      "status": "section_ts_fixed_validated",
+      "score_before": 5.6,
+      "score_after": 8.7,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 51,
+      "status": "fixed_section_ts_residual_platform",
+      "score_before": 6.1,
+      "score_after": 8.9,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    },
+    {
+      "n": 52,
+      "status": "fixer_complete",
+      "score_before": 6.2,
+      "score_after": 9.2,
+      "anti_aberration_ok": true,
+      "explorer_bound": true
+    }
+  ]
+}

@@ -67,7 +67,7 @@ const SECTION_NAMES: Record<string, string> = {
   "async-concurrency": '27. Async',
   "llm-agents": '28. LLM Agents',
   mlops: '29. MLOps',
-  "security-infra": '30. Sec/Infra',
+  "security-infra": '30. ER probabilístico',
   "streaming-data": '31. Streaming',
   microservices: '32. Microsvc',
   "advanced-models": '33. ML+',

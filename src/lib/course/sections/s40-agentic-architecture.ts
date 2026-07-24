@@ -12,16 +12,16 @@ export const section40: CourseSection = {
   icon: "Network",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, arquitectura, DDD y decisiones técnicas conectan requisitos con fronteras y evidencia operativa. La práctica entrega un mapa C4, context map, contratos y ADRs versionados con responsables; se promueve solo cuando cada flujo conserva medida, dueño y consecuencia.",
+    "En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD y decisiones técnicas convierten requisitos en fronteras de código y evidencia revisable. El portfolio de esta sección es un dossier con escenarios de quality attributes, context map, C4 (context/container) y ADRs con alternativas, consecuencias y plan de reversión; se promueve solo cuando cada flujo conserva medida, dueño y consecuencia.",
   learningOutcomes: [
-    { text: "Captura FR y quality attributes" },
-    { text: "Documenta trade-offs y riesgos medibles" },
-    { text: "Diseña capas con baja coupling" },
-    { text: "Aplica ports/adapters hacia dominio" },
-    { text: "Delinea bounded contexts" },
-    { text: "Modela entities, VO y servicios" },
-    { text: "Documenta C4 y ADRs" },
-    { text: "Evoluciona APIs/eventos con compatibilidad" },
+    { text: "Redactar requisitos funcionales y quality-attribute scenarios con fuente, estímulo, entorno, respuesta, umbral y dueño contactable" },
+    { text: "Comparar alternativas de diseño con score de costo ponderado (menor es mejor), riesgo residual y dueño que acepta el residual" },
+    { text: "Diseñar capas con alta cohesión y bajo acoplamiento, sin saltos presentation→infrastructure ni domain→infrastructure" },
+    { text: "Aplicar ports/adapters de modo que el dominio dependa de puertos abstractos y los adapters implementen hacia la infraestructura" },
+    { text: "Delimitar bounded contexts con lenguaje ubicuo local y context map con traducciones (ACL) entre intake, ER, triage y reporting" },
+    { text: "Modelar entities (identidad), value objects (igualdad por valor) y servicios de dominio con invariantes comprobables" },
+    { text: "Documentar C4 (context y container) y ADRs aceptados con alternativas, consecuencias y señal de rollback" },
+    { text: "Evolucionar APIs y eventos de forma aditiva, con consumer contract en verde y deuda técnica con dueño y fecha de retiro" },
   ],
   theory: [
     {
@@ -30,12 +30,13 @@ export const section40: CourseSection = {
         "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
         "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39. Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real.",
         "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
-        "Orden pedagógico (liberación gradual): T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. Teoría con criterio medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de dominio por ejercicio. Id legacy `agentic-architecture` se conserva; el path V3 es arquitectura/DDD, no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 con un defecto de dominio. **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM (eso se trata más adelante). Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
       ],
       code: {
         language: 'python',
         title: "s40_map_contract.py",
         code: `def section_contract():
+    # Alcance de S40: arquitectura/DDD, no orquestación de agentes
     return {
         "case": "CASO-LIM-040",
         "gates": ["explicit_boundaries", "measure_owner_consequence", "no_inverted_deps"],
@@ -60,32 +61,35 @@ pii_allowed False`,
       },
     },
     {
-      heading: "requisitos funcionales y quality attributes",
+      heading: "Requisitos funcionales y quality attributes",
       subtopicId: "S40-T1-A",
       paragraphs: [
-        "Un requisito funcional describe una capacidad del negocio (p. ej. «el triage acepta un lote sintético y devuelve scores de prioridad»); un atributo de calidad se expresa como **escenario medible** — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacías como «rápido» o «escalable».",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones (latencia, dueños, secretos fuera del repo). Salida de este subtema: escenario QA completo con umbral y dueño contactable. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate CP-N4-A. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040` (Red Andina, Lima): la evidencia es un escenario QA completo con umbral (p. ej. `latency_p95_ms ≤ 300`) y dueño `platform`. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Un **requisito funcional (FR)** describe una capacidad del negocio: «el triage de Red Andina acepta un lote sintético y devuelve scores de prioridad». Un **quality attribute (QA)** no se escribe con adjetivos («rápido», «escalable»): se escribe como **escenario medible** con fuente, estímulo, entorno, respuesta, medida y umbral. Sin esos campos, el requisito no es auditable ni negociable.",
+        "Contrato de S40-T1-A. Entrada: FR + escenarios QA con `source`, `stimulus`, `environment`, `response`, `observed_ms`/`target_ms` y `owner`. Salida: escenario completo o rechazo. Error local: `REJECT_QA_SCENARIO` si el umbral se viola; si falta el dueño: `REQUEST_QA_OWNER`. No inventes PII ni secretos para «hacerlo real».",
+        "En `CASO-LIM-040` (Red Andina, Lima sintético): un pico de 100 req/s en intake con `latency_p95_ms` observada 280 ≤ target 300 y dueño `platform` es evidencia válida. Una latencia 410 ms con el mismo target es breach. Una señal incierta se deriva a revisión humana; nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "functional_quality_attrs.py",
-        code: `def qa_summary(frs, qas):
-    return {
-        "fr_count": len(frs),
-        "qa_attr": qas[0]["attr"],
-        "target": qas[0]["target"],
-    }
+        code: `def qa_complete(qa: dict) -> bool:
+    needed = {"source", "stimulus", "environment", "response", "target_ms", "owner"}
+    return needed <= qa.keys() and qa.get("observed_ms", 10**9) <= qa["target_ms"]
 
-frs = [{"id": "FR-01"}, {"id": "FR-02"}]
-qas = [{"attr": "latency_p95_ms", "target": 300, "owner": "platform"}]
-s = qa_summary(frs, qas)
-print("fr_count", s["fr_count"])
-print("qa_attr", s["qa_attr"])
-print("target", s["target"])`,
-        output: `fr_count 2
-qa_attr latency_p95_ms
-target 300`,
+qa = {
+    "source": "ops",
+    "stimulus": "100 req/s",
+    "environment": "peak",
+    "response": "serve",
+    "observed_ms": 280,
+    "target_ms": 300,
+    "owner": "platform",
+}
+print("complete", qa_complete(qa))
+print("attr", "latency_p95_ms")
+print("owner", qa["owner"])`,
+        output: `complete True
+attr latency_p95_ms
+owner platform`,
       },
       callout: {
         type: "tip",
@@ -95,90 +99,100 @@ target 300`,
       },
     },
     {
-      heading: "trade-offs, riesgos y criterios medibles",
+      heading: "Trade-offs, riesgos y criterios medibles",
       subtopicId: "S40-T1-B",
       paragraphs: [
-        "Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción universalmente mejor.",
-        "Contrato de decisión. Entrada: alternativas con score (p. ej. sync vs async) y matriz de riesgos residuales. Salida: opción elegida, scores visibles y dueño que acepta el residual. Error: elegir por moda o sin umbral medible. Criterio: la tabla de decisión se versiona junto al ADR y se reabre si el residual supera el umbral del owner.",
-        "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): score min_score elige async (2.2) sobre sync (3.8); el residual de complejidad de mensajes lo acepta el owner de plataforma, no el revisor de cola.",
+        "Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación. No existe la opción «siempre mejor»: sync puede simplificar la operación y async puede bajar latencia percibida a costa de complejidad de mensajes.",
+        "Contrato de decisión S40-T1-B. Entrada: alternativas con **score de costo ponderado** (menor es mejor bajo `min_score`) y residual aceptable (umbral ≤ 2 en el lab). Salida: opción elegida, tabla de scores y dueño que firma el residual. Error: elegir por moda o sin umbral → `REOPEN_TRADEOFF`. Si falta el residual: `ESCALATE_RESIDUAL_RISK`. La tabla se versiona junto al ADR.",
+        "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): el score es un **costo ponderado** (menor es mejor). async=2.2 vence a sync=3.8 bajo `min_score`; el riesgo residual de complejidad de mensajes (umbral ≤ 2) lo acepta el owner de plataforma (`arquitectura`), no el revisor de cola.",
       ],
       code: {
         language: 'python',
         title: "tradeoffs_risks_measurable.py",
-        code: `def choose_option(opts, criterion="min_score"):
+        code: `def choose_option(opts, residual_ok: int, max_residual: int = 2):
+    # score = costo ponderado → menor es mejor
     best = min(opts, key=lambda x: x["score"])
-    return best["n"], {o["n"]: o["score"] for o in opts}, criterion
+    scores = {o["n"]: o["score"] for o in opts}
+    ok = residual_ok <= max_residual
+    return best["n"], scores, ok
 
 opts = [{"n": "sync", "score": 3.8}, {"n": "async", "score": 2.2}]
-best, scores, criterion = choose_option(opts)
+best, scores, residual_ok = choose_option(opts, residual_ok=2)
 print("best", best)
 print("scores", scores)
-print("criterion", criterion)`,
+print("residual_ok", residual_ok)`,
         output: `best async
 scores {'sync': 3.8, 'async': 2.2}
-criterion min_score`,
+residual_ok True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S40-T1-B, audita tabla de decisión y riesgo residual aceptado. Un breach activa `REOPEN_TRADEOFF` y una ausencia activa `ESCALATE_RESIDUAL_RISK`.",
+          "Antes de promover S40-T1-B, audita tabla de decisión y riesgo residual aceptado (score = costo, menor es mejor; residual ≤ 2). Un breach activa `REOPEN_TRADEOFF` y una ausencia activa `ESCALATE_RESIDUAL_RISK`.",
       },
     },
     {
-      heading: "cohesión/coupling y capas",
+      heading: "Cohesión, acoplamiento y capas",
       subtopicId: "S40-T2-A",
       paragraphs: [
-        "Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el dominio.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: diagrama de dependencias sin salto de capa. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `cohesión/coupling y capas` a `CASO-LIM-040`: la evidencia es un diagrama donde presentación no salta al repositorio y dominio no importa infraestructura.",
+        "Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web.",
+        "Contrato de capas S40-T2-A. Entrada: lista de capas y aristas de dependencia. Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro). Error local: `REDRAW_BOUNDARY`. Si falta el grafo: `REVIEW_LAYER_OWNER`.",
+        "En `CASO-LIM-040`, la UI de intake de Red Andina no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier.",
       ],
       code: {
         language: 'python',
         title: "cohesion_coupling_layers.py",
-        code: `def layer_rules(layers):
-    # presentation no puede saltar a infrastructure; dominio no importa infra
-    order = {name: i for i, name in enumerate(layers)}
-    skip_forbidden = order["presentation"] < order["domain"] < order["infrastructure"]
-    return layers, True, skip_forbidden
+        code: `FORBIDDEN = {("domain", "infrastructure"), ("presentation", "infrastructure")}
 
-layers, domain_pure, skip_forbidden = layer_rules(
-    ["presentation", "application", "domain", "infrastructure"]
-)
+def deps_ok(deps: list[tuple[str, str]]) -> bool:
+    return all(edge not in FORBIDDEN for edge in deps)
+
+layers = ["presentation", "application", "domain", "infrastructure"]
+deps = [
+    ("presentation", "application"),
+    ("application", "domain"),
+    ("infrastructure", "domain"),  # adapter hacia dominio: ok
+]
 print("layers", layers)
-print("domain_pure", domain_pure)
-print("skip_forbidden", skip_forbidden)`,
+print("deps_ok", deps_ok(deps))
+print("domain_pure", ("domain", "infrastructure") not in deps)`,
         output: `layers ['presentation', 'application', 'domain', 'infrastructure']
-domain_pure True
-skip_forbidden True`,
+deps_ok True
+domain_pure True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S40-T2-A conserva diagrama de dependencias sin salto de capa; no conviertas `REDRAW_BOUNDARY` ni `REVIEW_LAYER_OWNER` en éxito silencioso.",
+          "La revisión de S40-T2-A exige grafo sin `presentation→infrastructure` ni `domain→infrastructure`; no conviertas `REDRAW_BOUNDARY` ni `REVIEW_LAYER_OWNER` en éxito silencioso.",
       },
     },
     {
-      heading: "ports/adapters y dependencia hacia dominio",
+      heading: "Ports/adapters y dependencia hacia el dominio",
       subtopicId: "S40-T2-B",
       paragraphs: [
-        "Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: test del dominio con adapter en memoria. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `ports/adapters` a `CASO-LIM-040`: un adapter en memoria prueba el dominio sin HTTP, SQL ni red; el contrato puede sustituirse sin cambiar la regla.",
+        "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura.",
+        "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`.",
+        "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
       ],
       code: {
         language: 'python',
         title: "ports_adapters_domain_dep.py",
-        code: `class CaseRepo:
-    """Port: el dominio pide get(case_id); el adapter cumple sin HTTP/SQL real."""
+        code: `from typing import Protocol
+
+class CaseRepo(Protocol):
+    def get(self, cid: str) -> dict: ...
+
+class MemoryCaseRepo:
     def get(self, cid: str) -> dict:
         return {"status": "open", "case_id": cid}
 
 def open_case(repo: CaseRepo, cid: str) -> str:
+    # dominio depende del port, no de SQL/HTTP
     return repo.get(cid)["status"]
 
-print("status", open_case(CaseRepo(), "CASE-1"))
+print("status", open_case(MemoryCaseRepo(), "CASE-1"))
 print("dep", "domain<-adapters")
 print("port_ok", True)`,
         output: `status open
@@ -189,117 +203,112 @@ port_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S40-T2-B: demuestra test del dominio con adapter en memoria. Falla cerrada con `INVERT_DEPENDENCY` y deriva incertidumbre mediante `DEFINE_PORT_CONTRACT`.",
+          "Contrato S40-T2-B: demuestra test del dominio con adapter en memoria y `implements_port`. Falla cerrada con `INVERT_DEPENDENCY` y deriva incertidumbre mediante `DEFINE_PORT_CONTRACT`.",
       },
     },
     {
-      heading: "bounded contexts y lenguaje ubicuo",
+      heading: "Bounded contexts y lenguaje ubicuo",
       subtopicId: "S40-T3-A",
       paragraphs: [
-        "Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un record de ER.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: glosario ubicuo y context map revisado. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `bounded contexts y lenguaje ubicuo` a `CASO-LIM-040`: el context map traduce términos entre intake, ER, relación, triage y reporting sin fusionar significados.",
+        "Un **bounded context** da significado local a cada término del lenguaje ubicuo. «Caso» en intake no es el mismo concepto que «record» en ER ni que «ticket» en triage. El **context map** declara relaciones (customer/supplier, ACL, shared kernel) y **traducciones** entre glosarios para no fusionar modelos por accidente.",
+        "Contrato de fronteras S40-T3-A. Entrada: conjuntos de términos por contexto y mapa de traducciones. Salida: glosarios **disjuntos** más al menos una traducción explícita (p. ej. case→record). Si hay intersección de términos sin ACL: `SPLIT_CONTEXTS`. Si falta el mapa de traducciones: `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
+        "En `CASO-LIM-040`, intake posee `{case}`; ER posee `{record, score}`; la traducción `case→record` es el Anti-Corruption Layer (ACL) que evita que el score de ER contamine el lenguaje de intake. No mezcles «score» en la UI de recepción sin traducir.",
       ],
       code: {
         language: 'python',
         title: "bounded_contexts_ubiquitous.py",
-        code: `def context_map(ctx: dict) -> dict:
-    return {
-        "contexts": sorted(ctx),
-        "er_terms": ctx["ER"],
-        "case_not_in_er": "Case" not in ctx["ER"],
-    }
+        code: `def contexts_ok(intake: set, er: set, translations: dict) -> bool:
+    return intake.isdisjoint(er) and translations.get("case") == "record"
 
-ctx = {"Intake": ["Case"], "ER": ["Record", "Score"]}
-m = context_map(ctx)
-print("contexts", m["contexts"])
-print("er_terms", m["er_terms"])
-print("case_not_in_er", m["case_not_in_er"])`,
+intake, er = {"case"}, {"record", "score"}
+translations = {"case": "record"}
+print("contexts", sorted(["Intake", "ER"]))
+print("disjoint", intake.isdisjoint(er))
+print("acl", contexts_ok(intake, er, translations))`,
         output: `contexts ['ER', 'Intake']
-er_terms ['Record', 'Score']
-case_not_in_er True`,
+disjoint True
+acl True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S40-T3-A, el artefacto comprobable es glosario ubicuo y context map revisado. Sin él corresponde `SPLIT_CONTEXTS` o, si faltan datos, `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
+          "Para S40-T3-A, el artefacto comprobable es glosario ubicuo y context map revisado (términos disjuntos + traducciones). Sin él corresponde `SPLIT_CONTEXTS` o, si faltan datos, `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
       },
     },
     {
-      heading: "entities, value objects y servicios",
+      heading: "Entities, value objects y servicios de dominio",
       subtopicId: "S40-T3-B",
       paragraphs: [
-        "Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalmente a una entidad.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: invariantes de entity/VO probadas. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `entities, value objects y servicios` a `CASO-LIM-040`: fixtures sintéticas prueban identidad, igualdad por valor e invariantes; ER no implica fraude ni parentesco.",
+        "Una **entity** se rastrea por **identidad** a lo largo del tiempo (`CASE-001` sigue siendo el mismo caso aunque cambie su estado). Un **value object (VO)** se compara por **valor** (150 PEN es igual a otro 150 PEN) y suele ser inmutable. Un **servicio de dominio** aloja una regla que no encaja naturalmente en una sola entidad (p. ej. fusionar scores sin guardar estado propio).",
+        "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
+        "En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN inmutable; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.",
       ],
       code: {
         language: 'python',
         title: "entities_vo_services.py",
-        code: `def money_vo(amount: int, currency: str) -> str:
-    return f"{amount}{currency}"
+        code: `def same_entity(a_id: str, b_id: str) -> bool:
+    return a_id == b_id  # identidad, no atributos
 
-def entity_label(case_id: str, amount: int, currency: str) -> tuple:
-    vo = money_vo(amount, currency)
-    return f"{case_id}:{vo}", True, case_id
+def same_money(a: dict, b: dict) -> bool:
+    return a["amount"] == b["amount"] and a["currency"] == b["currency"]
 
-label, vo_frozen, entity = entity_label("CASE-1", 150, "PEN")
-print(label)
-print("vo_frozen", vo_frozen)
-print("entity", entity)`,
-        output: `CASE-1:150PEN
-vo_frozen True
-entity CASE-1`,
+case_a, case_b = "CASE-001", "CASE-001"
+vo_a = {"amount": 150, "currency": "PEN"}
+vo_b = {"amount": 150, "currency": "PEN"}
+print("entity_same", same_entity(case_a, case_b))
+print("vo_equal", same_money(vo_a, vo_b))
+print("vo_frozen", True)`,
+        output: `entity_same True
+vo_equal True
+vo_frozen True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S40-T3-B: prueba invariantes de entity/VO probadas y registra por separado `REJECT_DOMAIN_MODEL` (breach) y `CLARIFY_INVARIANT` (missing).",
+          "Promoción de S40-T3-B: prueba invariantes de entity/VO (identidad vs igualdad por valor) y registra por separado `REJECT_DOMAIN_MODEL` (breach) y `CLARIFY_INVARIANT` (missing).",
       },
     },
     {
-      heading: "diagramas C4/flujo y ADRs",
+      heading: "Diagramas C4, flujo y ADRs",
       subtopicId: "S40-T4-A",
       paragraphs: [
-        "C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo final.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: C4 enlazado a ADR aceptado y reversible. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `diagramas C4/flujo y ADRs` a `CASO-LIM-040`: C4 localiza el flujo y el ADR conserva alternativa rechazada, consecuencia y señal de reversión.",
+        "**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**.",
+        "Contrato documental S40-T4-A. Entrada: niveles C4 presentes y campos del ADR. Salida mínima: `{context, container}` en C4 y `{decision, alternatives, consequences, rollback}` con `status=accepted`. Si el ADR está incompleto o en draft sin campos: `RETURN_ADR_TO_DRAFT`. Si falta el status: `REQUEST_ARCH_REVIEW`.",
+        "En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async, qué alternativa se descartó y cómo revertir.",
       ],
       code: {
         language: 'python',
         title: "c4_flow_adr.py",
-        code: `def adr_record(adr_id: str, status: str, containers: list) -> dict:
-    return {
-        "containers": containers,
-        "adr": adr_id,
-        "status": status,
-        "has_consequences": status == "accepted",
-    }
+        code: `def adr_ready(c4: set[str], fields: set[str], status: str) -> bool:
+    need_c4 = {"context", "container"}
+    need_adr = {"decision", "alternatives", "consequences", "rollback"}
+    return need_c4 <= c4 and need_adr <= fields and status == "accepted"
 
-rec = adr_record("ADR-001", "accepted", ["api", "worker", "db", "object_store"])
-print("containers", rec["containers"])
-print("adr", rec["adr"], rec["status"])
-print("has_consequences", rec["has_consequences"])`,
-        output: `containers ['api', 'worker', 'db', 'object_store']
-adr ADR-001 accepted
-has_consequences True`,
+c4 = {"context", "container"}
+fields = {"context", "decision", "alternatives", "consequences", "rollback"}
+print("c4_ok", {"context", "container"} <= c4)
+print("adr_ok", adr_ready(c4, fields, "accepted"))
+print("status", "accepted")`,
+        output: `c4_ok True
+adr_ok True
+status accepted`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "El dueño de S40-T4-A acepta solo C4 enlazado a ADR aceptado y reversible; una violación produce `RETURN_ADR_TO_DRAFT` y un registro incompleto produce `REQUEST_ARCH_REVIEW`.",
+          "El dueño de S40-T4-A acepta solo C4 (context+container) enlazado a ADR accepted con alternatives/consequences/rollback; violación → `RETURN_ADR_TO_DRAFT`; registro incompleto → `REQUEST_ARCH_REVIEW`.",
       },
     },
     {
       heading: "APIs, eventos, deuda y evolución compatible",
       subtopicId: "S40-T4-B",
       paragraphs: [
-        "Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: consumer contract de versión previa en verde. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `APIs, eventos, deuda y evolución compatible` a `CASO-LIM-040`: un consumer contract anterior permanece verde y la deuda tiene dueño y criterio de retiro.",
+        "Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa. Un **consumer contract** verifica que `v1_fields ⊆ v_next`. La **deuda técnica** no es un chiste de standup: lleva dueño, fecha de retiro y criterio de aceptación.",
+        "Contrato de evolución S40-T4-B. Entrada: conjuntos de campos v1 y v1.1, `debt_owner` y `retire_on`. Salida: consumer contract en verde + deuda con dueño y fecha. Si se eliminan campos de v1: `BLOCK_BREAKING_CHANGE`. Si falta la fecha de retiro: `NEGOTIATE_VERSION`. Versiona eventos (`case.created`) al cambiar semántica.",
+        "En `CASO-LIM-040`, el payload v1 `{case_id, status}` sigue legible en v1.1 con `priority` añadido: un consumidor antiguo permanece en verde. La deuda del job async de cola de intake tiene dueño `platform` y retiro planificado `2026-12-01`; sin `retire_on` no se negocia versión a ciegas.",
       ],
       code: {
         language: 'python',
@@ -323,110 +332,132 @@ additive True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S40-T4-B: conserva consumer contract de versión previa en verde, la evidencia de `BLOCK_BREAKING_CHANGE` y la ruta humana `NEGOTIATE_VERSION`.",
+          "Cierre de S40-T4-B: conserva el consumer contract de la versión previa en verde, evidencia de `BLOCK_BREAKING_CHANGE` y ruta humana `NEGOTIATE_VERSION`.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S40 (Arquitectura, DDD y decisiones técnicas) alineadas a CP-N4-A (inicio).",
+    intro: "Te muestro 8 demos de S40 (Arquitectura, DDD y decisiones técnicas) alineadas a CP-N4-A. Cada demo calcula el contrato del subtema con stdlib — no llama servicios externos.",
     steps: [
       {
         demoId: "S40-T1-A-DEMO",
         subtopicId: "S40-T1-A",
         environment: "local-python",
-        description: "Demo: requisitos funcionales y quality attributes",
+        description: "Demo: escenario QA completo (fuente, estímulo, umbral, dueño) para intake Red Andina",
         code: {
           language: 'python',
           title: "demo_functional_quality_attrs.py",
-          code: `def budget_ok(qas: dict, limit_ms: int) -> bool:
-    return qas["latency_p95_ms"] <= limit_ms
+          code: `def qa_complete(qa: dict) -> bool:
+    needed = {"source", "stimulus", "environment", "response", "target_ms", "owner"}
+    return needed <= qa.keys() and qa.get("observed_ms", 10**9) <= qa["target_ms"]
 
-qas = {"latency_p95_ms": 250}
-print("owners", ["intake", "er"])
-print("budget_ok", budget_ok(qas, 300))
-print("qa_n", len(qas))`,
-          output: `owners ['intake', 'er']
-budget_ok True
-qa_n 1`,
+qa = {
+    "source": "ops",
+    "stimulus": "100 req/s",
+    "environment": "peak_lima",
+    "response": "serve",
+    "observed_ms": 250,
+    "target_ms": 300,
+    "owner": "platform",
+}
+print("complete", qa_complete(qa))
+print("attr", "latency_p95_ms")
+print("owner", qa["owner"])`,
+          output: `complete True
+attr latency_p95_ms
+owner platform`,
         },
-        why: "Hace observable `requisitos funcionales y quality attributes` con un caso local pequeño y deja como evidencia escenario QA completo con umbral y dueño; el demo modela el contrato, no un servicio externo.",
+        why: "Construye un escenario QA con fuente, estímulo, entorno peak_lima, respuesta, observed≤target y dueño `platform`. Sin umbral o sin dueño el escenario no es auditable: el gate pide medida + dueño, no adjetivos como «rápido».",
       },
       {
         demoId: "S40-T1-B-DEMO",
         subtopicId: "S40-T1-B",
         environment: "local-python",
-        description: "Demo: trade-offs, riesgos y criterios medibles",
+        description: "Demo: trade-off por costo ponderado (menor es mejor) + residual ≤ 2",
         code: {
           language: 'python',
           title: "demo_tradeoffs_risks_measurable.py",
-          code: `def top_risk(risks):
-    return max(risks, key=lambda x: x["sev"])["id"]
+          code: `def choose_option(opts, residual_ok: int, max_residual: int = 2):
+    # score = costo ponderado → menor es mejor (no maximices utilidad)
+    best = min(opts, key=lambda x: x["score"])
+    scores = {o["n"]: o["score"] for o in opts}
+    ok = residual_ok <= max_residual
+    return best["n"], scores, ok
 
-risks = [{"id": "R1", "sev": 1.5}, {"id": "R2", "sev": 0.4}]
-print("top", top_risk(risks))
-print("sevs", [r["sev"] for r in risks])
-print("measurable", True)`,
-          output: `top R1
-sevs [1.5, 0.4]
-measurable True`,
+opts = [{"n": "sync", "score": 3.8}, {"n": "async", "score": 2.2}]
+best, scores, residual_ok = choose_option(opts, residual_ok=2)
+print("best", best)
+print("scores", scores)
+print("residual_ok", residual_ok)`,
+          output: `best async
+scores {'sync': 3.8, 'async': 2.2}
+residual_ok True`,
         },
-        why: "Hace observable `trade-offs, riesgos y criterios medibles` con un caso local pequeño y deja como evidencia tabla de decisión y riesgo residual aceptado; el demo modela el contrato, no un servicio externo.",
+        why: "Elige async porque 2.2 < 3.8 bajo min_score (costo ponderado, menor es mejor) y el residual 2 no supera el umbral del owner. Si maximizaras el score «por costumbre de ML», promoverías sync y romperías el trade-off medible.",
       },
       {
         demoId: "S40-T2-A-DEMO",
         subtopicId: "S40-T2-A",
         environment: "local-python",
-        description: "Demo: cohesión/coupling y capas",
+        description: "Demo: grafo de capas sin saltos prohibidos ni domain→infrastructure",
         code: {
           language: 'python',
           title: "demo_cohesion_coupling_layers.py",
-          code: `def context_sizes(mods: dict) -> tuple:
-    return len(mods), mods.get("er", 0), True
+          code: `FORBIDDEN = {("domain", "infrastructure"), ("presentation", "infrastructure")}
 
-mods = {"intake": 1, "er": 2, "reporting": 1}
-bc_count, er_n, no_mixed = context_sizes(mods)
-print("bc_count", bc_count)
-print("er_n", er_n)
-print("no_mixed", no_mixed)`,
-          output: `bc_count 3
-er_n 2
-no_mixed True`,
+def deps_ok(deps: list[tuple[str, str]]) -> bool:
+    return all(edge not in FORBIDDEN for edge in deps)
+
+layers = ["presentation", "application", "domain", "infrastructure"]
+deps = [
+    ("presentation", "application"),
+    ("application", "domain"),
+    ("infrastructure", "domain"),
+]
+print("layers", layers)
+print("deps_ok", deps_ok(deps))
+print("domain_pure", ("domain", "infrastructure") not in deps)`,
+          output: `layers ['presentation', 'application', 'domain', 'infrastructure']
+deps_ok True
+domain_pure True`,
         },
-        why: "Hace observable `cohesión/coupling y capas` con un caso local pequeño y deja como evidencia diagrama de dependencias sin salto de capa; el demo modela el contrato, no un servicio externo.",
+        why: "Valida aristas del grafo de capas: presentation→application→domain e infrastructure→domain están permitidas; presentation→infrastructure y domain→infrastructure son breach. Evidencia = diagrama de dependencias, no conteo de módulos.",
       },
       {
         demoId: "S40-T2-B-DEMO",
         subtopicId: "S40-T2-B",
         environment: "local-python",
-        description: "Demo: ports/adapters y dependencia hacia dominio",
+        description: "Demo: dominio depende de Protocol CaseRepo; MemoryCaseRepo es el adapter",
         code: {
           language: 'python',
           title: "demo_ports_adapters_domain_dep.py",
-          code: `class FakeQueue:
-    def __init__(self):
-        self.state = "queued"
+          code: `from typing import Protocol
 
-    def close(self, case_id: str) -> str:
-        self.state = "closed"
-        return f"{self.state}:{case_id}"
+class CaseRepo(Protocol):
+    def get(self, cid: str) -> dict: ...
 
-def domain_close(queue: FakeQueue, case_id: str) -> str:
-    return f"queued:{queue.close(case_id)}"
+class MemoryCaseRepo:
+    def get(self, cid: str) -> dict:
+        return {"status": "open", "case_id": cid}
 
-print(domain_close(FakeQueue(), "CASE-9"))
-print("adapter", "fake")
-print("no_smtp_in_domain", True)`,
-          output: `queued:closed:CASE-9
-adapter fake
-no_smtp_in_domain True`,
+def open_case(repo: CaseRepo, cid: str) -> str:
+    # dominio tipa el port; no importa SQLAlchemy ni FastAPI
+    return repo.get(cid)["status"]
+
+print("status", open_case(MemoryCaseRepo(), "CASE-9"))
+print("dep", "domain<-adapters")
+print("implements_port", True)`,
+          output: `status open
+dep domain<-adapters
+implements_port True`,
         },
-        why: "Hace observable `ports/adapters y dependencia hacia dominio` con un caso local pequeño y deja como evidencia test del dominio con adapter en memoria; el demo modela el contrato, no un servicio externo.",
+        why: "El dominio recibe un `CaseRepo` (port) y el adapter en memoria cumple el contrato. La flecha de dependencia va hacia el dominio: puedes cambiar MemoryCaseRepo por un SQL real sin reescribir `open_case`. El flag `implements_port` es la evidencia de DIP, no el sufijo del nombre.",
       },
       {
         demoId: "S40-T3-A-DEMO",
         subtopicId: "S40-T3-A",
         environment: "local-python",
-        description: "Demo: bounded contexts y lenguaje ubicuo",
+        description: "Demo: ACL de ER→intake que oculta score y expone solo case_id/source",
         code: {
           language: 'python',
           title: "demo_bounded_contexts_ubiquitous.py",
@@ -442,75 +473,87 @@ print("no_leak", True)`,
 acl True
 no_leak True`,
         },
-        why: "Hace observable `bounded contexts y lenguaje ubicuo` con un caso local pequeño y deja como evidencia glosario ubicuo y context map revisado; el demo modela el contrato, no un servicio externo.",
+        why: "Traduce un paquete ER al lenguaje de intake y elimina `score`. El ACL protege el bounded context: cada glosario local se mantiene disjunto y las traducciones se declaran, no se improvisan en la UI.",
       },
       {
         demoId: "S40-T3-B-DEMO",
         subtopicId: "S40-T3-B",
         environment: "local-python",
-        description: "Demo: entities, value objects y servicios",
+        description: "Demo: identidad de entity vs igualdad de VO Money (PEN) e invariante frozen",
         code: {
           language: 'python',
           title: "demo_entities_vo_services.py",
-          code: `def merge_scores(a: float, b: float, w: float = 0.5) -> float:
-    return round(a * w + b * (1 - w), 1)
+          code: `def same_entity(a: str, b: str) -> bool:
+    return a == b
 
-print("merged", merge_scores(0.8, 0.6))
-print("service", "stateless")
-print("not_entity", True)`,
-          output: `merged 0.7
-service stateless
-not_entity True`,
+def same_vo(a: dict, b: dict) -> bool:
+    return a == b  # igualdad por valor
+
+entity = "CASE-001"
+vo_a = {"amount": 150, "currency": "PEN"}
+vo_b = {"amount": 150, "currency": "PEN"}
+print("entity", entity, "same", same_entity(entity, "CASE-001"))
+print("vo_equal", same_vo(vo_a, vo_b))
+print("vo_frozen", True)`,
+          output: `entity CASE-001 same True
+vo_equal True
+vo_frozen True`,
         },
-        why: "Hace observable `entities, value objects y servicios` con un caso local pequeño y deja como evidencia invariantes de entity/VO probadas; el demo modela el contrato, no un servicio externo.",
+        why: "Contrasta identidad (`CASE-001` == `CASE-001`) con igualdad por valor del VO Money en PEN. El flag `vo_frozen` modela inmutabilidad: no mutes el monto in-place; crea otro VO. El servicio de dominio (stateless) se evalúa aparte en We Do.",
       },
       {
         demoId: "S40-T4-A-DEMO",
         subtopicId: "S40-T4-A",
         environment: "local-python",
-        description: "Demo: diagramas C4/flujo y ADRs",
+        description: "Demo: checklist C4 context/container + ADR accepted con rollback",
         code: {
           language: 'python',
           title: "demo_c4_flow_adr.py",
-          code: `def flow_doc(steps: list) -> tuple:
-    head = " -> ".join(steps[:3])
-    return len(steps), head, "C4+ADR"
+          code: `def adr_ready(c4: set[str], fields: set[str], status: str) -> bool:
+    return {"context", "container"} <= c4 and {
+        "decision", "alternatives", "consequences", "rollback"
+    } <= fields and status == "accepted"
 
-n, head, doc = flow_doc(["intake", "validate", "enqueue", "score", "report"])
-print("steps", n)
-print("head", head)
-print("doc", doc)`,
-          output: `steps 5
-head intake -> validate -> enqueue
-doc C4+ADR`,
+print("c4_ok", {"context", "container"} <= {"context", "container"})
+print("adr_ok", adr_ready(
+    {"context", "container"},
+    {"context", "decision", "alternatives", "consequences", "rollback"},
+    "accepted",
+))
+print("status", "accepted")`,
+          output: `c4_ok True
+adr_ok True
+status accepted`,
         },
-        why: "Hace observable `diagramas C4/flujo y ADRs` con un caso local pequeño y deja como evidencia C4 enlazado a ADR aceptado y reversible; el demo modela el contrato, no un servicio externo.",
+        why: "Comprueba niveles C4 mínimos (context + container) y campos de ADR (decision, alternatives, consequences, rollback) con status accepted. Un dibujo sin ADR o un ADR sin plan de reversión no pasan el gate documental.",
       },
       {
         demoId: "S40-T4-B-DEMO",
         subtopicId: "S40-T4-B",
         environment: "local-python",
-        description: "Demo: APIs, eventos, deuda y evolución compatible",
+        description: "Demo: evolución aditiva (v1 ⊆ v1.1) + deuda con dueño y retire_on",
         code: {
           language: 'python',
           title: "demo_apis_events_debt_compat.py",
-          code: `def debt_card(debt_id: str, paydown: str, event: str) -> dict:
-    return {"debt": debt_id, "paydown": paydown, "events": event, "owner": "platform"}
+          code: `def additive_ok(v1: set, v11: set) -> bool:
+    return v1 <= v11  # consumer contract: campos previos se conservan
 
-card = debt_card("D1", "async_job", "case.created")
-print("debt", card["debt"])
-print("paydown", card["paydown"])
-print("events", card["events"])`,
-          output: `debt D1
-paydown async_job
-events case.created`,
+v1 = {"case_id", "status"}
+v11 = {"case_id", "status", "priority"}
+debt = {"owner": "platform", "retire_on": "2026-12-01", "event": "case.created"}
+print("additive", additive_ok(v1, v11))
+print("debt_owner", debt["owner"])
+print("retire_on", debt["retire_on"])`,
+          output: `additive True
+debt_owner platform
+retire_on 2026-12-01`,
         },
-        why: "Hace observable `APIs, eventos, deuda y evolución compatible` con un caso local pequeño y deja como evidencia consumer contract de versión previa en verde; el demo modela el contrato, no un servicio externo.",
+        why: "Comprueba que v1 ⊆ v1.1 (el consumidor antiguo sigue en verde) y que la deuda del job async tiene dueño y fecha de retiro. Sin `retire_on` no se negocia versión a ciegas; borrar un campo de v1 es `BLOCK_BREAKING_CHANGE`.",
       },
     ],
   },
   weDo: {
-    intro: "S40 · Laboratorio Dossier de arquitectura gobernada para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
+    intro: "S40 · Laboratorio dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Los fixtures son sintéticos y reutilizan el vocabulario intake→ER→triage→reporting.",
     steps: [
       {
         id: "S40-T1-A-E1",
@@ -522,9 +565,9 @@ events case.created`,
           "Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva escenario QA completo con umbral y dueño; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: latencia observada contra umbral y dueño", "CASO-LIM-040-1A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: observed_ms > target_ms", "CASO-LIM-040-1A es sintético"],
         tests: "El fixture `CASO-LIM-040-1A` satisface un predicado de dominio real; imprime `S40-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QA_SCENARIO y por qué faltar owner exige REQUEST_QA_OWNER.",
+        feedback: "S40-T1-A-E1: el PASS exige observed_ms ≤ target_ms y owner truthy. Si invertiste la comparación, el adverso «parece» válido y el happy path falla.",
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e1.py",
@@ -559,9 +602,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: latencia observada contra umbral y dueño", "CASO-LIM-040-1A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: observed_ms > target_ms", "CASO-LIM-040-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS REJECT_QA_SCENARIO MISSING:owner`.",
-        feedback: "S40-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QA_SCENARIO y por qué faltar owner exige REQUEST_QA_OWNER.",
+        feedback: "S40-T1-A-E2: tres salidas distintas — umbral OK+owner → PASS; latencia rota → REJECT_QA_SCENARIO; sin owner → MISSING:owner (schema antes que contenido).",
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e2.py",
@@ -613,9 +656,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: latencia observada contra umbral y dueño", "CASO-LIM-040-1A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: observed_ms > target_ms", "CASO-LIM-040-1A es sintético"],
         tests: "Fixtures `CASO-LIM-040-1A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_QA_SCENARIO y por qué faltar owner exige REQUEST_QA_OWNER.",
+        feedback: "S40-T1-A-E3: fail-closed — CONTINUE solo con escenario medible; breach es REJECT_QA_SCENARIO; incertidumbre (sin owner) es REQUEST_QA_OWNER, no CONTINUE silencioso.",
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e3.py",
@@ -661,15 +704,15 @@ assert results == ["CONTINUE", "REJECT_QA_SCENARIO", "REQUEST_QA_OWNER"]` ,
         id: "S40-T1-B-E1",
         subtopicId: "S40-T1-B",
         kind: "guided",
-        instruction: "S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operación debe demostrar alternativa con menor score y riesgo residual aceptable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REOPEN_TRADEOFF` en E2.",
-        hint: "Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla explicada en S40-T1-B.",
+        instruction: "S40-T1-B-E1 · Compara el trade-off sobre `CASO-LIM-040-1B`. El score es un **costo ponderado** (menor es mejor): `selected` debe ser la clave de menor score y `residual_risk` ≤ 2. Reemplaza la expresión booleana defectuosa (el starter usa max en vez de min). Salida exacta: `S40-T1-B PASS`; el adverso en E2 activa `REOPEN_TRADEOFF`.",
+        hint: "score = costo → min(scores); residual_risk ≤ 2; risk_owner debe existir en el fixture.",
         hints: [
-          "Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla explicada en S40-T1-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva tabla de decisión y riesgo residual aceptado; revisa dirección de comparación, conjuntos y negaciones.",
+          "selected == min(scores, key=scores.get) and residual_risk <= 2.",
+          "No uses max: un score alto es peor costo, no mejor utilidad.",
         ],
-        edgeCases: ["falta residual_risk", "fixture adverso: alternativa con menor score y riesgo residual aceptable", "CASO-LIM-040-1B es sintético"],
+        edgeCases: ["falta residual_risk", "fixture adverso: selected ≠ min(scores) o residual_risk > 2", "CASO-LIM-040-1B es sintético"],
         tests: "El fixture `CASO-LIM-040-1B` satisface un predicado de dominio real; imprime `S40-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_TRADEOFF y por qué faltar residual_risk exige ESCALATE_RESIDUAL_RISK.",
+        feedback: "S40-T1-B-E1: score = costo (menor es mejor). selected debe ser min(scores) y residual_risk ≤ 2; el starter usa max — invierte a min.",
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e1.py",
@@ -677,7 +720,7 @@ assert results == ["CONTINUE", "REJECT_QA_SCENARIO", "REQUEST_QA_OWNER"]` ,
 # DEFECT: selección tradeoff invertida
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
 record = {"case_id": "CASO-LIM-040-1B", **{"scores":{"sync":3.8,"async":2.2},"selected":"async","risk_owner":"arquitectura","residual_risk":2}}
-# DEFECT: min_score elige el menor score residual, no el max
+# DEFECT: usa max (utilidad) en vez de min (costo ponderado, menor es mejor)
 meets_contract = record["selected"] == max(record["scores"], key=record["scores"].get)
 status = "PASS" if meets_contract else "REOPEN_TRADEOFF"
 print("S40-T1-B", status)
@@ -704,9 +747,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta residual_risk", "fixture adverso: alternativa con menor score y riesgo residual aceptable", "CASO-LIM-040-1B es sintético"],
+        edgeCases: ["falta residual_risk", "fixture adverso: selected ≠ min(scores) o residual_risk > 2", "CASO-LIM-040-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `residual_risk` ausente y produce exactamente `PASS REOPEN_TRADEOFF MISSING:residual_risk`.",
-        feedback: "S40-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_TRADEOFF y por qué faltar residual_risk exige ESCALATE_RESIDUAL_RISK.",
+        feedback: "S40-T1-B-E2: tabla de tres rutas — min_score+residual OK → PASS; moda o residual alto → REOPEN_TRADEOFF; sin residual_risk → MISSING (no inventes el residual).",
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e2.py",
@@ -758,9 +801,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta residual_risk", "fixture adverso: alternativa con menor score y riesgo residual aceptable", "CASO-LIM-040-1B es sintético"],
+        edgeCases: ["falta residual_risk", "fixture adverso: selected ≠ min(scores) o residual_risk > 2", "CASO-LIM-040-1B es sintético"],
         tests: "Fixtures `CASO-LIM-040-1B`, adverso y sin `residual_risk` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_TRADEOFF y por qué faltar residual_risk exige ESCALATE_RESIDUAL_RISK.",
+        feedback: "S40-T1-B-E3: CONTINUE solo con trade-off medible; breach → REOPEN_TRADEOFF; sin residual → ESCALATE_RESIDUAL_RISK (el owner no firma a ciegas).",
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e3.py",
@@ -806,15 +849,15 @@ assert results == ["CONTINUE", "REOPEN_TRADEOFF", "ESCALATE_RESIDUAL_RISK"]` ,
         id: "S40-T2-A-E1",
         subtopicId: "S40-T2-A",
         kind: "guided",
-        instruction: "S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo de dependencias sin dominio hacia infraestructura. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REDRAW_BOUNDARY` en E2.",
-        hint: "Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.",
+        instruction: "S40-T2-A-E1 · Filtra el contrato de capas sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin `domain→infrastructure` ni `presentation→infrastructure` (sí se permite `infrastructure→domain`). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; el fixture adverso en E2 activa `REDRAW_BOUNDARY`.",
+        hint: "Relaciona los campos `layers` y `dependencies` con las aristas prohibidas de S40-T2-A.",
         hints: [
-          "Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva diagrama de dependencias sin salto de capa; revisa dirección de comparación, conjuntos y negaciones.",
+          "Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.",
+          "El fixture válido tiene presentation→application, application→domain e infrastructure→domain; layers[2] debe ser domain.",
         ],
-        edgeCases: ["falta dependencies", "fixture adverso: grafo de dependencias sin dominio hacia infraestructura", "CASO-LIM-040-2A es sintético"],
+        edgeCases: ["falta dependencies", "fixture adverso: domain→infrastructure o presentation→infrastructure", "CASO-LIM-040-2A es sintético"],
         tests: "El fixture `CASO-LIM-040-2A` satisface un predicado de dominio real; imprime `S40-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REDRAW_BOUNDARY y por qué faltar dependencies exige REVIEW_LAYER_OWNER.",
+        feedback: "S40-T2-A-E1: forbidden = {(domain,infrastructure), (presentation,infrastructure)}. Construye tuple(edge); infrastructure→domain sí está permitido.",
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e1.py",
@@ -832,7 +875,11 @@ print("S40-T2-A", status)
           language: 'python',
           title: "s40-t2-a-e1.py",
           code: `record = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
-meets_contract = all(edge != ["domain","infrastructure"] for edge in record["dependencies"]) and record["layers"][2] == "domain"
+forbidden = {("domain", "infrastructure"), ("presentation", "infrastructure")}
+meets_contract = (
+    all(tuple(edge) not in forbidden for edge in record["dependencies"])
+    and record["layers"][2] == "domain"
+)
 status = "PASS" if meets_contract else "REDRAW_BOUNDARY"
 print("S40-T2-A", status)
 assert meets_contract is True` ,
@@ -843,15 +890,15 @@ assert meets_contract is True` ,
         id: "S40-T2-A-E2",
         subtopicId: "S40-T2-A",
         kind: "independent",
-        instruction: "S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PASS`, `REDRAW_BOUNDARY`, `MISSING:dependencies`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S40-T2-A-E2 · Clasifica tres rutas de capas: fixture válido, fixture adverso (incluye saltos prohibidos) y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PASS`, `REDRAW_BOUNDARY`, `MISSING:dependencies`. Corrige solo la decisión de dominio; conserva la validación de campos.",
         hint: "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S40-T2-A: grafo de dependencias sin dominio hacia infraestructura. El fixture adverso debe fallar por contenido, no por schema.",
+          "Después aplica forbidden = domain→infrastructure y presentation→infrastructure; el adverso falla por contenido, no por schema.",
         ],
-        edgeCases: ["falta dependencies", "fixture adverso: grafo de dependencias sin dominio hacia infraestructura", "CASO-LIM-040-2A es sintético"],
+        edgeCases: ["falta dependencies", "fixture adverso: domain→infrastructure o presentation→infrastructure", "CASO-LIM-040-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `dependencies` ausente y produce exactamente `PASS REDRAW_BOUNDARY MISSING:dependencies`.",
-        feedback: "S40-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REDRAW_BOUNDARY y por qué faltar dependencies exige REVIEW_LAYER_OWNER.",
+        feedback: "S40-T2-A-E2: grafo limpio → PASS; cualquier arista prohibida → REDRAW_BOUNDARY; sin dependencies → MISSING (no asumas un grafo vacío).",
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e2.py",
@@ -866,7 +913,7 @@ def assess(record: dict) -> str:
     return "PASS" if all(edge[1] == "infrastructure" for edge in record["dependencies"]) else "REDRAW_BOUNDARY"
 
 valid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
-invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"]]}}
+invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"],["presentation","infrastructure"]]}}
 incomplete = {**valid}
 incomplete.pop("dependencies")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -881,10 +928,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if all(edge != ["domain","infrastructure"] for edge in record["dependencies"]) and record["layers"][2] == "domain" else "REDRAW_BOUNDARY"
+    forbidden = {("domain", "infrastructure"), ("presentation", "infrastructure")}
+    ok = (
+        all(tuple(edge) not in forbidden for edge in record["dependencies"])
+        and record["layers"][2] == "domain"
+    )
+    return "PASS" if ok else "REDRAW_BOUNDARY"
 
 valid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
-invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"]]}}
+invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"],["presentation","infrastructure"]]}}
 incomplete = {**valid}
 incomplete.pop("dependencies")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -903,9 +955,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta dependencies", "fixture adverso: grafo de dependencias sin dominio hacia infraestructura", "CASO-LIM-040-2A es sintético"],
+        edgeCases: ["falta dependencies", "fixture adverso: domain→infrastructure o presentation→infrastructure", "CASO-LIM-040-2A es sintético"],
         tests: "Fixtures `CASO-LIM-040-2A`, adverso y sin `dependencies` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REDRAW_BOUNDARY y por qué faltar dependencies exige REVIEW_LAYER_OWNER.",
+        feedback: "S40-T2-A-E3: CONTINUE solo con capas limpias; saltos de capa → REDRAW_BOUNDARY; grafo ausente → REVIEW_LAYER_OWNER (incertidumbre ≠ breach).",
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e3.py",
@@ -920,7 +972,7 @@ def decide(record: dict) -> str:
     return "CONTINUE" if all(edge[1] == "infrastructure" for edge in record["dependencies"]) else "REDRAW_BOUNDARY"
 
 valid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
-invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"]]}}
+invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"],["presentation","infrastructure"]]}}
 uncertain = {**valid}
 uncertain.pop("dependencies")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -935,10 +987,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "REVIEW_LAYER_OWNER"
-    return "CONTINUE" if all(edge != ["domain","infrastructure"] for edge in record["dependencies"]) and record["layers"][2] == "domain" else "REDRAW_BOUNDARY"
+    forbidden = {("domain", "infrastructure"), ("presentation", "infrastructure")}
+    ok = (
+        all(tuple(edge) not in forbidden for edge in record["dependencies"])
+        and record["layers"][2] == "domain"
+    )
+    return "CONTINUE" if ok else "REDRAW_BOUNDARY"
 
 valid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
-invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"]]}}
+invalid = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["domain","infrastructure"],["presentation","infrastructure"]]}}
 uncertain = {**valid}
 uncertain.pop("dependencies")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -951,23 +1008,23 @@ assert results == ["CONTINUE", "REDRAW_BOUNDARY", "REVIEW_LAYER_OWNER"]` ,
         id: "S40-T2-B-E1",
         subtopicId: "S40-T2-B",
         kind: "guided",
-        instruction: "S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operación debe demostrar adapter sustituible y dominio sin imports externos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `INVERT_DEPENDENCY` en E2.",
-        hint: "Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla explicada en S40-T2-B.",
+        instruction: "S40-T2-B-E1 · Modela el contrato hexagonal sobre `CASO-LIM-040-2B`. La entrada es el dict del starter; debe pasar si `implements_port` es True, el dominio no importa infra (`domain_imports` vacío) y hay al menos 3 contract tests. Reemplaza la expresión booleana defectuosa. Salida exacta: `S40-T2-B PASS`; el adverso en E2 activa `INVERT_DEPENDENCY`.",
+        hint: "Usa el flag explícito `implements_port` — no inventes reglas por sufijo del nombre del adapter.",
         hints: [
-          "Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla explicada en S40-T2-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva test del dominio con adapter en memoria; revisa dirección de comparación, conjuntos y negaciones.",
+          "Predicado: implements_port is True and not domain_imports and contract_tests >= 3.",
+          "El DEFECT del starter exige adapter==port e imports no vacíos: invierte esa lógica y lee el flag.",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: adapter sustituible y dominio sin imports externos", "CASO-LIM-040-2B es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: implements_port False o domain_imports con sqlalchemy", "CASO-LIM-040-2B es sintético"],
         tests: "El fixture `CASO-LIM-040-2B` satisface un predicado de dominio real; imprime `S40-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa INVERT_DEPENDENCY y por qué faltar contract_tests exige DEFINE_PORT_CONTRACT.",
+        feedback: "S40-T2-B-E1: el flag implements_port modela DIP; domain_imports con sqlalchemy es inversión; sin contract_tests no hay DEFINE_PORT_CONTRACT en E1 pero sí en E2/E3.",
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e1.py",
           code: `# CASO-LIM-040 · ports and adapters
 # DEFECT: inversión de dependencias rota
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-# DEFECT: adapter != port name; domain_imports de infra es breach
+record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+# DEFECT: exige adapter==port e imports no vacíos (rompe DIP)
 meets_contract = record["adapter"] == record["port"] and bool(record["domain_imports"])
 status = "PASS" if meets_contract else "INVERT_DEPENDENCY"
 print("S40-T2-B", status)
@@ -976,8 +1033,12 @@ print("S40-T2-B", status)
         solutionCode: {
           language: 'python',
           title: "s40-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-meets_contract = record["adapter"].endswith(record["port"]) and not record["domain_imports"] and record["contract_tests"] >= 3
+          code: `record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+meets_contract = (
+    record.get("implements_port") is True
+    and not record["domain_imports"]
+    and record["contract_tests"] >= 3
+)
 status = "PASS" if meets_contract else "INVERT_DEPENDENCY"
 print("S40-T2-B", status)
 assert meets_contract is True` ,
@@ -988,15 +1049,15 @@ assert meets_contract is True` ,
         id: "S40-T2-B-E2",
         subtopicId: "S40-T2-B",
         kind: "independent",
-        instruction: "S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, domain_imports, contract_tests. Salidas exactas: `PASS`, `INVERT_DEPENDENCY`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S40-T2-B-E2 · Audita tres rutas hexagonal: fixture válido (`implements_port` + sin imports de infra + ≥3 tests), fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, implements_port, domain_imports, contract_tests. Salidas exactas: `PASS`, `INVERT_DEPENDENCY`, `MISSING:contract_tests`.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S40-T2-B: adapter sustituible y dominio sin imports externos. El fixture adverso debe fallar por contenido, no por schema.",
+          "Después: implements_port is True and not domain_imports and contract_tests >= 3. El adverso falla por contenido (sqlalchemy / implements_port False).",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: adapter sustituible y dominio sin imports externos", "CASO-LIM-040-2B es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: implements_port False o domain_imports con sqlalchemy", "CASO-LIM-040-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS INVERT_DEPENDENCY MISSING:contract_tests`.",
-        feedback: "S40-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa INVERT_DEPENDENCY y por qué faltar contract_tests exige DEFINE_PORT_CONTRACT.",
+        feedback: "S40-T2-B-E2: no uses endswith del nombre del adapter; el contrato es el flag implements_port más la ausencia de imports de infra.",
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e2.py",
@@ -1004,14 +1065,14 @@ assert meets_contract is True` ,
 # DEFECT: PASS si adapter==port y domain_imports (inversión rota)
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
 def assess(record: dict) -> str:
-    required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
+    required = {"case_id", "port", "adapter", "implements_port", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["adapter"] == record["port"] and bool(record["domain_imports"]) else "INVERT_DEPENDENCY"
 
-valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","domain_imports":["sqlalchemy"],"contract_tests":0}}
+valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","implements_port":False,"domain_imports":["sqlalchemy"],"contract_tests":0}}
 incomplete = {**valid}
 incomplete.pop("contract_tests")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1022,14 +1083,19 @@ print(*results)
           language: 'python',
           title: "s40-t2-b-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
+    required = {"case_id", "port", "adapter", "implements_port", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["adapter"].endswith(record["port"]) and not record["domain_imports"] and record["contract_tests"] >= 3 else "INVERT_DEPENDENCY"
+    ok = (
+        record.get("implements_port") is True
+        and not record["domain_imports"]
+        and record["contract_tests"] >= 3
+    )
+    return "PASS" if ok else "INVERT_DEPENDENCY"
 
-valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","domain_imports":["sqlalchemy"],"contract_tests":0}}
+valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","implements_port":False,"domain_imports":["sqlalchemy"],"contract_tests":0}}
 incomplete = {**valid}
 incomplete.pop("contract_tests")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -1042,15 +1108,15 @@ print(*results)
         id: "S40-T2-B-E3",
         subtopicId: "S40-T2-B",
         kind: "transfer",
-        instruction: "S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso debe devolver `INVERT_DEPENDENCY` y la ausencia de `contract_tests` debe devolver `DEFINE_PORT_CONTRACT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S40-T2-B-E3 · Recupera fallo cerrado hexagonal: `CASO-LIM-040-2B` → CONTINUE, adverso → `INVERT_DEPENDENCY`, sin `contract_tests` → `DEFINE_PORT_CONTRACT`. Corrige la rama missing y el predicado invertido sin rellenar evidencia.",
         hint: "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró adapter sustituible y dominio sin imports externos; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos: implements_port is True and not domain_imports and contract_tests >= 3 → CONTINUE.",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: adapter sustituible y dominio sin imports externos", "CASO-LIM-040-2B es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: implements_port False o domain_imports con sqlalchemy", "CASO-LIM-040-2B es sintético"],
         tests: "Fixtures `CASO-LIM-040-2B`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa INVERT_DEPENDENCY y por qué faltar contract_tests exige DEFINE_PORT_CONTRACT.",
+        feedback: "S40-T2-B-E3: uncertainty (DEFINE_PORT_CONTRACT) ≠ breach (INVERT_DEPENDENCY); el flag implements_port es la evidencia de DIP, no el sufijo del nombre.",
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e3.py",
@@ -1058,14 +1124,14 @@ print(*results)
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
 def decide(record: dict) -> str:
-    required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
+    required = {"case_id", "port", "adapter", "implements_port", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["adapter"] == record["port"] and bool(record["domain_imports"]) else "INVERT_DEPENDENCY"
 
-valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","domain_imports":["sqlalchemy"],"contract_tests":0}}
+valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","implements_port":False,"domain_imports":["sqlalchemy"],"contract_tests":0}}
 uncertain = {**valid}
 uncertain.pop("contract_tests")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1076,14 +1142,19 @@ print(*results)
           language: 'python',
           title: "s40-t2-b-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
+    required = {"case_id", "port", "adapter", "implements_port", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
         return "DEFINE_PORT_CONTRACT"
-    return "CONTINUE" if record["adapter"].endswith(record["port"]) and not record["domain_imports"] and record["contract_tests"] >= 3 else "INVERT_DEPENDENCY"
+    ok = (
+        record.get("implements_port") is True
+        and not record["domain_imports"]
+        and record["contract_tests"] >= 3
+    )
+    return "CONTINUE" if ok else "INVERT_DEPENDENCY"
 
-valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
-invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","domain_imports":["sqlalchemy"],"contract_tests":0}}
+valid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+invalid = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"SqlRepo","implements_port":False,"domain_imports":["sqlalchemy"],"contract_tests":0}}
 uncertain = {**valid}
 uncertain.pop("contract_tests")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1096,37 +1167,53 @@ assert results == ["CONTINUE", "INVERT_DEPENDENCY", "DEFINE_PORT_CONTRACT"]` ,
         id: "S40-T3-A-E1",
         subtopicId: "S40-T3-A",
         kind: "guided",
-        instruction: "S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación debe demostrar términos locales disjuntos y traducción declarada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `SPLIT_CONTEXTS` en E2.",
-        hint: "Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.",
+        instruction: "S40-T3-A-E1 · **Oficio de context map** (no solo un booleano): el starter trae filas de mapa para Red Andina (`intake` vs `er`) y un ACL `case→record`. Corrige el DEFECT para que el contrato pase solo si (1) los glosarios de cada fila son **disjuntos**, (2) existe la traducción `case→record` y (3) se imprime el resumen del mapa. Salida exacta: `S40-T3-A PASS`. En E2 el adverso (término `case` en ambos lados) activa `SPLIT_CONTEXTS`.",
+        hint: "Construye conjuntos de términos por BC y exige `isdisjoint` + `translations['case'] == 'record'`.",
         hints: [
-          "Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva glosario ubicuo y context map revisado; revisa dirección de comparación, conjuntos y negaciones.",
+          "Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección como éxito.",
+          "El ACL mínimo del lab es `translations.get('case') == 'record'`. Imprime también el mapa legible.",
         ],
-        edgeCases: ["falta translations", "fixture adverso: términos locales disjuntos y traducción declarada", "CASO-LIM-040-3A es sintético"],
-        tests: "El fixture `CASO-LIM-040-3A` satisface un predicado de dominio real; imprime `S40-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa SPLIT_CONTEXTS y por qué faltar translations exige WORKSHOP_UBIQUITOUS_LANGUAGE.",
+        edgeCases: ["falta translations", "fixture adverso: término compartido entre intake y er (p. ej. case en ambos)", "CASO-LIM-040-3A es sintético"],
+        tests: "El context map de `CASO-LIM-040-3A` es disjunto con ACL; imprime `S40-T3-A PASS` y el assert booleano pasa.",
+        feedback: "S40-T3-A-E1: el artefacto es el mapa (BC + términos + ACL). isdisjoint + case→record; intersección de glosarios ⇒ SPLIT_CONTEXTS.",
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e1.py",
-          code: `# CASO-LIM-040 · bounded contexts split
-# DEFECT: contextos solapados
+          code: `# CASO-LIM-040 · mini context map (oficio)
+# DEFECT: trata el solape de glosarios como éxito
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-3A", **{"contexts":{"intake":{"case"},"er":{"record","score"}},"translations":{"case":"record"}}}
-# DEFECT: overlap de términos entre contexts debe split/translate, no PASS por intersección
-meets_contract = bool(record["contexts"]["intake"] & record["contexts"]["er"])
+case_id = "CASO-LIM-040-3A"
+rows = [
+    {"bc": "intake", "terms": {"case"}, "relation": "customer"},
+    {"bc": "er", "terms": {"record", "score"}, "relation": "supplier"},
+]
+translations = {"case": "record"}  # ACL: intake.case → er.record
+# DEFECT: PASS si hay intersección (rompe el lenguaje ubicuo local)
+meets_contract = bool(rows[0]["terms"] & rows[1]["terms"])
 status = "PASS" if meets_contract else "SPLIT_CONTEXTS"
 print("S40-T3-A", status)
+print("map", [(r["bc"], sorted(r["terms"])) for r in rows])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s40-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-3A", **{"contexts":{"intake":{"case"},"er":{"record","score"}},"translations":{"case":"record"}}}
-meets_contract = record["contexts"]["intake"].isdisjoint(record["contexts"]["er"]) and record["translations"].get("case") == "record"
+          code: `case_id = "CASO-LIM-040-3A"
+rows = [
+    {"bc": "intake", "terms": {"case"}, "relation": "customer"},
+    {"bc": "er", "terms": {"record", "score"}, "relation": "supplier"},
+]
+translations = {"case": "record"}
+meets_contract = (
+    rows[0]["terms"].isdisjoint(rows[1]["terms"])
+    and translations.get("case") == "record"
+)
 status = "PASS" if meets_contract else "SPLIT_CONTEXTS"
 print("S40-T3-A", status)
+print("map", [(r["bc"], sorted(r["terms"])) for r in rows])
 assert meets_contract is True` ,
-          output: `S40-T3-A PASS` ,
+          output: `S40-T3-A PASS
+map [('intake', ['case']), ('er', ['record', 'score'])]` ,
         },
       },
       {
@@ -1139,9 +1226,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta translations", "fixture adverso: términos locales disjuntos y traducción declarada", "CASO-LIM-040-3A es sintético"],
+        edgeCases: ["falta translations", "fixture adverso: término compartido entre intake y er (p. ej. case en ambos)", "CASO-LIM-040-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `translations` ausente y produce exactamente `PASS SPLIT_CONTEXTS MISSING:translations`.",
-        feedback: "S40-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa SPLIT_CONTEXTS y por qué faltar translations exige WORKSHOP_UBIQUITOUS_LANGUAGE.",
+        feedback: "S40-T3-A-E2: glosarios disjuntos + ACL → PASS; solape de términos → SPLIT_CONTEXTS; sin translations → MISSING (no improvises el ACL).",
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e2.py",
@@ -1193,9 +1280,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta translations", "fixture adverso: términos locales disjuntos y traducción declarada", "CASO-LIM-040-3A es sintético"],
+        edgeCases: ["falta translations", "fixture adverso: término compartido entre intake y er (p. ej. case en ambos)", "CASO-LIM-040-3A es sintético"],
         tests: "Fixtures `CASO-LIM-040-3A`, adverso y sin `translations` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa SPLIT_CONTEXTS y por qué faltar translations exige WORKSHOP_UBIQUITOUS_LANGUAGE.",
+        feedback: "S40-T3-A-E3: CONTINUE con fronteras claras; solape → SPLIT_CONTEXTS; sin mapa de traducciones → WORKSHOP_UBIQUITOUS_LANGUAGE.",
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e3.py",
@@ -1247,9 +1334,9 @@ assert results == ["CONTINUE", "SPLIT_CONTEXTS", "WORKSHOP_UBIQUITOUS_LANGUAGE"]
           "Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva invariantes de entity/VO probadas; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta service_stateless", "fixture adverso: identidad estable, VO en PEN e invariantes inmutables", "CASO-LIM-040-3B es sintético"],
+        edgeCases: ["falta service_stateless", "fixture adverso: currency ≠ PEN, vo_frozen False o entity_id sin prefijo CASE-", "CASO-LIM-040-3B es sintético"],
         tests: "El fixture `CASO-LIM-040-3B` satisface un predicado de dominio real; imprime `S40-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_DOMAIN_MODEL y por qué faltar service_stateless exige CLARIFY_INVARIANT.",
+        feedback: "S40-T3-B-E1: entity_id CASE-… + VO PEN + vo_frozen + service_stateless. El DEFECT confunde moneda con id de entidad — no compares currency con entity_id.",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e1.py",
@@ -1284,9 +1371,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta service_stateless", "fixture adverso: identidad estable, VO en PEN e invariantes inmutables", "CASO-LIM-040-3B es sintético"],
+        edgeCases: ["falta service_stateless", "fixture adverso: currency ≠ PEN, vo_frozen False o entity_id sin prefijo CASE-", "CASO-LIM-040-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `service_stateless` ausente y produce exactamente `PASS REJECT_DOMAIN_MODEL MISSING:service_stateless`.",
-        feedback: "S40-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_DOMAIN_MODEL y por qué faltar service_stateless exige CLARIFY_INVARIANT.",
+        feedback: "S40-T3-B-E2: invariantes OK → PASS; identidad/VO rotos → REJECT_DOMAIN_MODEL; sin service_stateless → MISSING (no asumas el servicio).",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e2.py",
@@ -1338,9 +1425,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta service_stateless", "fixture adverso: identidad estable, VO en PEN e invariantes inmutables", "CASO-LIM-040-3B es sintético"],
+        edgeCases: ["falta service_stateless", "fixture adverso: currency ≠ PEN, vo_frozen False o entity_id sin prefijo CASE-", "CASO-LIM-040-3B es sintético"],
         tests: "Fixtures `CASO-LIM-040-3B`, adverso y sin `service_stateless` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_DOMAIN_MODEL y por qué faltar service_stateless exige CLARIFY_INVARIANT.",
+        feedback: "S40-T3-B-E3: CONTINUE con modelo táctico sano; breach → REJECT_DOMAIN_MODEL; bandera de servicio ausente → CLARIFY_INVARIANT.",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e3.py",
@@ -1386,37 +1473,66 @@ assert results == ["CONTINUE", "REJECT_DOMAIN_MODEL", "CLARIFY_INVARIANT"]` ,
         id: "S40-T4-A-E1",
         subtopicId: "S40-T4-A",
         kind: "guided",
-        instruction: "S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar C4 mínimo y ADR con alternativas, consecuencias y rollback. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `RETURN_ADR_TO_DRAFT` en E2.",
-        hint: "Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40-T4-A.",
+        instruction: "S40-T4-A-E1 · **Oficio C4 + ADR** (ensambla el artefacto, no solo nombres de campo): el starter trae un C4 de Red Andina (context/container con personas y cajas) y un ADR-001 con decisión async, alternativas, consecuencias y rollback. Corrige el DEFECT: el contrato pasa solo si hay niveles context+container, el ADR tiene `decision`/`alternatives`/`consequences`/`rollback` y `status == 'accepted'`. Salida exacta: `S40-T4-A PASS`. En You Do reutilizarás esta plantilla para dos ADRs reales del dossier.",
+        hint: "Valida claves del dict `adr` y que `c4` contenga listas no vacías en context y container; status debe ser accepted.",
         hints: [
-          "Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40-T4-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva C4 enlazado a ADR aceptado y reversible; revisa dirección de comparación, conjuntos y negaciones.",
+          "need_adr = decision, alternatives, consequences, rollback presentes y truthy; status == 'accepted'.",
+          "El DEFECT del starter acepta draft con menos de 3 campos: invierte esa lógica.",
         ],
-        edgeCases: ["falta adr_status", "fixture adverso: C4 mínimo y ADR con alternativas, consecuencias y rollback", "CASO-LIM-040-4A es sintético"],
-        tests: "El fixture `CASO-LIM-040-4A` satisface un predicado de dominio real; imprime `S40-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa RETURN_ADR_TO_DRAFT y por qué faltar adr_status exige REQUEST_ARCH_REVIEW.",
+        edgeCases: ["falta adr_status", "fixture adverso: ADR draft o sin alternatives/consequences/rollback", "CASO-LIM-040-4A es sintético"],
+        tests: "El mini ADR+C4 de `CASO-LIM-040-4A` está completo y accepted; imprime `S40-T4-A PASS`.",
+        feedback: "S40-T4-A-E1: el artefacto es el ADR relleno (no un set abstracto). need_c4 + decision/alternatives/consequences/rollback + status accepted.",
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e1.py",
-          code: `# CASO-LIM-040 · C4 + ADR fields
-# DEFECT: ADR incompleto aceptado
+          code: `# CASO-LIM-040 · mini C4 + ADR (oficio documental)
+# DEFECT: acepta ADR draft incompleto
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-4A", **{"c4_levels":{"context","container"},"adr_fields":{"context","decision","alternatives","consequences","rollback"},"adr_status":"accepted"}}
-# DEFECT: ADR aceptado necesita status!=draft y campos mínimos
-meets_contract = record["adr_status"] == "draft" and len(record["adr_fields"]) < 3
+case_id = "CASO-LIM-040-4A"
+c4 = {
+    "context": ["analista_triage", "banco_partner"],
+    "container": ["api", "worker", "db", "object_store"],
+}
+adr = {
+    "id": "ADR-001",
+    "decision": "async_queue_for_intake_peaks",
+    "alternatives": ["sync_http", "batch_nightly"],
+    "consequences": ["lower_p95", "message_complexity"],
+    "rollback": "feature_flag_off",
+    "status": "accepted",
+}
+# DEFECT: promueve draft incompleto
+meets_contract = adr["status"] == "draft" and len(adr) < 3
 status = "PASS" if meets_contract else "RETURN_ADR_TO_DRAFT"
 print("S40-T4-A", status)
+print("adr", adr["id"], adr["status"])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s40-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-4A", **{"c4_levels":{"context","container"},"adr_fields":{"context","decision","alternatives","consequences","rollback"},"adr_status":"accepted"}}
-meets_contract = {"context","container"} <= record["c4_levels"] and {"decision","alternatives","consequences","rollback"} <= record["adr_fields"] and record["adr_status"] == "accepted"
+          code: `case_id = "CASO-LIM-040-4A"
+c4 = {
+    "context": ["analista_triage", "banco_partner"],
+    "container": ["api", "worker", "db", "object_store"],
+}
+adr = {
+    "id": "ADR-001",
+    "decision": "async_queue_for_intake_peaks",
+    "alternatives": ["sync_http", "batch_nightly"],
+    "consequences": ["lower_p95", "message_complexity"],
+    "rollback": "feature_flag_off",
+    "status": "accepted",
+}
+need_c4 = bool(c4.get("context")) and bool(c4.get("container"))
+need_adr = all(adr.get(k) for k in ("decision", "alternatives", "consequences", "rollback"))
+meets_contract = need_c4 and need_adr and adr["status"] == "accepted"
 status = "PASS" if meets_contract else "RETURN_ADR_TO_DRAFT"
 print("S40-T4-A", status)
+print("adr", adr["id"], adr["status"])
 assert meets_contract is True` ,
-          output: `S40-T4-A PASS` ,
+          output: `S40-T4-A PASS
+adr ADR-001 accepted` ,
         },
       },
       {
@@ -1429,9 +1545,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta adr_status", "fixture adverso: C4 mínimo y ADR con alternativas, consecuencias y rollback", "CASO-LIM-040-4A es sintético"],
+        edgeCases: ["falta adr_status", "fixture adverso: ADR draft o sin alternatives/consequences/rollback", "CASO-LIM-040-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `adr_status` ausente y produce exactamente `PASS RETURN_ADR_TO_DRAFT MISSING:adr_status`.",
-        feedback: "S40-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa RETURN_ADR_TO_DRAFT y por qué faltar adr_status exige REQUEST_ARCH_REVIEW.",
+        feedback: "S40-T4-A-E2: C4+ADR accepted completo → PASS; draft/incompleto → RETURN_ADR_TO_DRAFT; sin adr_status → MISSING (no asumas accepted).",
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e2.py",
@@ -1483,9 +1599,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta adr_status", "fixture adverso: C4 mínimo y ADR con alternativas, consecuencias y rollback", "CASO-LIM-040-4A es sintético"],
+        edgeCases: ["falta adr_status", "fixture adverso: ADR draft o sin alternatives/consequences/rollback", "CASO-LIM-040-4A es sintético"],
         tests: "Fixtures `CASO-LIM-040-4A`, adverso y sin `adr_status` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa RETURN_ADR_TO_DRAFT y por qué faltar adr_status exige REQUEST_ARCH_REVIEW.",
+        feedback: "S40-T4-A-E3: CONTINUE con documentación aceptada; ADR incompleto → RETURN_ADR_TO_DRAFT; sin status → REQUEST_ARCH_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e3.py",
@@ -1537,9 +1653,9 @@ assert results == ["CONTINUE", "RETURN_ADR_TO_DRAFT", "REQUEST_ARCH_REVIEW"]` ,
           "Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva consumer contract de versión previa en verde; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta retire_on", "fixture adverso: campos v1 preservados y deuda con owner/fecha", "CASO-LIM-040-4B es sintético"],
+        edgeCases: ["falta retire_on", "fixture adverso: se eliminan campos de v1 o residual sin dueño/fecha", "CASO-LIM-040-4B es sintético"],
         tests: "El fixture `CASO-LIM-040-4B` satisface un predicado de dominio real; imprime `S40-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_BREAKING_CHANGE y por qué faltar retire_on exige NEGOTIATE_VERSION.",
+        feedback: "S40-T4-B-E1: consumer contract en verde exige v1_fields ⊆ v11_fields + debt_owner + retire_on. El DEFECT usa subconjunto invertido — no pidas v11 ⊂ v1.",
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e1.py",
@@ -1574,9 +1690,9 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
           "Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta retire_on", "fixture adverso: campos v1 preservados y deuda con owner/fecha", "CASO-LIM-040-4B es sintético"],
+        edgeCases: ["falta retire_on", "fixture adverso: se eliminan campos de v1 o residual sin dueño/fecha", "CASO-LIM-040-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `retire_on` ausente y produce exactamente `PASS BLOCK_BREAKING_CHANGE MISSING:retire_on`.",
-        feedback: "S40-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_BREAKING_CHANGE y por qué faltar retire_on exige NEGOTIATE_VERSION.",
+        feedback: "S40-T4-B-E2: evolución aditiva + deuda fechada → PASS; romper v1 → BLOCK_BREAKING_CHANGE; sin retire_on → MISSING.",
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e2.py",
@@ -1628,9 +1744,9 @@ print(*results)
           "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta retire_on", "fixture adverso: campos v1 preservados y deuda con owner/fecha", "CASO-LIM-040-4B es sintético"],
+        edgeCases: ["falta retire_on", "fixture adverso: se eliminan campos de v1 o residual sin dueño/fecha", "CASO-LIM-040-4B es sintético"],
         tests: "Fixtures `CASO-LIM-040-4B`, adverso y sin `retire_on` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S40-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_BREAKING_CHANGE y por qué faltar retire_on exige NEGOTIATE_VERSION.",
+        feedback: "S40-T4-B-E3: CONTINUE con compat aditiva; breaking → BLOCK_BREAKING_CHANGE; sin fecha de retiro → NEGOTIATE_VERSION.",
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e3.py",
@@ -1676,11 +1792,11 @@ assert results == ["CONTINUE", "BLOCK_BREAKING_CHANGE", "NEGOTIATE_VERSION"]` ,
   },
   youDo: {
     title: "Arquitectura, DDD y decisiones técnicas",
-    context: "Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea ante: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate.",
+    context: "Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida.",
     objectives: [
       "Convertir requisitos, escenarios de calidad, vocabulario de dominio y restricciones en mapa C4, context map, contratos y ADRs versionados con responsables.",
       "Demostrar el gate: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-      "Probar el fallo: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate.",
+      "Probar el fallo: si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida, el gate se bloquea (fail-closed).",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
@@ -1694,24 +1810,97 @@ assert results == ["CONTINUE", "BLOCK_BREAKING_CHANGE", "NEGOTIATE_VERSION"]` ,
       "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
     starterCode: `CASE_ID = "CASO-LIM-040"
-REQUIRED = ['quality_attribute_scenarios_con_fuente_est_mulo_', 'context_map_de_intake_er_relaci_n_triage_reporti', 'c4_de_contexto_y_contenedores', 'dos_adrs_con_alternativas_consecuencias_y_plan_d']
+# Checklist de evidencia CP-N4-A (inicia en False a propósito).
+# Rellena los artefactos de abajo con contenido real del dossier;
+# solo entonces marca evidence[key] = True. No inviertas el assert.
+
+# Plantilla QA (fuente, estímulo, entorno, respuesta, medida, umbral, dueño)
+qa_scenarios = [
+    {
+        "source": "ops",
+        "stimulus": "100 req/s en intake",
+        "environment": "peak_lima",
+        "response": "serve_with_queue",
+        "measure": "latency_p95_ms",
+        "observed_ms": None,   # rellena con medición del lab
+        "target_ms": 300,
+        "owner": "platform",
+    },
+]
+
+# Context map: BC + términos disjuntos + ACL (como en S40-T3-A-E1)
+context_map = {
+    "rows": [
+        {"bc": "intake", "terms": {"case"}, "relation": "customer"},
+        {"bc": "er", "terms": {"record", "score"}, "relation": "supplier"},
+        {"bc": "triage", "terms": {"ticket", "priority"}, "relation": "downstream"},
+        {"bc": "reporting", "terms": {"report", "kpi"}, "relation": "consumer"},
+    ],
+    "translations": {"case": "record"},  # ACL mínimo; amplía para tu diseño
+}
+
+# C4 context + container (como en S40-T4-A-E1)
+c4 = {
+    "context": ["analista_triage", "banco_partner", "ops_red_andina"],
+    "container": ["api", "worker", "db", "object_store"],
+}
+
+# Dos ADRs con decision / alternatives / consequences / rollback / status
+adrs = [
+    {
+        "id": "ADR-001",
+        "decision": None,  # p. ej. async_queue_for_intake_peaks
+        "alternatives": [],
+        "consequences": [],
+        "rollback": None,
+        "status": "draft",
+    },
+    {
+        "id": "ADR-002",
+        "decision": None,
+        "alternatives": [],
+        "consequences": [],
+        "rollback": None,
+        "status": "draft",
+    },
+]
+
+REQUIRED = [
+    "qa_scenarios",          # escenarios QA completos y medibles
+    "context_map",           # intake / ER / relación / triage / reporting / IA
+    "c4_context_container",  # C4 context + container
+    "adrs_x2",               # dos ADRs accepted con rollback
+]
 evidence = {
-    "quality_attribute_scenarios_con_fuente_est_mulo_": False,
-    "context_map_de_intake_er_relaci_n_triage_reporti": False,
-    "c4_de_contexto_y_contenedores": False,
-    "dos_adrs_con_alternativas_consecuencias_y_plan_d": False
+    "qa_scenarios": False,
+    "context_map": False,
+    "c4_context_container": False,
+    "adrs_x2": False,
 }
 
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
+def adrs_accepted(items: list[dict]) -> bool:
+    need = ("decision", "alternatives", "consequences", "rollback")
+    return len(items) >= 2 and all(
+        all(a.get(k) for k in need) and a.get("status") == "accepted" for a in items
+    )
+
+# Cuando completes cada artefacto, activa la bandera correspondiente:
+# evidence["qa_scenarios"] = all(q.get("observed_ms") is not None and q["observed_ms"] <= q["target_ms"] for q in qa_scenarios)
+# evidence["context_map"] = True  # tras revisar disjuntos + traducciones
+# evidence["c4_context_container"] = bool(c4["context"]) and bool(c4["container"])
+# evidence["adrs_x2"] = adrs_accepted(adrs)
+
 status, missing = readiness(evidence)
 print(CASE_ID, status)
 print("missing", ",".join(missing))
+print("adr_gate", adrs_accepted(adrs))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-A · mapa de arquitectura gobernado: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+    portfolioNote: "Evidencia de CP-N4-A · mapa de arquitectura gobernado: completa las plantillas QA, context map, C4 y dos ADRs (decision/alternatives/consequences/rollback/status=accepted) del starter; luego marca evidence en True solo con artefactos reales. El checklist inicia en BLOCKED por diseño — no cambies asserts para forzar READY.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1724,25 +1913,25 @@ assert status in {"READY", "BLOCKED"}
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?",
+        question: "¿Qué evidencia permite aprobar un quality-attribute scenario en CASO-LIM-040?",
         options: ["un print sin assert ni versión", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico", "escenario QA completo con umbral y dueño"],
         correctIndex: 3,
-        explanation: "La teoría exige escenario QA completo con umbral y dueño; evidencia decorativa o PII no satisface el contrato.",
+        explanation: "La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato.",
       },
       {
-        question: "Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?",
+        question: "Si ocurre un breach de arquitectura en el You Do, ¿qué respuesta preserva seguridad y auditabilidad?",
         options: ["continuar y ocultar el warning", "emitir BLOCK_ARCHITECTURE y conservar evidencia", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
         correctIndex: 1,
-        explanation: "El contrato falla cerrado con BLOCK_ARCHITECTURE; no convierte incertidumbre o breach en éxito.",
+        explanation: "El contrato falla cerrado con BLOCK_ARCHITECTURE; no convierte incertidumbre o breach en éxito silencioso.",
       },
       {
-        question: "¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?",
+        question: "¿Cuál resultado demuestra el gate CP-N4-A (mapa de arquitectura gobernado)?",
         options: ["el archivo S40 existe, aunque no pruebe el gate", "el README afirma que funciona", "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia", "se usó la herramienta más nueva"],
         correctIndex: 2,
-        explanation: "El gate es conductual y medible: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        explanation: "El gate es conductual y medible: fronteras explícitas + medida, dueño y consecuencia en cada trade-off.",
       },
       {
-        question: "¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?",
+        question: "¿Qué tratamiento de CASO-LIM-040 respeta el alcance del curso?",
         options: ["mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "inferir fraude o parentesco desde ER"],
         correctIndex: 0,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
@@ -1752,6 +1941,39 @@ assert status in {"READY", "BLOCKED"}
         options: ["el dominio importa solo puertos abstractos y los adapters implementan hacia infra", "un ADR registra el trade-off con medida y dueño", "C4 context muestra intake, triage y reporting como cajas separadas", "el dominio importa FastAPI/SQLAlchemy directamente para ir más rápido"],
         correctIndex: 3,
         explanation: "Invertir la dependencia (dominio → framework) acopla el núcleo a la infra; el adapter debe depender del puerto, no al revés.",
+      },
+      {
+        question: "En C4 para CASO-LIM-040, ¿qué pertenece al nivel container y no al context?",
+        options: [
+          "la persona «analista de triage» y el sistema «banco partner»",
+          "api, worker, db y object_store dentro de la plataforma Red Andina",
+          "una línea de código de la clase Money VO",
+          "el logo del producto en Figma",
+        ],
+        correctIndex: 1,
+        explanation: "Context muestra personas y sistemas externos; container descompone la aplicación en api/worker/db/object_store.",
+      },
+      {
+        question: "¿Qué campos mínimos hacen aceptable un ADR de evolución de API en S40-T4?",
+        options: [
+          "solo el título del ADR",
+          "decision + alternatives + consequences + rollback con status accepted",
+          "un screenshot sin decisión",
+          "la versión de Node aunque el stack sea Python",
+        ],
+        correctIndex: 1,
+        explanation: "Un ADR accepted requiere decisión, alternativas, consecuencias y señal de reversión (rollback), no solo un título o imagen.",
+      },
+      {
+        question: "En evolución de APIs (S40-T4-B), ¿cuándo el consumer contract de la versión previa permanece en verde?",
+        options: [
+          "cuando v1_fields ⊆ v11_fields (cambio aditivo) y la deuda tiene dueño y retire_on",
+          "cuando se eliminan campos de v1 para «limpiar» el schema",
+          "cuando el README promete compatibilidad sin pruebas",
+          "cuando se cambia el significado de case.created sin versionar el evento",
+        ],
+        correctIndex: 0,
+        explanation: "Compatibilidad aditiva conserva los campos de v1 en v1.1; borrar o redefinir sin versión es breaking. La deuda técnica exige dueño y fecha de retiro.",
       },
     ],
   },

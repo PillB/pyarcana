@@ -5,122 +5,147 @@ export const section32: CourseSection = {
   index: 32,
   title: "Feature engineering y pipelines sin leakage",
   shortTitle: "Features sin leakage",
-  tagline: "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+  tagline:
+    "tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew/versionado hacia S33",
   estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "TableProperties",
   accentColor: "bg-gradient-to-br from-indigo-500 to-violet-800",
   jobRelevance:
-    "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. Id `microservices` conservado; V3 **Feature engineering y pipelines sin leakage** para el workbench CP-N3-B. Features de grafo/contacto no son etiqueta de fraude.",
+    "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido **no** son etiqueta de fraude ni de parentesco.",
   learningOutcomes: [
-    { text: "Diseñar features numéricas/categóricas/texto" },
-    { text: "Aplicar missing indicators, scale y encoding" },
-    { text: "Crear features relacionales y de grafo" },
-    { text: "Calcular ventanas y frecuencias sin leakage" },
-    { text: "Componer transformers reutilizables" },
-    { text: "Persistir fit y reutilizar en inferencia" },
-    { text: "Partir por entidad/grupo/tiempo" },
-    { text: "Detectar leakage y versionar features" }
+    { text: "Diseñar un feature catalog (numéricas/categóricas/texto) y validar que las keys del row ⊆ catálogo antes del fit" },
+    { text: "Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False" },
+    { text: "Construir features relacionales (shared_address, degree, min path) sin usar label de decisión como input" },
+    { text: "Calcular conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo" },
+    { text: "Componer transformers custom con fit→transform y cadena por tipo de columna (ruta numérica vs categórica)" },
+    { text: "Persistir estado fit (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve" },
+    { text: "Partir por tiempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0" },
+    { text: "Ejecutar scan de nombres leaky + alerta de skew train–serve y promover solo con feature_set id válido" },
   ],
   theory: [
     {
-      heading: "De microservicios legado a features sin leakage",
+      heading: "Tabla de features versionada sin leakage",
       paragraphs: [
-        "En V3, **S32 no es Docker/K8s**: construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en Red Andina ficticia. El gate es **train ≡ serve** sin leakage temporal ni de label.",
-        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético; salida: feature set id `fs-vN` con hash de schema.",
-        "Orden: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Id legacy `microservices` se conserva. Features de contacto/shared address **no** son etiqueta de fraude ni parentesco."
+        "Imagina un modelo offline con AUC excelente que se derrumba al desplegarse: las features de train usaron el timestamp del outcome o la mediana del set completo. Eso es **leakage** — filtrar al entrenamiento información que no existiría en el momento de la decisión. Aquí construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en la Red Andina ficticia. El gate es **train ≡ serve**: la misma transformación en entrenamiento e inferencia, sin leakage temporal ni de label.",
+        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético (continuación del grafo de evidencia de S31); salida: feature set id `fs-vN` con hash de schema listo para el baseline de S33.",
+        "Orden de la sección: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Features de contacto o shared address **no** son etiqueta de fraude ni parentesco: son señales para el modelo o la cola humana, no veredictos.",
       ],
       callout: {
         type: "info",
         title: "Gate features",
         content:
-          "Train≡serve, sin leakage temporal ni de label. PII sintético only. Sin section_passed si hay future ts.",
+          "Train≡serve, sin leakage temporal ni de label. Solo PII sintético. Si hay timestamps futuros en features, la sección no se considera superada.",
       },
     },
     {
-      heading: "numéricas/categóricas/texto",
+      heading: "Diccionario mínimo de la sección",
+      paragraphs: [
+        "**Leakage:** usar en el entrenamiento información que no existiría en el momento de la decisión (futuro, label, o identidad vista en test). **Train≡serve:** el código y el estado (mediana, vocabulario, μ/σ) que transforman filas en train son los mismos que en inferencia. Si solo el notebook de train conoce un fill o un vocab, hay skew silencioso.",
+        "**Ventana half-open [t−w, t):** cuenta eventos con timestamp ≥ t−w y **estrictamente < t**; no incluye el instante de decisión. **Feature set `fs-vN`:** identificador versionado del catálogo + transformers fit; un cambio de vocab o schema sube N. **Skew train–serve:** divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea (p. ej. |mean_serve − mean_train| > tol).",
+        "**Fail-closed en features:** si falta catálogo, estado fit o ventana documentada, no inventes valores: devuelve `REQUEST_*`. Si detectas futuro, label-as-feature u overlap de entidades, devuelve `REJECT_*`. El vocabulario de gates es entrevista-relevante y se reutiliza en MLOps posteriores.",
+      ],
+      callout: {
+        type: "tip",
+        title: "Cómo leer este diccionario",
+        content:
+          "Vuelve aquí cuando veas train≡serve, half-open, fs-vN o skew. Cada subtema reutiliza estas definiciones con un mini-demo computable.",
+      },
+    },
+    {
+      heading: "Features numéricas, categóricas y de texto",
       subtopicId: "S32-T1-A",
       paragraphs: [
-        "Diseña con **semántica temporal**: ¿la feature está **disponible en t de decisión**? Numéricas (montos, conteos), categóricas (canal, región) y texto (`note_len`, `token_count`) viven en un **feature catalog** con dtype y missing policy — no columnas inventadas en serve.",
-        "Contrato: entrada schema `type→cols` y row; salida listas por tipo y validación `keys ⊆ catálogo`. Error: feature desconocida en serve o dtype roto. Criterio: **catalog completo antes de fit**.",
-        "Aplicación a `CASO-LIM-032`: schema numéricas `amount_7d`; texto `note_len`/`token_count`; row keys validadas contra catálogo del run `cpn3b-feat` (sintético, sin PII real)."
+        "Diseña con **semántica temporal**: ¿la feature está **disponible en t de decisión**? Numéricas (montos, conteos), categóricas (canal, región) y texto derivado (`note_len`, `token_count`) viven en un **feature catalog** con dtype y missing policy. Una columna inventada solo en serve rompe train≡serve y suele ser síntoma de notebook ad-hoc.",
+        "Contrato operativo: entrada schema `type→cols` y row; salida listas por tipo y validación `keys ⊆ catálogo`. Error: feature desconocida en serve o dtype roto. Criterio: **catálogo completo antes de fit**. Las features de texto no son el string crudo: documentas el derivado (longitud, conteo de tokens) como entrada del catálogo.",
+        "Aplicación a `CASO-LIM-032`: schema numéricas `amount_7d`; categórica `canal`; texto `note` con derivado `note_len`; row keys validadas contra catálogo del run `cpn3b-feat` (sintético, sin PII real). Si aparece `unknown_feat`, el gate es `REJECT_UNKNOWN_FEATURE`.",
       ],
       code: {
         language: 'python',
         title: "catalog.py",
-        code: `def catalog_ok(schema: dict, row: dict) -> tuple:
+        code: `def catalog_check(schema: dict, row: dict) -> tuple:
     known = set(schema["numeric"] + schema["categorical"] + schema["text"])
-    unknown = any(k not in known for k in row)
-    return sorted(schema["numeric"]), len(row["note"]), unknown
+    unknown_keys = sorted(k for k in row if k not in known)
+    # note_len es feature derivada documentada; no se inventa en serve
+    note_len = len(row["note"]) if "note" in row else 0
+    catalog_ok = len(unknown_keys) == 0
+    return sorted(schema["numeric"]), note_len, catalog_ok, unknown_keys
 
 schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": ["note"]}
 row = {"amount_7d": 10.0, "canal": "app", "note": "hola mundo"}
-nums, note_len, unknown = catalog_ok(schema, row)
+nums, note_len, ok, unknown = catalog_check(schema, row)
 print(nums)
 print("note_len", note_len)
-print("unknown", unknown)`,
+print("catalog_ok", ok, "unknown", unknown)`,
         output: `['amount_7d']
 note_len 10
-unknown False`,
+catalog_ok True unknown []`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T1-A: catalog + keys. Breach → REJECT_UNKNOWN_FEATURE; falta catalog → REQUEST_CATALOG.",
+          "S32-T1-A: catálogo + keys. Incumplimiento → REJECT_UNKNOWN_FEATURE; falta catálogo → REQUEST_CATALOG.",
       },
     },
     {
-      heading: "missing indicators, escalamiento y encoding",
+      heading: "Missing indicators, escalamiento y encoding",
       subtopicId: "S32-T1-B",
       paragraphs: [
-        "**Missing indicator** + fill (mediana/moda) preserva la **señal de ausencia**. One-hot con columna `unknown` y z-score con **μ/σ solo de train** evitan silent fill y **leakage de estadísticas de test**.",
-        "Contrato: entrada serie con `None`, vocab de canal, μ/σ de train; salida indicator, one-hot, z. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**.",
-        "Aplicación a `CASO-LIM-032`: `[1,None,3]` → indicator + mediana 2; canal `unknown` → col; z con μ=0 σ=2 del train fit."
+        "Un **missing indicator** (1 si el valor era ausente) + fill (mediana/moda de **train**) preserva la **señal de ausencia**. Rellenar en silencio con 0 o con la mediana del set completo es **silent fill** y suele filtrar estadísticas de test. El z-score usa **μ/σ solo de train**, congelados en fit; reestimarlos en serve es leakage o skew.",
+        "Contrato: entrada serie con `None`, fill/μ/σ aprendidos en train; salida indicator, serie rellena y z sobre la serie rellena. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**. Encoding one-hot con columna `unknown` sigue la misma idea: vocab de train, no del batch de serve.",
+        "Aplicación a `CASO-LIM-032`: `[1, None, 3]` → indicator + fill mediana 2 → z con μ=0, σ=2 del train fit sobre la serie completa rellena. `silent_fill` debe quedar en False porque el indicator viaja junto al valor.",
       ],
       code: {
         language: 'python',
         title: "missing_scale.py",
-        code: `def missing_and_scale(vals, fill=2, mu=0, sd=2):
+        code: `def missing_and_scale(vals, fill=2.0, mu=0.0, sd=2.0):
     ind = [v is None for v in vals]
-    filled = [fill if v is None else v for v in vals]
-    z = [(x - mu) / sd for x in [2, 4]]
+    filled = [fill if v is None else float(v) for v in vals]
+    # μ/σ provienen del fit en train (congelados); nunca se reestiman en serve/test
+    z = [(x - mu) / sd for x in filled]
     return ind, filled, z
 
-ind, filled, z = missing_and_scale([1, None, 3])
+ind, filled, z = missing_and_scale([1, None, 3], fill=2.0, mu=0.0, sd=2.0)
 print(ind, filled)
 print(z)
 print("silent_fill", False)`,
-        output: `[False, True, False] [1, 2, 3]
-[1.0, 2.0]
+        output: `[False, True, False] [1.0, 2.0, 3.0]
+[0.5, 1.0, 1.5]
 silent_fill False`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T1-B: indicator+stats train. Breach → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN.",
+          "S32-T1-B: indicator + stats de train. Incumplimiento → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN.",
       },
     },
     {
-      heading: "shared contact/address, distance y graph features",
+      heading: "Contacto compartido, distancia y features de grafo",
       subtopicId: "S32-T2-A",
       paragraphs: [
-        "Features **relacionales** (`shared_address`, degree, min path) resumen evidencia del grafo de S31. **No** conviertas el score de matching ni la centralidad en label de parentesco o fraude — son inputs para el modelo/cola, no veredictos.",
-        "Contrato: entrada dos entidades, vecinos, path dict; salida shared binario, degree, pathlen (default 99 si missing). Error: usar **label de decisión** o post-outcome como feature. Criterio: solo topología y atributos **observados en t**.",
-        "Aplicación a `CASO-LIM-032`: `shared_address=1`; degree de E1; min path missing → 99 en grafo sintético Lima–Arequipa."
+        "Features **relacionales** (`shared_address`, degree, min path) resumen evidencia del grafo de S31. **No** conviertas el score de matching ni la centralidad en label de parentesco o fraude: son inputs para el modelo o la cola, no veredictos. Un path ausente se codifica con default alto (p. ej. 99), no con inventar aristas.",
+        "Contrato: entrada dos entidades (attrs), vecinos y tabla de paths; salida shared binario, degree y pathlen (default 99 si missing). Error: usar **label de decisión** o post-outcome como feature. Criterio: solo topología y atributos **observados en t**.",
+        "Aplicación a `CASO-LIM-032`: `shared_address=1` entre dos direcciones iguales; degree de E1 sobre vecinos sintéticos; min path E1–E9 missing → 99 en grafo Lima–Arequipa ficticio.",
       ],
       code: {
         language: 'python',
         title: "graph_feat.py",
-        code: `def graph_feats(a: dict, b: dict, neighbors: dict, e="E1") -> tuple:
+        code: `def graph_feats(a: dict, b: dict, neighbors: dict, paths: dict, e="E1", other="E9") -> tuple:
     shared = int(a.get("addr") == b.get("addr"))
     degree = len(neighbors.get(e, []))
-    path = {"E1-E9": 99}.get("E1-E9", 99)
+    key = e + "-" + other
+    path = paths.get(key, 99)
     return shared, degree, path
 
-shared, degree, path = graph_feats({"addr": "Av1"}, {"addr": "Av1"}, {"E1": ["E2", "E3"]})
+shared, degree, path = graph_feats(
+    {"addr": "Av1"},
+    {"addr": "Av1"},
+    {"E1": ["E2", "E3"]},
+    {"E1-E2": 1},  # E1-E9 ausente → default 99
+)
 print("shared", shared)
 print("degree", degree)
 print("path", path)`,
@@ -132,16 +157,16 @@ path 99`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T2-A: graph feats. Breach → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT.",
+          "S32-T2-A: features de grafo. Incumplimiento → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT.",
       },
     },
     {
-      heading: "ventanas y frecuencia",
+      heading: "Ventanas temporales y frecuencia",
       subtopicId: "S32-T2-B",
       paragraphs: [
-        "Ventanas **half-open** `[t−w, t)` cuentan eventos **sin** incluir el instante de decisión `t`. Incluir `ts==t` o **futuro** es **leakage temporal clásico** — el modelo “ve” el outcome o el mismo evento de decisión.",
-        "Contrato: entrada lista `ts`, `t`, `w`, canal; salida count en ventana y freq por canal. Error: `ts>=t` dentro del count. Criterio: política half-open **documentada** en el feature catalog.",
-        "Aplicación a `CASO-LIM-032`: eventos en `[t−3,t)`; frecuencia app/web; **excluye** `ts==t` del conteo de features del caso sintético."
+        "Ventanas **half-open** `[t−w, t)` cuentan eventos **sin** incluir el instante de decisión `t`. Incluir `ts==t` o **futuro** es **leakage temporal clásico**: el modelo “ve” el outcome o el mismo evento de decisión. Documenta la política en el feature catalog para que train y serve no diverjan.",
+        "Contrato: entrada lista `ts`, `t`, `w` (y opcionalmente canal); salida count en ventana y freq por canal. Error: `ts >= t` dentro del count. Criterio: política half-open **documentada** y testeada con un caso que incluya `ts==t`.",
+        "Aplicación a `CASO-LIM-032`: eventos `[1, 2, 3, 5]` con `t=5`, `w=3` → solo `2` y `3` entran (`1` queda fuera de `[2, 5)`); **excluye** `ts==5`. Frecuencia app/web se calcula solo sobre ese subconjunto.",
       ],
       code: {
         language: 'python',
@@ -149,8 +174,11 @@ path 99`,
         code: `def window_count(events, t, w):
     return sum(1 for ts in events if t - w <= ts < t)
 
-print("count", window_count([1, 2, 3, 5], 5, 3))
-print("includes_t", False)
+events, t, w = [1, 2, 3, 5], 5, 3
+count = window_count(events, t, w)
+includes_t = any(ts == t for ts in events if t - w <= ts < t)
+print("count", count)
+print("includes_t", includes_t)
 print("policy", "half_open")`,
         output: `count 2
 includes_t False
@@ -160,54 +188,68 @@ policy half_open`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T2-B: half-open. Breach → REJECT_FUTURE_TS; falta w → REQUEST_WINDOW.",
+          "S32-T2-B: ventana half-open. Incumplimiento → REJECT_FUTURE_TS; falta w → REQUEST_WINDOW.",
       },
     },
     {
-      heading: "ColumnTransformer y custom transformers",
+      heading: "Transformers custom y cadena fit→transform",
       subtopicId: "S32-T3-A",
       paragraphs: [
-        "Un **transformer** tiene `fit` (aprende estado) y `transform` (aplica). Encadenar fill luego scale exige `fitted=True`; **transform antes de fit debe fallar** de forma explícita — no silent default en serve.",
-        "Contrato: entrada serie categórica y pipeline steps; salida moda fit, transform `None→moda`, flag `not_fitted`. Error: transform silencioso sin fit. Criterio: **secuencia determinista train≡serve**.",
-        "Aplicación a `CASO-LIM-032`: moda de canal; pipeline fill0 luego *2; `not_fitted` levanta flag en el lab."
+        "Un **transformer** tiene `fit` (aprende estado) y `transform` (aplica). Encadenar fill luego scale exige `fitted=True`; **transform antes de fit debe fallar** de forma explícita — no silent default en serve. En sklearn esto se formaliza con `Pipeline` y `ColumnTransformer`; aquí modelamos la misma idea en Python puro para ver el contrato sin magia.",
+        "Contrato: entrada serie categórica (o batch multi-columna) y steps; salida moda fit, transform `None→moda`, flag `not_fitted`. Para columnas heterogéneas, un **router por tipo** aplica imputer/scale a numéricas y mode-imputer a categóricas — el análogo conceptual de ColumnTransformer. Criterio: **secuencia determinista train≡serve**.",
+        "Aplicación a `CASO-LIM-032`: moda de canal `app`; cadena numérica fill0 luego *2 sobre montos; `not_fitted` levanta error si transform se llama antes de fit.",
       ],
       code: {
         language: 'python',
         title: "transformer.py",
-        code: `def s32_th_5():
-    class ModeImputer:
-        def __init__(self):
-            self.mode = None
-        def fit(self, xs):
-            self.mode = max(set(xs), key=xs.count)
-            return self
-        def transform(self, xs):
-            if self.mode is None:
-                raise RuntimeError("not fitted")
-            return [self.mode if x is None else x for x in xs]
-    imp = ModeImputer().fit(["app", "app", "web"])
-    print(imp.transform([None, "web"]))
-    print("fitted", True)
+        code: `class ModeImputer:
+    def __init__(self):
+        self.mode = None
+    def fit(self, xs):
+        self.mode = max(set(xs), key=xs.count)
+        return self
+    def transform(self, xs):
+        if self.mode is None:
+            raise RuntimeError("not fitted")
+        return [self.mode if x is None else x for x in xs]
 
-s32_th_5()
-`,
+def column_router(batch, numeric_cols, cat_cols, num_state, cat_imputer):
+    out = {}
+    for c in numeric_cols:
+        fill = num_state["fill"]
+        out[c] = [(fill if v is None else v) * num_state["scale"] for v in batch[c]]
+    for c in cat_cols:
+        out[c] = cat_imputer.transform(batch[c])
+    return out
+
+imp = ModeImputer().fit(["app", "app", "web"])
+print(imp.transform([None, "web"]))
+routed = column_router(
+    {"amount": [None, 3], "canal": [None, "web"]},
+    ["amount"], ["canal"],
+    {"fill": 0, "scale": 2},
+    imp,
+)
+print("amount", routed["amount"], "canal", routed["canal"])
+print("fitted", True)`,
         output: `['app', 'web']
+amount [0, 6] canal ['app', 'web']
 fitted True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T3-A: fit→transform. Breach → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE.",
+          "S32-T3-A: fit→transform + router por columnas. Incumplimiento → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE.",
       },
     },
     {
-      heading: "fit/transform y persistencia",
+      heading: "Fit, transform y persistencia del estado",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El **estado** (mediana, vocab) se serializa a JSON y se **reutiliza en serve**. Si el vocab cambia, **version bump** del feature set (`fs-vN`). Aplicar mediana de train al batch de serve evita **skew silencioso**.",
-        "Contrato: entrada state dict; salida round-trip JSON y version. Error: servir **sin version**. Criterio: `fs-vN` en artefactos y hash de schema.",
-        "Aplicación a `CASO-LIM-032`: state `median=2` round-trip; vocab change → `v2`; apply median al serve batch sintético."
+        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab cambia, **version bump** del feature set (`fs-vN`). Aplicar la mediana de train al batch de serve evita **skew silencioso**. En producción, joblib/pickle cumplen el mismo rol; aquí usamos JSON para inspeccionar el contrato a ojo.",
+        "Contrato: entrada state dict; salida round-trip JSON y version. Error: servir **sin version**. Criterio: `fs-vN` en artefactos y hash de schema. Un serve sin `version` es `REJECT_UNVERSIONED`.",
+        "Aplicación a `CASO-LIM-032`: state `median=2` round-trip; vocab change → `fs-v2`; apply median al serve batch sintético `[None, 4]` → `[2, 4]`. Este artefacto es el contrato de entrada del baseline S33.",
       ],
       code: {
         language: 'python',
@@ -217,10 +259,14 @@ fitted True`,
 def load_state(state: dict) -> dict:
     return json.loads(json.dumps(state))
 
+def apply_median(batch, state):
+    m = state["median"]
+    return [m if x is None else x for x in batch]
+
 loaded = load_state({"median": 2, "version": "fs-v1"})
 print(loaded["median"])
 print("version", loaded["version"])
-print("serve", [loaded["median"] if x is None else x for x in [None, 4]])`,
+print("serve", apply_median([None, 4], loaded))`,
         output: `2
 version fs-v1
 serve [2, 4]`,
@@ -229,21 +275,21 @@ serve [2, 4]`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T3-B: state versionado. Breach → REJECT_UNVERSIONED; falta json → REQUEST_STATE_JSON.",
+          "S32-T3-B: state versionado. Incumplimiento → REJECT_UNVERSIONED; falta JSON → REQUEST_STATE_JSON.",
       },
     },
     {
-      heading: "split por entidad/grupo/tiempo",
+      heading: "Split por entidad, grupo y tiempo",
       subtopicId: "S32-T4-A",
       paragraphs: [
-        "**Split temporal** (`train ts < cutoff`) y **group split por entity** evitan overlap. Si una entidad aparece en train y test, hay **leakage de identidad** (el modelo memoriza la entidad, no el patrón).",
-        "Contrato: entrada rows con `ts` y `entity`; salida train/test sets y `overlap` count. Error: `overlap>0` en el gate. Criterio: group sizes reportados en el informe de split.",
-        "Aplicación a `CASO-LIM-032`: train `ts<'2026-02-01'`; group sizes; **overlap entidades = 0**."
+        "**Split temporal** (`train ts < cutoff`) y **group split por entity** evitan overlap. Si una entidad aparece en train y test, hay **leakage de identidad**: el modelo memoriza la entidad, no el patrón. En investigación relacional esto infla métricas de forma peligrosa.",
+        "Contrato: entrada rows con `ts` y `entity`; salida train/test sets y `overlap` count. Error: `overlap > 0` en el gate. Criterio: group sizes reportados en el informe de split (`n_train`, `n_test`, `overlap`).",
+        "Aplicación a `CASO-LIM-032`: train `ts < '2026-02-01'`; test el resto; **overlap entidades = 0**. Si e1 aparece en ambos lados, `REJECT_ENTITY_OVERLAP`.",
       ],
       code: {
         language: 'python',
         title: "split.py",
-        code: `def time_split(rows, cut):
+        code: `def time_group_split(rows, cut):
     train = [r for r in rows if r["ts"] < cut]
     test = [r for r in rows if r["ts"] >= cut]
     overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
@@ -253,7 +299,7 @@ rows = [
     {"ts": "2026-01-10", "entity": "e1"},
     {"ts": "2026-02-10", "entity": "e2"},
 ]
-n_tr, n_te, ov = time_split(rows, "2026-02-01")
+n_tr, n_te, ov = time_group_split(rows, "2026-02-01")
 print("n_train", n_tr, "n_test", n_te)
 print("overlap", ov)
 print("ok", ov == 0)`,
@@ -265,16 +311,16 @@ ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T4-A: time/group split. Breach → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS.",
+          "S32-T4-A: split temporal/por grupo. Incumplimiento → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS.",
       },
     },
     {
-      heading: "leakage, train–serve skew y versionado",
+      heading: "Leakage, skew train–serve y versionado",
       subtopicId: "S32-T4-B",
       paragraphs: [
-        "Nombres con `label` o `decision` en features son **red flags** de leakage. Si `serve_mean` se desvía **>tol** de `train_mean`, hay **train–serve skew**. El feature set id `fs-vN` **congela** el contrato promovido.",
-        "Contrato: entrada feature names, means, version; salida leak flags, skew alert, fs id. Error: **promover con leakage**. Criterio: scan de nombres + skew check en CI.",
-        "Aplicación a `CASO-LIM-032`: flag `label_decision`; skew si `|serve−train|>0.5`; id `fs-v2`."
+        "Nombres con `label` o `decision` en features son **red flags** de leakage. Si `serve_mean` se desvía **> tol** de `train_mean`, hay **train–serve skew**. El feature set id `fs-vN` **congela** el contrato promovido hacia S33. Promover con leakage es fallo de gate, no un “warning opcional”.",
+        "Contrato: entrada feature names, means, version; salida leak flags, skew alert, fs id. Error: **promover con leakage**. Criterio: scan de nombres + skew check en CI antes del baseline.",
+        "Aplicación a `CASO-LIM-032`: flag `label_decision` en el scan; skew si `|serve − train| > 0.5`; id promovido `fs-v2` solo si leaky vacío y skew False.",
       ],
       code: {
         language: 'python',
@@ -282,11 +328,11 @@ ok True`,
         code: `def leak_scan(names):
     return [n for n in names if "label" in n or "decision" in n]
 
-def skew(train_mean, serve_mean, tol=0.5):
+def skew_alert(train_mean, serve_mean, tol=0.5):
     return abs(serve_mean - train_mean) > tol
 
 print("leaky", leak_scan(["amount_7d", "label_decision"]))
-print("skew", skew(0.0, 0.8))
+print("skew", skew_alert(0.0, 0.8))
 print("feature_set", "fs-v2")`,
         output: `leaky ['label_decision']
 skew True
@@ -296,30 +342,36 @@ feature_set fs-v2`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S32-T4-B: leakage scan + skew + fs-vN. Breach → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID.",
+          "S32-T4-B: scan de leakage + skew + fs-vN. Incumplimiento → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID.",
       },
     }
   ],
   iDo: {
-    intro: "S32 · Te muestro catálogo, missing/scale, grafo, ventanas, transformers y anti-leakage sobre run_id=cpn3b-feat.",
+    intro: "S32 · Te muestro catálogo, missing/scale, grafo, ventanas, transformers y anti-leakage sobre run_id=cpn3b-feat. Cada demo **calcula** el concepto a partir de datos sintéticos.",
     steps: [
       {
         demoId: "S32-T1-A-DEMO",
         subtopicId: "S32-T1-A",
         environment: "local-python",
-        description: "Lista features numéricas del schema y valida keys del row contra catálogo.",
+        description: "Valida keys del row contra el catálogo y reporta note_len como feature derivada.",
         code: {
           language: 'python',
           title: "cat_demo.py",
-          code: `def numeric_keys(schema):
-    return sorted(schema.get("numeric", []))
+          code: `def catalog_check(schema, row):
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = sorted(k for k in row if k not in known)
+    note_len = len(row.get("note", ""))
+    return sorted(schema["numeric"]), note_len, len(unknown) == 0
 
-print(numeric_keys({"numeric": ["amount_7d"]}))
-print("unknown", False)
-print("ok", True)`,
+schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": ["note"]}
+row = {"amount_7d": 10.0, "canal": "app", "note": "hola"}
+nums, note_len, ok = catalog_check(schema, row)
+print(nums)
+print("note_len", note_len)
+print("catalog_ok", ok)`,
           output: `['amount_7d']
-unknown False
-ok True`,
+note_len 4
+catalog_ok True`,
         },
         why: "El catálogo es la fuente de verdad de dtypes y evita features desconocidas en serve.",
       },
@@ -327,22 +379,23 @@ ok True`,
         demoId: "S32-T1-B-DEMO",
         subtopicId: "S32-T1-B",
         environment: "local-python",
-        description: "Missing indicator, fill mediana y z-score con estadísticas de train.",
+        description: "Missing indicator, fill mediana y z-score sobre la serie rellena con stats de train.",
         code: {
           language: 'python',
           title: "ms_demo.py",
-          code: `def indicators(vals):
-    return [v is None for v in vals]
+          code: `def missing_and_scale(vals, fill=2.0, mu=0.0, sd=2.0):
+    ind = [v is None for v in vals]
+    filled = [fill if v is None else float(v) for v in vals]
+    z = [(x - mu) / sd for x in filled]
+    return ind, filled, z
 
-def zscore(xs, mu=0, sd=2):
-    return [(x - mu) / sd for x in xs]
-
-print(indicators([1, None, 3]))
-print(zscore([2, 4]))
-print("ok", True)`,
+ind, filled, z = missing_and_scale([1, None, 3])
+print(ind)
+print(filled)
+print(z)`,
           output: `[False, True, False]
-[1.0, 2.0]
-ok True`,
+[1.0, 2.0, 3.0]
+[0.5, 1.0, 1.5]`,
         },
         why: "Indicator + stats de train preservan ausencia y evitan silent fill con datos de test.",
       },
@@ -350,19 +403,27 @@ ok True`,
         demoId: "S32-T2-A-DEMO",
         subtopicId: "S32-T2-A",
         environment: "local-python",
-        description: "Shared address, degree y path default 99 sobre grafo sintético de entidades.",
+        description: "Shared address, degree y path con default 99 cuando falta la arista en el grafo sintético.",
         code: {
           language: 'python',
           title: "g_demo.py",
-          code: `def shared_addr(a, b):
-    return int(a == b)
+          code: `def graph_feats(a_addr, b_addr, neighbors, paths, src="E1", dst="E9"):
+    shared = int(a_addr == b_addr)
+    degree = len(neighbors.get(src, []))
+    path = paths.get(src + "-" + dst, 99)
+    return shared, degree, path
 
-print("shared", shared_addr("Av1", "Av1"))
-print("degree", 2)
-print("ok", True)`,
+shared, degree, path = graph_feats(
+    "Av1", "Av1",
+    {"E1": ["E2", "E3"]},
+    {"E1-E2": 1},
+)
+print("shared", shared)
+print("degree", degree)
+print("path", path)`,
           output: `shared 1
 degree 2
-ok True`,
+path 99`,
         },
         why: "Features de grafo resumen evidencia relacional sin convertir matching en fraude.",
       },
@@ -370,16 +431,19 @@ ok True`,
         demoId: "S32-T2-B-DEMO",
         subtopicId: "S32-T2-B",
         environment: "local-python",
-        description: "Cuenta eventos en ventana half-open [t-w,t) excluyendo el instante t.",
+        description: "Cuenta eventos en ventana half-open [t-w,t) y verifica que t no entra en el conteo.",
         code: {
           language: 'python',
           title: "w_demo.py",
           code: `def count_window(events, t, w):
     return sum(1 for ts in events if t - w <= ts < t)
 
-print("count", count_window([1, 2, 3, 5], 5, 3))
-print("includes_t", False)
-print("ok", True)`,
+events, t, w = [1, 2, 3, 5], 5, 3
+count = count_window(events, t, w)
+includes_t = any(ts == t for ts in events if t - w <= ts < t)
+print("count", count)
+print("includes_t", includes_t)
+print("ok", count == 2 and includes_t is False)`,
           output: `count 2
 includes_t False
 ok True`,
@@ -390,19 +454,31 @@ ok True`,
         demoId: "S32-T3-A-DEMO",
         subtopicId: "S32-T3-A",
         environment: "local-python",
-        description: "Fit de moda y transform de None; falla explícita si not fitted.",
+        description: "Fit de moda, transform de None y fallo explícito si se transforma sin fit.",
         code: {
           language: 'python',
           title: "tf_demo.py",
-          code: `def mode_fill(xs, mode="app"):
-    return [mode if x is None else x for x in xs]
+          code: `class ModeImputer:
+    def __init__(self):
+        self.mode = None
+    def fit(self, xs):
+        self.mode = max(set(xs), key=xs.count)
+        return self
+    def transform(self, xs):
+        if self.mode is None:
+            raise RuntimeError("not fitted")
+        return [self.mode if x is None else x for x in xs]
 
-print(mode_fill([None, "web"]))
-print("fitted", True)
-print("ok", True)`,
+imp = ModeImputer().fit(["app", "app", "web"])
+print(imp.transform([None, "web"]))
+print("fitted", imp.mode is not None)
+try:
+    ModeImputer().transform([None])
+except RuntimeError as e:
+    print("before_fit", str(e))`,
           output: `['app', 'web']
 fitted True
-ok True`,
+before_fit not fitted`,
         },
         why: "fit/transform ordenado es el contrato mínimo de un transformer reutilizable.",
       },
@@ -410,38 +486,43 @@ ok True`,
         demoId: "S32-T3-B-DEMO",
         subtopicId: "S32-T3-B",
         environment: "local-python",
-        description: "Round-trip JSON del state median y version fs-v1 aplicada en serve.",
+        description: "Round-trip JSON del state y apply de mediana versionada al batch de serve.",
         code: {
           language: 'python',
           title: "ps_demo.py",
-          code: `def state_median(state):
-    return state["median"], state["version"]
+          code: `import json
 
-m, v = state_median({"median": 2, "version": "fs-v1"})
-print(m)
-print("version", v)
-print("ok", True)`,
+state = {"median": 2, "version": "fs-v1"}
+loaded = json.loads(json.dumps(state))
+serve = [loaded["median"] if x is None else x for x in [None, 4]]
+print(loaded["median"])
+print("version", loaded["version"])
+print("serve", serve)`,
           output: `2
 version fs-v1
-ok True`,
+serve [2, 4]`,
         },
-        why: "Persistir estado versionado evita train-serve skew silencioso en producción del workbench.",
+        why: "Persistir estado versionado evita train–serve skew silencioso en el workbench.",
       },
       {
         demoId: "S32-T4-A-DEMO",
         subtopicId: "S32-T4-A",
         environment: "local-python",
-        description: "Time split por cutoff y verificación de overlap de entidades cero.",
+        description: "Time split por cutoff y verificación de overlap de entidades desde filas reales.",
         code: {
           language: 'python',
           title: "sp_demo.py",
-          code: `def split_sizes(n_train, n_test, overlap):
-    return n_train, n_test, overlap
-
-a, b, o = split_sizes(1, 1, 0)
-print("n_train", a, "n_test", b)
-print("overlap", o)
-print("ok", o == 0)`,
+          code: `rows = [
+    {"ts": "2026-01-10", "entity": "e1"},
+    {"ts": "2026-02-10", "entity": "e2"},
+]
+cut = "2026-02-01"
+train = [r for r in rows if r["ts"] < cut]
+test = [r for r in rows if r["ts"] >= cut]
+overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
+print("n_train", len(train), "n_test", len(test))
+print("overlap", len(overlap))
+print("ok", len(overlap) == 0)`,
           output: `n_train 1 n_test 1
 overlap 0
 ok True`,
@@ -452,15 +533,20 @@ ok True`,
         demoId: "S32-T4-B-DEMO",
         subtopicId: "S32-T4-B",
         environment: "local-python",
-        description: "Scan de nombres leaky, alerta de skew y feature_set fs-v2.",
+        description: "Scan de nombres leaky, alerta de skew y feature_set fs-v2 listo para S33.",
         code: {
           language: 'python',
           title: "lk_demo.py",
           code: `def leaky_names(names):
     return [n for n in names if "label" in n or "decision" in n]
 
-print(leaky_names(["amount_7d", "label_decision"]))
-print("skew", True)
+def skew_alert(train_mean, serve_mean, tol=0.5):
+    return abs(serve_mean - train_mean) > tol
+
+leaky = leaky_names(["amount_7d", "label_decision"])
+skew = skew_alert(0.0, 0.8)
+print(leaky)
+print("skew", skew)
 print("feature_set", "fs-v2")`,
           output: `['label_decision']
 skew True
@@ -471,41 +557,46 @@ feature_set fs-v2`,
     ],
   },
   weDo: {
-    intro: "S32 · Laboratorio features sin leakage (CP-N3-B): 24 retos. E1 repara predicado, E2 valid/adverso/missing, E3 fail-closed con CASO-LIM-032.",
+    intro: "S32 · Laboratorio features sin leakage (CP-N3-B): 24 retos. E1 repara un defecto de cálculo, E2 valida/adverso/missing, E3 fail-closed. Construyes la feature o el gate a partir de datos sintéticos — no solo flags precomputados.",
     steps: [
       {
         id: "S32-T1-A-E1",
         subtopicId: "S32-T1-A",
         kind: "guided",
-        instruction: "S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demostrar row keys ⊆ catalog con catalog_ok. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNKNOWN_FEATURE` en E2.",
-        hint: "Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.",
+        instruction: "S32-T1-A-E1 · Sobre `CASO-LIM-032-1A`, calcula si las keys del row están ⊆ catálogo (union de numeric/categorical/text). El starter declara `catalog_ok` al revés: corrige el cálculo de unknown keys. Salida exacta: `S32-T1-A PASS`. En E2 el adverso con feature desconocida debe activar `REJECT_UNKNOWN_FEATURE`.",
+        hint: "Une las listas del schema en un set known y compara set(row) ⊆ known.",
         hints: [
-          "Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catalog_ok; revisa dirección de comparación, conjuntos y negaciones.",
+          "Une las listas del schema en un set known y compara set(row) ⊆ known.",
+          "catalog_ok es True solo si no hay keys desconocidas; no inviertas el booleano final.",
         ],
-        edgeCases: ["falta schema", "fixture adverso: row keys ⊆ catalog con catalog_ok", "CASO-LIM-032-1A es sintético"],
-        tests: "El fixture `CASO-LIM-032-1A` satisface un predicado de dominio real; imprime `S32-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S32-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNKNOWN_FEATURE y por qué faltar schema exige REQUEST_CATALOG.",
+        edgeCases: ["falta schema", "fixture adverso: row con unknown_feat fuera del catálogo", "CASO-LIM-032-1A es sintético"],
+        tests: "Con schema y row del starter, imprime `S32-T1-A PASS` y assert catalog_ok.",
+        feedback: "S32-T1-A-E1: sin keys desconocidas el catálogo pasa; una feature inventada en serve exige REJECT_UNKNOWN_FEATURE; sin schema, REQUEST_CATALOG.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e1.py",
           code: `# CASO-LIM-032 · feature catalog types
-# DEFECT: catalog_ok invertido (False→PASS)
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-meets_contract = record["catalog_ok"] is False
-status = "PASS" if meets_contract else "REJECT_UNKNOWN_FEATURE"
+# DEFECT: unknown se calcula al revés (any-in-known en vez de not-in-known)
+schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}
+row = {"amount_7d": 1.0, "canal": "app"}
+known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+unknown = [k for k in row if k in known]  # DEFECT
+catalog_ok = len(unknown) == 0
+status = "PASS" if catalog_ok else "REJECT_UNKNOWN_FEATURE"
 print("S32-T1-A", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-meets_contract = record["catalog_ok"] is True and set(record["row"]) <= set(sum(record["schema"].values(), []))
-status = "PASS" if meets_contract else "REJECT_UNKNOWN_FEATURE"
+          code: `schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}
+row = {"amount_7d": 1.0, "canal": "app"}
+known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+unknown = [k for k in row if k not in known]
+catalog_ok = len(unknown) == 0
+status = "PASS" if catalog_ok else "REJECT_UNKNOWN_FEATURE"
 print("S32-T1-A", status)
-assert meets_contract is True
+assert catalog_ok is True
 ` ,
           output: `S32-T1-A PASS` ,
         },
@@ -514,52 +605,56 @@ assert meets_contract is True
         id: "S32-T1-A-E2",
         subtopicId: "S32-T1-A",
         kind: "independent",
-        instruction: "S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, row, catalog_ok. Salidas exactas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.",
+        instruction: "S32-T1-A-E2 · Tres rutas: válido (keys ⊆ catálogo), adverso (`unknown_feat`) y sin `schema`. Implementa `assess` calculando unknown keys — no uses un flag prebakeado. Salidas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`.",
+        hint: "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T1-A: row keys ⊆ catalog con catalog_ok. El fixture adverso debe fallar por contenido, no por schema.",
+          "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
+          "El adverso falla por contenido (feature fuera del catálogo), no por schema ausente.",
         ],
-        edgeCases: ["falta schema", "fixture adverso: row keys ⊆ catalog con catalog_ok", "CASO-LIM-032-1A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `schema` ausente y produce exactamente `PASS REJECT_UNKNOWN_FEATURE MISSING:schema`.",
-        feedback: "S32-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNKNOWN_FEATURE y por qué faltar schema exige REQUEST_CATALOG.",
+        edgeCases: ["falta schema", "fixture adverso: unknown_feat no listada en schema", "CASO-LIM-032-1A es sintético"],
+        tests: "Produce exactamente `PASS REJECT_UNKNOWN_FEATURE MISSING:schema`.",
+        feedback: "S32-T1-A-E2: el cálculo de unknown es la evidencia; el adverso no se resuelve cambiando el case_id.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e2.py",
           code: `# CASO-LIM-032 · assess unknown feature
-# DEFECT: PASS cuando catalog_ok es False
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS cuando hay unknown keys
 def assess(record: dict) -> str:
-    required = {"case_id", 'schema', 'row', 'catalog_ok'}
+    required = {"case_id", "schema", "row"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["catalog_ok"] is False else "REJECT_UNKNOWN_FEATURE"
+    schema, row = record["schema"], record["row"]
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = [k for k in row if k not in known]
+    # DEFECT: invierte el criterio
+    return "PASS" if unknown else "REJECT_UNKNOWN_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-invalid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}
+valid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}, "row": {"amount_7d": 1.0, "canal": "app"}}
+invalid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": [], "text": []}, "row": {"unknown_feat": 1}}
 incomplete = {**valid}
 incomplete.pop("schema")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-a-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'schema', 'row', 'catalog_ok'}
+    required = {"case_id", "schema", "row"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["catalog_ok"] is True and set(record["row"]) <= set(sum(record["schema"].values(), [])) else "REJECT_UNKNOWN_FEATURE"
+    schema, row = record["schema"], record["row"]
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = [k for k in row if k not in known]
+    return "PASS" if not unknown else "REJECT_UNKNOWN_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-invalid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}
+valid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}, "row": {"amount_7d": 1.0, "canal": "app"}}
+invalid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": [], "text": []}, "row": {"unknown_feat": 1}}
 incomplete = {**valid}
 incomplete.pop("schema")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_UNKNOWN_FEATURE MISSING:schema` ,
         },
@@ -568,51 +663,55 @@ print(*results)
         id: "S32-T1-A-E3",
         subtopicId: "S32-T1-A",
         kind: "transfer",
-        instruction: "S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver `REJECT_UNKNOWN_FEATURE` y la ausencia de `schema` debe devolver `REQUEST_CATALOG`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.",
+        instruction: "S32-T1-A-E3 · Fail-closed: válido → `CONTINUE`, adverso → `REJECT_UNKNOWN_FEATURE`, sin schema → `REQUEST_CATALOG`. El starter confunde ausencia con CONTINUE y revierte el predicado de keys.",
+        hint: "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró row keys ⊆ catalog con catalog_ok; solo ese caso devuelve `CONTINUE`.",
+          "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
+          "CONTINUE solo si known cubre todas las keys del row.",
         ],
-        edgeCases: ["falta schema", "fixture adverso: row keys ⊆ catalog con catalog_ok", "CASO-LIM-032-1A es sintético"],
-        tests: "Fixtures `CASO-LIM-032-1A`, adverso y sin `schema` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNKNOWN_FEATURE y por qué faltar schema exige REQUEST_CATALOG.",
+        edgeCases: ["falta schema", "fixture adverso: unknown_feat", "CASO-LIM-032-1A es sintético"],
+        tests: "Salida: `CONTINUE REJECT_UNKNOWN_FEATURE REQUEST_CATALOG`.",
+        feedback: "S32-T1-A-E3: REQUEST_CATALOG protege el fit; REJECT solo cuando el catálogo existe y el row lo viola.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e3.py",
           code: `# CASO-LIM-032 · decide REQUEST_CATALOG
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: missing→CONTINUE; predicado de keys invertido
 def decide(record: dict) -> str:
-    required = {"case_id", 'schema', 'row', 'catalog_ok'}
+    required = {"case_id", "schema", "row"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["catalog_ok"] is False else "REJECT_UNKNOWN_FEATURE"
+    schema, row = record["schema"], record["row"]
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = [k for k in row if k not in known]
+    return "CONTINUE" if unknown else "REJECT_UNKNOWN_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-invalid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}
+valid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}, "row": {"amount_7d": 1.0, "canal": "app"}}
+invalid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": [], "text": []}, "row": {"unknown_feat": 1}}
 uncertain = {**valid}
 uncertain.pop("schema")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-a-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'schema', 'row', 'catalog_ok'}
+    required = {"case_id", "schema", "row"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_CATALOG"
-    return "CONTINUE" if record["catalog_ok"] is True and set(record["row"]) <= set(sum(record["schema"].values(), [])) else "REJECT_UNKNOWN_FEATURE"
+    schema, row = record["schema"], record["row"]
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = [k for k in row if k not in known]
+    return "CONTINUE" if not unknown else "REJECT_UNKNOWN_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
-invalid = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}
+valid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": ["canal"], "text": []}, "row": {"amount_7d": 1.0, "canal": "app"}}
+invalid = {"case_id": "CASO-LIM-032-1A", "schema": {"numeric": ["amount_7d"], "categorical": [], "text": []}, "row": {"unknown_feat": 1}}
 uncertain = {**valid}
 uncertain.pop("schema")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
 ` ,
@@ -623,35 +722,44 @@ assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
         id: "S32-T1-B-E1",
         subtopicId: "S32-T1-B",
         kind: "guided",
-        instruction: "S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo del starter; la operación debe demostrar mediana de train con silent_fill=False. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_SILENT_FILL` en E2.",
-        hint: "Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.",
+        instruction: "S32-T1-B-E1 · Sobre `[1, None, 3]`, construye indicator, fill con mediana de train (=2) y z-score con μ=0, σ=2 **sobre la serie rellena**. El starter escala constantes ajenas; corrige para que z use `filled`. Salida: `S32-T1-B PASS` si indicator marca el hueco, filled=[1,2,3] y silent_fill es False.",
+        hint: "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
         hints: [
-          "Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con silent_fill=False; revisa dirección de comparación, conjuntos y negaciones.",
+          "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
+          "silent_fill es False porque el indicator viaja con el valor relleno.",
         ],
-        edgeCases: ["falta median", "fixture adverso: mediana de train con silent_fill=False", "CASO-LIM-032-1B es sintético"],
-        tests: "El fixture `CASO-LIM-032-1B` satisface un predicado de dominio real; imprime `S32-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S32-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SILENT_FILL y por qué faltar median exige REQUEST_MEDIAN.",
+        edgeCases: ["falta median", "fixture adverso: silent_fill=True o fill sin indicator", "CASO-LIM-032-1B es sintético"],
+        tests: "Imprime `S32-T1-B PASS` cuando filled y z son correctos.",
+        feedback: "S32-T1-B-E1: escalar la serie rellena es el patrón de stats solo de train; silent fill sin indicator es REJECT_SILENT_FILL.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e1.py",
-          code: `# CASO-LIM-032 · silent fill ban
-# DEFECT: PASS si silent_fill True (invertido)
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-meets_contract = record["silent_fill"] is True
-status = "PASS" if meets_contract else "REJECT_SILENT_FILL"
+          code: `# CASO-LIM-032 · silent fill ban + scale
+# DEFECT: z-score ignora filled y usa constantes [2, 4]
+vals = [1, None, 3]
+fill, mu, sd = 2.0, 0.0, 2.0
+ind = [v is None for v in vals]
+filled = [fill if v is None else float(v) for v in vals]
+z = [(x - mu) / sd for x in [2, 4]]  # DEFECT
+silent_fill = False
+meets = ind == [False, True, False] and filled == [1.0, 2.0, 3.0] and z == [0.5, 1.0, 1.5] and silent_fill is False
+status = "PASS" if meets else "REJECT_SILENT_FILL"
 print("S32-T1-B", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-meets_contract = record["silent_fill"] is False and record["median"] is not None
-status = "PASS" if meets_contract else "REJECT_SILENT_FILL"
+          code: `vals = [1, None, 3]
+fill, mu, sd = 2.0, 0.0, 2.0
+ind = [v is None for v in vals]
+filled = [fill if v is None else float(v) for v in vals]
+z = [(x - mu) / sd for x in filled]
+silent_fill = False
+meets = ind == [False, True, False] and filled == [1.0, 2.0, 3.0] and z == [0.5, 1.0, 1.5] and silent_fill is False
+status = "PASS" if meets else "REJECT_SILENT_FILL"
 print("S32-T1-B", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T1-B PASS` ,
         },
@@ -660,52 +768,72 @@ assert meets_contract is True
         id: "S32-T1-B-E2",
         subtopicId: "S32-T1-B",
         kind: "independent",
-        instruction: "S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con case_id, values, median, silent_fill. Salidas exactas: `PASS`, `REJECT_SILENT_FILL`, `MISSING:median`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.",
+        instruction: "S32-T1-B-E2 · `assess` recibe values, median e indicator. Construye fill con la mediana y comprueba que el indicator marque cada `None` (silent_fill=False). Válido: indicator correcto + median. Adverso: indicator todo False con huecos (silent fill). Sin median → `MISSING:median`.",
+        hint: "Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture adverso debe fallar por contenido, no por schema.",
+          "Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.",
+          "expected_ind = [v is None for v in values]; PASS si indicator == expected_ind y median no es None.",
         ],
-        edgeCases: ["falta median", "fixture adverso: mediana de train con silent_fill=False", "CASO-LIM-032-1B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `median` ausente y produce exactamente `PASS REJECT_SILENT_FILL MISSING:median`.",
-        feedback: "S32-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SILENT_FILL y por qué faltar median exige REQUEST_MEDIAN.",
+        edgeCases: ["falta median", "fixture adverso: silent_fill=True o indicator que oculta None", "CASO-LIM-032-1B es sintético"],
+        tests: "Salida: `PASS REJECT_SILENT_FILL MISSING:median`.",
+        feedback: "S32-T1-B-E2: la mediana de train es prerequisito; silent fill es incumplimiento de contrato, no un atajo de notebook.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e2.py",
           code: `# CASO-LIM-032 · assess silent fill
-# DEFECT: PASS con silent_fill
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS cuando el indicator no marca los None
 def assess(record: dict) -> str:
-    required = {"case_id", 'values', 'median', 'silent_fill'}
+    required = {"case_id", "values", "median", "indicator"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["silent_fill"] is True else "REJECT_SILENT_FILL"
+    # DEFECT: no verifica indicator vs values
+    return "PASS" if record["median"] is not None else "REJECT_SILENT_FILL"
 
-valid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-invalid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}
-incomplete = {**valid}
-incomplete.pop("median")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, True, False],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, False, False],  # oculta el missing
+}
+incomplete = {k: v for k, v in valid.items() if k != "median"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-b-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'values', 'median', 'silent_fill'}
+    required = {"case_id", "values", "median", "indicator"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["silent_fill"] is False and record["median"] is not None else "REJECT_SILENT_FILL"
+    vals = record["values"]
+    expected_ind = [v is None for v in vals]
+    silent = record["indicator"] != expected_ind
+    ok = record["median"] is not None and silent is False
+    return "PASS" if ok else "REJECT_SILENT_FILL"
 
-valid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-invalid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}
-incomplete = {**valid}
-incomplete.pop("median")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, True, False],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, False, False],
+}
+incomplete = {k: v for k, v in valid.items() if k != "median"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_SILENT_FILL MISSING:median` ,
         },
@@ -714,51 +842,70 @@ print(*results)
         id: "S32-T1-B-E3",
         subtopicId: "S32-T1-B",
         kind: "transfer",
-        instruction: "S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adverso debe devolver `REJECT_SILENT_FILL` y la ausencia de `median` debe devolver `REQUEST_MEDIAN`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.",
+        instruction: "S32-T1-B-E3 · Fail-closed sobre `CASO-LIM-032-1B`: válido (median presente, indicator marca los None) → `CONTINUE`; indicator que oculta missing → `REJECT_SILENT_FILL`; sin median → `REQUEST_MEDIAN`. No rellenes con 0 en silencio.",
+        hint: "REQUEST_MEDIAN antes de comparar indicator con values.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró mediana de train con silent_fill=False; solo ese caso devuelve `CONTINUE`.",
+          "REQUEST_MEDIAN antes de comparar indicator con values.",
+          "CONTINUE solo con median presente e indicator == [v is None for v in values].",
         ],
-        edgeCases: ["falta median", "fixture adverso: mediana de train con silent_fill=False", "CASO-LIM-032-1B es sintético"],
-        tests: "Fixtures `CASO-LIM-032-1B`, adverso y sin `median` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SILENT_FILL y por qué faltar median exige REQUEST_MEDIAN.",
+        edgeCases: ["falta median", "fixture adverso: indicator que oculta None (silent fill)", "CASO-LIM-032-1B es sintético"],
+        tests: "Salida: `CONTINUE REJECT_SILENT_FILL REQUEST_MEDIAN`.",
+        feedback: "S32-T1-B-E3: sin mediana no hay transform legítimo; pedirla es fail-closed, no rellenar con 0.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e3.py",
           code: `# CASO-LIM-032 · decide REQUEST_MEDIAN
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: missing→CONTINUE; no valida indicator
 def decide(record: dict) -> str:
-    required = {"case_id", 'values', 'median', 'silent_fill'}
+    required = {"case_id", "values", "median", "indicator"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["silent_fill"] is True else "REJECT_SILENT_FILL"
+    return "CONTINUE"  # DEFECT: siempre CONTINUE
 
-valid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-invalid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}
-uncertain = {**valid}
-uncertain.pop("median")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, True, False],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, False, False],
+}
+uncertain = {k: v for k, v in valid.items() if k != "median"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t1-b-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'values', 'median', 'silent_fill'}
+    required = {"case_id", "values", "median", "indicator"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_MEDIAN"
-    return "CONTINUE" if record["silent_fill"] is False and record["median"] is not None else "REJECT_SILENT_FILL"
+    expected = [v is None for v in record["values"]]
+    silent = record["indicator"] != expected
+    ok = record["median"] is not None and silent is False
+    return "CONTINUE" if ok else "REJECT_SILENT_FILL"
 
-valid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
-invalid = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}
-uncertain = {**valid}
-uncertain.pop("median")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, True, False],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-1B",
+    "values": [1, None, 3],
+    "median": 2,
+    "indicator": [False, False, False],
+}
+uncertain = {k: v for k, v in valid.items() if k != "median"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_SILENT_FILL", "REQUEST_MEDIAN"]
 ` ,
@@ -769,35 +916,46 @@ assert results == ["CONTINUE", "REJECT_SILENT_FILL", "REQUEST_MEDIAN"]
         id: "S32-T2-A-E1",
         subtopicId: "S32-T2-A",
         kind: "guided",
-        instruction: "S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la operación debe demostrar graph feats sin usar label de decisión. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_LABEL_AS_FEATURE` en E2.",
-        hint: "Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.",
+        instruction: "S32-T2-A-E1 · Calcula shared (1 si mismas addr), degree (len vecinos de E1) y path (lookup o 99). El starter hardcodea path=99 sin leer `paths` y marca uses_label mal. Pasa si shared=1, degree=2, path=99 y uses_label es False. Salida: `S32-T2-A PASS`.",
+        hint: "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
         hints: [
-          "Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva graph feats sin usar label de decisión; revisa dirección de comparación, conjuntos y negaciones.",
+          "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
+          "shared = int(a_addr == b_addr); degree = len(neighbors['E1']).",
         ],
-        edgeCases: ["falta degree", "fixture adverso: graph feats sin usar label de decisión", "CASO-LIM-032-2A es sintético"],
-        tests: "El fixture `CASO-LIM-032-2A` satisface un predicado de dominio real; imprime `S32-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S32-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LABEL_AS_FEATURE y por qué faltar degree exige REQUEST_GRAPH_FEAT.",
+        edgeCases: ["falta degree/neighbors", "fixture adverso: uses_label=True (label de decisión como feature)", "CASO-LIM-032-2A es sintético"],
+        tests: "Imprime `S32-T2-A PASS` con features calculadas y uses_label False.",
+        feedback: "S32-T2-A-E1: shared/degree/path son topología; label de decisión como feature es REJECT_LABEL_AS_FEATURE.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e1.py",
           code: `# CASO-LIM-032 · shared/graph features + no label
-# DEFECT: gate shared/degree/uses_label invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-meets_contract = record["uses_label"] is True
-status = "PASS" if meets_contract else "REJECT_LABEL_AS_FEATURE"
+# DEFECT: path no lee paths; uses_label tratado como requerido True
+a_addr, b_addr = "Av1", "Av1"
+neighbors = {"E1": ["E2", "E3"]}
+paths = {"E1-E2": 1}
+uses_label = False
+shared = int(a_addr == b_addr)
+degree = len(neighbors.get("E1", []))
+path = 99  # DEFECT: ignora paths y dst
+meets = shared == 1 and degree == 2 and path == 99 and uses_label is True  # DEFECT
+status = "PASS" if meets else "REJECT_LABEL_AS_FEATURE"
 print("S32-T2-A", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-meets_contract = record["uses_label"] is False and record["degree"] >= 0 and record["shared"] in (0, 1)
-status = "PASS" if meets_contract else "REJECT_LABEL_AS_FEATURE"
+          code: `a_addr, b_addr = "Av1", "Av1"
+neighbors = {"E1": ["E2", "E3"]}
+paths = {"E1-E2": 1}
+uses_label = False
+shared = int(a_addr == b_addr)
+degree = len(neighbors.get("E1", []))
+path = paths.get("E1-E9", 99)
+meets = shared == 1 and degree == 2 and path == 99 and uses_label is False
+status = "PASS" if meets else "REJECT_LABEL_AS_FEATURE"
 print("S32-T2-A", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T2-A PASS` ,
         },
@@ -806,105 +964,138 @@ assert meets_contract is True
         id: "S32-T2-A-E2",
         subtopicId: "S32-T2-A",
         kind: "independent",
-        instruction: "S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degree`. Entrada: dict con case_id, shared, degree, uses_label. Salidas exactas: `PASS`, `REJECT_LABEL_AS_FEATURE`, `MISSING:degree`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.",
+        instruction: "S32-T2-A-E2 · `assess` recibe attrs, neighbors y paths: calcula shared/degree/path y rechaza si `uses_label` es True. Válido: topología limpia; adverso: label de decisión como feature; sin neighbors → `MISSING:neighbors`.",
+        hint: "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T2-A: graph feats sin usar label de decisión. El fixture adverso debe fallar por contenido, no por schema.",
+          "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
+          "PASS requiere uses_label False, shared in {0,1} y degree >= 0 calculado.",
         ],
-        edgeCases: ["falta degree", "fixture adverso: graph feats sin usar label de decisión", "CASO-LIM-032-2A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `degree` ausente y produce exactamente `PASS REJECT_LABEL_AS_FEATURE MISSING:degree`.",
-        feedback: "S32-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LABEL_AS_FEATURE y por qué faltar degree exige REQUEST_GRAPH_FEAT.",
+        edgeCases: ["falta neighbors", "fixture adverso: uses_label=True (label de decisión como feature)", "CASO-LIM-032-2A es sintético"],
+        tests: "Salida: `PASS REJECT_LABEL_AS_FEATURE MISSING:neighbors`.",
+        feedback: "S32-T2-A-E2: el grafo no autoriza parentesco/fraude; solo topología observada en t.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e2.py",
           code: `# CASO-LIM-032 · assess graph+label ban
-# DEFECT: PASS si uses_label o feats inválidas
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS si uses_label; no calcula degree desde neighbors
 def assess(record: dict) -> str:
-    required = {"case_id", 'shared', 'degree', 'uses_label'}
+    required = {"case_id", "a_addr", "b_addr", "neighbors", "paths", "uses_label"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["uses_label"] is True else "REJECT_LABEL_AS_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-invalid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': True}}
-incomplete = {**valid}
-incomplete.pop("degree")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-2A",
+    "a_addr": "Av1", "b_addr": "Av1",
+    "neighbors": {"E1": ["E2", "E3"]},
+    "paths": {"E1-E2": 1},
+    "uses_label": False,
+}
+invalid = {**valid, "uses_label": True}
+incomplete = {k: v for k, v in valid.items() if k != "neighbors"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-a-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'shared', 'degree', 'uses_label'}
+    required = {"case_id", "a_addr", "b_addr", "neighbors", "paths", "uses_label"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["uses_label"] is False and record["degree"] >= 0 and record["shared"] in (0, 1) else "REJECT_LABEL_AS_FEATURE"
+    shared = int(record["a_addr"] == record["b_addr"])
+    degree = len(record["neighbors"].get("E1", []))
+    path = record["paths"].get("E1-E9", 99)
+    ok = (
+        record["uses_label"] is False
+        and shared in (0, 1)
+        and degree >= 0
+        and path >= 0
+    )
+    return "PASS" if ok else "REJECT_LABEL_AS_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-invalid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': True}}
-incomplete = {**valid}
-incomplete.pop("degree")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-2A",
+    "a_addr": "Av1", "b_addr": "Av1",
+    "neighbors": {"E1": ["E2", "E3"]},
+    "paths": {"E1-E2": 1},
+    "uses_label": False,
+}
+invalid = {**valid, "uses_label": True}
+incomplete = {k: v for k, v in valid.items() if k != "neighbors"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
-          output: `PASS REJECT_LABEL_AS_FEATURE MISSING:degree` ,
+          output: `PASS REJECT_LABEL_AS_FEATURE MISSING:neighbors` ,
         },
       },
       {
         id: "S32-T2-A-E3",
         subtopicId: "S32-T2-A",
         kind: "transfer",
-        instruction: "S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el adverso debe devolver `REJECT_LABEL_AS_FEATURE` y la ausencia de `degree` debe devolver `REQUEST_GRAPH_FEAT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.",
+        instruction: "S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label de decisión como feature → `REJECT_LABEL_AS_FEATURE`; sin neighbors → `REQUEST_GRAPH_FEAT`. No inventes degree=0 si falta el grafo.",
+        hint: "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró graph feats sin usar label de decisión; solo ese caso devuelve `CONTINUE`.",
+          "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
+          "CONTINUE solo si uses_label es False, shared in {0,1} y degree >= 0 calculado (no prebakeado).",
         ],
-        edgeCases: ["falta degree", "fixture adverso: graph feats sin usar label de decisión", "CASO-LIM-032-2A es sintético"],
-        tests: "Fixtures `CASO-LIM-032-2A`, adverso y sin `degree` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LABEL_AS_FEATURE y por qué faltar degree exige REQUEST_GRAPH_FEAT.",
+        edgeCases: ["falta neighbors", "fixture adverso: uses_label=True", "CASO-LIM-032-2A es sintético"],
+        tests: "Salida: `CONTINUE REJECT_LABEL_AS_FEATURE REQUEST_GRAPH_FEAT`.",
+        feedback: "S32-T2-A-E3: pedir la feature de grafo es mejor que inventar degree=0 silencioso; el CONTINUE se gana recalculando topología, no leyendo un flag.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e3.py",
           code: `# CASO-LIM-032 · decide REJECT_LABEL_AS_FEATURE
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: missing→CONTINUE; no recalcula degree; pred invertido
 def decide(record: dict) -> str:
-    required = {"case_id", 'shared', 'degree', 'uses_label'}
+    required = {"case_id", "a_addr", "b_addr", "neighbors", "paths", "uses_label"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["uses_label"] is True else "REJECT_LABEL_AS_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-invalid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': True}}
-uncertain = {**valid}
-uncertain.pop("degree")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-2A",
+    "a_addr": "Av1", "b_addr": "Av1",
+    "neighbors": {"E1": ["E2", "E3"]},
+    "paths": {"E1-E2": 1},
+    "uses_label": False,
+}
+invalid = {**valid, "uses_label": True}
+uncertain = {k: v for k, v in valid.items() if k != "neighbors"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-a-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'shared', 'degree', 'uses_label'}
+    required = {"case_id", "a_addr", "b_addr", "neighbors", "paths", "uses_label"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_GRAPH_FEAT"
-    return "CONTINUE" if record["uses_label"] is False and record["degree"] >= 0 and record["shared"] in (0, 1) else "REJECT_LABEL_AS_FEATURE"
+    shared = int(record["a_addr"] == record["b_addr"])
+    degree = len(record["neighbors"].get("E1", []))
+    path = record["paths"].get("E1-E9", 99)
+    ok = (
+        record["uses_label"] is False
+        and shared in (0, 1)
+        and degree >= 0
+        and path >= 0
+    )
+    return "CONTINUE" if ok else "REJECT_LABEL_AS_FEATURE"
 
-valid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
-invalid = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': True}}
-uncertain = {**valid}
-uncertain.pop("degree")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {
+    "case_id": "CASO-LIM-032-2A",
+    "a_addr": "Av1", "b_addr": "Av1",
+    "neighbors": {"E1": ["E2", "E3"]},
+    "paths": {"E1-E2": 1},
+    "uses_label": False,
+}
+invalid = {**valid, "uses_label": True}
+uncertain = {k: v for k, v in valid.items() if k != "neighbors"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_LABEL_AS_FEATURE", "REQUEST_GRAPH_FEAT"]
 ` ,
@@ -915,35 +1106,38 @@ assert results == ["CONTINUE", "REJECT_LABEL_AS_FEATURE", "REQUEST_GRAPH_FEAT"]
         id: "S32-T2-B-E1",
         subtopicId: "S32-T2-B",
         kind: "guided",
-        instruction: "S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ventana half-open sin incluir t. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_FUTURE_TS` en E2.",
-        hint: "Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.",
+        instruction: "S32-T2-B-E1 · Con events=[1,2,3,5], t=5, w=3, corrige el conteo de ventana. El starter usa `<= t` (incluye el instante de decisión). Debe quedar count=2 e includes_t=False con half-open `[t-w, t)`. Salida: `S32-T2-B PASS`.",
+        hint: "Predicado correcto: t - w <= ts < t (estricto en t).",
         hints: [
-          "Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin incluir t; revisa dirección de comparación, conjuntos y negaciones.",
+          "Predicado correcto: t - w <= ts < t (estricto en t).",
+          "includes_t se deriva del conteo half-open, no de un flag inventado.",
         ],
-        edgeCases: ["falta w", "fixture adverso: ventana half-open sin incluir t", "CASO-LIM-032-2B es sintético"],
-        tests: "El fixture `CASO-LIM-032-2B` satisface un predicado de dominio real; imprime `S32-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S32-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FUTURE_TS y por qué faltar w exige REQUEST_WINDOW.",
+        edgeCases: ["falta w", "fixture adverso: includes_t=True o ts>=t en el conteo", "CASO-LIM-032-2B es sintético"],
+        tests: "Imprime `S32-T2-B PASS` con count 2 e includes_t False.",
+        feedback: "S32-T2-B-E1: incluir t es leakage temporal clásico; la política half-open es el contrato documentado.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e1.py",
           code: `# CASO-LIM-032 · time windows & frequency
-# DEFECT: ventana includes_t / freq invertida
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-meets_contract = record["includes_t"] is True
-status = "PASS" if meets_contract else "REJECT_FUTURE_TS"
+# DEFECT: usa <= t (incluye el instante de decisión)
+events, t, w = [1, 2, 3, 5], 5, 3
+count = sum(1 for ts in events if t - w <= ts <= t)  # DEFECT
+includes_t = any(ts == t for ts in events if t - w <= ts <= t)
+meets = (count == 2) and (includes_t is False)
+status = "PASS" if meets else "REJECT_FUTURE_TS"
 print("S32-T2-B", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-meets_contract = record["includes_t"] is False and record["w"] > 0 and record["t"] is not None
-status = "PASS" if meets_contract else "REJECT_FUTURE_TS"
+          code: `events, t, w = [1, 2, 3, 5], 5, 3
+count = sum(1 for ts in events if t - w <= ts < t)
+includes_t = any(ts == t for ts in events if t - w <= ts < t)
+meets = (count == 2) and (includes_t is False)
+status = "PASS" if meets else "REJECT_FUTURE_TS"
 print("S32-T2-B", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T2-B PASS` ,
         },
@@ -952,52 +1146,51 @@ assert meets_contract is True
         id: "S32-T2-B-E2",
         subtopicId: "S32-T2-B",
         kind: "independent",
-        instruction: "S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, includes_t. Salidas exactas: `PASS`, `REJECT_FUTURE_TS`, `MISSING:w`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.",
+        instruction: "S32-T2-B-E2 · `assess` calcula count e includes_t desde events/t/w. Válido: half-open correcto. Adverso: flag includes_t True (o conteo cerrado). Sin w → `MISSING:w`.",
+        hint: "Si falta w no intentes el conteo.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T2-B: ventana half-open sin incluir t. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si falta w no intentes el conteo.",
+          "PASS si count half-open es 2 e includes_t calculado es False (o el flag del record es False y w>0).",
         ],
-        edgeCases: ["falta w", "fixture adverso: ventana half-open sin incluir t", "CASO-LIM-032-2B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `w` ausente y produce exactamente `PASS REJECT_FUTURE_TS MISSING:w`.",
-        feedback: "S32-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FUTURE_TS y por qué faltar w exige REQUEST_WINDOW.",
+        edgeCases: ["falta w", "fixture adverso: includes_t=True", "CASO-LIM-032-2B es sintético"],
+        tests: "Salida: `PASS REJECT_FUTURE_TS MISSING:w`.",
+        feedback: "S32-T2-B-E2: el adverso modela la ventana que filtra t; no es un schema roto.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e2.py",
           code: `# CASO-LIM-032 · assess window features
-# DEFECT: PASS con includes_t o ventana rota
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS cuando includes_t es True
 def assess(record: dict) -> str:
-    required = {"case_id", 'events', 't', 'w', 'includes_t'}
+    required = {"case_id", "events", "t", "w", "includes_t"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["includes_t"] is True else "REJECT_FUTURE_TS"
 
-valid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-invalid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}
-incomplete = {**valid}
-incomplete.pop("w")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": False}
+invalid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": True}
+incomplete = {k: v for k, v in valid.items() if k != "w"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-b-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'events', 't', 'w', 'includes_t'}
+    required = {"case_id", "events", "t", "w", "includes_t"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["includes_t"] is False and record["w"] > 0 and record["t"] is not None else "REJECT_FUTURE_TS"
+    events, t, w = record["events"], record["t"], record["w"]
+    count = sum(1 for ts in events if t - w <= ts < t)
+    includes = any(ts == t for ts in events if t - w <= ts < t)
+    ok = record["includes_t"] is False and includes is False and count == 2 and w > 0
+    return "PASS" if ok else "REJECT_FUTURE_TS"
 
-valid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-invalid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}
-incomplete = {**valid}
-incomplete.pop("w")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": False}
+invalid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": True}
+incomplete = {k: v for k, v in valid.items() if k != "w"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_FUTURE_TS MISSING:w` ,
         },
@@ -1006,51 +1199,58 @@ print(*results)
         id: "S32-T2-B-E3",
         subtopicId: "S32-T2-B",
         kind: "transfer",
-        instruction: "S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso debe devolver `REJECT_FUTURE_TS` y la ausencia de `w` debe devolver `REQUEST_WINDOW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.",
+        instruction: "S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`; sin w → `REQUEST_WINDOW`; válido → `CONTINUE`. No inventes el ancho de ventana.",
+        hint: "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró ventana half-open sin incluir t; solo ese caso devuelve `CONTINUE`.",
+          "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
+          "CONTINUE solo si includes_t del record es False, el recompute half-open no incluye t, y w > 0.",
         ],
-        edgeCases: ["falta w", "fixture adverso: ventana half-open sin incluir t", "CASO-LIM-032-2B es sintético"],
-        tests: "Fixtures `CASO-LIM-032-2B`, adverso y sin `w` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_FUTURE_TS y por qué faltar w exige REQUEST_WINDOW.",
+        edgeCases: ["falta w", "fixture adverso: includes_t=True", "CASO-LIM-032-2B es sintético"],
+        tests: "Salida: `CONTINUE REJECT_FUTURE_TS REQUEST_WINDOW`.",
+        feedback: "S32-T2-B-E3: sin ancho de ventana no hay feature temporal legítima.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e3.py",
-          code: `# CASO-LIM-032 · decide REQUEST_WINDOW_SPEC
+          code: `# CASO-LIM-032 · decide REQUEST_WINDOW
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
-    required = {"case_id", 'events', 't', 'w', 'includes_t'}
+    required = {"case_id", "events", "t", "w", "includes_t"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["includes_t"] is True else "REJECT_FUTURE_TS"
 
-valid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-invalid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}
-uncertain = {**valid}
-uncertain.pop("w")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": False}
+invalid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": True}
+uncertain = {k: v for k, v in valid.items() if k != "w"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t2-b-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'events', 't', 'w', 'includes_t'}
+    required = {"case_id", "events", "t", "w", "includes_t"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_WINDOW"
-    return "CONTINUE" if record["includes_t"] is False and record["w"] > 0 and record["t"] is not None else "REJECT_FUTURE_TS"
+    events, t, w = record["events"], record["t"], record["w"]
+    # recompute half-open; no confiar solo en el flag del fixture
+    includes = any(ts == t for ts in events if t - w <= ts < t)
+    count = sum(1 for ts in events if t - w <= ts < t)
+    ok = (
+        record["includes_t"] is False
+        and includes is False
+        and count >= 0
+        and w > 0
+        and t is not None
+    )
+    return "CONTINUE" if ok else "REJECT_FUTURE_TS"
 
-valid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
-invalid = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}
-uncertain = {**valid}
-uncertain.pop("w")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": False}
+invalid = {"case_id": "CASO-LIM-032-2B", "events": [1, 2, 3, 5], "t": 5, "w": 3, "includes_t": True}
+uncertain = {k: v for k, v in valid.items() if k != "w"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_FUTURE_TS", "REQUEST_WINDOW"]
 ` ,
@@ -1061,35 +1261,56 @@ assert results == ["CONTINUE", "REJECT_FUTURE_TS", "REQUEST_WINDOW"]
         id: "S32-T3-A-E1",
         subtopicId: "S32-T3-A",
         kind: "guided",
-        instruction: "S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación debe demostrar transformer fitted con mode y sin transform prematuro. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_TRANSFORM_BEFORE_FIT` en E2.",
-        hint: "Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.",
+        instruction: "S32-T3-A-E1 · Completa ModeImputer: fit aprende la moda; transform rellena None. El starter transforma sin comprobar fit y deja mode=None. Tras fit(['app','app','web']), transform([None,'web']) debe ser ['app','web']. Salida: `S32-T3-A PASS`.",
+        hint: "En transform, si self.mode is None: raise RuntimeError('not fitted').",
         hints: [
-          "Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva transformer fitted con mode y sin transform prematuro; revisa dirección de comparación, conjuntos y negaciones.",
+          "En transform, si self.mode is None: raise RuntimeError('not fitted').",
+          "fit usa max(set(xs), key=xs.count) para la moda.",
         ],
-        edgeCases: ["falta fitted", "fixture adverso: transformer fitted con mode y sin transform prematuro", "CASO-LIM-032-3A es sintético"],
-        tests: "El fixture `CASO-LIM-032-3A` satisface un predicado de dominio real; imprime `S32-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S32-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_TRANSFORM_BEFORE_FIT y por qué faltar fitted exige REQUEST_FIT_STATE.",
+        edgeCases: ["falta fitted/state", "fixture adverso: transform_before_fit=True", "CASO-LIM-032-3A es sintético"],
+        tests: "Imprime `S32-T3-A PASS` cuando el transform post-fit es correcto.",
+        feedback: "S32-T3-A-E1: el orden fit→transform es el contrato; transform silencioso sin fit es REJECT_TRANSFORM_BEFORE_FIT.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e1.py",
-          code: `# CASO-LIM-032 · ColumnTransformer fit order
-# DEFECT: fitted/transform_before_fit invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-meets_contract = record["transform_before_fit"] is True
-status = "PASS" if meets_contract else "REJECT_TRANSFORM_BEFORE_FIT"
+          code: `# CASO-LIM-032 · ModeImputer fit order
+# DEFECT: transform no exige fit; mode queda None
+class ModeImputer:
+    def __init__(self):
+        self.mode = None
+    def fit(self, xs):
+        self.mode = None  # DEFECT: no aprende
+        return self
+    def transform(self, xs):
+        return ["app" if x is None else x for x in xs]  # DEFECT: hardcode sin state
+
+imp = ModeImputer().fit(["app", "app", "web"])
+out = imp.transform([None, "web"])
+meets = out == ["app", "web"] and imp.mode == "app"
+status = "PASS" if meets else "REJECT_TRANSFORM_BEFORE_FIT"
 print("S32-T3-A", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-meets_contract = record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None
-status = "PASS" if meets_contract else "REJECT_TRANSFORM_BEFORE_FIT"
+          code: `class ModeImputer:
+    def __init__(self):
+        self.mode = None
+    def fit(self, xs):
+        self.mode = max(set(xs), key=xs.count)
+        return self
+    def transform(self, xs):
+        if self.mode is None:
+            raise RuntimeError("not fitted")
+        return [self.mode if x is None else x for x in xs]
+
+imp = ModeImputer().fit(["app", "app", "web"])
+out = imp.transform([None, "web"])
+meets = out == ["app", "web"] and imp.mode == "app"
+status = "PASS" if meets else "REJECT_TRANSFORM_BEFORE_FIT"
 print("S32-T3-A", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T3-A PASS` ,
         },
@@ -1098,52 +1319,48 @@ assert meets_contract is True
         id: "S32-T3-A-E2",
         subtopicId: "S32-T3-A",
         kind: "independent",
-        instruction: "S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id, fitted, mode, transform_before_fit. Salidas exactas: `PASS`, `REJECT_TRANSFORM_BEFORE_FIT`, `MISSING:fitted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.",
+        instruction: "S32-T3-A-E2 · `assess` con fitted, mode, transform_before_fit. Válido: fitted True, mode no None, transform_before_fit False. Adverso: transform_before_fit True. Sin fitted → `MISSING:fitted`.",
+        hint: "Missing primero; PASS exige los tres campos del contrato.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T3-A: transformer fitted con mode y sin transform prematuro. El fixture adverso debe fallar por contenido, no por schema.",
+          "Missing primero; PASS exige los tres campos del contrato.",
+          "Adverso: fitted False o transform_before_fit True.",
         ],
-        edgeCases: ["falta fitted", "fixture adverso: transformer fitted con mode y sin transform prematuro", "CASO-LIM-032-3A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `fitted` ausente y produce exactamente `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted`.",
-        feedback: "S32-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_TRANSFORM_BEFORE_FIT y por qué faltar fitted exige REQUEST_FIT_STATE.",
+        edgeCases: ["falta fitted", "fixture adverso: transform_before_fit=True", "CASO-LIM-032-3A es sintético"],
+        tests: "Salida: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted`.",
+        feedback: "S32-T3-A-E2: el state fitted es evidencia; sin él no hay transform legítimo en serve.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e2.py",
           code: `# CASO-LIM-032 · assess transformer fit
-# DEFECT: PASS si transform_before_fit o unfitted
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS si transform_before_fit
 def assess(record: dict) -> str:
-    required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
+    required = {"case_id", "fitted", "mode", "transform_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["transform_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-invalid = {"case_id": "CASO-LIM-032-3A", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}
-incomplete = {**valid}
-incomplete.pop("fitted")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
+invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
+incomplete = {k: v for k, v in valid.items() if k != "fitted"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-a-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
+    required = {"case_id", "fitted", "mode", "transform_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None else "REJECT_TRANSFORM_BEFORE_FIT"
+    ok = record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None
+    return "PASS" if ok else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-invalid = {"case_id": "CASO-LIM-032-3A", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}
-incomplete = {**valid}
-incomplete.pop("fitted")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
+invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
+incomplete = {k: v for k, v in valid.items() if k != "fitted"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted` ,
         },
@@ -1152,51 +1369,48 @@ print(*results)
         id: "S32-T3-A-E3",
         subtopicId: "S32-T3-A",
         kind: "transfer",
-        instruction: "S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso debe devolver `REJECT_TRANSFORM_BEFORE_FIT` y la ausencia de `fitted` debe devolver `REQUEST_FIT_STATE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.",
+        instruction: "S32-T3-A-E3 · Fail-closed de transformers: fit completo (fitted True, mode set, transform_before_fit False) → `CONTINUE`; transform sin fit → `REJECT_TRANSFORM_BEFORE_FIT`; sin fitted → `REQUEST_FIT_STATE`.",
+        hint: "Sin fitted → REQUEST_FIT_STATE.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró transformer fitted con mode y sin transform prematuro; solo ese caso devuelve `CONTINUE`.",
+          "Sin fitted → REQUEST_FIT_STATE.",
+          "CONTINUE solo con fitted True, mode set, transform_before_fit False.",
         ],
-        edgeCases: ["falta fitted", "fixture adverso: transformer fitted con mode y sin transform prematuro", "CASO-LIM-032-3A es sintético"],
-        tests: "Fixtures `CASO-LIM-032-3A`, adverso y sin `fitted` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_TRANSFORM_BEFORE_FIT y por qué faltar fitted exige REQUEST_FIT_STATE.",
+        edgeCases: ["falta fitted", "fixture adverso: transform_before_fit=True", "CASO-LIM-032-3A es sintético"],
+        tests: "Salida: `CONTINUE REJECT_TRANSFORM_BEFORE_FIT REQUEST_FIT_STATE`.",
+        feedback: "S32-T3-A-E3: pedir el state de fit evita silent defaults en serve.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e3.py",
-          code: `# CASO-LIM-032 · decide REQUEST_FIT_ORDER
+          code: `# CASO-LIM-032 · decide REQUEST_FIT_STATE
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
-    required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
+    required = {"case_id", "fitted", "mode", "transform_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["transform_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-invalid = {"case_id": "CASO-LIM-032-3A", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}
-uncertain = {**valid}
-uncertain.pop("fitted")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
+invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
+uncertain = {k: v for k, v in valid.items() if k != "fitted"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-a-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
+    required = {"case_id", "fitted", "mode", "transform_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_FIT_STATE"
-    return "CONTINUE" if record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None else "REJECT_TRANSFORM_BEFORE_FIT"
+    ok = record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None
+    return "CONTINUE" if ok else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
-invalid = {"case_id": "CASO-LIM-032-3A", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}
-uncertain = {**valid}
-uncertain.pop("fitted")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
+invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
+uncertain = {k: v for k, v in valid.items() if k != "fitted"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE"]
 ` ,
@@ -1207,35 +1421,42 @@ assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE
         id: "S32-T3-B-E1",
         subtopicId: "S32-T3-B",
         kind: "guided",
-        instruction: "S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la operación debe demostrar state JSON con version fs-vN. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNVERSIONED` en E2.",
-        hint: "Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.",
+        instruction: "S32-T3-B-E1 · Serializa state a JSON, recarga y aplica mediana al batch [None, 4]. El starter omite version o no aplica median. Pasa si version empieza con fs-v y serve=[2, 4]. Salida: `S32-T3-B PASS`.",
+        hint: "json.loads(json.dumps(state)); fill None con state['median'].",
         hints: [
-          "Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva state JSON con version fs-vN; revisa dirección de comparación, conjuntos y negaciones.",
+          "json.loads(json.dumps(state)); fill None con state['median'].",
+          "versioned = str(version).startswith('fs-v').",
         ],
-        edgeCases: ["falta version", "fixture adverso: state JSON con version fs-vN", "CASO-LIM-032-3B es sintético"],
-        tests: "El fixture `CASO-LIM-032-3B` satisface un predicado de dominio real; imprime `S32-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S32-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNVERSIONED y por qué faltar version exige REQUEST_STATE_JSON.",
+        edgeCases: ["falta version", "fixture adverso: version vacía o versioned=False", "CASO-LIM-032-3B es sintético"],
+        tests: "Imprime `S32-T3-B PASS` con serve [2, 4] y version fs-v1.",
+        feedback: "S32-T3-B-E1: el round-trip JSON es el contrato de persistencia; servir sin version es REJECT_UNVERSIONED.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e1.py",
           code: `# CASO-LIM-032 · fit/transform persistence
-# DEFECT: state/version versioned invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-meets_contract = record["versioned"] is False or not record["version"]
-status = "PASS" if meets_contract else "REJECT_UNVERSIONED"
+# DEFECT: no aplica median; version ignorada
+import json
+state = {"median": 2, "version": "fs-v1"}
+loaded = json.loads(json.dumps(state))
+serve = [None, 4]  # DEFECT: no aplica median
+versioned = bool(loaded.get("version"))
+meets = serve == [2, 4] and str(loaded["version"]).startswith("fs-v") and versioned
+status = "PASS" if meets else "REJECT_UNVERSIONED"
 print("S32-T3-B", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-meets_contract = record["versioned"] is True and str(record["version"]).startswith("fs-v")
-status = "PASS" if meets_contract else "REJECT_UNVERSIONED"
+          code: `import json
+state = {"median": 2, "version": "fs-v1"}
+loaded = json.loads(json.dumps(state))
+serve = [loaded["median"] if x is None else x for x in [None, 4]]
+versioned = str(loaded["version"]).startswith("fs-v")
+meets = serve == [2, 4] and versioned
+status = "PASS" if meets else "REJECT_UNVERSIONED"
 print("S32-T3-B", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T3-B PASS` ,
         },
@@ -1244,52 +1465,54 @@ assert meets_contract is True
         id: "S32-T3-B-E2",
         subtopicId: "S32-T3-B",
         kind: "independent",
-        instruction: "S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, version, versioned. Salidas exactas: `PASS`, `REJECT_UNVERSIONED`, `MISSING:version`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
+        instruction: "S32-T3-B-E2 · `assess` round-trip del state: serializa a JSON, recarga y valida que `version` empiece con `fs-v` y que la mediana se pueda aplicar. Válido: fs-v1; adverso: version vacía; sin version → `MISSING:version`.",
+        hint: "json.loads(json.dumps(state)); startswith('fs-v').",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T3-B: state JSON con version fs-vN. El fixture adverso debe fallar por contenido, no por schema.",
+          "json.loads(json.dumps(state)); startswith('fs-v').",
+          "Version vacía o versioned False → REJECT_UNVERSIONED.",
         ],
-        edgeCases: ["falta version", "fixture adverso: state JSON con version fs-vN", "CASO-LIM-032-3B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `version` ausente y produce exactamente `PASS REJECT_UNVERSIONED MISSING:version`.",
-        feedback: "S32-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNVERSIONED y por qué faltar version exige REQUEST_STATE_JSON.",
+        edgeCases: ["falta version", "fixture adverso: version '' y versioned False", "CASO-LIM-032-3B es sintético"],
+        tests: "Salida: `PASS REJECT_UNVERSIONED MISSING:version`.",
+        feedback: "S32-T3-B-E2: fs-vN es el id que S33 consumirá; sin él no hay promote.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e2.py",
           code: `# CASO-LIM-032 · assess fit/transform persist
-# DEFECT: PASS sin artifact persistido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS sin version válida; no hace round-trip JSON
+import json
+
 def assess(record: dict) -> str:
-    required = {"case_id", 'state', 'version', 'versioned'}
+    required = {"case_id", "state", "version", "versioned"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["versioned"] is False or not record["version"] else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-invalid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': '', 'versioned': False}}
-incomplete = {**valid}
-incomplete.pop("version")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": "fs-v1"}, "version": "fs-v1", "versioned": True}
+invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": ""}, "version": "", "versioned": False}
+incomplete = {k: v for k, v in valid.items() if k != "version"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", 'state', 'version', 'versioned'}
+          code: `import json
+
+def assess(record: dict) -> str:
+    required = {"case_id", "state", "version", "versioned"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["versioned"] is True and str(record["version"]).startswith("fs-v") else "REJECT_UNVERSIONED"
+    loaded = json.loads(json.dumps(record["state"]))
+    ver = str(record["version"] or loaded.get("version") or "")
+    ok = record["versioned"] is True and ver.startswith("fs-v") and "median" in loaded
+    return "PASS" if ok else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-invalid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': '', 'versioned': False}}
-incomplete = {**valid}
-incomplete.pop("version")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": "fs-v1"}, "version": "fs-v1", "versioned": True}
+invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": ""}, "version": "", "versioned": False}
+incomplete = {k: v for k, v in valid.items() if k != "version"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_UNVERSIONED MISSING:version` ,
         },
@@ -1298,51 +1521,48 @@ print(*results)
         id: "S32-T3-B-E3",
         subtopicId: "S32-T3-B",
         kind: "transfer",
-        instruction: "S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolver `REJECT_UNVERSIONED` y la ausencia de `version` debe devolver `REQUEST_STATE_JSON`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.",
+        instruction: "S32-T3-B-E3 · Fail-closed de persistencia: state versionado fs-v* → `CONTINUE`; version vacía/no versioned → `REJECT_UNVERSIONED`; sin version → `REQUEST_STATE_JSON`.",
+        hint: "Sin version → REQUEST_STATE_JSON.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró state JSON con version fs-vN; solo ese caso devuelve `CONTINUE`.",
+          "Sin version → REQUEST_STATE_JSON.",
+          "CONTINUE solo con fs-v* y versioned True.",
         ],
-        edgeCases: ["falta version", "fixture adverso: state JSON con version fs-vN", "CASO-LIM-032-3B es sintético"],
-        tests: "Fixtures `CASO-LIM-032-3B`, adverso y sin `version` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNVERSIONED y por qué faltar version exige REQUEST_STATE_JSON.",
+        edgeCases: ["falta version", "fixture adverso: versioned False", "CASO-LIM-032-3B es sintético"],
+        tests: "Salida: `CONTINUE REJECT_UNVERSIONED REQUEST_STATE_JSON`.",
+        feedback: "S32-T3-B-E3: REQUEST_STATE_JSON es el camino fail-closed cuando falta el artefacto de fit.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
-          code: `# CASO-LIM-032 · decide REQUEST_TRANSFORM_ART
+          code: `# CASO-LIM-032 · decide REQUEST_STATE_JSON
 # DEFECT: missing→CONTINUE
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
-    required = {"case_id", 'state', 'version', 'versioned'}
+    required = {"case_id", "state", "version", "versioned"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["versioned"] is False or not record["version"] else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-invalid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': '', 'versioned': False}}
-uncertain = {**valid}
-uncertain.pop("version")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "fs-v1", "versioned": True}
+invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "", "versioned": False}
+uncertain = {k: v for k, v in valid.items() if k != "version"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'state', 'version', 'versioned'}
+    required = {"case_id", "state", "version", "versioned"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_STATE_JSON"
-    return "CONTINUE" if record["versioned"] is True and str(record["version"]).startswith("fs-v") else "REJECT_UNVERSIONED"
+    ok = record["versioned"] is True and str(record["version"]).startswith("fs-v")
+    return "CONTINUE" if ok else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
-invalid = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': '', 'versioned': False}}
-uncertain = {**valid}
-uncertain.pop("version")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "fs-v1", "versioned": True}
+invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "", "versioned": False}
+uncertain = {k: v for k, v in valid.items() if k != "version"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_UNVERSIONED", "REQUEST_STATE_JSON"]
 ` ,
@@ -1353,35 +1573,47 @@ assert results == ["CONTINUE", "REJECT_UNVERSIONED", "REQUEST_STATE_JSON"]
         id: "S32-T4-A-E1",
         subtopicId: "S32-T4-A",
         kind: "guided",
-        instruction: "S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe demostrar split con overlap 0 y ambos lados no vacíos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_ENTITY_OVERLAP` en E2.",
-        hint: "Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.",
+        instruction: "S32-T4-A-E1 · A partir de filas con ts/entity y cutoff '2026-02-01', calcula n_train, n_test y overlap de entidades. El starter hardcodea tamaños. Pasa si n_train=1, n_test=1, overlap=0. Salida: `S32-T4-A PASS`.",
+        hint: "train = ts < cut; overlap = set(entity train) ∩ set(entity test).",
         hints: [
-          "Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva split con overlap 0 y ambos lados no vacíos; revisa dirección de comparación, conjuntos y negaciones.",
+          "train = ts < cut; overlap = set(entity train) ∩ set(entity test).",
+          "No devuelvas constantes: deriva tamaños de las listas.",
         ],
-        edgeCases: ["falta overlap", "fixture adverso: split con overlap 0 y ambos lados no vacíos", "CASO-LIM-032-4A es sintético"],
-        tests: "El fixture `CASO-LIM-032-4A` satisface un predicado de dominio real; imprime `S32-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S32-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ENTITY_OVERLAP y por qué faltar overlap exige REQUEST_SPLIT_KEYS.",
+        edgeCases: ["falta overlap/keys", "fixture adverso: misma entity en train y test (overlap>0)", "CASO-LIM-032-4A es sintético"],
+        tests: "Imprime `S32-T4-A PASS` con overlap 0 calculado.",
+        feedback: "S32-T4-A-E1: overlap de entidades infla métricas; el gate exige cero intersección.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e1.py",
           code: `# CASO-LIM-032 · entity/group/time split
-# DEFECT: overlap train/test invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-meets_contract = record["overlap"] > 0
-status = "PASS" if meets_contract else "REJECT_ENTITY_OVERLAP"
+# DEFECT: tamaños hardcodeados; no calcula overlap
+rows = [
+    {"ts": "2026-01-10", "entity": "e1"},
+    {"ts": "2026-02-10", "entity": "e2"},
+]
+cut = "2026-02-01"
+n_train, n_test, overlap = 1, 1, 0  # DEFECT: no derivado
+meets = n_train >= 1 and n_test >= 1 and overlap == 0
+status = "PASS" if meets else "REJECT_ENTITY_OVERLAP"
 print("S32-T4-A", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-meets_contract = record["overlap"] == 0 and record["n_train"] >= 1 and record["n_test"] >= 1
-status = "PASS" if meets_contract else "REJECT_ENTITY_OVERLAP"
+          code: `rows = [
+    {"ts": "2026-01-10", "entity": "e1"},
+    {"ts": "2026-02-10", "entity": "e2"},
+]
+cut = "2026-02-01"
+train = [r for r in rows if r["ts"] < cut]
+test = [r for r in rows if r["ts"] >= cut]
+overlap = len(set(r["entity"] for r in train) & set(r["entity"] for r in test))
+n_train, n_test = len(train), len(test)
+meets = n_train >= 1 and n_test >= 1 and overlap == 0
+status = "PASS" if meets else "REJECT_ENTITY_OVERLAP"
 print("S32-T4-A", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T4-A PASS` ,
         },
@@ -1390,105 +1622,167 @@ assert meets_contract is True
         id: "S32-T4-A-E2",
         subtopicId: "S32-T4-A",
         kind: "independent",
-        instruction: "S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict con case_id, n_train, n_test, overlap. Salidas exactas: `PASS`, `REJECT_ENTITY_OVERLAP`, `MISSING:overlap`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.",
+        instruction: "S32-T4-A-E2 · `assess` recibe `rows` y `cut`: calcula n_train, n_test y overlap de entidades (no uses flags precomputados). Válido: e1/e2 sin overlap; adverso: misma entity en ambos lados; sin rows → `MISSING:rows`.",
+        hint: "train = [r for r in rows if r['ts'] < cut]; overlap = set(entity train) ∩ set(entity test).",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T4-A: split con overlap 0 y ambos lados no vacíos. El fixture adverso debe fallar por contenido, no por schema.",
+          "train = [r for r in rows if r['ts'] < cut]; overlap = set(entity train) ∩ set(entity test).",
+          "PASS solo si ambos lados no vacíos y len(overlap)==0.",
         ],
-        edgeCases: ["falta overlap", "fixture adverso: split con overlap 0 y ambos lados no vacíos", "CASO-LIM-032-4A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `overlap` ausente y produce exactamente `PASS REJECT_ENTITY_OVERLAP MISSING:overlap`.",
-        feedback: "S32-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ENTITY_OVERLAP y por qué faltar overlap exige REQUEST_SPLIT_KEYS.",
+        edgeCases: ["falta rows", "fixture adverso: misma entity en train y test (overlap>0)", "CASO-LIM-032-4A es sintético"],
+        tests: "Salida: `PASS REJECT_ENTITY_OVERLAP MISSING:rows`.",
+        feedback: "S32-T4-A-E2: el overlap se deriva de las filas; reportarlo es parte del informe de split, no un detalle opcional.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e2.py",
-          code: `# CASO-LIM-032 · assess split isolation
-# DEFECT: PASS con overlap>0 o n_train/test=0
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-LIM-032 · assess split isolation from rows
+# DEFECT: no calcula overlap; PASS con intersección de entidades
 def assess(record: dict) -> str:
-    required = {"case_id", 'n_train', 'n_test', 'overlap'}
+    required = {"case_id", "rows", "cut"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["overlap"] > 0 else "REJECT_ENTITY_OVERLAP"
+    rows, cut = record["rows"], record["cut"]
+    train = [r for r in rows if r["ts"] < cut]
+    test = [r for r in rows if r["ts"] >= cut]
+    # DEFECT: ignora intersección real
+    return "PASS" if train and test else "REJECT_ENTITY_OVERLAP"
 
-valid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-invalid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}
-incomplete = {**valid}
-incomplete.pop("overlap")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e2"},
+    ],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e1"},
+    ],
+}
+incomplete = {k: v for k, v in valid.items() if k != "rows"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-a-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'n_train', 'n_test', 'overlap'}
+    required = {"case_id", "rows", "cut"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["overlap"] == 0 and record["n_train"] >= 1 and record["n_test"] >= 1 else "REJECT_ENTITY_OVERLAP"
+    rows, cut = record["rows"], record["cut"]
+    train = [r for r in rows if r["ts"] < cut]
+    test = [r for r in rows if r["ts"] >= cut]
+    overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
+    ok = len(train) >= 1 and len(test) >= 1 and len(overlap) == 0
+    return "PASS" if ok else "REJECT_ENTITY_OVERLAP"
 
-valid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-invalid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}
-incomplete = {**valid}
-incomplete.pop("overlap")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e2"},
+    ],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e1"},
+    ],
+}
+incomplete = {k: v for k, v in valid.items() if k != "rows"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
-          output: `PASS REJECT_ENTITY_OVERLAP MISSING:overlap` ,
+          output: `PASS REJECT_ENTITY_OVERLAP MISSING:rows` ,
         },
       },
       {
         id: "S32-T4-A-E3",
         subtopicId: "S32-T4-A",
         kind: "transfer",
-        instruction: "S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devolver `REJECT_ENTITY_OVERLAP` y la ausencia de `overlap` debe devolver `REQUEST_SPLIT_KEYS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.",
+        instruction: "S32-T4-A-E3 · Fail-closed de split: a partir de `rows` y `cut`, calcula n_train, n_test y overlap de entidades. Lados no vacíos y overlap 0 → `CONTINUE`; overlap>0 → `REJECT_ENTITY_OVERLAP`; sin rows → `REQUEST_SPLIT_KEYS`. El informe de split es obligatorio antes del baseline.",
+        hint: "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró split con overlap 0 y ambos lados no vacíos; solo ese caso devuelve `CONTINUE`.",
+          "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
+          "CONTINUE solo si len(train)>=1, len(test)>=1 y len(overlap)==0 — no confíes en n_train prebakeado.",
         ],
-        edgeCases: ["falta overlap", "fixture adverso: split con overlap 0 y ambos lados no vacíos", "CASO-LIM-032-4A es sintético"],
-        tests: "Fixtures `CASO-LIM-032-4A`, adverso y sin `overlap` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ENTITY_OVERLAP y por qué faltar overlap exige REQUEST_SPLIT_KEYS.",
+        edgeCases: ["falta rows", "fixture adverso: misma entity en train y test (overlap>0)", "CASO-LIM-032-4A es sintético"],
+        tests: "Salida: `CONTINUE REJECT_ENTITY_OVERLAP REQUEST_SPLIT_KEYS`.",
+        feedback: "S32-T4-A-E3: sin filas de split no se puede auditar el leakage de identidad; el overlap se recalcula, no se inventa.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e3.py",
-          code: `# CASO-LIM-032 · decide REQUEST_SPLIT_FIX
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-LIM-032 · decide REQUEST_SPLIT_KEYS
+# DEFECT: missing→CONTINUE; no calcula overlap desde rows
 def decide(record: dict) -> str:
-    required = {"case_id", 'n_train', 'n_test', 'overlap'}
+    required = {"case_id", "rows", "cut"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["overlap"] > 0 else "REJECT_ENTITY_OVERLAP"
+    # DEFECT: confía en flags implícitos sin medir intersección
+    return "CONTINUE" if record.get("rows") else "REJECT_ENTITY_OVERLAP"
 
-valid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-invalid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}
-uncertain = {**valid}
-uncertain.pop("overlap")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e2"},
+    ],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e1"},
+    ],
+}
+uncertain = {k: v for k, v in valid.items() if k != "rows"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-a-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'n_train', 'n_test', 'overlap'}
+    required = {"case_id", "rows", "cut"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_SPLIT_KEYS"
-    return "CONTINUE" if record["overlap"] == 0 and record["n_train"] >= 1 and record["n_test"] >= 1 else "REJECT_ENTITY_OVERLAP"
+    rows, cut = record["rows"], record["cut"]
+    train = [r for r in rows if r["ts"] < cut]
+    test = [r for r in rows if r["ts"] >= cut]
+    overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
+    ok = len(train) >= 1 and len(test) >= 1 and len(overlap) == 0
+    return "CONTINUE" if ok else "REJECT_ENTITY_OVERLAP"
 
-valid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
-invalid = {"case_id": "CASO-LIM-032-4A", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}
-uncertain = {**valid}
-uncertain.pop("overlap")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e2"},
+    ],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4A",
+    "cut": "2026-02-01",
+    "rows": [
+        {"ts": "2026-01-10", "entity": "e1"},
+        {"ts": "2026-02-10", "entity": "e1"},
+    ],
+}
+uncertain = {k: v for k, v in valid.items() if k != "rows"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_ENTITY_OVERLAP", "REQUEST_SPLIT_KEYS"]
 ` ,
@@ -1499,35 +1793,42 @@ assert results == ["CONTINUE", "REJECT_ENTITY_OVERLAP", "REQUEST_SPLIT_KEYS"]
         id: "S32-T4-B-E1",
         subtopicId: "S32-T4-B",
         kind: "guided",
-        instruction: "S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación debe demostrar sin leaky names, sin skew y con feature_set id. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_LEAKAGE` en E2.",
-        hint: "Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.",
+        instruction: "S32-T4-B-E1 · Escanea names con 'label'/'decision', calcula skew |serve_mean-train_mean|>0.5 y valida feature_set fs-v*. El starter invierte el gate. Con names limpios, means iguales y fs-v2 → PASS. Salida: `S32-T4-B PASS`.",
+        hint: "leaky = [n for n in names if 'label' in n or 'decision' in n].",
         hints: [
-          "Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y con feature_set id; revisa dirección de comparación, conjuntos y negaciones.",
+          "leaky = [n for n in names if 'label' in n or 'decision' in n].",
+          "meets = not leaky and not skew and feature_set.startswith('fs-v').",
         ],
-        edgeCases: ["falta feature_set", "fixture adverso: sin leaky names, sin skew y con feature_set id", "CASO-LIM-032-4B es sintético"],
-        tests: "El fixture `CASO-LIM-032-4B` satisface un predicado de dominio real; imprime `S32-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S32-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKAGE y por qué faltar feature_set exige REQUEST_FEATURE_SET_ID.",
+        edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o skew True", "CASO-LIM-032-4B es sintético"],
+        tests: "Imprime `S32-T4-B PASS` con scan limpio y fs-v2.",
+        feedback: "S32-T4-B-E1: el scan de nombres + skew cierra el promote antes del baseline S33.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e1.py",
           code: `# CASO-LIM-032 · leakage/skew/version gate
-# DEFECT: leaky/skew/feature_set invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-meets_contract = bool(record["leaky"]) or record["skew"] is True
-status = "PASS" if meets_contract else "REJECT_LEAKAGE"
+# DEFECT: gate invertido (PASS si hay leak o skew)
+names = ["amount_7d", "canal_mode"]
+train_mean, serve_mean, tol = 0.0, 0.1, 0.5
+feature_set = "fs-v2"
+leaky = [n for n in names if "label" in n or "decision" in n]
+skew = abs(serve_mean - train_mean) > tol
+meets = bool(leaky) or skew  # DEFECT
+status = "PASS" if meets else "REJECT_LEAKAGE"
 print("S32-T4-B", status)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-meets_contract = not record["leaky"] and record["skew"] is False and str(record["feature_set"]).startswith("fs-v")
-status = "PASS" if meets_contract else "REJECT_LEAKAGE"
+          code: `names = ["amount_7d", "canal_mode"]
+train_mean, serve_mean, tol = 0.0, 0.1, 0.5
+feature_set = "fs-v2"
+leaky = [n for n in names if "label" in n or "decision" in n]
+skew = abs(serve_mean - train_mean) > tol
+meets = (not leaky) and (skew is False) and str(feature_set).startswith("fs-v")
+status = "PASS" if meets else "REJECT_LEAKAGE"
 print("S32-T4-B", status)
-assert meets_contract is True
+assert meets is True
 ` ,
           output: `S32-T4-B PASS` ,
         },
@@ -1536,52 +1837,82 @@ assert meets_contract is True
         id: "S32-T4-B-E2",
         subtopicId: "S32-T4-B",
         kind: "independent",
-        instruction: "S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con case_id, leaky, skew, feature_set. Salidas exactas: `PASS`, `REJECT_LEAKAGE`, `MISSING:feature_set`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.",
+        instruction: "S32-T4-B-E2 · `assess` escanea `names` (label/decision), calcula skew con means+tol y valida `feature_set`. Válido: names limpios y means cercanos; adverso: label_decision o |serve−train|>tol; sin feature_set → `MISSING:feature_set`.",
+        hint: "leaky = [n for n in names if 'label' in n or 'decision' in n]; skew = abs(serve-train) > tol.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S32-T4-B: sin leaky names, sin skew y con feature_set id. El fixture adverso debe fallar por contenido, no por schema.",
+          "leaky = [n for n in names if 'label' in n or 'decision' in n]; skew = abs(serve-train) > tol.",
+          "PASS si not leaky and not skew and feature_set.startswith('fs-v').",
         ],
-        edgeCases: ["falta feature_set", "fixture adverso: sin leaky names, sin skew y con feature_set id", "CASO-LIM-032-4B es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `feature_set` ausente y produce exactamente `PASS REJECT_LEAKAGE MISSING:feature_set`.",
-        feedback: "S32-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKAGE y por qué faltar feature_set exige REQUEST_FEATURE_SET_ID.",
+        edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o skew True", "CASO-LIM-032-4B es sintético"],
+        tests: "Salida: `PASS REJECT_LEAKAGE MISSING:feature_set`.",
+        feedback: "S32-T4-B-E2: label_decision en el catálogo es red flag de leakage, no una feature útil; el skew se mide, no se intuye.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e2.py",
-          code: `# CASO-LIM-032 · assess leakage & skew
-# DEFECT: PASS con leaky o skew True
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-LIM-032 · assess leakage & skew from names/means
+# DEFECT: PASS cuando hay leaky o skew
 def assess(record: dict) -> str:
-    required = {"case_id", 'leaky', 'skew', 'feature_set'}
+    required = {"case_id", "names", "train_mean", "serve_mean", "tol", "feature_set"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if bool(record["leaky"]) or record["skew"] is True else "REJECT_LEAKAGE"
+    names = record["names"]
+    leaky = [n for n in names if "label" in n or "decision" in n]
+    skew = abs(record["serve_mean"] - record["train_mean"]) > record["tol"]
+    # DEFECT: invierte el gate de promote
+    return "PASS" if leaky or skew else "REJECT_LEAKAGE"
 
-valid = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-invalid = {"case_id": "CASO-LIM-032-4B", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}
-incomplete = {**valid}
-incomplete.pop("feature_set")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "canal_mode"],
+    "train_mean": 0.0,
+    "serve_mean": 0.1,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "label_decision"],
+    "train_mean": 0.0,
+    "serve_mean": 0.8,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+incomplete = {k: v for k, v in valid.items() if k != "feature_set"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-b-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", 'leaky', 'skew', 'feature_set'}
+    required = {"case_id", "names", "train_mean", "serve_mean", "tol", "feature_set"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if not record["leaky"] and record["skew"] is False and str(record["feature_set"]).startswith("fs-v") else "REJECT_LEAKAGE"
+    leaky = [n for n in record["names"] if "label" in n or "decision" in n]
+    skew = abs(record["serve_mean"] - record["train_mean"]) > record["tol"]
+    ok = (not leaky) and (skew is False) and str(record["feature_set"]).startswith("fs-v")
+    return "PASS" if ok else "REJECT_LEAKAGE"
 
-valid = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-invalid = {"case_id": "CASO-LIM-032-4B", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}
-incomplete = {**valid}
-incomplete.pop("feature_set")
-results = (assess(valid), assess(invalid), assess(incomplete))
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "canal_mode"],
+    "train_mean": 0.0,
+    "serve_mean": 0.1,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "label_decision"],
+    "train_mean": 0.0,
+    "serve_mean": 0.8,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+incomplete = {k: v for k, v in valid.items() if k != "feature_set"}
+print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
           output: `PASS REJECT_LEAKAGE MISSING:feature_set` ,
         },
@@ -1590,51 +1921,79 @@ print(*results)
         id: "S32-T4-B-E3",
         subtopicId: "S32-T4-B",
         kind: "transfer",
-        instruction: "S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe continuar, el adverso debe devolver `REJECT_LEAKAGE` y la ausencia de `feature_set` debe devolver `REQUEST_FEATURE_SET_ID`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.",
+        instruction: "S32-T4-B-E3 · Fail-closed final del pipeline hacia S33: escanea `names`, mide skew con means+tol y valida `feature_set`. Scan limpio + sin skew + fs-v* → `CONTINUE`; leaky o skew → `REJECT_LEAKAGE`; sin feature_set → `REQUEST_FEATURE_SET_ID`.",
+        hint: "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró sin leaky names, sin skew y con feature_set id; solo ese caso devuelve `CONTINUE`.",
+          "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
+          "leaky = [n for n in names if 'label' in n or 'decision' in n]; skew = abs(serve_mean-train_mean) > tol.",
         ],
-        edgeCases: ["falta feature_set", "fixture adverso: sin leaky names, sin skew y con feature_set id", "CASO-LIM-032-4B es sintético"],
-        tests: "Fixtures `CASO-LIM-032-4B`, adverso y sin `feature_set` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S32-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LEAKAGE y por qué faltar feature_set exige REQUEST_FEATURE_SET_ID.",
+        edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o |serve−train|>tol", "CASO-LIM-032-4B es sintético"],
+        tests: "Salida: `CONTINUE REJECT_LEAKAGE REQUEST_FEATURE_SET_ID`.",
+        feedback: "S32-T4-B-E3: el feature_set id es el contrato que S33 debe citar; el promote se gana midiendo scan y skew, no leyendo un booleano previo.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e3.py",
-          code: `# CASO-LIM-032 · decide HOLD_ON_LEAKAGE
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+          code: `# CASO-LIM-032 · decide REQUEST_FEATURE_SET_ID
+# DEFECT: missing→CONTINUE; no escanea names ni mide skew
 def decide(record: dict) -> str:
-    required = {"case_id", 'leaky', 'skew', 'feature_set'}
+    required = {"case_id", "names", "train_mean", "serve_mean", "tol", "feature_set"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if bool(record["leaky"]) or record["skew"] is True else "REJECT_LEAKAGE"
+    # DEFECT: promote ciego
+    return "CONTINUE"
 
-valid = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-invalid = {"case_id": "CASO-LIM-032-4B", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}
-uncertain = {**valid}
-uncertain.pop("feature_set")
-results = [decide(item) for item in (valid, invalid, uncertain)]
-print(*results)
+valid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "canal_mode"],
+    "train_mean": 0.0,
+    "serve_mean": 0.1,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "label_decision"],
+    "train_mean": 0.0,
+    "serve_mean": 0.8,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+uncertain = {k: v for k, v in valid.items() if k != "feature_set"}
+print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s32-t4-b-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", 'leaky', 'skew', 'feature_set'}
+    required = {"case_id", "names", "train_mean", "serve_mean", "tol", "feature_set"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_FEATURE_SET_ID"
-    return "CONTINUE" if not record["leaky"] and record["skew"] is False and str(record["feature_set"]).startswith("fs-v") else "REJECT_LEAKAGE"
+    leaky = [n for n in record["names"] if "label" in n or "decision" in n]
+    skew = abs(record["serve_mean"] - record["train_mean"]) > record["tol"]
+    ok = (not leaky) and (skew is False) and str(record["feature_set"]).startswith("fs-v")
+    return "CONTINUE" if ok else "REJECT_LEAKAGE"
 
-valid = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
-invalid = {"case_id": "CASO-LIM-032-4B", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}
-uncertain = {**valid}
-uncertain.pop("feature_set")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+valid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "canal_mode"],
+    "train_mean": 0.0,
+    "serve_mean": 0.1,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+invalid = {
+    "case_id": "CASO-LIM-032-4B",
+    "names": ["amount_7d", "label_decision"],
+    "train_mean": 0.0,
+    "serve_mean": 0.8,
+    "tol": 0.5,
+    "feature_set": "fs-v2",
+}
+uncertain = {k: v for k, v in valid.items() if k != "feature_set"}
+results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_LEAKAGE", "REQUEST_FEATURE_SET_ID"]
 ` ,
@@ -1646,35 +2005,72 @@ assert results == ["CONTINUE", "REJECT_LEAKAGE", "REQUEST_FEATURE_SET_ID"]
   youDo: {
     title: "Feature table versionada sin leakage (CP-N3-B)",
     context:
-      "Construye catálogo, window half-open, transformer fit state y split sin overlap para CASO-LIM-032 / cpn3b-feat.",
+      "Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split sin overlap y scan de leakage. Artefacto de entrada para el baseline S33.",
     objectives: [
-      "Catalog dtypes y keys validadas",
-      "Missing indicator + stats de train",
-      "Graph + window half-open",
-      "fs-vN, leakage scan y split limpio",
+      "Catalog dtypes y keys validadas (row ⊆ catálogo)",
+      "Missing indicator + mediana de train + apply en serve",
+      "Graph feats (shared/degree/path) + window half-open [t−w, t)",
+      "fs-vN, leakage scan, skew check y split con overlap 0",
     ],
     requirements: [
-      "Train≡serve state",
-      "Sin future ts ni label features",
-      "es-PE sintético; feature_set id",
+      "Train≡serve: mismo código y state en train e inferencia",
+      "Sin future ts ni label/decision como feature",
+      "Solo PII sintético; feature_set id fs-vN documentado",
+      "Informe de split: n_train, n_test, overlap",
     ],
-    starterCode: `# features CP-N3-B — CASO-LIM-032
-catalog = {"numeric": [], "categorical": [], "text": []}
-state = {"version": "fs-v1"}
-# Contrato de theory/iDo documentado (sin stubs)
+    starterCode: `# features CP-N3-B — CASO-LIM-032 / run_id=cpn3b-feat
+# Entrega: catálogo, state versionado, ventana half-open, split sin overlap, scan de leakage.
+# Handoff S33: el baseline debe citar feature_set id (fs-vN) y el informe de split.
+events = [
+    {"entity": "E1", "ts": 1, "canal": "app", "amount": 10.0},
+    {"entity": "E1", "ts": 2, "canal": "app", "amount": 12.0},
+    {"entity": "E2", "ts": 3, "canal": "web", "amount": 8.0},
+    {"entity": "E2", "ts": 5, "canal": "app", "amount": 9.0},
+]
+decision_t = 5
+window_w = 3
+catalog = {"numeric": ["amount_3t", "n_events_3t"], "categorical": ["canal_mode"], "text": []}
+state = {"version": "fs-v1", "median_amount": None}  # fit solo con train (ts < decision_t)
+
+
+def window_count(entity_events, t, w):
+    """Cuenta eventos con ts en [t-w, t)."""
+    raise NotImplementedError("half-open [t-w, t)")
+
+
+def fit_median(train_amounts):
+    """Mediana de train; None si lista vacía."""
+    raise NotImplementedError("stats solo de train")
+
+
+def time_group_split(rows, cut_ts):
+    """Devuelve (train, test, overlap_count) con overlap de entity = 0 en el happy path."""
+    raise NotImplementedError("time + entity isolation")
+
+
+def leak_scan(names):
+    """Nombres con 'label' o 'decision'."""
+    raise NotImplementedError("flag label/decision")
+
+
+def skew_alert(train_mean, serve_mean, tol=0.5):
+    raise NotImplementedError("|serve-train| > tol")
+
+
 if __name__ == "__main__":
+    # Checklist mínima: implementa las funciones, imprime version + n_events de E1 + overlap
     print(state["version"])
 `,
     portfolioNote:
-      "Feature set fs-vN + anti-leakage checklist.",
+      "Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Train≡serve, sin leakage temporal/de label y feature set versionado", weight: "25%" },
+      { criterion: "Correctitud técnica: ventanas half-open, stats de train, split con overlap 0", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
-      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Pruebas o casos de borde documentados (adverso includes_t, unknown feature)", weight: "15%" },
+      { criterion: "Código legible y límites claros (REQUEST_* vs REJECT_*)", weight: "10%" },
       { criterion: "Documentación en español profesional", weight: "10%" },
-      { criterion: "fs-vN + half-open window + zero entity overlap", weight: "bonus" },
+      { criterion: "fs-vN + half-open window + zero entity overlap + handoff S33", weight: "bonus" },
     ],
   },
   selfCheck: {
@@ -1708,12 +2104,53 @@ if __name__ == "__main__":
           "Features que embeden la decisión o el label contaminan el entrenamiento.",
       },
       {
-        question: "Una feature que usa label_decision del futuro en train es…",
-        options: ["buena ingeniería de features", "obligatoria para el grafo", "irrelevante si hay z-score", "leakage: debe rechazarse en el scan de nombres/contrato"],
-        correctIndex: 3,
+        question: "Al estandarizar amount, μ y σ deben calcularse…",
+        options: [
+          "sobre train+test juntos para más datos",
+          "solo sobre train y reutilizarse en serve",
+          "solo sobre test para validar",
+          "de nuevo en cada fila de serve",
+        ],
+        correctIndex: 1,
         explanation:
-          "Anti-leakage: features no pueden incorporar la decisión/etiqueta futura.",
-      }
+          "Estadísticas de escalado/encoding se aprenden en fit (train) y se congelan; re-fit en test/serve es leakage o skew.",
+      },
+      {
+        question: "Si en serve aparece una key que no está en el feature catalog:",
+        options: [
+          "se ignora en silencio",
+          "se agrega al catálogo al vuelo",
+          "se rechaza (REJECT_UNKNOWN_FEATURE) o se pide REQUEST_CATALOG",
+          "solo afecta a features de texto",
+        ],
+        correctIndex: 2,
+        explanation:
+          "Train≡serve exige keys ⊆ catálogo; una feature inventada en serve rompe el contrato.",
+      },
+      {
+        question: "Un missing indicator junto al fill con mediana de train sirve para:",
+        options: [
+          "ocultar la ausencia al modelo",
+          "preservar la señal de ausencia y evitar silent fill",
+          "reestimar la mediana en cada fila de serve",
+          "reemplazar el z-score",
+        ],
+        correctIndex: 1,
+        explanation:
+          "El indicator (1 si era None) viaja con el valor relleno; rellenar sin él es silent fill.",
+      },
+      {
+        question: "Skew train–serve se detecta midiendo, por ejemplo:",
+        options: [
+          "solo el AUC offline",
+          "|mean_serve − mean_train| > tol sobre la misma feature",
+          "el número de líneas del notebook",
+          "si el grafo tiene degree > 0",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.",
+      },
     ],
   },
   resources: {

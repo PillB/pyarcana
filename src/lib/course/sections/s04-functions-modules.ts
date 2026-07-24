@@ -12,7 +12,7 @@ export const section04: CourseSection = {
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "En onboarding de data en bancos, fintech y retail en Perú, el motor de reglas (S03) debe correr sobre **lotes**: cientos de filas, centinelas END, continue/break y resúmenes. Id legacy `functions-modules` se conserva; el path V3 es **Iteración y resúmenes transaccionales** (for/while, enumerate/zip, conteos, complejidad).",
+    "En onboarding de data en bancos, fintech y retail en Perú, el motor de reglas (S03) debe correr sobre **lotes**: cientos de filas, centinelas END, continue/break y resúmenes con tasas honestas. Aquí dominas for/while, enumerate/zip, conteos O(n) y el cierre del Client Intake CP-N1-A.",
   learningOutcomes: [
     { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
     { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },
@@ -25,17 +25,17 @@ export const section04: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)",
+      heading: "Mapa de la sección: iteración y resúmenes por lotes",
       paragraphs: [
-        "En V3, **S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado**. Esos temas viven en **S10** (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que el **cierre de CP-N1-A** necesita: recorrer **múltiples registros**, acumular contadores, evitar loops infinitos y reportar **tasas con denominadores correctos**.",
+        "En esta sección dominas lo que el **cierre de CP-N1-A** necesita: recorrer **múltiples registros**, acumular contadores, evitar loops infinitos y reportar **tasas con denominadores correctos**. Temas de empaquetado, CLI y decorators se abordan más adelante en el curso.",
         "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y **conserva el original** de cada fila. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
         "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one).",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Alcance de esta sección",
         content:
-          "Material legado de esta sección (decorators, pathlib packaging, datetime timezone, empaquetado profesional) **no es el camino del estudiante en S04 V3**. Se conserva como referencia histórica en el historial del repo. El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A). Decorators/CLI llegan conceptualmente en S10; OOP de dominio en S11.",
+          "El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A): lotes, contadores y tasas. No cubrimos decorators ni packaging aquí; cuando llegues a módulos/CLI y OOP de dominio, reutilizarás estos bucles sobre el mismo hilo de intake.",
       },
     },
     {
@@ -49,15 +49,19 @@ export const section04: CourseSection = {
       code: {
         language: 'python',
         title: "for_registros.py",
-        code: `def filter_lima(filas):
-    return [f for f in filas if f.get("region") == "Lima"]
-
-filas = [
+        code: `filas = [
     {"id": "C001", "region": "Lima"},
     {"id": "C002", "region": "Cusco"},
+    {"id": "C003", "region": "Arequipa"},
 ]
-print(filter_lima(filas))
-print("ok", True)
+for reg in filas:
+    print(f"{reg['id']} → {reg['region']}")
+
+ids = []
+for i in range(len(filas)):
+    ids.append(filas[i]["id"])
+print("ids con range:", ids)
+print("range(1, 4):", list(range(1, 4)))
 `,
         output: `C001 → Lima
 C002 → Cusco
@@ -125,17 +129,17 @@ zip strict → ValueError: desalineado: 3 vs 2`,
       code: {
         language: 'python',
         title: "while_centinela.py",
-        code: `def read_until_blank(lineas):
-    out = []
-    for ln in lineas:
-        if ln == "":
-            break
-        out.append(ln)
-    return out
-
-lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]
-print(read_until_blank(lineas))
-print("ok", True)
+        code: `lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]
+i = 0
+procesadas = []
+while i < len(lineas):
+    ln = lineas[i]
+    i += 1
+    if ln == "":
+        break
+    procesadas.append(ln)
+print("procesadas:", procesadas)
+print("restante no leída:", lineas[i:])
 `,
         output: `procesadas: ['C001|Lima', 'C002|Cusco']
 restante no leída: ['C003|Piura']`,
@@ -160,7 +164,9 @@ restante no leída: ['C003|Piura']`,
         title: "break_continue.py",
         code: `def clean_lines(raw_lines, max_n=100):
     kept = []
+    iters = 0
     for ln in raw_lines:
+        iters += 1
         if not ln.strip() or ln == "SKIP":
             continue
         if ln == "END":
@@ -168,11 +174,12 @@ restante no leída: ['C003|Piura']`,
         kept.append(ln)
         if len(kept) >= max_n:
             break
-    return kept
+    return kept, iters
 
 raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
-print(clean_lines(raw_lines))
-print("ok", True)
+kept, iters = clean_lines(raw_lines)
+print(kept)
+print("iteraciones efectivas del for:", iters)
 `,
         output: `['C001|Lima', 'C002|Cusco']
 iteraciones efectivas del for: 5`,
@@ -195,16 +202,18 @@ iteraciones efectivas del for: 5`,
       code: {
         language: 'python',
         title: "contadores_tasa.py",
-        code: `def count_statuses(statuses):
-    counts = {"accept": 0, "reject": 0, "review": 0}
-    for s in statuses:
-        if s in counts:
-            counts[s] += 1
-    return counts
-
-statuses = ["accept", "reject", "accept", "review", "reject", "accept"]
-print(count_statuses(statuses))
-print("ok", True)
+        code: `statuses = ["accept", "reject", "accept", "review", "reject", "accept"]
+n_total = n_reject = 0
+first_reject_idx = None
+for i, s in enumerate(statuses):
+    n_total += 1
+    if s == "reject":
+        n_reject += 1
+        if first_reject_idx is None:
+            first_reject_idx = i
+tasa = n_reject / n_total if n_total else None
+print("total", n_total, "reject", n_reject, "tasa", round(tasa, 4))
+print("first_reject_idx", first_reject_idx)
 `,
         output: `total 6 reject 2 tasa 0.3333
 first_reject_idx 1`,
@@ -227,18 +236,18 @@ first_reject_idx 1`,
       code: {
         language: 'python',
         title: "comprehensions_resumen.py",
-        code: `def first_reject(results):
-    for r in results:
-        if r["status"] == "reject":
-            return r["id"]
-    return None
-
-results = [
+        code: `results = [
     {"id": "C001", "status": "accept"},
     {"id": "C002", "status": "reject"},
+    {"id": "C003", "status": "review"},
+    {"id": "C004", "status": "reject"},
 ]
-print(first_reject(results))
-print("ok", True)
+rejects = [r["id"] for r in results if r["status"] == "reject"]
+codes = sorted({r["status"] for r in results})
+by_id = {r["id"]: r["status"] for r in results}
+print("rejects", rejects)
+print("codes", codes)
+print("by_id", "C002", by_id["C002"])
 `,
         output: `rejects ['C002', 'C004']
 codes ['accept', 'reject', 'review']
@@ -262,18 +271,16 @@ by_id C002 reject`,
       code: {
         language: 'python',
         title: "traza_estado.py",
-        code: `def running_total(montos):
-    total = 0
-    n_pos = 0
-    for i, m in enumerate(montos):
-        if m > 0:
-            total += m
-            n_pos += 1
-        print(i, m, total, n_pos)
-    return total, n_pos
-
-print("final", running_total([10, 0, -5, 20]))
-print("ok", True)
+        code: `montos = [10, 0, -5, 20]
+total = 0
+n_pos = 0
+print("i | m | total | n_pos")
+for i, m in enumerate(montos):
+    if m > 0:
+        total += m
+        n_pos += 1
+    print(f"{i} | {m} | {total} | {n_pos}")
+print("final total=", total, "n_pos=", n_pos)
 `,
         output: `i | m | total | n_pos
 0 | 10 | 10 | 1
@@ -300,18 +307,20 @@ final total= 30 n_pos= 2`,
       code: {
         language: 'python',
         title: "costo_off_by_one.py",
-        code: `def complexity_demo(xs):
-    linear = 0
-    for _ in xs:
-        linear += 1
-    quad = 0
-    for _ in xs:
-        for __ in xs:
-            quad += 1
-    return linear, quad
-
-print(complexity_demo(["a", "b", "c"]))
-print("ok", True)
+        code: `xs = ["a", "b", "c"]
+linear = 0
+for _ in xs:
+    linear += 1
+quad = 0
+for _ in xs:
+    for __ in xs:
+        quad += 1
+print("linear", linear, "quadratic", quad)
+print("last ok", xs[len(xs) - 1])
+try:
+    print(xs[len(xs)])  # off-by-one: índice n no existe
+except IndexError as e:
+    print("IndexError en len(xs):", e)
 `,
         output: `linear 3 quadratic 9
 last ok c
@@ -336,16 +345,15 @@ IndexError en len(xs): list index out of range`,
         code: {
           language: 'python',
           title: "S04-T1-A-DEMO — for_lote",
-          code: `def mayores_igual_18(lote):
-    return [r for r in lote if r["edad"] >= 18]
-
-lote = [
+          code: `lote = [
     {"id": "C001", "edad": 30},
     {"id": "C002", "edad": 17},
-    {"id": "C003", "edad": 22},
+    {"id": "C003", "edad": 45},
 ]
-print(mayores_igual_18(lote))
-print("ok", True)
+for reg in lote:
+    print(reg["id"], "edad=", reg["edad"])
+n = len(lote)
+print("n=", n, "range →", list(range(n)))
 `,
           output: `C001 edad= 30
 C002 edad= 17
@@ -392,19 +400,17 @@ desalineado detectado`,
         code: {
           language: 'python',
           title: "S04-T2-A-DEMO — while_end",
-          code: `def read_until_end(buf):
-    i = 0
-    out = []
-    while i < len(buf):
-        line = buf[i]
-        i += 1
-        if line == "END":
-            break
-        out.append(line)
-    return out
-
-print(read_until_end(["Ana|Lima", "Luis|Cusco", "END", "ignorada"]))
-print("ok", True)
+          code: `buf = ["Ana|Lima", "Luis|Cusco", "END", "ignorada"]
+i = 0
+out = []
+while i < len(buf):
+    line = buf[i]
+    i += 1
+    if line == "END":
+        break
+    out.append(line)
+print(out)
+print("indice final", i)
 `,
           output: `['Ana|Lima', 'Luis|Cusco']
 indice final 3`,
@@ -419,16 +425,16 @@ indice final 3`,
         code: {
           language: 'python',
           title: "S04-T2-B-DEMO — break_continue",
-          code: `def keep_ok_lines(lines):
-    kept = []
-    for ln in lines:
-        if not ln or ln.startswith("ERROR"):
-            continue
-        kept.append(ln)
-    return kept
-
-print(keep_ok_lines(["", "ok:1", "", "ok:2", "ERROR", "ok:3"]))
-print("ok", True)
+          code: `lines = ["", "ok:1", "", "ok:2", "ERROR", "ok:3"]
+kept = []
+for ln in lines:
+    if not ln:
+        continue  # salta vacíos
+    if ln.startswith("ERROR"):
+        print("fatal, stop")
+        break  # corta el lote
+    kept.append(ln)
+print("kept", kept)
 `,
           output: `fatal, stop
 kept ['ok:1', 'ok:2']`,
@@ -443,15 +449,15 @@ kept ['ok:1', 'ok:2']`,
         code: {
           language: 'python',
           title: "S04-T3-A-DEMO — contadores",
-          code: `def tally(statuses):
-    counts = {"accept": 0, "reject": 0, "review": 0}
-    for s in statuses:
-        if s in counts:
-            counts[s] += 1
-    return counts
-
-print(tally(["accept", "reject", "review", "accept", "reject"]))
-print("ok", True)
+          code: `statuses = ["accept", "reject", "review", "accept", "reject"]
+counts = {"accept": 0, "reject": 0, "review": 0}
+for s in statuses:
+    if s in counts:
+        counts[s] += 1
+n = len(statuses)
+tasa_reject = counts["reject"] / n if n else None
+print(counts)
+print("n", n, "tasa_reject", tasa_reject)
 `,
           output: `{'accept': 2, 'reject': 2, 'review': 1}
 n 5 tasa_reject 0.4`,
@@ -466,15 +472,14 @@ n 5 tasa_reject 0.4`,
         code: {
           language: 'python',
           title: "S04-T3-B-DEMO — comp_rejects",
-          code: `def ids_by_status(rows, status):
-    return [r["id"] for r in rows if r["status"] == status]
-
-rows = [
+          code: `rows = [
     {"id": "C1", "status": "accept"},
     {"id": "C2", "status": "reject"},
+    {"id": "C3", "status": "reject"},
 ]
-print(ids_by_status(rows, "accept"))
-print("ok", True)
+rejects = [r["id"] for r in rows if r["status"] == "reject"]
+tasa = len(rejects) / len(rows)
+print(rejects, "tasa", tasa)
 `,
           output: `['C2', 'C3'] tasa 0.6666666666666666`,
         },
@@ -488,16 +493,14 @@ print("ok", True)
         code: {
           language: 'python',
           title: "S04-T4-A-DEMO — traza",
-          code: `def count_true(flags):
-    n_ok = 0
-    for i, f in enumerate(flags):
-        if f:
-            n_ok += 1
-        print(i, f, n_ok)
-    return n_ok
-
-print("n_ok", count_true([True, False, True, True]))
-print("ok", True)
+          code: `flags = [True, False, True, True]
+n_ok = 0
+print("i flag n_ok")
+for i, f in enumerate(flags):
+    if f:
+        n_ok += 1
+    print(i, f, n_ok)
+print("FINAL", n_ok)
 `,
           output: `i flag n_ok
 0 True 1
@@ -516,13 +519,15 @@ FINAL 3`,
         code: {
           language: 'python',
           title: "S04-T4-B-DEMO — costo_obo",
-          code: `def steps(n):
-    steps_linear = sum(1 for _ in range(n))
-    steps_quad = sum(1 for _ in range(n) for __ in range(n))
-    return steps_linear, steps_quad
-
-print(steps(4))
-print("ok", True)
+          code: `n = 4
+steps_linear = sum(1 for _ in range(n))
+steps_quad = sum(1 for _ in range(n) for __ in range(n))
+print("linear", steps_linear, "quad", steps_quad)
+vals = [10, 20, 30]
+skipped_first = []
+for i in range(1, len(vals)):  # omite el índice 0 — off-by-one de negocio
+    skipped_first.append(vals[i])
+print("skipped_first", skipped_first)
 `,
           output: `linear 4 quad 16
 skipped_first [20, 30]`,
@@ -698,7 +703,7 @@ fila 3: C`,
         ],
         edgeCases: ["truncamiento silencioso"],
         tests: "3 pares + 1 par en zip corto",
-        feedback: "Ver el truncamiento una vez evita bugs de columnas desalinedas.",
+        feedback: "Ver el truncamiento una vez evita bugs de columnas desalineadas.",
         starterCode: {
           language: 'python',
           title: "zip_columnas.py",
@@ -1344,12 +1349,13 @@ final 5`,
           language: 'python',
           title: "fix_doble_count.py",
           code: `# CASO-LIM-004 · conteo filas
-# DEFECT: hardcode
+# DEFECT: n se incrementa dos veces por fila
 filas = ["a", "b", "c"]
 n = 0
 for f in filas:
     n += 1
-print(99)
+    n += 1  # bug: doble conteo
+print(n)
 print('ok', True)
 `,
         },
@@ -1466,10 +1472,10 @@ print(lin, quad)`,
           language: 'python',
           title: "fix_range_obo.py",
           code: `# CASO-LIM-004 · off-by-one
-# DEFECT: range(1, len+1) IndexError
+# DEFECT: range(1, len+1) provoca IndexError en el último índice
 data = ["r0", "r1", "r2"]
 for i in range(1, len(data) + 1):
-    print(data[i] if i < len(data) else "OOB")
+    print(data[i])
 print('ok', True)
 `,
         },
@@ -1560,7 +1566,7 @@ def validate_record(record: dict[str, Any]) -> dict[str, Any]:
     """Reutiliza lógica tipo S03: status global + detalle por campo.
     Mínimo: edad, region, monto_ingreso con accept|reject|review.
     """
-    # Contrato: corrige el DEFECT del starter
+    # TODO: devolver {status, fields} con accept|reject|review por campo (S03)
     raise NotImplementedError
 
 
@@ -1573,13 +1579,13 @@ def process_batch(records: list[dict[str, Any]]) -> dict[str, Any]:
     }
     Conserva cada raw intacto.
     """
-    # Contrato: corrige el DEFECT del starter
+    # TODO: un solo for O(n); contadores; tasa_reject None si vacío; raw intacto
     raise NotImplementedError
 
 
 def format_report(summary: dict[str, Any]) -> str:
     """Texto stdout legible con contadores y tasa."""
-    # Contrato: corrige el DEFECT del starter
+    # TODO: texto stdout con n_total, contadores y tasa
     raise NotImplementedError
 
 
@@ -1658,6 +1664,43 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "n×n pasos → cuadrático. Los resúmenes de tasa bastan con un pase O(n).",
+      },
+      {
+        question: "En un while con centinela \"END\", ¿qué debe pasar cada iteración para no colgarte?",
+        options: [
+          "Nada: Python corta solo",
+          "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela",
+          "Usar solo continue",
+          "Multiplicar n_total por 2",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Sin variable de control que cambie (o break en centinela), la condición puede quedar siempre verdadera → loop infinito.",
+      },
+      {
+        question:
+          "En un lote de líneas de intake, ¿cuál es la diferencia correcta entre continue y break?",
+        options: [
+          "continue y break hacen exactamente lo mismo",
+          "continue salta a la siguiente iteración; break termina el bucle actual",
+          "break salta una fila; continue cierra todo el programa",
+          "continue solo existe en while; break solo en for",
+        ],
+        correctIndex: 1,
+        explanation:
+          "continue omite el resto del cuerpo y pasa a la siguiente fila (p. ej. vacíos). break sale del bucle (p. ej. ERROR fatal o centinela END). Confundirlos deja pasar filas que debían cortar el lote o corta demasiado pronto.",
+      },
+      {
+        question: "¿Para qué sirve enumerate(ids, start=1) en un reporte de intake?",
+        options: [
+          "Ordena la lista alfabéticamente",
+          "Numera filas desde 1 para humanos sin armar el índice a mano",
+          "Elimina duplicados del lote",
+          "Convierte la lista en un dict",
+        ],
+        correctIndex: 1,
+        explanation:
+          "enumerate entrega (índice, valor). Con start=1 reportas “fila 1, fila 2…” legible para humanos; el índice interno de la lista sigue siendo 0-based.",
       },
     ],
   },

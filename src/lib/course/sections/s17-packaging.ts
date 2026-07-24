@@ -9,10 +9,10 @@ export const section17: CourseSection = {
  estimatedHours: 18,
  level: "Competente",
  phase: 1,
- icon: "Package",
+ icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "Cerrar un **portfolio de data quality + EDA** en banca, fintech o retail en Perú exige joins con cardinalidad documentada, reshape long/wide estable, groupby con contratos de agregación y reconciliación de totales sin leakage temporal. Esta sección (id `packaging` conservado) retematiza a V3 y **cierra CP-N2-A** con evidencias reproducibles y memo de límites — sin PII real ni claims causales no soportados.",
+ "Cerrar un **portfolio de data quality + EDA** en banca, fintech o retail en Perú exige joins con cardinalidad documentada, reshape long/wide estable, groupby con contratos de agregación y reconciliación de totales sin leakage temporal. Aquí cierras el portfolio de calidad + EDA del nivel: evidencias reproducibles, memo de límites y **sin PII real ni claims causales** no soportados.",
  learningOutcomes: [
  { text: "Diseñar joins con claves y cardinalidad correctas" },
  { text: "Usar validate y anti-join para detectar fan-out/huérfanos" },
@@ -25,26 +25,40 @@ export const section17: CourseSection = {
  ],
  theory: [
  {
- heading: "De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa)",
+ heading: "Mapa de la sección: joins → forma → agregación → reconciliación",
  paragraphs: [
- "En V3, **S17 no es el path de pyproject.toml ni PyPI**. El id de plataforma `packaging` se conserva, pero el camino del estudiante es el **cierre de CP-N2-A**: unir tablas sintéticas de clientes y transacciones, reshapes long/wide, agregaciones con groupby y un memo de reconciliación sin leakage temporal.",
+ "En esta sección **cierras el portfolio de calidad + EDA**: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación **sin leakage temporal**. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible.",
  "El hilo conductor es un **portfolio ejecutivo de data quality + EDA** con regiones ficticias (Lima, Cusco, Arequipa), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real.",
- "Orden pedagógico: **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección.",
+ "Orden pedagógico: **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Después, S18** abre el EDA de incertidumbre: hallazgo vs hipótesis, intervalos y el cierre del portfolio analítico — aquí dejas las tablas y los gates listos para esa lectura.",
  ],
  callout: {
  type: "info",
- title: "Contenido reubicado conceptualmente",
+ title: "Qué empaquetas aquí",
  content:
- "Material legado de packaging/CLI **no es el camino V3 en S17**. Target: joins/groupby y cierre CP-N2-A.",
+ "No publicas un paquete en PyPI: empaquetas un **dataset limpio, un script reproducible y un memo de límites** para un stakeholder. Joins y groupby son el camino.",
  },
  },
  {
- heading: "claves y cardinalidad en joins",
+ heading: "Diccionario rápido de la sección",
+ paragraphs: [
+ "**Cardinalidad:** cuántas filas del lado derecho (o izquierdo) corresponden a cada clave (1:1, 1:m, m:m). **Fan-out:** explosión de filas por claves duplicadas en un join. **Anti-join:** filas de un lado sin match (`left_only` / `right_only` con `indicator=True`). **Long/wide:** forma apilada por periodo versus una columna por periodo.",
+ "**Cohorte:** periodo de la primera observación válida de cada entidad (p. ej. mes de primera compra). **Cutoff / as-of:** solo datos conocidos hasta la fecha *t*. **Leakage temporal:** usar post-cutoff como si fuera pasado. **Reconciliación:** suma de partes ≈ total de referencia (tolerancia `eps`) o residual documentado en una tabla puente (bridge).",
+ "Úsalo como glosario de trabajo: cada demo y ejercicio de esta sección nombra al menos uno de estos términos. Si un término aparece en el memo del portfolio, debe poder mapearse a una línea de código o a un número impreso.",
+ ],
+ callout: {
+ type: "tip",
+ title: "Antes de merge, alinea dtypes",
+ content:
+ "Tras S16, normaliza `cliente_id` a str en ambos lados. Un join str↔int produce huérfanos falsos.",
+ },
+ },
+ {
+ heading: "Claves y cardinalidad en joins",
  subtopicId: "S17-T1-A",
  paragraphs: [
  "`merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales. En un maestro de clientes 1:1 la clave debe ser única; en transacciones 1:m es normal que un `cliente_id` se repita.",
  "Contrato operativo: **antes del merge** verifica dtype alineado (ambos `str` tras normalización S16), unicidad de la clave en el lado 1 (`Series.is_unique` o `nunique()==len`) y cuenta filas pre/post. Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia — no sigas al EDA.",
- "Caso sintético Perú: `cli` (C001 Lima, C002 Cusco) left-merge con `tx` (dos filas C001, ninguna C003). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx. Documenta `rows_cli → rows_merge` en el portfolio.",
+ "Caso sintético Perú: `cli` (C001 Lima, C002 Cusco) left-merge con `tx` (dos filas C001 y una C003 huérfana de maestro). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx; C003 no entra al left-merge. Documenta `rows_cli → rows_merge` en el portfolio.",
  ],
  code: {
  language: 'python',
@@ -70,14 +84,14 @@ tx_unique False
  type: "tip",
  title: "Cuenta filas pre/post",
  content:
- "Si len(out) >> len(left) en un supposed 1:1, hay fan-out.",
+ "Si len(out) >> len(left) en un supuesto 1:1, hay fan-out.",
  },
  },
  {
- heading: "validate, duplicación accidental y anti-join",
+ heading: "Validate, duplicación accidental y anti-join",
  subtopicId: "S17-T1-B",
  paragraphs: [
- "El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un nice-to-have: un m:m accidental multiplica filas y sesga sumas de montos.",
+ "El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un lujo opcional: un m:m accidental multiplica filas y sesga sumas de montos.",
  "`indicator=True` agrega la columna `_merge` con valores `left_only` / `right_only` / `both`. El **anti-join** clásico filtra `left_only` (clientes sin transacciones) o, al revés, `right_only` (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia.",
  "Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas `validate='one_to_one'` con C001 duplicado en tx, debes capturar el error e imprimir un fallo controlado — no silenciar con except vacío.",
  ],
@@ -111,7 +125,7 @@ validate_fail True`,
  },
  },
  {
- heading: "concat, melt y pivot",
+ heading: "Concat, melt y pivot",
  subtopicId: "S17-T2-A",
  paragraphs: [
  "`concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal para series por mes); `pivot` / `pivot_table` hacen **long→wide** para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",
@@ -142,11 +156,11 @@ s17_th_3()`,
  },
  },
  {
- heading: "long/wide y nombres estables",
+ heading: "Long/wide y nombres estables",
  subtopicId: "S17-T2-B",
  paragraphs: [
  "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `feb`). El portfolio exige un **schema estable**: p. ej. `cliente_id`, `monto_ene`, `monto_feb`. Aplanar con f-strings o `map` y **validar** `set(df.columns)==expected` (el orden se documenta aparte si importa al export).",
- "Contrato de nombres: lista ordenada en el memo del CP-N2-A; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere `rename(columns={...})` con dict explícito sobre mutaciones ad hoc de `.columns`.",
+ "Contrato de nombres: lista ordenada en el memo del portfolio; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere `rename(columns={...})` con dict explícito sobre mutaciones ad hoc de `.columns`.",
  "Caso: long (`cliente_id`,`mes`,`monto`) → pivot → prefijo `monto_`. Imprime columnas y un booleano de igualdad de sets. Si falta `monto_feb`, el gate de schema del portfolio debe fallar de forma explicable (concepto S16), no más adelante en el plot.",
  ],
  code: {
@@ -179,12 +193,12 @@ True`,
  },
  },
  {
- heading: "groupby / agg / transform",
+ heading: "Groupby / agg / transform",
  subtopicId: "S17-T3-A",
  paragraphs: [
  "`groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
  "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes.",
- "Caso sintético: regiones Lima/Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B).",
+ "Caso sintético: regiones Lima/Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). Antes de agregar, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma.",
  ],
  code: {
  language: 'python',
@@ -214,12 +228,12 @@ s17_th_5()`,
  },
  },
  {
- heading: "ventanas, fechas y cohortes",
+ heading: "Ventanas, fechas y cohortes",
  subtopicId: "S17-T3-B",
  paragraphs: [
  "`rolling` construye **ventanas móviles** sobre series ordenadas; `resample` requiere DatetimeIndex. Una **cohorte** etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
  "Contrato: **ordena por fecha** antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = `groupby(cliente_id)[fecha].transform('min').dt.to_period('M')` (o equivalente estable).",
- "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos.",
+ "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos. En S18 profundizarás la lectura de incertidumbre; aquí el contrato es series ordenadas y cohortes bien definidas.",
  ],
  code: {
  language: 'python',
@@ -253,11 +267,11 @@ s17_th_6()`,
  },
  },
  {
- heading: "denominadores y totales",
+ heading: "Denominadores y totales",
  subtopicId: "S17-T4-A",
  paragraphs: [
  "Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo.",
- "Contrato bridge: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide.",
+ "Contrato puente (bridge table): `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide.",
  "Caso sintético: total nacional 100 PEN; partes Lima/Cusco/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico.",
  ],
  code: {
@@ -286,12 +300,12 @@ tasa 0.4 denominador 50`,
  },
  },
  {
- heading: "leakage temporal y controles antes/después",
+ heading: "Leakage temporal y controles antes/después",
  subtopicId: "S17-T4-B",
  paragraphs: [
  "**Leakage temporal** es usar información con fecha posterior al **cutoff** para features o métricas de un periodo “antes”. Invalida comparaciones before/after y cualquier score de “riesgo a enero” que mira febrero.",
  "Controles: cutoff estricto (`fecha <= t`), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita `sum_total - sum_pre` como **delta de leakage** en el memo. As-of = “solo lo conocido a la fecha t”.",
- "Caso: C001 con tx 10 PEN en ene y 999 en mar; cutoff 2024-01-31 → feature segura 10, leaky 1009, delta de leakage 999. El cierre CP-N2-A debe demostrar al menos un control as-of de este tipo en el script reproducible.",
+ "Caso (mismo fixture del código): C001 con montos 10 y 5 en enero y 100 en febrero; cutoff 2024-01-31 → total con leakage 115, pre-cutoff 15, delta de leakage 100. El cierre del portfolio debe demostrar al menos un control as-of de este tipo en el script reproducible.",
  ],
  code: {
  language: 'python',
@@ -325,7 +339,7 @@ leakage_delta 100.0`,
  }
  ],
  iDo: {
- intro: "8 demos de joins, anti-join, reshape, nombres, groupby, cohortes, totales y anti-leakage.",
+ intro: "Ocho demos alineados a T1–T4: left join con conteo de filas, validate + anti-join, melt/pivot, schema estable, groupby/transform, cohorte + rolling, reconciliación de totales y cutoff anti-leakage. Observa el contrato de salida antes de copiar el patrón al We Do.",
  steps: [
  {
  demoId: "S17-T1-A-DEMO",
@@ -348,7 +362,7 @@ s17_ido_1()`,
  output: `rows 2 -> 3 card 1:m
 {'C001': 2, 'C002': 1}`,
  },
- why: "Contar filas pre/post documenta la cardinalidad real del join.",
+ why: "Contar filas pre/post documenta la cardinalidad real del join; sin ese conteo el fan-out 1:m pasa desapercibido.",
  },
  {
  demoId: "S17-T1-B-DEMO",
@@ -368,14 +382,14 @@ s17_ido_1()`,
     print("anti", anti)
     try:
      cli.merge(tx, on="cliente_id", validate="one_to_one")
-    except Exception:
+    except pd.errors.MergeError:
      print("validate_caught_fanout", True)
 
 s17_ido_2()`,
  output: `anti ['C002', 'C003']
 validate_caught_fanout True`,
  },
- why: "validate + anti-join cubren fan-out y huérfanos.",
+ why: "validate captura fan-out con MergeError específico; anti-join lista huérfanos para la tabla de evidencia.",
  },
  {
  demoId: "S17-T2-A-DEMO",
@@ -397,7 +411,7 @@ s17_ido_3()`,
  output: `(4, 3) (2, 2)
 ['m1', 'm1', 'm2', 'm2']`,
  },
- why: "melt/pivot son el puente a reportes y series.",
+ why: "melt/pivot son el puente entre series temporales y reportes tabulares; aggfunc sum conserva el total de montos.",
  },
  {
  demoId: "S17-T2-B-DEMO",
@@ -418,7 +432,7 @@ s17_ido_3()`,
 s17_ido_4()`,
  output: `['cliente_id', 'monto_ene', 'monto_feb'] True`,
  },
- why: "Schema de columnas estable evita roturas del dashboard.",
+ why: "Un schema de columnas estable evita roturas del dashboard y del diff del PR.",
  },
  {
  demoId: "S17-T3-A-DEMO",
@@ -443,7 +457,7 @@ s17_ido_5()`,
  output: `{'region': ['Arequipa', 'Lima'], 'total': [20.0, 40.0], 'n': [2, 2]}
 [20.0, 20.0, 10.0, 10.0]`,
  },
- why: "agg para reportes; transform para features a nivel fila.",
+ why: "agg para reportes ejecutivos; transform para features a nivel fila sin colapsar el shape.",
  },
  {
  demoId: "S17-T3-B-DEMO",
@@ -470,7 +484,7 @@ s17_ido_6()`,
  output: `{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}
 [None, 2.0, 2.5, 3.0]`,
  },
- why: "Cohortes + ventanas responden preguntas de evolución temporal.",
+ why: "Cohortes con min(fecha) y ventanas sobre series ordenadas responden evolución temporal sin claims causales.",
  },
  {
  demoId: "S17-T4-A-DEMO",
@@ -495,7 +509,7 @@ s17_ido_7()`,
  output: `diff 0.0 reconciled True
 tasa 0.75 den 200`,
  },
- why: "Totales y denominadores anclan el EDA ejecutivo.",
+ why: "Totales y denominadores anclan el EDA ejecutivo; el residual no se oculta en el slide.",
  },
  {
  demoId: "S17-T4-B-DEMO",
@@ -524,12 +538,12 @@ s17_ido_8()`,
 leaky {'C001': 1009.0}
 delta 999.0`,
  },
- why: "Cutoff y as-of evitan contaminación before/after.",
+ why: "Cutoff y as-of evitan contaminación before/after; el delta de leakage va al memo del portfolio.",
  }
  ],
  },
  weDo: {
- intro: "24 ejercicios E1/E2/E3 de joins/groupby y reconciliación. Dos pistas cada uno. Cierre CP-N2-A.",
+ intro: "24 ejercicios E1 (guiado) / E2 (independiente) / E3 (transferencia) sobre joins, forma, agregación y reconciliación. Cada starter trae un bug intencional a corregir; las pistas guían el contrato de salida. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA.",
  steps: [
  {
  id: "S17-T1-A-E1",
@@ -537,24 +551,23 @@ delta 999.0`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:1.0}. Haz `merge` por `cliente_id` con `how='left'` e imprime `len` del resultado. Pass: una línea con `2` (C002 se conserva aunque sin tx).",
- hint: "merge how='left'.",
+ hint: "Usa cli.merge(tx, on='cliente_id', how='left') para conservar clientes sin tx.",
  hints: [
- "merge how='left'.",
- "Cuenta filas.",
+ "Usa cli.merge(tx, on='cliente_id', how='left') para conservar clientes sin tx.",
+ "Imprime solo len(...) del resultado; el pass esperado es 2.",
  ],
  edgeCases: ["inner pierde C002", "how wrong"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 1, usaste inner y perdiste C002. Left join conserva el maestro de clientes aunque no tengan transacciones.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · left merge length
-# DEFECT: inner merge acorta filas
+# Bug a corregir: inner merge acorta filas (pierde clientes sin tx)
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
 tx = pd.DataFrame({"cliente_id": ["C001"], "monto": [1.0]})
-print(len(cli.merge(tx, on="cliente_id", how="inner")))
-print('ok', True)`,
+print(len(cli.merge(tx, on="cliente_id", how="inner")))`,
  },
  solutionCode: {
  language: 'python',
@@ -572,23 +585,22 @@ print(len(cli.merge(tx, on="cliente_id", how="left")))`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado C001,C001. Imprime `bool(cli['cliente_id'].is_unique)`. Pass exacto: `False`. No uses drop_duplicates para “arreglar” antes de medir.",
- hint: "is_unique.",
+ hint: "Mide cli['cliente_id'].is_unique sin limpiar filas antes.",
  hints: [
- "is_unique.",
- "Series.cliente_id.",
+ "Mide cli['cliente_id'].is_unique sin limpiar filas antes.",
+ "Envuelve en bool(...) e imprime solo ese valor; pass: False.",
  ],
  edgeCases: ["nunique confuso", "drop_duplicates silencioso"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste True, no mediste is_unique sobre la Series con duplicados. El gate 1:1 falla cuando la clave del maestro no es única.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · unique keys
-# DEFECT: is_unique ignorado
+# Bug a corregir: se imprime True sin medir is_unique
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C001"]})
-print(True)
-print('ok', True)`,
+print(True)`,
  },
  solutionCode: {
  language: 'python',
@@ -604,25 +616,25 @@ print(bool(cli["cliente_id"].is_unique))`,
  subtopicId: "S17-T1-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime la longitud. Pass: `3`. Demuestra que el lado m multiplica filas aunque el left tenga una sola clave.",
- hint: "merge inner.",
+ "E3 (transferencia) — Concepto: documentar fan-out 1:m como en el portfolio. Un cliente C001 tiene 3 transacciones; el maestro tiene una sola fila. Haz `inner` merge por `cliente_id` **sin** drop_duplicates en tx e imprime el dict `{'rows_cli': int, 'rows_merge': int}` (conteos pre/post). Pass: `{'rows_cli': 1, 'rows_merge': 3}`. Transfer: el lado m multiplica filas; el memo del portfolio reporta `rows_cli → rows_merge`, no un solo número suelto.",
+ hint: "m = cli.merge(tx, on='cliente_id', how='inner') sin drop_duplicates; imprime dict con len(cli) y len(m).",
  hints: [
- "merge inner.",
- "print len.",
+ "m = cli.merge(tx, on='cliente_id', how='inner') sin drop_duplicates en tx.",
+ "print({'rows_cli': len(cli), 'rows_merge': len(m)}); si rows_merge es 1, aún colapsaste el lado m.",
  ],
- edgeCases: ["how left same here", "cartesian wrong keys"],
+ edgeCases: ["how left same here", "cartesian wrong keys", "solo un int sin dict"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 1 o {'rows_cli': 1, 'rows_merge': 1}, aplicaste drop_duplicates antes del merge y ocultaste el fan-out. El portfolio documenta rows_cli→rows_merge (1→3).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-017 · fanout inner
-# DEFECT: drop_duplicates before merge
+ code: `# CASO-LIM-017 · fanout inner pre/post
+# Bug a corregir: drop_duplicates antes del merge oculta el fan-out (solo 1 fila)
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001"]})
 tx = pd.DataFrame({"cliente_id": ["C001"] * 3, "monto": [1.0, 2.0, 3.0]})
-print(len(cli.merge(tx.drop_duplicates("cliente_id"), on="cliente_id", how="inner")))
-print('ok', True)`,
+m = cli.merge(tx.drop_duplicates("cliente_id"), on="cliente_id", how="inner")
+print({"rows_cli": len(cli), "rows_merge": len(m)})`,
  },
  solutionCode: {
  language: 'python',
@@ -630,8 +642,9 @@ print('ok', True)`,
  code: `import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001"]})
 tx = pd.DataFrame({"cliente_id": ["C001"] * 3, "monto": [1.0, 2.0, 3.0]})
-print(len(cli.merge(tx, on="cliente_id", how="inner")))`,
- output: `3`,
+m = cli.merge(tx, on="cliente_id", how="inner")
+print({"rows_cli": len(cli), "rows_merge": len(m)})`,
+ output: `{'rows_cli': 1, 'rows_merge': 3}`,
  },
  },
  {
@@ -640,25 +653,24 @@ print(len(cli.merge(tx, on="cliente_id", how="inner")))`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + filtra `_merge=='left_only'`; imprime lista de `cliente_id`. Pass: `['C002']` (huérfano sin transacciones).",
- hint: "merge left indicator.",
+ hint: "merge left con indicator=True; filtra _merge == 'left_only'.",
  hints: [
- "merge left indicator.",
- "filtra _merge.",
+ "merge left con indicator=True; filtra _merge == 'left_only'.",
+ "Imprime .tolist() de cliente_id de esas filas; pass: ['C002'].",
  ],
  edgeCases: ["right_only", "sin indicator"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si listaste C001, filtraste 'both' (matches). left_only son los clientes del maestro sin transacciones.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · left_only orphans
-# DEFECT: right_only
+# Bug a corregir: se filtra 'both' en vez de 'left_only'
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
 tx = pd.DataFrame({"cliente_id": ["C001"], "monto": [1.0]})
 m = cli.merge(tx, on="cliente_id", how="left", indicator=True)
-print(m.loc[m["_merge"] == "both", "cliente_id"].tolist())
-print('ok', True)`,
+print(m.loc[m["_merge"] == "both", "cliente_id"].tolist())`,
  },
  solutionCode: {
  language: 'python',
@@ -676,25 +688,24 @@ print(m.loc[m["_merge"] == "left_only", "cliente_id"].tolist())`,
  subtopicId: "S17-T1-B",
  kind: "independent",
  instruction:
- "E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; ante excepción imprime exactamente `fail`. Pass: `fail`. No uses validate many_to_many para silenciar el error.",
- hint: "try MergeError o Exception.",
+ "E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; captura `pd.errors.MergeError` e imprime exactamente `fail`. Pass: `fail`. No uses validate many_to_many ni `except Exception` genérico para silenciar el error.",
+ hint: "try/except pd.errors.MergeError alrededor del merge con validate='one_to_one'.",
  hints: [
- "try MergeError o Exception.",
- "validate=.",
+ "try/except pd.errors.MergeError alrededor del merge con validate='one_to_one'.",
+ "En el except imprime exactamente la cadena fail (sin comillas extra).",
  ],
- edgeCases: ["validate many_to_many", "no catch"],
+ edgeCases: ["validate many_to_many", "except Exception demasiado amplio"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 2, el merge corrió sin validate y el fan-out pasó silencioso. El gate debe fallar con MergeError y reportar fail.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · validate one_to_one
-# DEFECT: no validate; silencia fanout
+# Bug a corregir: merge sin validate silencia el fan-out
 import pandas as pd
 a = pd.DataFrame({"id": [1]})
 b = pd.DataFrame({"id": [1, 1]})
-print(len(a.merge(b, on="id")))
-print('ok', True)`,
+print(len(a.merge(b, on="id")))`,
  },
  solutionCode: {
  language: 'python',
@@ -704,7 +715,7 @@ a = pd.DataFrame({"id": [1]})
 b = pd.DataFrame({"id": [1, 1]})
 try:
  a.merge(b, on="id", validate="one_to_one")
-except Exception:
+except pd.errors.MergeError:
  print("fail")`,
  output: `fail`,
  },
@@ -714,26 +725,25 @@ except Exception:
  subtopicId: "S17-T1-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge con indicator. Pass entero: `2`. Reporta el conteo, no la lista, para el dashboard de calidad.",
- hint: "left_only count.",
+ "E3 (transferencia) — Concepto: KPI de calidad = conteo de huérfanos. Fixture: 3 clientes, tx solo en C001. Tras left merge con indicator, cuenta filas `left_only` (no la lista de ids). Pass entero: `2`. Ese número alimenta el dashboard de calidad del portfolio, no el listado crudo.",
+ hint: "Tras indicator, (m['_merge'] == 'left_only').sum() como int.",
  hints: [
- "left_only count.",
- "nunique o len.",
+ "Tras indicator, (m['_merge'] == 'left_only').sum() como int.",
+ "No filtres 'both': eso cuenta matches, no huérfanos.",
  ],
  edgeCases: ["inner count", "right anti"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 1, contaste 'both' (matches). El KPI de huérfanos del portfolio es left_only = 2.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · count left_only
-# DEFECT: cuenta both
+# Bug a corregir: se cuenta 'both' en vez de 'left_only'
 import pandas as pd
 cli = pd.DataFrame({"cliente_id": ["C001", "C002", "C003"]})
 tx = pd.DataFrame({"cliente_id": ["C001"]})
 m = cli.merge(tx, on="cliente_id", how="left", indicator=True)
-print(int((m["_merge"] == "both").sum()))
-print('ok', True)`,
+print(int((m["_merge"] == "both").sum()))`,
  },
  solutionCode: {
  language: 'python',
@@ -752,23 +762,22 @@ print(int((m["_merge"] == "left_only").sum()))`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_vars=['a','b'])` e imprime `len`. Pass: `4`. Contrato: n_long = n_filas * n_value_vars.",
- hint: "melt.",
+ hint: "df.melt(id_vars='id', value_vars=['a','b']) y luego len(...).",
  hints: [
- "melt.",
- "var_name value_name opcionales.",
+ "df.melt(id_vars='id', value_vars=['a','b']) y luego len(...).",
+ "No imprimas len(df) del wide: ese es 2, no 4.",
  ],
  edgeCases: ["stack mal", "sin id_vars"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 2, mediste el wide. melt multiplica filas por el número de value_vars (2×2=4).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · melt length
-# DEFECT: no melt; imprime len(df)
+# Bug a corregir: se imprime len del wide sin melt
 import pandas as pd
 df = pd.DataFrame({"id": [1, 2], "a": [10, 20], "b": [3, 4]})
-print(len(df))
-print('ok', True)`,
+print(len(df))`,
  },
  solutionCode: {
  language: 'python',
@@ -785,24 +794,23 @@ print(len(df.melt(id_vars="id", value_vars=["a", "b"])))`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` con `aggfunc='sum'`, `reset_index()`, imprime `columns.tolist()`. Pass: `['id', 'a', 'b']`.",
- hint: "aggfunc sum.",
+ hint: "pivot_table(..., aggfunc='sum').reset_index() antes de listar columns.",
  hints: [
- "aggfunc sum.",
- "reset_index.",
+ "pivot_table(..., aggfunc='sum').reset_index() antes de listar columns.",
+ "Sin reset_index, 'id' no aparece en columns y el pass falla.",
  ],
  edgeCases: ["pivot sin agg", "mean default confusion"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si listaste solo ['a','b'], faltó reset_index() para promover el index a columna 'id'.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · pivot columns
-# DEFECT: no reset_index; columns wrong
+# Bug a corregir: sin reset_index las columnas no incluyen id
 import pandas as pd
 long = pd.DataFrame({"id": [1, 1], "k": ["a", "b"], "v": [1.0, 2.0]})
 w = long.pivot_table(index="id", columns="k", values="v", aggfunc="sum")
-print(list(w.columns))
-print('ok', True)`,
+print(list(w.columns))`,
  },
  solutionCode: {
  language: 'python',
@@ -819,25 +827,24 @@ print(w.columns.tolist())`,
  subtopicId: "S17-T2-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e imprime `len`. Pass: `2`. No uses axis=1 (eso alinea columnas, no apila casos).",
- hint: "pd.concat(..., ignore_index=True).",
+ "E3 (transferencia) — Concepto: apilar lotes y reportar el contrato de filas. Tienes dos DataFrames de una fila (`a` y `b`, columna x) = dos cargas diarias. Usa `pd.concat([a, b], ignore_index=True)` e imprime `{'n_lotes': 2, 'n_filas': int}`. Pass: `{'n_lotes': 2, 'n_filas': 2}`. Transfer: en el portfolio, concat vertical une snapshots; documenta cuántos lotes entraron y cuántas filas salieron (axis=1 no apila casos).",
+ hint: "out = pd.concat([a, b], ignore_index=True); print({'n_lotes': 2, 'n_filas': len(out)}).",
  hints: [
- "pd.concat(..., ignore_index=True).",
- "mismas cols.",
+ "out = pd.concat([a, b], ignore_index=True); n_filas = len(out).",
+ "No uses axis=1: eso alinea columnas, no apila filas de lotes.",
  ],
- edgeCases: ["axis=1", "index duplicado confuso"],
+ edgeCases: ["axis=1", "index duplicado confuso", "solo len(a)"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 1 o n_filas=1, solo mediste la primera tabla. concat axis=0 apila ambos lotes → n_filas 2 con n_lotes 2.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-017 · concat
-# DEFECT: solo a
+ code: `# CASO-LIM-017 · concat lotes
+# Bug a corregir: solo se mide la primera tabla (n_filas incompleto)
 import pandas as pd
 a = pd.DataFrame({"x": [1]})
 b = pd.DataFrame({"x": [2]})
-print(len(a))
-print('ok', True)`,
+print({"n_lotes": 2, "n_filas": len(a)})`,
  },
  solutionCode: {
  language: 'python',
@@ -845,8 +852,9 @@ print('ok', True)`,
  code: `import pandas as pd
 a = pd.DataFrame({"x": [1]})
 b = pd.DataFrame({"x": [2]})
-print(len(pd.concat([a, b], ignore_index=True)))`,
- output: `2`,
+out = pd.concat([a, b], ignore_index=True)
+print({"n_lotes": 2, "n_filas": len(out)})`,
+ output: `{'n_lotes': 2, 'n_filas': 2}`,
  },
  },
  {
@@ -855,24 +863,23 @@ print(len(pd.concat([a, b], ignore_index=True)))`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra a `monto_{mes}`; imprime `list(columns)`. Pass: `['monto_e', 'monto_f']`. Schema del portfolio, no MultiIndex crudo.",
- hint: "map join o f-string.",
+ hint: "Tras pivot, w.columns = [f'monto_{c}' for c in w.columns].",
  hints: [
- "map join o f-string.",
- "tras pivot.",
+ "Tras pivot, w.columns = [f'monto_{c}' for c in w.columns].",
+ "Imprime list(w.columns); el prefijo monto_ es obligatorio en el schema.",
  ],
  edgeCases: ["dejar multiindex", "espacios"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si listaste ['e','f'], faltó el prefijo monto_ del schema del dashboard.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · pivot rename columns
-# DEFECT: sin prefijo monto_
+# Bug a corregir: columnas sin prefijo monto_
 import pandas as pd
 long = pd.DataFrame({"id": [1, 1], "mes": ["e", "f"], "monto": [1.0, 2.0]})
 w = long.pivot(index="id", columns="mes", values="monto")
-print(list(w.columns))
-print('ok', True)`,
+print(list(w.columns))`,
  },
  solutionCode: {
  language: 'python',
@@ -891,24 +898,23 @@ print(list(w.columns))`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expected={cliente_id, monto_ene}. Imprime `set(columns)==expected`. Pass: `True`. Sets ignoran orden; documenta orden en el memo si exportas CSV.",
- hint: "set igualdad.",
+ hint: "expected debe listar exactamente las columnas reales del DF.",
  hints: [
- "set igualdad.",
- "expected fijo.",
+ "expected debe listar exactamente las columnas reales del DF.",
+ "Compara set(df.columns) == expected; no uses listas ordenadas para el gate de set.",
  ],
  edgeCases: ["orden importa en set? no", "list =="],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si salió False, expected pedía monto_feb y el DF solo tiene monto_ene. El gate de schema compara sets reales.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · expected columns
-# DEFECT: compara mal
+# Bug a corregir: expected pide monto_feb que no existe
 import pandas as pd
 df = pd.DataFrame(columns=["cliente_id", "monto_ene"])
 expected = {"cliente_id", "monto_feb"}
-print(set(df.columns) == expected)
-print('ok', True)`,
+print(set(df.columns) == expected)`,
  },
  solutionCode: {
  language: 'python',
@@ -925,24 +931,23 @@ print(set(df.columns) == expected)`,
  subtopicId: "S17-T2-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Prefiere dict rename sobre reasignar `.columns` a ciegas.",
- hint: "rename(columns=...).",
+ "E3 (transferencia) — Concepto: rename explícito en un export. Fixture DF con columna `a` que en el diccionario de datos se llama `monto`. Aplica `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Transfer: en el portfolio, dict rename documentable > reasignar `.columns` a ciegas.",
+ hint: "df.rename(columns={'a': 'monto'}).columns.tolist()",
  hints: [
- "rename(columns=...).",
- "inplace False.",
+ "df.rename(columns={'a': 'monto'}).columns.tolist()",
+ "No reasignes .columns a una lista opaca sin dict de origen→destino.",
  ],
  edgeCases: ["reassign mal", "axis"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste ['a'], no aplicaste rename. El schema del export exige el nombre de negocio 'monto'.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · rename
-# DEFECT: no rename
+# Bug a corregir: se exporta el nombre crudo 'a'
 import pandas as pd
 df = pd.DataFrame({"a": [1]})
-print(df.columns.tolist())
-print('ok', True)`,
+print(df.columns.tolist())`,
  },
  solutionCode: {
  language: 'python',
@@ -959,23 +964,22 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Cusco': 3.0, 'Lima': 3.0}` (orden de keys puede seguir sort de pandas).",
- hint: "groupby sum.",
+ hint: "groupby('region')['monto'].sum().to_dict() — suma, no media.",
  hints: [
- "groupby sum.",
- "to_dict.",
+ "groupby('region')['monto'].sum().to_dict() — suma, no media.",
+ "La pregunta de negocio es total de PEN por región, no promedio.",
  ],
  edgeCases: ["mean", "as_index confusion"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si usaste mean, Lima sale 1.5 no 3.0. El contrato de negocio pidió suma de montos en PEN.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · groupby sum
-# DEFECT: mean no sum
+# Bug a corregir: mean en vez de sum
 import pandas as pd
 df = pd.DataFrame({"region": ["Lima", "Lima", "Cusco"], "monto": [1.0, 2.0, 3.0]})
-print(df.groupby("region")["monto"].mean().to_dict())
-print('ok', True)`,
+print(df.groupby("region")["monto"].mean().to_dict())`,
  },
  solutionCode: {
  language: 'python',
@@ -992,23 +996,22 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lista de `groupby('region')['monto'].transform('mean')`. Pass: `[2.0, 2.0, 2.0]`. No uses agg (colapsa filas).",
- hint: "groupby transform.",
+ hint: "transform('mean') reinyecta la media al shape original (3 filas).",
  hints: [
- "groupby transform.",
- "mismas filas que df.",
+ "transform('mean') reinyecta la media al shape original (3 filas).",
+ "No uses .sum().tolist() del groupby: colapsa a 2 filas por región.",
  ],
  edgeCases: ["agg colapsa", "map manual"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si la lista tiene 2 elementos, usaste agg/sum que colapsa grupos. transform preserva las 3 filas del DF.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · transform mean
-# DEFECT: groupby sum broadcast wrong
+# Bug a corregir: sum del groupby colapsa filas
 import pandas as pd
 df = pd.DataFrame({"region": ["Lima", "Lima", "Cusco"], "monto": [1.0, 3.0, 2.0]})
-print(df.groupby("region")["monto"].sum().tolist())
-print('ok', True)`,
+print(df.groupby("region")["monto"].sum().tolist())`,
  },
  solutionCode: {
  language: 'python',
@@ -1024,25 +1027,24 @@ print(df.groupby("region")["monto"].transform("mean").tolist())`,
  subtopicId: "S17-T3-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`.",
- hint: "named agg.",
+ "E3 (transferencia) — Concepto: contrato de columnas del resumen ejecutivo. Fixture region Lima/Cusco. Construye `groupby(..., as_index=False).agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`. Transfer: named agg fija el schema que el stakeholder verá en el CSV del portfolio.",
+ hint: "as_index=False + agg con total= y n= nombrados.",
  hints: [
- "named agg.",
- "as_index=False.",
+ "as_index=False + agg con total= y n= nombrados.",
+ "Un sum().reset_index() solo da ['region','monto'], no el schema total/n.",
  ],
  edgeCases: ["MultiIndex cols", "sin names"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si listaste ['region','monto'], usaste sum simple. Named agg con total y n produce el schema del resumen ejecutivo.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · named agg
-# DEFECT: default groupby columns
+# Bug a corregir: sum simple no nombra total ni n
 import pandas as pd
 df = pd.DataFrame({"region": ["Lima", "Cusco"], "monto": [1.0, 2.0]})
 out = df.groupby("region")["monto"].sum().reset_index()
-print(out.columns.tolist())
-print('ok', True)`,
+print(out.columns.tolist())`,
  },
  solutionCode: {
  language: 'python',
@@ -1060,23 +1062,22 @@ print(out.columns.tolist())`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y el resto float. Pass: `[None, 1.5, 2.5]`. Documenta que el primer punto no tiene ventana completa.",
- hint: "rolling mean.",
+ hint: "rolling(2).mean(); convierte NaN a None al armar la lista.",
  hints: [
- "rolling mean.",
- "tolist y nan check.",
+ "rolling(2).mean(); convierte NaN a None al armar la lista.",
+ "window=1 nunca produce NaN inicial; el contrato pide window=2.",
  ],
  edgeCases: ["min_periods", "window 3"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si salió [1.0, 2.0, 3.0], usaste rolling(1). Con window=2 el primer valor es NaN → None y luego 1.5, 2.5.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · rolling mean
-# DEFECT: rolling(1)
+# Bug a corregir: rolling(1) no genera NaN inicial
 import pandas as pd
 s = pd.Series([1.0, 2.0, 3.0]).rolling(1).mean()
-print([None if pd.isna(x) else float(x) for x in s])
-print('ok', True)`,
+print([None if pd.isna(x) else float(x) for x in s])`,
  },
  solutionCode: {
  language: 'python',
@@ -1093,27 +1094,26 @@ print([None if pd.isna(x) else float(x) for x in s])`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna cohort YYYY-MM con min fecha; imprime dict id→cohort (únicos). Pass: `{'C001': '2024-01', 'C002': '2024-02'}`.",
- hint: "groupby transform min.",
+ hint: "groupby(cliente_id)[fecha].transform('min').dt.to_period('M').",
  hints: [
- "groupby transform min.",
- "dt.to_period('M').",
+ "groupby(cliente_id)[fecha].transform('min').dt.to_period('M').",
+ "Usa min, no max: la cohorte es la primera observación válida.",
  ],
  edgeCases: ["usar max", "string slice frágil"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si C001 sale 2024-03, usaste max (última actividad). Cohorte = primera fecha válida → 2024-01.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · cohort month
-# DEFECT: max no min period
+# Bug a corregir: transform('max') usa última fecha, no la primera
 import pandas as pd
 df = pd.DataFrame({
  "cliente_id": ["C001", "C001", "C002"],
  "fecha": pd.to_datetime(["2024-01-05", "2024-03-01", "2024-02-10"]),
 })
 df["cohort"] = df.groupby("cliente_id")["fecha"].transform("max").dt.to_period("M").astype(str)
-print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict())
-print('ok', True)`,
+print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict())`,
  },
  solutionCode: {
  language: 'python',
@@ -1133,24 +1133,23 @@ print(df.drop_duplicates("cliente_id").set_index("cliente_id")["cohort"].to_dict
  subtopicId: "S17-T3-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mean(), imprime último valor float. Pass: `2.5`. Sin sort el resultado es incorrecto para el EDA.",
- hint: "sort_index.",
+ "E3 (transferencia) — Concepto: orden temporal antes de rolling en un feed desordenado. Serie con valores 3,1,2 indexados en fechas desordenadas; ordena el índice, rolling(2).mean(), imprime el último valor float. Pass: `2.5`. Transfer: sin sort, el EDA reporta una “tendencia” falsa al stakeholder.",
+ hint: "s.sort_index() antes de rolling(2).mean().",
  hints: [
- "sort_index.",
- "rolling 2.",
+ "s.sort_index() antes de rolling(2).mean().",
+ "El último valor tras ordenar 1→2→3 con window=2 es (2+3)/2 = 2.5.",
  ],
  edgeCases: ["sin ordenar", "window wrong"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Sin sort_index el último punto de la ventana no es el último día del calendario. Ordena siempre antes de rolling.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · sort then rolling
-# DEFECT: no sort_index
+# Bug a corregir: rolling sobre índice desordenado
 import pandas as pd
 s = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime(["2024-01-03", "2024-01-01", "2024-01-02"]))
-print(float(s.rolling(2).mean().iloc[-1]))
-print('ok', True)`,
+print(float(s.rolling(2).mean().iloc[-1]))`,
  },
  solutionCode: {
  language: 'python',
@@ -1168,23 +1167,22 @@ print(float(s.rolling(2).mean().iloc[-1]))`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)<1e-9`. Pass: `True`. Usa tolerancia eps, no igualdad frágil si hubiera floats ruidosos.",
- hint: "sum y abs.",
+ hint: "abs(sum(parts) - total) < 1e-9 (eps estricto del gate).",
  hints: [
- "sum y abs.",
- "eps 1e-9.",
+ "abs(sum(parts) - total) < 1e-9 (eps estricto del gate).",
+ "Tolerancia 1.0 es demasiado laxa para un control de reconciliación.",
  ],
  edgeCases: ["== exact float risk", "wrong total"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si usaste < 1.0, el gate es demasiado laxo y pasaría descuadres de casi un sol. Usa eps 1e-9.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · reconciliation
-# DEFECT: tolera 1.0 de error
+# Bug a corregir: tolerancia 1.0 es demasiado laxa
 parts = [10.0, 20.0, 70.0]
 total = 100.0
-print(abs(sum(parts) - total) < 1.0)
-print('ok', True)`,
+print(abs(sum(parts) - total) < 1.0)`,
  },
  solutionCode: {
  language: 'python',
@@ -1201,23 +1199,22 @@ print(abs(sum(parts) - total) < 1e-9)`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos. Pass: `0.25`. No imprimas 25 ni uses pagados como denominador.",
- hint: "división float.",
+ hint: "tasa = pagados / activos (numerador de éxito sobre universo activo).",
  hints: [
- "división float.",
- "print tasa.",
+ "tasa = pagados / activos (numerador de éxito sobre universo activo).",
+ "Imprime el float 0.25, no un porcentaje 25.",
  ],
  edgeCases: ["denominador pagados", "porcentaje 25"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 4.0, invertiste el cociente (activos/pagados). El denominador de la tasa es el universo activo.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · conversion rate
-# DEFECT: activos/pagados invertido
+# Bug a corregir: cociente invertido (activos/pagados)
 activos = 40
 pagados = 10
-print(activos / pagados)
-print('ok', True)`,
+print(activos / pagados)`,
  },
  solutionCode: {
  language: 'python',
@@ -1233,32 +1230,31 @@ print(pagados / activos)`,
  subtopicId: "S17-T4-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso de una bridge table nacional→Lima→resto.",
- hint: "total - lima.",
+ "E3 (transferencia) — Concepto: tabla puente (bridge) nacional→Lima con residual documentado. total=100, lima=60; imprime el dict `{'total': 100.0, 'lima': 60.0, 'residual': float}` con residual = total−lima. Pass: `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`. Transfer: en el memo del portfolio la bridge es total → segmento_A → residual, no un descuadre oculto ni un solo float suelto.",
+ hint: "residual = total - lima; imprime dict con total, lima y residual.",
  hints: [
- "total - lima.",
- "residual.",
+ "residual = total - lima (no lima - total).",
+ "print({'total': total, 'lima': lima, 'residual': residual}) con floats 100.0/60.0/40.0.",
  ],
- edgeCases: ["doble conteo", "ratios wrong"],
+ edgeCases: ["doble conteo", "signs wrong", "solo residual sin dict"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste -40.0 o residual negativo, restaste al revés (lima−total). La bridge documenta total, segmento y residual juntos (40.0).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-017 · residual
-# DEFECT: lima - total
+ code: `# CASO-LIM-017 · residual bridge
+# Bug a corregir: signo invertido (lima - total) y sin keys de bridge
 total = 100.0
 lima = 60.0
-print(lima - total)
-print('ok', True)`,
+print({"total": total, "lima": lima, "residual": lima - total})`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `total = 100.0
 lima = 60.0
-print(total - lima)`,
- output: `40.0`,
+print({"total": total, "lima": lima, "residual": total - lima})`,
+ output: `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`,
  },
  },
  {
@@ -1267,24 +1263,23 @@ print(total - lima)`,
  kind: "guided",
  instruction:
  "E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff 2024-01-31. Imprime lista de montos con fecha<=cutoff. Pass: `[1.0]`.",
- hint: "Timestamp cutoff.",
+ hint: "Máscara tx['fecha'] <= cutoff; imprime montos de esas filas.",
  hints: [
- "Timestamp cutoff.",
- "máscara <=.",
+ "Máscara tx['fecha'] <= cutoff; imprime montos de esas filas.",
+ "fecha > cutoff selecciona el post-periodo (9.0), no el as-of.",
  ],
  edgeCases: ["< vs <=", "string compare"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si viste [9.0], filtraste fecha > cutoff (post-periodo). El control as-of usa fecha <= cutoff.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · cutoff filter
-# DEFECT: fecha > cutoff
+# Bug a corregir: máscara fecha > cutoff (post-periodo)
 import pandas as pd
 tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-02-01"]), "monto": [1.0, 9.0]})
 cutoff = pd.Timestamp("2024-01-31")
-print(tx.loc[tx["fecha"] > cutoff, "monto"].tolist())
-print('ok', True)`,
+print(tx.loc[tx["fecha"] > cutoff, "monto"].tolist())`,
  },
  solutionCode: {
  language: 'python',
@@ -1302,25 +1297,24 @@ print(tx.loc[tx["fecha"] <= cutoff, "monto"].tolist())`,
  kind: "independent",
  instruction:
  "E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Imprime float(sum_total - sum_pre). Pass: `5.0`. Ese delta es la contaminación si usas el total global.",
- hint: "total - pre.",
+ hint: "delta = sum(todos los montos) - sum(montos con fecha <= cutoff).",
  hints: [
- "total - pre.",
- "float.",
+ "delta = sum(todos los montos) - sum(montos con fecha <= cutoff).",
+ "Imprimir solo pre no reporta la contaminación; el memo necesita el delta.",
  ],
  edgeCases: ["delta invertido", "mean"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste 10.0, reportaste solo el pre. El delta de leakage es total−pre = 5.0 (la tx de marzo).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · post-cutoff sum
-# DEFECT: pre sum only
+# Bug a corregir: se imprime solo pre, no el delta de leakage
 import pandas as pd
 tx = pd.DataFrame({"fecha": pd.to_datetime(["2024-01-01", "2024-03-01"]), "monto": [10.0, 5.0]})
 cutoff = pd.Timestamp("2024-01-31")
 pre = tx.loc[tx["fecha"] <= cutoff, "monto"].sum()
-print(float(pre))
-print('ok', True)`,
+print(float(pre))`,
  },
  solutionCode: {
  language: 'python',
@@ -1338,52 +1332,56 @@ print(float(tx["monto"].sum() - pre))`,
  subtopicId: "S17-T4-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cliente; imprime dict. Pass: `{'C001': 3.0}`. Prohibido max global post-cutoff.",
- hint: "filter then groupby max.",
+ "E3 (transferencia / mini-integración) — Une join + agregación + cutoff en un solo contrato (puente al You Do). Fixture: cli={C001,C002}; tx con C001: 3.0 (2024-01-01) y 10.0 (2024-05-01), C002: 2.0 (2024-01-15); cutoff 2024-02-01. Haz left merge, calcula `total_pre` (suma de montos con fecha<=cutoff sobre el merge) y `leakage_delta` = suma total de montos del merge − total_pre. Imprime exactamente el dict `{'rows_merge': int, 'total_pre': float, 'leakage_delta': float}`. Pass: `{'rows_merge': 3, 'total_pre': 5.0, 'leakage_delta': 10.0}`. Transfer: el portfolio exige estos tres números juntos, no un max suelto.",
+ hint: "left merge → filtra fecha<=cutoff para total_pre; leakage_delta = sum(monto merge) - total_pre.",
  hints: [
- "filter then groupby max.",
- "un cliente.",
+ "m = cli.merge(tx, on='cliente_id', how='left'); rows_merge = len(m).",
+ "total_pre = m.loc[m['fecha'] <= cutoff, 'monto'].sum(); delta = m['monto'].sum() - total_pre.",
+ "Imprime un solo dict con las tres keys; no un max por cliente suelto.",
  ],
- edgeCases: ["usar max global", "min fecha"],
+ edgeCases: ["max global sin merge", "olvido del left (pierde C002 si no hay tx)", "delta invertido"],
  tests: "salida coincide con solution output",
- feedback: "Compara tu salida con la solución.",
+ feedback: "Si imprimiste solo un max por cliente o un único float, no integraste join+cutoff. El puente al portfolio son rows_merge, total_pre y leakage_delta juntos (3, 5.0, 10.0).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-017 · as-of max feature
-# DEFECT: no filtra cutoff
+ code: `# CASO-LIM-017 · mini-integración join+cutoff
+# Bug a corregir: max global sin merge ni filtro as-of (no hay rows_merge ni delta)
 import pandas as pd
+cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
 tx = pd.DataFrame({
- "cliente_id": ["C001", "C001"],
- "fecha": pd.to_datetime(["2024-01-01", "2024-05-01"]),
- "monto": [3.0, 10.0],
+ "cliente_id": ["C001", "C001", "C002"],
+ "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-01-15"]),
+ "monto": [3.0, 10.0, 2.0],
 })
 cutoff = pd.Timestamp("2024-02-01")
 feat = tx.groupby("cliente_id")["monto"].max()
-print(feat.to_dict())
-print('ok', True)`,
+print(feat.to_dict())`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
+cli = pd.DataFrame({"cliente_id": ["C001", "C002"]})
 tx = pd.DataFrame({
- "cliente_id": ["C001", "C001"],
- "fecha": pd.to_datetime(["2024-01-01", "2024-05-01"]),
- "monto": [3.0, 10.0],
+ "cliente_id": ["C001", "C001", "C002"],
+ "fecha": pd.to_datetime(["2024-01-01", "2024-05-01", "2024-01-15"]),
+ "monto": [3.0, 10.0, 2.0],
 })
 cutoff = pd.Timestamp("2024-02-01")
-feat = tx[tx["fecha"] <= cutoff].groupby("cliente_id")["monto"].max()
-print(feat.to_dict())`,
- output: `{'C001': 3.0}`,
+m = cli.merge(tx, on="cliente_id", how="left")
+total_pre = float(m.loc[m["fecha"] <= cutoff, "monto"].sum())
+leakage_delta = float(m["monto"].sum() - total_pre)
+print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_delta})`,
+ output: `{'rows_merge': 3, 'total_pre': 5.0, 'leakage_delta': 10.0}`,
  },
- }
+ },
  ],
  },
  youDo: {
- title: "Executive Data Quality & EDA Portfolio (cierre CP-N2-A)",
+ title: "Executive Data Quality & EDA Portfolio (cierre de calidad + EDA)",
  context:
- "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y memo de límites/no-claims en ES-PE. Sin PII real ni datos de producción.",
+ "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y memo de límites/no-claims en ES-PE. Sin PII real ni datos de producción. Este entregable es la base tabular; en S18 trabajarás la lectura de incertidumbre sobre estos mismos hallazgos.",
  objectives: [
  "Dataset limpio + notebook/script reproducible",
  "Reconciliación de totales y denominadores",
@@ -1391,16 +1389,20 @@ print(feat.to_dict())`,
  "Memo de límites y no-claims",
  ],
  requirements: [
- "Fixtures sintéticos end-to-end",
+ "Fixtures sintéticos end-to-end (Lima/Cusco/Arequipa, sin PII real)",
+ "Joins con filas pre/post documentadas y anti-join o validate",
  "Demo reproducible (if __name__ == '__main__')",
- "Documentación en español profesional",
- "Alineación al cierre CP-N2-A",
+ "Dict portfolio_summary con keys de contrato (ver docstring)",
+ "Memo en español profesional con límites y no-claims",
  ],
  starterCode: `import pandas as pd
 
 def portfolio_summary(clientes: pd.DataFrame, tx: pd.DataFrame, cutoff: str) -> dict:
- """Joins, métricas, reconciliación y agregados pre-cutoff."""
- # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+ """Devuelve dict con al menos:
+ rows_merge, n_huerfanos_left_only, total_monto, total_pre_cutoff,
+ leakage_delta, reconciled (bool). Solo usa tx con fecha <= cutoff en métricas 'pre'.
+ """
+ # Contrato: implementa la función (no dejes NotImplemented)
  raise NotImplementedError
 
 if __name__ == "__main__":
@@ -1413,14 +1415,15 @@ if __name__ == "__main__":
  print(portfolio_summary(clientes, tx, "2024-01-31"))
 `,
  portfolioNote:
- "Este cierre de CP-N2-A debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados.",
+ "Este cierre del portfolio de calidad + EDA debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre sobre estos números.",
  rubric: [
- { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
- { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
- { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
- { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
- { criterion: "Código legible y límites claros", weight: "10%" },
- { criterion: "Documentación en español profesional", weight: "10%" }
+ { criterion: "Joins con cardinalidad documentada (filas pre/post, validate o anti-join de huérfanos)", weight: "20%" },
+ { criterion: "Reshape o schema estable long/wide con columnas expected validadas", weight: "15%" },
+ { criterion: "Groupby/agg/transform alineado a la pregunta de negocio (suma vs media)", weight: "15%" },
+ { criterion: "Reconciliación de totales/denominadores con diff o residual documentado", weight: "15%" },
+ { criterion: "Control de leakage temporal (cutoff/as-of) con delta explícito", weight: "15%" },
+ { criterion: "Privacidad: solo sintéticos, sin PII real ni secretos", weight: "10%" },
+ { criterion: "Script reproducible (`if __name__`) + memo de límites/no-claims en español profesional", weight: "10%" }
  ],
  },
  selfCheck: {
@@ -1440,11 +1443,16 @@ if __name__ == "__main__":
  "Con indicator=True, left_only marca filas del left sin contraparte en right (p. ej. clientes sin transacciones).",
  },
  {
- question: "transform en groupby:",
- options: ["Siempre colapsa a una fila por grupo", "Elimina el index", "Solo funciona con MultiIndex", "Reinyecta el agregado al shape original"],
- correctIndex: 3,
+ question: "Tras un pivot a wide para un dashboard, el portfolio debería:",
+ options: [
+ "Validar set de columnas esperado (p. ej. monto_ene, monto_feb)",
+ "Dejar MultiIndex sin documentar",
+ "Renombrar columnas solo en el slide de PowerPoint",
+ "Usar mean por defecto en pivot_table sin declararlo",
+ ],
+ correctIndex: 0,
  explanation:
- "transform devuelve una serie alineada al índice original; agg colapsa a una fila por grupo. Úsalos según el contrato (feature fila vs resumen).",
+ "Un schema estable (set de columnas expected) evita roturas del dashboard; aggfunc y nombres se documentan en el memo.",
  },
  {
  question: "Leakage temporal ocurre cuando:",
@@ -1458,7 +1466,7 @@ if __name__ == "__main__":
  options: ["Documentar diff con tolerancia eps o corregir el corte", "Ignorar la diferencia si es <10%", "Borrar la región más grande", "Cambiar a inner join siempre"],
  correctIndex: 0,
  explanation:
- "La reconciliación exige igualdad bajo eps o una bridge table con residual documentado; no se oculta el descuadre.",
+ "La reconciliación exige igualdad bajo eps o una tabla puente con residual documentado; no se oculta el descuadre.",
  }
  ],
  },
@@ -1468,6 +1476,11 @@ if __name__ == "__main__":
  label: "pandas merge",
  url: "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html",
  note: "how, validate, indicator",
+ },
+ {
+ label: "pandas user guide — Merge, join, concatenate",
+ url: "https://pandas.pydata.org/docs/user_guide/merging.html",
+ note: "how, validate, indicator, anti-patrones de fan-out",
  },
  {
  label: "pandas groupby",
@@ -1507,24 +1520,24 @@ if __name__ == "__main__":
  ],
  courses: [
  {
- label: "Coursera — Python for Everybody",
- url: "https://www.coursera.org/specializations/python",
- note: "fundamentos de tablas/archivos",
+ label: "Kaggle — Pandas (merge, groupby, reshape)",
+ url: "https://www.kaggle.com/learn/pandas",
+ note: "práctica guiada de merge/groupby alineada a esta sección",
  },
  {
- label: "MIT 6.100L",
- url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
- note: "estructuras y lógica",
+ label: "pandas user guide (merging + groupby)",
+ url: "https://pandas.pydata.org/docs/user_guide/merging.html",
+ note: "lectura primaria oficial de joins y concatenación",
  },
  {
- label: "Harvard CS50P",
- url: "https://cs50.harvard.edu/python/",
- note: "práctica Python",
+ label: "Real Python — Combining Data in pandas",
+ url: "https://realpython.com/pandas-merge-join-and-concat/",
+ note: "merge/join/concat con ejemplos claros",
  },
  {
  label: "PyArcana live",
  url: "https://pillb.github.io/pyarcana/",
- note: "curso desplegado; V3 S17 cierre CP-N2-A",
+ note: "curso en vivo — sección Joins · groupby · cierre",
  },
  {
  label: "deeplearning.ai — Data Engineering (concepts)",

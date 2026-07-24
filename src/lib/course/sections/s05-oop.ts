@@ -12,7 +12,7 @@ export const section05: CourseSection = {
   icon: "FunctionSquare",
   accentColor: "bg-gradient-to-br from-purple-500 to-fuchsia-600",
   jobRelevance:
-    "Tras cerrar CP-N1-A, el siguiente salto de calidad en data engineering junior es **descomponer** la lógica en funciones con contrato: normalizar nombre, email, teléfono y dirección **sin** mezclar lectura de archivos. En bancos y fintech en Perú, un normalizador no idempotente o con default mutable genera basura silenciosa en el ETL (CP-N1-B). Esta sección inicia ese camino — OOP de dominio llega en S11.",
+    "Tras cerrar CP-N1-A, el siguiente salto de calidad en data engineering junior es **descomponer** la lógica en funciones con contrato: normalizar nombre, email, teléfono y dirección **sin** mezclar lectura de archivos. En bancos y fintech en Perú, un normalizador no idempotente o con default mutable genera basura silenciosa en el ETL (CP-N1-B). Esta sección inicia ese camino; las clases de dominio llegan en S11.",
   learningOutcomes: [
     { text: "Definir funciones con def, llamarlas y retornar valores (no None accidental)" },
     { text: "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)" },
@@ -25,17 +25,46 @@ export const section05: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “OOP” a funciones y contratos (mapa de la sección)",
+      heading: "Mapa de la sección: funciones con contrato",
       paragraphs: [
-        "En V3, **S05 no es el path principal de clases, herencia ni dunders de sklearn**. Eso vive en **S11** (OOP y modelo de dominio). Aquí el estudiante domina **funciones con contratos claros**: definición, parámetros seguros, docstrings, type hints graduales, pureza y un poco de LEGB — todo al servicio de **normalizadores** del inicio de **CP-N1-B**.",
+        "**Diccionario de la sección** (léelo antes de T1). **Función (`def`):** bloque reutilizable con nombre de verbo. **`return`:** entrega un valor al caller (sin return → `None`). **Contrato:** precondiciones + postcondiciones documentadas (docstring) y alineadas al código. **Default seguro:** no uses lista/dict mutable como valor por defecto. **Función pura:** mismo input → mismo output, sin I/O ni prints. **Idempotencia:** `f(f(x)) == f(x)` en el caso feliz. **Orquestador delgado:** combina normalizadores sin reimplementar reglas. **LEGB:** orden Local → Enclosing → Global → Builtin. **Keyword-only:** parámetros tras `*` que obligan `nombre=` en la llamada.",
         "El hilo conductor es un conjunto de **funciones puras** `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` que transforman texto sintético **sin** tocar disco ni red. La I/O se inyecta o se deja en el borde. Datos ficticios únicamente (`example.com`); **nunca** PII real. Caso de lab: inicio **CP-N1-B**.",
-        "Orden pedagógico: **T1 Funciones** (def/return → params/defaults) → **T2 Contratos** (pre/post/docstrings → hints y errores de dominio) → **T3 Diseño** (funciones pequeñas → pureza/I/O) → **T4 Alcance** (LEGB/closures → tests y refactor). Cada normalizador debe ser **idempotente** en el caso feliz: `f(f(x)) == f(x)`.",
+        "**Políticas canónicas del gate (no cambian a mitad de sección):** `normalize_nombre` colapsa espacios y aplica **title-case por palabra**; `normalize_email` hace strip+lower y **`ValueError` si falta `@`**; teléfono = solo dígitos (demo); dirección = colapsa + upper. Cada normalizador debe ser **idempotente** en el caso feliz: `f(f(x)) == f(x)`.",
+        "Orden pedagógico: **T1 Funciones** (def/return → params/defaults) → **T2 Contratos** (pre/post/docstrings → hints y errores de dominio) → **T3 Diseño** (funciones pequeñas → pureza/I/O) → **T4 Alcance** (LEGB/closures → tests y refactor). Más adelante empaquetarás esto en CLI (S10) y modelarás registros con clases de dominio (S11). Hoy el objetivo es el **núcleo puro** que un ETL junior puede testear sin abrir archivos.",
       ],
+      code: {
+        language: "python",
+        title: "s05_map_contract.py",
+        code: `def s05_section_contract():
+    return {
+        "case": "CASO-LIM-005",
+        "gate": "CP-N1-B",
+        "normalizers": ["nombre", "email", "telefono", "direccion"],
+        "policies": {
+            "nombre": "collapse+title",
+            "email": "strip+lower+require_@",
+            "telefono": "digits_only_demo",
+            "direccion": "collapse+upper",
+        },
+        "must": ["pure", "idempotent", "no_io_in_core", "no_real_pii"],
+    }
+
+c = s05_section_contract()
+print("case", c["case"])
+print("gate", c["gate"])
+print("must", ",".join(c["must"]))
+print("email_policy", c["policies"]["email"])
+`,
+        output: `case CASO-LIM-005
+gate CP-N1-B
+must pure,idempotent,no_io_in_core,no_real_pii
+email_policy strip+lower+require_@`,
+      },
       callout: {
-        type: "info",
-        title: "Contenido reubicado conceptualmente a S11 / S10",
+        type: "tip",
+        title: "Qué entregas al cerrar S05",
         content:
-          "Material legado de OOP (clases Perro, herencia, ABC, dunders) **no es el camino del estudiante en S05 V3**. El target es **normalizadores puros** con idempotencia demostrada. Packaging/CLI → S10; modelo de dominio OOP → S11.",
+          "Cuatro normalizadores puros + orquestador con docstring, hints graduales e idempotencia demostrada (inicio CP-N1-B). Sin clases todavía y sin leer CSV: eso llega cuando el core ya es confiable.",
       },
     },
     {
@@ -43,14 +72,15 @@ export const section05: CourseSection = {
       subtopicId: "S05-T1-A",
       paragraphs: [
         "Una función se define con **`def nombre(params):`** y devuelve con **`return`**. Sin `return` explícito, Python devuelve **`None`** (bug silencioso en pipelines). Llamar es `nombre(args)`. El nombre debe ser un **verbo** o acción clara: `normalize_email`, no `email2`.",
-        "Las funciones son **valores de primera clase**: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con **definir, llamar y retornar** resultados de normalización; no abuses de callbacks todavía.",
+        "Las funciones son **valores de primera clase**: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con **definir, llamar y retornar** resultados de normalización; no abuses de callbacks todavía. El primer normalizador del hilo, `normalize_nombre`, ya usa la política del gate: colapsar espacios y **title-case** por palabra.",
         "Un solo `return` temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — **descompón** (T3). Los normalizadores **retornan**; `print` es solo demo, no efecto dentro de la función pura.",
       ],
       code: {
         language: 'python',
         title: "def_return.py",
         code: `def normalize_nombre(raw: str) -> str:
-    return " ".join(raw.strip().split())
+    """Post: colapsa espacios y title-case por palabra (política CP-N1-B)."""
+    return " ".join(raw.strip().split()).title()
 
 print(normalize_nombre("  María   José  "))
 print(normalize_nombre("QUISPE"))
@@ -59,7 +89,7 @@ def noop(x):
     x + 1
 print(noop(1))`,
         output: `María José
-QUISPE
+Quispe
 None`,
       },
       callout: {
@@ -74,7 +104,7 @@ None`,
       subtopicId: "S05-T1-B",
       paragraphs: [
         "Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico P1). Usa `None` y crea la lista **dentro**.",
-        "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos y evitan invertir argumentos silenciosamente.",
+        "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sitios de llamada largos y evitan invertir argumentos silenciosamente.",
         "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con **keyword-only** documenta la política regional sin confundir posiciones. El `*` fuerza `country=` en la llamada.",
       ],
       code: {
@@ -117,9 +147,9 @@ SR./SRA. QUISPE
       heading: "Pre/postcondiciones y docstrings",
       subtopicId: "S05-T2-A",
       paragraphs: [
-        "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email). Juntas son el **contrato** del normalizador.",
-        "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. **No** copies la firma; explica la **política de negocio** (p. ej. collapse de espacios).",
-        "En intake sintético: pre = tipo str o None; post = forma canónica o `ValueError`/resultado de error de dominio según el diseño elegido. Si docstring y código discrepan, el revisor devuelve el PR.",
+        "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email, title-case en nombre). Juntas son el **contrato** del normalizador.",
+        "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. **No** copies la firma; explica la **política de negocio** (p. ej. colapsar espacios + title-case, o exigir `@` en email).",
+        "En intake sintético: pre = tipo str; post = forma canónica o `ValueError` de dominio. La política de email del gate es **strip+lower y raise si falta `@`** — la misma en demos, weDo y youDo. Si docstring y código discrepan, el revisor devuelve el PR.",
       ],
       code: {
         language: 'python',
@@ -191,8 +221,8 @@ abc → (False, None, 'no es entero')
       subtopicId: "S05-T3-A",
       paragraphs: [
         "Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, **sepáralas**. **Componer** es llamar funciones pequeñas desde una orquestadora delgada.",
-        "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador `normalize_record` llama a cuatro normalizadores y arma el dict **sin** I/O en el núcleo.",
-        "Regla práctica: si necesitas un comentario de sección en medio de la función, **probablemente es otra función**. Extrae y nombra el verbo.",
+        "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador `normalize_record` llama a cuatro normalizadores y arma el dict **sin** I/O en el núcleo. En un banco o fintech en Perú, ese dict limpio alimenta el pipeline: si el orquestador reimplementa strip, cada fix se multiplica por cuatro.",
+        "Regla práctica: si necesitas un comentario de sección en medio de la función, **probablemente es otra función**. Extrae y nombra el verbo (`strip_collapse`, `title_case_name`). El monstruo de 40 líneas con tres políticas de campo es el anti-patrón que descompondrás en el We Do E3.",
       ],
       code: {
         language: 'python',
@@ -206,10 +236,16 @@ def title_case_name(s: str) -> str:
 def normalize_nombre(raw: str) -> str:
     return title_case_name(raw)
 
+def normalize_email(raw: str) -> str:
+    s = raw.strip().lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
+
 def normalize_record(nombres: str, email: str) -> dict:
     return {
         "nombres": normalize_nombre(nombres),
-        "email": email.strip().lower(),
+        "email": normalize_email(email),
     }
 
 print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
@@ -227,9 +263,8 @@ print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
       subtopicId: "S05-T3-B",
       paragraphs: [
         "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo). Los normalizadores del gate CP-N1-B deben ser puros.",
-        "La **I/O** (stdin, archivos, red) se queda en el **borde**: `main`, CLI, o funciones `load_*` / `save_*`. Los normalizadores deben ser **idempotentes**: `f(f(x)) == f(x)` para entradas válidas — doble normalizar no debe “romper” el valor.",
-        "**Inyección**: pasar una función `reader` o un path como argumento en vez de hardcodear `open('data.csv')` dentro del core facilita tests con fakes. El core no conoce el filesystem.",
-        "**`lambda`**: función anónima de **una expresión**. Úsala para inyectar un normalizador rápido en tests; si la lógica crece, prefiere un `def` con nombre. No admite múltiples statements ni es “más rápida” que un def.",
+        "Los normalizadores deben ser **idempotentes**: `f(f(x)) == f(x)` para entradas válidas — doble normalizar no debe “romper” el valor. Demuéstralo con dos llamadas encadenadas antes de confiar en el ETL.",
+        "La **I/O** (stdin, archivos, red) se queda en el **borde**: `main`, CLI, o funciones `load_*` / `save_*`. El core no conoce el filesystem. Cuando necesites un normalizador alternativo en un test, **inyéctalo** como argumento (ver tip); no hardcodees `open(...)` dentro del pure core.",
       ],
       code: {
         language: 'python',
@@ -238,26 +273,22 @@ print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
     digits = "".join(ch for ch in raw if ch.isdigit())
     return digits
 
-# Idempotencia
+# Idempotencia: f(f(x)) == f(x)
 x = "999-000-111"
 y = normalize_telefono(x)
 z = normalize_telefono(y)
 print(y, z, "idempotent=", y == z)
 
-# I/O al borde (simulado) + lambda como inyección puntual
-def process_line(line: str, norm=normalize_telefono) -> str:
-    return norm(line)
-
-print(process_line(" (01) 234-5678 "))
-print(process_line(" A@B.COM ", norm=lambda s: s.strip().lower()))`,
+# Un segundo sample: dígitos ya canónicos
+print(normalize_telefono(" (01) 234-5678 "))`,
         output: `999000111 999000111 idempotent= True
 012345678`,
       },
       callout: {
-        type: "warning",
-        title: "Gate CP-N1-B inicio",
+        type: "tip",
+        title: "Siguiente beat: inyección y lambda",
         content:
-          "Si tu normalize_email abre un archivo o imprime, no es puro. Sepáralo antes del review del incremento.",
+          "Tras dominar pureza e idempotencia, inyecta el normalizador: `def process_line(line, norm=normalize_telefono): return norm(line)`. Un `lambda s: s.strip().lower()` sirve de fake puntual en tests; si la lógica crece, prefiere un `def` con nombre. Practícalo en el We Do E3 de este subtema.",
       },
     },
     {
@@ -266,7 +297,7 @@ print(process_line(" A@B.COM ", norm=lambda s: s.strip().lower()))`,
       paragraphs: [
         "**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones anidadas), **G**lobal, **B**uiltin. Si Python no halla el nombre, `NameError`. Saber LEGB evita “¿por qué usa el PREF del módulo y no el mío?”.",
         "Un **closure** es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (`make_phone_normalizer(prefix)`), **sin** clases todavía (OOP de dominio → S11).",
-        "`global` y `nonlocal` existen pero en S05 **casi no** los necesitas: prefiere **return** de valores nuevos. Mutar globales complica tests y rompe pureza.",
+        "`global` y `nonlocal` existen pero en S05 **casi no** los necesitas: prefiere **return** de valores nuevos y factories con closure. Mutar globales complica tests, rompe pureza y hace que dos normalizadores compartan estado invisible entre llamadas.",
       ],
       code: {
         language: 'python',
@@ -275,10 +306,13 @@ print(process_line(" A@B.COM ", norm=lambda s: s.strip().lower()))`,
 
 def make_phone_normalizer(prefix: str):
     def norm(raw: str) -> str:
+        # 1) dígitos del texto original (el '+' no sobrevive al filtro)
         d = "".join(c for c in raw if c.isdigit())
+        # 2) si ya trae código país 51 y hay dígitos de más, quítalo
         if d.startswith("51") and len(d) > 9:
             d = d[2:]
-        return prefix + d if not d.startswith("+") else d
+        # 3) siempre antepone el prefix del factory (closure)
+        return prefix + d
     return norm
 
 pe = make_phone_normalizer(PREF)
@@ -307,25 +341,32 @@ LEGB enclosing x → 20`,
       heading: "Pruebas de ejemplo y refactor sin cambiar conducta",
       subtopicId: "S05-T4-B",
       paragraphs: [
-        "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si los asserts siguen verdes, la **conducta se preservó**.",
+        "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si los asserts siguen verdes, la **conducta se preservó**. Sin ejemplos, un “refactor” es un cambio de producto disfrazado.",
         "El refactor típico de S05: extraer `strip_collapse`, unificar defaults, renombrar. **No** cambies la política de negocio “de paso” sin actualizar tests y docstring — eso es un cambio de producto, no un refactor.",
-        "Idempotencia se prueba con doble llamada. Fronteras: vacío, solo espacios, Unicode (`Ñ`, tildes), y `None` solo si el contrato lo admite. Cada frontera es un caso de prueba permanente.",
+        "Idempotencia se prueba con doble llamada. Fronteras: vacío, solo espacios, Unicode (`Ñ`, tildes), y `None` solo si el contrato lo admite. Cada frontera es un caso de prueba permanente: no la borres cuando “ya pasó una vez”.",
       ],
       code: {
         language: 'python',
         title: "refactor_seguro.py",
         code: `def normalize_email(raw: str) -> str:
-    return raw.strip().lower()
+    # contrato de gate: strip+lower + validar '@' (T2-A / youDo)
+    s = raw.strip().lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
 
 def _examples() -> None:
     assert normalize_email("  A@B.COM ") == "a@b.com"
     assert normalize_email(normalize_email("A@B.COM")) == "a@b.com"
     print("examples OK")
 
-# refactor interno: misma conducta
+# refactor interno: misma conducta (misma política de '@')
 def normalize_email(raw: str) -> str:
     s = raw.strip()
-    return s.lower()
+    s = s.lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
 
 _examples()
 print(normalize_email("Ana@Example.COM"))`,
@@ -347,20 +388,20 @@ ana@example.com`,
         demoId: "S05-T1-A-DEMO",
         subtopicId: "S05-T1-A",
         environment: "browser-pyodide",
-        description: "def + return de normalize_nombre collapsando espacios",
+        description: "def + return de normalize_nombre (colapsa + title-case)",
         code: {
           language: 'python',
           title: "S05-T1-A-DEMO — def_nombre",
           code: `def normalize_nombre(raw):
-    return " ".join(raw.strip().split())
+    return " ".join(raw.strip().split()).title()
 
 for s in ["  Ana  ", "María  José", "QUISPE"]:
     print(repr(s), "→", repr(normalize_nombre(s)))`,
           output: `'  Ana  ' → 'Ana'
 'María  José' → 'María José'
-'QUISPE' → 'QUISPE'`,
+'QUISPE' → 'Quispe'`,
         },
-        why: "Una función, un return, casos con espacios y Unicode simple.",
+        why: "Una función, un return, política CP-N1-B: colapsar + title; Unicode simple.",
       },
       {
         demoId: "S05-T1-B-DEMO",
@@ -448,7 +489,10 @@ for v in ["999000111", "123", "999-000-111"]:
     return " ".join(s.strip().split())
 
 def norm_email(s: str) -> str:
-    return s.strip().lower()
+    s = s.strip().lower()
+    if "@" not in s:
+        raise ValueError("email sin @")
+    return s
 
 def normalize_pair(nombre: str, email: str) -> dict:
     return {"nombre": strip_collapse(nombre).title(), "email": norm_email(email)}
@@ -540,14 +584,14 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
         subtopicId: "S05-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).",
+          "E1 (guiado) — CASO-LIM-005. Corrige `doble(n)` para que **retorne** `n*2` (no imprima dentro). El caller debe ver `42` al hacer `print(doble(21))`. Pasa: línea de salida exacta `42`. Así evitas el None silencioso que también rompe normalizadores del intake.",
         hint: "return n * 2",
         hints: [
           "return n * 2",
-          "No uses print dentro de doble.",
+          "No uses print dentro de doble; el print va en el caller.",
         ],
         edgeCases: ["return vs print"],
-        tests: "42",
+        tests: "exact line 42",
         feedback: "return entrega el valor al caller.",
         starterCode: {
           language: 'python',
@@ -556,8 +600,7 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
 # DEFECT: imprime dentro y no retorna (caller ve None)
 def doble(n):
     print(n * 2)
-print(doble(21))
-print('ok', True)`,
+print(doble(21))`,
         },
         solutionCode: {
           language: 'python',
@@ -573,32 +616,34 @@ print(doble(21))`,
         subtopicId: "S05-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.",
-        hint: "\" \".join(raw.strip().split())",
+          "E2 (independiente) — CASO-LIM-005. `normalize_nombre(raw)` colapsa espacios y aplica **title-case por palabra** (política CP-N1-B). Prueba con `'  Juan   Pérez '` y con `'QUISPE'`. Pasa: `Juan Pérez` y `Quispe`.",
+        hint: "\" \".join(raw.strip().split()).title()",
         hints: [
-          "\" \".join(raw.strip().split())",
-          "title() es opcional; aquí solo colapsar.",
+          "\" \".join(raw.strip().split()).title()",
+          "title() es parte del contrato del gate; no lo omitas.",
         ],
-        edgeCases: ["espacios múltiples"],
-        tests: "Juan Pérez",
-        feedback: "Base del normalizador de nombres del capstone.",
+        edgeCases: ["espacios múltiples", "MAYÚSCULAS → Title"],
+        tests: "Juan Pérez / Quispe",
+        feedback: "Base del normalizador de nombres del capstone (colapsa + title).",
         starterCode: {
           language: 'python',
           title: "norm_nombre.py",
-          code: `# CASO-LIM-005 · colapsar espacios
-# DEFECT: solo strip; no colapsa dobles espacios
+          code: `# CASO-LIM-005 · colapsar + title (política CP-N1-B)
+# DEFECT: solo strip; no colapsa dobles espacios ni aplica title
 def normalize_nombre(raw):
     return raw.strip()
 print(normalize_nombre('  Juan   Pérez '))
-print('ok', True)`,
+print(normalize_nombre('QUISPE'))`,
         },
         solutionCode: {
           language: 'python',
           title: "norm_nombre.py",
           code: `def normalize_nombre(raw):
-    return " ".join(raw.strip().split())
-print(normalize_nombre('  Juan   Pérez '))`,
-          output: `Juan Pérez`,
+    return " ".join(raw.strip().split()).title()
+print(normalize_nombre('  Juan   Pérez '))
+print(normalize_nombre('QUISPE'))`,
+          output: `Juan Pérez
+Quispe`,
         },
       },
       {
@@ -606,14 +651,14 @@ print(normalize_nombre('  Juan   Pérez '))`,
         subtopicId: "S05-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si olvidas return (arregla para que no sea None).",
+          "E3 (transferencia) — CASO-LIM-005. Función `saluda(nombre)` que **retorne** el string `Hola {nombre}`; en el caller imprime el return. Si olvidas return, `print(saluda(...))` muestra None: arréglalo. Pasa: línea exacta `Hola Ana`.",
         hint: "Si ves None, falta return.",
         hints: [
           "Si ves None, falta return.",
           "return f'Hola {nombre}'",
         ],
         edgeCases: ["None implícito"],
-        tests: "Hola Ana",
+        tests: "exact line Hola Ana",
         feedback: "El bug None es el más común al migrar de scripts a funciones.",
         starterCode: {
           language: 'python',
@@ -622,8 +667,7 @@ print(normalize_nombre('  Juan   Pérez '))`,
 # DEFECT: saluda solo hace print; no return → print(saluda) es None
 def saluda(nombre):
     print(f'Hola {nombre}')
-print(saluda('Ana'))
-print('ok', True)`,
+print(saluda('Ana'))`,
         },
         solutionCode: {
           language: 'python',
@@ -639,14 +683,14 @@ print(saluda('Ana'))`,
         subtopicId: "S05-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.",
+          "E1 (guiado) — CASO-LIM-005. `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'` usando el parámetro (no hardcodees). Llama con default y con keyword `titulo='VIP'`. Pasa: líneas exactas `Cliente: Quispe` y `VIP: Quispe`.",
         hint: "default solo se usa si omites el arg",
         hints: [
           "default solo se usa si omites el arg",
-          "Dos prints distintos",
+          "Dos prints distintos; usa la variable titulo en el f-string.",
         ],
         edgeCases: ["keyword override"],
-        tests: "Cliente: / VIP:",
+        tests: "exact lines Cliente: Quispe + VIP: Quispe",
         feedback: "Keyword hace legible la política en el call site.",
         starterCode: {
           language: 'python',
@@ -656,8 +700,7 @@ print(saluda('Ana'))`,
 def present(nombre, titulo='Cliente'):
     return f'Cliente: {nombre}'
 print(present('Quispe'))
-print(present('Quispe', titulo='VIP'))
-print('ok', True)`,
+print(present('Quispe', titulo='VIP'))`,
         },
         solutionCode: {
           language: 'python',
@@ -675,7 +718,7 @@ VIP: Quispe`,
         subtopicId: "S05-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.",
+          "E2 (independiente) — CASO-LIM-005. Reescribe el default mutable de `good_add` a la versión segura con `None`. Dos llamadas independientes deben imprimir `[1]` y luego `[2]` (listas distintas). Pasa: esas dos líneas.",
         hint: "if bucket is None: bucket = []",
         hints: [
           "if bucket is None: bucket = []",
@@ -693,8 +736,7 @@ def good_add(item, bucket=[]):
     bucket.append(item)
     return bucket
 print(good_add(1))
-print(good_add(2))
-print('ok', True)`,
+print(good_add(2))`,
         },
         solutionCode: {
           language: 'python',
@@ -715,7 +757,7 @@ print(good_add(2))`,
         subtopicId: "S05-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas por keyword.",
+          "E3 (transferencia) — CASO-LIM-005. `normalize_telefono(raw, *, digits_only=True)` con flag **keyword-only**. Si `digits_only`, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas. Pasa: `999000` y `999-000`.",
         hint: "El * fuerza keyword para digits_only.",
         hints: [
           "El * fuerza keyword para digits_only.",
@@ -732,8 +774,7 @@ print(good_add(2))`,
 def normalize_telefono(raw, *, digits_only=True):
     return raw.strip()
 print(normalize_telefono(' 999-000 '))
-print(normalize_telefono(' 999-000 ', digits_only=False))
-print('ok', True)`,
+print(normalize_telefono(' 999-000 ', digits_only=False))`,
         },
         solutionCode: {
           language: 'python',
@@ -754,14 +795,14 @@ print(normalize_telefono(' 999-000 ', digits_only=False))`,
         subtopicId: "S05-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.",
+          "E1 (guiado) — CASO-LIM-005. El mismo hábito de contrato de los normalizadores: añade un **docstring** de una línea a `def area(w, h)` (no un `#` comentario), imprime `area.__doc__` y luego `area(3, 4)`. Pasa: el texto del doc y la línea `12`.",
         hint: "Triple comillas justo bajo def",
         hints: [
           "Triple comillas justo bajo def",
-          "Docstring no es un comentario #",
+          "Docstring no es un comentario #; __doc__ no debe ser None.",
         ],
         edgeCases: ["__doc__"],
-        tests: "doc + 12",
+        tests: "docstring text + exact line 12",
         feedback: "__doc__ es legible por help() y herramientas.",
         starterCode: {
           language: 'python',
@@ -772,8 +813,7 @@ def area(w, h):
     # Retorna el área de un rectángulo w×h.
     return w * h
 print(area.__doc__)
-print(area(3, 4))
-print('ok', True)`,
+print(area(3, 4))`,
         },
         solutionCode: {
           language: 'python',
@@ -792,19 +832,19 @@ print(area(3, 4))`,
         subtopicId: "S05-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.",
+          "E2 (independiente) — CASO-LIM-005. `normalize_email` con pre/post en docstring: strip+lower; **ValueError si no hay @** (contrato de gate). Prueba OK (`  A@B.COM `) y error (`x`). Pasa: `a@b.com` y una línea `err ...`.",
         hint: "if '@' not in s: raise ValueError",
         hints: [
           "if '@' not in s: raise ValueError",
-          "Mensaje accionable en español.",
+          "Mensaje accionable en español (p. ej. 'email sin @').",
         ],
         edgeCases: ["ValueError dominio"],
         tests: "a@b.com + err",
-        feedback: "Pre/post en docstring + raise alineados.",
+        feedback: "Pre/post en docstring + raise alineados al gate.",
         starterCode: {
           language: 'python',
           title: "email_prepost.py",
-          code: `# CASO-LIM-005 · pre/post email
+          code: `# CASO-LIM-005 · pre/post email (política de gate)
 # DEFECT: no lower; no valida @
 def normalize_email(raw: str) -> str:
     """Pre: str. Post: lower/strip con @."""
@@ -813,8 +853,7 @@ print(normalize_email('  A@B.COM '))
 try:
     normalize_email('x')
 except ValueError as e:
-    print('err', e)
-print('ok', True)`,
+    print('err', e)`,
         },
         solutionCode: {
           language: 'python',
@@ -839,25 +878,26 @@ err email sin @`,
         subtopicId: "S05-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la postcondición en un ejemplo.",
+          "E3 (transferencia) — CASO-LIM-005. Documenta y escribe `normalize_nombre` con post: sin extremos ni dobles espacios **y** title-case por palabra. Assert de la post en un ejemplo. Pasa: `Ana María` y `post OK`.",
         hint: "assert result == result.strip() and '  ' not in result",
         hints: [
           "assert result == result.strip() and '  ' not in result",
-          "La post se puede chequear en tests.",
+          "Aplica .title() tras colapsar; la post se chequea en tests.",
         ],
-        edgeCases: ["postcondición testeable"],
+        edgeCases: ["postcondición testeable", "title-case"],
         tests: "Ana María + post OK",
         feedback: "Contrato + assert de ejemplo = especificación viva.",
         starterCode: {
           language: 'python',
           title: "post_nombre.py",
-          code: `# CASO-LIM-005 · postcondición nombre
+          code: `# CASO-LIM-005 · postcondición nombre (colapsa + title)
 # DEFECT: solo strip; deja dobles espacios (rompe post)
 def normalize_nombre(raw: str) -> str:
-    """Post: sin extremos ni dobles espacios."""
+    """Post: sin extremos ni dobles espacios; title-case por palabra."""
     return raw.strip()
 r = normalize_nombre('  Ana  María  ')
 print(r)
+assert r == 'Ana María'
 assert r == r.strip() and '  ' not in r
 print('post OK')`,
         },
@@ -865,10 +905,11 @@ print('post OK')`,
           language: 'python',
           title: "post_nombre.py",
           code: `def normalize_nombre(raw: str) -> str:
-    """Post: sin extremos ni dobles espacios."""
-    return ' '.join(raw.strip().split())
+    """Post: sin extremos ni dobles espacios; title-case por palabra."""
+    return ' '.join(raw.strip().split()).title()
 r = normalize_nombre('  Ana  María  ')
 print(r)
+assert r == 'Ana María'
 assert r == r.strip() and '  ' not in r
 print('post OK')`,
           output: `Ana María
@@ -880,14 +921,14 @@ post OK`,
         subtopicId: "S05-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.",
+          "E1 (guiado) — CASO-LIM-005. Mismo hábito de hints que usarás en `normalize_*`: anota `def len_safe(s: str) -> int`, retorna `len(s)` (int real, no str) y demuestra que el hint **no** valida en runtime. Imprime el resultado y la línea exacta `hint no valida en runtime`. Pasa: `3` y esa nota.",
         hint: "hints no ejecutan isinstance mágicamente",
         hints: [
           "hints no ejecutan isinstance mágicamente",
-          "len_safe(123) fallaría en runtime igual",
+          "Imprime exactamente: hint no valida en runtime",
         ],
         edgeCases: ["hints graduales"],
-        tests: "3 + nota",
+        tests: "3 + hint no valida en runtime",
         feedback: "Hints son contrato para humanos y typecheckers.",
         starterCode: {
           language: 'python',
@@ -896,8 +937,7 @@ post OK`,
 # DEFECT: no imprime nota; retorna str en vez de int
 def len_safe(s: str) -> int:
     return str(len(s))
-print(len_safe('abc'))
-print('ok', True)`,
+print(len_safe('abc'))`,
         },
         solutionCode: {
           language: 'python',
@@ -915,14 +955,14 @@ hint no valida en runtime`,
         subtopicId: "S05-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.",
+          "E2 (independiente) — CASO-LIM-005. `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int. Recorre `0`, `10`, `-1`, `x`. Pasa: cuatro líneas de resultado.",
         hint: "try int; if n<0 dominio",
         hints: [
           "try int; if n<0 dominio",
           "0 es válido.",
         ],
         edgeCases: ["0 válido", "negativo dominio"],
-        tests: "4 casos",
+        tests: "four lines for 0 / 10 / -1 / x",
         feedback: "Separar ValueError de parse vs regla de dominio.",
         starterCode: {
           language: 'python',
@@ -935,8 +975,7 @@ def parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
     n = int(raw)
     return True, n, None
 for v in ['0', '10', '-1', 'x']:
-    print(v, parse_monto(v))
-print('ok', True)`,
+    print(v, parse_monto(v))`,
         },
         solutionCode: {
           language: 'python',
@@ -964,7 +1003,7 @@ x (False, None, 'no es entero')`,
         subtopicId: "S05-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el caller del lote (for de 2 emails).",
+          "E3 (transferencia) — CASO-LIM-005. Implementa `normalize_email` con **raise ValueError** si falta `@` (contrato de gate) y documenta la estrategia en un print. En el borde del lote, captura por fila (`ok@ex.com`, `malo`) sin abortar todo. Pasa: `OK ok@ex.com` y `SKIP malo ...`.",
         hint: "Lote: try/except por fila para no abortar todo",
         hints: [
           "Lote: try/except por fila para no abortar todo",
@@ -982,8 +1021,7 @@ def normalize_email(raw: str) -> str:
     return raw.strip().lower()
 print('estrategia: ???')
 for e in ['ok@ex.com', 'malo']:
-    print('OK', normalize_email(e))
-print('ok', True)`,
+    print('OK', normalize_email(e))`,
         },
         solutionCode: {
           language: 'python',
@@ -1009,14 +1047,14 @@ SKIP malo email inválido`,
         subtopicId: "S05-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().",
+          "E1 (guiado) — CASO-LIM-005. Extrae `strip_collapse` (colapsa espacios) y úsalo dentro de `normalize_nombre`, que además aplica `.title()` (política de nombre del gate). No reimplementes strip dentro del normalizador. Pasa: línea exacta `Ana María`.",
         hint: "def strip_collapse; return strip_collapse(raw).title()",
         hints: [
           "def strip_collapse; return strip_collapse(raw).title()",
-          "Composición de dos pasos.",
+          "Composición de dos pasos: colapsar y luego title.",
         ],
         edgeCases: ["title after collapse"],
-        tests: "Ana María",
+        tests: "exact line Ana María",
         feedback: "Piezas pequeñas se testean solas.",
         starterCode: {
           language: 'python',
@@ -1027,8 +1065,7 @@ def strip_collapse(s):
     return s
 def normalize_nombre(raw):
     return raw.strip().title()
-print(normalize_nombre('  ana  maría '))
-print('ok', True)`,
+print(normalize_nombre('  ana  maría '))`,
         },
         solutionCode: {
           language: 'python',
@@ -1046,13 +1083,13 @@ print(normalize_nombre('  ana  maría '))`,
         subtopicId: "S05-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.",
-        hint: "return {'nombre': ..., 'email': ...}",
+          "E2 (independiente) — CASO-LIM-005. Orquestador `normalize_contact(nombre, email)` devuelve dict **solo** llamando helpers: nombre con colapsa+title; email strip+lower con **ValueError si falta @**. Pasa: `{'nombre': 'Luis', 'email': 'l@e.com'}`.",
+        hint: "return {'nombre': norm_n(...), 'email': norm_e(...)}",
         hints: [
-          "return {'nombre': ..., 'email': ...}",
-          "email lower strip",
+          "return {'nombre': norm_n(...), 'email': norm_e(...)}",
+          "norm_e: strip+lower y raise si falta @ (mismo contrato del gate).",
         ],
-        edgeCases: ["dict orquestado"],
+        edgeCases: ["dict orquestado", "email con @"],
         tests: "Luis + l@e.com",
         feedback: "El orquestador no reimplementa reglas.",
         starterCode: {
@@ -1063,11 +1100,13 @@ print(normalize_nombre('  ana  maría '))`,
 def norm_n(s):
     return ' '.join(s.strip().split()).title()
 def norm_e(s):
-    return s.strip().lower()
+    s = s.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 def normalize_contact(nombre, email):
     return {'nombre': nombre.strip(), 'email': email}
-print(normalize_contact('  luis ', '  L@E.COM '))
-print('ok', True)`,
+print(normalize_contact('  luis ', '  L@E.COM '))`,
         },
         solutionCode: {
           language: 'python',
@@ -1075,7 +1114,10 @@ print('ok', True)`,
           code: `def norm_n(s):
     return ' '.join(s.strip().split()).title()
 def norm_e(s):
-    return s.strip().lower()
+    s = s.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 def normalize_contact(nombre, email):
     return {'nombre': norm_n(nombre), 'email': norm_e(email)}
 print(normalize_contact('  luis ', '  L@E.COM '))`,
@@ -1087,11 +1129,11 @@ print(normalize_contact('  luis ', '  L@E.COM '))`,
         subtopicId: "S05-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.",
-        hint: "Cada campo = una función",
+          "E3 (transferencia) — CASO-LIM-005. El starter es un **monstruo** con tres políticas inline (nombre title, email con @, tel dígitos). Descompón en 3 funciones + orquestador delgado. Misma salida. Pasa: dict con `nombre`/`email`/`tel` normalizados.",
+        hint: "Cada campo = una función; el orquestador solo llama",
         hints: [
-          "Cada campo = una función",
-          "Salida dict con 3 claves",
+          "Cada campo = una función; el orquestador solo llama",
+          "Salida dict con 3 claves; no dejes reglas en el monstruo",
         ],
         edgeCases: ["descomposición"],
         tests: "3 keys normalizadas",
@@ -1100,15 +1142,16 @@ print(normalize_contact('  luis ', '  L@E.COM '))`,
           language: 'python',
           title: "split_monster.py",
           code: `# CASO-LIM-005 · monstruo a descomponer
-# DEFECT: todo en un solo def con reglas inline
+# DEFECT: tres políticas inline en un solo def (descompón)
 def normalize_all(n, e, t):
-    return {
-        'nombre': n.strip(),
-        'email': e,
-        'tel': t,
-    }
-print(normalize_all('  Ana ', 'A@B.COM', '999-1'))
-print('ok', True)`,
+    # monstruo: reglas de nombre, email y tel mezcladas
+    nombre = ' '.join(n.strip().split()).title()
+    email = e.strip().lower()
+    if '@' not in email:
+        raise ValueError('email sin @')
+    tel = ''.join(c for c in t if c.isdigit())
+    return {'nombre': nombre, 'email': email, 'tel': tel}
+print(normalize_all('  Ana ', 'A@B.COM', '999-1'))`,
         },
         solutionCode: {
           language: 'python',
@@ -1116,7 +1159,10 @@ print('ok', True)`,
           code: `def n_nombre(n):
     return ' '.join(n.strip().split()).title()
 def n_email(e):
-    return e.strip().lower()
+    s = e.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 def n_tel(t):
     return ''.join(c for c in t if c.isdigit())
 def normalize_all(n, e, t):
@@ -1130,14 +1176,14 @@ print(normalize_all('  Ana ', 'A@B.COM', '999-1'))`,
         subtopicId: "S05-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.",
+          "E1 (guiado) — CASO-LIM-005. Escribe `normalize_tel` **puro** (solo dígitos; sin print ni I/O internos). Con `x='999-000'`, calcula `once = f(x)` y demuestra `f(once)==once`. Pasa: línea exacta `999000 True` (valor canónico + flag de idempotencia).",
         hint: "once = f(x); twice = f(once); print once==twice",
         hints: [
           "once = f(x); twice = f(once); print once==twice",
-          "Sin print dentro de normalize_tel.",
+          "Sin print dentro de normalize_tel; el print va en el caller.",
         ],
         edgeCases: ["idempotencia"],
-        tests: "999000 True",
+        tests: "exact line 999000 True",
         feedback: "Idempotencia es el test mínimo del gate.",
         starterCode: {
           language: 'python',
@@ -1148,8 +1194,7 @@ def normalize_tel(raw):
     return raw.replace(' ', '')
 x = '999-000'
 once = normalize_tel(x)
-print(once, normalize_tel(once) == once)
-print('ok', True)`,
+print(once, normalize_tel(once) == once)`,
         },
         solutionCode: {
           language: 'python',
@@ -1167,11 +1212,11 @@ print(once, normalize_tel(once) == once)`,
         subtopicId: "S05-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.",
+          "E2 (independiente) — CASO-LIM-005. Separa: `normalize_email` **puro** (strip+lower; raise si falta `@`) + `print_report` con el print al borde. No imprimas dentro del normalizador. Pasa: `email= z@w.com`.",
         hint: "print solo en print_report",
         hints: [
           "print solo en print_report",
-          "Core testeable sin capturar stdout",
+          "Core testeable sin capturar stdout; valida @ en el pure core.",
         ],
         edgeCases: ["efecto al borde"],
         tests: "email= z@w.com",
@@ -1187,14 +1232,16 @@ def normalize_email(raw):
     return s
 def print_report(raw):
     normalize_email(raw)
-print_report('  Z@W.COM ')
-print('ok', True)`,
+print_report('  Z@W.COM ')`,
         },
         solutionCode: {
           language: 'python',
           title: "io_borde.py",
           code: `def normalize_email(raw):
-    return raw.strip().lower()
+    s = raw.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 def print_report(raw):
     print('email=', normalize_email(raw))
 print_report('  Z@W.COM ')`,
@@ -1206,7 +1253,7 @@ print_report('  Z@W.COM ')`,
         subtopicId: "S05-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja todo upper strip.",
+          "E3 (transferencia) — CASO-LIM-005. Inyecta un normalizador: `process(line, norm=normalize_tel)` debe usar la fn inyectada. Llama con default (dígitos) y con un norm que hace upper+strip. Pasa: `999` y `999-A`.",
         hint: "norm es parámetro con default",
         hints: [
           "norm es parámetro con default",
@@ -1225,8 +1272,7 @@ def normalize_tel(raw):
 def process(line, norm=normalize_tel):
     return normalize_tel(line)
 print(process(' 999-a '))
-print(process(' 999-a ', norm=lambda s: s.strip().upper()))
-print('ok', True)`,
+print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
         },
         solutionCode: {
           language: 'python',
@@ -1246,7 +1292,7 @@ print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
         subtopicId: "S05-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.",
+          "E1 (guiado) — CASO-LIM-005. Predice LEGB: global `x=1`; dentro de `f` asigna `x=2` (local, no muta el global). Imprime `in 2` **dentro** de `f` y `out 1` fuera tras llamar. Pasa: líneas exactas `in 2` y `out 1`.",
         hint: "Local no pisa global sin global keyword",
         hints: [
           "Local no pisa global sin global keyword",
@@ -1265,8 +1311,7 @@ def f():
     x = 2
 f()
 print('in', x)
-print('out', x)
-print('ok', True)`,
+print('out', x)`,
         },
         solutionCode: {
           language: 'python',
@@ -1286,14 +1331,14 @@ out 1`,
         subtopicId: "S05-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.",
+          "E2 (independiente) — CASO-LIM-005. `make_multiplier(k)` es una factory (mismo patrón que `make_phone_normalizer`): devuelve una función que multiplica por `k` del enclosing scope. Crea `m3` y `m10`; imprime `m3(4)` y `m10(4)` en una línea. Pasa: `12 40`.",
         hint: "def inner(n): return n*k; return inner",
         hints: [
           "def inner(n): return n*k; return inner",
           "print(m3(4), m10(4))",
         ],
         edgeCases: ["closure"],
-        tests: "12 40",
+        tests: "exact line 12 40",
         feedback: "Factories por closure evitan clases prematuras.",
         starterCode: {
           language: 'python',
@@ -1306,8 +1351,7 @@ def make_multiplier(k):
     return inner
 m3 = make_multiplier(3)
 m10 = make_multiplier(10)
-print(m3(4), m10(4))
-print('ok', True)`,
+print(m3(4), m10(4))`,
         },
         solutionCode: {
           language: 'python',
@@ -1327,14 +1371,14 @@ print(m3(4), m10(4))`,
         subtopicId: "S05-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.",
+          "E3 (transferencia) — CASO-LIM-005. Factory `make_normalizer(mode)` con mode `'digits'` o `'lower'` devuelve la fn adecuada **sin** variable global. Con `d('A-1-B-2')` y `lo('  Hola ')` imprime en una línea. Pasa: exacto `12 hola`.",
         hint: "if mode=='digits': return lambda o def digits...",
         hints: [
           "if mode=='digits': return lambda o def digits...",
-          "Sin global mode",
+          "Sin global mode; cada factory cierra su política.",
         ],
         edgeCases: ["factory multipolítica"],
-        tests: "12 hola",
+        tests: "exact line 12 hola",
         feedback: "Config en el enclosing, no en global mutable.",
         starterCode: {
           language: 'python',
@@ -1347,8 +1391,7 @@ def make_normalizer(mode):
     return norm
 d = make_normalizer('digits')
 lo = make_normalizer('lower')
-print(d('A-1-B-2'), lo('  Hola '))
-print('ok', True)`,
+print(d('A-1-B-2'), lo('  Hola '))`,
         },
         solutionCode: {
           language: 'python',
@@ -1374,31 +1417,36 @@ print(d('A-1-B-2'), lo('  Hola '))`,
         subtopicId: "S05-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.",
+          "E1 (guiado) — CASO-LIM-005. Escribe 2 asserts de ejemplo para `normalize_email` (strip+lower + validar `@`; contrato de gate) e imprime `OK`. Incluye idempotencia. Pasa: línea exacta `OK`.",
         hint: "assert normalize_email('A@B.COM')=='a@b.com'",
         hints: [
           "assert normalize_email('A@B.COM')=='a@b.com'",
-          "Incluye idempotencia",
+          "Incluye idempotencia: f(f(x)) == f(x)",
         ],
         edgeCases: ["assert ejemplos"],
-        tests: "OK",
+        tests: "exact line OK",
         feedback: "Ejemplos primero, implementación después.",
         starterCode: {
           language: 'python',
           title: "examples_email.py",
-          code: `# CASO-LIM-005 · asserts de ejemplo
+          code: `# CASO-LIM-005 · asserts de ejemplo (contrato gate email)
 # DEFECT: expected con mayúsculas; asserts fallan o se omiten
 def normalize_email(s):
-    return s.strip().lower()
+    s = s.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 # asserts omitidos / expected incorrecto
-print(normalize_email('  A@B.COM '))
-print('ok', True)`,
+print(normalize_email('  A@B.COM '))`,
         },
         solutionCode: {
           language: 'python',
           title: "examples_email.py",
           code: `def normalize_email(s):
-    return s.strip().lower()
+    s = s.strip().lower()
+    if '@' not in s:
+        raise ValueError('email sin @')
+    return s
 assert normalize_email('  A@B.COM ') == 'a@b.com'
 assert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'
 print('OK')`,
@@ -1410,7 +1458,7 @@ print('OK')`,
         subtopicId: "S05-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.",
+          "E2 (independiente) — CASO-LIM-005. Refactoriza `normalize_dir` a dos pasos (`strip_collapse` + `upper`) **sin** cambiar la política upper. Los asserts de `AV 1` e idempotencia deben seguir verdes. Pasa: línea final `JR 2`.",
         hint: "Corre asserts antes y después mentalmente",
         hints: [
           "Corre asserts antes y después mentalmente",
@@ -1454,38 +1502,37 @@ print(normalize_dir(' jr 2 '))`,
         subtopicId: "S05-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected si la política cambia conscientemente — aquí **mantén** collapsar sin title y deja expected estables.",
+          "E3 (transferencia) — CASO-LIM-005. Suite mínima: lista de `(input, expected)` para `normalize_nombre` con política **colapsa + title**; loop `assert`. Si cambias la implementación, actualiza expected solo si cambias la política conscientemente — aquí la política es la del gate. Pasa: líneas `PASS ...` y `all PASS`.",
         hint: "No cambies política sin actualizar tests",
         hints: [
           "No cambies política sin actualizar tests",
-          "Todos PASS",
+          "Expected con title: '  a  b ' → 'A B'; 'X' → 'X'",
         ],
-        edgeCases: ["tabla de casos"],
-        tests: "PASS lines",
+        edgeCases: ["tabla de casos", "title-case"],
+        tests: "PASS lines + all PASS",
         feedback: "Tabla de casos = contrato ejecutable del normalizador.",
         starterCode: {
           language: 'python',
           title: "suite_nombre.py",
-          code: `# CASO-LIM-005 · suite tabla de casos
+          code: `# CASO-LIM-005 · suite tabla de casos (colapsa + title)
 # DEFECT: no recorre cases; declara PASS a ciegas
 def normalize_nombre(raw):
-    return ' '.join(raw.strip().split())
-cases = [('  a  b ', 'a b'), ('X', 'X')]
-print('all PASS')
-print('ok', True)`,
+    return ' '.join(raw.strip().split()).title()
+cases = [('  a  b ', 'A B'), ('X', 'X')]
+print('all PASS')`,
         },
         solutionCode: {
           language: 'python',
           title: "suite_nombre.py",
           code: `def normalize_nombre(raw):
-    return ' '.join(raw.strip().split())
-cases = [('  a  b ', 'a b'), ('X', 'X')]
+    return ' '.join(raw.strip().split()).title()
+cases = [('  a  b ', 'A B'), ('X', 'X')]
 for inp, exp in cases:
     got = normalize_nombre(inp)
     assert got == exp, (inp, got, exp)
     print('PASS', inp, '→', got)
 print('all PASS')`,
-          output: `PASS   a  b  → a b
+          output: `PASS   a  b  → A B
 PASS X → X
 all PASS`,
         },
@@ -1517,14 +1564,12 @@ Idempotencia demostrada. Sin I/O en el core.
 Datos sintéticos únicamente.
 """
 
-from __future__ import annotations
-
 from typing import Callable
 
 
 def normalize_nombre(raw: str) -> str:
     """Colapsa espacios; title-case de palabras.
-    Pre: str. Post: sin extremos ni dobles espacios.
+    Pre: str. Post: sin extremos ni dobles espacios; title por palabra.
     """
     # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
@@ -1635,6 +1680,30 @@ if __name__ == "__main__":
         correctIndex: 0,
         explanation:
           "Reaplicar la normalización no cambia el valor ya canónico.",
+      },
+      {
+        question: "¿Qué diferencia un docstring de un comentario `#` justo bajo `def`?",
+        options: [
+          "Ninguna: ambos rellenan __doc__",
+          "Solo el docstring queda en __doc__ y es el contrato legible por help()/herramientas",
+          "El comentario # se ejecuta en runtime",
+          "El docstring prohíbe usar return",
+        ],
+        correctIndex: 1,
+        explanation:
+          "El docstring (triples comillas bajo def) se guarda en __doc__; un # no es contrato de la función.",
+      },
+      {
+        question: "En `def normalize_telefono(raw, *, digits_only=True)`, el `*` obliga a…",
+        options: [
+          "Que raw sea keyword-only",
+          "Pasar digits_only solo como keyword (digits_only=...)",
+          "Que la función sea pura automáticamente",
+          "Crear un default mutable",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Tras el *, los parámetros son keyword-only: hay que llamar con nombre, no por posición.",
       },
     ],
   },

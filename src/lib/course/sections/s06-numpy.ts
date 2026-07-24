@@ -12,7 +12,7 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En pipelines de onboarding y calidad de datos en bancos, fintech y retail en Perú, antes de CSV/JSON necesitas un **modelo tabular en memoria**: clientes, contactos y transacciones como list/dict/set bien elegidos, con deduplicación que **reporta conflictos** y salidas **deterministas**. Esta sección (id de plataforma `numpy` conservado) retematiza a colecciones V3 e inicia el bloque **CP-N1-B** sin NumPy/pandas.",
+    "En pipelines de onboarding y calidad de datos en bancos, fintech y retail en Perú, antes de CSV/JSON necesitas un **modelo tabular en memoria**: clientes, contactos y transacciones como list/dict/set bien elegidos, con deduplicación que **reporta conflictos** y salidas **deterministas**. Aquí inicias el bloque de portafolio **CP-N1-B** (modelo en RAM) usando solo la biblioteca estándar — sin NumPy ni pandas.",
   learningOutcomes: [
     { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
     { text: "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda" },
@@ -25,17 +25,17 @@ export const section06: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)",
+      heading: "Mapa de la sección: modelo tabular en memoria",
       paragraphs: [
-        "En V3, **S06 no es el path principal de NumPy arrays ni broadcasting**. Ese material se reubica conceptualmente hacia el bloque numérico/DS (p. ej. S14+). Aquí construyes el **modelo tabular en memoria** que CP-N1-B necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones** con salidas **deterministas**.",
-        "El hilo conductor es un **mini almacén en RAM** con datos sintéticos latam (`example.com`, ids `C00x`). **Sin** pandas ni NumPy en este incremento. En S08 ese modelo se conecta a CSV/JSON y cuarentena. Caso de lab: inicio **CP-N1-B**.",
+        "En esta sección construyes el **modelo tabular en memoria** que tu portafolio CP-N1-B necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones**, con salidas **deterministas** y deduplicación que **reporta conflictos**. Partes de lo que ya practicaste en S04–S05 (listas, funciones con contrato); aquí el foco es **elegir y componer** estructuras para un mini almacén en RAM.",
+        "El hilo conductor es ese **mini almacén** con datos sintéticos LATAM (`example.com`, ids `C00x`). Trabajas solo con la **biblioteca estándar** — sin pandas ni NumPy (el cálculo vectorizado llega más adelante, p. ej. S14). En S08 ese modelo se conecta a CSV/JSON y cuarentena.",
         "Orden: **T1 Secuencias** (list/tuple/slicing → alias/copia) → **T2 Dicts/sets** (índices, dedup con conflictos) → **T3 Anidado y missing** → **T4 Orden y elección de estructura** (sorted estable, JSON determinista). **Nunca** PII real.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Alcance de S06",
         content:
-          "Material legado NumPy de este archivo **no es el camino V3 del estudiante en S06**. El target es el **modelo tabular en memoria** (inicio CP-N1-B). NumPy/vectorización se retoma en el tramo DS. Conserva datos sintéticos; nunca PII real.",
+          "Trabajas solo con la **biblioteca estándar** (list, dict, set, copy, json). El objetivo es el **modelo tabular en memoria** (inicio CP-N1-B). NumPy y vectorización se retoman en el tramo de datos/DS. Solo datos sintéticos; nunca PII real.",
       },
     },
     {
@@ -79,9 +79,9 @@ T2 in slice? True`,
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: **eso es bueno** (detecta shape roto en el lote).",
-        "**Aliasing**: `b = a` **no** copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug clásico aparece al “clonar” clientes en memoria.",
-        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir por fila. En intake, shallow basta si solo reordenas filas **sin** mutar campos compartidos; si mutas tags anidados, usa deep o dict nuevo.",
+        "**Unpacking** `a, b = fila` desempaqueta sin índices ruidosos. Con `head, *rest = fila` capturas el primer valor y dejas el sobrante en una lista (útil cuando el lote trae columnas variables). Si el largo no calza con el patrón, Python lanza error: **eso es bueno** — detecta shape roto antes de contaminar el almacén.",
+        "**Aliasing**: `b = a` **no** copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug clásico aparece al “clonar” clientes en memoria sin copiar de verdad.",
+        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir por fila. En intake, shallow basta si solo reordenas filas **sin** mutar campos compartidos; si mutas tags anidados, usa deep o un dict nuevo por fila.",
       ],
       code: {
         language: 'python',
@@ -94,6 +94,13 @@ def isolate_clients(rows, mode="shallow"):
         return copy.deepcopy(rows)
     return rows.copy()
 
+# Unpacking fijo y con *rest (sobrante en lista)
+fila = ("C001", "Lima", 10, "app")
+cid, region, monto = fila[0], fila[1], fila[2]
+head, *rest = fila
+print("unpack fijo:", cid, region, monto)
+print("head:", head, "rest:", rest)
+
 clientes = [{"id": "C001", "tags": ["vip"]}]
 alias = clientes
 shallow = isolate_clients(clientes, "shallow")
@@ -105,7 +112,9 @@ print("original tras shallow mut de tags:", clientes)
 deep[0]["tags"].append("solo-deep")
 print("deep aislado:", deep)
 print("original final:", clientes)`,
-        output: `original tras alias: [{'id': 'C001', 'tags': ['vip', 'alias']}]
+        output: `unpack fijo: C001 Lima 10
+head: C001 rest: ['Lima', 10, 'app']
+original tras alias: [{'id': 'C001', 'tags': ['vip', 'alias']}]
 original tras shallow mut de tags: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]
 deep aislado: [{'id': 'C001', 'tags': ['vip', 'solo-deep']}]
 original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
@@ -122,7 +131,7 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
       subtopicId: "S06-T2-A",
       paragraphs: [
         "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio **O(1)**. Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave en el almacén en RAM.",
-        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundes con “¿el cliente tiene email?” si buscas en values.",
+        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundas con “¿el cliente tiene email?” si buscas en values.",
         "`update` / merge fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (`override > base`) para no “pisar sin querer” políticas de normalización de S05.",
       ],
       code: {
@@ -163,30 +172,45 @@ merged: {'timeout': 30, 'retry': 3}`,
       subtopicId: "S06-T2-B",
       paragraphs: [
         "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes sintéticos.",
-        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse** en `conflicts`, no silenciarse. El patrón del gate es `unique` + `conflicts`.",
+        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero payload distinto deben **reportarse** en `conflicts`, no silenciarse. El patrón de calidad es `unique` + `conflicts`. Si el payload es **idéntico**, es un duplicado inocente (no entra a `conflicts`); si **difiere**, deja traza del choque.",
         "Para exports **deterministas**, no dependas del orden del set: ordena con `sorted(...)` al exportar (JSON `sort_keys`, listas de ids ordenadas). Reproducibilidad > “orden de llegada mágico”.",
       ],
       code: {
         language: 'python',
-        title: "sets_cohortes.py",
+        title: "sets_y_conflictos.py",
         code: `def cohort_ops(a, b):
     """Intersección y diferencia de cohortes (sets de ids)."""
     return sorted(a & b), sorted(a - b)
 
-def unique_sorted(items):
-    """Dedup determinista con set + sorted."""
-    return sorted(set(items))
+def dedup_with_conflicts(rows, key="id"):
+    """Primera vista en unique; payload distinto → conflicts (no silenciar)."""
+    seen, unique, conflicts = {}, [], []
+    for r in rows:
+        rid = r[key]
+        if rid not in seen:
+            seen[rid] = r
+            unique.append(r)
+        elif seen[rid] != r:
+            conflicts.append({"id": rid, "kept": seen[rid], "other": r})
+    return unique, conflicts
 
 lote_a = {"C001", "C002", "C003"}
 lote_b = {"C002", "C003", "C004"}
 inter, solo_a = cohort_ops(lote_a, lote_b)
 print("intersección:", inter)
 print("solo A:", solo_a)
-emails = ["a@ex.com", "b@ex.com", "a@ex.com"]
-print("únicos:", unique_sorted(emails))`,
+rows = [
+    {"id": "C001", "email": "a@ex.com"},
+    {"id": "C001", "email": "a@ex.com"},  # duplicado idéntico: no es conflicto de payload
+    {"id": "C001", "email": "otro@ex.com"},
+]
+unique, conflicts = dedup_with_conflicts(rows)
+print("unique ids:", [r["id"] for r in unique])
+print("n_conflicts:", len(conflicts))`,
         output: `intersección: ['C002', 'C003']
 solo A: ['C001']
-únicos: ['a@ex.com', 'b@ex.com']`,
+unique ids: ['C001']
+n_conflicts: 1`,
       },
       callout: {
         type: "warning",
@@ -256,6 +280,7 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
         language: 'python',
         title: "safe_access.py",
         code: `def get_nested(d, *keys, default=None):
+    """Recorre claves; si falta un nivel, devuelve default (no KeyError)."""
     cur = d
     for k in keys:
         if not isinstance(cur, dict) or k not in cur:
@@ -263,13 +288,17 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
         cur = cur[k]
     return cur
 
-c = {"id": "C001", "profile": {"phone": None}, "email": ""}
-print("phone:", get_nested(c, "profile", "phone", default="MISSING"))
-print("email empty:", repr(c.get("email")))
-print("no address:", get_nested(c, "profile", "address", default="MISSING"))`,
-        output: `phone: None
+c1 = {"id": "C001", "profile": {"phone": "999111222"}, "email": ""}
+c2 = {"id": "C002", "profile": {"phone": None}}
+c3 = {"id": "C003", "profile": {}}
+print("ok phone:", get_nested(c1, "profile", "phone", default="MISSING"))
+print("email empty:", repr(c1.get("email")))  # clave presente, valor ''
+print("phone None:", get_nested(c2, "profile", "phone", default="MISSING"))  # clave presente → None, no default
+print("phone missing:", get_nested(c3, "profile", "phone", default="MISSING"))  # clave ausente → default`,
+        output: `ok phone: 999111222
 email empty: ''
-no address: MISSING`,
+phone None: None
+phone missing: MISSING`,
       },
       callout: {
         type: "warning",
@@ -343,9 +372,9 @@ print(dump_deterministic(payload))`,
       },
       callout: {
         type: "info",
-        title: "Sin NumPy aquí",
+        title: "Solo biblioteca estándar",
         content:
-          "Si tu solución de S06 importa numpy/pandas, está fuera del incremento V3. Vuelve a stdlib.",
+          "Si tu solución de S06 importa numpy o pandas, está fuera de alcance. Vuelve a la biblioteca estándar (list, dict, set, copy, json).",
       },
     },
   ],
@@ -552,16 +581,21 @@ flat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 
 
 c1 = {"id": "C001", "profile": {"phone": "999111222"}}
 c2 = {"id": "C002", "profile": {}}
-c3 = {"id": "C003"}
-for c in (c1, c2, c3):
+c3 = {"id": "C003", "profile": {"phone": ""}}
+c4 = {"id": "C004"}
+for c in (c1, c2, c3, c4):
     phone = dig(c, "profile", "phone", default="MISSING")
-    flag = "ok" if phone != "MISSING" and phone else ("empty" if phone == "" else "missing")
     if phone == "MISSING":
         flag = "missing"
+    elif phone == "":
+        flag = "empty"
+    else:
+        flag = "ok"
     print(c["id"], phone, flag)`,
           output: `C001 999111222 ok
 C002 MISSING missing
-C003 MISSING missing`,
+C003  empty
+C004 MISSING missing`,
         },
         why: "dig() centraliza acceso seguro; etiquetas missing vs empty alimentan el reporte de calidad.",
       },
@@ -655,8 +689,7 @@ determinista: True`,
         starterCode: {
           language: 'python',
           title: "slice_n.py",
-          code: `# CASO-LIM-006 · slicing ventana
-# DEFECT: usa txs[:2] (primeras) en vez de últimas; empty mal indexado
+          code: `# Ventana de las últimas transacciones (corrige el slicing).
 txs = [10, 20, 30, 40, 50]
 ventana = txs[:2]
 print(ventana)
@@ -701,8 +734,7 @@ print(len(v0))`,
         starterCode: {
           language: 'python',
           title: "list_tuple.py",
-          code: `# CASO-LIM-006 · tuple inmutable + concat
-# DEFECT: muta headers en vez de tuple; no demuestra KEYS estable
+          code: `# Contrato de columnas: convierte a tuple inmutable.
 headers = ['id', 'monto']
 KEYS = headers  # alias mutable
 more = KEYS + ['canal']
@@ -742,8 +774,7 @@ KEYS sigue ('id', 'monto')`,
         starterCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
-          code: `# CASO-LIM-006 · AttributeError en tuple
-# DEFECT: traga cualquier Exception y no muestra mutación vía list()
+          code: `# Diagnostica el error al mutar una tuple.
 ids = ('C001', 'C002')
 try:
     ids.append('C003')
@@ -784,8 +815,7 @@ except AttributeError as e:
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
-          code: `# CASO-LIM-006 · unpack fila
-# DEFECT: índices duros; no unpack; orden de print invertido
+          code: `# Desempaqueta la fila en cid, region, monto.
 fila = ('C001', 'Lima', 10)
 cid = fila[0]
 region = fila[2]
@@ -819,8 +849,7 @@ print(cid, region, monto)`,
         starterCode: {
           language: 'python',
           title: "alias_copy.py",
-          code: `# CASO-LIM-006 · alias vs copy
-# DEFECT: copia = xs (alias); no usa .copy()
+          code: `# Demuestra alias vs copy de listas.
 xs = [1, 2]
 alias = xs
 copia = xs
@@ -861,14 +890,13 @@ tras copia [1, 2, 3] [1, 2, 4]`,
         starterCode: {
           language: 'python',
           title: "shallow_deep.py",
-          code: `# CASO-LIM-006 · shallow vs deepcopy
-# DEFECT: solo shallow; muta tags y cree que orig está intacto
+          code: `# Shallow vs deep: aísla tags anidados.
 import copy
 rows = [{'id': 'C1', 'tags': ['a']}]
 shallow = rows.copy()
 shallow[0]['tags'].append('s')
 print('orig tras shallow tags', rows)
-deep = rows.copy()  # DEFECT: no deepcopy
+deep = rows.copy()  # debería aislar tags anidados
 deep[0]['tags'].append('d')
 print('orig', rows)
 print('deep', deep)
@@ -896,7 +924,7 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         subtopicId: "S06-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.",
+          "E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` (constructor idiomático). Imprime el dict completo y el lookup `d['C002']` (debe ser `'Cusco'`). No dejes la lista de pares como si fuera el índice.",
         hint: "dict(pares) o comprensión",
         hints: [
           "dict(pares) o comprensión",
@@ -908,8 +936,7 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         starterCode: {
           language: 'python',
           title: "dict_from_pairs.py",
-          code: `# CASO-LIM-006 · dict desde pares
-# DEFECT: list de pares; acceso por índice
+          code: `# Construye un dict desde pares clave-valor.
 pares = [('C001', 'Lima'), ('C002', 'Cusco')]
 d = pares
 print(d)
@@ -944,8 +971,7 @@ Cusco`,
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
-          code: `# CASO-LIM-006 · get vs KeyError
-# DEFECT: solo [] sin get; no demo default N/A
+          code: `# get con default vs acceso duro con KeyError.
 idx = {'C001': 'Ana'}
 print(idx['C001'])
 try:
@@ -986,8 +1012,7 @@ KeyError 'C999'`,
         starterCode: {
           language: 'python',
           title: "merge_config.py",
-          code: `# CASO-LIM-006 · merge sin mutar defaults
-# DEFECT: defaults.update(override) muta original
+          code: `# Fusiona configs sin mutar defaults.
 defaults = {'retry': 1, 'timeout': 30}
 override = {'retry': 5}
 defaults.update(override)
@@ -1017,7 +1042,7 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         subtopicId: "S06-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.",
+          "E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con `set` y devuelve una lista **ordenada** de únicos. Imprime esa lista (no un set sin orden). Caso: el duplicado `a@ex.com` no debe aparecer dos veces.",
         hint: "sorted(set(emails))",
         hints: [
           "sorted(set(emails))",
@@ -1029,8 +1054,7 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         starterCode: {
           language: 'python',
           title: "dedup_emails.py",
-          code: `# CASO-LIM-006 · set dedup ordenado
-# DEFECT: set sin sorted (orden no determinista / no imprimible estable)
+          code: `# Dedup de emails con salida ordenada.
 emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']
 unicos = set(emails)
 print(unicos)
@@ -1050,7 +1074,7 @@ print(unicos)`,
         subtopicId: "S06-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.",
+          "E2 (independiente) — Dados dos sets de emails de contactos (`lote_a` y `lote_b` en el starter), imprime la **intersección** ordenada (`a & b`) y la **diferencia simétrica** ordenada (`a ^ b`). Usa `sorted(...)` para salida determinista.",
         hint: "a & b ; a ^ b",
         hints: [
           "a & b ; a ^ b",
@@ -1062,8 +1086,7 @@ print(unicos)`,
         starterCode: {
           language: 'python',
           title: "set_inter.py",
-          code: `# CASO-LIM-006 · intersección y symdiff
-# DEFECT: usa | (union) y - en vez de & y ^
+          code: `# Intersección y diferencia simétrica de sets.
 a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}
 b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}
 print('inter', sorted(a | b))
@@ -1098,8 +1121,7 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         starterCode: {
           language: 'python',
           title: "dedup_report.py",
-          code: `# CASO-LIM-006 · dedup con reporte de conflictos
-# DEFECT: set de ids borra conflicto sin traza
+          code: `# Dedup que reporta conflictos de payload.
 def dedup_report(rows, key='id'):
     seen = set()
     unique = []
@@ -1146,7 +1168,7 @@ print(dedup_report(rows))`,
         subtopicId: "S06-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.",
+          "E1 (guiado) — Recorre la lista de clientes sintéticos y cuenta contactos por cliente con `len(c['contacts'])`. Imprime líneas `id → n` (C001 debe ser 2; C002 con lista vacía debe ser 0). No imprimas la lista cruda de contactos.",
         hint: "len(c['contacts'])",
         hints: [
           "len(c['contacts'])",
@@ -1158,8 +1180,7 @@ print(dedup_report(rows))`,
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
-          code: `# CASO-LIM-006 · len contacts anidados
-# DEFECT: imprime contacts crudos; no len
+          code: `# Cuenta contactos por cliente.
 clients = [
     {'id': 'C001', 'contacts': [1, 2]},
     {'id': 'C002', 'contacts': []},
@@ -1186,7 +1207,7 @@ C002 → 0`,
         subtopicId: "S06-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.",
+          "E2 (independiente) — Aplana todas las `txs` anidadas de cada cliente a filas densas `{client_id, tx_id, monto}` (una fila por transacción). Imprime la lista flat completa — deben salir **3** filas con el fixture del starter (no solo la primera tx de cada cliente).",
         hint: "doble for o comprehension anidada",
         hints: [
           "doble for o comprehension anidada",
@@ -1198,8 +1219,7 @@ C002 → 0`,
         starterCode: {
           language: 'python',
           title: "flatten_txs.py",
-          code: `# CASO-LIM-006 · flatten txs
-# DEFECT: solo primer tx de cada cliente
+          code: `# Aplana todas las txs con client_id.
 clients = [
     {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},
     {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},
@@ -1243,8 +1263,7 @@ print(flat)`,
         starterCode: {
           language: 'python',
           title: "shape_check.py",
-          code: `# CASO-LIM-006 · isinstance txs list
-# DEFECT: truthiness de txs; ''oops'' y missing colapsan mal
+          code: `# Valida shape: txs debe ser list.
 clients = [
     {'id': 'C001', 'txs': []},
     {'id': 'C002'},
@@ -1278,7 +1297,7 @@ C003 review`,
         subtopicId: "S06-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.",
+          "E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` que recorre claves anidadas sin lanzar KeyError. Úsalo para `profile.phone` (presente → `'999'`) y para `profile.email` ausente con `default='N/A'`. Si falta un nivel, devuelve el default.",
         hint: "Recorre keys; si falta retorna default.",
         hints: [
           "Recorre keys; si falta retorna default.",
@@ -1290,8 +1309,7 @@ C003 review`,
         starterCode: {
           language: 'python',
           title: "get_nested.py",
-          code: `# CASO-LIM-006 · get_nested seguro
-# DEFECT: d[k1][k2] crudo; default ignorado
+          code: `# Acceso seguro por ruta de claves.
 def get_nested(d, *keys, default=None):
     cur = d
     for k in keys:
@@ -1324,7 +1342,7 @@ N/A`,
         subtopicId: "S06-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.",
+          "E2 (independiente) — Para cada cliente sintético, marca en un reporte si `email` es **missing** (`None` o clave ausente) o **present**. Imprime líneas `id: missing|present`. Política: `''` cuenta como present (vacío ≠ missing); no uses solo `if not c.get('email')`.",
         hint: "'email' not in c or c['email'] is None → missing",
         hints: [
           "'email' not in c or c['email'] is None → missing",
@@ -1336,8 +1354,7 @@ N/A`,
         starterCode: {
           language: 'python',
           title: "mark_missing.py",
-          code: `# CASO-LIM-006 · missing vs present email
-# DEFECT: if not c.get('email') trata '' y 0 igual; None ok pero falta print
+          code: `# Marca email missing vs present.
 clients = [
     {'id': 'C001', 'email': 'a@ex.com'},
     {'id': 'C002', 'email': None},
@@ -1387,8 +1404,7 @@ C003: missing`,
         starterCode: {
           language: 'python',
           title: "falsy_table.py",
-          code: `# CASO-LIM-006 · falsy vs missing
-# DEFECT: solo bool(v); no distingue missing (is None)
+          code: `# Distingue falsy de missing (None).
 vals = [None, '', 0, []]
 for v in vals:
     print(repr(v), 'falsy=', not bool(v), 'missing=', not v)
@@ -1411,7 +1427,7 @@ for v in vals:
         subtopicId: "S06-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.",
+          "E1 (guiado) — Ordena las filas de transacciones por **monto ascendente** con `sorted(..., key=...)`. Imprime la lista de `id` en ese orden (fixture: T1 con monto 10 antes que T2 con 30). No ordenes por `id` ni mutes la lista original con `.sort`.",
         hint: "key=lambda r: r['monto']",
         hints: [
           "key=lambda r: r['monto']",
@@ -1423,8 +1439,7 @@ for v in vals:
         starterCode: {
           language: 'python',
           title: "sort_monto.py",
-          code: `# CASO-LIM-006 · sorted por monto
-# DEFECT: sort por id no por monto
+          code: `# Ordena filas por monto con sorted+key.
 rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
 ordered = sorted(rows, key=lambda r: r['id'])
 print([r['id'] for r in ordered])
@@ -1444,7 +1459,7 @@ print([r['id'] for r in ordered])`,
         subtopicId: "S06-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.",
+          "E2 (independiente) — Orden multi-campo: usa `key=lambda r: (r['region'], r['nombre'])` para ordenar primero por región y, en empate, por nombre. Imprime pares `región nombre` en ese orden (esperado: Cusco Bob; Lima Ana; Lima Zed).",
         hint: "key=lambda r: (r['region'], r['nombre'])",
         hints: [
           "key=lambda r: (r['region'], r['nombre'])",
@@ -1456,8 +1471,7 @@ print([r['id'] for r in ordered])`,
         starterCode: {
           language: 'python',
           title: "sort_multi.py",
-          code: `# CASO-LIM-006 · sort multi-clave región+nombre
-# DEFECT: solo por nombre; ignora región
+          code: `# Orden multi-clave: región y luego nombre.
 rows = [
     {'nombre': 'Zed', 'region': 'Lima'},
     {'nombre': 'Ana', 'region': 'Lima'},
@@ -1499,8 +1513,7 @@ Lima Zed`,
         starterCode: {
           language: 'python',
           title: "sort_inplace.py",
-          code: `# CASO-LIM-006 · list.sort vs sorted
-# DEFECT: asume ret de .sort() es la lista ordenada
+          code: `# Contrasta list.sort (None) vs sorted.
 rows = [3, 1, 2]
 base = [3, 1, 2]
 ret = rows.sort()
@@ -1530,7 +1543,7 @@ base [3, 1, 2] copy [1, 2, 3]`,
         subtopicId: "S06-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.",
+          "E1 (guiado) — Para tres operaciones del almacén en RAM, elige e imprime la estructura Python adecuada: (1) cola de llegada de filas → list; (2) lookup frecuente por id → dict; (3) cohorte de emails únicos → set. Una línea por job con la elección explícita.",
         hint: "list / dict / set",
         hints: [
           "list / dict / set",
@@ -1542,8 +1555,7 @@ base [3, 1, 2] copy [1, 2, 3]`,
         starterCode: {
           language: 'python',
           title: "choose_struct.py",
-          code: `# CASO-LIM-006 · elegir estructura
-# DEFECT: todo → list
+          code: `# Elige list, dict o set según la operación.
 jobs = [
     'cola de llegada de filas',
     'lookup frecuente por id',
@@ -1573,7 +1585,7 @@ emails únicos de un lote → set`,
         subtopicId: "S06-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.",
+          "E2 (independiente) — Haz determinista un export JSON: ordena la lista `ids` y usa `json.dumps(..., sort_keys=True, ensure_ascii=False)`. Imprime el string una sola vez. Mismo payload debe producir siempre el mismo texto (claves e ids ordenados).",
         hint: "sorted ids; sort_keys=True",
         hints: [
           "sorted ids; sort_keys=True",
@@ -1585,8 +1597,7 @@ emails únicos de un lote → set`,
         starterCode: {
           language: 'python',
           title: "deterministic_json.py",
-          code: `# CASO-LIM-006 · JSON determinista
-# DEFECT: dumps sin sort_keys; ids sin sorted
+          code: `# Export JSON determinista (ids + sort_keys).
 import json
 payload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}
 s = json.dumps(payload, ensure_ascii=False)
@@ -1609,37 +1620,42 @@ print(s)`,
         subtopicId: "S06-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.",
-        hint: "list O(n) vs set O(1) promedio",
+          "E3 (transferencia) — Tradeoff de membership: con `ids_list` de n=5, construye `ids_set`, comprueba `'C003' in list` e `in set` (ambos True), y **calcula** costo conceptual de n búsquedas (`n*n` en list vs `n` en set). No inventes strings de Big-O a mano: derívalos de `n = len(ids_list)`.",
+        hint: "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs n",
         hints: [
-          "list O(n) vs set O(1) promedio",
-          "No necesitas timeit; razona y demo pequeña.",
+          "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs n",
+          "ids_set = set(ids_list); needle = 'C003'; n = len(ids_list)",
         ],
-        edgeCases: ["complejidad"],
-        tests: "O(n) vs O(1) + True",
-        feedback: "Indexar antes de bucles anidados es el tradeoff memoria/tiempo del modelo.",
+        edgeCases: ["complejidad derivada de n"],
+        tests: "in list/set True + costo 25 y 5",
+        feedback: "Indexar con set/dict antes de bucles anidados es el tradeoff memoria/tiempo del modelo en RAM.",
         starterCode: {
           language: 'python',
           title: "tradeoff.py",
-          code: `# CASO-LIM-006 · membership list vs set
-# DEFECT: solo membership en list; no contrasta O
-ids = ['C001', 'C002', 'C003', 'C004', 'C005']
-print('C003 in list', 'C003' in ids)
+          code: `# Membership en list vs set: deriva costos desde n (no slogans fijos).
+ids_list = ['C001', 'C002', 'C003', 'C004', 'C005']
+needle = 'C003'
+print('in list', needle in ids_list)
+# TODO: ids_set, in set, n, costo_conceptual_list (n*n), costo_conceptual_set (n)
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "tradeoff.py",
-          code: `ids = ['C001', 'C002', 'C003', 'C004', 'C005']
-print('list membership: O(n) por chequeo')
-print('set membership: O(1) promedio')
-s = set(ids)
-print('C003 in set', 'C003' in s)
-print('preindexar set/dict evita O(n²) en loops anidados')`,
-          output: `list membership: O(n) por chequeo
-set membership: O(1) promedio
-C003 in set True
-preindexar set/dict evita O(n²) en loops anidados`,
+          code: `ids_list = ['C001', 'C002', 'C003', 'C004', 'C005']
+ids_set = set(ids_list)
+needle = 'C003'
+# Misma pregunta, distinta estructura: list recorre; set hashea.
+print('in list', needle in ids_list)
+print('in set', needle in ids_set)
+# En un loop de n búsquedas: list ~ n*n chequeos; set ~ n chequeos.
+n = len(ids_list)
+print('costo_conceptual_list', n * n)
+print('costo_conceptual_set', n)`,
+          output: `in list True
+in set True
+costo_conceptual_list 25
+costo_conceptual_set 5`,
         },
       },
     ],
@@ -1647,7 +1663,7 @@ preindexar set/dict evita O(n²) en loops anidados`,
   youDo: {
     title: "Modelo tabular en memoria (CP-N1-B)",
     context:
-      "Inicias el capstone **CP-N1-B**. Representas clientes, contactos y transacciones en estructuras Python puras (sin NumPy/pandas). Deduplicas por clave de negocio **reportando conflictos**, aplanas txs y exportas JSON determinista. En S07–S08 se suma normalización latam e ingesta por archivos. Solo datos sintéticos.",
+      "Inicias el capstone **CP-N1-B**. Representas clientes, contactos y transacciones en estructuras Python puras (sin NumPy/pandas). Deduplicas por clave de negocio **reportando conflictos**, aplanas txs y exportas JSON determinista. En S07–S08 se suma normalización LATAM e ingesta por archivos. Solo datos sintéticos.",
     objectives: [
       "Representar cliente/contacto/tx en list[dict] documentado",
       "Implementar dedup_report → unique + conflicts",
@@ -1659,12 +1675,12 @@ preindexar set/dict evita O(n²) en loops anidados`,
       "Tipos list[dict] o índices dict documentados",
       "dedup_report(rows, key_fn) sin borrar conflictos",
       "sorted determinista en exports",
-      "Datos sintéticos latam (example.com)",
-      "Sin NumPy/pandas en este incremento V3",
+      "Datos sintéticos LATAM (example.com)",
+      "Sin importar NumPy ni pandas en esta entrega",
     ],
     starterCode: `"""memory_model.py — Modelo tabular en memoria (CP-N1-B / S06)
 Clientes + contactos + transacciones en estructuras Python puras.
-Sin NumPy/pandas. Datos sintéticos latam únicamente.
+Sin NumPy/pandas. Datos sintéticos LATAM únicamente.
 """
 
 from __future__ import annotations
@@ -1675,24 +1691,25 @@ from typing import Any, Callable
 
 def dedup_report(rows: list[dict], key_fn: Callable[[dict], Any]) -> dict:
     """Devuelve {unique, conflicts} sin borrar traza de conflictos."""
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    # Implementa según el docstring (no dejes NotImplementedError).
     raise NotImplementedError
 
 
 def flatten_txs(clients: list[dict]) -> list[dict]:
     """Aplana txs anidadas a filas con client_id."""
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    # Implementa según el docstring (no dejes NotImplementedError).
     raise NotImplementedError
 
 
 def get_nested(d: dict, *keys: str, default=None):
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    """Acceso seguro por ruta de claves; si falta un nivel, devuelve default."""
+    # Implementa según el docstring (no dejes NotImplementedError).
     raise NotImplementedError
 
 
 def export_deterministic(clients: list[dict]) -> str:
     """JSON estable: sort por id + sort_keys."""
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    # Implementa según el docstring (no dejes NotImplementedError).
     raise NotImplementedError
 
 
@@ -1718,6 +1735,8 @@ def main() -> None:
     print("n_clients", len(store))
     print("flat", flatten_txs(store))
     print(export_deterministic(store))
+    print("phone C002", get_nested(store[1], "contacts", default=[]))
+    print("missing path", get_nested(store[0], "profile", "phone", default="MISSING"))
     rows = [
         {"id": "C001", "v": 1},
         {"id": "C001", "v": 9},
@@ -1730,7 +1749,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README muestra el shape del store, un ejemplo de conflicto de dedup y el JSON determinista de demo. Eso evidencia el incremento en memoria de CP-N1-B.",
+      "En el README muestra el shape del store, un ejemplo de conflicto de dedup y el JSON determinista de demo. Eso evidencia el modelo en memoria de CP-N1-B.",
     rubric: [
       { criterion: "Modelo completo cliente/contacto/tx", weight: "25%" },
       { criterion: "Dedup sin borrar conflictos", weight: "25%" },
@@ -1775,6 +1794,37 @@ if __name__ == "__main__":
         correctIndex: 1,
         explanation:
           "Orden estable de claves + sort de filas = demos reproducibles.",
+      },
+      {
+        question: "Si haces `copia = rows.copy()` donde `rows` es `list[dict]` y mutas `copia[0]['tags']`, ¿el original queda aislado?",
+        options: [
+          "Sí: copy() hace deepcopy automático",
+          "No: la copia es superficial; los dicts internos se comparten",
+          "Solo si usas tuple",
+          "Se lanza TypeError",
+        ],
+        correctIndex: 1,
+        explanation:
+          "list.copy() es shallow: las filas-dict siguen siendo los mismos objetos. Usa deepcopy o reconstruye por fila si mutas anidados.",
+      },
+      {
+        question: "Para membership masivo de emails en un lote (¿está este email en la cohorte?), la estructura más adecuada es…",
+        options: ["list de strings y `in` en un loop", "set de emails", "tuple de emails", "solo json.dumps"],
+        correctIndex: 1,
+        explanation:
+          "set/dict dan membership O(1) promedio; list es O(n) por chequeo y escala mal en bucles anidados.",
+      },
+      {
+        question: "Si falta la clave `\"x\"` en el dict `d`, ¿qué diferencia hay entre `d.get(\"x\", \"N/A\")` y `d[\"x\"]`?",
+        options: [
+          "Ambos lanzan KeyError",
+          "get devuelve \"N/A\"; d[\"x\"] lanza KeyError",
+          "get lanza KeyError; d[\"x\"] devuelve None",
+          "Ambos devuelven None siempre",
+        ],
+        correctIndex: 1,
+        explanation:
+          "get con default evita KeyError en campos opcionales; el acceso duro exige que la clave exista.",
       },
     ],
   },

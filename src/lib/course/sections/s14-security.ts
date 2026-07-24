@@ -9,10 +9,10 @@ export const section14: CourseSection = {
   estimatedHours: 18,
   level: "Competente",
   phase: 1,
-  icon: "ShieldCheck",
+  icon: "Binary",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** es la base de métricas de completitud, unicidad y señales por pares. Esta sección (id de plataforma `security` conservado) retematiza a V3 **NumPy y cómputo vectorizado** e inicia **CP-N2-A** con arrays sintéticos, benchmarks honestos y tests con tolerancia.",
+    "En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** es la base de métricas de completitud, unicidad y señales por pares. Aquí abres **CP-N2-A** con arrays sintéticos, benchmarks honestos y tests con tolerancia numérica.",
   learningOutcomes: [
     { text: "Construir y validar ndarrays con dtype y shape correctos" },
     { text: "Indexar y filtrar con máscaras booleanas de forma segura" },
@@ -25,25 +25,25 @@ export const section14: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)",
+      heading: "Mapa de la sección: NumPy para un tablero de calidad",
       paragraphs: [
-        "En V3, **S14 no es el path principal de OWASP LLM, prompt injection ni Presidio**. Ese material se reubica al tramo de seguridad/IA. Aquí inicia **CP-N2-A**: ndarrays, máscaras, ufuncs, broadcasting, views/copies, NaN y vectorización aplicada a **métricas de calidad sintéticas**.",
-        "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos sintéticos latam (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla** — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
-        "Orden: **T1 Arrays** → **T2 Operaciones** → **T3 Semántica** → **T4 Rendimiento**. Métrica del gate: métricas vectorizadas equivalentes al baseline loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
+        "**Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **máscara** (filtro booleano), **ufunc** (operación elemento a elemento), **broadcast** (alinear shapes), **view vs copy** (compartir o no la memoria), **NaN/inf** (ausencia o no-finito — no son ceros de negocio). Tras el dashboard de evidencia de S13 (reglas y scores por caso, sin NumPy), aquí calculas **métricas vectorizadas** sobre lotes sintéticos: pasas de juicios por reglas a **vectores numéricos** para el tablero de calidad del nivel 2 (inicio de **CP-N2-A**).",
+        "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos sintéticos latam (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
+        "Orden: **T1 Arrays** → **T2 Operaciones** → **T3 Semántica** → **T4 Rendimiento**. Criterio de entrega del incremento: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Límite de esta sección",
         content:
-          "Material legado de seguridad/IA de este archivo **no es el camino V3 del estudiante en S14**. Target: NumPy vectorizado para CP-N2-A (inicio). Conserva datos sintéticos; nunca PII real.",
+          "Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta el error; no lo ocultes.",
       },
     },
     {
       heading: "ndarray, dtype y shape",
       subtopicId: "S14-T1-A",
       paragraphs: [
-        "Un **ndarray** es un bloque contiguo (o strided) de datos **homogéneos**. **dtype** fija el tipo (`float64`, `int32`, `uint8`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento. Documentar este cuádruple es el contrato de entrada de toda métrica de CP-N2-A.",
-        "Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento). Valida `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline; si no cuadra, `assert` o `ValueError` temprano.",
+        "Tras S01–S13 trabajaste con listas y dicts de Python. Un **ndarray** es distinto: un bloque contiguo (o strided) de datos **homogéneos** — un solo tipo — que permite ufuncs en código compilado. **dtype** fija ese tipo (`float64`, `int32`, `uint8`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento. Documentar este cuádruple es el contrato de entrada de toda métrica de CP-N2-A.",
+        "Crear con dtype **explícito** evita sorpresas (`int` vs `float` en divisiones, o `object` lento y no vectorizable). Valida `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline; si no cuadra, `assert` o `ValueError` temprano (falla de forma segura).",
         "En calidad de datos, flags de completitud suelen ser `bool`/`uint8`; scores en [0,1] son `float64`. Caso sintético: `flags` (4,) `uint8` y `scores` (4,) `float64` con `nbytes` documentado en el demo.",
       ],
       code: {
@@ -69,10 +69,10 @@ scores float64 (4,) 32`,
       },
     },
     {
-      heading: "creación, indexación y máscaras",
+      heading: "Creación, indexación y máscaras",
       subtopicId: "S14-T1-B",
       paragraphs: [
-        "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (`a[[0,2]]`) seleccionan elementos sin loops Python por cliente.",
+        "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (indexación avanzada con lista de enteros, p. ej. `a[[0,2]]`) seleccionan elementos sin loops Python por cliente.",
         "Una **máscara booleana** `a > umbral` produce `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “clientes sintéticos con score bajo 0.5” o “Lima y score bajo 0.6”. La máscara debe alinear el eje — si no, `ValueError`.",
         "Filtrar con máscara suele devolver **copia** (o 1D nuevo); no asumas view ni mutes el padre por accidente. Caso sintético: `ids[score < 0.5]` → `C002`, `C004` con fancy index de scores en [0,2].",
       ],
@@ -102,12 +102,12 @@ linspace [0.0, 0.25, 0.5, 0.75, 1.0]`,
       },
     },
     {
-      heading: "ufuncs y reducciones",
+      heading: "Ufuncs y reducciones",
       subtopicId: "S14-T2-A",
       paragraphs: [
         "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes y son el corazón de las métricas de calidad.",
         "`axis=0` agrega por columna (campo); `axis=1` por fila (cliente). `keepdims=True` preserva dimensiones para rebroadcast (restar media por fila sin pelear shapes). Elige el eje con el significado de negocio, no por costumbre.",
-        "Métricas: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(scores)` = dispersión. Caso sintético: matriz 3×3 de presencia → completitud por campo ~[1.0, 0.67, 0.67] y global ~0.78.",
+        "Métricas: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(scores)` = dispersión. **Unicidad** de ids sintéticos: `n_unique / n = np.unique(ids).size / ids.size` (p. ej. ids `C00x` con un duplicado baja la tasa). Caso sintético: matriz 3×3 de presencia → completitud por campo ~[1.0, 0.67, 0.67] y global ~0.78; unicidad de `['C001','C002','C001']` → 2/3.",
       ],
       code: {
         language: 'python',
@@ -119,14 +119,18 @@ linspace [0.0, 0.25, 0.5, 0.75, 1.0]`,
     M = np.array([[1, 1, 0], [1, 0, 1], [1, 1, 1]], dtype=float)
     completitud_campo = M.mean(axis=0)
     completitud_fila = M.mean(axis=1, keepdims=True)
+    ids = np.array(["C001", "C002", "C001"])
+    unicidad = np.unique(ids).size / ids.size
     print("por_campo", completitud_campo.round(3).tolist())
     print("por_fila", completitud_fila.ravel().round(3).tolist())
     print("global", float(M.mean().round(4)))
+    print("unicidad", round(unicidad, 4))
 
 s14_th_3()`,
         output: `por_campo [1.0, 0.667, 0.667]
 por_fila [0.667, 0.667, 1.0]
-global 0.7778`,
+global 0.7778
+unicidad 0.6667`,
       },
       callout: {
         type: "tip",
@@ -136,7 +140,7 @@ global 0.7778`,
       },
     },
     {
-      heading: "broadcasting y compatibilidad de shapes",
+      heading: "Broadcasting y compatibilidad de shapes",
       subtopicId: "S14-T2-B",
       paragraphs: [
         "El **broadcasting** alinea shapes de **derecha a izquierda**: dimensiones iguales, o una es 1, o ausente. Si no son compatibles, `ValueError` — mejor un error ruidoso que un producto silencioso mal alineado.",
@@ -173,7 +177,7 @@ shape_error operands could not be broadcast together`,
       },
     },
     {
-      heading: "views/copies y mutabilidad",
+      heading: "Views/copies y mutabilidad",
       subtopicId: "S14-T3-A",
       paragraphs: [
         "Un **view** comparte memoria con el base (`arr.base is not None` a menudo); un **copy** es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar. Confundirlos corrompe el raw del pipeline de calidad.",
@@ -245,12 +249,12 @@ eps 2.220446049250313e-16`,
       },
     },
     {
-      heading: "vectorización frente a loops",
+      heading: "Vectorización frente a loops",
       subtopicId: "S14-T4-A",
       paragraphs: [
-        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs). Para N grande (decenas de miles de clientes sintéticos), el ratio suele ser de órdenes de magnitud.",
+        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs). Para N grande (decenas de miles de clientes sintéticos), el ratio suele ser de órdenes de magnitud — el número exacto **depende de tu máquina**.",
         "Benchmark **honesto**: mismo input, mismo dtype, `time.perf_counter`, reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`abs(s_loop-s_vec) < 1e-6`). No compares N=10 ni omitas el check de igualdad.",
-        "A veces un loop claro gana en N pequeño o lógica irregular (early-exit). Documenta el umbral de N en el memo del gate. Caso sintético: `n=50_000` dot product loop vs `np.dot` con `equal True`.",
+        "A veces un loop claro gana en N pequeño o lógica irregular (early-exit). Documenta el umbral de N en el memo del portfolio. Caso sintético: `n=50_000` dot product loop vs `np.dot` con `equal True` y `ratio > 1` en una laptop típica.",
       ],
       code: {
         language: 'python',
@@ -273,25 +277,26 @@ eps 2.220446049250313e-16`,
     s_vec = float(np.dot(a, b))
     t_vec = time.perf_counter() - t1
     print("equal", abs(s_loop - s_vec) < 1e-6)
-    print("ratio_loop_over_vec", round(t_loop / max(t_vec, 1e-12), 1))
+    ratio = t_loop / max(t_vec, 1e-12)
+    print("ratio_gt_1", ratio > 1.0)
 
 s14_th_7()`,
         output: `equal True
-ratio_loop_over_vec 135.8`,
+ratio_gt_1 True`,
       },
       callout: {
         type: "info",
         title: "Benchmark honesto",
         content:
-          "Reporta N, dtype y máquina. Un ratio en laptop no es SLA de producción.",
+          "Reporta N, dtype y máquina. Un ratio en laptop no es SLA de producción; el valor exacto varía entre equipos.",
       },
     },
     {
-      heading: "memoria, medición y tests con tolerancia",
+      heading: "Memoria, medición y tests con tolerancia",
       subtopicId: "S14-T4-B",
       paragraphs: [
         "`nbytes` y `itemsize * size` estiman memoria del array. Evita copias innecesarias en datasets grandes del tablero de calidad: cada `.copy()` duplica RAM del batch.",
-        "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia. `np.testing.assert_allclose` falla con mensaje claro — úsalo en tests del gate CP-N2-A. `rtol` escala con la magnitud; `atol` cubre cercanos a cero.",
+        "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia. `np.testing.assert_allclose` falla con mensaje claro — úsalo en tests del portfolio CP-N2-A. `rtol` escala con la magnitud; `atol` cubre cercanos a cero.",
         "El baseline loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**. Caso sintético: `base` vs `base+1e-9` pasa `allclose`; `base+0.1` debe disparar `AssertionError` en el assert estricto.",
       ],
       code: {
@@ -379,7 +384,7 @@ count 2`,
         demoId: "S14-T2-A-DEMO",
         subtopicId: "S14-T2-A",
         environment: "local-python",
-        description: "Reducir métricas de completitud por campo y por cliente con ufuncs",
+        description: "Reducir métricas de completitud y unicidad por campo/cliente con ufuncs",
         code: {
           language: 'python',
           title: "demo_reductions.py",
@@ -393,18 +398,22 @@ count 2`,
         [1, 1, 0, 0],
         [1, 1, 1, 1],
     ], dtype=float)
+    ids = np.array(["C001", "C002", "C001", "C003"])  # un duplicado sintético
     por_campo = M.mean(axis=0)
     por_cliente = M.mean(axis=1)
+    unicidad = np.unique(ids).size / ids.size
     print("completitud_campo", np.round(por_campo, 3).tolist())
     print("completitud_cliente", np.round(por_cliente, 3).tolist())
     print("std_campos", float(np.round(por_campo.std(), 4)))
+    print("unicidad", round(unicidad, 4))
 
 s14_ido_3()`,
           output: `completitud_campo [1.0, 0.75, 0.75, 0.5]
 completitud_cliente [0.75, 0.75, 0.5, 1.0]
-std_campos 0.1768`,
+std_campos 0.1768
+unicidad 0.75`,
         },
-        why: "Reducciones por eje son el núcleo de tableros de calidad vectorizados.",
+        why: "Reducciones por eje y unicidad con np.unique son el núcleo del tablero de calidad vectorizado.",
       },
       {
         demoId: "S14-T2-B-DEMO",
@@ -524,13 +533,14 @@ nanmean_solo_nan 0.7125`,
     out_vec = X @ w
     t_vec = time.perf_counter() - t1
     print("allclose", np.allclose(out_loop, out_vec))
-    print("ratio", round(t_loop / max(t_vec, 1e-12), 1))
+    ratio = t_loop / max(t_vec, 1e-12)
+    print("ratio_gt_1", ratio > 1.0)
 
 s14_ido_7()`,
           output: `allclose True
-ratio 117.5`,
+ratio_gt_1 True`,
         },
-        why: "Equivalencia + ratio de tiempo justifican la vectorización en el portfolio.",
+        why: "Equivalencia + ratio de tiempo (el número exacto depende de la máquina) justifican la vectorización en el portfolio.",
       },
       {
         demoId: "S14-T4-B-DEMO",
@@ -572,7 +582,7 @@ assert_ok True`,
         subtopicId: "S14-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un ndarray `flags` de shape (3, 2) dtype uint8 con valores [[1,0],[1,1],[0,1]] e imprime dtype, shape y ndim. Salida/pass: `uint8 (3, 2) 2`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dtype`, `shape` y `ndim`. Salida esperada: `uint8 (3, 2) 2`. Solo NumPy; corrige el bug del starter (shape invertida).",
         hint: "Usa np.array(..., dtype=np.uint8).",
         hints: [
           "Usa np.array(..., dtype=np.uint8).",
@@ -585,7 +595,7 @@ assert_ok True`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · ndarray meta
-# DEFECT: imprime shape invertida y dtype wrong
+# Bug a corregir: imprime shape invertida y dtype wrong
 import numpy as np
 flags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)
 print(flags.dtype, flags.shape[::-1], flags.ndim)
@@ -605,7 +615,7 @@ print(flags.dtype, flags.shape, flags.ndim)`,
         subtopicId: "S14-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` y reporta itemsize y nbytes. Salida/pass: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lista de valores. Salida esperada: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Solo NumPy; corrige el bug del starter (`arange` en lugar de `linspace`).",
         hint: "linspace con dtype=float64.",
         hints: [
           "linspace con dtype=float64.",
@@ -618,7 +628,7 @@ print(flags.dtype, flags.shape, flags.ndim)`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · linspace nbytes
-# DEFECT: arange no linspace; no imprime itemsize
+# Bug a corregir: arange no linspace; no imprime itemsize
 import numpy as np
 scores = np.arange(5, dtype=np.float64)
 print(scores.tolist())
@@ -638,7 +648,7 @@ print(scores.itemsize, scores.nbytes, scores.tolist())`,
         subtopicId: "S14-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Valida un contrato: si un array no es 1D float64, lanza ValueError; si es válido imprime 'ok' y el size. Salida/pass: `ok 2 | err expected 1d float64`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y el size. Caso inválido: `np.array([1, 2])` (1D pero no float64). Salida esperada: `ok 2` y `err expected 1d float64`. Solo NumPy; corrige el bug del starter.",
         hint: "Comprueba ndim y dtype.",
         hints: [
           "Comprueba ndim y dtype.",
@@ -651,7 +661,7 @@ print(scores.itemsize, scores.nbytes, scores.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · validate 1d float64
-# DEFECT: no valida ndim/dtype
+# Bug a corregir: no valida ndim/dtype
 import numpy as np
 
 def validate(a):
@@ -659,10 +669,9 @@ def validate(a):
 
 validate(np.array([0.1, 0.2], dtype=np.float64))
 try:
-    validate(np.array([[1, 2]], dtype=np.float64))
+    validate(np.array([1, 2]))  # 1D pero no float64
 except ValueError as e:
-    print(e)
-print('ok', True)`,
+    print("err", e)`,
         },
         solutionCode: {
           language: 'python',
@@ -688,7 +697,7 @@ err expected 1d float64`,
         subtopicId: "S14-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado score = [0.2, 0.8, 0.4, 0.9], imprime los índices (0-based) donde score >= 0.5 usando máscara y np.where. Salida/pass: `[1, 3]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np.where`. Salida esperada: `[1, 3]`. Solo NumPy; corrige el bug del starter (umbral invertido).",
         hint: "mask = score >= 0.5.",
         hints: [
           "mask = score >= 0.5.",
@@ -701,7 +710,7 @@ err expected 1d float64`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · boolean mask where
-# DEFECT: threshold invertido < 0.5
+# Bug a corregir: threshold invertido < 0.5
 import numpy as np
 score = np.array([0.2, 0.8, 0.4, 0.9])
 idx = np.where(score < 0.5)[0]
@@ -723,7 +732,7 @@ print(idx.tolist())`,
         subtopicId: "S14-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea ids C001..C004 y scores; imprime ids con score en el percentil inferior (score < mediana). Salida/pass: `['C001', 'C003']`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). Salida esperada: `['C001', 'C003']`. Solo NumPy; corrige el bug del starter (máscara invertida).",
         hint: "np.median(scores).",
         hints: [
           "np.median(scores).",
@@ -736,7 +745,7 @@ print(idx.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · mask by median
-# DEFECT: scores > med (debería < med)
+# Bug a corregir: scores > med (debería < med)
 import numpy as np
 ids = np.array(["C001", "C002", "C003", "C004"])
 scores = np.array([0.1, 0.9, 0.4, 0.7])
@@ -760,7 +769,7 @@ print(ids[scores < med].tolist())`,
         subtopicId: "S14-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fancy index: reordena el vector [10,20,30,40] al orden de índices [2,0,3,1] e imprime el resultado. Salida/pass: `[30, 10, 40, 20]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime el resultado. Salida esperada: `[30, 10, 40, 20]`. Solo NumPy; sin loops; corrige el bug del starter.",
         hint: "a[order] con lista de índices.",
         hints: [
           "a[order] con lista de índices.",
@@ -773,7 +782,7 @@ print(ids[scores < med].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · fancy index order
-# DEFECT: order mal aplicado (sorted order)
+# Bug a corregir: order mal aplicado (sorted order)
 import numpy as np
 a = np.array([10, 20, 30, 40])
 order = [2, 0, 3, 1]
@@ -795,7 +804,7 @@ print(a[order].tolist())`,
         subtopicId: "S14-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz 2x3 de unos y ceros: calcula mean por axis=0 y axis=1; imprime ambas listas redondeadas a 2 decimales. Salida/pass: `[1.0, 0.5, 0.5] | [0.67, 0.67]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a 2 decimales (primero columnas, luego filas). Salida esperada: `[1.0, 0.5, 0.5]` y `[0.67, 0.67]`. Solo NumPy; corrige el bug del starter.",
         hint: "M.mean(axis=0) y axis=1.",
         hints: [
           "M.mean(axis=0) y axis=1.",
@@ -808,7 +817,7 @@ print(a[order].tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · mean axis
-# DEFECT: axis confuso; no redondea
+# Bug a corregir: axis confuso; no redondea
 import numpy as np
 M = np.array([[1., 0., 1.], [1., 1., 0.]])
 print(M.mean(axis=1).tolist())
@@ -831,32 +840,34 @@ print(np.round(M.mean(axis=1), 2).tolist())`,
         subtopicId: "S14-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con scores = [[0.5,0.5],[1.0,0.0],[0.8,0.6]], imprime std por columna (axis=0) con 4 decimales. Salida/pass: `[0.2055, 0.2625]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
-        hint: "np.std(axis=0).",
+          "E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.unique(ids).size / ids.size` e imprímela con 4 decimales. Salida esperada: `0.6`. Solo NumPy; corrige el bug del starter (usa `len` sobre el array crudo y no `unique`).",
+        hint: "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
         hints: [
-          "np.std(axis=0).",
-          "Por defecto ddof=0 en np.std.",
+          "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
+          "Redondea con round(..., 4) o imprime el float exacto 0.6.",
         ],
-        edgeCases: ["ddof=1 vs 0", "axis=1 por error"],
+        edgeCases: ["contar con set de Python en vez de np.unique", "dividir por n_unique"],
         tests: "salida coincide con solution output",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-014 · std axis=0
-# DEFECT: std axis=1
+          code: `# CASO-LIM-014 · unicidad de ids
+# Bug a corregir: usa len(ids) como si todos fueran únicos
 import numpy as np
-scores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])
-print(np.round(scores.std(axis=1), 4).tolist())
+ids = np.array(["C001", "C002", "C001", "C003", "C002"])
+unicidad = len(ids) / len(ids)  # siempre 1.0 — incorrecto
+print(round(unicidad, 4))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import numpy as np
-scores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])
-print(np.round(scores.std(axis=0), 4).tolist())`,
-          output: `[0.2055, 0.2625]`,
+ids = np.array(["C001", "C002", "C001", "C003", "C002"])
+unicidad = np.unique(ids).size / ids.size
+print(round(unicidad, 4))`,
+          output: `0.6`,
         },
       },
       {
@@ -864,7 +875,7 @@ print(np.round(scores.std(axis=0), 4).tolist())`,
         subtopicId: "S14-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Normaliza cada fila restando su media (keepdims) e imprime la media de cada fila tras normalizar (debe ser ~0). Salida/pass: `[0.0, 0.0, 0.0]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar (debe ser ~0). Salida esperada: `[0.0, 0.0, 0.0]`. Solo NumPy; corrige el bug del starter (centra por columnas).",
         hint: "row - row.mean(axis=1, keepdims=True).",
         hints: [
           "row - row.mean(axis=1, keepdims=True).",
@@ -877,7 +888,7 @@ print(np.round(scores.std(axis=0), 4).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · center rows
-# DEFECT: center por columnas (axis=0)
+# Bug a corregir: center por columnas (axis=0)
 import numpy as np
 X = np.array([[1., 3.], [10., 20.], [2., 2.]])
 Xc = X - X.mean(axis=0, keepdims=True)
@@ -899,7 +910,7 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
         subtopicId: "S14-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el vector pesos [1,2,3] a cada fila de una matriz 2x3 de ceros usando broadcast; imprime la matriz. Salida/pass: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matriz. Salida esperada: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Solo NumPy; corrige el bug del starter (multiplica en vez de sumar).",
         hint: "zeros + pesos (shape (3,)).",
         hints: [
           "zeros + pesos (shape (3,)).",
@@ -912,7 +923,7 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · broadcast add
-# DEFECT: multiplica en vez de sumar
+# Bug a corregir: multiplica en vez de sumar
 import numpy as np
 M = np.zeros((2, 3))
 w = np.array([1., 2., 3.])
@@ -934,7 +945,7 @@ print((M + w).tolist())`,
         subtopicId: "S14-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con a shape (4,) crea columna (4,1) con newaxis y multiplica por fila b shape (3,); imprime shape del producto. Salida/pass: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15,.",
+          "E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`; imprime shape y valores del producto. Salida esperada: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Solo NumPy; no pandas (S15) ni sklearn.",
         hint: "a[:, None] * b[None, :] o a[:, None] * b.",
         hints: [
           "a[:, None] * b[None, :] o a[:, None] * b.",
@@ -947,7 +958,7 @@ print((M + w).tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · outer product broadcast
-# DEFECT: a * b sin reshape (falla o wrong)
+# Bug a corregir: a * b sin reshape (falla o wrong)
 import numpy as np
 a = np.arange(4)
 b = np.arange(3)
@@ -974,7 +985,7 @@ print(out.shape, out.tolist())`,
         subtopicId: "S14-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Detecta incompatibilidad: intenta sumar (2,3) con (2,4) y captura ValueError imprimiendo 'incompatible'. Salida/pass: `incompatible`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del starter (shapes compatibles).",
         hint: "try/except ValueError.",
         hints: [
           "try/except ValueError.",
@@ -987,7 +998,7 @@ print(out.shape, out.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · incompatible broadcast
-# DEFECT: no captura ValueError
+# Bug a corregir: no captura ValueError
 import numpy as np
 print(np.ones((2, 3)) + np.ones((2, 3)))
 print('ok', True)`,
@@ -1008,7 +1019,7 @@ except ValueError:
         subtopicId: "S14-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma raw=[1,2,3], crea vista de los dos primeros, pon vista[0]=9 e imprime raw. Salida/pass: `[9, 2, 3]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (debe mutar). Salida esperada: `[9, 2, 3]`. Solo NumPy; corrige el bug del starter (usa `.copy()` y oculta el efecto).",
         hint: "raw[:2] es view.",
         hints: [
           "raw[:2] es view.",
@@ -1021,7 +1032,7 @@ except ValueError:
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · view mutates
-# DEFECT: copy() silencia el bug de view
+# Bug a corregir: copy() silencia el bug de view
 import numpy as np
 raw = np.array([1, 2, 3])
 v = raw[:2].copy()
@@ -1045,7 +1056,7 @@ print(raw.tolist())`,
         subtopicId: "S14-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Repite con .copy() y demuestra que raw queda [1,2,3] tras mutar la copia. Salida/pass: `[1, 2, 3] [9, 2]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida esperada: `[1, 2, 3] [9, 2]`. Solo NumPy; corrige el bug del starter (view sin copy).",
         hint: "raw[:2].copy().",
         hints: [
           "raw[:2].copy().",
@@ -1058,7 +1069,7 @@ print(raw.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · copy isolation
-# DEFECT: view sin copy; raw muta
+# Bug a corregir: view sin copy; raw muta
 import numpy as np
 raw = np.array([1, 2, 3])
 c = raw[:2]
@@ -1082,7 +1093,7 @@ print(raw.tolist(), c.tolist())`,
         subtopicId: "S14-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Marca un array como no escribible (flags.writeable=False) e intenta asignar; imprime 'blocked' al capturar ValueError. Salida/pass: `blocked`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError` imprimiendo `blocked`. Salida esperada: `blocked`. Solo NumPy; corrige el bug del starter.",
         hint: "a.flags.writeable = False.",
         hints: [
           "a.flags.writeable = False.",
@@ -1095,7 +1106,7 @@ print(raw.tolist(), c.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · writeable False
-# DEFECT: no set writeable; muta
+# Bug a corregir: no set writeable; muta
 import numpy as np
 a = np.array([1.0, 2.0])
 a[0] = 3.0
@@ -1120,7 +1131,7 @@ except ValueError:
         subtopicId: "S14-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta cuántos NaN hay en [1, nan, 2, nan] con np.isnan. Salida/pass: `2`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Cuenta cuántos `NaN` hay en `[1, nan, 2, nan]` con `np.isnan` e imprime el entero. Salida esperada: `2`. Solo NumPy; no uses `x == np.nan` (siempre False).",
         hint: "np.isnan(x).sum().",
         hints: [
           "np.isnan(x).sum().",
@@ -1133,7 +1144,7 @@ except ValueError:
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · count nan
-# DEFECT: usa sum de nan == nan (wrong)
+# Bug a corregir: usa sum de nan == nan (wrong)
 import numpy as np
 x = np.array([1.0, np.nan, 2.0, np.nan])
 print(int((x == np.nan).sum()))
@@ -1153,7 +1164,7 @@ print(int(np.isnan(x).sum()))`,
         subtopicId: "S14-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Calcula nanmean de [1, nan, 3] e imprime con 2 decimales. Salida/pass: `2.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy; corrige el bug del starter (`mean` propaga nan).",
         hint: "np.nanmean.",
         hints: [
           "np.nanmean.",
@@ -1166,7 +1177,7 @@ print(int(np.isnan(x).sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · nanmean
-# DEFECT: mean propaga nan
+# Bug a corregir: mean propaga nan
 import numpy as np
 x = np.array([1.0, np.nan, 3.0])
 print(float(np.mean(x)))
@@ -1186,7 +1197,7 @@ print(round(float(np.nanmean(x)), 2))`,
         subtopicId: "S14-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Reemplaza inf por nan en [1, inf, 2] y luego usa nansum; imprime el resultado. Salida/pass: `3.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida esperada: `3.0`. Solo NumPy; corrige el bug del starter (suma con inf).",
         hint: "np.where(np.isinf(x), np.nan, x).",
         hints: [
           "np.where(np.isinf(x), np.nan, x).",
@@ -1199,7 +1210,7 @@ print(round(float(np.nanmean(x)), 2))`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · inf → nan then nansum
-# DEFECT: suma con inf
+# Bug a corregir: suma con inf
 import numpy as np
 x = np.array([1.0, np.inf, 2.0])
 print(float(np.sum(x)))
@@ -1220,7 +1231,7 @@ print(float(np.nansum(y)))`,
         subtopicId: "S14-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*b con loop y con (a*b).sum() para a=b=arange(1000); imprime si abs(diff)<1e-6. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida esperada: `True`. Solo NumPy; el starter imprime `False` sin comparar — corrígelo.",
         hint: "np.arange(1000, dtype=float).",
         hints: [
           "np.arange(1000, dtype=float).",
@@ -1233,7 +1244,7 @@ print(float(np.nansum(y)))`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · vectorized vs loop
-# DEFECT: no compara; imprime False
+# Bug a corregir: no compara; imprime False
 import numpy as np
 a = np.arange(1000, dtype=float)
 b = a.copy()
@@ -1260,7 +1271,7 @@ print(abs(s1 - s2) < 1e-6)`,
         subtopicId: "S14-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Implementa suma de cuadrados vectorizada de arange(5) e imprime el total. Salida/pass: `30.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30.0`. Solo NumPy; corrige el bug del starter (suma lineal en vez de cuadrados).",
         hint: "(a**2).sum() o np.dot(a,a).",
         hints: [
           "(a**2).sum() o np.dot(a,a).",
@@ -1273,7 +1284,7 @@ print(abs(s1 - s2) < 1e-6)`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · sum squares
-# DEFECT: suma lineal no cuadrados
+# Bug a corregir: suma lineal no cuadrados
 import numpy as np
 a = np.arange(5, dtype=float)
 print(float(a.sum()))
@@ -1293,7 +1304,7 @@ print(float((a ** 2).sum()))`,
         subtopicId: "S14-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mide con perf_counter un (a+b) vectorizado de n=10000 e imprime 'timed' y que el resultado mean sea 1.0 si a=0 y b=1. Salida/pass: `timed True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed` junto a si la media del resultado es `1.0`. Salida esperada: `timed True`. Solo NumPy; corrige el bug del starter (loop sin check de mean).",
         hint: "time.perf_counter antes/después.",
         hints: [
           "time.perf_counter antes/después.",
@@ -1306,7 +1317,7 @@ print(float((a ** 2).sum()))`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · timed vector add
-# DEFECT: loop lento sin mean check
+# Bug a corregir: loop lento sin mean check
 import numpy as np, time
 n = 10000
 a = np.zeros(n)
@@ -1336,7 +1347,7 @@ print("timed", float(c.mean()) == 1.0)`,
         subtopicId: "S14-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime nbytes de np.zeros(1000, dtype=np.float64) y verifica que sea 8000. Salida/pass: `8000 True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 True`. Solo NumPy; corrige el bug del starter (compara con 4000 como si fuera float32).",
         hint: "float64 = 8 bytes.",
         hints: [
           "float64 = 8 bytes.",
@@ -1349,7 +1360,7 @@ print("timed", float(c.mean()) == 1.0)`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · nbytes float64
-# DEFECT: cree float32 (4 bytes)
+# Bug a corregir: compara nbytes con 4000 (como si fuera float32)
 import numpy as np
 a = np.zeros(1000, dtype=np.float64)
 print(a.nbytes, a.nbytes == 4000)
@@ -1369,7 +1380,7 @@ print(a.nbytes, a.nbytes == 8000)`,
         subtopicId: "S14-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Usa allclose entre [1.0, 2.0] y [1.0+1e-9, 2.0] con atol=1e-8; imprime el booleano. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Salida esperada: `True`. Solo NumPy; corrige el bug del starter (la comparación exacta con `==` no sirve para floats).",
         hint: "np.allclose(..., atol=1e-8).",
         hints: [
           "np.allclose(..., atol=1e-8).",
@@ -1381,11 +1392,12 @@ print(a.nbytes, a.nbytes == 8000)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-014 · dtype downcast
-# DEFECT: no cast float32
+          code: `# CASO-LIM-014 · allclose con atol
+# Bug a corregir: comparación exacta (==) en floats
 import numpy as np
-a = np.arange(10, dtype=np.float64)
-print(a.dtype, a.nbytes)
+a = np.array([1.0, 2.0])
+b = np.array([1.0 + 1e-9, 2.0])
+print(a == b)  # comparación exacta: incorrecta para floats
 print('ok', True)`,
         },
         solutionCode: {
@@ -1401,7 +1413,7 @@ print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))`,
         subtopicId: "S14-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: assert_allclose debe fallar entre [0,0] y [0,0.1] con atol=1e-3; captura e imprime 'fail'. Salida/pass: `fail`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError` e imprime `fail`. Salida esperada: `fail`. Solo NumPy; corrige el bug del starter (hoy el assert pasa porque compara valores iguales).",
         hint: "np.testing.assert_allclose.",
         hints: [
           "np.testing.assert_allclose.",
@@ -1413,14 +1425,15 @@ print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-014 · memory budget
-# DEFECT: no chequea budget
+          code: `# CASO-LIM-014 · assert_allclose debe fallar
+# Bug a corregir: el assert pasa (valores iguales) y no imprime fail
 import numpy as np
-a = np.zeros((1000, 100), dtype=np.float64)
-budget = 1_000_000
-print("within_budget", True)
-print(a.nbytes)
-print('ok', True)`,
+try:
+    # Valores idénticos: el assert no falla (hay que forzar la diferencia)
+    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.0], atol=1e-3)
+    print("ok")
+except AssertionError:
+    print("fail")`,
         },
         solutionCode: {
           language: 'python',
@@ -1449,28 +1462,46 @@ except AssertionError:
       "Dataset o fixtures sintéticos (ids C00x, regiones PE)",
       "Demo reproducible (if __name__ == '__main__')",
       "Documentación en español profesional",
-      "Alineación al incremento CP-N2-A (inicio) de S14",
+      "Entrega alineada al inicio de CP-N2-A: métricas NumPy del tablero de calidad",
     ],
     starterCode: `import numpy as np
 
 def completeness(flags: np.ndarray) -> np.ndarray:
-    """flags: (n_clients, n_fields) con 0/1 → media por campo."""
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    """flags: (n_clients, n_fields) 0/1 → media por campo (axis=0)."""
+    raise NotImplementedError
+
+def uniqueness_rate(ids: np.ndarray) -> float:
+    """Proporción de ids únicos: np.unique(ids).size / ids.size."""
+    raise NotImplementedError
+
+def in_range_rate(scores: np.ndarray, lo: float = 0.0, hi: float = 1.0) -> float:
+    """Fracción de scores finitos dentro de [lo, hi]."""
     raise NotImplementedError
 
 def pairwise_diff(scores: np.ndarray) -> np.ndarray:
-    """scores (n,) → matriz (n,n) de diferencias score_i - score_j."""
-    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
+    """scores (n,) → matriz (n, n) de diferencias score_i - score_j vía broadcast."""
+    raise NotImplementedError
+
+def bench_weighted_mean(X: np.ndarray, w: np.ndarray) -> dict:
+    """Compara loop vs X @ w; devuelve dict con allclose y ratio (o tiempos)."""
     raise NotImplementedError
 
 if __name__ == "__main__":
     flags = np.array([[1, 1, 0], [1, 0, 1], [1, 1, 1]], dtype=float)
+    ids = np.array(["C001", "C002", "C001", "C003"])
+    scores = np.array([0.9, 0.4, 0.85, 0.7], dtype=np.float64)
+    X = np.array([[0.9, 0.1], [0.4, 0.6], [0.85, 0.15]], dtype=np.float64)
+    w = np.array([0.7, 0.3], dtype=np.float64)
     print("completitud", completeness(flags))
+    print("unicidad", uniqueness_rate(ids))
+    print("en_rango", in_range_rate(scores))
+    print("pairwise_shape", pairwise_diff(scores).shape)
+    print("bench", bench_weighted_mean(X, w))
 `,
     portfolioNote:
-      "Este incremento abre CP-N2-A (Executive Data Quality & EDA). Documenta shapes, dtypes, ratio de benchmark y tolerancias. No uses datos personales reales.",
+      "Este incremento abre CP-N2-A (Executive Data Quality & EDA). Documenta shapes, dtypes, ratio de benchmark (el valor exacto depende de la máquina) y tolerancias. No uses datos personales reales.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Cumple los objetivos de métricas vectorizadas y evidencia del portfolio", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
       { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
@@ -1508,14 +1539,55 @@ if __name__ == "__main__":
         explanation:
           "Los slices simples suelen ser views que comparten memoria.",
       },
-    {
-      question: "¿Por qué np.mean([1, np.nan]) no es lo mismo que np.nanmean([1, np.nan])?",
-      options: ["mean ignora nan; nanmean propaga nan", "mean propaga nan; nanmean omite nan", "Son idénticos siempre", "nanmean solo funciona con int"],
-      correctIndex: 1,
-      explanation:
-        "np.mean propaga NaN (el resultado es nan). np.nanmean omite NaNs y promedia el resto. En calidad de datos usa isfinite/nanmean según la política.",
-    }
-  ],
+      {
+        question: "¿Por qué np.mean([1, np.nan]) no es lo mismo que np.nanmean([1, np.nan])?",
+        options: [
+          "mean ignora nan; nanmean propaga nan",
+          "mean propaga nan; nanmean omite nan",
+          "Son idénticos siempre",
+          "nanmean solo funciona con int",
+        ],
+        correctIndex: 1,
+        explanation:
+          "np.mean propaga NaN (el resultado es nan). np.nanmean omite NaNs y promedia el resto. En calidad de datos usa isfinite/nanmean según la política.",
+      },
+      {
+        question: "¿Cuándo son compatibles dos shapes para broadcasting?",
+        options: [
+          "Solo si son idénticos",
+          "Si, de derecha a izquierda, cada dimensión es igual o una es 1 (o ausente)",
+          "Si el producto de las dimensiones coincide",
+          "Solo con keepdims=True",
+        ],
+        correctIndex: 1,
+        explanation:
+          "El broadcasting alinea de derecha a izquierda; si no hay compatibilidad, ValueError.",
+      },
+      {
+        question: "np.allclose(a, b, rtol=…, atol=…) sirve principalmente para:",
+        options: [
+          "Cambiar el dtype a float32",
+          "Comparar floats con tolerancia (p. ej. loop vs vectorizado)",
+          "Forzar una view",
+          "Eliminar NaN automáticamente",
+        ],
+        correctIndex: 1,
+        explanation:
+          "allclose/assert_allclose validan equivalencia numérica con rtol y atol.",
+      },
+      {
+        question: "Un benchmark honesto loop vs vectorizado debe incluir:",
+        options: [
+          "Solo N=10 y el tiempo del loop",
+          "Mismo input/dtype, timing y verificación de equivalencia numérica",
+          "Solo el ratio sin chequear igualdad",
+          "Usar print en cada iteración del loop",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Sin equivalencia, un ratio de tiempo no demuestra que la versión vectorizada sea correcta. El ratio exacto además varía por máquina.",
+      },
+    ],
   },
   resources: {
     docs: [
@@ -1584,7 +1656,7 @@ if __name__ == "__main__":
       {
         label: "PyArcana live",
         url: "https://pillb.github.io/pyarcana/",
-        note: "Curso desplegado; alinear con V3 S14 NumPy",
+        note: "Edición pública del curso (progreso en el navegador)",
       },
       {
         label: "Harvard CS50P",

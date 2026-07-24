@@ -12,7 +12,7 @@ export const section11: CourseSection = {
   icon: "Boxes",
   accentColor: "bg-gradient-to-br from-cyan-500 to-blue-600",
   jobRelevance:
-    "Un modelo de dominio claro es la base de productos de matching/familiaridad sin inventar veredictos legales. Esta sección (id `testing` conservado) retematiza S11 a **OOP y dominio**: núcleo de **CP-N1-C**. pytest/CI se reubican como soporte de calidad alrededor del dominio.",
+    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí construyes el núcleo OOP de **CP-N1-C**: tipos con invariantes, composición y puertos testeables en Python local — listos para el dashboard de evidencia en S13.",
   learningOutcomes: [
     { text: "Modelar entidades con class/dataclass e instancias válidas" },
     { text: "Imponer invariantes en construcción sin side-effects externos" },
@@ -25,11 +25,11 @@ export const section11: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+      heading: "De dicts anónimos a un modelo de dominio (mapa)",
       paragraphs: [
-        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`. Cada tipo nombra un concepto de matching local; el código deja de ser dicts anónimos y pasa a ser un núcleo testeable.",
-        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva. Si un campo obligatorio falta o viola un invariante, **falla al construir** — no rellenes en silencio. Stack: `dataclass`, properties, composition, `Protocol` (S01–S11); sin frameworks web ni ORMs de S19.",
-        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético PE: ids `C00x`/`E0x`, emails `@ejemplo.pe`, montos `Decimal` en PEN/USD. Métrica del gate: cuatro tipos + tests puros + README de límites éticos. Nunca PII real ni APIs `is_fraud`/`is_family`."
+        "Tras el paquete y la CLI de S10, el código deja de ser **dicts anónimos** y pasa a un **núcleo de dominio** con nombre: `ClientRecord`, `ResolvedEntity`, `Transaction` y `RelationshipEvidence`. Cada tipo nombra un concepto de matching local y admite invariantes y tests puros. La CLI solo invoca servicios; las reglas de negocio viven en los objetos.",
+        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Si un campo obligatorio falta o viola un invariante, **falla al construir** — no rellenes en silencio. Stack: `dataclass`, properties, composition y `Protocol`; sin frameworks web ni ORMs (llegan más adelante).",
+        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético PE: ids `C00x`/`E0x`, emails `@ejemplo.pe`, montos `Decimal` en PEN/USD. Gate CP-N1-C: cuatro tipos + tests puros + README de límites éticos. Nunca PII real ni APIs `is_fraud`/`is_family`.",
       ],
       callout: {
         type: "info",
@@ -43,27 +43,25 @@ export const section11: CourseSection = {
       subtopicId: "S11-T1-A",
       paragraphs: [
         "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación — reduce boilerplate sin perder el nombre del dominio. En familiaridad, `ClientRecord` es el borde de onboarding sintético, no un row de pandas.",
-        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido entre instancias. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed: no construyas con `None` silencioso donde el schema exige string no vacío.",
-        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B (`from_dict` → dataclass). Caso sintético: `ClientRecord(\"C001\", \"Ana Perez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII-sintética de demo y cuáles son ids estables de sistema."
+        "Forma canónica en S11: `ClientRecord(client_id, document_id, full_name, emails)`. Campos con **type hints** y `default_factory` para mutables evitan el clásico bug del default compartido. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed: no construyas con `None` silencioso donde el schema exige string no vacío.",
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B (`from_dict` → dataclass). Caso sintético: `ClientRecord(\"C001\", \"DNI-1\", \"Ana Pérez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII-sintética de demo y cuáles son ids estables de sistema."
       ],
       code: {
         language: 'python',
         title: "client_dataclass.py",
-        code: `def s11_th_1():
-    from dataclasses import dataclass, field
+        code: `from dataclasses import dataclass, field
 
-    @dataclass
-    class ClientRecord:
-        client_id: str
-        full_name: str
-        emails: list[str] = field(default_factory=list)
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-    c = ClientRecord("C001", "Ana Perez", ["ana@ejemplo.pe"])
-    print(c)
-    print(type(c).__name__, c.client_id)
-
-s11_th_1()`,
-        output: `ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])
+c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+print(c)
+print(type(c).__name__, c.client_id)`,
+        output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 ClientRecord C001`,
       },
       callout: {
@@ -78,31 +76,36 @@ ClientRecord C001`,
       subtopicId: "S11-T1-B",
       paragraphs: [
         "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — un `ClientRecord` a medias en un set de resolución es peor que un `ValueError` temprano. Las reglas viven junto al tipo, no en un script suelto del CLI.",
-        "Método `validate()` reutilizable ayuda en factories `from_dict` y rehidratación desde JSON. **Sin side-effects de negocio** al validar: no llames APIs, no escribas a disco, no “fixes” silenciosos de moneda. Stack: stdlib + `Decimal`; no ORM.",
-        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` **positivo** y `currency` ∈ allowlist `{'PEN','USD'}`. Nunca conviertas PEN→USD en el constructor. Caso sintético PE: `Transaction(\"T1\", Decimal(\"150.50\"), \"PEN\")` acepta; `\"EUR\"` o `amount<=0` rechaza."
+        "Método `validate()` reutilizable ayuda en factories `from_dict` y rehidratación desde JSON: centraliza las reglas y las invoca desde `__post_init__` o desde el borde de serialización. **Sin side-effects de negocio** al validar: no llames APIs, no escribas a disco, no “fixes” silenciosos de moneda. Stack: stdlib + `Decimal`; no ORM.",
+        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` **positivo** y `currency` ∈ allowlist `{'PEN','USD'}`. Nunca conviertas PEN→USD en el constructor. Caso sintético PE: `Transaction(\"T1\", \"C001\", Decimal(\"150.50\"), \"PEN\")` acepta; `\"EUR\"` o `amount<=0` rechaza."
       ],
       code: {
         language: 'python',
         title: "invariants.py",
-        code: `from dataclasses import dataclass
+        code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
     document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-    def __post_init__(self) -> None:
-        if not self.client_id:
+    def validate(self) -> None:
+        if not self.client_id.strip():
             raise ValueError("client_id vacío")
         if not self.document_id.strip():
             raise ValueError("document_id vacío")
 
-print(ClientRecord("C001", "DNI-1"))
+    def __post_init__(self) -> None:
+        self.validate()
+
+print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"]))
 try:
-    ClientRecord("C002", "  ")
+    ClientRecord("C002", "  ", "X")
 except ValueError as e:
     print("reject", e)`,
-        output: `ClientRecord(client_id='C001', document_id='DNI-1')
+        output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 reject document_id vacío`,
       },
       callout: {
@@ -117,32 +120,39 @@ reject document_id vacío`,
       subtopicId: "S11-T2-A",
       paragraphs: [
         "`@property` expone campos calculados (`display_name`, `masked_email`) **sin** mutación peligrosa desde afuera. La UI y los logs deben preferir la máscara; el email raw queda en el campo interno para el borde autorizado.",
-        "Métodos de instancia encapsulan consultas puras (`age_days_since(as_of)`). Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed si `email` no tiene `@` al calcular `masked_email` — o devuelve un sentinel documentado.",
+        "Métodos de instancia encapsulan consultas puras (`age_days_since(as_of)`). Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed o sentinel documentado si `emails` está vacío o el primer email no tiene `@` al calcular `masked_email`.",
         "Setters validados solo cuando la mutación es parte del modelo de negocio; si no, prefiere **`frozen`** o devolver una **nueva instancia**. Caso sintético: `c.display_name` y `c.masked_email` para demo Lima sin imprimir PII completa en stdout de pipeline."
       ],
       code: {
         language: 'python',
         title: "properties.py",
-        code: `from dataclasses import dataclass
+        code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
-    first_name: str
-    last_name: str
-    email: str
+    client_id: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
     @property
     def display_name(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+        return self.full_name
 
     @property
     def masked_email(self) -> str:
-        local, _, domain = self.email.partition("@")
+        if not self.emails:
+            return "(sin email)"
+        local, _, domain = self.emails[0].partition("@")
+        if not domain:
+            return "(email inválido)"
         return f"{local[:1]}***@{domain}"
 
-c = ClientRecord("Ana", "Perez", "ana@ejemplo.pe")
-print(c.display_name, c.masked_email)`,
-        output: `Ana Perez a***@ejemplo.pe`,
+c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+print(c.display_name, c.masked_email)
+print(ClientRecord("C002", "DNI-2", "Sin mail").masked_email)`,
+        output: `Ana Pérez a***@ejemplo.pe
+(sin email)`,
       },
       callout: {
         type: "tip",
@@ -174,7 +184,7 @@ class ResolvedEntity:
             raise ValueError("entity_id vacío")
 
 a = ResolvedEntity("E1", "Ana")
-b = ResolvedEntity("E1", "Ana Perez")
+b = ResolvedEntity("E1", "Ana Pérez")
 s = {a, ResolvedEntity("E2", "Luis")}
 print("same id eq?", a == ResolvedEntity("E1", "otra"))
 print("set size", len(s))
@@ -206,6 +216,10 @@ E1 in set True`,
 from math import isfinite
 
 @dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+
+@dataclass(frozen=True)
 class RelationshipEvidence:
     left_id: str
     right_id: str
@@ -219,13 +233,13 @@ class RelationshipEvidence:
 
 @dataclass
 class CaseFile:
-    entity: object
+    entity: ResolvedEntity
     evidences: list[RelationshipEvidence] = field(default_factory=list)
 
     def add(self, ev: RelationshipEvidence) -> None:
         self.evidences.append(ev)
 
-cf = CaseFile(entity={"entity_id": "E1"})
+cf = CaseFile(entity=ResolvedEntity("E1"))
 cf.add(RelationshipEvidence("E1", "E2", 0.42))
 print(len(cf.evidences), cf.evidences[0].signal_score)`,
         output: `1 0.42`,
@@ -286,24 +300,31 @@ True`,
       subtopicId: "S11-T4-A",
       paragraphs: [
         "**Repository** light: `get`/`save`. **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` viven en el **borde** de serialización, no mezclados con invariantes de negocio.",
-        "Serializa sin password fields ni PII innecesaria en logs. DTOs de borde no tienen que ser idénticos a las entidades internas (p. ej. omite `emails` crudos en un export de dashboard). Fail-closed si falta `client_id` en `from_dict`.",
-        "CLI (S10) llama al service; el service **no** imprime ni parsea argparse. Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"a@ejemplo.pe\")` → dict de borde sin decidir fraude."
+        "Serializa sin secretos ni PII innecesaria en logs. Notas internas de backoffice (`internal_note`) no van al export de dashboard. DTOs de borde no tienen que ser idénticos a las entidades internas. Fail-closed si falta `client_id` en `from_dict`. **No almacenes contraseñas en el agregado de familiaridad.**",
+        "La CLI de S10 llama al service; el service **no** imprime ni parsea argparse. Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"DNI-1\", \"Ana Pérez\", \"a@ejemplo.pe\")` → dict de borde sin decidir fraude."
       ],
       code: {
         language: 'python',
         title: "repo_service.py",
         code: `from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Optional
 
 @dataclass
 class ClientRecord:
     client_id: str
-    email: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        return {"client_id": self.client_id, "email": self.email}
+        return {
+            "client_id": self.client_id,
+            "document_id": self.document_id,
+            "full_name": self.full_name,
+            "emails": list(self.emails),
+        }
 
 class InMemoryClientRepository:
     def __init__(self):
@@ -316,14 +337,14 @@ class InMemoryClientRepository:
 class ClientService:
     def __init__(self, repo: InMemoryClientRepository):
         self.repo = repo
-    def register(self, client_id: str, email: str) -> dict:
-        c = ClientRecord(client_id, email)
+    def register(self, client_id: str, document_id: str, full_name: str, email: str) -> dict:
+        c = ClientRecord(client_id, document_id, full_name, [email])
         self.repo.save(c)
         return c.to_dict()  # no decide fraude
 
 svc = ClientService(InMemoryClientRepository())
-print(svc.register("C001", "a@ejemplo.pe"))`,
-        output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`,
+print(svc.register("C001", "DNI-1", "Ana Pérez", "a@ejemplo.pe"))`,
+        output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
       },
       callout: {
         type: "info",
@@ -376,7 +397,7 @@ print(test_no_fraud_api())`,
         demoId: "S11-T1-A-DEMO",
         subtopicId: "S11-T1-A",
         environment: "local-python",
-        description: "ClientRecord dataclass desde dict sintético.",
+        description: "ClientRecord dataclass desde dict sintético (forma canónica).",
         code: {
           language: 'python',
           title: "client_from_dict.py",
@@ -385,148 +406,182 @@ print(test_no_fraud_api())`,
 @dataclass
 class ClientRecord:
     client_id: str
+    document_id: str
     full_name: str
     emails: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, d: dict) -> "ClientRecord":
-        return cls(d["client_id"], d["full_name"], list(d.get("emails", [])))
+        return cls(
+            d["client_id"],
+            d["document_id"],
+            d["full_name"],
+            list(d.get("emails", [])),
+        )
 
-raw = {"client_id": "C001", "full_name": "Ana Perez", "emails": ["ana@ejemplo.pe"]}
+raw = {
+    "client_id": "C001",
+    "document_id": "DNI-1",
+    "full_name": "Ana Pérez",
+    "emails": ["ana@ejemplo.pe"],
+}
 c = ClientRecord.from_dict(raw)
 print(c)`,
-          output: `ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])`,
+          output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
-        why: "from_dict nombra el borde dict→dominio.",
+        why: "from_dict nombra el borde dict→dominio con la forma canónica de ClientRecord.",
       },
       {
         demoId: "S11-T1-B-DEMO",
         subtopicId: "S11-T1-B",
         environment: "local-python",
-        description: "ClientRecord rechaza document_id vacío.",
+        description: "ClientRecord canónico con validate() + __post_init__; rechaza document_id vacío.",
         code: {
           language: 'python',
           title: "reject_empty_doc.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
     document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-    def __post_init__(self) -> None:
+    def validate(self) -> None:
         if not str(self.document_id).strip():
             raise ValueError("document_id vacío")
 
-print(ClientRecord("C001", "DNI-100"))
+    def __post_init__(self) -> None:
+        self.validate()
+
+print(ClientRecord("C001", "DNI-100", "Ana Pérez", ["ana@ejemplo.pe"]))
 try:
-    ClientRecord("C002", "")
+    ClientRecord("C002", "", "X")
 except ValueError as e:
     print("rejected", e)`,
-          output: `ClientRecord(client_id='C001', document_id='DNI-100')
+          output: `ClientRecord(client_id='C001', document_id='DNI-100', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])
 rejected document_id vacío`,
         },
-        why: "Invariante en construcción: no hay instancia inválida.",
+        why: "validate() reutilizable + fail-on-construct sobre la forma canónica: no hay instancia inválida.",
       },
       {
         demoId: "S11-T2-A-DEMO",
         subtopicId: "S11-T2-A",
         environment: "local-python",
-        description: "display_name y masked_email como properties.",
+        description: "display_name y masked_email como properties sobre ClientRecord canónico.",
         code: {
           language: 'python',
           title: "display_props.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
-    first_name: str
-    last_name: str
-    email: str
+    client_id: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
     @property
     def display_name(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+        return self.full_name
 
     @property
     def masked_email(self) -> str:
-        local, _, domain = self.email.partition("@")
+        if not self.emails:
+            return "(sin email)"
+        local, _, domain = self.emails[0].partition("@")
+        if not domain:
+            return "(email inválido)"
         return f"{local[:1]}***@{domain}"
 
-c = ClientRecord("Lucía", "Méndez", "lucia@ejemplo.pe")
+c = ClientRecord("C003", "DNI-3", "Lucía Méndez", ["lucia@ejemplo.pe"])
 print(c.display_name)
 print(c.masked_email)`,
           output: `Lucía Méndez
 l***@ejemplo.pe`,
         },
-        why: "La superficie pública no necesita el email completo para mostrar.",
+        why: "La superficie pública no necesita el email completo para mostrar; emails vacío devuelve sentinel, no IndexError.",
       },
       {
         demoId: "S11-T2-B-DEMO",
         subtopicId: "S11-T2-B",
         environment: "local-python",
-        description: "ResolvedEntity frozen por valor; set de entidades.",
+        description: "ResolvedEntity frozen por entity_id; set de entidades; id vacío rechazado.",
         code: {
           language: 'python',
           title: "frozen_set.py",
-          code: `def s11_ido_4():
-    from dataclasses import dataclass, field
+          code: `from dataclasses import dataclass, field
 
-    @dataclass(frozen=True)
-    class ResolvedEntity:
-        entity_id: str
-        display_name: str = field(compare=False)
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str = field(compare=False)
 
-    e1 = ResolvedEntity("E1", "Ana")
-    e1b = ResolvedEntity("E1", "Ana actualizada")
-    e2 = ResolvedEntity("E2", "Luis")
-    s = {e1, e1b, e2}
-    print("size", len(s))
-    print("e1==e1b", e1 == e1b)
+    def __post_init__(self) -> None:
+        if not self.entity_id.strip():
+            raise ValueError("entity_id vacío")
 
-s11_ido_4()`,
+e1 = ResolvedEntity("E1", "Ana")
+e1b = ResolvedEntity("E1", "Ana actualizada")
+e2 = ResolvedEntity("E2", "Luis")
+s = {e1, e1b, e2}
+print("size", len(s))
+print("e1==e1b", e1 == e1b)
+try:
+    ResolvedEntity("  ", "sin id")
+except ValueError as e:
+    print("reject", e)`,
           output: `size 2
-e1==e1b True`,
+e1==e1b True
+reject entity_id vacío`,
         },
-        why: "frozen + display_name compare=False mantiene identidad/hash por entity_id aunque cambie la etiqueta visible.",
+        why: "frozen + compare=False mantiene identidad por entity_id; fail-closed si el id está vacío.",
       },
       {
         demoId: "S11-T3-A-DEMO",
         subtopicId: "S11-T3-A",
         environment: "local-python",
-        description: "CaseFile compone list[RelationshipEvidence] + entidad resuelta.",
+        description: "CaseFile compone ResolvedEntity + RelationshipEvidence validada (par canónico y score).",
         code: {
           language: 'python',
           title: "casefile_compose.py",
-          code: `def s11_ido_5():
-    from dataclasses import dataclass, field
+          code: `from dataclasses import dataclass, field
+from math import isfinite
 
-    @dataclass(frozen=True)
-    class ResolvedEntity:
-        entity_id: str
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
 
-    @dataclass(frozen=True)
-    class RelationshipEvidence:
-        left_id: str
-        right_id: str
-        signal_score: float
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
 
-    @dataclass
-    class CaseFile:
-        entity: ResolvedEntity
-        evidences: list[RelationshipEvidence] = field(default_factory=list)
+    def __post_init__(self) -> None:
+        if not self.left_id < self.right_id:
+            raise ValueError("par no canónico")
+        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
+            raise ValueError("signal_score fuera de rango")
 
-    cf = CaseFile(ResolvedEntity("E1"))
-    cf.evidences.append(RelationshipEvidence("E1", "E2", 0.31))
-    cf.evidences.append(RelationshipEvidence("E1", "E3", 0.12))
-    print(cf.entity.entity_id, "n_ev", len(cf.evidences))
-    print("scores", [e.signal_score for e in cf.evidences])
+@dataclass
+class CaseFile:
+    entity: ResolvedEntity
+    evidences: list[RelationshipEvidence] = field(default_factory=list)
 
-s11_ido_5()`,
+    def add(self, ev: RelationshipEvidence) -> None:
+        self.evidences.append(ev)
+
+cf = CaseFile(ResolvedEntity("E1"))
+cf.add(RelationshipEvidence("E1", "E2", 0.31))
+cf.add(RelationshipEvidence("E1", "E3", 0.12))
+print(cf.entity.entity_id, "n_ev", len(cf.evidences))
+print("scores", [e.signal_score for e in cf.evidences])`,
           output: `E1 n_ev 2
 scores [0.31, 0.12]`,
         },
-        why: "Composición ensambla el caso sin herencia artificial.",
+        why: "Composición con invariantes reales: add solo acepta evidencias ya validadas al construir.",
       },
       {
         demoId: "S11-T3-B-DEMO",
@@ -567,14 +622,22 @@ print(upsert(FakeStore(), {"entity_id": "E9", "name": "Demo"}))`,
         code: {
           language: 'python',
           title: "client_service.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
-    email: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
+
     def to_dict(self):
-        return {"client_id": self.client_id, "email": self.email}
+        return {
+            "client_id": self.client_id,
+            "document_id": self.document_id,
+            "full_name": self.full_name,
+            "emails": list(self.emails),
+        }
 
 class InMemoryClientRepository:
     def __init__(self):
@@ -587,15 +650,17 @@ class InMemoryClientRepository:
 class ClientService:
     def __init__(self, repo):
         self.repo = repo
-    def register(self, client_id, email):
-        c = ClientRecord(client_id, email)
+    def register(self, client_id, document_id, full_name, email):
+        c = ClientRecord(client_id, document_id, full_name, [email])
         self.repo.save(c)
         # deliberadamente no hay is_fraud
         return c.to_dict()
 
-print(ClientService(InMemoryClientRepository()).register("C001", "a@ejemplo.pe"))
+print(ClientService(InMemoryClientRepository()).register(
+    "C001", "DNI-1", "Ana Pérez", "a@ejemplo.pe"
+))
 print("has_is_fraud", hasattr(ClientService, "is_fraud"))`,
-          output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}
+          output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}
 has_is_fraud False`,
         },
         why: "Service orquesta persistencia; no emite veredictos de fraude.",
@@ -643,11 +708,11 @@ pass`,
         subtopicId: "S11-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Completa la dataclass ClientRecord con client_id, full_name y phones: list[str]. Salida/pass: primeros tokens de `ClientRecord(client_id='C001', full_name='Ana Pere…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Usa field(default_factory=list).",
+          "E1 (guiado) — Completa la dataclass `ClientRecord` con `client_id`, `document_id`, `full_name` y `emails: list[str]` usando `field(default_factory=list)`. Instancia con emails de demo y muestra el repr. Conserva asserts del starter; solo stdlib.",
+        hint: "Usa field(default_factory=list) para emails.",
         hints: [
-          "Usa field(default_factory=list).",
-          "Instancia y print.",
+          "Usa field(default_factory=list) para emails.",
+          "Instancia con C001, DNI-1, Ana Pérez y un email @ejemplo.pe.",
         ],
         edgeCases: ["default=[] sería mutable compartido"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -662,10 +727,11 @@ from dataclasses import dataclass
 @dataclass
 class ClientRecord:
     client_id: str
+    document_id: str
     full_name: str
-    phones: list = []
+    emails: list = []
 
-print(ClientRecord("C001", "Ana Perez"))
+print(ClientRecord("C001", "DNI-1", "Ana Pérez"))
 print('ok', True)`,
         },
         solutionCode: {
@@ -676,11 +742,12 @@ print('ok', True)`,
 @dataclass
 class ClientRecord:
     client_id: str
+    document_id: str
     full_name: str
-    phones: list[str] = field(default_factory=list)
+    emails: list[str] = field(default_factory=list)
 
-print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
-          output: `ClientRecord(client_id='C001', full_name='Ana Perez', phones=['999111222'])`,
+print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"]))`,
+          output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
       },
       {
@@ -688,7 +755,7 @@ print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
         subtopicId: "S11-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Transaction con tx_id, client_id, amount: Decimal y currency: str obligatorios; usa Decimal desde texto y PEN en el caso visible. Salida/pass: primeros tokens de `Transaction(tx_id='T1', client_id='C001', amount=D…` según solution. Conserva el contrato del.",
+          "E2 (independiente) — Define `Transaction` con `tx_id`, `client_id`, `amount: Decimal` y `currency: str` obligatorios. Usa `Decimal` desde texto y `PEN` en el caso visible. Salida esperada: repr con `amount=Decimal('150.50')` y `currency='PEN'`. Conserva asserts y datos del starter; solo stdlib (sin web/ORM).",
         hint: "Importa Decimal; sin defaults en campos obligatorios.",
         hints: [
           "Importa Decimal; sin defaults en campos obligatorios.",
@@ -736,11 +803,11 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
         subtopicId: "S11-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Migra un dict anónimo a ClientRecord vía from_dict. Salida/pass: `ClientRecord C007`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "classmethod from_dict.",
+          "E3 (transferencia) — Migra un dict anónimo a `ClientRecord` vía `@classmethod from_dict` con la forma canónica: `client_id`, `document_id`, `full_name`, `emails` (lista). Salida/pass: `ClientRecord C007`. Solo stdlib.",
+        hint: "classmethod from_dict que devuelve cls(...); emails con list(d.get('emails', [])).",
         hints: [
-          "classmethod from_dict.",
-          "Imprime el tipo y el id.",
+          "classmethod from_dict que devuelve cls(...); emails con list(d.get('emails', [])).",
+          "Imprime el tipo y el client_id.",
         ],
         edgeCases: ["KeyError si falta campo — aceptable o validar en T1-B"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -750,36 +817,55 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
           title: "migrate_dict.py",
           code: `# CASO-LIM-011 · from_dict factory
 # DEFECT: no classmethod; construye mal
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
+    document_id: str
     full_name: str
+    emails: list[str] = field(default_factory=list)
 
     def from_dict(self, d: dict):
         return d
 
-raw = {"client_id": "C007", "full_name": "Luis Ramos"}
-c = ClientRecord.from_dict(ClientRecord("x", "y"), raw)
+raw = {
+    "client_id": "C007",
+    "document_id": "DNI-7",
+    "full_name": "Luis Ramos",
+    "emails": ["luis@ejemplo.pe"],
+}
+c = ClientRecord.from_dict(ClientRecord("x", "y", "z"), raw)
 print(type(c).__name__, getattr(c, "client_id", c))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "migrate_dict.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
+    document_id: str
     full_name: str
+    emails: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, d: dict) -> "ClientRecord":
-        return cls(d["client_id"], d["full_name"])
+        return cls(
+            d["client_id"],
+            d["document_id"],
+            d["full_name"],
+            list(d.get("emails", [])),
+        )
 
-raw = {"client_id": "C007", "full_name": "Luis Ramos"}
+raw = {
+    "client_id": "C007",
+    "document_id": "DNI-7",
+    "full_name": "Luis Ramos",
+    "emails": ["luis@ejemplo.pe"],
+}
 c = ClientRecord.from_dict(raw)
 print(type(c).__name__, c.client_id)`,
           output: `ClientRecord C007`,
@@ -790,7 +876,7 @@ print(type(c).__name__, c.client_id)`,
         subtopicId: "S11-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Añade invariantes: amount Decimal > 0, cuantizado a 0.01, y currency en {'PEN', 'USD'} sin conversión silenciosa. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19;.",
+          "E1 (guiado) — Añade invariantes a `Transaction`: `amount` es `Decimal` > 0, cuantizado a 0.01, y `currency` ∈ {'PEN', 'USD'} sin conversión silenciosa. Muestra ok PEN y rechazos por cero y EUR. Solo clases/dataclass; sin web ni ORM.",
         hint: "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
         hints: [
           "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
@@ -859,11 +945,11 @@ reject currency no soportada`,
         subtopicId: "S11-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Factory from_dict con validación de client_id y document_id no vacíos. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Raise ValueError con mensaje claro.",
+          "E2 (independiente) — Factory `from_dict` sobre forma **reducida** de `ClientRecord` (solo `client_id` + `document_id` para enfocar invariantes). Valida ambos no vacíos tras strip. Muestra ok y el rechazo. Solo stdlib.",
+        hint: "Raise ValueError con mensaje claro tras strip.",
         hints: [
-          "Raise ValueError con mensaje claro.",
-          "Prueba ok y fail.",
+          "Raise ValueError con mensaje claro tras strip.",
+          "Prueba ok y fail con document_id de solo espacios.",
         ],
         edgeCases: ["strip evita espacios como id válido"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -922,41 +1008,60 @@ document_id vacío`,
         subtopicId: "S11-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Lista en español 4 invariantes del dominio e imprímelas. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "ClientRecord, Transaction, Evidence, Entity.",
+          "E3 (transferencia) — En forma reducida (`client_id` + `document_id`), implementa `validate()` que devuelve lista de errores (strings); `[]` si ok. Cubre ambos ids no vacíos. Imprime errores del inválido y `[]` del válido. Solo stdlib.",
+        hint: "No lances excepción: acumula mensajes en una list.",
         hints: [
-          "ClientRecord, Transaction, Evidence, Entity.",
-          "Formato INV: ...",
+          "No lances excepción: acumula mensajes en una list.",
+          "strip() antes de comprobar vacío.",
         ],
         edgeCases: ["Invariantes de negocio ≠ veredictos de fraude"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: "invariants_list.py",
-          code: `# CASO-LIM-011 · invariants list
-# DEFECT: omite signal_score y entity_id
-for inv in [
-    "INV: ClientRecord.document_id no vacío",
-    "INV: Transaction.amount es float > 0",
-]:
-    print(inv)
+          title: "validate_method.py",
+          code: `# CASO-LIM-011 · validate() reutilizable
+# DEFECT: validate siempre devuelve []
+from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+
+    def validate(self) -> list[str]:
+        return []
+
+bad = ClientRecord("", "  ")
+good = ClientRecord("C1", "D1")
+print(bad.validate())
+print(good.validate())
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "invariants_list.py",
-          code: `for inv in [
-    "INV: ClientRecord.document_id no vacío",
-    "INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD",
-    "INV: RelationshipEvidence.signal_score entre 0 y 1",
-    "INV: ResolvedEntity.entity_id único y no vacío",
-]:
-    print(inv)`,
-          output: `INV: ClientRecord.document_id no vacío
-INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD
-INV: RelationshipEvidence.signal_score entre 0 y 1
-INV: ResolvedEntity.entity_id único y no vacío`,
+          title: "validate_method.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+
+    def validate(self) -> list[str]:
+        errs: list[str] = []
+        if not self.client_id.strip():
+            errs.append("client_id vacío")
+        if not self.document_id.strip():
+            errs.append("document_id vacío")
+        return errs
+
+bad = ClientRecord("", "  ")
+good = ClientRecord("C1", "D1")
+print(bad.validate())
+print(good.validate())`,
+          output: `['client_id vacío', 'document_id vacío']
+[]`,
         },
       },
       {
@@ -964,11 +1069,11 @@ INV: ResolvedEntity.entity_id único y no vacío`,
         subtopicId: "S11-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Property full_name desde first_name y last_name. Salida/pass: `Ana Perez`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E1 (guiado) — Value object **aparte** de `ClientRecord`: `PersonName` con `first_name`/`last_name` y property `full_name` (nombre + apellido). No es un schema alterno del cliente; solo entrena `@property`. Salida/pass: `Ana Pérez`. Solo stdlib.",
         hint: "@property sin setter.",
         hints: [
           "@property sin setter.",
-          "Print full_name.",
+          "Print full_name (no full_name()).",
         ],
         edgeCases: ["No guardar full_name duplicado si se puede calcular"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -981,14 +1086,14 @@ INV: ResolvedEntity.entity_id único y no vacío`,
 from dataclasses import dataclass
 
 @dataclass
-class Person:
+class PersonName:
     first_name: str
     last_name: str
 
     def full_name(self) -> str:
         return f"{self.last_name} {self.first_name}"
 
-print(Person("Ana", "Perez").full_name())
+print(PersonName("Ana", "Pérez").full_name())
 print('ok', True)`,
         },
         solutionCode: {
@@ -997,7 +1102,7 @@ print('ok', True)`,
           code: `from dataclasses import dataclass
 
 @dataclass
-class Person:
+class PersonName:
     first_name: str
     last_name: str
 
@@ -1005,8 +1110,8 @@ class Person:
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-print(Person("Ana", "Perez").full_name)`,
-          output: `Ana Perez`,
+print(PersonName("Ana", "Pérez").full_name)`,
+          output: `Ana Pérez`,
         },
       },
       {
@@ -1014,7 +1119,7 @@ print(Person("Ana", "Perez").full_name)`,
         subtopicId: "S11-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime). Salida/pass: `15`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E2 (independiente) — En `Transaction` con `day_created: int` (demo sin datetime), implementa `age_days_since(day: int)` como consulta pura: `day - day_created`. Caso sintético T1 creado día 10, consulta día 25. Salida/pass: `15`. Solo stdlib.",
         hint: "Retorna day - day_created.",
         hints: [
           "Retorna day - day_created.",
@@ -1063,7 +1168,7 @@ print(Transaction("T1", 10).age_days_since(25))`,
         subtopicId: "S11-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Encapsula mutación de score con setter que solo clases, dataclass, composition (S01–S11).",
+          "E3 (transferencia) — Encapsula un `score` 0..1 con `@property` + setter: rechaza valores fuera de rango y no finitos (`nan`/`inf`) con `ValueError('score fuera de rango')`. Muestra ok=0.4 y rechazos. Solo stdlib.",
         hint: "Property score + math.isfinite antes del rango.",
         hints: [
           "Property score + math.isfinite antes del rango.",
@@ -1141,7 +1246,7 @@ reject_nan score fuera de rango`,
         subtopicId: "S11-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Implementa ResolvedEntity frozen con igualdad/hash solo por entity_id; display_name puede cambiar sin cambiar identidad. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de.",
+          "E1 (guiado) — Implementa `ResolvedEntity` frozen con igualdad/hash solo por `entity_id`; `display_name` con `field(compare=False)`. Muestra igualdad E1 y tamaño del set. Sin frameworks web ni ORMs; conserva el contrato del starter.",
         hint: "dataclass(frozen=True) + field(compare=False) en display_name.",
         hints: [
           "dataclass(frozen=True) + field(compare=False) en display_name.",
@@ -1197,7 +1302,7 @@ print(len({a, b, c}))`,
         subtopicId: "S11-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Crea Evidence frozen value object y úsalo en un set. Salida/pass: `2`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E2 (independiente) — Crea `Evidence` frozen (`left_id`, `right_id`, `signal_score`) y úsalo en un set: el duplicado exacto colapsa. Salida/pass: `2` (dos pares distintos). Solo stdlib.",
         hint: "frozen=True dataclass.",
         hints: [
           "frozen=True dataclass.",
@@ -1252,7 +1357,7 @@ print(len(s))`,
         subtopicId: "S11-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Demuestra el bug de entidad mutable como key de dict y la versión frozen segura. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E3 (transferencia) — Demuestra el bug de entidad mutable como key de dict y la versión frozen segura. Imprime `BUG lookup_after_mutate …` y `SAFE …`. Solo stdlib.",
         hint: "Imprime BUG y SAFE.",
         hints: [
           "Imprime BUG y SAFE.",
@@ -1318,11 +1423,11 @@ SAFE row`,
         subtopicId: "S11-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto. Salida/pass: `C001 Ana | design=composition`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Imprime el diseño final simple.",
+          "E1 (guiado) — Reemplaza herencia innecesaria `Client(PersonInfo)` por composición: `Client` tiene un `person: PersonInfo`. Salida/pass: dos líneas — `C001 Ana` y `design=composition`. Solo stdlib.",
+        hint: "Client(client_id, person) sin heredar de PersonInfo.",
         hints: [
-          "Imprime el diseño final simple.",
-          "Sin class Person base.",
+          "Client(client_id, person) sin heredar de PersonInfo.",
+          "Imprime client_id y person.first_name; luego design=composition.",
         ],
         edgeCases: ["Composición permite cambiar PersonInfo sin romper Client"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -1343,7 +1448,7 @@ class PersonInfo:
 class Client(PersonInfo):
     client_id: str
 
-c = Client("Ana", "Perez", "C001")
+c = Client("Ana", "Pérez", "C001")
 print(c.client_id, c.first_name)
 print("design=inheritance")
 print('ok', True)`,
@@ -1363,7 +1468,7 @@ class Client:
     client_id: str
     person: PersonInfo
 
-c = Client("C001", PersonInfo("Ana", "Perez"))
+c = Client("C001", PersonInfo("Ana", "Pérez"))
 print(c.client_id, c.person.first_name)
 print("design=composition")`,
           output: `C001 Ana
@@ -1375,20 +1480,20 @@ design=composition`,
         subtopicId: "S11-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: CaseFile agrega evidencias con add_evidence y cuenta. Salida/pass: `n= 2`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Lista interna.",
+          "E2 (independiente) — `CaseFile` con `evidences: list` vía `field(default_factory=list)` y método `add_evidence`. Tras dos altas en CF1, CF2 nuevo debe quedar vacío (sin lista compartida). Imprime `n= 2 empty 0`. Solo stdlib.",
+        hint: "Lista interna con default_factory, no = [].",
         hints: [
-          "Lista interna.",
-          "Print n=2.",
+          "Lista interna con default_factory, no = [].",
+          "Tras dos add en CF1, crea CF2 y muestra len(cf)=2 y len(cf2)=0.",
         ],
-        edgeCases: ["Validar score en el value object, no solo en CaseFile"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["Validar score en el value object, no solo en CaseFile", "default=[] comparte la misma lista entre instancias"],
+        tests: "Contrato exacto: una línea `n= 2 empty 0` (CF1 con dos evidencias; CF2 sin contaminar).",
+        feedback: "Si CF2 no arranca en 0, el default mutable compartió la lista entre expedientes.",
         starterCode: {
           language: 'python',
           title: "casefile_add.py",
           code: `# CASO-LIM-011 · CaseFile evidences
-# DEFECT: default mutable list
+# DEFECT: default mutable list (CF2 hereda evidencias de CF1)
 from dataclasses import dataclass
 
 @dataclass
@@ -1401,8 +1506,9 @@ class CaseFile:
 
 cf = CaseFile("CF1")
 cf.add_evidence({"score": 0.1})
+cf.add_evidence({"score": 0.2})
 cf2 = CaseFile("CF2")
-print("n=", len(cf2.evidences))
+print("n=", len(cf.evidences), "empty", len(cf2.evidences))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1421,8 +1527,9 @@ class CaseFile:
 cf = CaseFile("CF1")
 cf.add_evidence({"score": 0.1})
 cf.add_evidence({"score": 0.2})
-print("n=", len(cf.evidences))`,
-          output: `n= 2`,
+cf2 = CaseFile("CF2")
+print("n=", len(cf.evidences), "empty", len(cf2.evidences))`,
+          output: `n= 2 empty 0`,
         },
       },
       {
@@ -1430,31 +1537,79 @@ print("n=", len(cf.evidences))`,
         subtopicId: "S11-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ... Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Piensa en roles y evolución del modelo.",
+          "E3 (transferencia) — Implementa `RelationshipEvidence` frozen con par canónico (`left_id < right_id`) y `signal_score` finito en [0, 1]. Añade dos evidencias válidas a un `CaseFile` y muestra `n_ev` y el rechazo de un par no canónico. Solo stdlib.",
+        hint: "__post_init__ con isfinite y comparación lexicográfica de ids.",
         hints: [
-          "Piensa en roles y evolución del modelo.",
-          "Español profesional.",
+          "__post_init__ con isfinite y comparación lexicográfica de ids.",
+          "CaseFile.add recibe RelationshipEvidence ya validada.",
         ],
-        edgeCases: ["is-a real: SavingsAccount is-a Account tal vez; Client is-a Person rara vez aporta"],
+        edgeCases: ["(E2,E1) no es canónico si E1 < E2"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: "why_not_inherit.py",
-          code: `# CASO-LIM-011 · composition justification
-# DEFECT: recomienda herencia profunda
-print("JUST: Client debe heredar de Person siempre")
-print("JUST: composición solo si no hay tiempo")
+          title: "canonical_evidence.py",
+          code: `# CASO-LIM-011 · par canónico + score
+# DEFECT: no valida par ni rango
+from dataclasses import dataclass, field
+from math import isfinite
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+@dataclass
+class CaseFile:
+    case_id: str
+    evidences: list = field(default_factory=list)
+
+    def add(self, ev: RelationshipEvidence) -> None:
+        self.evidences.append(ev)
+
+cf = CaseFile("CF1")
+cf.add(RelationshipEvidence("E1", "E2", 0.4))
+cf.add(RelationshipEvidence("E2", "E1", 0.5))  # no canónico, debería fallar
+print("n_ev", len(cf.evidences))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "why_not_inherit.py",
-          code: `print("JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person")
-print("JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client")`,
-          output: `JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person
-JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client`,
+          title: "canonical_evidence.py",
+          code: `from dataclasses import dataclass, field
+from math import isfinite
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+    def __post_init__(self) -> None:
+        if not self.left_id < self.right_id:
+            raise ValueError("par no canónico")
+        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
+            raise ValueError("signal_score fuera de rango")
+
+@dataclass
+class CaseFile:
+    case_id: str
+    evidences: list = field(default_factory=list)
+
+    def add(self, ev: RelationshipEvidence) -> None:
+        self.evidences.append(ev)
+
+cf = CaseFile("CF1")
+cf.add(RelationshipEvidence("E1", "E2", 0.4))
+cf.add(RelationshipEvidence("E1", "E3", 0.2))
+print("n_ev", len(cf.evidences))
+try:
+    RelationshipEvidence("E2", "E1", 0.5)
+except ValueError as e:
+    print("reject", e)`,
+          output: `n_ev 2
+reject par no canónico`,
         },
       },
       {
@@ -1462,11 +1617,11 @@ JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser C
         subtopicId: "S11-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer. Salida/pass: `0.5`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E1 (guiado) — Define `Protocol Scorer` con `score(pair: tuple[str, str]) -> float` y un `FakeScorer` que implemente **ese** nombre de método (no `compute`). Puntúa el par sintético `(\"E1\", \"E2\")`. Salida/pass: `0.5`. Solo stdlib.",
         hint: "Imprime el score de un par sintético.",
         hints: [
           "Imprime el score de un par sintético.",
-          "typing.Protocol.",
+          "typing.Protocol; el método debe llamarse score.",
         ],
         edgeCases: ["El Protocol no se instancia"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -1511,7 +1666,7 @@ print(s.score(("E1", "E2")))`,
         subtopicId: "S11-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply. Salida/pass: `Ana | ana`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
+          "E2 (independiente) — Dos implementaciones de normalizer (strip vs casefold) usables por la misma función `apply`. Salida/pass: dos líneas `Ana` y `ana`. Solo stdlib.",
         hint: "apply(norm, text) llama norm(text).",
         hints: [
           "apply(norm, text) llama norm(text).",
@@ -1561,31 +1716,58 @@ ana`,
         subtopicId: "S11-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT. Salida/pass: primeros tokens de `WHEN_NOT: solo hay una implementación y no hay tes…` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de.",
-        hint: "YAGNI / una sola implementación.",
+          "E3 (transferencia) — Implementa `should_introduce_protocol(n_adapters, has_fake_tests, api_stable) -> bool` con YAGNI: solo `True` si hay ≥2 adapters **o** tests con fake, **y** la API está estable. Evalúa los 3 casos del starter e imprime `WHEN_NOT: …` o `INTRODUCE: …` con la etiqueta. Solo stdlib.",
+        hint: "False si (n_adapters < 2 y no has_fake_tests) o si not api_stable.",
         hints: [
-          "YAGNI / una sola implementación.",
-          "Español claro.",
+          "False si (n_adapters < 2 y no has_fake_tests) o si not api_stable.",
+          "Recorre la lista de casos y formatea WHEN_NOT:/INTRODUCE: + label.",
         ],
-        edgeCases: ["Cuando aparece el segundo adapter, el Protocol suele justificar"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        edgeCases: ["Una sola impl sin fake → WHEN_NOT; API inestable → WHEN_NOT aunque haya 2 adapters"],
+        tests: "Contrato exacto: tres líneas — WHEN_NOT: solo_una_impl, WHEN_NOT: api_inestable, INTRODUCE: dos_adapters_con_fake.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "when_not_protocol.py",
-          code: `# CASO-LIM-011 · when not Protocol
-# DEFECT: siempre crea Protocol
-print("WHEN_NOT: nunca; siempre Protocol")
-print("WHEN_NOT: siempre congela API día 1")
+          code: `# CASO-LIM-011 · when not Protocol (YAGNI)
+# DEFECT: siempre True (introduce Protocol sin criterio)
+def should_introduce_protocol(
+    n_adapters: int, has_fake_tests: bool, api_stable: bool
+) -> bool:
+    return True
+
+cases = [
+    (1, False, True, "solo_una_impl"),
+    (2, True, False, "api_inestable"),
+    (2, True, True, "dos_adapters_con_fake"),
+]
+for n, fake, stable, label in cases:
+    decision = "INTRODUCE" if should_introduce_protocol(n, fake, stable) else "WHEN_NOT"
+    print(f"{decision}: {label}")
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "when_not_protocol.py",
-          code: `print("WHEN_NOT: solo hay una implementación y no hay tests con fake")
-print("WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura")`,
-          output: `WHEN_NOT: solo hay una implementación y no hay tests con fake
-WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura`,
+          code: `def should_introduce_protocol(
+    n_adapters: int, has_fake_tests: bool, api_stable: bool
+) -> bool:
+    if not api_stable:
+        return False
+    if n_adapters < 2 and not has_fake_tests:
+        return False
+    return True
+
+cases = [
+    (1, False, True, "solo_una_impl"),
+    (2, True, False, "api_inestable"),
+    (2, True, True, "dos_adapters_con_fake"),
+]
+for n, fake, stable, label in cases:
+    decision = "INTRODUCE" if should_introduce_protocol(n, fake, stable) else "WHEN_NOT"
+    print(f"{decision}: {label}")`,
+          output: `WHEN_NOT: solo_una_impl
+WHEN_NOT: api_inestable
+INTRODUCE: dos_adapters_con_fake`,
         },
       },
       {
@@ -1593,50 +1775,65 @@ WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematur
         subtopicId: "S11-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: to_dict de ClientRecord sin campos password/secret. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Aunque existan en el objeto, no serializarlos.",
+          "E1 (guiado) — En el `ClientRecord` canónico, `to_dict` exporta `client_id`, `document_id`, `full_name` y `emails`, pero **omite** `internal_note` (nota de backoffice; no va al dashboard). No modeles contraseñas en el agregado de familiaridad. Solo stdlib.",
+        hint: "Aunque exista internal_note en el objeto, no lo serialices en to_dict.",
         hints: [
-          "Aunque existan en el objeto, no serializarlos.",
-          "Print dict.",
+          "Aunque exista internal_note en el objeto, no lo serialices en to_dict.",
+          "Copia emails con list(...) para no filtrar la lista interna.",
         ],
-        edgeCases: ["password no debería vivir en el dominio de familiaridad idealmente"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        edgeCases: ["Notas internas y secretos no pertenecen al export de matching; no modeles secretos en el agregado de familiaridad"],
+        tests: "Contrato exacto: el dict impreso no contiene la clave internal_note; incluye client_id, document_id, full_name y emails.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "to_dict_safe.py",
-          code: `# CASO-LIM-011 · to_dict sin password
-# DEFECT: incluye password
-from dataclasses import dataclass
+          code: `# CASO-LIM-011 · to_dict sin nota interna
+# DEFECT: incluye internal_note en el export
+from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
-    email: str
-    password: str = ""
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
+    internal_note: str = ""  # backoffice; no serializar al dashboard
 
     def to_dict(self) -> dict:
-        return {"client_id": self.client_id, "email": self.email, "password": self.password}
+        return {
+            "client_id": self.client_id,
+            "document_id": self.document_id,
+            "full_name": self.full_name,
+            "emails": list(self.emails),
+            "internal_note": self.internal_note,
+        }
 
-print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())
+print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "to_dict_safe.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass
 class ClientRecord:
     client_id: str
-    email: str
-    password: str = ""
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
+    internal_note: str = ""  # backoffice; no serializar al dashboard
 
     def to_dict(self) -> dict:
-        return {"client_id": self.client_id, "email": self.email}
+        return {
+            "client_id": self.client_id,
+            "document_id": self.document_id,
+            "full_name": self.full_name,
+            "emails": list(self.emails),
+        }
 
-print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
-          output: `{'client_id': 'C1', 'email': 'a@ejemplo.pe'}`,
+print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())`,
+          output: `{'client_id': 'C001', 'document_id': 'DNI-1', 'full_name': 'Ana Pérez', 'emails': ['a@ejemplo.pe']}`,
         },
       },
       {
@@ -1644,10 +1841,10 @@ print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
         subtopicId: "S11-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Repository save/get con dict store en memoria. Salida/pass: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Clase con save y get.",
+          "E2 (independiente) — Implementa repositorio en memoria con `save`/`get` sobre un `dict` (clave `client_id`). Guarda el row sintético C001 y recupéralo. Salida/pass: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`. Solo stdlib.",
+        hint: "Clase con save y get; get usa .get del dict.",
         hints: [
-          "Clase con save y get.",
+          "Clase con save y get; get usa .get del dict.",
           "Roundtrip de un client dict.",
         ],
         edgeCases: ["get retorna None si no existe"],
@@ -1693,40 +1890,70 @@ print(r.get("C001"))`,
         subtopicId: "S11-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dibuja en texto la frontera dominio vs CLI I/O (3 capas). Salida/pass: primeros tokens de `LAYER: cli — argparse, stdin/stdout, exit codes | …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19 solo clases, dataclass, composition (S01–S11).",
-        hint: "cli → service → domain/repo.",
+          "E3 (transferencia) — Modela la frontera en código: `Layer` frozen con `name`, `may_print`, `may_parse_cli`, `holds_invariants`. `classify()` devuelve cli / service / domain en ese orden. Service **no** imprime ni parsea CLI; solo domain sostiene invariantes. Imprime tres líneas `LAYER: …`. Solo stdlib.",
+        hint: "service: may_print=False y may_parse_cli=False; domain: holds_invariants=True.",
         hints: [
-          "cli → service → domain/repo.",
-          "Imprime LAYER líneas.",
+          "service: may_print=False y may_parse_cli=False; domain: holds_invariants=True.",
+          "cli puede print y parsear argv; no sostiene invariantes de dominio.",
         ],
-        edgeCases: ["Logging puede colgarse del service con correlation_id"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        edgeCases: ["Logging de correlación puede colgarse del service sin print de negocio"],
+        tests: "Contrato exacto: tres líneas LAYER con flags True/False como en la solución.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "boundary_layers.py",
-          code: `# CASO-LIM-011 · layers
-# DEFECT: service con print; cli sin exit codes
-for line in [
-    "LAYER: cli — solo print",
-    "LAYER: service — print de negocio",
-    "LAYER: domain/repo — acoplado a sqlite",
-]:
-    print(line)
+          code: `# CASO-LIM-011 · layers como tipos
+# DEFECT: service.may_print True; domain.holds_invariants False
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Layer:
+    name: str
+    may_print: bool
+    may_parse_cli: bool
+    holds_invariants: bool
+
+def classify() -> list[Layer]:
+    return [
+        Layer("cli", True, True, False),
+        Layer("service", True, False, False),  # service no debe imprimir
+        Layer("domain", False, False, False),  # domain sí sostiene invariantes
+    ]
+
+for L in classify():
+    print(
+        f"LAYER: {L.name} print={L.may_print} "
+        f"cli={L.may_parse_cli} inv={L.holds_invariants}"
+    )
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "boundary_layers.py",
-          code: `for line in [
-    "LAYER: cli — argparse, stdin/stdout, exit codes",
-    "LAYER: service — casos de uso, sin print",
-    "LAYER: domain/repo — entidades, invariantes, persistencia abstracta",
-]:
-    print(line)`,
-          output: `LAYER: cli — argparse, stdin/stdout, exit codes
-LAYER: service — casos de uso, sin print
-LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
+          code: `from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Layer:
+    name: str
+    may_print: bool
+    may_parse_cli: bool
+    holds_invariants: bool
+
+def classify() -> list[Layer]:
+    return [
+        Layer("cli", True, True, False),
+        Layer("service", False, False, False),
+        Layer("domain", False, False, True),
+    ]
+
+for L in classify():
+    print(
+        f"LAYER: {L.name} print={L.may_print} "
+        f"cli={L.may_parse_cli} inv={L.holds_invariants}"
+    )`,
+          output: `LAYER: cli print=True cli=True inv=False
+LAYER: service print=False cli=False inv=False
+LAYER: domain print=False cli=False inv=True`,
         },
       },
       {
@@ -1734,13 +1961,13 @@ LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
         subtopicId: "S11-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Usa assert en un try o pytest-style manual.",
+          "E1 (guiado) — Test de invariante sobre forma reducida de `ClientRecord` (`client_id` + `document_id`): document vacío lanza `ValueError`; imprime `pass`. Solo stdlib.",
+        hint: "Usa try/except ValueError y return 'pass'.",
         hints: [
-          "Usa assert en un try o pytest-style manual.",
-          "print('pass') al final.",
+          "Usa try/except ValueError y return 'pass'.",
+          "print del resultado del test.",
         ],
-        edgeCases: ["Tests puros: sin I/O"],
+        edgeCases: ["Tests puros: sin I/O de red"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
@@ -1791,11 +2018,11 @@ print(test_empty_document_rejected())`,
         subtopicId: "S11-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Fake repo en 3 tests de servicio (register, get, missing). Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no frameworks web, no ORMs de S19; solo clases, dataclass, composition (S01–S11).",
-        hint: "Imprime pass x3.",
+          "E2 (independiente) — Fake repo + servicio: tres tests puros (`register`, `get` existente, `get` missing). Cada test imprime `pass` (tres líneas). Sin red/DB; solo stdlib.",
+        hint: "Service simple con repo inyectado; asserts reales.",
         hints: [
+          "Service simple con repo inyectado; asserts reales.",
           "Imprime pass x3.",
-          "Service simple con repo inyectado.",
         ],
         edgeCases: ["Fake no es mock mágico: es implementación en memoria"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
@@ -1875,31 +2102,66 @@ pass`,
         subtopicId: "S11-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual. Salida/pass: primeros tokens de `ANTES: Client.decide_fraud(score)->bool veredicto …` según solution. Conserva el contrato del starter (no borres asserts ni datos); no.",
-        hint: "Mueve el score a Evidence; elimina el veredicto.",
+          "E3 (transferencia) — Extrae el anti-patrón: elimina `decide_fraud` del dominio y modela `RelationshipEvidence` frozen con `signal_score` (dato, no veredicto). Assert de que no existen `decide_fraud`/`is_fraud`/`is_related_family`. Imprime `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`. Solo stdlib.",
+        hint: "Borra el método de veredicto; el score vive en el value object de evidencia.",
         hints: [
-          "Mueve el score a Evidence; elimina el veredicto.",
-          "Dos líneas.",
+          "Borra el método de veredicto; el score vive en el value object de evidencia.",
+          "Usa hasattr sobre la clase final, no sobre la versión defectuosa.",
         ],
-        edgeCases: ["Umbrales de producto no son invariantes de entidad"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
+        edgeCases: ["Umbrales de producto y revisión humana viven fuera del modelo de dominio"],
+        tests: "Contrato exacto: dos líneas — ANTES has_decide_fraud True y DESPUES signal_score 0.95 has_decide_fraud False; sin métodos de veredicto en RelationshipEvidence.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "extract_fraud.py",
           code: `# CASO-LIM-011 · no fraud in domain
-# DEFECT: mantiene decide_fraud en dominio
-print("ANTES: Client.decide_fraud(score)->bool veredicto en el dominio")
-print("DESPUES: Client.decide_fraud(score)->bool sigue en el dominio")
+# DEFECT: veredicto decide_fraud en el dominio
+from dataclasses import dataclass
+
+@dataclass
+class Client:
+    client_id: str
+
+    def decide_fraud(self, score: float) -> bool:
+        return score >= 0.9
+
+print("ANTES has_decide_fraud", hasattr(Client, "decide_fraud"))
+print("DESPUES signal_score", 0.95, "has_decide_fraud", hasattr(Client, "decide_fraud"))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "extract_fraud.py",
-          code: `print("ANTES: Client.decide_fraud(score)->bool veredicto en el dominio")
-print("DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo")`,
-          output: `ANTES: Client.decide_fraud(score)->bool veredicto en el dominio
-DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo`,
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Client:
+    client_id: str
+
+    def decide_fraud(self, score: float) -> bool:
+        return score >= 0.9
+
+print("ANTES has_decide_fraud", hasattr(Client, "decide_fraud"))
+
+# Anti-patrón extraído: el dominio solo guarda señales, no veredictos.
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float  # dato, no veredicto
+
+assert not hasattr(RelationshipEvidence, "decide_fraud")
+assert not hasattr(RelationshipEvidence, "is_fraud")
+assert not hasattr(RelationshipEvidence, "is_related_family")
+ev = RelationshipEvidence("E1", "E2", 0.95)
+print(
+    "DESPUES signal_score",
+    ev.signal_score,
+    "has_decide_fraud",
+    hasattr(RelationshipEvidence, "decide_fraud"),
+)`,
+          output: `ANTES has_decide_fraud True
+DESPUES signal_score 0.95 has_decide_fraud False`,
         },
       },
     ],
@@ -1907,7 +2169,7 @@ DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del m
   youDo: {
     title: "Modelo de dominio Cliente–Transacción–Evidencia",
     context:
-      "Implementas el núcleo de **CP-N1-C**: ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence con invariantes, serialización y repo en memoria. **Ninguna clase decide fraude o parentesco.** Reemplaza el legado de test suite churn.",
+      "Implementas el núcleo de **CP-N1-C**: ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence con invariantes, serialización y repo en memoria. **Ninguna clase decide fraude o parentesco.**",
     objectives: [
       "Implementar ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence",
       "Invariantes en construcción y equality consciente",
@@ -1926,14 +2188,17 @@ DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del m
       "Datos sintéticos ejemplo.pe / C00x",
       "Service sin side-effects de CLI",
     ],
-    starterCode: `"""Modelo de dominio Cliente–Transacción–Evidencia (CP-N1-C).
-Ningún método decide fraude ni parentesco. Datos sintéticos.
+    starterCode: `"""CP-N1-C — completa el dominio. Sin is_fraud / is_related_family. Datos sintéticos.
+Forma canónica ClientRecord: client_id, document_id, full_name, emails.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
 from decimal import Decimal
 from math import isfinite
 from typing import Protocol
+
+# Completa cada TODO. Los tests al final fallan hasta que el dominio esté bien.
+
 
 @dataclass
 class ClientRecord:
@@ -1943,16 +2208,13 @@ class ClientRecord:
     emails: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        if not self.client_id or not self.document_id.strip():
-            raise ValueError("client_id/document_id inválidos")
+        # TODO: rechazar client_id o document_id vacíos (strip)
+        pass
 
     def to_dict(self) -> dict:
-        return {
-            "client_id": self.client_id,
-            "document_id": self.document_id,
-            "full_name": self.full_name,
-            "emails": list(self.emails),
-        }
+        # TODO: devolver dict serializable (sin secretos)
+        return {}
+
 
 @dataclass(frozen=True)
 class ResolvedEntity:
@@ -1960,8 +2222,9 @@ class ResolvedEntity:
     display_name: str = field(compare=False)
 
     def __post_init__(self) -> None:
-        if not self.entity_id.strip():
-            raise ValueError("entity_id vacío")
+        # TODO: rechazar entity_id vacío
+        pass
+
 
 @dataclass
 class Transaction:
@@ -1971,14 +2234,9 @@ class Transaction:
     currency: str
 
     def __post_init__(self) -> None:
-        if not isinstance(self.amount, Decimal):
-            raise TypeError("amount debe ser Decimal")
-        if self.amount <= Decimal("0"):
-            raise ValueError("amount debe ser > 0")
-        if self.amount != self.amount.quantize(Decimal("0.01")):
-            raise ValueError("amount debe tener máximo 2 decimales")
-        if self.currency not in {"PEN", "USD"}:
-            raise ValueError("currency no soportada")
+        # TODO: Decimal > 0, máx. 2 decimales, currency en {PEN, USD}
+        pass
+
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -1987,45 +2245,85 @@ class RelationshipEvidence:
     signal_score: float  # dato, no veredicto
 
     def __post_init__(self) -> None:
-        if not self.left_id < self.right_id:
-            raise ValueError("par no canónico")
-        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
-            raise ValueError("signal_score fuera de rango")
+        # TODO: par canónico left_id < right_id; score finito en [0, 1]
+        pass
+
 
 class ClientRepository(Protocol):
     def save(self, client: ClientRecord) -> None: ...
     def get(self, client_id: str) -> ClientRecord | None: ...
+
 
 class InMemoryClientRepository:
     def __init__(self) -> None:
         self._d: dict[str, ClientRecord] = {}
 
     def save(self, client: ClientRecord) -> None:
-        self._d[client.client_id] = client
+        # TODO: persistir por client_id
+        pass
 
     def get(self, client_id: str) -> ClientRecord | None:
-        return self._d.get(client_id)
+        # TODO: recuperar o None
+        return None
+
 
 def test_domain() -> None:
-    repo = InMemoryClientRepository()
-    c = ClientRecord("C001", "DNI-1", "Ana Perez", ["ana@ejemplo.pe"])
-    repo.save(c)
-    assert repo.get("C001") is not None
-    assert not hasattr(RelationshipEvidence, "is_fraud")
-    ev = RelationshipEvidence("E1", "E2", 0.4)
-    assert ev.signal_score == 0.4
+    """Oráculo honesto: debe imprimir tests_pass solo si todo está correcto."""
+    c = ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"])
+    assert c.to_dict()["client_id"] == "C001"
+    assert c.to_dict()["full_name"] == "Ana Pérez"
+
+    try:
+        ClientRecord("", "DNI-1", "X", [])
+        raise AssertionError("debía fallar client_id vacío")
+    except ValueError:
+        pass
+
     assert ResolvedEntity("E1", "Ana") == ResolvedEntity("E1", "Ana actualizada")
+    try:
+        ResolvedEntity("  ", "sin id")
+        raise AssertionError("debía fallar entity_id vacío")
+    except ValueError:
+        pass
+
     tx = Transaction("T1", "C001", Decimal("150.50"), "PEN")
     assert tx.amount == Decimal("150.50")
+    try:
+        Transaction("T2", "C001", Decimal("0.00"), "PEN")
+        raise AssertionError("debía fallar amount <= 0")
+    except ValueError:
+        pass
+    try:
+        Transaction("T3", "C001", Decimal("1.00"), "EUR")
+        raise AssertionError("debía fallar currency EUR")
+    except ValueError:
+        pass
+
+    ev = RelationshipEvidence("E1", "E2", 0.4)
+    assert ev.signal_score == 0.4
+    try:
+        RelationshipEvidence("E2", "E1", 0.5)
+        raise AssertionError("debía fallar par no canónico")
+    except ValueError:
+        pass
+    assert not hasattr(RelationshipEvidence, "is_fraud")
+    assert not hasattr(RelationshipEvidence, "is_related_family")
+
+    repo: ClientRepository = InMemoryClientRepository()
+    repo.save(c)
+    assert repo.get("C001") is not None
+    assert repo.get("MISSING") is None
+
     print("tests_pass")
+
 
 if __name__ == "__main__":
     test_domain()
-    print(ClientRecord("C002", "DNI-2", "Luis").to_dict())`,
+`,
     portfolioNote:
       "Diagrama textual de entidades + lista de invariantes + badge mental 'sin is_fraud'. Muestra 3 tests pasando sobre FakeStore.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Alineación al gate CP-N1-C y a los objetivos de la sección", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
       { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
@@ -2092,11 +2390,6 @@ if __name__ == "__main__":
         note: "puertos estructurales EntityStore",
       },
       {
-        label: "unittest — Unit testing framework",
-        url: "https://docs.python.org/3/library/unittest.html",
-        note: "tests de dominio puro sin red",
-      },
-      {
         label: "decimal — Decimal fixed point",
         url: "https://docs.python.org/3/library/decimal.html",
         note: "Transaction.amount sin float money",
@@ -2111,6 +2404,11 @@ if __name__ == "__main__":
         url: "https://peps.python.org/pep-0544/",
         note: "Protocols vs ABC",
       },
+      {
+        label: "unittest — Unit testing framework",
+        url: "https://docs.python.org/3/library/unittest.html",
+        note: "Referencia opcional: tests de dominio puro sin red",
+      },
     ],
     books: [
       {
@@ -2124,11 +2422,6 @@ if __name__ == "__main__":
     ],
     courses: [
       {
-        label: "pytest docs (soporte de calidad)",
-        url: "https://docs.pytest.org/",
-        note: "Testing reubicado; target V3 S11 = dominio OOP.",
-      },
-      {
         label: "Real Python — Python Classes",
         url: "https://realpython.com/python-classes/",
         note: "instancias, methods, encapsulation.",
@@ -2139,9 +2432,14 @@ if __name__ == "__main__":
         note: "fundamentos de objetos.",
       },
       {
+        label: "pytest docs (soporte de calidad, opcional)",
+        url: "https://docs.pytest.org/",
+        note: "Referencia opcional de tests; el foco de S11 es el modelo de dominio.",
+      },
+      {
         label: "PyArcana live",
         url: "https://pillb.github.io/pyarcana/",
-        note: "curso desplegado; alinear con V3 S11.",
+        note: "Edición pública del curso PyArcana.",
       },
     ],
   },

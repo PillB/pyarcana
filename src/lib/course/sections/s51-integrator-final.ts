@@ -12,25 +12,25 @@ export const section51: CourseSection = {
   icon: "Crown",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, observabilidad, gobernanza y ux del copiloto conecta decisiones técnicas con evidencia operativa. La práctica entrega dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación y se promueve solo cuando se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+    "En equipos de plataforma y producto (bancos, fintechs y ops digitales en Perú y LATAM), el rol de AI/Platform Engineer no termina al desplegar el copiloto: te piden **demostrar** qué versión respondió, qué citó, qué tool llamó, quién aprobó el release y cómo hacer rollback. Esta sección entrena dashboard redactado, SLO con owner, audit trail append-only y flujos de corrección/apelación; se promociona solo con evidencia reconstruible.",
   learningOutcomes: [
-    { text: "Traza prompts, retrieval y tools" },
-    { text: "Mide tokens/costo/latency con redacción" },
-    { text: "Registra modelo/prompt/dataset" },
-    { text: "Controla cambios, acceso y auditoría" },
-    { text: "Opera SLO, feedback y drift" },
-    { text: "Responde incidentes y postmortems" },
-    { text: "Muestra incertidumbre, citas y confirmaciones" },
-    { text: "Diseña a11y, corrección y contestabilidad" },
+    { text: "Construir una traza reconstruible (prompt/retrieval/tool/answer) con `trace_id` y sin PII exportable" },
+    { text: "Reconciliar tokens por etapa, validar p95 ≤ SLO y demostrar redacción de atributos sensibles" },
+    { text: "Pinear un release inmutable (modelo/prompt/dataset/índice) y rechazar `latest` en producción" },
+    { text: "Aplicar dual-control, scope least-privilege, retención acotada y audit append-only" },
+    { text: "Evaluar multi-SLI (availability, faithfulness, drift) con owner y error budget antes de reentrenar" },
+    { text: "Ejecutar contención → rollback dentro de RTO → postmortem blameless con acciones y dueños" },
+    { text: "Diseñar UX con incertidumbre visible, citas resolubles y confirmación antes de side-effects" },
+    { text: "Cerrar CF-5 con WCAG AA (teclado, contraste, labels) más corrección y apelación humana" },
   ],
   theory: [
     {
       heading: "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Trace:** correlación prompt/retrieval/tool/respuesta con versiones. **Redacción:** PII fuera de logs exportables. **Tokens/costo/latency:** SLI del copiloto. **Registro de artefactos:** modelo, prompt, dataset versionados. **Audit trail:** quién aprobó qué. **Drift/feedback:** señales de desalineación. **Postmortem blameless:** aprendizaje sin culpas. **Contestabilidad:** corrección y apelación del usuario. **CF-5:** congela interfaces y artefactos para integración final. **a11y:** accesibilidad (WCAG) del UI del copiloto.",
-        "Esta sección parte de S50 (evals/red team) y opera el **copiloto en producción controlada**: traces, registry, SLO/incidentes y UX contestable. El caso `CASO-MOQ-051` (Moquegua sintético) es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: **Auditable AI Operations Copilot** y freeze **CF-5**. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard **redactado**, SLO con owner, audit trail append-only y mecanismo de corrección/apelación. Error: PII en sink o release sin pin de versiones.",
-        "Orden: T1 traces/redacción → T2 registry/auditoría → T3 SLO/incidentes → T4 UX contestable y a11y. Teoría medible, iDo con helpers, weDo con **DEFECT** de ops/UX por ejercicio. Id legacy `integrator-final` cierra N4; V3 es observabilidad+gobernanza+UX del copiloto (no capstone genérico). Stack: **stdlib** sin telemetría real de PII.",
+        "Esta sección parte de S50 (evals y red team) y opera el **copiloto en producción controlada**: traces, registry, SLO/incidentes y UX contestable. El caso `CASO-MOQ-051` (Moquegua sintético) se ejecuta sin credenciales ni servicios externos. Hallazgos de S50 (eval fallida, prompt inyectable) se convierten aquí en **señales de ops**: drift slice, incidente o freeze de release — no se reentrenan a ciegas.",
+        "Producto incremental: **Auditable AI Operations Copilot** y freeze **CF-5**. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard **redactado**, SLO con owner, audit trail append-only y mecanismo de corrección/apelación. Error: PII en sink o release sin pin de versiones. Los artefactos se **acumulan** de T1 a T4: traza → métricas → bundle pinneado → ticket de cambio → alerta SLO → timeline de incidente → confirmación UX → ruta de apelación.",
+        "Orden de aprendizaje: T1 traces y redacción → T2 registry y auditoría → T3 SLO e incidentes → T4 UX contestable y a11y. Cada tema cierra con un artefacto comprobable del **Auditable AI Operations Copilot**. Practicas solo con **stdlib** y fixtures sintéticos: sin telemetría real de PII ni backends externos obligatorios.",
       ],
       code: {
         language: 'python',
@@ -59,422 +59,595 @@ raw_pii_in_logs_ok False`,
       },
     },
     {
-      heading: "traces de prompts/retrieval/tools",
+      heading: "Traces de prompts, retrieval y tools",
       subtopicId: "S51-T1-A",
       paragraphs: [
-        "Un **trace** correlaciona **prompt template**, **retrieval**, **tool calls** y **respuesta** con **versiones** (prompt/modelo/índice). Sin correlación no hay auditoría: no se puede reconstruir «qué se citó y qué tool se llamó». **Redacta PII/secrets antes** de exportar a backends de observabilidad; raw logs con datos personales son incidente, no «detalle de ops».",
-        "Contrato de reconstrucción. Entrada: prompt_ver, cites y tool. Salida: triple reconstruible (`p3`, `[c1]`, `get_case`). Error: exportar raw PII, omitir tool call o perder version pin. Criterio: CF-5 exige auditar cada decisión del copiloto Moquegua sintético sin secretos en el sink.",
-        "Aplicación a `CASO-MOQ-051-T1A`: `trace_spans` fija el mínimo de evidencia (prompt, cites, tool). Sin secretos en logs; redaction es parte del contrato, no un filtro opcional.",
+        "Un **trace** correlaciona **prompt template**, **retrieval**, **tool calls** y **respuesta** con **versiones** (prompt/modelo/índice) y un **trace_id** de correlación. En la práctica de ops de IA se modela como árbol de **spans** padre/hijo (prompt → retrieval → tool → answer), no como tres strings sueltos. Sin correlación no hay auditoría: no se puede reconstruir «qué se citó y qué tool se llamó». **Redacta PII/secrets antes** de exportar a backends de observabilidad; raw logs con datos personales son incidente, no «detalle de ops».",
+        "Contrato de traza reconstruible. Entrada: `trace_id` (prefijo `tr-`), `prompt_ver` pinneado, lista de citas y nombre de tool. Salida: dict con `status` PASS o acción fail-closed y la lista de spans presentes. Error: `pii=True`, spans incompletos, tool omitido o versión vacía → `REDACT_AND_QUARANTINE_TRACE` o `RESTORE_TRACE_CONTEXT`. Criterio CF-5: un auditor de Moquegua sintético reconstruye la decisión **sin** secretos en el sink.",
+        "En `CASO-MOQ-051-1A`, el copiloto de la entidad ficticia en Moquegua atiende un ticket sintético de consulta de expediente: el on-call debe ver en el dashboard la traza `tr-moq-51` con spans `prompt/retrieval/tool/answer`, citas `c1` y tool `get_case`. Si el export incluye email o prompt_raw, se cuarentena la traza; ninguna señal del caso prueba fraude ni parentesco.",
       ],
       code: {
         language: 'python',
         title: "traces_prompts_retrieval_tools.py",
-        code: `def trace_spans(prompt_ver: str, cites: list, tool: str) -> tuple:
-    return prompt_ver, cites, tool
+        code: `def build_trace(trace_id: str, prompt_ver: str, cites: list, tool: str, pii: bool) -> dict:
+    if pii:
+        return {"status": "REDACT_AND_QUARANTINE_TRACE", "trace_id": trace_id}
+    required = {"prompt", "retrieval", "tool", "answer"}
+    spans = [
+        {"name": "prompt", "ver": prompt_ver},
+        {"name": "retrieval", "cites": list(cites)},
+        {"name": "tool", "call": tool},
+        {"name": "answer", "pinned": True},
+    ]
+    names = {s["name"] for s in spans}
+    ok = (
+        names >= required
+        and str(trace_id).startswith("tr-")
+        and bool(prompt_ver)
+        and bool(tool)
+    )
+    return {
+        "status": "PASS" if ok else "RESTORE_TRACE_CONTEXT",
+        "spans": [s["name"] for s in spans],
+        "cites": list(cites),
+    }
 
-p, cites, tool = trace_spans("p3", ["c1"], "get_case")
-print(p)
-print(cites)
-print(tool)`,
-        output: `p3
-['c1']
-get_case`,
+print(build_trace("tr-moq-51", "p3", ["c1"], "get_case", False))
+print(build_trace("tr-moq-51", "p3", ["c1"], "get_case", True)["status"])`,
+        output: `{'status': 'PASS', 'spans': ['prompt', 'retrieval', 'tool', 'answer'], 'cites': ['c1']}
+REDACT_AND_QUARANTINE_TRACE`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "danger",
+        title: "PII en el sink = incidente",
         content:
-          "Evidencia mínima de S51-T1-A: trace reconstruible sin PII. Si falta, responde `REDACT_AND_QUARANTINE_TRACE`; si no alcanza para decidir, `RESTORE_TRACE_CONTEXT`.",
+          "Exportar prompt_raw, email o tokens a logs/metrics es breach: `REDACT_AND_QUARANTINE_TRACE`. No promociones CF-5 con raw PII aunque el dashboard se vea completo. Si falta contexto de traza, `RESTORE_TRACE_CONTEXT`.",
       },
     },
     {
-      heading: "tokens, costo, latency y redacción",
+      heading: "Tokens, costo, latency y redacción",
       subtopicId: "S51-T1-B",
       paragraphs: [
-        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o token es PII en el sink. Dashboard de CF-5 exige prueba de redacción, no solo charts bonitos.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: dashboard por etapa con prueba de redacción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `tokens, costo, latency y redacción` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es dashboard por etapa con prueba de redacción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media: un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** se deriva de tokens × precio por etapa; si la suma por etapa no reconcilia `total_tokens`, el dashboard miente. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o Authorization es PII en el sink.",
+        "Contrato de costo y latencia. Entrada: contadores de tokens por etapa (prompt, retrieval, generation), latencias p50/p95 y un sink de atributos. Salida: fila de dashboard con suma de tokens reconciliada, p95 ≤ SLO y **prueba de redacción** (email/token ausentes del export). Error: media en lugar de percentil, total que no cuadra, o PII en atributos → `ALERT_COST_LATENCY` / `FIX_REDACTION_PIPELINE`. Criterio: un on-call explica el costo de `CASO-MOQ-051` sin abrir raw logs.",
+        "En `CASO-MOQ-051-1B`, el dashboard de la entidad ficticia de Moquegua muestra 800+400+300=1500 tokens y p95=900 ms (SLO 1200 ms). Antes de exportar, los atributos `email` y `prompt_raw` se reemplazan por `[REDACTED]`. Ningún campo del caso prueba fraude o parentesco; solo calidad y privacidad operativa del sistema.",
       ],
       code: {
         language: 'python',
         title: "tokens_cost_latency_redaction.py",
-        code: `def redact_email(s: str) -> str:
-    if "@" in s:
-        user, _ = s.split("@", 1)
-        return user[:3] + "@[redacted]"
-    return s
+        code: `SENSITIVE = {"email", "authorization", "prompt_raw"}
+# Precio sintético USD por 1k tokens (solo fixture de enseñanza)
+PRICE_PER_1K = 0.002
 
-def cost_metrics(tokens: int, cost: float, latency_ms: int) -> dict:
-    return {"tokens": tokens, "cost": cost, "latency_ms": latency_ms}
+def redact_attr(key: str, value: str) -> str:
+    if key in SENSITIVE or "@" in value:
+        return "[REDACTED]"
+    return value
 
-print(redact_email("ana@example.pe"))
-print(cost_metrics(1200, 0.01, 900))
-print("no_raw_pii", True)`,
-        output: `ana@[redacted]
-{'tokens': 1200, 'cost': 0.01, 'latency_ms': 900}
-no_raw_pii True`,
+def stage_metrics(prompt_t: int, retr_t: int, gen_t: int, p95_ms: int, slo_ms: int) -> dict:
+    total = prompt_t + retr_t + gen_t
+    cost_usd = round(total / 1000 * PRICE_PER_1K, 6)
+    attrs = {
+        "email": redact_attr("email", "ana@example.pe"),
+        "model": redact_attr("model", "m-2"),
+    }
+    return {
+        "total_tokens": total,
+        "cost_usd": cost_usd,
+        "p95_ok": p95_ms <= slo_ms,
+        "attrs": attrs,
+        "export_clean": attrs["email"] == "[REDACTED]",
+    }
+
+m = stage_metrics(800, 400, 300, 900, 1200)
+print(m["total_tokens"], m["cost_usd"], m["p95_ok"], m["attrs"]["email"], m["export_clean"])
+assert m["total_tokens"] == 1500 and m["cost_usd"] == 0.003 and m["export_clean"]`,
+        output: `1500 0.003 True [REDACTED] True`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Percentil, no solo media",
         content:
-          "Antes de promover S51-T1-B, audita dashboard por etapa con prueba de redacción. Un breach activa `ALERT_COST_LATENCY` y una ausencia activa `FIX_REDACTION_PIPELINE`.",
+          "Antes de promover S51-T1-B, audita dashboard por etapa con prueba de redacción y p95 ≤ SLO. Breach → `ALERT_COST_LATENCY`; pipeline de redacción incompleto → `FIX_REDACTION_PIPELINE`.",
       },
     },
     {
-      heading: "registro de modelo/prompt/dataset",
+      heading: "Registro de modelo, prompt y dataset",
       subtopicId: "S51-T2-A",
       paragraphs: [
-        "El **registry** identifica **modelo, prompt, dataset, índice y evaluador** con IDs inmutables; un **release** apunta a un **bundle versionado** (system card + eval digest), no a «latest». Responder en producción sin pin de versiones es drift silencioso: no se puede rollback ni reproducir el fallo del postmortem.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: respuesta enlazada a bundle versionado. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `registro de modelo/prompt/dataset` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es respuesta enlazada a bundle versionado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "El **registry** identifica **modelo, prompt, dataset, índice y evaluador** con IDs inmutables; un **release** apunta a un **bundle versionado** (system card + eval digest), no a `latest`. Responder en producción sin pin de versiones es drift silencioso: no se puede rollback ni reproducir el fallo del postmortem. El anti-patrón clásico es desplegar con `model=latest` y descubrir el cambio solo cuando falla la calidad.",
+        "Contrato de registry inmutable. Entrada: dict de artefactos (`release`, `model`, `prompt`, `dataset`, `index`, `evaluator`) y flag `immutable`. Salida: bundle ordenado pinneado **o** `FREEZE_RELEASE_BUNDLE` si aparece `latest`/vacío/`immutable=False`. Error: versión desconocida o mutable en prod. Criterio: cada respuesta del copiloto se enlaza a un release reproducible (`copilot-7` → `m2/p3/d5`).",
+        "En `CASO-MOQ-051-2A`, el equipo de la entidad ficticia de Moquegua congela el release `copilot-7` con modelo `m2`, prompt `p3` y dataset de eval `d5`. Un intento de promover `model=latest` se rechaza y se emite freeze; el system card queda enlazado al bundle. No hay PII real ni inferencia de fraude o parentesco.",
       ],
       code: {
         language: 'python',
         title: "registry_model_prompt_dataset.py",
-        code: `def release_bundle(items: dict) -> list:
-    return sorted(items.items())
+        code: `def pin_release(items: dict, immutable: bool) -> dict:
+    keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+    if not immutable:
+        return {"status": "FREEZE_RELEASE_BUNDLE", "reason": "mutable"}
+    bad = [k for k in keys if not items.get(k) or items.get(k) == "latest"]
+    if bad:
+        return {"status": "FREEZE_RELEASE_BUNDLE", "reason": ",".join(bad)}
+    return {
+        "status": "PASS",
+        "bundle": sorted((k, items[k]) for k in keys if k in items),
+        "system_card_link": f"card://{items['release']}",
+    }
 
-print(release_bundle({"dataset": "eval-v4", "model": "m-2", "prompt": "p3"}))
-print("immutable", True)
-print("system_card_link", True)`,
-        output: `[('dataset', 'eval-v4'), ('model', 'm-2'), ('prompt', 'p3')]
-immutable True
-system_card_link True`,
+good = {"release": "copilot-7", "model": "m2", "prompt": "p3", "dataset": "d5", "index": "i4", "evaluator": "e2"}
+print(pin_release(good, True)["status"], pin_release(good, True)["system_card_link"])
+print(pin_release({**good, "model": "latest"}, True)["status"])
+print(pin_release(good, False)["status"])`,
+        output: `PASS card://copilot-7
+FREEZE_RELEASE_BUNDLE
+FREEZE_RELEASE_BUNDLE`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Prohibido latest en prod",
         content:
-          "La revisión de S51-T2-A conserva respuesta enlazada a bundle versionado; no conviertas `FREEZE_RELEASE_BUNDLE` ni `REGISTER_MISSING_VERSION` en éxito silencioso.",
+          "S51-T2-A: la respuesta debe enlazarse a un bundle versionado e inmutable. `latest` o `immutable=False` → `FREEZE_RELEASE_BUNDLE`; falta de pin → `REGISTER_MISSING_VERSION`.",
       },
     },
     {
-      heading: "cambio, acceso, retención y auditoría",
+      heading: "Cambio, acceso, retención y auditoría",
       subtopicId: "S51-T2-B",
       paragraphs: [
-        "**Change control** registra autor, aprobador y riesgo residual antes de promover un bundle; **acceso y retención** son mínimos (need-to-know + TTL). El **audit log** es **append-only** para eventos de decisión, pero también se **depura** según política legal (retención ≠ eternidad de PII). Sin ambos, no hay gobernanza operable.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: cambio y acceso auditables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `cambio, acceso, retención y auditoría` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es cambio y acceso auditables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "**Change control** registra autor, aprobador y riesgo residual antes de promover un bundle (**segregación de funciones**: quien escribe no se auto-aprueba). **Acceso y retención** son mínimos (need-to-know + TTL corto en ops-read). El **audit log** es **append-only** para eventos de decisión, pero también se **depura** según política legal: retención ≠ eternidad de PII. Sin ambos, no hay gobernanza operable.",
+        "Contrato de dual-control. Entrada: `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only`. Salida: ticket de cambio auditable o `REJECT_UNGOVERNED_CHANGE`. Error: author==approver, scope admin, retención excesiva o audit no append-only. Si falta evidencia de aprobación independiente → `REQUEST_INDEPENDENT_APPROVAL`. Criterio: se reconstruye quién promovió qué y con qué riesgo residual.",
+        "En `CASO-MOQ-051-2B`, `dev-a` propone el release y `owner-b` lo aprueba con riesgo `medium`, scope `ops-read` y retención 30 días en el audit de la entidad ficticia de Moquegua. Un self-approve o `global-admin` se rechaza. El caso no contiene PII real ni prueba de fraude/parentesco.",
       ],
       code: {
         language: 'python',
         title: "change_access_retention_audit.py",
-        code: `def change_policy(retention_days: int) -> dict:
-    return {"change": "rfc+approve", "retention_days": retention_days}
+        code: `def assess_change(ticket: dict) -> str:
+    required = {"author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
+    if missing := sorted(required - ticket.keys()):
+        return "REQUEST_INDEPENDENT_APPROVAL"
+    ok = (
+        ticket["author"] != ticket["approver"]
+        and ticket["risk"] in {"low", "medium", "high"}
+        and str(ticket["access_scope"]).endswith("-read")
+        and ticket["retention_days"] <= 30
+        and ticket["audit_append_only"] is True
+    )
+    return "PASS" if ok else "REJECT_UNGOVERNED_CHANGE"
 
-print(change_policy(180))
-print("who_changed", "required")
-print("cf5", "freeze_interfaces")`,
-        output: `{'change': 'rfc+approve', 'retention_days': 180}
-who_changed required
-cf5 freeze_interfaces`,
+good = {
+    "author": "dev-a", "approver": "owner-b", "risk": "medium",
+    "access_scope": "ops-read", "retention_days": 30, "audit_append_only": True,
+}
+bad = {**good, "author": "dev-a", "approver": "dev-a", "access_scope": "global-admin"}
+print(assess_change(good), assess_change(bad))
+print(assess_change({"author": "dev-a"}))`,
+        output: `PASS REJECT_UNGOVERNED_CHANGE
+REQUEST_INDEPENDENT_APPROVAL`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Self-approve = change no gobernado",
         content:
-          "Contrato S51-T2-B: demuestra cambio y acceso auditables. Falla cerrada con `REJECT_UNGOVERNED_CHANGE` y deriva incertidumbre mediante `REQUEST_INDEPENDENT_APPROVAL`.",
+          "S51-T2-B: dual-control (author ≠ approver) + scope read + retención acotada + audit append-only. Auto-aprobar o `global-admin` → `REJECT_UNGOVERNED_CHANGE`; falta de evidencia de aprobación → `REQUEST_INDEPENDENT_APPROVAL`.",
       },
     },
     {
       heading: "SLO, feedback y drift",
       subtopicId: "S51-T3-A",
       paragraphs: [
-        "El **SLO** del copiloto combina **disponibilidad**, **calidad** (eval score / abstain rate) y **latencia** con error budget. El **feedback** de usuarios es señal **sesgada** (quien se queja no es la población); **drift** exige slices, baseline y **dueño** antes de actuar — no reentrenar por un spike de thumbs-down.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: alerta accionable con owner/runbook. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `SLO, feedback y drift` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es alerta accionable con owner/runbook. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "El **SLO** del copiloto combina **disponibilidad**, **calidad** (faithfulness / abstain rate) y **latencia** con **error budget**: si quemas el presupuesto, se detienen releases (no se «optimiza» en silencio). El **feedback** de usuarios es señal **sesgada** (quien se queja no es la población); **drift** exige slices, baseline y **dueño** antes de actuar — no reentrenar por un spike de thumbs-down. Un hallazgo de red team de S50 puede abrir el mismo slice de drift.",
+        "Contrato de SLO multi-SLI. Entrada: `availability`, `faithfulness`, umbrales SLO, `drift`/`max_drift` y `owner` del runbook. Salida: alerta accionable (`OPEN_COPILOT_INCIDENT`) o `PASS` con owner visible. Error: SLI bajo umbral, drift excesivo o owner vacío. Si falta el owner del slice → `TRIAGE_DRIFT_SLICE` (no se inventa un responsable). Criterio: hay runbook con dueño antes de reentrenar.",
+        "En `CASO-MOQ-051-3A`, el slice de la entidad ficticia de Moquegua reporta availability 0.999 (≥0.995), faithfulness 0.93 (≥0.9) y drift 0.04 (≤0.08) con owner `ai-oncall`. Si faithfulness cae a 0.4, se abre incidente de copiloto; sin owner no se promociona el alert a producción de decisión. Señales ≠ fraude ni parentesco.",
       ],
       code: {
         language: 'python',
         title: "slo_feedback_drift.py",
-        code: `def slo_avail(rate: float) -> dict:
-    return {"availability": rate}
+        code: `def error_budget_burn(avail: float, slo: float, window: int = 100) -> float:
+    """Fracción de error budget quemada en una ventana sintética de N requests."""
+    allowed = (1.0 - slo) * window
+    errors = max(0.0, (1.0 - avail) * window)
+    return round(errors / allowed, 3) if allowed else 999.0
 
-print(slo_avail(0.995))
-print("drift_ok", True)
-print("feedback", "thumbs+labels")`,
-        output: `{'availability': 0.995}
-drift_ok True
-feedback thumbs+labels`,
+def assess_slo(record: dict) -> str:
+    if not record.get("owner"):
+        return "TRIAGE_DRIFT_SLICE"
+    ok = (
+        record["availability"] >= record["availability_slo"]
+        and record["faithfulness"] >= record["faithfulness_slo"]
+        and record["drift"] <= record["max_drift"]
+    )
+    return "PASS" if ok else "OPEN_COPILOT_INCIDENT"
+
+row = {
+    "availability": 0.999, "availability_slo": 0.995,
+    "faithfulness": 0.93, "faithfulness_slo": 0.9,
+    "drift": 0.04, "max_drift": 0.08, "owner": "ai-oncall",
+}
+print(assess_slo(row), error_budget_burn(0.999, 0.995))
+print(assess_slo({**row, "faithfulness": 0.4, "owner": "ai-oncall"}))`,
+        output: `PASS 0.2
+OPEN_COPILOT_INCIDENT`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Owner antes de reentrenar",
         content:
-          "Para S51-T3-A, el artefacto comprobable es alerta accionable con owner/runbook. Sin él corresponde `OPEN_COPILOT_INCIDENT` o, si faltan datos, `TRIAGE_DRIFT_SLICE`.",
+          "S51-T3-A: multi-SLI + error budget + owner. Breach de SLO/drift → `OPEN_COPILOT_INCIDENT`; sin owner del slice → `TRIAGE_DRIFT_SLICE`. Feedback thumbs-down no es censo de calidad.",
       },
     },
     {
-      heading: "incidents, rollback y postmortem",
+      heading: "Incidentes, rollback y postmortem",
       subtopicId: "S51-T3-B",
       paragraphs: [
-        "Un **incidente** de IA **contiene** (congela release), **revierte** al baseline y **comunica** alcance a stakeholders; el **postmortem sin culpa** identifica condiciones sistémicas (holdout tocado, redaction rota, tool allowlist) y acciones con fecha/dueño. Un simulacro sin evidencia no cuenta como readiness.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: simulacro de rollback y acciones verificadas. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `incidents, rollback y postmortem` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es simulacro de rollback y acciones verificadas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Un **incidente** de IA sigue el orden **contener → rollback → comunicar → postmortem blameless**. Contener congela el release defectuoso; el rollback vuelve al last-good pinneado dentro del **RTO**; el postmortem sin culpa nombra condiciones sistémicas (holdout tocado, redaction rota, tool allowlist) y acciones con fecha/dueño — no castiga al on-call. Un simulacro sin timeline ni owners no cuenta como readiness CF-5.",
+        "Contrato de respuesta a incidente. Entrada: flags `contained`, `rolled_back_to` (last-good), minutos de rollback vs `rto_minutes`, conteo de `postmortem_actions` y `owners_assigned`. Salida: timeline verificable o `ROLLBACK_AND_CONTAIN`. Error: sin contención, rollback fuera de RTO o acciones sin dueño. Si falta owners → `CONVENE_INCIDENT_REVIEW`. Criterio: se demuestra cómo revertir y qué se aprendió.",
+        "En `CASO-MOQ-051-3B`, el copiloto de la entidad ficticia de Moquegua empezó a citar un índice `latest` tras un release. El simulacro exige: **contener** (congelar release), **rollback** a `copilot-6` en ≤10 min (RTO), timeline con dueños y postmortem blameless. Ningún campo del caso prueba fraude o parentesco; solo calidad operativa del sistema.",
       ],
       code: {
         language: 'python',
         title: "incidents_rollback_postmortem.py",
-        code: `def incident(sev: str, rollback_to: str) -> dict:
-    return {"sev": sev, "rollback_to": rollback_to}
+        code: `def run_incident(rec: dict) -> dict:
+    if not rec.get("owners_assigned"):
+        return {"action": "CONVENE_INCIDENT_REVIEW"}
+    within_rto = rec["rollback_minutes"] <= rec["rto_minutes"]
+    ok = (
+        rec["contained"]
+        and str(rec["rolled_back_to"]).startswith("copilot-")
+        and within_rto
+        and rec["postmortem_actions"] >= 1
+    )
+    return {
+        "action": "PASS" if ok else "ROLLBACK_AND_CONTAIN",
+        "timeline": ["contain", "rollback", "communicate", "postmortem"],
+        "rollback_to": rec["rolled_back_to"],
+    }
 
-print(incident("P1", "m-1"))
-print("page", True)
-print("timeline", "required")`,
-        output: `{'sev': 'P1', 'rollback_to': 'm-1'}
-page True
-timeline required`,
+good = {
+    "contained": True, "rolled_back_to": "copilot-6",
+    "rollback_minutes": 7, "rto_minutes": 10,
+    "postmortem_actions": 4, "owners_assigned": True,
+}
+print(run_incident(good)["action"], run_incident(good)["rollback_to"])
+print(run_incident({**good, "contained": False})["action"])`,
+        output: `PASS copilot-6
+ROLLBACK_AND_CONTAIN`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "danger",
+        title: "Contener antes de debatir",
         content:
-          "Promoción de S51-T3-B: prueba simulacro de rollback y acciones verificadas y registra por separado `ROLLBACK_AND_CONTAIN` (breach) y `CONVENE_INCIDENT_REVIEW` (missing).",
+          "S51-T3-B: contención + rollback dentro de RTO + postmortem con dueños. Breach → `ROLLBACK_AND_CONTAIN`; sin owners → `CONVENE_INCIDENT_REVIEW`. Blameless: se corrige el sistema, no se castiga al on-call.",
       },
     },
     {
-      heading: "incertidumbre, citas y confirmaciones",
+      heading: "Incertidumbre, citas y confirmaciones",
       subtopicId: "S51-T4-A",
       paragraphs: [
-        "La **UX** del copiloto muestra **incertidumbre**, **citas** y **alcance** del claim; una **confirmación** resume el efecto antes de una acción irreversible y permite **corregir el dato fuente**. Ocultar «no sé» o auto-ejecutar tools de escritura es dark pattern, no productividad.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: usuario entiende evidencia y confirma acción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `incertidumbre, citas y confirmaciones` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es usuario entiende evidencia y confirma acción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "La **UX** del copiloto muestra **incertidumbre** (low/med/high), **citas resolubles** al documento fuente y el **alcance** del claim; una **confirmación** resume el efecto (p. ej. «prepara borrador», no «envía a producción») antes de una acción irreversible y permite **corregir el dato fuente**. Ocultar «no sé» o auto-ejecutar tools de escritura es dark pattern, no productividad.",
+        "Contrato de UX contestable. Entrada: flags `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed`. Salida: respuesta listable al usuario o `BLOCK_UNCONFIRMED_ACTION`. Error: sin incertidumbre visible, citas rotas o side-effect sin confirmación. Si falta `confirmed` cuando se exige → `ASK_USER_TO_CONFIRM`. Criterio: el usuario entiende evidencia y aprueba el efecto antes del side-effect.",
+        "En `CASO-MOQ-051-4A`, el copiloto de Moquegua propone un borrador de respuesta con incertidumbre media, citas a `c1` y resumen «prepara borrador». Solo tras confirmación humana se habilita la tool de escritura. No se infiere fraude ni parentesco desde el texto del caso.",
       ],
       code: {
         language: 'python',
         title: "uncertainty_cites_confirm.py",
-        code: `def ux_evidence(show_cites: bool) -> dict:
-    return {"uncertainty": "low/med/high", "cites": show_cites}
+        code: `def ux_gate(ui: dict) -> str:
+    required = {
+        "uncertainty_shown", "citations_resolve",
+        "effect_summary", "confirmation_required", "confirmed",
+    }
+    if missing := sorted(required - ui.keys()):
+        return "ASK_USER_TO_CONFIRM"
+    ok = (
+        ui["uncertainty_shown"]
+        and ui["citations_resolve"]
+        and bool(ui["effect_summary"])
+        and (not ui["confirmation_required"] or ui["confirmed"])
+    )
+    return "PASS" if ok else "BLOCK_UNCONFIRMED_ACTION"
 
-print(ux_evidence(True))
-print("show_cites", True)
-print("confirm", "before_side_effects")`,
-        output: `{'uncertainty': 'low/med/high', 'cites': True}
-show_cites True
-confirm before_side_effects`,
+good = {
+    "uncertainty_shown": True, "citations_resolve": True,
+    "effect_summary": "prepara borrador",
+    "confirmation_required": True, "confirmed": True,
+}
+print(ux_gate(good))
+print(ux_gate({**good, "confirmed": False}))
+print(ux_gate({"uncertainty_shown": True}))`,
+        output: `PASS
+BLOCK_UNCONFIRMED_ACTION
+ASK_USER_TO_CONFIRM`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Side-effect sin confirmación = bloqueo",
         content:
-          "El dueño de S51-T4-A acepta solo usuario entiende evidencia y confirma acción; una violación produce `BLOCK_UNCONFIRMED_ACTION` y un registro incompleto produce `ASK_USER_TO_CONFIRM`.",
+          "S51-T4-A: incertidumbre + citas resolubles + resumen de efecto + confirmación humana **antes** de tools de escritura. Auto-ejecutar es dark pattern. Violación → `BLOCK_UNCONFIRMED_ACTION`; campo ausente → `ASK_USER_TO_CONFIRM`.",
       },
     },
     {
-      heading: "accesibilidad, corrección y contestabilidad",
+      heading: "Accesibilidad, corrección y contestabilidad",
       subtopicId: "S51-T4-B",
       paragraphs: [
-        "**Accesibilidad** (WCAG): teclado, lector de pantalla, contraste y lenguaje claro no son opcionales en un copiloto de operaciones. **Contestabilidad** explica cómo revisar, apelar y obtener respuesta humana sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer.",
-        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: flujo WCAG y apelación completables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-        "Aplicación de `accesibilidad, corrección y contestabilidad` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es flujo WCAG y apelación completables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "**Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste ≥ 4.5:1 y lenguaje claro no son opcionales en un copiloto de operaciones. **Contestabilidad** explica cómo **corregir** el dato, **apelar** y obtener respuesta humana con SLA — sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer. Cierra el hilo producto: traza + registry + SLO + incidente + UX + a11y = freeze de interfaces.",
+        "Contrato de a11y y apelación. Entrada: `keyboard_complete`, `screen_reader_labels`, `contrast_ratio` vs `min_contrast`, `correction_available`, `appeal_to_human`. Salida: flujo completable o `FAIL_ACCESSIBILITY_GATE`. Error: contraste bajo, teclado incompleto o sin corrección/apelación. Si falta ruta humana → `ROUTE_CONTESTATION`. Criterio: un usuario puede corregir y apelar sin mouse y con lector de pantalla.",
+        "En `CASO-MOQ-051-4B`, el panel de la entidad ficticia de Moquegua alcanza contraste 5.1 (≥4.5), teclado y labels OK, corrección de dato y apelación a humano. Un panel solo-mouse con contraste 2.1 se bloquea. El caso es sintético; no prueba fraude ni parentesco.",
       ],
       code: {
         language: 'python',
         title: "a11y_correction_contestability.py",
-        code: `def a11y_flags(contrast: str, keyboard: bool) -> dict:
-    return {"contrast": contrast, "keyboard": keyboard}
+        code: `def a11y_gate(ui: dict) -> str:
+    required = {
+        "keyboard_complete", "screen_reader_labels",
+        "contrast_ratio", "min_contrast",
+        "correction_available", "appeal_to_human",
+    }
+    if missing := sorted(required - ui.keys()):
+        return "ROUTE_CONTESTATION"
+    ok = (
+        ui["keyboard_complete"]
+        and ui["screen_reader_labels"]
+        and ui["contrast_ratio"] >= ui["min_contrast"]
+        and ui["correction_available"]
+        and ui["appeal_to_human"]
+    )
+    return "PASS" if ok else "FAIL_ACCESSIBILITY_GATE"
 
-print(a11y_flags("AA", True))
-print({"edit": True, "contest": True})
-print("human_rights", "contestability")`,
-        output: `{'contrast': 'AA', 'keyboard': True}
-{'edit': True, 'contest': True}
-human_rights contestability`,
+good = {
+    "keyboard_complete": True, "screen_reader_labels": True,
+    "contrast_ratio": 5.1, "min_contrast": 4.5,
+    "correction_available": True, "appeal_to_human": True,
+}
+print(a11y_gate(good))
+print(a11y_gate({**good, "contrast_ratio": 2.1, "keyboard_complete": False}))
+print(a11y_gate({"keyboard_complete": True}))`,
+        output: `PASS
+FAIL_ACCESSIBILITY_GATE
+ROUTE_CONTESTATION`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "a11y incompleta bloquea CF-5",
         content:
-          "Cierre de S51-T4-B: conserva flujo WCAG y apelación completables, la evidencia de `FAIL_ACCESSIBILITY_GATE` y la ruta humana `ROUTE_CONTESTATION`.",
+          "Cierre S51-T4-B / CF-5: teclado, lector, contraste AA (≥4.5), corrección y apelación humana son obligatorios. Fallo → `FAIL_ACCESSIBILITY_GATE`; sin appeal → `ROUTE_CONTESTATION`. Un panel «bonito» solo-mouse no se promociona.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S51 (Observabilidad, gobernanza y UX del copiloto) alineadas a CP-N4-C (cierre) + CF-5 + Level-4 regression.",
+    intro: "Te muestro 8 demos de S51 (Observabilidad, gobernanza y UX del copiloto) alineadas a CP-N4-C + CF-5. Cada demo **calcula** el artefacto del subtema sobre `CASO-MOQ-051` con stdlib; no son prints decorativos.",
     steps: [
       {
         demoId: "S51-T1-A-DEMO",
         subtopicId: "S51-T1-A",
         environment: "local-python",
-        description: "Demo: traces de prompts/retrieval/tools",
+        description: "Demo: traza con spans correlacionados y gate de PII",
         code: {
           language: 'python',
           title: "demo_traces_prompts_retrieval_tools.py",
-          code: `def spans() -> list:
-    return ["prompt", "retrieve", "tool"]
+          code: `def build_trace(trace_id: str, prompt_ver: str, cites: list, tool: str, pii: bool) -> dict:
+    if pii:
+        return {"status": "REDACT_AND_QUARANTINE_TRACE", "trace_id": trace_id}
+    spans = ["prompt", "retrieval", "tool", "answer"]
+    ok = trace_id.startswith("tr-") and bool(prompt_ver) and bool(tool) and bool(cites)
+    return {"status": "PASS" if ok else "RESTORE_TRACE_CONTEXT", "spans": spans, "cites": cites}
 
-print("trace_id", "t-1")
-print("spans", spans())
-print("audit", True)`,
-          output: `trace_id t-1
-spans ['prompt', 'retrieve', 'tool']
-audit True`,
+print(build_trace("tr-moq-51", "p3", ["c1"], "get_case", False))
+print(build_trace("tr-moq-51", "p3", ["c1"], "get_case", True)["status"])`,
+          output: `{'status': 'PASS', 'spans': ['prompt', 'retrieval', 'tool', 'answer'], 'cites': ['c1']}
+REDACT_AND_QUARANTINE_TRACE`,
         },
-        why: "Hace observable `traces de prompts/retrieval/tools` con un caso local pequeño y deja como evidencia trace reconstruible sin PII; el demo modela el contrato, no un servicio externo.",
+        why: "Pienso en la traza como árbol: sin `trace_id` con prefijo `tr-` y sin los cuatro spans (prompt/retrieval/tool/answer) no puedo auditar qué se citó. Si hay PII, cuarentena primero — no exporto y luego «limpio».",
       },
       {
         demoId: "S51-T1-B-DEMO",
         subtopicId: "S51-T1-B",
         environment: "local-python",
-        description: "Demo: tokens, costo, latency y redacción",
+        description: "Demo: suma de tokens por etapa, p95 y redacción de atributos",
         code: {
           language: 'python',
           title: "demo_tokens_cost_latency_redaction.py",
-          code: `def tokens_ok(n: int) -> int:
-    return n
+          code: `PRICE_PER_1K = 0.002  # USD sintético / 1k tokens
 
-print("tokens", tokens_ok(1200))
-print("redaction", True)
-print("latency_ms", 900)`,
-          output: `tokens 1200
-redaction True
-latency_ms 900`,
+def redact_attr(key: str, value: str) -> str:
+    if key in {"email", "authorization", "prompt_raw"} or "@" in value:
+        return "[REDACTED]"
+    return value
+
+def stage_row(prompt_t: int, retr_t: int, gen_t: int, p95_ms: int, slo_ms: int) -> dict:
+    total = prompt_t + retr_t + gen_t
+    cost_usd = round(total / 1000 * PRICE_PER_1K, 6)
+    email = redact_attr("email", "ana@example.pe")
+    return {
+        "total_tokens": total,
+        "cost_usd": cost_usd,
+        "reconciled": total == prompt_t + retr_t + gen_t,
+        "p95_ok": p95_ms <= slo_ms,
+        "email_export": email,
+    }
+
+row = stage_row(800, 400, 300, 900, 1200)
+print(row["total_tokens"], row["cost_usd"], row["p95_ok"], row["email_export"])
+assert row["total_tokens"] == 1500 and row["cost_usd"] == 0.003 and row["email_export"] == "[REDACTED]"`,
+          output: `1500 0.003 True [REDACTED]`,
         },
-        why: "Hace observable `tokens, costo, latency y redacción` con un caso local pequeño y deja como evidencia dashboard por etapa con prueba de redacción; el demo modela el contrato, no un servicio externo.",
+        why: "Uso p95 (no la media) porque el on-call siente los peores 5%. La suma de tokens por etapa debe cuadrar; el costo = tokens/1000 × precio — si la suma miente, el costo miente. Redacto email/prompt_raw **antes** del export.",
       },
       {
         demoId: "S51-T2-A-DEMO",
         subtopicId: "S51-T2-A",
         environment: "local-python",
-        description: "Demo: registro de modelo/prompt/dataset",
+        description: "Demo: pin de release y rechazo de latest",
         code: {
           language: 'python',
           title: "demo_registry_model_prompt_dataset.py",
-          code: `def pin_model(ver: str) -> dict:
-    return {"model": ver}
+          code: `def pin_release(items: dict, immutable: bool) -> str:
+    keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+    if not immutable or any(not items.get(k) or items.get(k) == "latest" for k in keys):
+        return "FREEZE_RELEASE_BUNDLE"
+    return "PASS"
 
-print("registry", True)
-print("versions", pin_model("m-2"))
-print("pin", True)`,
-          output: `registry True
-versions {'model': 'm-2'}
-pin True`,
+good = {"release": "copilot-7", "model": "m2", "prompt": "p3", "dataset": "d5", "index": "i4", "evaluator": "e2"}
+print(pin_release(good, True))
+print(pin_release({**good, "model": "latest"}, True))
+print(pin_release(good, False))`,
+          output: `PASS
+FREEZE_RELEASE_BUNDLE
+FREEZE_RELEASE_BUNDLE`,
         },
-        why: "Hace observable `registro de modelo/prompt/dataset` con un caso local pequeño y deja como evidencia respuesta enlazada a bundle versionado; el demo modela el contrato, no un servicio externo.",
+        why: "En prod rechazo `latest` y bundles mutables: sin pin no hay rollback ni postmortem reproducible. El system card se enlaza al release, no a un floating tag.",
       },
       {
         demoId: "S51-T2-B-DEMO",
         subtopicId: "S51-T2-B",
         environment: "local-python",
-        description: "Demo: cambio, acceso, retención y auditoría",
+        description: "Demo: dual-control, scope read y audit append-only",
         code: {
           language: 'python',
           title: "demo_change_access_retention_audit.py",
-          code: `def retention_days(d: int) -> int:
-    return d
+          code: `def assess_change(t: dict) -> str:
+    ok = (
+        t["author"] != t["approver"]
+        and t["risk"] in {"low", "medium", "high"}
+        and str(t["access_scope"]).endswith("-read")
+        and t["retention_days"] <= 30
+        and t["audit_append_only"]
+    )
+    return "PASS" if ok else "REJECT_UNGOVERNED_CHANGE"
 
-print("access_log", True)
-print("retention", retention_days(180))
-print("change_control", True)`,
-          output: `access_log True
-retention 180
-change_control True`,
+good = {"author": "dev-a", "approver": "owner-b", "risk": "medium", "access_scope": "ops-read", "retention_days": 30, "audit_append_only": True}
+print(assess_change(good))
+print(assess_change({**good, "approver": "dev-a", "access_scope": "global-admin"}))`,
+          output: `PASS
+REJECT_UNGOVERNED_CHANGE`,
         },
-        why: "Hace observable `cambio, acceso, retención y auditoría` con un caso local pequeño y deja como evidencia cambio y acceso auditables; el demo modela el contrato, no un servicio externo.",
+        why: "Dual-control significa author ≠ approver: auto-aprobar es el anti-patrón. Scope termina en `-read` y retención corta; el audit es append-only, no un wiki editable.",
       },
       {
         demoId: "S51-T3-A-DEMO",
         subtopicId: "S51-T3-A",
         environment: "local-python",
-        description: "Demo: SLO, feedback y drift",
+        description: "Demo: multi-SLI, error budget y owner del slice",
         code: {
           language: 'python',
           title: "demo_slo_feedback_drift.py",
-          code: `def drift_watch(active: bool) -> bool:
-    return active
+          code: `def error_budget_burn(avail: float, slo: float, window: int = 100) -> float:
+    allowed = (1.0 - slo) * window
+    errors = max(0.0, (1.0 - avail) * window)
+    return round(errors / allowed, 3) if allowed else 999.0
 
-print("slo", True)
-print("drift_watch", drift_watch(True))
-print("feedback_loop", True)`,
-          output: `slo True
-drift_watch True
-feedback_loop True`,
+def assess_slo(r: dict) -> str:
+    if not r.get("owner"):
+        return "TRIAGE_DRIFT_SLICE"
+    ok = r["availability"] >= r["availability_slo"] and r["faithfulness"] >= r["faithfulness_slo"] and r["drift"] <= r["max_drift"]
+    return "PASS" if ok else "OPEN_COPILOT_INCIDENT"
+
+row = {"availability": 0.999, "availability_slo": 0.995, "faithfulness": 0.93, "faithfulness_slo": 0.9, "drift": 0.04, "max_drift": 0.08, "owner": "ai-oncall"}
+print(assess_slo(row), "burn", error_budget_burn(0.999, 0.995))
+print(assess_slo({**row, "faithfulness": 0.4}))`,
+          output: `PASS burn 0.2
+OPEN_COPILOT_INCIDENT`,
         },
-        why: "Hace observable `SLO, feedback y drift` con un caso local pequeño y deja como evidencia alerta accionable con owner/runbook; el demo modela el contrato, no un servicio externo.",
+        why: "Mido availability + faithfulness + drift juntos: un solo float de uptime no basta. El error budget quemado al 20% todavía da margen; faithfulness 0.4 abre incidente. Sin owner no hay runbook accionable.",
       },
       {
         demoId: "S51-T3-B-DEMO",
         subtopicId: "S51-T3-B",
         environment: "local-python",
-        description: "Demo: incidents, rollback y postmortem",
+        description: "Demo: contención, rollback dentro de RTO y postmortem con dueños",
         code: {
           language: 'python',
           title: "demo_incidents_rollback_postmortem.py",
-          code: `def rollback_to(ver: str) -> str:
-    return ver
+          code: `def run_incident(r: dict) -> str:
+    if not r.get("owners_assigned"):
+        return "CONVENE_INCIDENT_REVIEW"
+    ok = (
+        r["contained"]
+        and str(r["rolled_back_to"]).startswith("copilot-")
+        and r["rollback_minutes"] <= r["rto_minutes"]
+        and r["postmortem_actions"] >= 1
+    )
+    return "PASS" if ok else "ROLLBACK_AND_CONTAIN"
 
-print("rollback", rollback_to("m-1"))
-print("postmortem", True)
-print("action_items", True)`,
-          output: `rollback m-1
-postmortem True
-action_items True`,
+good = {"contained": True, "rolled_back_to": "copilot-6", "rollback_minutes": 7, "rto_minutes": 10, "postmortem_actions": 4, "owners_assigned": True}
+print(run_incident(good))
+print(run_incident({**good, "contained": False, "rollback_minutes": 90}))`,
+          output: `PASS
+ROLLBACK_AND_CONTAIN`,
         },
-        why: "Hace observable `incidents, rollback y postmortem` con un caso local pequeño y deja como evidencia simulacro de rollback y acciones verificadas; el demo modela el contrato, no un servicio externo.",
+        why: "Orden: contener, rollback al last-good `copilot-6` dentro del RTO, luego postmortem blameless con dueños. Si no contuve o me pasé del RTO, la acción es `ROLLBACK_AND_CONTAIN`, no «seguir investigando en prod».",
       },
       {
         demoId: "S51-T4-A-DEMO",
         subtopicId: "S51-T4-A",
         environment: "local-python",
-        description: "Demo: incertidumbre, citas y confirmaciones",
+        description: "Demo: gate de incertidumbre, citas y confirmación de efecto",
         code: {
           language: 'python',
           title: "demo_uncertainty_cites_confirm.py",
-          code: `def confirm_gate(side_effects: bool) -> bool:
-    return side_effects
+          code: `def ux_gate(ui: dict) -> str:
+    ok = (
+        ui["uncertainty_shown"]
+        and ui["citations_resolve"]
+        and bool(ui["effect_summary"])
+        and (not ui["confirmation_required"] or ui["confirmed"])
+    )
+    return "PASS" if ok else "BLOCK_UNCONFIRMED_ACTION"
 
-print("uncertainty", True)
-print("cites", True)
-print("confirm_gate", confirm_gate(True))`,
-          output: `uncertainty True
-cites True
-confirm_gate True`,
+good = {"uncertainty_shown": True, "citations_resolve": True, "effect_summary": "prepara borrador", "confirmation_required": True, "confirmed": True}
+print(ux_gate(good))
+print(ux_gate({**good, "confirmed": False}))`,
+          output: `PASS
+BLOCK_UNCONFIRMED_ACTION`,
         },
-        why: "Hace observable `incertidumbre, citas y confirmaciones` con un caso local pequeño y deja como evidencia usuario entiende evidencia y confirma acción; el demo modela el contrato, no un servicio externo.",
+        why: "Muestro incertidumbre y citas resolubles; el resumen del efecto («prepara borrador») va **antes** del side-effect. Sin confirmación humana cuando se exige, bloqueo la acción irreversible.",
       },
       {
         demoId: "S51-T4-B-DEMO",
         subtopicId: "S51-T4-B",
         environment: "local-python",
-        description: "Demo: accesibilidad, corrección y contestabilidad",
+        description: "Demo: contraste WCAG, teclado y ruta de apelación",
         code: {
           language: 'python',
           title: "demo_a11y_correction_contestability.py",
-          code: `def contestable(edit: bool, contest: bool) -> bool:
-    return edit and contest
+          code: `def a11y_gate(ui: dict) -> str:
+    ok = (
+        ui["keyboard_complete"]
+        and ui["screen_reader_labels"]
+        and ui["contrast_ratio"] >= ui["min_contrast"]
+        and ui["correction_available"]
+        and ui["appeal_to_human"]
+    )
+    return "PASS" if ok else "FAIL_ACCESSIBILITY_GATE"
 
-print("a11y", True)
-print("correction", True)
-print("contest", contestable(True, True))`,
-          output: `a11y True
-correction True
-contest True`,
+good = {"keyboard_complete": True, "screen_reader_labels": True, "contrast_ratio": 5.1, "min_contrast": 4.5, "correction_available": True, "appeal_to_human": True}
+print(a11y_gate(good))
+print(a11y_gate({**good, "contrast_ratio": 2.1, "appeal_to_human": False}))`,
+          output: `PASS
+FAIL_ACCESSIBILITY_GATE`,
         },
-        why: "Hace observable `accesibilidad, corrección y contestabilidad` con un caso local pequeño y deja como evidencia flujo WCAG y apelación completables; el demo modela el contrato, no un servicio externo.",
+        why: "Comparo contraste numérico con el mínimo AA (4.5). Teclado + labels + corrección + apelación humana cierran contestabilidad; sin appeal no hay CF-5 aunque el UI se vea «bonito».",
       },
     ],
   },
   weDo: {
-    intro: "S51 · Laboratorio Auditable AI Operations Copilot y CF-5: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
+    intro: "S51 · Laboratorio Auditable AI Operations Copilot y CF-5: 24 retos locales sobre `CASO-MOQ-051`. E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 transfiere con helpers de compute (reconciliación de tokens, multi-SLI, dual-control, a11y) hacia CONTINUE / acción de breach / restore. Fixtures sintéticos de Moquegua; sin PII real.",
     steps: [
       {
         id: "S51-T1-A-E1",
         subtopicId: "S51-T1-A",
         kind: "guided",
-        instruction: "S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace completo, bundle versionado y cero PII. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REDACT_AND_QUARANTINE_TRACE` en E2.",
+        instruction: "S51-T1-A-E1 · Calcula el contrato de **traces de prompts, retrieval y tools** sobre `CASO-MOQ-051-1A`. El fixture trae `trace_id`, spans (`prompt/retrieval/tool/answer`), versiones pinneadas y `pii_in_trace=False`. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T1-A PASS`. El mismo predicado sobre un adverso con PII o spans incompletos debe activar `REDACT_AND_QUARANTINE_TRACE` en E2.",
         hint: "Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.",
         hints: [
           "Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva trace reconstruible sin PII; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace_id vacío, spans incompletos o pii_in_trace=True", "CASO-MOQ-051-1A es sintético"],
         tests: "El fixture `CASO-MOQ-051-1A` satisface un predicado de dominio real; imprime `S51-T1-A PASS` y el assert booleano pasa.",
         feedback: "S51-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e1.py",
-          code: `# CASO-LIM-051 · trace contract gate
+          code: `# CASO-MOQ-051 · trace contract gate
 # DEFECT: invierte meets_contract: falla si hay trace_id o si pii_in_trace
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
@@ -504,13 +677,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T1-A: trace completo, bundle versionado y cero PII. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace_id vacío, spans incompletos o pii_in_trace=True", "CASO-MOQ-051-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `pii_in_trace` ausente y produce exactamente `PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace`.",
         feedback: "S51-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e2.py",
-          code: `# CASO-LIM-051 · assess trace completeness
+          code: `# CASO-MOQ-051 · assess trace completeness
 # DEFECT: PASS con traza vacía/PII; no exige spans+versions
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -552,27 +725,38 @@ print(*results)
         id: "S51-T1-A-E3",
         subtopicId: "S51-T1-A",
         kind: "transfer",
-        instruction: "S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUARANTINE_TRACE` y la ausencia de `pii_in_trace` debe devolver `RESTORE_TRACE_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
+        instruction: "S51-T1-A-E3 · Transferencia de traza: implementa `spans_complete` (los cuatro nombres prompt/retrieval/tool/answer) y `versions_pinned` (todas las versiones no vacías y distintas de `latest`) y úsalas en `decide`. `CASO-MOQ-051-1A` → `CONTINUE`, adverso (PII, spans incompletos o versiones vacías) → `REDACT_AND_QUARANTINE_TRACE`, sin `pii_in_trace` → `RESTORE_TRACE_CONTEXT`. El starter invierte los helpers y trata missing como CONTINUE.",
+        hint: "Missing → RESTORE_TRACE_CONTEXT; pii_in_trace True o helpers en falso → REDACT_AND_QUARANTINE_TRACE; solo traza limpia y completa → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró trace completo, bundle versionado y cero PII; solo ese caso devuelve `CONTINUE`.",
+          "spans_complete exige el conjunto mínimo de cuatro spans; versions_pinned rechaza cadenas vacías y el tag `latest`.",
         ],
-        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace_id vacío, spans incompletos o pii_in_trace=True", "CASO-MOQ-051-1A es sintético"],
         tests: "Fixtures `CASO-MOQ-051-1A`, adverso y sin `pii_in_trace` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
+        feedback: "S51-T1-A-E3: explica cómo spans_complete y versions_pinned separan CONTINUE de cuarentena, y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e3.py",
-          code: `# CASO-LIM-051 · decide restore vs continue
-# DEFECT: missing→CONTINUE y PASS invertido; no RESTORE_TRACE_CONTEXT
+          code: `# CASO-MOQ-051 · decide restore vs continue (transfer spans/versions)
+# DEFECT: helpers invertidos; missing→CONTINUE; no RESTORE_TRACE_CONTEXT
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def spans_complete(spans) -> bool:
+    return len(spans) == 1  # DEFECT: exige el set completo
+
+def versions_pinned(versions: dict) -> bool:
+    return any(v == "latest" or not v for v in versions.values())  # DEFECT
+
 def decide(record: dict) -> str:
     required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["trace_id"] or record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+    ok = (
+        not record["trace_id"].startswith("tr-")
+        or record["pii_in_trace"]
+        or not spans_complete(record["spans"])
+    )
+    return "CONTINUE" if ok else "REDACT_AND_QUARANTINE_TRACE"
 
 valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
 invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
@@ -585,12 +769,24 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def spans_complete(spans) -> bool:
+    return {"prompt", "retrieval", "tool", "answer"} <= set(spans)
+
+def versions_pinned(versions: dict) -> bool:
+    return all(v and v != "latest" for v in versions.values())
+
+def decide(record: dict) -> str:
     required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
     missing = sorted(required - record.keys())
     if missing:
         return "RESTORE_TRACE_CONTEXT"
-    return "CONTINUE" if record["trace_id"].startswith("tr-") and {"prompt","retrieval","tool","answer"} <= record["spans"] and all(record["versions"].values()) and not record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+    ok = (
+        str(record["trace_id"]).startswith("tr-")
+        and spans_complete(record["spans"])
+        and versions_pinned(record["versions"])
+        and not record["pii_in_trace"]
+    )
+    return "CONTINUE" if ok else "REDACT_AND_QUARANTINE_TRACE"
 
 valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
 invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
@@ -606,19 +802,19 @@ assert results == ["CONTINUE", "REDACT_AND_QUARANTINE_TRACE", "RESTORE_TRACE_CON
         id: "S51-T1-B-E1",
         subtopicId: "S51-T1-B",
         kind: "guided",
-        instruction: "S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cuadran, p95 bajo SLO y campos redactados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `ALERT_COST_LATENCY` en E2.",
+        instruction: "S51-T1-B-E1 · Compara el contrato de **tokens, costo, latency y redacción** sobre `CASO-MOQ-051-1B`. Debes demostrar que prompt+retrieval+answer == `total_tokens`, `p95_ms` ≤ `slo_ms` y `redacted_fields` ≥ 1. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T1-B PASS`. Un adverso con total descuadrado, p95 alto o sin redacción activa `ALERT_COST_LATENCY` en E2.",
         hint: "Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.",
         hints: [
           "Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva dashboard por etapa con prueba de redacción; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        edgeCases: ["falta redacted_fields", "fixture adverso: total_tokens no cuadra, p95>slo o redacted_fields=0", "CASO-MOQ-051-1B es sintético"],
         tests: "El fixture `CASO-MOQ-051-1B` satisface un predicado de dominio real; imprime `S51-T1-B PASS` y el assert booleano pasa.",
         feedback: "S51-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
         starterCode: {
           language: 'python',
           title: "s51-t1-b-e1.py",
-          code: `# CASO-LIM-051 · cost/latency SLO
+          code: `# CASO-MOQ-051 · cost/latency SLO
 # DEFECT: PASS si total_tokens==0 o p95>slo (invertido)
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
@@ -648,13 +844,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO y campos redactados. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        edgeCases: ["falta redacted_fields", "fixture adverso: total_tokens no cuadra, p95>slo o redacted_fields=0", "CASO-MOQ-051-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `redacted_fields` ausente y produce exactamente `PASS ALERT_COST_LATENCY MISSING:redacted_fields`.",
         feedback: "S51-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
         starterCode: {
           language: 'python',
           title: "s51-t1-b-e2.py",
-          code: `# CASO-LIM-051 · assess token sum + redaction
+          code: `# CASO-MOQ-051 · assess token sum + redaction
 # DEFECT: no valida suma tokens ni redacted_fields>=1
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -696,27 +892,34 @@ print(*results)
         id: "S51-T1-B-E3",
         subtopicId: "S51-T1-B",
         kind: "transfer",
-        instruction: "S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_LATENCY` y la ausencia de `redacted_fields` debe devolver `FIX_REDACTION_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
+        instruction: "S51-T1-B-E3 · Transferencia de costo/latencia: implementa `reconcile_tokens` (suma por etapa) y `export_clean` (exige `redacted_fields >= 1`) y úsalas en `decide`. Con tres fixtures: `CASO-MOQ-051-1B` → `CONTINUE`, adverso (total que no cuadra o p95>slo o sin redacción) → `ALERT_COST_LATENCY`, sin `redacted_fields` → `FIX_REDACTION_PIPELINE`. El starter ignora la reconciliación y trata missing como CONTINUE: corrige ambas ramas.",
+        hint: "Primero calcula missing → FIX_REDACTION_PIPELINE; luego reconcile_tokens + p95_ok + export_clean para CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró tokens cuadran, p95 bajo SLO y campos redactados; solo ese caso devuelve `CONTINUE`.",
+          "reconcile_tokens debe sumar prompt+retrieval+answer y comparar con total_tokens; p95_ms <= slo_ms; redacted_fields >= 1.",
         ],
-        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        edgeCases: ["falta redacted_fields", "fixture adverso: total_tokens no cuadra, p95>slo o redacted_fields=0", "CASO-MOQ-051-1B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-1B`, adverso y sin `redacted_fields` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
+        feedback: "S51-T1-B-E3: explica cómo la suma de tokens y la prueba de redacción separan CONTINUE de ALERT_COST_LATENCY, y por qué missing no es breach.",
         starterCode: {
           language: 'python',
           title: "s51-t1-b-e3.py",
-          code: `# CASO-LIM-051 · decide fix redaction
-# DEFECT: missing→CONTINUE; no FIX_REDACTION_PIPELINE
+          code: `# CASO-MOQ-051 · decide fix redaction (transfer con compute)
+# DEFECT: no reconcilia tokens; missing→CONTINUE; gate invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def reconcile_tokens(record: dict) -> bool:
+    return record["total_tokens"] == 0  # DEFECT
+
+def export_clean(record: dict) -> bool:
+    return record.get("redacted_fields", 0) == 0  # DEFECT
+
 def decide(record: dict) -> str:
     required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["total_tokens"] == 0 or record["p95_ms"] > record["slo_ms"] else "ALERT_COST_LATENCY"
+    ok = reconcile_tokens(record) or record["p95_ms"] > record["slo_ms"] or not export_clean(record)
+    return "CONTINUE" if ok else "ALERT_COST_LATENCY"
 
 valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
 invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
@@ -729,12 +932,24 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def reconcile_tokens(record: dict) -> bool:
+    return (
+        record["prompt_tokens"]
+        + record["retrieval_tokens"]
+        + record["answer_tokens"]
+        == record["total_tokens"]
+    )
+
+def export_clean(record: dict) -> bool:
+    return record["redacted_fields"] >= 1
+
+def decide(record: dict) -> str:
     required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
     missing = sorted(required - record.keys())
     if missing:
         return "FIX_REDACTION_PIPELINE"
-    return "CONTINUE" if record["prompt_tokens"] + record["retrieval_tokens"] + record["answer_tokens"] == record["total_tokens"] and record["p95_ms"] <= record["slo_ms"] and record["redacted_fields"] >= 1 else "ALERT_COST_LATENCY"
+    ok = reconcile_tokens(record) and record["p95_ms"] <= record["slo_ms"] and export_clean(record)
+    return "CONTINUE" if ok else "ALERT_COST_LATENCY"
 
 valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
 invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
@@ -750,19 +965,19 @@ assert results == ["CONTINUE", "ALERT_COST_LATENCY", "FIX_REDACTION_PIPELINE"]` 
         id: "S51-T2-A-E1",
         subtopicId: "S51-T2-A",
         kind: "guided",
-        instruction: "S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versiones explícitas y bundle inmutable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `FREEZE_RELEASE_BUNDLE` en E2.",
+        instruction: "S51-T2-A-E1 · Filtra el contrato de **registro de modelo, prompt y dataset** sobre `CASO-MOQ-051-2A`. Exige release/model/prompt/dataset/index/evaluator pinneados (≠ `latest`) e `immutable=True`. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T2-A PASS`. Un adverso con `latest` o mutable activa `FREEZE_RELEASE_BUNDLE` en E2.",
         hint: "Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.",
         hints: [
           "Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva respuesta enlazada a bundle versionado; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        edgeCases: ["falta immutable", "fixture adverso: release=latest, versiones vacías o immutable=False", "CASO-MOQ-051-2A es sintético"],
         tests: "El fixture `CASO-MOQ-051-2A` satisface un predicado de dominio real; imprime `S51-T2-A PASS` y el assert booleano pasa.",
         feedback: "S51-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
           title: "s51-t2-a-e1.py",
-          code: `# CASO-LIM-051 · immutable release bundle
+          code: `# CASO-MOQ-051 · immutable release bundle
 # DEFECT: PASS si not immutable o latest (gate invertido)
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
@@ -775,7 +990,11 @@ print("S51-T2-A", status)
           language: 'python',
           title: "s51-t2-a-e1.py",
           code: `record = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
-meets_contract = all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"]
+pin_keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+meets_contract = (
+    all(record[k] and record[k] != "latest" for k in pin_keys)
+    and record["immutable"] is True
+)
 status = "PASS" if meets_contract else "FREEZE_RELEASE_BUNDLE"
 print("S51-T2-A", status)
 assert meets_contract is True` ,
@@ -792,13 +1011,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle inmutable. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        edgeCases: ["falta immutable", "fixture adverso: release=latest, versiones vacías o immutable=False", "CASO-MOQ-051-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `immutable` ausente y produce exactamente `PASS FREEZE_RELEASE_BUNDLE MISSING:immutable`.",
         feedback: "S51-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
           title: "s51-t2-a-e2.py",
-          code: `# CASO-LIM-051 · assess freeze bundle
+          code: `# CASO-MOQ-051 · assess freeze bundle
 # DEFECT: PASS con latest/mutable
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -824,7 +1043,9 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"] else "FREEZE_RELEASE_BUNDLE"
+    pin_keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+    ok = all(record[k] and record[k] != "latest" for k in pin_keys) and record["immutable"] is True
+    return "PASS" if ok else "FREEZE_RELEASE_BUNDLE"
 
 valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
 invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
@@ -840,27 +1061,34 @@ print(*results)
         id: "S51-T2-A-E3",
         subtopicId: "S51-T2-A",
         kind: "transfer",
-        instruction: "S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEASE_BUNDLE` y la ausencia de `immutable` debe devolver `REGISTER_MISSING_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
+        instruction: "S51-T2-A-E3 · Transferencia de registry: implementa `versions_pinned` (cada artefacto no vacío y ≠ `latest`) y `bundle_immutable` (`immutable is True`) y úsalas en `decide`. `CASO-MOQ-051-2A` → `CONTINUE`, adverso (latest/vacío/mutable) → `FREEZE_RELEASE_BUNDLE`, sin `immutable` → `REGISTER_MISSING_VERSION`. El starter invierte los helpers y trata missing como CONTINUE.",
+        hint: "Missing → REGISTER_MISSING_VERSION; versions_pinned y bundle_immutable en falso → FREEZE_RELEASE_BUNDLE; solo pin completo e inmutable → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró seis versiones explícitas y bundle inmutable; solo ese caso devuelve `CONTINUE`.",
+          "versions_pinned recorre release/model/prompt/dataset/index/evaluator; bundle_immutable exige flag True, no truthy suelto.",
         ],
-        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        edgeCases: ["falta immutable", "fixture adverso: release=latest, versiones vacías o immutable=False", "CASO-MOQ-051-2A es sintético"],
         tests: "Fixtures `CASO-MOQ-051-2A`, adverso y sin `immutable` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
+        feedback: "S51-T2-A-E3: explica cómo versions_pinned y bundle_immutable separan CONTINUE de freeze, y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
           title: "s51-t2-a-e3.py",
-          code: `# CASO-LIM-051 · decide freeze release
-# DEFECT: missing→CONTINUE; no FREEZE path correcto
+          code: `# CASO-MOQ-051 · decide freeze release (transfer pin helpers)
+# DEFECT: helpers invertidos; missing→CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def versions_pinned(record: dict) -> bool:
+    keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+    return any(not record.get(k) or record.get(k) == "latest" for k in keys)  # DEFECT
+
+def bundle_immutable(record: dict) -> bool:
+    return record.get("immutable") is False  # DEFECT
+
 def decide(record: dict) -> str:
     required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["immutable"] or any(record[k] == "latest" for k in ("model","prompt","dataset","index")) else "FREEZE_RELEASE_BUNDLE"
+    return "CONTINUE" if versions_pinned(record) and bundle_immutable(record) else "FREEZE_RELEASE_BUNDLE"
 
 valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
 invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
@@ -873,12 +1101,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def versions_pinned(record: dict) -> bool:
+    keys = ("release", "model", "prompt", "dataset", "index", "evaluator")
+    return all(record.get(k) and record.get(k) != "latest" for k in keys)
+
+def bundle_immutable(record: dict) -> bool:
+    return record.get("immutable") is True
+
+def decide(record: dict) -> str:
     required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
     missing = sorted(required - record.keys())
     if missing:
         return "REGISTER_MISSING_VERSION"
-    return "CONTINUE" if all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"] else "FREEZE_RELEASE_BUNDLE"
+    ok = versions_pinned(record) and bundle_immutable(record)
+    return "CONTINUE" if ok else "FREEZE_RELEASE_BUNDLE"
 
 valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
 invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
@@ -894,19 +1130,19 @@ assert results == ["CONTINUE", "FREEZE_RELEASE_BUNDLE", "REGISTER_MISSING_VERSIO
         id: "S51-T2-B-E1",
         subtopicId: "S51-T2-B",
         kind: "guided",
-        instruction: "S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separación de funciones, scope read, retención y audit. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNGOVERNED_CHANGE` en E2.",
+        instruction: "S51-T2-B-E1 · Modela el contrato de **cambio, acceso, retención y auditoría** sobre `CASO-MOQ-051-2B`. Dual-control (`author` ≠ `approver`), risk en {low,medium,high}, scope `*-read`, retención ≤30 y `audit_append_only=True`. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T2-B PASS`. Self-approve o admin activa `REJECT_UNGOVERNED_CHANGE` en E2.",
         hint: "Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.",
         hints: [
           "Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva cambio y acceso auditables; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "El fixture `CASO-MOQ-051-2B` satisface un predicado de dominio real; imprime `S51-T2-B PASS` y el assert booleano pasa.",
         feedback: "S51-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
           title: "s51-t2-b-e1.py",
-          code: `# CASO-LIM-051 · dual control release
+          code: `# CASO-MOQ-051 · dual control release
 # DEFECT: contrato invertido author≠approver / audit_append_only
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
@@ -936,13 +1172,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T2-B: separación de funciones, scope read, retención y audit. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `audit_append_only` ausente y produce exactamente `PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only`.",
         feedback: "S51-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
           title: "s51-t2-b-e2.py",
-          code: `# CASO-LIM-051 · assess change control
+          code: `# CASO-MOQ-051 · assess change control
 # DEFECT: PASS sin dual control / retention / audit append-only
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -984,27 +1220,33 @@ print(*results)
         id: "S51-T2-B-E3",
         subtopicId: "S51-T2-B",
         kind: "transfer",
-        instruction: "S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UNGOVERNED_CHANGE` y la ausencia de `audit_append_only` debe devolver `REQUEST_INDEPENDENT_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
+        instruction: "S51-T2-B-E3 · Transferencia de dual-control: implementa `sod_ok` (author ≠ approver y risk en low/medium/high) y `access_policy_ok` (scope termina en `-read`, retención ≤30, audit_append_only True) y úsalas en `decide`. `CASO-MOQ-051-2B` → `CONTINUE`, adverso → `REJECT_UNGOVERNED_CHANGE`, sin `audit_append_only` → `REQUEST_INDEPENDENT_APPROVAL`. El starter invierte SoD y trata missing como CONTINUE.",
+        hint: "Missing → REQUEST_INDEPENDENT_APPROVAL; sod_ok y access_policy_ok en falso → REJECT_UNGOVERNED_CHANGE; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró separación de funciones, scope read, retención y audit; solo ese caso devuelve `CONTINUE`.",
+          "sod_ok separa funciones; access_policy_ok une scope least-privilege, TTL y audit append-only.",
         ],
-        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-2B`, adverso y sin `audit_append_only` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
+        feedback: "S51-T2-B-E3: explica cómo sod_ok y access_policy_ok separan CONTINUE de rechazo, y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
           title: "s51-t2-b-e3.py",
-          code: `# CASO-LIM-051 · decide restore change control
-# DEFECT: missing→CONTINUE; no ruta de dual-control
+          code: `# CASO-MOQ-051 · decide restore change control (transfer SoD)
+# DEFECT: helpers invertidos; missing→CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def sod_ok(record: dict) -> bool:
+    return record["author"] == record["approver"] or record["risk"] not in {"low", "medium", "high"}  # DEFECT
+
+def access_policy_ok(record: dict) -> bool:
+    return record["access_scope"].endswith("admin") or record["retention_days"] > 30 or not record["audit_append_only"]  # DEFECT
+
 def decide(record: dict) -> str:
     required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["author"] == record["approver"] or record["access_scope"].endswith("admin") else "REJECT_UNGOVERNED_CHANGE"
+    return "CONTINUE" if sod_ok(record) and access_policy_ok(record) else "REJECT_UNGOVERNED_CHANGE"
 
 valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
 invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
@@ -1017,12 +1259,23 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def sod_ok(record: dict) -> bool:
+    return record["author"] != record["approver"] and record["risk"] in {"low", "medium", "high"}
+
+def access_policy_ok(record: dict) -> bool:
+    return (
+        str(record["access_scope"]).endswith("-read")
+        and record["retention_days"] <= 30
+        and record["audit_append_only"] is True
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_INDEPENDENT_APPROVAL"
-    return "CONTINUE" if record["author"] != record["approver"] and record["risk"] in {"low","medium","high"} and record["access_scope"].endswith("-read") and record["retention_days"] <= 30 and record["audit_append_only"] else "REJECT_UNGOVERNED_CHANGE"
+    ok = sod_ok(record) and access_policy_ok(record)
+    return "CONTINUE" if ok else "REJECT_UNGOVERNED_CHANGE"
 
 valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
 invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
@@ -1038,19 +1291,19 @@ assert results == ["CONTINUE", "REJECT_UNGOVERNED_CHANGE", "REQUEST_INDEPENDENT_
         id: "S51-T3-A-E1",
         subtopicId: "S51-T3-A",
         kind: "guided",
-        instruction: "S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithfulness/drift bajo SLO con owner. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `OPEN_COPILOT_INCIDENT` en E2.",
+        instruction: "S51-T3-A-E1 · Verifica el contrato de **SLO, feedback y drift** sobre `CASO-MOQ-051-3A`. Availability y faithfulness ≥ sus SLO, drift ≤ max, y `owner` no vacío. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T3-A PASS`. SLI roto con owner presente activa `OPEN_COPILOT_INCIDENT` en E2.",
         hint: "Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.",
         hints: [
           "Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva alerta accionable con owner/runbook; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: availability bajo SLO, faithfulness baja, drift alto o owner vacío", "CASO-MOQ-051-3A es sintético"],
         tests: "El fixture `CASO-MOQ-051-3A` satisface un predicado de dominio real; imprime `S51-T3-A PASS` y el assert booleano pasa.",
         feedback: "S51-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
         starterCode: {
           language: 'python',
           title: "s51-t3-a-e1.py",
-          code: `# CASO-LIM-051 · reliability SLOs copiloto
+          code: `# CASO-MOQ-051 · reliability SLOs copiloto
 # DEFECT: gate availability/faithfulness/drift invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
@@ -1080,13 +1333,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo SLO con owner. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: availability bajo SLO, faithfulness baja, drift alto o owner vacío", "CASO-MOQ-051-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS OPEN_COPILOT_INCIDENT MISSING:owner`.",
         feedback: "S51-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
         starterCode: {
           language: 'python',
           title: "s51-t3-a-e2.py",
-          code: `# CASO-LIM-051 · assess SLO fidelity
+          code: `# CASO-MOQ-051 · assess SLO fidelity
 # DEFECT: PASS sin owner o con drift/availability fuera de SLO
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1128,27 +1381,30 @@ print(*results)
         id: "S51-T3-A-E3",
         subtopicId: "S51-T3-A",
         kind: "transfer",
-        instruction: "S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y la ausencia de `owner` debe devolver `TRIAGE_DRIFT_SLICE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
+        instruction: "S51-T3-A-E3 · Transferencia multi-SLI: implementa `sli_ok` (availability, faithfulness y drift vs umbrales) y úsala en `decide` con owner obligatorio. `CASO-MOQ-051-3A` → `CONTINUE`, adverso (SLI roto o owner vacío en el dict adverso) → `OPEN_COPILOT_INCIDENT`, sin clave `owner` → `TRIAGE_DRIFT_SLICE`. El starter invierte el gate y trata missing como CONTINUE.",
+        hint: "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto con campos presentes → OPEN_COPILOT_INCIDENT.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró availability/faithfulness/drift bajo SLO con owner; solo ese caso devuelve `CONTINUE`.",
+          "Una ausencia de clave no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
+          "sli_ok: availability >= slo, faithfulness >= slo, drift <= max_drift; además bool(owner) debe ser True para CONTINUE.",
         ],
-        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        edgeCases: ["falta owner", "fixture adverso: availability bajo SLO, faithfulness baja, drift alto o owner vacío", "CASO-MOQ-051-3A es sintético"],
         tests: "Fixtures `CASO-MOQ-051-3A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
+        feedback: "S51-T3-A-E3: explica por qué multi-SLI + owner separan CONTINUE de OPEN_COPILOT_INCIDENT y por qué falta de owner es triage, no inventar responsable.",
         starterCode: {
           language: 'python',
           title: "s51-t3-a-e3.py",
-          code: `# CASO-LIM-051 · decide restore observability owner
-# DEFECT: missing→CONTINUE; no acción de SLO
+          code: `# CASO-MOQ-051 · decide restore observability owner (transfer multi-SLI)
+# DEFECT: missing→CONTINUE; sli_ok invertido; ignora faithfulness
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def sli_ok(record: dict) -> bool:
+    return record["availability"] < record["availability_slo"] or record["drift"] > record["max_drift"]
+
 def decide(record: dict) -> str:
     required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["availability"] < record["availability_slo"] or record["drift"] > record["max_drift"] else "OPEN_COPILOT_INCIDENT"
+    return "CONTINUE" if sli_ok(record) else "OPEN_COPILOT_INCIDENT"
 
 valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
 invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
@@ -1161,12 +1417,19 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def sli_ok(record: dict) -> bool:
+    return (
+        record["availability"] >= record["availability_slo"]
+        and record["faithfulness"] >= record["faithfulness_slo"]
+        and record["drift"] <= record["max_drift"]
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
     missing = sorted(required - record.keys())
     if missing:
         return "TRIAGE_DRIFT_SLICE"
-    return "CONTINUE" if record["availability"] >= record["availability_slo"] and record["faithfulness"] >= record["faithfulness_slo"] and record["drift"] <= record["max_drift"] and bool(record["owner"]) else "OPEN_COPILOT_INCIDENT"
+    return "CONTINUE" if sli_ok(record) and bool(record["owner"]) else "OPEN_COPILOT_INCIDENT"
 
 valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
 invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
@@ -1182,19 +1445,19 @@ assert results == ["CONTINUE", "OPEN_COPILOT_INCIDENT", "TRIAGE_DRIFT_SLICE"]` ,
         id: "S51-T3-B-E1",
         subtopicId: "S51-T3-B",
         kind: "guided",
-        instruction: "S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contención, last-good, RTO y acciones con dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_AND_CONTAIN` en E2.",
+        instruction: "S51-T3-B-E1 · Clasifica el contrato de **incidentes, rollback y postmortem** sobre `CASO-MOQ-051-3B`. Contención True, last-good `copilot-*`, rollback ≤ RTO, ≥1 acción de postmortem y owners asignados. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T3-B PASS`. Sin contención o fuera de RTO activa `ROLLBACK_AND_CONTAIN` en E2.",
         hint: "Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.",
         hints: [
           "Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva simulacro de rollback y acciones verificadas; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "El fixture `CASO-MOQ-051-3B` satisface un predicado de dominio real; imprime `S51-T3-B PASS` y el assert booleano pasa.",
         feedback: "S51-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s51-t3-b-e1.py",
-          code: `# CASO-LIM-051 · incident rollback gate
+          code: `# CASO-MOQ-051 · incident rollback gate
 # DEFECT: contrato contained/rollback/postmortem invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
@@ -1224,13 +1487,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T3-B: contención, last-good, RTO y acciones con dueño. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `owners_assigned` ausente y produce exactamente `PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned`.",
         feedback: "S51-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s51-t3-b-e2.py",
-          code: `# CASO-LIM-051 · assess incident response
+          code: `# CASO-MOQ-051 · assess incident response
 # DEFECT: PASS sin rollback dentro de RTO o postmortem
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1272,27 +1535,33 @@ print(*results)
         id: "S51-T3-B-E3",
         subtopicId: "S51-T3-B",
         kind: "transfer",
-        instruction: "S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AND_CONTAIN` y la ausencia de `owners_assigned` debe devolver `CONVENE_INCIDENT_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
+        instruction: "S51-T3-B-E3 · Transferencia de IR: implementa `within_rto` (minutos ≤ RTO y last-good `copilot-*`) y `ir_complete` (contained, ≥1 postmortem_actions, owners_assigned) y úsalas en `decide`. `CASO-MOQ-051-3B` → `CONTINUE`, adverso → `ROLLBACK_AND_CONTAIN`, sin `owners_assigned` → `CONVENE_INCIDENT_REVIEW`. El starter invierte RTO y trata missing como CONTINUE.",
+        hint: "Missing → CONVENE_INCIDENT_REVIEW; within_rto e ir_complete en falso → ROLLBACK_AND_CONTAIN; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró contención, last-good, RTO y acciones con dueño; solo ese caso devuelve `CONTINUE`.",
+          "within_rto mide el reloj del rollback; ir_complete exige contención, acciones y dueños del postmortem.",
         ],
-        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-3B`, adverso y sin `owners_assigned` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
+        feedback: "S51-T3-B-E3: explica cómo within_rto e ir_complete separan CONTINUE de contención, y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s51-t3-b-e3.py",
-          code: `# CASO-LIM-051 · decide restore incident evidence
-# DEFECT: missing→CONTINUE; no acción de IR
+          code: `# CASO-MOQ-051 · decide restore incident evidence (transfer RTO)
+# DEFECT: helpers invertidos; missing→CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def within_rto(record: dict) -> bool:
+    return record["rollback_minutes"] > record["rto_minutes"] or not str(record["rolled_back_to"]).startswith("copilot-")  # DEFECT
+
+def ir_complete(record: dict) -> bool:
+    return not record["contained"] or record["postmortem_actions"] < 1 or not record["owners_assigned"]  # DEFECT
+
 def decide(record: dict) -> str:
     required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["contained"] or record["rollback_minutes"] > record["rto_minutes"] else "ROLLBACK_AND_CONTAIN"
+    return "CONTINUE" if within_rto(record) and ir_complete(record) else "ROLLBACK_AND_CONTAIN"
 
 valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
 invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
@@ -1305,12 +1574,26 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def within_rto(record: dict) -> bool:
+    return (
+        record["rollback_minutes"] <= record["rto_minutes"]
+        and str(record["rolled_back_to"]).startswith("copilot-")
+    )
+
+def ir_complete(record: dict) -> bool:
+    return (
+        record["contained"] is True
+        and record["postmortem_actions"] >= 1
+        and record["owners_assigned"] is True
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONVENE_INCIDENT_REVIEW"
-    return "CONTINUE" if record["contained"] and record["rolled_back_to"].startswith("copilot-") and record["rollback_minutes"] <= record["rto_minutes"] and record["postmortem_actions"] >= 1 and record["owners_assigned"] else "ROLLBACK_AND_CONTAIN"
+    ok = within_rto(record) and ir_complete(record)
+    return "CONTINUE" if ok else "ROLLBACK_AND_CONTAIN"
 
 valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
 invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
@@ -1326,19 +1609,19 @@ assert results == ["CONTINUE", "ROLLBACK_AND_CONTAIN", "CONVENE_INCIDENT_REVIEW"
         id: "S51-T4-A-E1",
         subtopicId: "S51-T4-A",
         kind: "guided",
-        instruction: "S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incertidumbre/citas visibles y efecto confirmado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNCONFIRMED_ACTION` en E2.",
+        instruction: "S51-T4-A-E1 · Audita el contrato de **incertidumbre, citas y confirmaciones** sobre `CASO-MOQ-051-4A`. Incertidumbre visible, citas resolubles, effect_summary no vacío y (si `confirmation_required`) `confirmed=True`. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T4-A PASS`. Side-effect sin confirmación activa `BLOCK_UNCONFIRMED_ACTION` en E2.",
         hint: "Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.",
         hints: [
           "Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva usuario entiende evidencia y confirma acción; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        edgeCases: ["falta confirmed", "fixture adverso: sin incertidumbre/citas visibles o acción sin confirmación", "CASO-MOQ-051-4A es sintético"],
         tests: "El fixture `CASO-MOQ-051-4A` satisface un predicado de dominio real; imprime `S51-T4-A PASS` y el assert booleano pasa.",
         feedback: "S51-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
           title: "s51-t4-a-e1.py",
-          code: `# CASO-LIM-051 · contestable answer UX
+          code: `# CASO-MOQ-051 · contestable answer UX
 # DEFECT: uncertainty/citations/confirmation invertidos
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
@@ -1368,13 +1651,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efecto confirmado. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        edgeCases: ["falta confirmed", "fixture adverso: sin incertidumbre/citas visibles o acción sin confirmación", "CASO-MOQ-051-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `confirmed` ausente y produce exactamente `PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed`.",
         feedback: "S51-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
           title: "s51-t4-a-e2.py",
-          code: `# CASO-LIM-051 · assess contestability fields
+          code: `# CASO-MOQ-051 · assess contestability fields
 # DEFECT: PASS sin uncertainty/citations/confirmación humana
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1416,27 +1699,33 @@ print(*results)
         id: "S51-T4-A-E3",
         subtopicId: "S51-T4-A",
         kind: "transfer",
-        instruction: "S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONFIRMED_ACTION` y la ausencia de `confirmed` debe devolver `ASK_USER_TO_CONFIRM`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
+        instruction: "S51-T4-A-E3 · Transferencia de UX: implementa `evidence_visible` (incertidumbre + citas resolubles + effect_summary no vacío) y `effect_confirmed` (si confirmation_required entonces confirmed) y úsalas en `decide`. `CASO-MOQ-051-4A` → `CONTINUE`, adverso → `BLOCK_UNCONFIRMED_ACTION`, sin `confirmed` → `ASK_USER_TO_CONFIRM`. El starter invierte evidencia y trata missing como CONTINUE.",
+        hint: "Missing → ASK_USER_TO_CONFIRM; evidence_visible o effect_confirmed en falso → BLOCK_UNCONFIRMED_ACTION; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró incertidumbre/citas visibles y efecto confirmado; solo ese caso devuelve `CONTINUE`.",
+          "evidence_visible cubre lo que el usuario ve; effect_confirmed cubre el side-effect irreversible.",
         ],
-        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        edgeCases: ["falta confirmed", "fixture adverso: sin incertidumbre/citas visibles o acción sin confirmación", "CASO-MOQ-051-4A es sintético"],
         tests: "Fixtures `CASO-MOQ-051-4A`, adverso y sin `confirmed` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
+        feedback: "S51-T4-A-E3: explica cómo evidence_visible y effect_confirmed separan CONTINUE de bloqueo, y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
           title: "s51-t4-a-e3.py",
-          code: `# CASO-LIM-051 · decide restore contestability
-# DEFECT: missing→CONTINUE; no bloqueo UX
+          code: `# CASO-MOQ-051 · decide restore contestability (transfer UX helpers)
+# DEFECT: helpers invertidos; missing→CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def evidence_visible(record: dict) -> bool:
+    return not record["uncertainty_shown"] or not record["citations_resolve"] or not record["effect_summary"]  # DEFECT
+
+def effect_confirmed(record: dict) -> bool:
+    return record["confirmation_required"] and not record["confirmed"]  # DEFECT: True solo en breach
+
 def decide(record: dict) -> str:
     required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["uncertainty_shown"] or not record["citations_resolve"] or not record["confirmed"] else "BLOCK_UNCONFIRMED_ACTION"
+    return "CONTINUE" if evidence_visible(record) and effect_confirmed(record) else "BLOCK_UNCONFIRMED_ACTION"
 
 valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
 invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
@@ -1449,12 +1738,23 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def evidence_visible(record: dict) -> bool:
+    return (
+        record["uncertainty_shown"]
+        and record["citations_resolve"]
+        and bool(record["effect_summary"])
+    )
+
+def effect_confirmed(record: dict) -> bool:
+    return (not record["confirmation_required"]) or record["confirmed"] is True
+
+def decide(record: dict) -> str:
     required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
     missing = sorted(required - record.keys())
     if missing:
         return "ASK_USER_TO_CONFIRM"
-    return "CONTINUE" if record["uncertainty_shown"] and record["citations_resolve"] and bool(record["effect_summary"]) and (not record["confirmation_required"] or record["confirmed"]) else "BLOCK_UNCONFIRMED_ACTION"
+    ok = evidence_visible(record) and effect_confirmed(record)
+    return "CONTINUE" if ok else "BLOCK_UNCONFIRMED_ACTION"
 
 valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
 invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
@@ -1470,19 +1770,19 @@ assert results == ["CONTINUE", "BLOCK_UNCONFIRMED_ACTION", "ASK_USER_TO_CONFIRM"
         id: "S51-T4-B-E1",
         subtopicId: "S51-T4-B",
         kind: "guided",
-        instruction: "S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar teclado/lector/contraste y corrección/apelación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_ACCESSIBILITY_GATE` en E2.",
+        instruction: "S51-T4-B-E1 · Decide el contrato de **accesibilidad, corrección y contestabilidad** sobre `CASO-MOQ-051-4B`. Teclado completo, labels de lector, `contrast_ratio` ≥ `min_contrast` (AA), corrección y apelación a humano. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T4-B PASS`. Contraste bajo o solo-mouse activa `FAIL_ACCESSIBILITY_GATE` en E2.",
         hint: "Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.",
         hints: [
           "Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva flujo WCAG y apelación completables; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector incompleto, contraste bajo o sin apelación", "CASO-MOQ-051-4B es sintético"],
         tests: "El fixture `CASO-MOQ-051-4B` satisface un predicado de dominio real; imprime `S51-T4-B PASS` y el assert booleano pasa.",
         feedback: "S51-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
         starterCode: {
           language: 'python',
           title: "s51-t4-b-e1.py",
-          code: `# CASO-LIM-051 · a11y + appeal gate
+          code: `# CASO-MOQ-051 · a11y + appeal gate
 # DEFECT: keyboard/contrast/appeal invertidos
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
@@ -1512,13 +1812,13 @@ assert meets_contract is True` ,
           "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
           "Después aplica la regla de S51-T4-B: teclado/lector/contraste y corrección/apelación. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector incompleto, contraste bajo o sin apelación", "CASO-MOQ-051-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `appeal_to_human` ausente y produce exactamente `PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human`.",
         feedback: "S51-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
         starterCode: {
           language: 'python',
           title: "s51-t4-b-e2.py",
-          code: `# CASO-LIM-051 · assess a11y completeness
+          code: `# CASO-MOQ-051 · assess a11y completeness
 # DEFECT: PASS sin screen reader/contrast/appeal
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1560,27 +1860,30 @@ print(*results)
         id: "S51-T4-B-E3",
         subtopicId: "S51-T4-B",
         kind: "transfer",
-        instruction: "S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FAIL_ACCESSIBILITY_GATE` y la ausencia de `appeal_to_human` debe devolver `ROUTE_CONTESTATION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",
+        instruction: "S51-T4-B-E3 · Transferencia a11y: implementa `meets_wcag_aa` (teclado, labels, `contrast_ratio >= min_contrast`, corrección y apelación) y úsala en `decide`. `CASO-MOQ-051-4B` → `CONTINUE`, adverso → `FAIL_ACCESSIBILITY_GATE`, sin `appeal_to_human` → `ROUTE_CONTESTATION`. El starter invierte el contraste y trata missing como CONTINUE.",
+        hint: "Missing → ROUTE_CONTESTATION; compara contraste numéricamente (>=), no con igualdad exacta.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró teclado/lector/contraste y corrección/apelación; solo ese caso devuelve `CONTINUE`.",
+          "meets_wcag_aa debe exigir keyboard_complete, screen_reader_labels, contrast_ratio >= min_contrast, correction_available y appeal_to_human.",
         ],
-        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector incompleto, contraste bajo o sin apelación", "CASO-MOQ-051-4B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-4B`, adverso y sin `appeal_to_human` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S51-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
+        feedback: "S51-T4-B-E3: explica el umbral de contraste AA y por qué sin appeal se enruta a ROUTE_CONTESTATION en lugar de inventar un humano.",
         starterCode: {
           language: 'python',
           title: "s51-t4-b-e3.py",
-          code: `# CASO-LIM-051 · decide restore a11y evidence
-# DEFECT: missing→CONTINUE; no hold de accesibilidad
+          code: `# CASO-MOQ-051 · decide restore a11y evidence (transfer WCAG)
+# DEFECT: missing→CONTINUE; contraste invertido; ignora labels/corrección
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
+def meets_wcag_aa(record: dict) -> bool:
+    return not record["keyboard_complete"] or record["contrast_ratio"] < record["min_contrast"]
+
 def decide(record: dict) -> str:
     required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["keyboard_complete"] or record["contrast_ratio"] < record["min_contrast"] or not record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+    return "CONTINUE" if meets_wcag_aa(record) else "FAIL_ACCESSIBILITY_GATE"
 
 valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
 invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
@@ -1593,12 +1896,21 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s51-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def meets_wcag_aa(record: dict) -> bool:
+    return (
+        record["keyboard_complete"]
+        and record["screen_reader_labels"]
+        and record["contrast_ratio"] >= record["min_contrast"]
+        and record["correction_available"]
+        and record["appeal_to_human"]
+    )
+
+def decide(record: dict) -> str:
     required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
     missing = sorted(required - record.keys())
     if missing:
         return "ROUTE_CONTESTATION"
-    return "CONTINUE" if record["keyboard_complete"] and record["screen_reader_labels"] and record["contrast_ratio"] >= record["min_contrast"] and record["correction_available"] and record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+    return "CONTINUE" if meets_wcag_aa(record) else "FAIL_ACCESSIBILITY_GATE"
 
 valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
 invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
@@ -1613,31 +1925,36 @@ assert results == ["CONTINUE", "FAIL_ACCESSIBILITY_GATE", "ROUTE_CONTESTATION"]`
     ],
   },
   youDo: {
-    title: "[FINAL] Observabilidad, gobernanza y UX del copiloto (CP-N4-C (cierre) + CF-5 + Level-4 regression)",
-    context: "Auditable AI Operations Copilot y CF-5. Trabaja sobre operación sintética de un copiloto para una entidad ficticia en Moquegua. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación. El gate se bloquea ante: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback.",
+    title: "Portafolio CF-5: Observabilidad, gobernanza y UX del copiloto (CP-N4-C + Level-4 regression)",
+    context: "Auditable AI Operations Copilot y freeze CF-5. Sobre `CASO-MOQ-051` (Moquegua sintético) ensambla los artefactos de T1–T4: traza redactada → dashboard de costo/latencia → bundle pinneado + change ticket → SLO/incidente → UX contestable y a11y. Entrada: trace id, versiones, evidencia, feedback y política. Salida: dashboard redactado, SLO con owner, audit trail append-only y corrección/apelación. El gate se bloquea ante PII en trace, versión desconocida, drift sin owner o acción irreversible sin confirmación.",
     objectives: [
-      "Convertir trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política en dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación.",
-      "Demostrar el gate: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
-      "Probar el fallo: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback.",
+      "Ensamblar traza reconstruible, métricas por etapa con redacción, registry pinneado y dual-control en un solo paquete de evidencia.",
+      "Demostrar el gate CF-5: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+      "Automatizar tres rutas: normal (CONTINUE/PASS), breach (`ROLLBACK_AND_CONTAIN`) e incertidumbre (`CONVENE_INCIDENT_REVIEW` o `ASK_USER_TO_CONFIRM`).",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-MOQ-051`.",
-      "Incluye traces de prompt/retrieval/tool con redacción.",
-      "Incluye registry y change log de versiones.",
-      "Incluye SLO/drift/feedback/incidente/postmortem.",
-      "Incluye UX accesible con incertidumbre, citas, confirmación y contestabilidad.",
-      "Automatiza un caso normal, uno de breach (`ROLLBACK_COPILOT`) y uno incierto (`ESCALATE_TO_OWNER`).",
+      "Incluye traces de prompt/retrieval/tool con redacción (`traces_redacted`).",
+      "Incluye registry y change log de versiones (`registry_changelog`).",
+      "Incluye SLO/drift/feedback/incidente/postmortem (`slo_incident_postmortem`).",
+      "Incluye UX accesible con incertidumbre, citas, confirmación y contestabilidad (`ux_contestability_a11y`).",
+      "Automatiza un caso normal, uno de breach (`ROLLBACK_AND_CONTAIN`) y uno incierto (`CONVENE_INCIDENT_REVIEW` o `ASK_USER_TO_CONFIRM`).",
       "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
       "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
     starterCode: `CASE_ID = "CASO-MOQ-051"
-REQUIRED = ['traces_de_prompt_retrieval_tool_con_redaccion', 'registry_y_change_log_de_versiones', 'slo_drift_feedback_incidente_postmortem', 'ux_accesible_con_incertidumbre_citas_confirmacion_y_contestabili']
+REQUIRED = [
+    "traces_redacted",
+    "registry_changelog",
+    "slo_incident_postmortem",
+    "ux_contestability_a11y",
+]
 evidence = {
-    "traces_de_prompt_retrieval_tool_con_redaccion": False,
-    "registry_y_change_log_de_versiones": False,
-    "slo_drift_feedback_incidente_postmortem": False,
-    "ux_accesible_con_incertidumbre_citas_confirmacion_y_contestabili": False
+    "traces_redacted": False,
+    "registry_changelog": False,
+    "slo_incident_postmortem": False,
+    "ux_contestability_a11y": False,
 }
 
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
@@ -1649,7 +1966,7 @@ print(CASE_ID, status)
 print("missing", ",".join(missing))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-C + CF-5 · copiloto observable y contestable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+    portfolioNote: "Evidencia de CP-N4-C + CF-5 · copiloto observable y contestable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto (trazas, system card, postmortem, flujo a11y), no cambiando asserts.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1662,16 +1979,16 @@ assert status in {"READY", "BLOCKED"}
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?",
+        question: "¿Qué evidencia permite aprobar traces de prompts, retrieval y tools en CASO-MOQ-051?",
         options: ["un print sin assert ni versión", "una captura de pantalla sin fuente", "trace reconstruible sin PII", "datos personales reales para que parezca auténtico"],
         correctIndex: 2,
         explanation: "La teoría exige trace reconstruible sin PII; evidencia decorativa o PII no satisface el contrato.",
       },
       {
-        question: "Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: ["emitir ROLLBACK_COPILOT y conservar evidencia", "continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
+        question: "Si un release de copiloto degrada faithfulness y hay que revertir con evidencia, ¿qué respuesta preserva seguridad y auditabilidad?",
+        options: ["emitir ROLLBACK_AND_CONTAIN y conservar evidencia", "continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
         correctIndex: 0,
-        explanation: "El contrato falla cerrado con ROLLBACK_COPILOT; no convierte incertidumbre o breach en éxito.",
+        explanation: "El contrato de incidente falla cerrado con ROLLBACK_AND_CONTAIN; no convierte incertidumbre o breach en éxito ni borra la traza.",
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?",
@@ -1680,17 +1997,17 @@ assert status in {"READY", "BLOCKED"}
         explanation: "El gate es conductual y medible: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
       },
       {
-        question: "¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?",
-        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "inferir fraude o parentesco desde ER", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana"],
-        correctIndex: 3,
-        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
+        question: "Antes de exportar métricas del copiloto, ¿qué tratamiento de atributos es correcto en S51?",
+        options: ["exportar prompt_raw y email para «depurar más rápido»", "usar model=latest en el registry de producción", "redactar email/authorization/prompt_raw y rechazar el export si queda PII", "auto-aprobar el release si el autor y el aprobador son la misma persona"],
+        correctIndex: 2,
+        explanation: "La redacción de atributos sensibles es parte del contrato de observabilidad; dual-control y pin de versiones son obligatorios en prod.",
       },
       {
         question: "Un trace de copiloto con spans completos pero `pii_in_trace=True`, ¿qué acción es correcta en S51?",
         options: ["Promover a producción porque los spans están completos", "Borrar el audit log para ocultar el PII", "REDACT_AND_QUARANTINE_TRACE y bloquear promoción hasta re-redacción", "Inferir fraude del usuario a partir del prompt"],
         correctIndex: 2,
         explanation:
-          "PII en traza invalida el contrato de observabilidad: se redacte y se cuarentena; no se promueve ni se usa la traza como prueba de culpabilidad.",
+          "PII en traza invalida el contrato de observabilidad: se redacta y se cuarentena; no se promueve ni se usa la traza como prueba de culpabilidad.",
       },
 
     ],

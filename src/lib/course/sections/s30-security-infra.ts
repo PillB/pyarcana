@@ -5,52 +5,54 @@ export const section30: CourseSection = {
   index: 30,
   title: "Entity resolution probabilístico",
   shortTitle: "ER probabilístico",
-  tagline: "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+  tagline: "Motor de entity resolution testeable: benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
   estimatedHours: 18,
   level: "Competente",
   phase: 2,
   icon: "GitMerge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "Cierras **CP-N3-A** con un **Testable Entity Resolution Engine**: comparadores, blocking con recall medido, pesos/umbrales y métricas P/R. Scores priorizan cola de revisión; no etiquetan fraude. Id legacy `security-infra` se conserva; el path V3 es entity resolution probabilístico, no hardening de servidores.",
+    "Cierras **CP-N3-A** con un **motor de entity resolution testeable**: comparadores, blocking con recall medido, pesos/umbrales y métricas de precisión/recall. Los scores solo priorizan la cola de revisión clerical; nunca etiquetan fraude, parentesco ni colusión. En equipos de datos (bancos, telecom, retail en Perú y LatAm) este motor une contactos sintéticos duplicados antes de alimentar grafos de evidencia (S31) y almacenes SQL (S29).",
   learningOutcomes: [
-    { text: "Comparar exact/edit/token/fecha" },
-    { text: "Tratar missingness y frecuencia" },
-    { text: "Diseñar blocking con recall medido" },
-    { text: "Controlar costo y pares imposibles" },
-    { text: "Estimar pesos y umbrales" },
-    { text: "Operar review y consistencia de cluster" },
-    { text: "Partir datos por entidad sin leakage" },
-    { text: "Reportar métricas pairwise/cluster y slices" },
+    { text: "Implementar comparadores exact, edit, token y fecha que devuelven score en [0,1] con explicación por campo" },
+    { text: "Tratar missingness (vacío ≠ desacuerdo) y bajar el peso de valores frecuentes en acuerdos" },
+    { text: "Diseñar reglas de blocking y medir candidate recall sobre gold sintético" },
+    { text: "Estimar costo de pares por bloque y filtrar pares imposibles antes del scorer" },
+    { text: "Calcular score ponderado y aplicar umbrales auto_match / review / non_match de forma conservadora" },
+    { text: "Operar cola clerical y consistencia de cluster con Union-Find" },
+    { text: "Partir pares por entidad sin leakage de identidad entre train y test" },
+    { text: "Reportar precisión/recall/F1 pairwise, una métrica de cluster simplificada y error slices" },
   ],
   theory: [
     {
-      heading: "Cierre CP-N3-A: Testable Entity Resolution Engine",
+      heading: "Cierre CP-N3-A: motor de entity resolution testeable",
       paragraphs: [
-        "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, **blocking con recall medido**, comparadores explicables y cola de revisión clerical. Un score de matching **solo prioriza** revisión humana.",
-        "ER responde solo **¿misma entidad?** — **no** parentesco, colusión ni fraude. Scores = evidencia para humanos o auto-match **conservador**. Contrato: pares sintéticos `CASO-LIM-030` → `auto_match|review|non_match` con explicación por campo; error si falta gold o blocking sin recall.",
-        "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** (pesos/umbrales) → **T4 Evaluación**. Integra S27–S29 (tests, props, SQL). Caso PE: contactos Lima `@example.pe`; fusión con Union-Find y evidencia exportable — `auto_fraud_label=False`.",
+        "**S30 cierra CP-N3-A.** Entregas un motor **testeable**: benchmark etiquetado sintético, **blocking con recall medido**, comparadores explicables y cola de revisión clerical. Un score de matching **solo prioriza** revisión humana; no es veredicto de fraude ni de parentesco.",
+        "ER responde solo **¿misma entidad?** — **no** parentesco, colusión ni fraude. Contrato de esta sección: pares sintéticos del caso `CASO-LIM-030` (contactos Lima `@example.pe`) → decisión `auto_match` | `review` | `non_match` con explicación por campo. Falta gold o blocking sin recall medido = error de diseño, no “métrica opcional”.",
+        "Orden: **T1 Comparadores** → **T2 Blocking y costo** → **T3 Matching** (pesos, umbrales, review, clusters) → **T4 Evaluación** (split por entidad, P/R, slices). Integra contratos de S27–S29 (tests, propiedades, almacén SQL de pares/decisiones). La fusión de entidades usa Union-Find; la evidencia debe ser exportable. En S31 esos nodos de entidad alimentan el grafo de evidencia.",
       ],
       callout: {
         type: "info",
-        title: "Gate CP-N3-A",
+        title: "Criterio de cierre CP-N3-A",
         content:
-          "La promoción exige un motor ER testeable y evidencia de sus métricas, errores y casos enviados a revisión.",
+          "La promoción exige un motor ER ejecutable y evidencia de sus métricas, errores y casos enviados a revisión. Ética de la sección (una sola vez): scores priorizan humanos; nunca auto-etiquetan fraude.",
       },
     },
     {
       heading: "exact, edit/token y fecha",
       subtopicId: "S30-T1-A",
       paragraphs: [
-        "**Exact**: igualdad post-normalización (`casefold`+espacios). **Edit** (Levenshtein normalizado): typos y acentos. **Token**: Jaccard/overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Ningún comparador “prueba” fraude — solo aporta evidencia de identidad.",
-        "Cada comparador devuelve score en **[0,1]** o nivel ordinal (`agree`/`disagree`/`missing`) para pesos tipo **Fellegi–Sunter** simplificado. Mezclar escalas sin normalizar invalida umbrales de auto_match/review.",
-        "Explica el score: guarda **campo + función + aporte** (auditoría clerical). Sin vector de aportes, el revisor no puede cuestionar un 0.91 opaco.",
+        "**Exact**: igualdad **después** de normalizar (`casefold` + colapsar espacios). **Edit** (Levenshtein normalizado): typos y diferencias de acentos leves. **Token**: Jaccard u overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Ningún comparador “prueba” fraude: solo aporta evidencia de identidad.",
+        "Cada comparador devuelve un score en **[0,1]** o un nivel ordinal (`agree` / `disagree` / `missing`) listo para un modelo tipo **Fellegi–Sunter didáctico** (simplificación: promedio ponderado de similitudes; el FS completo usa log₂(m/u) y prior λ — ver recursos). Mezclar escalas sin normalizar invalida los umbrales de auto_match/review.",
+        "Para auditoría clerical guarda **campo + función + aporte**. Sin vector de aportes, un 0.91 opaco no se puede cuestionar. En `CASO-LIM-030`, email exacto y nombre con tokens reordenados son el primer humo de un match candidato.",
       ],
       code: {
         language: 'python',
         title: "comparators.py",
         code: `def exact(a, b):
-    return 1.0 if a == b else 0.0
+    na = " ".join(a.casefold().split())
+    nb = " ".join(b.casefold().split())
+    return 1.0 if na == nb else 0.0
 
 def token_jaccard(a, b):
     ta, tb = set(a.casefold().split()), set(b.casefold().split())
@@ -84,7 +86,7 @@ def date_sim(d1, d2, tol_days=3):
     return 0.0
 
 from datetime import date
-print("exact", exact("ana@example.pe", "ana@example.pe"))
+print("exact", exact("Ana@example.pe", "ana@example.pe"))
 print("token", round(token_jaccard("Ana López", "López Ana"), 3))
 print("edit", round(edit_sim("María", "Maria"), 3))
 print("date", date_sim(date(2020, 1, 1), date(2020, 1, 2)))`,
@@ -97,16 +99,16 @@ date 0.5`,
         type: "tip",
         title: "Explicabilidad",
         content:
-          "Guarda vector de aportes por campo; el clerical reviewer debe ver por qué el score es alto.",
+          "Guarda un vector de aportes por campo; el revisor clerical debe ver por qué el score es alto o por qué cayó a review.",
       },
     },
     {
       heading: "missingness informativa y frecuencia",
       subtopicId: "S30-T1-B",
       paragraphs: [
-        "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
-        "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
+        "**Ausencia de campo (missingness)**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa el estado `missing` en la comparación (no lo trates como `disagree`). Si penalizas missing como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no trae el campo.",
+        "La ausencia puede ser **informativa**: ciertas fuentes nunca publican teléfono. Modela el patrón por fuente (`source_system`), no asumas MCAR (aleatorio completo) sin evidencia. En el scorer, un `missing` suele contribuir 0 al peso de ese campo en lugar de empujar hacia non_match.",
+        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto — intuición de u-probability alta en FS. Aquí usamos `base/frecuencia` como **heurística didáctica**, no como estimación m/u completa. En contactos Lima sintéticos, un acuerdo en “María” pesa menos que en un apellido raro.",
       ],
       code: {
         language: 'python',
@@ -117,7 +119,7 @@ date 0.5`,
     return "agree" if a.casefold() == b.casefold() else "disagree"
 
 def frequency_weight(value, freq_table, base=1.0):
-    # valores frecuentes → menos peso de acuerdo
+    # valores frecuentes → menos peso de acuerdo (heurística, no m/u FS completo)
     f = freq_table.get(value.casefold(), 1)
     return base / f
 
@@ -135,16 +137,16 @@ w_rare 0.5`,
         type: "warning",
         title: "Missing ≠ disagree",
         content:
-          "Penalizar missing como desacuerdo infla non-matches espurios.",
+          "Penalizar missing como desacuerdo infla non-matches espurios y llena la cola de falsos negativos de revisión.",
       },
     },
     {
       heading: "reglas y candidate recall",
       subtopicId: "S30-T2-A",
       paragraphs: [
-        "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
-        "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "Reglas en **unión (OR)** suben **candidate recall**; **intersección (AND)** reduce candidatos pero puede matar recall de gold matches. Mide recall en el benchmark antes de “optimizar” CPU. Caso PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
+        "**Blocking** reduce el espacio de pares: solo comparas registros que comparten una clave (apellido normalizado + prefijo de ciudad, local-part de email, últimos dígitos de teléfono, etc.). Sin blocking, all-pairs es O(n²) e inviable a escala.",
+        "**Candidate recall**: de los pares verdaderamente match en el gold sintético, ¿qué fracción pasó el blocking? Si el recall de candidatos es bajo, el scorer nunca ve el match — y ninguna métrica posterior lo salva. Mide con etiquetas sintéticas **antes** de “optimizar” CPU.",
+        "Reglas en **unión (OR)** suben candidate recall; **intersección (AND)** reduce candidatos pero puede matar recall de gold matches. En el demo de abajo el recall es **0.0 a propósito**: `López` y `lopez` generan claves distintas sin plegado de acentos. Primero normaliza (casefold + fold de tildes); luego mide.",
       ],
       code: {
         language: 'python',
@@ -163,7 +165,7 @@ from collections import defaultdict
 buckets = defaultdict(list)
 for r in records:
     buckets[block_key(r)].append(r["id"])
-# gold match (r1,r2)
+# gold match (r1,r2) — pero las claves difieren por acento
 gold = {frozenset(("r1", "r2"))}
 candidates = set()
 for ids in buckets.values():
@@ -180,18 +182,18 @@ n_cand 0`,
       },
       callout: {
         type: "tip",
-        title: "Mide recall de blocking",
+        title: "Recall 0.0 = lección de normalización",
         content:
-          "Sin gold sintético no sabes si tu regla deja fuera verdaderos matches.",
+          "Aquí el recall es 0.0 a propósito: `López` vs `lopez` no comparten clave sin plegado de acentos. Primero normaliza; luego mide candidate recall con gold sintético.",
       },
     },
     {
       heading: "combinaciones, costo y pares imposibles",
       subtopicId: "S30-T2-B",
       paragraphs: [
-        "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
-        "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "Combina blocking + filtros imposibles antes del scorer pesado. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "El **costo** de comparación es O(suma n_b·(n_b−1)/2) por bloque. Una clave débil (solo ciudad “Lima”) mete decenas de miles de registros en un bloque y explota CPU/memoria. Monitorea tamaño máximo de bloque como SLO de diseño y redefine la clave antes de escalar el batch nocturno.",
+        "**Pares imposibles**: reglas de exclusión (tipo persona vs organización, fechas de nacimiento incompatibles en el fixture sintético) evitan gastar scorer en lo incomparable. El filtro corre **antes** del scorer pesado: política `filter_before_score`, no un post-filtro cosmético.",
+        "Pipeline sano: blocking → filtro de imposibles → scorer → umbrales. Si inviertes el orden, pagas similitudes caras (edit distance, token sets) que nunca debieron calcularse. En `CASO-LIM-030`, person vs org se descarta sin invocar edit distance ni saturar la cola clerical.",
       ],
       code: {
         language: 'python',
@@ -216,16 +218,16 @@ policy filter_before_score`,
         type: "danger",
         title: "Bloque de 100k",
         content:
-          "Una clave demasiado gruesa puede generar miles de millones de pares. Monitorea tamaño de bloque.",
+          "Una clave demasiado gruesa puede generar miles de millones de pares. Monitorea tamaño de bloque y redefine la clave antes de escalar.",
       },
     },
     {
-      heading: "pesos/probabilidad y thresholds",
+      heading: "pesos, probabilidad didáctica y umbrales",
       subtopicId: "S30-T3-A",
       paragraphs: [
-        "Modelo simple: `score = suma de pesos` por acuerdo/desacuerdo de campos (**Fellegi–Sunter** didáctico) o promedio ponderado de similitudes. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
-        "**Thresholds**: `auto_match ≥ t_high`; `non_match ≤ t_low`; en medio → **review** (cola clerical). Nunca `auto_fraud`. Contrato: pares `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "Estima pesos con frecuencias (m/u) o a mano **documentado**; valida en **gold sintético** (S30-T4) sin leakage de entidad. Caso PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
+        "Modelo **didáctico** de esta sección: `score = suma(sim·peso) / suma(pesos)` sobre similitudes en [0,1]. El modelo Fellegi–Sunter completo usa prior λ y pesos log₂(m/u) por acuerdo/desacuerdo; aquí priorizamos intuición operativa y umbrales duales. No digas “sé FS” solo por haber promediado pesos.",
+        "**Umbrales**: `auto_match` si score ≥ t_high; `non_match` si score ≤ t_low; en medio → **review** (cola clerical). Nunca `auto_fraud`. t_high alto reduce falsos positivos que molestan a operaciones; el resto va a humanos con explicación por campo.",
+        "Estima pesos con frecuencias o a mano **documentado**; valida en gold sintético (T4) sin leakage de entidad. Un score 0.875 con phone en 0.0 debe aterrizar en review, no en auto_match ciego.",
       ],
       code: {
         language: 'python',
@@ -256,16 +258,16 @@ explain {'name': 0.95, 'email': 1.0, 'phone': 0.0}`,
         type: "warning",
         title: "Auto-match conservador",
         content:
-          "t_high alto reduce falsos positivos que molestan a operaciones; el resto va a review.",
+          "t_high alto reduce falsos positivos operativos; la banda gris es revisión humana con evidencia, no un limbo sin dueño.",
       },
     },
     {
-      heading: "entrenamiento, clerical review y cluster consistency",
+      heading: "entrenamiento, clerical review y consistencia de cluster",
       subtopicId: "S30-T3-B",
       paragraphs: [
-        "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
-        "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
+        "**Estimación**: ajusta pesos o umbrales con pares etiquetados **sintéticos** (sin PII real). El “entrenamiento” aquí es calibración supervisada de un scorer interpretable, no un black-box que invente labels de riesgo o parentesco.",
+        "**Clerical review**: cada ítem de cola lleva score, explicación por campo y acciones `match` / `non_match` / `uncertain` más actor y timestamp. El espacio de labels de ER **no incluye** `fraud`: eso es otra tarea del path de investigación y se filtra en el borde del sistema.",
+        "**Consistencia de cluster**: si A=B y B=C entonces A=C en la misma entidad. Resuelve uniones con Union-Find y revisa contradicciones (A=B, B≠C, A=C) antes de exportar nodos a S31. En el demo, un approve clerical de e3–e4 cierra el cluster e1…e4 de forma transitiva.",
       ],
       code: {
         language: 'python',
@@ -294,25 +296,25 @@ review_queue = [
 uf.union("e3", "e4")
 print("same_cluster", uf.find("e1") == uf.find("e4"))
 print("queue_n", len(review_queue))
-print("note", "ER_not_fraud")`,
+print("label_space", ["match", "non_match", "uncertain"])`,
         output: `same_cluster True
 queue_n 1
-note ER_not_fraud`,
+label_space ['match', 'non_match', 'uncertain']`,
       },
       callout: {
         type: "info",
         title: "Consistencia transitiva",
         content:
-          "Clusters incoherentes (A=B, B≠C, A=C) son bugs de postproceso o de labels.",
+          "Clusters incoherentes (A=B, B≠C, A=C) son bugs de postproceso o de etiquetas — investiga el origen antes de exportar a S31.",
       },
     },
     {
-      heading: "labeled pairs y splits por entidad",
+      heading: "pares etiquetados y splits por entidad",
       subtopicId: "S30-T4-A",
       paragraphs: [
-        "El **benchmark etiquetado** tiene pares match/non-match **sintéticos**. Nunca uses el mismo par (ni la misma entidad) en train y test de umbrales sin control — **leakage de identidad**. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
-        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad). Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "Documenta tamaños de split y prevalencia de matches (suele ser baja). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+        "El **benchmark etiquetado** tiene pares match/non-match **sintéticos**. Nunca uses el mismo par (ni la misma entidad) en train y test de umbrales sin control: eso es **leakage de identidad** e infla métricas del motor de forma engañosa.",
+        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test. Un split aleatorio de pares con entidades compartidas es el error clásico que “mejora” el F1 en el notebook y falla cuando llegan contactos nuevos en producción.",
+        "Documenta tamaños de split y prevalencia de matches (suele ser baja: pocos matches reales entre muchos non-matches). En `CASO-LIM-030`, reporta match rate del gold junto al candidate recall del blocking y a P/R en el hold-out de entidades.",
       ],
       code: {
         language: 'python',
@@ -330,37 +332,36 @@ def entity_split(pairs, train_entities):
     train, test = [], []
     for p in pairs:
         ents = {p["a"], p["b"]}
-        if ents & train_entities and not ents <= train_entities:
-            # spill: un extremo en train y otro fuera → test o drop; aquí drop de train
-            test.append(p)
-        elif ents <= train_entities:
+        if ents <= train_entities:
             train.append(p)
         else:
             test.append(p)
     return train, test
 
 tr, te = entity_split(pairs, train_entities)
+train_ents = {p["a"] for p in tr} | {p["b"] for p in tr}
+test_ents = {p["a"] for p in te} | {p["b"] for p in te}
 print("train_n", len(tr))
 print("test_n", len(te))
-print("leakage_guard", True)`,
+print("entity_overlap", len(train_ents & test_ents))`,
         output: `train_n 2
 test_n 2
-leakage_guard True`,
+entity_overlap 0`,
       },
       callout: {
         type: "danger",
         title: "Leakage por entidad",
         content:
-          "Partir al azar pares con entidades compartidas infla métricas del motor.",
+          "Partir al azar pares con entidades compartidas infla métricas del motor y engaña al cierre de CP-N3-A.",
       },
     },
     {
-      heading: "precision/recall, pairwise/cluster metrics y error slices",
+      heading: "precisión/recall, métricas de cluster y error slices",
       subtopicId: "S30-T4-B",
       paragraphs: [
-        "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (pair completeness/quality simplificado). Reporta ambas: un F1 pairwise alto puede esconder clusters inconsistentes. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
-        "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
-        "Reporta con datos sintéticos; **no** conviertas errores de matching en acusaciones de fraude. Caso PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable.",
+        "**Pairwise**: precisión, recall y F1 sobre pares predichos vs gold. Un F1 pairwise alto puede esconder clusters partidos o fusionados de más. Por eso reportas también una vista de **cluster**.",
+        "**Cluster (simplificado didáctico)**: *pair completeness* ≈ fracción de pares gold del mismo cluster que el sistema unió; *pair quality* ≈ precisión de las uniones predichas a nivel de pares del cluster. No implementamos toda la literatura de clustering metrics: implementas pairwise completo + un indicador de completitud de cluster sobre el Union-Find.",
+        "**Error slices**: corta errores por fuente, apellido frecuente, missing phone, ciudad. Encuentra fallas sistemáticas sin convertir un error de matching en acusación de fraude. El índice de error del demo es la semilla de un slice (`missing_phone`, `common_last_name`, …).",
       ],
       code: {
         language: 'python',
@@ -374,25 +375,37 @@ leakage_guard True`,
     f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
     return prec, rec, f1
 
+def pair_completeness(gold_pairs, predicted_same):
+    # fracción de pares gold (match) que el cluster predicho mantiene unidos
+    if not gold_pairs:
+        return 0.0
+    ok = sum(1 for a, b in gold_pairs if predicted_same(a, b))
+    return ok / len(gold_pairs)
+
 y_true = [1, 1, 0, 0, 1]
 y_pred = [1, 0, 0, 1, 1]
 p, r, f = prf(y_true, y_pred)
-# slice: errores donde pred!=true
 errors = [i for i, (t, pr) in enumerate(zip(y_true, y_pred)) if t != pr]
+# cluster sintético: e1-e2 unidos; gold match e1-e3 partido
+gold_pairs = [("e1", "e2"), ("e1", "e3")]
+clusters = {"e1": "c0", "e2": "c0", "e3": "c1"}
+pc = pair_completeness(gold_pairs, lambda a, b: clusters[a] == clusters[b])
 print("precision", round(p, 3))
 print("recall", round(r, 3))
 print("f1", round(f, 3))
-print("error_idx", errors)`,
+print("error_idx", errors)
+print("pair_completeness", pc)`,
         output: `precision 0.667
 recall 0.667
 f1 0.667
-error_idx [1, 3]`,
+error_idx [1, 3]
+pair_completeness 0.5`,
       },
       callout: {
         type: "tip",
         title: "Pairwise vs cluster",
         content:
-          "Un cluster partido en dos castiga recall pairwise y métricas de entidad; reporta ambas vistas.",
+          "Un cluster partido en dos castiga recall pairwise y pair completeness; reporta ambas vistas en el README del portfolio.",
       },
     },
   ],
@@ -403,21 +416,25 @@ error_idx [1, 3]`,
         demoId: "S30-T1-A-DEMO",
         subtopicId: "S30-T1-A",
         environment: "local-python",
-        description: "Compara exact email, token name y edit simple sobre registros sintéticos.",
+        description: "Compara exact (post-normalización), token Jaccard y deja listo el hábito de casefold.",
         code: {
           language: 'python',
           title: "cmp_demo.py",
-          code: `def exact(a,b):
-    return float(a==b)
-def jac(a,b):
-    ta,tb=set(a.lower().split()),set(b.lower().split())
-    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0
-print(exact('a@example.pe','a@example.pe'), round(jac('Ana Lopez','Lopez Ana'),2))
-print('comparators', 'exact+token')`,
+          code: `def exact(a, b):
+    na = " ".join(a.casefold().split())
+    nb = " ".join(b.casefold().split())
+    return 1.0 if na == nb else 0.0
+
+def jac(a, b):
+    ta, tb = set(a.casefold().split()), set(b.casefold().split())
+    return len(ta & tb) / len(ta | tb) if ta | tb else 1.0
+
+print(exact("A@example.pe", "a@example.pe"), round(jac("Ana Lopez", "Lopez Ana"), 2))
+print("comparators", "exact+token")`,
           output: `1.0 1.0
 comparators exact+token`,
         },
-        why: "Comparadores base del motor ER.",
+        why: "Comparadores base del motor ER con normalización explícita.",
       },
       {
         demoId: "S30-T1-B-DEMO",
@@ -427,15 +444,17 @@ comparators exact+token`,
         code: {
           language: 'python',
           title: "miss_demo.py",
-          code: `def cmp(a,b):
-    if not a or not b: return 'missing'
-    return 'agree' if a.lower()==b.lower() else 'disagree'
-freq={'maría':40,'zoe':1}
-w=lambda v: 1/freq.get(v.lower(),1)
-print(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))`,
+          code: `def cmp(a, b):
+    if not a or not b:
+        return "missing"
+    return "agree" if a.casefold() == b.casefold() else "disagree"
+
+freq = {"maría": 40, "zoe": 1}
+w = lambda v: 1 / freq.get(v.casefold(), 1)
+print(cmp("", "x"), cmp("Ana", "ana"), round(w("María"), 3), round(w("Zoe"), 3))`,
           output: `missing agree 0.025 1.0`,
         },
-        why: "Missing y frecuencia calibran acuerdos.",
+        why: "Missing y frecuencia calibran acuerdos sin tratar vacío como desacuerdo.",
       },
       {
         demoId: "S30-T2-A-DEMO",
@@ -450,20 +469,23 @@ print(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))`,
 def block_key(last, city):
     return f"{last}|{city}"
 
-def block_sizes(recs):
-    b = defaultdict(list)
-    for rid, last, city in recs:
-        b[block_key(last, city)].append(rid)
-    return {k: len(v) for k, v in b.items()}
-
 recs = [("r1", "lopez", "lima"), ("r2", "lopez", "lima"), ("r3", "perez", "cusco")]
-print(block_sizes(recs))
-print("blocking", True)
-print("ok", True)
-`,
-          output: `recall 1.0 ncand 1`,
+buckets = defaultdict(list)
+for rid, last, city in recs:
+    buckets[block_key(last, city)].append(rid)
+gold = {frozenset(("r1", "r2"))}
+candidates = set()
+for ids in buckets.values():
+    for i in range(len(ids)):
+        for j in range(i + 1, len(ids)):
+            candidates.add(frozenset((ids[i], ids[j])))
+recall = len(gold & candidates) / len(gold)
+print("recall", recall)
+print("ncand", len(candidates))`,
+          output: `recall 1.0
+ncand 1`,
         },
-        why: "Recall de blocking es métrica de diseño.",
+        why: "Candidate recall se calcula sobre gold, no se imprime a mano.",
       },
       {
         demoId: "S30-T2-B-DEMO",
@@ -476,14 +498,15 @@ print("ok", True)
           code: `def pair_cost(sizes):
     return sum(n * (n - 1) // 2 for n in sizes)
 
+def impossible(a, b):
+    return a.get("type") != b.get("type")
+
 print("cost", pair_cost([5, 20]))
-print("impossible_all_pairs", pair_cost([1000]))
-print("ok", True)
-`,
+print("impossible", impossible({"type": "person"}, {"type": "org"}))`,
           output: `cost 200
 impossible True`,
         },
-        why: "Control de costo antes del scorer.",
+        why: "Control de costo y exclusión de pares imposibles antes del scorer.",
       },
       {
         demoId: "S30-T3-A-DEMO",
@@ -496,15 +519,20 @@ impossible True`,
           code: `def weighted_score(sims, w):
     return sum(sims[k] * w[k] for k in w) / sum(w.values())
 
+def decide(score, t_high=0.9, t_low=0.5):
+    if score >= t_high:
+        return "auto_match"
+    if score <= t_low:
+        return "non_match"
+    return "review"
+
 sims = {"name": 0.9, "email": 1.0}
 w = {"name": 0.6, "email": 0.4}
-print(round(weighted_score(sims, w), 3))
-print("thresholds", True)
-print("ok", True)
-`,
+s = weighted_score(sims, w)
+print(round(s, 3), decide(s))`,
           output: `0.94 auto_match`,
         },
-        why: "Thresholds separan auto y cola humana.",
+        why: "Umbrales duales separan auto_match de la cola humana.",
       },
       {
         demoId: "S30-T3-B-DEMO",
@@ -514,18 +542,24 @@ print("ok", True)
         code: {
           language: 'python',
           title: "cluster_demo.py",
-          code: `p={}
+          code: `p = {}
+
 def find(x):
-    p.setdefault(x,x)
-    if p[x]!=x: p[x]=find(p[x])
+    p.setdefault(x, x)
+    if p[x] != x:
+        p[x] = find(p[x])
     return p[x]
-def union(a,b):
-    p[find(b)]=find(a)
-union('e1','e2'); union('e2','e3'); union('e3','e4')
-print(find('e1')==find('e4'), 'review_applied')`,
+
+def union(a, b):
+    p[find(b)] = find(a)
+
+union("e1", "e2")
+union("e2", "e3")
+union("e3", "e4")  # clerical approve
+print(find("e1") == find("e4"), "review_applied")`,
           output: `True review_applied`,
         },
-        why: "Clusters transitivos + review.",
+        why: "Clusters transitivos + efecto de un approve clerical.",
       },
       {
         demoId: "S30-T4-A-DEMO",
@@ -542,19 +576,17 @@ print(find('e1')==find('e4'), 'review_applied')`,
 
 pairs = [("e1", "e2", 1), ("e4", "e5", 1), ("e1", "e3", 0)]
 train_e = {"e1", "e2", "e3"}
-print(entity_split(pairs, train_e))
-print("no_leak", True)
-print("ok", True)
-`,
+tr, te = entity_split(pairs, train_e)
+print("train", tr, "test", te)`,
           output: `train 2 test 1`,
         },
-        why: "Evita leakage de identidad en evaluación.",
+        why: "Evita leakage de identidad en evaluación de umbrales.",
       },
       {
         demoId: "S30-T4-B-DEMO",
         subtopicId: "S30-T4-B",
         environment: "local-python",
-        description: "Precision/recall/F1 pairwise y lista de índices de error.",
+        description: "Precision/recall pairwise e índices de error para slices.",
         code: {
           language: 'python',
           title: "metrics_demo.py",
@@ -564,51 +596,50 @@ print("ok", True)
     fn = sum(t == 1 and p == 0 for t, p in zip(yt, yp))
     prec = tp / (tp + fp) if tp + fp else 0.0
     rec = tp / (tp + fn) if tp + fn else 0.0
-    return round(prec, 2), round(rec, 2)
+    errors = [i for i, (t, p) in enumerate(zip(yt, yp)) if t != p]
+    return round(prec, 2), round(rec, 2), errors
 
-print(pr_metrics([1, 1, 0, 0], [1, 0, 0, 0]))
-print("not_fraud", True)
-print("ok", True)
-`,
+p, r, err = pr_metrics([1, 1, 0, 0], [1, 0, 0, 0])
+print(p, r, err)`,
           output: `1.0 0.5 [1]`,
         },
-        why: "Métricas y slices para el gate CP-N3-A.",
+        why: "Métricas honestas más índices de error para construir slices.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios de comparadores, missing/frecuencia, blocking, costo, matching, review y evaluación.",
+    intro: "24 ejercicios de comparadores, missing/frecuencia, blocking, costo, matching, review y evaluación. Cada starter tiene un error deliberado; corrígelo hasta que la salida coincida con la esperada. Solo datos sintéticos; no etiquetes fraude ni parentesco.",
     steps: [
       {
         id: "S30-T1-A-E1",
         subtopicId: "S30-T1-A",
         kind: "guided",
         instruction:
-          "S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "float comparación",
+          "S30-T1-A-E1 · Comparador exacto **post-normalización**: con `a = '  Ana  '` y `b = 'ana'`, colapsa espacios y aplica `casefold` antes de comparar; imprime `1.0` si coinciden y `0.0` si no. El starter compara crudo (`a == b`) y falla. Caso sintético `CASO-LIM-030`. Salida esperada: una sola línea `1.0`.",
+        hint: "normalize = ' '.join(s.casefold().split())",
         hints: [
-          "float comparación",
-          "exact",
+          "No compares a y b crudos: hay espacios y mayúsculas",
+          "Tras normalizar, ambos deben ser 'ana'",
         ],
-        edgeCases: ["post-normalize"],
+        edgeCases: ["doble espacio interno", "emails con distinta capitalización"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Exact en ER es igualdad tras normalizar; sin casefold+espacios pierdes matches obvios.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · exact match score 1.0/0.0
-# DEFECT: siempre 0.0
-a=b='a'
-print(0.0 if a == b else 1.0)
-print('policy', 'exact_binary')
-print('ok', True)
+          code: `# CASO-LIM-030 · exact post-normalización
+# Error: compara crudo (espacios y mayúsculas)
+a, b = "  Ana  ", "ana"
+print(1.0 if a == b else 0.0)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a=b='a'
-print(1.0 if a == b else 0.0)`,
+          code: `a, b = "  Ana  ", "ana"
+na = " ".join(a.casefold().split())
+nb = " ".join(b.casefold().split())
+print(1.0 if na == nb else 0.0)`,
           output: `1.0`,
         },
       },
@@ -617,31 +648,29 @@ print(1.0 if a == b else 0.0)`,
         subtopicId: "S30-T1-A",
         kind: "independent",
         instruction:
-          "S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "sets",
+          "S30-T1-A-E2 · Jaccard de tokens: para `'a b'` y `'b c'`, imprime |intersección|/|unión| (≈ 0.333…). El starter divide solo por |ta|. Caso `CASO-LIM-030`. Una sola línea de salida.",
+        hint: "Unión = ta | tb",
         hints: [
-          "sets",
-          "inter/union",
+          "len(ta & tb) / len(ta | tb)",
+          "No uses solo el tamaño de ta",
         ],
-        edgeCases: ["orden de tokens"],
+        edgeCases: ["orden de tokens no debe importar"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Jaccard usa la unión; si divides solo por un conjunto, sesgas el score.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-030 · Jaccard tokens
-# DEFECT: usa intersección/|ta| solo
-ta,tb=set('a b'.split()),set('b c'.split())
-print(len(ta&tb)/len(ta))
-print('want_jaccard', True)
-print('ok', True)
+# Error: divide por |ta| en vez de |unión|
+ta, tb = set("a b".split()), set("b c".split())
+print(len(ta & tb) / len(ta))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ta,tb=set('a b'.split()),set('b c'.split())
-print(len(ta&tb)/len(ta|tb))`,
+          code: `ta, tb = set("a b".split()), set("b c".split())
+print(len(ta & tb) / len(ta | tb))`,
           output: `0.3333333333333333`,
         },
       },
@@ -650,33 +679,46 @@ print(len(ta&tb)/len(ta|tb))`,
         subtopicId: "S30-T1-A",
         kind: "transfer",
         instruction:
-          "S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "datetime.date",
+          "S30-T1-A-E3 · Transferencia date_sim: implementa tolerancia de 3 días. Para date(2026,1,1) y date(2026,1,3) imprime 0.5 (dentro de tolerancia, no exacto). El starter devuelve 0.0 siempre que no sea el mismo día. Caso `CASO-LIM-030`.",
+        hint: "abs(delta.days) <= 3 → 0.5",
         hints: [
-          "datetime.date",
-          "igualdad",
+          "delta = abs((d1 - d2).days)",
+          "0 → 1.0; 1..3 → 0.5; else → 0.0",
         ],
-        edgeCases: ["tolerancia en días"],
+        edgeCases: ["mismo día = 1.0", "4 días = 0.0"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Fechas cercanas no son desacuerdo total; la tolerancia evita falsos non_match.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · date exact
-# DEFECT: siempre 0
+          code: `# CASO-LIM-030 · date_sim con tolerancia
+# Error: solo considera igualdad exacta
 from datetime import date
-d=date(2026,1,1)
-print(0.0 if d == d else 1.0)
-print('ok', True)
+
+def date_sim(d1, d2, tol_days=3):
+    delta = abs((d1 - d2).days)
+    if delta == 0:
+        return 1.0
+    return 0.0  # falta banda de tolerancia
+
+print(date_sim(date(2026, 1, 1), date(2026, 1, 3)))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `from datetime import date
-d=date(2026,1,1)
-print(1.0 if d == d else 0.0)`,
-          output: `1.0`,
+
+def date_sim(d1, d2, tol_days=3):
+    delta = abs((d1 - d2).days)
+    if delta == 0:
+        return 1.0
+    if delta <= tol_days:
+        return 0.5
+    return 0.0
+
+print(date_sim(date(2026, 1, 1), date(2026, 1, 3)))`,
+          output: `0.5`,
         },
       },
       {
@@ -684,30 +726,29 @@ print(1.0 if d == d else 0.0)`,
         subtopicId: "S30-T1-B",
         kind: "guided",
         instruction:
-          "S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "guard",
+          "S30-T1-B-E1 · Missingness: si `a` o `b` están vacíos, imprime `missing`; si no, `cmp`. El starter invierte las etiquetas (trata el vacío como `cmp`). Caso sintético `CASO-LIM-030` con a='', b='x'. Una sola línea de salida.",
+        hint: "not a or not b → missing",
         hints: [
-          "guard",
-          "missingness",
+          "Vacío se detecta con not a / not b",
+          "No trates missing como cmp",
         ],
-        edgeCases: ["None"],
+        edgeCases: ["None en el motor real"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Missing es un estado de comparación, no un desacuerdo disfrazado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-030 · missing si vacío
-# DEFECT: siempre cmp
-a,b='', 'x'
-print('cmp' if (not a or not b) else 'missing')
-print('ok', True)
+# Error: etiquetas invertidas
+a, b = "", "x"
+print("cmp" if (not a or not b) else "missing")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='', 'x'
-print('missing' if (not a or not b) else 'cmp')`,
+          code: `a, b = "", "x"
+print("missing" if (not a or not b) else "cmp")`,
           output: `missing`,
         },
       },
@@ -716,32 +757,44 @@ print('missing' if (not a or not b) else 'cmp')`,
         subtopicId: "S30-T1-B",
         kind: "independent",
         instruction:
-          "S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "división",
+          "S30-T1-B-E2 · Peso por rareza (heurística didáctica): con `freq_table = {'maría': 50, 'ximena': 2}` y `base=1.0`, imprime en una línea el peso de acuerdo para «María» y para «Ximena» (redondeados a 3 decimales). Fórmula: `base / frecuencia`. El starter multiplica en vez de dividir. Caso `CASO-LIM-030`.",
+        hint: "base / freq_table.get(value.casefold(), 1)",
         hints: [
-          "división",
-          "frecuencia",
+          "Más frecuente → menos peso de acuerdo",
+          "casefold del valor antes de buscar en la tabla",
         ],
-        edgeCases: ["suavizado en prod"],
+        edgeCases: ["suavizado Laplace en prod", "valor ausente → freq=1"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Acuerdos en valores comunes aportan menos evidencia de identidad que un apellido raro.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · idf peso 1/freq para rareza
-# DEFECT: imprime freq crudo en vez de 1/freq
-freq=10
-print(freq)
-print('want_idf', True)
-print('ok', True)
+          code: `# CASO-LIM-030 · peso base/frecuencia
+# Error: multiplica base*f en vez de base/f
+freq_table = {"maría": 50, "ximena": 2}
+base = 1.0
+
+def frequency_weight(value, freq_table, base=1.0):
+    f = freq_table.get(value.casefold(), 1)
+    return base * f  # debería ser base / f
+
+print(round(frequency_weight("María", freq_table, base), 3),
+      round(frequency_weight("Ximena", freq_table, base), 3))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `freq=10
-print(1 / freq)`,
-          output: `0.1`,
+          code: `freq_table = {"maría": 50, "ximena": 2}
+base = 1.0
+
+def frequency_weight(value, freq_table, base=1.0):
+    f = freq_table.get(value.casefold(), 1)
+    return base / f
+
+print(round(frequency_weight("María", freq_table, base), 3),
+      round(frequency_weight("Ximena", freq_table, base), 3))`,
+          output: `0.02 0.5`,
         },
       },
       {
@@ -749,29 +802,42 @@ print(1 / freq)`,
         subtopicId: "S30-T1-B",
         kind: "transfer",
         instruction:
-          "S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "string",
+          "S30-T1-B-E3 · Transferencia: la fuente `crm_legacy` nunca trae phone. Dado un dict de cobertura por fuente, imprime `informative_missing` si phone_coverage es 0.0; si no, `mcar_candidate`. El starter ignora la cobertura. Caso `CASO-LIM-030`.",
+        hint: "coverage['crm_legacy']['phone'] == 0.0",
         hints: [
-          "string",
-          "MCAR vs informativa",
+          "Missing informativo depende de la fuente",
+          "No asumas MCAR sin mirar cobertura",
         ],
-        edgeCases: ["por source_system"],
+        edgeCases: ["otra fuente con phone_coverage > 0"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Missing informativo se modela por fuente; no se rellena como agree.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · missing informativo en comparador
-# DEFECT: treat_as_match en vez de informative_missing
-print('treat_as_match')
-print('policy', 'informative_missing')
-print('ok', True)
+          code: `# CASO-LIM-030 · missing informativo por fuente
+# Error: siempre asume MCAR
+coverage = {
+    "crm_legacy": {"phone": 0.0, "email": 0.95},
+    "web_form": {"phone": 0.8, "email": 1.0},
+}
+source = "crm_legacy"
+# debería mirar coverage[source]["phone"]
+print("mcar_candidate")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('informative_missing')`,
+          code: `coverage = {
+    "crm_legacy": {"phone": 0.0, "email": 0.95},
+    "web_form": {"phone": 0.8, "email": 1.0},
+}
+source = "crm_legacy"
+print(
+    "informative_missing"
+    if coverage[source]["phone"] == 0.0
+    else "mcar_candidate"
+)`,
           output: `informative_missing`,
         },
       },
@@ -780,30 +846,29 @@ print('ok', True)
         subtopicId: "S30-T2-A",
         kind: "guided",
         instruction:
-          "S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "f-string",
+          "S30-T2-A-E1 · Blocking: construye la clave `last|city` para last='lopez' y city='lima'. El starter concatena sin separador `|`. Caso `CASO-LIM-030`. Salida esperada: una línea `lopez|lima` (en el motor real normalizas antes de armar la clave).",
+        hint: "f'{last}|{city}'",
         hints: [
-          "f-string",
-          "blocking",
+          "El pipe separa componentes de la clave",
+          "Normaliza en el motor real antes de armar la clave",
         ],
-        edgeCases: ["normaliza before"],
+        edgeCases: ["casefold + fold de acentos"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "La clave de blocking debe ser estable y legible para depurar buckets.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-030 · block key last|city
-# DEFECT: concat sin separador
-last,city='lopez','lima'
-print(f'{last}{city}')
-print('ok', True)
+# Error: falta el separador |
+last, city = "lopez", "lima"
+print(f"{last}{city}")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `last,city='lopez','lima'
-print(f'{last}|{city}')`,
+          code: `last, city = "lopez", "lima"
+print(f"{last}|{city}")`,
           output: `lopez|lima`,
         },
       },
@@ -812,30 +877,31 @@ print(f'{last}|{city}')`,
         subtopicId: "S30-T2-A",
         kind: "independent",
         instruction:
-          "S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "división",
+          "S30-T2-A-E2 · Candidate recall de blocking: dados `gold` (pares match reales) y `candidates` (pares que pasó el blocking), imprime `len(gold & candidates) / len(gold)`. El starter usa unión (`|`) en el numerador y sobreestima el recall. Caso `CASO-LIM-030`. Recall bajo = matches que el scorer nunca ve.",
+        hint: "len(gold & candidates) / len(gold)",
         hints: [
-          "división",
-          "recall",
+          "Intersección: solo gold matches que también son candidatos",
+          "Denominador = tamaño de gold, no de candidates",
         ],
-        edgeCases: ["unión de reglas"],
+        edgeCases: ["unión OR de reglas sube el tamaño de candidates"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Candidate recall bajo significa matches invisibles para el scorer — ningún umbral posterior los recupera.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · recall blocking
-# DEFECT: gold/found invertido
-found,gold_n=1,2
-print(gold_n / found)
-print('ok', True)
+          code: `# CASO-LIM-030 · candidate recall sobre conjuntos
+# Error: usa unión en vez de intersección
+gold = {frozenset(("r1", "r2")), frozenset(("r3", "r4"))}
+candidates = {frozenset(("r1", "r2")), frozenset(("r5", "r6"))}
+print(len(gold | candidates) / len(gold))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `found,gold_n=1,2
-print(found / gold_n)`,
+          code: `gold = {frozenset(("r1", "r2")), frozenset(("r3", "r4"))}
+candidates = {frozenset(("r1", "r2")), frozenset(("r5", "r6"))}
+print(len(gold & candidates) / len(gold))`,
           output: `0.5`,
         },
       },
@@ -844,31 +910,29 @@ print(found / gold_n)`,
         subtopicId: "S30-T2-A",
         kind: "transfer",
         instruction:
-          "S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "combinatoria",
+          "S30-T2-A-E3 · Transferencia: en un bloque de n=4 registros, el número de pares candidatos es C(4,2)=n*(n-1)//2. El starter usa n*n (incluye auto-pares). Imprime 6. Caso `CASO-LIM-030`.",
+        hint: "n * (n - 1) // 2",
         hints: [
-          "combinatoria",
-          "costo bloque",
+          "No cuentes el par (i,i)",
+          "Suma esto por cada bloque en el motor real",
         ],
-        edgeCases: ["múltiples bloques"],
+        edgeCases: ["múltiples bloques se suman"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El costo all-pairs del bloque es la base del SLO de blocking.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · costo all-pairs n*(n-1)//2
-# DEFECT: usa n*n (incluye auto-pares)
-n=4
-print(n*n)
-print('n', n)
-print('ok', True)
+          code: `# CASO-LIM-030 · pares en un bloque
+# Error: n*n incluye auto-pares
+n = 4
+print(n * n)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n=4
-print(n*(n-1)//2)`,
+          code: `n = 4
+print(n * (n - 1) // 2)`,
           output: `6`,
         },
       },
@@ -877,31 +941,29 @@ print(n*(n-1)//2)`,
         subtopicId: "S30-T2-B",
         kind: "guided",
         instruction:
-          "S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "sum n(n-1)/2",
+          "S30-T2-B-E1 · Costo multi-bloque: para tamaños [3,5] imprime C(3,2)+C(5,2)=3+10=13. El starter suma tamaños (`sum(sizes)`) en vez de pares por bloque. Caso `CASO-LIM-030`. Fórmula: `n*(n-1)//2` por bloque.",
+        hint: "sum(n*(n-1)//2 for n in sizes)",
         hints: [
-          "sum n(n-1)/2",
-          "costo",
+          "Cada bloque aporta n choose 2",
+          "No sumes solo los tamaños",
         ],
-        edgeCases: ["monitor max block"],
+        edgeCases: ["monitor max(block size)"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El costo global es la suma de costos por bloque, no la suma de tamaños.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · costo multi-bloque ER
-# DEFECT: suma n en vez de sum n*(n-1)//2
-sizes=[3,5]
+          code: `# CASO-LIM-030 · costo multi-bloque
+# Error: suma tamaños en vez de pares
+sizes = [3, 5]
 print(sum(sizes))
-print('sizes', sizes)
-print('ok', True)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sizes=[3,5]
-print(sum(n*(n-1)//2 for n in sizes))`,
+          code: `sizes = [3, 5]
+print(sum(n * (n - 1) // 2 for n in sizes))`,
           output: `13`,
         },
       },
@@ -910,30 +972,28 @@ print(sum(n*(n-1)//2 for n in sizes))`,
         subtopicId: "S30-T2-B",
         kind: "independent",
         instruction:
-          "S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "!=",
+          "S30-T2-B-E2 · Filtro de pares imposibles: imprime `True` (saltar scorer) cuando type person ≠ org. El starter imprime igualdad (`==`) y daría False. Caso `CASO-LIM-030`. `True` significa «no gastes similitud en este par».",
+        hint: "ta != tb",
         hints: [
-          "!=",
-          "filtro",
+          "Impossible = tipos distintos",
+          "True significa 'saltar el scorer'",
         ],
-        edgeCases: ["fechas incompatibles"],
+        edgeCases: ["fechas incompatibles en el motor real"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El filtro de imposibles ahorra CPU y evita scores basura.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · filtro de tipo person/org
-# DEFECT: print ta==tb (False) no expresa desigualdad de tipo
-ta,tb='person','org'
+          code: `# CASO-LIM-030 · filtro person/org
+# Error: imprime igualdad en vez de desigualdad
+ta, tb = "person", "org"
 print(ta == tb)
-print('want_ne', ta != tb)
-print('ok', True)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `ta,tb='person','org'
+          code: `ta, tb = "person", "org"
 print(ta != tb)`,
           output: `True`,
         },
@@ -943,30 +1003,43 @@ print(ta != tb)`,
         subtopicId: "S30-T2-B",
         kind: "transfer",
         instruction:
-          "S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "string",
+          "S30-T2-B-E3 · Transferencia pipeline: de una lista de pares (dicts con type), cuenta cuántos sobreviven al filtro same-type y luego imprime ese conteo y la política `filter_before_score` en dos líneas. El starter cuenta todos los pares. Caso `CASO-LIM-030`.",
+        hint: "kept si a['type']==b['type']",
         hints: [
-          "string",
-          "pipeline",
+          "Primero filtra, después score (aquí solo cuentas kept)",
+          "Dos líneas: entero y política",
         ],
-        edgeCases: ["ahorra CPU"],
+        edgeCases: ["person-org no entra al scorer"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Filter-before-score es una política de pipeline, no un eslogan: se mide en pares kept.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · filter before score en pipeline ER
-# DEFECT: score_first en vez de filter_before_score
-print('score_first')
-print('want', 'filter_before_score')
-print('ok', True)
+          code: `# CASO-LIM-030 · filter before score
+# Error: cuenta todos los pares sin filtrar tipo
+pairs = [
+    ({"type": "person", "s": 1.0}, {"type": "org", "s": 1.0}),
+    ({"type": "person", "s": 0.2}, {"type": "person", "s": 0.2}),
+    ({"type": "org", "s": 0.9}, {"type": "org", "s": 0.8}),
+]
+kept = len(pairs)  # debería filtrar same-type
+print(kept)
+print("score_first")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('filter_before_score')`,
-          output: `filter_before_score`,
+          code: `pairs = [
+    ({"type": "person", "s": 1.0}, {"type": "org", "s": 1.0}),
+    ({"type": "person", "s": 0.2}, {"type": "person", "s": 0.2}),
+    ({"type": "org", "s": 0.9}, {"type": "org", "s": 0.8}),
+]
+kept = sum(1 for a, b in pairs if a["type"] == b["type"])
+print(kept)
+print("filter_before_score")`,
+          output: `2
+filter_before_score`,
         },
       },
       {
@@ -974,23 +1047,21 @@ print('ok', True)
         subtopicId: "S30-T3-A",
         kind: "guided",
         instruction:
-          "S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "suma w*s / suma w",
+          "S30-T3-A-E1 · Score ponderado didáctico: name=1 (w=0.5), email=0.5 (w=0.5) → imprime `0.75`. El starter suma sim·w sin dividir por sum(w). Caso `CASO-LIM-030`. Sin normalizar, t_high pierde significado entre pares.",
+        hint: "num / sum(weights)",
         hints: [
-          "suma w*s / suma w",
-          "score",
+          "(1*0.5 + 0.5*0.5) / (0.5+0.5)",
+          "Normaliza por la suma de pesos",
         ],
-        edgeCases: ["pesos suman 1 opcional"],
+        edgeCases: ["pesos no tienen que sumar 1 si normalizas"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Sin normalizar, el umbral t_high pierde significado entre pares.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · score ponderado normalizado
-# DEFECT: suma w*s sin dividir por sum(w)
+          code: `# CASO-LIM-030 · score ponderado
+# Error: no divide por sum(w)
 print(1 * 0.5 + 0.5 * 0.5)
-print('want_div_sum_w', True)
-print('ok', True)
 `,
         },
         solutionCode: {
@@ -1005,30 +1076,34 @@ print('ok', True)
         subtopicId: "S30-T3-A",
         kind: "independent",
         instruction:
-          "S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "umbrales",
+          "S30-T3-A-E2 · Umbrales duales: con score=0.7, t_high=0.9, t_low=0.5 imprime `review` (banda gris). El starter siempre imprime `auto_match`. Caso `CASO-LIM-030`. Regla: ≥t_high auto_match; ≤t_low non_match; si no, review.",
+        hint: "banda gris entre t_low y t_high",
         hints: [
-          "umbrales",
-          "decide",
+          "s >= t_high → auto_match",
+          "s <= t_low → non_match",
+          "else → review",
         ],
-        edgeCases: ["calibrar con gold"],
+        edgeCases: ["calibrar umbrales con gold de T4"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "La banda gris es diseño: protege operaciones con humanos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · thr auto/review/non
-# DEFECT: siempre auto
-s,t_high,t_low=0.7,0.9,0.5
-print('auto_match')
-print('ok', True)
+          code: `# CASO-LIM-030 · decide auto/review/non
+# Error: siempre auto_match
+s, t_high, t_low = 0.7, 0.9, 0.5
+print("auto_match")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s,t_high,t_low=0.7,0.9,0.5
-print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
+          code: `s, t_high, t_low = 0.7, 0.9, 0.5
+print(
+    "auto_match"
+    if s >= t_high
+    else ("non_match" if s <= t_low else "review")
+)`,
           output: `review`,
         },
       },
@@ -1037,29 +1112,29 @@ print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
         subtopicId: "S30-T3-A",
         kind: "transfer",
         instruction:
-          "S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "dict",
+          "S30-T3-A-E3 · Transferencia explicabilidad: a partir de sims name=0.9 y email=1.0, imprime el dict de explicación completo `{'name': 0.9, 'email': 1.0}`. El starter omite email. Caso `CASO-LIM-030`.",
+        hint: "incluye todos los campos scorados",
         hints: [
-          "dict",
-          "explicable",
+          "El revisor necesita ver cada aporte",
+          "Dict literal con ambas claves",
         ],
-        edgeCases: ["clerical UI"],
+        edgeCases: ["UI clerical lee este dict"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Sin explicación por campo, el review no es accionable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · similitudes por campo
-# DEFECT: omite email del dict de sims
-print({'name': 0.9})
-print('want', {'name': 0.9, 'email': 1.0})
-print('ok', True)
+          code: `# CASO-LIM-030 · explain por campo
+# Error: omite email
+sims = {"name": 0.9, "email": 1.0}
+print({"name": sims["name"]})
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print({'name': 0.9, 'email': 1.0})`,
+          code: `sims = {"name": 0.9, "email": 1.0}
+print({"name": sims["name"], "email": sims["email"]})`,
           output: `{'name': 0.9, 'email': 1.0}`,
         },
       },
@@ -1068,42 +1143,50 @@ print('ok', True)
         subtopicId: "S30-T3-B",
         kind: "guided",
         instruction:
-          "S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "parent dict",
+          "S30-T3-B-E1 · Union-Find de cluster: une 1-2 y 2-3; imprime si `find(1)==find(3)` (debe ser True por transitividad). El starter solo une 1-2 y deja 3 aislado. Caso `CASO-LIM-030`. Una línea booleana.",
+        hint: "segunda union(2,3)",
         hints: [
-          "parent dict",
-          "cluster",
+          "find sigue el parent hasta la raíz",
+          "union enlaza raíces",
         ],
         edgeCases: ["path compression opcional"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "La transitividad del cluster es el corazón de la fusión de entidades.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · union-find path
-# DEFECT: no une 2-3
-p={1:1,2:2,3:3}
+          code: `# CASO-LIM-030 · union-find
+# Error: no une 2-3
+p = {1: 1, 2: 2, 3: 3}
+
 def find(x):
-    while p[x]!=x: x=p[x]
+    while p[x] != x:
+        x = p[x]
     return x
-def union(a,b):
-    p[find(b)]=find(a)
-union(1,2)
-print(find(1)==find(3))
-print('ok', True)
+
+def union(a, b):
+    p[find(b)] = find(a)
+
+union(1, 2)
+print(find(1) == find(3))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `p={1:1,2:2,3:3}
+          code: `p = {1: 1, 2: 2, 3: 3}
+
 def find(x):
-    while p[x]!=x: x=p[x]
+    while p[x] != x:
+        x = p[x]
     return x
-def union(a,b):
-    p[find(b)]=find(a)
-union(1,2); union(2,3)
-print(find(1)==find(3))`,
+
+def union(a, b):
+    p[find(b)] = find(a)
+
+union(1, 2)
+union(2, 3)
+print(find(1) == find(3))`,
           output: `True`,
         },
       },
@@ -1112,29 +1195,27 @@ print(find(1)==find(3))`,
         subtopicId: "S30-T3-B",
         kind: "independent",
         instruction:
-          "S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "lista",
+          "S30-T3-B-E2 · Espacio de labels de la cola clerical: imprime `['match', 'non_match', 'uncertain']`. El starter incluye `fraud` (prohibido en ER). Caso `CASO-LIM-030`.",
+        hint: "sin fraud",
         hints: [
-          "lista",
-          "clerical",
+          "ER no emite label de fraude",
+          "uncertain cubre duda humana",
         ],
-        edgeCases: ["actor+timestamp"],
+        edgeCases: ["actor + timestamp en el ítem real"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El label_space define el contrato ético del motor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · label_space ER
-# DEFECT: incluye fraud (prohibido)
-print(['match', 'non_match', 'fraud'])
-print('want', ['match', 'non_match', 'uncertain'])
-print('ok', True)
+          code: `# CASO-LIM-030 · label_space clerical
+# Error: incluye fraud
+print(["match", "non_match", "fraud"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(['match', 'non_match', 'uncertain'])`,
+          code: `print(["match", "non_match", "uncertain"])`,
           output: `['match', 'non_match', 'uncertain']`,
         },
       },
@@ -1143,30 +1224,32 @@ print('ok', True)
         subtopicId: "S30-T3-B",
         kind: "transfer",
         instruction:
-          "S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "string",
+          "S30-T3-B-E3 · Transferencia de alcance: dada una propuesta de labels, filtra solo los permitidos para ER (`match`, `non_match`, `uncertain`) y imprime la lista filtrada en ese orden. El starter deja pasar `fraud` y `kinship`. Caso `CASO-LIM-030`.",
+        hint: "allowed = {...}; list comprehension",
         hints: [
-          "string",
-          "gate",
+          "Recorre proposed y quédate con allowed",
+          "Orden de aparición en proposed",
         ],
-        edgeCases: ["no fraud labels"],
+        edgeCases: ["kinship y fraud fuera de ER"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El motor ER solo decide misma entidad; filtra labels ajenos en el borde del sistema.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-030 · alcance de ER
-# DEFECT: ER_is_fraud en vez de ER_only_same_entity
-print('ER_is_fraud')
-print('want', 'ER_only_same_entity')
-print('ok', True)
+# Error: no filtra labels ajenos
+proposed = ["match", "fraud", "non_match", "kinship", "uncertain"]
+allowed = {"match", "non_match", "uncertain"}
+print(proposed)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('ER_only_same_entity')`,
-          output: `ER_only_same_entity`,
+          code: `proposed = ["match", "fraud", "non_match", "kinship", "uncertain"]
+allowed = {"match", "non_match", "uncertain"}
+print([x for x in proposed if x in allowed])`,
+          output: `['match', 'non_match', 'uncertain']`,
         },
       },
       {
@@ -1174,32 +1257,31 @@ print('ok', True)
         subtopicId: "S30-T4-A",
         kind: "guided",
         instruction:
-          "S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "subset",
+          "S30-T4-A-E1 · Si {a,b} ⊆ train_e imprime `train`, si no `test`. Para a,b=e1,e2 y train_e={e1,e2,e3} debe ser train. El starter invierte la lógica. Caso `CASO-LIM-030`.",
+        hint: "{a,b} <= train_e",
         hints: [
-          "subset",
-          "split",
+          "Subset de entidades → train",
+          "Cualquier entidad fuera → test",
         ],
-        edgeCases: ["leakage"],
+        edgeCases: ["par mixto train/test se va a test"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El split por entidad es la guardia anti-leakage.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · entity split train/test
-# DEFECT: pair random split (leak)
-a,b='e1','e2'
-train_e={'e1','e2','e3'}
-print('test' if {a,b} <= train_e else 'train')
-print('ok', True)
+          code: `# CASO-LIM-030 · entity split
+# Error: invierte train/test
+a, b = "e1", "e2"
+train_e = {"e1", "e2", "e3"}
+print("test" if {a, b} <= train_e else "train")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `a,b='e1','e2'
-train_e={'e1','e2','e3'}
-print('train' if {a,b} <= train_e else 'test')`,
+          code: `a, b = "e1", "e2"
+train_e = {"e1", "e2", "e3"}
+print("train" if {a, b} <= train_e else "test")`,
           output: `train`,
         },
       },
@@ -1208,30 +1290,28 @@ print('train' if {a,b} <= train_e else 'test')`,
         subtopicId: "S30-T4-A",
         kind: "independent",
         instruction:
-          "S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "división",
+          "S30-T4-A-E2 · Prevalencia (base rate) de matches en el gold: 1 match de 5 pares → `0.2`. El starter invierte n/matches. Caso `CASO-LIM-030`. Documenta prevalencia junto a P/R: accuracy alto engaña con rareza de matches.",
+        hint: "matches / n",
         hints: [
-          "división",
-          "base rate",
+          "Base rate suele ser baja",
+          "Documenta prevalencia junto a P/R",
         ],
-        edgeCases: ["desbalance"],
+        edgeCases: ["desbalance extremo"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Sin base rate, un accuracy alto engaña en ER.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · match rate matches/n
-# DEFECT: invierte n/matches
-matches,n=1,5
+          code: `# CASO-LIM-030 · match rate
+# Error: invierte la razón
+matches, n = 1, 5
 print(n / matches)
-print('matches', matches, 'n', n)
-print('ok', True)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `matches,n=1,5
+          code: `matches, n = 1, 5
 print(matches / n)`,
           output: `0.2`,
         },
@@ -1241,30 +1321,33 @@ print(matches / n)`,
         subtopicId: "S30-T4-A",
         kind: "transfer",
         instruction:
-          "S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "string",
+          "S30-T4-A-E3 · Transferencia anti-leakage: clasifica tres pares con train_e={e1,e2,e3}. Imprime la lista de splits en el mismo orden (train/test). El starter usa split aleatorio simulado (todo test). Caso `CASO-LIM-030`.",
+        hint: "train si ambos extremos ⊆ train_e",
         hints: [
-          "string",
-          "eval",
+          "('e1','e2') → train",
+          "('e4','e5') → test",
+          "('e1','e4') → test (spill)",
         ],
-        edgeCases: ["group/time splits luego"],
+        edgeCases: ["pares mixtos no van a train"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Entity split se aplica par a par con la regla de subconjunto de entidades.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · política de split ER
-# DEFECT: random_split (leak) en vez de entity_split
-print('random_split')
-print('want', 'entity_split')
-print('ok', True)
+          code: `# CASO-LIM-030 · entity_split sobre varios pares
+# Error: "random" manda todo a test
+pairs = [("e1", "e2"), ("e4", "e5"), ("e1", "e4")]
+train_e = {"e1", "e2", "e3"}
+print(["test", "test", "test"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('entity_split')`,
-          output: `entity_split`,
+          code: `pairs = [("e1", "e2"), ("e4", "e5"), ("e1", "e4")]
+train_e = {"e1", "e2", "e3"}
+print(["train" if {a, b} <= train_e else "test" for a, b in pairs])`,
+          output: `['train', 'test', 'test']`,
         },
       },
       {
@@ -1272,31 +1355,29 @@ print('ok', True)
         subtopicId: "S30-T4-B",
         kind: "guided",
         instruction:
-          "S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "tp/(tp+fp)",
+          "S30-T4-B-E1 · Precisión pairwise: con tp=2, fp=1 imprime `round(tp/(tp+fp), 2)` → `0.67`. El starter ignora fp y divide solo por tp. Caso `CASO-LIM-030`. La precisión castiga falsos positivos de auto_match.",
+        hint: "tp / (tp + fp)",
         hints: [
-          "tp/(tp+fp)",
-          "precision",
+          "round(..., 2)",
+          "fp en el denominador",
         ],
-        edgeCases: ["recall simétrico"],
+        edgeCases: ["tp+fp=0 → 0.0 en el motor real"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Precisión castiga falsos positivos de auto_match.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · precision tp/(tp+fp)
-# DEFECT: divide tp/tp ignorando fp
-tp,fp=2,1
-print(round(tp/tp, 2))
-print('tp', tp, 'fp', fp)
-print('ok', True)
+          code: `# CASO-LIM-030 · precision
+# Error: ignora fp
+tp, fp = 2, 1
+print(round(tp / tp, 2))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tp,fp=2,1
-print(round(tp/(tp+fp), 2))`,
+          code: `tp, fp = 2, 1
+print(round(tp / (tp + fp), 2))`,
           output: `0.67`,
         },
       },
@@ -1305,31 +1386,29 @@ print(round(tp/(tp+fp), 2))`,
         subtopicId: "S30-T4-B",
         kind: "independent",
         instruction:
-          "S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "tp/(tp+fn)",
+          "S30-T4-B-E2 · Recall pairwise: con tp=2, fn=2 imprime `tp/(tp+fn)` → `0.5`. El starter usa `(tp+fn)/(tp+fn)` (=1.0 siempre). Caso `CASO-LIM-030`. Recall bajo suele señalar blocking incompleto o umbral agresivo.",
+        hint: "tp / (tp + fn)",
         hints: [
-          "tp/(tp+fn)",
-          "recall",
+          "fn son matches perdidos",
+          "Recall bajo → blocking o umbral agresivo",
         ],
-        edgeCases: ["F1 harmonic"],
+        edgeCases: ["F1 es media armónica de P y R"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Recall pairwise complementa candidate recall de blocking.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · recall tp/(tp+fn)
-# DEFECT: numerador tp+fn (siempre 1)
-tp,fn=2,2
-print((tp+fn)/(tp+fn))
-print('tp', tp, 'fn', fn)
-print('ok', True)
+          code: `# CASO-LIM-030 · recall
+# Error: numerador mal armado
+tp, fn = 2, 2
+print((tp + fn) / (tp + fn))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tp,fn=2,2
-print(tp/(tp+fn))`,
+          code: `tp, fn = 2, 2
+print(tp / (tp + fn))`,
           output: `0.5`,
         },
       },
@@ -1338,124 +1417,283 @@ print(tp/(tp+fn))`,
         subtopicId: "S30-T4-B",
         kind: "transfer",
         instruction:
-          "S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "lista",
+          "S30-T4-B-E3 · Transferencia error slices: tienes pares con flag de slice y si erraron. Imprime la lista de slices cuyo conteo de error es máximo (aquí solo `missing_phone`). El starter devuelve lista vacía. Caso `CASO-LIM-030` — los errores son de matching, no de fraude.",
+        hint: "agrupa errores por slice y toma el max",
         hints: [
-          "lista",
-          "error analysis",
+          "Cuenta por clave de slice",
+          "Devuelve las claves con conteo máximo",
         ],
-        edgeCases: ["no acusar fraude"],
+        edgeCases: ["empates: lista con varios slices"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Los slices convierten índices de error en hipótesis de mejora del motor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · error analysis por campo
-# DEFECT: lista vacía en vez de missing_phone
+          code: `# CASO-LIM-030 · error slices
+# Error: no agrega por slice
+rows = [
+    {"slice": "missing_phone", "error": True},
+    {"slice": "missing_phone", "error": True},
+    {"slice": "common_last_name", "error": True},
+    {"slice": "common_last_name", "error": False},
+    {"slice": "city_mismatch", "error": False},
+]
 print([])
-print('want', ['missing_phone'])
-print('ok', True)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(['missing_phone'])`,
+          code: `rows = [
+    {"slice": "missing_phone", "error": True},
+    {"slice": "missing_phone", "error": True},
+    {"slice": "common_last_name", "error": True},
+    {"slice": "common_last_name", "error": False},
+    {"slice": "city_mismatch", "error": False},
+]
+from collections import Counter
+c = Counter(r["slice"] for r in rows if r["error"])
+top = max(c.values())
+print([s for s, n in c.items() if n == top])`,
           output: `['missing_phone']`,
         },
       },
     ],
   },
   youDo: {
-    title: "Testable Entity Resolution Engine — cierre CP-N3-A",
+    title: "Motor de entity resolution testeable — cierre CP-N3-A",
     context:
-      "Implementa el motor ER sintético de cierre de **CP-N3-A**: comparadores explicables, blocking con candidate recall medido, scorer con umbrales auto/review/non, cola clerical, clusters (Union-Find) y evaluación pairwise con split por entidad y error slices. Benchmark etiquetado sintético only. ER = misma entidad; **no** relación ni riesgo/fraude. No editar seed/checkpoint/ledger ni marcar passed.",
+      "Implementa el motor ER sintético de cierre de **CP-N3-A**: comparadores explicables, blocking con candidate recall medido, scorer con umbrales auto_match/review/non_match, cola clerical, clusters (Union-Find) y evaluación pairwise con split por entidad y error slices. Solo benchmark sintético (`CASO-LIM-030`). ER responde «¿misma entidad?»; no infiere relación ni riesgo/fraude.",
     objectives: [
       "Comparadores exact/edit/token/fecha + missing/frecuencia",
-      "Blocking medido (recall) y control de costo/imposibles",
-      "Pesos, thresholds, review y cluster consistency",
-      "Gold sintético, split por entidad, P/R/F1 y slices",
-      "Suite ejecutable alineada a contratos S27–S29",
+      "Blocking medido (candidate recall) y control de costo/imposibles",
+      "Pesos didácticos, thresholds, review y consistencia de cluster",
+      "Gold sintético, split por entidad, P/R/F1, pair completeness y slices",
+      "Suite ejecutable alineada a contratos de tests (S27), propiedades (S28) y almacén SQL (S29)",
     ],
     requirements: [
       "Datos sintéticos etiquetados; sin PII real",
-      "Candidate recall y métricas reportadas en demo",
-      "Explicación por campo en cola de review",
+      "Candidate recall y métricas reportadas en la demo del portfolio",
+      "Explicación por campo en cada ítem de cola de review",
       "Cero labels de fraude/parentesco automáticos",
-      "Documentación es-PE del gate CP-N3-A",
+      "README en español profesional con límites del fixture y umbrales elegidos",
     ],
-    starterCode: `# CP-N3-A cierre — Testable ER Engine (esqueleto)
+    starterCode: `# CP-N3-A — Motor ER testeable (esqueleto)
 from collections import defaultdict
+from datetime import date
+from typing import Any
 
 def normalize(s: str) -> str:
     return " ".join(s.casefold().split())
 
-def block_key(rec: dict) -> str:
-    parts = normalize(rec.get("name", "")).split()
-    last = parts[-1] if parts else ""
-    return f"{last}|{rec.get('city', '').casefold()[:3]}"
+def fold_accents(s: str) -> str:
+    table = str.maketrans("áéíóúüñ", "aeiouun")
+    return normalize(s).translate(table)
 
-def decide(score: float, t_high=0.9, t_low=0.5) -> str:
+def exact(a: str, b: str) -> float:
+    return 1.0 if normalize(a) == normalize(b) else 0.0
+
+def token_jaccard(a: str, b: str) -> float:
+    ta, tb = set(normalize(a).split()), set(normalize(b).split())
+    if not ta and not tb:
+        return 1.0
+    if not ta or not tb:
+        return 0.0
+    return len(ta & tb) / len(ta | tb)
+
+def edit_sim(a: str, b: str) -> float:
+    # TODO: Levenshtein normalizado (ver theory T1-A)
+    raise NotImplementedError("edit_sim")
+
+def date_sim(d1: date, d2: date, tol_days: int = 3) -> float:
+    # TODO: 1.0 / 0.5 / 0.0 según tolerancia
+    raise NotImplementedError("date_sim")
+
+def compare_field(a: Any, b: Any) -> str:
+    # TODO: missing | agree | disagree
+    raise NotImplementedError("compare_field")
+
+def frequency_weight(value: str, freq_table: dict, base: float = 1.0) -> float:
+    f = freq_table.get(value.casefold(), 1)
+    return base / f
+
+def block_key(rec: dict) -> str:
+    parts = fold_accents(rec.get("name", "")).split()
+    last = parts[-1] if parts else ""
+    city = fold_accents(rec.get("city", ""))[:3]
+    return f"{last}|{city}"
+
+def candidate_recall(gold: set, candidates: set) -> float:
+    if not gold:
+        return 0.0
+    return len(gold & candidates) / len(gold)
+
+def pair_score(sims: dict, weights: dict) -> float:
+    den = sum(weights.values())
+    if not den:
+        return 0.0
+    return sum(sims[k] * weights[k] for k in weights) / den
+
+def decide(score: float, t_high: float = 0.9, t_low: float = 0.5) -> str:
     if score >= t_high:
         return "auto_match"
     if score <= t_low:
         return "non_match"
     return "review"
 
-# Contrato documentado en theory/iDo
+class UnionFind:
+    def __init__(self) -> None:
+        self.p: dict = {}
+
+    def find(self, x):
+        self.p.setdefault(x, x)
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, a, b) -> None:
+        ra, rb = self.find(a), self.find(b)
+        if ra != rb:
+            self.p[rb] = ra
+
+def entity_split(pairs: list, train_entities: set) -> tuple:
+    # TODO: train si ambas entidades ⊆ train_entities
+    raise NotImplementedError("entity_split")
+
+def prf(y_true: list, y_pred: list) -> tuple:
+    # TODO: precision, recall, f1
+    raise NotImplementedError("prf")
+
+def error_slices(rows: list) -> list:
+    # TODO: slices con más errores
+    raise NotImplementedError("error_slices")
+
+# 3 tests mínimos sugeridos (pytest):
+# 1) exact post-normalize
+# 2) candidate_recall con gold y buckets
+# 3) decide banda gris → review
+
 if __name__ == "__main__":
     print(decide(0.95), block_key({"name": "Ana López", "city": "Lima"}))
 `,
     portfolioNote:
-      "Cierre CP-N3-A: motor ER testeable con blocking medido, review y métricas. Otra lane califica PASS del gate; esta autoría no escribe checkpoint/ledger/seed.",
+      "Cierre CP-N3-A: documenta en el README del repo el candidate recall, P/R (y pair completeness si aplica) en el split por entidad, umbrales elegidos y un ejemplo de ítem de cola clerical con explicación por campo. Solo datos sintéticos.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
-      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
-      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Motor completo: comparadores, blocking medido, umbrales, review y métricas", weight: "25%" },
+      { criterion: "Correctitud técnica y demos ejecutables en el entorno declarado", weight: "20%" },
+      { criterion: "Privacidad: sin PII real, sin secretos, sin inferencia de fraude/parentesco", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados (mín. 3 tests importables)", weight: "15%" },
+      { criterion: "Código legible y límites del fixture claros", weight: "10%" },
       { criterion: "Documentación en español profesional", weight: "10%" },
-      { criterion: "Candidate recall + P/R reportados y split por entidad sin leakage", weight: "bonus checklist" },
-      { criterion: "ER solo misma entidad (sin fraude/relación)", weight: "gate privacy" },
+      { criterion: "Candidate recall + P/R reportados y split por entidad sin leakage", weight: "recomendado" },
+      { criterion: "ER solo misma entidad (sin fraude/relación)", weight: "ético" },
     ],
   },
   selfCheck: {
     questions: [
       {
         question: "El motor ER de CP-N3-A debe decidir:",
-        options: ["Fraude automático", "Si dos registros son la misma entidad", "Parentescos", "Riesgo crediticio"],
+        options: [
+          "Fraude automático",
+          "Si dos registros son la misma entidad",
+          "Parentescos",
+          "Riesgo crediticio",
+        ],
         correctIndex: 1,
         explanation:
-          "ER ≠ relación ≠ riesgo.",
+          "Entity resolution solo decide si dos registros apuntan a la misma entidad del mundo real. Parentesco, colusión o fraude son tareas distintas (más adelante en el path de investigación).",
       },
       {
         question: "Candidate recall de blocking mide:",
-        options: ["Solo CPU", "Precisión del scorer final únicamente", "Tamaño del disco", "Fracción de verdaderos matches que sobreviven al blocking"],
+        options: [
+          "Solo CPU",
+          "Precisión del scorer final únicamente",
+          "Tamaño del disco",
+          "Fracción de verdaderos matches que sobreviven al blocking",
+        ],
         correctIndex: 3,
         explanation:
-          "Recall sobre gold de candidatos.",
+          "De los pares gold que son match, ¿cuántos quedaron como candidatos tras el blocking? Si el recall de candidatos es bajo, el scorer nunca ve el match.",
+      },
+      {
+        question: "Un campo vacío en la comparación de un par debe tratarse como:",
+        options: [
+          "disagree fuerte (empuja a non_match)",
+          "estado `missing` (ni agree ni disagree)",
+          "agree exacto por defecto",
+          "auto_match si el otro campo está lleno",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Missing ≠ disagree. Si penalizas el vacío como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no publica el campo. En el scorer, missing suele aportar 0 al peso de ese campo.",
+      },
+      {
+        question: "Reglas de blocking en unión (OR) vs intersección (AND):",
+        options: [
+          "OR baja candidate recall; AND siempre lo sube",
+          "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches",
+          "OR y AND producen el mismo conjunto de candidatos",
+          "AND es obligatorio antes de medir candidate recall",
+        ],
+        correctIndex: 1,
+        explanation:
+          "OR (unión de claves) deja pasar más pares verdaderos match al scorer. AND (intersección) recorta candidatos y CPU, pero si es demasiado estricta el gold match nunca llega al scorer. Siempre mide candidate recall con gold sintético.",
       },
       {
         question: "Scores entre t_low y t_high van a:",
         options: ["clerical review", "auto_match", "non_match", "borrado"],
         correctIndex: 0,
         explanation:
-          "Banda gris = humanos.",
+          "La banda gris se envía a revisión humana con explicación por campo. auto_match exige score ≥ t_high; non_match exige score ≤ t_low. Nunca auto_fraud.",
       },
       {
         question: "Split por entidad evita:",
-        options: ["Usar sqlite", "Blocking", "Leakage de identidad entre train y test", "Review"],
+        options: [
+          "Usar sqlite",
+          "Blocking",
+          "Leakage de identidad entre train y test",
+          "Review",
+        ],
         correctIndex: 2,
         explanation:
-          "Entidades no deben contaminar evaluación.",
+          "Si la misma entidad aparece en train y test, las métricas se inflan. El split debe respetar conjuntos de entidades disjuntos (o controlados).",
       },
       {
         question: "Un score alto de match en ER sintético implica…",
-        options: ["fraude o parentesco probado automáticamente", "prioridad de revisión / enlace de entidad candidato, no veredicto legal", "bloquear el schema_migrations", "omitir blocking y comparar all-pairs siempre"],
+        options: [
+          "fraude o parentesco probado automáticamente",
+          "prioridad de revisión / enlace de entidad candidato, no veredicto legal",
+          "bloquear el schema_migrations",
+          "omitir blocking y comparar all-pairs siempre",
+        ],
         correctIndex: 1,
         explanation:
-          "ER propone misma entidad con evidencia; label_space es match/non/uncertain — nunca fraud auto.",
-      }
+          "ER propone misma entidad con evidencia; el espacio de labels es match / non_match / uncertain. Nunca emite fraud automático ni sustituye investigación.",
+      },
+      {
+        question: "Los pares imposibles (p. ej. person vs org) deben filtrarse:",
+        options: [
+          "Después del scorer, solo para maquillar métricas",
+          "Antes del scorer (filter_before_score), para no gastar CPU en lo incomparable",
+          "Solo en la cola clerical, nunca en el pipeline batch",
+          "Nunca: todo par debe recibir un score de similitud",
+        ],
+        correctIndex: 1,
+        explanation:
+          "El filtro de imposibles corre antes del scorer pesado. Si inviertes el orden, pagas edit distance y token sets en pares que la política ya descartaría. En el portfolio documenta la política `filter_before_score`.",
+      },
+      {
+        question: "Pair completeness de cluster (vista simplificada) mide:",
+        options: [
+          "Solo la precisión pairwise del scorer",
+          "La fracción de pares gold match que el sistema mantiene en el mismo cluster",
+          "El tamaño máximo de bloque de blocking",
+          "El número de ítems en la cola clerical",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Un F1 pairwise alto puede esconder clusters partidos. Pair completeness pregunta: de los pares gold que deberían estar juntos, ¿cuántos quedaron unidos tras Union-Find? Reporta pairwise y cluster en el README.",
+      },
     ],
   },
   resources: {
@@ -1481,6 +1719,11 @@ if __name__ == "__main__":
         note: "Pesos m/u y umbrales",
       },
       {
+        label: "Robin Linacre — Interactive Fellegi–Sunter",
+        url: "https://www.robinlinacre.com/intro_to_probabilistic_linkage/",
+        note: "Intuición de prior, m/u y match weights",
+      },
+      {
         label: "RapidFuzz",
         url: "https://github.com/rapidfuzz/RapidFuzz",
         note: "Edit/token similarity práctica",
@@ -1489,11 +1732,6 @@ if __name__ == "__main__":
         label: "dedupe library docs",
         url: "https://docs.dedupe.io/",
         note: "Active learning y clustering",
-      },
-      {
-        label: "NIST — entity resolution concepts",
-        url: "https://www.nist.gov/itl/iad/image-group/trecvid-entity-detection",
-        note: "Evaluación y entidades (contexto)",
       },
     ],
     books: [

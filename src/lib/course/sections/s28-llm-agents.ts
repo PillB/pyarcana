@@ -5,49 +5,51 @@ export const section28: CourseSection = {
   index: 28,
   title: "Pruebas de datos, propiedades e integración",
   shortTitle: "Props e integración",
-  tagline: "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+  tagline:
+    "Suite que caza errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
   estimatedHours: 19,
   level: "Competente",
   phase: 2,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El **QA del motor ER** exige propiedades, contratos de schema y pruebas de integración sin flakes: goldens, dobles controlados y SQLite de lab. Id legacy `llm-agents` se conserva; el path V3 es pruebas de datos/propiedades/integración, no agentes LLM.",
+    "El **QA del motor de entity resolution (ER)** exige más que tests unitarios felices: propiedades que generen bordes, contratos de schema, goldens con review humano, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
   learningOutcomes: [
-    { text: "Generar casos desde invariantes" },
-    { text: "Aplicar tests metamórficos y de simetría" },
-    { text: "Validar contratos de schema/calidad" },
-    { text: "Detectar drift y reconciliar goldens" },
-    { text: "Doblar HTTP/DB/reloj con control" },
-    { text: "Escribir contract tests sin sobre-mocking" },
-    { text: "Montar integración/E2E con containers (concepto)" },
-    { text: "Eliminar flakes y fijar determinismo en CI" },
+    { text: "Generar casos desde invariantes con seed o tabla exhaustiva" },
+    { text: "Aplicar pruebas metamórficas, de simetría e idempotencia" },
+    { text: "Validar contratos de schema y de calidad en ingest" },
+    { text: "Detectar drift de golden y reconciliar solo con approve" },
+    { text: "Doblar HTTP, DB y reloj con fakes controlados" },
+    { text: "Escribir contract tests de borde sin sobre-mocking" },
+    { text: "Montar integración sqlite (análogo local a testcontainers)" },
+    { text: "Eliminar flakes y fijar determinismo (seed, sort, reloj) en CI" },
   ],
   theory: [
     {
       heading: "QA de datos del motor ER",
       paragraphs: [
-        "Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
-        "Fixtures sintéticas mínimas deben cazar encoding, cardinalidad, orden, timeout y reanudación — antes de confiar en scores de matching. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Orden: **T1 Propiedades** → **T2 Datos** (schema/golden) → **T3 Dobles** → **T4 Sistema/CI**. ER **solo** decide misma entidad — nunca parentesco ni fraude. Caso PE: batch de contactos `@example.pe` en CI; un fallo de golden muestra expected vs actual **sin** PII real ni etiquetas de fraude.",
+        "En S27 convertiste normalización y matching en contratos **pytest**. Aquí **amplías la suite**: propiedades y pruebas metamórficas, contratos de datos/goldens, dobles controlados e integración sin flakes. En S29 el almacén SQL consumirá estos mismos contratos como regresión de schema.",
+        "Orden del módulo: **T1 Propiedades** (invariantes, generación, metamórficas) → **T2 Datos** (schema, quality, goldens) → **T3 Dobles** (mocks/fakes/reloj, contratos de borde) → **T4 Sistema/CI** (integración, encoding/cardinalidad/orden/timeout/reanudación, flakes). Fixture de laboratorio: `CASO-LIM-028` (run_id=cpn3a-dataqa), contactos sintéticos `@example.pe` — sin PII real y sin auto-veredicto de fraude o parentesco.",
+        "Lo que ya sabes (S16 calidad + S27 pytest) y lo que es **nuevo aquí**: S16 fallaba cerrado ante schema roto; S27 fijó AAA, fixtures y oráculos. S28 añade **generación desde propiedades**, **goldens versionados con review**, **dobles en bordes HTTP/DB/reloj** e **integración multi-componente determinista**. ER solo decide *misma entidad* — nunca parentesco ni fraude.",
+        "Caso de desk PE: un batch sintético de contactos entra al matcher en CI local. Un fallo de golden muestra expected vs actual; un fallo de propiedad imprime la semilla y el input que rompió la invariante. Eso es evidencia revisable, no un “True” mágico en pantalla.",
       ],
       callout: {
         type: "info",
         title: "Límite del resultado",
         content:
-          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo.",
+          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude.",
       },
     },
     {
-      heading: "invariantes y generación de casos",
+      heading: "Invariantes y generación de casos",
       subtopicId: "S28-T1-A",
       paragraphs: [
-        "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente**; scores en **[0,1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
-        "Genera casos **desde la invariante** (tabla exhaustiva pequeña, random acotado con **seed**, o Hypothesis conceptual) en lugar de un único ejemplo feliz. Un solo case “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
-        "Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`): es el contrato legible del dominio ER y el oráculo del revisor humano. Sin enunciado, el assert es magia negra.",
+        "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
+        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso: (1) tabla exhaustiva pequeña (todos los bordes conocidos), (2) random acotado con **seed fija** (reproducible en CI), (3) Hypothesis (herramienta industrial de property-based testing — la enlazamos en recursos; aquí practicas el *pensamiento* de propiedad con seed + bucles o pytest). Un solo case “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
+        "Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`): es el contrato legible del dominio y el oráculo del revisor. Sin enunciado, el assert es magia negra. Cuando falla un caso generado, imprime **seed + input + expected/actual** para que el bug sea reproducido al primer intento.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "invariants_gen.py",
         code: `import random
 random.seed(42)
@@ -78,21 +80,21 @@ seed 42`,
       },
       callout: {
         type: "tip",
-        title: "Seed fija",
+        title: "Semilla fija",
         content:
-          "Random sin seed en CI es flake. Fija seed o usa tabla exhaustiva pequeña.",
+          "Random sin seed en CI es flake. Fija seed o usa tabla exhaustiva pequeña. Hypothesis haría shrink del contraejemplo; con seed, imprime tú el input que falló.",
       },
     },
     {
-      heading: "idempotencia, simetría y metamorphic tests",
+      heading: "Idempotencia, simetría y pruebas metamórficas",
       subtopicId: "S28-T1-B",
       paragraphs: [
-        "**Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
-        "**Metamorphic tests**: transforma el input de forma que la relación de salida sea predecible (p.ej. añadir espacios no cambia normalize). Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Útiles cuando no hay oráculo absoluto pero sí relación entre salidas. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "**Idempotencia**: `f(f(x)) == f(x)`. En ER, `normalize` debe ser idempotente: un segundo pase no cambia el texto canónico. Si `f(f(x)) != f(x)`, cada etapa del pipeline “reescribe” el nombre y el matching se vuelve no determinista entre corridas.",
+        "**Simetría**: si el comparador es simétrico, `sim(a,b) == sim(b,a)`. Documenta excepciones (distancias dirigidas, embeddings con orden de query) en el nombre del test. No asumas simetría solo porque “se ve simétrico” en el happy path.",
+        "**Pruebas metamórficas (metamorphic)**: no conoces el score “correcto” absoluto, pero sí una **relación** entre salidas. Ejemplo: rellenar espacios no debe cambiar `normalize`; reordenar tokens puede o no ser invariante según tu modelo de nombre. Cuando no hay oráculo absoluto, la relación entre salidas *es* el oráculo. No confundas metamórfica con “casefold equality”: casefold es normalización; metamórfica es *transformar el input y predecir cómo se mueve la salida*.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "metamorphic.py",
         code: `def sim_token(a: str, b: str) -> float:
     ta, tb = set(a.casefold().split()), set(b.casefold().split())
@@ -104,7 +106,7 @@ seed 42`,
 
 pairs = [("Ana López", "López Ana"), ("x", "y"), ("", "")]
 sym_ok = all(abs(sim_token(a, b) - sim_token(b, a)) < 1e-12 for a, b in pairs)
-# metamorphic: padding spaces
+# metamórfica: padding de espacios no cambia normalize
 meta_ok = all(
     " ".join(s.split()).casefold() == " ".join(("  " + s + " ").split()).casefold()
     for s in ["María", "  a  b"]
@@ -120,19 +122,19 @@ note sim!=fraud`,
         type: "warning",
         title: "Simetría no siempre aplica",
         content:
-          "Algunas distancias dirigidas no son simétricas; documenta la propiedad esperada.",
+          "Algunas distancias dirigidas no son simétricas; documenta la propiedad esperada en el nombre del test (`test_jaccard_is_symmetric` vs `test_edit_distance_directed`).",
       },
     },
     {
-      heading: "schema y quality contracts",
+      heading: "Contratos de schema y de calidad",
       subtopicId: "S28-T2-A",
       paragraphs: [
-        "Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares). Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
-        "Valida en ingest del ER: registros fuente rechazados no entran silenciosos. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Implementación didáctica: funciones validadoras que devuelven lista de errores. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "Un **contrato de schema** fija tipos, nullability y dominios (email con `@`, score en 0..1). Un **contrato de calidad** fija reglas de negocio (id único, cardinalidad de pares, encoding UTF-8 legible). En S16 ya viste fail-closed en ingest; aquí los conviertes en **asserts de regresión** que bloquean el merge si se rompen.",
+        "Valida en el borde de ingest del ER: registros fuente rechazados no entran silenciosos. La implementación didáctica es una función `validate_record(r) -> list[str]` que devuelve errores legibles — no un booleano opaco. Fail-closed: si faltan columnas requeridas o el dtype rompe el contrato, el batch se detiene con reporte, no se “arregla” en silencio.",
+        "Diferencia con S16: allí diseñaste políticas; aquí **escribes la suite** que las re-ejecuta en cada PR. Caso sintético: batch `@example.pe` con un id vacío y un score 1.5 — el validador debe listar ambos errores sin inventar parentesco ni fraude.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "schema_contract.py",
         code: `def validate_record(r: dict) -> list[str]:
     err = []
@@ -162,19 +164,19 @@ contract schema+quality`,
         type: "tip",
         title: "Falla ruidosa en ingest",
         content:
-          "Mejor rechazar con error que contaminar el almacén ER (S29).",
+          "Mejor rechazar con error que contaminar el almacén ER (S29). Cuando construyas S29, re-ejecuta estos mismos validadores como regresión de schema del warehouse.",
       },
     },
     {
-      heading: "golden datasets, drift y reconciliación",
+      heading: "Datasets golden, drift y reconciliación",
       subtopicId: "S28-T2-B",
       paragraphs: [
-        "Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
-        "**Drift**: la salida actual difiere del golden. Clasifica: bug real vs cambio intencional. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "**Reconciliación**: actualizar golden solo con review y nota de cambio — nunca en silencio en CI. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "Un **golden** es un snapshot versionado de salida esperada (JSON/CSV sintético en el repo). Sirve de regresión del pipeline: mismos inputs sintéticos → misma estructura de pares (o de reporte de calidad). No es “la verdad del mundo real”; es el contrato de no-regresión del lab.",
+        "**Drift**: la salida actual difiere del golden. Clasifica antes de actuar: (a) bug real del matcher, (b) cambio intencional de política, (c) ruido de orden/float. Un diff de golden debe mostrar expected vs actual de forma legible — nunca un “pass” silencioso.",
+        "**Reconciliación**: actualizar el golden solo con **review humano y nota de cambio** (`approved=True` + mensaje). Actualizar golden sin approve en CI esconde regresiones de matching. Política: `blocked_drift` hasta que alguien firme el cambio de contrato.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "golden_drift.py",
         code: `import json
 golden = {"pairs": [{"a": "c1", "b": "c2", "label": 1}], "version": 1}
@@ -199,21 +201,21 @@ reconcile blocked_drift`,
       },
       callout: {
         type: "danger",
-        title: "No auto-accept drift",
+        title: "No aceptar drift automáticamente",
         content:
-          "Actualizar golden sin review esconde regresiones de matching.",
+          "Actualizar golden sin review esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato.",
       },
     },
     {
-      heading: "mocks/fakes de HTTP, DB y reloj",
+      heading: "Mocks, fakes y reloj inyectado",
       subtopicId: "S28-T3-A",
       paragraphs: [
-        "**Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
-        "HTTP: fake de status/JSON. DB: dict o sqlite memoria. Reloj: inyecta `now` callable — no `datetime.now` global sin control. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Objetivo: tests rápidos y deterministas del ER sin red real. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "**Mock**: verifica interacciones (qué se llamó, con qué args). **Fake**: implementación liviana en memoria con estado real. **Stub**: respuestas fijas sin lógica. En QA del ER usas fakes de HTTP/DB y un reloj inyectable para que la suite no dependa de red ni de `datetime.now()`.",
+        "HTTP: fake de status/JSON. DB: `dict` o sqlite en memoria. Reloj: inyecta `now` callable en el constructor — no parches globales salvo código legado. Objetivo: tests **rápidos y deterministas** del pipeline sin red real ni timestamps que cambian entre corridas.",
+        "Patrón de diseño: el servicio de matching recibe `clock` y `http` como dependencias. En producción son el reloj del sistema y un cliente real; en test son `FakeClock` y `FakeHTTP`. Así demuestras encoding de fechas ISO, reintentos ante 503 y lectura de entidades sin abrir sockets.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "fakes_clock.py",
         code: `from datetime import datetime, timezone
 
@@ -242,19 +244,19 @@ db_fake Ana`,
         type: "tip",
         title: "Inyecta dependencias",
         content:
-          "Pasa clock/http al constructor; no parches globales salvo legado.",
+          "Pasa clock/http al constructor; no parches globales salvo legado. `str(datetime(...))` no es fecha ISO corta — usa `.date().isoformat()` o `.isoformat()` según el contrato.",
       },
     },
     {
-      heading: "contract tests sin sobre-mocking",
+      heading: "Contratos de borde sin sobre-mocking",
       subtopicId: "S28-T3-B",
       paragraphs: [
-        "El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Prefiere bordes observables: filas escritas, status, schema. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
-        "Prefiere **contratos de borde**: dado input, output y efectos observables (filas escritas, status). Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Mockea solo I/O externo; deja la lógica de matching real bajo prueba. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "El **sobre-mocking** acopla el test a detalles internos (orden exacto de calls, nombres privados) y se rompe en refactors inocuos. Peor: si mockeas el comparador y solo asertas que “se llamó”, no pruebas matching — ocultas bugs con un `lambda: True`.",
+        "Prefiere **contratos de borde**: dado input, observa output y efectos visibles (filas escritas, status HTTP, schema del payload). Mockea solo I/O externo; deja la lógica de normalización/matching real bajo prueba cuando es pura y barata.",
+        "Heurística GOOS-friendly: si la función es pura (`normalize`, Jaccard de tokens), **no la mockees**. Si habla con red o disco, fakea el borde y aserta el efecto. `casefold` (no solo `lower` en un lado) es el contrato de igualdad de texto del ER para Unicode.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "no_overmock.py",
         code: `def match_service(normalize, a, b):
     # lógica real bajo prueba
@@ -277,38 +279,45 @@ prefer real_pure_logic`,
         type: "warning",
         title: "Mockear de más",
         content:
-          "Si mockeas el comparador y solo asertas que se llamó, no pruebas matching.",
+          "Si mockeas el comparador y solo asertas que se llamó, no pruebas matching. Detecta overmock: si `f('x','y') and f('1','2')` es siempre True, el doble es débil.",
       },
     },
     {
-      heading: "integración/E2E y test containers",
+      heading: "Integración, E2E y testcontainers (concepto)",
       subtopicId: "S28-T4-A",
       paragraphs: [
-        "Integración ejerce **2+ componentes reales** (app + sqlite). E2E cubre flujo punta a punta (`ingest→pares→review`) con datos sintéticos. Containers son concepto de CI (mismo schema, sin red externa). Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
-        "**Testcontainers** (concepto): DB efímera en contenedor. En el curso usamos sqlite `:memory:` o archivo temp como análogo local. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Mide encoding, cardinalidad de pares, orden de paginación, timeout y reanudación (checkpoint). Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
+        "Una prueba de **integración** ejerce **2+ componentes reales** (app + sqlite, o servicio + fake HTTP + DB). **E2E** cubre el flujo punta a punta (`ingest → pares → review`) con datos sintéticos. **Testcontainers** (concepto de CI): DB efímera en contenedor con el mismo dialecto que producción; en este curso usamos sqlite `:memory:` o archivo temp como análogo local honesto.",
+        "Mide lo que el tagline promete: **encoding** (tildes y formas NFC/NFD unificadas con `unicodedata.normalize`), **cardinalidad** de pares (`C(n,2)` o igualdad de nombre), **orden** de paginación estable, **timeout** simulado (retry/abort con reloj fake, no `sleep` real) y **reanudación** (checkpoint: no reprocesar ids ya hechos).",
+        "Demo mínima: inserta dos entidades homónimas en sqlite, cuenta filas y el par candidato con `id_a < id_b`. Eso es integración real de schema + query, no un print de `True`. Cuando el almacén sea Postgres en S29, el mismo contrato de pares se re-ejecuta contra el dialecto real.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "integration_sqlite.py",
         code: `import sqlite3
+import unicodedata
 
 def run_integration():
     con = sqlite3.connect(":memory:")
     con.execute("CREATE TABLE entities(id TEXT PRIMARY KEY, name TEXT)")
-    con.executemany("INSERT INTO entities VALUES (?,?)", [("e1", "Ana"), ("e2", "Ana")])
+    # NFD de "María" → NFC unifica tildes para matching estable
+    name = unicodedata.normalize("NFC", "Mari\u0301a")
+    con.executemany(
+        "INSERT INTO entities VALUES (?,?)",
+        [("e1", name), ("e2", name)],
+    )
     n = con.execute("SELECT COUNT(*) FROM entities").fetchone()[0]
-    # candidate pairs naive
     pairs = con.execute(
-        "SELECT a.id, b.id FROM entities a JOIN entities b ON a.id < b.id AND a.name = b.name"
+        "SELECT a.id, b.id FROM entities a JOIN entities b "
+        "ON a.id < b.id AND a.name = b.name"
     ).fetchall()
+    encoding_ok = name == "María"
     con.close()
-    return n, pairs
+    return n, pairs, encoding_ok
 
-n, pairs = run_integration()
+n, pairs, encoding_ok = run_integration()
 print("entities", n)
 print("pairs", pairs)
-print("encoding_ok", True)`,
+print("encoding_ok", encoding_ok)`,
         output: `entities 2
 pairs [('e1', 'e2')]
 encoding_ok True`,
@@ -317,19 +326,19 @@ encoding_ok True`,
         type: "info",
         title: "Containers vs memoria",
         content:
-          "sqlite memoria valida lógica; containers validan driver/SQL dialecto real cuando el almacén es Postgres (S29).",
+          "sqlite memoria valida lógica de pares y schema; containers validan driver/SQL dialecto real cuando el almacén es Postgres (S29). Sé honesto en el reporte de evidencia: qué capa cubriste.",
       },
     },
     {
-      heading: "flakes, determinismo y CI",
+      heading: "Flakes, determinismo y CI",
       subtopicId: "S28-T4-B",
       paragraphs: [
-        "Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son **inaceptables** en la suite gate — cuarentena documentada o fix, no “retry 3 hasta que pase”. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
-        "Mitigaciones: seed, reloj inyectado, sort estable, retries solo con cuarentena documentada (no ocultar bugs). Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Pipeline CI: lint → unit → property/data → integration. Falla el job si hay drift de golden no aprobado. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude.",
+        "Un **flake** (prueba inestable) pasa o falla sin cambio de código: orden de sets, reloj real, red, random sin seed. En la suite que bloquea merge del ER son **inaceptables** — cuarentena documentada o fix, no “retry 3 hasta que pase”.",
+        "Mitigaciones: seed fija, reloj inyectado, `sorted` estable en salidas de batch, timeouts con reloj fake (no `sleep` real en CI), retries solo con ticket de cuarentena. Pipeline recomendado: lint → unit → property/data → integration. El job falla si hay drift de golden no aprobado o flake_rate > 0 en la suite gate.",
+        "Política de desk: un test que depende del microsegundo actual no es “mala suerte”; es diseño incorrecto. Reemplázalo por `FakeClock` y seed. Documenta en el README de la suite: seeds, reloj y orden de pipeline.",
       ],
       code: {
-        language: 'python',
+        language: "python",
         title: "determinism_ci.py",
         code: `import random
 from datetime import datetime, timezone
@@ -355,81 +364,107 @@ ci_policy no_flakes_on_gate`,
         type: "danger",
         title: "Retry no es fix",
         content:
-          "Reintentar un test flaky en CI sin root-cause solo enmascara el problema.",
+          "Reintentar un test flaky en CI sin root-cause solo enmascara el problema. Arregla seed, reloj u orden; si no, cuarentena con ticket.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro invariantes, metamorphic tests, contratos de schema/golden, fakes y CI determinista para el QA del motor ER.",
+    intro:
+      "Te muestro, paso a paso, invariantes con seed, pruebas metamórficas, contratos de schema/golden, fakes y CI determinista. Corre cada demo: el output del curso debe coincidir con lo que ves en tu terminal.",
     steps: [
       {
         demoId: "S28-T1-A-DEMO",
         subtopicId: "S28-T1-A",
         environment: "local-python",
-        description: "Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.",
+        description:
+          "Función estilo pytest: con seed=1 genera 15 strings y aserta que normalize es idempotente (f(f(s))==f(s)).",
         code: {
-          language: 'python',
+          language: "python",
           title: "inv_demo.py",
           code: `import random
-random.seed(1)
+
 def norm(s):
     return " ".join(s.casefold().split())
-ok = all(len(norm("".join(random.choice("a b") for _ in range(8)))) >= 0 for _ in range(15))
-print("invariant_ok", ok)
-print("n", 15)`,
+
+def test_normalize_idempotent(n=15, seed=1):
+    random.seed(seed)
+    for _ in range(n):
+        s = "".join(random.choice("a bÁ") for _ in range(8))
+        once = norm(s)
+        assert once == norm(once)
+    return n
+
+n = test_normalize_idempotent()
+print("invariant_ok", True)
+print("n", n)
+print("seed", 1)`,
           output: `invariant_ok True
-n 15`,
+n 15
+seed 1`,
         },
-        why: "Casos generados refuerzan invariantes.",
+        why: "Modelo I Do de propiedad no trivial: generator + assert de idempotencia (en CI real, pytest descubre test_*). Evita tautologías tipo len>=0.",
       },
       {
         demoId: "S28-T1-B-DEMO",
         subtopicId: "S28-T1-B",
         environment: "local-python",
-        description: "Comprueba simetría de Jaccard de tokens y metamorphic padding.",
+        description:
+          "Comprueba simetría de Jaccard de tokens (casefold) y metamórfica de padding de espacios.",
         code: {
-          language: 'python',
+          language: "python",
           title: "meta_demo.py",
-          code: `def j(a,b):
-    ta,tb=set(a.lower().split()),set(b.lower().split())
-    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0
-print("sym", j("a b","b a")==j("b a","a b"))
-print("meta", "x y" == " ".join("  x   y ".split()))
-print("idemp", "a" == " ".join("a".split()))`,
+          code: `def j(a, b):
+    ta, tb = set(a.casefold().split()), set(b.casefold().split())
+    return len(ta & tb) / len(ta | tb) if ta | tb else 1.0
+
+def pad_norm(s):
+    return " ".join(s.split())
+
+print("sym", abs(j("a b", "b a") - j("b a", "a b")) < 1e-12)
+print("meta", pad_norm("x y") == pad_norm("  x   y "))
+print("idemp", pad_norm(pad_norm("  a  ")) == pad_norm("  a  "))`,
           output: `sym True
 meta True
 idemp True`,
         },
-        why: "Propiedades sin oráculo absoluto aún fallan con bugs.",
+        why: "Propiedades sin oráculo absoluto de score aún fallan si hay bugs de normalización o asimetría accidental.",
       },
       {
         demoId: "S28-T2-A-DEMO",
         subtopicId: "S28-T2-A",
         environment: "local-python",
-        description: "Valida schema de tres registros sintéticos y cuenta errores.",
+        description: "Valida schema de tres registros sintéticos y cuenta errores de id/score.",
         code: {
-          language: 'python',
+          language: "python",
           title: "schema_demo.py",
           code: `def val(r):
-    e=[]
-    if not r.get("id"): e.append("id")
-    if r.get("score") is not None and not 0<=r["score"]<=1: e.append("score")
+    e = []
+    if not r.get("id"):
+        e.append("id")
+    if r.get("score") is not None and not 0 <= r["score"] <= 1:
+        e.append("score")
     return e
-rows=[{"id":"1","score":0.2},{"id":"","score":2},{"id":"3","score":0.5}]
+
+rows = [
+    {"id": "1", "score": 0.2},
+    {"id": "", "score": 2},
+    {"id": "3", "score": 0.5},
+]
 print("errors", sum(len(val(r)) for r in rows))
-print("ok_first", val(rows[0])==[])`,
+print("ok_first", val(rows[0]) == [])`,
           output: `errors 2
 ok_first True`,
         },
-        why: "Contratos de calidad en ingest del ER.",
+        why: "Contratos de calidad en ingest del ER: fail-closed con lista de errores, no booleano opaco.",
       },
       {
         demoId: "S28-T2-B-DEMO",
         subtopicId: "S28-T2-B",
         environment: "local-python",
-        description: "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
+        description:
+          "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
         code: {
-          language: 'python',
+          language: "python",
           title: "drift_demo.py",
           code: `def drift_action(golden, cur):
     drifted = golden != cur
@@ -438,137 +473,149 @@ ok_first True`,
 d, action = drift_action({"n": 2}, {"n": 3})
 print("drift", d)
 print("action", action)
-print("ok", True)
-`,
+print("ok", True)`,
           output: `drift True
 action blocked
-version 1`,
+ok True`,
         },
-        why: "Drift visible > golden silencioso.",
+        why: "Drift visible y bloqueado > golden actualizado en silencio.",
       },
       {
         demoId: "S28-T3-A-DEMO",
         subtopicId: "S28-T3-A",
         environment: "local-python",
-        description: "Fake HTTP + reloj fijo devuelven JSON y timestamp deterministas.",
+        description:
+          "Fake HTTP + reloj fijo devuelven JSON y timestamp deterministas en ISO.",
         code: {
-          language: 'python',
+          language: "python",
           title: "fake_demo.py",
           code: `from datetime import datetime, timezone
+
 class H:
     def get(self):
-        return {"status":200,"body":{"ok":True}}
+        return {"status": 200, "body": {"ok": True}}
+
 class C:
     def now(self):
-        return datetime(2026,1,1,tzinfo=timezone.utc)
+        return datetime(2026, 1, 1, tzinfo=timezone.utc)
+
 print(H().get()["body"]["ok"], C().now().date().isoformat())`,
           output: `True 2026-01-01`,
         },
-        why: "Dobles controlados eliminan red y tiempo real.",
+        why: "Dobles controlados eliminan red y tiempo real de la suite.",
       },
       {
         demoId: "S28-T3-B-DEMO",
         subtopicId: "S28-T3-B",
         environment: "local-python",
-        description: "Contrato de borde sobre match real vs overmock que oculta bug.",
+        description:
+          "Contrato de borde sobre match real (casefold) vs overmock que oculta bug.",
         code: {
-          language: 'python',
+          language: "python",
           title: "contract_demo.py",
-          code: `def real(a,b):
-    return a.casefold()==b.casefold()
-over=lambda a,b: True
-print("real", real("A","a"))
-print("overmock_false_pos", over("A","z"))
+          code: `def real(a, b):
+    return a.casefold() == b.casefold()
+
+over = lambda a, b: True
+print("real", real("A", "a"))
+print("overmock_false_pos", over("A", "z"))
 print("prefer_real", True)`,
           output: `real True
 overmock_false_pos True
 prefer_real True`,
         },
-        why: "No mockees la lógica que quieres probar.",
+        why: "No mockees la lógica que quieres probar; el overmock marca True en pares distintos.",
       },
       {
         demoId: "S28-T4-A-DEMO",
         subtopicId: "S28-T4-A",
         environment: "local-python",
-        description: "Integración sqlite: inserta entidades y cuenta pares por nombre igual.",
+        description:
+          "Integración sqlite en memoria: inserta dos entidades homónimas y cuenta el par candidato (id_a < id_b).",
         code: {
-          language: 'python',
+          language: "python",
           title: "integ_demo.py",
           code: `import sqlite3
 
-def seed_entities():
-    c = sqlite3.connect(":memory:")
-    c.execute("create table e(id text, name text)")
-    c.execute("insert into e values ('1','Ana')")
-    return c
-
-c = seed_entities()
-print(c.execute("select name from e where id='1'").fetchone()[0])
-print("integration", True)
-print("ok", True)
-`,
-          output: `pairs [('1', '2')]
-n 1`,
+con = sqlite3.connect(":memory:")
+con.execute("create table e(id text, name text)")
+con.executemany("insert into e values (?, ?)", [("1", "Ana"), ("2", "Ana")])
+n = con.execute("select count(*) from e").fetchone()[0]
+pairs = con.execute(
+    "select a.id, b.id from e a join e b on a.id < b.id and a.name = b.name"
+).fetchall()
+con.close()
+print("n", n)
+print("pairs", pairs)
+print("integration", True)`,
+          output: `n 2
+pairs [('1', '2')]
+integration True`,
         },
-        why: "Integración mínima del pipeline de candidatos.",
+        why: "Integración mínima del pipeline de candidatos: schema + join real, no print teatral.",
       },
       {
         demoId: "S28-T4-B-DEMO",
         subtopicId: "S28-T4-B",
         environment: "local-python",
-        description: "Orden estable + seed: dos corridas CI producen la misma lista.",
+        description:
+          "Orden estable + seed: dos corridas CI producen la misma lista y el mismo random.",
         code: {
-          language: 'python',
+          language: "python",
           title: "ci_demo.py",
           code: `import random
+
 def run(seed):
     random.seed(seed)
-    return sorted(["c","a","b"]), round(random.random(),5)
-print(run(3)==run(3))
+    return sorted(["c", "a", "b"]), round(random.random(), 5)
+
+print(run(3) == run(3))
 print(run(3)[0])`,
           output: `True
 ['a', 'b', 'c']`,
         },
-        why: "Determinismo es requisito del gate de suite.",
+        why: "Determinismo es requisito de la suite que bloquea merge.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios de propiedades, datos, dobles e integración/CI.",
+    intro:
+      "24 ejercicios guiados → independientes → transferencia (8 subtemas × 3). Cada starter trae un **bug intencional** runnable: corrígelo y deja **solo** las líneas de salida del oráculo (mismas que la solución). Datos sintéticos; no etiquetes fraude ni parentesco. Tiempo sugerido: ~25–40 min por subtema en bloque We Do.",
     steps: [
       {
         id: "S28-T1-A-E1",
         subtopicId: "S28-T1-A",
         kind: "guided",
         instruction:
-          "S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "seed antes de cada random",
+          "S28-T1-A-E1 · El starter genera dos `random.random()` pero solo fija la semilla una vez. Corrige para que, con `seed=0` **antes de cada** muestra, ambos valores sean iguales. Imprime una sola línea: `True` o `False`.",
+        hint: "Vuelve a llamar random.seed(0) antes de b",
         hints: [
-          "seed antes de cada random",
-          "compara",
+          "Vuelve a llamar random.seed(0) antes de b",
+          "Sin re-seed, el segundo random avanza el PRNG y a!=b",
         ],
         edgeCases: ["sin seed no es CI-safe"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea booleana: True solo si a y b se regeneran con la misma seed",
+        feedback:
+          "Sin re-seed, el PRNG avanza: el segundo random no es la misma muestra. Seed antes de cada muestra = reproducible en CI.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · seed reproducible para property/fuzz
-# DEFECT: no vuelve a seedear antes de b
+          code: `# BUG intencional: falta volver a seedear antes de b
 import random
-random.seed(0); a=random.random()
-b=random.random()
+random.seed(0)
+a = random.random()
+b = random.random()  # debería ir precedido de random.seed(0)
 print(a == b)
-print('seed_policy', 'must_reset')
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
           code: `import random
-random.seed(0); a=random.random()
-random.seed(0); b=random.random()
+random.seed(0)
+a = random.random()
+random.seed(0)
+b = random.random()
 print(a == b)`,
           output: `True`,
         },
@@ -578,32 +625,30 @@ print(a == b)`,
         subtopicId: "S28-T1-A",
         kind: "independent",
         instruction:
-          "S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "all",
+          "S28-T1-A-E2 · Invariante de dominio: todo score del batch debe estar en [0, 1]. El starter hardcodea `True` sin mirar los datos. Con `scores = [0, 0.5, 1.2]` calcula `all(0 <= s <= 1 for s in scores)` e imprime el booleano (una línea). El 1.2 debe fallar el contrato.",
+        hint: "Usa all(...) sobre el rango inclusivo; 1.2 está fuera",
         hints: [
-          "all",
-          "rango",
+          "Usa all(...) sobre el rango inclusivo",
+          "0 y 1 son válidos; 1.2 no — el hardcode True esconde el fallo",
         ],
-        edgeCases: ["NaN no es válido"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["NaN no es válido en suites reales"],
+        tests: "Una línea: False porque 1.2 rompe el contrato [0, 1]",
+        feedback:
+          "Hardcodear True oculta el score 1.2. La invariante se mide con all(...), no con un booleano de teatro.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · invariante scores en [0,1]
-# DEFECT: no valida el rango y hardcodea True
-scores=[0,0.5,1]
+          code: `# BUG intencional: hardcodea True sin validar el batch (hay un score fuera de rango)
+scores = [0, 0.5, 1.2]
 print(True)
-print('n_scores', len(scores))
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `scores=[0,0.5,1]
+          code: `scores = [0, 0.5, 1.2]
 print(all(0 <= s <= 1 for s in scores))`,
-          output: `True`,
+          output: `False`,
         },
       },
       {
@@ -611,34 +656,60 @@ print(all(0 <= s <= 1 for s in scores))`,
         subtopicId: "S28-T1-A",
         kind: "transfer",
         instruction:
-          "S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "doble aplicación",
+          "S28-T1-A-E3 · Transferencia (estilo pytest de S27): escribe `test_normalize_idempotent()` que, con seed=42, genere 10 strings del alfabeto `'a bÁé'` (longitud 0..8) y haga `assert` de idempotencia `normalize(s)==normalize(normalize(s))` en cada uno. El starter solo mira un literal y no genera casos. Invoca el test y imprime dos líneas: `idempotent_ok True` y `n_cases 10`.",
+        hint: "Función test_* con assert; bucle seed; al final resume con print",
         hints: [
-          "doble aplicación",
-          "assert blando print",
+          "def test_normalize_idempotent(): random.seed(42); for … assert once == normalize(once)",
+          "normalize = ' '.join(s.casefold().split()); n_cases fijo en 10",
         ],
-        edgeCases: ["normalize más rico"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["string vacío; solo espacios; tildes; assert falla → bug real"],
+        tests: "Dos líneas: idempotent_ok True y n_cases 10 tras asserts del batch",
+        feedback:
+          "Una propiedad real genera muchos inputs (seed + bucle) y aserta f(f(x))==f(x). Un solo literal no es property-based thinking.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · f(f(s))==f(s) idempotencia
-# DEFECT: compara f(s)==s (sin doble aplicación)
-s='  x '
-f=lambda x: x.strip()
-print(f(s) == s)
-print('s_repr', repr(s))
-print('ok', True)
+          code: `# BUG intencional: no genera casos ni comprueba f(f(x))==f(x); hardcodea n_cases=1
+import random
+
+def normalize(s: str) -> str:
+    return " ".join(s.casefold().split())
+
+def test_normalize_idempotent(n_cases: int = 10) -> int:
+    s = "  Ana  "
+    once = normalize(s)
+    # solo un literal; no hay bucle ni seed=42 sobre el generador
+    assert once == normalize(once)
+    return 1  # debería devolver n_cases del batch generado
+
+n = test_normalize_idempotent()
+print("idempotent_ok", True)
+print("n_cases", n)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `s='  x '
-f=lambda x: x.strip()
-print(f(f(s)) == f(s))`,
-          output: `True`,
+          code: `import random
+
+def normalize(s: str) -> str:
+    return " ".join(s.casefold().split())
+
+def test_normalize_idempotent(n_cases: int = 10) -> int:
+    """Propiedad: normalize es idempotente (compón con pytest en CI real)."""
+    random.seed(42)
+    alphabet = "a bÁé"
+    for _ in range(n_cases):
+        s = "".join(random.choice(alphabet) for _ in range(random.randint(0, 8)))
+        once = normalize(s)
+        assert once == normalize(once)
+    return n_cases
+
+n = test_normalize_idempotent()
+print("idempotent_ok", True)
+print("n_cases", n)`,
+          output: `idempotent_ok True
+n_cases 10`,
         },
       },
       {
@@ -646,31 +717,41 @@ print(f(f(s)) == f(s))`,
         subtopicId: "S28-T1-B",
         kind: "guided",
         instruction:
-          "S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "comparar",
+          "S28-T1-B-E1 · Simetría de un score Jaccard de tokens: el starter usa un j **dirigido** (divide por `len(ta)`, no por la unión) y con a='ana pe xx', b='pe ana' eso hace `j(a,b) != j(b,a)`. Corrige j a Jaccard simétrico `|∩|/|∪|` (casefold ambos lados) e imprime `j(a,b) == j(b,a)` (una línea booleana).",
+        hint: "Jaccard simétrico: len(ta & tb) / len(ta | tb); no dividas solo por len(ta)",
         hints: [
-          "comparar",
-          "simetría",
+          "casefold + split en ambos lados; unión vacía → 1.0",
+          "Un score dirigido (solo len(ta)) rompe simetría — cámbialo a |∪|",
         ],
-        edgeCases: ["distancias asimétricas"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["distancias dirigidas no son simétricas — aquí Jaccard sí"],
+        tests: "Una línea True: j(a,b)==j(b,a) con Jaccard |∩|/|∪|",
+        feedback:
+          "Dividir solo por len(ta) es un score dirigido: j(a,b)≠j(b,a). Jaccard simétrico usa la unión en el denominador.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · propiedad simetría de ==
-# DEFECT: no comprueba (a==b)==(b==a)
-a,b='x','x'
-print(a == b)
-print('pair', a, b)
-print('ok', True)
+          code: `# BUG intencional: j dirigido (divide por len(ta)) → no es simétrico
+def j(a, b):
+    ta, tb = set(a.casefold().split()), set(b.casefold().split())
+    if not ta:
+        return 0.0
+    return len(ta & tb) / len(ta)
+
+a, b = "ana pe xx", "pe ana"
+print(j(a, b) == j(b, a))
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `a,b='x','x'
-print((a == b) == (b == a))`,
+          code: `def j(a, b):
+    ta, tb = set(a.casefold().split()), set(b.casefold().split())
+    if not ta and not tb:
+        return 1.0
+    return len(ta & tb) / len(ta | tb)
+
+a, b = "ana pe xx", "pe ana"
+print(j(a, b) == j(b, a))`,
           output: `True`,
         },
       },
@@ -679,30 +760,32 @@ print((a == b) == (b == a))`,
         subtopicId: "S28-T1-B",
         kind: "independent",
         instruction:
-          "S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "casefold",
+          "S28-T1-B-E2 · Prueba metamórfica: si `eq(x,y)` es igualdad casefold, entonces `eq(x.upper(), y)` debe coincidir con `eq(x, y)` para x='Ana', y='ana'. El starter usa `==` sensible a mayúsculas. Imprime el booleano de la relación metamórfica (una línea).",
+        hint: "eq = lambda u,v: u.casefold()==v.casefold(); compara eq(x,y) con eq(x.upper(), y)",
         hints: [
-          "casefold",
-          "True",
+          "eq = lambda u,v: u.casefold()==v.casefold()",
+          "La relación: eq(x,y) == eq(x.upper(), y)",
         ],
-        edgeCases: ["locale edge"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["upper no es la única transformación; padding es otra metamórfica"],
+        tests: "Una línea True: eq(x,y) == eq(x.upper(), y) bajo igualdad casefold",
+        feedback:
+          "Metamórfica ≠ 'casefold equality' a secas: transformas el input (upper) y predices que la relación de igualdad se conserva.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · match ER casefold simétrico
-# DEFECT: compara case sensitive
-left, right = 'Ana', 'ANA'
-print(left == right)
-print('policy', 'casefold_required')
-print('ok', True)
+          code: `# BUG intencional: igualdad case-sensitive; no es relación metamórfica
+x, y = "Ana", "ana"
+print(x == y)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print('Ana'.casefold() == 'ANA'.casefold())`,
+          code: `def eq(u, v):
+    return u.casefold() == v.casefold()
+
+x, y = "Ana", "ana"
+print(eq(x, y) == eq(x.upper(), y))`,
           output: `True`,
         },
       },
@@ -711,31 +794,39 @@ print('ok', True)
         subtopicId: "S28-T1-B",
         kind: "transfer",
         instruction:
-          "S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "swap",
+          "S28-T1-B-E3 · Transferencia de **simetría** (no confundir con idempotencia): con `eq(u,v)=u.casefold()==v.casefold()`, verifica que en *todos* los pares `[('Ana','ana'), ('x','Y'), ('','')]` se cumple `eq(a,b)==eq(b,a)`. El starter solo mira el primer par y usa polaridad invertida. Imprime un booleano (una línea).",
+        hint: "all(eq(a,b)==eq(b,a) for a,b in pairs) — simetría es reordenar args, no f(f(x))",
         hints: [
-          "swap",
-          "propiedad",
+          "all(eq(a, b) == eq(b, a) for a, b in pairs)",
+          "Idempotencia sería f(f(x))==f(x) — otro concepto; aquí es simetría de eq",
         ],
-        edgeCases: ["documenta propiedad"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: [
+          "pares negativos ('x','Y') siguen siendo simétricos bajo eq casefold",
+          "documenta la propiedad en el nombre del test en suites reales",
+        ],
+        tests: "Una línea True: simetría all-pairs de eq, no f(f(x))",
+        feedback:
+          "Simetría es reordenar args (eq(a,b)==eq(b,a)). Idempotencia es f(f(x))==f(x). No mezcles los nombres en el test.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · simetría ints en scores
-# DEFECT: usa != entre lados simétricos
-a,b=1,1
-print((a == b) != (b == a))
-print('a', a, 'b', b)
-print('ok', True)
+          code: `# BUG intencional: solo un par + polaridad invertida (no es all-simetría)
+def eq(u, v):
+    return u.casefold() == v.casefold()
+
+pairs = [("Ana", "ana"), ("x", "Y"), ("", "")]
+a, b = pairs[0]
+print(eq(a, b) != eq(b, a))
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `a,b=1,1
-print((a == b) == (b == a))`,
+          code: `def eq(u, v):
+    return u.casefold() == v.casefold()
+
+pairs = [("Ana", "ana"), ("x", "Y"), ("", "")]
+print(all(eq(a, b) == eq(b, a) for a, b in pairs))`,
           output: `True`,
         },
       },
@@ -744,31 +835,29 @@ print((a == b) == (b == a))`,
         subtopicId: "S28-T2-A",
         kind: "guided",
         instruction:
-          "S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "get",
+          "S28-T2-A-E1 · Contrato de schema: si el dict no tiene `id` (o está vacío), imprime `id requerido`; si no, `ok`. El starter siempre imprime `ok`. Una línea.",
+        hint: "not r.get('id') cubre clave ausente y cadena vacía",
         hints: [
-          "get",
-          "guard",
+          "not r.get('id') cubre clave ausente y cadena vacía",
+          "r = {} debe fallar el contrato",
         ],
-        edgeCases: ["id vacío"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["id vacío vs None"],
+        tests: "Una línea: id requerido cuando el dict no trae id usable",
+        feedback:
+          "Fail-closed en el borde: r={} no es 'ok'. not r.get('id') cubre clave ausente y cadena vacía.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · schema: id requerido
-# DEFECT: imprime ok aunque r no tiene id
-r={}
-print('ok')
-print('keys', sorted(r.keys()))
-print('ok', True)
+          code: `# BUG intencional: imprime ok aunque r no tiene id
+r = {}
+print("ok")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `r={}
-print('id requerido' if not r.get('id') else 'ok')`,
+          code: `r = {}
+print("id requerido" if not r.get("id") else "ok")`,
           output: `id requerido`,
         },
       },
@@ -777,31 +866,29 @@ print('id requerido' if not r.get('id') else 'ok')`,
         subtopicId: "S28-T2-A",
         kind: "independent",
         instruction:
-          "S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "0<=s<=1",
+          "S28-T2-A-E2 · score=1.2 está fuera de [0,1]: imprime la etiqueta de error `score`; si estuviera en rango, `ok`. El starter invierte la polaridad. Una línea.",
+        hint: "print('score' if not (0 <= score <= 1) else 'ok')",
         hints: [
-          "0<=s<=1",
-          "etiqueta error",
+          "print('score' if not (0 <= score <= 1) else 'ok')",
+          "Límites inclusivos: 0 y 1 son válidos",
         ],
         edgeCases: ["inclusive bounds"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: score (etiqueta de error) para 1.2 fuera de [0,1]",
+        feedback:
+          "Polaridad invertida es un bug clásico de contratos: 1.2 debe etiquetarse 'score', no 'ok'. 0 y 1 sí son válidos.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · score en [0,1] para match
-# DEFECT: polaridad invertida al validar bounds
-score=1.2
-print('ok' if not (0 <= score <= 1) else 'score')
-print('score_value', score)
-print('ok', True)
+          code: `# BUG intencional: polaridad invertida al validar bounds
+score = 1.2
+print("ok" if not (0 <= score <= 1) else "score")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `score=1.2
-print('score' if not (0 <= score <= 1) else 'ok')`,
+          code: `score = 1.2
+print("score" if not (0 <= score <= 1) else "ok")`,
           output: `score`,
         },
       },
@@ -810,31 +897,38 @@ print('score' if not (0 <= score <= 1) else 'ok')`,
         subtopicId: "S28-T2-A",
         kind: "transfer",
         instruction:
-          "S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "sum",
+          "S28-T2-A-E3 · Transferencia: con `validate` que revisa id no vacío y score en [0,1], cuenta cuántos de dos registros fallan (len(errores)>0). El starter cuenta filas totales. Imprime el entero (una línea).",
+        hint: "sum(1 for r in rows if validate(r))",
         hints: [
-          "sum",
-          "lista",
+          "Define validate que devuelve lista de errores",
+          "Cuenta filas con al menos un error",
         ],
-        edgeCases: ["quality contract"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["quality contract multi-campo"],
+        tests: "Una línea entera: cuántas filas tienen al menos un error de validate",
+        feedback:
+          "len(rows) mide el batch; el contrato de calidad mide filas sucias (len(errores)>0). Aquí solo la segunda fila falla.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · filas sin id en batch ER
-# DEFECT: cuenta todas las filas en vez de missing id
-rows=[{'id':'1'},{'id':''}]
+          code: `# BUG intencional: cuenta todas las filas en vez de las que fallan
+rows = [{"id": "1", "score": 0.2}, {"id": "", "score": 1.5}]
 print(len(rows))
-print('n_rows', len(rows))
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `rows=[{'id':'1'},{'id':''}]
-print(sum(1 for r in rows if not r.get('id')))`,
+          code: `def validate(r):
+    err = []
+    if not r.get("id"):
+        err.append("id")
+    s = r.get("score")
+    if s is not None and not (0 <= s <= 1):
+        err.append("score")
+    return err
+
+rows = [{"id": "1", "score": 0.2}, {"id": "", "score": 1.5}]
+print(sum(1 for r in rows if validate(r)))`,
           output: `1`,
         },
       },
@@ -843,31 +937,29 @@ print(sum(1 for r in rows if not r.get('id')))`,
         subtopicId: "S28-T2-B",
         kind: "guided",
         instruction:
-          "S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "!=",
+          "S28-T2-B-E1 · Imprime `drift` si golden != current; si no, `ok`. El starter ignora el diff. Una línea.",
+        hint: "Compara dicts con !=",
         hints: [
-          "!=",
-          "strings/dicts",
+          "Compara dicts con !=",
+          "golden={'n':1}, current={'n':2} → drift",
         ],
-        edgeCases: ["deep compare json"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["en prod: deep compare JSON canónico"],
+        tests: "Una línea: drift si golden != current",
+        feedback:
+          "Siempre imprimir 'ok' esconde el diff del golden. Drift visible es el primer paso de la regresión de matching.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · golden vs current schema
-# DEFECT: ignora drift y siempre ok
-golden,current={'n':1},{'n':2}
-print('ok')
-print('golden', golden, 'current', current)
-print('ok', True)
+          code: `# BUG intencional: ignora drift y siempre ok
+golden, current = {"n": 1}, {"n": 2}
+print("ok")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `golden,current={'n':1},{'n':2}
-print('drift' if golden != current else 'ok')`,
+          code: `golden, current = {"n": 1}, {"n": 2}
+print("drift" if golden != current else "ok")`,
           output: `drift`,
         },
       },
@@ -876,31 +968,29 @@ print('drift' if golden != current else 'ok')`,
         subtopicId: "S28-T2-B",
         kind: "independent",
         instruction:
-          "S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "and",
+          "S28-T2-B-E2 · Reconcile bloqueado: si hay diff y approved=False → `blocked`; si no → `ok`. El starter siempre dice ok. Una línea.",
+        hint: "blocked si diff and not approved",
         hints: [
-          "and",
-          "política",
+          "blocked si diff and not approved",
+          "Review humana antes de actualizar golden",
         ],
-        edgeCases: ["review humana"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["review humana obligatoria"],
+        tests: "Una línea: blocked si hay diff y approved=False",
+        feedback:
+          "Reconcile sin approve actualiza el contrato en silencio. blocked_drift fuerza review humana antes de tocar el golden.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · drift requiere approve
-# DEFECT: ok aunque hay diff y no approved
+          code: `# BUG intencional: ok aunque hay diff y no approved
 diff, approved = True, False
-print('ok')
-print('diff', diff, 'approved', approved)
-print('ok', True)
+print("ok")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
           code: `diff, approved = True, False
-print('blocked' if diff and not approved else 'ok')`,
+print("blocked" if diff and not approved else "ok")`,
           output: `blocked`,
         },
       },
@@ -909,31 +999,44 @@ print('blocked' if diff and not approved else 'ok')`,
         subtopicId: "S28-T2-B",
         kind: "transfer",
         instruction:
-          "S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "literal/dict",
+          "S28-T2-B-E3 · Transferencia de golden versionado: meta tiene golden_version=3 y approved=False; current difiere del golden embebido. Imprime dos líneas: la versión leída del meta y la acción (`blocked` sin approve). El starter hardcodea 0 y ok.",
+        hint: "Lee meta['golden_version']; acción = blocked si diff y not approved",
         hints: [
-          "literal/dict",
-          "versionado",
+          "Lee meta['golden_version'] del dict",
+          "No actualices golden sin approved=True",
         ],
-        edgeCases: ["changelog"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["changelog de versión en el PR"],
+        tests: "Dos líneas: golden_version del meta y blocked sin approve",
+        feedback:
+          "Versión del golden + acción de reconcile son evidencia del PR. Hardcodear 0/ok no es workflow de drift.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · golden_version del contrato de schema
-# DEFECT: hardcode 0 en vez de leer golden_version del dict
-meta = {'golden_version': 3, 'approved': False}
+          code: `# BUG intencional: hardcodea versión 0 y ok pese a drift
+meta = {
+    "golden_version": 3,
+    "approved": False,
+    "golden": {"pairs": 1},
+}
+current = {"pairs": 2}
 print(0)
-print('meta_keys', sorted(meta))
-print('ok', True)
+print("ok")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print({'golden_version': 3}['golden_version'])`,
-          output: `3`,
+          code: `meta = {
+    "golden_version": 3,
+    "approved": False,
+    "golden": {"pairs": 1},
+}
+current = {"pairs": 2}
+diff = meta["golden"] != current
+print(meta["golden_version"])
+print("blocked" if diff and not meta["approved"] else "ok")`,
+          output: `3
+blocked`,
         },
       },
       {
@@ -941,31 +1044,29 @@ print('ok', True)
         subtopicId: "S28-T3-A",
         kind: "guided",
         instruction:
-          "S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "dict get",
+          "S28-T3-A-E1 · Fake DB (dict): obtén el name de la entidad `e1` e imprímelo. El starter busca `e2`. Una línea: `Ana`.",
+        hint: "db['e1']['name'] o get encadenado con default",
         hints: [
-          "dict get",
-          "fake",
+          "db['e1']['name']",
+          "Clave incorrecta devuelve None — corrige el id",
         ],
         edgeCases: ["missing key"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: Ana (name de la entidad e1 en el fake DB)",
+        feedback:
+          "Un fake de DB es un dict con estado real: la clave incorrecta (e2) no prueba el borde. Lee e1['name'].",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · fake db get por id
-# DEFECT: busca e2 en vez de e1
-db={'e1':{'name':'Ana'}}
-print(db.get('e2', {}).get('name'))
-print('wanted', 'e1')
-print('ok', True)
+          code: `# BUG intencional: busca e2 en vez de e1
+db = {"e1": {"name": "Ana"}}
+print(db.get("e2", {}).get("name"))
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `db={'e1':{'name':'Ana'}}
-print(db['e1']['name'])`,
+          code: `db = {"e1": {"name": "Ana"}}
+print(db["e1"]["name"])`,
           output: `Ana`,
         },
       },
@@ -974,32 +1075,31 @@ print(db['e1']['name'])`,
         subtopicId: "S28-T3-A",
         kind: "independent",
         instruction:
-          "S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "datetime",
+          "S28-T3-A-E2 · Fake clock: `datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)`. El starter imprime `str(d)` (no es fecha ISO corta). Imprime la fecha ISO corta con `d.date().isoformat()` → `2026-07-20`.",
+        hint: "d.date().isoformat() — str(datetime) incluye hora y no es el contrato",
         hints: [
-          "datetime",
-          "inyección",
+          "d.date().isoformat()",
+          "str(datetime) no es fecha ISO corta del contrato ER",
         ],
         edgeCases: ["timezone aware en prod"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea ISO corta: 2026-07-20 vía date().isoformat()",
+        feedback:
+          "str(datetime) incluye hora y tz; el contrato de fecha corta del ER es d.date().isoformat(). No es el mismo oráculo.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · date.isoformat estable
-# DEFECT: usa str() crudo no ISO
-from datetime import date
-d = date(2026, 7, 20)
+          code: `# BUG intencional: str(datetime) no es fecha ISO corta
+from datetime import datetime, timezone
+d = datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)
 print(str(d))
-print('want_iso', True)
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `from datetime import date
-print(date(2026, 7, 20).isoformat())`,
+          code: `from datetime import datetime, timezone
+d = datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)
+print(d.date().isoformat())`,
           output: `2026-07-20`,
         },
       },
@@ -1008,31 +1108,31 @@ print(date(2026, 7, 20).isoformat())`,
         subtopicId: "S28-T3-A",
         kind: "transfer",
         instruction:
-          "S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "status",
+          "S28-T3-A-E3 · Fake HTTP: si status >= 500 imprime `retry`, si no `ok`. Incluye política de timeout conceptual: si `timeout_ms` > 2000 también `retry`. El starter invierte 5xx y ignora timeout. status=503, timeout_ms=3000 → una línea `retry`.",
+        hint: "retry si status>=500 o timeout_ms>2000",
         hints: [
-          "status",
-          "rama",
+          "retry si status>=500 o timeout_ms>2000",
+          "Polaridad: 503 no es ok",
         ],
-        edgeCases: ["timeouts"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["timeouts + 5xx"],
+        tests: "Una línea: retry cuando 5xx o timeout_ms > 2000",
+        feedback:
+          "503 y timeout largo piden retry, no ok. El fake HTTP modela política de borde sin red real ni sleep.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · HTTP 5xx → retry
-# DEFECT: polaridad invertida (ok en 503)
-status=503
-print('ok' if status >= 500 else 'retry')
-print('status', status)
-print('ok', True)
+          code: `# BUG intencional: polaridad 5xx invertida e ignora timeout
+status = 503
+timeout_ms = 3000
+print("ok" if status >= 500 else "retry")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `status=503
-print('retry' if status >= 500 else 'ok')`,
+          code: `status = 503
+timeout_ms = 3000
+print("retry" if status >= 500 or timeout_ms > 2000 else "ok")`,
           output: `retry`,
         },
       },
@@ -1041,29 +1141,27 @@ print('retry' if status >= 500 else 'ok')`,
         subtopicId: "S28-T3-B",
         kind: "guided",
         instruction:
-          "S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "casefold",
+          "S28-T3-B-E1 · Contrato de borde: igualdad de match entre `'Ana'` y `'ANA'` con `casefold` en **ambos** lados → True. El starter aplica `lower` solo al primer operando (`'Ana'.lower() == 'ANA'`), que falla. Una línea booleana.",
+        hint: "casefold() en ambos operandos",
         hints: [
-          "casefold",
-          "sin mock",
+          "casefold() en ambos operandos",
+          "lower solo a un lado es contrato asimétrico roto",
         ],
-        edgeCases: ["no overmock"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["no overmock del comparador; casefold > lower para Unicode"],
+        tests: "Una línea True: casefold en ambos lados del comparador",
+        feedback:
+          "lower solo a un lado rompe el contrato ('ana'=='ANA' es False). casefold ambos lados es el borde de igualdad de texto del ER.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · casefold simétrico en matcher
-# DEFECT: lower solo un lado
-print('A'.lower() == 'a')
-print('policy', 'casefold_both')
-print('ok', True)
+          code: `# BUG intencional: lower solo un lado → 'ana' == 'ANA' es False
+print("Ana".lower() == "ANA")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print('A'.casefold() == 'a'.casefold())`,
+          code: `print("Ana".casefold() == "ANA".casefold())`,
           output: `True`,
         },
       },
@@ -1072,31 +1170,29 @@ print('ok', True)
         subtopicId: "S28-T3-B",
         kind: "independent",
         instruction:
-          "S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "propiedad",
+          "S28-T3-B-E2 · Detecta overmock: si la función devuelve True para pares distintos ('x','y') y ('1','2'), imprime `weak`; si no, `ok`. El starter imprime ok. Una línea.",
+        hint: "weak si f('x','y') and f('1','2')",
         hints: [
-          "propiedad",
-          "siempre True",
+          "weak si f('x','y') and f('1','2')",
+          "Un matcher real no acepta cualquier par",
         ],
-        edgeCases: ["tests de borde"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["tests de borde con negativos"],
+        tests: "Una línea: weak si el doble acepta cualquier par distinto",
+        feedback:
+          "Si f('x','y') y f('1','2') son True, el matcher es un overmock débil. Detectarlo es parte del contrato de borde.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · overmock matcher siempre True
-# DEFECT: no marca weak cuando f acepta cualquier par
-f=lambda a,b: True
-print('ok')
-print('pairs', [('x','y'),('1','2')])
-print('ok', True)
+          code: `# BUG intencional: no marca weak cuando f acepta cualquier par
+f = lambda a, b: True
+print("ok")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `f=lambda a,b: True
-print('weak' if f('x','y') and f('1','2') else 'ok')`,
+          code: `f = lambda a, b: True
+print("weak" if f("x", "y") and f("1", "2") else "ok")`,
           output: `weak`,
         },
       },
@@ -1105,31 +1201,45 @@ print('weak' if f('x','y') and f('1','2') else 'ok')`,
         subtopicId: "S28-T3-B",
         kind: "transfer",
         instruction:
-          "S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "dict",
+          "S28-T3-B-E3 · Contrato de borde observable (no call-order): un fake writer hace append al store. El starter hardcodea 0 y `calls`. Tras un insert sintético, imprime dos líneas: `rows_written` real y el nombre escrito (`Ana`). Aserta efecto de estado, no el orden de métodos internos.",
+        hint: "result['rows_written'] y store[-1]['name'] (o result de un get)",
         hints: [
-          "dict",
-          "borde",
+          "Efecto observable: filas en el store + campo name",
+          "No hace falta mockear el orden de métodos — eso es sobre-mocking",
         ],
-        edgeCases: ["no asserts de call order"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["no asserts de call order; estado del fake es el oráculo"],
+        tests: "Dos líneas: rows_written y name escrito (efecto de estado)",
+        feedback:
+          "Contrato de borde = efecto observable (filas + name), no el orden de métodos internos. Sobre-mocking aserta 'calls'.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · rows_written del double de integración
-# DEFECT: reporta 0 aunque el insert escribió una fila
-result = {'rows_written': 1, 'table': 'e'}
+          code: `# BUG intencional: inventa métricas de calls en vez de leer el efecto
+store = []
+
+def write_row(row):
+    store.append(row)
+    return {"rows_written": len(store), "table": "e"}
+
+result = write_row({"id": "1", "name": "Ana"})
 print(0)
-print('table', result['table'])
-print('ok', True)
+print("calls")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print({'rows_written': 1}['rows_written'])`,
-          output: `1`,
+          code: `store = []
+
+def write_row(row):
+    store.append(row)
+    return {"rows_written": len(store), "table": "e"}
+
+result = write_row({"id": "1", "name": "Ana"})
+print(result["rows_written"])
+print(store[-1]["name"])`,
+          output: `1
+Ana`,
         },
       },
       {
@@ -1137,37 +1247,35 @@ print('ok', True)
         subtopicId: "S28-T4-A",
         kind: "guided",
         instruction:
-          "S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "sqlite3",
+          "S28-T4-A-E1 · Integración sqlite memoria: CREATE table, INSERT un row, imprime COUNT(*). El starter hardcodea 0 sin SELECT. Una línea: `1`.",
+        hint: "c.execute('select count(*) from t').fetchone()[0]",
         hints: [
-          "sqlite3",
-          "fetchone",
+          "c.execute('select count(*) from t').fetchone()[0]",
+          ":memory: se pierde al close — cuenta antes de cerrar",
         ],
         edgeCases: [":memory: se pierde al close"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: 1 (COUNT(*) real tras INSERT en sqlite :memory:)",
+        feedback:
+          "Integración honesta lee el motor (SELECT COUNT), no hardcodea 0. :memory: se pierde al close — cuenta antes de cerrar.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · sqlite integration count
-# DEFECT: no ejecuta SELECT y hardcodea 0
+          code: `# BUG intencional: no ejecuta SELECT y hardcodea 0
 import sqlite3
-c=sqlite3.connect(':memory:')
-c.execute('create table t(x int)')
-c.execute('insert into t values (1)')
+c = sqlite3.connect(":memory:")
+c.execute("create table t(x int)")
+c.execute("insert into t values (1)")
 print(0)
-print('want_count', 1)
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
           code: `import sqlite3
-c=sqlite3.connect(':memory:')
-c.execute('create table t(x int)')
-c.execute('insert into t values (1)')
-print(c.execute('select count(*) from t').fetchone()[0])`,
+c = sqlite3.connect(":memory:")
+c.execute("create table t(x int)")
+c.execute("insert into t values (1)")
+print(c.execute("select count(*) from t").fetchone()[0])`,
           output: `1`,
         },
       },
@@ -1176,30 +1284,28 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         subtopicId: "S28-T4-A",
         kind: "independent",
         instruction:
-          "S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "n*(n-1)//2",
+          "S28-T4-A-E2 · Cardinalidad de pares candidatos C(n,2) = n*(n-1)//2 para n=4 → 6. El starter usa n*n (incluye diagonal y dobles). Una línea: `6`.",
+        hint: "n * (n - 1) // 2",
         hints: [
-          "n*(n-1)//2",
-          "candidatos",
+          "n * (n - 1) // 2",
+          "Pares no ordenados sin auto-pares",
         ],
-        edgeCases: ["blocking reduce pares"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["blocking reduce pares en prod"],
+        tests: "Una línea: 6 = C(4,2) = n*(n-1)//2",
+        feedback:
+          "n*n incluye diagonal y dobles. Cardinalidad de pares candidatos no ordenados es n*(n-1)//2.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · pares ER n*(n-1)//2
-# DEFECT: usa n*n (incluye diagonal)
-n=4
+          code: `# BUG intencional: usa n*n (incluye diagonal)
+n = 4
 print(n * n)
-print('n', n)
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `n=4
+          code: `n = 4
 print(n * (n - 1) // 2)`,
           output: `6`,
         },
@@ -1209,32 +1315,41 @@ print(n * (n - 1) // 2)`,
         subtopicId: "S28-T4-A",
         kind: "transfer",
         instruction:
-          "S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "list comp",
+          "S28-T4-A-E3 · Reanudación + encoding Unicode: `done={'a'}`, `items=['a','b','c']`. El starter reprocesa todo y marca encoding_ok False. Imprime dos líneas: pendientes en orden original, y `encoding_ok True` solo si la forma NFD de “María” (`'Mari\\u0301a'`) se iguala a `'María'` tras `unicodedata.normalize('NFC', …)`.",
+        hint: "pending = [i for i in items if i not in done]; NFC unifica tildes precompuestas",
         hints: [
-          "list comp",
-          "reanudación",
+          "list comp filtrando done",
+          "import unicodedata; normalize('NFC', nfd) == 'María'",
         ],
-        edgeCases: ["timeout + resume"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["timeout + resume; NFD vs NFC en fuentes Latam"],
+        tests: "Dos líneas: pendientes ['b','c'] y encoding_ok True tras NFC",
+        feedback:
+          "Reanudación salta ids en done; NFC unifica NFD de tildes Latam. Reprocesar todo + comparar NFD crudo falla ambos contratos.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · resume skips done
-# DEFECT: reprocessa items ya en done
-done, items={'a'}, ['a','b']
+          code: `# BUG intencional: reprocesa done e ignora normalización Unicode NFC
+import unicodedata
+
+done, items = {"a"}, ["a", "b", "c"]
+nfd = "Mari\u0301a"  # a + combining acute (NFD)
 print(items)
-print('done', sorted(done))
-print('ok', True)
+print("encoding_ok", nfd == "María")  # False sin NFC
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `done, items={'a'}, ['a','b']
-print([i for i in items if i not in done])`,
-          output: `['b']`,
+          code: `import unicodedata
+
+done, items = {"a"}, ["a", "b", "c"]
+pending = [i for i in items if i not in done]
+nfd = "Mari\u0301a"
+nfc = unicodedata.normalize("NFC", nfd)
+print(pending)
+print("encoding_ok", nfc == "María")`,
+          output: `['b', 'c']
+encoding_ok True`,
         },
       },
       {
@@ -1242,30 +1357,28 @@ print([i for i in items if i not in done])`,
         subtopicId: "S28-T4-B",
         kind: "guided",
         instruction:
-          "S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "sorted",
+          "S28-T4-B-E1 · Orden estable del batch: imprime sorted(['b','a']). El starter imprime la lista cruda. Una línea: `['a', 'b']`.",
+        hint: "sorted(ids)",
         hints: [
-          "sorted",
-          "orden",
+          "sorted(ids)",
+          "set order no es estable entre corridas",
         ],
         edgeCases: ["set order no es estable"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: ['a', 'b'] con sorted del batch",
+        feedback:
+          "Orden de sets/listas crudas es flake en CI. sorted fija el orden del batch antes de comparar goldens.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · orden estable del batch
-# DEFECT: no aplica sorted
-ids = ['b', 'a']
+          code: `# BUG intencional: no aplica sorted
+ids = ["b", "a"]
 print(ids)
-print('want_sorted', True)
-print('ok', True)
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print(sorted(['b', 'a']))`,
+          code: `print(sorted(["b", "a"]))`,
           output: `['a', 'b']`,
         },
       },
@@ -1274,31 +1387,29 @@ print('ok', True)
         subtopicId: "S28-T4-B",
         kind: "independent",
         instruction:
-          "S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "umbral",
+          "S28-T4-B-E2 · Política CI: si flake_rate > 0 imprime `fail_job`; si no, `ok`. El starter invierte la polaridad. flake_rate=0.01 → una línea `fail_job`.",
+        hint: "fail_job si flake_rate > 0",
         hints: [
-          "umbral",
-          "gate",
+          "fail_job si flake_rate > 0",
+          "Cuarentena documentada ≠ ocultar con retry",
         ],
-        edgeCases: ["cuarentena documentada"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["cuarentena documentada con ticket"],
+        tests: "Una línea: fail_job si flake_rate > 0 en la suite de merge",
+        feedback:
+          "Cualquier flake_rate > 0 debe fallar el job de gate. Invertir polaridad o subir retries sin root-cause no es política de CI.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · flake_rate > 0 falla el job
-# DEFECT: polaridad invertida del gate
-flake_rate=0.01
-print('ok' if flake_rate > 0 else 'fail_job')
-print('flake_rate', flake_rate)
-print('ok', True)
+          code: `# BUG intencional: polaridad invertida del gate
+flake_rate = 0.01
+print("ok" if flake_rate > 0 else "fail_job")
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `flake_rate=0.01
-print('fail_job' if flake_rate > 0 else 'ok')`,
+          code: `flake_rate = 0.01
+print("fail_job" if flake_rate > 0 else "ok")`,
           output: `fail_job`,
         },
       },
@@ -1307,30 +1418,43 @@ print('fail_job' if flake_rate > 0 else 'ok')`,
         subtopicId: "S28-T4-B",
         kind: "transfer",
         instruction:
-          "S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
-        hint: "string",
+          "S28-T4-B-E3 · Transferencia CI determinista: implementa `run(seed)` que fije seed, genere 5 letras de `'abc'` y devuelva `sorted(...)`. El starter no re-siembra entre corridas y no ordena. Imprime dos líneas: si `run(7)==run(7)` (debe ser True) y el resultado de `run(7)`.",
+        hint: "Dentro de run: random.seed(seed); return sorted([...])",
         hints: [
-          "string",
-          "orden",
+          "Cada llamada a run debe seedear de nuevo — si no, la 2.ª corrida diverge",
+          "sorted garantiza orden estable del batch en CI",
         ],
-        edgeCases: ["lint primero opcional"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["sin seed la igualdad entre corridas es flake"],
+        tests: "Dos líneas: True (run(7)==run(7)) y la lista ordenada de run(7)",
+        feedback:
+          "Cada run debe seedear de nuevo y ordenar. Sin seed+sorted, dos 'mismas' corridas CI divergen: eso es un flake.",
         starterCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `# CASO-LIM-028 · pirámide de pruebas ER
-# DEFECT: orden invertido integration→data→unit
-print('integration→data→unit')
-print('want', 'unit→data→integration')
-print('ok', True)
+          code: `# BUG intencional: no re-siembra ni ordena → dos corridas divergen / orden inestable
+import random
+
+def run(seed):
+    # falta random.seed(seed) y sorted
+    return [random.choice("abc") for _ in range(5)]
+
+print(run(7) == run(7))
+print(run(7))
 `,
         },
         solutionCode: {
-          language: 'python',
+          language: "python",
           title: "exercise.py",
-          code: `print('unit→data→integration')`,
-          output: `unit→data→integration`,
+          code: `import random
+
+def run(seed):
+    random.seed(seed)
+    return sorted(random.choice("abc") for _ in range(5))
+
+print(run(7) == run(7))
+print(run(7))`,
+          output: `True
+['a', 'a', 'b', 'b', 'c']`,
         },
       },
     ],
@@ -1338,39 +1462,75 @@ print('ok', True)
   youDo: {
     title: "Suite QA del motor ER — propiedades, goldens e integración",
     context:
-      "Entrega una suite sintética que cace encoding, cardinalidad, orden, timeout/reanudación y drift de golden para el pipeline ER de CP-N3-A. Usa fixtures mínimas, fakes de reloj/HTTP y sqlite memoria. Sin PII real; matching ≠ fraude. No editar seed/checkpoint/ledger.",
+      "Entrega una suite sintética que cace encoding, cardinalidad, orden, timeout/reanudación y drift de golden para el pipeline ER de CP-N3-A. Usa fixtures mínimas, fakes de reloj/HTTP y sqlite memoria. Sin PII real; matching ≠ fraude. Extiende lo aprendido en S27 (pytest AAA/fixtures) con las capas de S28.",
     objectives: [
-      "Invariantes + generación con seed",
-      "Metamorphic/simetría de comparadores",
-      "Schema/quality contracts y golden con reconcile bloqueado",
-      "Integración sqlite de candidatos + CI determinista",
+      "Invariantes + generación con seed (idempotencia de normalize)",
+      "Metamórficas/simetría de comparadores documentadas",
+      "Contratos de schema/calidad y golden con reconcile bloqueado sin approve",
+      "Integración sqlite de candidatos + CI determinista (seed, sort, reloj)",
     ],
     requirements: [
-      "Fixtures sintéticas mínimas",
-      "UNVERIFIED flakes = 0 en la suite gate",
-      "Documentación es-PE",
-      "Alineación QA ER (CP-N3-A)",
+      "Fixtures sintéticas mínimas (nombres/emails @example.pe, sin PII real)",
+      "Al menos: (1) test de propiedad/idempotencia con seed, (2) validador de schema con lista de errores, (3) golden con drift bloqueado sin approve, (4) fake de reloj o HTTP, (5) integración sqlite de pares candidatos, (6) sort/seed documentados para CI",
+      "Cero pruebas inestables (flakes) en la suite que bloquea merge: seed, reloj inyectado y orden estable",
+      "Documentación en español profesional (es-PE): límites, evidencias, qué no prueba la suite",
+      "Alineación QA ER del hilo CP-N3-A (solo misma entidad; sin etiquetas de fraude/parentesco)",
     ],
-    starterCode: `# QA ER — esqueleto S28
+    starterCode: `# Suite QA ER — esqueleto S28 (organiza en archivos al crecer)
+# Layout sugerido:
+#   tests/test_properties.py   # idempotencia / metamórficas con seed
+#   tests/test_schema_golden.py
+#   tests/test_doubles.py      # FakeClock / FakeHTTP
+#   tests/test_integration.py  # sqlite pares + encoding NFC
 import random
+import unicodedata
+from datetime import datetime, timezone
+
 random.seed(0)
 
 def normalize(s: str) -> str:
     return " ".join(s.casefold().split())
 
-# Contrato: property tests, schema validate, goldens
+def validate_record(r: dict) -> list[str]:
+    err = []
+    if not r.get("id"):
+        err.append("id requerido")
+    score = r.get("score")
+    if score is not None and not (0 <= float(score) <= 1):
+        err.append("score fuera de [0,1]")
+    return err
+
+def test_normalize_idempotent(n_cases: int = 20) -> None:
+    random.seed(0)
+    alphabet = "a bÁé"
+    for _ in range(n_cases):
+        s = "".join(random.choice(alphabet) for _ in range(random.randint(0, 10)))
+        once = normalize(s)
+        assert once == normalize(once)
+
+# Completa: golden+blocked_drift, FakeClock/FakeHTTP, sqlite de pares,
+# unicodedata NFC en nombres, sorted+seed documentados en README de la suite.
+
 if __name__ == "__main__":
-    assert normalize(normalize(" A ")) == normalize(" A ")
+    test_normalize_idempotent()
+    assert validate_record({"id": "", "score": 1.5}) != []
     print("qa_starter_ok")
 `,
     portfolioNote:
-      "Suite de QA para CP-N3-A: propiedades, contratos de datos e integración determinista. Otra lane califica; no marcar passed aquí.",
+      "Suite de QA para CP-N3-A: propiedades, contratos de datos e integración determinista. Documenta límites y evidencia; no uses PII real ni auto-etiquetes fraude.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
-      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
-      { criterion: "Código legible y límites claros", weight: "10%" },
+      {
+        criterion:
+          "Cubre propiedades, contratos/golden, dobles e integración determinista del ER sintético",
+        weight: "25%",
+      },
+      { criterion: "Correctitud técnica en entorno local-python declarado", weight: "20%" },
+      {
+        criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude",
+        weight: "20%",
+      },
+      { criterion: "Pruebas o casos de borde documentados (encoding, orden, resume)", weight: "15%" },
+      { criterion: "Código legible y límites claros de la suite", weight: "10%" },
       { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
@@ -1378,39 +1538,64 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un test metamórfico verifica:",
-        options: ["Solo un número mágico", "Que la red esté caída", "Fraude", "Relaciones predecibles entre entradas transformadas y salidas"],
+        options: [
+          "Que la salida sea siempre un número mágico fijo sin mirar el input",
+          "Que dos ejecuciones con reloj real coincidan siempre en el timestamp",
+          "Que el score de matching autorice una etiqueta de fraude",
+          "Relaciones predecibles entre entradas transformadas y salidas",
+        ],
         correctIndex: 3,
         explanation:
-          "Relaciona salidas bajo transformaciones conocidas.",
+          "Relaciona salidas bajo transformaciones conocidas (p. ej. padding no cambia normalize) cuando no hay oráculo absoluto del score.",
       },
       {
         question: "Actualizar un golden con drift sin review es:",
-        options: ["Buena práctica", "Riesgo de ocultar regresiones", "Obligatorio en CI", "Irrelevante"],
+        options: [
+          "Buena práctica de velocidad en CI",
+          "Riesgo de ocultar regresiones de matching",
+          "Obligatorio en cada merge",
+          "Irrelevante si el job es verde a veces",
+        ],
         correctIndex: 1,
         explanation:
-          "Reconcile debe ser aprobado.",
+          "Reconcile debe ser aprobado: sin review, el golden deja de proteger el contrato.",
       },
       {
-        question: "Sobre-mocking típico:",
-        options: ["Probar lógica pura real", "Usar sqlite memoria", "Acoplar el test a detalles internos y ocultar bugs", "Fijar seed"],
+        question: "Sobre-mocking típico en el matcher:",
+        options: [
+          "Probar lógica pura real de normalize/comparador",
+          "Usar sqlite memoria para pares candidatos",
+          "Acoplar el test a detalles internos y ocultar bugs con dobles que siempre pasan",
+          "Fijar seed en generadores de casos",
+        ],
         correctIndex: 2,
         explanation:
-          "Mockea I/O, no el corazón del matching.",
+          "Mockea I/O externo; deja el corazón del matching real bajo prueba cuando es puro y barato.",
       },
       {
-        question: "Flakes en la suite gate de ER se manejan:",
-        options: ["Con determinismo (seed/reloj/sort) y fallo de job si persisten", "Ignorándolos", "Subiendo retries a 100", "Borrando tests"],
+        question: "Flakes en la suite que bloquea merge del ER se manejan:",
+        options: [
+          "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+          "Ignorándolos si el promedio del día es verde",
+          "Subiendo retries a 100 sin root-cause",
+          "Borrando el test que molesta",
+        ],
         correctIndex: 0,
         explanation:
-          "CI determinista es parte del outcome de S28.",
+          "CI determinista es outcome de S28: seed, reloj inyectado, orden estable; retry no es fix.",
       },
       {
-        question: "Un golden de schema con drift no aprobado debe…",
-        options: ["promoverse igual para no frenar el pipeline", "borrarse para limpiar el repo", "reemplazarse por un mock que siempre pasa", "bloquear el job hasta review/approve del contrato"],
-        correctIndex: 3,
+        question: "En integración local del ER, sqlite en memoria sirve sobre todo para…",
+        options: [
+          "Reemplazar por completo a Postgres en producción",
+          "Validar schema, joins de candidatos y cardinalidad sin red ni contenedor",
+          "Generar PII real de contactos bancarios para el golden",
+          "Evitar documentar encoding NFC/NFD porque “ya funciona en laptop”",
+        ],
+        correctIndex: 1,
         explanation:
-          "Goldens protegen contratos de datos: drift sin approve es blocked, no éxito silencioso.",
-      }
+          "Es análogo honesto a testcontainers: prueba lógica de pares y schema; el dialecto real se re-valida cuando el almacén (S29) sea Postgres.",
+      },
     ],
   },
   resources: {
@@ -1418,7 +1603,7 @@ if __name__ == "__main__":
       {
         label: "Hypothesis (property testing)",
         url: "https://hypothesis.readthedocs.io/",
-        note: "Generación de casos desde propiedades",
+        note: "Generación de casos desde propiedades (siguiente paso industrial tras seed+bucle)",
       },
       {
         label: "Hypothesis — What you can generate",
@@ -1438,7 +1623,7 @@ if __name__ == "__main__":
       {
         label: "pytest — Fixtures",
         url: "https://docs.pytest.org/en/stable/how-to/fixtures.html",
-        note: "Aislamiento y scopes",
+        note: "Aislamiento y scopes (compón propiedades como tests pytest de S27)",
       },
       {
         label: "Great Expectations (docs concept)",
@@ -1454,7 +1639,7 @@ if __name__ == "__main__":
     books: [
       {
         label: "Growing Object-Oriented Software, Guided by Tests",
-        note: "Contratos y dobles",
+        note: "Contratos de borde y dobles",
       },
       {
         label: "Data Quality Fundamentals",

@@ -80,7 +80,7 @@ export interface SelfCheck {
 
 export interface Resources {
   docs: { label: string; url: string; note?: string }[]
-  books: { label: string; note: string }[]
+  books: { label: string; note: string; url?: string }[]
   courses: { label: string; url: string; note?: string }[]
 }
 

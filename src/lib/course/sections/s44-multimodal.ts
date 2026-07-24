@@ -9,28 +9,28 @@ export const section44: CourseSection = {
   estimatedHours: 20,
   level: "Master",
   phase: 3,
-  icon: "Image",
+  icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **CI/CD y seguridad de la cadena de suministro** convierten el servicio contenedorizado (S43) en un artefacto verificable: digest, SBOM, provenance y gates de promoción. Se promociona solo cuando el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging. Id legacy `multimodal` se conserva; el path V3 es supply-chain CI/CD, no visión multimodal/LLM.",
+    "En equipos de plataforma y producto, **CI/CD y seguridad de la cadena de suministro** convierten el servicio contenedorizado (S43) en un artefacto verificable: digest, SBOM, provenance y gates de promoción. Se promociona solo cuando el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging. En el lab usamos contratos al estilo GitHub Actions/SLSA modelados en Python (stdlib), sin registry remoto obligatorio.",
   learningOutcomes: [
-    { text: "Corre lint/types/tests en matrices" },
-    { text: "Usa caches, artifacts y condiciones" },
-    { text: "Minimiza permisos y escanea secretos" },
-    { text: "Genera SBOM, provenance y attestations" },
-    { text: "Configura environments y approvals" },
-    { text: "Despliega con canary y rollback" },
-    { text: "Aplica políticas de branch/review" },
-    { text: "Maneja fallos con evidencia auditable" },
+    { text: "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo" },
+    { text: "Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build" },
+    { text: "Aplicar least privilege, pin de actions por SHA completo y secret scanning antes de publicar" },
+    { text: "Producir SBOM + provenance enlazados al mismo digest y rechazar attestation divergente" },
+    { text: "Promover entre environments solo con aprobación independiente y sin rebuild del artefacto testeado" },
+    { text: "Ejecutar canary con umbral de error y demostrar rollback al digest previo dentro del RTO" },
+    { text: "Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)" },
+    { text: "Clasificar fallos críticos con bloqueo, logs redactados, dueño y evidencia retenida (no continue-on-error silencioso)" },
   ],
   theory: [
     {
       heading: "Ruta de S44: CI/CD y seguridad de la cadena de suministro",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **CI matrix:** combinaciones soportadas de runtime/OS. **Least privilege:** permisos mínimos del workflow. **Pinning:** deps y actions por digest/versión fija. **SBOM:** inventario de componentes del artefacto. **Provenance/attestation:** quién construyó qué y con qué inputs (SLSA). **Canary/blue-green:** promoción gradual. **Rollback:** volver a digest previo verificado. **Branch protection:** review + checks obligatorios antes de merge.",
-        "Esta sección lleva el servicio de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Solo contratos al estilo GitHub Actions/SLSA (referencia profesional; progressive disclosure con dicts stdlib). El caso `CASO-PIU-044` (ops ficticio en Piura) es sintético: sin secretos reales ni registry remoto obligatorio.",
-        "Producto incremental: pipeline con supply-chain gates. Entrada: commit revisado, deps fijadas, workflow least-privilege. Salida: artefacto por digest, SBOM, provenance y evidencia de promote/rollback. Error de promoción: test crítico rojo, secreto en logs, dep vulnerable sin pin o attestación ausente.",
-        "Orden: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Teoría medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de pipeline por ejercicio. Id legacy `multimodal` no implica multimodalidad; V3 es CI/CD supply chain del control plane. Stack didáctico: **stdlib** (dicts) modelando contratos GHA/SLSA sin registry remoto.",
+        "**Diccionario de la sección** (léelo antes de T1). **CI matrix:** combinaciones soportadas de runtime/OS. **Least privilege:** permisos mínimos del workflow. **Pinning:** deps y actions por digest/SHA inmutable. **SBOM:** inventario de componentes del artefacto. **Provenance/attestation:** quién construyó qué y con qué inputs (SLSA). **Canary/blue-green:** promoción gradual. **Rollback:** volver a digest previo verificado. **Branch protection:** review + checks obligatorios antes de merge.",
+        "Esta sección lleva el servicio contenedorizado de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Modelamos contratos al estilo GitHub Actions/SLSA con dicts de **stdlib** (sin registry remoto obligatorio). El caso `CASO-PIU-044` es un repositorio sintético de operaciones en Piura: sin secretos reales ni PII.",
+        "Producto incremental: pipeline con supply-chain gates. Entrada: commit revisado, dependencias fijadas, workflow con least privilege. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promote/rollback. El gate bloquea si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente.",
+        "Orden de aprendizaje: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Primero observas el contrato en demos locales; luego reparas predicados fallidos (E1–E3); al final armas el pipeline de portafolio con evidencia de promote/rollback. Stack didáctico: **stdlib** (dicts) modelando contratos GHA/SLSA sin registry remoto.",
       ],
       code: {
         language: 'python',
@@ -39,17 +39,17 @@ export const section44: CourseSection = {
     return {
         "case": "CASO-PIU-044",
         "gates": ["critical_tests_green", "sbom_provenance", "approval_then_rollback_demo"],
-        "multimodal_vision_topic": False,
+        "supply_chain_cicd": True,
         "unpinned_vuln_dep_ok": False,
     }
 
 c = section_contract()
 print("case", c["case"])
-print("multimodal_vision_topic", c["multimodal_vision_topic"])
+print("supply_chain_cicd", c["supply_chain_cicd"])
 print("unpinned_vuln_dep_ok", c["unpinned_vuln_dep_ok"])
 `,
         output: `case CASO-PIU-044
-multimodal_vision_topic False
+supply_chain_cicd True
 unpinned_vuln_dep_ok False`,
       },
       callout: {
@@ -62,23 +62,34 @@ unpinned_vuln_dep_ok False`,
       heading: "lint/types/tests y matrices",
       subtopicId: "S44-T1-A",
       paragraphs: [
-        "CI ejecuta **checks rápidos antes de costosos** (lint → types → tests), usa matrices solo para combinaciones de runtime/OS **soportadas** (no combinatoria infinita) y conserva logs/artifacts suficientes para reproducir un fallo en otra máquina. Un test verde sin evidencia no es un gate de supply chain.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: lint/types/tests y matriz soportada en verde. Error: test crítico rojo, secreto en logs, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging sintético.",
-        "Aplicación de `lint/types/tests y matrices` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es matriz `['3.11','3.12']` + steps `lint/typecheck/test` en verde. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Un pipeline de supply chain no empieza publicando: empieza **certificando el código**. CI ejecuta checks **rápidos antes de costosos** (lint → types → tests) para fallar barato. La **matriz** solo cubre runtimes/OS que el equipo realmente soporta (p. ej. Python 3.11 y 3.12), no una combinatoria infinita que gasta minutos y oculta la señal. Un test verde sin logs ni artifact no es gate: es un semáforo sin evidencia. El dict del lab mapea claves de un workflow real (`on`, `permissions`, `matrix`, `steps`).",
+        "Contrato de CI rápido. Entrada: commit con lockfile y lista de runtimes soportados. Salida: `lint`, `types` y `tests` en **AND** sobre exactamente la matriz soportada. Error de gate: un check rojo o una versión fuera de matriz → `FAIL_CI_GATE`. Incertidumbre: falta el campo `supported` → `REVIEW_MATRIX`. Este subtema no publica artefactos; solo certifica que el código es apto para los pasos costosos de supply chain.",
+        "En `CASO-PIU-044-1A` el repo de ops de Piura declara matriz `{'3.11','3.12'}` y steps `lint/typecheck/test`. El PR solo avanza si los tres checks pasan **y** la matriz ejecutada coincide con la soportada. Si falta `supported`, no se asume “todo OK”: se deriva a revisión de matriz. Sin secretos reales ni PII; la evidencia son logs retenidos del job.",
       ],
       code: {
         language: 'python',
         title: "lint_types_tests_matrix.py",
-        code: `def ci_plan(py_versions, steps, fail_fast=True):
-    return {"matrix": list(py_versions), "steps": list(steps), "fail_fast": fail_fast}
+        code: `# Superficie real de un workflow GHA modelada en dict (stdlib).
+# Equivale a:
+#   on: [pull_request, push]
+#   permissions: { contents: read }
+#   strategy.matrix.python: [3.11, 3.12]
+#   steps: lint → typecheck → test  (barato → caro)
+def ci_plan(py_versions, steps, fail_fast=True):
+    return {
+        "on": ["pull_request", "push"],
+        "permissions": {"contents": "read"},
+        "strategy": {"matrix": {"python": list(py_versions)}, "fail-fast": fail_fast},
+        "steps": list(steps),
+    }
 
 p = ci_plan(["3.11", "3.12"], ["lint", "typecheck", "test"])
-print("matrix", p["matrix"])
+print("matrix", p["strategy"]["matrix"]["python"])
 print("steps", p["steps"])
-print("fail_fast", p["fail_fast"])`,
+print("permissions", p["permissions"])`,
         output: `matrix ['3.11', '3.12']
 steps ['lint', 'typecheck', 'test']
-fail_fast True`,
+permissions {'contents': 'read'}`,
       },
       callout: {
         type: "tip",
@@ -91,14 +102,15 @@ fail_fast True`,
       heading: "caches, artifacts y condiciones",
       subtopicId: "S44-T1-B",
       paragraphs: [
-        "Caches son optimización no fuente de verdad; artifacts llevan digest/retención y condiciones de workflow no omiten gates en forks o tags.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: cache miss conserva resultado y artifact es verificable. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `caches, artifacts y condiciones` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es cache miss conserva resultado y artifact es verificable. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "La **cache** acelera installs (pip/npm) pero **no es fuente de verdad**: un cache hit no prueba que el build sea reproducible. El **artifact** (wheel, SBOM, logs) lleva digest y retención porque es la evidencia que otro job o auditor puede re-descargar. Las **condiciones** del workflow (`if:`, filtros de branch/tag/fork) deben cubrir los caminos de release; un tag de prod sin los mismos gates que `main` es un atajo peligroso.",
+        "Contrato de evidencia de build. Entrada: clave de cache ligada al lockfile, flag de que un cache miss aún produce resultado correcto, digest del artifact y política de retención, más cobertura de condiciones en tags. Salida: cache opcional + artifact verificable (`sha256:…`, retención ≥ 7 días) + condiciones completas. Breach: cache global sin lock, digest `latest`, retención 0 o tags sin gates → `DISCARD_PIPELINE_RESULT`. Incertidumbre: falta `conditions_cover_tags` → `INSPECT_WORKFLOW_CONDITION`.",
+        "En `CASO-PIU-044-1B` el equipo de Piura usa `cache_key` prefijado con `lock-` (derivado del hash del lockfile). Si la cache falla, el job sigue y produce el wheel con digest; solo entonces se adjunta el artifact. Publicar un artifact sin digest o omitir gates en tags de release se trata como resultado no confiable.",
       ],
       code: {
         language: 'python',
         title: "caches_artifacts_conditions.py",
         code: `def publish_if(success: bool, artifacts: list) -> dict:
+    """Cache acelera; solo se publican artifacts si el job tuvo éxito."""
     return {
         "cache": {"pip": True},
         "artifacts": artifacts if success else [],
@@ -124,22 +136,47 @@ if on_success`,
       heading: "permisos mínimos, pinning y secret scanning",
       subtopicId: "S44-T2-A",
       paragraphs: [
-        "Tokens de CI empiezan read-only, acciones se fijan por commit y secret scanning bloquea exposición; una dependencia nueva requiere revisión.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: permisos mínimos y acciones pinned. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `permisos mínimos, pinning y secret scanning` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es permisos mínimos y acciones pinned. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "El token del workflow es un **atacante en potencia** si tiene write amplio. Least privilege empieza en `permissions:` (p. ej. `contents: read`) y solo eleva en jobs que publican. Las **actions** de terceros se pinnan por **SHA completo de commit** (40 hex), no por tag flotante `v4` ni stub corto: el tag se puede mover; el SHA no. **Secret scanning** (gitleaks u equivalente) bloquea si hay hits en el diff o en logs. Lee el esqueleto YAML de abajo: es la superficie real de GitHub Actions modelada aquí con stdlib.",
+        "Contrato de endurecimiento del workflow. Entrada: mapa de permisos del token, referencia de action, conteo de secret hits y flag de dependency review. Salida: valores de permiso ⊆ {read, none}, action pinned por SHA de 40 hex, `secret_hits == 0` y review de deps. Breach (write amplio, pin ausente, secreto en logs) → `REVOKE_AND_ROTATE`. Incertidumbre: falta `dependency_review` → `SECURITY_APPROVAL`.",
+        "En `CASO-PIU-044-2A` el workflow de Piura usa `contents: read` y `actions/checkout@` + SHA de 40 caracteres. Si un job de release necesita write, se declara solo en ese job — no a nivel de workflow. Un `secret_hits > 0` obliga a rotar credenciales antes de reintentar el pipeline.",
       ],
       code: {
         language: 'python',
         title: "min_perms_pin_secret_scan.py",
-        code: `def workflow_security(perms: dict, action_ref: str) -> dict:
-    pinned = "@" in action_ref and len(action_ref.split("@")[-1]) >= 7
-    return {"min_perms": perms, "pinned": pinned, "secret_scan": True}
+        code: `# Esqueleto GHA (YAML como string) — pin por SHA completo, least privilege
+MINI_WORKFLOW = """
+name: piura-ops-ci
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - name: secret-scan
+        run: echo gitleaks-stub-ok
+"""
 
-s = workflow_security({"contents": "read"}, "actions/checkout@a1b2c3d")
+def workflow_security(yaml_text: str) -> dict:
+    pin_ok = False
+    for line in yaml_text.splitlines():
+        if "uses:" in line and "@" in line:
+            ref = line.split("@")[-1].strip()
+            pin_ok = len(ref) == 40 and all(
+                c in "0123456789abcdef" for c in ref.lower()
+            )
+    # bloque permissions: antes de jobs — sin write amplio
+    perms_block = yaml_text.split("permissions:")[-1].split("jobs:")[0]
+    min_perms = "contents: read" in perms_block and "write" not in perms_block
+    secret_scan = "secret-scan" in yaml_text or "gitleaks" in yaml_text
+    return {"min_perms": min_perms, "pinned": pin_ok, "secret_scan": secret_scan}
+
+s = workflow_security(MINI_WORKFLOW)
 print("min_perms", s["min_perms"])
 print("pinned", s["pinned"])
 print("secret_scan", s["secret_scan"])`,
-        output: `min_perms {'contents': 'read'}
+        output: `min_perms True
 pinned True
 secret_scan True`,
       },
@@ -147,16 +184,16 @@ secret_scan True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S44-T2-A conserva permisos mínimos y acciones pinned; no conviertas `REVOKE_AND_ROTATE` ni `SECURITY_APPROVAL` en éxito silencioso.",
+          "La revisión de S44-T2-A conserva permisos mínimos y acciones pinned por SHA completo (en el YAML real, no solo en un flag booleano); no conviertas `REVOKE_AND_ROTATE` ni `SECURITY_APPROVAL` en éxito silencioso.",
       },
     },
     {
       heading: "SBOM, provenance y attestations",
       subtopicId: "S44-T2-B",
       paragraphs: [
-        "SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite verificar, no garantiza calidad por sí sola.",
-        "Contrato de integridad. Entrada: digest del artefacto y digest referenciado por el SBOM/provenance. Salida: `provenance_ok` solo si coinciden. Error: publicar sin attestation o con SBOM de otro build. Criterio: en el lab Piura sintético el gate `REJECT_ATTESTATION` bloquea release si digests divergen.",
-        "Aplicación a `CASO-PIU-044-T2B`: `sbom_summary` cuenta 3 pkgs; `provenance_ok(d,d)` es True. SLSA-style evidence, no magia de seguridad.",
+        "El **SBOM** (SPDX/CycloneDX) enumera componentes y versiones del artefacto. La **provenance** (estilo SLSA) enlaza fuente → build → subject digest: quién construyó qué, con qué inputs. Una **attestation** firmada permite verificar esa cadena; no “garantiza calidad” por sí sola, pero sí impide promover un binario huérfano de evidencia. Publicar sin attestation o con SBOM de otro build rompe la cadena de suministro.",
+        "Contrato de integridad. Entrada: digest del artefacto y digests referenciados por SBOM/provenance, más flag de attestation válida. Salida: `provenance_ok` solo si artifact, SBOM y subject de provenance son el **mismo** digest y la attestation es válida. Error: digests divergentes o attestation inválida → `REJECT_ATTESTATION`. Incertidumbre: falta `attestation_valid` → `REBUILD_PROVENANCE`.",
+        "En `CASO-PIU-044-2B` el build de Piura genera un SBOM con 3 paquetes sintéticos y provenance GHA apuntando a `sha256:aaa`. Si el wheel promovido lleva otro digest, el gate rechaza aunque el README diga “OK”. Evidencia SLSA-style: medible, no magia de seguridad.",
       ],
       code: {
         language: 'python',
@@ -164,13 +201,17 @@ secret_scan True`,
         code: `def sbom_summary(components: list, fmt="spdx") -> dict:
     return {"sbom": fmt, "pkgs": len(components), "prov": "gha"}
 
+def provenance_ok(artifact_digest: str, sbom_digest: str, subject: str) -> bool:
+    return bool(artifact_digest) and len({artifact_digest, sbom_digest, subject}) == 1
+
 s = sbom_summary(["pkg-a", "pkg-b", "pkg-c"])
+d = "sha256:aaa"
 print("sbom", s["sbom"])
 print("pkgs", s["pkgs"])
-print("prov", s["prov"])`,
+print("prov_ok", provenance_ok(d, d, d))`,
         output: `sbom spdx
 pkgs 3
-prov gha`,
+prov_ok True`,
       },
       callout: {
         type: "tip",
@@ -183,9 +224,9 @@ prov gha`,
       heading: "environments y approvals",
       subtopicId: "S44-T3-A",
       paragraphs: [
-        "Environments separan credenciales y políticas; producción exige aprobación independiente y evidencia del mismo artefacto probado.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: promoción sin rebuild y con aprobación. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `environments y approvals` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es promoción sin rebuild y con aprobación. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Los **environments** (dev → staging → prod) separan secretos, políticas y aprobadores. Producción no se alimenta de un rebuild improvisado: se mueve el **mismo digest** que pasó tests en staging. La **aprobación** es independiente del autor del PR; sin `approved_by` no hay promote. Rebuild al promover es anti-patrón: rompe la cadena de evidencia (lo testeado deja de ser lo desplegado).",
+        "Contrato de promoción. Entrada: environment origen/destino, aprobador, digest testeado y digest promovido. Salida: promote solo si `source=staging`, `target=production`, hay aprobador y `tested_digest == promoted_digest`. Breach (sin aprobación o digests distintos) → `DENY_PROMOTION`. Incertidumbre: falta `promoted_digest` → `REQUEST_RELEASE_APPROVAL`.",
+        "En `CASO-PIU-044-3A` staging aprobó `sha256:abc`. Production solo se mueve si `approved_by` está presente y el digest promovido es exactamente ese. Un rebuild “para estar seguros” con digest nuevo sin re-tests es `DENY_PROMOTION`.",
       ],
       code: {
         language: 'python',
@@ -197,13 +238,16 @@ prov gha`,
         "protection": "prod" in envs and len(approvers) >= 1,
     }
 
+def promote_same_digest(tested: str, promoted: str, approved_by: str) -> bool:
+    return bool(approved_by) and tested == promoted and tested.startswith("sha256:")
+
 g = env_gate(["dev", "staging", "prod"], ["lead"])
 print("envs", g["envs"])
 print("prod_approvers", g["prod_approvers"])
-print("protection", g["protection"])`,
+print("same_digest", promote_same_digest("sha256:abc", "sha256:abc", "lead"))`,
         output: `envs ['dev', 'staging', 'prod']
 prod_approvers ['lead']
-protection True`,
+same_digest True`,
       },
       callout: {
         type: "tip",
@@ -216,40 +260,41 @@ protection True`,
       heading: "migrations, canary/blue-green y rollback",
       subtopicId: "S44-T3-B",
       paragraphs: [
-        "Migraciones preceden tráfico solo si son compatibles; canary mide señal y rollback restaura código/config/datos con criterio temporal.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: canary fallido revierte dentro del RTO. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `migrations, canary/blue-green y rollback` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es canary fallido revierte dentro del RTO. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Antes de enviar tráfico, las **migraciones** deben ser compatibles (expand-first / no breaking). El **canary** envía un porcentaje de tráfico (p. ej. 10%) y mide tasa de error contra un umbral. Si el canary está sano, se puede ampliar; si supera el umbral, se hace **rollback** al digest previo. Rollback no es “intentar de nuevo”: es restaurar código/config (y datos si aplica) **dentro del RTO** y dejar evidencia del tiempo de reversión.",
+        "Contrato dual de canary. Camino sano (PASS en lab): migración compatible, `canary_error_rate ≤ max_error_rate`, rollback previamente probado y `rollback_seconds ≤ rto_seconds`. Camino de incidente (demo de teoría): error_rate sobre umbral → fase `prev_version` y decisión `rollback`. Breach en weDo (canary roto o rollback no listo) → `ROLLBACK_RELEASE`. Incertidumbre: falta `rto_seconds` → `PAUSE_CANARY`.",
+        "En `CASO-PIU-044-3B` el servicio de Piura canariza al 10%. Si la tasa de error se mantiene bajo 1%, el release continúa y se documenta que el rollback de ensayo tomó ≤ RTO. Si en el lab simulamos 8% de error (sobre umbral 5%), el demo devuelve `prev_version` + `rollback` — no se inventa un “hold” saludable.",
       ],
       code: {
         language: 'python',
         title: "migrations_canary_rollback.py",
-        code: `def canary_action(error_rate: float, threshold: float = 0.05) -> tuple:
+        code: `def canary_action(error_rate: float, threshold: float = 0.05, traffic_pct: int = 10) -> tuple:
     if error_rate > threshold:
-        return "prev_version", int(error_rate * 100), "rollback"
-    return "canary", int(error_rate * 100), "hold"
+        return "prev_version", traffic_pct, "rollback"
+    return "canary", traffic_pct, "hold"
 
-phase, pct, _ = canary_action(0.0)
+# Lab: canary al 10% supera umbral → rollback al digest previo
+phase, pct, decision = canary_action(0.08, threshold=0.05, traffic_pct=10)
 print(phase)
-print(10)  # 10% traffic slice in the lab
-print("prev_version")`,
-        output: `canary
+print(pct)
+print(decision)`,
+        output: `prev_version
 10
-prev_version`,
+rollback`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S44-T3-B: prueba canary fallido revierte dentro del RTO y registra por separado `ROLLBACK_RELEASE` (breach) y `PAUSE_CANARY` (missing).",
+          "S44-T3-B: el lab PASS exige canary sano + rollback ensayado dentro del RTO. La demo de teoría muestra canary fallido → `rollback`. Breach → `ROLLBACK_RELEASE`; datos incompletos → `PAUSE_CANARY`.",
       },
     },
     {
       heading: "branch/review policy y release notes",
       subtopicId: "S44-T4-A",
       paragraphs: [
-        "Branch protection exige checks/review y release notes explican cambio, riesgo, migración y reversión para operadores.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: release trazable a review y changelog. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `branch/review policy y release notes` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es release trazable a review y changelog. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "La **branch protection** de `main` exige reviews y checks verdes antes del merge: es el primer control humano+automatizado de la cadena. Las **release notes** no son marketing; son un contrato operativo para quien despliega de madrugada: qué cambió, riesgo, pasos de migración y cómo revertir. Un tag de release sin notes completas deja al on-call sin mapa.",
+        "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, checks activos y notes ⊇ {change, risk, migration, rollback}. Breach → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta `release_notes` → `COMPLETE_RELEASE_NOTES`.",
+        "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 reviews y checks de CI. Las notes del release del API de jobs listan cambio, riesgo, migración y rollback. Merge directo a `main` sin protección o notes solo con “change” se bloquean.",
       ],
       code: {
         language: 'python',
@@ -257,11 +302,14 @@ prev_version`,
         code: `def branch_policy(reviews: int, signed: bool) -> dict:
     return {"reviews": reviews, "signed_commits": signed}
 
-pol = branch_policy(1, True)
+def notes_operable(notes: set) -> bool:
+    return {"change", "risk", "migration", "rollback"} <= notes
+
+pol = branch_policy(2, True)
 print(pol)
-print("notes_ok", pol["reviews"] >= 1)
+print("notes_ok", notes_operable({"change", "risk", "migration", "rollback"}))
 print("branch", "main_protected")`,
-        output: `{'reviews': 1, 'signed_commits': True}
+        output: `{'reviews': 2, 'signed_commits': True}
 notes_ok True
 branch main_protected`,
       },
@@ -276,9 +324,9 @@ branch main_protected`,
       heading: "failure handling y evidencia auditable",
       subtopicId: "S44-T4-B",
       paragraphs: [
-        "Un fallo conserva logs redactados, clasificación, dueño y decisión; el pipeline no convierte `continue-on-error` en aprobación silenciosa.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: fallo crítico bloquea y deja evidencia auditable. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `failure handling y evidencia auditable` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es fallo crítico bloquea y deja evidencia auditable. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Cuando un check crítico falla, el pipeline **bloquea** el release: no usa `continue-on-error` como aprobación silenciosa. La evidencia se conserva: logs **redactados** (sin secretos), artifact del job, clasificación del fallo, **dueño** del incidente y decisión registrada. Un fallo sin dueño ni evidencia es un incidente que se olvida hasta el siguiente outage.",
+        "Contrato de fallo cerrado. Entrada: flag de fallo crítico, si el pipeline quedó bloqueado, logs redactados, owner y retención de evidencia. Salida: ante crítico, `pipeline_blocked` y evidencia auditable. Breach (crítico sin bloqueo o sin evidencia) → `STOP_SILENT_FAILURE`. Incertidumbre: falta `evidence_retained` → `ASSIGN_INCIDENT_OWNER`.",
+        "En `CASO-PIU-044-4B` un test de integración crítico en el servicio de Piura falla: el workflow marca `block_release`, retiene log+artifact, asigna owner `release` y no reabre el tag. Inventar evidencia o borrar el trace para “reducir ruido” viola el contrato de auditabilidad.",
       ],
       code: {
         language: 'python',
@@ -300,12 +348,12 @@ audit True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S44-T4-B: conserva fallo crítico bloquea y deja evidencia auditable, la evidencia de `STOP_SILENT_FAILURE` y la ruta humana `ASSIGN_INCIDENT_OWNER`.",
+          "Cierre de S44-T4-B: fallo crítico bloquea y deja evidencia auditable. Breach silencioso → `STOP_SILENT_FAILURE`; falta de dueño/evidencia → `ASSIGN_INCIDENT_OWNER`.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S44 (CI/CD y seguridad de la cadena de suministro) alineadas a CP-N4-B (inicio).",
+    intro: "Ocho demos locales de CI/CD y cadena de suministro: cómo un pipeline decide certificar, firmar evidencia, promover el mismo digest y revertir un canary — sin registry remoto.",
     steps: [
       {
         demoId: "S44-T1-A-DEMO",
@@ -315,17 +363,23 @@ audit True`,
         code: {
           language: 'python',
           title: "demo_lint_types_tests_matrix.py",
-          code: `def gates_green(results: dict) -> bool:
-    return all(results.get(k) for k in ("lint", "types", "tests"))
+          code: `def gates_green(results: dict, matrix: set, supported: set) -> bool:
+    checks = all(results.get(k) for k in ("lint", "types", "tests"))
+    return checks and matrix == supported
 
-print(gates_green({"lint": True, "types": True, "tests": True}))
+ok = gates_green(
+    {"lint": True, "types": True, "tests": True},
+    {"3.11", "3.12"},
+    {"3.11", "3.12"},
+)
+print(ok)
 print("n", 3)
-print("matrix_ok", True)`,
+print("matrix_ok", ok)`,
           output: `True
 n 3
 matrix_ok True`,
         },
-        why: "Hace observable `lint/types/tests y matrices` con un caso local pequeño y deja como evidencia lint/types/tests y matriz soportada en verde; el demo modela el contrato, no un servicio externo.",
+        why: "Calcula el AND de lint/types/tests y la igualdad matriz==soportada: evidencia mínima antes de pasos costosos de supply chain.",
       },
       {
         demoId: "S44-T1-B-DEMO",
@@ -338,14 +392,18 @@ matrix_ok True`,
           code: `def cache_key(lock_hash: str) -> str:
     return f"pip-{lock_hash[:8]}"
 
-print("cache_hit", cache_key("abcdef12deadbeef").startswith("pip-"))
-print("artifact", "wheel")
-print("condition", "main_only")`,
-          output: `cache_hit True
-artifact wheel
-condition main_only`,
+def artifact_ok(digest: str, retention_days: int) -> bool:
+    return digest.startswith("sha256:") and retention_days >= 7
+
+key = cache_key("abcdef12deadbeef")
+print("cache_key", key.startswith("pip-"))
+print("artifact", artifact_ok("sha256:def", 14))
+print("condition", "main_and_tags")`,
+          output: `cache_key True
+artifact True
+condition main_and_tags`,
         },
-        why: "Hace observable `caches, artifacts y condiciones` con un caso local pequeño y deja como evidencia cache miss conserva resultado y artifact es verificable; el demo modela el contrato, no un servicio externo.",
+        why: "Separa cache (optimización por lockfile) de artifact verificable (digest + retención): la cache no sustituye evidencia.",
       },
       {
         demoId: "S44-T2-A-DEMO",
@@ -358,14 +416,19 @@ condition main_only`,
           code: `def secret_scan_policy(found: int) -> str:
     return "block" if found > 0 else "pass"
 
+def is_full_sha_pin(action_ref: str) -> bool:
+    ref = action_ref.split("@")[-1] if "@" in action_ref else ""
+    return len(ref) == 40 and all(c in "0123456789abcdef" for c in ref.lower())
+
+sha = "b4ffde65f46336ab88eb53be808477a3936bae11"
 print("gitleaks", secret_scan_policy(1))
 print("perms", "least")
-print("pin", True)`,
+print("pin", is_full_sha_pin(f"actions/checkout@{sha}"))`,
           output: `gitleaks block
 perms least
 pin True`,
         },
-        why: "Hace observable `permisos mínimos, pinning y secret scanning` con un caso local pequeño y deja como evidencia permisos mínimos y acciones pinned; el demo modela el contrato, no un servicio externo.",
+        why: "Muestra secret scanning que bloquea hits y pin por SHA completo de 40 hex — no un tag flotante.",
       },
       {
         demoId: "S44-T2-B-DEMO",
@@ -375,18 +438,18 @@ pin True`,
         code: {
           language: 'python',
           title: "demo_sbom_provenance_attest.py",
-          code: `def provenance_ok(digest: str, sbom_digest: str) -> bool:
-    return bool(digest) and digest == sbom_digest
+          code: `def provenance_ok(digest: str, sbom_digest: str, subject: str) -> bool:
+    return bool(digest) and len({digest, sbom_digest, subject}) == 1
 
 d = "sha256:abc"
-print("attest", provenance_ok(d, d))
+print("attest", provenance_ok(d, d, d))
 print("verifiable", True)
 print("spdx", True)`,
           output: `attest True
 verifiable True
 spdx True`,
         },
-        why: "Hace observable `SBOM, provenance y attestations` con un caso local pequeño y deja como evidencia SBOM y provenance coinciden con digest; el demo modela el contrato, no un servicio externo.",
+        why: "Exige que artifact, SBOM y subject de provenance compartan el mismo digest antes de confiar en la attestation.",
       },
       {
         demoId: "S44-T3-A-DEMO",
@@ -401,14 +464,17 @@ spdx True`,
     i = order.index(current)
     return order[min(i + 1, len(order) - 1)]
 
+def promote_ok(tested: str, promoted: str, approved_by: str) -> bool:
+    return bool(approved_by) and tested == promoted
+
 print("env", "staging")
 print("needs_approval", next_env("staging") == "prod")
-print("prod_gate", True)`,
+print("same_digest", promote_ok("sha256:abc", "sha256:abc", "lead"))`,
           output: `env staging
 needs_approval True
-prod_gate True`,
+same_digest True`,
         },
-        why: "Hace observable `environments y approvals` con un caso local pequeño y deja como evidencia promoción sin rebuild y con aprobación; el demo modela el contrato, no un servicio externo.",
+        why: "Staging→prod exige aprobación y el mismo digest testeado: sin rebuild en promote.",
       },
       {
         demoId: "S44-T3-B-DEMO",
@@ -421,14 +487,19 @@ prod_gate True`,
           code: `def migrate_mode(compatible: bool) -> str:
     return "expand_first" if compatible else "blocked"
 
+def canary_decision(error_rate: float, max_rate: float, rto: int, rollback_s: int) -> str:
+    if error_rate > max_rate:
+        return "rollback" if rollback_s <= rto else "rollback_missed_rto"
+    return "hold_healthy"
+
 print("migration", migrate_mode(True))
-print("blue_green", "optional")
-print("rollback_demo", True)`,
+print("healthy", canary_decision(0.004, 0.01, 120, 75))
+print("failed", canary_decision(0.08, 0.05, 120, 75))`,
           output: `migration expand_first
-blue_green optional
-rollback_demo True`,
+healthy hold_healthy
+failed rollback`,
         },
-        why: "Hace observable `migrations, canary/blue-green y rollback` con un caso local pequeño y deja como evidencia canary fallido revierte dentro del RTO; el demo modela el contrato, no un servicio externo.",
+        why: "Contrasta canary sano (hold) vs canary sobre umbral (rollback dentro del RTO): ambas rutas del contrato dual.",
       },
       {
         demoId: "S44-T4-A-DEMO",
@@ -438,17 +509,18 @@ rollback_demo True`,
         code: {
           language: 'python',
           title: "demo_branch_review_release_notes.py",
-          code: `def release_ready(reviews: int, notes: str) -> bool:
-    return reviews >= 1 and bool(notes.strip())
+          code: `def release_ready(reviews: int, notes: set) -> bool:
+    required = {"change", "risk", "migration", "rollback"}
+    return reviews >= 1 and required <= notes
 
-print("reviews", 1)
-print("release_notes", release_ready(1, "fix timeout on jobs API"))
+print("reviews", 2)
+print("release_notes", release_ready(2, {"change", "risk", "migration", "rollback"}))
 print("conventional", True)`,
-          output: `reviews 1
+          output: `reviews 2
 release_notes True
 conventional True`,
         },
-        why: "Hace observable `branch/review policy y release notes` con un caso local pequeño y deja como evidencia release trazable a review y changelog; el demo modela el contrato, no un servicio externo.",
+        why: "Release listo solo con reviews y notes operables (cambio, riesgo, migración, rollback).",
       },
       {
         demoId: "S44-T4-B-DEMO",
@@ -469,12 +541,12 @@ print("audit_trail", audit)`,
 evidence_n 2
 audit_trail True`,
         },
-        why: "Hace observable `failure handling y evidencia auditable` con un caso local pequeño y deja como evidencia fallo crítico bloquea y deja evidencia auditable; el demo modela el contrato, no un servicio externo.",
+        why: "Fallo crítico → block + evidencia retenida; no continue-on-error silencioso.",
       },
     ],
   },
   weDo: {
-    intro: "S44 · Laboratorio Pipeline CI/CD con supply-chain gates: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
+    intro: "S44 · Laboratorio de pipeline CI/CD con supply-chain gates: 24 retos (E1 repara, E2 clasifica valid/invalid/missing, E3 decide fail-closed). Ocho case_ids sintéticos de Piura (`CASO-PIU-044-1A`…`4B`); cada tríada reutiliza el mismo fixture de dominio con predicados invertidos a propósito.",
     steps: [
       {
         id: "S44-T1-A-E1",
@@ -492,7 +564,7 @@ audit_trail True`,
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e1.py",
-          code: `# CASO-LIM-044 · CI lint/types/tests matrix
+          code: `# CASO-PIU-044 · CI lint/types/tests matrix
 # DEFECT: PASS con OR débil (lint|types|tests) en vez de AND
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-1A", **{"lint":True,"types":True,"tests":True,"matrix":{"3.11","3.12"},"supported":{"3.11","3.12"}}}
@@ -529,7 +601,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e2.py",
-          code: `# CASO-LIM-044 · assess FAIL_CI_GATE
+          code: `# CASO-PIU-044 · assess FAIL_CI_GATE
 # DEFECT: PASS si solo uno de lint/types/tests
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -583,7 +655,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e3.py",
-          code: `# CASO-LIM-044 · decide FAIL_CI_GATE
+          code: `# CASO-PIU-044 · decide FAIL_CI_GATE
 # DEFECT: missing→CONTINUE; pred OR invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -637,7 +709,7 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e1.py",
-          code: `# CASO-LIM-044 · cache keys + artifact conditions
+          code: `# CASO-PIU-044 · cache keys + artifact conditions
 # DEFECT: PASS si cache_miss no pasa o conditions incompletas
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-1B", **{"cache_key":"lock-abc","cache_miss_passes":True,"artifact_digest":"sha256:def","retention_days":14,"conditions_cover_tags":True}}
@@ -674,7 +746,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e2.py",
-          code: `# CASO-LIM-044 · assess DISCARD_PIPELINE_RESULT
+          code: `# CASO-PIU-044 · assess DISCARD_PIPELINE_RESULT
 # DEFECT: PASS sin cache_miss_passes o tags
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -728,7 +800,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e3.py",
-          code: `# CASO-LIM-044 · decide DISCARD_PIPELINE_RESULT
+          code: `# CASO-PIU-044 · decide DISCARD_PIPELINE_RESULT
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -782,7 +854,7 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e1.py",
-          code: `# CASO-LIM-044 · least privilege GHA tokens
+          code: `# CASO-PIU-044 · least privilege GHA tokens
 # DEFECT: PASS si permissions write o secret_hits>0
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
@@ -819,7 +891,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e2.py",
-          code: `# CASO-LIM-044 · assess REVOKE_AND_ROTATE
+          code: `# CASO-PIU-044 · assess REVOKE_AND_ROTATE
 # DEFECT: PASS con write token o secret en logs
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -873,7 +945,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e3.py",
-          code: `# CASO-LIM-044 · decide REVOKE_AND_ROTATE
+          code: `# CASO-PIU-044 · decide REVOKE_AND_ROTATE
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -927,7 +999,7 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e1.py",
-          code: `# CASO-LIM-044 · SBOM/provenance digest match
+          code: `# CASO-PIU-044 · SBOM/provenance digest match
 # DEFECT: PASS si digests no coinciden entre sí
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-2B", **{"artifact_digest":"sha256:aaa","sbom_digest":"sha256:aaa","provenance_subject":"sha256:aaa","attestation_valid":True}}
@@ -964,7 +1036,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e2.py",
-          code: `# CASO-LIM-044 · assess REJECT_ATTESTATION
+          code: `# CASO-PIU-044 · assess REJECT_ATTESTATION
 # DEFECT: PASS con digests divergentes
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1018,7 +1090,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e3.py",
-          code: `# CASO-LIM-044 · decide REJECT_ATTESTATION
+          code: `# CASO-PIU-044 · decide REJECT_ATTESTATION
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -1072,7 +1144,7 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e1.py",
-          code: `# CASO-LIM-044 · env promotion approvals
+          code: `# CASO-PIU-044 · env promotion approvals
 # DEFECT: PASS sin approved_by o digests distintos
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-3A", **{"source_env":"staging","target_env":"production","approved_by":"release-owner","tested_digest":"sha256:abc","promoted_digest":"sha256:abc"}}
@@ -1109,7 +1181,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e2.py",
-          code: `# CASO-LIM-044 · assess DENY_PROMOTION
+          code: `# CASO-PIU-044 · assess DENY_PROMOTION
 # DEFECT: PASS sin approval o digest mismatch
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1163,7 +1235,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e3.py",
-          code: `# CASO-LIM-044 · decide DENY_PROMOTION
+          code: `# CASO-PIU-044 · decide DENY_PROMOTION
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -1209,7 +1281,7 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         hint: "Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.",
         hints: [
           "Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva canary fallido revierte dentro del RTO; revisa dirección de comparación, conjuntos y negaciones.",
+          "El predicado correcto debe ser verdadero porque el fixture tiene canary sano bajo umbral y rollback ensayado dentro del RTO; revisa dirección de comparación y negaciones.",
         ],
         edgeCases: ["falta rto_seconds", "fixture adverso: migración compatible, canary bajo umbral y rollback dentro de RTO", "CASO-PIU-044-3B es sintético"],
         tests: "El fixture `CASO-PIU-044-3B` satisface un predicado de dominio real; imprime `S44-T3-B PASS` y el assert booleano pasa.",
@@ -1217,7 +1289,7 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e1.py",
-          code: `# CASO-LIM-044 · canary error + rollback
+          code: `# CASO-PIU-044 · canary error + rollback
 # DEFECT: PASS si error_rate>max o rollback no tested
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-3B", **{"migration_compatible":True,"canary_error_rate":0.004,"max_error_rate":0.01,"rollback_tested":True,"rollback_seconds":75,"rto_seconds":120}}
@@ -1254,7 +1326,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e2.py",
-          code: `# CASO-LIM-044 · assess ROLLBACK_RELEASE
+          code: `# CASO-PIU-044 · assess ROLLBACK_RELEASE
 # DEFECT: PASS con canary roto o sin rollback
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1308,7 +1380,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e3.py",
-          code: `# CASO-LIM-044 · decide ROLLBACK_RELEASE
+          code: `# CASO-PIU-044 · decide ROLLBACK_RELEASE
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -1362,7 +1434,7 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e1.py",
-          code: `# CASO-LIM-044 · branch protection + reviews
+          code: `# CASO-PIU-044 · branch protection + reviews
 # DEFECT: PASS sin protected_branch o reviews==0
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-4A", **{"protected_branch":True,"required_reviews":2,"required_checks":True,"release_notes":{"change","risk","migration","rollback"}}}
@@ -1399,7 +1471,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e2.py",
-          code: `# CASO-LIM-044 · assess BLOCK_UNREVIEWED_RELEASE
+          code: `# CASO-PIU-044 · assess BLOCK_UNREVIEWED_RELEASE
 # DEFECT: PASS sin protección o sin reviews
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1453,7 +1525,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e3.py",
-          code: `# CASO-LIM-044 · decide BLOCK_UNREVIEWED_RELEASE
+          code: `# CASO-PIU-044 · decide BLOCK_UNREVIEWED_RELEASE
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -1507,7 +1579,7 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e1.py",
-          code: `# CASO-LIM-044 · critical failure blocks pipeline
+          code: `# CASO-PIU-044 · critical failure blocks pipeline
 # DEFECT: PASS si critical_failure y pipeline no blocked
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-4B", **{"critical_failure":True,"pipeline_blocked":True,"logs_redacted":True,"owner":"release","evidence_retained":True}}
@@ -1544,7 +1616,7 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e2.py",
-          code: `# CASO-LIM-044 · assess STOP_SILENT_FAILURE
+          code: `# CASO-PIU-044 · assess STOP_SILENT_FAILURE
 # DEFECT: PASS con fallo crítico sin bloqueo
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
@@ -1598,7 +1670,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e3.py",
-          code: `# CASO-LIM-044 · decide STOP_SILENT_FAILURE
+          code: `# CASO-PIU-044 · decide STOP_SILENT_FAILURE
 # DEFECT: missing→CONTINUE; pred invertido
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
@@ -1640,42 +1712,65 @@ assert results == ["CONTINUE", "STOP_SILENT_FAILURE", "ASSIGN_INCIDENT_OWNER"]` 
   },
   youDo: {
     title: "CI/CD y seguridad de la cadena de suministro",
-    context: "Pipeline CI/CD con supply-chain gates. Trabaja sobre un repositorio ficticio de servicio de operaciones en Piura. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback. El gate se bloquea ante: test crítico, secreto, dependencia insegura o attestación ausente impide publicar.",
+    context: "Pipeline CI/CD con supply-chain gates. Trabaja sobre un repositorio ficticio de servicio de operaciones en Piura. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback. El gate bloquea la publicación si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente.",
     objectives: [
       "Convertir commit revisado, dependencias fijadas y workflow con permisos mínimos en artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback.",
       "Demostrar el gate: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-      "Probar el fallo: test crítico, secreto, dependencia insegura o attestación ausente impide publicar.",
+      "Probar el fallo: test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente bloquean publicar.",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-PIU-044`.",
       "Incluye matriz lint/types/tests con artifacts.",
-      "Incluye workflow con pinning y permisos mínimos.",
+      "Incluye workflow con pinning por SHA completo y permisos mínimos.",
       "Incluye SBOM/provenance ligados al digest.",
-      "Incluye canary de prueba y rollback auditado.",
-      "Automatiza un caso normal, uno de breach (`STOP_PIPELINE`) y uno incierto (`MANUAL_APPROVAL`).",
+      "Incluye canary de prueba y rollback auditado dentro del RTO.",
+      "Automatiza un caso normal (PASS/CONTINUE), uno de breach (código de gate del subtema, p. ej. FAIL_CI_GATE o REJECT_ATTESTATION) y uno incierto (revisión humana, p. ej. REQUEST_RELEASE_APPROVAL).",
       "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
       "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
     starterCode: `CASE_ID = "CASO-PIU-044"
-REQUIRED = ['matriz_lint_types_tests_con_artifacts', 'workflow_con_pinning_y_permisos_minimos', 'sbom_provenance_ligados_al_digest', 'canary_de_prueba_y_rollback_auditado']
+REQUIRED = [
+    "matriz_lint_types_tests_con_artifacts",
+    "workflow_con_pinning_y_permisos_minimos",
+    "sbom_provenance_ligados_al_digest",
+    "canary_de_prueba_y_rollback_auditado",
+]
+# Rutas a artefactos reales del portfolio (rellena cuando existan)
+ARTIFACTS = {
+    "workflow": ".github/workflows/ci-supply-chain.yml",
+    "sbom": "dist/sbom.spdx.json",
+    "canary_log": "ops/canary-rollback.md",
+}
 evidence = {
     "matriz_lint_types_tests_con_artifacts": False,
     "workflow_con_pinning_y_permisos_minimos": False,
     "sbom_provenance_ligados_al_digest": False,
-    "canary_de_prueba_y_rollback_auditado": False
+    "canary_de_prueba_y_rollback_auditado": False,
 }
 
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
+def gate_case(kind: str) -> str:
+    # normal | breach | uncertain — no marques PASS sin evidencia de archivo
+    if kind == "normal":
+        return "CONTINUE"
+    if kind == "breach":
+        return "REJECT_ATTESTATION"  # o FAIL_CI_GATE / ROLLBACK_RELEASE según el fallo
+    return "REQUEST_RELEASE_APPROVAL"
+
 status, missing = readiness(evidence)
 print(CASE_ID, status)
 print("missing", ",".join(missing))
+print("normal", gate_case("normal"))
+print("breach", gate_case("breach"))
+print("uncertain", gate_case("uncertain"))
 assert status in {"READY", "BLOCKED"}
+# Extiende: no marques True en evidence sin workflow/SBOM/canary firmados.
 `,
-    portfolioNote: "Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+    portfolioNote: "Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1694,10 +1789,15 @@ assert status in {"READY", "BLOCKED"}
         explanation: "La teoría exige lint/types/tests y matriz soportada en verde; evidencia decorativa o PII no satisface el contrato.",
       },
       {
-        question: "Si ocurre la condición de error de S44, ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: ["continuar y ocultar el warning", "emitir STOP_PIPELINE y conservar evidencia", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
+        question: "Si un test crítico falla o falta attestation, ¿qué respuesta preserva seguridad y auditabilidad?",
+        options: [
+          "continuar y ocultar el warning",
+          "bloquear el release (p. ej. FAIL_CI_GATE / REJECT_ATTESTATION) y conservar evidencia",
+          "inventar evidencia faltante",
+          "borrar el trace para reducir ruido",
+        ],
         correctIndex: 1,
-        explanation: "El contrato falla cerrado con STOP_PIPELINE; no convierte incertidumbre o breach en éxito.",
+        explanation: "S44 falla cerrado con códigos de breach por subtema y retiene logs/artifacts; la incertidumbre va a revisión humana, no a éxito silencioso.",
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?",
@@ -1706,10 +1806,15 @@ assert status in {"READY", "BLOCKED"}
         explanation: "El gate es conductual y medible: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
       },
       {
-        question: "¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso?",
-        options: ["mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "inferir fraude o parentesco desde ER"],
+        question: "¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso y la cadena de suministro?",
+        options: [
+          "mantenerlo sintético, sin secretos reales ni registry obligatorio, y sujeto a gates fail-closed",
+          "reemplazarlo por credenciales de producción para que el workflow “sea real”",
+          "subir tokens al repositorio para facilitar la demo de secret scanning",
+          "omitir SBOM y provenance si el README del release dice OK",
+        ],
         correctIndex: 0,
-        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
+        explanation: "El lab es sintético a propósito: practicas gates (pin, SBOM, aprobación, rollback) sin PII ni secretos reales; omitir evidencia de supply chain no aprueba el gate.",
       },
       {
         question: "Antes de promover a staging, el digest del artefacto testeado y el promovido deben…",
