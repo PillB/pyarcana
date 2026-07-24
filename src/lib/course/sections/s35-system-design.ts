@@ -6,7 +6,7 @@ export const section35: CourseSection = {
   title: "Explicabilidad, equidad e incertidumbre",
   shortTitle: "Explainability y equidad",
   tagline: "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
-  estimatedHours: 19,
+  estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "Scale",
@@ -27,9 +27,9 @@ export const section35: CourseSection = {
     {
       heading: "Inicio CP-N3-C: ficha de caso responsable",
       paragraphs: [
-        "Esta sección parte de S34 y usa únicamente métricas, umbrales y baselines ya presentados. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta sin credenciales ni servicios externos.",
-        "Producto incremental: ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Entrada: score, features y cohorte; salida: plantilla auditables sin auto-etiqueta de fraude.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach o incertidumbre. Id legacy `system-design` se conserva."
+        "Esta sección **inicia CP-N3-C** y parte de S34: usa métricas, umbrales y baselines ya presentados. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta **sin** credenciales ni servicios externos ni PII real.",
+        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`).",
+        "Orden: **T1 explicación** → **T2 equidad/slices** → **T3 incertidumbre/OOD** → **T4 model card/override**. Id legacy `system-design` se conserva; V3 es explicabilidad y equidad, no diagramas de microservicios. Explicar **no** es acusar."
       ],
       callout: {
         type: "info",
@@ -42,18 +42,20 @@ export const section35: CourseSection = {
       heading: "coeficientes e importancia por permutación",
       subtopicId: "S35-T1-A",
       paragraphs: [
-        "Los coeficientes de un modelo lineal y la importancia por permutación miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature. Son mapas globales del modelo, no veredictos sobre una persona real.",
-        "Contrato operativo. Entrada: dict de drops por feature y métrica de cola. Salida: ranking top_feature con drop numérico y flag means_fraud=False. Error: afirmar causalidad legal o fraude a partir del drop. Criterio: misma métrica de negocio en train y en permutación.",
-        "Aplicación de importancia por permutación a `CASO-LIM-035`: shared_phone cae más que amount_7d en precision@k sintético; documentas sensibilidad del modelo sobre datos ficticios y nunca emites label de fraude/parentesco."
+        "Los **coeficientes** de un modelo lineal y la **importancia por permutación** miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature. Son mapas **globales del modelo**, **no** veredictos sobre una persona real ni prueba de fraude.",
+        "Contrato: entrada dict de drops por feature y métrica de cola; salida ranking `top_feature` con drop numérico y flag `means_fraud=False`. Error: afirmar causalidad legal o fraude a partir del drop. Criterio: **misma métrica** de negocio en baseline y en permutación.",
+        "Aplicación a `CASO-LIM-035`: `shared_phone` cae más que `amount_7d` en precision@k sintético; documentas sensibilidad sobre datos ficticios y **nunca** emites label de fraude/parentesco."
       ],
       code: {
         language: 'python',
         title: "perm_imp.py",
-        code: `base = 0.80
+        code: `def top_perm_feature(drops):
+    return max(drops, key=drops.get)
+
 drops = {"shared_phone": 0.10, "amount_7d": 0.03, "region": 0.01}
-imp = sorted(drops, key=drops.get, reverse=True)
-print("top_feature", imp[0])
-print("drop", drops[imp[0]])
+top = top_perm_feature(drops)
+print("top_feature", top)
+print("drop", drops[top])
 print("means_fraud", False)`,
         output: `top_feature shared_phone
 drop 0.1
@@ -70,15 +72,17 @@ means_fraud False`,
       heading: "explicación local, correlación y límites",
       subtopicId: "S35-T1-B",
       paragraphs: [
-        "La explicación local asigna contribución de features al score del caso (p.ej. valor × peso). Correlación entre variables no implica que la contribución sea causa del comportamiento humano ni prueba legal.",
-        "Contrato operativo. Entrada: pares (valor, peso) por feature. Salida: contribuciones, suma y plantilla de 4 capas (evidencia|modelo|incertidumbre|humano). Error: omitir límites o declarar causal=True. Criterio: cada capa tiene flag explícito.",
-        "Aplicación de explicación local a `CASO-LIM-035`: shared_phone aporta 0.9 al score de cola; la ficha marca causal=False y deja la decisión al analista con override auditable. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "La **explicación local** asigna contribución de features al score del caso (p.ej. valor × peso). **Correlación ≠ causalidad**: la contribución no es causa del comportamiento humano ni prueba legal.",
+        "Contrato: entrada pares (valor, peso) por feature; salida contribuciones, suma y plantilla de **4 capas** (evidencia|modelo|incertidumbre|humano). Error: omitir límites o declarar `causal=True`. Criterio: cada capa tiene flag explícito.",
+        "Aplicación a `CASO-LIM-035`: `shared_phone` aporta 0.9 al score de cola; la ficha marca `causal=False` y deja la decisión al analista con **override auditable**."
       ],
       code: {
         language: 'python',
         title: "local_exp.py",
-        code: `feats = {"shared_phone": (1.0, 0.9), "amount_z": (0.5, 0.2)}
-contrib = {k: v * w for k, (v, w) in feats.items()}
+        code: `def local_contrib(feats):
+    return {k: v * w for k, (v, w) in feats.items()}
+
+contrib = local_contrib({"shared_phone": (1.0, 0.9), "amount_z": (0.5, 0.2)})
 print("contrib", {k: round(v, 3) for k, v in contrib.items()})
 print("sum", round(sum(contrib.values()), 3))
 print("causal", False)`,
@@ -97,20 +101,22 @@ causal False`,
       heading: "cohortes y métricas por slice",
       subtopicId: "S35-T2-A",
       paragraphs: [
-        "Cortar por región, canal o tipo de enlace revela si la cola de revisión daña de forma desigual. Compara precision/recall o tasa de queue reportando siempre el tamaño muestral n del slice. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: dict slice→{n, precision}. Salida: flag low_n si n<30 y comparación documentada. Error: gritar inequidad con n=3 o esconder n. Criterio: n visible junto a cada métrica. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación de slices a `CASO-LIM-035`: LIM n=100 precision=0.6 (ok_n) vs AQP n=8 precision=0.9 (low_n). No se afirma paridad de fraude; solo daño diferencial potencial en revisión. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Cortar por **región, canal o tipo de enlace** revela si la cola de revisión daña de forma desigual. Compara precision/recall o tasa de queue reportando siempre el **tamaño muestral n** del slice.",
+        "Contrato: entrada dict `slice→{n, precision}`; salida flag `low_n` si `n<30` y comparación documentada. Error: gritar inequidad con n=3 o **esconder n**. Criterio: n visible junto a cada métrica.",
+        "Aplicación a `CASO-LIM-035`: LIM n=100 precision=0.6 (`ok_n`) vs AQP n=8 precision=0.9 (`low_n`). **No** se afirma paridad de fraude; solo daño diferencial **potencial** en revisión."
       ],
       code: {
         language: 'python',
         title: "slices.py",
-        code: `slices = {
+        code: `def slice_flag(n, min_n=30):
+    return "low_n" if n < min_n else "ok_n"
+
+slices = {
     "LIM": {"n": 100, "precision": 0.6},
     "AQP": {"n": 8, "precision": 0.9},
 }
 for s, m in slices.items():
-    flag = "low_n" if m["n"] < 30 else "ok_n"
-    print(s, m["precision"], flag)
+    print(s, m["precision"], slice_flag(m["n"]))
 print("compared", True)`,
         output: `LIM 0.6 ok_n
 AQP 0.9 low_n
@@ -127,16 +133,17 @@ compared True`,
       heading: "proxies, sample size y daño diferencial",
       subtopicId: "S35-T2-B",
       paragraphs: [
-        "Un proxy es una variable que correlaciona con atributos sensibles (distrito, canal, idioma de nota). Su uso puede elevar falsos positivos en un grupo y generar fricción injustificada en la cola. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: features candidatas con risk tags. Salida: lista high-risk y acción mitigate/review. Error: silenciar proxy o convertirlo en label. Criterio: daño medido como delta de FP rate entre grupos sintéticos.",
-        "Aplicación de proxies a `CASO-LIM-035`: district_code se marca high y se retira del set de features de ranking; se documenta sample size bajo en AQP antes de cualquier claim de paridad. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Un **proxy** es una variable que correlaciona con atributos sensibles (distrito, canal, idioma de nota). Su uso puede elevar **falsos positivos** en un grupo y generar fricción injustificada en la cola — sin ser prueba de culpa.",
+        "Contrato: entrada features candidatas con risk tags; salida lista high-risk y acción `mitigate|review`. Error: silenciar proxy o convertirlo en **label de fraude**. Criterio: daño medido como delta de FP rate entre grupos sintéticos.",
+        "Aplicación a `CASO-LIM-035`: `district_code` se marca high y se **retira** del set de ranking; se documenta sample size bajo en AQP antes de cualquier claim de paridad."
       ],
       code: {
         language: 'python',
         title: "proxies.py",
-        code: `feats = {"shared_phone": "med", "district_code": "high", "amount_7d": "low"}
-high = [k for k, v in feats.items() if v == "high"]
-print(high)
+        code: `def high_risk_proxies(feats):
+    return [k for k, v in feats.items() if v == "high"]
+
+print(high_risk_proxies({"shared_phone": "med", "district_code": "high", "amount_7d": "low"}))
 print("action", "review")
 print("means_fraud", False)`,
         output: `['district_code']
@@ -154,15 +161,17 @@ means_fraud False`,
       heading: "calibración, intervalos/conformal conceptualmente",
       subtopicId: "S35-T3-A",
       paragraphs: [
-        "Un score puntual engaña; comunicar intervalo o cobertura conceptual (p±q toy o conformal a alto nivel) deja claro qué tan estable es la señal de cola. Brier e intervalos son complementarios, no rivales.",
-        "Contrato operativo. Entrada: p y q de incertidumbre. Salida: (lo, hi) y label de nivel. Error: publicar solo p sin ancho. Criterio: todo score de ficha lleva banda o flag de no-cobertura. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-035`: p=0.6 con q=0.1 produce [0.5, 0.7] nivel toy; el analista ve incertidumbre antes de override. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Un **score puntual engaña**; comunicar **intervalo** o cobertura conceptual (`p±q` toy o conformal a alto nivel) deja claro qué tan estable es la señal de cola. Brier e intervalos son **complementarios**, no rivales.",
+        "Contrato: entrada `p` y `q` de incertidumbre; salida `(lo, hi)` y label de nivel. Error: publicar solo `p` **sin** ancho. Criterio: todo score de ficha lleva banda o flag de no-cobertura.",
+        "Aplicación a `CASO-LIM-035`: `p=0.6` con `q=0.1` produce `[0.5, 0.7]` nivel toy; el analista ve incertidumbre **antes** de override."
       ],
       code: {
         language: 'python',
         title: "interval.py",
-        code: `p, q = 0.6, 0.1
-print(round(p - q, 2), round(p + q, 2))
+        code: `def score_interval(p, q):
+    return round(p - q, 2), round(p + q, 2)
+
+print(*score_interval(0.6, 0.1))
 print("level", "toy")
 print("point_only", False)`,
         output: `0.5 0.7
@@ -180,15 +189,17 @@ point_only False`,
       heading: "out-of-distribution y abstención",
       subtopicId: "S35-T3-B",
       paragraphs: [
-        "Cuando un caso se sale del soporte visto en train (canal nuevo, z-score extremo), la política correcta es abstener y escalar, no forzar pred=1 ni inventar fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: vector z y política ood. Salida: ood bool y action abstain|score. Error: auto-label en OOD. Criterio: fail-closed hacia humano. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación OOD a `CASO-LIM-035`: z=[1,2,3.5] dispara ood; action=abstain y la ficha registra uncertainty.reason=ood sin label de fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Cuando un caso se sale del soporte visto en train (**canal nuevo**, z-score extremo), la política correcta es **abstener y escalar**, no forzar `pred=1` ni inventar fraude.",
+        "Contrato: entrada vector z y política OOD; salida `ood` bool y action `abstain|score`. Error: **auto-label en OOD**. Criterio: fail-closed hacia humano.",
+        "Aplicación a `CASO-LIM-035`: `z=[1,2,3.5]` dispara ood; `action=abstain` y la ficha registra `uncertainty.reason=ood` **sin** label de fraude (`auto_fraud=False`)."
       ],
       code: {
         language: 'python',
         title: "ood.py",
-        code: `zs = [1, 2, 3.5]
-ood = max(abs(x) for x in zs) > 3
+        code: `def is_ood(zs, thr=3):
+    return max(abs(x) for x in zs) > thr
+
+ood = is_ood([1, 2, 3.5])
 print(ood)
 print("action", "abstain" if ood else "score")
 print("auto_fraud", False)`,
@@ -207,14 +218,18 @@ auto_fraud False`,
       heading: "model card y contestabilidad",
       subtopicId: "S35-T4-A",
       paragraphs: [
-        "La model card documenta uso permitido, out_of_scope, métricas y dueño. Contestabilidad exige canal para que un humano impugne el ranking sin borrar el audit trail. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: keys mínimas de card. Salida: card válida con out_of_scope que incluye fraud_label. Error: card vacía o uso prohibido habilitado. Criterio: contestability=True en ficha. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación model card a `CASO-LIM-035`: use=queue_rank, out_of_scope=fraud_label, owner=risk_ops; el caso puede apelar sin reescribir score histórico. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "La **model card** documenta uso permitido, `out_of_scope`, métricas y dueño. **Contestabilidad** exige canal para que un humano impugne el ranking **sin** borrar el audit trail.",
+        "Contrato: entrada keys mínimas de card; salida card válida con `out_of_scope` que incluye `fraud_label`. Error: card vacía o uso prohibido habilitado. Criterio: `contestability=True` en ficha.",
+        "Aplicación a `CASO-LIM-035`: `use=queue_rank`, `out_of_scope=fraud_label`, `owner=risk_ops`; el caso puede **apelar** sin reescribir score histórico."
       ],
       code: {
         language: 'python',
         title: "model_card.py",
-        code: `card = {
+        code: `def card_ok(card):
+    need = {"use", "out_of_scope", "owner", "contestability"}
+    return need.issubset(card) and "fraud_label" in card.get("out_of_scope", [])
+
+card = {
     "use": "queue_rank",
     "out_of_scope": ["fraud_label"],
     "owner": "risk_ops",
@@ -222,7 +237,7 @@ auto_fraud False`,
 }
 print("out_of_scope", card["out_of_scope"][0])
 print("use", card["use"])
-print("card", True)`,
+print("card", card_ok(card))`,
         output: `out_of_scope fraud_label
 use queue_rank
 card True`,
@@ -238,18 +253,21 @@ card True`,
       heading: "aprobación, override, apelación y retiro",
       subtopicId: "S35-T4-B",
       paragraphs: [
-        "El ciclo de vida del modelo (proposed→approved→production→retired) y los overrides humanos deben dejar by, timestamp y razón. Sin audit no hay gobernanza. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: evento de override o retiro. Salida: log con case, human action, by. Error: override silencioso o retiro sin flag de drift. Criterio: toda decisión humana es reconstruible.",
-        "Aplicación gobernanza a `CASO-LIM-035`: analyst_7 hace override_skip; el log guarda by y case; retiro por drift_flag=True mueve a retired sin borrar histórico. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "El ciclo de vida del modelo (`proposed→approved→production→retired`) y los **overrides humanos** deben dejar `by`, timestamp y razón. **Sin audit no hay gobernanza**.",
+        "Contrato: entrada evento de override o retiro; salida log con case, human action, by. Error: override **silencioso** o retiro sin flag de drift. Criterio: toda decisión humana es **reconstruible**.",
+        "Aplicación a `CASO-LIM-035`: `analyst_7` hace `override_skip`; el log guarda by y case; retiro por `drift_flag=True` mueve a retired **sin** borrar histórico."
       ],
       code: {
         language: 'python',
         title: "governance.py",
-        code: `states = ["proposed", "approved", "production", "retired"]
+        code: `def audit_event(event):
+    return all(k in event for k in ("case", "human", "by"))
+
+states = ["proposed", "approved", "production", "retired"]
 event = {"case": "c1", "model_score": 0.82, "human": "override_skip", "by": "analyst_7"}
 print("lifecycle", " > ".join(states))
 print("override", event["human"])
-print("audit", True)`,
+print("audit", audit_event(event))`,
         output: `lifecycle proposed > approved > production > retired
 override override_skip
 audit True`,
@@ -273,8 +291,12 @@ audit True`,
         code: {
           language: 'python',
           title: "imp_demo.py",
-          code: `d={"f1":0.02,"f2":0.1}
-print(max(d, key=d.get), d[max(d, key=d.get)])
+          code: `def top_perm_feature(d):
+    return max(d, key=d.get)
+
+d = {"f1": 0.02, "f2": 0.1}
+top = top_perm_feature(d)
+print(top, d[top])
 print('fraud', False)
 print('ok', True)`,
           output: `f2 0.1
@@ -291,8 +313,10 @@ ok True`,
         code: {
           language: 'python',
           title: "loc_demo.py",
-          code: `c={"a":0.2,"b":-0.1}
-print(round(sum(c.values()),3))
+          code: `def contrib_sum(c):
+    return round(sum(c.values()), 3)
+
+print(contrib_sum({"a": 0.2, "b": -0.1}))
 print('causal', False)
 print('ok', True)`,
           output: `0.1
@@ -309,7 +333,11 @@ ok True`,
         code: {
           language: 'python',
           title: "slice_demo.py",
-          code: `n=5; print('flag', 'low_n' if n<30 else 'ok_n')
+          code: `def slice_flag(n, min_n=30):
+    return 'low_n' if n < min_n else 'ok_n'
+
+n = 5
+print('flag', slice_flag(n))
 print('n', n)
 print('ok', True)`,
           output: `flag low_n
@@ -326,7 +354,10 @@ ok True`,
         code: {
           language: 'python',
           title: "proxy_demo.py",
-          code: `print(['district_code'])
+          code: `def high_risk_proxies(feats):
+    return [k for k, v in feats.items() if v == 'high']
+
+print(high_risk_proxies({'district_code': 'high', 'amount_7d': 'low'}))
 print('action', 'review')
 print('ok', True)`,
           output: `['district_code']
@@ -343,8 +374,10 @@ ok True`,
         code: {
           language: 'python',
           title: "int_demo.py",
-          code: `p,q=0.6,0.1
-print(round(p-q,2), round(p+q,2))
+          code: `def score_interval(p, q):
+    return round(p - q, 2), round(p + q, 2)
+
+print(*score_interval(0.6, 0.1))
 print('level', 'toy')
 print('ok', True)`,
           output: `0.5 0.7
@@ -361,7 +394,10 @@ ok True`,
         code: {
           language: 'python',
           title: "ood_demo.py",
-          code: `print(max(abs(x) for x in [1,2,3.5])>3)
+          code: `def is_ood(zs, thr=3):
+    return max(abs(x) for x in zs) > thr
+
+print(is_ood([1, 2, 3.5]))
 print('action', 'abstain')
 print('ok', True)`,
           output: `True
@@ -378,9 +414,13 @@ ok True`,
         code: {
           language: 'python',
           title: "card_demo.py",
-          code: `print('out_of_scope', 'fraud_label')
-print('use', 'queue_rank')
-print('card', True)`,
+          code: `def card_ok(card):
+    return 'fraud_label' in card.get('out_of_scope', [])
+
+card = {'use': 'queue_rank', 'out_of_scope': ['fraud_label']}
+print('out_of_scope', card['out_of_scope'][0])
+print('use', card['use'])
+print('card', card_ok(card))`,
           output: `out_of_scope fraud_label
 use queue_rank
 card True`,
@@ -395,8 +435,12 @@ card True`,
         code: {
           language: 'python',
           title: "gov_demo.py",
-          code: `print({'case':'c1','human':'override','by':'u1'})
-print('audit', True)
+          code: `def audit_event(event):
+    return all(k in event for k in ('case', 'human', 'by'))
+
+event = {'case': 'c1', 'human': 'override', 'by': 'u1'}
+print(event)
+print('audit', audit_event(event))
 print('ok', True)`,
           output: `{'case': 'c1', 'human': 'override', 'by': 'u1'}
 audit True
@@ -425,7 +469,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-1A", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}
+          code: `# CASO-LIM-035 · permutation importance ≠ fraud
+# DEFECT: PASS si means_fraud True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-1A", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}
 meets_contract = record["means_fraud"] is True
 status = "PASS" if meets_contract else "REJECT_CAUSAL_CLAIM"
 print("S35-T1-A", status)
@@ -459,7 +506,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_CAUSAL_CLAIM
+# DEFECT: PASS interpretando importancia como fraude
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'drops', 'metric', 'means_fraud'}
     missing = sorted(required - record.keys())
     if missing:
@@ -510,7 +560,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_CAUSAL_CLAIM
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'drops', 'metric', 'means_fraud'}
     missing = sorted(required - record.keys())
     if missing:
@@ -562,7 +615,10 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_METRIC_DROP"]
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-1B", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}
+          code: `# CASO-LIM-035 · local explanation layers no causal
+# DEFECT: PASS si causal True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-1B", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}
 meets_contract = record["causal"] is True
 status = "PASS" if meets_contract else "REJECT_CAUSAL_CLAIM"
 print("S35-T1-B", status)
@@ -596,7 +652,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_CAUSAL_CLAIM local
+# DEFECT: PASS con claim causal en explicación local
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'contrib', 'layers', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
@@ -647,7 +706,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_CAUSAL_CLAIM local
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'contrib', 'layers', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
@@ -699,7 +761,10 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_LAYER_FIELDS"]
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}
+          code: `# CASO-LIM-035 · slice metrics min_n
+# DEFECT: PASS si slice_n < min_n
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}
 meets_contract = record["slice_n"] < record["min_n"]
 status = "PASS" if meets_contract else "REJECT_LOW_N_CLAIM"
 print("S35-T2-A", status)
@@ -733,7 +798,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_LOW_N_CLAIM
+# DEFECT: PASS con claim de equidad en n bajo
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'slice_n', 'precision', 'min_n'}
     missing = sorted(required - record.keys())
     if missing:
@@ -784,7 +852,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_LOW_N_CLAIM
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'slice_n', 'precision', 'min_n'}
     missing = sorted(required - record.keys())
     if missing:
@@ -836,7 +907,10 @@ assert results == ["CONTINUE", "REJECT_LOW_N_CLAIM", "REQUEST_SLICE_N"]
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}
+          code: `# CASO-LIM-035 · proxy features no auto_label
+# DEFECT: PASS si action auto_label
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}
 meets_contract = record["action"] == "auto_label"
 status = "PASS" if meets_contract else "REJECT_PROXY_FEATURE"
 print("S35-T2-B", status)
@@ -870,7 +944,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_PROXY_FEATURE
+# DEFECT: PASS auto-etiquetando con proxy sensible
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'feature', 'risk', 'action'}
     missing = sorted(required - record.keys())
     if missing:
@@ -921,7 +998,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_PROXY_FEATURE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'feature', 'risk', 'action'}
     missing = sorted(required - record.keys())
     if missing:
@@ -973,7 +1053,10 @@ assert results == ["CONTINUE", "REJECT_PROXY_FEATURE", "REQUEST_PROXY_AUDIT"]
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-3A", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}
+          code: `# CASO-LIM-035 · uncertainty band q>0
+# DEFECT: PASS si q==0 (solo punto)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-3A", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}
 meets_contract = record["q"] == 0
 status = "PASS" if meets_contract else "REJECT_POINT_ONLY"
 print("S35-T3-A", status)
@@ -1007,7 +1090,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_POINT_ONLY
+# DEFECT: PASS sin intervalo/conformal
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'p', 'q', 'level'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1058,7 +1144,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_POINT_ONLY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'p', 'q', 'level'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1110,7 +1199,10 @@ assert results == ["CONTINUE", "REJECT_POINT_ONLY", "REQUEST_INTERVAL"]
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}
+          code: `# CASO-LIM-035 · OOD abstain not auto_fraud
+# DEFECT: PASS si action auto_fraud
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}
 meets_contract = record["action"] == "auto_fraud"
 status = "PASS" if meets_contract else "REJECT_AUTO_LABEL"
 print("S35-T3-B", status)
@@ -1144,7 +1236,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_AUTO_LABEL
+# DEFECT: PASS auto-fraude en OOD
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'zs', 'threshold', 'action'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1195,7 +1290,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_AUTO_LABEL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'zs', 'threshold', 'action'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1247,7 +1345,10 @@ assert results == ["CONTINUE", "REJECT_AUTO_LABEL", "REQUEST_OOD_POLICY"]
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-4A", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}
+          code: `# CASO-LIM-035 · model card use queue_rank not fraud
+# DEFECT: PASS si use fraud_label
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-4A", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}
 meets_contract = record["use"] == "fraud_label"
 status = "PASS" if meets_contract else "REJECT_SCOPE_BREACH"
 print("S35-T4-A", status)
@@ -1281,7 +1382,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_SCOPE_BREACH
+# DEFECT: PASS usando modelo fuera de scope
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'use', 'out_of_scope', 'contestability'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1332,7 +1436,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_SCOPE_BREACH
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'use', 'out_of_scope', 'contestability'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1384,7 +1491,10 @@ assert results == ["CONTINUE", "REJECT_SCOPE_BREACH", "REQUEST_CARD_KEYS"]
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-035-4B", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}
+          code: `# CASO-LIM-035 · override must record actor
+# DEFECT: PASS si by vacío (override silencioso)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-035-4B", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}
 meets_contract = not record["by"]
 status = "PASS" if meets_contract else "REJECT_SILENT_OVERRIDE"
 print("S35-T4-B", status)
@@ -1418,7 +1528,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-035 · assess REJECT_SILENT_OVERRIDE
+# DEFECT: PASS con override sin auditor
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'case', 'human', 'by'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1469,7 +1582,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-035 · decide REJECT_SILENT_OVERRIDE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'case', 'human', 'by'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1529,7 +1645,7 @@ case = {
     "uncertainty": {"interval": None, "ood": False},
     "human": {"decision": None, "by": None},
 }
-# TODO: completa capas, OOD abstain y audit fields
+# Contrato de theory/iDo documentado (sin stubs)
 if __name__ == "__main__":
     print(sorted(case.keys()))
 `,
@@ -1574,20 +1690,79 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "out_of_scope documenta usos prohibidos (p.ej. fraud_label) para contestabilidad y límites de producto.",
+      },
+      {
+        question: "Una explicación local del score del caso debe…",
+        options: ["afirmar causalidad legal de fraude", "omitir audit del override", "separar evidencia/modelo/incertidumbre/humano con causal=False", "forzar label en OOD"],
+        correctIndex: 2,
+        explanation:
+          "Explicar no es acusar; OOD abstain y audit de override son obligatorios.",
       }
     ],
   },
   resources: {
     docs: [
-      { label: "Model Cards (Mitchell et al.)", url: "https://arxiv.org/abs/1810.03993", note: "Plantilla" },
-      { label: "sklearn inspection", url: "https://scikit-learn.org/stable/inspection.html", note: "Permutation importance" },
+      {
+        label: "Model Cards (Mitchell et al.)",
+        url: "https://arxiv.org/abs/1810.03993",
+        note: "Plantilla de model card",
+      },
+      {
+        label: "sklearn inspection",
+        url: "https://scikit-learn.org/stable/inspection.html",
+        note: "Permutation importance",
+      },
+      {
+        label: "Interpretable ML book (Molnar) online",
+        url: "https://christophm.github.io/interpretable-ml-book/",
+        note: "Límites de explicación",
+      },
+      {
+        label: "Google Model Cards",
+        url: "https://modelcards.withgoogle.com/about",
+        note: "System/model cards",
+      },
+      {
+        label: "NIST AI RMF",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Riesgo y gobernanza",
+      },
+      {
+        label: "Fairness and Machine Learning (book site)",
+        url: "https://fairmlbook.org/",
+        note: "Slices, proxies y daño",
+      },
+      {
+        label: "Conformal prediction (mapie docs)",
+        url: "https://mapie.readthedocs.io/",
+        note: "Intervalos de cobertura",
+      },
     ],
     books: [
       { label: "Interpretable Machine Learning (Molnar)", note: "Límites de explicación" },
-      { label: "Fairness concepts", note: "Slices y daño" },
+      { label: "Fairness and Machine Learning (Barocas et al.)", note: "Equidad y proxies" },
     ],
     courses: [
-      { label: "Responsible AI practices", url: "https://www.tensorflow.org/responsible_ai", note: "Referencia amplia" },
+      {
+        label: "TensorFlow Responsible AI",
+        url: "https://www.tensorflow.org/responsible_ai",
+        note: "Prácticas de IA responsable",
+      },
+      {
+        label: "Coursera — responsible AI / fairness",
+        url: "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+        note: "Equidad y model cards",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
     ],
   },
 }

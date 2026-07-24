@@ -1,0 +1,1171 @@
+{
+  "section": 41,
+  "title": "APIs con FastAPI y contratos HTTP",
+  "file": "s41-llm-finetuning.ts",
+  "n_required": 41,
+  "n_logged": 41,
+  "generated_at": "2026-07-24T03:58:57.914308+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "idempotent create; no PII in errors; read compat",
+    "v3_retarget": "FastAPI/HTTP not LLM fine-tuning",
+    "expert_pass_at": "2026-07-24T03:58:57.914308+00:00"
+  },
+  "unique_foci": 41,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "HTTP resources nouns not verbs",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        },
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 1/41: «HTTP resources nouns not verbs» via FastAPI, OpenAPI, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «HTTP resources nouns not verbs».",
+      "expand_scope": "E1/E2/E3 + docs for «HTTP resources nouns not verbs»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 1/41: «HTTP resources nouns not verbs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "methods GET POST semantics",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        },
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        },
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 2/41: «methods GET POST semantics» via FastAPI, RFC, Stripe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «methods GET POST semantics».",
+      "expand_scope": "E1/E2/E3 + docs for «methods GET POST semantics»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 2/41: «methods GET POST semantics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "status 201 create 200 read 4xx 5xx",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 3/41: «status 201 create 200 read 4xx 5xx» via FastAPI, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «status 201 create 200 read 4xx 5xx».",
+      "expand_scope": "E1/E2/E3 + docs for «status 201 create 200 read 4xx 5xx»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 3/41: «status 201 create 200 read 4xx 5xx» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "Idempotency-Key same body one effect",
+      "research": [
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 4/41: «Idempotency-Key same body one effect» via Docs, OpenAPI, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Idempotency-Key same body one effect».",
+      "expand_scope": "E1/E2/E3 + docs for «Idempotency-Key same body one effect»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 4/41: «Idempotency-Key same body one effect» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "cursor pagination stable next",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        },
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 5/41: «cursor pagination stable next» via RFC, Stripe, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cursor pagination stable next».",
+      "expand_scope": "E1/E2/E3 + docs for «cursor pagination stable next»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 5/41: «cursor pagination stable next» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "API version /v1 prefix",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 6/41: «API version /v1 prefix» via GitHub, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «API version /v1 prefix».",
+      "expand_scope": "E1/E2/E3 + docs for «API version /v1 prefix»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 6/41: «API version /v1 prefix» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "FastAPI routing thin handlers",
+      "research": [
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        },
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 7/41: «FastAPI routing thin handlers» via Coursera, Docs, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «FastAPI routing thin handlers».",
+      "expand_scope": "E1/E2/E3 + docs for «FastAPI routing thin handlers»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 7/41: «FastAPI routing thin handlers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "dependencies injectable capabilities",
+      "research": [
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 8/41: «dependencies injectable capabilities» via MIT, Stripe, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dependencies injectable capabilities».",
+      "expand_scope": "E1/E2/E3 + docs for «dependencies injectable capabilities»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 8/41: «dependencies injectable capabilities» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "Pydantic models validation",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 9/41: «Pydantic models validation» via GitHub, Harvard, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Pydantic models validation».",
+      "expand_scope": "E1/E2/E3 + docs for «Pydantic models validation»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 9/41: «Pydantic models validation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "OpenAPI generated contract",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        },
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 10/41: «OpenAPI generated contract» via Coursera, Docs, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenAPI generated contract».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenAPI generated contract»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 10/41: «OpenAPI generated contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "serialization exclude internal fields",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 11/41: «serialization exclude internal fields» via MIT, SRE, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «serialization exclude internal fields».",
+      "expand_scope": "E1/E2/E3 + docs for «serialization exclude internal fields»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 11/41: «serialization exclude internal fields» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "sync vs async handler choice",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 12/41: «sync vs async handler choice» via 12factor, GitHub, Harvard (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sync vs async handler choice».",
+      "expand_scope": "E1/E2/E3 + docs for «sync vs async handler choice»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 12/41: «sync vs async handler choice» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "background jobs boundary",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 13/41: «background jobs boundary» via Coursera, Live, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «background jobs boundary».",
+      "expand_scope": "E1/E2/E3 + docs for «background jobs boundary»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 13/41: «background jobs boundary» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "typed errors no PII leakage",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        },
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 14/41: «typed errors no PII leakage» via MIT, SRE, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «typed errors no PII leakage».",
+      "expand_scope": "E1/E2/E3 + docs for «typed errors no PII leakage»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 14/41: «typed errors no PII leakage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "timeouts and lifecycle shutdown",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 15/41: «timeouts and lifecycle shutdown» via 12factor, FastAPI, Harvard (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «timeouts and lifecycle shutdown».",
+      "expand_scope": "E1/E2/E3 + docs for «timeouts and lifecycle shutdown»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 15/41: «timeouts and lifecycle shutdown» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "unit tests pure domain",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 16/41: «unit tests pure domain» via FastAPI, Live, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unit tests pure domain».",
+      "expand_scope": "E1/E2/E3 + docs for «unit tests pure domain»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 16/41: «unit tests pure domain» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "contract tests OpenAPI fidelity",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        },
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        },
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 17/41: «contract tests OpenAPI fidelity» via FastAPI, SRE, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contract tests OpenAPI fidelity».",
+      "expand_scope": "E1/E2/E3 + docs for «contract tests OpenAPI fidelity»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 17/41: «contract tests OpenAPI fidelity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "integration TestClient path",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        },
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 18/41: «integration TestClient path» via 12factor, FastAPI, OpenAPI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «integration TestClient path».",
+      "expand_scope": "E1/E2/E3 + docs for «integration TestClient path»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 18/41: «integration TestClient path» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "read compatibility additive fields",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        },
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 19/41: «read compatibility additive fields» via FastAPI, Live, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «read compatibility additive fields».",
+      "expand_scope": "E1/E2/E3 + docs for «read compatibility additive fields»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 19/41: «read compatibility additive fields» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "rate limit token bucket",
+      "research": [
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        },
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 20/41: «rate limit token bucket» via FastAPI, RFC, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rate limit token bucket».",
+      "expand_scope": "E1/E2/E3 + docs for «rate limit token bucket»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 20/41: «rate limit token bucket» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "observability correlation_id",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        },
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 21/41: «observability correlation_id» via FastAPI, OpenAPI, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «observability correlation_id».",
+      "expand_scope": "E1/E2/E3 + docs for «observability correlation_id»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 21/41: «observability correlation_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "CASO-ARE-041 Arequipa synthetic jobs",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        },
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        },
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 22/41: «CASO-ARE-041 Arequipa synthetic jobs» via FastAPI, RFC, Stripe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-ARE-041 Arequipa synthetic jobs».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-ARE-041 Arequipa synthetic jobs»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 22/41: «CASO-ARE-041 Arequipa synthetic jobs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "V3 retarget not LLM fine-tuning",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 23/41: «V3 retarget not LLM fine-tuning» via FastAPI, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not LLM fine-tuning».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not LLM fine-tuning»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 23/41: «V3 retarget not LLM fine-tuning» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "CP-N4-A HTTP gate",
+      "research": [
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 24/41: «CP-N4-A HTTP gate» via Docs, OpenAPI, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-A HTTP gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-A HTTP gate»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 24/41: «CP-N4-A HTTP gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "duplicate side effect is gate failure",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        },
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 25/41: «duplicate side effect is gate failure» via RFC, Stripe, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «duplicate side effect is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «duplicate side effect is gate failure»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 25/41: «duplicate side effect is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "E1 guided status matrix DEFECT",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 26/41: «E1 guided status matrix DEFECT» via GitHub, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided status matrix DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided status matrix DEFECT»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 26/41: «E1 guided status matrix DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "E2 independent idempotency store",
+      "research": [
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        },
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 27/41: «E2 independent idempotency store» via Coursera, Docs, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent idempotency store».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent idempotency store»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 27/41: «E2 independent idempotency store» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "E3 transfer rate limit + errors",
+      "research": [
+        {
+          "family": "Stripe",
+          "title": "Idempotent requests",
+          "url": "https://stripe.com/docs/api/idempotent_requests",
+          "note": "idempotency key"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 28/41: «E3 transfer rate limit + errors» via MIT, Stripe, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer rate limit + errors».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer rate limit + errors»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 28/41: «E3 transfer rate limit + errors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "Stripe idempotency patterns",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 29/41: «Stripe idempotency patterns» via GitHub, Harvard, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stripe idempotency patterns».",
+      "expand_scope": "E1/E2/E3 + docs for «Stripe idempotency patterns»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 29/41: «Stripe idempotency patterns» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "RFC 9110 HTTP semantics",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async handlers"
+        },
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 30/41: «RFC 9110 HTTP semantics» via Coursera, Docs, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RFC 9110 HTTP semantics».",
+      "expand_scope": "E1/E2/E3 + docs for «RFC 9110 HTTP semantics»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 30/41: «RFC 9110 HTTP semantics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "OpenAPI latest spec",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "unit tests"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 31/41: «OpenAPI latest spec» via MIT, SRE, pytest (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenAPI latest spec».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenAPI latest spec»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 31/41: «OpenAPI latest spec» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "OWASP API security awareness",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "tiangolo/fastapi",
+          "url": "https://github.com/tiangolo/fastapi",
+          "note": "reference impl"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 32/41: «OWASP API security awareness» via 12factor, GitHub, Harvard (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OWASP API security awareness».",
+      "expand_scope": "E1/E2/E3 + docs for «OWASP API security awareness»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 32/41: «OWASP API security awareness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "RFC 9457 problem details",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "API design",
+          "url": "https://www.coursera.org/courses?query=api%20design",
+          "note": "API MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 33/41: «RFC 9457 problem details» via Coursera, Live, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RFC 9457 problem details».",
+      "expand_scope": "E1/E2/E3 + docs for «RFC 9457 problem details»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 33/41: «RFC 9457 problem details» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "pair from S40 boundaries to endpoints",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        },
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 34/41: «pair from S40 boundaries to endpoints» via MIT, SRE, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S40 boundaries to endpoints».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S40 boundaries to endpoints»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 34/41: «pair from S40 boundaries to endpoints» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "selfCheck HTTP MCQ ≥5",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 35/41: «selfCheck HTTP MCQ ≥5» via 12factor, FastAPI, Harvard (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck HTTP MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck HTTP MCQ ≥5»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 35/41: «selfCheck HTTP MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "no secrets in error bodies",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "HTTP basics"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 36/41: «no secrets in error bodies» via FastAPI, Live, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no secrets in error bodies».",
+      "expand_scope": "E1/E2/E3 + docs for «no secrets in error bodies»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 36/41: «no secrets in error bodies» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "pytest + TestClient progressive",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SRE monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "observability"
+        },
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        },
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 37/41: «pytest + TestClient progressive» via FastAPI, SRE, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pytest + TestClient progressive».",
+      "expand_scope": "E1/E2/E3 + docs for «pytest + TestClient progressive»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 37/41: «pytest + TestClient progressive» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "stdlib models before full FastAPI install",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "stateless processes"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        },
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 38/41: «stdlib models before full FastAPI install» via 12factor, FastAPI, OpenAPI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stdlib models before full FastAPI install».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib models before full FastAPI install»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 38/41: «stdlib models before full FastAPI install» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "SRE monitoring for API SLIs",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "FastAPI",
+          "title": "FastAPI tutorial",
+          "url": "https://fastapi.tiangolo.com/tutorial/",
+          "note": "routing deps"
+        },
+        {
+          "family": "RFC",
+          "title": "HTTP Semantics RFC 9110",
+          "url": "https://www.rfc-editor.org/rfc/rfc9110",
+          "note": "methods status"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 39/41: «SRE monitoring for API SLIs» via FastAPI, Live, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE monitoring for API SLIs».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE monitoring for API SLIs»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 39/41: «SRE monitoring for API SLIs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "12-factor stateless process",
+      "research": [
+        {
+          "family": "pytest-asyncio",
+          "title": "pytest-asyncio",
+          "url": "https://pytest-asyncio.readthedocs.io/",
+          "note": "async tests"
+        },
+        {
+          "family": "FastAPI",
+          "title": "Testing",
+          "url": "https://fastapi.tiangolo.com/tutorial/testing/",
+          "note": "TestClient"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "typed errors"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 40/41: «12-factor stateless process» via FastAPI, RFC, pytest-asyncio (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor stateless process».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor stateless process»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 40/41: «12-factor stateless process» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "Harvard CS50P pedagogy gradual release",
+      "research": [
+        {
+          "family": "FastAPI",
+          "title": "FastAPI docs",
+          "url": "https://fastapi.tiangolo.com/",
+          "note": "framework"
+        },
+        {
+          "family": "OpenAPI",
+          "title": "OpenAPI Spec",
+          "url": "https://spec.openapis.org/oas/latest.html",
+          "note": "contract"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/",
+          "note": "validation"
+        }
+      ],
+      "synthesize": "S41 «APIs con FastAPI y contratos HTTP» cycle 41/41: «Harvard CS50P pedagogy gradual release» via FastAPI, OpenAPI, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Harvard CS50P pedagogy gradual release».",
+      "expand_scope": "E1/E2/E3 + docs for «Harvard CS50P pedagogy gradual release»; V3 roadmap; pair S40↔S41.",
+      "re_synthesize": "Decision 41/41: «Harvard CS50P pedagogy gradual release» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:58:57.914308+00:00"
+}

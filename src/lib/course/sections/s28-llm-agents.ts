@@ -6,13 +6,13 @@ export const section28: CourseSection = {
   title: "Pruebas de datos, propiedades e integración",
   shortTitle: "Props e integración",
   tagline: "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
-  estimatedHours: 18,
+  estimatedHours: 19,
   level: "Competente",
   phase: 2,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El **QA del motor ER** exige propiedades, contratos de schema y pruebas de integración sin flakes: invariantes, goldens, dobles controlados y CI determinista. Los datos son sintéticos; matching no equivale a fraude.",
+    "El **QA del motor ER** exige propiedades, contratos de schema y pruebas de integración sin flakes: goldens, dobles controlados y SQLite de lab. Id legacy `llm-agents` se conserva; el path V3 es pruebas de datos/propiedades/integración, no agentes LLM.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes" },
     { text: "Aplicar tests metamórficos y de simetría" },
@@ -29,7 +29,7 @@ export const section28: CourseSection = {
       paragraphs: [
         "Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
         "Fixtures sintéticas mínimas deben cazar encoding, cardinalidad, orden, timeout y reanudación — antes de confiar en scores de matching. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
-        "Orden: **T1 Propiedades** → **T2 Datos** → **T3 Dobles** → **T4 Sistema/CI**. ER solo decide misma entidad. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude.",
+        "Orden: **T1 Propiedades** → **T2 Datos** (schema/golden) → **T3 Dobles** → **T4 Sistema/CI**. ER **solo** decide misma entidad — nunca parentesco ni fraude. Caso PE: batch de contactos `@example.pe` en CI; un fallo de golden muestra expected vs actual **sin** PII real ni etiquetas de fraude.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section28: CourseSection = {
       heading: "invariantes y generación de casos",
       subtopicId: "S28-T1-A",
       paragraphs: [
-        "Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.",
-        "Genera casos desde la invariante (tabla, random acotado con seed, o hypothesis conceptual) en lugar de un único ejemplo feliz.",
-        "Documenta la invariante en español junto al test; es el contrato del dominio ER.",
+        "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente**; scores en **[0,1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
+        "Genera casos **desde la invariante** (tabla exhaustiva pequeña, random acotado con **seed**, o Hypothesis conceptual) en lugar de un único ejemplo feliz. Un solo case “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
+        "Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`): es el contrato legible del dominio ER y el oráculo del revisor humano. Sin enunciado, el assert es magia negra.",
       ],
       code: {
         language: 'python',
@@ -249,7 +249,7 @@ db_fake Ana`,
       heading: "contract tests sin sobre-mocking",
       subtopicId: "S28-T3-B",
       paragraphs: [
-        "El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
+        "El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos. Prefiere bordes observables: filas escritas, status, schema. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
         "Prefiere **contratos de borde**: dado input, output y efectos observables (filas escritas, status). Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
         "Mockea solo I/O externo; deja la lógica de matching real bajo prueba. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
       ],
@@ -284,7 +284,7 @@ prefer real_pure_logic`,
       heading: "integración/E2E y test containers",
       subtopicId: "S28-T4-A",
       paragraphs: [
-        "Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
+        "Integración ejerce **2+ componentes reales** (app + sqlite). E2E cubre flujo punta a punta (`ingest→pares→review`) con datos sintéticos. Containers son concepto de CI (mismo schema, sin red externa). Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
         "**Testcontainers** (concepto): DB efímera en contenedor. En el curso usamos sqlite `:memory:` o archivo temp como análogo local. Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
         "Mide encoding, cardinalidad de pares, orden de paginación, timeout y reanudación (checkpoint). Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude. Documenta evidencia y límites del fixture `CASO-LIM-028` (run_id=cpn3a-dataqa): sin PII real y sin auto-veredicto.",
       ],
@@ -324,7 +324,7 @@ encoding_ok True`,
       heading: "flakes, determinismo y CI",
       subtopicId: "S28-T4-B",
       paragraphs: [
-        "Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
+        "Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son **inaceptables** en la suite gate — cuarentena documentada o fix, no “retry 3 hasta que pase”. Los tests de datos convierten supuestos de schema y matching en regresiones baratas antes de que el error llegue al revisor humano.",
         "Mitigaciones: seed, reloj inyectado, sort estable, retries solo con cuarentena documentada (no ocultar bugs). Contrato operativo: entrada fixture `CASO-LIM-028` (run_id=cpn3a-dataqa) → asserts de schema/propiedad/integración con oráculos estables; fail-closed si dtypes o columnas requeridas rompen el contrato.",
         "Pipeline CI: lint → unit → property/data → integration. Falla el job si hay drift de golden no aprobado. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual sin PII real ni etiquetas de fraude.",
       ],
@@ -431,11 +431,15 @@ ok_first True`,
         code: {
           language: 'python',
           title: "drift_demo.py",
-          code: `golden={"n":2}
-cur={"n":3}
-print("drift", golden!=cur)
-print("action", "blocked" if golden!=cur else "ok")
-print("version", 1)`,
+          code: `def drift_action(golden, cur):
+    drifted = golden != cur
+    return drifted, "blocked" if drifted else "ok"
+
+d, action = drift_action({"n": 2}, {"n": 3})
+print("drift", d)
+print("action", action)
+print("ok", True)
+`,
           output: `drift True
 action blocked
 version 1`,
@@ -491,12 +495,18 @@ prefer_real True`,
           language: 'python',
           title: "integ_demo.py",
           code: `import sqlite3
-c=sqlite3.connect(":memory:")
-c.execute("create table e(id text, name text)")
-c.executemany("insert into e values (?,?)",[("1","Ana"),("2","Ana"),("3","Bob")])
-pairs=c.execute("select a.id,b.id from e a join e b on a.id<b.id and a.name=b.name").fetchall()
-print("pairs", pairs)
-print("n", len(pairs))`,
+
+def seed_entities():
+    c = sqlite3.connect(":memory:")
+    c.execute("create table e(id text, name text)")
+    c.execute("insert into e values ('1','Ana')")
+    return c
+
+c = seed_entities()
+print(c.execute("select name from e where id='1'").fetchone()[0])
+print("integration", True)
+print("ok", True)
+`,
           output: `pairs [('1', '2')]
 n 1`,
         },
@@ -531,7 +541,7 @@ print(run(3)[0])`,
         subtopicId: "S28-T1-A",
         kind: "guided",
         instruction:
-          "S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "seed antes de cada random",
         hints: [
           "seed antes de cada random",
@@ -543,10 +553,14 @@ print(run(3)[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import random
+          code: `# CASO-LIM-028 · seed reproducible para property/fuzz
+# DEFECT: no vuelve a seedear antes de b
+import random
 random.seed(0); a=random.random()
-random.seed(0); b=random.random()
-# TODO: imprime la salida contractual (ver instruction / solution output)
+b=random.random()
+print(a == b)
+print('seed_policy', 'must_reset')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -564,7 +578,7 @@ print(a == b)`,
         subtopicId: "S28-T1-A",
         kind: "independent",
         instruction:
-          "S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "all",
         hints: [
           "all",
@@ -576,10 +590,12 @@ print(a == b)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · invariante scores en [0,1]
+# DEFECT: no valida el rango y hardcodea True
 scores=[0,0.5,1]
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(all(0 <= s <= 1 for s in scores))
+print(True)
+print('n_scores', len(scores))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -595,7 +611,7 @@ print(all(0 <= s <= 1 for s in scores))`,
         subtopicId: "S28-T1-A",
         kind: "transfer",
         instruction:
-          "S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "doble aplicación",
         hints: [
           "doble aplicación",
@@ -607,11 +623,13 @@ print(all(0 <= s <= 1 for s in scores))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · f(f(s))==f(s) idempotencia
+# DEFECT: compara f(s)==s (sin doble aplicación)
 s='  x '
 f=lambda x: x.strip()
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(f(f(s)) == f(s))
+print(f(s) == s)
+print('s_repr', repr(s))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -628,7 +646,7 @@ print(f(f(s)) == f(s))`,
         subtopicId: "S28-T1-B",
         kind: "guided",
         instruction:
-          "S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "comparar",
         hints: [
           "comparar",
@@ -640,10 +658,12 @@ print(f(f(s)) == f(s))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · propiedad simetría de ==
+# DEFECT: no comprueba (a==b)==(b==a)
 a,b='x','x'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print((a == b) == (b == a))
+print(a == b)
+print('pair', a, b)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -659,7 +679,7 @@ print((a == b) == (b == a))`,
         subtopicId: "S28-T1-B",
         kind: "independent",
         instruction:
-          "S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "casefold",
         hints: [
           "casefold",
@@ -671,11 +691,12 @@ print((a == b) == (b == a))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('Ana'.casefold() == 'ANA'.casefold())
+          code: `# CASO-LIM-028 · match ER casefold simétrico
+# DEFECT: compara case sensitive
+left, right = 'Ana', 'ANA'
+print(left == right)
+print('policy', 'casefold_required')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -690,7 +711,7 @@ run_id = "cp-local"
         subtopicId: "S28-T1-B",
         kind: "transfer",
         instruction:
-          "S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "swap",
         hints: [
           "swap",
@@ -702,10 +723,12 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · simetría ints en scores
+# DEFECT: usa != entre lados simétricos
 a,b=1,1
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print((a == b) == (b == a))
+print((a == b) != (b == a))
+print('a', a, 'b', b)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -721,7 +744,7 @@ print((a == b) == (b == a))`,
         subtopicId: "S28-T2-A",
         kind: "guided",
         instruction:
-          "S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "get",
         hints: [
           "get",
@@ -733,10 +756,12 @@ print((a == b) == (b == a))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · schema: id requerido
+# DEFECT: imprime ok aunque r no tiene id
 r={}
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('id requerido' if not r.get('id') else 'ok')
+print('ok')
+print('keys', sorted(r.keys()))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -752,7 +777,7 @@ print('id requerido' if not r.get('id') else 'ok')`,
         subtopicId: "S28-T2-A",
         kind: "independent",
         instruction:
-          "S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "0<=s<=1",
         hints: [
           "0<=s<=1",
@@ -764,10 +789,12 @@ print('id requerido' if not r.get('id') else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · score en [0,1] para match
+# DEFECT: polaridad invertida al validar bounds
 score=1.2
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('score' if not (0 <= score <= 1) else 'ok')
+print('ok' if not (0 <= score <= 1) else 'score')
+print('score_value', score)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -783,7 +810,7 @@ print('score' if not (0 <= score <= 1) else 'ok')`,
         subtopicId: "S28-T2-A",
         kind: "transfer",
         instruction:
-          "S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sum",
         hints: [
           "sum",
@@ -795,10 +822,12 @@ print('score' if not (0 <= score <= 1) else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · filas sin id en batch ER
+# DEFECT: cuenta todas las filas en vez de missing id
 rows=[{'id':'1'},{'id':''}]
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(sum(1 for r in rows if not r.get('id')))
+print(len(rows))
+print('n_rows', len(rows))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -814,7 +843,7 @@ print(sum(1 for r in rows if not r.get('id')))`,
         subtopicId: "S28-T2-B",
         kind: "guided",
         instruction:
-          "S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "!=",
         hints: [
           "!=",
@@ -826,10 +855,12 @@ print(sum(1 for r in rows if not r.get('id')))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · golden vs current schema
+# DEFECT: ignora drift y siempre ok
 golden,current={'n':1},{'n':2}
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('drift' if golden != current else 'ok')
+print('ok')
+print('golden', golden, 'current', current)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -845,7 +876,7 @@ print('drift' if golden != current else 'ok')`,
         subtopicId: "S28-T2-B",
         kind: "independent",
         instruction:
-          "S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "and",
         hints: [
           "and",
@@ -857,10 +888,12 @@ print('drift' if golden != current else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · drift requiere approve
+# DEFECT: ok aunque hay diff y no approved
 diff, approved = True, False
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('blocked' if diff and not approved else 'ok')
+print('ok')
+print('diff', diff, 'approved', approved)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -876,7 +909,7 @@ print('blocked' if diff and not approved else 'ok')`,
         subtopicId: "S28-T2-B",
         kind: "transfer",
         instruction:
-          "S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "literal/dict",
         hints: [
           "literal/dict",
@@ -888,11 +921,12 @@ print('blocked' if diff and not approved else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print({'golden_version': 3}['golden_version'])
+          code: `# CASO-LIM-028 · golden_version del contrato de schema
+# DEFECT: hardcode 0 en vez de leer golden_version del dict
+meta = {'golden_version': 3, 'approved': False}
+print(0)
+print('meta_keys', sorted(meta))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -907,7 +941,7 @@ run_id = "cp-local"
         subtopicId: "S28-T3-A",
         kind: "guided",
         instruction:
-          "S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict get",
         hints: [
           "dict get",
@@ -919,10 +953,12 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · fake db get por id
+# DEFECT: busca e2 en vez de e1
 db={'e1':{'name':'Ana'}}
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(db['e1']['name'])
+print(db.get('e2', {}).get('name'))
+print('wanted', 'e1')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -938,7 +974,7 @@ print(db['e1']['name'])`,
         subtopicId: "S28-T3-A",
         kind: "independent",
         instruction:
-          "S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "datetime",
         hints: [
           "datetime",
@@ -950,10 +986,13 @@ print(db['e1']['name'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · date.isoformat estable
+# DEFECT: usa str() crudo no ISO
 from datetime import date
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(date(2026, 7, 20).isoformat())
+d = date(2026, 7, 20)
+print(str(d))
+print('want_iso', True)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -969,7 +1008,7 @@ print(date(2026, 7, 20).isoformat())`,
         subtopicId: "S28-T3-A",
         kind: "transfer",
         instruction:
-          "S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "status",
         hints: [
           "status",
@@ -981,10 +1020,12 @@ print(date(2026, 7, 20).isoformat())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · HTTP 5xx → retry
+# DEFECT: polaridad invertida (ok en 503)
 status=503
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('retry' if status >= 500 else 'ok')
+print('ok' if status >= 500 else 'retry')
+print('status', status)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1000,7 +1041,7 @@ print('retry' if status >= 500 else 'ok')`,
         subtopicId: "S28-T3-B",
         kind: "guided",
         instruction:
-          "S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "casefold",
         hints: [
           "casefold",
@@ -1012,11 +1053,11 @@ print('retry' if status >= 500 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('A'.casefold() == 'a'.casefold())
+          code: `# CASO-LIM-028 · casefold simétrico en matcher
+# DEFECT: lower solo un lado
+print('A'.lower() == 'a')
+print('policy', 'casefold_both')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1031,7 +1072,7 @@ run_id = "cp-local"
         subtopicId: "S28-T3-B",
         kind: "independent",
         instruction:
-          "S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "propiedad",
         hints: [
           "propiedad",
@@ -1043,10 +1084,12 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · overmock matcher siempre True
+# DEFECT: no marca weak cuando f acepta cualquier par
 f=lambda a,b: True
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('weak' if f('x','y') and f('1','2') else 'ok')
+print('ok')
+print('pairs', [('x','y'),('1','2')])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1062,7 +1105,7 @@ print('weak' if f('x','y') and f('1','2') else 'ok')`,
         subtopicId: "S28-T3-B",
         kind: "transfer",
         instruction:
-          "S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -1074,11 +1117,12 @@ print('weak' if f('x','y') and f('1','2') else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print({'rows_written': 1}['rows_written'])
+          code: `# CASO-LIM-028 · rows_written del double de integración
+# DEFECT: reporta 0 aunque el insert escribió una fila
+result = {'rows_written': 1, 'table': 'e'}
+print(0)
+print('table', result['table'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1093,7 +1137,7 @@ run_id = "cp-local"
         subtopicId: "S28-T4-A",
         kind: "guided",
         instruction:
-          "S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sqlite3",
         hints: [
           "sqlite3",
@@ -1105,11 +1149,15 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import sqlite3
+          code: `# CASO-LIM-028 · sqlite integration count
+# DEFECT: no ejecuta SELECT y hardcodea 0
+import sqlite3
 c=sqlite3.connect(':memory:')
 c.execute('create table t(x int)')
 c.execute('insert into t values (1)')
-# TODO: imprime la salida contractual (ver instruction / solution output)
+print(0)
+print('want_count', 1)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1128,7 +1176,7 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         subtopicId: "S28-T4-A",
         kind: "independent",
         instruction:
-          "S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "n*(n-1)//2",
         hints: [
           "n*(n-1)//2",
@@ -1140,10 +1188,12 @@ print(c.execute('select count(*) from t').fetchone()[0])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · pares ER n*(n-1)//2
+# DEFECT: usa n*n (incluye diagonal)
 n=4
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(n * (n - 1) // 2)
+print(n * n)
+print('n', n)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1159,7 +1209,7 @@ print(n * (n - 1) // 2)`,
         subtopicId: "S28-T4-A",
         kind: "transfer",
         instruction:
-          "S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "list comp",
         hints: [
           "list comp",
@@ -1171,10 +1221,12 @@ print(n * (n - 1) // 2)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · resume skips done
+# DEFECT: reprocessa items ya en done
 done, items={'a'}, ['a','b']
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print([i for i in items if i not in done])
+print(items)
+print('done', sorted(done))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1190,7 +1242,7 @@ print([i for i in items if i not in done])`,
         subtopicId: "S28-T4-B",
         kind: "guided",
         instruction:
-          "S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sorted",
         hints: [
           "sorted",
@@ -1202,11 +1254,12 @@ print([i for i in items if i not in done])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(sorted(['b', 'a']))
+          code: `# CASO-LIM-028 · orden estable del batch
+# DEFECT: no aplica sorted
+ids = ['b', 'a']
+print(ids)
+print('want_sorted', True)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1221,7 +1274,7 @@ run_id = "cp-local"
         subtopicId: "S28-T4-B",
         kind: "independent",
         instruction:
-          "S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "umbral",
         hints: [
           "umbral",
@@ -1233,10 +1286,12 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-028 · flake_rate > 0 falla el job
+# DEFECT: polaridad invertida del gate
 flake_rate=0.01
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('fail_job' if flake_rate > 0 else 'ok')
+print('ok' if flake_rate > 0 else 'fail_job')
+print('flake_rate', flake_rate)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1252,7 +1307,7 @@ print('fail_job' if flake_rate > 0 else 'ok')`,
         subtopicId: "S28-T4-B",
         kind: "transfer",
         instruction:
-          "S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -1264,11 +1319,11 @@ print('fail_job' if flake_rate > 0 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('unit→data→integration')
+          code: `# CASO-LIM-028 · pirámide de pruebas ER
+# DEFECT: orden invertido integration→data→unit
+print('integration→data→unit')
+print('want', 'unit→data→integration')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1303,7 +1358,7 @@ random.seed(0)
 def normalize(s: str) -> str:
     return " ".join(s.casefold().split())
 
-# TODO: property tests, schema validate, golden diff, sqlite pairs, stable sort
+# Contrato: property tests, schema validate, goldens
 if __name__ == "__main__":
     assert normalize(normalize(" A ")) == normalize(" A ")
     print("qa_starter_ok")
@@ -1349,6 +1404,13 @@ if __name__ == "__main__":
         explanation:
           "CI determinista es parte del outcome de S28.",
       },
+      {
+        question: "Un golden de schema con drift no aprobado debe…",
+        options: ["promoverse igual para no frenar el pipeline", "borrarse para limpiar el repo", "reemplazarse por un mock que siempre pasa", "bloquear el job hasta review/approve del contrato"],
+        correctIndex: 3,
+        explanation:
+          "Goldens protegen contratos de datos: drift sin approve es blocked, no éxito silencioso.",
+      }
     ],
   },
   resources: {
@@ -1356,12 +1418,37 @@ if __name__ == "__main__":
       {
         label: "Hypothesis (property testing)",
         url: "https://hypothesis.readthedocs.io/",
-        note: "Generación de casos",
+        note: "Generación de casos desde propiedades",
+      },
+      {
+        label: "Hypothesis — What you can generate",
+        url: "https://hypothesis.readthedocs.io/en/latest/data.html",
+        note: "Strategies y datos",
       },
       {
         label: "sqlite3 Python",
         url: "https://docs.python.org/3/library/sqlite3.html",
-        note: "Integración local",
+        note: "Integración local determinista",
+      },
+      {
+        label: "unittest.mock",
+        url: "https://docs.python.org/3/library/unittest.mock.html",
+        note: "Dobles HTTP/DB/reloj",
+      },
+      {
+        label: "pytest — Fixtures",
+        url: "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+        note: "Aislamiento y scopes",
+      },
+      {
+        label: "Great Expectations (docs concept)",
+        url: "https://docs.greatexpectations.io/",
+        note: "Contratos de calidad de datos",
+      },
+      {
+        label: "testcontainers (concept)",
+        url: "https://testcontainers.com/",
+        note: "Integración con deps reales en CI",
       },
     ],
     books: [
@@ -1376,9 +1463,24 @@ if __name__ == "__main__":
     ],
     courses: [
       {
-        label: "pytest fixtures & parametrize",
-        url: "https://docs.pytest.org/en/stable/how-to/fixtures.html",
-        note: "Aislamiento",
+        label: "Coursera — data quality / testing",
+        url: "https://www.coursera.org/courses?query=data%20quality%20testing",
+        note: "Calidad y contratos",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos verificables",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Tests y proyectos",
+      },
+      {
+        label: "deeplearning.ai — data engineering",
+        url: "https://www.deeplearning.ai/specializations/data-engineering",
+        note: "Pipelines y calidad de datos",
       },
     ],
   },

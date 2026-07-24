@@ -1,6 +1,7 @@
-# S43 verification-only
+# S43 verification
 
-**Status:** GOLD (master curriculum specificity + residual score ≥8 on main @ 342c8dd)
-**Action:** no content rewrite in this pass.
-**Research classes covered by existing Master hardening:** Coursera MLOps/ML engineering; Stanford CS329S-style systems; GitHub production ML / model cards; video MLOps project series.
-**Check:** progressive disclosure within phase-3 map; no PII; section-specific fixtures present (adversarial tests pass).
+**Status:** GOLD rewrite complete (expert rank 8.9)  
+**File:** `src/lib/course/sections/s43-llmops.ts`  
+**V3 title:** Contenedores y reproducibilidad operativa  
+**Fixtures:** 8 × `CASO-LIM-043-[1-4][AB]`  
+**Checks:** master curriculum specificity; solutionCode exit 0; theory/iDo computed; CASO-LIM synthetic; no rejected authoring markers.

@@ -1,0 +1,1199 @@
+{
+  "section": 42,
+  "title": "Schemas, seguridad y privacidad de servicios",
+  "file": "s42-graph-rag.ts",
+  "n_required": 42,
+  "n_logged": 42,
+  "generated_at": "2026-07-24T04:02:12.753752+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "strict schema; deny-by-default; no cross-tenant; redaction holds",
+    "v3_retarget": "schemas/security/privacy not GraphRAG",
+    "expert_pass_at": "2026-07-24T04:02:12.753752+00:00"
+  },
+  "unique_foci": 42,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "strict schema reject extra fields",
+      "research": [
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        },
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 1/42: «strict schema reject extra fields» via NIST, OWASP, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «strict schema reject extra fields».",
+      "expand_scope": "E1/E2/E3 + docs for «strict schema reject extra fields»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 1/42: «strict schema reject extra fields» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "Pydantic JSON Schema export",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        },
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 2/42: «Pydantic JSON Schema export» via JSON Schema, NIST, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Pydantic JSON Schema export».",
+      "expand_scope": "E1/E2/E3 + docs for «Pydantic JSON Schema export»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 2/42: «Pydantic JSON Schema export» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "additive evolution optional fields",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        },
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 3/42: «additive evolution optional fields» via NIST, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «additive evolution optional fields».",
+      "expand_scope": "E1/E2/E3 + docs for «additive evolution optional fields»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 3/42: «additive evolution optional fields» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "discriminated unions exhaustive",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 4/42: «discriminated unions exhaustive» via NIST, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «discriminated unions exhaustive».",
+      "expand_scope": "E1/E2/E3 + docs for «discriminated unions exhaustive»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 4/42: «discriminated unions exhaustive» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "business invariants beyond shape",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 5/42: «business invariants beyond shape» via MIT, NIST, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «business invariants beyond shape».",
+      "expand_scope": "E1/E2/E3 + docs for «business invariants beyond shape»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 5/42: «business invariants beyond shape» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "authn identity vs authz permission",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        },
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 6/42: «authn identity vs authz permission» via Harvard, NIST, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «authn identity vs authz permission».",
+      "expand_scope": "E1/E2/E3 + docs for «authn identity vs authz permission»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 6/42: «authn identity vs authz permission» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "RBAC roles matrix",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        },
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 7/42: «RBAC roles matrix» via Coursera, NIST, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RBAC roles matrix».",
+      "expand_scope": "E1/E2/E3 + docs for «RBAC roles matrix»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 7/42: «RBAC roles matrix» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "scopes service identities",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 8/42: «scopes service identities» via MIT, NIST, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «scopes service identities».",
+      "expand_scope": "E1/E2/E3 + docs for «scopes service identities»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 8/42: «scopes service identities» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "deny-by-default fail-closed",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 9/42: «deny-by-default fail-closed» via Harvard, Live, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deny-by-default fail-closed».",
+      "expand_scope": "E1/E2/E3 + docs for «deny-by-default fail-closed»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 9/42: «deny-by-default fail-closed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "cross-tenant read forbidden",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        },
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        },
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 10/42: «cross-tenant read forbidden» via Coursera, Docs, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cross-tenant read forbidden».",
+      "expand_scope": "E1/E2/E3 + docs for «cross-tenant read forbidden»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 10/42: «cross-tenant read forbidden» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "input limits max body size",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 11/42: «input limits max body size» via Docs, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «input limits max body size».",
+      "expand_scope": "E1/E2/E3 + docs for «input limits max body size»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 11/42: «input limits max body size» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "injection parameterized queries",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 12/42: «injection parameterized queries» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «injection parameterized queries».",
+      "expand_scope": "E1/E2/E3 + docs for «injection parameterized queries»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 12/42: «injection parameterized queries» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "SSRF allowlist URLs",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        },
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 13/42: «SSRF allowlist URLs» via 12factor, Coursera, Docs (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SSRF allowlist URLs».",
+      "expand_scope": "E1/E2/E3 + docs for «SSRF allowlist URLs»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 13/42: «SSRF allowlist URLs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "path traversal sanitize",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 14/42: «path traversal sanitize» via Docs, Py4E, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «path traversal sanitize».",
+      "expand_scope": "E1/E2/E3 + docs for «path traversal sanitize»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 14/42: «path traversal sanitize» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "secrets not in repo or logs",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 15/42: «secrets not in repo or logs» via GitHub, Live, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «secrets not in repo or logs».",
+      "expand_scope": "E1/E2/E3 + docs for «secrets not in repo or logs»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 15/42: «secrets not in repo or logs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "encryption at rest conceptual",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 16/42: «encryption at rest conceptual» via 12factor, Docs, JSON Schema (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «encryption at rest conceptual».",
+      "expand_scope": "E1/E2/E3 + docs for «encryption at rest conceptual»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 16/42: «encryption at rest conceptual» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "dependency risk CVE scan",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 17/42: «dependency risk CVE scan» via Docs, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dependency risk CVE scan».",
+      "expand_scope": "E1/E2/E3 + docs for «dependency risk CVE scan»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 17/42: «dependency risk CVE scan» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "data minimization purpose",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        },
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 18/42: «data minimization purpose» via GitHub, OWASP, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data minimization purpose».",
+      "expand_scope": "E1/E2/E3 + docs for «data minimization purpose»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 18/42: «data minimization purpose» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "retention deadline purge",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        },
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 19/42: «retention deadline purge» via 12factor, JSON Schema, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «retention deadline purge».",
+      "expand_scope": "E1/E2/E3 + docs for «retention deadline purge»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 19/42: «retention deadline purge» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "audit log who what when",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 20/42: «audit log who what when» via NIST, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «audit log who what when».",
+      "expand_scope": "E1/E2/E3 + docs for «audit log who what when»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 20/42: «audit log who what when» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "deletion and soft-delete policy",
+      "research": [
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        },
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 21/42: «deletion and soft-delete policy» via NIST, OWASP, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deletion and soft-delete policy».",
+      "expand_scope": "E1/E2/E3 + docs for «deletion and soft-delete policy»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 21/42: «deletion and soft-delete policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "pseudonymization hashlib salts",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        },
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 22/42: «pseudonymization hashlib salts» via JSON Schema, NIST, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pseudonymization hashlib salts».",
+      "expand_scope": "E1/E2/E3 + docs for «pseudonymization hashlib salts»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 22/42: «pseudonymization hashlib salts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "redaction holds in logs responses backups",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        },
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 23/42: «redaction holds in logs responses backups» via NIST, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «redaction holds in logs responses backups».",
+      "expand_scope": "E1/E2/E3 + docs for «redaction holds in logs responses backups»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 23/42: «redaction holds in logs responses backups» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "CASO-CUS-042 Cusco synthetic support",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 24/42: «CASO-CUS-042 Cusco synthetic support» via NIST, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-CUS-042 Cusco synthetic support».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-CUS-042 Cusco synthetic support»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 24/42: «CASO-CUS-042 Cusco synthetic support» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "V3 retarget not GraphRAG LLM retrieval",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 25/42: «V3 retarget not GraphRAG LLM retrieval» via MIT, NIST, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not GraphRAG LLM retrieval».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not GraphRAG LLM retrieval»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 25/42: «V3 retarget not GraphRAG LLM retrieval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "CP-N4-A security privacy gate",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        },
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 26/42: «CP-N4-A security privacy gate» via Harvard, NIST, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-A security privacy gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-A security privacy gate»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 26/42: «CP-N4-A security privacy gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "E1 guided schema DEFECT",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        },
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 27/42: «E1 guided schema DEFECT» via Coursera, NIST, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided schema DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided schema DEFECT»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 27/42: «E1 guided schema DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "E2 independent RBAC deny",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 28/42: «E2 independent RBAC deny» via MIT, NIST, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent RBAC deny».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent RBAC deny»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 28/42: «E2 independent RBAC deny» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "E3 transfer redaction retention",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "authz scopes"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 29/42: «E3 transfer redaction retention» via Harvard, Live, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer redaction retention».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer redaction retention»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 29/42: «E3 transfer redaction retention» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "OWASP API Security Top 10",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS253 Web Security",
+          "url": "https://web.stanford.edu/class/cs253/",
+          "note": "web security"
+        },
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        },
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 30/42: «OWASP API Security Top 10» via Coursera, Docs, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OWASP API Security Top 10».",
+      "expand_scope": "E1/E2/E3 + docs for «OWASP API Security Top 10»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 30/42: «OWASP API Security Top 10» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "NIST Privacy Framework",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 31/42: «NIST Privacy Framework» via Docs, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST Privacy Framework».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST Privacy Framework»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 31/42: «NIST Privacy Framework» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "SP 800-63 digital identity",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 32/42: «SP 800-63 digital identity» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SP 800-63 digital identity».",
+      "expand_scope": "E1/E2/E3 + docs for «SP 800-63 digital identity»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 32/42: «SP 800-63 digital identity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "Stanford CS253 web security",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Google Cybersecurity",
+          "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+          "note": "security fundamentals"
+        },
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 33/42: «Stanford CS253 web security» via 12factor, Coursera, Docs (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stanford CS253 web security».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS253 web security»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 33/42: «Stanford CS253 web security» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "OAuth 2.0 scopes analogy",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 34/42: «OAuth 2.0 scopes analogy» via Docs, Py4E, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OAuth 2.0 scopes analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «OAuth 2.0 scopes analogy»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 34/42: «OAuth 2.0 scopes analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "pair from S41 HTTP to secure plane",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 35/42: «pair from S41 HTTP to secure plane» via GitHub, Live, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S41 HTTP to secure plane».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S41 HTTP to secure plane»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 35/42: «pair from S41 HTTP to secure plane» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "selfCheck security MCQ ≥5",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "secrets module",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "tokens"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 36/42: «selfCheck security MCQ ≥5» via 12factor, Docs, JSON Schema (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck security MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck security MCQ ≥5»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 36/42: «selfCheck security MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "no real PII no real secrets",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "pseudonymization"
+        },
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 37/42: «no real PII no real secrets» via Docs, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no real PII no real secrets».",
+      "expand_scope": "E1/E2/E3 + docs for «no real PII no real secrets»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 37/42: «no real PII no real secrets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "progressive disclosure stdlib first",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "OWASP ASVS",
+          "url": "https://github.com/OWASP/ASVS",
+          "note": "verification standard"
+        },
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        },
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 38/42: «progressive disclosure stdlib first» via GitHub, OWASP, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib first».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib first»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 38/42: «progressive disclosure stdlib first» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "RFC 9457 safe error bodies",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config secrets"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        },
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 39/42: «RFC 9457 safe error bodies» via 12factor, JSON Schema, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RFC 9457 safe error bodies».",
+      "expand_scope": "E1/E2/E3 + docs for «RFC 9457 safe error bodies»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 39/42: «RFC 9457 safe error bodies» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "threat model STRIDE lite",
+      "research": [
+        {
+          "family": "RFC",
+          "title": "Problem Details RFC 9457",
+          "url": "https://www.rfc-editor.org/rfc/rfc9457",
+          "note": "safe errors"
+        },
+        {
+          "family": "OWASP",
+          "title": "API Security Top 10",
+          "url": "https://owasp.org/www-project-api-security/",
+          "note": "API risks"
+        },
+        {
+          "family": "NIST",
+          "title": "Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework",
+          "note": "privacy"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 40/42: «threat model STRIDE lite» via NIST, OWASP, RFC (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «threat model STRIDE lite».",
+      "expand_scope": "E1/E2/E3 + docs for «threat model STRIDE lite»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 40/42: «threat model STRIDE lite» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "ASVS verification mindset",
+      "research": [
+        {
+          "family": "Pydantic",
+          "title": "Pydantic docs",
+          "url": "https://docs.pydantic.dev/latest/",
+          "note": "schemas"
+        },
+        {
+          "family": "OWASP",
+          "title": "Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/",
+          "note": "mitigations"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-63",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "digital identity"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 41/42: «ASVS verification mindset» via NIST, OWASP, Pydantic (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ASVS verification mindset».",
+      "expand_scope": "E1/E2/E3 + docs for «ASVS verification mindset»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 41/42: «ASVS verification mindset» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "service identity machine tokens",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/",
+          "note": "contract"
+        },
+        {
+          "family": "OWASP",
+          "title": "Secrets Management",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+          "note": "secrets"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-88",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+          "note": "deletion"
+        }
+      ],
+      "synthesize": "S42 «Schemas, seguridad y privacidad de servicios» cycle 42/42: «service identity machine tokens» via JSON Schema, NIST, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «service identity machine tokens».",
+      "expand_scope": "E1/E2/E3 + docs for «service identity machine tokens»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 42/42: «service identity machine tokens» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:02:12.753752+00:00"
+}

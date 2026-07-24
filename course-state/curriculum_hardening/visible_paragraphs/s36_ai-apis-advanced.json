@@ -1,0 +1,613 @@
+{
+  "index": 36,
+  "id": "ai-apis-advanced",
+  "title": "Clustering, anomalías y validación temporal",
+  "file": "s36-ai-apis-advanced.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Señales no supervisadas para triage (mapa S36)",
+      "len": 46
+    },
+    {
+      "i": 1,
+      "text": "Diccionario de la sección (léelo antes de T1). Clustering: agrupar puntos por similitud sin etiqueta de conducta. Centroide: promedio geométrico de un grupo (no es una etiqueta moral). Escalamiento (scale): poner features en una escala comparable (p. ej. z-score) antes de distancias. PCA: proyección a pocas dimensiones para explorar, no para decidir culpa. Anomalía / outlier: punto raro respecto a una referencia; novelty: punto nuevo frente a un modelo de normalidad ya fijado. contamination: hipótesis de fracción a flaggear (control de cola), no tasa de fraude. precision@k (P@k): de los k primeros del ranking, qué fracción era útil al revisor. HITL: human-in-the-loop, revisión humana obligatoria antes de acciones que afectan personas.",
+      "len": 744
+    },
+    {
+      "i": 2,
+      "text": "Clustering y detección de rareza alimentan el triage CP-N3-C como señales auxiliares, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se traducen solas en fraude, parentesco o sanción. El lenguaje fail-closed protege a las personas detrás de los registros sintéticos del laboratorio.",
+      "len": 327
+    },
+    {
+      "i": 3,
+      "text": "Contrato de la sección. Entrada: features sintéticas CASO-LIM-036, capacidad de cola de review y labels escasos. Salida: clusters/scores de rareza con disclaimer, backtest temporal y precision@k. Error: tratar anomalía como culpa, contamination como tasa de fraude, o fit con leakage de futuro bloquea el gate de señales.",
+      "len": 321
+    },
+    {
+      "i": 4,
+      "text": "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. El id de plataforma ai-apis-advanced se conserva por legacy; el path V3 es unsupervised signals, no tool-use de APIs de agentes. Orden: T1 Clustering → T2 Dimensión/PCA → T3 Anomalías → T4 Tiempo y labels escasos. Stack didáctico: stdlib (statistics, listas) para progressive disclosure; sklearn se cita como referencia profesional sin exigir la librería en ejercicios.",
+      "len": 436
+    },
+    {
+      "i": 5,
+      "text": "Escalamiento y k-means / density (1D didáctico)",
+      "len": 47
+    },
+    {
+      "i": 6,
+      "text": "Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos de eventos). Density-based methods buscan regiones densas; aquí enseñamos el núcleo con un toy 1D de centroides (media de cada grupo). Los centroides son resúmenes geométricos, no etiquetas de fraude ni de parentesco.",
+      "len": 298
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: para un grupo de valores, el centroide 1D es la media aritmética sum(xs)/len(xs). Con dos grupos naturales (bajos vs altos) calculas c1 y c2 por separado. En 2D+ usarías distancias euclídeas y asignación iterativa (k-means clásico de sklearn/CS229); el 1D deja ver el contrato sin librerías pesadas.",
+      "len": 310
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: vector de features sintéticas y decisión de escalado. Salida: centroides, scaled=True cuando aplicaste z-score o normalización, verdict=False siempre. Error: clusterizar montos crudos contra conteos sin normalizar, o publicar el id de cluster como sanción.",
+      "len": 285
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-036-T1A (Red Andina sintético): xs=[1.0,1.2,5.0,5.2,5.1] → grupo bajo media≈1.1, grupo alto≈5.1. Sirve para segmentar la cola de review (p. ej. volumen bajo/alto), nunca para culpar. En banca/fintech peruana el mismo error (escalar mal) distorsiona colas de AML sintéticas de laboratorio.",
+      "len": 310
+    },
+    {
+      "i": 10,
+      "text": "Elección de k, estabilidad multi-seed y límites de métricas",
+      "len": 59
+    },
+    {
+      "i": 11,
+      "text": "Elige k con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance. Reporta sensibilidad a seed en el notebook de señales del triage sintético. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 529
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo didáctico: dado un mapa k → score (p. ej. silhouette sintético), eliges argmax. En producción repetirías k-means con varias seeds y medirías si la partición es estable (adjusted rand / variación de centroides). Un silhouette alto no legitima sanción. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 531
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: mapa k→score interno sintético + checklist multi_seed. Salida: k elegido, score y stable_check=multi_seed. Error: k que fragmenta de más la cola o que no se sostiene entre seeds. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 478
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-036-T1B: scores {2:0.4, 3:0.55, 4:0.52} → k=3 con score 0.55. Se exige multi_seed en el checklist del PR de señales. Datos inventados; no existen labels de «culpable». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 460
+    },
+    {
+      "i": 15,
+      "text": "PCA y visualización exploratoria",
+      "len": 32
+    },
+    {
+      "i": 16,
+      "text": "PCA proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad. Didáctica: proyección lineal por pesos fijos pc = w0x + w1y sobre features sintéticas (equivalente conceptual a un componente con cargas fijos).",
+      "len": 282
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: cada punto (x,y) se comprime a un escalar pc. En sklearn usarías PCA(n_components=2).fit_transform; aquí fijas pesos para ver el contrato sin autovalores. decision_model=False es política: el scatter no dispara auto-rechazo. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 506
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: puntos y pesos de proyección. Salida: coordenadas pc y decision_model=False. Error: clasificar culpa en el scatter o tratar el eje como «eje de fraude». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 452
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-036-T2A: w=(0.8,0.2) sobre puntos toy → lista pc; solo exploración visual del space sintético; el revisor humano manda en la cola. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 423
+    },
+    {
+      "i": 20,
+      "text": "Interpretación prudente de proyecciones",
+      "len": 39
+    },
+    {
+      "i": 21,
+      "text": "Los ejes PC no traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha o un error de datos, no un villano. Documenta el uso como exploratorio en el dossier de señales. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 497
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo de gobierno: flags booleanos de política en el reporte (axis_named_by_business=False, use=exploratory, auto_label=False). Cualquier historia de negocio sobre un eje se valida con features originales y un humano revisor. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 500
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: proyección y checklist de interpretación. Salida: flags de prudencia. Error: auto-etiquetar clusters en el plot como «sospechosos». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 431
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-036-T2B: si un punto se aleja en el scatter, primero revisa scale y missingness sintéticos antes de encolar review; nunca auto-label de conducta indebida. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 447
+    },
+    {
+      "i": 25,
+      "text": "Isolation Forest / LOF (conceptual) y reglas σ",
+      "len": 46
+    },
+    {
+      "i": 26,
+      "text": "Isolation Forest y LOF (conceptual) generan scores de rareza; las reglas legibles (monto > μ+3σ) ayudan al revisor a entender el flag. Score alto ⇒ candidato a review, no culpa. Combina modelo y regla cuando puedas explicar el caso sintético en una frase. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 526
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo stdlib: calcula μ y σ de los «normales» (o de toda la serie con cuidado) y marca x > mu + 3*sd. statistics.mean / pstdev bastan. En sklearn, IsolationForest(contamination=...) devuelve −1/1; aquí la regla σ enseña el contrato ético con números transparentes. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 539
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: serie sintética de montos. Salida: flags binarios, method y misconduct=False. Error: pipe del flag a despido o bloqueo automático. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 430
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-036-T3A: xs=[10,11,10,12,50]; μ sobre los normales del lab → flag en 50. El valor 50 es raro respecto al resto, no «culpable». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 419
+    },
+    {
+      "i": 30,
+      "text": "Novelty vs outlier y contamination (capacidad de cola)",
+      "len": 54
+    },
+    {
+      "i": 31,
+      "text": "Outlier: punto raro respecto al train. Novelty: punto nuevo comparado con un modelo de normalidad ya fijado. contamination es una hipótesis de fracción a flaggear, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de review sintética del lab.",
+      "len": 273
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: expected_flags = int(n * contamination). Si expected_flags > capacidad de analistas, bajas contamination o priorizas con otra señal. Nunca digas «contamination=0.05 ⇒ 5% de fraude». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 463
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: contamination y n del batch sintético. Salida: expected_flags e is_fraud_rate=False. Error: vender contamination como tasa de ilícitos. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 435
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-036-T3B: contamination=0.05, n=200 → expected_flags=10. use=capacity_tuning. Solo control de rareza y de carga de la cola ficticia. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 424
+    },
+    {
+      "i": 35,
+      "text": "Splits, backtests y ventanas temporales",
+      "len": 39
+    },
+    {
+      "i": 36,
+      "text": "Valida señales con backtest temporal: fit de normalidad en el pasado, score en el futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, usa un proxy de utilidad (click de review sintético), nunca leakage de datos futuros en el fit. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 531
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: serie de (mes, flag_rate); reportas media y fijas backtest=True, leakage=False. Un spike de flags se investiga (drift de datos, bug de scale) antes de ampliar la cola. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 449
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: ventanas (mes, flag_rate). Salida: mean_flag_rate, backtest=True, leakage=False. Error: entrenar con todo el histórico incluyendo el mes evaluado. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 446
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-036-T4A: rates 0.1, 0.12, 0.09 → mean≈0.103. Solo series sintéticas; el reloj del caso manda sobre cualquier shuffle aleatorio. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 420
+    },
+    {
+      "i": 40,
+      "text": "Labels escasos, precision@k y revisión humana",
+      "len": 45
+    },
+    {
+      "i": 41,
+      "text": "Con pocas etiquetas, precision@k y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida automática. El HITL es parte del contrato, no un adorno del dashboard. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 520
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: ranking binario de utilidad (1=útil al revisor) en los top-k; P@k = sum(ranked[:k])/k. Política: human_in_loop=True, auto_guilt=False. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 416
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: ranking de utilidad sintética y k. Salida: precision_at_k + flags HITL. Error: optimizar solo accuracy global con labels ralos. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 427
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-036-T4B: ranked=[1,0,1,0,0], k=3 → P@k≈0.667. La métrica de negocio del lab es «¿ayudó a la cola sintética?», no un veredicto moral. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco.",
+      "len": 425
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 46,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Señales no supervisadas para triage (mapa S36)",
+      "text": "Señales no supervisadas para triage (mapa S36)"
+    },
+    {
+      "i": 1,
+      "len": 744,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario de la sección (léelo antes de T1). Clustering: agrupar puntos por similitud sin etiqueta de conducta. Centroide: promedio geométrico de un grupo (no es una etiqueta mor",
+      "text": "Diccionario de la sección (léelo antes de T1). Clustering: agrupar puntos por similitud sin etiqueta de conducta. Centroide: promedio geométrico de un grupo (no es una etiqueta moral). Escalamiento (scale): poner features en una escala comparable (p. ej. z-score) antes de distancias. PCA: proyección a pocas dimensiones para explorar, no para decidir culpa. Anomalía / outlier: punto raro respecto a una referencia; novelty: punto nuevo frente a un modelo de normalidad ya fijado. contamination: hipótesis de fracción a flaggear (control de cola), no tasa de fraude. precision@k (P@k): de los k primeros del ranking, qué fracción era útil al revisor. HITL: human-in-the-loop, revisión humana obligatoria antes de acciones que afectan personas."
+    },
+    {
+      "i": 2,
+      "len": 327,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Clustering y detección de rareza alimentan el triage CP-N3-C como señales auxiliares, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se",
+      "text": "Clustering y detección de rareza alimentan el triage CP-N3-C como señales auxiliares, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se traducen solas en fraude, parentesco o sanción. El lenguaje fail-closed protege a las personas detrás de los registros sintéticos del laboratorio."
+    },
+    {
+      "i": 3,
+      "len": 321,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de la sección. Entrada: features sintéticas CASO-LIM-036, capacidad de cola de review y labels escasos. Salida: clusters/scores de rareza con disclaimer, backtest temporal",
+      "text": "Contrato de la sección. Entrada: features sintéticas CASO-LIM-036, capacidad de cola de review y labels escasos. Salida: clusters/scores de rareza con disclaimer, backtest temporal y precision@k. Error: tratar anomalía como culpa, contamination como tasa de fraude, o fit con leakage de futuro bloquea el gate de señales."
+    },
+    {
+      "i": 4,
+      "len": 436,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. El id de plataforma ai-apis-advanced se conserva por legacy; el path V3 es unsupervised signals, no tool-use de A",
+      "text": "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. El id de plataforma ai-apis-advanced se conserva por legacy; el path V3 es unsupervised signals, no tool-use de APIs de agentes. Orden: T1 Clustering → T2 Dimensión/PCA → T3 Anomalías → T4 Tiempo y labels escasos. Stack didáctico: stdlib (statistics, listas) para progressive disclosure; sklearn se cita como referencia profesional sin exigir la librería en ejercicios."
+    },
+    {
+      "i": 5,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Escalamiento y k-means / density (1D didáctico)",
+      "text": "Escalamiento y k-means / density (1D didáctico)"
+    },
+    {
+      "i": 6,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos de eventos). Density-based methods buscan regiones densas; aquí enseñamos el núcleo con un toy 1D d",
+      "text": "Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos de eventos). Density-based methods buscan regiones densas; aquí enseñamos el núcleo con un toy 1D de centroides (media de cada grupo). Los centroides son resúmenes geométricos, no etiquetas de fraude ni de parentesco."
+    },
+    {
+      "i": 7,
+      "len": 310,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: para un grupo de valores, el centroide 1D es la media aritmética sum(xs)/len(xs). Con dos grupos naturales (bajos vs altos) calculas c1 y c2 por separado. En 2D+ usarías",
+      "text": "Mecanismo: para un grupo de valores, el centroide 1D es la media aritmética sum(xs)/len(xs). Con dos grupos naturales (bajos vs altos) calculas c1 y c2 por separado. En 2D+ usarías distancias euclídeas y asignación iterativa (k-means clásico de sklearn/CS229); el 1D deja ver el contrato sin librerías pesadas."
+    },
+    {
+      "i": 8,
+      "len": 285,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: vector de features sintéticas y decisión de escalado. Salida: centroides, scaled=True cuando aplicaste z-score o normalización, verdict=False siempre. ",
+      "text": "Contrato operativo. Entrada: vector de features sintéticas y decisión de escalado. Salida: centroides, scaled=True cuando aplicaste z-score o normalización, verdict=False siempre. Error: clusterizar montos crudos contra conteos sin normalizar, o publicar el id de cluster como sanción."
+    },
+    {
+      "i": 9,
+      "len": 310,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T1A (Red Andina sintético): xs=[1.0,1.2,5.0,5.2,5.1] → grupo bajo media≈1.1, grupo alto≈5.1. Sirve para segmentar la cola de review (p. ej. volumen bajo/a",
+      "text": "Aplicación a CASO-LIM-036-T1A (Red Andina sintético): xs=[1.0,1.2,5.0,5.2,5.1] → grupo bajo media≈1.1, grupo alto≈5.1. Sirve para segmentar la cola de review (p. ej. volumen bajo/alto), nunca para culpar. En banca/fintech peruana el mismo error (escalar mal) distorsiona colas de AML sintéticas de laboratorio."
+    },
+    {
+      "i": 10,
+      "len": 59,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Elección de k, estabilidad multi-seed y límites de métricas",
+      "text": "Elección de k, estabilidad multi-seed y límites de métricas"
+    },
+    {
+      "i": 11,
+      "len": 529,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Elige k con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalanc",
+      "text": "Elige k con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance. Reporta sensibilidad a seed en el notebook de señales del triage sintético. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 12,
+      "len": 531,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: dado un mapa k → score (p. ej. silhouette sintético), eliges argmax. En producción repetirías k-means con varias seeds y medirías si la partición es estable (a",
+      "text": "Mecanismo didáctico: dado un mapa k → score (p. ej. silhouette sintético), eliges argmax. En producción repetirías k-means con varias seeds y medirías si la partición es estable (adjusted rand / variación de centroides). Un silhouette alto no legitima sanción. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 13,
+      "len": 478,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: mapa k→score interno sintético + checklist multi_seed. Salida: k elegido, score y stable_check=multi_seed. Error: k que fragmenta de más la cola o que ",
+      "text": "Contrato operativo. Entrada: mapa k→score interno sintético + checklist multi_seed. Salida: k elegido, score y stable_check=multi_seed. Error: k que fragmenta de más la cola o que no se sostiene entre seeds. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 14,
+      "len": 460,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T1B: scores {2:0.4, 3:0.55, 4:0.52} → k=3 con score 0.55. Se exige multi_seed en el checklist del PR de señales. Datos inventados; no existen labels de «c",
+      "text": "Aplicación a CASO-LIM-036-T1B: scores {2:0.4, 3:0.55, 4:0.52} → k=3 con score 0.55. Se exige multi_seed en el checklist del PR de señales. Datos inventados; no existen labels de «culpable». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 15,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "PCA y visualización exploratoria",
+      "text": "PCA y visualización exploratoria"
+    },
+    {
+      "i": 16,
+      "len": 282,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "PCA proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad. Didáctica: proyección lineal por pesos fij",
+      "text": "PCA proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad. Didáctica: proyección lineal por pesos fijos pc = w0x + w1y sobre features sintéticas (equivalente conceptual a un componente con cargas fijos)."
+    },
+    {
+      "i": 17,
+      "len": 506,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: cada punto (x,y) se comprime a un escalar pc. En sklearn usarías PCA(n_components=2).fit_transform; aquí fijas pesos para ver el contrato sin autovalores. decision_model",
+      "text": "Mecanismo: cada punto (x,y) se comprime a un escalar pc. En sklearn usarías PCA(n_components=2).fit_transform; aquí fijas pesos para ver el contrato sin autovalores. decision_model=False es política: el scatter no dispara auto-rechazo. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 18,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: puntos y pesos de proyección. Salida: coordenadas pc y decision_model=False. Error: clasificar culpa en el scatter o tratar el eje como «eje de fraude»",
+      "text": "Contrato operativo. Entrada: puntos y pesos de proyección. Salida: coordenadas pc y decision_model=False. Error: clasificar culpa en el scatter o tratar el eje como «eje de fraude». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 19,
+      "len": 423,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T2A: w=(0.8,0.2) sobre puntos toy → lista pc; solo exploración visual del space sintético; el revisor humano manda en la cola. En el laboratorio Red Andin",
+      "text": "Aplicación a CASO-LIM-036-T2A: w=(0.8,0.2) sobre puntos toy → lista pc; solo exploración visual del space sintético; el revisor humano manda en la cola. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 20,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Interpretación prudente de proyecciones",
+      "text": "Interpretación prudente de proyecciones"
+    },
+    {
+      "i": 21,
+      "len": 497,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los ejes PC no traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha o un error de datos, no un villano. Documenta el u",
+      "text": "Los ejes PC no traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha o un error de datos, no un villano. Documenta el uso como exploratorio en el dossier de señales. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 22,
+      "len": 500,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo de gobierno: flags booleanos de política en el reporte (axis_named_by_business=False, use=exploratory, auto_label=False). Cualquier historia de negocio sobre un eje se va",
+      "text": "Mecanismo de gobierno: flags booleanos de política en el reporte (axis_named_by_business=False, use=exploratory, auto_label=False). Cualquier historia de negocio sobre un eje se valida con features originales y un humano revisor. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 23,
+      "len": 431,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: proyección y checklist de interpretación. Salida: flags de prudencia. Error: auto-etiquetar clusters en el plot como «sospechosos». En el laboratorio R",
+      "text": "Contrato operativo. Entrada: proyección y checklist de interpretación. Salida: flags de prudencia. Error: auto-etiquetar clusters en el plot como «sospechosos». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 24,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T2B: si un punto se aleja en el scatter, primero revisa scale y missingness sintéticos antes de encolar review; nunca auto-label de conducta indebida. En ",
+      "text": "Aplicación a CASO-LIM-036-T2B: si un punto se aleja en el scatter, primero revisa scale y missingness sintéticos antes de encolar review; nunca auto-label de conducta indebida. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 25,
+      "len": 46,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Isolation Forest / LOF (conceptual) y reglas σ",
+      "text": "Isolation Forest / LOF (conceptual) y reglas σ"
+    },
+    {
+      "i": 26,
+      "len": 526,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Isolation Forest y LOF (conceptual) generan scores de rareza; las reglas legibles (monto > μ+3σ) ayudan al revisor a entender el flag. Score alto ⇒ candidato a review, no culpa. Co",
+      "text": "Isolation Forest y LOF (conceptual) generan scores de rareza; las reglas legibles (monto > μ+3σ) ayudan al revisor a entender el flag. Score alto ⇒ candidato a review, no culpa. Combina modelo y regla cuando puedas explicar el caso sintético en una frase. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 27,
+      "len": 539,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo stdlib: calcula μ y σ de los «normales» (o de toda la serie con cuidado) y marca x > mu + 3*sd. statistics.mean / pstdev bastan. En sklearn, IsolationForest(contamination",
+      "text": "Mecanismo stdlib: calcula μ y σ de los «normales» (o de toda la serie con cuidado) y marca x > mu + 3*sd. statistics.mean / pstdev bastan. En sklearn, IsolationForest(contamination=...) devuelve −1/1; aquí la regla σ enseña el contrato ético con números transparentes. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 28,
+      "len": 430,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: serie sintética de montos. Salida: flags binarios, method y misconduct=False. Error: pipe del flag a despido o bloqueo automático. En el laboratorio Re",
+      "text": "Contrato operativo. Entrada: serie sintética de montos. Salida: flags binarios, method y misconduct=False. Error: pipe del flag a despido o bloqueo automático. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 29,
+      "len": 419,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T3A: xs=[10,11,10,12,50]; μ sobre los normales del lab → flag en 50. El valor 50 es raro respecto al resto, no «culpable». En el laboratorio Red Andina (L",
+      "text": "Aplicación a CASO-LIM-036-T3A: xs=[10,11,10,12,50]; μ sobre los normales del lab → flag en 50. El valor 50 es raro respecto al resto, no «culpable». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 30,
+      "len": 54,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Novelty vs outlier y contamination (capacidad de cola)",
+      "text": "Novelty vs outlier y contamination (capacidad de cola)"
+    },
+    {
+      "i": 31,
+      "len": 273,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Outlier: punto raro respecto al train. Novelty: punto nuevo comparado con un modelo de normalidad ya fijado. contamination es una hipótesis de fracción a flaggear, no la prevalenci",
+      "text": "Outlier: punto raro respecto al train. Novelty: punto nuevo comparado con un modelo de normalidad ya fijado. contamination es una hipótesis de fracción a flaggear, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de review sintética del lab."
+    },
+    {
+      "i": 32,
+      "len": 463,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: expected_flags = int(n * contamination). Si expected_flags > capacidad de analistas, bajas contamination o priorizas con otra señal. Nunca digas «contamination=0.05 ⇒ 5%",
+      "text": "Mecanismo: expected_flags = int(n * contamination). Si expected_flags > capacidad de analistas, bajas contamination o priorizas con otra señal. Nunca digas «contamination=0.05 ⇒ 5% de fraude». En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 33,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: contamination y n del batch sintético. Salida: expected_flags e is_fraud_rate=False. Error: vender contamination como tasa de ilícitos. En el laborator",
+      "text": "Contrato operativo. Entrada: contamination y n del batch sintético. Salida: expected_flags e is_fraud_rate=False. Error: vender contamination como tasa de ilícitos. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 34,
+      "len": 424,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T3B: contamination=0.05, n=200 → expected_flags=10. use=capacity_tuning. Solo control de rareza y de carga de la cola ficticia. En el laboratorio Red Andi",
+      "text": "Aplicación a CASO-LIM-036-T3B: contamination=0.05, n=200 → expected_flags=10. use=capacity_tuning. Solo control de rareza y de carga de la cola ficticia. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 35,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Splits, backtests y ventanas temporales",
+      "text": "Splits, backtests y ventanas temporales"
+    },
+    {
+      "i": 36,
+      "len": 531,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Valida señales con backtest temporal: fit de normalidad en el pasado, score en el futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, usa un proxy de",
+      "text": "Valida señales con backtest temporal: fit de normalidad en el pasado, score en el futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, usa un proxy de utilidad (click de review sintético), nunca leakage de datos futuros en el fit. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 37,
+      "len": 449,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: serie de (mes, flag_rate); reportas media y fijas backtest=True, leakage=False. Un spike de flags se investiga (drift de datos, bug de scale) antes de ampliar la cola. E",
+      "text": "Mecanismo: serie de (mes, flag_rate); reportas media y fijas backtest=True, leakage=False. Un spike de flags se investiga (drift de datos, bug de scale) antes de ampliar la cola. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 38,
+      "len": 446,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: ventanas (mes, flag_rate). Salida: mean_flag_rate, backtest=True, leakage=False. Error: entrenar con todo el histórico incluyendo el mes evaluado. En e",
+      "text": "Contrato operativo. Entrada: ventanas (mes, flag_rate). Salida: mean_flag_rate, backtest=True, leakage=False. Error: entrenar con todo el histórico incluyendo el mes evaluado. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 39,
+      "len": 420,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T4A: rates 0.1, 0.12, 0.09 → mean≈0.103. Solo series sintéticas; el reloj del caso manda sobre cualquier shuffle aleatorio. En el laboratorio Red Andina (",
+      "text": "Aplicación a CASO-LIM-036-T4A: rates 0.1, 0.12, 0.09 → mean≈0.103. Solo series sintéticas; el reloj del caso manda sobre cualquier shuffle aleatorio. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 40,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Labels escasos, precision@k y revisión humana",
+      "text": "Labels escasos, precision@k y revisión humana"
+    },
+    {
+      "i": 41,
+      "len": 520,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Con pocas etiquetas, precision@k y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida a",
+      "text": "Con pocas etiquetas, precision@k y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida automática. El HITL es parte del contrato, no un adorno del dashboard. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 42,
+      "len": 416,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: ranking binario de utilidad (1=útil al revisor) en los top-k; P@k = sum(ranked[:k])/k. Política: human_in_loop=True, auto_guilt=False. En el laboratorio Red Andina (Lima",
+      "text": "Mecanismo: ranking binario de utilidad (1=útil al revisor) en los top-k; P@k = sum(ranked[:k])/k. Política: human_in_loop=True, auto_guilt=False. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 43,
+      "len": 427,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: ranking de utilidad sintética y k. Salida: precision_at_k + flags HITL. Error: optimizar solo accuracy global con labels ralos. En el laboratorio Red A",
+      "text": "Contrato operativo. Entrada: ranking de utilidad sintética y k. Salida: precision_at_k + flags HITL. Error: optimizar solo accuracy global con labels ralos. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    },
+    {
+      "i": 44,
+      "len": 425,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-036-T4B: ranked=[1,0,1,0,0], k=3 → P@k≈0.667. La métrica de negocio del lab es «¿ayudó a la cola sintética?», no un veredicto moral. En el laboratorio Red And",
+      "text": "Aplicación a CASO-LIM-036-T4B: ranked=[1,0,1,0,0], k=3 → P@k≈0.667. La métrica de negocio del lab es «¿ayudó a la cola sintética?», no un veredicto moral. En el laboratorio Red Andina (Lima sintético) documentas el contrato en el PR de señales: entrada explícita, salida medible, disclaimer ético y dueño de la cola de review. Si falta evidencia o el schema no cuadra, el gate es fail-closed: no inventes culpa ni parentesco."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 20869,
+  "screenshot": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/visible_paragraphs/s36_ai-apis-advanced_theory.png"
+}

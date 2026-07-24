@@ -1,28 +1,35 @@
-# Research dossier — S39 Responsible ML Case Triage & Level close
+# S39 Research Dossier (STORM n=39)
 
-**Section file:** `s39-integrator-phase2.ts`  
-**Residual:** STUB (avg_para≈78, avg_instr≈21)  
-**Target:** gold vs S01/S02 pedagogy + S40 contract style  
+**Title:** Responsible ML Case Triage y cierre de nivel
+**File:** `s39-integrator-phase2.ts`
+**Cycles:** 39
+**Method:** hand_STORM_domain_sources
+**Generated:** 2026-07-24T03:55:52.585606+00:00
 
-## Competitive sources
+## Competitive anchors
+- https://modelcards.withgoogle.com/about
+- https://www.nist.gov/itl/ai-risk-management-framework
+- https://www.tensorflow.org/responsible_ai
+- https://sre.google/sre-book/embracing-risk/
+- https://sre.google/sre-book/postmortem-culture/
+- https://scikit-learn.org/stable/modules/model_evaluation.html
+- https://scikit-learn.org/stable/modules/calibration.html
+- https://docs.python.org/3/library/logging.html
+- https://www.coursera.org/learn/machine-learning
+- https://www.deeplearning.ai/courses/ai-for-everyone/
+- https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/
+- https://cs229.stanford.edu/
+- https://cs50.harvard.edu/python
+- https://www.py4e.com
+- https://12factor.net/
+- https://pillb.github.io/pyarcana/
+- https://github.com/microsoft/responsible-ai-toolbox
+- https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai
+- https://docs.python.org/3/library/dataclasses.html
+- https://sre.google/workbook/monitoring/
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Coursera | *Machine Learning Engineering for Production (MLOps) Specialization* (DeepLearning.AI) — human review queues, monitoring, continuous delivery of models |
-| Stanford | CS329S *Machine Learning Systems Design* — case studies on deployment risk, documentation, human oversight |
-| MIT | MIT OpenCourseWare / Responsible AI discussions — uncertainty, documentation, audit trails |
-| Harvard | Harvard Kennedy / Berkman Center AI governance primers — procedural fairness, documentation of decisions |
-| Yale | ISPS / ethics of algorithms reading groups — transparency vs black-box decisions (conceptual) |
-| GitHub | `ethicalml/awesome-production-machine-learning`; Google model cards; Microsoft Responsible AI Toolbox (HITL patterns) |
-| Video | Made With ML production series; Full Stack Deep Learning lectures on monitoring + human review |
+See `S39_STORM.json`.
+PA: `../paragraph_analysis/S39_PARAGRAPHS.md`
 
-## Coverage gaps in current stub
-- Theory paragraphs are 1-line slogans; need operational contracts (inputs, outputs, errors, promotion criteria).
-- Exercises are ultra-short instructions; need CASO-PE fixtures, exact pass strings, adverse paths.
-- Missing: evidence packet structure, CF-3 separation from CF-1/2, abstention/human_only, rollback when policy breach.
-
-## Expansion plan
-1. Deepen each of 9 theory blocks to ≥3 paragraphs (~200–350 chars each) with Peru synthetic case.
-2. Expand 24 weDo instructions to ≥150 chars with domain predicates.
-3. Enrich starters with fixtures + one defect; keep progressive disclosure (no S40+ APIs).
-4. Preserve selfCheck stems; strengthen explanations if thin.
+## Git restore
+NO — worktree ≥ HEAD.

@@ -1,0 +1,1367 @@
+{
+  "section": 48,
+  "title": "LLM applications y RAG con evidencia",
+  "file": "s48-ai-governance.ts",
+  "n_required": 48,
+  "n_logged": 48,
+  "generated_at": "2026-07-24T04:12:12.653568+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "claims⊆cited; ACL; abstain; injection=data",
+    "v3_retarget": "RAG evidence not abstract policy only",
+    "expert_pass_at": "2026-07-24T04:12:12.653568+00:00"
+  },
+  "unique_foci": 48,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "embeddings versioned space",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        },
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 1/48: «embeddings versioned space» via Elastic, LlamaIndex, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «embeddings versioned space».",
+      "expand_scope": "E1/E2/E3 + docs for «embeddings versioned space»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 1/48: «embeddings versioned space» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "cosine similarity ranking not truth",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 2/48: «cosine similarity ranking not truth» via OWASP, OpenAI, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cosine similarity ranking not truth».",
+      "expand_scope": "E1/E2/E3 + docs for «cosine similarity ranking not truth»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 2/48: «cosine similarity ranking not truth» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "holdout recall evaluation",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        },
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 3/48: «holdout recall evaluation» via LangChain, OpenAI, SentenceTransformers (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «holdout recall evaluation».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout recall evaluation»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 3/48: «holdout recall evaluation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "chunking metadata dedup",
+      "research": [
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 4/48: «chunking metadata dedup» via Elastic, Haystack, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «chunking metadata dedup».",
+      "expand_scope": "E1/E2/E3 + docs for «chunking metadata dedup»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 4/48: «chunking metadata dedup» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "ACL per fragment enforced",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 5/48: «ACL per fragment enforced» via NIST, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ACL per fragment enforced».",
+      "expand_scope": "E1/E2/E3 + docs for «ACL per fragment enforced»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 5/48: «ACL per fragment enforced» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "deletion removes from index",
+      "research": [
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 6/48: «deletion removes from index» via LangChain, SentenceTransformers, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deletion removes from index».",
+      "expand_scope": "E1/E2/E3 + docs for «deletion removes from index»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 6/48: «deletion removes from index» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "provenance of chunks",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 7/48: «provenance of chunks» via Haystack, LlamaIndex, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «provenance of chunks».",
+      "expand_scope": "E1/E2/E3 + docs for «provenance of chunks»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 7/48: «provenance of chunks» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "lexical retrieval baseline",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 8/48: «lexical retrieval baseline» via Harvard, NIST, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «lexical retrieval baseline».",
+      "expand_scope": "E1/E2/E3 + docs for «lexical retrieval baseline»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 8/48: «lexical retrieval baseline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "vector retrieval top-k",
+      "research": [
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 9/48: «vector retrieval top-k» via Coursera, SentenceTransformers, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «vector retrieval top-k».",
+      "expand_scope": "E1/E2/E3 + docs for «vector retrieval top-k»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 9/48: «vector retrieval top-k» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "hybrid RRF style fusion",
+      "research": [
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 10/48: «hybrid RRF style fusion» via Haystack, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «hybrid RRF style fusion».",
+      "expand_scope": "E1/E2/E3 + docs for «hybrid RRF style fusion»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 10/48: «hybrid RRF style fusion» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "reranking after retrieve",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 11/48: «reranking after retrieve» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reranking after retrieve».",
+      "expand_scope": "E1/E2/E3 + docs for «reranking after retrieve»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 11/48: «reranking after retrieve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "context packing with citations",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        },
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 12/48: «context packing with citations» via Chroma, Coursera, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «context packing with citations».",
+      "expand_scope": "E1/E2/E3 + docs for «context packing with citations»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 12/48: «context packing with citations» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "permissions before expose chunk",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 13/48: «permissions before expose chunk» via MIT, Papers, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «permissions before expose chunk».",
+      "expand_scope": "E1/E2/E3 + docs for «permissions before expose chunk»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 13/48: «permissions before expose chunk» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "structured output schema",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 14/48: «structured output schema» via Anthropic, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «structured output schema».",
+      "expand_scope": "E1/E2/E3 + docs for «structured output schema»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 14/48: «structured output schema» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "grounding claims subset cited",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        },
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 15/48: «grounding claims subset cited» via Chroma, Coursera, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «grounding claims subset cited».",
+      "expand_scope": "E1/E2/E3 + docs for «grounding claims subset cited»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 15/48: «grounding claims subset cited» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "answer eval separate from retrieval eval",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        },
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 16/48: «answer eval separate from retrieval eval» via OpenAI, Papers, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «answer eval separate from retrieval eval».",
+      "expand_scope": "E1/E2/E3 + docs for «answer eval separate from retrieval eval»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 16/48: «answer eval separate from retrieval eval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "cost token budget",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 17/48: «cost token budget» via Anthropic, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost token budget».",
+      "expand_scope": "E1/E2/E3 + docs for «cost token budget»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 17/48: «cost token budget» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "abstain when unsupported",
+      "research": [
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        },
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 18/48: «abstain when unsupported» via Chroma, Elastic, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «abstain when unsupported».",
+      "expand_scope": "E1/E2/E3 + docs for «abstain when unsupported»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 18/48: «abstain when unsupported» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "prompt injection in documents as data",
+      "research": [
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        },
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 19/48: «prompt injection in documents as data» via OWASP, OpenAI, Papers (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prompt injection in documents as data».",
+      "expand_scope": "E1/E2/E3 + docs for «prompt injection in documents as data»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 19/48: «prompt injection in documents as data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "no ungrounded operational claims",
+      "research": [
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        },
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 20/48: «no ungrounded operational claims» via Anthropic, LangChain, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no ungrounded operational claims».",
+      "expand_scope": "E1/E2/E3 + docs for «no ungrounded operational claims»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 20/48: «no ungrounded operational claims» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CASO-PUN-048 Puno synthetic docs",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        },
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 21/48: «CASO-PUN-048 Puno synthetic docs» via Elastic, LlamaIndex, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-PUN-048 Puno synthetic docs».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-PUN-048 Puno synthetic docs»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 21/48: «CASO-PUN-048 Puno synthetic docs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "V3 retarget RAG not abstract policy only",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 22/48: «V3 retarget RAG not abstract policy only» via OWASP, OpenAI, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget RAG not abstract policy only».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget RAG not abstract policy only»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 22/48: «V3 retarget RAG not abstract policy only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CP-N4-C RAG evidence gate",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        },
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 23/48: «CP-N4-C RAG evidence gate» via LangChain, OpenAI, SentenceTransformers (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-C RAG evidence gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-C RAG evidence gate»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 23/48: «CP-N4-C RAG evidence gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E1 guided similarity DEFECT",
+      "research": [
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 24/48: «E1 guided similarity DEFECT» via Elastic, Haystack, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided similarity DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided similarity DEFECT»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 24/48: «E1 guided similarity DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E2 independent ACL deny",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 25/48: «E2 independent ACL deny» via NIST, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent ACL deny».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent ACL deny»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 25/48: «E2 independent ACL deny» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "E3 transfer abstain injection",
+      "research": [
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 26/48: «E3 transfer abstain injection» via LangChain, SentenceTransformers, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer abstain injection».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer abstain injection»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 26/48: «E3 transfer abstain injection» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "OpenAI embeddings guide",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 27/48: «OpenAI embeddings guide» via Haystack, LlamaIndex, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenAI embeddings guide».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenAI embeddings guide»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 27/48: «OpenAI embeddings guide» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "Elastic RRF hybrid",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 28/48: «Elastic RRF hybrid» via Harvard, NIST, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Elastic RRF hybrid».",
+      "expand_scope": "E1/E2/E3 + docs for «Elastic RRF hybrid»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 28/48: «Elastic RRF hybrid» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "OWASP prompt injection prevention",
+      "research": [
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 29/48: «OWASP prompt injection prevention» via Coursera, SentenceTransformers, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OWASP prompt injection prevention».",
+      "expand_scope": "E1/E2/E3 + docs for «OWASP prompt injection prevention»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 29/48: «OWASP prompt injection prevention» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "Stanford CS224n NLP",
+      "research": [
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 30/48: «Stanford CS224n NLP» via Haystack, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stanford CS224n NLP».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS224n NLP»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 30/48: «Stanford CS224n NLP» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "LangChain RAG tutorial",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 31/48: «LangChain RAG tutorial» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «LangChain RAG tutorial».",
+      "expand_scope": "E1/E2/E3 + docs for «LangChain RAG tutorial»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 31/48: «LangChain RAG tutorial» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "LlamaIndex retrieval",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        },
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 32/48: «LlamaIndex retrieval» via Chroma, Coursera, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «LlamaIndex retrieval».",
+      "expand_scope": "E1/E2/E3 + docs for «LlamaIndex retrieval»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 32/48: «LlamaIndex retrieval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "OpenAI evals harness",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 33/48: «OpenAI evals harness» via MIT, Papers, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenAI evals harness».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenAI evals harness»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 33/48: «OpenAI evals harness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "pair from S47 serving to grounded RAG",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 34/48: «pair from S47 serving to grounded RAG» via Anthropic, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S47 serving to grounded RAG».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S47 serving to grounded RAG»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 34/48: «pair from S47 serving to grounded RAG» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "selfCheck RAG MCQ ≥5",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "RAG courses",
+          "url": "https://www.coursera.org/courses?query=retrieval%20augmented%20generation",
+          "note": "RAG MOOCs"
+        },
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 35/48: «selfCheck RAG MCQ ≥5» via Chroma, Coursera, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck RAG MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck RAG MCQ ≥5»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 35/48: «selfCheck RAG MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "ungrounded claim is gate failure",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        },
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 36/48: «ungrounded claim is gate failure» via OpenAI, Papers, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ungrounded claim is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «ungrounded claim is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 36/48: «ungrounded claim is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "deleted chunk still visible is gate failure",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 37/48: «deleted chunk still visible is gate failure» via Anthropic, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deleted chunk still visible is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «deleted chunk still visible is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 37/48: «deleted chunk still visible is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "recall below baseline is gate failure",
+      "research": [
+        {
+          "family": "Chroma",
+          "title": "Chroma docs",
+          "url": "https://docs.trychroma.com/",
+          "note": "vector store"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        },
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 38/48: «recall below baseline is gate failure» via Chroma, Elastic, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «recall below baseline is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «recall below baseline is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 38/48: «recall below baseline is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "no real LLM API required in lab",
+      "research": [
+        {
+          "family": "Papers",
+          "title": "RAG survey",
+          "url": "https://arxiv.org/abs/2312.10997",
+          "note": "RAG survey"
+        },
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 39/48: «no real LLM API required in lab» via OWASP, OpenAI, Papers (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no real LLM API required in lab».",
+      "expand_scope": "E1/E2/E3 + docs for «no real LLM API required in lab»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 39/48: «no real LLM API required in lab» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "progressive disclosure stdlib scores sets",
+      "research": [
+        {
+          "family": "Anthropic",
+          "title": "Prompt engineering",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",
+          "note": "prompting"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        },
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 40/48: «progressive disclosure stdlib scores sets» via Anthropic, LangChain, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib scores sets».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib scores sets»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 40/48: «progressive disclosure stdlib scores sets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "Haystack pipelines transfer",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Embeddings guide",
+          "url": "https://platform.openai.com/docs/guides/embeddings",
+          "note": "embeddings"
+        },
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 41/48: «Haystack pipelines transfer» via Elastic, LlamaIndex, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Haystack pipelines transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «Haystack pipelines transfer»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 41/48: «Haystack pipelines transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "Chroma vector store analogy",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "RAG PDF cookbook",
+          "url": "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+          "note": "chunking RAG"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 42/48: «Chroma vector store analogy» via OWASP, OpenAI, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Chroma vector store analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «Chroma vector store analogy»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 42/48: «Chroma vector store analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "SentenceTransformers local embeddings",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Evals",
+          "url": "https://github.com/openai/evals",
+          "note": "eval harness"
+        },
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 43/48: «SentenceTransformers local embeddings» via LangChain, OpenAI, SentenceTransformers (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SentenceTransformers local embeddings».",
+      "expand_scope": "E1/E2/E3 + docs for «SentenceTransformers local embeddings»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 43/48: «SentenceTransformers local embeddings» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "NIST AI RMF human oversight",
+      "research": [
+        {
+          "family": "Elastic",
+          "title": "RRF ranking",
+          "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
+          "note": "hybrid rank"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 44/48: «NIST AI RMF human oversight» via Elastic, Haystack, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST AI RMF human oversight».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST AI RMF human oversight»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 44/48: «NIST AI RMF human oversight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "RAG survey literature",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Prompt Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 45/48: «RAG survey literature» via NIST, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RAG survey literature».",
+      "expand_scope": "E1/E2/E3 + docs for «RAG survey literature»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 45/48: «RAG survey literature» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "deeplearning.ai RAG courses",
+      "research": [
+        {
+          "family": "LangChain",
+          "title": "RAG tutorial",
+          "url": "https://python.langchain.com/docs/tutorials/rag/",
+          "note": "RAG pipeline"
+        },
+        {
+          "family": "SentenceTransformers",
+          "title": "Sentence Transformers",
+          "url": "https://www.sbert.net/",
+          "note": "embeddings local"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "RAG courses"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 46/48: «deeplearning.ai RAG courses» via LangChain, SentenceTransformers, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deeplearning.ai RAG courses».",
+      "expand_scope": "E1/E2/E3 + docs for «deeplearning.ai RAG courses»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 46/48: «deeplearning.ai RAG courses» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "citation policy mandatory",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "LlamaIndex docs",
+          "url": "https://docs.llamaindex.ai/en/stable/",
+          "note": "retrieval"
+        },
+        {
+          "family": "Haystack",
+          "title": "Haystack docs",
+          "url": "https://docs.haystack.deepset.ai/",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 47/48: «citation policy mandatory» via Haystack, LlamaIndex, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «citation policy mandatory».",
+      "expand_scope": "E1/E2/E3 + docs for «citation policy mandatory»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 47/48: «citation policy mandatory» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 48,
+      "focus": "injection ignored never executed as instruction",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "embeddings NLP"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "AI risk"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S48 «LLM applications y RAG con evidencia» cycle 48/48: «injection ignored never executed as instruction» via Harvard, NIST, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «injection ignored never executed as instruction».",
+      "expand_scope": "E1/E2/E3 + docs for «injection ignored never executed as instruction»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 48/48: «injection ignored never executed as instruction» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:12:12.653568+00:00"
+}

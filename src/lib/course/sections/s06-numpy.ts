@@ -28,8 +28,8 @@ export const section06: CourseSection = {
       heading: "De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)",
       paragraphs: [
         "En V3, **S06 no es el path principal de NumPy arrays ni broadcasting**. Ese material se reubica conceptualmente hacia el bloque numérico/DS (p. ej. S14+). Aquí construyes el **modelo tabular en memoria** que CP-N1-B necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones** con salidas **deterministas**.",
-        "El hilo conductor es un **mini almacén en RAM** con datos sintéticos latam (`example.com`, ids `C00x`). Sin pandas ni NumPy en este incremento. En S08 ese modelo se conecta a CSV/JSON y cuarentena.",
-        "Orden: **T1 Secuencias** → **T2 Dicts/sets** → **T3 Anidado y missing** → **T4 Orden y elección de estructura**.",
+        "El hilo conductor es un **mini almacén en RAM** con datos sintéticos latam (`example.com`, ids `C00x`). **Sin** pandas ni NumPy en este incremento. En S08 ese modelo se conecta a CSV/JSON y cuarentena. Caso de lab: inicio **CP-N1-B**.",
+        "Orden: **T1 Secuencias** (list/tuple/slicing → alias/copia) → **T2 Dicts/sets** (índices, dedup con conflictos) → **T3 Anidado y missing** → **T4 Orden y elección de estructura** (sorted estable, JSON determinista). **Nunca** PII real.",
       ],
       callout: {
         type: "info",
@@ -43,19 +43,23 @@ export const section06: CourseSection = {
       subtopicId: "S06-T1-A",
       paragraphs: [
         "Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente.",
-        "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones. El stop es exclusivo, igual que en `range`.",
-        "Membership `x in seq` es O(n) en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** en T2.",
+        "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones. El **stop es exclusivo**, igual que en `range` — evita off-by-one al numerar N filas.",
+        "Membership `x in seq` es **O(n)** en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** (O(1) promedio) en T2. No uses lista de 100k ids para `in` en un loop caliente.",
       ],
       code: {
         language: 'python',
         title: "slicing_txs.py",
-        code: `txs = [
+        code: `def last_n(rows, n=3):
+    """Ventana de las últimas n filas (slicing, sin mutar)."""
+    return rows[-n:]
+
+txs = [
     {"id": "T1", "monto": 10},
     {"id": "T2", "monto": 25},
     {"id": "T3", "monto": 7},
     {"id": "T4", "monto": 40},
 ]
-ventana = txs[-3:]
+ventana = last_n(txs, 3)
 keys = ("id", "monto")  # contrato estable
 print("ventana ids:", [r["id"] for r in ventana])
 print("keys:", keys)
@@ -75,18 +79,25 @@ T2 in slice? True`,
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: eso es bueno (detecta shape roto).",
-        "**Aliasing**: `b = a` no copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug aparece al “clonar” clientes en memoria.",
-        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir. En intake, shallow basta si solo reordenas filas sin mutar campos compartidos.",
+        "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: **eso es bueno** (detecta shape roto en el lote).",
+        "**Aliasing**: `b = a` **no** copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug clásico aparece al “clonar” clientes en memoria.",
+        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir por fila. En intake, shallow basta si solo reordenas filas **sin** mutar campos compartidos; si mutas tags anidados, usa deep o dict nuevo.",
       ],
       code: {
         language: 'python',
         title: "alias_vs_copy.py",
         code: `import copy
+
+def isolate_clients(rows, mode="shallow"):
+    """Copia superficial de filas o deepcopy según mode."""
+    if mode == "deep":
+        return copy.deepcopy(rows)
+    return rows.copy()
+
 clientes = [{"id": "C001", "tags": ["vip"]}]
 alias = clientes
-shallow = clientes.copy()
-deep = copy.deepcopy(clientes)
+shallow = isolate_clients(clientes, "shallow")
+deep = isolate_clients(clientes, "deep")
 alias[0]["tags"].append("alias")
 print("original tras alias:", clientes)
 shallow[0]["tags"].append("shallow")
@@ -110,23 +121,31 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
       heading: "Diccionarios y pertenencia",
       subtopicId: "S06-T2-A",
       paragraphs: [
-        "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1). Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave.",
-        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor.",
-        "`update` fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (env > defaults) para no “pisar sin querer” políticas de normalización.",
+        "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio **O(1)**. Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave en el almacén en RAM.",
+        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundes con “¿el cliente tiene email?” si buscas en values.",
+        "`update` / merge fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (`override > base`) para no “pisar sin querer” políticas de normalización de S05.",
       ],
       code: {
         language: 'python',
         title: "dict_index.py",
-        code: `filas = [
+        code: `def index_by_id(filas):
+    """Índice id → fila para lookup O(1)."""
+    return {c["id"]: c for c in filas}
+
+def merge_config(base, override):
+    """Fusiona configs: override pisa base sin mutar originales."""
+    return {**base, **override}
+
+filas = [
     {"id": "C001", "region": "Lima"},
     {"id": "C002", "region": "Cusco"},
 ]
-idx = {c["id"]: c for c in filas}
+idx = index_by_id(filas)
 print("lookup C002:", idx["C002"]["region"])
 print("get missing:", idx.get("C999", {}).get("region", "N/A"))
 base = {"timeout": 30, "retry": 1}
 override = {"retry": 3}
-merged = {**base, **override}
+merged = merge_config(base, override)
 print("merged:", merged)`,
         output: `lookup C002: Cusco
 get missing: N/A
@@ -143,19 +162,28 @@ merged: {'timeout': 30, 'retry': 3}`,
       heading: "Deduplicación y operaciones de set",
       subtopicId: "S06-T2-B",
       paragraphs: [
-        "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes.",
-        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse**, no silenciarse. El patrón es `unique` + `conflicts`.",
-        "Sets no conservan orden de inserción de forma que debas depender para exports estables en todos los contextos pedagógicos: ordena con `sorted(...)` al exportar.",
+        "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes sintéticos.",
+        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse** en `conflicts`, no silenciarse. El patrón del gate es `unique` + `conflicts`.",
+        "Para exports **deterministas**, no dependas del orden del set: ordena con `sorted(...)` al exportar (JSON `sort_keys`, listas de ids ordenadas). Reproducibilidad > “orden de llegada mágico”.",
       ],
       code: {
         language: 'python',
         title: "sets_cohortes.py",
-        code: `lote_a = {"C001", "C002", "C003"}
+        code: `def cohort_ops(a, b):
+    """Intersección y diferencia de cohortes (sets de ids)."""
+    return sorted(a & b), sorted(a - b)
+
+def unique_sorted(items):
+    """Dedup determinista con set + sorted."""
+    return sorted(set(items))
+
+lote_a = {"C001", "C002", "C003"}
 lote_b = {"C002", "C003", "C004"}
-print("intersección:", sorted(lote_a & lote_b))
-print("solo A:", sorted(lote_a - lote_b))
+inter, solo_a = cohort_ops(lote_a, lote_b)
+print("intersección:", inter)
+print("solo A:", solo_a)
 emails = ["a@ex.com", "b@ex.com", "a@ex.com"]
-print("únicos:", sorted(set(emails)))`,
+print("únicos:", unique_sorted(emails))`,
         output: `intersección: ['C002', 'C003']
 solo A: ['C001']
 únicos: ['a@ex.com', 'b@ex.com']`,
@@ -171,14 +199,26 @@ solo A: ['C001']
       heading: "Estructuras anidadas y recorridos",
       subtopicId: "S06-T3-A",
       paragraphs: [
-        "El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:`.",
-        "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08. **Contar** contactos por cliente valida integridad del grafo en memoria.",
-        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a review — no asumas que todo dict llegó bien formado.",
+        "El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:` — bucles anidados **legibles** sobre el grafo en memoria.",
+        "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08. **Contar** contactos por cliente valida integridad del almacén en RAM.",
+        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a **review** — no asumas que todo dict llegó bien formado del lote sintético.",
       ],
       code: {
         language: 'python',
         title: "nested_clients.py",
-        code: `clients = [
+        code: `def flatten_txs(clients):
+    """Aplana txs anidadas a filas densas con client_id."""
+    return [
+        {"client_id": c["id"], "tx_id": t["id"], "monto": t["monto"]}
+        for c in clients
+        for t in c["txs"]
+    ]
+
+def count_nested(clients):
+    for c in clients:
+        print(c["id"], "n_contacts=", len(c["contacts"]), "n_txs=", len(c["txs"]))
+
+clients = [
     {
         "id": "C001",
         "contacts": [{"tipo": "email", "valor": "a@ex.com"}],
@@ -190,13 +230,8 @@ solo A: ['C001']
         "txs": [{"id": "T3", "monto": 20}],
     },
 ]
-for c in clients:
-    print(c["id"], "n_contacts=", len(c["contacts"]), "n_txs=", len(c["txs"]))
-flat = [
-    {"client_id": c["id"], "tx_id": t["id"], "monto": t["monto"]}
-    for c in clients
-    for t in c["txs"]
-]
+count_nested(clients)
+flat = flatten_txs(clients)
 print("flat rows:", flat)`,
         output: `C001 n_contacts= 1 n_txs= 2
 C002 n_contacts= 0 n_txs= 1
@@ -213,9 +248,9 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
       heading: "Acceso seguro y valores faltantes",
       subtopicId: "S06-T3-B",
       paragraphs: [
-        "Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita KeyError: `(c.get('profile') or {}).get('phone')`.",
-        "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige.",
-        "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se testean una vez.",
+        "Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita KeyError: `(c.get('profile') or {}).get('phone')` o un helper `get_nested`.",
+        "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige (eco de S03: `None≠0`).",
+        "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se **testean una vez**. No copies el mismo try/except de KeyError en 20 sitios del orquestador.",
       ],
       code: {
         language: 'python',
@@ -247,21 +282,28 @@ no address: MISSING`,
       heading: "Ordenamiento y key",
       subtopicId: "S06-T4-A",
       paragraphs: [
-        "`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)`.",
-        "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena estable por región y luego nombre. La estabilidad de Timsort preserva el orden relativo de empates.",
-        "Para montos, asegúrate de que el tipo sea numérico antes de ordenar; strings `'100' < '20'` rompen el ranking.",
+        "`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)` y pierdes las filas.",
+        "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena **estable** por región y luego nombre. Timsort preserva el orden relativo de empates — útil para audits reproducibles.",
+        "Para montos, asegúrate de que el tipo sea **numérico** antes de ordenar; strings `'100' < '20'` rompen el ranking. Normaliza tipos (S05) antes de `sorted`.",
       ],
       code: {
         language: 'python',
         title: "sorted_key.py",
-        code: `clients = [
+        code: `def sort_region_name(rows):
+    """Orden estable región → nombre (nueva lista)."""
+    return sorted(rows, key=lambda r: (r["region"], r["nombre"]))
+
+def top_by_monto(rows):
+    return sorted(rows, key=lambda r: r["monto"], reverse=True)
+
+clients = [
     {"nombre": "Zara", "region": "Lima", "monto": 30},
     {"nombre": "Ana", "region": "Lima", "monto": 50},
     {"nombre": "Luis", "region": "Cusco", "monto": 20},
 ]
-by_region_name = sorted(clients, key=lambda r: (r["region"], r["nombre"]))
+by_region_name = sort_region_name(clients)
 print([(r["region"], r["nombre"]) for r in by_region_name])
-by_monto = sorted(clients, key=lambda r: r["monto"], reverse=True)
+by_monto = top_by_monto(clients)
 print("top monto:", by_monto[0]["nombre"], by_monto[0]["monto"])`,
         output: `[('Cusco', 'Luis'), ('Lima', 'Ana'), ('Lima', 'Zara')]
 top monto: Ana 50`,
@@ -277,18 +319,25 @@ top monto: Ana 50`,
       heading: "Estructura adecuada, complejidad y determinismo",
       subtopicId: "S06-T4-B",
       paragraphs: [
-        "Elige estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple.",
-        "Complejidad: membership en list O(n); en set/dict O(1) promedio. No hagas `if x in big_list` dentro de un loop de n si puedes preindexar.",
-        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate de calidad.",
+        "Elige estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple. **No** uses dict “porque sí” si el orden de llegada importa y no indexas.",
+        "Complejidad: membership en list **O(n)**; en set/dict **O(1)** promedio. No hagas `if x in big_list` dentro de un loop de n si puedes **preindexar** con un dict. Eso es deuda de rendimiento en el almacén en RAM.",
+        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate CP-N1-B — demos y diffs de README deben ser estables.",
       ],
       code: {
         language: 'python',
         title: "determinism.py",
         code: `import json
+
+def dump_deterministic(payload):
+    """JSON estable: sort ids + sort_keys."""
+    body = dict(payload)
+    if "ids" in body:
+        body["ids"] = sorted(body["ids"])
+    return json.dumps(body, sort_keys=True, ensure_ascii=False)
+
 payload = {"b": 2, "a": 1, "ids": ["C002", "C001"]}
-payload["ids"] = sorted(payload["ids"])
-print(json.dumps(payload, sort_keys=True, ensure_ascii=False))
-print(json.dumps(payload, sort_keys=True, ensure_ascii=False))`,
+print(dump_deterministic(payload))
+print(dump_deterministic(payload))`,
         output: `{"a": 1, "b": 2, "ids": ["C001", "C002"]}
 {"a": 1, "b": 2, "ids": ["C001", "C002"]}`,
       },
@@ -311,19 +360,23 @@ print(json.dumps(payload, sort_keys=True, ensure_ascii=False))`,
         code: {
           language: 'python',
           title: "S06-T1-A-DEMO — ventana",
-          code: `txs = [
+          code: `def window_rows(txs, n=3, keys=("id", "monto", "canal")):
+    """Últimas n filas proyectadas al contrato de keys."""
+    ultimas = txs[-n:]
+    return keys, [tuple(row[k] for k in keys) for row in ultimas]
+
+txs = [
     {"id": "T01", "monto": 12.5, "canal": "app"},
     {"id": "T02", "monto": 40.0, "canal": "web"},
     {"id": "T03", "monto": 8.0, "canal": "app"},
     {"id": "T04", "monto": 15.0, "canal": "tienda"},
     {"id": "T05", "monto": 22.0, "canal": "app"},
 ]
-KEYS = ("id", "monto", "canal")
-ultimas = txs[-3:]
+KEYS, projected = window_rows(txs, 3)
 print("keys contrato:", KEYS)
-for row in ultimas:
-    print(tuple(row[k] for k in KEYS))
-print("len ventana:", len(ultimas))`,
+for row in projected:
+    print(row)
+print("len ventana:", len(projected))`,
           output: `keys contrato: ('id', 'monto', 'canal')
 ('T03', 8.0, 'app')
 ('T04', 15.0, 'tienda')
@@ -341,6 +394,12 @@ len ventana: 3`,
           language: 'python',
           title: "S06-T1-B-DEMO — alias",
           code: `import copy
+
+def copy_clients(rows, mode="shallow"):
+    if mode == "deep":
+        return copy.deepcopy(rows)
+    return [dict(c) for c in rows]
+
 clientes = [
     {"id": "C001", "score": 10},
     {"id": "C002", "score": 20},
@@ -349,11 +408,11 @@ mal = clientes  # alias, no copia
 mal[0]["score"] = 99
 print("tras alias mut:", clientes[0]["score"])
 
-bien_shallow = [dict(c) for c in clientes]
+bien_shallow = copy_clients(clientes, "shallow")
 bien_shallow[0]["score"] = 1
 print("original tras shallow dict():", clientes[0]["score"])
 
-deep = copy.deepcopy(clientes)
+deep = copy_clients(clientes, "deep")
 deep[1]["score"] = 0
 print("C002 original:", clientes[1]["score"], "deep:", deep[1]["score"])`,
           output: `tras alias mut: 99
@@ -370,14 +429,19 @@ C002 original: 20 deep: 0`,
         code: {
           language: 'python',
           title: "S06-T2-A-DEMO — index",
-          code: `filas = [
+          code: `def build_index(filas):
+    return {c["id"]: c for c in filas}
+
+def lookup_nombre(idx, cid, default="N/A"):
+    return idx.get(cid, {}).get("nombre", default)
+
+filas = [
     {"id": "C001", "nombre": "Ana Quispe", "region": "Lima"},
     {"id": "C002", "nombre": "Luis Huamán", "region": "Arequipa"},
 ]
-idx = {c["id"]: c for c in filas}
-cid = "C002"
-print("encontrado:", idx.get(cid, {}).get("nombre", "N/A"))
-print("missing:", idx.get("C999", {}).get("nombre", "N/A"))
+idx = build_index(filas)
+print("encontrado:", lookup_nombre(idx, "C002"))
+print("missing:", lookup_nombre(idx, "C999"))
 print("keys ordenadas:", sorted(idx))`,
           output: `encontrado: Luis Huamán
 missing: N/A
@@ -393,22 +457,25 @@ keys ordenadas: ['C001', 'C002']`,
         code: {
           language: 'python',
           title: "S06-T2-B-DEMO — dedup",
-          code: `rows = [
+          code: `def dedup_with_conflicts(rows, key="id"):
+    """Unique + conflicts sin borrar traza de payloads distintos."""
+    seen, unique, conflicts = {}, [], []
+    for r in rows:
+        rid = r[key]
+        if rid not in seen:
+            seen[rid] = r
+            unique.append(r)
+        elif seen[rid] != r:
+            conflicts.append({"id": rid, "a": seen[rid], "b": r})
+    return unique, conflicts, seen
+
+rows = [
     {"id": "C001", "email": "a@ex.com"},
     {"id": "C002", "email": "b@ex.com"},
     {"id": "C001", "email": "a@ex.com"},
     {"id": "C001", "email": "otro@ex.com"},
 ]
-seen = {}
-unique = []
-conflicts = []
-for r in rows:
-    rid = r["id"]
-    if rid not in seen:
-        seen[rid] = r
-        unique.append(r)
-    elif seen[rid] != r:
-        conflicts.append({"id": rid, "a": seen[rid], "b": r})
+unique, conflicts, seen = dedup_with_conflicts(rows)
 print("unique ids:", sorted(seen))
 print("n_conflicts:", len(conflicts))
 print("conflict email pair:", conflicts[0]["a"]["email"], "vs", conflicts[0]["b"]["email"])
@@ -429,7 +496,18 @@ intersección lotes: ['C002']`,
         code: {
           language: 'python',
           title: "S06-T3-A-DEMO — modelo",
-          code: `store = [
+          code: `def summarize_client(c):
+    total = sum(t["monto"] for t in c["txs"])
+    return len(c["contacts"]), total
+
+def flatten_store(store):
+    return [
+        {"client_id": c["id"], "tx_id": t["id"], "monto": t["monto"]}
+        for c in store
+        for t in c["txs"]
+    ]
+
+store = [
     {
         "id": "C001",
         "nombre": "María Quispe",
@@ -444,16 +522,11 @@ intersección lotes: ['C002']`,
     }
 ]
 c = store[0]
+n_contacts, total = summarize_client(c)
 print("cliente", c["id"], c["nombre"])
-print("contactos:", len(c["contacts"]))
-total = sum(t["monto"] for t in c["txs"])
+print("contactos:", n_contacts)
 print("total txs:", total)
-flat = [
-    {"client_id": c["id"], "tx_id": t["id"], "monto": t["monto"]}
-    for c in store
-    for t in c["txs"]
-]
-print("flat:", flat)`,
+print("flat:", flatten_store(store))`,
           output: `cliente C001 María Quispe
 contactos: 2
 total txs: 62
@@ -500,17 +573,25 @@ C003 MISSING missing`,
         code: {
           language: 'python',
           title: "S06-T4-A-DEMO — sort",
-          code: `clients = [
+          code: `def order_region_name(clients):
+    return sorted(clients, key=lambda r: (r["region"], r["nombre"]))
+
+def sort_ids_inplace(rows):
+    """list.sort muta y retorna None — bug clásico si se asigna."""
+    rows.sort(key=lambda r: r["id"])
+    return None
+
+clients = [
     {"id": "C003", "nombre": "Zara", "region": "Lima"},
     {"id": "C001", "nombre": "Ana", "region": "Lima"},
     {"id": "C002", "nombre": "Bruno", "region": "Cusco"},
 ]
-ordered = sorted(clients, key=lambda r: (r["region"], r["nombre"]))
+ordered = order_region_name(clients)
 for r in ordered:
     print(r["region"], r["nombre"], r["id"])
 mutated = clients[:]
-mutated.sort(key=lambda r: r["id"])
-print("sort in-place retorna:", clients[:0].sort(key=lambda r: r["id"]))
+ret = sort_ids_inplace(mutated)
+print("sort in-place retorna:", ret)
 print("ids mutados:", [r["id"] for r in mutated])`,
           output: `Cusco Bruno C002
 Lima Ana C001
@@ -529,6 +610,13 @@ ids mutados: ['C001', 'C002', 'C003']`,
           language: 'python',
           title: "S06-T4-B-DEMO — json",
           code: `import json
+
+def export_deterministic(data):
+    """JSON estable: sort por id de clients + sort_keys."""
+    body = dict(data)
+    body["clients"] = sorted(body["clients"], key=lambda c: c["id"])
+    return json.dumps(body, sort_keys=True, ensure_ascii=False)
+
 data = {
     "clients": [
         {"id": "C002", "region": "Cusco"},
@@ -536,9 +624,8 @@ data = {
     ],
     "generated_by": "s06-demo",
 }
-data["clients"] = sorted(data["clients"], key=lambda c: c["id"])
-a = json.dumps(data, sort_keys=True, ensure_ascii=False)
-b = json.dumps(data, sort_keys=True, ensure_ascii=False)
+a = export_deterministic(data)
+b = export_deterministic(data)
 print(a)
 print("determinista:", a == b)`,
           output: `{"clients": [{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}], "generated_by": "s06-demo"}
@@ -568,14 +655,17 @@ determinista: True`,
         starterCode: {
           language: 'python',
           title: "slice_n.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · slicing ventana
+# DEFECT: usa txs[:2] (primeras) en vez de últimas; empty mal indexado
 txs = [10, 20, 30, 40, 50]
-ventana = txs[-2:]
+ventana = txs[:2]
+print(ventana)
+print(len(ventana))
 empty = []
-v0 = empty[-2:]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(ventana)
-`,
+v0 = empty[0:2]
+print(v0)
+print(len(v0))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -611,13 +701,15 @@ print(len(v0))`,
         starterCode: {
           language: 'python',
           title: "list_tuple.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · tuple inmutable + concat
+# DEFECT: muta headers en vez de tuple; no demuestra KEYS estable
 headers = ['id', 'monto']
-KEYS = tuple(headers)
-more = KEYS + ('canal',)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('KEYS', KEYS)
-`,
+KEYS = headers  # alias mutable
+more = KEYS + ['canal']
+print('KEYS', KEYS)
+print('more', more)
+print('KEYS sigue', KEYS)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -650,12 +742,15 @@ KEYS sigue ('id', 'monto')`,
         starterCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
-          code: `ids = ('C001', 'C002')
+          code: `# CASO-LIM-006 · AttributeError en tuple
+# DEFECT: traga cualquier Exception y no muestra mutación vía list()
+ids = ('C001', 'C002')
 try:
-    ids.append('C003')  # bug intencional si se ejecuta sobre tuple
+    ids.append('C003')
 except Exception as e:
-    # TODO
-    ...`,
+    print('error genérico', e)
+print('ids', ids)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -689,12 +784,14 @@ except AttributeError as e:
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · unpack fila
+# DEFECT: índices duros; no unpack; orden de print invertido
 fila = ('C001', 'Lima', 10)
-cid, region, monto = fila
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(cid, region, monto)
-`,
+cid = fila[0]
+region = fila[2]
+monto = fila[1]
+print(cid, region, monto)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -722,15 +819,16 @@ print(cid, region, monto)`,
         starterCode: {
           language: 'python',
           title: "alias_copy.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · alias vs copy
+# DEFECT: copia = xs (alias); no usa .copy()
 xs = [1, 2]
 alias = xs
-copia = xs.copy()
+copia = xs
 alias.append(3)
+print('tras alias', xs, copia)
 copia.append(4)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('tras alias', xs, copia)
-`,
+print('tras copia', xs, copia)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -763,12 +861,18 @@ tras copia [1, 2, 3] [1, 2, 4]`,
         starterCode: {
           language: 'python',
           title: "shallow_deep.py",
-          code: `import copy
+          code: `# CASO-LIM-006 · shallow vs deepcopy
+# DEFECT: solo shallow; muta tags y cree que orig está intacto
+import copy
 rows = [{'id': 'C1', 'tags': ['a']}]
 shallow = rows.copy()
-# TODO deep + mutaciones
+shallow[0]['tags'].append('s')
+print('orig tras shallow tags', rows)
+deep = rows.copy()  # DEFECT: no deepcopy
+deep[0]['tags'].append('d')
 print('orig', rows)
-print('deep', deep)`,
+print('deep', deep)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -804,12 +908,13 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         starterCode: {
           language: 'python',
           title: "dict_from_pairs.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · dict desde pares
+# DEFECT: list de pares; acceso por índice
 pares = [('C001', 'Lima'), ('C002', 'Cusco')]
-d = dict(pares)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(d)
-`,
+d = pares
+print(d)
+print(d[1])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -839,13 +944,15 @@ Cusco`,
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · get vs KeyError
+# DEFECT: solo [] sin get; no demo default N/A
 idx = {'C001': 'Ana'}
+print(idx['C001'])
 try:
+    print(idx['C999'])
 except KeyError as e:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(idx.get('C001', 'N/A'))
-`,
+    print('KeyError', e)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -879,11 +986,15 @@ KeyError 'C999'`,
         starterCode: {
           language: 'python',
           title: "merge_config.py",
-          code: `defaults = {'retry': 1, 'timeout': 30}
+          code: `# CASO-LIM-006 · merge sin mutar defaults
+# DEFECT: defaults.update(override) muta original
+defaults = {'retry': 1, 'timeout': 30}
 override = {'retry': 5}
-# TODO merged seguro
+defaults.update(override)
+merged = defaults
 print('merged', merged)
-# TODO no mutar original defaults al fusionar`,
+print('defaults intacto', defaults)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -918,12 +1029,12 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         starterCode: {
           language: 'python',
           title: "dedup_emails.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · set dedup ordenado
+# DEFECT: set sin sorted (orden no determinista / no imprimible estable)
 emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']
-unicos = sorted(set(emails))
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(unicos)
-`,
+unicos = set(emails)
+print(unicos)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -951,12 +1062,13 @@ print(unicos)`,
         starterCode: {
           language: 'python',
           title: "set_inter.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · intersección y symdiff
+# DEFECT: usa | (union) y - en vez de & y ^
 a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}
 b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('inter', sorted(a & b))
-`,
+print('inter', sorted(a | b))
+print('symdiff', sorted(a - b))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -986,15 +1098,24 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         starterCode: {
           language: 'python',
           title: "dedup_report.py",
-          code: `def dedup_report(rows, key='id'):
-    # TODO
-    ...
+          code: `# CASO-LIM-006 · dedup con reporte de conflictos
+# DEFECT: set de ids borra conflicto sin traza
+def dedup_report(rows, key='id'):
+    seen = set()
+    unique = []
+    for r in rows:
+        k = r[key]
+        if k not in seen:
+            seen.add(k)
+            unique.append(r)
+    return {'unique': unique, 'conflicts': []}
 rows = [
     {'id': 'C001', 'v': 1},
     {'id': 'C002', 'v': 2},
     {'id': 'C001', 'v': 9},
 ]
-print(dedup_report(rows))`,
+print(dedup_report(rows))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1037,15 +1158,15 @@ print(dedup_report(rows))`,
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · len contacts anidados
+# DEFECT: imprime contacts crudos; no len
 clients = [
     {'id': 'C001', 'contacts': [1, 2]},
     {'id': 'C002', 'contacts': []},
 ]
 for c in clients:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))
-`,
+    print(c['id'], '→', c['contacts'])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1077,12 +1198,18 @@ C002 → 0`,
         starterCode: {
           language: 'python',
           title: "flatten_txs.py",
-          code: `clients = [
+          code: `# CASO-LIM-006 · flatten txs
+# DEFECT: solo primer tx de cada cliente
+clients = [
     {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},
     {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},
 ]
-# TODO flat
-print(flat)`,
+flat = []
+for c in clients:
+    t = c['txs'][0]
+    flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})
+print(flat)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1116,7 +1243,8 @@ print(flat)`,
         starterCode: {
           language: 'python',
           title: "shape_check.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · isinstance txs list
+# DEFECT: truthiness de txs; ''oops'' y missing colapsan mal
 clients = [
     {'id': 'C001', 'txs': []},
     {'id': 'C002'},
@@ -1124,10 +1252,9 @@ clients = [
 ]
 for c in clients:
     txs = c.get('txs')
-    ok = isinstance(txs, list)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')
-`,
+    ok = bool(txs)
+    print(c['id'], 'ok' if ok else 'review')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1163,12 +1290,17 @@ C003 review`,
         starterCode: {
           language: 'python',
           title: "get_nested.py",
-          code: `def get_nested(d, *keys, default=None):
-    # TODO
-    ...
+          code: `# CASO-LIM-006 · get_nested seguro
+# DEFECT: d[k1][k2] crudo; default ignorado
+def get_nested(d, *keys, default=None):
+    cur = d
+    for k in keys:
+        cur = cur[k]
+    return cur
 c = {'profile': {'phone': '999'}}
 print(get_nested(c, 'profile', 'phone'))
-print(get_nested(c, 'profile', 'email', default='N/A'))`,
+print(get_nested(c, 'profile', 'email', default='N/A'))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1204,20 +1336,20 @@ N/A`,
         starterCode: {
           language: 'python',
           title: "mark_missing.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · missing vs present email
+# DEFECT: if not c.get('email') trata '' y 0 igual; None ok pero falta print
 clients = [
     {'id': 'C001', 'email': 'a@ex.com'},
     {'id': 'C002', 'email': None},
     {'id': 'C003'},
 ]
 for c in clients:
-    if 'email' not in c or c['email'] is None:
+    if not c.get('email'):
         flag = 'missing'
     else:
         flag = 'present'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(f"{c['id']}: {flag}")
-`,
+    print(f"{c['id']}: {flag}")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1255,12 +1387,12 @@ C003: missing`,
         starterCode: {
           language: 'python',
           title: "falsy_table.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · falsy vs missing
+# DEFECT: solo bool(v); no distingue missing (is None)
 vals = [None, '', 0, []]
 for v in vals:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)
-`,
+    print(repr(v), 'falsy=', not bool(v), 'missing=', not v)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1291,12 +1423,12 @@ for v in vals:
         starterCode: {
           language: 'python',
           title: "sort_monto.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · sorted por monto
+# DEFECT: sort por id no por monto
 rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
-ordered = sorted(rows, key=lambda r: r['monto'])
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print([r['id'] for r in ordered])
-`,
+ordered = sorted(rows, key=lambda r: r['id'])
+print([r['id'] for r in ordered])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1324,12 +1456,16 @@ print([r['id'] for r in ordered])`,
         starterCode: {
           language: 'python',
           title: "sort_multi.py",
-          code: `rows = [
+          code: `# CASO-LIM-006 · sort multi-clave región+nombre
+# DEFECT: solo por nombre; ignora región
+rows = [
     {'nombre': 'Zed', 'region': 'Lima'},
     {'nombre': 'Ana', 'region': 'Lima'},
     {'nombre': 'Bob', 'region': 'Cusco'},
 ]
-# TODO`,
+for r in sorted(rows, key=lambda r: r['nombre']):
+    print(r['region'], r['nombre'])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1363,14 +1499,16 @@ Lima Zed`,
         starterCode: {
           language: 'python',
           title: "sort_inplace.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · list.sort vs sorted
+# DEFECT: asume ret de .sort() es la lista ordenada
 rows = [3, 1, 2]
 base = [3, 1, 2]
 ret = rows.sort()
-copy_sorted = sorted(base)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('ret', ret)
-`,
+print('ret', ret)
+print('rows', rows)
+copy_sorted = base.sort()
+print('base', base, 'copy', copy_sorted)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1404,12 +1542,16 @@ base [3, 1, 2] copy [1, 2, 3]`,
         starterCode: {
           language: 'python',
           title: "choose_struct.py",
-          code: `jobs = [
+          code: `# CASO-LIM-006 · elegir estructura
+# DEFECT: todo → list
+jobs = [
     'cola de llegada de filas',
     'lookup frecuente por id',
     'emails únicos de un lote',
 ]
-# TODO print job → estructura`,
+for job in jobs:
+    print(job, '→', 'list')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1443,14 +1585,13 @@ emails únicos de un lote → set`,
         starterCode: {
           language: 'python',
           title: "deterministic_json.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · JSON determinista
+# DEFECT: dumps sin sort_keys; ids sin sorted
 import json
 payload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}
-payload['ids'] = sorted(payload['ids'])
-s = json.dumps(payload, sort_keys=True, ensure_ascii=False)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(s)
-`,
+s = json.dumps(payload, ensure_ascii=False)
+print(s)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1480,12 +1621,11 @@ print(s)`,
         starterCode: {
           language: 'python',
           title: "tradeoff.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-006 · membership list vs set
+# DEFECT: solo membership en list; no contrasta O
 ids = ['C001', 'C002', 'C003', 'C004', 'C005']
-s = set(ids)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('list membership: O(n) por chequeo')
-`,
+print('C003 in list', 'C003' in ids)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1535,24 +1675,24 @@ from typing import Any, Callable
 
 def dedup_report(rows: list[dict], key_fn: Callable[[dict], Any]) -> dict:
     """Devuelve {unique, conflicts} sin borrar traza de conflictos."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def flatten_txs(clients: list[dict]) -> list[dict]:
     """Aplana txs anidadas a filas con client_id."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def get_nested(d: dict, *keys: str, default=None):
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def export_deterministic(clients: list[dict]) -> str:
     """JSON estable: sort por id + sort_keys."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
@@ -1655,6 +1795,21 @@ if __name__ == "__main__":
         url: "https://docs.python.org/3/library/json.html",
         note: "sort_keys, ensure_ascii",
       },
+      {
+        label: "TimeComplexity (Python Wiki)",
+        url: "https://wiki.python.org/moin/TimeComplexity",
+        note: "Costo de list/dict/set",
+      },
+      {
+        label: "Python for Everybody — lists/dicts",
+        url: "https://www.py4e.com/html3/08-lists",
+        note: "Progressive disclosure de colecciones",
+      },
+      {
+        label: "sorted — key parameter",
+        url: "https://docs.python.org/3/howto/sorting.html",
+        note: "Orden estable y multi-key",
+      },
     ],
     books: [
       {
@@ -1671,6 +1826,21 @@ if __name__ == "__main__":
         label: "CS50P — Data structures",
         url: "https://cs50.harvard.edu/python/",
         note: "Práctica de collections; adaptar a CP-N1-B sintético.",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Estructuras y aliasing",
+      },
+      {
+        label: "Coursera — Python for Everybody",
+        url: "https://www.coursera.org/specializations/python",
+        note: "Listas y diccionarios",
+      },
+      {
+        label: "Kaggle Learn — Python",
+        url: "https://www.kaggle.com/learn/python",
+        note: "Micro-práctica de collections",
       },
     ],
   },

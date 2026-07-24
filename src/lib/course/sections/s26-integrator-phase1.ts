@@ -12,7 +12,7 @@ export const section26: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Cierras **CP-N2-C** orquestando Excel/sistema → validación → análisis → IA → informe → aprobación → borrador de correo, con regresión N2 y CF-2. La aprobación humana es obligatoria; matching no equivale a fraude.",
+    "Cierras **CP-N2-C** orquestando Excel/sistema → validación → análisis → IA → informe → aprobación → borrador de correo, con regresión N2 y costo acotado. Sin auto-fraude ni envío sin approve. Id legacy `integrator-phase1` se conserva; el path V3 es orquestación del VP RPA + AI Analyst.",
   learningOutcomes: [
     { text: "Modelar tasks/flows/DAG con estados" },
     { text: "Configurar límites, metadata y schedules" },
@@ -43,8 +43,8 @@ export const section26: CourseSection = {
       subtopicId: "S26-T1-A",
       paragraphs: [
         "Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. En la práctica del VP peruano sintético, edges como (ingest→validate→analyze→ai_assist→report→approve→draft_email) evitan carreras donde un informe parcial se aprueba por error.",
-        "Cada **task** expone estados observables: pending, running, success, failed, skipped. El **flow** agrega un estado global (p. ej. failed si cualquier nodo crítico falló). El dashboard del analista muestra timestamp y run_id por nodo para que el supervisor en turno sepa qué reanudar.",
-        "Implementación didáctica con dicts de nodos + edges y orden topológico simple (sin librerías de orquestación externas): si el grafo tuviera un ciclo, el pipeline no arranca. Contrato: input edges list[(str,str)] → output order list[str] sin nodos huérfanos cuando el grafo es válido.",
+        "Cada **task** expone estados observables: `pending`, `running`, `success`, `failed`, `skipped`. El **flow** agrega un estado global (p. ej. `failed` si un nodo crítico falló). El dashboard del analista muestra **timestamp + run_id** por nodo para reanudar sin adivinar.",
+        "Implementación didáctica con dicts de nodos + edges y **orden topológico** (sin Prefect/Airflow instalado): si hay ciclo, el pipeline **no arranca**. Contrato: `edges list[(str,str)]` → `order list[str]`; `approve` **antes** de `draft_email` es dependencia de negocio, no de “preferencia”.",
       ],
       code: {
         language: 'python',
@@ -93,21 +93,23 @@ print(topo(edges))`,
       subtopicId: "S26-T1-B",
       paragraphs: [
         "**Rate limits** (api_rpm, max_parallel_tasks) protegen APIs y colas compartidas: un burst nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: run_id, trigger (manual|schedule), git_sha sintético, data_cutoff — versionas un nuevo run_id si cambias la foto de datos.",
-        "**Schedules** tipo cron (`0 6 * * 1-5` America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. Documenta ventana de mantenimiento en el runbook: durante deploy, disable_schedule antes de drain de colas para no mezclar versiones de schema de informe.",
-        "Caso sintético PE: el equipo de RPA en San Isidro fija max_parallel_tasks=2 y api_rpm=30 para el adapter de consulta; si api_rpm>60 en config, el preflight imprime too_high y bloquea el schedule hasta revisión humana del límite.",
+        "**Schedules** tipo cron (`0 6 * * 1-5` America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. En deploy: **`disable_schedule` → drain** antes de cambiar schema de informe — no mezclar versiones a mitad del batch.",
+        "Caso PE: San Isidro fija `max_parallel_tasks=2` y `api_rpm=30`; si `api_rpm>60` el preflight imprime `too_high` y **bloquea** el schedule hasta revisión humana del límite.",
       ],
       code: {
         language: 'python',
         title: "limits_meta.py",
-        code: `run_meta = {
-    "run_id": "cpn2c-close-01",
-    "trigger": "manual",
-    "schedule": None,
-    "limits": {"max_parallel_tasks": 2, "api_rpm": 30},
-    "data_cutoff": "2026-01-15",
-}
+        code: `def build_run_meta(run_id, api_rpm=30):
+    return {
+        "run_id": run_id,
+        "trigger": "manual",
+        "schedule": None,
+        "limits": {"max_parallel_tasks": 2, "api_rpm": api_rpm},
+        "data_cutoff": "2026-01-15",
+    }
+
+run_meta = build_run_meta("cpn2c-close-01")
 print(run_meta["run_id"], run_meta["limits"]["api_rpm"])
-# schedule example
 cron = "0 6 * * 1-5"  # 06:00 L-V America/Lima conceptual
 print("cron", cron, "tz", "America/Lima")`,
         output: `cpn2c-close-01 30
@@ -124,9 +126,9 @@ cron 0 6 * * 1-5 tz America/Lima`,
       heading: "checkpoints, retry/backoff y dead-letter",
       subtopicId: "S26-T2-A",
       paragraphs: [
-        "Un **checkpoint** persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a mitad de analyze, solo quedan pendientes los no marcados. Persistencia puede ser set en memoria en el lab o archivo JSON en el capstone; el contrato es el mismo: skip si id ∈ ckpt.",
-        "**Retry con backoff** exponencial (base * 2**(attempt-1), con cap) absorbe 429/timeout transitorios del sistema sintético. No reintentes eternamente errores de validación de negocio (schema inválido): esos van a **DLQ** con owner y SLA de inspección, no a un basurero silencioso.",
-        "En el escritorio PE sintético, el item flaky de export cae a DLQ con reason timeout_exhausted; el runbook asigna owner=ops_rpa y alert si la cola crece. Contrato de lab: process_with_dlq(items, flaky_ids) → (ok, dlq, ckpt) sin duplicar ok tras reanudación.",
+        "Un **checkpoint** persiste ids ya procesados para reanudar sin rehacer ingest costoso: tras un crash a mitad de `analyze`, solo quedan pendientes los no marcados. Lab: set en memoria; capstone: JSON. Contrato: **skip si id ∈ ckpt**.",
+        "**Retry con backoff** exponencial (`base * 2**(attempt-1)`, con cap) absorbe 429/timeout. **No** reintentes schema inválido de negocio: eso va a **DLQ** con owner y SLA — DLQ no es basurero silencioso.",
+        "Caso PE: item flaky de export → DLQ `timeout_exhausted`, owner=`ops_rpa`. Contrato lab: `process_with_dlq` → `(ok, dlq, ckpt)` **sin duplicar** ok tras reanudación.",
       ],
       code: {
         language: 'python',
@@ -163,9 +165,9 @@ print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))`,
       heading: "idempotencia, concurrencia y rollback",
       subtopicId: "S26-T2-B",
       paragraphs: [
-        "Pasos **idempotentes** usan keys de negocio (run_id, entity_id): la segunda escritura no pisa un valor ya materializado si la semántica es create-once. Así un retry no duplica drafts ni reportes supersedidos solo por reentrega del mensaje.",
-        "**Concurrencia**: locks optimistas o flags locked por entidad evitan dos workers escribiendo el mismo informe. Si locked=True, el worker imprime busy y reencola. En multi-proceso real usarías lease con TTL; en el lab el flag enseña el contrato fail-closed.",
-        "**Rollback/compensación** no siempre es ACID: si falla draft_email tras write_report, borras draft y marcas report superseded. Documenta el grafo de compensación en el runbook del VP; en ejercicio, pop de keys de side-effect deja state mínimo auditable.",
+        "Pasos **idempotentes** usan keys de negocio (`run_id`, `entity_id`): la segunda escritura no pisa un valor ya materializado (create-once). Un retry **no** duplica drafts por reentrega del mensaje.",
+        "**Concurrencia**: locks/flags `locked` por entidad evitan dos workers en el mismo informe. Si `locked=True` → busy y reencola. Lab: flag fail-closed; prod: lease con TTL.",
+        "**Rollback/compensación** no siempre es ACID: si falla `draft_email` tras `write_report`, borra draft y marca report `superseded`. Documenta el grafo de compensación en el runbook del VP.",
       ],
       code: {
         language: 'python',
@@ -201,9 +203,9 @@ print("reports", store["reports"], "drafts", store["drafts"])`,
       heading: "revisión de análisis/reporte/destinatario",
       subtopicId: "S26-T3-A",
       paragraphs: [
-        "HITL del VP exige **tres colas conceptuales**: analysis (métricas/outliers sintéticos), report (narrativa), recipient (destinatario del borrador). Cualquier cola con pending>0 bloquea el avance a envío: blocked = any(count>0). El analista en Lima ve checklist mínima metrics+narrative+recipient.",
-        "La IA asistida solo propone texto o highlights; no cierra el caso. Contrato: si analysis pending, el flow permanece en human_review aunque report esté listo. Esto evita el anti-patrón de “correo automático con narrativa alucinada”.",
-        "Caso sintético: fixture run cpn2c-hitl-01 con analysis=1, report=1, recipient=0 → blocked True hasta que un revisor asigne recipient y limpie colas. Scores de matching de secciones previas alimentan la cola analysis como evidencia, nunca como veredicto de fraude.",
+        "HITL del VP exige **tres colas**: `analysis` (métricas/outliers), `report` (narrativa), `recipient` (destinatario). Cualquier `pending>0` **bloquea** envío: `blocked = any(count>0)`. Checklist mínima: metrics + narrative + recipient.",
+        "La IA asistida **solo propone** texto/highlights; **no cierra** el caso. Si `analysis` pending, el flow queda en `human_review` aunque `report` esté listo — evita “correo automático con narrativa alucinada”.",
+        "Caso: `cpn2c-hitl-01` con analysis=1, report=1, recipient=0 → `blocked True`. Scores de matching alimentan `analysis` como **evidencia**, nunca como veredicto de fraude.",
       ],
       code: {
         language: 'python',
@@ -233,9 +235,9 @@ all_clear False`,
       heading: "aprobación, rechazo, edición y auditoría",
       subtopicId: "S26-T3-B",
       paragraphs: [
-        "Toda decisión humana deja **audit**: {action, actor, ts, reason?}. approve avanza; reject exige reason no vacío (si falta → invalid); edit versiona el artefacto (ver 1→2) sin borrar historia. Sin audit, CP-N2-C no es demostrable en la defensa del capstone.",
-        "El actor es un id sintético de revisor (r1, r2), no un correo personal real. El sistema no envía: solo materializa draft_email tras approve. Rechazos reabren cola report o analysis según reason code documentado en el runbook.",
-        "Política PE del curso: un reject por quality_narrative reencola report; un reject por wrong_recipient reencola recipient. Editar el informe incrementa version y registra action=edit. Contrato de lab: audit append-only, nunca reescritura de entradas previas.",
+        "Toda decisión humana deja **audit** `{action, actor, ts, reason?}`. `approve` avanza; `reject` exige reason no vacío; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.",
+        "Actor = id sintético (`r1`, `r2`), no correo personal real. El sistema **no envía**: solo materializa `draft_email` tras approve. Rechazos reabren cola según reason code del runbook.",
+        "Política PE: `quality_narrative` → reencola report; `wrong_recipient` → reencola recipient. Audit **append-only** — nunca reescritura de entradas previas.",
       ],
       code: {
         language: 'python',
@@ -263,9 +265,9 @@ print(len(audit), audit[-1]["action"], audit[0]["reason"])`,
       heading: "SLO, alerts y runbook",
       subtopicId: "S26-T4-A",
       paragraphs: [
-        "**SLO** del VP sintético: success_rate ≥ 0.95 en ventanas diarias; si rate=0.90 → alert_success_rate. Alertas P0 incluyen sends_without_approve>0 (correo o draft marcado enviado sin approve) — violación de control, no un warning suave.",
-        "El **runbook** one-liner de incidente: disable_schedule → drain → page. Primero detienes el cron America/Lima, drenas colas/workers, luego pages al on-call. Incluye contacto sintético y severidad; sin severidad el escalamiento es ambiguo en turno noche.",
-        "Métricas operativas se leen del mismo metadata de run (run_id, trigger). No inventes fraud_rate en el dashboard del VP: el producto mide throughput, fallas, HITL latency y costo de tokens de IA asistida, no culpabilidad.",
+        "**SLO** del VP sintético: `success_rate ≥ 0.95` diario; si rate=0.90 → `alert_success_rate`. P0: `sends_without_approve > 0` — violación de control, no warning suave.",
+        "Runbook de incidente: **`disable_schedule → drain → page`**. Primero detienes el cron America/Lima, drenas workers, luego pages on-call con severidad explícita.",
+        "Métricas del metadata de run: throughput, fallas, HITL latency, costo de tokens. **No** inventes `fraud_rate` en el dashboard — matching/score ≠ culpabilidad.",
       ],
       code: {
         language: 'python',
@@ -303,10 +305,10 @@ runbook_step disable_schedule → drain queue → page oncall`,
       heading: "pruebas E2E, seguridad, costo y métricas de valor",
       subtopicId: "S26-T4-B",
       paragraphs: [
-        "E2E del cierre: todos los steps del path canónico en success (ingest…draft) con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos del adapter, y fraud_labels=0 en el paquete de evidencia (el VP no auto-etiqueta fraude).",
-        "Costo: tokens de IA asistida y minutos de RPA acotados en el informe de valor. Valor: minutos ahorrados estimados (p. ej. 45) frente a proceso manual de consolidación — es estimación de producto, no promesa financiera.",
-        "Notas de regresión N2 documentan CP-N2-A/B/C critical+privacy y CF-2 interfaces (Familiarity–reporting–automation). El paquete de cierre imprime estructura reproducible para la defensa: e2e, cost, value, fraud_labels=0, n2_regression planned/pass.",
-        "Caso sintético PE de cierre: run cpn2c-close-e2e con data_cutoff fijo; si algún step failed, E2E imprime False y no se firma el checklist de promoción. Matching/OCR/RPA de secciones previas solo aportan evidencia encolada, nunca un claim de colusión o fraude en el informe final.",
+        "E2E del cierre: path canónico `ingest…draft` en success con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos, **`fraud_labels=0`** (el VP no auto-etiqueta fraude).",
+        "Costo: tokens de IA + minutos de RPA acotados. Valor: minutos ahorrados estimados (p. ej. 45) vs manual — estimación de producto, no promesa financiera.",
+        "Regresión N2: CP-N2-A/B/C critical+privacy y CF-2. Paquete de defensa: e2e, cost, value, `fraud_labels=0`, n2_regression pass.",
+        "Caso PE: `cpn2c-close-e2e` con `data_cutoff` fijo; si un step failed → E2E False y **no** se firma promoción. Matching/OCR/RPA solo encolan evidencia — nunca claim de colusión/fraude en el informe final.",
       ],
       code: {
         language: 'python',
@@ -347,9 +349,14 @@ n2_regression_note re-run CP-N2-A/B/C critical + privacy checks`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `order=["ingest","validate","analyze","report","approve","draft_email"]
+          code: `def pipeline_order():
+    return ["ingest", "validate", "analyze", "report", "approve", "draft_email"]
+
+order = pipeline_order()
 print(order)
-print("n_steps", len(order))`,
+print("n_steps", len(order))
+print("ok", True)
+`,
           output: `['ingest', 'validate', 'analyze', 'report', 'approve', 'draft_email']
 n_steps 6`,
         },
@@ -363,8 +370,12 @@ n_steps 6`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `meta={"run_id":"r1","api_rpm":30,"tz":"America/Lima"}
-print(meta)`,
+          code: `def run_meta(run_id, api_rpm=30, tz="America/Lima"):
+    return {"run_id": run_id, "api_rpm": api_rpm, "tz": tz}
+
+print(run_meta("r1"))
+print("ok", True)
+`,
           output: `{'run_id': 'r1', 'api_rpm': 30, 'tz': 'America/Lima'}`,
         },
         why: "Metadata habilita auditoría y schedules.",
@@ -377,8 +388,13 @@ print(meta)`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `ckpt=set(["a"]); dlq=["b"]
-print("resume_from", sorted(ckpt), "dlq", dlq)`,
+          code: `def resume_and_dlq(ckpt, dlq):
+    return sorted(ckpt), list(dlq)
+
+rf, d = resume_and_dlq({"a"}, ["b"])
+print("resume_from", rf, "dlq", d)
+print("ok", True)
+`,
           output: `resume_from ['a'] dlq ['b']`,
         },
         why: "Reanudar sin rehacer lo exitoso.",
@@ -391,8 +407,14 @@ print("resume_from", sorted(ckpt), "dlq", dlq)`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `state={"report":"ok","draft":"ok"}
-state.pop("draft"); print(state)`,
+          code: `def drop_draft(state):
+    s = dict(state)
+    s.pop("draft", None)
+    return s
+
+print(drop_draft({"report": "ok", "draft": "ok"}))
+print("ok", True)
+`,
           output: `{'report': 'ok'}`,
         },
         why: "Compensación explícita.",
@@ -405,8 +427,13 @@ state.pop("draft"); print(state)`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `q={"analysis":1,"report":1,"recipient":0}
-print(q, "blocked", any(v>0 for v in q.values()))`,
+          code: `def queue_blocked(q):
+    return any(v > 0 for v in q.values())
+
+q = {"analysis": 1, "report": 1, "recipient": 0}
+print(q, "blocked", queue_blocked(q))
+print("ok", True)
+`,
           output: `{'analysis': 1, 'report': 1, 'recipient': 0} blocked True`,
         },
         why: "Triple revisión antes del correo.",
@@ -419,8 +446,12 @@ print(q, "blocked", any(v>0 for v in q.values()))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `audit=[{"action":"approve","actor":"r1"}]
-print(audit[0])`,
+          code: `def first_audit(audit):
+    return audit[0]
+
+print(first_audit([{"action": "approve", "actor": "r1"}]))
+print("ok", True)
+`,
           output: `{'action': 'approve', 'actor': 'r1'}`,
         },
         why: "Sin audit no hay capstone demostrable.",
@@ -433,8 +464,13 @@ print(audit[0])`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `slo_ok=0.91<0.95
-print("alert_success_rate" if slo_ok else "ok")`,
+          code: `def slo_alert(rate, thr=0.95):
+    return "alert_success_rate" if rate < thr else "ok"
+
+# note: 0.91 < 0.95 → alert
+print(slo_alert(0.91))
+print("ok", True)
+`,
           output: `alert_success_rate`,
         },
         why: "SLO operativos del VP.",
@@ -447,7 +483,18 @@ print("alert_success_rate" if slo_ok else "ok")`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `print({"e2e":"pass","cost_tokens":100,"value_min":30,"fraud_labels":0,"n2_regression":"planned"})`,
+          code: `def vp_summary():
+    return {
+        "e2e": "pass",
+        "cost_tokens": 100,
+        "value_min": 30,
+        "fraud_labels": 0,
+        "n2_regression": "planned",
+    }
+
+print(vp_summary())
+print("ok", True)
+`,
           output: `{'e2e': 'pass', 'cost_tokens': 100, 'value_min': 30, 'fraud_labels': 0, 'n2_regression': 'planned'}`,
         },
         why: "Cierre CP-N2-C con notas de regresión N2.",
@@ -475,8 +522,10 @@ print("alert_success_rate" if slo_ok else "ok")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture: path canónico parcial del VP (sin AI/email)
-# TODO: imprime la lista ['ingest','validate','analyze','report']
+          code: `# CASO-LIM-026 · path canónico parcial
+# DEFECT: omite validate
+print(['ingest','analyze','report'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -504,11 +553,12 @@ print("alert_success_rate" if slo_ok else "ok")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · edges del path
+# DEFECT: imprime solo len
 nodes=['a','b','c']
 edges=list(zip(nodes, nodes[1:]))
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(len(edges), edges)
+print(len(edges))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -538,10 +588,11 @@ print(len(edges), edges)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · any failed
+# DEFECT: siempre success
 tasks={'a':'success','b':'failed'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('failed' if any(v=='failed' for v in tasks.values()) else 'success')
+print('success')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -570,10 +621,11 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · run_id
+# DEFECT: imprime dict entero
 m={'run_id':'cpn2c-1'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(m['run_id'])
+print(m)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -602,10 +654,11 @@ print(m['run_id'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · api_rpm cap 60
+# DEFECT: umbral 100
 api_rpm=90
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('too_high' if api_rpm>60 else 'ok')
+print('too_high' if api_rpm>100 else 'ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -634,11 +687,10 @@ print('too_high' if api_rpm>60 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('0 6 * * 1-5', 'America/Lima')
+          code: `# CASO-LIM-026 · cron Lima
+# DEFECT: UTC
+print('0 6 * * 1-5', 'UTC')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -666,10 +718,11 @@ run_id = "local-check"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · backoff base*2**(attempt-1)
+# DEFECT: lineal base*attempt
 attempt, base = 3, 100
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(base * (2 ** (attempt - 1)))
+print(base * attempt)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -698,13 +751,12 @@ print(base * (2 ** (attempt - 1)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · DLQ on fail
+# DEFECT: no append
 dlq=[]
 fail=True
-if fail:
-    dlq.append('x')
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(dlq)
+print(dlq)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -736,10 +788,11 @@ print(dlq)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · resume skips ckpt
+# DEFECT: reprocess all
 ckpt={'a'}; items=['a','b']
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print([i for i in items if i not in ckpt])
+print(items)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -768,14 +821,16 @@ print([i for i in items if i not in ckpt])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `store={}  # create-once store
+          code: `# CASO-LIM-026 · create-once put
+store={}
 
 def put(k,v):
-    # TODO: escribe solo si k missing
-    pass
+    # DEFECT: siempre sobrescribe
+    store[k]=v
 
 put('r','v1'); put('r','v2')
 print(store.get('r'))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -809,11 +864,11 @@ print(store['r'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · pop draft
+# DEFECT: no pop
 state={'report':'ok','draft':'ok'}
-state.pop('draft', None)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(state)
+print(state)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -843,10 +898,11 @@ print(state)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · lock busy
+# DEFECT: enter aunque locked
 locked=True
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('busy' if locked else 'enter')
+print('enter' if locked else 'busy')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -875,10 +931,11 @@ print('busy' if locked else 'enter')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · count pending
+# DEFECT: cuenta done
 analysis=[{'status':'pending'},{'status':'done'}]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sum(1 for x in analysis if x['status']=='pending'))
+print(sum(1 for x in analysis if x['status']=='done'))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -907,10 +964,11 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · any queue >0
+# DEFECT: all >0
 q={'analysis':1,'report':0,'recipient':0}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(any(v>0 for v in q.values()))
+print(all(v>0 for v in q.values()))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -939,11 +997,10 @@ print(any(v>0 for v in q.values()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(['metrics','narrative','recipient'])
+          code: `# CASO-LIM-026 · report fields
+# DEFECT: omite recipient
+print(['metrics','narrative'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -971,11 +1028,12 @@ run_id = "local-check"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · audit action
+# DEFECT: imprime actor
 audit=[]
 audit.append({'action':'approve','actor':'rev'})
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(audit[0]['action'])
+print(audit[0]['actor'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1005,10 +1063,11 @@ print(audit[0]['action'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · reject requires reason
+# DEFECT: ok sin reason
 action, reason = 'reject', None
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('invalid' if action=='reject' and not reason else 'ok')
+print('ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1037,11 +1096,11 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · version bump
+# DEFECT: no incrementa
 ver=1
-ver += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(ver)
+print(ver)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1071,10 +1130,11 @@ print(ver)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · success rate SLO 0.95
+# DEFECT: alert si rate > 0.95
 rate=0.9
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('alert' if rate < 0.95 else 'ok')
+print('alert' if rate > 0.95 else 'ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1103,10 +1163,11 @@ print('alert' if rate < 0.95 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · unapproved send P0
+# DEFECT: ok aunque n>0
 n=1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('P0_unapproved_send' if n>0 else 'ok')
+print('ok' if n>0 else 'P0_unapproved_send')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1135,11 +1196,10 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('disable_schedule -> drain -> page')
+          code: `# CASO-LIM-026 · runbook incident
+# DEFECT: solo page
+print('page')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1167,11 +1227,12 @@ run_id = "local-check"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · e2e all success
+# DEFECT: any success
 steps=['ingest','validate','draft']
 status={s:'success' for s in steps}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(all(status[s]=='success' for s in steps))
+print(any(status[s]=='success' for s in steps))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1201,10 +1262,11 @@ print(all(status[s]=='success' for s in steps))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-026 · zero fraud labels
+# DEFECT: fail cuando 0
 fraud_labels=0
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('ok' if fraud_labels==0 else 'fail')
+print('fail' if fraud_labels==0 else 'ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1233,11 +1295,10 @@ print('ok' if fraud_labels==0 else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-re
+          code: `# CASO-LIM-026 · cf2 package keys
+# DEFECT: omite value estimate
+print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'cf2': 'interfaces'})
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1272,8 +1333,8 @@ run_id = "local-check"
 STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
 state = {s: "pending" for s in STEPS}
 audit = []
-# TODO: ejecutar en orden, HITL gates, draft, e2e evidence, n2 regression notes
-print("TODO VP", STEPS)
+# Orden: path canónico, HITL gates, draft tras approve, e2e evidenciace, n2 regression notes
+print("VP", STEPS)
 print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
 `,
     portfolioNote:
@@ -1318,19 +1379,46 @@ print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
         explanation:
           "Matching/score ≠ fraude.",
       },
+      {
+        question: "draft_email respecto a approve en el VP debe…",
+        options: ["enviarse antes de approve para ahorrar tiempo", "ejecutarse solo después de approve humano con audit", "omitir audit si el SLO está en verde", "etiquetar fraude si el análisis tiene score alto"],
+        correctIndex: 1,
+        explanation:
+          "Aprobación humana precede el borrador/envío; fraud_labels=0 y audit son parte del gate CP-N2-C.",
+      }
     ],
   },
   resources: {
     docs: [
       {
-        label: "Prefect concepts (flows/tasks)",
+        label: "Prefect — concepts",
         url: "https://docs.prefect.io/",
-        note: "Orquestación conceptual",
+        note: "Flows, tasks y estados",
       },
       {
-        label: "SRE Workbook — SLOs",
+        label: "Prefect — flows",
+        url: "https://docs.prefect.io/v3/concepts/flows",
+        note: "Orquestación y dependencias",
+      },
+      {
+        label: "Apache Airflow — concepts",
+        url: "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+        note: "DAGs y scheduling (referencia)",
+      },
+      {
+        label: "SRE Workbook — Implementing SLOs",
         url: "https://sre.google/workbook/implementing-slos/",
         note: "SLO y alerts",
+      },
+      {
+        label: "SRE Book — Postmortem culture",
+        url: "https://sre.google/sre-book/postmortem-culture/",
+        note: "Incidentes y aprendizaje",
+      },
+      {
+        label: "12factor App",
+        url: "https://12factor.net/",
+        note: "Config, logs y procesos",
       },
     ],
     books: [
@@ -1345,9 +1433,24 @@ print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
     ],
     courses: [
       {
-        label: "Pipeline orchestration patterns",
-        url: "https://docs.prefect.io/v3/concepts/flows",
-        note: "Flows y estados",
+        label: "Coursera — data engineering / orchestration",
+        url: "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+        note: "Pipelines y workflows",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos verificables",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Tests y proyectos",
+      },
+      {
+        label: "deeplearning.ai — data engineering",
+        url: "https://www.deeplearning.ai/specializations/data-engineering",
+        note: "Pipelines de datos",
       },
     ],
   },

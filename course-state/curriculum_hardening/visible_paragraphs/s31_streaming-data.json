@@ -1,0 +1,612 @@
+{
+  "index": 31,
+  "id": "streaming-data",
+  "title": "Grafos y evidencia relacional",
+  "file": "s31-streaming-data.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S31 — Grafos y evidencia relacional (CP-N3-B inicio)",
+      "len": 57
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S31. Nodo/arista: entidad y vínculo tipado. Dirigido/peso: dirección y fuerza de evidencia. Multigrafo/tiempo/provenance: múltiples aristas con tiempo y fuente. Grado/componente/camino: estructura. Centralidad: score de posición con interpretación limitada. Subgrafo de evidencia: camino reproducible para el revisor.",
+      "len": 329
+    },
+    {
+      "i": 2,
+      "text": "Inicio CP-N3-B: grafo temporal que responde «cómo están conectados» con camino reproducible. No convierte centralidad en culpabilidad. Id streaming-data legacy. Caso CASO-LIM-031.",
+      "len": 179
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: entidades/transacciones/contactos sintéticos. Salida: grafo con provenance, BFS path, métricas con disclaimer. Error: rank de centralidad como veredicto.",
+      "len": 172
+    },
+    {
+      "i": 4,
+      "text": "Orden T1 Modelo → T2 Construcción → T3 Algoritmos → T4 Calidad/privacidad. Stack: dict adjacency stdlib.",
+      "len": 104
+    },
+    {
+      "i": 5,
+      "text": "Nodos, aristas, dirección y peso",
+      "len": 32
+    },
+    {
+      "i": 6,
+      "text": "Modela nodos (entidades, cuentas sintéticas) y aristas con tipo, dirección y peso de evidencia (no de culpa). Un vínculo undirected de 'shared_phone' no es parentesco legal.",
+      "len": 173
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: adj list; add_edge(u,v,etype,weight,directed).",
+      "len": 57
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: edges list. Salida: n_nodes, n_edges. CASO-LIM-031-T1A.",
+      "len": 74
+    },
+    {
+      "i": 9,
+      "text": "Aplicación: E1—A1 owns, E1—E2 link. Datos inventados Lima.",
+      "len": 58
+    },
+    {
+      "i": 10,
+      "text": "Multigrafo, tiempo y provenance",
+      "len": 31
+    },
+    {
+      "i": 11,
+      "text": "Un multigrafo permite varias aristas entre el mismo par (distintos tipos/tiempos). Provenance en la arista (source_id, ts) hace el camino auditable.",
+      "len": 148
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: edge id único; no colapsar sin guardar detalle.",
+      "len": 58
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: multi-edges. Salida: n_edges detail preserved. CASO-LIM-031-T1B.",
+      "len": 83
+    },
+    {
+      "i": 14,
+      "text": "Aplicación: dos contactos E1-E2 en t1 y t2. Revisor ve ambos.",
+      "len": 61
+    },
+    {
+      "i": 15,
+      "text": "Construcción desde clientes/entidades/tx/contactos",
+      "len": 50
+    },
+    {
+      "i": 16,
+      "text": "Construye el grafo desde tablas sintéticas: entidades, transacciones, contactos compartidos. Deduplica nodos por entity_id de S30; no inventes aristas sin fuente.",
+      "len": 162
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: por cada shared_phone crea edge con provenance; por cada tx edge directed amount.",
+      "len": 92
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: records. Salida: edge list con source. CASO-LIM-031-T2A.",
+      "len": 75
+    },
+    {
+      "i": 19,
+      "text": "Aplicación: dos clientes mismo phone sintético → una arista shared_phone.",
+      "len": 73
+    },
+    {
+      "i": 20,
+      "text": "Deduplicación y agregación sin borrar detalle",
+      "len": 45
+    },
+    {
+      "i": 21,
+      "text": "Tras ER (S30), colapsa nodos duplicados a entity canónica pero conserva aristas originales en capa de detalle. La vista agregada sirve a exploración; la fina, a auditoría.",
+      "len": 171
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: map record_id→entity_id; rewire edges; keep raw_edges.",
+      "len": 65
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: map y edges. Salida: n_agg y n_raw. CASO-LIM-031-T2B.",
+      "len": 72
+    },
+    {
+      "i": 24,
+      "text": "Aplicación: r1,r2→E1; raw 2 edges, agg 1. Revisor puede expandir.",
+      "len": 65
+    },
+    {
+      "i": 25,
+      "text": "Grado, componentes y caminos",
+      "len": 28
+    },
+    {
+      "i": 26,
+      "text": "Grado cuenta vecinos. Componentes conexas segmentan el grafo. BFS/DFS hallan caminos reproducibles con max_depth para no explotar.",
+      "len": 130
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: BFS con parent pointers; reconstruye path.",
+      "len": 53
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: adj undirected, src, dst. Salida: path list o None. CASO-LIM-031-T3A.",
+      "len": 88
+    },
+    {
+      "i": 29,
+      "text": "Aplicación: E1-A1-E2 path. Camino explicable al humano.",
+      "len": 55
+    },
+    {
+      "i": 30,
+      "text": "Centralidad con interpretación limitada",
+      "len": 39
+    },
+    {
+      "i": 31,
+      "text": "Centralidad de grado es fácil de abusar: un hub operativo no es un culpable. Reporta el score con disclaimer y nunca como ranking de sanción.",
+      "len": 141
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: degree centrality = deg(v)/(n-1).",
+      "len": 44
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: adj. Salida: top node + disclaimer. CASO-LIM-031-T3B.",
+      "len": 72
+    },
+    {
+      "i": 34,
+      "text": "Aplicación: hub A1. means_guilt False obligatorio.",
+      "len": 50
+    },
+    {
+      "i": 35,
+      "text": "Subgrafos, pruebas y visualización prudente",
+      "len": 43
+    },
+    {
+      "i": 36,
+      "text": "Extrae subgrafo del camino/componente para el workbench. Prueba: path no vacío entre queries de negocio. Visualización sin PII; escalabilidad con max_depth y sampling.",
+      "len": 167
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: nodes del path + edges inducidas; assert invariants.",
+      "len": 63
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: path. Salida: subgraph edge count. CASO-LIM-031-T4A.",
+      "len": 71
+    },
+    {
+      "i": 39,
+      "text": "Aplicación: path 3 nodos → 2 edges undirected. Sin layout que insinúe culpa.",
+      "len": 76
+    },
+    {
+      "i": 40,
+      "text": "Privacidad y evidencia por arista",
+      "len": 33
+    },
+    {
+      "i": 41,
+      "text": "Cada arista debe poder citar evidencia (source_id) sin volcar PII. Escalabilidad: no materialices n². Privacidad: máscaras en labels visuales.",
+      "len": 142
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: edge_evidence[id]=source; export redacted labels.",
+      "len": 60
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: edges con source. Salida: all_have_source True, pii_export False. CASO-LIM-031-T4B.",
+      "len": 102
+    },
+    {
+      "i": 44,
+      "text": "Aplicación: exports al workbench con ids sintéticos. Inicio CP-N3-B.",
+      "len": 68
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S31 — Grafos y evidencia relacional (CP-N3-B inicio)",
+      "text": "Mapa S31 — Grafos y evidencia relacional (CP-N3-B inicio)"
+    },
+    {
+      "i": 1,
+      "len": 329,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S31. Nodo/arista: entidad y vínculo tipado. Dirigido/peso: dirección y fuerza de evidencia. Multigrafo/tiempo/provenance: múltiples aristas con tiempo y fuente. Grado/c",
+      "text": "Diccionario S31. Nodo/arista: entidad y vínculo tipado. Dirigido/peso: dirección y fuerza de evidencia. Multigrafo/tiempo/provenance: múltiples aristas con tiempo y fuente. Grado/componente/camino: estructura. Centralidad: score de posición con interpretación limitada. Subgrafo de evidencia: camino reproducible para el revisor."
+    },
+    {
+      "i": 2,
+      "len": 179,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Inicio CP-N3-B: grafo temporal que responde «cómo están conectados» con camino reproducible. No convierte centralidad en culpabilidad. Id streaming-data legacy. Caso CASO-LIM-031.",
+      "text": "Inicio CP-N3-B: grafo temporal que responde «cómo están conectados» con camino reproducible. No convierte centralidad en culpabilidad. Id streaming-data legacy. Caso CASO-LIM-031."
+    },
+    {
+      "i": 3,
+      "len": 172,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: entidades/transacciones/contactos sintéticos. Salida: grafo con provenance, BFS path, métricas con disclaimer. Error: rank de centralidad como veredicto.",
+      "text": "Contrato. Entrada: entidades/transacciones/contactos sintéticos. Salida: grafo con provenance, BFS path, métricas con disclaimer. Error: rank de centralidad como veredicto."
+    },
+    {
+      "i": 4,
+      "len": 104,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden T1 Modelo → T2 Construcción → T3 Algoritmos → T4 Calidad/privacidad. Stack: dict adjacency stdlib.",
+      "text": "Orden T1 Modelo → T2 Construcción → T3 Algoritmos → T4 Calidad/privacidad. Stack: dict adjacency stdlib."
+    },
+    {
+      "i": 5,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Nodos, aristas, dirección y peso",
+      "text": "Nodos, aristas, dirección y peso"
+    },
+    {
+      "i": 6,
+      "len": 173,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Modela nodos (entidades, cuentas sintéticas) y aristas con tipo, dirección y peso de evidencia (no de culpa). Un vínculo undirected de 'shared_phone' no es parentesco legal.",
+      "text": "Modela nodos (entidades, cuentas sintéticas) y aristas con tipo, dirección y peso de evidencia (no de culpa). Un vínculo undirected de 'shared_phone' no es parentesco legal."
+    },
+    {
+      "i": 7,
+      "len": 57,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: adj list; add_edge(u,v,etype,weight,directed).",
+      "text": "Mecanismo: adj list; add_edge(u,v,etype,weight,directed)."
+    },
+    {
+      "i": 8,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: edges list. Salida: n_nodes, n_edges. CASO-LIM-031-T1A.",
+      "text": "Contrato. Entrada: edges list. Salida: n_nodes, n_edges. CASO-LIM-031-T1A."
+    },
+    {
+      "i": 9,
+      "len": 58,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: E1—A1 owns, E1—E2 link. Datos inventados Lima.",
+      "text": "Aplicación: E1—A1 owns, E1—E2 link. Datos inventados Lima."
+    },
+    {
+      "i": 10,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Multigrafo, tiempo y provenance",
+      "text": "Multigrafo, tiempo y provenance"
+    },
+    {
+      "i": 11,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un multigrafo permite varias aristas entre el mismo par (distintos tipos/tiempos). Provenance en la arista (source_id, ts) hace el camino auditable.",
+      "text": "Un multigrafo permite varias aristas entre el mismo par (distintos tipos/tiempos). Provenance en la arista (source_id, ts) hace el camino auditable."
+    },
+    {
+      "i": 12,
+      "len": 58,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: edge id único; no colapsar sin guardar detalle.",
+      "text": "Mecanismo: edge id único; no colapsar sin guardar detalle."
+    },
+    {
+      "i": 13,
+      "len": 83,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: multi-edges. Salida: n_edges detail preserved. CASO-LIM-031-T1B.",
+      "text": "Contrato. Entrada: multi-edges. Salida: n_edges detail preserved. CASO-LIM-031-T1B."
+    },
+    {
+      "i": 14,
+      "len": 61,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: dos contactos E1-E2 en t1 y t2. Revisor ve ambos.",
+      "text": "Aplicación: dos contactos E1-E2 en t1 y t2. Revisor ve ambos."
+    },
+    {
+      "i": 15,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Construcción desde clientes/entidades/tx/contactos",
+      "text": "Construcción desde clientes/entidades/tx/contactos"
+    },
+    {
+      "i": 16,
+      "len": 162,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Construye el grafo desde tablas sintéticas: entidades, transacciones, contactos compartidos. Deduplica nodos por entity_id de S30; no inventes aristas sin fuente.",
+      "text": "Construye el grafo desde tablas sintéticas: entidades, transacciones, contactos compartidos. Deduplica nodos por entity_id de S30; no inventes aristas sin fuente."
+    },
+    {
+      "i": 17,
+      "len": 92,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: por cada shared_phone crea edge con provenance; por cada tx edge directed amount.",
+      "text": "Mecanismo: por cada shared_phone crea edge con provenance; por cada tx edge directed amount."
+    },
+    {
+      "i": 18,
+      "len": 75,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: records. Salida: edge list con source. CASO-LIM-031-T2A.",
+      "text": "Contrato. Entrada: records. Salida: edge list con source. CASO-LIM-031-T2A."
+    },
+    {
+      "i": 19,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: dos clientes mismo phone sintético → una arista shared_phone.",
+      "text": "Aplicación: dos clientes mismo phone sintético → una arista shared_phone."
+    },
+    {
+      "i": 20,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Deduplicación y agregación sin borrar detalle",
+      "text": "Deduplicación y agregación sin borrar detalle"
+    },
+    {
+      "i": 21,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tras ER (S30), colapsa nodos duplicados a entity canónica pero conserva aristas originales en capa de detalle. La vista agregada sirve a exploración; la fina, a auditoría.",
+      "text": "Tras ER (S30), colapsa nodos duplicados a entity canónica pero conserva aristas originales en capa de detalle. La vista agregada sirve a exploración; la fina, a auditoría."
+    },
+    {
+      "i": 22,
+      "len": 65,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: map record_id→entity_id; rewire edges; keep raw_edges.",
+      "text": "Mecanismo: map record_id→entity_id; rewire edges; keep raw_edges."
+    },
+    {
+      "i": 23,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: map y edges. Salida: n_agg y n_raw. CASO-LIM-031-T2B.",
+      "text": "Contrato. Entrada: map y edges. Salida: n_agg y n_raw. CASO-LIM-031-T2B."
+    },
+    {
+      "i": 24,
+      "len": 65,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: r1,r2→E1; raw 2 edges, agg 1. Revisor puede expandir.",
+      "text": "Aplicación: r1,r2→E1; raw 2 edges, agg 1. Revisor puede expandir."
+    },
+    {
+      "i": 25,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Grado, componentes y caminos",
+      "text": "Grado, componentes y caminos"
+    },
+    {
+      "i": 26,
+      "len": 130,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Grado cuenta vecinos. Componentes conexas segmentan el grafo. BFS/DFS hallan caminos reproducibles con max_depth para no explotar.",
+      "text": "Grado cuenta vecinos. Componentes conexas segmentan el grafo. BFS/DFS hallan caminos reproducibles con max_depth para no explotar."
+    },
+    {
+      "i": 27,
+      "len": 53,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: BFS con parent pointers; reconstruye path.",
+      "text": "Mecanismo: BFS con parent pointers; reconstruye path."
+    },
+    {
+      "i": 28,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: adj undirected, src, dst. Salida: path list o None. CASO-LIM-031-T3A.",
+      "text": "Contrato. Entrada: adj undirected, src, dst. Salida: path list o None. CASO-LIM-031-T3A."
+    },
+    {
+      "i": 29,
+      "len": 55,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: E1-A1-E2 path. Camino explicable al humano.",
+      "text": "Aplicación: E1-A1-E2 path. Camino explicable al humano."
+    },
+    {
+      "i": 30,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Centralidad con interpretación limitada",
+      "text": "Centralidad con interpretación limitada"
+    },
+    {
+      "i": 31,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Centralidad de grado es fácil de abusar: un hub operativo no es un culpable. Reporta el score con disclaimer y nunca como ranking de sanción.",
+      "text": "Centralidad de grado es fácil de abusar: un hub operativo no es un culpable. Reporta el score con disclaimer y nunca como ranking de sanción."
+    },
+    {
+      "i": 32,
+      "len": 44,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: degree centrality = deg(v)/(n-1).",
+      "text": "Mecanismo: degree centrality = deg(v)/(n-1)."
+    },
+    {
+      "i": 33,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: adj. Salida: top node + disclaimer. CASO-LIM-031-T3B.",
+      "text": "Contrato. Entrada: adj. Salida: top node + disclaimer. CASO-LIM-031-T3B."
+    },
+    {
+      "i": 34,
+      "len": 50,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: hub A1. means_guilt False obligatorio.",
+      "text": "Aplicación: hub A1. means_guilt False obligatorio."
+    },
+    {
+      "i": 35,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Subgrafos, pruebas y visualización prudente",
+      "text": "Subgrafos, pruebas y visualización prudente"
+    },
+    {
+      "i": 36,
+      "len": 167,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Extrae subgrafo del camino/componente para el workbench. Prueba: path no vacío entre queries de negocio. Visualización sin PII; escalabilidad con max_depth y sampling.",
+      "text": "Extrae subgrafo del camino/componente para el workbench. Prueba: path no vacío entre queries de negocio. Visualización sin PII; escalabilidad con max_depth y sampling."
+    },
+    {
+      "i": 37,
+      "len": 63,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: nodes del path + edges inducidas; assert invariants.",
+      "text": "Mecanismo: nodes del path + edges inducidas; assert invariants."
+    },
+    {
+      "i": 38,
+      "len": 71,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: path. Salida: subgraph edge count. CASO-LIM-031-T4A.",
+      "text": "Contrato. Entrada: path. Salida: subgraph edge count. CASO-LIM-031-T4A."
+    },
+    {
+      "i": 39,
+      "len": 76,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: path 3 nodos → 2 edges undirected. Sin layout que insinúe culpa.",
+      "text": "Aplicación: path 3 nodos → 2 edges undirected. Sin layout que insinúe culpa."
+    },
+    {
+      "i": 40,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Privacidad y evidencia por arista",
+      "text": "Privacidad y evidencia por arista"
+    },
+    {
+      "i": 41,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada arista debe poder citar evidencia (source_id) sin volcar PII. Escalabilidad: no materialices n². Privacidad: máscaras en labels visuales.",
+      "text": "Cada arista debe poder citar evidencia (source_id) sin volcar PII. Escalabilidad: no materialices n². Privacidad: máscaras en labels visuales."
+    },
+    {
+      "i": 42,
+      "len": 60,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: edge_evidence[id]=source; export redacted labels.",
+      "text": "Mecanismo: edge_evidence[id]=source; export redacted labels."
+    },
+    {
+      "i": 43,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: edges con source. Salida: all_have_source True, pii_export False. CASO-LIM-031-T4B.",
+      "text": "Contrato. Entrada: edges con source. Salida: all_have_source True, pii_export False. CASO-LIM-031-T4B."
+    },
+    {
+      "i": 44,
+      "len": 68,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: exports al workbench con ids sintéticos. Inicio CP-N3-B.",
+      "text": "Aplicación: exports al workbench con ids sintéticos. Inicio CP-N3-B."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 9577
+}

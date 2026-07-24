@@ -1,0 +1,482 @@
+{
+  "index": 9,
+  "id": "visualization",
+  "title": "Excepciones, debugging y logging seguro",
+  "file": "s09-visualization.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Data Visualization” a excepciones, debugging y logging (mapa)",
+      "len": 65
+    },
+    {
+      "i": 1,
+      "text": "En V3, S09 no es el path principal de matplotlib/seaborn/plotly. Ese material se reubica al tramo de reporting/visualización de datos. Aquí arranca CP-N1-C: el pipeline de familiaridad necesita excepciones específicas, diagnóstico y logging sin PII.",
+      "len": 249
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un pipeline de intake sintético (clientes C00x, emails ejemplo.pe): validar filas, capturar fallos, redactar PII en logs y decidir fail-fast vs cuarentena. Entorno local-python.",
+      "len": 198
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Excepciones → T2 Diagnóstico → T3 Logging → T4 Resiliencia. Id de plataforma visualization se conserva.",
+      "len": 113
+    },
+    {
+      "i": 4,
+      "text": "Tipos específicos, raise y chaining",
+      "len": 35
+    },
+    {
+      "i": 5,
+      "text": "Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception genérico oculta la causa y complica el triage.",
+      "len": 204
+    },
+    {
+      "i": 6,
+      "text": "raise ValueError('monto no numérico: …') da contexto accionable. Para montos mantenemos el contrato previo: Decimal desde texto, quantize(Decimal('0.01')) y rechazo de valores no finitos; no volvemos a float. raise NewError(...) from e encadena la causa (__cause__) sin perder el traceback original.",
+      "len": 299
+    },
+    {
+      "i": 7,
+      "text": "Una custom Exception ligera (class DataLoadError(Exception): ...) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib.",
+      "len": 134
+    },
+    {
+      "i": 8,
+      "text": "Fronteras de recuperación y cleanup",
+      "len": 35
+    },
+    {
+      "i": 9,
+      "text": "try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers.",
+      "len": 144
+    },
+    {
+      "i": 10,
+      "text": "No uses except: bare ni tragues Exception sin re-raise o cuarentena documentada. Decide: manejar (recuperable: fila mala) vs propagar (fatal: config inválida).",
+      "len": 159
+    },
+    {
+      "i": 11,
+      "text": "Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo.",
+      "len": 146
+    },
+    {
+      "i": 13,
+      "text": "Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib.",
+      "len": 146
+    },
+    {
+      "i": 14,
+      "text": "breakpoint() / pdb inspeccionan variables en vivo. En demos del curso usamos traceback + prints controlados cuando no hay TTY interactivo.",
+      "len": 138
+    },
+    {
+      "i": 15,
+      "text": "Al loguear stacks, nunca imprimas secretos ni PII completa que haya en locals. Redacta o omite.",
+      "len": 95
+    },
+    {
+      "i": 16,
+      "text": "Reproducción mínima, hipótesis y causa raíz",
+      "len": 43
+    },
+    {
+      "i": 17,
+      "text": "Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review.",
+      "len": 113
+    },
+    {
+      "i": 18,
+      "text": "Formula hipótesis falsables («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso.",
+      "len": 124
+    },
+    {
+      "i": 19,
+      "text": "Un test de regresión rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma.",
+      "len": 125
+    },
+    {
+      "i": 20,
+      "text": "Niveles y estructura de logging",
+      "len": 31
+    },
+    {
+      "i": 21,
+      "text": "Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso).",
+      "len": 127
+    },
+    {
+      "i": 22,
+      "text": "Usa un Logger de módulo (logging.getLogger(__name__)) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint.",
+      "len": 149
+    },
+    {
+      "i": 23,
+      "text": "Logs estructurados (key=value o JSON) con campos estables (stage, record_id, duration_ms) se pueden buscar en agregadores. Los prints libres no escalan.",
+      "len": 152
+    },
+    {
+      "i": 24,
+      "text": "Correlation IDs y redacción de PII",
+      "len": 34
+    },
+    {
+      "i": 25,
+      "text": "Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.",
+      "len": 106
+    },
+    {
+      "i": 26,
+      "text": "Nunca loguees email, teléfono o dirección completos. Usa máscaras: a@ejemplo.pe, 4567.",
+      "len": 86
+    },
+    {
+      "i": 27,
+      "text": "Helpers mask_email / mask_phone deben ser el único camino a logs; audits fallan si alguien hace log.info(row).",
+      "len": 110
+    },
+    {
+      "i": 28,
+      "text": "Fallar rápido vs continuar con cuarentena",
+      "len": 41
+    },
+    {
+      "i": 29,
+      "text": "Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere.",
+      "len": 119
+    },
+    {
+      "i": 30,
+      "text": "Fail-fast en config: seguir procesando con schema roto multiplica basura. Cuarentena en data: una fila mala no debe tumbar el lote entero.",
+      "len": 138
+    },
+    {
+      "i": 31,
+      "text": "Éxito parcial es válido si el manifest contabiliza ok + quarantined = input. Documenta la política en README del job.",
+      "len": 117
+    },
+    {
+      "i": 32,
+      "text": "Idempotencia, retries y cuarentena",
+      "len": 34
+    },
+    {
+      "i": 33,
+      "text": "Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena.",
+      "len": 106
+    },
+    {
+      "i": 34,
+      "text": "Operaciones idempotentes (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: (source, record_id, version).",
+      "len": 148
+    },
+    {
+      "i": 35,
+      "text": "Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política.",
+      "len": 113
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 65,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Data Visualization” a excepciones, debugging y logging (mapa)",
+      "text": "De “Data Visualization” a excepciones, debugging y logging (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S09 no es el path principal de matplotlib/seaborn/plotly. Ese material se reubica al tramo de reporting/visualización de datos. Aquí arranca CP-N1-C: el pipeline de familiar",
+      "text": "En V3, S09 no es el path principal de matplotlib/seaborn/plotly. Ese material se reubica al tramo de reporting/visualización de datos. Aquí arranca CP-N1-C: el pipeline de familiaridad necesita excepciones específicas, diagnóstico y logging sin PII."
+    },
+    {
+      "i": 2,
+      "len": 198,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un pipeline de intake sintético (clientes C00x, emails ejemplo.pe): validar filas, capturar fallos, redactar PII en logs y decidir fail-fast vs cuarentena. Ent",
+      "text": "El hilo conductor es un pipeline de intake sintético (clientes C00x, emails ejemplo.pe): validar filas, capturar fallos, redactar PII en logs y decidir fail-fast vs cuarentena. Entorno local-python."
+    },
+    {
+      "i": 3,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Excepciones → T2 Diagnóstico → T3 Logging → T4 Resiliencia. Id de plataforma visualization se conserva.",
+      "text": "Orden: T1 Excepciones → T2 Diagnóstico → T3 Logging → T4 Resiliencia. Id de plataforma visualization se conserva."
+    },
+    {
+      "i": 4,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Tipos específicos, raise y chaining",
+      "text": "Tipos específicos, raise y chaining"
+    },
+    {
+      "i": 5,
+      "len": 204,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception genérico oculta la cau",
+      "text": "Prefiere tipos concretos: ValueError (valor ilegal), TypeError (tipo incorrecto), KeyError (clave ausente), OSError/FileNotFoundError (I/O). except Exception genérico oculta la causa y complica el triage."
+    },
+    {
+      "i": 6,
+      "len": 299,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "raise ValueError('monto no numérico: …') da contexto accionable. Para montos mantenemos el contrato previo: Decimal desde texto, quantize(Decimal('0.01')) y rechazo de valores no f",
+      "text": "raise ValueError('monto no numérico: …') da contexto accionable. Para montos mantenemos el contrato previo: Decimal desde texto, quantize(Decimal('0.01')) y rechazo de valores no finitos; no volvemos a float. raise NewError(...) from e encadena la causa (__cause__) sin perder el traceback original."
+    },
+    {
+      "i": 7,
+      "len": 134,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una custom Exception ligera (class DataLoadError(Exception): ...) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib.",
+      "text": "Una custom Exception ligera (class DataLoadError(Exception): ...) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib."
+    },
+    {
+      "i": 8,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Fronteras de recuperación y cleanup",
+      "text": "Fronteras de recuperación y cleanup"
+    },
+    {
+      "i": 9,
+      "len": 144,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers.",
+      "text": "try/except/else/finally: else corre solo si no hubo excepción; finally siempre (cleanup). with garantiza cierre de handles vía context managers."
+    },
+    {
+      "i": 10,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No uses except: bare ni tragues Exception sin re-raise o cuarentena documentada. Decide: manejar (recuperable: fila mala) vs propagar (fatal: config inválida).",
+      "text": "No uses except: bare ni tragues Exception sin re-raise o cuarentena documentada. Decide: manejar (recuperable: fila mala) vs propagar (fatal: config inválida)."
+    },
+    {
+      "i": 11,
+      "len": 146,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo.",
+      "text": "Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo."
+    },
+    {
+      "i": 13,
+      "len": 146,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib.",
+      "text": "Un traceback lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser tu código, no el de la stdlib."
+    },
+    {
+      "i": 14,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "breakpoint() / pdb inspeccionan variables en vivo. En demos del curso usamos traceback + prints controlados cuando no hay TTY interactivo.",
+      "text": "breakpoint() / pdb inspeccionan variables en vivo. En demos del curso usamos traceback + prints controlados cuando no hay TTY interactivo."
+    },
+    {
+      "i": 15,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Al loguear stacks, nunca imprimas secretos ni PII completa que haya en locals. Redacta o omite.",
+      "text": "Al loguear stacks, nunca imprimas secretos ni PII completa que haya en locals. Redacta o omite."
+    },
+    {
+      "i": 16,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Reproducción mínima, hipótesis y causa raíz",
+      "text": "Reproducción mínima, hipótesis y causa raíz"
+    },
+    {
+      "i": 17,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review.",
+      "text": "Minimal repro: reduce 200 filas a la menor entrada que dispara el bug. Facilita tests de regresión y code review."
+    },
+    {
+      "i": 18,
+      "len": 124,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Formula hipótesis falsables («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso.",
+      "text": "Formula hipótesis falsables («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso."
+    },
+    {
+      "i": 19,
+      "len": 125,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un test de regresión rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma.",
+      "text": "Un test de regresión rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma."
+    },
+    {
+      "i": 20,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Niveles y estructura de logging",
+      "text": "Niveles y estructura de logging"
+    },
+    {
+      "i": 21,
+      "len": 127,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso).",
+      "text": "Niveles: DEBUG (detalle dev), INFO (progreso), WARNING (anomalía recuperable), ERROR (fallo de unidad), CRITICAL (job/proceso)."
+    },
+    {
+      "i": 22,
+      "len": 149,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Usa un Logger de módulo (logging.getLogger(__name__)) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint.",
+      "text": "Usa un Logger de módulo (logging.getLogger(__name__)) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint."
+    },
+    {
+      "i": 23,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Logs estructurados (key=value o JSON) con campos estables (stage, record_id, duration_ms) se pueden buscar en agregadores. Los prints libres no escalan.",
+      "text": "Logs estructurados (key=value o JSON) con campos estables (stage, record_id, duration_ms) se pueden buscar en agregadores. Los prints libres no escalan."
+    },
+    {
+      "i": 24,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Correlation IDs y redacción de PII",
+      "text": "Correlation IDs y redacción de PII"
+    },
+    {
+      "i": 25,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.",
+      "text": "Un correlation_id (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote."
+    },
+    {
+      "i": 26,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Nunca loguees email, teléfono o dirección completos. Usa máscaras: a@ejemplo.pe, 4567.",
+      "text": "Nunca loguees email, teléfono o dirección completos. Usa máscaras: a@ejemplo.pe, 4567."
+    },
+    {
+      "i": 27,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Helpers mask_email / mask_phone deben ser el único camino a logs; audits fallan si alguien hace log.info(row).",
+      "text": "Helpers mask_email / mask_phone deben ser el único camino a logs; audits fallan si alguien hace log.info(row)."
+    },
+    {
+      "i": 28,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Fallar rápido vs continuar con cuarentena",
+      "text": "Fallar rápido vs continuar con cuarentena"
+    },
+    {
+      "i": 29,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere.",
+      "text": "Taxonomía: data (fila), config (delimiter, schema path), provider (timeout de API/archivo remoto). La política difiere."
+    },
+    {
+      "i": 30,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fail-fast en config: seguir procesando con schema roto multiplica basura. Cuarentena en data: una fila mala no debe tumbar el lote entero.",
+      "text": "Fail-fast en config: seguir procesando con schema roto multiplica basura. Cuarentena en data: una fila mala no debe tumbar el lote entero."
+    },
+    {
+      "i": 31,
+      "len": 117,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Éxito parcial es válido si el manifest contabiliza ok + quarantined = input. Documenta la política en README del job.",
+      "text": "Éxito parcial es válido si el manifest contabiliza ok + quarantined = input. Documenta la política en README del job."
+    },
+    {
+      "i": 32,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Idempotencia, retries y cuarentena",
+      "text": "Idempotencia, retries y cuarentena"
+    },
+    {
+      "i": 33,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena.",
+      "text": "Retry solo errores transitorios (TimeoutError, 503). ValueError de datos no se reintenta: va a cuarentena."
+    },
+    {
+      "i": 34,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Operaciones idempotentes (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: (source, record_id, version).",
+      "text": "Operaciones idempotentes (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: (source, record_id, version)."
+    },
+    {
+      "i": 35,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política.",
+      "text": "Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 11210
+}

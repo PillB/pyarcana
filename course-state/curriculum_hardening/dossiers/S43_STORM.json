@@ -1,0 +1,1227 @@
+{
+  "section": 43,
+  "title": "Contenedores y reproducibilidad operativa",
+  "file": "s43-llmops.ts",
+  "n_required": 43,
+  "n_logged": 43,
+  "generated_at": "2026-07-24T04:02:12.753752+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "non-root; no baked secrets; resource limits; repeatable build",
+    "v3_retarget": "containers/repro not LLMOps FT",
+    "expert_pass_at": "2026-07-24T04:02:12.753752+00:00"
+  },
+  "unique_foci": 43,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "Dockerfile layers deps before app",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        },
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 1/43: «Dockerfile layers deps before app» via Docker, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Dockerfile layers deps before app».",
+      "expand_scope": "E1/E2/E3 + docs for «Dockerfile layers deps before app»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 1/43: «Dockerfile layers deps before app» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "cache invalidation when source changes",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        },
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 2/43: «cache invalidation when source changes» via 12factor, Docker, OCI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cache invalidation when source changes».",
+      "expand_scope": "E1/E2/E3 + docs for «cache invalidation when source changes»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 2/43: «cache invalidation when source changes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "minimal base pinned digest",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        },
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        },
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 3/43: «minimal base pinned digest» via Docker, GitHub, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «minimal base pinned digest».",
+      "expand_scope": "E1/E2/E3 + docs for «minimal base pinned digest»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 3/43: «minimal base pinned digest» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "non-root UID process",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        },
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 4/43: «non-root UID process» via Docker, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «non-root UID process».",
+      "expand_scope": "E1/E2/E3 + docs for «non-root UID process»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 4/43: «non-root UID process» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "image size multi-stage",
+      "research": [
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 5/43: «image size multi-stage» via 12factor, MIT, OCI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «image size multi-stage».",
+      "expand_scope": "E1/E2/E3 + docs for «image size multi-stage»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 5/43: «image size multi-stage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "config env non-secret",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        },
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 6/43: «config env non-secret» via GitHub, Harvard, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «config env non-secret».",
+      "expand_scope": "E1/E2/E3 + docs for «config env non-secret»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 6/43: «config env non-secret» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "secrets runtime injection only",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        },
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        },
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 7/43: «secrets runtime injection only» via Coursera, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «secrets runtime injection only».",
+      "expand_scope": "E1/E2/E3 + docs for «secrets runtime injection only»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 7/43: «secrets runtime injection only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "volumes ephemeral vs durable",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 8/43: «volumes ephemeral vs durable» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «volumes ephemeral vs durable».",
+      "expand_scope": "E1/E2/E3 + docs for «volumes ephemeral vs durable»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 8/43: «volumes ephemeral vs durable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "networking service names",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 9/43: «networking service names» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «networking service names».",
+      "expand_scope": "E1/E2/E3 + docs for «networking service names»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 9/43: «networking service names» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "health and readiness probes",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        },
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        },
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 10/43: «health and readiness probes» via Coursera, Docs, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «health and readiness probes».",
+      "expand_scope": "E1/E2/E3 + docs for «health and readiness probes»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 10/43: «health and readiness probes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "SIGTERM graceful shutdown",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 11/43: «SIGTERM graceful shutdown» via Kubernetes, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SIGTERM graceful shutdown».",
+      "expand_scope": "E1/E2/E3 + docs for «SIGTERM graceful shutdown»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 11/43: «SIGTERM graceful shutdown» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "compose API worker DB cache",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 12/43: «compose API worker DB cache» via Expand-contract, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «compose API worker DB cache».",
+      "expand_scope": "E1/E2/E3 + docs for «compose API worker DB cache»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 12/43: «compose API worker DB cache» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "dependency order start health",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        },
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        },
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 13/43: «dependency order start health» via Coursera, Docs, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dependency order start health».",
+      "expand_scope": "E1/E2/E3 + docs for «dependency order start health»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 13/43: «dependency order start health» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "migrations expand-contract",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 14/43: «migrations expand-contract» via Kubernetes, Py4E, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «migrations expand-contract».",
+      "expand_scope": "E1/E2/E3 + docs for «migrations expand-contract»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 14/43: «migrations expand-contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "ephemeral test data",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        },
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 15/43: «ephemeral test data» via Docker, Expand-contract, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ephemeral test data».",
+      "expand_scope": "E1/E2/E3 + docs for «ephemeral test data»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 15/43: «ephemeral test data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "lock files requirements pin",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        },
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        },
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 16/43: «lock files requirements pin» via Docker, Docs, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «lock files requirements pin».",
+      "expand_scope": "E1/E2/E3 + docs for «lock files requirements pin»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 16/43: «lock files requirements pin» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "multi-stage drop build tools",
+      "research": [
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        },
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 17/43: «multi-stage drop build tools» via Docker, Kubernetes, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «multi-stage drop build tools».",
+      "expand_scope": "E1/E2/E3 + docs for «multi-stage drop build tools»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 17/43: «multi-stage drop build tools» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "image scan CVE critical block",
+      "research": [
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        },
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        },
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 18/43: «image scan CVE critical block» via Docker, Expand-contract (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «image scan CVE critical block».",
+      "expand_scope": "E1/E2/E3 + docs for «image scan CVE critical block»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 18/43: «image scan CVE critical block» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "resource limits CPU memory",
+      "research": [
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        },
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        },
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 19/43: «resource limits CPU memory» via Docker, OCI, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «resource limits CPU memory».",
+      "expand_scope": "E1/E2/E3 + docs for «resource limits CPU memory»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 19/43: «resource limits CPU memory» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "debug without root shell habit",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        },
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        },
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 20/43: «debug without root shell habit» via Docker, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «debug without root shell habit».",
+      "expand_scope": "E1/E2/E3 + docs for «debug without root shell habit»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 20/43: «debug without root shell habit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CASO-TRU-043 Trujillo platform synthetic",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        },
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 21/43: «CASO-TRU-043 Trujillo platform synthetic» via Docker, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-TRU-043 Trujillo platform synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-TRU-043 Trujillo platform synthetic»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 21/43: «CASO-TRU-043 Trujillo platform synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "V3 retarget not LLM fine-tune ops",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        },
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 22/43: «V3 retarget not LLM fine-tune ops» via 12factor, Docker, OCI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not LLM fine-tune ops».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not LLM fine-tune ops»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 22/43: «V3 retarget not LLM fine-tune ops» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CP-N4-A governed service platform gate",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        },
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        },
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 23/43: «CP-N4-A governed service platform gate» via Docker, GitHub, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-A governed service platform gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-A governed service platform gate»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 23/43: «CP-N4-A governed service platform gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E1 guided layer order DEFECT",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        },
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 24/43: «E1 guided layer order DEFECT» via Docker, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided layer order DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided layer order DEFECT»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 24/43: «E1 guided layer order DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E2 independent non-root check",
+      "research": [
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 25/43: «E2 independent non-root check» via 12factor, MIT, OCI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent non-root check».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent non-root check»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 25/43: «E2 independent non-root check» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "E3 transfer compose health limits",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        },
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 26/43: «E3 transfer compose health limits» via GitHub, Harvard, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer compose health limits».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer compose health limits»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 26/43: «E3 transfer compose health limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "Docker best practices",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        },
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        },
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 27/43: «Docker best practices» via Coursera, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Docker best practices».",
+      "expand_scope": "E1/E2/E3 + docs for «Docker best practices»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 27/43: «Docker best practices» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "OWASP Docker Security Cheat Sheet",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 28/43: «OWASP Docker Security Cheat Sheet» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OWASP Docker Security Cheat Sheet».",
+      "expand_scope": "E1/E2/E3 + docs for «OWASP Docker Security Cheat Sheet»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 28/43: «OWASP Docker Security Cheat Sheet» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "NIST SP 800-190 containers",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 29/43: «NIST SP 800-190 containers» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST SP 800-190 containers».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST SP 800-190 containers»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 29/43: «NIST SP 800-190 containers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "OCI image spec",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Syft SBOM",
+          "url": "https://github.com/anchore/syft",
+          "note": "SBOM"
+        },
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        },
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 30/43: «OCI image spec» via Coursera, Docs, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OCI image spec».",
+      "expand_scope": "E1/E2/E3 + docs for «OCI image spec»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 30/43: «OCI image spec» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "Trivy Syft SBOM scan",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 31/43: «Trivy Syft SBOM scan» via Kubernetes, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Trivy Syft SBOM scan».",
+      "expand_scope": "E1/E2/E3 + docs for «Trivy Syft SBOM scan»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 31/43: «Trivy Syft SBOM scan» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "12-factor config processes",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 32/43: «12-factor config processes» via Expand-contract, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor config processes».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor config processes»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 32/43: «12-factor config processes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "pair from S42 secure service to package",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Docker courses",
+          "url": "https://www.coursera.org/courses?query=docker",
+          "note": "containers MOOC"
+        },
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        },
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 33/43: «pair from S42 secure service to package» via Coursera, Docs, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S42 secure service to package».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S42 secure service to package»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 33/43: «pair from S42 secure service to package» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "selfCheck containers MCQ ≥5",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 34/43: «selfCheck containers MCQ ≥5» via Kubernetes, Py4E, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck containers MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck containers MCQ ≥5»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 34/43: «selfCheck containers MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "no baked secrets gate failure",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        },
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 35/43: «no baked secrets gate failure» via Docker, Expand-contract, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no baked secrets gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «no baked secrets gate failure»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 35/43: «no baked secrets gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "root UID gate failure",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "signal handling",
+          "url": "https://docs.python.org/3/library/signal.html",
+          "note": "graceful shutdown"
+        },
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        },
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 36/43: «root UID gate failure» via Docker, Docs, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «root UID gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «root UID gate failure»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 36/43: «root UID gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "false health check gate failure",
+      "research": [
+        {
+          "family": "Kubernetes",
+          "title": "Probes concepts",
+          "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+          "note": "health readiness"
+        },
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        },
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 37/43: «false health check gate failure» via Docker, Kubernetes, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «false health check gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «false health check gate failure»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 37/43: «false health check gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "repeatable build new environment",
+      "research": [
+        {
+          "family": "Expand-contract",
+          "title": "Expand and contract",
+          "url": "https://openpractice.github.io/open-practice-library/practices/expand-and-contract/",
+          "note": "migrations"
+        },
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        },
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 38/43: «repeatable build new environment» via Docker, Expand-contract (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «repeatable build new environment».",
+      "expand_scope": "E1/E2/E3 + docs for «repeatable build new environment»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 38/43: «repeatable build new environment» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "runbook recovery documented",
+      "research": [
+        {
+          "family": "pip",
+          "title": "Requirements file format",
+          "url": "https://pip.pypa.io/en/stable/reference/requirements-file-format/",
+          "note": "locks"
+        },
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        },
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 39/43: «runbook recovery documented» via Docker, OCI, pip (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «runbook recovery documented».",
+      "expand_scope": "E1/E2/E3 + docs for «runbook recovery documented»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 39/43: «runbook recovery documented» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "stdlib contracts before real docker lab",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SRE production readiness",
+          "url": "https://sre.google/sre-book/evolving-sre-engagement-model/",
+          "note": "ops readiness"
+        },
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        },
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 40/43: «stdlib contracts before real docker lab» via Docker, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stdlib contracts before real docker lab».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib contracts before real docker lab»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 40/43: «stdlib contracts before real docker lab» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "Kubernetes probes conceptual transfer",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "note": "layers"
+        },
+        {
+          "family": "Docker",
+          "title": "Best practices",
+          "url": "https://docs.docker.com/build/building/best-practices/",
+          "note": "cache non-root"
+        },
+        {
+          "family": "NIST",
+          "title": "SP 800-190",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+          "note": "container threats"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 41/43: «Kubernetes probes conceptual transfer» via Docker, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Kubernetes probes conceptual transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «Kubernetes probes conceptual transfer»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 41/43: «Kubernetes probes conceptual transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "pip lock reproducible installs",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Multi-stage builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "note": "size"
+        },
+        {
+          "family": "OCI",
+          "title": "Image Spec",
+          "url": "https://github.com/opencontainers/image-spec",
+          "note": "portable images"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 42/43: «pip lock reproducible installs» via 12factor, Docker, OCI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pip lock reproducible installs».",
+      "expand_scope": "E1/E2/E3 + docs for «pip lock reproducible installs»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 42/43: «pip lock reproducible installs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "Coursera docker competitive research",
+      "research": [
+        {
+          "family": "Docker",
+          "title": "Compose file",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "note": "services"
+        },
+        {
+          "family": "OWASP",
+          "title": "Docker Security Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+          "note": "container security"
+        },
+        {
+          "family": "GitHub",
+          "title": "Trivy",
+          "url": "https://github.com/aquasecurity/trivy",
+          "note": "image scanning"
+        }
+      ],
+      "synthesize": "S43 «Contenedores y reproducibilidad operativa» cycle 43/43: «Coursera docker competitive research» via Docker, GitHub, OWASP (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Coursera docker competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «Coursera docker competitive research»; V3 roadmap; pair S42↔S43.",
+      "re_synthesize": "Decision 43/43: «Coursera docker competitive research» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:02:12.753752+00:00"
+}

@@ -1,0 +1,1450 @@
+{
+  "section": 51,
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "file": "s51-integrator-final.ts",
+  "n_required": 51,
+  "n_logged": 51,
+  "generated_at": "2026-07-24T04:19:22.134+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ history (HEAD/ad5e235/6290f0c)",
+    "ethics": "no raw PII in logs; redaction before export; contestability; anomaly≠guilt",
+    "v3_retarget": "observability+gov+UX copilot not generic integrator only",
+    "expert_pass_at": "2026-07-24T04:19:22.134+00:00"
+  },
+  "unique_foci": 51,
+  "source_url_count": 15,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "trace correlate prompt retrieval tool response",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 1/51: «trace correlate prompt retrieval tool response» via OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «trace correlate prompt retrieval tool response».",
+      "expand_scope": "E1/E2/E3 + docs for «trace correlate prompt retrieval tool response»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 1/51: «trace correlate prompt retrieval tool response» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "version pins in spans",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 2/51: «version pins in spans» via NIST, OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «version pins in spans».",
+      "expand_scope": "E1/E2/E3 + docs for «version pins in spans»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 2/51: «version pins in spans» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "redact PII before export",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 3/51: «redact PII before export» via Google, NIST, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «redact PII before export».",
+      "expand_scope": "E1/E2/E3 + docs for «redact PII before export»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 3/51: «redact PII before export» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "tokens cost latency by stage",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 4/51: «tokens cost latency by stage» via Google, NIST (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tokens cost latency by stage».",
+      "expand_scope": "E1/E2/E3 + docs for «tokens cost latency by stage»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 4/51: «tokens cost latency by stage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "percentiles not means",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 5/51: «percentiles not means» via Google (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «percentiles not means».",
+      "expand_scope": "E1/E2/E3 + docs for «percentiles not means»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 5/51: «percentiles not means» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "redaction on errors payloads",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 6/51: «redaction on errors payloads» via Google, MLflow (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «redaction on errors payloads».",
+      "expand_scope": "E1/E2/E3 + docs for «redaction on errors payloads»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 6/51: «redaction on errors payloads» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "model prompt dataset registry",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 7/51: «model prompt dataset registry» via Google, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «model prompt dataset registry».",
+      "expand_scope": "E1/E2/E3 + docs for «model prompt dataset registry»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 7/51: «model prompt dataset registry» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "immutable release bundle",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 8/51: «immutable release bundle» via MIT, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «immutable release bundle».",
+      "expand_scope": "E1/E2/E3 + docs for «immutable release bundle»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 8/51: «immutable release bundle» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "system card link",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 9/51: «system card link» via Harvard, MIT, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «system card link».",
+      "expand_scope": "E1/E2/E3 + docs for «system card link»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 9/51: «system card link» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "change control author approver risk",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 10/51: «change control author approver risk» via Coursera, Harvard, MIT (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «change control author approver risk».",
+      "expand_scope": "E1/E2/E3 + docs for «change control author approver risk»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 10/51: «change control author approver risk» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "min access retention TTL",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 11/51: «min access retention TTL» via Coursera, Harvard, OWASP (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «min access retention TTL».",
+      "expand_scope": "E1/E2/E3 + docs for «min access retention TTL»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 11/51: «min access retention TTL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "append-only audit with purge policy",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 12/51: «append-only audit with purge policy» via Coursera, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «append-only audit with purge policy».",
+      "expand_scope": "E1/E2/E3 + docs for «append-only audit with purge policy»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 12/51: «append-only audit with purge policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "SLO availability quality latency",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 13/51: «SLO availability quality latency» via Live, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SLO availability quality latency».",
+      "expand_scope": "E1/E2/E3 + docs for «SLO availability quality latency»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 13/51: «SLO availability quality latency» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "feedback biased signal",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 14/51: «feedback biased signal» via Live, OpenTelemetry, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feedback biased signal».",
+      "expand_scope": "E1/E2/E3 + docs for «feedback biased signal»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 14/51: «feedback biased signal» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "drift slices owner baseline",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 15/51: «drift slices owner baseline» via Live, OpenTelemetry (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «drift slices owner baseline».",
+      "expand_scope": "E1/E2/E3 + docs for «drift slices owner baseline»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 15/51: «drift slices owner baseline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "incident contain freeze",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 16/51: «incident contain freeze» via OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «incident contain freeze».",
+      "expand_scope": "E1/E2/E3 + docs for «incident contain freeze»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 16/51: «incident contain freeze» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "rollback baseline",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 17/51: «rollback baseline» via NIST, OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rollback baseline».",
+      "expand_scope": "E1/E2/E3 + docs for «rollback baseline»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 17/51: «rollback baseline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "blameless postmortem actions dated",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 18/51: «blameless postmortem actions dated» via Google, NIST, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «blameless postmortem actions dated».",
+      "expand_scope": "E1/E2/E3 + docs for «blameless postmortem actions dated»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 18/51: «blameless postmortem actions dated» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "UX uncertainty cites scope",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 19/51: «UX uncertainty cites scope» via Google, NIST (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «UX uncertainty cites scope».",
+      "expand_scope": "E1/E2/E3 + docs for «UX uncertainty cites scope»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 19/51: «UX uncertainty cites scope» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "confirm before side effects",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 20/51: «confirm before side effects» via Google (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «confirm before side effects».",
+      "expand_scope": "E1/E2/E3 + docs for «confirm before side effects»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 20/51: «confirm before side effects» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "correct source data path",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 21/51: «correct source data path» via Google, MLflow (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «correct source data path».",
+      "expand_scope": "E1/E2/E3 + docs for «correct source data path»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 21/51: «correct source data path» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "WCAG keyboard reader contrast",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 22/51: «WCAG keyboard reader contrast» via Google, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «WCAG keyboard reader contrast».",
+      "expand_scope": "E1/E2/E3 + docs for «WCAG keyboard reader contrast»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 22/51: «WCAG keyboard reader contrast» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "contestability appeal human",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 23/51: «contestability appeal human» via MIT, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contestability appeal human».",
+      "expand_scope": "E1/E2/E3 + docs for «contestability appeal human»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 23/51: «contestability appeal human» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "no dark patterns",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 24/51: «no dark patterns» via Harvard, MIT, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no dark patterns».",
+      "expand_scope": "E1/E2/E3 + docs for «no dark patterns»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 24/51: «no dark patterns» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "CF-5 freeze interfaces",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 25/51: «CF-5 freeze interfaces» via Coursera, Harvard, MIT (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CF-5 freeze interfaces».",
+      "expand_scope": "E1/E2/E3 + docs for «CF-5 freeze interfaces»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 25/51: «CF-5 freeze interfaces» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "reconstructable decision",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 26/51: «reconstructable decision» via Coursera, Harvard, OWASP (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reconstructable decision».",
+      "expand_scope": "E1/E2/E3 + docs for «reconstructable decision»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 26/51: «reconstructable decision» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "raw PII logs = incident",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 27/51: «raw PII logs = incident» via Coursera, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «raw PII logs = incident».",
+      "expand_scope": "E1/E2/E3 + docs for «raw PII logs = incident»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 27/51: «raw PII logs = incident» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "cost dashboard stage split",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 28/51: «cost dashboard stage split» via Live, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost dashboard stage split».",
+      "expand_scope": "E1/E2/E3 + docs for «cost dashboard stage split»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 28/51: «cost dashboard stage split» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "drift not auto retrain",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 29/51: «drift not auto retrain» via Live, OpenTelemetry, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «drift not auto retrain».",
+      "expand_scope": "E1/E2/E3 + docs for «drift not auto retrain»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 29/51: «drift not auto retrain» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "page on P1",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 30/51: «page on P1» via Live, OpenTelemetry (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «page on P1».",
+      "expand_scope": "E1/E2/E3 + docs for «page on P1»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 30/51: «page on P1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "Moquegua synthetic case",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 31/51: «Moquegua synthetic case» via OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Moquegua synthetic case».",
+      "expand_scope": "E1/E2/E3 + docs for «Moquegua synthetic case»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 31/51: «Moquegua synthetic case» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "stdlib no real telemetry PII",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 32/51: «stdlib no real telemetry PII» via NIST, OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stdlib no real telemetry PII».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib no real telemetry PII»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 32/51: «stdlib no real telemetry PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "V3 ops UX not soft integrator",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 33/51: «V3 ops UX not soft integrator» via Google, NIST, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 ops UX not soft integrator».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 ops UX not soft integrator»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 33/51: «V3 ops UX not soft integrator» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "OTel semantic conventions",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 34/51: «OTel semantic conventions» via Google, NIST (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OTel semantic conventions».",
+      "expand_scope": "E1/E2/E3 + docs for «OTel semantic conventions»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 34/51: «OTel semantic conventions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "error budget burn",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 35/51: «error budget burn» via Google (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «error budget burn».",
+      "expand_scope": "E1/E2/E3 + docs for «error budget burn»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 35/51: «error budget burn» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "runbook with evidence",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 36/51: «runbook with evidence» via Google, MLflow (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «runbook with evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «runbook with evidence»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 36/51: «runbook with evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "release without pin = silent drift",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 37/51: «release without pin = silent drift» via Google, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «release without pin = silent drift».",
+      "expand_scope": "E1/E2/E3 + docs for «release without pin = silent drift»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 37/51: «release without pin = silent drift» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "contestability vs disclaimer banner",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 38/51: «contestability vs disclaimer banner» via MIT, MLflow, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contestability vs disclaimer banner».",
+      "expand_scope": "E1/E2/E3 + docs for «contestability vs disclaimer banner»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 38/51: «contestability vs disclaimer banner» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "a11y not optional",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Production LLM",
+          "url": "https://www.deeplearning.ai/",
+          "note": "LLM ops"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 39/51: «a11y not optional» via Harvard, MIT, deeplearning.ai (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «a11y not optional».",
+      "expand_scope": "E1/E2/E3 + docs for «a11y not optional»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 39/51: «a11y not optional» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "pair from S50 evals",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 40/51: «pair from S50 evals» via Coursera, Harvard, MIT (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S50 evals».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S50 evals»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 40/51: «pair from S50 evals» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "bridge to S52 capstone",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 41/51: «bridge to S52 capstone» via Coursera, Harvard, OWASP (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «bridge to S52 capstone».",
+      "expand_scope": "E1/E2/E3 + docs for «bridge to S52 capstone»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 41/51: «bridge to S52 capstone» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "audit trail who approved",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Observability",
+          "url": "https://www.coursera.org/courses?query=observability",
+          "note": "MOOC"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 42/51: «audit trail who approved» via Coursera, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «audit trail who approved».",
+      "expand_scope": "E1/E2/E3 + docs for «audit trail who approved»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 42/51: «audit trail who approved» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "redacted sink contract",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 43/51: «redacted sink contract» via Live, OWASP, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «redacted sink contract».",
+      "expand_scope": "E1/E2/E3 + docs for «redacted sink contract»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 43/51: «redacted sink contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "tool call in trace mandatory",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 44/51: «tool call in trace mandatory» via Live, OpenTelemetry, Py4E (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tool call in trace mandatory».",
+      "expand_scope": "E1/E2/E3 + docs for «tool call in trace mandatory»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 44/51: «tool call in trace mandatory» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "prompt version in span",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 45/51: «prompt version in span» via Live, OpenTelemetry (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prompt version in span».",
+      "expand_scope": "E1/E2/E3 + docs for «prompt version in span»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 45/51: «prompt version in span» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "feedback thumbs labels",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Docs",
+          "url": "https://opentelemetry.io/docs/",
+          "note": "traces metrics logs"
+        },
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 46/51: «feedback thumbs labels» via OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feedback thumbs labels».",
+      "expand_scope": "E1/E2/E3 + docs for «feedback thumbs labels»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 46/51: «feedback thumbs labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "alert owner runbook",
+      "research": [
+        {
+          "family": "OpenTelemetry",
+          "title": "Semconv",
+          "url": "https://opentelemetry.io/docs/specs/semconv/",
+          "note": "attributes"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 47/51: «alert owner runbook» via NIST, OpenTelemetry, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «alert owner runbook».",
+      "expand_scope": "E1/E2/E3 + docs for «alert owner runbook»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 47/51: «alert owner runbook» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 48,
+      "focus": "simulacro rollback counts",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/",
+          "note": "a11y"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 48/51: «simulacro rollback counts» via Google, NIST, W3C (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «simulacro rollback counts».",
+      "expand_scope": "E1/E2/E3 + docs for «simulacro rollback counts»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 48/51: «simulacro rollback counts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 49,
+      "focus": "user understands evidence",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 49/51: «user understands evidence» via Google, NIST (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «user understands evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «user understands evidence»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 49/51: «user understands evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 50,
+      "focus": "block unconfirmed action",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 50/51: «block unconfirmed action» via Google (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «block unconfirmed action».",
+      "expand_scope": "E1/E2/E3 + docs for «block unconfirmed action»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 50/51: «block unconfirmed action» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 51,
+      "focus": "appeal flow completable",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model Registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "versioning"
+        }
+      ],
+      "synthesize": "S51 «Observabilidad, gobernanza y UX del copiloto» cycle 51/51: «appeal flow completable» via Google, MLflow (CASO-MOQ-051).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «appeal flow completable».",
+      "expand_scope": "E1/E2/E3 + docs for «appeal flow completable»; V3 roadmap; pair S51 ops UX → S52 CP-FINAL.",
+      "re_synthesize": "Decision 51/51: «appeal flow completable» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

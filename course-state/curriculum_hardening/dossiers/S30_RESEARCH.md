@@ -1,34 +1,15 @@
-# Research dossier — S30 Entity resolution probabilístico
-
-**Section file:** `src/lib/course/sections/s30-security-infra.ts`  
-**Updated:** 2026-07-23T00:32:19.351213+00:00
-
-## Competitive sources (all mandatory classes)
-
-### Coursera / MOOC
-- Coursera entity resolution / record linkage modules where available
-- IBM data matching concepts
-
-### MIT
-- MIT record linkage research pages
-
-### Harvard
-- Harvard data fusion primers
-
-### Yale
-- Yale privacy-preserving record linkage
-
-### Stanford
-- Stanford entity resolution lectures (public slides)
-
-### GitHub
-- dedupeio/dedupe; recordlinkage library examples
-
-### Video / tutorials
-- PyData ER talks
-
-## Coverage gaps
-Same-entity ≠ parentesco/fraude; review bands; fixtures required.
-
-## Depth decision
-Gold bar: theory contracts + weDo instructions ≥150 chars + **starterCode.code ≥120 chars** with fixture + single TODO. Progressive disclosure; synthetic Peru cases; no fraud auto-labels.
+# S30 RESEARCH
+When: 2026-07-24T04:34:23.481+00:00
+- Wikipedia: https://en.wikipedia.org/wiki/Record_linkage
+- Wikipedia: https://en.wikipedia.org/wiki/Record_linkage#Probabilistic_record_linkage
+- splink: https://moj-analytical-services.github.io/splink/
+- splink: https://moj-analytical-services.github.io/splink/topic_guides/blocking/blocking_rules.html
+- RapidFuzz: https://github.com/rapidfuzz/RapidFuzz
+- dedupe: https://docs.dedupe.io/
+- Coursera: https://www.coursera.org/courses?query=record%20linkage%20entity%20resolution
+- deeplearning.ai: https://www.deeplearning.ai/specializations/data-engineering
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- Christen: https://link.springer.com/book/10.1007/978-3-642-31164-2
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/

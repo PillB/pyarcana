@@ -1,0 +1,547 @@
+{
+  "section": 18,
+  "title": "EDA, estadística descriptiva e incertidumbre",
+  "file": "s18-data-engineering.ts",
+  "n_required": 18,
+  "n_logged": 18,
+  "generated_at": "2026-07-24T05:19:14.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 25 > HEAD 0",
+    "ethics": "correlation≠cause; anomalies≠fraud; synthetic only",
+    "v3_retarget": "EDA uncertainty CP-N2-B not data-eng Prefect",
+    "expert_pass_at": "2026-07-24T05:19:14.000+00:00",
+    "theater_strip": "removed repeated workbench boilerplate",
+    "resources_expanded": true
+  },
+  "unique_foci": 18,
+  "source_url_count": 18,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget EDA not Prefect Parquet GE",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "statistics",
+          "url": "https://numpy.org/doc/stable/reference/routines.statistics.html",
+          "note": "mean quantile"
+        },
+        {
+          "family": "pandas",
+          "title": "basics",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html",
+          "note": "describe"
+        },
+        {
+          "family": "SciPy",
+          "title": "stats",
+          "url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+          "note": "IC reference"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 1/18: «V3 retarget EDA not Prefect Parquet GE» via NumPy, pandas, SciPy (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget EDA not Prefect Parquet GE».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget EDA not Prefect Parquet GE»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 1/18: «V3 retarget EDA not Prefect Parquet GE» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "mean median IQR quantiles n always",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "basics",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html",
+          "note": "describe"
+        },
+        {
+          "family": "SciPy",
+          "title": "stats",
+          "url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+          "note": "IC reference"
+        },
+        {
+          "family": "NumPy",
+          "title": "corrcoef",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html",
+          "note": "Pearson"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 2/18: «mean median IQR quantiles n always» via pandas, SciPy, NumPy (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «mean median IQR quantiles n always».",
+      "expand_scope": "E1/E2/E3 + docs for «mean median IQR quantiles n always»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 2/18: «mean median IQR quantiles n always» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "robust MAD log1p scale honesty",
+      "research": [
+        {
+          "family": "SciPy",
+          "title": "stats",
+          "url": "https://docs.scipy.org/doc/scipy/reference/stats.html",
+          "note": "IC reference"
+        },
+        {
+          "family": "NumPy",
+          "title": "corrcoef",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html",
+          "note": "Pearson"
+        },
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html",
+          "note": "IQR"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 3/18: «robust MAD log1p scale honesty» via SciPy, NumPy, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «robust MAD log1p scale honesty».",
+      "expand_scope": "E1/E2/E3 + docs for «robust MAD log1p scale honesty»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 3/18: «robust MAD log1p scale honesty» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "population sample selection bias shares",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "corrcoef",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html",
+          "note": "Pearson"
+        },
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html",
+          "note": "IQR"
+        },
+        {
+          "family": "Think Stats",
+          "title": "open book",
+          "url": "https://allendowney.github.io/ThinkStats/",
+          "note": "practical stats"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 4/18: «population sample selection bias shares» via NumPy, pandas, Think Stats (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «population sample selection bias shares».",
+      "expand_scope": "E1/E2/E3 + docs for «population sample selection bias shares»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 4/18: «population sample selection bias shares» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "CI mean z se effect size cohens d",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html",
+          "note": "IQR"
+        },
+        {
+          "family": "Think Stats",
+          "title": "open book",
+          "url": "https://allendowney.github.io/ThinkStats/",
+          "note": "practical stats"
+        },
+        {
+          "family": "OpenIntro",
+          "title": "Statistics",
+          "url": "https://www.openintro.org/book/os/",
+          "note": "IC bias"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 5/18: «CI mean z se effect size cohens d» via pandas, Think Stats, OpenIntro (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CI mean z se effect size cohens d».",
+      "expand_scope": "E1/E2/E3 + docs for «CI mean z se effect size cohens d»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 5/18: «CI mean z se effect size cohens d» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "language compatible with not proven",
+      "research": [
+        {
+          "family": "Think Stats",
+          "title": "open book",
+          "url": "https://allendowney.github.io/ThinkStats/",
+          "note": "practical stats"
+        },
+        {
+          "family": "OpenIntro",
+          "title": "Statistics",
+          "url": "https://www.openintro.org/book/os/",
+          "note": "IC bias"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 6/18: «language compatible with not proven» via Think Stats, OpenIntro, Coursera (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «language compatible with not proven».",
+      "expand_scope": "E1/E2/E3 + docs for «language compatible with not proven»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 6/18: «language compatible with not proven» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "correlation not causation confounder Z",
+      "research": [
+        {
+          "family": "OpenIntro",
+          "title": "Statistics",
+          "url": "https://www.openintro.org/book/os/",
+          "note": "IC bias"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.0002",
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+          "note": "comp thinking"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 7/18: «correlation not causation confounder Z» via OpenIntro, Coursera, MIT (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «correlation not causation confounder Z».",
+      "expand_scope": "E1/E2/E3 + docs for «correlation not causation confounder Z»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 7/18: «correlation not causation confounder Z» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "residualize partial association check",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.0002",
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+          "note": "comp thinking"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 8/18: «residualize partial association check» via Coursera, MIT, Harvard (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «residualize partial association check».",
+      "expand_scope": "E1/E2/E3 + docs for «residualize partial association check»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 8/18: «residualize partial association check» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "Tukey anomalies candidates not fraud",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.0002",
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+          "note": "comp thinking"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS109",
+          "url": "https://web.stanford.edu/class/cs109/",
+          "note": "probability concepts"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 9/18: «Tukey anomalies candidates not fraud» via MIT, Harvard, Stanford (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Tukey anomalies candidates not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «Tukey anomalies candidates not fraud»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 9/18: «Tukey anomalies candidates not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "segment rates explicit rules",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS109",
+          "url": "https://web.stanford.edu/class/cs109/",
+          "note": "probability concepts"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 10/18: «segment rates explicit rules» via Harvard, Stanford, Live (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «segment rates explicit rules».",
+      "expand_scope": "E1/E2/E3 + docs for «segment rates explicit rules»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 10/18: «segment rates explicit rules» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "Q H E template evidence structure",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS109",
+          "url": "https://web.stanford.edu/class/cs109/",
+          "note": "probability concepts"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 11/18: «Q H E template evidence structure» via Stanford, Live, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Q H E template evidence structure».",
+      "expand_scope": "E1/E2/E3 + docs for «Q H E template evidence structure»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 11/18: «Q H E template evidence structure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "reproducible notebook data notes",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 12/18: «reproducible notebook data notes» via Live, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reproducible notebook data notes».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible notebook data notes»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 12/18: «reproducible notebook data notes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "synthetic tickets PEN regions",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "NumPy",
+          "title": "median",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.median.html",
+          "note": "robust center"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 13/18: «synthetic tickets PEN regions» via GitHub, NumPy (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic tickets PEN regions».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic tickets PEN regions»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 13/18: «synthetic tickets PEN regions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "no PII no auto fraud claims",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "NumPy",
+          "title": "median",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.median.html",
+          "note": "robust center"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "segment rates"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 14/18: «no PII no auto fraud claims» via GitHub, NumPy, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «no PII no auto fraud claims».",
+      "expand_scope": "E1/E2/E3 + docs for «no PII no auto fraud claims»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 14/18: «no PII no auto fraud claims» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "report n and tail quantile",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "median",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.median.html",
+          "note": "robust center"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "segment rates"
+        },
+        {
+          "family": "OpenStax",
+          "title": "Introductory Statistics",
+          "url": "https://openstax.org/details/books/introductory-statistics",
+          "note": "sampling"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 15/18: «report n and tail quantile» via NumPy, pandas, OpenStax (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «report n and tail quantile».",
+      "expand_scope": "E1/E2/E3 + docs for «report n and tail quantile»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 15/18: «report n and tail quantile» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "Spearman vs Pearson outliers",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "groupby",
+          "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+          "note": "segment rates"
+        },
+        {
+          "family": "OpenStax",
+          "title": "Introductory Statistics",
+          "url": "https://openstax.org/details/books/introductory-statistics",
+          "note": "sampling"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 16/18: «Spearman vs Pearson outliers» via pandas, OpenStax, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Spearman vs Pearson outliers».",
+      "expand_scope": "E1/E2/E3 + docs for «Spearman vs Pearson outliers»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 16/18: «Spearman vs Pearson outliers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "bootstrap caution small n",
+      "research": [
+        {
+          "family": "OpenStax",
+          "title": "Introductory Statistics",
+          "url": "https://openstax.org/details/books/introductory-statistics",
+          "note": "sampling"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "NumPy",
+          "title": "statistics",
+          "url": "https://numpy.org/doc/stable/reference/routines.statistics.html",
+          "note": "mean quantile"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 17/18: «bootstrap caution small n» via OpenStax, GitHub, NumPy (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «bootstrap caution small n».",
+      "expand_scope": "E1/E2/E3 + docs for «bootstrap caution small n»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 17/18: «bootstrap caution small n» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "CP-N2-B portfolio uncertainty",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "NumPy",
+          "title": "statistics",
+          "url": "https://numpy.org/doc/stable/reference/routines.statistics.html",
+          "note": "mean quantile"
+        },
+        {
+          "family": "pandas",
+          "title": "basics",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html",
+          "note": "describe"
+        }
+      ],
+      "synthesize": "S18 «EDA, estadística descriptiva e incertidumbre» cycle 18/18: «CP-N2-B portfolio uncertainty» via GitHub, NumPy, pandas (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-B portfolio uncertainty».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-B portfolio uncertainty»; V3 roadmap; pair S18.",
+      "re_synthesize": "Decision 18/18: «CP-N2-B portfolio uncertainty» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://numpy.org/doc/stable/reference/routines.statistics.html",
+    "https://pandas.pydata.org/docs/user_guide/basics.html",
+    "https://docs.scipy.org/doc/scipy/reference/stats.html",
+    "https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.Series.quantile.html",
+    "https://allendowney.github.io/ThinkStats/",
+    "https://www.openintro.org/book/os/",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+    "https://cs50.harvard.edu/python/",
+    "https://web.stanford.edu/class/cs109/",
+    "https://pillb.github.io/pyarcana/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://numpy.org/doc/stable/reference/generated/numpy.median.html",
+    "https://pandas.pydata.org/docs/user_guide/groupby.html",
+    "https://openstax.org/details/books/introductory-statistics",
+    "https://github.com/https-deeplearning-ai"
+  ]
+}

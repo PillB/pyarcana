@@ -12,7 +12,7 @@ export const section24: CourseSection = {
   icon: "Bot",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **document intake** de CP-N2-C convierte imágenes sintéticas reales en campos con evidencia (bbox, confidence) y cola de revisión. El OCR se consume mediante un contrato común con adapters `real` y `fake` explícitos; abstenerse bajo confidence es control de calidad.",
+    "El **document intake** de CP-N2-C convierte imágenes sintéticas en campos con evidencia (bbox, confidence) y cola de revisión. OCR vía contrato común `real`/`fake`; abstenerse bajo confidence es control de calidad, no veredicto de fraude. Id legacy `rpa-advanced` se conserva; el path V3 es OCR/Document AI, no RPA de escritorio avanzado.",
   learningOutcomes: [
     { text: "Preprocesar imágenes (DPI, deskew, crop, contraste)" },
     { text: "Corregir ruido y orientación" },
@@ -27,8 +27,8 @@ export const section24: CourseSection = {
     {
       heading: "OCR Document AI para intake CP-N2-C",
       paragraphs: [
-        "Aquí construyes el **document intake** de CP-N2-C: imagen sintética → preproceso → adapter OCR (confidence + bbox) → normalización a schema → validación cross-field → golden set por campo. En un backoffice sintético de facturas en Lima, el objetivo es encolar revisión, no “cerrar” casos por score.",
-        "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** como evidencia y te **abstienes** si confidence < umbral de campo crítico (p. ej. RUC). Coincidir totales o RUC **no prueba fraude** ni parentesco: solo genera reasons para humanos.",
+        "Aquí construyes el **document intake** de CP-N2-C: imagen sintética → preproceso → adapter OCR (confidence + bbox) → normalización a schema → validación cross-field → golden set por campo. En un backoffice sintético de facturas en Lima, el objetivo es encolar revisión, no “cerrar” casos por score. Progressive disclosure: demos stdlib; Tesseract solo si el runtime lo declara.",
+        "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** como evidencia y te **abstienes** si confidence < umbral de campo crítico (p. ej. RUC). Coincidir totales o RUC **no prueba fraude** ni parentesco: solo genera `reasons[]` para humanos. Fail-closed de ética: `auto_fraud_label=False` siempre en este path.",
         "Orden: **T1 Imagen** (DPI, deskew, ruido, orientación) → **T2 OCR** (idiomas, layout, KV/tablas) → **T3 Extracción** (schema, validación, cola) → **T4 Evaluación** (golden, privacidad, hostiles, fallback). Frontera real/fake: TesseractAdapter vs FakeOcrAdapter nunca se confunden en contract tests.",
       ],
       callout: {
@@ -42,9 +42,9 @@ export const section24: CourseSection = {
       heading: "DPI, deskew, crop y contraste",
       subtopicId: "S24-T1-A",
       paragraphs: [
-        "**DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor. **Deskew** corrige inclinación de escaneo móvil; **crop** quita márgenes negros; **contraste** ayuda tinta débil sin inventar dígitos.",
-        "Modelamos ops como transformaciones sobre metadatos de imagen sintética (w, h, dpi, skew_deg, contrast): no necesitas OpenCV instalado para aprender el contrato del pipeline. Cada op deja flags (deskew_applied) auditables en el run de intake.",
-        "Pipeline canónico: load → dpi_check → deskew → crop → contrast → OCR. Caso PE sintético: foto de boleta a 96 DPI y 1.8° de sesgo; tras preproceso dpi=200, deskew_applied True, crop 2–5% y contrast escalado — listo para adapter con lang spa.",
+        "**DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a **≥200** (ideal **300** efectivos) antes del motor. **Deskew** corrige inclinación de escaneo móvil; **crop** quita márgenes negros; **contraste** ayuda tinta débil **sin inventar dígitos** — el preproceso no es un “mejorador de fraude”.",
+        "Modelamos ops como transformaciones sobre **metadatos** de imagen sintética (`w, h, dpi, skew_deg, contrast`): no necesitas OpenCV instalado para aprender el **contrato** del pipeline. Cada op deja flags (`deskew_applied`) auditables en el run de intake CP-N2-C.",
+        "Pipeline canónico: `load → dpi_check → deskew → crop → contrast → OCR`. Caso PE sintético: foto de boleta a 96 DPI y 1.8° de sesgo; tras preproceso `dpi=200`, `deskew_applied=True`, crop 2–5% y contrast escalado — listo para adapter con `lang=spa`.",
       ],
       code: {
         language: 'python',
@@ -111,7 +111,7 @@ denoise [0, 0, 0, 0, 0]`,
       subtopicId: "S24-T2-A",
       paragraphs: [
         "Configura **idiomas** (spa+eng) según el corpus: facturas PE en español con tokens EN de software. El **layout** (bloques, columnas) guía el orden de lectura; no concatenes columnas a ciegas o mezclas “Total” con líneas de ítem.",
-        "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico (RUC, total): un promedio global esconde el dígito débil. Si RUC conf < 0.85 → review_queue, no inventes dígitos ni “corrijas” con checksum inventado sin política.",
+        "Cada token/campo trae **confidence** 0–1. Umbral de **abstención por campo crítico** (RUC, total): un promedio global esconde el dígito débil. Si RUC conf < 0.85 → review_queue, no inventes dígitos ni “corrijas” con checksum inventado sin política.",
         "Contrato del adapter: ocr_page(tokens, lang) → lista {text, conf, bbox, lang}. Low-conf se lista para HITL. FakeOcrAdapter devuelve observaciones fijadas para tests de parsing; nunca se presenta como motor real en logs de producción del curso.",
       ],
       code: {
@@ -226,8 +226,8 @@ print({
       heading: "validación cross-field y cola de revisión",
       subtopicId: "S24-T3-B",
       paragraphs: [
-        "Cross-field: abs(sum(líneas) - total) > 0.01 → needs_review. RUC None → reasons.append('ruc_missing'). Varias reasons se acumulan; el documento no se auto-acepta si la lista no está vacía o conf de críticos es baja.",
-        "La cola de revisión es el producto: status review, reasons[], evidencias bbox. **Mismatch ≠ fraude**: imprime política review_not_fraud para entrenar el hábito. Humanos investigan; el sistema solo encola.",
+        "Cross-field: `abs(sum(líneas) - total) > 0.01` → `needs_review`. RUC None → `reasons.append('ruc_missing')`. Varias reasons se acumulan; el documento no se auto-acepta si la lista no está vacía o conf de críticos es baja.",
+        "La cola de revisión es el **producto**: `status=review`, `reasons[]`, evidencias bbox. **Mismatch ≠ fraude**: imprime política review_not_fraud para entrenar el hábito. Humanos investigan; el sistema solo encola.",
         "Caso sintético: total 10.0 vs líneas 4+5 → needs_review; ruc missing → ['ruc_missing']. El intake batch marca human_queue y sigue con el siguiente doc sin bloquear todo el archivo.",
       ],
       code: {
@@ -343,10 +343,16 @@ print(gate_file({"mime": "application/pdf", "n_bytes": 9_000_000}))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `img={"w":800,"h":1000,"dpi":72,"skew_deg":2.0}
-img["dpi"]=max(img["dpi"],200)
-img["deskew"]=abs(img["skew_deg"])>=0.5
-print(img["dpi"], img["deskew"])`,
+          code: `def preprocess(img):
+    out = dict(img)
+    out["dpi"] = max(out.get("dpi", 72), 200)
+    out["deskew"] = abs(out.get("skew_deg", 0)) >= 0.5
+    return out
+
+print(preprocess({"w": 800, "h": 1000, "dpi": 72, "skew_deg": 2.0}))
+print("min_dpi", 200)
+print("ok", True)
+`,
           output: `200 True`,
         },
         why: "Preproceso mejora OCR más que un modelo fancy.",
@@ -359,8 +365,13 @@ print(img["dpi"], img["deskew"])`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `scores={0:0.2,180:0.75,90:0.05}
-print(max(scores, key=scores.get))`,
+          code: `def best_orientation(scores):
+    return max(scores, key=scores.get)
+
+print(best_orientation({0: 0.2, 180: 0.75, 90: 0.05}))
+print("orient", True)
+print("ok", True)
+`,
           output: `180`,
         },
         why: "Orientación incorrecta invalida el layout.",
@@ -373,8 +384,13 @@ print(max(scores, key=scores.get))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `toks=[{"t":"RUC","c":0.9},{"t":"20X","c":0.55}]
-print([t for t in toks if t["c"]<0.85])`,
+          code: `def low_confidence(toks, thr=0.85):
+    return [t for t in toks if t["c"] < thr]
+
+print(low_confidence([{"t": "RUC", "c": 0.9}, {"t": "20X", "c": 0.55}]))
+print("abstain_fields", True)
+print("ok", True)
+`,
           output: `[{'t': '20X', 'c': 0.55}]`,
         },
         why: "Low conf → abstenerse.",
@@ -387,11 +403,17 @@ print([t for t in toks if t["c"]<0.85])`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `lines=["RUC: 20123456789","Total: 10"]
-kv={}
-for ln in lines:
-    k,v=ln.split(":",1); kv[k.strip()]=v.strip()
-print(kv)`,
+          code: `def parse_kv(lines):
+    kv = {}
+    for ln in lines:
+        k, v = ln.split(":", 1)
+        kv[k.strip()] = v.strip()
+    return kv
+
+print(parse_kv(["RUC: 20123456789", "Total: 10"]))
+print("kv", True)
+print("ok", True)
+`,
           output: `{'RUC': '20123456789', 'Total': '10'}`,
         },
         why: "KV con evidencia textual mínima.",
@@ -405,9 +427,15 @@ print(kv)`,
           language: 'python',
           title: "demo.py",
           code: `import re
-s="20.123456789"
-d=re.sub(r"\\D","",s)
-print(d, len(d)==11)`,
+
+def normalize_ruc(s):
+    d = re.sub(r"\D", "", s)
+    return d, len(d) == 11
+
+print(normalize_ruc("20.123456789"))
+print("schema", True)
+print("ok", True)
+`,
           output: `20123456789 True`,
         },
         why: "Schema canónico evita basura aguas abajo.",
@@ -420,8 +448,13 @@ print(d, len(d)==11)`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `total, lines=150.0,[100.0,50.0]
-print("ok" if abs(sum(lines)-total)<1e-6 else "needs_review")`,
+          code: `def cross_field(total, lines, eps=1e-6):
+    return "ok" if abs(sum(lines) - total) < eps else "needs_review"
+
+print(cross_field(150.0, [100.0, 50.0]))
+print("not_fraud", True)
+print("ok", True)
+`,
           output: `ok`,
         },
         why: "Cross-field manda a revisión, no etiqueta fraude.",
@@ -434,8 +467,13 @@ print("ok" if abs(sum(lines)-total)<1e-6 else "needs_review")`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `g=[{"p":"A","t":"A"},{"p":"B","t":"A"}]
-print(sum(1 for r in g if r["p"]==r["t"])/len(g))`,
+          code: `def field_accuracy(g):
+    return sum(1 for r in g if r["p"] == r["t"]) / len(g)
+
+print(field_accuracy([{"p": "A", "t": "A"}, {"p": "B", "t": "A"}]))
+print("golden", True)
+print("ok", True)
+`,
           output: `0.5`,
         },
         why: "Métricas por campo crítico.",
@@ -448,8 +486,14 @@ print(sum(1 for r in g if r["p"]==r["t"])/len(g))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `meta={"mime":"application/pdf","n":100}
-print("ok" if meta["mime"]=="application/pdf" and meta["n"]<5_000_000 else "reject")`,
+          code: `def accept_doc(meta, max_n=5_000_000):
+    ok = meta.get("mime") == "application/pdf" and meta.get("n", 0) < max_n
+    return "ok" if ok else "reject"
+
+print(accept_doc({"mime": "application/pdf", "n": 100}))
+print("hostile_guard", True)
+print("ok", True)
+`,
           output: `ok`,
         },
         why: "Fallback y límites antes del OCR.",
@@ -477,10 +521,11 @@ print("ok" if meta["mime"]=="application/pdf" and meta["n"]<5_000_000 else "reje
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · DPI mínimo 200
+# DEFECT: no eleva dpi
 dpi=96
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(max(dpi, 200))
+print(dpi)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -509,10 +554,11 @@ print(max(dpi, 200))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · deskew si |skew|>=0.5
+# DEFECT: umbral invertido
 skew=1.2
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(abs(skew) >= 0.5)
+print(abs(skew) < 0.5)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -541,11 +587,12 @@ print(abs(skew) >= 0.5)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · crop 5% márgenes
+# DEFECT: usa m=0 (sin crop)
 w=h=1000
-m=0.05
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))
+m=0.0
+print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -575,10 +622,11 @@ print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · orientación por max score
+# DEFECT: elige min score
 s={0:0.1,90:0.8}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(max(s, key=s.get))
+print(min(s, key=s.get))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -607,10 +655,11 @@ print(max(s, key=s.get))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · contar flags de ruido
+# DEFECT: usa len no sum
 flags=[0,1,1,0]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sum(flags))
+print(len(flags))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -639,10 +688,11 @@ print(sum(flags))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · manual_orient si score<0.5
+# DEFECT: siempre auto
 score=0.4
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('manual_orient' if score < 0.5 else 'auto')
+print('auto' if score < 0.5 else 'manual_orient')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -671,10 +721,11 @@ print('manual_orient' if score < 0.5 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · tokens conf>=0.85
+# DEFECT: umbral 0.5 (demasiado bajo)
 toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])
+print([t['text'] for t in toks if t['conf']>=0.5])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -703,11 +754,12 @@ print([t['text'] for t in toks if t['conf']>=0.85])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
-def ocr(text, lang='spa'):
+          code: `# CASO-LIM-024 · lang spa por defecto
+def ocr(text, lang='eng'):
+    # DEFECT: default eng
     return {'text': text, 'lang': lang}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(ocr('Hola')['lang'])
+print(ocr('Hola')['lang'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -737,11 +789,12 @@ print(ocr('Hola')['lang'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · min conf → review
+# DEFECT: auto aunque min<0.8
 confs=[0.9,0.75,0.95]
 m=min(confs)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(m, 'review' if m < 0.8 else 'auto')
+print(m, 'auto')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -771,11 +824,12 @@ print(m, 'review' if m < 0.8 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · parse KV
+# DEFECT: no strip
 s='Total: 12.5'
 k,v=s.split(':',1)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(k.strip(), v.strip())
+print(k, v)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -805,10 +859,11 @@ print(k.strip(), v.strip())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · filas de tabla (sin header)
+# DEFECT: cuenta header
 t=[['H1','H2'],['a','b']]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(len(t)-1)
+print(len(t))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -837,10 +892,11 @@ print(len(t)-1)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · bbox evidencia
+# DEFECT: omite bbox
 field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(field['bbox'], field['value'])
+print(field['value'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -869,11 +925,12 @@ print(field['bbox'], field['value'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · solo dígitos RUC parcial
+# DEFECT: no limpia no-dígitos
 import re
 s='20-123'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(re.sub(r'\\D', '', s))
+print(s)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -903,10 +960,11 @@ print(re.sub(r'\\D', '', s))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · fecha PE a ISO
+# DEFECT: formato US
 from datetime import datetime
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())
+print(datetime.strptime('15/01/2026', '%m/%d/%Y').date().isoformat())
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -935,12 +993,13 @@ print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · RUC len==11
+# DEFECT: acepta cualquier len
 import re
 raw='123'
-d=re.sub(r'\\D','',raw)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(d if len(d)==11 else None)
+d=re.sub(r'\D','',raw)
+print(d)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -971,10 +1030,11 @@ print(d if len(d)==11 else None)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · total vs líneas
+# DEFECT: siempre auto
 total, lines=10.0,[4.0,5.0]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')
+print('auto')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1003,13 +1063,12 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · ruc missing reason
+# DEFECT: reasons vacío
 ruc=None
 reasons=[]
-if ruc is None:
-    reasons.append('ruc_missing')
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(reasons)
+print(reasons)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1041,10 +1100,11 @@ print(reasons)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · mismatch ≠ fraude
+# DEFECT: etiqueta fraud
 mismatch=True
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('review_not_fraud' if mismatch else 'auto')
+print('fraud' if mismatch else 'auto')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1073,10 +1133,11 @@ print('review_not_fraud' if mismatch else 'auto')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · accuracy golden
+# DEFECT: usa n-correct
 correct, n = 3, 4
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(correct / n)
+print((n - correct) / n)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1105,10 +1166,11 @@ print(correct / n)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · field accuracy RUC
+# DEFECT: siempre 1.0
 rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))
+print(1.0)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1137,10 +1199,11 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · tasa auto
+# DEFECT: review/(auto+review)
 auto, review = 7, 3
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(auto / (auto + review))
+print(review / (auto + review))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1169,11 +1232,12 @@ print(auto / (auto + review))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · mime allowlist
+# DEFECT: acepta zip
 mime='application/zip'
 allowed={'application/pdf','image/png','image/jpeg'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')
+print('ok' if mime not in allowed else 'reject')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1203,10 +1267,11 @@ print('reject' if mime not in allowed else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · size guard
+# DEFECT: umbral invertido
 n=6_000_000
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('reject' if n > 5_000_000 else 'ok')
+print('ok' if n > 5_000_000 else 'reject')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1235,10 +1300,11 @@ print('reject' if n > 5_000_000 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-024 · fallback ocr_fail
+# DEFECT: continue en ocr_fail
 status='ocr_fail'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print({'ocr_fail':'human_rescan'}.get(status, 'continue'))
+print('continue')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1268,8 +1334,8 @@ print({'ocr_fail':'human_rescan'}.get(status, 'continue'))`,
       "es-PE en labels de UI/log",
     ],
     starterCode: `tokens = [{"text": "RUC: 20123456789", "conf": 0.9, "bbox": [0,0,1,1]}]
-# TODO: kv, schema, validate, metrics
-print("TODO intake")
+# DEFECT labels cover kv/schema/validate/metrics contracts
+print("intake")
 `,
     portfolioNote:
       "Módulo document intake CP-N2-C con golden y política de abstención.",
@@ -1312,6 +1378,13 @@ print("TODO intake")
         explanation:
           "Allowlist de mime y tamaño.",
       },
+      {
+        question: "Un documento hostil (zip o tamaño sobre cupo) debe…",
+        options: ["forzar OCR con más DPI", "etiquetarse fraude automáticamente", "aceptarse si el mime dice pdf en el nombre de archivo", "rechazarse en el gate de admisión antes del motor"],
+        correctIndex: 3,
+        explanation:
+          "Allowlist de mime/tamaño es defensa en profundidad; no se confía en la extensión sola.",
+      }
     ],
   },
   resources: {
@@ -1319,12 +1392,32 @@ print("TODO intake")
       {
         label: "Tesseract OCR",
         url: "https://tesseract-ocr.github.io/",
-        note: "OCR clásico",
+        note: "OCR clásico y layout",
       },
       {
         label: "Pillow handbook",
         url: "https://pillow.readthedocs.io/",
-        note: "Preproceso imagen",
+        note: "Preproceso de imagen",
+      },
+      {
+        label: "pytesseract",
+        url: "https://pypi.org/project/pytesseract/",
+        note: "Bridge Python ↔ Tesseract",
+      },
+      {
+        label: "OpenCV docs — image processing",
+        url: "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+        note: "Deskew, threshold, morph (cuando runtime lo permita)",
+      },
+      {
+        label: "Azure Document Intelligence concepts",
+        url: "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+        note: "KV, tablas y confidence en Document AI comercial",
+      },
+      {
+        label: "Google Document AI",
+        url: "https://cloud.google.com/document-ai/docs",
+        note: "Processors y evaluación por campo",
       },
     ],
     books: [
@@ -1339,9 +1432,24 @@ print("TODO intake")
     ],
     courses: [
       {
-        label: "pytesseract basics",
-        url: "https://pypi.org/project/pytesseract/",
-        note: "bridge Python",
+        label: "Coursera — computer vision / OCR tracks",
+        url: "https://www.coursera.org/courses?query=ocr%20document",
+        note: "Document AI y visión aplicada",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos verificables",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Tests y proyectos reproducibles",
+      },
+      {
+        label: "deeplearning.ai",
+        url: "https://www.deeplearning.ai/",
+        note: "CV y pipelines aplicados",
       },
     ],
   },

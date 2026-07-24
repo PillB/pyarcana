@@ -1,0 +1,612 @@
+{
+  "index": 33,
+  "id": "advanced-models",
+  "title": "ML supervisado y baselines responsables",
+  "file": "s33-advanced-models.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S33: ML supervisado y baselines responsables",
+      "len": 49
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S33. Baseline: regla o dummy que ancla el valor del ML. Target de review: etiqueta de utilidad operativa, no veredicto legal. Regularización: penaliza pesos (L1/L2). Group/time CV: validación sin leakage de entidad ni futuro. Lift: model − baseline. Overfit: gap train/val excesivo. Run tracking: run_id, params, metrics, feature_set.",
+      "len": 346
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisito S32 (features sin leakage). El producto es una comparación honesta que conserva el baseline determinista.",
+      "len": 119
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: feature set fs-vN + labels de review sintéticos CASO-LIM-033. Salida: métricas vs baseline y decisión promote. Error: sin baseline, CV i.i.d. con entidades, o target de fraude → bloqueo.",
+      "len": 205
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 framing/baseline → T2 lineales → T3 árboles → T4 experimento/error analysis. Stack: stdlib; sklearn como referencia profesional.",
+      "len": 138
+    },
+    {
+      "i": 5,
+      "text": "Framing: unidad, target y horizonte",
+      "len": 35
+    },
+    {
+      "i": 6,
+      "text": "Diccionario T1-A. Unidad de predicción: la fila que el modelo ve (entity_pair, caso). Target: etiqueta de utilidad de review (p. ej. needs_review_7d), no «es fraude». Horizonte: ventana futura del label sin leakage. Costo de error: FP satura cola; FN omite riesgo operativo sintético.",
+      "len": 284
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: fijas unit, target, horizon_days y rechazas targets que codifican culpa legal. El label se construye solo con información posterior al horizonte, nunca con features del mismo instante de decisión filtradas al revés.",
+      "len": 226
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: unit, target, horizon. Salida: framing válido y is_fraud_label=False. Error: target=is_fraud o horizonte 0 con features post-decisión. Por qué importa: si no fijas «unit, target, horizon» → «framing válido y is_fraud_label=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «target=is_fraud o horizonte 0 con features post-decisión» para confirmar fail-closed.",
+      "len": 435
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-033-T1A: unit=entity_pair, target=needs_review_7d, horizon=7. Baseline del workbench CP-N3-B; ML no sentencia.",
+      "len": 132
+    },
+    {
+      "i": 10,
+      "text": "Baseline de regla y dummy estimator",
+      "len": 35
+    },
+    {
+      "i": 11,
+      "text": "Un baseline de regla (p. ej. amount_7d > thr → review) y un dummy (siempre clase mayoritaria o aleatorio estratificado) anclan el valor del ML. Si el modelo no gana al baseline, no se promueve.",
+      "len": 193
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: rule_pred = [1 if x>thr else 0 for x in xs]; dummy predice mode(y). Comparas precision@k o F1 de review utility, no vanity accuracy.",
+      "len": 143
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: xs, thr, y. Salida: rule hits, dummy mode, beats_dummy flag. Error: reportar solo accuracy del modelo sin baseline. Por qué importa: si no fijas «xs, thr, y» → «rule hits, dummy mode, beats_dummy flag», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «reportar solo accuracy del modelo sin baseline» para confirmar fail-closed.",
+      "len": 397
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-033-T1B: thr=100 sobre montos sintéticos; dummy=0 (mayoría). Comparación honesta del workbench.",
+      "len": 117
+    },
+    {
+      "i": 15,
+      "text": "Modelos lineales y regularización",
+      "len": 33
+    },
+    {
+      "i": 16,
+      "text": "Regresión logística (clasificación) y lineal (scores) con L2/L1 controlan coeficientes. Sin scaling, la regularización castiga features por magnitud arbitraria.",
+      "len": 160
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo didáctico: score lineal s = w·x + b; predicción 1 if s>=0 else 0. Penalización λ||w||² (idea L2). sklearn LogisticRegression es la referencia; aquí stdlib.",
+      "len": 165
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: w, x, b, scaled. Salida: score y pred. Error: regularizar features sin scale o interpretar coef como causalidad moral. Por qué importa: si no fijas «w, x, b, scaled» → «score y pred», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «regularizar features sin scale o interpretar coef como causalidad mora» para confirmar fail-closed.",
+      "len": 402
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-033-T2A: w=[0.5,-0.2], x=[2,1], b=0 → score 0.8. Baseline lineal del workbench.",
+      "len": 101
+    },
+    {
+      "i": 20,
+      "text": "Coeficientes, supuestos y scaling",
+      "len": 33
+    },
+    {
+      "i": 21,
+      "text": "Los coeficientes se leen con cautela: correlación ≠ causalidad; multicolinealidad hincha magnitudes. Documenta supuestos (linealidad en el logit, independencia) y el scaler fitted.",
+      "len": 180
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: reportas coef junto a feature_names y scaler_version. Si dos features son proxies, no culpes a la persona detrás del proxy sintético.",
+      "len": 144
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: coef map, scaler_id. Salida: top coef por abs y disclaimer causal=False. Error: publicar ranking de 'culpa' por coef. Por qué importa: si no fijas «coef map, scaler_id» → «top coef por abs y disclaimer causal=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «publicar ranking de 'culpa' por coef» para confirmar fail-closed.",
+      "len": 401
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-033-T2B: amount_7d coef 0.4 > shared_phone 0.1; causal False. Interpretación responsable.",
+      "len": 111
+    },
+    {
+      "i": 25,
+      "text": "Árboles y ensambles (RF/boosting idea)",
+      "len": 38
+    },
+    {
+      "i": 26,
+      "text": "Árboles particionan el espacio con umbrales legibles; random forest / boosting promedian o corrigen errores. En el laboratorio usamos profundidad y voto mayoritario toy.",
+      "len": 169
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: stump pred = 1 if x>thr else 0; ensemble = moda de votos. Más profundidad ≠ mejor generalización.",
+      "len": 108
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: x, thr, votos. Salida: pred ensemble. Error: profundidad ilimitada sobre n pequeño sintético. Por qué importa: si no fijas «x, thr, votos» → «pred ensemble», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «profundidad ilimitada sobre n pequeño sintético» para confirmar fail-closed.",
+      "len": 353
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-033-T3A: thr=10, votos [1,1,0] → 1. Ensamble didáctico del baseline.",
+      "len": 90
+    },
+    {
+      "i": 30,
+      "text": "Overfit, profundidad y reproducibilidad",
+      "len": 39
+    },
+    {
+      "i": 31,
+      "text": "Overfit: train score >> val score. Controla max_depth / min_leaf, fija seed y registra hiperparámetros. Reproducibilidad es parte del gate del experimento.",
+      "len": 155
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: gap = train_acc - val_acc; si gap > thr → overfit flag. seed en el tracker.",
+      "len": 86
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: train_acc, val_acc, seed. Salida: overfit flag y seed. Error: solo reportar train acc. Por qué importa: si no fijas «train_acc, val_acc, seed» → «overfit flag y seed», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo reportar train acc» para confirmar fail-closed.",
+      "len": 339
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-033-T3B: train 0.99 val 0.60 → overfit True, seed 42. No promover.",
+      "len": 88
+    },
+    {
+      "i": 35,
+      "text": "Pipeline, tracking mínimo y CV apropiada",
+      "len": 40
+    },
+    {
+      "i": 36,
+      "text": "El pipeline encadena preprocess+modelo. Tracking mínimo: run_id, metrics, params, feature_set. CV por grupo/tiempo (no KFold i.i.d. si hay entidades).",
+      "len": 150
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: lista de folds con entity groups disjuntos; media de metric por fold. Log run_id sintético.",
+      "len": 102
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: fold_scores, split_kind. Salida: mean score y split_kind=group_time. Error: CV aleatoria con leakage de entidad. Por qué importa: si no fijas «fold_scores, split_kind» → «mean score y split_kind=group_time», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «CV aleatoria con leakage de entidad» para confirmar fail-closed.",
+      "len": 391
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-033-T4A: scores [0.5,0.6,0.55] → mean 0.55, group_time. Experimento del workbench.",
+      "len": 104
+    },
+    {
+      "i": 40,
+      "text": "Error analysis y cuándo el ML no agrega valor",
+      "len": 45
+    },
+    {
+      "i": 41,
+      "text": "Error analysis: slices de FP/FN, confusiones por canal/región sintética, comparación vs baseline. Si Δmetric < umbral de negocio, no promueves el modelo.",
+      "len": 153
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: delta = model - baseline; promote = delta >= min_lift. Documenta ejemplos sintéticos de error sin PII.",
+      "len": 113
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: model_score, baseline_score, min_lift. Salida: promote bool y reason. Error: promover por hype sin lift. Por qué importa: si no fijas «model_score, baseline_score, min_lift» → «promote bool y reason», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «promover por hype sin lift» para confirmar fail-closed.",
+      "len": 375
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-033-T4B: model 0.52 vs baseline 0.50, min_lift 0.05 → promote False. Honestidad del workbench.",
+      "len": 116
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S33: ML supervisado y baselines responsables",
+      "text": "Mapa S33: ML supervisado y baselines responsables"
+    },
+    {
+      "i": 1,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S33. Baseline: regla o dummy que ancla el valor del ML. Target de review: etiqueta de utilidad operativa, no veredicto legal. Regularización: penaliza pesos (L1/L2). Gr",
+      "text": "Diccionario S33. Baseline: regla o dummy que ancla el valor del ML. Target de review: etiqueta de utilidad operativa, no veredicto legal. Regularización: penaliza pesos (L1/L2). Group/time CV: validación sin leakage de entidad ni futuro. Lift: model − baseline. Overfit: gap train/val excesivo. Run tracking: run_id, params, metrics, feature_set."
+    },
+    {
+      "i": 2,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisito S32 (features sin leakage). El producto es una comparación honesta que conserva el baseline determinista.",
+      "text": "Prerrequisito S32 (features sin leakage). El producto es una comparación honesta que conserva el baseline determinista."
+    },
+    {
+      "i": 3,
+      "len": 205,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: feature set fs-vN + labels de review sintéticos CASO-LIM-033. Salida: métricas vs baseline y decisión promote. Error: sin baseline, CV i.i.d. con entidades, o ta",
+      "text": "Contrato. Entrada: feature set fs-vN + labels de review sintéticos CASO-LIM-033. Salida: métricas vs baseline y decisión promote. Error: sin baseline, CV i.i.d. con entidades, o target de fraude → bloqueo."
+    },
+    {
+      "i": 4,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 framing/baseline → T2 lineales → T3 árboles → T4 experimento/error analysis. Stack: stdlib; sklearn como referencia profesional.",
+      "text": "Orden: T1 framing/baseline → T2 lineales → T3 árboles → T4 experimento/error analysis. Stack: stdlib; sklearn como referencia profesional."
+    },
+    {
+      "i": 5,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Framing: unidad, target y horizonte",
+      "text": "Framing: unidad, target y horizonte"
+    },
+    {
+      "i": 6,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario T1-A. Unidad de predicción: la fila que el modelo ve (entity_pair, caso). Target: etiqueta de utilidad de review (p. ej. needs_review_7d), no «es fraude». Horizonte: ve",
+      "text": "Diccionario T1-A. Unidad de predicción: la fila que el modelo ve (entity_pair, caso). Target: etiqueta de utilidad de review (p. ej. needs_review_7d), no «es fraude». Horizonte: ventana futura del label sin leakage. Costo de error: FP satura cola; FN omite riesgo operativo sintético."
+    },
+    {
+      "i": 7,
+      "len": 226,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: fijas unit, target, horizon_days y rechazas targets que codifican culpa legal. El label se construye solo con información posterior al horizonte, nunca con features del ",
+      "text": "Mecanismo: fijas unit, target, horizon_days y rechazas targets que codifican culpa legal. El label se construye solo con información posterior al horizonte, nunca con features del mismo instante de decisión filtradas al revés."
+    },
+    {
+      "i": 8,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: unit, target, horizon. Salida: framing válido y is_fraud_label=False. Error: target=is_fraud o horizonte 0 con features post-decisión. Por qué importa:",
+      "text": "Contrato operativo. Entrada: unit, target, horizon. Salida: framing válido y is_fraud_label=False. Error: target=is_fraud o horizonte 0 con features post-decisión. Por qué importa: si no fijas «unit, target, horizon» → «framing válido y is_fraud_label=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «target=is_fraud o horizonte 0 con features post-decisión» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T1A: unit=entity_pair, target=needs_review_7d, horizon=7. Baseline del workbench CP-N3-B; ML no sentencia.",
+      "text": "Aplicación a CASO-LIM-033-T1A: unit=entity_pair, target=needs_review_7d, horizon=7. Baseline del workbench CP-N3-B; ML no sentencia."
+    },
+    {
+      "i": 10,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Baseline de regla y dummy estimator",
+      "text": "Baseline de regla y dummy estimator"
+    },
+    {
+      "i": 11,
+      "len": 193,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un baseline de regla (p. ej. amount_7d > thr → review) y un dummy (siempre clase mayoritaria o aleatorio estratificado) anclan el valor del ML. Si el modelo no gana al baseline, no",
+      "text": "Un baseline de regla (p. ej. amount_7d > thr → review) y un dummy (siempre clase mayoritaria o aleatorio estratificado) anclan el valor del ML. Si el modelo no gana al baseline, no se promueve."
+    },
+    {
+      "i": 12,
+      "len": 143,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: rule_pred = [1 if x>thr else 0 for x in xs]; dummy predice mode(y). Comparas precision@k o F1 de review utility, no vanity accuracy.",
+      "text": "Mecanismo: rule_pred = [1 if x>thr else 0 for x in xs]; dummy predice mode(y). Comparas precision@k o F1 de review utility, no vanity accuracy."
+    },
+    {
+      "i": 13,
+      "len": 397,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: xs, thr, y. Salida: rule hits, dummy mode, beats_dummy flag. Error: reportar solo accuracy del modelo sin baseline. Por qué importa: si no fijas «xs, t",
+      "text": "Contrato operativo. Entrada: xs, thr, y. Salida: rule hits, dummy mode, beats_dummy flag. Error: reportar solo accuracy del modelo sin baseline. Por qué importa: si no fijas «xs, thr, y» → «rule hits, dummy mode, beats_dummy flag», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «reportar solo accuracy del modelo sin baseline» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 117,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T1B: thr=100 sobre montos sintéticos; dummy=0 (mayoría). Comparación honesta del workbench.",
+      "text": "Aplicación a CASO-LIM-033-T1B: thr=100 sobre montos sintéticos; dummy=0 (mayoría). Comparación honesta del workbench."
+    },
+    {
+      "i": 15,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Modelos lineales y regularización",
+      "text": "Modelos lineales y regularización"
+    },
+    {
+      "i": 16,
+      "len": 160,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Regresión logística (clasificación) y lineal (scores) con L2/L1 controlan coeficientes. Sin scaling, la regularización castiga features por magnitud arbitraria.",
+      "text": "Regresión logística (clasificación) y lineal (scores) con L2/L1 controlan coeficientes. Sin scaling, la regularización castiga features por magnitud arbitraria."
+    },
+    {
+      "i": 17,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: score lineal s = w·x + b; predicción 1 if s>=0 else 0. Penalización λ||w||² (idea L2). sklearn LogisticRegression es la referencia; aquí stdlib.",
+      "text": "Mecanismo didáctico: score lineal s = w·x + b; predicción 1 if s>=0 else 0. Penalización λ||w||² (idea L2). sklearn LogisticRegression es la referencia; aquí stdlib."
+    },
+    {
+      "i": 18,
+      "len": 402,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: w, x, b, scaled. Salida: score y pred. Error: regularizar features sin scale o interpretar coef como causalidad moral. Por qué importa: si no fijas «w,",
+      "text": "Contrato operativo. Entrada: w, x, b, scaled. Salida: score y pred. Error: regularizar features sin scale o interpretar coef como causalidad moral. Por qué importa: si no fijas «w, x, b, scaled» → «score y pred», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «regularizar features sin scale o interpretar coef como causalidad mora» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T2A: w=[0.5,-0.2], x=[2,1], b=0 → score 0.8. Baseline lineal del workbench.",
+      "text": "Aplicación a CASO-LIM-033-T2A: w=[0.5,-0.2], x=[2,1], b=0 → score 0.8. Baseline lineal del workbench."
+    },
+    {
+      "i": 20,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Coeficientes, supuestos y scaling",
+      "text": "Coeficientes, supuestos y scaling"
+    },
+    {
+      "i": 21,
+      "len": 180,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los coeficientes se leen con cautela: correlación ≠ causalidad; multicolinealidad hincha magnitudes. Documenta supuestos (linealidad en el logit, independencia) y el scaler fitted.",
+      "text": "Los coeficientes se leen con cautela: correlación ≠ causalidad; multicolinealidad hincha magnitudes. Documenta supuestos (linealidad en el logit, independencia) y el scaler fitted."
+    },
+    {
+      "i": 22,
+      "len": 144,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: reportas coef junto a feature_names y scaler_version. Si dos features son proxies, no culpes a la persona detrás del proxy sintético.",
+      "text": "Mecanismo: reportas coef junto a feature_names y scaler_version. Si dos features son proxies, no culpes a la persona detrás del proxy sintético."
+    },
+    {
+      "i": 23,
+      "len": 401,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: coef map, scaler_id. Salida: top coef por abs y disclaimer causal=False. Error: publicar ranking de 'culpa' por coef. Por qué importa: si no fijas «coe",
+      "text": "Contrato operativo. Entrada: coef map, scaler_id. Salida: top coef por abs y disclaimer causal=False. Error: publicar ranking de 'culpa' por coef. Por qué importa: si no fijas «coef map, scaler_id» → «top coef por abs y disclaimer causal=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «publicar ranking de 'culpa' por coef» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T2B: amount_7d coef 0.4 > shared_phone 0.1; causal False. Interpretación responsable.",
+      "text": "Aplicación a CASO-LIM-033-T2B: amount_7d coef 0.4 > shared_phone 0.1; causal False. Interpretación responsable."
+    },
+    {
+      "i": 25,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Árboles y ensambles (RF/boosting idea)",
+      "text": "Árboles y ensambles (RF/boosting idea)"
+    },
+    {
+      "i": 26,
+      "len": 169,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Árboles particionan el espacio con umbrales legibles; random forest / boosting promedian o corrigen errores. En el laboratorio usamos profundidad y voto mayoritario toy.",
+      "text": "Árboles particionan el espacio con umbrales legibles; random forest / boosting promedian o corrigen errores. En el laboratorio usamos profundidad y voto mayoritario toy."
+    },
+    {
+      "i": 27,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: stump pred = 1 if x>thr else 0; ensemble = moda de votos. Más profundidad ≠ mejor generalización.",
+      "text": "Mecanismo: stump pred = 1 if x>thr else 0; ensemble = moda de votos. Más profundidad ≠ mejor generalización."
+    },
+    {
+      "i": 28,
+      "len": 353,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: x, thr, votos. Salida: pred ensemble. Error: profundidad ilimitada sobre n pequeño sintético. Por qué importa: si no fijas «x, thr, votos» → «pred ense",
+      "text": "Contrato operativo. Entrada: x, thr, votos. Salida: pred ensemble. Error: profundidad ilimitada sobre n pequeño sintético. Por qué importa: si no fijas «x, thr, votos» → «pred ensemble», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «profundidad ilimitada sobre n pequeño sintético» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T3A: thr=10, votos [1,1,0] → 1. Ensamble didáctico del baseline.",
+      "text": "Aplicación a CASO-LIM-033-T3A: thr=10, votos [1,1,0] → 1. Ensamble didáctico del baseline."
+    },
+    {
+      "i": 30,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Overfit, profundidad y reproducibilidad",
+      "text": "Overfit, profundidad y reproducibilidad"
+    },
+    {
+      "i": 31,
+      "len": 155,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Overfit: train score >> val score. Controla max_depth / min_leaf, fija seed y registra hiperparámetros. Reproducibilidad es parte del gate del experimento.",
+      "text": "Overfit: train score >> val score. Controla max_depth / min_leaf, fija seed y registra hiperparámetros. Reproducibilidad es parte del gate del experimento."
+    },
+    {
+      "i": 32,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: gap = train_acc - val_acc; si gap > thr → overfit flag. seed en el tracker.",
+      "text": "Mecanismo: gap = train_acc - val_acc; si gap > thr → overfit flag. seed en el tracker."
+    },
+    {
+      "i": 33,
+      "len": 339,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: train_acc, val_acc, seed. Salida: overfit flag y seed. Error: solo reportar train acc. Por qué importa: si no fijas «train_acc, val_acc, seed» → «overf",
+      "text": "Contrato operativo. Entrada: train_acc, val_acc, seed. Salida: overfit flag y seed. Error: solo reportar train acc. Por qué importa: si no fijas «train_acc, val_acc, seed» → «overfit flag y seed», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo reportar train acc» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T3B: train 0.99 val 0.60 → overfit True, seed 42. No promover.",
+      "text": "Aplicación a CASO-LIM-033-T3B: train 0.99 val 0.60 → overfit True, seed 42. No promover."
+    },
+    {
+      "i": 35,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pipeline, tracking mínimo y CV apropiada",
+      "text": "Pipeline, tracking mínimo y CV apropiada"
+    },
+    {
+      "i": 36,
+      "len": 150,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El pipeline encadena preprocess+modelo. Tracking mínimo: run_id, metrics, params, feature_set. CV por grupo/tiempo (no KFold i.i.d. si hay entidades).",
+      "text": "El pipeline encadena preprocess+modelo. Tracking mínimo: run_id, metrics, params, feature_set. CV por grupo/tiempo (no KFold i.i.d. si hay entidades)."
+    },
+    {
+      "i": 37,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: lista de folds con entity groups disjuntos; media de metric por fold. Log run_id sintético.",
+      "text": "Mecanismo: lista de folds con entity groups disjuntos; media de metric por fold. Log run_id sintético."
+    },
+    {
+      "i": 38,
+      "len": 391,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: fold_scores, split_kind. Salida: mean score y split_kind=group_time. Error: CV aleatoria con leakage de entidad. Por qué importa: si no fijas «fold_sco",
+      "text": "Contrato operativo. Entrada: fold_scores, split_kind. Salida: mean score y split_kind=group_time. Error: CV aleatoria con leakage de entidad. Por qué importa: si no fijas «fold_scores, split_kind» → «mean score y split_kind=group_time», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «CV aleatoria con leakage de entidad» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 104,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T4A: scores [0.5,0.6,0.55] → mean 0.55, group_time. Experimento del workbench.",
+      "text": "Aplicación a CASO-LIM-033-T4A: scores [0.5,0.6,0.55] → mean 0.55, group_time. Experimento del workbench."
+    },
+    {
+      "i": 40,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Error analysis y cuándo el ML no agrega valor",
+      "text": "Error analysis y cuándo el ML no agrega valor"
+    },
+    {
+      "i": 41,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Error analysis: slices de FP/FN, confusiones por canal/región sintética, comparación vs baseline. Si Δmetric < umbral de negocio, no promueves el modelo.",
+      "text": "Error analysis: slices de FP/FN, confusiones por canal/región sintética, comparación vs baseline. Si Δmetric < umbral de negocio, no promueves el modelo."
+    },
+    {
+      "i": 42,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: delta = model - baseline; promote = delta >= min_lift. Documenta ejemplos sintéticos de error sin PII.",
+      "text": "Mecanismo: delta = model - baseline; promote = delta >= min_lift. Documenta ejemplos sintéticos de error sin PII."
+    },
+    {
+      "i": 43,
+      "len": 375,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: model_score, baseline_score, min_lift. Salida: promote bool y reason. Error: promover por hype sin lift. Por qué importa: si no fijas «model_score, bas",
+      "text": "Contrato operativo. Entrada: model_score, baseline_score, min_lift. Salida: promote bool y reason. Error: promover por hype sin lift. Por qué importa: si no fijas «model_score, baseline_score, min_lift» → «promote bool y reason», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «promover por hype sin lift» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-033-T4B: model 0.52 vs baseline 0.50, min_lift 0.05 → promote False. Honestidad del workbench.",
+      "text": "Aplicación a CASO-LIM-033-T4B: model 0.52 vs baseline 0.50, min_lift 0.05 → promote False. Honestidad del workbench."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 12036
+}

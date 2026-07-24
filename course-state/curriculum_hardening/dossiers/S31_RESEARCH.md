@@ -1,34 +1,15 @@
-# Research dossier — S31 Grafos y evidencia relacional
-
-**Section file:** `src/lib/course/sections/s31-streaming-data.ts`  
-**Updated:** 2026-07-23T00:32:19.351213+00:00
-
-## Competitive sources (all mandatory classes)
-
-### Coursera / MOOC
-- Coursera graph analytics intros
-- Social network analysis courses on Coursera
-
-### MIT
-- MIT 6.006 graph algorithms
-
-### Harvard
-- Harvard network science intros
-
-### Yale
-- Yale network courses
-
-### Stanford
-- Stanford CS224W (public)
-
-### GitHub
-- networkx/networkx examples
-
-### Video / tutorials
-- freeCodeCamp graph theory; NetworkX tutorials
-
-## Coverage gaps
-Shared contact ≠ fraud; structural signals only.
-
-## Depth decision
-Gold bar: theory contracts + weDo instructions ≥150 chars + **starterCode.code ≥120 chars** with fixture + single TODO. Progressive disclosure; synthetic Peru cases; no fraud auto-labels.
+# S31 RESEARCH
+When: 2026-07-24T04:38:48.782+00:00
+- NetworkX: https://networkx.org/documentation/stable/reference/classes/index.html
+- NetworkX: https://networkx.org/documentation/stable/tutorial.html
+- NetworkX: https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html
+- NetworkX: https://networkx.org/documentation/stable/reference/algorithms/centrality.html
+- Wikipedia: https://en.wikipedia.org/wiki/Graph_theory
+- W3C: https://www.w3.org/TR/prov-overview/
+- Neo4j: https://neo4j.com/docs/getting-started/data-modeling/
+- Stanford: https://snap.stanford.edu/
+- Coursera: https://www.coursera.org/courses?query=network%20analysis%20graph
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/

@@ -1,0 +1,945 @@
+{
+  "section": 33,
+  "title": "ML supervisado y baselines responsables",
+  "file": "s33-advanced-models.ts",
+  "n_required": 33,
+  "n_logged": 33,
+  "generated_at": "2026-07-24T04:42:25.457+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "target≠fraud; baseline first; prediction=queue priority not guilt",
+    "v3_retarget": "supervised baselines not opaque stacking sport",
+    "expert_pass_at": "2026-07-24T04:42:25.457+00:00"
+  },
+  "unique_foci": 33,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "unit target horizon framing",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        },
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 1/33: «unit target horizon framing» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unit target horizon framing».",
+      "expand_scope": "E1/E2/E3 + docs for «unit target horizon framing»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 1/33: «unit target horizon framing» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "reject fraud target name",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 2/33: «reject fraud target name» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject fraud target name».",
+      "expand_scope": "E1/E2/E3 + docs for «reject fraud target name»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 2/33: «reject fraud target name» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "needs_review_7d horizon 7",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 3/33: «needs_review_7d horizon 7» via Google, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «needs_review_7d horizon 7».",
+      "expand_scope": "E1/E2/E3 + docs for «needs_review_7d horizon 7»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 3/33: «needs_review_7d horizon 7» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "dummy majority baseline",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 4/33: «dummy majority baseline» via Google, ISL, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dummy majority baseline».",
+      "expand_scope": "E1/E2/E3 + docs for «dummy majority baseline»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 4/33: «dummy majority baseline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "simple rule threshold",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 5/33: «simple rule threshold» via Google, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «simple rule threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «simple rule threshold»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 5/33: «simple rule threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "cost fp fn queue impact",
+      "research": [
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 6/33: «cost fp fn queue impact» via Coursera, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost fp fn queue impact».",
+      "expand_scope": "E1/E2/E3 + docs for «cost fp fn queue impact»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 6/33: «cost fp fn queue impact» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "logistic sigmoid L2",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 7/33: «logistic sigmoid L2» via Coursera, MLflow, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «logistic sigmoid L2».",
+      "expand_scope": "E1/E2/E3 + docs for «logistic sigmoid L2»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 7/33: «logistic sigmoid L2» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "threshold queue priority not verdict",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 8/33: «threshold queue priority not verdict» via Coursera, MIT, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «threshold queue priority not verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «threshold queue priority not verdict»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 8/33: «threshold queue priority not verdict» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "scaled coef ranking",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 9/33: «scaled coef ranking» via Harvard, MIT, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «scaled coef ranking».",
+      "expand_scope": "E1/E2/E3 + docs for «scaled coef ranking»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 9/33: «scaled coef ranking» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "sign association not causality",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 10/33: «sign association not causality» via Harvard, MIT, Py4E (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sign association not causality».",
+      "expand_scope": "E1/E2/E3 + docs for «sign association not causality»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 10/33: «sign association not causality» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "stump depth one",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 11/33: «stump depth one» via Harvard, Live, Py4E (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stump depth one».",
+      "expand_scope": "E1/E2/E3 + docs for «stump depth one»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 11/33: «stump depth one» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "majority vote ensemble",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 12/33: «majority vote ensemble» via Live, Py4E, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «majority vote ensemble».",
+      "expand_scope": "E1/E2/E3 + docs for «majority vote ensemble»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 12/33: «majority vote ensemble» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "reject unlimited depth",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        },
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 13/33: «reject unlimited depth» via Live, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject unlimited depth».",
+      "expand_scope": "E1/E2/E3 + docs for «reject unlimited depth»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 13/33: «reject unlimited depth» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "overfit train valid gap",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        },
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 14/33: «overfit train valid gap» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «overfit train valid gap».",
+      "expand_scope": "E1/E2/E3 + docs for «overfit train valid gap»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 14/33: «overfit train valid gap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "seed reproducibility",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 15/33: «seed reproducibility» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «seed reproducibility».",
+      "expand_scope": "E1/E2/E3 + docs for «seed reproducibility»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 15/33: «seed reproducibility» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "experiment log metrics params",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 16/33: «experiment log metrics params» via Google, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «experiment log metrics params».",
+      "expand_scope": "E1/E2/E3 + docs for «experiment log metrics params»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 16/33: «experiment log metrics params» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "beats_dummy decision",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 17/33: «beats_dummy decision» via Google, ISL, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «beats_dummy decision».",
+      "expand_scope": "E1/E2/E3 + docs for «beats_dummy decision»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 17/33: «beats_dummy decision» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "group CV by entity",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 18/33: «group CV by entity» via Google, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «group CV by entity».",
+      "expand_scope": "E1/E2/E3 + docs for «group CV by entity»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 18/33: «group CV by entity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "error analysis FN slices",
+      "research": [
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 19/33: «error analysis FN slices» via Coursera, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «error analysis FN slices».",
+      "expand_scope": "E1/E2/E3 + docs for «error analysis FN slices»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 19/33: «error analysis FN slices» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CASO-LIM-033 synthetic",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 20/33: «CASO-LIM-033 synthetic» via Coursera, MLflow, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-LIM-033 synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-033 synthetic»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 20/33: «CASO-LIM-033 synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "V3 not stacking sport",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 21/33: «V3 not stacking sport» via Coursera, MIT, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not stacking sport».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not stacking sport»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 21/33: «V3 not stacking sport» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "pair bridge to S34 metrics",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 22/33: «pair bridge to S34 metrics» via Harvard, MIT, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge to S34 metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge to S34 metrics»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 22/33: «pair bridge to S34 metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "prevalence before train",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 23/33: «prevalence before train» via Harvard, MIT, Py4E (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prevalence before train».",
+      "expand_scope": "E1/E2/E3 + docs for «prevalence before train»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 23/33: «prevalence before train» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "regularization reported",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 24/33: «regularization reported» via Harvard, Live, Py4E (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «regularization reported».",
+      "expand_scope": "E1/E2/E3 + docs for «regularization reported»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 24/33: «regularization reported» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "pipeline tracking run_id",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 25/33: «pipeline tracking run_id» via Live, Py4E, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pipeline tracking run_id».",
+      "expand_scope": "E1/E2/E3 + docs for «pipeline tracking run_id»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 25/33: «pipeline tracking run_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "no auto fraud label",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        },
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 26/33: «no auto fraud label» via Live, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no auto fraud label».",
+      "expand_scope": "E1/E2/E3 + docs for «no auto fraud label»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 26/33: «no auto fraud label» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "baseline gate promote",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "DummyClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+          "note": "baseline"
+        },
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 27/33: «baseline gate promote» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «baseline gate promote».",
+      "expand_scope": "E1/E2/E3 + docs for «baseline gate promote»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 27/33: «baseline gate promote» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "tree vs dummy compare",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "LogisticRegression",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+          "note": "L2"
+        },
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 28/33: «tree vs dummy compare» via sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tree vs dummy compare».",
+      "expand_scope": "E1/E2/E3 + docs for «tree vs dummy compare»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 28/33: «tree vs dummy compare» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "params in experiment JSON",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Ensemble",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+          "note": "trees"
+        },
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 29/33: «params in experiment JSON» via Google, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «params in experiment JSON».",
+      "expand_scope": "E1/E2/E3 + docs for «params in experiment JSON»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 29/33: «params in experiment JSON» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "entity leakage random split ban",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Cross-validation",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+          "note": "GroupKFold"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 30/33: «entity leakage random split ban» via Google, ISL, sklearn (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «entity leakage random split ban».",
+      "expand_scope": "E1/E2/E3 + docs for «entity leakage random split ban»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 30/33: «entity leakage random split ban» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "workbench Red Andina",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "baseline first"
+        },
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 31/33: «workbench Red Andina» via Google, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «workbench Red Andina».",
+      "expand_scope": "E1/E2/E3 + docs for «workbench Red Andina»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 31/33: «workbench Red Andina» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "progressive disclosure APIs",
+      "research": [
+        {
+          "family": "ISL",
+          "title": "statlearning.com",
+          "url": "https://www.statlearning.com/",
+          "note": "regularization"
+        },
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 32/33: «progressive disclosure APIs» via Coursera, ISL, MLflow (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure APIs».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure APIs»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 32/33: «progressive disclosure APIs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "honest model comparison",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "supervised"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "ML metrics"
+        }
+      ],
+      "synthesize": "S33 «ML supervisado y baselines responsables» cycle 33/33: «honest model comparison» via Coursera, MLflow, deeplearning.ai (CASO-LIM-033 / CP-N3-B baselines).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «honest model comparison».",
+      "expand_scope": "E1/E2/E3 + docs for «honest model comparison»; V3 roadmap; pair S33 baselines → S34 metrics/thresholds close CP-N3-B.",
+      "re_synthesize": "Decision 33/33: «honest model comparison» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

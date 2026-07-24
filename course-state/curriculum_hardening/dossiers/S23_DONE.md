@@ -1,29 +1,9 @@
-# S23 DONE — gold expansion
-
-**Section:** `s23-computer-vision.ts` — Browser RPA con Playwright  
-**Date:** 2026-07-22  
-**Order:** reverse walk 26 → 24 → 23
-
-## Sizes (before → after)
-
-| Metric | Before | After | Δ |
-|--------|--------|-------|---|
-| Bytes | 41898 | 51990 | +10092 |
-| Lines | 1337 | 1376 | +39 |
-| Theory avg/min para chars | stub short | avg≈227 / min=182 | |
-| weDo instr avg/min chars | stub short | avg≈217 / min=151 | |
-
-## Checklist vs GOLD_STANDARD_CHECKLIST.md
-- [x] Theory ≥9 headings; ≥3 paragraphs × ≥180 chars (ES-PE, synthetic Peru cases)
-- [x] weDo 24 exercises; instructions ≥150 chars with I/O contracts + pass strings
-- [x] starterCode enriched (fixture + single TODO defect)
-- [x] solutionCode/outputs preserved (grader oracles)
-- [x] Progressive disclosure (no later-only APIs)
-- [x] No fraud claims from OCR/RPA/match scores; HITL/approve/fail-closed language
-- [x] TypeScript `tsc --noEmit` clean for section file
-- [x] Research dossier `S23_RESEARCH.md` (Coursera + MIT/Stanford/Harvard/Yale + GitHub + video)
-
-## Artifacts
-- `course-state/curriculum_hardening/dossiers/S23_RESEARCH.md`
-- `course-state/curriculum_hardening/dossiers/S23_DONE.md`
-- `src/lib/course/sections/s23-computer-vision.ts`
+# S23 DONE — expert gold S23–S35 band
+When: 2026-07-24T04:23:51.696+00:00
+Title: Browser RPA con Playwright
+STORM: n=23 hand_STORM_domain_sources
+PA rank ≥9.55
+Git: KEEP worktree
+soft_TODO=0 DEFECT=27
+Ethics: no CAPTCHA bypass; ToS abort; no real bank/SUNAT creds; synthetic fixture only
+V3: Browser RPA/Playwright not CNN computer vision

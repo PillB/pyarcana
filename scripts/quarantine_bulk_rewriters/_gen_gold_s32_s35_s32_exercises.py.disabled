@@ -1,0 +1,418 @@
+
+
+import os as _os, sys as _sys
+if _os.environ.get("FORCE_BULK_REWRITE") != "1":
+    _sys.stderr.write(
+        "REFUSED: bulk curriculum rewrite disabled (boilerplate risk).\n"
+        "Set FORCE_BULK_REWRITE=1 only for explicit emergency use.\n"
+    )
+    raise SystemExit(2)
+
+"""S32 weDo exercises (24) for gold lift."""
+from __future__ import annotations
+
+from common import ex_block
+
+CASE = "CASO-LIM-032"
+
+
+def build_s32_exercises() -> list[str]:
+    case = CASE
+    exercises = []
+    specs = [
+        ("S32-T1-A-E1", "S32-T1-A", "guided",
+         f"S32-T1-A-E1 · Catálogo: schema numeric=['amount_7d'], row con amount_7d y canal. Imprime lista numeric, unknown False y ok True. Starter marca unknown True (defect). Fixture {case}-1A; features ≠ fraude.",
+         "unknown = set(row) - allowed no vacío.",
+         ["Calcula allowed = unión de columnas del schema.", "unknown False si row ⊆ catalog."],
+         """schema = {"numeric": ["amount_7d"], "categorical": ["canal"]}
+row = {"amount_7d": 1.0, "canal": "app"}
+allowed = set(sum(schema.values(), []))
+unknown = not (set(row) <= allowed)
+print(sorted(schema["numeric"]))
+print("unknown", True)  # DEFECT
+print("ok", True)
+""",
+         """schema = {"numeric": ["amount_7d"], "categorical": ["canal"]}
+row = {"amount_7d": 1.0, "canal": "app"}
+allowed = set(sum(schema.values(), []))
+unknown = not (set(row) <= allowed)
+print(sorted(schema["numeric"]))
+print("unknown", unknown)
+print("ok", True)
+"""),
+        ("S32-T1-A-E2", "S32-T1-A", "independent",
+         f"S32-T1-A-E2 · note_len: note='hola mundo' → 10. Imprime note_len 10, dtype text, ok True. Starter usa len de tokens split (defect). {case}-1A sintético.",
+         "note_len = len(note) en caracteres.",
+         ["No uses split para note_len de catálogo texto.", "dtype text etiqueta el tipo."],
+         """note = "hola mundo"
+print("note_len", len(note.split()))  # DEFECT
+print("dtype", "text")
+print("ok", True)
+""",
+         """note = "hola mundo"
+print("note_len", len(note))
+print("dtype", "text")
+print("ok", True)
+"""),
+        ("S32-T1-A-E3", "S32-T1-A", "transfer",
+         f"S32-T1-A-E3 · Feature desconocida: row tiene 'hack_col'. Imprime REJECT_UNKNOWN_FEATURE, n_unknown 1, ok True. Starter acepta PASS (defect ético/técnico). Transfer {case}-1A.",
+         "Si set(row)-allowed no vacío → REJECT_UNKNOWN_FEATURE.",
+         ["No pases unknown a fit.", "n_unknown = len(extra keys)."],
+         """schema = {"numeric": ["amount_7d"]}
+row = {"amount_7d": 1.0, "hack_col": 9}
+extra = set(row) - set(sum(schema.values(), []))
+print("PASS")  # DEFECT
+print("n_unknown", 0)  # DEFECT
+print("ok", True)
+""",
+         """schema = {"numeric": ["amount_7d"]}
+row = {"amount_7d": 1.0, "hack_col": 9}
+extra = set(row) - set(sum(schema.values(), []))
+print("REJECT_UNKNOWN_FEATURE")
+print("n_unknown", len(extra))
+print("ok", True)
+"""),
+        ("S32-T1-B-E1", "S32-T1-B", "guided",
+         f"S32-T1-B-E1 · Missing indicator: vals=[1,None,3] → [False,True,False]. Imprime ind, filled con mediana 2, ok True. Starter rellena sin indicator (defect). {case}-1B.",
+         "ind = [v is None for v in vals]; fill con 2.",
+         ["No borres la señal de ausencia.", "Mediana de train=2 en el fixture."],
+         """vals = [1, None, 3]
+filled = [2 if v is None else v for v in vals]
+print(filled)  # DEFECT: falta indicator
+print(filled)
+print("ok", True)
+""",
+         """vals = [1, None, 3]
+ind = [v is None for v in vals]
+filled = [2 if v is None else v for v in vals]
+print(ind)
+print(filled)
+print("ok", True)
+"""),
+        ("S32-T1-B-E2", "S32-T1-B", "independent",
+         f"S32-T1-B-E2 · Z-score: x=4, mu=0, sd=2 → 2.0. Imprime 2.0, train_stats True, ok True. Starter olvida /sd (defect). {case}-1B.",
+         "z = (x - mu) / sd.",
+         ["Stats solo de train.", "sd=0 se documenta aparte."],
+         """x, mu, sd = 4, 0, 2
+print(x - mu)  # DEFECT
+print("train_stats", True)
+print("ok", True)
+""",
+         """x, mu, sd = 4, 0, 2
+print((x - mu) / sd)
+print("train_stats", True)
+print("ok", True)
+"""),
+        ("S32-T1-B-E3", "S32-T1-B", "transfer",
+         f"S32-T1-B-E3 · One-hot unknown: canal='ussd' no está en vocab={{app,web}}. Imprime col unknown 1, silent_fill False, ok True. Starter fuerza app (defect). {case}-1B.",
+         "Categoría fuera de vocab → columna unknown=1.",
+         ["No reasignes a moda en silencio en encoding estricto.", "silent_fill False."],
+         """vocab = {"app", "web"}
+canal = "ussd"
+print("unknown", 0)  # DEFECT
+print("silent_fill", True)  # DEFECT
+print("ok", True)
+""",
+         """vocab = {"app", "web"}
+canal = "ussd"
+print("unknown", 0 if canal in vocab else 1)
+print("silent_fill", False)
+print("ok", True)
+"""),
+        ("S32-T2-A-E1", "S32-T2-A", "guided",
+         f"S32-T2-A-E1 · shared_address: ambos 'Av1' → 1. Imprime shared 1, fraud_label False, ok True. Starter pone shared 0 (defect). {case}-2A; matching ≠ fraude.",
+         "shared = int(a['addr']==b['addr']).",
+         ["fraud_label False siempre en features.", "Matching es evidencia, no veredicto."],
+         """a, b = {"addr": "Av1"}, {"addr": "Av1"}
+print("shared", 0)  # DEFECT
+print("fraud_label", False)
+print("ok", True)
+""",
+         """a, b = {"addr": "Av1"}, {"addr": "Av1"}
+print("shared", int(a["addr"] == b["addr"]))
+print("fraud_label", False)
+print("ok", True)
+"""),
+        ("S32-T2-A-E2", "S32-T2-A", "independent",
+         f"S32-T2-A-E2 · degree: neighbors E1→[E2,E3] → 2. Imprime degree 2, auto_guilt False, ok True. Starter cuenta mal (defect). {case}-2A.",
+         "degree = len(neighbors[node]).",
+         ["auto_guilt False.", "Centralidad ≠ culpa."],
+         """neighbors = {"E1": ["E2", "E3"]}
+print("degree", len(neighbors))  # DEFECT
+print("auto_guilt", False)
+print("ok", True)
+""",
+         """neighbors = {"E1": ["E2", "E3"]}
+print("degree", len(neighbors["E1"]))
+print("auto_guilt", False)
+print("ok", True)
+"""),
+        ("S32-T2-A-E3", "S32-T2-A", "transfer",
+         f"S32-T2-A-E3 · path default: pair ausente → 99. Imprime path 99, label_as_feature False, ok True. Starter usa 0 (defect leakage-ish). {case}-2A.",
+         "path.get(pair, 99).",
+         ["Default alto = no conectados observados.", "Nunca uses label de decisión como feature."],
+         """path = {"E1-E2": 1}
+pair = "E1-E9"
+print("path", path.get(pair, 0))  # DEFECT default
+print("label_as_feature", False)
+print("ok", True)
+""",
+         """path = {"E1-E2": 1}
+pair = "E1-E9"
+print("path", path.get(pair, 99))
+print("label_as_feature", False)
+print("ok", True)
+"""),
+        ("S32-T2-B-E1", "S32-T2-B", "guided",
+         f"S32-T2-B-E1 · Half-open: events=[1,2,3,5], t=5, w=3 → count 2. Imprime count 2, includes_t False, ok True. Starter usa <=t (defect leakage). {case}-2B.",
+         "Condición: t-w <= ts < t.",
+         ["Excluye ts==t y futuro.", "count 2 con el fixture."],
+         """events, t, w = [1, 2, 3, 5], 5, 3
+cnt = sum(1 for ts in events if t - w <= ts <= t)  # DEFECT
+print("count", cnt)
+print("includes_t", False)
+print("ok", True)
+""",
+         """events, t, w = [1, 2, 3, 5], 5, 3
+cnt = sum(1 for ts in events if t - w <= ts < t)
+print("count", cnt)
+print("includes_t", False)
+print("ok", True)
+"""),
+        ("S32-T2-B-E2", "S32-T2-B", "independent",
+         f"S32-T2-B-E2 · Frecuencia canal: events app,app,web en ventana → app 2. Imprime app 2, policy half_open, ok True. Starter cuenta todos (defect). {case}-2B.",
+         "Filtra ventana y luego cuenta canal.",
+         ["No cuentes fuera de [t-w,t).", "policy half_open."],
+         """events = [{"ts": 1, "canal": "app"}, {"ts": 2, "canal": "app"}, {"ts": 5, "canal": "web"}]
+t, w = 5, 3
+from collections import Counter
+c = Counter(e["canal"] for e in events)  # DEFECT: no filtra ventana
+print("app", c["app"])
+print("policy", "half_open")
+print("ok", True)
+""",
+         """events = [{"ts": 1, "canal": "app"}, {"ts": 2, "canal": "app"}, {"ts": 5, "canal": "web"}]
+t, w = 5, 3
+from collections import Counter
+in_win = [e for e in events if t - w <= e["ts"] < t]
+c = Counter(e["canal"] for e in in_win)
+print("app", c["app"])
+print("policy", "half_open")
+print("ok", True)
+"""),
+        ("S32-T2-B-E3", "S32-T2-B", "transfer",
+         f"S32-T2-B-E3 · Detecta leakage: si count_with_t > count_half → leak True. events=[1,2,5], t=5, w=4. Imprime leak True, action fix_window, ok True. Starter leak False (defect). {case}-2B.",
+         "Compara políticas <t vs <=t.",
+         ["leak True exige corregir la ventana.", "action fix_window."],
+         """events, t, w = [1, 2, 5], 5, 4
+half = sum(1 for ts in events if t - w <= ts < t)
+closed = sum(1 for ts in events if t - w <= ts <= t)
+print("leak", False)  # DEFECT
+print("action", "fix_window")
+print("ok", True)
+""",
+         """events, t, w = [1, 2, 5], 5, 4
+half = sum(1 for ts in events if t - w <= ts < t)
+closed = sum(1 for ts in events if t - w <= ts <= t)
+print("leak", closed > half)
+print("action", "fix_window")
+print("ok", True)
+"""),
+        ("S32-T3-A-E1", "S32-T3-A", "guided",
+         f"S32-T3-A-E1 · Moda: xs=['app','app','web'] → mode app. Imprime mode app, fitted True, ok True. Starter toma min alfabético (defect). {case}-3A.",
+         "mode = max(set(xs), key=xs.count).",
+         ["fitted True tras fit.", "No uses min alfabético."],
+         """xs = ["app", "app", "web"]
+mode = min(set(xs))  # DEFECT
+print("mode", mode)
+print("fitted", True)
+print("ok", True)
+""",
+         """xs = ["app", "app", "web"]
+mode = max(set(xs), key=xs.count)
+print("mode", mode)
+print("fitted", True)
+print("ok", True)
+"""),
+        ("S32-T3-A-E2", "S32-T3-A", "independent",
+         f"S32-T3-A-E2 · Transform None→mode: mode='app', xs=[None,'web'] → ['app','web']. Imprime resultado, not_fitted False, ok True. Starter deja None (defect). {case}-3A.",
+         "Reemplaza None por mode.",
+         ["not_fitted False si mode está seteado.", "Lista de salida completa."],
+         """mode = "app"
+xs = [None, "web"]
+out = xs  # DEFECT
+print(out)
+print("not_fitted", False)
+print("ok", True)
+""",
+         """mode = "app"
+xs = [None, "web"]
+out = [mode if x is None else x for x in xs]
+print(out)
+print("not_fitted", False)
+print("ok", True)
+"""),
+        ("S32-T3-A-E3", "S32-T3-A", "transfer",
+         f"S32-T3-A-E3 · Not fitted: mode=None debe levantar flag. Imprime status REJECT_TRANSFORM_BEFORE_FIT, fitted False, ok True. Starter imprime PASS (defect). {case}-3A.",
+         "Si mode is None → REJECT_TRANSFORM_BEFORE_FIT.",
+         ["Fallo explícito, no silent.", "fitted False."],
+         """mode = None
+print("status", "PASS")  # DEFECT
+print("fitted", False)
+print("ok", True)
+""",
+         """mode = None
+status = "PASS" if mode is not None else "REJECT_TRANSFORM_BEFORE_FIT"
+print("status", status)
+print("fitted", False)
+print("ok", True)
+"""),
+        ("S32-T3-B-E1", "S32-T3-B", "guided",
+         f"S32-T3-B-E1 · Round-trip JSON: state median=2, version fs-v1. Imprime 2, version fs-v1, ok True. Starter pierde version (defect). {case}-3B.",
+         "json.loads(json.dumps(state)) conserva keys.",
+         ["No drops de version.", "median int."],
+         """import json
+state = {"median": 2, "version": "fs-v1"}
+loaded = json.loads(json.dumps({"median": state["median"]}))  # DEFECT
+print(loaded["median"])
+print("version", loaded.get("version", "missing"))
+print("ok", True)
+""",
+         """import json
+state = {"median": 2, "version": "fs-v1"}
+loaded = json.loads(json.dumps(state))
+print(loaded["median"])
+print("version", loaded["version"])
+print("ok", True)
+"""),
+        ("S32-T3-B-E2", "S32-T3-B", "independent",
+         f"S32-T3-B-E2 · Version bump: vocab_changed True desde fs-v1 → fs-v2. Imprime fs-v2, train_serve_same True, ok True. Starter deja fs-v1 (defect). {case}-3B.",
+         "Si vocab cambia, incrementa N en fs-vN.",
+         ["train_serve_same True tras bump aplicado en ambos.", "No sirvas vocab viejo."],
+         """version, vocab_changed = "fs-v1", True
+print(version)  # DEFECT
+print("train_serve_same", True)
+print("ok", True)
+""",
+         """version, vocab_changed = "fs-v1", True
+if vocab_changed:
+    n = int(version.split("-v")[1])
+    version = f"fs-v{n+1}"
+print(version)
+print("train_serve_same", True)
+print("ok", True)
+"""),
+        ("S32-T3-B-E3", "S32-T3-B", "transfer",
+         f"S32-T3-B-E3 · Apply train median en serve: batch [None,4], median=2 → [2,4]. Imprime [2, 4], skew_guard True, ok True. Starter usa 0 (defect skew). {case}-3B.",
+         "Fill con mediana de train, no 0 arbitrario.",
+         ["skew_guard True documenta train stats.", "None→median."],
+         """median = 2
+batch = [None, 4]
+print([0 if x is None else x for x in batch])  # DEFECT
+print("skew_guard", True)
+print("ok", True)
+""",
+         """median = 2
+batch = [None, 4]
+print([median if x is None else x for x in batch])
+print("skew_guard", True)
+print("ok", True)
+"""),
+        ("S32-T4-A-E1", "S32-T4-A", "guided",
+         f"S32-T4-A-E1 · Time split: rows e1@01-10, e2@02-10, cutoff 02-01 → n_train 1 n_test 1. Imprime counts, overlap 0, ok True. Starter invierte train/test (defect). {case}-4A.",
+         "train: ts < cutoff; test: ts >= cutoff.",
+         ["overlap de entidades 0 en el fixture.", "No shuffle aleatorio de entidades."],
+         """rows = [{"ts": "2026-01-10", "entity": "e1"}, {"ts": "2026-02-10", "entity": "e2"}]
+cutoff = "2026-02-01"
+train = [r for r in rows if r["ts"] >= cutoff]  # DEFECT inverted
+test = [r for r in rows if r["ts"] < cutoff]
+print("n_train", len(train), "n_test", len(test))
+print("overlap", 0)
+print("ok", True)
+""",
+         """rows = [{"ts": "2026-01-10", "entity": "e1"}, {"ts": "2026-02-10", "entity": "e2"}]
+cutoff = "2026-02-01"
+train = [r for r in rows if r["ts"] < cutoff]
+test = [r for r in rows if r["ts"] >= cutoff]
+print("n_train", len(train), "n_test", len(test))
+print("overlap", 0)
+print("ok", True)
+"""),
+        ("S32-T4-A-E2", "S32-T4-A", "independent",
+         f"S32-T4-A-E2 · Entity overlap: train [e1,e2] test [e2,e3] → overlap 1. Imprime overlap 1, breach REJECT_ENTITY_LEAK, ok True. Starter overlap 0 (defect). {case}-4A.",
+         "overlap = len(set(train)&set(test)).",
+         ["Si overlap>0 → REJECT_ENTITY_LEAK.", "Group split por entidad."],
+         """train_ids, test_ids = ["e1", "e2"], ["e2", "e3"]
+print("overlap", 0)  # DEFECT
+print("breach", "REJECT_ENTITY_LEAK")
+print("ok", True)
+""",
+         """train_ids, test_ids = ["e1", "e2"], ["e2", "e3"]
+print("overlap", len(set(train_ids) & set(test_ids)))
+print("breach", "REJECT_ENTITY_LEAK")
+print("ok", True)
+"""),
+        ("S32-T4-A-E3", "S32-T4-A", "transfer",
+         f"S32-T4-A-E3 · Group split limpio: train [e1] test [e2] → overlap 0, policy group_time, ok True. Starter marca policy random (defect). {case}-4A.",
+         "policy group_time documenta el split.",
+         ["overlap 0 es gate.", "No uses random shuffle de filas con entidades."],
+         """print("overlap", 0)
+print("policy", "random")  # DEFECT
+print("ok", True)
+""",
+         """print("overlap", 0)
+print("policy", "group_time")
+print("ok", True)
+"""),
+        ("S32-T4-B-E1", "S32-T4-B", "guided",
+         f"S32-T4-B-E1 · Leakage scan: names amount_7d, label_decision → ['label_decision']. Imprime lista, n_leaky 1, ok True. Starter lista vacía (defect). {case}-4B.",
+         "Filtra nombres con label/decision/target.",
+         ["n_leaky = len(leaky).", "No entrenes con esas columnas en X."],
+         """names = ["amount_7d", "label_decision"]
+leaky = []  # DEFECT
+print(leaky)
+print("n_leaky", len(leaky))
+print("ok", True)
+""",
+         """names = ["amount_7d", "label_decision"]
+banned = ("label", "decision", "target")
+leaky = [n for n in names if any(b in n for b in banned)]
+print(leaky)
+print("n_leaky", len(leaky))
+print("ok", True)
+"""),
+        ("S32-T4-B-E2", "S32-T4-B", "independent",
+         f"S32-T4-B-E2 · Skew: mu_train=1.0 mu_serve=5.0 thr=1.0 → skew True. Imprime skew True, feature_set fs-v2, ok True. Starter thr mal (defect). {case}-4B.",
+         "skew si abs(mu_train-mu_serve) > thr.",
+         ["feature_set fs-v2 tras detectar skew material.", "Documenta en PR."],
+         """mu_train, mu_serve, thr = 1.0, 5.0, 1.0
+print("skew", abs(mu_train - mu_serve) > 10)  # DEFECT thr
+print("feature_set", "fs-v2")
+print("ok", True)
+""",
+         """mu_train, mu_serve, thr = 1.0, 5.0, 1.0
+print("skew", abs(mu_train - mu_serve) > thr)
+print("feature_set", "fs-v2")
+print("ok", True)
+"""),
+        ("S32-T4-B-E3", "S32-T4-B", "transfer",
+         f"S32-T4-B-E3 · Gate features: leaky no vacío → section_passed False. Imprime section_passed False, reason leaky_feature, ok True. Starter passed True (defect). {case}-4B cierra S32.",
+         "Gate: sin leaky y version presente.",
+         ["section_passed False bloquea S33.", "reason leaky_feature."],
+         """leaky = ["label_decision"]
+version = "fs-v2"
+print("section_passed", True)  # DEFECT
+print("reason", "leaky_feature")
+print("ok", True)
+""",
+         """leaky = ["label_decision"]
+version = "fs-v2"
+print("section_passed", len(leaky) == 0 and bool(version))
+print("reason", "leaky_feature")
+print("ok", True)
+"""),
+    ]
+    for eid, st, kind, instr, hint, hints, starter, sol in specs:
+        exercises.append(ex_block(eid, st, kind, instr, hint, hints, starter, sol, case=case))
+    assert len(exercises) == 24
+    return exercises

@@ -1,0 +1,469 @@
+{
+  "index": 17,
+  "id": "packaging",
+  "title": "Joins, reshape, groupby y cierre analítico",
+  "file": "s17-packaging.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa)",
+      "len": 60
+    },
+    {
+      "i": 1,
+      "text": "En V3, S17 no es el path de pyproject.toml ni PyPI. El id de plataforma packaging se conserva, pero el camino del estudiante es el cierre de CP-N2-A: unir tablas sintéticas de clientes y transacciones, reshapes long/wide, agregaciones con groupby y un memo de reconciliación sin leakage temporal.",
+      "len": 296
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un portfolio ejecutivo de data quality + EDA con regiones ficticias (Lima, Cusco, Arequipa), cliente_id tipo C00x y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real.",
+      "len": 296
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Joins (claves, cardinalidad, validate, anti-join) → T2 Forma (concat, melt, pivot, nombres estables) → T3 Agregación (groupby/agg/transform, ventanas y cohortes) → T4 Reconciliación (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección.",
+      "len": 325
+    },
+    {
+      "i": 4,
+      "text": "claves y cardinalidad en joins",
+      "len": 30
+    },
+    {
+      "i": 5,
+      "text": "merge/join combina tablas por clave con how ∈ {inner, left, right, outer}. La cardinalidad esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales. En un maestro de clientes 1:1 la clave debe ser única; en transacciones 1:m es normal que un cliente_id se repita.",
+      "len": 332
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo: antes del merge verifica dtype alineado (ambos str tras normalización S16), unicidad de la clave en el lado 1 (Series.is_unique o nunique()==len) y cuenta filas pre/post. Si len(out) >> len(left) en un supuesto 1:1, hay fan-out o clave sucia — no sigas al EDA.",
+      "len": 280
+    },
+    {
+      "i": 7,
+      "text": "Caso sintético Perú: cli (C001 Lima, C002 Cusco) left-merge con tx (dos filas C001, ninguna C003). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx. Documenta rows_cli → rows_merge en el portfolio.",
+      "len": 229
+    },
+    {
+      "i": 8,
+      "text": "validate, duplicación accidental y anti-join",
+      "len": 44
+    },
+    {
+      "i": 9,
+      "text": "El parámetro validate='one_to_one'|'one_to_many'|... hace que pandas falle temprano con MergeError si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un nice-to-have: un m:m accidental multiplica filas y sesga sumas de montos.",
+      "len": 259
+    },
+    {
+      "i": 10,
+      "text": "indicator=True agrega la columna _merge con valores left_only / right_only / both. El anti-join clásico filtra left_only (clientes sin transacciones) o, al revés, right_only (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia.",
+      "len": 257
+    },
+    {
+      "i": 11,
+      "text": "Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas validate='one_to_one' con C001 duplicado en tx, debes capturar el error e imprimir un fallo controlado — no silenciar con except vacío.",
+      "len": 238
+    },
+    {
+      "i": 13,
+      "text": "concat apila filas (axis=0) o alinea columnas (axis=1). melt lleva wide→long (ideal para series por mes); pivot / pivot_table hacen long→wide para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",
+      "len": 301
+    },
+    {
+      "i": 14,
+      "text": "Contrato: declara id_vars / value_vars o index+columns+values, y en pivot_table fija aggfunc explícito (p. ej. sum) para no depender del default. Tras concat, usa ignore_index=True o keys= si necesitas trazabilidad del origen.",
+      "len": 226
+    },
+    {
+      "i": 15,
+      "text": "Fixture sintético: wide con columnas ene/feb por cliente_id → melt a (cliente_id,mes,monto) → pivot_table de regreso. Verifica len(long)==n_clientes*n_meses y que la suma de montos se conserve bajo aggfunc sum.",
+      "len": 210
+    },
+    {
+      "i": 16,
+      "text": "long/wide y nombres estables",
+      "len": 28
+    },
+    {
+      "i": 17,
+      "text": "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (ene, feb). El portfolio exige un schema estable: p. ej. cliente_id, monto_ene, monto_feb. Aplanar con f-strings o map y validar set(df.columns)==expected (el orden se documenta aparte si importa al export).",
+      "len": 274
+    },
+    {
+      "i": 18,
+      "text": "Contrato de nombres: lista ordenada en el memo del CP-N2-A; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere rename(columns={...}) con dict explícito sobre mutaciones ad hoc de .columns.",
+      "len": 211
+    },
+    {
+      "i": 19,
+      "text": "Caso: long (cliente_id,mes,monto) → pivot → prefijo monto_. Imprime columnas y un booleano de igualdad de sets. Si falta monto_feb, el gate de schema del portfolio debe fallar de forma explicable (concepto S16), no más adelante en el plot.",
+      "len": 239
+    },
+    {
+      "i": 20,
+      "text": "groupby / agg / transform",
+      "len": 25
+    },
+    {
+      "i": 21,
+      "text": "groupby + agg colapsa grupos a una fila por clave (resúmenes ejecutivos). transform reinyecta el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (total=('monto','sum')) documenta el contrato de columnas de salida.",
+      "len": 257
+    },
+    {
+      "i": 22,
+      "text": "Contrato: as_index=False facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar mean cuando la pregunta de negocio pide suma de PEN o conteos de clientes.",
+      "len": 205
+    },
+    {
+      "i": 23,
+      "text": "Caso sintético: regiones Lima/Cusco con montos → agg produce total y n; transform('mean') deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B).",
+      "len": 238
+    },
+    {
+      "i": 24,
+      "text": "ventanas, fechas y cohortes",
+      "len": 27
+    },
+    {
+      "i": 25,
+      "text": "rolling construye ventanas móviles sobre series ordenadas; resample requiere DatetimeIndex. Una cohorte etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
+      "len": 241
+    },
+    {
+      "i": 26,
+      "text": "Contrato: ordena por fecha antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = groupby(cliente_id)[fecha].transform('min').dt.to_period('M') (o equivalente estable).",
+      "len": 221
+    },
+    {
+      "i": 27,
+      "text": "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos.",
+      "len": 224
+    },
+    {
+      "i": 29,
+      "text": "Reconciliación ejecutiva: la suma de partes debe igualar el total de referencia (o la diferencia queda documentada con tolerancia abs(diff)<eps). Los denominadores de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo.",
+      "len": 275
+    },
+    {
+      "i": 30,
+      "text": "Contrato bridge: total → segmento_A → residual. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide.",
+      "len": 211
+    },
+    {
+      "i": 31,
+      "text": "Caso sintético: total nacional 100 PEN; partes Lima/Cusco/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime diff, reconciled y la tasa con su denominador explícito para el stakeholder no técnico.",
+      "len": 210
+    },
+    {
+      "i": 32,
+      "text": "leakage temporal y controles antes/después",
+      "len": 42
+    },
+    {
+      "i": 33,
+      "text": "Leakage temporal es usar información con fecha posterior al cutoff para features o métricas de un periodo “antes”. Invalida comparaciones before/after y cualquier score de “riesgo a enero” que mira febrero.",
+      "len": 206
+    },
+    {
+      "i": 34,
+      "text": "Controles: cutoff estricto (fecha <= t), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita sum_total - sum_pre como delta de leakage en el memo. As-of = “solo lo conocido a la fecha t”.",
+      "len": 207
+    },
+    {
+      "i": 35,
+      "text": "Caso: C001 con tx 10 PEN en ene y 999 en mar; cutoff 2024-01-31 → feature segura 10, leaky 1009, delta de leakage 999. El cierre CP-N2-A debe demostrar al menos un control as-of de este tipo en el script reproducible.",
+      "len": 217
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 60,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa)",
+      "text": "De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 296,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S17 no es el path de pyproject.toml ni PyPI. El id de plataforma packaging se conserva, pero el camino del estudiante es el cierre de CP-N2-A: unir tablas sintéticas de clie",
+      "text": "En V3, S17 no es el path de pyproject.toml ni PyPI. El id de plataforma packaging se conserva, pero el camino del estudiante es el cierre de CP-N2-A: unir tablas sintéticas de clientes y transacciones, reshapes long/wide, agregaciones con groupby y un memo de reconciliación sin leakage temporal."
+    },
+    {
+      "i": 2,
+      "len": 296,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un portfolio ejecutivo de data quality + EDA con regiones ficticias (Lima, Cusco, Arequipa), cliente_id tipo C00x y montos en PEN sintéticos. Entregable: datas",
+      "text": "El hilo conductor es un portfolio ejecutivo de data quality + EDA con regiones ficticias (Lima, Cusco, Arequipa), cliente_id tipo C00x y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real."
+    },
+    {
+      "i": 3,
+      "len": 325,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Joins (claves, cardinalidad, validate, anti-join) → T2 Forma (concat, melt, pivot, nombres estables) → T3 Agregación (groupby/agg/transform, ventanas y cohorte",
+      "text": "Orden pedagógico: T1 Joins (claves, cardinalidad, validate, anti-join) → T2 Forma (concat, melt, pivot, nombres estables) → T3 Agregación (groupby/agg/transform, ventanas y cohortes) → T4 Reconciliación (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección."
+    },
+    {
+      "i": 4,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "claves y cardinalidad en joins",
+      "text": "claves y cardinalidad en joins"
+    },
+    {
+      "i": 5,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "merge/join combina tablas por clave con how ∈ {inner, left, right, outer}. La cardinalidad esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out",
+      "text": "merge/join combina tablas por clave con how ∈ {inner, left, right, outer}. La cardinalidad esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales. En un maestro de clientes 1:1 la clave debe ser única; en transacciones 1:m es normal que un cliente_id se repita."
+    },
+    {
+      "i": 6,
+      "len": 280,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo: antes del merge verifica dtype alineado (ambos str tras normalización S16), unicidad de la clave en el lado 1 (Series.is_unique o nunique()==len) y cuenta filas",
+      "text": "Contrato operativo: antes del merge verifica dtype alineado (ambos str tras normalización S16), unicidad de la clave en el lado 1 (Series.is_unique o nunique()==len) y cuenta filas pre/post. Si len(out) >> len(left) en un supuesto 1:1, hay fan-out o clave sucia — no sigas al EDA."
+    },
+    {
+      "i": 7,
+      "len": 229,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético Perú: cli (C001 Lima, C002 Cusco) left-merge con tx (dos filas C001, ninguna C003). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx.",
+      "text": "Caso sintético Perú: cli (C001 Lima, C002 Cusco) left-merge con tx (dos filas C001, ninguna C003). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx. Documenta rows_cli → rows_merge en el portfolio."
+    },
+    {
+      "i": 8,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "validate, duplicación accidental y anti-join",
+      "text": "validate, duplicación accidental y anti-join"
+    },
+    {
+      "i": 9,
+      "len": 259,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El parámetro validate='one_to_one'|'one_to_many'|... hace que pandas falle temprano con MergeError si la cardinalidad real no coincide con el contrato. Es un quality gate de join, ",
+      "text": "El parámetro validate='one_to_one'|'one_to_many'|... hace que pandas falle temprano con MergeError si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un nice-to-have: un m:m accidental multiplica filas y sesga sumas de montos."
+    },
+    {
+      "i": 10,
+      "len": 257,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "indicator=True agrega la columna _merge con valores left_only / right_only / both. El anti-join clásico filtra left_only (clientes sin transacciones) o, al revés, right_only (tx hu",
+      "text": "indicator=True agrega la columna _merge con valores left_only / right_only / both. El anti-join clásico filtra left_only (clientes sin transacciones) o, al revés, right_only (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia."
+    },
+    {
+      "i": 11,
+      "len": 238,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas validate='one_to_one' con C001 duplicado en tx, debes capturar el error e imp",
+      "text": "Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas validate='one_to_one' con C001 duplicado en tx, debes capturar el error e imprimir un fallo controlado — no silenciar con except vacío."
+    },
+    {
+      "i": 13,
+      "len": 301,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "concat apila filas (axis=0) o alinea columnas (axis=1). melt lleva wide→long (ideal para series por mes); pivot / pivot_table hacen long→wide para reportes tabulares. Elige long cu",
+      "text": "concat apila filas (axis=0) o alinea columnas (axis=1). melt lleva wide→long (ideal para series por mes); pivot / pivot_table hacen long→wide para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo."
+    },
+    {
+      "i": 14,
+      "len": 226,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: declara id_vars / value_vars o index+columns+values, y en pivot_table fija aggfunc explícito (p. ej. sum) para no depender del default. Tras concat, usa ignore_index=True",
+      "text": "Contrato: declara id_vars / value_vars o index+columns+values, y en pivot_table fija aggfunc explícito (p. ej. sum) para no depender del default. Tras concat, usa ignore_index=True o keys= si necesitas trazabilidad del origen."
+    },
+    {
+      "i": 15,
+      "len": 210,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fixture sintético: wide con columnas ene/feb por cliente_id → melt a (cliente_id,mes,monto) → pivot_table de regreso. Verifica len(long)==n_clientes*n_meses y que la suma de montos",
+      "text": "Fixture sintético: wide con columnas ene/feb por cliente_id → melt a (cliente_id,mes,monto) → pivot_table de regreso. Verifica len(long)==n_clientes*n_meses y que la suma de montos se conserve bajo aggfunc sum."
+    },
+    {
+      "i": 16,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "long/wide y nombres estables",
+      "text": "long/wide y nombres estables"
+    },
+    {
+      "i": 17,
+      "len": 274,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (ene, feb). El portfolio exige un schema estable: p. ej. cliente_id, monto_ene, monto_feb. Aplanar con f-strings ",
+      "text": "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (ene, feb). El portfolio exige un schema estable: p. ej. cliente_id, monto_ene, monto_feb. Aplanar con f-strings o map y validar set(df.columns)==expected (el orden se documenta aparte si importa al export)."
+    },
+    {
+      "i": 18,
+      "len": 211,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de nombres: lista ordenada en el memo del CP-N2-A; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere rename(columns={...}) con dict explícito sobre",
+      "text": "Contrato de nombres: lista ordenada en el memo del CP-N2-A; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere rename(columns={...}) con dict explícito sobre mutaciones ad hoc de .columns."
+    },
+    {
+      "i": 19,
+      "len": 239,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: long (cliente_id,mes,monto) → pivot → prefijo monto_. Imprime columnas y un booleano de igualdad de sets. Si falta monto_feb, el gate de schema del portfolio debe fallar de f",
+      "text": "Caso: long (cliente_id,mes,monto) → pivot → prefijo monto_. Imprime columnas y un booleano de igualdad de sets. Si falta monto_feb, el gate de schema del portfolio debe fallar de forma explicable (concepto S16), no más adelante en el plot."
+    },
+    {
+      "i": 20,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "groupby / agg / transform",
+      "text": "groupby / agg / transform"
+    },
+    {
+      "i": 21,
+      "len": 257,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "groupby + agg colapsa grupos a una fila por clave (resúmenes ejecutivos). transform reinyecta el agregado al shape original (features a nivel fila: monto / media_región). Named agg",
+      "text": "groupby + agg colapsa grupos a una fila por clave (resúmenes ejecutivos). transform reinyecta el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (total=('monto','sum')) documenta el contrato de columnas de salida."
+    },
+    {
+      "i": 22,
+      "len": 205,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: as_index=False facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar mean cuando la pregunta de negocio pide suma de P",
+      "text": "Contrato: as_index=False facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar mean cuando la pregunta de negocio pide suma de PEN o conteos de clientes."
+    },
+    {
+      "i": 23,
+      "len": 238,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: regiones Lima/Cusco con montos → agg produce total y n; transform('mean') deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform ",
+      "text": "Caso sintético: regiones Lima/Cusco con montos → agg produce total y n; transform('mean') deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B)."
+    },
+    {
+      "i": 24,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "ventanas, fechas y cohortes",
+      "text": "ventanas, fechas y cohortes"
+    },
+    {
+      "i": 25,
+      "len": 241,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "rolling construye ventanas móviles sobre series ordenadas; resample requiere DatetimeIndex. Una cohorte etiqueta a cada cliente por el periodo de su primera observación válida (p. ",
+      "text": "rolling construye ventanas móviles sobre series ordenadas; resample requiere DatetimeIndex. Una cohorte etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy."
+    },
+    {
+      "i": 26,
+      "len": 221,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: ordena por fecha antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = groupby(cliente_id)[fecha].transform('min').d",
+      "text": "Contrato: ordena por fecha antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = groupby(cliente_id)[fecha].transform('min').dt.to_period('M') (o equivalente estable)."
+    },
+    {
+      "i": 27,
+      "len": 224,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causal",
+      "text": "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos."
+    },
+    {
+      "i": 29,
+      "len": 275,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reconciliación ejecutiva: la suma de partes debe igualar el total de referencia (o la diferencia queda documentada con tolerancia abs(diff)<eps). Los denominadores de tasas (pagado",
+      "text": "Reconciliación ejecutiva: la suma de partes debe igualar el total de referencia (o la diferencia queda documentada con tolerancia abs(diff)<eps). Los denominadores de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo."
+    },
+    {
+      "i": 30,
+      "len": 211,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato bridge: total → segmento_A → residual. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale",
+      "text": "Contrato bridge: total → segmento_A → residual. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide."
+    },
+    {
+      "i": 31,
+      "len": 210,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: total nacional 100 PEN; partes Lima/Cusco/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime diff, reconciled y la tasa con su denominador explícito p",
+      "text": "Caso sintético: total nacional 100 PEN; partes Lima/Cusco/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime diff, reconciled y la tasa con su denominador explícito para el stakeholder no técnico."
+    },
+    {
+      "i": 32,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "leakage temporal y controles antes/después",
+      "text": "leakage temporal y controles antes/después"
+    },
+    {
+      "i": 33,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Leakage temporal es usar información con fecha posterior al cutoff para features o métricas de un periodo “antes”. Invalida comparaciones before/after y cualquier score de “riesgo ",
+      "text": "Leakage temporal es usar información con fecha posterior al cutoff para features o métricas de un periodo “antes”. Invalida comparaciones before/after y cualquier score de “riesgo a enero” que mira febrero."
+    },
+    {
+      "i": 34,
+      "len": 207,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Controles: cutoff estricto (fecha <= t), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita sum_total - sum_pre como delta de leakage en el memo. As-of = “solo",
+      "text": "Controles: cutoff estricto (fecha <= t), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita sum_total - sum_pre como delta de leakage en el memo. As-of = “solo lo conocido a la fecha t”."
+    },
+    {
+      "i": 35,
+      "len": 217,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: C001 con tx 10 PEN en ene y 999 en mar; cutoff 2024-01-31 → feature segura 10, leaky 1009, delta de leakage 999. El cierre CP-N2-A debe demostrar al menos un control as-of de",
+      "text": "Caso: C001 con tx 10 PEN en ene y 999 en mar; cutoff 2024-01-31 → feature segura 10, leaky 1009, delta de leakage 999. El cierre CP-N2-A debe demostrar al menos un control as-of de este tipo en el script reproducible."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 12653
+}

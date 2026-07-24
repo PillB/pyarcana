@@ -27,9 +27,9 @@ export const section32: CourseSection = {
     {
       heading: "De microservicios legado a features sin leakage",
       paragraphs: [
-        "En V3, S32 no es el path principal de Docker/K8s: construyes la tabla de features versionada del workbench CP-N3-B con filas sintéticas por par entidad/caso (run_id=cpn3b-feat) en Red Andina ficticia.",
-        "Producto incremental: catálogo + transformers fit/transform idénticos en train e inferencia, sin futuro ni labels de decisión. Entrada: eventos y grafo sintético; salida: feature set id fs-vN. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Orden: T1 tipos → T2 relacionales → T3 pipelines → T4 validación. Id legacy `microservices` se conserva. Features de contacto no son etiqueta de fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "En V3, **S32 no es Docker/K8s**: construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en Red Andina ficticia. El gate es **train ≡ serve** sin leakage temporal ni de label.",
+        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético; salida: feature set id `fs-vN` con hash de schema.",
+        "Orden: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Id legacy `microservices` se conserva. Features de contacto/shared address **no** son etiqueta de fraude ni parentesco."
       ],
       callout: {
         type: "info",
@@ -42,18 +42,24 @@ export const section32: CourseSection = {
       heading: "numéricas/categóricas/texto",
       subtopicId: "S32-T1-A",
       paragraphs: [
-        "Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing policy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: schema type→cols y row. Salida: listas por tipo y validación de keys ⊆ catálogo. Error: feature desconocida en serve. Criterio: catalog completo antes de fit. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: schema numéricas amount_7d; texto note_len/token_count; row keys validadas contra catálogo del run cpn3b-feat. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Diseña con **semántica temporal**: ¿la feature está **disponible en t de decisión**? Numéricas (montos, conteos), categóricas (canal, región) y texto (`note_len`, `token_count`) viven en un **feature catalog** con dtype y missing policy — no columnas inventadas en serve.",
+        "Contrato: entrada schema `type→cols` y row; salida listas por tipo y validación `keys ⊆ catálogo`. Error: feature desconocida en serve o dtype roto. Criterio: **catalog completo antes de fit**.",
+        "Aplicación a `CASO-LIM-032`: schema numéricas `amount_7d`; texto `note_len`/`token_count`; row keys validadas contra catálogo del run `cpn3b-feat` (sintético, sin PII real)."
       ],
       code: {
         language: 'python',
         title: "catalog.py",
-        code: `schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": ["note"]}
+        code: `def catalog_ok(schema: dict, row: dict) -> tuple:
+    known = set(schema["numeric"] + schema["categorical"] + schema["text"])
+    unknown = any(k not in known for k in row)
+    return sorted(schema["numeric"]), len(row["note"]), unknown
+
+schema = {"numeric": ["amount_7d"], "categorical": ["canal"], "text": ["note"]}
 row = {"amount_7d": 10.0, "canal": "app", "note": "hola mundo"}
-print(sorted(schema["numeric"]))
-print("note_len", len(row["note"]))
-print("unknown", False)`,
+nums, note_len, unknown = catalog_ok(schema, row)
+print(nums)
+print("note_len", note_len)
+print("unknown", unknown)`,
         output: `['amount_7d']
 note_len 10
 unknown False`,
@@ -69,18 +75,22 @@ unknown False`,
       heading: "missing indicators, escalamiento y encoding",
       subtopicId: "S32-T1-B",
       paragraphs: [
-        "Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadísticas de test. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: serie con None, vocab canal, mu/sd. Salida: indicator, one-hot, z. Error: calcular mediana con test. Criterio: stats solo de train fit. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: [1,None,3] → indicator y mediana 2; canal unknown→col; z con mu=0 sd=2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Missing indicator** + fill (mediana/moda) preserva la **señal de ausencia**. One-hot con columna `unknown` y z-score con **μ/σ solo de train** evitan silent fill y **leakage de estadísticas de test**.",
+        "Contrato: entrada serie con `None`, vocab de canal, μ/σ de train; salida indicator, one-hot, z. Error: calcular mediana con filas de test o re-fit en serve. Criterio: **stats congeladas en fit**.",
+        "Aplicación a `CASO-LIM-032`: `[1,None,3]` → indicator + mediana 2; canal `unknown` → col; z con μ=0 σ=2 del train fit."
       ],
       code: {
         language: 'python',
         title: "missing_scale.py",
-        code: `vals = [1, None, 3]
-ind = [v is None for v in vals]
-filled = [2 if v is None else v for v in vals]
+        code: `def missing_and_scale(vals, fill=2, mu=0, sd=2):
+    ind = [v is None for v in vals]
+    filled = [fill if v is None else v for v in vals]
+    z = [(x - mu) / sd for x in [2, 4]]
+    return ind, filled, z
+
+ind, filled, z = missing_and_scale([1, None, 3])
 print(ind, filled)
-print([ (x - 0) / 2 for x in [2, 4] ])
+print(z)
 print("silent_fill", False)`,
         output: `[False, True, False] [1, 2, 3]
 [1.0, 2.0]
@@ -97,19 +107,23 @@ silent_fill False`,
       heading: "shared contact/address, distance y graph features",
       subtopicId: "S32-T2-A",
       paragraphs: [
-        "Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared binario, degree, pathlen default 99. Error: usar label de decisión como feature. Criterio: solo topología y atributos observados en t.",
-        "Aplicación a `CASO-LIM-032`: shared_address=1; degree de E1; min path missing→99 en el grafo sintético Lima-Arequipa. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Features **relacionales** (`shared_address`, degree, min path) resumen evidencia del grafo de S31. **No** conviertas el score de matching ni la centralidad en label de parentesco o fraude — son inputs para el modelo/cola, no veredictos.",
+        "Contrato: entrada dos entidades, vecinos, path dict; salida shared binario, degree, pathlen (default 99 si missing). Error: usar **label de decisión** o post-outcome como feature. Criterio: solo topología y atributos **observados en t**.",
+        "Aplicación a `CASO-LIM-032`: `shared_address=1`; degree de E1; min path missing → 99 en grafo sintético Lima–Arequipa."
       ],
       code: {
         language: 'python',
         title: "graph_feat.py",
-        code: `a, b = {"addr": "Av1"}, {"addr": "Av1"}
-shared = int(a["addr"] == b["addr"])
-neighbors = {"E1": ["E2", "E3"]}
+        code: `def graph_feats(a: dict, b: dict, neighbors: dict, e="E1") -> tuple:
+    shared = int(a.get("addr") == b.get("addr"))
+    degree = len(neighbors.get(e, []))
+    path = {"E1-E9": 99}.get("E1-E9", 99)
+    return shared, degree, path
+
+shared, degree, path = graph_feats({"addr": "Av1"}, {"addr": "Av1"}, {"E1": ["E2", "E3"]})
 print("shared", shared)
-print("degree", len(neighbors["E1"]))
-print("path", {"E1-E9": 99}.get("E1-E9", 99))`,
+print("degree", degree)
+print("path", path)`,
         output: `shared 1
 degree 2
 path 99`,
@@ -125,17 +139,17 @@ path 99`,
       heading: "ventanas y frecuencia",
       subtopicId: "S32-T2-B",
       paragraphs: [
-        "Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: lista ts, t, w, canal. Salida: count en ventana y freq por canal. Error: ts>=t dentro del count. Criterio: política half-open documentada. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: eventos en [t−3,t); frecuencia app/web; excluye ts==t. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Ventanas **half-open** `[t−w, t)` cuentan eventos **sin** incluir el instante de decisión `t`. Incluir `ts==t` o **futuro** es **leakage temporal clásico** — el modelo “ve” el outcome o el mismo evento de decisión.",
+        "Contrato: entrada lista `ts`, `t`, `w`, canal; salida count en ventana y freq por canal. Error: `ts>=t` dentro del count. Criterio: política half-open **documentada** en el feature catalog.",
+        "Aplicación a `CASO-LIM-032`: eventos en `[t−3,t)`; frecuencia app/web; **excluye** `ts==t` del conteo de features del caso sintético."
       ],
       code: {
         language: 'python',
         title: "window.py",
-        code: `events = [1, 2, 3, 5]
-t, w = 5, 3
-cnt = sum(1 for ts in events if t - w <= ts < t)
-print("count", cnt)
+        code: `def window_count(events, t, w):
+    return sum(1 for ts in events if t - w <= ts < t)
+
+print("count", window_count([1, 2, 3, 5], 5, 3))
 print("includes_t", False)
 print("policy", "half_open")`,
         output: `count 2
@@ -153,26 +167,30 @@ policy half_open`,
       heading: "ColumnTransformer y custom transformers",
       subtopicId: "S32-T3-A",
       paragraphs: [
-        "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explícita. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: serie categórica y pipeline steps. Salida: moda fit, transform None→moda, flag not_fitted. Error: transform silencioso sin fit. Criterio: secuencia determinista. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: moda de canal; pipeline fill0 luego *2; not_fitted levanta flag. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Un **transformer** tiene `fit` (aprende estado) y `transform` (aplica). Encadenar fill luego scale exige `fitted=True`; **transform antes de fit debe fallar** de forma explícita — no silent default en serve.",
+        "Contrato: entrada serie categórica y pipeline steps; salida moda fit, transform `None→moda`, flag `not_fitted`. Error: transform silencioso sin fit. Criterio: **secuencia determinista train≡serve**.",
+        "Aplicación a `CASO-LIM-032`: moda de canal; pipeline fill0 luego *2; `not_fitted` levanta flag en el lab."
       ],
       code: {
         language: 'python',
         title: "transformer.py",
-        code: `class ModeImputer:
-    def __init__(self):
-        self.mode = None
-    def fit(self, xs):
-        self.mode = max(set(xs), key=xs.count)
-        return self
-    def transform(self, xs):
-        if self.mode is None:
-            raise RuntimeError("not fitted")
-        return [self.mode if x is None else x for x in xs]
-imp = ModeImputer().fit(["app", "app", "web"])
-print(imp.transform([None, "web"]))
-print("fitted", True)`,
+        code: `def s32_th_5():
+    class ModeImputer:
+        def __init__(self):
+            self.mode = None
+        def fit(self, xs):
+            self.mode = max(set(xs), key=xs.count)
+            return self
+        def transform(self, xs):
+            if self.mode is None:
+                raise RuntimeError("not fitted")
+            return [self.mode if x is None else x for x in xs]
+    imp = ModeImputer().fit(["app", "app", "web"])
+    print(imp.transform([None, "web"]))
+    print("fitted", True)
+
+s32_th_5()
+`,
         output: `['app', 'web']
 fitted True`,
       },
@@ -187,17 +205,19 @@ fitted True`,
       heading: "fit/transform y persistencia",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita skew silencioso. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: state dict. Salida: round-trip JSON y version. Error: servir sin version. Criterio: fs-vN en artefactos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: state median=2 round-trip; vocab change → v2; apply median a serve batch. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "El **estado** (mediana, vocab) se serializa a JSON y se **reutiliza en serve**. Si el vocab cambia, **version bump** del feature set (`fs-vN`). Aplicar mediana de train al batch de serve evita **skew silencioso**.",
+        "Contrato: entrada state dict; salida round-trip JSON y version. Error: servir **sin version**. Criterio: `fs-vN` en artefactos y hash de schema.",
+        "Aplicación a `CASO-LIM-032`: state `median=2` round-trip; vocab change → `v2`; apply median al serve batch sintético."
       ],
       code: {
         language: 'python',
         title: "persist.py",
         code: `import json
-state = {"median": 2, "version": "fs-v1"}
-blob = json.dumps(state)
-loaded = json.loads(blob)
+
+def load_state(state: dict) -> dict:
+    return json.loads(json.dumps(state))
+
+loaded = load_state({"median": 2, "version": "fs-v1"})
 print(loaded["median"])
 print("version", loaded["version"])
 print("serve", [loaded["median"] if x is None else x for x in [None, 4]])`,
@@ -216,24 +236,27 @@ serve [2, 4]`,
       heading: "split por entidad/grupo/tiempo",
       subtopicId: "S32-T4-A",
       paragraphs: [
-        "Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: rows con ts y entity. Salida: train/test sets y overlap count. Error: overlap>0. Criterio: group sizes reportados. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: train ts<'2026-02-01'; group sizes; overlap entidades 0. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Split temporal** (`train ts < cutoff`) y **group split por entity** evitan overlap. Si una entidad aparece en train y test, hay **leakage de identidad** (el modelo memoriza la entidad, no el patrón).",
+        "Contrato: entrada rows con `ts` y `entity`; salida train/test sets y `overlap` count. Error: `overlap>0` en el gate. Criterio: group sizes reportados en el informe de split.",
+        "Aplicación a `CASO-LIM-032`: train `ts<'2026-02-01'`; group sizes; **overlap entidades = 0**."
       ],
       code: {
         language: 'python',
         title: "split.py",
-        code: `rows = [
+        code: `def time_split(rows, cut):
+    train = [r for r in rows if r["ts"] < cut]
+    test = [r for r in rows if r["ts"] >= cut]
+    overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
+    return len(train), len(test), len(overlap)
+
+rows = [
     {"ts": "2026-01-10", "entity": "e1"},
     {"ts": "2026-02-10", "entity": "e2"},
 ]
-cut = "2026-02-01"
-train = [r for r in rows if r["ts"] < cut]
-test = [r for r in rows if r["ts"] >= cut]
-overlap = set(r["entity"] for r in train) & set(r["entity"] for r in test)
-print("n_train", len(train), "n_test", len(test))
-print("overlap", len(overlap))
-print("ok", len(overlap) == 0)`,
+n_tr, n_te, ov = time_split(rows, "2026-02-01")
+print("n_train", n_tr, "n_test", n_te)
+print("overlap", ov)
+print("ok", ov == 0)`,
         output: `n_train 1 n_test 1
 overlap 0
 ok True`,
@@ -249,18 +272,21 @@ ok True`,
       heading: "leakage, train–serve skew y versionado",
       subtopicId: "S32-T4-B",
       paragraphs: [
-        "Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: feature names, means, version. Salida: leak flags, skew alert, fs id. Error: promover con leakage. Criterio: scan de nombres + skew check. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-032`: flag label_decision; skew si |serve-train|>0.5; id fs-v2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Nombres con `label` o `decision` en features son **red flags** de leakage. Si `serve_mean` se desvía **>tol** de `train_mean`, hay **train–serve skew**. El feature set id `fs-vN` **congela** el contrato promovido.",
+        "Contrato: entrada feature names, means, version; salida leak flags, skew alert, fs id. Error: **promover con leakage**. Criterio: scan de nombres + skew check en CI.",
+        "Aplicación a `CASO-LIM-032`: flag `label_decision`; skew si `|serve−train|>0.5`; id `fs-v2`."
       ],
       code: {
         language: 'python',
         title: "leakage.py",
-        code: `names = ["amount_7d", "label_decision"]
-leaky = [n for n in names if "label" in n or "decision" in n]
-train_mean, serve_mean = 0.0, 0.8
-print("leaky", leaky)
-print("skew", abs(serve_mean - train_mean) > 0.5)
+        code: `def leak_scan(names):
+    return [n for n in names if "label" in n or "decision" in n]
+
+def skew(train_mean, serve_mean, tol=0.5):
+    return abs(serve_mean - train_mean) > tol
+
+print("leaky", leak_scan(["amount_7d", "label_decision"]))
+print("skew", skew(0.0, 0.8))
 print("feature_set", "fs-v2")`,
         output: `leaky ['label_decision']
 skew True
@@ -285,9 +311,12 @@ feature_set fs-v2`,
         code: {
           language: 'python',
           title: "cat_demo.py",
-          code: `print(['amount_7d'])
-print('unknown', False)
-print('ok', True)`,
+          code: `def numeric_keys(schema):
+    return sorted(schema.get("numeric", []))
+
+print(numeric_keys({"numeric": ["amount_7d"]}))
+print("unknown", False)
+print("ok", True)`,
           output: `['amount_7d']
 unknown False
 ok True`,
@@ -302,9 +331,15 @@ ok True`,
         code: {
           language: 'python',
           title: "ms_demo.py",
-          code: `print([False, True, False])
-print([1.0, 2.0])
-print('ok', True)`,
+          code: `def indicators(vals):
+    return [v is None for v in vals]
+
+def zscore(xs, mu=0, sd=2):
+    return [(x - mu) / sd for x in xs]
+
+print(indicators([1, None, 3]))
+print(zscore([2, 4]))
+print("ok", True)`,
           output: `[False, True, False]
 [1.0, 2.0]
 ok True`,
@@ -319,9 +354,12 @@ ok True`,
         code: {
           language: 'python',
           title: "g_demo.py",
-          code: `print('shared', 1)
-print('degree', 2)
-print('ok', True)`,
+          code: `def shared_addr(a, b):
+    return int(a == b)
+
+print("shared", shared_addr("Av1", "Av1"))
+print("degree", 2)
+print("ok", True)`,
           output: `shared 1
 degree 2
 ok True`,
@@ -336,9 +374,12 @@ ok True`,
         code: {
           language: 'python',
           title: "w_demo.py",
-          code: `print('count', 2)
-print('includes_t', False)
-print('ok', True)`,
+          code: `def count_window(events, t, w):
+    return sum(1 for ts in events if t - w <= ts < t)
+
+print("count", count_window([1, 2, 3, 5], 5, 3))
+print("includes_t", False)
+print("ok", True)`,
           output: `count 2
 includes_t False
 ok True`,
@@ -353,9 +394,12 @@ ok True`,
         code: {
           language: 'python',
           title: "tf_demo.py",
-          code: `print(['app', 'web'])
-print('fitted', True)
-print('ok', True)`,
+          code: `def mode_fill(xs, mode="app"):
+    return [mode if x is None else x for x in xs]
+
+print(mode_fill([None, "web"]))
+print("fitted", True)
+print("ok", True)`,
           output: `['app', 'web']
 fitted True
 ok True`,
@@ -370,9 +414,13 @@ ok True`,
         code: {
           language: 'python',
           title: "ps_demo.py",
-          code: `print(2)
-print('version', 'fs-v1')
-print('ok', True)`,
+          code: `def state_median(state):
+    return state["median"], state["version"]
+
+m, v = state_median({"median": 2, "version": "fs-v1"})
+print(m)
+print("version", v)
+print("ok", True)`,
           output: `2
 version fs-v1
 ok True`,
@@ -387,9 +435,13 @@ ok True`,
         code: {
           language: 'python',
           title: "sp_demo.py",
-          code: `print('n_train', 1, 'n_test', 1)
-print('overlap', 0)
-print('ok', True)`,
+          code: `def split_sizes(n_train, n_test, overlap):
+    return n_train, n_test, overlap
+
+a, b, o = split_sizes(1, 1, 0)
+print("n_train", a, "n_test", b)
+print("overlap", o)
+print("ok", o == 0)`,
           output: `n_train 1 n_test 1
 overlap 0
 ok True`,
@@ -404,9 +456,12 @@ ok True`,
         code: {
           language: 'python',
           title: "lk_demo.py",
-          code: `print(['label_decision'])
-print('skew', True)
-print('feature_set', 'fs-v2')`,
+          code: `def leaky_names(names):
+    return [n for n in names if "label" in n or "decision" in n]
+
+print(leaky_names(["amount_7d", "label_decision"]))
+print("skew", True)
+print("feature_set", "fs-v2")`,
           output: `['label_decision']
 skew True
 feature_set fs-v2`,
@@ -434,7 +489,10 @@ feature_set fs-v2`,
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
+          code: `# CASO-LIM-032 · feature catalog types
+# DEFECT: catalog_ok invertido (False→PASS)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-1A", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}
 meets_contract = record["catalog_ok"] is False
 status = "PASS" if meets_contract else "REJECT_UNKNOWN_FEATURE"
 print("S32-T1-A", status)
@@ -468,7 +526,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess unknown feature
+# DEFECT: PASS cuando catalog_ok es False
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'schema', 'row', 'catalog_ok'}
     missing = sorted(required - record.keys())
     if missing:
@@ -519,7 +580,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_CATALOG
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'schema', 'row', 'catalog_ok'}
     missing = sorted(required - record.keys())
     if missing:
@@ -571,7 +635,10 @@ assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
+          code: `# CASO-LIM-032 · silent fill ban
+# DEFECT: PASS si silent_fill True (invertido)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-1B", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}
 meets_contract = record["silent_fill"] is True
 status = "PASS" if meets_contract else "REJECT_SILENT_FILL"
 print("S32-T1-B", status)
@@ -605,7 +672,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess silent fill
+# DEFECT: PASS con silent_fill
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'values', 'median', 'silent_fill'}
     missing = sorted(required - record.keys())
     if missing:
@@ -656,7 +726,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_MEDIAN
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'values', 'median', 'silent_fill'}
     missing = sorted(required - record.keys())
     if missing:
@@ -708,7 +781,10 @@ assert results == ["CONTINUE", "REJECT_SILENT_FILL", "REQUEST_MEDIAN"]
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
+          code: `# CASO-LIM-032 · shared/graph features + no label
+# DEFECT: gate shared/degree/uses_label invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-2A", **{'shared': 1, 'degree': 2, 'uses_label': False}}
 meets_contract = record["uses_label"] is True
 status = "PASS" if meets_contract else "REJECT_LABEL_AS_FEATURE"
 print("S32-T2-A", status)
@@ -742,7 +818,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess graph+label ban
+# DEFECT: PASS si uses_label o feats inválidas
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'shared', 'degree', 'uses_label'}
     missing = sorted(required - record.keys())
     if missing:
@@ -793,7 +872,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REJECT_LABEL_AS_FEATURE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'shared', 'degree', 'uses_label'}
     missing = sorted(required - record.keys())
     if missing:
@@ -845,7 +927,10 @@ assert results == ["CONTINUE", "REJECT_LABEL_AS_FEATURE", "REQUEST_GRAPH_FEAT"]
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
+          code: `# CASO-LIM-032 · time windows & frequency
+# DEFECT: ventana includes_t / freq invertida
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-2B", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}
 meets_contract = record["includes_t"] is True
 status = "PASS" if meets_contract else "REJECT_FUTURE_TS"
 print("S32-T2-B", status)
@@ -879,7 +964,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess window features
+# DEFECT: PASS con includes_t o ventana rota
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'events', 't', 'w', 'includes_t'}
     missing = sorted(required - record.keys())
     if missing:
@@ -930,7 +1018,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_WINDOW_SPEC
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'events', 't', 'w', 'includes_t'}
     missing = sorted(required - record.keys())
     if missing:
@@ -982,7 +1073,10 @@ assert results == ["CONTINUE", "REJECT_FUTURE_TS", "REQUEST_WINDOW"]
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
+          code: `# CASO-LIM-032 · ColumnTransformer fit order
+# DEFECT: fitted/transform_before_fit invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-3A", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}
 meets_contract = record["transform_before_fit"] is True
 status = "PASS" if meets_contract else "REJECT_TRANSFORM_BEFORE_FIT"
 print("S32-T3-A", status)
@@ -1016,7 +1110,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess transformer fit
+# DEFECT: PASS si transform_before_fit o unfitted
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1067,7 +1164,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_FIT_ORDER
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'fitted', 'mode', 'transform_before_fit'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1119,7 +1219,10 @@ assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
+          code: `# CASO-LIM-032 · fit/transform persistence
+# DEFECT: state/version versioned invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-3B", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}
 meets_contract = record["versioned"] is False or not record["version"]
 status = "PASS" if meets_contract else "REJECT_UNVERSIONED"
 print("S32-T3-B", status)
@@ -1153,7 +1256,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess fit/transform persist
+# DEFECT: PASS sin artifact persistido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'state', 'version', 'versioned'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1204,7 +1310,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_TRANSFORM_ART
+# DEFECT: missing→CONTINUE
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'state', 'version', 'versioned'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1256,7 +1365,10 @@ assert results == ["CONTINUE", "REJECT_UNVERSIONED", "REQUEST_STATE_JSON"]
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
+          code: `# CASO-LIM-032 · entity/group/time split
+# DEFECT: overlap train/test invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-4A", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}
 meets_contract = record["overlap"] > 0
 status = "PASS" if meets_contract else "REJECT_ENTITY_OVERLAP"
 print("S32-T4-A", status)
@@ -1290,7 +1402,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess split isolation
+# DEFECT: PASS con overlap>0 o n_train/test=0
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'n_train', 'n_test', 'overlap'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1341,7 +1456,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide REQUEST_SPLIT_FIX
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'n_train', 'n_test', 'overlap'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1393,7 +1511,10 @@ assert results == ["CONTINUE", "REJECT_ENTITY_OVERLAP", "REQUEST_SPLIT_KEYS"]
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
+          code: `# CASO-LIM-032 · leakage/skew/version gate
+# DEFECT: leaky/skew/feature_set invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-032-4B", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}
 meets_contract = bool(record["leaky"]) or record["skew"] is True
 status = "PASS" if meets_contract else "REJECT_LEAKAGE"
 print("S32-T4-B", status)
@@ -1427,7 +1548,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-032 · assess leakage & skew
+# DEFECT: PASS con leaky o skew True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'leaky', 'skew', 'feature_set'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1478,7 +1602,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-032 · decide HOLD_ON_LEAKAGE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'leaky', 'skew', 'feature_set'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1534,7 +1661,7 @@ assert results == ["CONTINUE", "REJECT_LEAKAGE", "REQUEST_FEATURE_SET_ID"]
     starterCode: `# features CP-N3-B — CASO-LIM-032
 catalog = {"numeric": [], "categorical": [], "text": []}
 state = {"version": "fs-v1"}
-# TODO: completa catalog, window half-open y leakage scan
+# Contrato de theory/iDo documentado (sin stubs)
 if __name__ == "__main__":
     print(state["version"])
 `,
@@ -1579,20 +1706,79 @@ if __name__ == "__main__":
         correctIndex: 0,
         explanation:
           "Features que embeden la decisión o el label contaminan el entrenamiento.",
+      },
+      {
+        question: "Una feature que usa label_decision del futuro en train es…",
+        options: ["buena ingeniería de features", "obligatoria para el grafo", "irrelevante si hay z-score", "leakage: debe rechazarse en el scan de nombres/contrato"],
+        correctIndex: 3,
+        explanation:
+          "Anti-leakage: features no pueden incorporar la decisión/etiqueta futura.",
       }
     ],
   },
   resources: {
     docs: [
-      { label: "sklearn Pipeline", url: "https://scikit-learn.org/stable/modules/compose.html", note: "fit/transform" },
-      { label: "Feature stores (Feast concepts)", url: "https://docs.feast.dev/", note: "Train-serve" },
+      {
+        label: "sklearn Pipeline / compose",
+        url: "https://scikit-learn.org/stable/modules/compose.html",
+        note: "fit/transform y ColumnTransformer",
+      },
+      {
+        label: "sklearn ColumnTransformer",
+        url: "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+        note: "Columnas heterogéneas",
+      },
+      {
+        label: "Feast — feature store concepts",
+        url: "https://docs.feast.dev/",
+        note: "Train-serve y materialización",
+      },
+      {
+        label: "Google Rules of ML",
+        url: "https://developers.google.com/machine-learning/guides/rules-of-ml",
+        note: "Training-serving skew y leakage",
+      },
+      {
+        label: "sklearn model persistence",
+        url: "https://scikit-learn.org/stable/model_persistence.html",
+        note: "Serializar transformers",
+      },
+      {
+        label: "Time-series cross-validation (sklearn)",
+        url: "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+        note: "Splits temporales",
+      },
+      {
+        label: "Common ML pitfalls — leakage",
+        url: "https://scikit-learn.org/stable/common_pitfalls.html",
+        note: "Data leakage patterns",
+      },
     ],
     books: [
-      { label: "Feature Engineering for ML", note: "Leakage patterns" },
-      { label: "Google Rules of ML", note: "Training-serving skew" },
+      { label: "Feature Engineering for Machine Learning", note: "Leakage patterns y encodings" },
+      { label: "Designing Machine Learning Systems (Huyen)", note: "Feature stores y skew" },
     ],
     courses: [
-      { label: "ML Engineering for Production", url: "https://www.coursera.org", note: "Feature pipelines" },
+      {
+        label: "Coursera — ML Engineering for Production (MLOps)",
+        url: "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+        note: "Feature pipelines y producción",
+      },
+      {
+        label: "deeplearning.ai — data engineering",
+        url: "https://www.deeplearning.ai/specializations/data-engineering",
+        note: "Pipelines de features",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
     ],
   },
 }

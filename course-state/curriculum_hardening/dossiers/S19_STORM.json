@@ -1,0 +1,576 @@
+{
+  "section": 19,
+  "title": "Visualización y comunicación accesible",
+  "file": "s19-databases-orm.ts",
+  "n_required": 19,
+  "n_logged": 19,
+  "generated_at": "2026-07-24T05:21:59.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 27 > HEAD 0",
+    "ethics": "honest axes; no overclaim; alt text; synthetic only",
+    "v3_retarget": "viz accessible CP-N2-B not databases ORM",
+    "expert_pass_at": "2026-07-24T05:21:59.000+00:00",
+    "theater_strip": "removed workbench boilerplate ×23",
+    "resources_expanded": true
+  },
+  "unique_foci": 19,
+  "source_url_count": 19,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget viz accessible not ORM",
+      "research": [
+        {
+          "family": "Matplotlib",
+          "title": "tutorials",
+          "url": "https://matplotlib.org/stable/tutorials/index.html",
+          "note": "figures export"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "cheatsheets",
+          "url": "https://matplotlib.org/cheatsheets/",
+          "note": "API quick"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "colormaps",
+          "url": "https://matplotlib.org/stable/users/explain/colors/colormaps.html",
+          "note": "color contrast"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 1/19: «V3 retarget viz accessible not ORM» via Matplotlib (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget viz accessible not ORM».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget viz accessible not ORM»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 1/19: «V3 retarget viz accessible not ORM» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "chart choice by question audience",
+      "research": [
+        {
+          "family": "Matplotlib",
+          "title": "cheatsheets",
+          "url": "https://matplotlib.org/cheatsheets/",
+          "note": "API quick"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "colormaps",
+          "url": "https://matplotlib.org/stable/users/explain/colors/colormaps.html",
+          "note": "color contrast"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG contrast",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 2/19: «chart choice by question audience» via Matplotlib, W3C (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «chart choice by question audience».",
+      "expand_scope": "E1/E2/E3 + docs for «chart choice by question audience»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 2/19: «chart choice by question audience» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "one idea per figure metadata",
+      "research": [
+        {
+          "family": "Matplotlib",
+          "title": "colormaps",
+          "url": "https://matplotlib.org/stable/users/explain/colors/colormaps.html",
+          "note": "color contrast"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG contrast",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+          "note": "a11y"
+        },
+        {
+          "family": "Seaborn",
+          "title": "tutorial",
+          "url": "https://seaborn.pydata.org/tutorial.html",
+          "note": "optional style"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 3/19: «one idea per figure metadata» via Matplotlib, W3C, Seaborn (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «one idea per figure metadata».",
+      "expand_scope": "E1/E2/E3 + docs for «one idea per figure metadata»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 3/19: «one idea per figure metadata» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "honest bar axes baseline zero",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG contrast",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+          "note": "a11y"
+        },
+        {
+          "family": "Seaborn",
+          "title": "tutorial",
+          "url": "https://seaborn.pydata.org/tutorial.html",
+          "note": "optional style"
+        },
+        {
+          "family": "DVS",
+          "title": "Data Visualization Society",
+          "url": "https://www.datavisualizationsociety.org/",
+          "note": "ethics viz"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 4/19: «honest bar axes baseline zero» via W3C, Seaborn, DVS (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «honest bar axes baseline zero».",
+      "expand_scope": "E1/E2/E3 + docs for «honest bar axes baseline zero»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 4/19: «honest bar axes baseline zero» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "encoding position over dual axis",
+      "research": [
+        {
+          "family": "Seaborn",
+          "title": "tutorial",
+          "url": "https://seaborn.pydata.org/tutorial.html",
+          "note": "optional style"
+        },
+        {
+          "family": "DVS",
+          "title": "Data Visualization Society",
+          "url": "https://www.datavisualizationsociety.org/",
+          "note": "ethics viz"
+        },
+        {
+          "family": "Data to Viz",
+          "title": "from data to viz",
+          "url": "https://www.data-to-viz.com/",
+          "note": "chart choice"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 5/19: «encoding position over dual axis» via Seaborn, DVS, Data to Viz (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «encoding position over dual axis».",
+      "expand_scope": "E1/E2/E3 + docs for «encoding position over dual axis»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 5/19: «encoding position over dual axis» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "Matplotlib Agg backend CI",
+      "research": [
+        {
+          "family": "DVS",
+          "title": "Data Visualization Society",
+          "url": "https://www.datavisualizationsociety.org/",
+          "note": "ethics viz"
+        },
+        {
+          "family": "Data to Viz",
+          "title": "from data to viz",
+          "url": "https://www.data-to-viz.com/",
+          "note": "chart choice"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 6/19: «Matplotlib Agg backend CI» via DVS, Data to Viz, Coursera (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Matplotlib Agg backend CI».",
+      "expand_scope": "E1/E2/E3 + docs for «Matplotlib Agg backend CI»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 6/19: «Matplotlib Agg backend CI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "ylabel units ylim contract tests",
+      "research": [
+        {
+          "family": "Data to Viz",
+          "title": "from data to viz",
+          "url": "https://www.data-to-viz.com/",
+          "note": "chart choice"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 7/19: «ylabel units ylim contract tests» via Data to Viz, Coursera, MIT (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «ylabel units ylim contract tests».",
+      "expand_scope": "E1/E2/E3 + docs for «ylabel units ylim contract tests»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 7/19: «ylabel units ylim contract tests» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "subplots compose annotations export",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 8/19: «subplots compose annotations export» via Coursera, MIT, Harvard (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «subplots compose annotations export».",
+      "expand_scope": "E1/E2/E3 + docs for «subplots compose annotations export»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 8/19: «subplots compose annotations export» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "versioned PNG dpi tight bbox",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 9/19: «versioned PNG dpi tight bbox» via MIT, Harvard, Live (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «versioned PNG dpi tight bbox».",
+      "expand_scope": "E1/E2/E3 + docs for «versioned PNG dpi tight bbox»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 9/19: «versioned PNG dpi tight bbox» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "filter tooltip model not full Plotly app",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 10/19: «filter tooltip model not full Plotly app» via Harvard, Live, GitHub (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «filter tooltip model not full Plotly app».",
+      "expand_scope": "E1/E2/E3 + docs for «filter tooltip model not full Plotly app»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 10/19: «filter tooltip model not full Plotly app» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "accessible table alternative",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "Matplotlib guide",
+          "url": "https://realpython.com/python-matplotlib-guide/",
+          "note": "figures"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 11/19: «accessible table alternative» via Live, GitHub, Real Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «accessible table alternative».",
+      "expand_scope": "E1/E2/E3 + docs for «accessible table alternative»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 11/19: «accessible table alternative» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "performance limit series points",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "Matplotlib guide",
+          "url": "https://realpython.com/python-matplotlib-guide/",
+          "note": "figures"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 12/19: «performance limit series points» via GitHub, Real Python (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «performance limit series points».",
+      "expand_scope": "E1/E2/E3 + docs for «performance limit series points»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 12/19: «performance limit series points» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "units source limitations caption",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Matplotlib guide",
+          "url": "https://realpython.com/python-matplotlib-guide/",
+          "note": "figures"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Wilke",
+          "title": "Fundamentals of Data Visualization",
+          "url": "https://clauswilke.com/dataviz/",
+          "note": "encodings honesty"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 13/19: «units source limitations caption» via Real Python, GitHub, Wilke (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «units source limitations caption».",
+      "expand_scope": "E1/E2/E3 + docs for «units source limitations caption»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 13/19: «units source limitations caption» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "contrast WCAG no sole color channel",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Wilke",
+          "title": "Fundamentals of Data Visualization",
+          "url": "https://clauswilke.com/dataviz/",
+          "note": "encodings honesty"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "pyplot",
+          "url": "https://matplotlib.org/stable/api/pyplot_summary.html",
+          "note": "API"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 14/19: «contrast WCAG no sole color channel» via GitHub, Wilke, Matplotlib (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «contrast WCAG no sole color channel».",
+      "expand_scope": "E1/E2/E3 + docs for «contrast WCAG no sole color channel»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 14/19: «contrast WCAG no sole color channel» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "alt text no overclaim",
+      "research": [
+        {
+          "family": "Wilke",
+          "title": "Fundamentals of Data Visualization",
+          "url": "https://clauswilke.com/dataviz/",
+          "note": "encodings honesty"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "pyplot",
+          "url": "https://matplotlib.org/stable/api/pyplot_summary.html",
+          "note": "API"
+        },
+        {
+          "family": "W3C",
+          "title": "alt text concepts",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 15/19: «alt text no overclaim» via Wilke, Matplotlib, W3C (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «alt text no overclaim».",
+      "expand_scope": "E1/E2/E3 + docs for «alt text no overclaim»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 15/19: «alt text no overclaim» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "synthetic regional KPI PEN",
+      "research": [
+        {
+          "family": "Matplotlib",
+          "title": "pyplot",
+          "url": "https://matplotlib.org/stable/api/pyplot_summary.html",
+          "note": "API"
+        },
+        {
+          "family": "W3C",
+          "title": "alt text concepts",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 16/19: «synthetic regional KPI PEN» via Matplotlib, W3C, GitHub (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic regional KPI PEN».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic regional KPI PEN»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 16/19: «synthetic regional KPI PEN» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "avoid pie 3d for executives",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "alt text concepts",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS448B viz concepts",
+          "url": "https://hci.stanford.edu/courses/cs448b/",
+          "note": "viz design"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 17/19: «avoid pie 3d for executives» via W3C, GitHub, Stanford (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «avoid pie 3d for executives».",
+      "expand_scope": "E1/E2/E3 + docs for «avoid pie 3d for executives»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 17/19: «avoid pie 3d for executives» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "reproducible build_figure seed",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS448B viz concepts",
+          "url": "https://hci.stanford.edu/courses/cs448b/",
+          "note": "viz design"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "tutorials",
+          "url": "https://matplotlib.org/stable/tutorials/index.html",
+          "note": "figures export"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 18/19: «reproducible build_figure seed» via GitHub, Stanford, Matplotlib (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reproducible build_figure seed».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible build_figure seed»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 18/19: «reproducible build_figure seed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CP-N2-B dashboard package",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS448B viz concepts",
+          "url": "https://hci.stanford.edu/courses/cs448b/",
+          "note": "viz design"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "tutorials",
+          "url": "https://matplotlib.org/stable/tutorials/index.html",
+          "note": "figures export"
+        },
+        {
+          "family": "Matplotlib",
+          "title": "cheatsheets",
+          "url": "https://matplotlib.org/cheatsheets/",
+          "note": "API quick"
+        }
+      ],
+      "synthesize": "S19 «Visualización y comunicación accesible» cycle 19/19: «CP-N2-B dashboard package» via Stanford, Matplotlib (CP-N2-B).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-B dashboard package».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-B dashboard package»; V3 roadmap; pair S19.",
+      "re_synthesize": "Decision 19/19: «CP-N2-B dashboard package» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://matplotlib.org/stable/tutorials/index.html",
+    "https://matplotlib.org/cheatsheets/",
+    "https://matplotlib.org/stable/users/explain/colors/colormaps.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "https://seaborn.pydata.org/tutorial.html",
+    "https://www.datavisualizationsociety.org/",
+    "https://www.data-to-viz.com/",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://pillb.github.io/pyarcana/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://realpython.com/python-matplotlib-guide/",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://clauswilke.com/dataviz/",
+    "https://matplotlib.org/stable/api/pyplot_summary.html",
+    "https://www.w3.org/WAI/tutorials/images/",
+    "https://github.com/https-deeplearning-ai",
+    "https://hci.stanford.edu/courses/cs448b/"
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "section": 8,
+  "title": "Archivos, CSV, JSON y contratos de ingesta",
+  "file": "s08-pandas.ts",
+  "n_required": 8,
+  "n_logged": 8,
+  "generated_at": "2026-07-24T04:58:20.582+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "quarantine with reason; no silent fix; no real PII; fail closed reconcile",
+    "v3_retarget": "stdlib ingest not pandas EDA",
+    "expert_pass_at": "2026-07-24T04:58:20.582+00:00"
+  },
+  "unique_foci": 8,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "pathlib utf8 explicit",
+      "research": [
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "paths"
+        },
+        {
+          "family": "Python",
+          "title": "csv",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "note": "CSV"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "JSON"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 1/8: «pathlib utf8 explicit» via Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pathlib utf8 explicit».",
+      "expand_scope": "E1/E2/E3 + docs for «pathlib utf8 explicit»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 1/8: «pathlib utf8 explicit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "modes r w a x",
+      "research": [
+        {
+          "family": "Python",
+          "title": "csv",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "note": "CSV"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "JSON"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "sha256"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 2/8: «modes r w a x» via Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «modes r w a x».",
+      "expand_scope": "E1/E2/E3 + docs for «modes r w a x»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 2/8: «modes r w a x» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "atomic write temp replace",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "JSON"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "sha256"
+        },
+        {
+          "family": "Python",
+          "title": "os.replace",
+          "url": "https://docs.python.org/3/library/os.html#os.replace",
+          "note": "atomic"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 3/8: «atomic write temp replace» via Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «atomic write temp replace».",
+      "expand_scope": "E1/E2/E3 + docs for «atomic write temp replace»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 3/8: «atomic write temp replace» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "newline empty csv",
+      "research": [
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "sha256"
+        },
+        {
+          "family": "Python",
+          "title": "os.replace",
+          "url": "https://docs.python.org/3/library/os.html#os.replace",
+          "note": "atomic"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money cast"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 4/8: «newline empty csv» via Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «newline empty csv».",
+      "expand_scope": "E1/E2/E3 + docs for «newline empty csv»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 4/8: «newline empty csv» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "DictReader fieldnames",
+      "research": [
+        {
+          "family": "Python",
+          "title": "os.replace",
+          "url": "https://docs.python.org/3/library/os.html#os.replace",
+          "note": "atomic"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money cast"
+        },
+        {
+          "family": "Real Python",
+          "title": "Working with files",
+          "url": "https://realpython.com/working-with-files-in-python/",
+          "note": "pathlib ped"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 5/8: «DictReader fieldnames» via Python, Real Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DictReader fieldnames».",
+      "expand_scope": "E1/E2/E3 + docs for «DictReader fieldnames»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 5/8: «DictReader fieldnames» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "Decimal not float money",
+      "research": [
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money cast"
+        },
+        {
+          "family": "Real Python",
+          "title": "Working with files",
+          "url": "https://realpython.com/working-with-files-in-python/",
+          "note": "pathlib ped"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "files"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 6/8: «Decimal not float money» via MIT, Python, Real Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Decimal not float money».",
+      "expand_scope": "E1/E2/E3 + docs for «Decimal not float money»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 6/8: «Decimal not float money» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "irregular rows quarantine reason",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Working with files",
+          "url": "https://realpython.com/working-with-files-in-python/",
+          "note": "pathlib ped"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "files"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "CSV"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 7/8: «irregular rows quarantine reason» via Harvard, MIT, Real Python (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «irregular rows quarantine reason».",
+      "expand_scope": "E1/E2/E3 + docs for «irregular rows quarantine reason»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 7/8: «irregular rows quarantine reason» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "reason counters manifest",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "files"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "CSV"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S8 «Archivos, CSV, JSON y contratos de ingesta» cycle 8/8: «reason counters manifest» via Harvard, MIT, deeplearning.ai (CP-N1-B gate close file ETL).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reason counters manifest».",
+      "expand_scope": "E1/E2/E3 + docs for «reason counters manifest»; V3 roadmap; pair S08 closes CP-N1-B → S09 next.",
+      "re_synthesize": "Decision 8/8: «reason counters manifest» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

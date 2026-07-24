@@ -1,0 +1,134 @@
+{
+  "section": 4,
+  "title": "Iteración y resúmenes transaccionales",
+  "file": "s04-functions-modules.ts",
+  "n_required": 4,
+  "n_logged": 4,
+  "generated_at": "2026-07-24T04:51:04.818+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT≥HEAD",
+    "ethics": "no real PII; preserve original rows; empty lot rate None",
+    "v3_retarget": "iteration batch not decorators packaging",
+    "expert_pass_at": "2026-07-24T04:51:04.818+00:00",
+    "role": "consecutive pair"
+  },
+  "unique_foci": 4,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "for range exclusive stop",
+      "research": [
+        {
+          "family": "Python",
+          "title": "for range",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+          "note": "for"
+        },
+        {
+          "family": "Python",
+          "title": "enumerate",
+          "url": "https://docs.python.org/3/library/functions.html#enumerate",
+          "note": "enum"
+        },
+        {
+          "family": "Python",
+          "title": "zip",
+          "url": "https://docs.python.org/3/library/functions.html#zip",
+          "note": "zip strict"
+        }
+      ],
+      "synthesize": "S4 «Iteración y resúmenes transaccionales» cycle 1/4: «for range exclusive stop» via Python (CASO-LIM-004 / CP-N1-A close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «for range exclusive stop».",
+      "expand_scope": "E1/E2/E3 + docs for «for range exclusive stop»; V3 roadmap; pair S04 batch close CP-N1-A → S05 next.",
+      "re_synthesize": "Decision 1/4: «for range exclusive stop» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "enumerate start 1",
+      "research": [
+        {
+          "family": "Python",
+          "title": "enumerate",
+          "url": "https://docs.python.org/3/library/functions.html#enumerate",
+          "note": "enum"
+        },
+        {
+          "family": "Python",
+          "title": "zip",
+          "url": "https://docs.python.org/3/library/functions.html#zip",
+          "note": "zip strict"
+        },
+        {
+          "family": "Python",
+          "title": "comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "note": "listcomp"
+        }
+      ],
+      "synthesize": "S4 «Iteración y resúmenes transaccionales» cycle 2/4: «enumerate start 1» via Python (CASO-LIM-004 / CP-N1-A close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «enumerate start 1».",
+      "expand_scope": "E1/E2/E3 + docs for «enumerate start 1»; V3 roadmap; pair S04 batch close CP-N1-A → S05 next.",
+      "re_synthesize": "Decision 2/4: «enumerate start 1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "zip strict alignment",
+      "research": [
+        {
+          "family": "Python",
+          "title": "zip",
+          "url": "https://docs.python.org/3/library/functions.html#zip",
+          "note": "zip strict"
+        },
+        {
+          "family": "Python",
+          "title": "comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "note": "listcomp"
+        },
+        {
+          "family": "Py4E",
+          "title": "Iterations",
+          "url": "https://www.py4e.com/html3/05-iterations",
+          "note": "loops"
+        }
+      ],
+      "synthesize": "S4 «Iteración y resúmenes transaccionales» cycle 3/4: «zip strict alignment» via Py4E, Python (CASO-LIM-004 / CP-N1-A close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «zip strict alignment».",
+      "expand_scope": "E1/E2/E3 + docs for «zip strict alignment»; V3 roadmap; pair S04 batch close CP-N1-A → S05 next.",
+      "re_synthesize": "Decision 3/4: «zip strict alignment» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "while sentinel END",
+      "research": [
+        {
+          "family": "Python",
+          "title": "comprehensions",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+          "note": "listcomp"
+        },
+        {
+          "family": "Py4E",
+          "title": "Iterations",
+          "url": "https://www.py4e.com/html3/05-iterations",
+          "note": "loops"
+        },
+        {
+          "family": "Python Wiki",
+          "title": "TimeComplexity",
+          "url": "https://wiki.python.org/moin/TimeComplexity",
+          "note": "cost"
+        }
+      ],
+      "synthesize": "S4 «Iteración y resúmenes transaccionales» cycle 4/4: «while sentinel END» via Py4E, Python, Python Wiki (CASO-LIM-004 / CP-N1-A close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «while sentinel END».",
+      "expand_scope": "E1/E2/E3 + docs for «while sentinel END»; V3 roadmap; pair S04 batch close CP-N1-A → S05 next.",
+      "re_synthesize": "Decision 4/4: «while sentinel END» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

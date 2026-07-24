@@ -1,0 +1,268 @@
+{
+  "generated_at": "2026-07-23T23:00:24.635266+00:00",
+  "accept": 52,
+  "request_fix": 0,
+  "reject_hardening": 0,
+  "sections": [
+    {
+      "index": 1,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 2,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 3,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 4,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 5,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 6,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 7,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 8,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 9,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 10,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 11,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 12,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 13,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 14,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 15,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 16,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 17,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 18,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 19,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 20,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 21,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 22,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 23,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 24,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 25,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 26,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 27,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 28,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 29,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 30,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 31,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 32,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 33,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 34,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 35,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 36,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 37,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 38,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 39,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 40,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 41,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 42,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 43,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 44,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 45,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 46,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 47,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 48,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 49,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 50,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 51,
+      "verdict": "ACCEPT",
+      "high": 0
+    },
+    {
+      "index": 52,
+      "verdict": "ACCEPT",
+      "high": 0
+    }
+  ]
+}

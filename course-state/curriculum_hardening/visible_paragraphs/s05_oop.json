@@ -1,0 +1,495 @@
+{
+  "index": 5,
+  "id": "oop",
+  "title": "Funciones, contratos y descomposición",
+  "file": "s05-oop.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “OOP” a funciones y contratos (mapa de la sección)",
+      "len": 53
+    },
+    {
+      "i": 1,
+      "text": "En V3, S05 no es el path principal de clases, herencia ni dunders de sklearn. Eso vive en S11 (OOP y modelo de dominio). Aquí el estudiante domina funciones con contratos claros: definición, parámetros seguros, docstrings, type hints graduales, pureza y un poco de LEGB — todo al servicio de normalizadores del inicio de CP-N1-B.",
+      "len": 329
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un conjunto de funciones puras normalize_nombre, normalize_email, normalize_telefono, normalize_direccion que transforman texto sintético sin tocar disco ni red. La I/O se inyecta o se deja fuera. Datos ficticios únicamente.",
+      "len": 245
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Funciones (def/return → params/defaults) → T2 Contratos (pre/post/docstrings → hints y errores de dominio) → T3 Diseño (funciones pequeñas → pureza/I/O) → T4 Alcance (LEGB/closures → tests y refactor).",
+      "len": 222
+    },
+    {
+      "i": 4,
+      "text": "Definición, llamada y retorno",
+      "len": 29
+    },
+    {
+      "i": 5,
+      "text": "Una función se define con def nombre(params): y devuelve con return. Sin return explícito, Python devuelve None. Llamar es nombre(args). El nombre debe ser un verbo o acción clara: normalize_email, no email2.",
+      "len": 208
+    },
+    {
+      "i": 6,
+      "text": "Las funciones son valores: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con definir, llamar y retornar resultados de normalización.",
+      "len": 156
+    },
+    {
+      "i": 7,
+      "text": "Un solo return temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — mejor descomponer (T3).",
+      "len": 148
+    },
+    {
+      "i": 8,
+      "text": "Posicionales, keyword y defaults seguros",
+      "len": 40
+    },
+    {
+      "i": 9,
+      "text": "Argumentos posicionales se atan por orden; keyword por nombre (fn(x=1)). Los defaults se evalúan una vez en la definición: nunca uses lista/dict mutable como default (def f(xs=[]) es un bug clásico). Usa None y crea la lista dentro.",
+      "len": 232
+    },
+    {
+      "i": 10,
+      "text": "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos.",
+      "len": 165
+    },
+    {
+      "i": 11,
+      "text": "Para normalizadores: def normalize_telefono(raw, *, country=\"PE\") con keyword-only opcional documenta la política regional sin confundir posiciones.",
+      "len": 148
+    },
+    {
+      "i": 12,
+      "text": "Pre/postcondiciones y docstrings",
+      "len": 32
+    },
+    {
+      "i": 13,
+      "text": "Una precondición es lo que debe cumplirse antes de llamar (p. ej. raw es str). Una postcondición es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email local-domain policy).",
+      "len": 199
+    },
+    {
+      "i": 14,
+      "text": "El docstring (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio.",
+      "len": 179
+    },
+    {
+      "i": 15,
+      "text": "En intake sintético: pre = tipo str o None; post = forma canónica o ValueError/resultado de error de dominio según el diseño elegido.",
+      "len": 133
+    },
+    {
+      "i": 16,
+      "text": "Type hints graduales y errores de dominio",
+      "len": 41
+    },
+    {
+      "i": 17,
+      "text": "Los type hints (def f(x: str) -> str) no convierten en runtime (salvo herramientas externas). Son documentación verificable con checkers. En S05 usamos hints graduales: anota lo público; no atasques con genéricos avanzados.",
+      "len": 223
+    },
+    {
+      "i": 18,
+      "text": "Un error de dominio no es un bug de Python: es un valor de negocio inválido. Opciones: raise ValueError, devolver (ok, value, error), o un dict de resultado. Sé consistente en el módulo.",
+      "len": 186
+    },
+    {
+      "i": 19,
+      "text": "Optional[str] / str | None documenta ausencia. No uses hints falsos (-> str si puedes devolver None).",
+      "len": 101
+    },
+    {
+      "i": 20,
+      "text": "Funciones pequeñas y composición",
+      "len": 32
+    },
+    {
+      "i": 21,
+      "text": "Una función debe hacer una cosa en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. Componer es llamar funciones pequeñas desde una orquestadora delgada.",
+      "len": 207
+    },
+    {
+      "i": 22,
+      "text": "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador normalize_record llama a cuatro normalizadores y arma el dict.",
+      "len": 148
+    },
+    {
+      "i": 23,
+      "text": "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función.",
+      "len": 108
+    },
+    {
+      "i": 24,
+      "text": "Pureza, efectos e inyección de I/O",
+      "len": 34
+    },
+    {
+      "i": 25,
+      "text": "Una función pura devuelve el mismo resultado para los mismos argumentos y no tiene efectos (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo).",
+      "len": 191
+    },
+    {
+      "i": 26,
+      "text": "La I/O (stdin, archivos, red) se queda en el borde: main, CLI, o funciones load_ / save_. Los normalizadores del gate deben ser puros e idempotentes: f(f(x)) == f(x) para entradas válidas.",
+      "len": 188
+    },
+    {
+      "i": 27,
+      "text": "Inyección: pasar una función reader o un path como argumento en vez de hardcodear open('data.csv') dentro del core facilita tests con fakes.",
+      "len": 140
+    },
+    {
+      "i": 28,
+      "text": "lambda: una función anónima de una expresión. Sintaxis: lambda args: expresión. Ejemplo: normalize_email = lambda s: s.strip().lower() es equivalente a un def de una línea. Úsala para inyectar un normalizador rápido en tests o demos; si la lógica crece, prefiera un def con nombre. No es un reemplazo general de funciones: no admite múltiples statements ni es más rápida.",
+      "len": 371
+    },
+    {
+      "i": 30,
+      "text": "LEGB: orden de búsqueda de nombres — Local, Enclosing (funciones anidadas), Global, Builtin. Si Python no halla el nombre, NameError.",
+      "len": 133
+    },
+    {
+      "i": 31,
+      "text": "Un closure es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (make_stripper(chars)), sin clases todavía.",
+      "len": 168
+    },
+    {
+      "i": 32,
+      "text": "global y nonlocal existen pero en S05 casi no los necesitas: prefiere return de valores nuevos. Mutar globales complica tests.",
+      "len": 126
+    },
+    {
+      "i": 33,
+      "text": "Pruebas de ejemplo y refactor sin cambiar conducta",
+      "len": 50
+    },
+    {
+      "i": 34,
+      "text": "Antes de refactorizar, fija ejemplos ejecutables: assert normalize_email('A@B.COM') == 'a@b.com'. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preservó.",
+      "len": 183
+    },
+    {
+      "i": 35,
+      "text": "El refactor típico de S05: extraer strip_collapse, unificar defaults, renombrar. No cambies la política de negocio “de paso” sin actualizar tests y docstring.",
+      "len": 158
+    },
+    {
+      "i": 36,
+      "text": "Idempotencia se prueba con un loop o doble llamada. Fronteras: vacío, solo espacios, Unicode (Ñ, tildes), None si el contrato lo admite.",
+      "len": 136
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 53,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “OOP” a funciones y contratos (mapa de la sección)",
+      "text": "De “OOP” a funciones y contratos (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 329,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S05 no es el path principal de clases, herencia ni dunders de sklearn. Eso vive en S11 (OOP y modelo de dominio). Aquí el estudiante domina funciones con contratos claros: d",
+      "text": "En V3, S05 no es el path principal de clases, herencia ni dunders de sklearn. Eso vive en S11 (OOP y modelo de dominio). Aquí el estudiante domina funciones con contratos claros: definición, parámetros seguros, docstrings, type hints graduales, pureza y un poco de LEGB — todo al servicio de normalizadores del inicio de CP-N1-B."
+    },
+    {
+      "i": 2,
+      "len": 245,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un conjunto de funciones puras normalize_nombre, normalize_email, normalize_telefono, normalize_direccion que transforman texto sintético sin tocar disco ni re",
+      "text": "El hilo conductor es un conjunto de funciones puras normalize_nombre, normalize_email, normalize_telefono, normalize_direccion que transforman texto sintético sin tocar disco ni red. La I/O se inyecta o se deja fuera. Datos ficticios únicamente."
+    },
+    {
+      "i": 3,
+      "len": 222,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Funciones (def/return → params/defaults) → T2 Contratos (pre/post/docstrings → hints y errores de dominio) → T3 Diseño (funciones pequeñas → pureza/I/O) → T4 A",
+      "text": "Orden pedagógico: T1 Funciones (def/return → params/defaults) → T2 Contratos (pre/post/docstrings → hints y errores de dominio) → T3 Diseño (funciones pequeñas → pureza/I/O) → T4 Alcance (LEGB/closures → tests y refactor)."
+    },
+    {
+      "i": 4,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Definición, llamada y retorno",
+      "text": "Definición, llamada y retorno"
+    },
+    {
+      "i": 5,
+      "len": 208,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una función se define con def nombre(params): y devuelve con return. Sin return explícito, Python devuelve None. Llamar es nombre(args). El nombre debe ser un verbo o acción clara:",
+      "text": "Una función se define con def nombre(params): y devuelve con return. Sin return explícito, Python devuelve None. Llamar es nombre(args). El nombre debe ser un verbo o acción clara: normalize_email, no email2."
+    },
+    {
+      "i": 6,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las funciones son valores: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con definir, llamar y retornar resultados de normalización.",
+      "text": "Las funciones son valores: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con definir, llamar y retornar resultados de normalización."
+    },
+    {
+      "i": 7,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un solo return temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — mejor descomponer (T3).",
+      "text": "Un solo return temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — mejor descomponer (T3)."
+    },
+    {
+      "i": 8,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Posicionales, keyword y defaults seguros",
+      "text": "Posicionales, keyword y defaults seguros"
+    },
+    {
+      "i": 9,
+      "len": 232,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Argumentos posicionales se atan por orden; keyword por nombre (fn(x=1)). Los defaults se evalúan una vez en la definición: nunca uses lista/dict mutable como default (def f(xs=[]) ",
+      "text": "Argumentos posicionales se atan por orden; keyword por nombre (fn(x=1)). Los defaults se evalúan una vez en la definición: nunca uses lista/dict mutable como default (def f(xs=[]) es un bug clásico). Usa None y crea la lista dentro."
+    },
+    {
+      "i": 10,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos.",
+      "text": "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos."
+    },
+    {
+      "i": 11,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para normalizadores: def normalize_telefono(raw, *, country=\"PE\") con keyword-only opcional documenta la política regional sin confundir posiciones.",
+      "text": "Para normalizadores: def normalize_telefono(raw, *, country=\"PE\") con keyword-only opcional documenta la política regional sin confundir posiciones."
+    },
+    {
+      "i": 12,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pre/postcondiciones y docstrings",
+      "text": "Pre/postcondiciones y docstrings"
+    },
+    {
+      "i": 13,
+      "len": 199,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una precondición es lo que debe cumplirse antes de llamar (p. ej. raw es str). Una postcondición es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email lo",
+      "text": "Una precondición es lo que debe cumplirse antes de llamar (p. ej. raw es str). Una postcondición es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email local-domain policy)."
+    },
+    {
+      "i": 14,
+      "len": 179,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El docstring (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio.",
+      "text": "El docstring (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio."
+    },
+    {
+      "i": 15,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En intake sintético: pre = tipo str o None; post = forma canónica o ValueError/resultado de error de dominio según el diseño elegido.",
+      "text": "En intake sintético: pre = tipo str o None; post = forma canónica o ValueError/resultado de error de dominio según el diseño elegido."
+    },
+    {
+      "i": 16,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Type hints graduales y errores de dominio",
+      "text": "Type hints graduales y errores de dominio"
+    },
+    {
+      "i": 17,
+      "len": 223,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los type hints (def f(x: str) -> str) no convierten en runtime (salvo herramientas externas). Son documentación verificable con checkers. En S05 usamos hints graduales: anota lo pú",
+      "text": "Los type hints (def f(x: str) -> str) no convierten en runtime (salvo herramientas externas). Son documentación verificable con checkers. En S05 usamos hints graduales: anota lo público; no atasques con genéricos avanzados."
+    },
+    {
+      "i": 18,
+      "len": 186,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un error de dominio no es un bug de Python: es un valor de negocio inválido. Opciones: raise ValueError, devolver (ok, value, error), o un dict de resultado. Sé consistente en el m",
+      "text": "Un error de dominio no es un bug de Python: es un valor de negocio inválido. Opciones: raise ValueError, devolver (ok, value, error), o un dict de resultado. Sé consistente en el módulo."
+    },
+    {
+      "i": 19,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Optional[str] / str | None documenta ausencia. No uses hints falsos (-> str si puedes devolver None).",
+      "text": "Optional[str] / str | None documenta ausencia. No uses hints falsos (-> str si puedes devolver None)."
+    },
+    {
+      "i": 20,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Funciones pequeñas y composición",
+      "text": "Funciones pequeñas y composición"
+    },
+    {
+      "i": 21,
+      "len": 207,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una función debe hacer una cosa en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. Componer es llamar funciones pequeñas desd",
+      "text": "Una función debe hacer una cosa en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. Componer es llamar funciones pequeñas desde una orquestadora delgada."
+    },
+    {
+      "i": 22,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador normalize_record llama a cuatro normalizadores y arma el dict.",
+      "text": "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador normalize_record llama a cuatro normalizadores y arma el dict."
+    },
+    {
+      "i": 23,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función.",
+      "text": "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función."
+    },
+    {
+      "i": 24,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pureza, efectos e inyección de I/O",
+      "text": "Pureza, efectos e inyección de I/O"
+    },
+    {
+      "i": 25,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una función pura devuelve el mismo resultado para los mismos argumentos y no tiene efectos (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin doc",
+      "text": "Una función pura devuelve el mismo resultado para los mismos argumentos y no tiene efectos (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo)."
+    },
+    {
+      "i": 26,
+      "len": 188,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La I/O (stdin, archivos, red) se queda en el borde: main, CLI, o funciones load_ / save_. Los normalizadores del gate deben ser puros e idempotentes: f(f(x)) == f(x) para entradas ",
+      "text": "La I/O (stdin, archivos, red) se queda en el borde: main, CLI, o funciones load_ / save_. Los normalizadores del gate deben ser puros e idempotentes: f(f(x)) == f(x) para entradas válidas."
+    },
+    {
+      "i": 27,
+      "len": 140,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Inyección: pasar una función reader o un path como argumento en vez de hardcodear open('data.csv') dentro del core facilita tests con fakes.",
+      "text": "Inyección: pasar una función reader o un path como argumento en vez de hardcodear open('data.csv') dentro del core facilita tests con fakes."
+    },
+    {
+      "i": 28,
+      "len": 371,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "lambda: una función anónima de una expresión. Sintaxis: lambda args: expresión. Ejemplo: normalize_email = lambda s: s.strip().lower() es equivalente a un def de una línea. Úsala p",
+      "text": "lambda: una función anónima de una expresión. Sintaxis: lambda args: expresión. Ejemplo: normalize_email = lambda s: s.strip().lower() es equivalente a un def de una línea. Úsala para inyectar un normalizador rápido en tests o demos; si la lógica crece, prefiera un def con nombre. No es un reemplazo general de funciones: no admite múltiples statements ni es más rápida."
+    },
+    {
+      "i": 30,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "LEGB: orden de búsqueda de nombres — Local, Enclosing (funciones anidadas), Global, Builtin. Si Python no halla el nombre, NameError.",
+      "text": "LEGB: orden de búsqueda de nombres — Local, Enclosing (funciones anidadas), Global, Builtin. Si Python no halla el nombre, NameError."
+    },
+    {
+      "i": 31,
+      "len": 168,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un closure es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (make_stripper(chars)), sin clases todavía.",
+      "text": "Un closure es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (make_stripper(chars)), sin clases todavía."
+    },
+    {
+      "i": 32,
+      "len": 126,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "global y nonlocal existen pero en S05 casi no los necesitas: prefiere return de valores nuevos. Mutar globales complica tests.",
+      "text": "global y nonlocal existen pero en S05 casi no los necesitas: prefiere return de valores nuevos. Mutar globales complica tests."
+    },
+    {
+      "i": 33,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pruebas de ejemplo y refactor sin cambiar conducta",
+      "text": "Pruebas de ejemplo y refactor sin cambiar conducta"
+    },
+    {
+      "i": 34,
+      "len": 183,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de refactorizar, fija ejemplos ejecutables: assert normalize_email('A@B.COM') == 'a@b.com'. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preser",
+      "text": "Antes de refactorizar, fija ejemplos ejecutables: assert normalize_email('A@B.COM') == 'a@b.com'. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preservó."
+    },
+    {
+      "i": 35,
+      "len": 158,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El refactor típico de S05: extraer strip_collapse, unificar defaults, renombrar. No cambies la política de negocio “de paso” sin actualizar tests y docstring.",
+      "text": "El refactor típico de S05: extraer strip_collapse, unificar defaults, renombrar. No cambies la política de negocio “de paso” sin actualizar tests y docstring."
+    },
+    {
+      "i": 36,
+      "len": 136,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Idempotencia se prueba con un loop o doble llamada. Fronteras: vacío, solo espacios, Unicode (Ñ, tildes), None si el contrato lo admite.",
+      "text": "Idempotencia se prueba con un loop o doble llamada. Fronteras: vacío, solo espacios, Unicode (Ñ, tildes), None si el contrato lo admite."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 11183
+}

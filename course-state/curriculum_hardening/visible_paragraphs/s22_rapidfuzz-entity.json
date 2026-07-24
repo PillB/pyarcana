@@ -1,0 +1,482 @@
+{
+  "index": 22,
+  "id": "rapidfuzz-entity",
+  "title": "Email, identidad y aprobación humana",
+  "file": "s22-rapidfuzz-entity.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Email con aprobación humana e inicio CP-N2-C",
+      "len": 44
+    },
+    {
+      "i": 1,
+      "text": "En V3, S22 no es RapidFuzz/ER probabilístico avanzado (eso madura más adelante). El id rapidfuzz-entity se conserva; aquí inicias CP-N2-C: MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación humana e idempotencia.",
+      "len": 306
+    },
+    {
+      "i": 2,
+      "text": "Hilo: borrador sintético run_id=cpn2c-01, contactos fake @example.pe. Ningún correo real se envía: solo .eml locales o drafts de sandbox. Matching de contactos es para entrega correcta, nunca para inferir fraude, parentesco o culpabilidad.",
+      "len": 239
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Mensaje (MIME, templates seguros) → T2 Proveedor (OAuth/scopes, adaptadores de draft) → T3 Destinatario (resolución, verificación, CC/BCC, mínima divulgación) → T4 Workflow (state machine de aprobación, audit log, reintento sin duplicar). Fail-closed sin aprobación humana.",
+      "len": 283
+    },
+    {
+      "i": 4,
+      "text": "MIME, encoding, HTML/text y attachments",
+      "len": 39
+    },
+    {
+      "i": 5,
+      "text": "MIME (email.mime) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset UTF-8 evita mojibake en nombres y acentos del español peruano. MIMEMultipart('alternative') ofrece ambas representaciones; el cliente elige. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 480
+    },
+    {
+      "i": 6,
+      "text": "Contrato: MIMEText(..., 'plain'|'html', 'utf-8'); attachments con Content-Disposition y filename; nunca embeds de secretos (tokens, DNI) en el cuerpo. Limita tamaño de adjuntos sintéticos y márcalos como demo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 462
+    },
+    {
+      "i": 7,
+      "text": "Caso: MIMEText('Hola','plain','utf-8') → content-type text/plain; mixed + MIMEApplication con a.txt. Contar headers Content-Type valida el árbol multiparte en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 417
+    },
+    {
+      "i": 9,
+      "text": "Los templates interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (html.escape) o usa autoescape. Política de links: allowlist de dominios (example.pe) o rutas relativas; bloquea javascript: y data:.",
+      "len": 228
+    },
+    {
+      "i": 10,
+      "text": "Contrato: template Hola {name} con name <b>Ana</b> debe producir entidades escapadas, no HTML activo. Allowlist: url con example.pe → ok, otro host → blocked. XSS en correo es riesgo real de phishing interno. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 461
+    },
+    {
+      "i": 11,
+      "text": "Caso sintético: cuerpo con link a portal de revisión del run; sin allowlist, un template malicioso redirige a dominio externo. El gate de sanitización es obligatorio antes de encolar aprobación. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 447
+    },
+    {
+      "i": 12,
+      "text": "OAuth/service account y scopes",
+      "len": 30
+    },
+    {
+      "i": 13,
+      "text": "OAuth / service accounts operan con scopes mínimos (mail.draft, no mail.full ni admin). Modela credenciales con client_id, scopes, expires_at — nunca commits de secretos al repo del portfolio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 445
+    },
+    {
+      "i": 14,
+      "text": "Contrato: requested ∩ allowed; imprime True si granted no contiene scopes peligrosos. Tokens sintéticos del curso; registro de scopes pedidos vs concedidos como evidencia de least privilege. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 443
+    },
+    {
+      "i": 15,
+      "text": "Caso: requested mail.draft+mail.full → filtrar a allowed; granted sin mail.full/admin. En sandbox, un scope de más es hallazgo de seguridad del diseño, no “detalle de config”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 428
+    },
+    {
+      "i": 16,
+      "text": "drafts, expiración y adaptadores",
+      "len": 32
+    },
+    {
+      "i": 17,
+      "text": "Un adaptador (GmailAdapter, SmtpFileAdapter) expone create_draft / get_draft sin acoplar el workflow al SDK. Drafts llevan expiración: tras expires_at no se promueven a envío sin regenerar y reaprobar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 454
+    },
+    {
+      "i": 18,
+      "text": "Contrato: store en memoria o out/drafts/; ids secuenciales d001, d002; is_usable False si expiró. El curso escribe .eml simulados — cero SMTP real. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 400
+    },
+    {
+      "i": 19,
+      "text": "Caso: draft d001 status draft; expires_at = now−1s → no usable. create_draft idempotente a nivel de id secuencial en el ejercicio de transfer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 395
+    },
+    {
+      "i": 20,
+      "text": "resolución y verificación",
+      "len": 25
+    },
+    {
+      "i": 21,
+      "text": "Resolución de destinatarios: valida formato de email, mapea C001→email desde dict sintético, verifica dominio permitido (example.pe). Estados: unresolved → candidate → verified | rejected. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 441
+    },
+    {
+      "i": 22,
+      "text": "Contrato: match/score de similaridad de nombres, si se usa, lleva la nota explícita match_no_es_fraude. Un score 0.92 no autoriza claims de identidad legal ni parentesco; solo prioriza revisión de entrega. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 458
+    },
+    {
+      "i": 23,
+      "text": "Caso: ana@example.pe ok, bad rejected; C001 verificado en dominio example.pe; imprimir score sintético 0.92 con la nota anti-claim. HITL si queda unresolved. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 410
+    },
+    {
+      "i": 24,
+      "text": "listas, CC/BCC, privacidad y mínima divulgación",
+      "len": 47
+    },
+    {
+      "i": 25,
+      "text": "CC expone destinatarios entre sí; BCC oculta la lista. Prefiere BCC o envíos individuales cuando hay externos. Mínima divulgación: no pongas DNI/teléfono en el cuerpo si el informe ya va adjunto cifrado o en portal. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 468
+    },
+    {
+      "i": 26,
+      "text": "Contrato: dedupe preservando orden; role=bcc si dominio externo (@other.test); contar cuántos emails quedarían visibles (to+cc) tras mover externos a bcc. Opt-out sintético y tope de tamaño de lista. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 452
+    },
+    {
+      "i": 27,
+      "text": "Caso: lista con duplicados y un externo → tras higiene, visibles reducidos; el audit registra la política aplicada. Privacidad operativa, no solo “compliance de slide”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 421
+    },
+    {
+      "i": 28,
+      "text": "approval queue y state machine",
+      "len": 30
+    },
+    {
+      "i": 29,
+      "text": "La cola de aprobación es una state machine: draft → pending_review → approved | rejected | needs_info. Transiciones explícitas con actor y timestamp; sin transición válida, no hay envío ni promoción de draft. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 461
+    },
+    {
+      "i": 30,
+      "text": "Contrato: tabla TRANSITIONS; submit desde draft → pending; approve desde draft → invalid. En CP-N2-C la aprobación humana es obligatoria antes de cualquier acción de envío (aunque el curso solo simule). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 455
+    },
+    {
+      "i": 31,
+      "text": "Caso: log {from,to,actor} al aprobar pending→approved con actor rev1. El portfolio adjunta el log: evidencia de cumplimiento y de fail-closed. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 395
+    },
+    {
+      "i": 32,
+      "text": "idempotencia, audit log y reintento sin duplicar",
+      "len": 48
+    },
+    {
+      "i": 33,
+      "text": "Una idempotency key (p. ej. sha256 hex[:8] de run_id|destinatario|versión del cuerpo) evita drafts duplicados si el operador reintenta. El audit log registra create/submit/approve/retry con quién y cuándo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 458
+    },
+    {
+      "i": 34,
+      "text": "Contrato de reintento: si la key ya existe en estado terminal o activo, devuelve el id previo; no crea otro mensaje. Eventos create luego retry_hit en la lista de audit. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 422
+    },
+    {
+      "i": 35,
+      "text": "Caso: dos create con la misma key → igualdad True de ids; audit ['create','retry_hit']. Cierra el inicio de CP-N2-C hacia browser RPA (S23) y el VP de automatización. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 419
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Email con aprobación humana e inicio CP-N2-C",
+      "text": "Email con aprobación humana e inicio CP-N2-C"
+    },
+    {
+      "i": 1,
+      "len": 306,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S22 no es RapidFuzz/ER probabilístico avanzado (eso madura más adelante). El id rapidfuzz-entity se conserva; aquí inicias CP-N2-C: MIME, sanitización HTML, scopes mínimos, ",
+      "text": "En V3, S22 no es RapidFuzz/ER probabilístico avanzado (eso madura más adelante). El id rapidfuzz-entity se conserva; aquí inicias CP-N2-C: MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación humana e idempotencia."
+    },
+    {
+      "i": 2,
+      "len": 239,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hilo: borrador sintético run_id=cpn2c-01, contactos fake @example.pe. Ningún correo real se envía: solo .eml locales o drafts de sandbox. Matching de contactos es para entrega corr",
+      "text": "Hilo: borrador sintético run_id=cpn2c-01, contactos fake @example.pe. Ningún correo real se envía: solo .eml locales o drafts de sandbox. Matching de contactos es para entrega correcta, nunca para inferir fraude, parentesco o culpabilidad."
+    },
+    {
+      "i": 3,
+      "len": 283,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Mensaje (MIME, templates seguros) → T2 Proveedor (OAuth/scopes, adaptadores de draft) → T3 Destinatario (resolución, verificación, CC/BCC, mínima divulgación) → T4 Workfl",
+      "text": "Orden: T1 Mensaje (MIME, templates seguros) → T2 Proveedor (OAuth/scopes, adaptadores de draft) → T3 Destinatario (resolución, verificación, CC/BCC, mínima divulgación) → T4 Workflow (state machine de aprobación, audit log, reintento sin duplicar). Fail-closed sin aprobación humana."
+    },
+    {
+      "i": 4,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "MIME, encoding, HTML/text y attachments",
+      "text": "MIME, encoding, HTML/text y attachments"
+    },
+    {
+      "i": 5,
+      "len": 480,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "MIME (email.mime) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset UTF-8 evita mojibake en nombres y acentos del español peruano. MIMEMultipart('alternative') o",
+      "text": "MIME (email.mime) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset UTF-8 evita mojibake en nombres y acentos del español peruano. MIMEMultipart('alternative') ofrece ambas representaciones; el cliente elige. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 6,
+      "len": 462,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: MIMEText(..., 'plain'|'html', 'utf-8'); attachments con Content-Disposition y filename; nunca embeds de secretos (tokens, DNI) en el cuerpo. Limita tamaño de adjuntos sin",
+      "text": "Contrato: MIMEText(..., 'plain'|'html', 'utf-8'); attachments con Content-Disposition y filename; nunca embeds de secretos (tokens, DNI) en el cuerpo. Limita tamaño de adjuntos sintéticos y márcalos como demo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 7,
+      "len": 417,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: MIMEText('Hola','plain','utf-8') → content-type text/plain; mixed + MIMEApplication con a.txt. Contar headers Content-Type valida el árbol multiparte en weDo. En el workbench",
+      "text": "Caso: MIMEText('Hola','plain','utf-8') → content-type text/plain; mixed + MIMEApplication con a.txt. Contar headers Content-Type valida el árbol multiparte en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 9,
+      "len": 228,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los templates interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (html.escape) o usa autoescape. Política de links: allowlist de dominios (example.pe)",
+      "text": "Los templates interpolan variables (nombre, run_id, montos). Todo input no confiable se escapa (html.escape) o usa autoescape. Política de links: allowlist de dominios (example.pe) o rutas relativas; bloquea javascript: y data:."
+    },
+    {
+      "i": 10,
+      "len": 461,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: template Hola {name} con name <b>Ana</b> debe producir entidades escapadas, no HTML activo. Allowlist: url con example.pe → ok, otro host → blocked. XSS en correo es ries",
+      "text": "Contrato: template Hola {name} con name <b>Ana</b> debe producir entidades escapadas, no HTML activo. Allowlist: url con example.pe → ok, otro host → blocked. XSS en correo es riesgo real de phishing interno. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 11,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: cuerpo con link a portal de revisión del run; sin allowlist, un template malicioso redirige a dominio externo. El gate de sanitización es obligatorio antes de encol",
+      "text": "Caso sintético: cuerpo con link a portal de revisión del run; sin allowlist, un template malicioso redirige a dominio externo. El gate de sanitización es obligatorio antes de encolar aprobación. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 12,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "OAuth/service account y scopes",
+      "text": "OAuth/service account y scopes"
+    },
+    {
+      "i": 13,
+      "len": 445,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "OAuth / service accounts operan con scopes mínimos (mail.draft, no mail.full ni admin). Modela credenciales con client_id, scopes, expires_at — nunca commits de secretos al repo de",
+      "text": "OAuth / service accounts operan con scopes mínimos (mail.draft, no mail.full ni admin). Modela credenciales con client_id, scopes, expires_at — nunca commits de secretos al repo del portfolio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 14,
+      "len": 443,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: requested ∩ allowed; imprime True si granted no contiene scopes peligrosos. Tokens sintéticos del curso; registro de scopes pedidos vs concedidos como evidencia de least ",
+      "text": "Contrato: requested ∩ allowed; imprime True si granted no contiene scopes peligrosos. Tokens sintéticos del curso; registro de scopes pedidos vs concedidos como evidencia de least privilege. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 15,
+      "len": 428,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: requested mail.draft+mail.full → filtrar a allowed; granted sin mail.full/admin. En sandbox, un scope de más es hallazgo de seguridad del diseño, no “detalle de config”. En e",
+      "text": "Caso: requested mail.draft+mail.full → filtrar a allowed; granted sin mail.full/admin. En sandbox, un scope de más es hallazgo de seguridad del diseño, no “detalle de config”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 16,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "drafts, expiración y adaptadores",
+      "text": "drafts, expiración y adaptadores"
+    },
+    {
+      "i": 17,
+      "len": 454,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un adaptador (GmailAdapter, SmtpFileAdapter) expone create_draft / get_draft sin acoplar el workflow al SDK. Drafts llevan expiración: tras expires_at no se promueven a envío sin r",
+      "text": "Un adaptador (GmailAdapter, SmtpFileAdapter) expone create_draft / get_draft sin acoplar el workflow al SDK. Drafts llevan expiración: tras expires_at no se promueven a envío sin regenerar y reaprobar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 18,
+      "len": 400,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: store en memoria o out/drafts/; ids secuenciales d001, d002; is_usable False si expiró. El curso escribe .eml simulados — cero SMTP real. En el workbench sintético (Lima/",
+      "text": "Contrato: store en memoria o out/drafts/; ids secuenciales d001, d002; is_usable False si expiró. El curso escribe .eml simulados — cero SMTP real. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 395,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: draft d001 status draft; expires_at = now−1s → no usable. create_draft idempotente a nivel de id secuencial en el ejercicio de transfer. En el workbench sintético (Lima/Cusco",
+      "text": "Caso: draft d001 status draft; expires_at = now−1s → no usable. create_draft idempotente a nivel de id secuencial en el ejercicio de transfer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 20,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "resolución y verificación",
+      "text": "resolución y verificación"
+    },
+    {
+      "i": 21,
+      "len": 441,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Resolución de destinatarios: valida formato de email, mapea C001→email desde dict sintético, verifica dominio permitido (example.pe). Estados: unresolved → candidate → verified | r",
+      "text": "Resolución de destinatarios: valida formato de email, mapea C001→email desde dict sintético, verifica dominio permitido (example.pe). Estados: unresolved → candidate → verified | rejected. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 22,
+      "len": 458,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: match/score de similaridad de nombres, si se usa, lleva la nota explícita match_no_es_fraude. Un score 0.92 no autoriza claims de identidad legal ni parentesco; solo prio",
+      "text": "Contrato: match/score de similaridad de nombres, si se usa, lleva la nota explícita match_no_es_fraude. Un score 0.92 no autoriza claims de identidad legal ni parentesco; solo prioriza revisión de entrega. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 23,
+      "len": 410,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: ana@example.pe ok, bad rejected; C001 verificado en dominio example.pe; imprimir score sintético 0.92 con la nota anti-claim. HITL si queda unresolved. En el workbench sintét",
+      "text": "Caso: ana@example.pe ok, bad rejected; C001 verificado en dominio example.pe; imprimir score sintético 0.92 con la nota anti-claim. HITL si queda unresolved. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 24,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "listas, CC/BCC, privacidad y mínima divulgación",
+      "text": "listas, CC/BCC, privacidad y mínima divulgación"
+    },
+    {
+      "i": 25,
+      "len": 468,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "CC expone destinatarios entre sí; BCC oculta la lista. Prefiere BCC o envíos individuales cuando hay externos. Mínima divulgación: no pongas DNI/teléfono en el cuerpo si el informe",
+      "text": "CC expone destinatarios entre sí; BCC oculta la lista. Prefiere BCC o envíos individuales cuando hay externos. Mínima divulgación: no pongas DNI/teléfono en el cuerpo si el informe ya va adjunto cifrado o en portal. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 26,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: dedupe preservando orden; role=bcc si dominio externo (@other.test); contar cuántos emails quedarían visibles (to+cc) tras mover externos a bcc. Opt-out sintético y tope ",
+      "text": "Contrato: dedupe preservando orden; role=bcc si dominio externo (@other.test); contar cuántos emails quedarían visibles (to+cc) tras mover externos a bcc. Opt-out sintético y tope de tamaño de lista. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 27,
+      "len": 421,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: lista con duplicados y un externo → tras higiene, visibles reducidos; el audit registra la política aplicada. Privacidad operativa, no solo “compliance de slide”. En el workb",
+      "text": "Caso: lista con duplicados y un externo → tras higiene, visibles reducidos; el audit registra la política aplicada. Privacidad operativa, no solo “compliance de slide”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 28,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "approval queue y state machine",
+      "text": "approval queue y state machine"
+    },
+    {
+      "i": 29,
+      "len": 461,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La cola de aprobación es una state machine: draft → pending_review → approved | rejected | needs_info. Transiciones explícitas con actor y timestamp; sin transición válida, no hay ",
+      "text": "La cola de aprobación es una state machine: draft → pending_review → approved | rejected | needs_info. Transiciones explícitas con actor y timestamp; sin transición válida, no hay envío ni promoción de draft. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 30,
+      "len": 455,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: tabla TRANSITIONS; submit desde draft → pending; approve desde draft → invalid. En CP-N2-C la aprobación humana es obligatoria antes de cualquier acción de envío (aunque ",
+      "text": "Contrato: tabla TRANSITIONS; submit desde draft → pending; approve desde draft → invalid. En CP-N2-C la aprobación humana es obligatoria antes de cualquier acción de envío (aunque el curso solo simule). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 31,
+      "len": 395,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: log {from,to,actor} al aprobar pending→approved con actor rev1. El portfolio adjunta el log: evidencia de cumplimiento y de fail-closed. En el workbench sintético (Lima/Cusco",
+      "text": "Caso: log {from,to,actor} al aprobar pending→approved con actor rev1. El portfolio adjunta el log: evidencia de cumplimiento y de fail-closed. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 32,
+      "len": 48,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "idempotencia, audit log y reintento sin duplicar",
+      "text": "idempotencia, audit log y reintento sin duplicar"
+    },
+    {
+      "i": 33,
+      "len": 458,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una idempotency key (p. ej. sha256 hex[:8] de run_id|destinatario|versión del cuerpo) evita drafts duplicados si el operador reintenta. El audit log registra create/submit/approve/",
+      "text": "Una idempotency key (p. ej. sha256 hex[:8] de run_id|destinatario|versión del cuerpo) evita drafts duplicados si el operador reintenta. El audit log registra create/submit/approve/retry con quién y cuándo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 34,
+      "len": 422,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de reintento: si la key ya existe en estado terminal o activo, devuelve el id previo; no crea otro mensaje. Eventos create luego retry_hit en la lista de audit. En el work",
+      "text": "Contrato de reintento: si la key ya existe en estado terminal o activo, devuelve el id previo; no crea otro mensaje. Eventos create luego retry_hit en la lista de audit. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 35,
+      "len": 419,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: dos create con la misma key → igualdad True de ids; audit ['create','retry_hit']. Cierra el inicio de CP-N2-C hacia browser RPA (S23) y el VP de automatización. En el workben",
+      "text": "Caso: dos create con la misma key → igualdad True de ids; audit ['create','retry_hit']. Cierra el inicio de CP-N2-C hacia browser RPA (S23) y el VP de automatización. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 19958
+}

@@ -1,0 +1,482 @@
+{
+  "index": 20,
+  "id": "rag",
+  "title": "Automatización robusta de Excel",
+  "file": "s20-rag.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “RAG en producción” a Excel factory (mapa)",
+      "len": 45
+    },
+    {
+      "i": 1,
+      "text": "En V3, S20 no es RAG de embeddings en producción. El id rag se conserva; el camino es la automatización robusta de Excel (openpyxl) como reporting factory: hojas, tablas, fórmulas vs valores, estilos, conciliación, validación estructural, batch e idempotencia.",
+      "len": 260
+    },
+    {
+      "i": 2,
+      "text": "Hilo: workbook sintético cpn2b_factory.xlsx con hojas Entrada/Datos/Salida, regiones Lima/Cusco y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 466
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Modelo de libro (sheets, celdas, tablas, named ranges; fórmulas vs cache) → T2 Presentación (estilos, charts Excel, fechas/locales, protección) → T3 Calidad (conciliación, pivots, validación, preservación) → T4 Operación (batch, corruptos/locks, backups, idempotencia, tests estructurales). Prerrequisitos S17–S19.",
+      "len": 324
+    },
+    {
+      "i": 4,
+      "text": "sheets, celdas, tablas y named ranges",
+      "len": 37
+    },
+    {
+      "i": 5,
+      "text": "Un libro es un grafo de hojas + celdas + tablas + named ranges. Nombra hojas de forma estable (Entrada, Datos, Salida); evita “Hoja1” en el entregable. Las tablas y rangos con nombre anclan fórmulas y lecturas programáticas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 477
+    },
+    {
+      "i": 6,
+      "text": "Contrato: crear workbook, set title, escribir encabezados, append filas, listar sheetnames. El gate verifica presencia de hojas requeridas y encabezado region antes de cualquier KPI. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 435
+    },
+    {
+      "i": 7,
+      "text": "Caso: ws.title='Entrada', A1=region; segunda hoja Salida. Conteos de filas de datos (sin header) alimentan la conciliación con el dashboard S19 (mismos n). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 408
+    },
+    {
+      "i": 8,
+      "text": "fórmulas vs valores cacheados",
+      "len": 29
+    },
+    {
+      "i": 9,
+      "text": "Las fórmulas viven en la celda; los valores cacheados son lo que Excel/openpyxl puede leer sin motor de cálculo completo. No asumas que data_only=True rellena fórmulas recién escritas en el mismo proceso sin Excel. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 467
+    },
+    {
+      "i": 10,
+      "text": "Contrato didáctico: separa “escribir fórmula” de “assert de valor de negocio”. Para asserts de KPI en CI del curso, escribe valores materializados o documenta dependencia de motor. Nunca “el número está bien porque la fórmula se ve bien”.",
+      "len": 238
+    },
+    {
+      "i": 11,
+      "text": "Caso: celda =SUM(B2:B10) vs valor 120 precalculado en Python. El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número al Excel de salida. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 429
+    },
+    {
+      "i": 12,
+      "text": "estilos, charts y plantillas",
+      "len": 28
+    },
+    {
+      "i": 13,
+      "text": "Estilos (fuentes, fills, borders), charts embebidos y plantillas reutilizables dan pinta ejecutiva — pero el contrato de datos manda sobre el formato. No rompas encabezados al embellecer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 440
+    },
+    {
+      "i": 14,
+      "text": "Contrato: estilos solo en rangos de presentación; datos crudos en hoja Entrada sin merges que impidan iter_rows. Charts Excel son opcionales si el PNG de S19 ya cubre el insight. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 431
+    },
+    {
+      "i": 15,
+      "text": "Caso sintético: plantilla con logo placeholder y tabla de KPIs; el script rellena filas sin tocar la fila 1 de encabezados fijos. Diff estructural del xlsx debe ser predecible. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 429
+    },
+    {
+      "i": 16,
+      "text": "fechas, locales, celdas combinadas y protección",
+      "len": 47
+    },
+    {
+      "i": 17,
+      "text": "Fechas y locales: serializa fechas ISO o datetime timezone-aware documentado; no dependas del locale del SO del alumno para parsear “03/04/24”. Celdas combinadas y protección de hoja son trampas de lectura automatizada. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 472
+    },
+    {
+      "i": 18,
+      "text": "Contrato: evita merges en rangos de datos; si la plantilla legacy los trae, lee el valor de la celda ancla y documenta. Protección: el script debe fallar claro si no puede escribir, no silenciar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 448
+    },
+    {
+      "i": 19,
+      "text": "Caso: corte 2024-06-30 en celda de metadata; región en columna A sin merge. El data note del factory repite el corte — alineado a S18. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 387
+    },
+    {
+      "i": 21,
+      "text": "Conciliación: totales del Excel de salida deben cuadrar con los del dataframe fuente (suma de montos, n de filas). Pivots en Excel son para el usuario final; el script puede materializar el pivot ya calculado en pandas (S17). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 478
+    },
+    {
+      "i": 22,
+      "text": "Contrato: assert abs(sum_xlsx - sum_df) < tol y n_xlsx == n_df. Si no cuadra, fail-closed: no emitas el paquete a S21. Documenta tolerancia de redondeo (2 decimales PEN). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 423
+    },
+    {
+      "i": 23,
+      "text": "Caso: df montos 10+20+30 vs hoja Salida; pivot región→suma. El gate imprime reconcile True solo si ambos lados coinciden. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 374
+    },
+    {
+      "i": 24,
+      "text": "reglas de validación y preservación de estructura",
+      "len": 49
+    },
+    {
+      "i": 25,
+      "text": "Reglas de validación (listas, enteros, custom) y preservación de estructura: no borres hojas de catálogo; no renombres Entrada en caliente sin migrar referencias. Validar antes de escribir lote. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 447
+    },
+    {
+      "i": 26,
+      "text": "Contrato: conjunto de sheetnames requeridas ⊆ sheetnames reales; encabezados exactos; tipos coercibles. Ante fila inválida, cuarentena de fila o abort del batch según política documentada — sin PII en logs. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 459
+    },
+    {
+      "i": 27,
+      "text": "Caso: need {'Datos','Salida'}; si falta Salida, structural_ok es False y no se genera el zip del reporting package. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 368
+    },
+    {
+      "i": 28,
+      "text": "batch, archivos corruptos y locks",
+      "len": 33
+    },
+    {
+      "i": 29,
+      "text": "Batch de muchos xlsx: itera paths, captura corruptos (BadZipFile), respeta locks de archivo ajenos (no crashear el pipeline entero). Un archivo malo se aísla; el resto continúa con resumen de errores. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 453
+    },
+    {
+      "i": 30,
+      "text": "Contrato operativo: contadores ok / skip_corrupt / skip_locked; log de paths sintéticos. Timeout y tamaño máximo por archivo evitan DoS accidental en carpetas grandes. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 420
+    },
+    {
+      "i": 31,
+      "text": "Caso didáctico: lista de 3 paths, uno corrupto → ok=2, skip_corrupt=1. El summary JSON alimenta el audit del factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 370
+    },
+    {
+      "i": 32,
+      "text": "backups, idempotencia y pruebas estructurales",
+      "len": 45
+    },
+    {
+      "i": 33,
+      "text": "Backups e idempotencia: antes de sobrescribir, copia a backup/ o escribe a path versionado. Misma entrada + misma versión de script → mismos hashes de hojas de datos (orden canónico). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 436
+    },
+    {
+      "i": 34,
+      "text": "Contrato: digest de filas ordenadas; structural_ok(sheetnames, need); re-ejecutar dos veces no duplica filas. Prueba estructural en CI del curso sin abrir Excel GUI. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 418
+    },
+    {
+      "i": 35,
+      "text": "Caso: dig(rows) estable; segunda corrida con misma key de corrida no agrega filas fantasma. Cierra el tramo Excel hacia documentos S21. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 388
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “RAG en producción” a Excel factory (mapa)",
+      "text": "De “RAG en producción” a Excel factory (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 260,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S20 no es RAG de embeddings en producción. El id rag se conserva; el camino es la automatización robusta de Excel (openpyxl) como reporting factory: hojas, tablas, fórmulas ",
+      "text": "En V3, S20 no es RAG de embeddings en producción. El id rag se conserva; el camino es la automatización robusta de Excel (openpyxl) como reporting factory: hojas, tablas, fórmulas vs valores, estilos, conciliación, validación estructural, batch e idempotencia."
+    },
+    {
+      "i": 2,
+      "len": 466,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hilo: workbook sintético cpn2b_factory.xlsx con hojas Entrada/Datos/Salida, regiones Lima/Cusco y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar",
+      "text": "Hilo: workbook sintético cpn2b_factory.xlsx con hojas Entrada/Datos/Salida, regiones Lima/Cusco y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 3,
+      "len": 324,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Modelo de libro (sheets, celdas, tablas, named ranges; fórmulas vs cache) → T2 Presentación (estilos, charts Excel, fechas/locales, protección) → T3 Calidad (conciliación",
+      "text": "Orden: T1 Modelo de libro (sheets, celdas, tablas, named ranges; fórmulas vs cache) → T2 Presentación (estilos, charts Excel, fechas/locales, protección) → T3 Calidad (conciliación, pivots, validación, preservación) → T4 Operación (batch, corruptos/locks, backups, idempotencia, tests estructurales). Prerrequisitos S17–S19."
+    },
+    {
+      "i": 4,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "sheets, celdas, tablas y named ranges",
+      "text": "sheets, celdas, tablas y named ranges"
+    },
+    {
+      "i": 5,
+      "len": 477,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un libro es un grafo de hojas + celdas + tablas + named ranges. Nombra hojas de forma estable (Entrada, Datos, Salida); evita “Hoja1” en el entregable. Las tablas y rangos con nomb",
+      "text": "Un libro es un grafo de hojas + celdas + tablas + named ranges. Nombra hojas de forma estable (Entrada, Datos, Salida); evita “Hoja1” en el entregable. Las tablas y rangos con nombre anclan fórmulas y lecturas programáticas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 6,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: crear workbook, set title, escribir encabezados, append filas, listar sheetnames. El gate verifica presencia de hojas requeridas y encabezado region antes de cualquier KP",
+      "text": "Contrato: crear workbook, set title, escribir encabezados, append filas, listar sheetnames. El gate verifica presencia de hojas requeridas y encabezado region antes de cualquier KPI. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 7,
+      "len": 408,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: ws.title='Entrada', A1=region; segunda hoja Salida. Conteos de filas de datos (sin header) alimentan la conciliación con el dashboard S19 (mismos n). En el workbench sintétic",
+      "text": "Caso: ws.title='Entrada', A1=region; segunda hoja Salida. Conteos de filas de datos (sin header) alimentan la conciliación con el dashboard S19 (mismos n). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 8,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "fórmulas vs valores cacheados",
+      "text": "fórmulas vs valores cacheados"
+    },
+    {
+      "i": 9,
+      "len": 467,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las fórmulas viven en la celda; los valores cacheados son lo que Excel/openpyxl puede leer sin motor de cálculo completo. No asumas que data_only=True rellena fórmulas recién escri",
+      "text": "Las fórmulas viven en la celda; los valores cacheados son lo que Excel/openpyxl puede leer sin motor de cálculo completo. No asumas que data_only=True rellena fórmulas recién escritas en el mismo proceso sin Excel. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 10,
+      "len": 238,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato didáctico: separa “escribir fórmula” de “assert de valor de negocio”. Para asserts de KPI en CI del curso, escribe valores materializados o documenta dependencia de motor.",
+      "text": "Contrato didáctico: separa “escribir fórmula” de “assert de valor de negocio”. Para asserts de KPI en CI del curso, escribe valores materializados o documenta dependencia de motor. Nunca “el número está bien porque la fórmula se ve bien”."
+    },
+    {
+      "i": 11,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: celda =SUM(B2:B10) vs valor 120 precalculado en Python. El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número al Excel de salida. En ",
+      "text": "Caso: celda =SUM(B2:B10) vs valor 120 precalculado en Python. El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número al Excel de salida. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 12,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "estilos, charts y plantillas",
+      "text": "estilos, charts y plantillas"
+    },
+    {
+      "i": 13,
+      "len": 440,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Estilos (fuentes, fills, borders), charts embebidos y plantillas reutilizables dan pinta ejecutiva — pero el contrato de datos manda sobre el formato. No rompas encabezados al embe",
+      "text": "Estilos (fuentes, fills, borders), charts embebidos y plantillas reutilizables dan pinta ejecutiva — pero el contrato de datos manda sobre el formato. No rompas encabezados al embellecer. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 14,
+      "len": 431,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: estilos solo en rangos de presentación; datos crudos en hoja Entrada sin merges que impidan iter_rows. Charts Excel son opcionales si el PNG de S19 ya cubre el insight. E",
+      "text": "Contrato: estilos solo en rangos de presentación; datos crudos en hoja Entrada sin merges que impidan iter_rows. Charts Excel son opcionales si el PNG de S19 ya cubre el insight. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 15,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: plantilla con logo placeholder y tabla de KPIs; el script rellena filas sin tocar la fila 1 de encabezados fijos. Diff estructural del xlsx debe ser predecible. En ",
+      "text": "Caso sintético: plantilla con logo placeholder y tabla de KPIs; el script rellena filas sin tocar la fila 1 de encabezados fijos. Diff estructural del xlsx debe ser predecible. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 16,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "fechas, locales, celdas combinadas y protección",
+      "text": "fechas, locales, celdas combinadas y protección"
+    },
+    {
+      "i": 17,
+      "len": 472,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fechas y locales: serializa fechas ISO o datetime timezone-aware documentado; no dependas del locale del SO del alumno para parsear “03/04/24”. Celdas combinadas y protección de ho",
+      "text": "Fechas y locales: serializa fechas ISO o datetime timezone-aware documentado; no dependas del locale del SO del alumno para parsear “03/04/24”. Celdas combinadas y protección de hoja son trampas de lectura automatizada. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 18,
+      "len": 448,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: evita merges en rangos de datos; si la plantilla legacy los trae, lee el valor de la celda ancla y documenta. Protección: el script debe fallar claro si no puede escribir",
+      "text": "Contrato: evita merges en rangos de datos; si la plantilla legacy los trae, lee el valor de la celda ancla y documenta. Protección: el script debe fallar claro si no puede escribir, no silenciar. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 387,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: corte 2024-06-30 en celda de metadata; región en columna A sin merge. El data note del factory repite el corte — alineado a S18. En el workbench sintético (Lima/Cusco/Arequip",
+      "text": "Caso: corte 2024-06-30 en celda de metadata; región en columna A sin merge. El data note del factory repite el corte — alineado a S18. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 21,
+      "len": 478,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Conciliación: totales del Excel de salida deben cuadrar con los del dataframe fuente (suma de montos, n de filas). Pivots en Excel son para el usuario final; el script puede materi",
+      "text": "Conciliación: totales del Excel de salida deben cuadrar con los del dataframe fuente (suma de montos, n de filas). Pivots en Excel son para el usuario final; el script puede materializar el pivot ya calculado en pandas (S17). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 22,
+      "len": 423,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: assert abs(sum_xlsx - sum_df) < tol y n_xlsx == n_df. Si no cuadra, fail-closed: no emitas el paquete a S21. Documenta tolerancia de redondeo (2 decimales PEN). En el wor",
+      "text": "Contrato: assert abs(sum_xlsx - sum_df) < tol y n_xlsx == n_df. Si no cuadra, fail-closed: no emitas el paquete a S21. Documenta tolerancia de redondeo (2 decimales PEN). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 23,
+      "len": 374,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: df montos 10+20+30 vs hoja Salida; pivot región→suma. El gate imprime reconcile True solo si ambos lados coinciden. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T",
+      "text": "Caso: df montos 10+20+30 vs hoja Salida; pivot región→suma. El gate imprime reconcile True solo si ambos lados coinciden. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 24,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "reglas de validación y preservación de estructura",
+      "text": "reglas de validación y preservación de estructura"
+    },
+    {
+      "i": 25,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reglas de validación (listas, enteros, custom) y preservación de estructura: no borres hojas de catálogo; no renombres Entrada en caliente sin migrar referencias. Validar antes de ",
+      "text": "Reglas de validación (listas, enteros, custom) y preservación de estructura: no borres hojas de catálogo; no renombres Entrada en caliente sin migrar referencias. Validar antes de escribir lote. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 26,
+      "len": 459,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: conjunto de sheetnames requeridas ⊆ sheetnames reales; encabezados exactos; tipos coercibles. Ante fila inválida, cuarentena de fila o abort del batch según política docu",
+      "text": "Contrato: conjunto de sheetnames requeridas ⊆ sheetnames reales; encabezados exactos; tipos coercibles. Ante fila inválida, cuarentena de fila o abort del batch según política documentada — sin PII en logs. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 27,
+      "len": 368,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: need {'Datos','Salida'}; si falta Salida, structural_ok es False y no se genera el zip del reporting package. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C0",
+      "text": "Caso: need {'Datos','Salida'}; si falta Salida, structural_ok es False y no se genera el zip del reporting package. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 28,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "batch, archivos corruptos y locks",
+      "text": "batch, archivos corruptos y locks"
+    },
+    {
+      "i": 29,
+      "len": 453,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Batch de muchos xlsx: itera paths, captura corruptos (BadZipFile), respeta locks de archivo ajenos (no crashear el pipeline entero). Un archivo malo se aísla; el resto continúa con",
+      "text": "Batch de muchos xlsx: itera paths, captura corruptos (BadZipFile), respeta locks de archivo ajenos (no crashear el pipeline entero). Un archivo malo se aísla; el resto continúa con resumen de errores. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 30,
+      "len": 420,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo: contadores ok / skip_corrupt / skip_locked; log de paths sintéticos. Timeout y tamaño máximo por archivo evitan DoS accidental en carpetas grandes. En el workbe",
+      "text": "Contrato operativo: contadores ok / skip_corrupt / skip_locked; log de paths sintéticos. Timeout y tamaño máximo por archivo evitan DoS accidental en carpetas grandes. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 31,
+      "len": 370,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso didáctico: lista de 3 paths, uno corrupto → ok=2, skip_corrupt=1. El summary JSON alimenta el audit del factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/",
+      "text": "Caso didáctico: lista de 3 paths, uno corrupto → ok=2, skip_corrupt=1. El summary JSON alimenta el audit del factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 32,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "backups, idempotencia y pruebas estructurales",
+      "text": "backups, idempotencia y pruebas estructurales"
+    },
+    {
+      "i": 33,
+      "len": 436,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Backups e idempotencia: antes de sobrescribir, copia a backup/ o escribe a path versionado. Misma entrada + misma versión de script → mismos hashes de hojas de datos (orden canónic",
+      "text": "Backups e idempotencia: antes de sobrescribir, copia a backup/ o escribe a path versionado. Misma entrada + misma versión de script → mismos hashes de hojas de datos (orden canónico). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 34,
+      "len": 418,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: digest de filas ordenadas; structural_ok(sheetnames, need); re-ejecutar dos veces no duplica filas. Prueba estructural en CI del curso sin abrir Excel GUI. En el workbenc",
+      "text": "Contrato: digest de filas ordenadas; structural_ok(sheetnames, need); re-ejecutar dos veces no duplica filas. Prueba estructural en CI del curso sin abrir Excel GUI. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 35,
+      "len": 388,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: dig(rows) estable; segunda corrida con misma key de corrida no agrega filas fantasma. Cierra el tramo Excel hacia documentos S21. En el workbench sintético (Lima/Cusco/Arequi",
+      "text": "Caso: dig(rows) estable; segunda corrida con misma key de corrida no agrega filas fantasma. Cierra el tramo Excel hacia documentos S21. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 15601
+}

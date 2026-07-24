@@ -1,0 +1,3 @@
+# Git restore S46–S47
+2026-07-24T04:09:01.718560+00:00
+KEEP worktree (DEFECT>HEAD).

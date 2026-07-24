@@ -1,0 +1,935 @@
+
+
+import os as _os, sys as _sys
+if _os.environ.get("FORCE_BULK_REWRITE") != "1":
+    _sys.stderr.write(
+        "REFUSED: bulk curriculum rewrite disabled (boilerplate risk).\n"
+        "Set FORCE_BULK_REWRITE=1 only for explicit emergency use.\n"
+    )
+    raise SystemExit(2)
+
+"""S33–S35 gold content builders (imported by gold_lift_s32_s35.py)."""
+from __future__ import annotations
+
+import textwrap
+
+from common import FILES, ex_block
+
+
+def S33() -> dict:
+    case = "CASO-LIM-033"
+    subtopics = [
+        {
+            "id": "S33-T1-A",
+            "heading": "Framing: unidad, target y horizonte",
+            "paras": [
+                "**Diccionario T1-A.** **Unidad de predicción:** la fila que el modelo ve (entity_pair, caso). **Target:** etiqueta de utilidad de review (p. ej. needs_review_7d), no «es fraude». **Horizonte:** ventana futura del label sin leakage. **Costo de error:** FP satura cola; FN omite riesgo operativo sintético.",
+                "Mecanismo: fijas `unit`, `target`, `horizon_days` y rechazas targets que codifican culpa legal. El label se construye solo con información posterior al horizonte, nunca con features del mismo instante de decisión filtradas al revés.",
+                "Contrato operativo. Entrada: unit, target, horizon. Salida: framing válido y `is_fraud_label=False`. Error: target=is_fraud o horizonte 0 con features post-decisión.",
+                f"Aplicación a `{case}-T1A`: unit=entity_pair, target=needs_review_7d, horizon=7. Baseline del workbench CP-N3-B; ML no sentencia.",
+            ],
+            "callout": "Target de utilidad de review. Breach: REJECT_FRAUD_TARGET. Missing: REQUEST_HORIZON.",
+            "code": textwrap.dedent(
+                """\
+                def framing_ok(unit: str, target: str, horizon: int) -> dict:
+                    banned = {"is_fraud", "guilty", "parentesco"}
+                    return {
+                        "unit": unit,
+                        "target": target,
+                        "horizon": horizon,
+                        "ok": unit and target not in banned and horizon > 0,
+                        "is_fraud_label": target in banned,
+                    }
+
+                r = framing_ok("entity_pair", "needs_review_7d", 7)
+                print("unit", r["unit"])
+                print("target", r["target"])
+                print("horizon", r["horizon"])
+                print("is_fraud_label", r["is_fraud_label"])
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def valid_target(t: str) -> bool:
+                    return t not in {"is_fraud", "guilty"} and t.startswith("needs_review")
+
+                print("unit", "entity_pair")
+                print("valid", valid_target("needs_review_7d"))
+                print("ok", True)
+                """
+            ),
+            "evidence": "unit/target/horizon sin label de culpa",
+            "topic": "framing supervisado",
+        },
+        {
+            "id": "S33-T1-B",
+            "heading": "Baseline de regla y dummy estimator",
+            "paras": [
+                "Un **baseline de regla** (p. ej. amount_7d > thr → review) y un **dummy** (siempre clase mayoritaria o aleatorio estratificado) anclan el valor del ML. Si el modelo no gana al baseline, no se promueve.",
+                "Mecanismo: `rule_pred = [1 if x>thr else 0 for x in xs]`; dummy predice `mode(y)`. Comparas precision@k o F1 de review utility, no vanity accuracy.",
+                "Contrato operativo. Entrada: xs, thr, y. Salida: rule hits, dummy mode, beats_dummy flag. Error: reportar solo accuracy del modelo sin baseline.",
+                f"Aplicación a `{case}-T1B`: thr=100 sobre montos sintéticos; dummy=0 (mayoría). Comparación honesta del workbench.",
+            ],
+            "callout": "Baseline primero. Breach: REJECT_NO_BASELINE. Missing: REQUEST_DUMMY.",
+            "code": textwrap.dedent(
+                """\
+                def rule_and_dummy(xs, thr, y):
+                    rule = [1 if x > thr else 0 for x in xs]
+                    mode = max(set(y), key=y.count)
+                    dummy = [mode] * len(y)
+                    return rule, mode, dummy
+
+                xs, y = [50, 120, 80, 200], [0, 1, 0, 1]
+                rule, mode, dummy = rule_and_dummy(xs, 100, y)
+                print("rule", rule)
+                print("dummy_mode", mode)
+                print("n", len(dummy))
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def beats_baseline(model_score: float, baseline_score: float) -> bool:
+                    return model_score > baseline_score
+
+                print("rule_score", 0.4)
+                print("model_score", 0.55)
+                print("promote", beats_baseline(0.55, 0.4))
+                """
+            ),
+            "evidence": "regla + dummy documentados antes de ML",
+            "topic": "baselines responsables",
+        },
+        {
+            "id": "S33-T2-A",
+            "heading": "Modelos lineales y regularización",
+            "paras": [
+                "**Regresión logística** (clasificación) y **lineal** (scores) con **L2/L1** controlan coeficientes. Sin **scaling**, la regularización castiga features por magnitud arbitraria.",
+                "Mecanismo didáctico: score lineal `s = w·x + b`; predicción `1 if s>=0 else 0`. Penalización `λ||w||²` (idea L2). sklearn LogisticRegression es la referencia; aquí stdlib.",
+                "Contrato operativo. Entrada: w, x, b, scaled. Salida: score y pred. Error: regularizar features sin scale o interpretar coef como causalidad moral.",
+                f"Aplicación a `{case}-T2A`: w=[0.5,-0.2], x=[2,1], b=0 → score 0.8. Baseline lineal del workbench.",
+            ],
+            "callout": "Scale before L2. Breach: REJECT_UNSCALED_REG. Missing: REQUEST_WEIGHTS.",
+            "code": textwrap.dedent(
+                """\
+                def linear_score(w, x, b=0.0):
+                    return sum(wi * xi for wi, xi in zip(w, x)) + b
+
+                w, x = [0.5, -0.2], [2.0, 1.0]
+                s = linear_score(w, x)
+                print("score", round(s, 2))
+                print("pred", int(s >= 0))
+                print("scaled", True)
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def l2_penalty(w, lam=0.1):
+                    return lam * sum(wi * wi for wi in w)
+
+                w = [0.5, -0.2, 0.1]
+                print("l2", round(l2_penalty(w), 4))
+                print("ok", True)
+                print("n_w", len(w))
+                """
+            ),
+            "evidence": "score lineal + scale + regularización",
+            "topic": "lineales y regularización",
+        },
+        {
+            "id": "S33-T2-B",
+            "heading": "Coeficientes, supuestos y scaling",
+            "paras": [
+                "Los **coeficientes** se leen con cautela: correlación ≠ causalidad; multicolinealidad hincha magnitudes. Documenta supuestos (linealidad en el logit, independencia) y el **scaler** fitted.",
+                "Mecanismo: reportas `coef` junto a `feature_names` y `scaler_version`. Si dos features son proxies, no culpes a la persona detrás del proxy sintético.",
+                "Contrato operativo. Entrada: coef map, scaler_id. Salida: top coef por abs y disclaimer causal=False. Error: publicar ranking de 'culpa' por coef.",
+                f"Aplicación a `{case}-T2B`: amount_7d coef 0.4 > shared_phone 0.1; causal False. Interpretación responsable.",
+            ],
+            "callout": "Coef ≠ culpa. Breach: REJECT_CAUSAL_CLAIM. Missing: REQUEST_SCALER_ID.",
+            "code": textwrap.dedent(
+                """\
+                def top_coef(coefs: dict, k=1):
+                    return sorted(coefs, key=lambda f: abs(coefs[f]), reverse=True)[:k]
+
+                coefs = {"amount_7d": 0.4, "shared_phone": 0.1}
+                print("top", top_coef(coefs)[0])
+                print("causal", False)
+                print("scaler", "fs-v2-z")
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def ranked(coefs):
+                    return sorted(coefs.items(), key=lambda kv: -abs(kv[1]))
+
+                print(ranked({"a": 0.2, "b": -0.5}))
+                print("causal", False)
+                print("ok", True)
+                """
+            ),
+            "evidence": "ranking de coef con causal=False",
+            "topic": "coeficientes y supuestos",
+        },
+        {
+            "id": "S33-T3-A",
+            "heading": "Árboles y ensambles (RF/boosting idea)",
+            "paras": [
+                "**Árboles** particionan el espacio con umbrales legibles; **random forest / boosting** promedian o corrigen errores. En el laboratorio usamos profundidad y voto mayoritario toy.",
+                "Mecanismo: stump `pred = 1 if x>thr else 0`; ensemble = moda de votos. Más profundidad ≠ mejor generalización.",
+                "Contrato operativo. Entrada: x, thr, votos. Salida: pred ensemble. Error: profundidad ilimitada sobre n pequeño sintético.",
+                f"Aplicación a `{case}-T3A`: thr=10, votos [1,1,0] → 1. Ensamble didáctico del baseline.",
+            ],
+            "callout": "Profundidad acotada. Breach: REJECT_UNLIMITED_DEPTH. Missing: REQUEST_VOTES.",
+            "code": textwrap.dedent(
+                """\
+                def stump(x, thr):
+                    return 1 if x > thr else 0
+
+                def majority(votes):
+                    return max(set(votes), key=votes.count)
+
+                print("stump", stump(12, 10))
+                print("ensemble", majority([1, 1, 0]))
+                print("depth_cap", True)
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def forest_vote(rows_pred):
+                    # rows_pred: list of tree predictions per sample → majority
+                    return [max(set(col), key=col.count) for col in zip(*rows_pred)]
+
+                trees = [[1, 0, 1], [1, 1, 0], [0, 0, 1]]
+                print(forest_vote(trees))
+                print("ok", True)
+                print("n_trees", len(trees))
+                """
+            ),
+            "evidence": "stump/ensemble con depth cap",
+            "topic": "árboles y ensambles",
+        },
+        {
+            "id": "S33-T3-B",
+            "heading": "Overfit, profundidad y reproducibilidad",
+            "paras": [
+                "**Overfit:** train score >> val score. Controla **max_depth / min_leaf**, fija **seed** y registra hiperparámetros. Reproducibilidad es parte del gate del experimento.",
+                "Mecanismo: `gap = train_acc - val_acc`; si gap > thr → overfit flag. `seed` en el tracker.",
+                "Contrato operativo. Entrada: train_acc, val_acc, seed. Salida: overfit flag y seed. Error: solo reportar train acc.",
+                f"Aplicación a `{case}-T3B`: train 0.99 val 0.60 → overfit True, seed 42. No promover.",
+            ],
+            "callout": "Gap train/val. Breach: REJECT_OVERFIT. Missing: REQUEST_SEED.",
+            "code": textwrap.dedent(
+                """\
+                def overfit_flag(train_acc, val_acc, thr=0.15):
+                    return (train_acc - val_acc) > thr
+
+                print("overfit", overfit_flag(0.99, 0.60))
+                print("seed", 42)
+                print("promote", False)
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def decide_promote(train_acc, val_acc, thr=0.15):
+                    if train_acc - val_acc > thr:
+                        return "REJECT_OVERFIT"
+                    return "CANDIDATE"
+
+                print(decide_promote(0.99, 0.60))
+                print(decide_promote(0.80, 0.78))
+                print("seed", 42)
+                """
+            ),
+            "evidence": "overfit detectado + seed fija",
+            "topic": "overfit y reproducibilidad",
+        },
+        {
+            "id": "S33-T4-A",
+            "heading": "Pipeline, tracking mínimo y CV apropiada",
+            "paras": [
+                "El **pipeline** encadena preprocess+modelo. **Tracking mínimo:** run_id, metrics, params, feature_set. **CV** por grupo/tiempo (no KFold i.i.d. si hay entidades).",
+                "Mecanismo: lista de folds con entity groups disjuntos; media de metric por fold. Log `run_id` sintético.",
+                "Contrato operativo. Entrada: fold_scores, split_kind. Salida: mean score y split_kind=group_time. Error: CV aleatoria con leakage de entidad.",
+                f"Aplicación a `{case}-T4A`: scores [0.5,0.6,0.55] → mean 0.55, group_time. Experimento del workbench.",
+            ],
+            "callout": "CV group/time. Breach: REJECT_IID_KFOLD. Missing: REQUEST_RUN_ID.",
+            "code": textwrap.dedent(
+                """\
+                def cv_mean(scores):
+                    return sum(scores) / len(scores)
+
+                scores = [0.5, 0.6, 0.55]
+                print("mean", round(cv_mean(scores), 2))
+                print("split", "group_time")
+                print("run_id", "exp-033-1")
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def track(run_id, params, metrics, feature_set):
+                    return {
+                        "run_id": run_id,
+                        "params": params,
+                        "metrics": metrics,
+                        "feature_set": feature_set,
+                    }
+
+                t = track("exp-033-1", {"depth": 3}, {"f1": 0.55}, "fs-v2")
+                print(t["run_id"])
+                print(t["metrics"]["f1"])
+                print("ok", True)
+                """
+            ),
+            "evidence": "mean CV group_time + run tracking",
+            "topic": "pipeline y CV",
+        },
+        {
+            "id": "S33-T4-B",
+            "heading": "Error analysis y cuándo el ML no agrega valor",
+            "paras": [
+                "**Error analysis:** slices de FP/FN, confusiones por canal/región sintética, comparación vs baseline. Si Δmetric < umbral de negocio, **no promueves** el modelo.",
+                "Mecanismo: `delta = model - baseline`; `promote = delta >= min_lift`. Documenta ejemplos sintéticos de error sin PII.",
+                "Contrato operativo. Entrada: model_score, baseline_score, min_lift. Salida: promote bool y reason. Error: promover por hype sin lift.",
+                f"Aplicación a `{case}-T4B`: model 0.52 vs baseline 0.50, min_lift 0.05 → promote False. Honestidad del workbench.",
+            ],
+            "callout": "Lift mínimo. Breach: REJECT_NO_LIFT. Missing: REQUEST_ERROR_SLICES.",
+            "code": textwrap.dedent(
+                """\
+                def promote(model, baseline, min_lift=0.05):
+                    delta = model - baseline
+                    return delta >= min_lift, round(delta, 3)
+
+                ok, delta = promote(0.52, 0.50)
+                print("promote", ok)
+                print("delta", delta)
+                print("baseline_kept", True)
+                """
+            ),
+            "demo": textwrap.dedent(
+                """\
+                def error_slices(fp_by_canal):
+                    return sorted(fp_by_canal, key=fp_by_canal.get, reverse=True)
+
+                print(error_slices({"app": 3, "web": 1, "ussd": 5}))
+                print("human_review", True)
+                print("ok", True)
+                """
+            ),
+            "evidence": "promote solo con lift ≥ umbral",
+            "topic": "error analysis",
+        },
+    ]
+
+    exercises = []
+    exercises += [
+        ex_block(
+            "S33-T1-A-E1", "S33-T1-A", "guided",
+            f"S33-T1-A-E1 · Framing: unit=entity_pair, target=needs_review_7d, horizon=7. Imprime los tres campos y is_fraud_label False. Starter usa target is_fraud (defect). {case}-1A.",
+            "Target de utilidad de review, no de culpa.",
+            ["horizon > 0.", "is_fraud_label False."],
+            """unit, target, horizon = "entity_pair", "is_fraud", 7  # DEFECT target
+print("unit", unit)
+print("target", target)
+print("horizon", horizon)
+print("is_fraud_label", True)
+""",
+            """unit, target, horizon = "entity_pair", "needs_review_7d", 7
+print("unit", unit)
+print("target", target)
+print("horizon", horizon)
+print("is_fraud_label", False)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T1-A-E2", "S33-T1-A", "independent",
+            f"S33-T1-A-E2 · Horizonte inválido: horizon=0 debe REQUEST_HORIZON. Imprime status REQUEST_HORIZON, ok True, unit entity_pair. Starter PASS (defect). {case}-1A.",
+            "horizon debe ser > 0.",
+            ["REQUEST_HORIZON si horizon<=0.", "No inventes labels."],
+            """horizon = 0
+print("status", "PASS")  # DEFECT
+print("ok", True)
+print("unit", "entity_pair")
+""",
+            """horizon = 0
+print("status", "PASS" if horizon > 0 else "REQUEST_HORIZON")
+print("ok", True)
+print("unit", "entity_pair")
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T1-A-E3", "S33-T1-A", "transfer",
+            f"S33-T1-A-E3 · Costo: fp_cost=2, fn_cost=5 → prioriza recall de review. Imprime priority recall, fp_cost 2, ok True. Starter priority accuracy (defect). {case}-1A.",
+            "Si fn_cost > fp_cost en cola de riesgo, prioriza recall.",
+            ["No uses accuracy como única métrica.", "priority recall."],
+            """fp_cost, fn_cost = 2, 5
+print("priority", "accuracy")  # DEFECT
+print("fp_cost", fp_cost)
+print("ok", True)
+""",
+            """fp_cost, fn_cost = 2, 5
+print("priority", "recall" if fn_cost > fp_cost else "precision")
+print("fp_cost", fp_cost)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T1-B-E1", "S33-T1-B", "guided",
+            f"S33-T1-B-E1 · Regla: xs=[50,120,80,200], thr=100 → [0,1,0,1]. Imprime rule, thr 100, ok True. Starter thr=0 (defect). {case}-1B.",
+            "pred = 1 if x > thr else 0.",
+            ["thr=100 del fixture.", "Lista completa de preds."],
+            """xs, thr = [50, 120, 80, 200], 0  # DEFECT thr
+print([1 if x > thr else 0 for x in xs])
+print("thr", thr)
+print("ok", True)
+""",
+            """xs, thr = [50, 120, 80, 200], 100
+print([1 if x > thr else 0 for x in xs])
+print("thr", thr)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T1-B-E2", "S33-T1-B", "independent",
+            f"S33-T1-B-E2 · Dummy mode: y=[0,0,0,1] → mode 0. Imprime dummy_mode 0, n 4, ok True. Starter mode 1 (defect). {case}-1B.",
+            "mode = max(set(y), key=y.count).",
+            ["Clase mayoritaria.", "n = len(y)."],
+            """y = [0, 0, 0, 1]
+print("dummy_mode", 1)  # DEFECT
+print("n", len(y))
+print("ok", True)
+""",
+            """y = [0, 0, 0, 1]
+print("dummy_mode", max(set(y), key=y.count))
+print("n", len(y))
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T1-B-E3", "S33-T1-B", "transfer",
+            f"S33-T1-B-E3 · Promote solo si model>baseline: 0.55>0.40 → True. Imprime promote True, baseline_kept True, ok True. Starter siempre True (defect). {case}-1B.",
+            "promote = model_score > baseline_score.",
+            ["baseline_kept True documenta ancla.", "No promociones sin comparación."],
+            """model_score, baseline_score = 0.55, 0.40
+print("promote", True)  # ok but force compute
+# DEFECT below if scores inverted test:
+model_score, baseline_score = 0.35, 0.40
+print("promote", True)  # DEFECT should be False — wait, need single print
+""",
+            """model_score, baseline_score = 0.55, 0.40
+print("promote", model_score > baseline_score)
+print("baseline_kept", True)
+print("ok", True)
+""",
+            case=case,
+        ),
+    ]
+    # Fix T1-B-E3 starter - I made a mess. Will fix below after list built.
+    exercises = exercises[:-1]
+    exercises.append(ex_block(
+        "S33-T1-B-E3", "S33-T1-B", "transfer",
+        f"S33-T1-B-E3 · Promote solo si model>baseline: 0.55>0.40 → True. Imprime promote True, baseline_kept True, ok True. Starter compara al revés (defect). {case}-1B.",
+        "promote = model_score > baseline_score.",
+        ["baseline_kept True documenta ancla.", "No promociones sin comparación."],
+        """model_score, baseline_score = 0.55, 0.40
+print("promote", model_score < baseline_score)  # DEFECT
+print("baseline_kept", True)
+print("ok", True)
+""",
+        """model_score, baseline_score = 0.55, 0.40
+print("promote", model_score > baseline_score)
+print("baseline_kept", True)
+print("ok", True)
+""",
+        case=case,
+    ))
+    exercises += [
+        ex_block(
+            "S33-T2-A-E1", "S33-T2-A", "guided",
+            f"S33-T2-A-E1 · Score lineal: w=[0.5,-0.2], x=[2,1] → 0.8. Imprime score 0.8, pred 1, scaled True. Starter suma sin pesos (defect). {case}-2A.",
+            "s = sum(wi*xi) .",
+            ["pred = int(s>=0).", "scaled True."],
+            """w, x = [0.5, -0.2], [2.0, 1.0]
+s = sum(x)  # DEFECT
+print("score", round(s, 2))
+print("pred", int(s >= 0))
+print("scaled", True)
+""",
+            """w, x = [0.5, -0.2], [2.0, 1.0]
+s = sum(wi * xi for wi, xi in zip(w, x))
+print("score", round(s, 2))
+print("pred", int(s >= 0))
+print("scaled", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T2-A-E2", "S33-T2-A", "independent",
+            f"S33-T2-A-E2 · L2: w=[0.5,-0.2], lam=0.1 → 0.029. Imprime l2 redondeado 4 dec, lam 0.1, ok True. Starter usa L1 (defect). {case}-2A.",
+            "l2 = lam * sum(w_i^2).",
+            ["No uses abs sum (L1).", "round 4."],
+            """w, lam = [0.5, -0.2], 0.1
+print("l2", round(lam * sum(abs(wi) for wi in w), 4))  # DEFECT L1
+print("lam", lam)
+print("ok", True)
+""",
+            """w, lam = [0.5, -0.2], 0.1
+print("l2", round(lam * sum(wi * wi for wi in w), 4))
+print("lam", lam)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T2-A-E3", "S33-T2-A", "transfer",
+            f"S33-T2-A-E3 · Unscaled reg: scaled False → REJECT_UNSCALED_REG. Imprime status, scaled False, ok True. Starter PASS (defect). {case}-2A.",
+            "Regularización exige scale.",
+            ["status REJECT_UNSCALED_REG.", "scaled False del fixture."],
+            """scaled = False
+print("status", "PASS")  # DEFECT
+print("scaled", scaled)
+print("ok", True)
+""",
+            """scaled = False
+print("status", "PASS" if scaled else "REJECT_UNSCALED_REG")
+print("scaled", scaled)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T2-B-E1", "S33-T2-B", "guided",
+            f"S33-T2-B-E1 · Top coef por abs: amount_7d=0.4, shared_phone=0.1 → amount_7d. Imprime top amount_7d, causal False, ok True. Starter min abs (defect). {case}-2B.",
+            "argmax abs(coef).",
+            ["causal False obligatorio.", "No culpes por coef."],
+            """coefs = {"amount_7d": 0.4, "shared_phone": 0.1}
+top = min(coefs, key=lambda f: abs(coefs[f]))  # DEFECT
+print("top", top)
+print("causal", False)
+print("ok", True)
+""",
+            """coefs = {"amount_7d": 0.4, "shared_phone": 0.1}
+top = max(coefs, key=lambda f: abs(coefs[f]))
+print("top", top)
+print("causal", False)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T2-B-E2", "S33-T2-B", "independent",
+            f"S33-T2-B-E2 · Scaler id requerido: si falta → REQUEST_SCALER_ID. scaler='' → imprime REQUEST_SCALER_ID, ok True, n 1. Starter PASS (defect). {case}-2B.",
+            "Sin scaler_id no interpretas coef.",
+            ["REQUEST_SCALER_ID.", "n 1."],
+            """scaler = ""
+print("PASS")  # DEFECT
+print("ok", True)
+print("n", 1)
+""",
+            """scaler = ""
+print("PASS" if scaler else "REQUEST_SCALER_ID")
+print("ok", True)
+print("n", 1)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T2-B-E3", "S33-T2-B", "transfer",
+            f"S33-T2-B-E3 · Claim causal: imprime causal False, claim rejected, ok True. Starter causal True (defect ético). {case}-2B.",
+            "Coeficientes no prueban causalidad ni culpa.",
+            ["causal False.", "claim rejected."],
+            """print("causal", True)  # DEFECT
+print("claim", "rejected")
+print("ok", True)
+""",
+            """print("causal", False)
+print("claim", "rejected")
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-A-E1", "S33-T3-A", "guided",
+            f"S33-T3-A-E1 · Stump: x=12 thr=10 → 1. Imprime stump 1, depth_cap True, ok True. Starter usa < (defect). {case}-3A.",
+            "pred = 1 if x > thr else 0.",
+            ["depth_cap True.", "Umbral estricto >."],
+            """x, thr = 12, 10
+print("stump", 1 if x < thr else 0)  # DEFECT
+print("depth_cap", True)
+print("ok", True)
+""",
+            """x, thr = 12, 10
+print("stump", 1 if x > thr else 0)
+print("depth_cap", True)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-A-E2", "S33-T3-A", "independent",
+            f"S33-T3-A-E2 · Majority: votes=[1,1,0] → 1. Imprime ensemble 1, n_trees 3, ok True. Starter mean rounded (defect). {case}-3A.",
+            "majority = max(set(v), key=v.count).",
+            ["No uses promedio continuo.", "n_trees=len(votes)."],
+            """votes = [1, 1, 0]
+print("ensemble", round(sum(votes) / len(votes)))  # DEFECT-ish works but
+# force wrong:
+print("ensemble", 0)  # DEFECT
+print("n_trees", len(votes))
+print("ok", True)
+""",
+            """votes = [1, 1, 0]
+print("ensemble", max(set(votes), key=votes.count))
+print("n_trees", len(votes))
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-A-E3", "S33-T3-A", "transfer",
+            f"S33-T3-A-E3 · Unlimited depth: max_depth=None → REJECT_UNLIMITED_DEPTH. Imprime status, max_depth None, ok True. Starter PASS (defect). {case}-3A.",
+            "Profundidad debe estar acotada.",
+            ["REJECT_UNLIMITED_DEPTH.", "None no es cap."],
+            """max_depth = None
+print("status", "PASS")  # DEFECT
+print("max_depth", max_depth)
+print("ok", True)
+""",
+            """max_depth = None
+print("status", "PASS" if max_depth is not None else "REJECT_UNLIMITED_DEPTH")
+print("max_depth", max_depth)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-B-E1", "S33-T3-B", "guided",
+            f"S33-T3-B-E1 · Overfit: train 0.99 val 0.60 thr 0.15 → True. Imprime overfit True, seed 42, promote False. Starter thr 0.5 (defect). {case}-3B.",
+            "overfit si train-val > thr.",
+            ["seed 42.", "promote False si overfit."],
+            """train_acc, val_acc, thr = 0.99, 0.60, 0.5  # DEFECT thr
+print("overfit", (train_acc - val_acc) > thr)
+print("seed", 42)
+print("promote", False)
+""",
+            """train_acc, val_acc, thr = 0.99, 0.60, 0.15
+print("overfit", (train_acc - val_acc) > thr)
+print("seed", 42)
+print("promote", False)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-B-E2", "S33-T3-B", "independent",
+            f"S33-T3-B-E2 · Seed obligatoria: seed=None → REQUEST_SEED. Imprime REQUEST_SEED, ok True, repro False. Starter PASS (defect). {case}-3B.",
+            "Sin seed no hay reproducibilidad.",
+            ["REQUEST_SEED.", "repro False."],
+            """seed = None
+print("PASS")  # DEFECT
+print("ok", True)
+print("repro", False)
+""",
+            """seed = None
+print("PASS" if seed is not None else "REQUEST_SEED")
+print("ok", True)
+print("repro", False)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T3-B-E3", "S33-T3-B", "transfer",
+            f"S33-T3-B-E3 · Solo train acc 0.99 sin val → REJECT_OVERFIT. Imprime status REJECT_OVERFIT, has_val False, ok True. Starter CANDIDATE (defect). {case}-3B.",
+            "Sin val no se promociona.",
+            ["has_val False.", "REJECT_OVERFIT."],
+            """has_val = False
+print("status", "CANDIDATE")  # DEFECT
+print("has_val", has_val)
+print("ok", True)
+""",
+            """has_val = False
+print("status", "CANDIDATE" if has_val else "REJECT_OVERFIT")
+print("has_val", has_val)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-A-E1", "S33-T4-A", "guided",
+            f"S33-T4-A-E1 · CV mean: [0.5,0.6,0.55] → 0.55. Imprime mean 0.55, split group_time, run_id exp-033-1. Starter usa sum (defect). {case}-4A.",
+            "mean = sum/len.",
+            ["split group_time no iid.", "run_id del tracker."],
+            """scores = [0.5, 0.6, 0.55]
+print("mean", round(sum(scores), 2))  # DEFECT
+print("split", "group_time")
+print("run_id", "exp-033-1")
+""",
+            """scores = [0.5, 0.6, 0.55]
+print("mean", round(sum(scores) / len(scores), 2))
+print("split", "group_time")
+print("run_id", "exp-033-1")
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-A-E2", "S33-T4-A", "independent",
+            f"S33-T4-A-E2 · KFold iid sobre entidades → REJECT_IID_KFOLD. Imprime status, split_kind iid_kfold, ok True. Starter PASS (defect). {case}-4A.",
+            "Con entidades, CV debe ser group/time.",
+            ["REJECT_IID_KFOLD.", "split_kind iid_kfold del fixture adverso."],
+            """split_kind = "iid_kfold"
+print("status", "PASS")  # DEFECT
+print("split_kind", split_kind)
+print("ok", True)
+""",
+            """split_kind = "iid_kfold"
+print("status", "PASS" if split_kind == "group_time" else "REJECT_IID_KFOLD")
+print("split_kind", split_kind)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-A-E3", "S33-T4-A", "transfer",
+            f"S33-T4-A-E3 · Tracking: run necesita feature_set. Si falta → REQUEST_RUN_ID (campo incompleto). feature_set='' → REQUEST_RUN_ID, ok True, n 0. Starter PASS (defect). {case}-4A.",
+            "run_id/params/metrics/feature_set mínimos.",
+            ["Sin feature_set no hay run válido.", "REQUEST_RUN_ID genérico de missing tracking."],
+            """feature_set = ""
+print("PASS")  # DEFECT
+print("ok", True)
+print("n", 0)
+""",
+            """feature_set = ""
+print("PASS" if feature_set else "REQUEST_RUN_ID")
+print("ok", True)
+print("n", 0)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-B-E1", "S33-T4-B", "guided",
+            f"S33-T4-B-E1 · Lift: model 0.52 baseline 0.50 min_lift 0.05 → promote False. Imprime promote False, delta 0.02, baseline_kept True. Starter min_lift 0 (defect). {case}-4B.",
+            "promote si delta >= min_lift.",
+            ["delta = model-baseline.", "baseline_kept True."],
+            """model, baseline, min_lift = 0.52, 0.50, 0  # DEFECT
+delta = model - baseline
+print("promote", delta >= min_lift)
+print("delta", round(delta, 2))
+print("baseline_kept", True)
+""",
+            """model, baseline, min_lift = 0.52, 0.50, 0.05
+delta = model - baseline
+print("promote", delta >= min_lift)
+print("delta", round(delta, 2))
+print("baseline_kept", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-B-E2", "S33-T4-B", "independent",
+            f"S33-T4-B-E2 · Error slices: fp {{ussd:5,app:3,web:1}} → top ussd. Imprime top ussd, human_review True, ok True. Starter min (defect). {case}-4B.",
+            "top = argmax fp count.",
+            ["human_review True.", "Prioriza cola donde hay más FP."],
+            """fp = {"ussd": 5, "app": 3, "web": 1}
+print("top", min(fp, key=fp.get))  # DEFECT
+print("human_review", True)
+print("ok", True)
+""",
+            """fp = {"ussd": 5, "app": 3, "web": 1}
+print("top", max(fp, key=fp.get))
+print("human_review", True)
+print("ok", True)
+""",
+            case=case,
+        ),
+        ex_block(
+            "S33-T4-B-E3", "S33-T4-B", "transfer",
+            f"S33-T4-B-E3 · Sin lift: promote False y reason REJECT_NO_LIFT. Imprime reason REJECT_NO_LIFT, promote False, ok True. Starter SHIP_IT (defect). {case}-4B cierra S33.",
+            "Sin lift no se reemplaza el baseline.",
+            ["REJECT_NO_LIFT.", "promote False."],
+            """promote = False
+print("reason", "SHIP_IT")  # DEFECT
+print("promote", promote)
+print("ok", True)
+""",
+            """promote = False
+print("reason", "REJECT_NO_LIFT" if not promote else "CANDIDATE")
+print("promote", promote)
+print("ok", True)
+""",
+            case=case,
+        ),
+    ]
+
+    # Fix T3-A-E2 starter mess
+    for i, e in enumerate(exercises):
+        if "S33-T3-A-E2" in e and "print(\"ensemble\", 0)" in e:
+            exercises[i] = ex_block(
+                "S33-T3-A-E2", "S33-T3-A", "independent",
+                f"S33-T3-A-E2 · Majority: votes=[1,1,0] → 1. Imprime ensemble 1, n_trees 3, ok True. Starter devuelve min (defect). {case}-3A.",
+                "majority = max(set(v), key=v.count).",
+                ["No uses min.", "n_trees=len(votes)."],
+                """votes = [1, 1, 0]
+print("ensemble", min(set(votes), key=votes.count))  # DEFECT
+print("n_trees", len(votes))
+print("ok", True)
+""",
+                """votes = [1, 1, 0]
+print("ensemble", max(set(votes), key=votes.count))
+print("n_trees", len(votes))
+print("ok", True)
+""",
+                case=case,
+            )
+
+    return {
+        "index": 33,
+        "file": FILES[33][0],
+        "export": FILES[33][1],
+        "id": FILES[33][2],
+        "title": "ML supervisado y baselines responsables",
+        "short": "Baselines ML responsables",
+        "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+        "hours": 18,
+        "icon": "LineChart",
+        "accent": "bg-gradient-to-br from-purple-500 to-indigo-800",
+        "job": (
+            "En el workbench CP-N3-B (Red Andina sintética, Lima), un modelo sin baseline es teatro de métricas. "
+            "S33 enseña framing de target de *review*, baselines de regla/dummy, lineales y árboles con "
+            "regularización, CV por grupo/tiempo y error analysis. Id `advanced-models` es legacy; V3 es ML "
+            "supervisado responsable. El ML no etiqueta fraude automático. Caso CASO-LIM-033."
+        ),
+        "outcomes": [
+            "Enmarcar unidad, target de utilidad de review y horizonte sin labels de culpa",
+            "Construir baseline de regla y dummy estimator antes de ML",
+            "Entrenar scores lineales con scaling y regularización",
+            "Interpretar coeficientes sin claims causales ni de culpa",
+            "Usar árboles/ensambles con profundidad acotada",
+            "Detectar overfit y fijar seed para reproducibilidad",
+            "Correr CV group/time con tracking mínimo de experimentos",
+            "Decidir promote solo con lift vs baseline y error analysis",
+        ],
+        "case": case,
+        "product": "Baseline supervisado comparable y promocionable solo con lift (CP-N3-B)",
+        "map_heading": "Mapa S33: ML supervisado y baselines responsables",
+        "map_paras": [
+            "**Diccionario S33.** **Baseline:** regla o dummy que ancla el valor del ML. **Target de review:** etiqueta de utilidad operativa, no veredicto legal. **Regularización:** penaliza pesos (L1/L2). **Group/time CV:** validación sin leakage de entidad ni futuro. **Lift:** model − baseline. **Overfit:** gap train/val excesivo. **Run tracking:** run_id, params, metrics, feature_set.",
+            "Prerrequisito S32 (features sin leakage). El producto es una comparación honesta que conserva el baseline determinista.",
+            "Contrato. Entrada: feature set fs-vN + labels de review sintéticos CASO-LIM-033. Salida: métricas vs baseline y decisión promote. Error: sin baseline, CV i.i.d. con entidades, o target de fraude → bloqueo.",
+            "Orden: T1 framing/baseline → T2 lineales → T3 árboles → T4 experimento/error analysis. Stack: stdlib; sklearn como referencia profesional.",
+        ],
+        "map_code": textwrap.dedent(
+            """\
+            def section_contract():
+                return {
+                    "case": "CASO-LIM-033",
+                    "baseline_required": True,
+                    "fraud_auto": False,
+                    "cv": "group_time",
+                    "gate": "CP-N3-B-baseline",
+                }
+
+            c = section_contract()
+            print("case", c["case"])
+            print("baseline_required", c["baseline_required"])
+            print("fraud_auto", c["fraud_auto"])
+            print("cv", c["cv"])
+            """
+        ),
+        "subtopics": subtopics,
+        "exercises": exercises,
+        "weDo_intro": (
+            "S33 · Laboratorio baselines ML responsables: 24 retos. E1 repara cálculo o framing, "
+            "E2 fija política y E3 transfiere fail-closed. CASO-LIM-033; sin PII; ML ≠ culpa. DEFECT real en cada starter."
+        ),
+        "youDo": {
+            "title": "Baseline supervisado con lift documentado (CP-N3-B)",
+            "context": (
+                "Compara regla/dummy vs modelo lineal o árbol toy sobre CASO-LIM-033 con CV group_time, "
+                "seed y error slices. Id advanced-models conservado. Sin auto-fraude."
+            ),
+            "objectives": [
+                "Framing unit/target/horizon",
+                "Baseline regla + dummy",
+                "Modelo con scale/reg o depth cap",
+                "Lift vs baseline + tracking",
+            ],
+            "requirements": [
+                "Baseline conservado en el reporte",
+                "CV group/time",
+                "seed fija",
+                "promote solo con min_lift",
+            ],
+            "starter": textwrap.dedent(
+                """\
+                # CASO-LIM-033 · baseline responsable (youDo)
+                def rule_pred(xs, thr):
+                    return [1 if x > thr else 0 for x in xs]
+
+                def lift(model, baseline):
+                    return model - baseline
+
+                if __name__ == "__main__":
+                    print("rule", rule_pred([50, 120], 100))
+                    print("lift", round(lift(0.55, 0.40), 2))
+                    print("promote", lift(0.55, 0.40) >= 0.05)
+                    print("fraud_auto", False)
+                """
+            ),
+            "portfolio": "Comparación baseline vs ML con CV group_time y decisión promote.",
+            "gate_criterion": "baseline + lift documentado + sin target de culpa",
+        },
+        "selfcheck": [
+            {
+                "q": "El target needs_review_7d representa:",
+                "opts": ["Fraude probado", "Utilidad de revisión en horizonte 7d", "Parentesco", "Accuracy del dummy"],
+                "i": 1,
+                "e": "Es una etiqueta de utilidad operativa de cola de review, no un veredicto de fraude.",
+            },
+            {
+                "q": "Si el modelo no supera al baseline:",
+                "opts": ["Se promociona igual", "Se oculta el baseline", "No se promociona (conserva baseline)", "Se sube contamination"],
+                "i": 2,
+                "e": "Sin lift no hay valor; el baseline determinista se conserva.",
+            },
+            {
+                "q": "Regularización L2 sin scaling:",
+                "opts": ["Es ideal", "Castiga features por magnitud arbitraria", "Elimina leakage", "Reemplaza al dummy"],
+                "i": 1,
+                "e": "Hay que escalar antes; si no, la penalización no es comparable entre features.",
+            },
+            {
+                "q": "CV i.i.d. con las mismas entidades en folds:",
+                "opts": ["Es group CV", "Es leakage de identidad", "Es obligatoria en S33", "Mide calibration"],
+                "i": 1,
+                "e": "Debe usarse group/time split cuando la unidad es entidad.",
+            },
+            {
+                "q": "Un gap train 0.99 vs val 0.60 indica:",
+                "opts": ["Calibración perfecta", "Overfitting", "Lift suficiente", "Dummy fuerte"],
+                "i": 1,
+                "e": "El modelo memoriza train; no se promociona sin controlar complejidad/seed/datos.",
+            },
+        ],
+        "resources_docs": [
+            ("sklearn linear_model", "https://scikit-learn.org/stable/modules/linear_model.html", "Logistic/linear + regularización"),
+            ("sklearn dummy", "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html", "Baselines triviales"),
+            ("sklearn model selection", "https://scikit-learn.org/stable/model_selection.html", "CV y GroupKFold"),
+            ("sklearn ensemble", "https://scikit-learn.org/stable/modules/ensemble.html", "RF/boosting ideas"),
+            ("Google Rules of ML", "https://developers.google.com/machine-learning/guides/rules-of-ml", "Baselines y métricas"),
+            ("Python statistics", "https://docs.python.org/3/library/statistics.html", "Medias y modos en stdlib"),
+        ],
+        "resources_courses": [
+            ("Stanford CS229", "https://cs229.stanford.edu/", "Supervised learning notes"),
+            ("Coursera Machine Learning", "https://www.coursera.org/learn/machine-learning", "Regularization e interpretación"),
+            ("MIT 6.036", "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/", "Framing y evaluación"),
+            ("Harvard CS50P", "https://cs50.harvard.edu/python", "Problem design"),
+            ("fast.ai practical ML mindset", "https://www.fast.ai/", "Baselines first"),
+            ("StatQuest logistic regression", "https://www.youtube.com/watch?v=yIYKR4sgzI8", "Intuición de lineales"),
+        ],
+        "books": [
+            ("ISLR — linear models & resampling", "Baselines y validación"),
+            ("Hands-On ML (Géron) — training models", "Regularización y pipelines"),
+            ("ML Engineering (Huyen) — baselines", "Comparaciones honestas"),
+        ],
+    }

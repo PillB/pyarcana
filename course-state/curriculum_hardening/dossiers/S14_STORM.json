@@ -1,0 +1,430 @@
+{
+  "section": 14,
+  "title": "NumPy y cómputo vectorizado",
+  "file": "s14-security.ts",
+  "n_required": 14,
+  "n_logged": 14,
+  "generated_at": "2026-07-24T05:12:42.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 26 > HEAD 0",
+    "ethics": "synthetic quality metrics; scores≠guilt; honest benchmarks",
+    "v3_retarget": "NumPy CP-N2-A not OWASP LLM security path",
+    "expert_pass_at": "2026-07-24T05:12:42.000+00:00",
+    "theater_strip": "removed Stack permitido / Documenta decisión / porqué operativo"
+  },
+  "unique_foci": 14,
+  "source_url_count": 14,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget NumPy not OWASP security core",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "Absolute beginners",
+          "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+          "note": "ndarray"
+        },
+        {
+          "family": "NumPy",
+          "title": "Broadcasting",
+          "url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+          "note": "shapes"
+        },
+        {
+          "family": "NumPy",
+          "title": "Logic routines",
+          "url": "https://numpy.org/doc/stable/reference/routines.logic.html",
+          "note": "isnan isfinite"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 1/14: «V3 retarget NumPy not OWASP security core» via NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget NumPy not OWASP security core».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget NumPy not OWASP security core»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 1/14: «V3 retarget NumPy not OWASP security core» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "ndarray dtype shape ndim contract",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "Broadcasting",
+          "url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+          "note": "shapes"
+        },
+        {
+          "family": "NumPy",
+          "title": "Logic routines",
+          "url": "https://numpy.org/doc/stable/reference/routines.logic.html",
+          "note": "isnan isfinite"
+        },
+        {
+          "family": "NumPy",
+          "title": "Indexing",
+          "url": "https://numpy.org/doc/stable/user/basics.indexing.html",
+          "note": "masks views"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 2/14: «ndarray dtype shape ndim contract» via NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «ndarray dtype shape ndim contract».",
+      "expand_scope": "E1/E2/E3 + docs for «ndarray dtype shape ndim contract»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 2/14: «ndarray dtype shape ndim contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "boolean masks quality filters",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "Logic routines",
+          "url": "https://numpy.org/doc/stable/reference/routines.logic.html",
+          "note": "isnan isfinite"
+        },
+        {
+          "family": "NumPy",
+          "title": "Indexing",
+          "url": "https://numpy.org/doc/stable/user/basics.indexing.html",
+          "note": "masks views"
+        },
+        {
+          "family": "NumPy",
+          "title": "ufuncs",
+          "url": "https://numpy.org/doc/stable/reference/ufuncs.html",
+          "note": "vector ops"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 3/14: «boolean masks quality filters» via NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «boolean masks quality filters».",
+      "expand_scope": "E1/E2/E3 + docs for «boolean masks quality filters»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 3/14: «boolean masks quality filters» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "ufuncs and axis reductions completeness",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "Indexing",
+          "url": "https://numpy.org/doc/stable/user/basics.indexing.html",
+          "note": "masks views"
+        },
+        {
+          "family": "NumPy",
+          "title": "ufuncs",
+          "url": "https://numpy.org/doc/stable/reference/ufuncs.html",
+          "note": "vector ops"
+        },
+        {
+          "family": "NumPy",
+          "title": "assert_allclose",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_allclose.html",
+          "note": "equivalence"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 4/14: «ufuncs and axis reductions completeness» via NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «ufuncs and axis reductions completeness».",
+      "expand_scope": "E1/E2/E3 + docs for «ufuncs and axis reductions completeness»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 4/14: «ufuncs and axis reductions completeness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "broadcasting right-to-left shapes",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "ufuncs",
+          "url": "https://numpy.org/doc/stable/reference/ufuncs.html",
+          "note": "vector ops"
+        },
+        {
+          "family": "NumPy",
+          "title": "assert_allclose",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_allclose.html",
+          "note": "equivalence"
+        },
+        {
+          "family": "Python",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "benchmark"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 5/14: «broadcasting right-to-left shapes» via NumPy, Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «broadcasting right-to-left shapes».",
+      "expand_scope": "E1/E2/E3 + docs for «broadcasting right-to-left shapes»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 5/14: «broadcasting right-to-left shapes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "views vs copies mutability hazards",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "assert_allclose",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_allclose.html",
+          "note": "equivalence"
+        },
+        {
+          "family": "Python",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "benchmark"
+        },
+        {
+          "family": "NumPy",
+          "title": "Tutorials",
+          "url": "https://numpy.org/numpy-tutorials/",
+          "note": "official"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 6/14: «views vs copies mutability hazards» via NumPy, Python (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «views vs copies mutability hazards».",
+      "expand_scope": "E1/E2/E3 + docs for «views vs copies mutability hazards»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 6/14: «views vs copies mutability hazards» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "NaN inf isfinite robust metrics",
+      "research": [
+        {
+          "family": "Python",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "benchmark"
+        },
+        {
+          "family": "NumPy",
+          "title": "Tutorials",
+          "url": "https://numpy.org/numpy-tutorials/",
+          "note": "official"
+        },
+        {
+          "family": "MIT",
+          "title": "6.0001",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "note": "efficiency"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 7/14: «NaN inf isfinite robust metrics» via Python, NumPy, MIT (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «NaN inf isfinite robust metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «NaN inf isfinite robust metrics»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 7/14: «NaN inf isfinite robust metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "vectorize vs loop honest benchmark",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "Tutorials",
+          "url": "https://numpy.org/numpy-tutorials/",
+          "note": "official"
+        },
+        {
+          "family": "MIT",
+          "title": "6.0001",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "note": "efficiency"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 8/14: «vectorize vs loop honest benchmark» via NumPy, MIT, Coursera (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «vectorize vs loop honest benchmark».",
+      "expand_scope": "E1/E2/E3 + docs for «vectorize vs loop honest benchmark»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 8/14: «vectorize vs loop honest benchmark» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "nbytes memory measurement",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.0001",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "note": "efficiency"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 9/14: «nbytes memory measurement» via MIT, Coursera, Live (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «nbytes memory measurement».",
+      "expand_scope": "E1/E2/E3 + docs for «nbytes memory measurement»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 9/14: «nbytes memory measurement» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "allclose rtol atol equivalence tests",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 10/14: «allclose rtol atol equivalence tests» via Coursera, Live, Harvard (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «allclose rtol atol equivalence tests».",
+      "expand_scope": "E1/E2/E3 + docs for «allclose rtol atol equivalence tests»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 10/14: «allclose rtol atol equivalence tests» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "keepdims rebroadcast quality board",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 11/14: «keepdims rebroadcast quality board» via Live, Harvard, GitHub (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «keepdims rebroadcast quality board».",
+      "expand_scope": "E1/E2/E3 + docs for «keepdims rebroadcast quality board»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 11/14: «keepdims rebroadcast quality board» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "fancy index vs boolean mask copy",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "NumPy",
+          "title": "ndarray object",
+          "url": "https://numpy.org/doc/stable/reference/arrays.ndarray.html",
+          "note": "memory layout"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 12/14: «fancy index vs boolean mask copy» via Harvard, GitHub, NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «fancy index vs boolean mask copy».",
+      "expand_scope": "E1/E2/E3 + docs for «fancy index vs boolean mask copy»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 12/14: «fancy index vs boolean mask copy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "itemsize homogeneous data",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "NumPy",
+          "title": "ndarray object",
+          "url": "https://numpy.org/doc/stable/reference/arrays.ndarray.html",
+          "note": "memory layout"
+        },
+        {
+          "family": "NumPy",
+          "title": "Absolute beginners",
+          "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+          "note": "ndarray"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 13/14: «itemsize homogeneous data» via GitHub, NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «itemsize homogeneous data».",
+      "expand_scope": "E1/E2/E3 + docs for «itemsize homogeneous data»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 13/14: «itemsize homogeneous data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "CP-N2-A synthetic quality metrics only",
+      "research": [
+        {
+          "family": "NumPy",
+          "title": "ndarray object",
+          "url": "https://numpy.org/doc/stable/reference/arrays.ndarray.html",
+          "note": "memory layout"
+        },
+        {
+          "family": "NumPy",
+          "title": "Absolute beginners",
+          "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+          "note": "ndarray"
+        },
+        {
+          "family": "NumPy",
+          "title": "Broadcasting",
+          "url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+          "note": "shapes"
+        }
+      ],
+      "synthesize": "S14 «NumPy y cómputo vectorizado» cycle 14/14: «CP-N2-A synthetic quality metrics only» via NumPy (CP-N1-C/CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-A synthetic quality metrics only».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-A synthetic quality metrics only»; V3 roadmap; pair S14.",
+      "re_synthesize": "Decision 14/14: «CP-N2-A synthetic quality metrics only» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://numpy.org/doc/stable/user/absolute_beginners.html",
+    "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+    "https://numpy.org/doc/stable/reference/routines.logic.html",
+    "https://numpy.org/doc/stable/user/basics.indexing.html",
+    "https://numpy.org/doc/stable/reference/ufuncs.html",
+    "https://numpy.org/doc/stable/reference/generated/numpy.testing.assert_allclose.html",
+    "https://docs.python.org/3/library/time.html#time.perf_counter",
+    "https://numpy.org/numpy-tutorials/",
+    "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+    "https://www.coursera.org/specializations/python",
+    "https://pillb.github.io/pyarcana/",
+    "https://cs50.harvard.edu/python/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://numpy.org/doc/stable/reference/arrays.ndarray.html"
+  ]
+}

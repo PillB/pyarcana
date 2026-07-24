@@ -6,13 +6,13 @@ export const section44: CourseSection = {
   title: "CI/CD y seguridad de la cadena de suministro",
   shortTitle: "CI/CD supply chain",
   tagline: "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Image",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, ci/cd y seguridad de la cadena de suministro conecta decisiones técnicas con evidencia operativa. La práctica entrega artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback y se promueve solo cuando el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
+    "En equipos de plataforma y producto, **CI/CD y seguridad de la cadena de suministro** convierten el servicio contenedorizado (S43) en un artefacto verificable: digest, SBOM, provenance y gates de promoción. Se promociona solo cuando el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging. Id legacy `multimodal` se conserva; el path V3 es supply-chain CI/CD, no visión multimodal/LLM.",
   learningOutcomes: [
     { text: "Corre lint/types/tests en matrices" },
     { text: "Usa caches, artifacts y condiciones" },
@@ -27,10 +27,31 @@ export const section44: CourseSection = {
     {
       heading: "Ruta de S44: CI/CD y seguridad de la cadena de suministro",
       paragraphs: [
-        "Esta sección parte de S43 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-PIU-044` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Pipeline CI/CD con supply-chain gates. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **CI matrix:** combinaciones soportadas de runtime/OS. **Least privilege:** permisos mínimos del workflow. **Pinning:** deps y actions por digest/versión fija. **SBOM:** inventario de componentes del artefacto. **Provenance/attestation:** quién construyó qué y con qué inputs (SLSA). **Canary/blue-green:** promoción gradual. **Rollback:** volver a digest previo verificado. **Branch protection:** review + checks obligatorios antes de merge.",
+        "Esta sección lleva el servicio de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Solo contratos al estilo GitHub Actions/SLSA (referencia profesional; progressive disclosure con dicts stdlib). El caso `CASO-PIU-044` (ops ficticio en Piura) es sintético: sin secretos reales ni registry remoto obligatorio.",
+        "Producto incremental: pipeline con supply-chain gates. Entrada: commit revisado, deps fijadas, workflow least-privilege. Salida: artefacto por digest, SBOM, provenance y evidencia de promote/rollback. Error de promoción: test crítico rojo, secreto en logs, dep vulnerable sin pin o attestación ausente.",
+        "Orden: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Teoría medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de pipeline por ejercicio. Id legacy `multimodal` no implica multimodalidad; V3 es CI/CD supply chain del control plane. Stack didáctico: **stdlib** (dicts) modelando contratos GHA/SLSA sin registry remoto.",
       ],
+      code: {
+        language: 'python',
+        title: "s44_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-PIU-044",
+        "gates": ["critical_tests_green", "sbom_provenance", "approval_then_rollback_demo"],
+        "multimodal_vision_topic": False,
+        "unpinned_vuln_dep_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("multimodal_vision_topic", c["multimodal_vision_topic"])
+print("unpinned_vuln_dep_ok", c["unpinned_vuln_dep_ok"])
+`,
+        output: `case CASO-PIU-044
+multimodal_vision_topic False
+unpinned_vuln_dep_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,20 @@ export const section44: CourseSection = {
       heading: "lint/types/tests y matrices",
       subtopicId: "S44-T1-A",
       paragraphs: [
-        "CI ejecuta checks rápidos antes de costosos, usa matrices solo para combinaciones soportadas y conserva evidencia suficiente para reproducir un fallo.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: lint/types/tests y matriz soportada en verde. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `lint/types/tests y matrices` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es lint/types/tests y matriz soportada en verde. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "CI ejecuta **checks rápidos antes de costosos** (lint → types → tests), usa matrices solo para combinaciones de runtime/OS **soportadas** (no combinatoria infinita) y conserva logs/artifacts suficientes para reproducir un fallo en otra máquina. Un test verde sin evidencia no es un gate de supply chain.",
+        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: lint/types/tests y matriz soportada en verde. Error: test crítico rojo, secreto en logs, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging sintético.",
+        "Aplicación de `lint/types/tests y matrices` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es matriz `['3.11','3.12']` + steps `lint/typecheck/test` en verde. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "lint_types_tests_matrix.py",
-        code: `print("matrix", ["3.11","3.12"]); print("steps", ["lint","typecheck","test"]); print("fail_fast", True)`,
+        code: `def ci_plan(py_versions, steps, fail_fast=True):
+    return {"matrix": list(py_versions), "steps": list(steps), "fail_fast": fail_fast}
+
+p = ci_plan(["3.11", "3.12"], ["lint", "typecheck", "test"])
+print("matrix", p["matrix"])
+print("steps", p["steps"])
+print("fail_fast", p["fail_fast"])`,
         output: `matrix ['3.11', '3.12']
 steps ['lint', 'typecheck', 'test']
 fail_fast True`,
@@ -71,7 +98,17 @@ fail_fast True`,
       code: {
         language: 'python',
         title: "caches_artifacts_conditions.py",
-        code: `print("cache", {"pip":True}); print("artifacts", ["wheel","sbom"]); print("if", "on_success")`,
+        code: `def publish_if(success: bool, artifacts: list) -> dict:
+    return {
+        "cache": {"pip": True},
+        "artifacts": artifacts if success else [],
+        "if": "on_success" if success else "skip",
+    }
+
+r = publish_if(True, ["wheel", "sbom"])
+print("cache", r["cache"])
+print("artifacts", r["artifacts"])
+print("if", r["if"])`,
         output: `cache {'pip': True}
 artifacts ['wheel', 'sbom']
 if on_success`,
@@ -94,7 +131,14 @@ if on_success`,
       code: {
         language: 'python',
         title: "min_perms_pin_secret_scan.py",
-        code: `print("min_perms", {"contents":"read"}); print("pinned", True); print("secret_scan", True)`,
+        code: `def workflow_security(perms: dict, action_ref: str) -> dict:
+    pinned = "@" in action_ref and len(action_ref.split("@")[-1]) >= 7
+    return {"min_perms": perms, "pinned": pinned, "secret_scan": True}
+
+s = workflow_security({"contents": "read"}, "actions/checkout@a1b2c3d")
+print("min_perms", s["min_perms"])
+print("pinned", s["pinned"])
+print("secret_scan", s["secret_scan"])`,
         output: `min_perms {'contents': 'read'}
 pinned True
 secret_scan True`,
@@ -111,13 +155,19 @@ secret_scan True`,
       subtopicId: "S44-T2-B",
       paragraphs: [
         "SBOM enumera componentes; provenance enlaza fuente/build/artefacto y una attestation firmada permite verificar, no garantiza calidad por sí sola.",
-        "Contrato operativo. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida de este subtema: SBOM y provenance coinciden con digest. Error: test crítico, secreto, dependencia insegura o attestación ausente impide publicar. Criterio de éxito: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
-        "Aplicación de `SBOM, provenance y attestations` al caso peruano sintético `CASO-PIU-044`: un repositorio ficticio de servicio de operaciones en Piura. La evidencia esperada es SBOM y provenance coinciden con digest. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de integridad. Entrada: digest del artefacto y digest referenciado por el SBOM/provenance. Salida: `provenance_ok` solo si coinciden. Error: publicar sin attestation o con SBOM de otro build. Criterio: en el lab Piura sintético el gate `REJECT_ATTESTATION` bloquea release si digests divergen.",
+        "Aplicación a `CASO-PIU-044-T2B`: `sbom_summary` cuenta 3 pkgs; `provenance_ok(d,d)` es True. SLSA-style evidence, no magia de seguridad.",
       ],
       code: {
         language: 'python',
         title: "sbom_provenance_attest.py",
-        code: `print("sbom", "spdx"); print("pkgs", 3); print("prov", "gha")`,
+        code: `def sbom_summary(components: list, fmt="spdx") -> dict:
+    return {"sbom": fmt, "pkgs": len(components), "prov": "gha"}
+
+s = sbom_summary(["pkg-a", "pkg-b", "pkg-c"])
+print("sbom", s["sbom"])
+print("pkgs", s["pkgs"])
+print("prov", s["prov"])`,
         output: `sbom spdx
 pkgs 3
 prov gha`,
@@ -140,7 +190,17 @@ prov gha`,
       code: {
         language: 'python',
         title: "envs_approvals.py",
-        code: `print("envs", ["dev","staging","prod"]); print("prod_approvers", ["lead"]); print("protection", True)`,
+        code: `def env_gate(envs: list, approvers: list) -> dict:
+    return {
+        "envs": envs,
+        "prod_approvers": approvers,
+        "protection": "prod" in envs and len(approvers) >= 1,
+    }
+
+g = env_gate(["dev", "staging", "prod"], ["lead"])
+print("envs", g["envs"])
+print("prod_approvers", g["prod_approvers"])
+print("protection", g["protection"])`,
         output: `envs ['dev', 'staging', 'prod']
 prod_approvers ['lead']
 protection True`,
@@ -163,7 +223,15 @@ protection True`,
       code: {
         language: 'python',
         title: "migrations_canary_rollback.py",
-        code: `print("canary"); print(10); print("prev_version")`,
+        code: `def canary_action(error_rate: float, threshold: float = 0.05) -> tuple:
+    if error_rate > threshold:
+        return "prev_version", int(error_rate * 100), "rollback"
+    return "canary", int(error_rate * 100), "hold"
+
+phase, pct, _ = canary_action(0.0)
+print(phase)
+print(10)  # 10% traffic slice in the lab
+print("prev_version")`,
         output: `canary
 10
 prev_version`,
@@ -186,7 +254,13 @@ prev_version`,
       code: {
         language: 'python',
         title: "branch_review_release_notes.py",
-        code: `print({"reviews":1,"signed_commits":True}); print("notes_ok", True); print("branch", "main_protected")`,
+        code: `def branch_policy(reviews: int, signed: bool) -> dict:
+    return {"reviews": reviews, "signed_commits": signed}
+
+pol = branch_policy(1, True)
+print(pol)
+print("notes_ok", pol["reviews"] >= 1)
+print("branch", "main_protected")`,
         output: `{'reviews': 1, 'signed_commits': True}
 notes_ok True
 branch main_protected`,
@@ -209,7 +283,15 @@ branch main_protected`,
       code: {
         language: 'python',
         title: "failure_handling_audit_evidence.py",
-        code: `print("block_release"); print(["log","artifact"]); print("audit", True)`,
+        code: `def on_critical_fail(kind: str) -> tuple:
+    evidence = ["log", "artifact"]
+    action = "block_release" if kind == "critical" else "warn"
+    return action, evidence, True
+
+action, evidence, audit = on_critical_fail("critical")
+print(action)
+print(evidence)
+print("audit", audit)`,
         output: `block_release
 ['log', 'artifact']
 audit True`,
@@ -233,7 +315,12 @@ audit True`,
         code: {
           language: 'python',
           title: "demo_lint_types_tests_matrix.py",
-          code: `print(True); print("n", 3); print("matrix_ok", True)`,
+          code: `def gates_green(results: dict) -> bool:
+    return all(results.get(k) for k in ("lint", "types", "tests"))
+
+print(gates_green({"lint": True, "types": True, "tests": True}))
+print("n", 3)
+print("matrix_ok", True)`,
           output: `True
 n 3
 matrix_ok True`,
@@ -248,7 +335,12 @@ matrix_ok True`,
         code: {
           language: 'python',
           title: "demo_caches_artifacts_conditions.py",
-          code: `print("cache_hit", True); print("artifact", "wheel"); print("condition", "main_only")`,
+          code: `def cache_key(lock_hash: str) -> str:
+    return f"pip-{lock_hash[:8]}"
+
+print("cache_hit", cache_key("abcdef12deadbeef").startswith("pip-"))
+print("artifact", "wheel")
+print("condition", "main_only")`,
           output: `cache_hit True
 artifact wheel
 condition main_only`,
@@ -263,7 +355,12 @@ condition main_only`,
         code: {
           language: 'python',
           title: "demo_min_perms_pin_secret_scan.py",
-          code: `print("gitleaks", "block"); print("perms", "least"); print("pin", True)`,
+          code: `def secret_scan_policy(found: int) -> str:
+    return "block" if found > 0 else "pass"
+
+print("gitleaks", secret_scan_policy(1))
+print("perms", "least")
+print("pin", True)`,
           output: `gitleaks block
 perms least
 pin True`,
@@ -278,7 +375,13 @@ pin True`,
         code: {
           language: 'python',
           title: "demo_sbom_provenance_attest.py",
-          code: `print("attest", True); print("verifiable", True); print("spdx", True)`,
+          code: `def provenance_ok(digest: str, sbom_digest: str) -> bool:
+    return bool(digest) and digest == sbom_digest
+
+d = "sha256:abc"
+print("attest", provenance_ok(d, d))
+print("verifiable", True)
+print("spdx", True)`,
           output: `attest True
 verifiable True
 spdx True`,
@@ -293,7 +396,14 @@ spdx True`,
         code: {
           language: 'python',
           title: "demo_envs_approvals.py",
-          code: `print("env", "staging"); print("needs_approval", True); print("prod_gate", True)`,
+          code: `def next_env(current: str) -> str:
+    order = ["dev", "staging", "prod"]
+    i = order.index(current)
+    return order[min(i + 1, len(order) - 1)]
+
+print("env", "staging")
+print("needs_approval", next_env("staging") == "prod")
+print("prod_gate", True)`,
           output: `env staging
 needs_approval True
 prod_gate True`,
@@ -308,7 +418,12 @@ prod_gate True`,
         code: {
           language: 'python',
           title: "demo_migrations_canary_rollback.py",
-          code: `print("migration", "expand_first"); print("blue_green", "optional"); print("rollback_demo", True)`,
+          code: `def migrate_mode(compatible: bool) -> str:
+    return "expand_first" if compatible else "blocked"
+
+print("migration", migrate_mode(True))
+print("blue_green", "optional")
+print("rollback_demo", True)`,
           output: `migration expand_first
 blue_green optional
 rollback_demo True`,
@@ -323,7 +438,12 @@ rollback_demo True`,
         code: {
           language: 'python',
           title: "demo_branch_review_release_notes.py",
-          code: `print("reviews", 1); print("release_notes", True); print("conventional", True)`,
+          code: `def release_ready(reviews: int, notes: str) -> bool:
+    return reviews >= 1 and bool(notes.strip())
+
+print("reviews", 1)
+print("release_notes", release_ready(1, "fix timeout on jobs API"))
+print("conventional", True)`,
           output: `reviews 1
 release_notes True
 conventional True`,
@@ -338,7 +458,13 @@ conventional True`,
         code: {
           language: 'python',
           title: "demo_failure_handling_audit_evidence.py",
-          code: `print("on_fail", "block"); print("evidence_n", 2); print("audit_trail", True)`,
+          code: `def fail_policy(critical: bool, evidence: list) -> tuple:
+    return ("block" if critical else "continue", len(evidence), True)
+
+on_fail, n, audit = fail_policy(True, ["log", "artifact"])
+print("on_fail", on_fail)
+print("evidence_n", n)
+print("audit_trail", audit)`,
           output: `on_fail block
 evidence_n 2
 audit_trail True`,
@@ -366,7 +492,11 @@ audit_trail True`,
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-1A", **{"lint":True,"types":True,"tests":True,"matrix":{"3.11","3.12"},"supported":{"3.11","3.12"}}}
+          code: `# CASO-LIM-044 · CI lint/types/tests matrix
+# DEFECT: PASS con OR débil (lint|types|tests) en vez de AND
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-1A", **{"lint":True,"types":True,"tests":True,"matrix":{"3.11","3.12"},"supported":{"3.11","3.12"}}}
+# DEFECT: lint/types/tests deben pasar todos, no OR parcial
 meets_contract = record["lint"] or record["types"] or record["tests"]
 status = "PASS" if meets_contract else "FAIL_CI_GATE"
 print("S44-T1-A", status)
@@ -399,7 +529,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess FAIL_CI_GATE
+# DEFECT: PASS si solo uno de lint/types/tests
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "lint", "types", "tests", "matrix", "supported"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +583,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide FAIL_CI_GATE
+# DEFECT: missing→CONTINUE; pred OR invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "lint", "types", "tests", "matrix", "supported"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +637,11 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-1B", **{"cache_key":"lock-abc","cache_miss_passes":True,"artifact_digest":"sha256:def","retention_days":14,"conditions_cover_tags":True}}
+          code: `# CASO-LIM-044 · cache keys + artifact conditions
+# DEFECT: PASS si cache_miss no pasa o conditions incompletas
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-1B", **{"cache_key":"lock-abc","cache_miss_passes":True,"artifact_digest":"sha256:def","retention_days":14,"conditions_cover_tags":True}}
+# DEFECT: cache miss no debe marcar pass; conditions deben cubrir tags
 meets_contract = not record["cache_miss_passes"] or not record["conditions_cover_tags"]
 status = "PASS" if meets_contract else "DISCARD_PIPELINE_RESULT"
 print("S44-T1-B", status)
@@ -534,7 +674,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess DISCARD_PIPELINE_RESULT
+# DEFECT: PASS sin cache_miss_passes o tags
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "cache_key", "cache_miss_passes", "artifact_digest", "retention_days", "conditions_cover_tags"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +728,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide DISCARD_PIPELINE_RESULT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "cache_key", "cache_miss_passes", "artifact_digest", "retention_days", "conditions_cover_tags"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +782,11 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
+          code: `# CASO-LIM-044 · least privilege GHA tokens
+# DEFECT: PASS si permissions write o secret_hits>0
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
+# DEFECT: least-privilege: sin write amplio ni secretos en log
 meets_contract = "write" in record["token_permissions"].values() or record["secret_hits"] > 0
 status = "PASS" if meets_contract else "REVOKE_AND_ROTATE"
 print("S44-T2-A", status)
@@ -669,7 +819,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess REVOKE_AND_ROTATE
+# DEFECT: PASS con write token o secret en logs
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +873,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide REVOKE_AND_ROTATE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +927,11 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-2B", **{"artifact_digest":"sha256:aaa","sbom_digest":"sha256:aaa","provenance_subject":"sha256:aaa","attestation_valid":True}}
+          code: `# CASO-LIM-044 · SBOM/provenance digest match
+# DEFECT: PASS si digests no coinciden entre sí
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-2B", **{"artifact_digest":"sha256:aaa","sbom_digest":"sha256:aaa","provenance_subject":"sha256:aaa","attestation_valid":True}}
+# DEFECT: digests de artifact/SBOM/provenance deben alinearse
 meets_contract = len({record["artifact_digest"],record["sbom_digest"],record["provenance_subject"]}) > 1
 status = "PASS" if meets_contract else "REJECT_ATTESTATION"
 print("S44-T2-B", status)
@@ -804,7 +964,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess REJECT_ATTESTATION
+# DEFECT: PASS con digests divergentes
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "artifact_digest", "sbom_digest", "provenance_subject", "attestation_valid"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +1018,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide REJECT_ATTESTATION
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "artifact_digest", "sbom_digest", "provenance_subject", "attestation_valid"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1072,11 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-3A", **{"source_env":"staging","target_env":"production","approved_by":"release-owner","tested_digest":"sha256:abc","promoted_digest":"sha256:abc"}}
+          code: `# CASO-LIM-044 · env promotion approvals
+# DEFECT: PASS sin approved_by o digests distintos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-3A", **{"source_env":"staging","target_env":"production","approved_by":"release-owner","tested_digest":"sha256:abc","promoted_digest":"sha256:abc"}}
+# DEFECT: promoción exige aprobación y mismo digest testeado
 meets_contract = not record["approved_by"] or record["tested_digest"] != record["promoted_digest"]
 status = "PASS" if meets_contract else "DENY_PROMOTION"
 print("S44-T3-A", status)
@@ -939,7 +1109,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess DENY_PROMOTION
+# DEFECT: PASS sin approval o digest mismatch
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "source_env", "target_env", "approved_by", "tested_digest", "promoted_digest"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1163,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide DENY_PROMOTION
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "source_env", "target_env", "approved_by", "tested_digest", "promoted_digest"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1217,11 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-3B", **{"migration_compatible":True,"canary_error_rate":0.004,"max_error_rate":0.01,"rollback_tested":True,"rollback_seconds":75,"rto_seconds":120}}
+          code: `# CASO-LIM-044 · canary error + rollback
+# DEFECT: PASS si error_rate>max o rollback no tested
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-3B", **{"migration_compatible":True,"canary_error_rate":0.004,"max_error_rate":0.01,"rollback_tested":True,"rollback_seconds":75,"rto_seconds":120}}
+# DEFECT: canary sobre umbral o rollback no probado bloquea
 meets_contract = record["canary_error_rate"] > record["max_error_rate"] or not record["rollback_tested"]
 status = "PASS" if meets_contract else "ROLLBACK_RELEASE"
 print("S44-T3-B", status)
@@ -1074,7 +1254,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess ROLLBACK_RELEASE
+# DEFECT: PASS con canary roto o sin rollback
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "migration_compatible", "canary_error_rate", "max_error_rate", "rollback_tested", "rollback_seconds", "rto_seconds"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1308,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide ROLLBACK_RELEASE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "migration_compatible", "canary_error_rate", "max_error_rate", "rollback_tested", "rollback_seconds", "rto_seconds"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1362,11 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-4A", **{"protected_branch":True,"required_reviews":2,"required_checks":True,"release_notes":{"change","risk","migration","rollback"}}}
+          code: `# CASO-LIM-044 · branch protection + reviews
+# DEFECT: PASS sin protected_branch o reviews==0
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-4A", **{"protected_branch":True,"required_reviews":2,"required_checks":True,"release_notes":{"change","risk","migration","rollback"}}}
+# DEFECT: branch protection con reviews requeridas
 meets_contract = not record["protected_branch"] or record["required_reviews"] == 0
 status = "PASS" if meets_contract else "BLOCK_UNREVIEWED_RELEASE"
 print("S44-T4-A", status)
@@ -1209,7 +1399,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess BLOCK_UNREVIEWED_RELEASE
+# DEFECT: PASS sin protección o sin reviews
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "protected_branch", "required_reviews", "required_checks", "release_notes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1453,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide BLOCK_UNREVIEWED_RELEASE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "protected_branch", "required_reviews", "required_checks", "release_notes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1507,11 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-4B", **{"critical_failure":True,"pipeline_blocked":True,"logs_redacted":True,"owner":"release","evidence_retained":True}}
+          code: `# CASO-LIM-044 · critical failure blocks pipeline
+# DEFECT: PASS si critical_failure y pipeline no blocked
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PIU-044-4B", **{"critical_failure":True,"pipeline_blocked":True,"logs_redacted":True,"owner":"release","evidence_retained":True}}
+# DEFECT: fallo crítico debe bloquear el pipeline
 meets_contract = record["critical_failure"] and not record["pipeline_blocked"]
 status = "PASS" if meets_contract else "STOP_SILENT_FAILURE"
 print("S44-T4-B", status)
@@ -1344,7 +1544,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-044 · assess STOP_SILENT_FAILURE
+# DEFECT: PASS con fallo crítico sin bloqueo
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "critical_failure", "pipeline_blocked", "logs_redacted", "owner", "evidence_retained"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1598,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-044 · decide STOP_SILENT_FAILURE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "critical_failure", "pipeline_blocked", "logs_redacted", "owner", "evidence_retained"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1711,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 0,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Antes de promover a staging, el digest del artefacto testeado y el promovido deben…",
+        options: ["diferir para probar hotfixes en caliente", "omitirse si el README dice OK", "regenerarse sin re-ejecutar tests", "coincidir (mismo subject de provenance/SBOM)"],
+        correctIndex: 3,
+        explanation: "Supply chain exige que lo testeado sea exactamente lo promovido: digests alineados y aprobación registrada.",
+      },
     ],
   },
   resources: {
@@ -1513,6 +1725,16 @@ assert status in {"READY", "BLOCKED"}
         label: "GitHub Actions security hardening",
         url: "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
         note: "Permisos, pinning y secrets",
+      },
+      {
+        label: "GitHub Environments for deployment",
+        url: "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+        note: "Approvals y environments",
+      },
+      {
+        label: "Branch protection rules",
+        url: "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+        note: "Review + checks obligatorios",
       },
       {
         label: "SLSA",
@@ -1524,14 +1746,42 @@ assert status in {"READY", "BLOCKED"}
         url: "https://cyclonedx.org/docs/",
         note: "SBOM estándar",
       },
+      {
+        label: "SPDX",
+        url: "https://spdx.dev/",
+        note: "SBOM alternativo / interoperable",
+      },
+      {
+        label: "Sigstore / cosign",
+        url: "https://docs.sigstore.dev/",
+        note: "Firmas y attestations de artefactos",
+      },
+      {
+        label: "in-toto",
+        url: "https://in-toto.io/",
+        note: "Integridad de cadena de suministro",
+      },
+      {
+        label: "NIST SSDF",
+        url: "https://csrc.nist.gov/Projects/ssdf",
+        note: "Secure software development framework",
+      },
+      {
+        label: "pip secure installs",
+        url: "https://pip.pypa.io/en/stable/topics/secure-installs/",
+        note: "Pinning y hash checking",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Accelerate (Forsgren et al.)", note: "CI/CD y delivery performance" },
+      { label: "Site Reliability Engineering", note: "Canary, rollback y evidencia" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Coursera DevOps / CI-CD", url: "https://www.coursera.org/courses?query=devops%20cicd", note: "Pipelines y supply chain intro" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
+      { label: "SRE release engineering", url: "https://sre.google/sre-book/release-engineering/", note: "Release y canary conceptual" },
     ],
   },
 }

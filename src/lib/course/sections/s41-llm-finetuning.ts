@@ -6,13 +6,13 @@ export const section41: CourseSection = {
   title: "APIs con FastAPI y contratos HTTP",
   shortTitle: "APIs FastAPI",
   tagline: "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Cpu",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, apis con fastapi y contratos http conecta decisiones técnicas con evidencia operativa. La práctica entrega respuestas OpenAPI sin PII con status, evidencia y errores estables y se promueve solo cuando crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
+    "En equipos de plataforma y producto, **APIs con FastAPI y contratos HTTP** convierten las fronteras de S40 en endpoints versionados con evidencia operativa. La práctica entrega respuestas OpenAPI sin PII (status, evidencia, errores tipados) y se promueve solo cuando crear el mismo job con la misma idempotency key no duplica side effects y consultar conserva compatibilidad. Id legacy `llm-finetuning` se conserva; el path V3 es HTTP/API, no fine-tuning de LLMs.",
   learningOutcomes: [
     { text: "Diseña recursos HTTP y status" },
     { text: "Versiona, pagina e idempotiza" },
@@ -27,10 +27,31 @@ export const section41: CourseSection = {
     {
       heading: "Ruta de S41: APIs con FastAPI y contratos HTTP",
       paragraphs: [
-        "Esta sección parte de S40 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-ARE-041` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: API FastAPI versionada para jobs y evidencia. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida: respuestas OpenAPI sin PII con status, evidencia y errores estables.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Recurso:** sustantivo versionado (`/v1/jobs`). **Status semántico:** 201 create, 200 read, 4xx cliente, 5xx servidor. **Idempotency-Key:** misma clave + mismo body ⇒ un solo side effect. **OpenAPI:** contrato de request/response documentado. **Dependency injection:** handler delgado; capacidad inyectada. **Compatibilidad de lectura:** clientes viejos siguen leyendo campos estables. **PII en errores:** prohibido — solo códigos y mensajes seguros.",
+        "Esta sección implementa las fronteras de S40 como **contratos HTTP** sin girar un cluster real: solo stdlib + contratos al estilo FastAPI/OpenAPI (referencia profesional; progressive disclosure). El caso `CASO-ARE-041` (oficina ficticia en Arequipa) es sintético: sin credenciales, sin red externa y sin PII real.",
+        "Producto incremental: API versionada de jobs y evidencia. Entrada: `POST/GET /v1/jobs` con identidad sintética e Idempotency-Key. Salida: respuestas con status semánticos (201/200/4xx/5xx), body sin campos internos y errores tipados. Error de promoción: duplicar side effects en replay, filtrar PII en errores o romper compatibilidad de lectura.",
+        "Orden: T1 recursos/status e idempotencia → T2 routing/deps y validación → T3 sync/async y errores → T4 tests, rate limit y observabilidad. Teoría con criterio medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto HTTP por ejercicio. Id legacy `llm-finetuning` no implica fine-tuning; V3 es API gobernada del control plane. Stack didáctico: **stdlib** (dicts, funciones) modelando contratos FastAPI sin cluster.",
       ],
+      code: {
+        language: 'python',
+        title: "s41_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-ARE-041",
+        "gates": ["idempotent_create", "no_pii_in_errors", "read_compat"],
+        "llm_finetuning_topic": False,
+        "duplicate_side_effect_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("llm_finetuning_topic", c["llm_finetuning_topic"])
+print("duplicate_side_effect_ok", c["duplicate_side_effect_ok"])
+`,
+        output: `case CASO-ARE-041
+llm_finetuning_topic False
+duplicate_side_effect_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,16 +62,24 @@ export const section41: CourseSection = {
       heading: "recursos, métodos y status",
       subtopicId: "S41-T1-A",
       paragraphs: [
-        "Modela recursos con sustantivos, usa métodos HTTP por semántica y devuelve status que separan creación, validación, ausencia, conflicto y fallo interno.",
-        "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: matriz método/recurso/status probada. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
-        "Aplicación de `recursos, métodos y status` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es matriz método/recurso/status probada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Modela recursos con **sustantivos** (`/v1/jobs`, `/v1/health`), usa métodos HTTP por semántica (GET lectura, POST creación) y devuelve status que separan creación (201), lectura OK (200), validación (400), ausencia (404), conflicto (409) y fallo interno (500). Un verbo en la URL suele ser un olor de diseño.",
+        "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e Idempotency-Key. Salida de este subtema: matriz método/recurso/status probada en el lab. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable **sin PII**. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad de lectura.",
+        "Aplicación de `recursos, métodos y status` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es matriz método/recurso/status probada (`POST /v1/jobs → 201`). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "resources_methods_status.py",
-        code: `print("methods", ["GET","POST"])
-print("create_status", 201)
-print("resources", ["jobs","health"])`,
+        code: `def http_matrix(methods, resources, create_status=201):
+    return {
+        "methods": methods,
+        "create_status": create_status,
+        "resources": resources,
+    }
+
+m = http_matrix(["GET", "POST"], ["jobs", "health"])
+print("methods", m["methods"])
+print("create_status", m["create_status"])
+print("resources", m["resources"])`,
         output: `methods ['GET', 'POST']
 create_status 201
 resources ['jobs', 'health']`,
@@ -67,13 +96,18 @@ resources ['jobs', 'health']`,
       subtopicId: "S41-T1-B",
       paragraphs: [
         "La idempotencia liga una clave al hash de la solicitud y al resultado; cursor estable y versión explícita evitan duplicados y paginación cambiante.",
-        "Contrato operativo. Entrada: solicitudes HTTP versionadas con identidad sintética e idempotency key. Salida de este subtema: replay idéntico sin segundo efecto. Error: payload inválido, timeout, duplicado conflictivo o límite excedido produce un error tipado y observable. Criterio de éxito: crear el mismo job con la misma clave no duplica efectos y consultar conserva compatibilidad.",
-        "Aplicación de `idempotencia, paginación y versionado` al caso peruano sintético `CASO-ARE-041`: un servicio local de jobs sintéticos para una oficina ficticia en Arequipa. La evidencia esperada es replay idéntico sin segundo efecto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de replay. Entrada: Idempotency-Key + body canónico de POST /v1/jobs. Salida: primera respuesta `created` y segunda `replay` sin segundo job. Error: misma clave con body distinto (conflicto) o cursor inestable al paginar. Criterio: el store de claves es durable en el path del job y la página `next` no reordena el set entre requests.",
+        "Aplicación a `CASO-ARE-041-T1B` (oficina ficticia en Arequipa): dos POST con la misma key crean un solo job sintético; `page([0,1,2,3],0,2)` devuelve next=2. Sin PII ni secretos en headers de log.",
       ],
       code: {
         language: 'python',
         title: "idempotency_pagination_versioning.py",
-        code: `print({"data":[0,1],"next":2})
+        code: `def page(items, cursor, size=2):
+    chunk = items[cursor:cursor + size]
+    nxt = cursor + size if cursor + size < len(items) else None
+    return {"data": chunk, "next": nxt}
+
+print(page([0, 1, 2, 3], 0, 2))
 print("idempotency_key", "Idempo-Key")
 print("version", "v1")`,
         output: `{'data': [0, 1], 'next': 2}
@@ -98,9 +132,14 @@ version v1`,
       code: {
         language: 'python',
         title: "routing_deps_models.py",
-        code: `print("deps", ["db","user"])
-print("job_deps", ["db","user"])
-print("model", "JobCreate")`,
+        code: `def handler_deps(route_name: str) -> dict:
+    base = ["db", "user"]
+    return {"deps": base, "job_deps": base if route_name == "create_job" else [], "model": "JobCreate"}
+
+h = handler_deps("create_job")
+print("deps", h["deps"])
+print("job_deps", h["job_deps"])
+print("model", h["model"])`,
         output: `deps ['db', 'user']
 job_deps ['db', 'user']
 model JobCreate`,
@@ -123,7 +162,11 @@ model JobCreate`,
       code: {
         language: 'python',
         title: "validation_serialize_docs.py",
-        code: `print({"name":"er-run","priority":"normal"})
+        code: `def public_view(body: dict, allow: set) -> dict:
+    return {k: v for k, v in body.items() if k in allow}
+
+raw = {"name": "er-run", "priority": "normal", "internal_key": "x"}
+print(public_view(raw, {"name", "priority"}))
 print("openapi", True)
 print("serialize", "json")`,
         output: `{'name': 'er-run', 'priority': 'normal'}
@@ -148,7 +191,16 @@ serialize json`,
       code: {
         language: 'python',
         title: "sync_async_background.py",
-        code: `print("sync"); print("background"); print("boundary", "request_vs_worker")`,
+        code: `def work_boundary(kind: str) -> str:
+    if kind == "cpu_heavy":
+        return "background"
+    if kind == "io_wait":
+        return "async"
+    return "sync"
+
+print(work_boundary("http_get"))
+print(work_boundary("cpu_heavy"))
+print("boundary", "request_vs_worker")`,
         output: `sync
 background
 boundary request_vs_worker`,
@@ -171,8 +223,11 @@ boundary request_vs_worker`,
       code: {
         language: 'python',
         title: "errors_timeouts_lifecycle.py",
-        code: `print({"error":"timeout","message":"job exceeded 30s"})
-print("lifecycle", ["startup","shutdown"])
+        code: `def error_payload(code: str, message: str) -> dict:
+    return {"error": code, "message": message}
+
+print(error_payload("timeout", "job exceeded 30s"))
+print("lifecycle", ["startup", "shutdown"])
 print("no_pii", True)`,
         output: `{'error': 'timeout', 'message': 'job exceeded 30s'}
 lifecycle ['startup', 'shutdown']
@@ -196,7 +251,17 @@ no_pii True`,
       code: {
         language: 'python',
         title: "unit_contract_integration.py",
-        code: `print("total", 19); print("pyramid", True); print("contract", "openapi_schema")`,
+        code: `def pyramid_counts(unit: int, contract: int, integration: int) -> dict:
+    return {
+        "total": unit + contract + integration,
+        "pyramid": unit >= contract >= integration,
+        "contract": "openapi_schema",
+    }
+
+p = pyramid_counts(12, 5, 2)
+print("total", p["total"])
+print("pyramid", p["pyramid"])
+print("contract", p["contract"])`,
         output: `total 19
 pyramid True
 contract openapi_schema`,
@@ -219,7 +284,12 @@ contract openapi_schema`,
       code: {
         language: 'python',
         title: "compat_ratelimit_observability.py",
-        code: `print("allow"); print("429"); print("compat_header", "X-API-Version")`,
+        code: `def rate_decision(tokens: int) -> str:
+    return "allow" if tokens > 0 else "429"
+
+print(rate_decision(1))
+print(rate_decision(0))
+print("compat_header", "X-API-Version")`,
         output: `allow
 429
 compat_header X-API-Version`,
@@ -243,7 +313,12 @@ compat_header X-API-Version`,
         code: {
           language: 'python',
           title: "demo_resources_methods_status.py",
-          code: `print(201); print(404); print(200)`,
+          code: `def status_for(action: str) -> int:
+    return {"create": 201, "missing": 404, "read": 200}.get(action, 500)
+
+print(status_for("create"))
+print(status_for("missing"))
+print(status_for("read"))`,
           output: `201
 404
 200`,
@@ -258,7 +333,16 @@ compat_header X-API-Version`,
         code: {
           language: 'python',
           title: "demo_idempotency_pagination_versioning.py",
-          code: `print("created"); print("replay"); print(1)`,
+          code: `def idempotent_create(store: dict, key: str, body: dict) -> str:
+    if key in store:
+        return "replay"
+    store[key] = body
+    return "created"
+
+store = {}
+print(idempotent_create(store, "k1", {"name": "job"}))
+print(idempotent_create(store, "k1", {"name": "job"}))
+print(len(store))`,
           output: `created
 replay
 1`,
@@ -273,7 +357,13 @@ replay
         code: {
           language: 'python',
           title: "demo_routing_deps_models.py",
-          code: `print("ok:conn"); print("injection", "deps"); print("routing", "/v1/jobs")`,
+          code: `def thin_handler(get_db, user: str) -> str:
+    conn = get_db()
+    return f"ok:{conn}"
+
+print(thin_handler(lambda: "conn", "reviewer"))
+print("injection", "deps")
+print("routing", "/v1/jobs")`,
           output: `ok:conn
 injection deps
 routing /v1/jobs`,
@@ -288,7 +378,13 @@ routing /v1/jobs`,
         code: {
           language: 'python',
           title: "demo_validation_serialize_docs.py",
-          code: `print(["name","priority"]); print("paths", ["/v1/jobs"]); print("valid", True)`,
+          code: `def validate_job(body: dict) -> bool:
+    return "name" in body and "priority" in body and "secret" not in body
+
+fields = ["name", "priority"]
+print(fields)
+print("paths", ["/v1/jobs"])
+print("valid", validate_job({"name": "er-run", "priority": "normal"}))`,
           output: `['name', 'priority']
 paths ['/v1/jobs']
 valid True`,
@@ -303,7 +399,15 @@ valid True`,
         code: {
           language: 'python',
           title: "demo_sync_async_background.py",
-          code: `print({"id":"job-1","status":"queued"}); print("qlen", 1); print("async", True)`,
+          code: `def enqueue(job_id: str, queue: list) -> dict:
+    item = {"id": job_id, "status": "queued"}
+    queue.append(item)
+    return item
+
+q = []
+print(enqueue("job-1", q))
+print("qlen", len(q))
+print("async", True)`,
           output: `{'id': 'job-1', 'status': 'queued'}
 qlen 1
 async True`,
@@ -318,7 +422,12 @@ async True`,
         code: {
           language: 'python',
           title: "demo_errors_timeouts_lifecycle.py",
-          code: `print("ok"); print("timeout"); print("limit", 100)`,
+          code: `def within_budget(elapsed_s: float, limit_s: float) -> str:
+    return "ok" if elapsed_s <= limit_s else "timeout"
+
+print(within_budget(10, 30))
+print(within_budget(40, 30))
+print("limit", 100)`,
           output: `ok
 timeout
 limit 100`,
@@ -333,7 +442,14 @@ limit 100`,
         code: {
           language: 'python',
           title: "demo_unit_contract_integration.py",
-          code: `print(True); print(False); print("unit_first", True)`,
+          code: `def level_detects(seed_bug: str, level: str) -> bool:
+    return (seed_bug == "domain" and level == "unit") or (
+        seed_bug == "http" and level == "contract"
+    )
+
+print(level_detects("domain", "unit"))
+print(level_detects("domain", "integration"))
+print("unit_first", True)`,
           output: `True
 False
 unit_first True`,
@@ -348,7 +464,12 @@ unit_first True`,
         code: {
           language: 'python',
           title: "demo_compat_ratelimit_observability.py",
-          code: `print("slo_latency_ok", True); print("rate", "token_bucket"); print("no_internal_keys", True)`,
+          code: `def slo_latency_ok(p95_ms: float, budget_ms: float) -> bool:
+    return p95_ms <= budget_ms
+
+print("slo_latency_ok", slo_latency_ok(180, 300))
+print("rate", "token_bucket")
+print("no_internal_keys", True)`,
           output: `slo_latency_ok True
 rate token_bucket
 no_internal_keys True`,
@@ -376,7 +497,11 @@ no_internal_keys True`,
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-1A", **{"method":"POST","resource":"/v1/jobs","created":True,"status":201}}
+          code: `# CASO-LIM-041 · HTTP method+status create
+# DEFECT: POST create exige 201; starter exige 200/GET
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-1A", **{"method":"POST","resource":"/v1/jobs","created":True,"status":201}}
+# DEFECT: POST create debe ser 201, no 200/GET
 meets_contract = record["status"] == 200 and record["method"] == "GET"
 status = "PASS" if meets_contract else "RETURN_CORRECT_HTTP_STATUS"
 print("S41-T1-A", status)
@@ -409,7 +534,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess HTTP create contract
+# DEFECT: PASS con status 200 y method GET
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "method", "resource", "created", "status"}
     missing = sorted(required - record.keys())
     if missing:
@@ -460,7 +588,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide RETURN_CORRECT_HTTP_STATUS
+# DEFECT: missing→CONTINUE; pred invertido 200/GET
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "method", "resource", "created", "status"}
     missing = sorted(required - record.keys())
     if missing:
@@ -511,7 +642,11 @@ assert results == ["CONTINUE", "RETURN_CORRECT_HTTP_STATUS", "REVIEW_RESOURCE_SE
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-1B", **{"key":"idem-are-1","request_hash":"abc","stored_hash":"abc","effects":1,"cursor":"job-020","version":"v1"}}
+          code: `# CASO-LIM-041 · idempotency key+hash
+# DEFECT: PASS si effects>1 o hash mismatch (invertido)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-1B", **{"key":"idem-are-1","request_hash":"abc","stored_hash":"abc","effects":1,"cursor":"job-020","version":"v1"}}
+# DEFECT: replay idéntico exige effects==1 y hash igual
 meets_contract = record["effects"] > 1 or record["request_hash"] != record["stored_hash"]
 status = "PASS" if meets_contract else "RETURN_IDEMPOTENCY_CONFLICT"
 print("S41-T1-B", status)
@@ -544,7 +679,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess idempotency
+# DEFECT: PASS con effects>1 o hash distinto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "key", "request_hash", "stored_hash", "effects", "cursor", "version"}
     missing = sorted(required - record.keys())
     if missing:
@@ -595,7 +733,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide RETURN_IDEMPOTENCY_CONFLICT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "key", "request_hash", "stored_hash", "effects", "cursor", "version"}
     missing = sorted(required - record.keys())
     if missing:
@@ -646,7 +787,11 @@ assert results == ["CONTINUE", "RETURN_IDEMPOTENCY_CONFLICT", "REPLAY_STORED_RES
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-2A", **{"handler_lines":4,"dependency_injectable":True,"domain_imports_http":False,"domain_called":True}}
+          code: `# CASO-LIM-041 · thin handler / domain boundary
+# DEFECT: PASS si handler gordo e imports HTTP en domain
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-2A", **{"handler_lines":4,"dependency_injectable":True,"domain_imports_http":False,"domain_called":True}}
+# DEFECT: handler thin: pocas líneas y sin importar HTTP en dominio
 meets_contract = record["handler_lines"] > 20 and record["domain_imports_http"]
 status = "PASS" if meets_contract else "THIN_THE_HANDLER"
 print("S41-T2-A", status)
@@ -679,7 +824,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess thin handler
+# DEFECT: PASS con handler_lines>20 y domain_imports_http
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "handler_lines", "dependency_injectable", "domain_imports_http", "domain_called"}
     missing = sorted(required - record.keys())
     if missing:
@@ -730,7 +878,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide THIN_THE_HANDLER
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "handler_lines", "dependency_injectable", "domain_imports_http", "domain_called"}
     missing = sorted(required - record.keys())
     if missing:
@@ -781,7 +932,11 @@ assert results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-2B", **{"input_valid":False,"status":422,"response_fields":{"job_id","status"},"internal_fields":{"secret","db_pk"},"openapi_matches":True}}
+          code: `# CASO-LIM-041 · 422 + response redaction
+# DEFECT: PASS si 200 y filtra campos internos (invertido)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-2B", **{"input_valid":False,"status":422,"response_fields":{"job_id","status"},"internal_fields":{"secret","db_pk"},"openapi_matches":True}}
+# DEFECT: error/response no debe filtrar campos internos; 200 con leak es breach
 meets_contract = record["status"] == 200 and bool(record["response_fields"] & record["internal_fields"])
 status = "PASS" if meets_contract else "REJECT_AND_REDACT"
 print("S41-T2-B", status)
@@ -814,7 +969,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess reject/redact
+# DEFECT: PASS con status 200 y secret en response
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "input_valid", "status", "response_fields", "internal_fields", "openapi_matches"}
     missing = sorted(required - record.keys())
     if missing:
@@ -865,7 +1023,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide REJECT_AND_REDACT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "input_valid", "status", "response_fields", "internal_fields", "openapi_matches"}
     missing = sorted(required - record.keys())
     if missing:
@@ -916,7 +1077,11 @@ assert results == ["CONTINUE", "REJECT_AND_REDACT", "REGENERATE_OPENAPI"]` ,
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-3A", **{"work_kind":"io","uses_await":True,"cpu_offloaded":True,"durable_job":True}}
+          code: `# CASO-LIM-041 · async IO vs CPU offload
+# DEFECT: PASS si CPU en event loop sin offload
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-3A", **{"work_kind":"io","uses_await":True,"cpu_offloaded":True,"durable_job":True}}
+# DEFECT: CPU en event loop con await es breach; offload o batch
 meets_contract = record["work_kind"] == "cpu" and record["uses_await"] and not record["cpu_offloaded"]
 status = "PASS" if meets_contract else "MOVE_WORK_OFF_EVENT_LOOP"
 print("S41-T3-A", status)
@@ -949,7 +1114,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess event-loop safety
+# DEFECT: PASS con work_kind cpu y uses_await sin offload
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "work_kind", "uses_await", "cpu_offloaded", "durable_job"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1000,7 +1168,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide MOVE_WORK_OFF_EVENT_LOOP
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "work_kind", "uses_await", "cpu_offloaded", "durable_job"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1051,7 +1222,11 @@ assert results == ["CONTINUE", "MOVE_WORK_OFF_EVENT_LOOP", "CHOOSE_BACKGROUND_BO
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-3B", **{"client_timeout_ms":900,"service_budget_ms":700,"db_budget_ms":450,"error_code":"UPSTREAM_TIMEOUT","resource_closed":True}}
+          code: `# CASO-LIM-041 · timeout budgets cascade
+# DEFECT: PASS si db_budget > client_timeout o no cierra recursos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-3B", **{"client_timeout_ms":900,"service_budget_ms":700,"db_budget_ms":450,"error_code":"UPSTREAM_TIMEOUT","resource_closed":True}}
+# DEFECT: budget DB <= client timeout y recursos cerrados en finally
 meets_contract = record["db_budget_ms"] > record["client_timeout_ms"] or not record["resource_closed"]
 status = "PASS" if meets_contract else "CANCEL_AND_CLOSE"
 print("S41-T3-B", status)
@@ -1084,7 +1259,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess cancel/close
+# DEFECT: PASS con budgets rotos o resource_closed False
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "client_timeout_ms", "service_budget_ms", "db_budget_ms", "error_code", "resource_closed"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1135,7 +1313,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide CANCEL_AND_CLOSE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "client_timeout_ms", "service_budget_ms", "db_budget_ms", "error_code", "resource_closed"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1186,7 +1367,11 @@ assert results == ["CONTINUE", "CANCEL_AND_CLOSE", "RECALCULATE_TIMEOUT_BUDGET"]
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-4A", **{"layers":{"unit","contract","integration"},"rule_unit":True,"http_contract":True,"adapter_integration":True,"seeded_failure_detected":True}}
+          code: `# CASO-LIM-041 · test layers unit/contract/integration
+# DEFECT: PASS si solo 1 layer y no detecta fallos sembrados
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-4A", **{"layers":{"unit","contract","integration"},"rule_unit":True,"http_contract":True,"adapter_integration":True,"seeded_failure_detected":True}}
+# DEFECT: pirámide multi-capa + fallo sembrado detectado
 meets_contract = len(record["layers"]) == 1 and not record["seeded_failure_detected"]
 status = "PASS" if meets_contract else "BLOCK_UNTESTED_CONTRACT"
 print("S41-T4-A", status)
@@ -1219,7 +1404,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess test pyramid
+# DEFECT: PASS con layers==1 sin seeded_failure_detected
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "layers", "rule_unit", "http_contract", "adapter_integration", "seeded_failure_detected"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1270,7 +1458,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide BLOCK_UNTESTED_CONTRACT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "layers", "rule_unit", "http_contract", "adapter_integration", "seeded_failure_detected"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1321,7 +1512,11 @@ assert results == ["CONTINUE", "BLOCK_UNTESTED_CONTRACT", "ADD_MISSING_TEST_LEVE
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-ARE-041-4B", **{"old_consumer_passes":True,"limit":100,"used":73,"trace_id":"tr-are-041","pii_in_log":False}}
+          code: `# CASO-LIM-041 · rate limit + PII logs
+# DEFECT: PASS si used>limit o pii_in_log
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-ARE-041-4B", **{"old_consumer_passes":True,"limit":100,"used":73,"trace_id":"tr-are-041","pii_in_log":False}}
+# DEFECT: used<=limit y pii_in_log False
 meets_contract = record["used"] > record["limit"] or record["pii_in_log"]
 status = "PASS" if meets_contract else "THROTTLE_AND_REDACT"
 print("S41-T4-B", status)
@@ -1354,7 +1549,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-041 · assess throttle/redact
+# DEFECT: PASS con over-limit o PII en log
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "old_consumer_passes", "limit", "used", "trace_id", "pii_in_log"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1405,7 +1603,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-041 · decide THROTTLE_AND_REDACT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "old_consumer_passes", "limit", "used", "trace_id", "pii_in_log"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1515,6 +1716,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 1,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Dos `POST /v1/jobs` con la misma Idempotency-Key y el mismo body canónico deben…",
+        options: ["devolver created en la primera y replay en la segunda sin segundo efecto", "crear dos jobs distintos para maximizar throughput", "borrar la key tras el primer request", "responder 500 para forzar reintento del cliente"],
+        correctIndex: 0,
+        explanation: "Idempotencia liga key+hash al resultado: el segundo request reusa la respuesta almacenada y no duplica side effects.",
+      },
     ],
   },
   resources: {
@@ -1525,23 +1732,61 @@ assert status in {"READY", "BLOCKED"}
         note: "Routing, dependencies, modelos y testing",
       },
       {
+        label: "FastAPI tutorial",
+        url: "https://fastapi.tiangolo.com/tutorial/",
+        note: "Path operations y dependencies",
+      },
+      {
+        label: "FastAPI Testing",
+        url: "https://fastapi.tiangolo.com/tutorial/testing/",
+        note: "TestClient y contratos HTTP",
+      },
+      {
         label: "HTTP Semantics — RFC 9110",
         url: "https://www.rfc-editor.org/rfc/rfc9110",
         note: "Métodos, status y semántica HTTP",
+      },
+      {
+        label: "Problem Details — RFC 9457",
+        url: "https://www.rfc-editor.org/rfc/rfc9457",
+        note: "Errores tipados sin PII",
       },
       {
         label: "OpenAPI Specification",
         url: "https://spec.openapis.org/oas/latest.html",
         note: "Contrato interoperable de APIs",
       },
+      {
+        label: "Pydantic",
+        url: "https://docs.pydantic.dev/",
+        note: "Validación y serialización de request/response",
+      },
+      {
+        label: "Stripe — Idempotent requests",
+        url: "https://stripe.com/docs/api/idempotent_requests",
+        note: "Idempotency-Key en la práctica",
+      },
+      {
+        label: "OWASP API Security Top 10",
+        url: "https://owasp.org/www-project-api-security/",
+        note: "Riesgos de APIs y fail-closed",
+      },
+      {
+        label: "Python asyncio",
+        url: "https://docs.python.org/3/library/asyncio.html",
+        note: "Handlers async y límites",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Designing Data-Intensive Applications", note: "Contratos, consistencia y operación" },
+      { label: "Site Reliability Engineering", note: "SLO, rate limits y cambio seguro" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Coursera — API design", url: "https://www.coursera.org/courses?query=api%20design", note: "Semántica REST e idempotencia" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "HTTP basics progressive" },
+      { label: "pytest", url: "https://docs.pytest.org/", note: "Unit/contract tests" },
     ],
   },
 }

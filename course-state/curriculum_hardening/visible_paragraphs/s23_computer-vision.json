@@ -1,0 +1,470 @@
+{
+  "index": 23,
+  "id": "computer-vision",
+  "title": "Browser RPA con Playwright",
+  "file": "s23-computer-vision.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Browser RPA contra una fixture local controlada",
+      "len": 47
+    },
+    {
+      "i": 1,
+      "text": "Construyes el web adapter de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un servidor HTTP local de práctica (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 486
+    },
+    {
+      "i": 2,
+      "text": "Los ejemplos multiarchivo del curso (fixture_server.py + robot.py) usan la API real cuando el runtime está instalado; los ejercicios graded pueden modelar DOM/sesión con dicts para ser reproducibles en CI sin Chromium. En ambos casos el contrato es el mismo: locators de usuario, traces de falla y downloads verificados.",
+      "len": 320
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Navegación (locators, auto-wait) → T2 Flujos (forms, auth, Page Objects) → T3 Diagnóstico (trace, retries) → T4 Límites (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos.",
+      "len": 239
+    },
+    {
+      "i": 4,
+      "text": "DOM y locators orientados a usuario",
+      "len": 35
+    },
+    {
+      "i": 5,
+      "text": "Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no #app > div:nth-child(3). En portales sintéticos PE de demo, pide data-testid si falta rol.",
+      "len": 252
+    },
+    {
+      "i": 6,
+      "text": "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 461
+    },
+    {
+      "i": 7,
+      "text": "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match enseña fallar ruidoso en setup, no click ciego. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 472
+    },
+    {
+      "i": 8,
+      "text": "auto-waiting y assertions",
+      "len": 25
+    },
+    {
+      "i": 9,
+      "text": "Playwright auto-espera a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con timeout explícito y condiciones de readiness. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 481
+    },
+    {
+      "i": 10,
+      "text": "Las assertions (expect(locator).to_be_visible(), título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con step ms hasta timeout. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 445
+    },
+    {
+      "i": 11,
+      "text": "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el CSV sintético. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 439
+    },
+    {
+      "i": 12,
+      "text": "formularios, uploads/downloads y sesiones",
+      "len": 41
+    },
+    {
+      "i": 13,
+      "text": "Flujos típicos del adapter: fill campos (usuario, periodo), set_input_files/upload de plantilla, click, esperar download y verificar path, tamaño o hash. No basta con que el click no lance: valida el binario. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 452
+    },
+    {
+      "i": 14,
+      "text": "storage_state (cookies/localStorage) reutiliza sesión autenticada entre tests para no re-loguear en cada caso — en el lab un dict {token:'t'} modela reuse. Nunca hardcodees contraseñas reales; sandbox usa demo/sandbox. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 462
+    },
+    {
+      "i": 15,
+      "text": "Caso PE sintético: form periodo 2026-01, upload plantilla.xlsx sintética PK header, download con sha256 hex corto. Checksum mismatch → fallo de step y evidencia, no “éxito silencioso”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 428
+    },
+    {
+      "i": 16,
+      "text": "auth, estados y Page Objects",
+      "len": 28
+    },
+    {
+      "i": 17,
+      "text": "Un Page Object encapsula selectores y acciones de una pantalla (LoginPage.submit, ReportPage.open). Separa auth setup (fixture storage_state) del test de negocio del reporte para no duplicar login en 20 tests. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 453
+    },
+    {
+      "i": 18,
+      "text": "Estados de página: anonymous → authenticated (o mfa_pending en sistemas reales; aquí sandbox simple). ReportPage.open lanza PermissionError si no auth — el robot captura y reporta 'denied' en vez de seguir al download. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 462
+    },
+    {
+      "i": 19,
+      "text": "Contrato lab: LoginPage con password 'sandbox' setea auth; mal password deja anonymous. El PO no contiene sleeps mágicos; expone acciones que el test compone. Facilita cambiar el selector del botón sin tocar 15 tests. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 461
+    },
+    {
+      "i": 21,
+      "text": "Ante falla, empaqueta trace (zip Playwright), screenshot y error string. Keys del paquete se ordenan para diffs estables en CI. Sin evidencia, el on-call en Lima no reproduce el flake del portal demo. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 444
+    },
+    {
+      "i": 22,
+      "text": "Filtra console logs por 'ERR' u otros marcadores; el ruido de info no debe ocultar el timeout. Si ok=False, adjunta trace path traces/{step}.zip al pkg del step. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+      "len": 274
+    },
+    {
+      "i": 23,
+      "text": "Caso: step s1 falla → pkg con trace+screenshot+error. Política: traces solo en fallo o sample rate bajo en éxito para no llenar disco del runner sintético. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+      "len": 268
+    },
+    {
+      "i": 24,
+      "text": "selectores robustos, retries y recovery",
+      "len": 39
+    },
+    {
+      "i": 25,
+      "text": "Retries solo para errores transitorios (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 429
+    },
+    {
+      "i": 26,
+      "text": "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa en recovery. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 436
+    },
+    {
+      "i": 27,
+      "text": "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 435
+    },
+    {
+      "i": 29,
+      "text": "Jerarquía de preferencia: api > export > rpa > human. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA queda para huecos sin API. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 451
+    },
+    {
+      "i": 30,
+      "text": "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
+      "len": 278
+    },
+    {
+      "i": 31,
+      "text": "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 426
+    },
+    {
+      "i": 32,
+      "text": "términos, CAPTCHA, desktop fallback y handoff humano",
+      "len": 52
+    },
+    {
+      "i": 33,
+      "text": "Si ToS forbidden para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, human_handoff con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 465
+    },
+    {
+      "i": 34,
+      "text": "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analista continúe en minutos. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 446
+    },
+    {
+      "i": 35,
+      "text": "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueba de fraude. El adaptador respeta límites legales y de producto. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 488
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Browser RPA contra una fixture local controlada",
+      "text": "Browser RPA contra una fixture local controlada"
+    },
+    {
+      "i": 1,
+      "len": 486,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Construyes el web adapter de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un servidor HTTP local de práctica (HTML/CSV sintétic",
+      "text": "Construyes el web adapter de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un servidor HTTP local de práctica (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 2,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los ejemplos multiarchivo del curso (fixture_server.py + robot.py) usan la API real cuando el runtime está instalado; los ejercicios graded pueden modelar DOM/sesión con dicts para",
+      "text": "Los ejemplos multiarchivo del curso (fixture_server.py + robot.py) usan la API real cuando el runtime está instalado; los ejercicios graded pueden modelar DOM/sesión con dicts para ser reproducibles en CI sin Chromium. En ambos casos el contrato es el mismo: locators de usuario, traces de falla y downloads verificados."
+    },
+    {
+      "i": 3,
+      "len": 239,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Navegación (locators, auto-wait) → T2 Flujos (forms, auth, Page Objects) → T3 Diagnóstico (trace, retries) → T4 Límites (API-first, ToS/CAPTCHA/handoff). RPA es último re",
+      "text": "Orden: T1 Navegación (locators, auto-wait) → T2 Flujos (forms, auth, Page Objects) → T3 Diagnóstico (trace, retries) → T4 Límites (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos."
+    },
+    {
+      "i": 4,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "DOM y locators orientados a usuario",
+      "text": "DOM y locators orientados a usuario"
+    },
+    {
+      "i": 5,
+      "len": 252,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no #app > div:nth-chi",
+      "text": "Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no #app > div:nth-child(3). En portales sintéticos PE de demo, pide data-testid si falta rol."
+    },
+    {
+      "i": 6,
+      "len": 461,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas s",
+      "text": "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 7,
+      "len": 472,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match",
+      "text": "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match enseña fallar ruidoso en setup, no click ciego. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 8,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "auto-waiting y assertions",
+      "text": "auto-waiting y assertions"
+    },
+    {
+      "i": 9,
+      "len": 481,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Playwright auto-espera a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa",
+      "text": "Playwright auto-espera a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con timeout explícito y condiciones de readiness. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 10,
+      "len": 445,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las assertions (expect(locator).to_be_visible(), título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con s",
+      "text": "Las assertions (expect(locator).to_be_visible(), título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con step ms hasta timeout. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 11,
+      "len": 439,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el",
+      "text": "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el CSV sintético. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 12,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "formularios, uploads/downloads y sesiones",
+      "text": "formularios, uploads/downloads y sesiones"
+    },
+    {
+      "i": 13,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Flujos típicos del adapter: fill campos (usuario, periodo), set_input_files/upload de plantilla, click, esperar download y verificar path, tamaño o hash. No basta con que el click ",
+      "text": "Flujos típicos del adapter: fill campos (usuario, periodo), set_input_files/upload de plantilla, click, esperar download y verificar path, tamaño o hash. No basta con que el click no lance: valida el binario. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 14,
+      "len": 462,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "storage_state (cookies/localStorage) reutiliza sesión autenticada entre tests para no re-loguear en cada caso — en el lab un dict {token:'t'} modela reuse. Nunca hardcodees contras",
+      "text": "storage_state (cookies/localStorage) reutiliza sesión autenticada entre tests para no re-loguear en cada caso — en el lab un dict {token:'t'} modela reuse. Nunca hardcodees contraseñas reales; sandbox usa demo/sandbox. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 15,
+      "len": 428,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso PE sintético: form periodo 2026-01, upload plantilla.xlsx sintética PK header, download con sha256 hex corto. Checksum mismatch → fallo de step y evidencia, no “éxito silencio",
+      "text": "Caso PE sintético: form periodo 2026-01, upload plantilla.xlsx sintética PK header, download con sha256 hex corto. Checksum mismatch → fallo de step y evidencia, no “éxito silencioso”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 16,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "auth, estados y Page Objects",
+      "text": "auth, estados y Page Objects"
+    },
+    {
+      "i": 17,
+      "len": 453,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un Page Object encapsula selectores y acciones de una pantalla (LoginPage.submit, ReportPage.open). Separa auth setup (fixture storage_state) del test de negocio del reporte para n",
+      "text": "Un Page Object encapsula selectores y acciones de una pantalla (LoginPage.submit, ReportPage.open). Separa auth setup (fixture storage_state) del test de negocio del reporte para no duplicar login en 20 tests. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 18,
+      "len": 462,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Estados de página: anonymous → authenticated (o mfa_pending en sistemas reales; aquí sandbox simple). ReportPage.open lanza PermissionError si no auth — el robot captura y reporta ",
+      "text": "Estados de página: anonymous → authenticated (o mfa_pending en sistemas reales; aquí sandbox simple). ReportPage.open lanza PermissionError si no auth — el robot captura y reporta 'denied' en vez de seguir al download. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 19,
+      "len": 461,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato lab: LoginPage con password 'sandbox' setea auth; mal password deja anonymous. El PO no contiene sleeps mágicos; expone acciones que el test compone. Facilita cambiar el s",
+      "text": "Contrato lab: LoginPage con password 'sandbox' setea auth; mal password deja anonymous. El PO no contiene sleeps mágicos; expone acciones que el test compone. Facilita cambiar el selector del botón sin tocar 15 tests. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 21,
+      "len": 444,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ante falla, empaqueta trace (zip Playwright), screenshot y error string. Keys del paquete se ordenan para diffs estables en CI. Sin evidencia, el on-call en Lima no reproduce el fl",
+      "text": "Ante falla, empaqueta trace (zip Playwright), screenshot y error string. Keys del paquete se ordenan para diffs estables en CI. Sin evidencia, el on-call en Lima no reproduce el flake del portal demo. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 22,
+      "len": 274,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Filtra console logs por 'ERR' u otros marcadores; el ruido de info no debe ocultar el timeout. Si ok=False, adjunta trace path traces/{step}.zip al pkg del step. En PyArcana trabaj",
+      "text": "Filtra console logs por 'ERR' u otros marcadores; el ruido de info no debe ocultar el timeout. Si ok=False, adjunta trace path traces/{step}.zip al pkg del step. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes."
+    },
+    {
+      "i": 23,
+      "len": 268,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: step s1 falla → pkg con trace+screenshot+error. Política: traces solo en fallo o sample rate bajo en éxito para no llenar disco del runner sintético. En PyArcana trabajamos c",
+      "text": "Caso: step s1 falla → pkg con trace+screenshot+error. Política: traces solo en fallo o sample rate bajo en éxito para no llenar disco del runner sintético. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes."
+    },
+    {
+      "i": 24,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "selectores robustos, retries y recovery",
+      "text": "selectores robustos, retries y recovery"
+    },
+    {
+      "i": 25,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Retries solo para errores transitorios (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infi",
+      "text": "Retries solo para errores transitorios (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 26,
+      "len": 436,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa ",
+      "text": "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa en recovery. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 27,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backof",
+      "text": "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 29,
+      "len": 451,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Jerarquía de preferencia: api > export > rpa > human. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA",
+      "text": "Jerarquía de preferencia: api > export > rpa > human. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA queda para huecos sin API. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 30,
+      "len": 278,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana tr",
+      "text": "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes."
+    },
+    {
+      "i": 31,
+      "len": 426,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click",
+      "text": "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click”. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 32,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "términos, CAPTCHA, desktop fallback y handoff humano",
+      "text": "términos, CAPTCHA, desktop fallback y handoff humano"
+    },
+    {
+      "i": 33,
+      "len": 465,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Si ToS forbidden para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, human_handoff con payload url/step/screenshot — nunca scripts de ",
+      "text": "Si ToS forbidden para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, human_handoff con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 34,
+      "len": 446,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analist",
+      "text": "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analista continúe en minutos. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 35,
+      "len": 488,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueb",
+      "text": "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueba de fraude. El adaptador respeta límites legales y de producto. En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 17791,
+  "screenshot": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/visible_paragraphs/s23_computer-vision_theory.png"
+}

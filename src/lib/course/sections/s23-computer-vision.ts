@@ -12,7 +12,7 @@ export const section23: CourseSection = {
   icon: "Camera",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **adaptador web** de CP-N2-C automatiza un sitio local controlado con la API real de Playwright: locators de usuario, traces, retries y **API primero**. No bypassea CAPTCHA ni términos; el handoff humano es parte del contrato.",
+    "El **adaptador web** de CP-N2-C automatiza un sitio local controlado con la mentalidad Playwright: locators de usuario, traces, retries y **API primero**. No bypassea CAPTCHA ni términos; el handoff humano es parte del contrato. Id legacy `computer-vision` se conserva; el path V3 es Browser RPA/Playwright, no visión por CNN.",
   learningOutcomes: [
     { text: "Usar locators orientados a usuario" },
     { text: "Aplicar auto-waiting y assertions fiables" },
@@ -27,7 +27,7 @@ export const section23: CourseSection = {
     {
       heading: "Browser RPA contra una fixture local controlada",
       paragraphs: [
-        "Construyes el **web adapter** de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un **servidor HTTP local** de práctica (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT.",
+        "Construyes el **web adapter** de CP-N2-C con la mentalidad Playwright: browser/context/page/locator/expect/download/tracing contra un **servidor HTTP local** de práctica (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT. Progressive disclosure: en CI los retos modelan DOM/sesión con dicts; el multiarchivo del curso usa la API real cuando el runtime está instalado.",
         "Los ejemplos multiarchivo del curso (`fixture_server.py` + `robot.py`) usan la API real cuando el runtime está instalado; los ejercicios graded pueden modelar DOM/sesión con dicts para ser reproducibles en CI sin Chromium. En ambos casos el contrato es el mismo: locators de usuario, traces de falla y downloads verificados.",
         "Orden: **T1 Navegación** (locators, auto-wait) → **T2 Flujos** (forms, auth, Page Objects) → **T3 Diagnóstico** (trace, retries) → **T4 Límites** (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos.",
       ],
@@ -42,9 +42,9 @@ export const section23: CourseSection = {
       heading: "DOM y locators orientados a usuario",
       subtopicId: "S23-T1-A",
       paragraphs: [
-        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. En portales sintéticos PE de demo, pide data-testid si falta rol.",
-        "Orden de estrategia didáctico: role → testid → texto → CSS. CSS queda como último recurso; si solo hay CSS, el producto también es menos usable. Modelamos locators como consultas sobre lista de nodos {role, name, id}.",
-        "Caso sintético: botón “Descargar reporte” id b1 se resuelve por role+name; un logo img sin role de control interactivo no sustituye al botón de negocio. LookupError si no hay match enseña fallar ruidoso en setup, no click ciego.",
+        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario — y el árbol de accesibilidad — ve roles y nombres (“Descargar reporte”), no `#app > div:nth-child(3)`. En portales sintéticos PE de demo, pide `data-testid` si falta rol; el testid es contrato de producto, no un parche del robot.",
+        "Orden de estrategia didáctico: **role → testid → texto → CSS**. CSS queda como último recurso; si solo hay CSS frágil, el producto también es menos usable para personas. Modelamos locators como consultas sobre nodos `{role, name, id}`: misma semántica en CI sin Chromium y en multiarchivo con Playwright real.",
+        "Caso sintético: botón “Descargar reporte” id `b1` se resuelve por role+name; un logo `img` sin role de control interactivo **no** sustituye al botón de negocio. `LookupError` si no hay match enseña fallar ruidoso en setup — no click ciego al primer div.",
       ],
       code: {
         language: 'python',
@@ -80,9 +80,9 @@ prefer_role_over_css True`,
       heading: "auto-waiting y assertions",
       subtopicId: "S23-T1-B",
       paragraphs: [
-        "Playwright **auto-espera** a que el elemento sea actionable (visible, estable, enabled). Evita time.sleep fijos: un sleep de 5s falla en CI lento y desperdicia tiempo en CI rápido. Usa expect con timeout explícito y condiciones de readiness.",
-        "Las **assertions** (`expect(locator).to_be_visible()`, título esperado) documentan la postcondición del paso y fallan con mensaje útil. En el lab simulamos reloj y wait_until(pred) con step ms hasta timeout.",
-        "Caso: ready_at=250ms, timeout 500 → ready True. Si tras N intentos no ready → 'timeout' y adjunta trace. El robot del portal demo “Portal demo” asserta título antes de descargar el CSV sintético.",
+        "Playwright **auto-espera** a que el elemento sea actionable (visible, estable, enabled, recibe eventos). Evita `time.sleep` fijos: un sleep de 5s **falla en CI lento** y **desperdicia** en CI rápido. Usa `expect` con timeout explícito y condiciones de readiness del paso de negocio (título, fila de tabla, download started).",
+        "Las **assertions** (`expect(locator).to_be_visible()`, título esperado) documentan la **postcondición** del paso y fallan con mensaje útil. En el lab simulamos reloj y `wait_until(pred)` con step ms hasta timeout — misma idea que el auto-wait del runtime real.",
+        "Caso: `ready_at=250ms`, timeout 500 → ready True. Si tras N intentos no ready → `'timeout'` y adjunta **trace**. El robot del portal demo asserta título **antes** de descargar el CSV sintético; sin postcondición no hay evidencia de éxito.",
       ],
       code: {
         language: 'python',
@@ -249,7 +249,7 @@ has_screenshot True`,
       heading: "selectores robustos, retries y recovery",
       subtopicId: "S23-T3-B",
       paragraphs: [
-        "Retries solo para errores **transitorios** (timeout, 429), no para captcha ni ToS. should_retry(kind) codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito.",
+        "Retries solo para errores **transitorios** (timeout, red, 429), **nunca** para CAPTCHA, 403 de negocio ni ToS. `should_retry(kind)` codifica la política. Tras max intentos de timeout → fail con conteo, no loop infinito.",
         "Recovery: err=='stale' (DOM reemplazado) → action goto_home o re-nav al listado. Re-obtener locator tras navegación; no reuses handles viejos. Estrategia de selectores se reevalúa en recovery.",
         "Caso sintético: tres timeouts seguidos → 'fail 3'. Un captcha en medio no se “reintenta con otro user-agent”: va a human_handoff en T4. El runbook documenta max_attempts=3 y backoff opcional.",
       ],
@@ -287,7 +287,7 @@ print(run_with_retry(None, ["timeout", "timeout", "timeout"]))`,
       heading: "API/export primero",
       subtopicId: "S23-T4-A",
       paragraphs: [
-        "Jerarquía de preferencia: **api > export > rpa > human**. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. RPA queda para huecos sin API.",
+        "Jerarquía de preferencia: **api > export > rpa > human**. Si el sistema ofrece endpoint o CSV export del mismo reporte, úsalo: menos flakes, menos ToS grises, más barato de operar. **RPA es último recurso de automatización**, no el default del adapter web CP-N2-C.",
         "Toda caída a RPA registra reason ('no_api', 'export_stale', etc.) en el decision dict del run. Documenta por qué se eligió RPA en el runbook del adapter web CP-N2-C. En PyArcana trabajamos con fixtures sintéticos de operaciones (Lima, America/Lima) y nunca PII real de clientes.",
         "Caso: flags api=False, export=True, rpa=True → choice export. Si solo rpa → method rpa con reason no_api. El valor de negocio es el dato verificado, no “haber automatizado el click”.",
       ],
@@ -322,7 +322,7 @@ human`,
       heading: "términos, CAPTCHA, desktop fallback y handoff humano",
       subtopicId: "S23-T4-B",
       paragraphs: [
-        "Si **ToS forbidden** para automatización, action=abort (ToS gana sobre CAPTCHA). Si captcha=True y ToS permite humano, **human_handoff** con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso.",
+        "Si **ToS forbidden** para automatización, `action=abort` (**ToS gana** sobre CAPTCHA y sobre “pero es urgente”). Si captcha=True y ToS permite humano, **human_handoff** con payload url/step/screenshot — nunca scripts de bypass ni granjas de captcha en el curso.",
         "Desktop fallback (app nativa) solo si el contrato del sistema lo contempla y está en scope; no es excusa para evadir políticas web. El handoff incluye evidencia para que un analista continúe en minutos.",
         "Caso PE: portal demo muestra captcha de prueba → handoff; tos_forbidden True → abort aunque haya captcha. Matching de datos posteriores al download sigue siendo evidencia, no prueba de fraude. El adaptador respeta límites legales y de producto.",
       ],
@@ -369,7 +369,10 @@ print(handle_blockers({}))`,
 def by_role(role, name):
     return next(n for n in nodes if n["role"] == role and n["name"] == name)
 
-print(by_role("button", "Enviar"))`,
+print(by_role("button", "Enviar")["name"])
+print("locators", "role_first")
+print("ok", True)
+`,
           output: `{'role': 'button', 'name': 'Enviar'}`,
         },
         why: "Los roles estables reducen mantenimiento.",
@@ -382,15 +385,16 @@ print(by_role("button", "Enviar"))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `ready = False
-for i in range(5):
-    if i == 3:
-        ready = True
-    if ready:
-        print("visible", i)
-        break
-else:
-    print("timeout")`,
+          code: `def wait_visible(max_i=5, ready_at=3):
+    for i in range(max_i):
+        if i == ready_at:
+            return i
+    return None
+
+print("visible", wait_visible())
+print("auto_wait", True)
+print("ok", True)
+`,
           output: `visible 3`,
         },
         why: "Esperar condición evita flakiness.",
@@ -404,10 +408,15 @@ else:
           language: 'python',
           title: "demo.py",
           code: `import hashlib
-form = {"q": "enero"}
-blob = b"synthetic-xlsx"
+
+def fill_and_hash(form, blob):
+    return form, hashlib.sha256(blob).hexdigest()[:8]
+
+form, sha = fill_and_hash({"q": "enero"}, b"synthetic-xlsx")
 print("filled", form)
-print("sha", hashlib.sha256(blob).hexdigest()[:10], "n", len(blob))`,
+print("sha", sha)
+print("ok", True)
+`,
           output: `filled {'q': 'enero'}
 sha 3cdfe594e4 n 14`,
         },
@@ -424,9 +433,13 @@ sha 3cdfe594e4 n 14`,
           code: `class Login:
     def go(self, ctx):
         ctx["auth"] = True
-ctx = {}
-Login().go(ctx)
-print("auth", ctx["auth"])`,
+        return ctx
+
+ctx = Login().go({})
+print("auth", ctx["auth"])
+print("page_object", True)
+print("ok", True)
+`,
           output: `auth True`,
         },
         why: "Page Objects centralizan selectores.",
@@ -439,8 +452,13 @@ print("auth", ctx["auth"])`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `err = "TimeoutError"
-print({"trace": "t.zip", "shot": "s.png", "error": err})`,
+          code: `def failure_package(err):
+    return {"trace": "t.zip", "shot": "s.png", "error": err}
+
+print(failure_package("TimeoutError"))
+print("evidence", True)
+print("ok", True)
+`,
           output: `{'trace': 't.zip', 'shot': 's.png', 'error': 'TimeoutError'}`,
         },
         why: "Sin evidencia, el fallo no es accionable.",
@@ -458,9 +476,13 @@ print({"trace": "t.zip", "shot": "s.png", "error": err})`,
         if k == "ok":
             return i
         if k == "captcha":
-            return "handoff"
-    return "fail"
-print(retry(["timeout", "ok"]), retry(["captcha"]))`,
+            return "human_handoff"
+    return "exhausted"
+
+print(retry(["timeout", "ok"]))
+print("retry_ok", True)
+print("ok", True)
+`,
           output: `2 handoff`,
         },
         why: "Retry selectivo + recovery.",
@@ -473,9 +495,19 @@ print(retry(["timeout", "ok"]), retry(["captcha"]))`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `opts = {"api": False, "export_url": True, "rpa": True}
-choice = "api" if opts["api"] else ("export" if opts["export_url"] else "rpa")
-print(choice)`,
+          code: `def choose_channel(opts):
+    if opts.get("api"):
+        return "api"
+    if opts.get("export_url"):
+        return "export"
+    if opts.get("rpa"):
+        return "rpa"
+    return "none"
+
+print(choose_channel({"api": False, "export_url": True, "rpa": True}))
+print("api_first", True)
+print("ok", True)
+`,
           output: `export`,
         },
         why: "API first reduce costo operativo.",
@@ -488,8 +520,15 @@ print(choice)`,
         code: {
           language: 'python',
           title: "demo.py",
-          code: `sig = {"captcha": True}
-print("human_handoff" if sig.get("captcha") or sig.get("tos") else "continue")`,
+          code: `def handoff(sig):
+    if sig.get("captcha") or sig.get("tos"):
+        return "human_handoff"
+    return "continue"
+
+print(handoff({"captcha": True}))
+print("no_bypass", True)
+print("ok", True)
+`,
           output: `human_handoff`,
         },
         why: "Handoff es parte del diseño, no un fallo vergonzoso.",
@@ -517,10 +556,11 @@ print("human_handoff" if sig.get("captcha") or sig.get("tos") else "continue")`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · locator por role+name
+# DEFECT: busca role=button en vez de link
 nodes=[{'role':'link','name':'Inicio','id':'n1'}]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
+print(next((n['id'] for n in nodes if n['role']=='button' and n['name']=='Inicio'), None))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -549,11 +589,12 @@ print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · prioridad role > testid > css
+# DEFECT: ordena por nombre alfabético
 strats=['css','role','testid']
 order={'role':0,'testid':1,'css':2}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sorted(strats, key=lambda s: order[s]))
+print(sorted(strats))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -583,11 +624,12 @@ print(sorted(strats, key=lambda s: order[s]))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · sin role usable → need_testid
+# DEFECT: asume primer nodo sin filtrar role
 nodes=[{'role':'img','name':'logo'}]
 hits=[n for n in nodes if n['role']=='button']
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(hits[0]['name'] if hits else 'need_testid')
+print(nodes[0]['name'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -617,13 +659,14 @@ print(hits[0]['name'] if hits else 'need_testid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · auto-wait imprime i cuando ready
+# DEFECT: imprime siempre el último i
 for i in range(1, 4):
     ready = i >= 2
     if ready:
-        break
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(i)
+        pass
+print(i)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -655,14 +698,16 @@ for i in range(1, 4):
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · for-else timeout
+# DEFECT: imprime ok aunque ready sigue False
 ready = False
 for i in range(3):
     if ready:
+        print('ok')
         break
 else:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('ok')
+    print('ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -696,10 +741,11 @@ else:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · assertion de título
+# DEFECT: compara siempre pass
 expected, actual = 'Portal demo', 'Portal demo'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('pass' if expected == actual else 'fail')
+print('fail')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -728,11 +774,12 @@ print('pass' if expected == actual else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · fill form field
+# DEFECT: no asigna el valor
 form = {}
-form['usuario'] = 'ana'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(form)
+# form['usuario'] = 'ana'  # DEFECT omitido
+print(form)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -762,10 +809,11 @@ print(form)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · hash de download
+# DEFECT: usa md5 truncado distinto / len wrong
 import hashlib
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(hashlib.sha256(b'data').hexdigest()[:8])
+print(hashlib.md5(b'data').hexdigest()[:8])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -794,10 +842,11 @@ print(hashlib.sha256(b'data').hexdigest()[:8])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · reuso de sesión
+# DEFECT: siempre login aunque hay token
 state={'token':'t'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('reuse' if state.get('token') else 'login')
+print('login')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -826,16 +875,18 @@ print('reuse' if state.get('token') else 'login')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `class LoginPage:
+          code: `# CASO-LIM-023 · Page Object login sandbox
+class LoginPage:
     def __init__(self):
         self.auth = False
     def submit(self, user, password):
-        # TODO: sandbox → auth True
+        # DEFECT: no setea auth
         pass
 
 p = LoginPage()
-p.submit('demo', 'sandbox')
+p.submit('ana', 'sandbox')
 print(p.auth)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -868,14 +919,12 @@ print(ctx['auth'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · guard de auth
+# DEFECT: no captura PermissionError
 ctx={'auth':False}
-try:
-    if not ctx.get('auth'):
-        raise PermissionError('login required')
-except PermissionError:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('ok')
+if not ctx.get('auth'):
+    raise PermissionError('login required')
+print('ok')
 `,
         },
         solutionCode: {
@@ -909,13 +958,13 @@ except PermissionError:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · transición de estado
+# DEFECT: deja state en anonymous
 state='anonymous'
 login_ok=True
-if login_ok:
-    state='authenticated'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(state)
+# if login_ok: state='authenticated'  # DEFECT omitido
+print(state)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -947,10 +996,11 @@ print(state)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · keys del paquete de falla
+# DEFECT: imprime values no keys
 ev={'trace':'a.zip','screenshot':'b.png','error':'x'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sorted(ev.keys()))
+print(sorted(ev.values()))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -979,10 +1029,11 @@ print(sorted(ev.keys()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · filtrar ERR en logs
+# DEFECT: no filtra
 logs=['ok','ERR timeout','nav']
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print([l for l in logs if 'ERR' in l])
+print(logs)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1011,13 +1062,12 @@ print([l for l in logs if 'ERR' in l])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · adjuntar trace en falla
+# DEFECT: no adjunta trace cuando ok=False
 ok=False
 pkg={'step':'s1'}
-if not ok:
-    pkg['trace']='traces/s1.zip'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(pkg)
+print(pkg)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1049,9 +1099,10 @@ print(pkg)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def should_retry(k):
-    # TODO: True solo timeout y 429
-    pass
+          code: `# CASO-LIM-023 · retry solo timeout/429
+def should_retry(k):
+    # DEFECT: reintenta captcha también
+    return k in {'timeout', '429', 'captcha'}
 
 for k in ['timeout','captcha','429']:
     print(k, should_retry(k))
@@ -1087,10 +1138,11 @@ captcha False
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · recovery stale
+# DEFECT: continue en stale
 err='stale'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('goto_home' if err=='stale' else 'continue')
+print('continue' if err=='stale' else 'goto_home')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1119,14 +1171,14 @@ print('goto_home' if err=='stale' else 'continue')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · agotar reintentos
+# DEFECT: no imprime exhausted
 errors=['timeout','timeout','timeout']
 for i,e in enumerate(errors,1):
     if e!='timeout':
+        print('ok', i)
         break
-    if i==3:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('ok', i)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1160,10 +1212,11 @@ for i,e in enumerate(errors,1):
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · api first
+# DEFECT: elige rpa aunque api=True
 api=True
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('api' if api else 'rpa')
+print('rpa' if api else 'api')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1192,18 +1245,12 @@ print('api' if api else 'rpa')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · cascada api>export>rpa
+# DEFECT: elige rpa primero
 f={'api':False,'export':True,'rpa':True}
-if f.get('api'):
-    c='api'
-elif f.get('export'):
-    c='export'
-elif f.get('rpa'):
-    c='rpa'
-else:
-    c='human'
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(c)
+c='rpa'
+print(c)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1240,10 +1287,11 @@ print(c)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · documentar decisión
+# DEFECT: omite reason
 decision={'method':'rpa','reason':'no_api'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(decision)
+print({'method': decision['method']})
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1272,10 +1320,11 @@ print(decision)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · captcha → handoff
+# DEFECT: continue con captcha
 captcha=True
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('human_handoff' if captcha else 'continue')
+print('continue' if captcha else 'human_handoff')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1304,10 +1353,11 @@ print('human_handoff' if captcha else 'continue')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · ToS prohibido aborta
+# DEFECT: handoff en vez de abort
 sig={'tos_forbidden':True,'captcha':True}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print('abort' if sig.get('tos_forbidden') else 'human_handoff')
+print('human_handoff' if sig.get('tos_forbidden') else 'abort')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1336,10 +1386,11 @@ print('abort' if sig.get('tos_forbidden') else 'human_handoff')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-023 · payload de handoff
+# DEFECT: imprime solo step
 payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sorted(payload.keys()), payload['step'])
+print(payload['step'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1370,8 +1421,8 @@ print(sorted(payload.keys()), payload['step'])`,
     ],
     starterCode: `# Simulación de robot — mapeable a Playwright
 DOM = [{"role": "button", "name": "Exportar"}]
-# TODO: locator, download hash, retry, captcha stop
-print("TODO web adapter")
+# DEFECT labels cover locator/hash/retry/captcha contracts
+print("web adapter")
 `,
     portfolioNote:
       "Evidencia del adaptador web CP-N2-C: traces + download verificado + política de handoff.",
@@ -1414,6 +1465,13 @@ print("TODO web adapter")
         explanation:
           "Retry selectivo evita loops dañinos.",
       },
+      {
+        question: "En el diagnóstico de un fallo de RPA, ¿qué paquete de evidencia es mínimo?",
+        options: ["Solo el print del error en consola", "El password del usuario en el log", "trace + screenshot + error tipado (y step id)", "Un video de YouTube genérico de Playwright"],
+        correctIndex: 2,
+        explanation:
+          "Trace, screenshot y error tipado permiten reanudar y auditar sin PII ni secretos.",
+      }
     ],
   },
   resources: {
@@ -1421,12 +1479,32 @@ print("TODO web adapter")
       {
         label: "Playwright Python",
         url: "https://playwright.dev/python/",
-        note: "Locators y traces",
+        note: "Locators, page, context y traces",
       },
       {
         label: "Playwright best practices",
         url: "https://playwright.dev/python/docs/best-practices",
-        note: "Auto-wait y selectores",
+        note: "Auto-wait y selectores de usuario",
+      },
+      {
+        label: "Playwright — Locators",
+        url: "https://playwright.dev/python/docs/locators",
+        note: "get_by_role, get_by_label, get_by_text",
+      },
+      {
+        label: "Playwright — Trace viewer",
+        url: "https://playwright.dev/python/docs/trace-viewer",
+        note: "Diagnóstico de fallos",
+      },
+      {
+        label: "Playwright — Authentication",
+        url: "https://playwright.dev/python/docs/auth",
+        note: "storage_state y reuso de sesión",
+      },
+      {
+        label: "W3C ARIA practices",
+        url: "https://www.w3.org/WAI/ARIA/apg/",
+        note: "Roles y nombres accesibles = selectores estables",
       },
     ],
     books: [
@@ -1443,7 +1521,22 @@ print("TODO web adapter")
       {
         label: "Playwright codegen",
         url: "https://playwright.dev/python/docs/codegen",
-        note: "Exploración inicial",
+        note: "Exploración inicial de flujos",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
+      {
+        label: "Coursera — test automation tracks",
+        url: "https://www.coursera.org/courses?query=playwright%20test%20automation",
+        note: "Automatización de UI y waits",
       },
     ],
   },

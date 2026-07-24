@@ -43,7 +43,9 @@ function parseSection(filePath) {
   }
 
   const exercises = []
-  const weDoMatch = text.match(/weDo:\s*\{([\s\S]*?)\n  youDo\s*:/)
+  // Boundary must tolerate 1-space or 2-space section indent (S16–S21/S36 use single-space keys).
+  // Non-greedy body until the top-level `youDo:` sibling — not nested keys.
+  const weDoMatch = text.match(/weDo:\s*\{([\s\S]*?)\n[ \t]*youDo\s*:/)
   const weDoBody = weDoMatch ? weDoMatch[1] : ''
   // Split on starterCode occurrences inside weDo
   const parts = weDoBody.split(/starterCode\s*:/)

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T04:29:16.405Z",
+  "generated_at": "2026-07-24T06:39:35.255Z",
   "views": [
     "home",
     "resources",
@@ -11,7 +11,7 @@
     "sections": 52,
     "demos": 416,
     "exercises": 1248,
-    "selfCheckQuestions": 224
+    "selfCheckQuestions": 263
   },
   "invariants": {
     "expected_sections": 52,
@@ -22,7 +22,7 @@
     {
       "id": "setup",
       "index": 1,
-      "title": "Setup & Entorno de Desarrollo",
+      "title": "Entorno reproducible y trabajo seguro",
       "file": "s01-setup.ts",
       "subSteps": [
         "theory",
@@ -207,7 +207,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
@@ -217,17 +217,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 1
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -428,17 +428,17 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 4,
@@ -639,27 +639,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 3
+          "correctIndex": 1
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -855,7 +855,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -865,17 +865,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -1071,27 +1071,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -1292,17 +1292,17 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 4,
@@ -1503,12 +1503,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -1518,7 +1518,7 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 4,
@@ -1719,7 +1719,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -1734,12 +1734,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -1935,17 +1935,17 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
@@ -1955,12 +1955,12 @@
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 5,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -2161,17 +2161,17 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 4,
@@ -2181,7 +2181,7 @@
         {
           "qIndex": 5,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -2377,12 +2377,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -2392,17 +2392,17 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 5,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -2598,7 +2598,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -2608,17 +2608,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -2814,7 +2814,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
@@ -2824,7 +2824,7 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
@@ -2834,7 +2834,7 @@
         {
           "qIndex": 4,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -3035,15 +3035,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 2,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -3241,12 +3246,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -3256,7 +3261,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -3452,22 +3462,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -3663,22 +3678,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -3879,15 +3899,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -4085,12 +4110,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -4100,7 +4125,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -4296,7 +4326,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -4306,12 +4336,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -4507,22 +4542,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -4723,15 +4763,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -4929,12 +4974,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -4944,7 +4989,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -5140,7 +5190,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -5150,12 +5200,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -5351,22 +5406,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -5567,15 +5627,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -5773,12 +5838,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -5787,6 +5852,11 @@
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 2
         }
@@ -5984,7 +6054,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -5994,12 +6064,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -6195,22 +6270,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -6406,20 +6486,25 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 1
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -6622,7 +6707,7 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -6631,6 +6716,11 @@
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 2
         }
@@ -6828,7 +6918,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -6838,12 +6928,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -7039,22 +7134,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -7255,15 +7355,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -7461,12 +7566,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -7476,7 +7581,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -7672,7 +7782,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
@@ -7682,12 +7792,17 @@
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -7883,22 +7998,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -8099,15 +8219,20 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 1
         }
@@ -8305,12 +8430,12 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 2,
@@ -8320,7 +8445,12 @@
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 2
         }
       ],
       "exam": {
@@ -8516,22 +8646,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -8732,17 +8867,22 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -8938,22 +9078,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 1
         }
       ],
       "exam": {
@@ -9149,7 +9294,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
@@ -9163,6 +9308,11 @@
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 2
         }
@@ -9360,22 +9510,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -9576,17 +9731,22 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -9782,22 +9942,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 1
         }
       ],
       "exam": {
@@ -9993,7 +10158,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
@@ -10007,6 +10172,11 @@
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 2
         }
@@ -10204,22 +10374,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {
@@ -10420,17 +10595,22 @@
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 3
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 1
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 0
         }
       ],
       "exam": {
@@ -10626,22 +10806,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "qIndex": 3,
           "optionCount": 4,
           "correctIndex": 2
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 1
         }
       ],
       "exam": {
@@ -10837,7 +11022,7 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "qIndex": 1,
@@ -10851,6 +11036,11 @@
         },
         {
           "qIndex": 3,
+          "optionCount": 4,
+          "correctIndex": 3
+        },
+        {
+          "qIndex": 4,
           "optionCount": 4,
           "correctIndex": 2
         }
@@ -11048,22 +11238,27 @@
         {
           "qIndex": 0,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 3
         },
         {
           "qIndex": 1,
           "optionCount": 4,
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "qIndex": 2,
           "optionCount": 4,
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "qIndex": 3,
           "optionCount": 4,
-          "correctIndex": 2
+          "correctIndex": 0
+        },
+        {
+          "qIndex": 4,
+          "optionCount": 4,
+          "correctIndex": 3
         }
       ],
       "exam": {

@@ -27,10 +27,31 @@ export const section02: CourseSection = {
     {
       heading: 'De “Absolute Basics” a valores y tipos (mapa de la sección)',
       paragraphs: [
+        '**Diccionario de la sección** (léelo antes de T1). **Literal:** valor escrito en el código (`34`, `"Quispe"`, `True`). **Tipo:** clase del valor (`int`, `float`, `str`, `bool`, `NoneType`). **Asignación vs comparación:** `=` guarda; `==` pregunta igualdad. **Identidad vs igualdad:** `is` vs `==`. **`Decimal`:** dinero en soles con redondeo a 2 decimales (no uses `float` para montos). **I/O:** `input`/`print` y f-strings. **raw vs clean:** conserva el original para auditoría; limpia una copia. **PII:** datos reales de personas — prohibidos en el lab (solo sintéticos).',
         'En V3, **S02 no cubre condicionales, loops, funciones avanzadas ni comprehensions** como camino principal del estudiante. Esos temas se posponen a secciones posteriores. Aquí dominas lo que un parser de intake necesita primero: **qué es un valor**, **qué tipo tiene**, **cómo se nombra**, **cómo se opera** y **cómo entra/sale texto** sin perder el original.',
-        'El hilo conductor es un **registro sintético de cliente** (nombres, dos apellidos, contacto, dirección, y a veces edad o monto). Todo el material usa datos ficticios (`example.com`, teléfonos inventados). Nunca subas PII real al repo.',
+        'El hilo conductor es un **registro sintético de cliente** (nombres, dos apellidos, contacto, dirección, y a veces edad o monto). Todo el material usa datos ficticios (`example.com`, teléfonos inventados). Nunca subas PII real al repo. Caso de laboratorio: `CASO-LIM-002`.',
         'Orden pedagógico: **T1 Valores** (literales → inspección/conversión) → **T2 Nombres** (asignación/PEP 8 → identidad y copias) → **T3 Operadores** (precedencia → Decimal para dinero) → **T4 I/O** (f-strings → parse con errores). Los **ocho subtemas** están completos: theory + I Do + E1/E2/E3 por cada uno.',
       ],
+      code: {
+        language: 'python',
+        title: 's02_map_contract.py',
+        code: `def section_contract():
+    return {
+        "case": "CASO-LIM-002",
+        "gates": ["types_before_ops", "decimal_for_money", "raw_preserved", "no_real_pii"],
+        "conditionals_loops_in_scope": False,
+        "real_pii_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("conditionals_loops_in_scope", c["conditionals_loops_in_scope"])
+print("real_pii_ok", c["real_pii_ok"])
+`,
+        output: `case CASO-LIM-002
+conditionals_loops_in_scope False
+real_pii_ok False`,
+      },
       callout: {
         type: 'info',
         title: 'Fuera de alcance S02 V3 (no es el path del estudiante)',
@@ -49,22 +70,25 @@ export const section02: CourseSection = {
       code: {
         language: 'python',
         title: 'literales_cliente.py',
-        code: `# Registro sintético — cada literal tiene un tipo
-nombres = "María José"       # str
-apellido_paterno = "Quispe"  # str
-edad = 34                    # int
-monto_soles = 150.5          # float (¡aún no Decimal!)
-activo = True                # bool
-referencia = None            # NoneType
+        code: `def s02_th_1():
+    # Registro sintético — cada literal tiene un tipo
+    nombres = "María José"       # str
+    apellido_paterno = "Quispe"  # str
+    edad = 34                    # int
+    monto_soles = 150.5          # float (¡aún no Decimal!)
+    activo = True                # bool
+    referencia = None            # NoneType
 
-print(type(nombres).__name__)   # str
-print(type(edad).__name__)      # int
-print(type(referencia).__name__)  # NoneType
+    print(type(nombres).__name__)   # str
+    print(type(edad).__name__)      # int
+    print(type(referencia).__name__)  # NoneType
 
-# 42 vs "42": literales distintos
-print(type(42).__name__)     # int
-print(type("42").__name__)   # str
-print(42 == "42")            # False`,
+    # 42 vs "42": literales distintos
+    print(type(42).__name__)     # int
+    print(type("42").__name__)   # str
+    print(42 == "42")            # False
+s02_th_1()
+`,
         output: `str
 int
 NoneType
@@ -128,19 +152,22 @@ False`,
       code: {
         language: 'python',
         title: 'nombres_pep8.py',
-        code: `nombres_cliente = "Ana"
-apellido_paterno = "García"
-EDAD_MINIMA = 18
-edad = 25
+        code: `def s02_th_3():
+    nombres_cliente = "Ana"
+    apellido_paterno = "García"
+    EDAD_MINIMA = 18
+    edad = 25
 
-# Comparación con == (no uses = aquí)
-if edad == EDAD_MINIMA:
-    print("edad mínima exacta")
-else:
-    print(f"edad={edad}, mínima={EDAD_MINIMA}")
+    # Comparación con == (no uses = aquí)
+    if edad == EDAD_MINIMA:
+        print("edad mínima exacta")
+    else:
+        print(f"edad={edad}, mínima={EDAD_MINIMA}")
 
-# NameError si descomentas:
-# print(apellido_materno)`,
+    # NameError si descomentas:
+    # print(apellido_materno)
+s02_th_3()
+`,
         output: `edad=25, mínima=18`,
       },
       callout: {
@@ -161,22 +188,25 @@ else:
       code: {
         language: 'python',
         title: 'raw_vs_alias.py',
-        code: `raw_nombre = "  José Ñahui  "
-clean_nombre = raw_nombre.strip()
-print(repr(raw_nombre), "→", repr(clean_nombre))
-print("mismo objeto?", raw_nombre is clean_nombre)  # False
+        code: `def s02_th_4():
+    raw_nombre = "  José Ñahui  "
+    clean_nombre = raw_nombre.strip()
+    print(repr(raw_nombre), "→", repr(clean_nombre))
+    print("mismo objeto?", raw_nombre is clean_nombre)  # False
 
-a = [1, 2, 3]
-b = a            # alias
-c = a.copy()     # copia superficial
-b.append(4)
-print("a (alias mutado):", a)   # [1, 2, 3, 4]
-print("c (copia):", c)          # [1, 2, 3]
-print("a is b:", a is b)        # True
-print("a is c:", a is c)        # False
+    a = [1, 2, 3]
+    b = a            # alias
+    c = a.copy()     # copia superficial
+    b.append(4)
+    print("a (alias mutado):", a)   # [1, 2, 3, 4]
+    print("c (copia):", c)          # [1, 2, 3]
+    print("a is b:", a is b)        # True
+    print("a is c:", a is c)        # False
 
-x = None
-print(x is None)  # True — idioma canónico`,
+    x = None
+    print(x is None)  # True — idioma canónico
+s02_th_4()
+`,
         output: `'  José Ñahui  ' → 'José Ñahui'
 mismo objeto? False
 a (alias mutado): [1, 2, 3, 4]
@@ -203,14 +233,17 @@ True`,
       code: {
         language: 'python',
         title: 'precedencia_ops.py',
-        code: `a, b, c = 10, 3, 2
-print("10 // 3 =", a // b)   # 3
-print("10 % 3  =", a % b)    # 1
-print("3 ** 2  =", b ** c)   # 9
-print("a + b * c =", a + b * c)      # 16
-print("(a + b) * c =", (a + b) * c)  # 26
-print("-3**2 =", -3**2)              # -9
-print("(-3)**2 =", (-3)**2)          # 9`,
+        code: `def s02_th_5():
+    a, b, c = 10, 3, 2
+    print("10 // 3 =", a // b)   # 3
+    print("10 % 3  =", a % b)    # 1
+    print("3 ** 2  =", b ** c)   # 9
+    print("a + b * c =", a + b * c)      # 16
+    print("(a + b) * c =", (a + b) * c)  # 26
+    print("-3**2 =", -3**2)              # -9
+    print("(-3)**2 =", (-3)**2)          # 9
+s02_th_5()
+`,
         output: `10 // 3 = 3
 10 % 3  = 1
 3 ** 2  = 9
@@ -237,17 +270,20 @@ a + b * c = 16
       code: {
         language: 'python',
         title: 'decimal_igv.py',
-        code: `from decimal import Decimal, ROUND_HALF_EVEN
+        code: `def s02_th_6():
+    from decimal import Decimal, ROUND_HALF_EVEN
 
-print("float:", 0.1 + 0.2)
-print("Decimal:", Decimal("0.1") + Decimal("0.2"))
+    print("float:", 0.1 + 0.2)
+    print("Decimal:", Decimal("0.1") + Decimal("0.2"))
 
-subtotal = Decimal("100.00")
-igv = (subtotal * Decimal("0.18")).quantize(
-    Decimal("0.01"), rounding=ROUND_HALF_EVEN
-)
-total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-print("subtotal", subtotal, "IGV", igv, "total", total)`,
+    subtotal = Decimal("100.00")
+    igv = (subtotal * Decimal("0.18")).quantize(
+        Decimal("0.01"), rounding=ROUND_HALF_EVEN
+    )
+    total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+    print("subtotal", subtotal, "IGV", igv, "total", total)
+s02_th_6()
+`,
         output: `float: 0.30000000000000004
 Decimal: 0.3
 subtotal 100.00 IGV 18.00 total 118.00`,
@@ -270,13 +306,16 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       code: {
         language: 'python',
         title: 'reporte_fstring.py',
-        code: `from decimal import Decimal
+        code: `def s02_th_7():
+    from decimal import Decimal
 
-# Simula input (testeable): no llames input() en demos de CI
-nombres = "María José"
-monto = Decimal("150.50")
-print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
-print("campos", "a", "b", sep=" | ")`,
+    # Simula input (testeable): no llames input() en demos de CI
+    nombres = "María José"
+    monto = Decimal("150.50")
+    print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
+    print("campos", "a", "b", sep=" | ")
+s02_th_7()
+`,
         output: `Cliente: María José | Monto: S/ 150.50
 campos | a | b`,
       },
@@ -332,28 +371,31 @@ raw '  Ñahui  ' clean 'Ñahui'`,
         code: {
           language: 'python',
           title: 'S02-T1-A-DEMO — literales_cliente',
-          code: `# Cliente sintético (no es persona real)
-nombres = "María José"
-apellido_paterno = "Quispe"
-edad = 34
-monto_soles = 150.5
-activo = True
-referencia = None
+          code: `def s02_ido_1():
+    # Cliente sintético (no es persona real)
+    nombres = "María José"
+    apellido_paterno = "Quispe"
+    edad = 34
+    monto_soles = 150.5
+    activo = True
+    referencia = None
 
-campos = [
-    ("nombres", nombres),
-    ("apellido_paterno", apellido_paterno),
-    ("edad", edad),
-    ("monto_soles", monto_soles),
-    ("activo", activo),
-    ("referencia", referencia),
-]
-for label, valor in campos:
-    print(f"{label}: valor={valor!r} type={type(valor).__name__}")
+    campos = [
+        ("nombres", nombres),
+        ("apellido_paterno", apellido_paterno),
+        ("edad", edad),
+        ("monto_soles", monto_soles),
+        ("activo", activo),
+        ("referencia", referencia),
+    ]
+    for label, valor in campos:
+        print(f"{label}: valor={valor!r} type={type(valor).__name__}")
 
-print("type(42)=", type(42).__name__)
-print("type('42')=", type("42").__name__)
-print("42 == '42' →", 42 == "42")`,
+    print("type(42)=", type(42).__name__)
+    print("type('42')=", type("42").__name__)
+    print("42 == '42' →", 42 == "42")
+s02_ido_1()
+`,
           output: `nombres: valor='María José' type=str
 apellido_paterno: valor='Quispe' type=str
 edad: valor=34 type=int
@@ -402,21 +444,24 @@ isinstance('19', int) → False`,
         code: {
           language: 'python',
           title: 'S02-T2-A-DEMO — nombres_y_comparacion',
-          code: `# Mal estilo (comentado a propósito):
-# NombreCliente = "Ana"; AP = "García"; l = 1
+          code: `def s02_ido_3():
+    # Mal estilo (comentado a propósito):
+    # NombreCliente = "Ana"; AP = "García"; l = 1
 
-nombres_cliente = "Ana"
-apellido_paterno = "García"
-EDAD_MINIMA = 18
-edad = 25
+    nombres_cliente = "Ana"
+    apellido_paterno = "García"
+    EDAD_MINIMA = 18
+    edad = 25
 
-if edad == EDAD_MINIMA:
-    print("edad mínima exacta")
-else:
-    print(f"edad={edad}, mínima={EDAD_MINIMA}")
+    if edad == EDAD_MINIMA:
+        print("edad mínima exacta")
+    else:
+        print(f"edad={edad}, mínima={EDAD_MINIMA}")
 
-print("nombres_cliente=", nombres_cliente)
-print("apellido_paterno=", apellido_paterno)`,
+    print("nombres_cliente=", nombres_cliente)
+    print("apellido_paterno=", apellido_paterno)
+s02_ido_3()
+`,
           output: `edad=25, mínima=18
 nombres_cliente= Ana
 apellido_paterno= García`,
@@ -431,23 +476,26 @@ apellido_paterno= García`,
         code: {
           language: 'python',
           title: 'S02-T2-B-DEMO — raw_y_alias',
-          code: `raw_nombre = "  José Ñahui  "
-clean_nombre = raw_nombre.strip()
-print("raw=", repr(raw_nombre))
-print("clean=", repr(clean_nombre))
-print("raw is clean?", raw_nombre is clean_nombre)
+          code: `def s02_ido_4():
+    raw_nombre = "  José Ñahui  "
+    clean_nombre = raw_nombre.strip()
+    print("raw=", repr(raw_nombre))
+    print("clean=", repr(clean_nombre))
+    print("raw is clean?", raw_nombre is clean_nombre)
 
-a = [1, 2, 3]
-b = a
-c = a.copy()
-b.append(4)
-print("a after alias mutate:", a)
-print("c unchanged:", c)
-print("a is b?", a is b)
-print("a is c?", a is c)
+    a = [1, 2, 3]
+    b = a
+    c = a.copy()
+    b.append(4)
+    print("a after alias mutate:", a)
+    print("c unchanged:", c)
+    print("a is b?", a is b)
+    print("a is c?", a is c)
 
-x = None
-print("x is None →", x is None)`,
+    x = None
+    print("x is None →", x is None)
+s02_ido_4()
+`,
           output: `raw= '  José Ñahui  '
 clean= 'José Ñahui'
 raw is clean? False
@@ -467,18 +515,21 @@ x is None → True`,
         code: {
           language: 'python',
           title: 'S02-T3-A-DEMO — operadores_precedencia',
-          code: `a, b, c = 10, 3, 2
-print("10 // 3 =", a // b)
-print("10 % 3  =", a % b)
-print("3 ** 2  =", b ** c)
-print("a + b * c =", a + b * c)
-print("(a + b) * c =", (a + b) * c)
-print("-3**2 =", -3**2)
-print("(-3)**2 =", (-3)**2)
-# Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
-base = 100
-total = base * (1 + 0.18)
-print("total con IGV (float demo) =", total)`,
+          code: `def s02_ido_5():
+    a, b, c = 10, 3, 2
+    print("10 // 3 =", a // b)
+    print("10 % 3  =", a % b)
+    print("3 ** 2  =", b ** c)
+    print("a + b * c =", a + b * c)
+    print("(a + b) * c =", (a + b) * c)
+    print("-3**2 =", -3**2)
+    print("(-3)**2 =", (-3)**2)
+    # Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)
+    base = 100
+    total = base * (1 + 0.18)
+    print("total con IGV (float demo) =", total)
+s02_ido_5()
+`,
           output: `10 // 3 = 3
 10 % 3  = 1
 3 ** 2  = 9
@@ -498,17 +549,20 @@ total con IGV (float demo) = 118.0`,
         code: {
           language: 'python',
           title: 'S02-T3-B-DEMO — decimal_igv',
-          code: `from decimal import Decimal, ROUND_HALF_EVEN
+          code: `def s02_ido_6():
+    from decimal import Decimal, ROUND_HALF_EVEN
 
-print("float 0.1+0.2 =", 0.1 + 0.2)
-print("Decimal =", Decimal("0.1") + Decimal("0.2"))
+    print("float 0.1+0.2 =", 0.1 + 0.2)
+    print("Decimal =", Decimal("0.1") + Decimal("0.2"))
 
-subtotal = Decimal("100.00")
-igv = (subtotal * Decimal("0.18")).quantize(
-    Decimal("0.01"), rounding=ROUND_HALF_EVEN
-)
-total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
-print(f"subtotal={subtotal} IGV={igv} total={total}")`,
+    subtotal = Decimal("100.00")
+    igv = (subtotal * Decimal("0.18")).quantize(
+        Decimal("0.01"), rounding=ROUND_HALF_EVEN
+    )
+    total = (subtotal + igv).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+    print(f"subtotal={subtotal} IGV={igv} total={total}")
+s02_ido_6()
+`,
           output: `float 0.1+0.2 = 0.30000000000000004
 Decimal = 0.3
 subtotal=100.00 IGV=18.00 total=118.00`,
@@ -523,13 +577,16 @@ subtotal=100.00 IGV=18.00 total=118.00`,
         code: {
           language: 'python',
           title: 'S02-T4-A-DEMO — reporte_fstring',
-          code: `from decimal import Decimal
+          code: `def s02_ido_7():
+    from decimal import Decimal
 
-# Simula input() con variables (testeable en Pyodide/CI)
-nombres = "María José"
-monto = Decimal("150.50")
-print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
-print("OK", "intake", sep=" · ")`,
+    # Simula input() con variables (testeable en Pyodide/CI)
+    nombres = "María José"
+    monto = Decimal("150.50")
+    print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
+    print("OK", "intake", sep=" · ")
+s02_ido_7()
+`,
           output: `Cliente: María José | Monto: S/ 150.50
 OK · intake`,
         },
@@ -618,10 +675,13 @@ print(r3["errors"])`,
         starterCode: {
           language: 'python',
           title: 'clasificar_literales.py',
-          code: `literales = [0, 3.14, "Lima", False, None]
+          code: `# CASO-LIM-002 · T1-A-E1
+# DEFECT: corrige: literales = [0, 3.14, "Lima", False, None]
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+literales = [0, 3.14, "Lima", False, None]
 
 for lit in literales:
-    # TODO: imprime repr y nombre del tipo
+    # DEFECT: imprime repr y nombre del tipo
     print(____, "→", ____)`,
         },
         solutionCode: {
@@ -659,7 +719,10 @@ None → NoneType`,
         starterCode: {
           language: 'python',
           title: 'literal_vs_texto.py',
-          code: `codigo_int = 42
+          code: `# CASO-LIM-002 · T1-A-E2
+# DEFECT: corrige: codigo_int = 42
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+codigo_int = 42
 codigo_str = "42"
 
 print("tipos:", ____, ____)
@@ -707,7 +770,10 @@ Nota: bool es subtipo de int; en intake no trates True/False como montos.`,
         starterCode: {
           language: 'python',
           title: 'campos_intake_tipados.py',
-          code: `# Completa valor y tipo esperado (int, float, str, bool, type(None) no hace falta aquí)
+          code: `# CASO-LIM-002 · T1-A-E3
+# DEFECT: corrige: # Completa valor y tipo esperado (int, float, str, bool, typ
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Completa valor y tipo esperado (int, float, str, bool, type(None) no hace falta aquí)
 campos = {
     "nombres": ("____", str),
     "apellido_paterno": ("____", str),
@@ -762,10 +828,13 @@ activo: True esperado=bool ok=True`,
         starterCode: {
           language: 'python',
           title: 'int_con_strip.py',
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-002 · T1-B-E1
+# DEFECT: corrige: # Fixture del paquete (conserva datos; no reescribas asserts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Fixture del paquete (conserva datos; no reescribas asserts)
 raw = " 21 "
 edad = int(raw.strip())
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
 # forma esperada (referencia): print(edad, type(edad).__name__)
 `,
         },
@@ -796,11 +865,14 @@ print(edad, type(edad).__name__)`,
         starterCode: {
           language: 'python',
           title: 'safe_int.py',
-          code: `def safe_int(campo: str, valor: str):
+          code: `# CASO-LIM-002 · T1-B-E2
+# DEFECT: corrige: def safe_int(campo: str, valor: str):
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def safe_int(campo: str, valor: str):
     texto = valor.strip()
-    # TODO: vacío → (False, None, msg)
-    # TODO: int(texto) → (True, n, None)
-    # TODO: ValueError → (False, None, msg)
+    # DEFECT: vacío → (False, None, msg)
+    # DEFECT: int(texto) → (True, n, None)
+    # DEFECT: ValueError → (False, None, msg)
     pass
 
 for v in [" 21 ", "", "abc", "  "]:
@@ -844,7 +916,10 @@ for v in [" 21 ", "", "abc", "  "]:
         starterCode: {
           language: 'python',
           title: 'pipeline_dos_campos.py',
-          code: `from decimal import Decimal, InvalidOperation
+          code: `# CASO-LIM-002 · T1-B-E3
+# DEFECT: corrige: from decimal import Decimal, InvalidOperation
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from decimal import Decimal, InvalidOperation
 
 def safe_int(campo: str, valor: str):
     texto = valor.strip()
@@ -856,11 +931,11 @@ def safe_int(campo: str, valor: str):
         return (False, None, f"ERROR en '{campo}': {valor!r} no es un entero válido")
 
 def safe_decimal(campo: str, valor: str):
-    # TODO: Decimal desde str + quantize a 0.01
+    # DEFECT: Decimal desde str + quantize a 0.01
     pass
 
 def pipeline(edad_txt: str, monto_txt: str) -> dict:
-    # TODO: raw, clean, errors
+    # DEFECT: raw, clean, errors
     pass
 
 print(pipeline(" 28 ", "150.50"))
@@ -933,7 +1008,10 @@ print(pipeline("30", "nope"))`,
         starterCode: {
           language: 'python',
           title: 'snake_case_checklist.py',
-          code: `# Antes (malo):
+          code: `# CASO-LIM-002 · T2-A-E1
+# DEFECT: corrige: # Antes (malo):
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Antes (malo):
 # NombreCliente = "Luis"
 # AP = "Ramos"
 # x = 0
@@ -979,7 +1057,10 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
         starterCode: {
           language: 'python',
           title: 'eq_vs_assign.py',
-          code: `estado = "activo"
+          code: `# CASO-LIM-002 · T2-A-E2
+# DEFECT: corrige: estado = "activo"
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+estado = "activo"
 codigo = 10
 flag = True
 
@@ -1027,7 +1108,10 @@ ok flag`,
         starterCode: {
           language: 'python',
           title: 'schema_intake_nombres.py',
-          code: `encabezados = [
+          code: `# CASO-LIM-002 · T2-A-E3
+# DEFECT: corrige: encabezados = [
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+encabezados = [
     "Nombres",
     "Apellido Paterno",
     "Apellido Materno",
@@ -1036,7 +1120,7 @@ ok flag`,
     "Edad (años)",
 ]
 
-# TODO: dict mapeo original -> snake_case
+# DEFECT: dict mapeo original -> snake_case
 mapeo = {
     # "Nombres": "nombres",
 }
@@ -1094,7 +1178,10 @@ for orig in encabezados:
         starterCode: {
           language: 'python',
           title: 'is_vs_eq.py',
-          code: `print("None is None →", ____)
+          code: `# CASO-LIM-002 · T2-B-E1
+# DEFECT: corrige: print("None is None →", ____)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+print("None is None →", ____)
 print("[] == [] →", ____)
 print("[] is [] →", ____)
 print("1 == True →", ____)
@@ -1134,7 +1221,10 @@ print("1 is True →", 1 is True)
         starterCode: {
           language: 'python',
           title: 'romper_alias.py',
-          code: `original = ["a", "b"]
+          code: `# CASO-LIM-002 · T2-B-E2
+# DEFECT: corrige: original = ["a", "b"]
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+original = ["a", "b"]
 trabajo = ____  # debe ser copia, no alias
 trabajo.append("c")
 print("original:", original)
@@ -1173,8 +1263,11 @@ mismo objeto? False`,
         starterCode: {
           language: 'python',
           title: 'raw_clean_record.py',
-          code: `def make_record(nombres: str, contacto: str) -> dict:
-    # TODO: *_raw + strip en limpios
+          code: `# CASO-LIM-002 · T2-B-E3
+# DEFECT: corrige: def make_record(nombres: str, contacto: str) -> dict:
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def make_record(nombres: str, contacto: str) -> dict:
+    # DEFECT: *_raw + strip en limpios
     pass
 
 entrada_nombres = "  María  "
@@ -1231,10 +1324,13 @@ raw preserved OK`,
         starterCode: {
           language: 'python',
           title: 'tabla_operadores.py',
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-002 · T3-A-E1
+# DEFECT: corrige: # Fixture del paquete (conserva datos; no reescribas asserts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Fixture del paquete (conserva datos; no reescribas asserts)
 n = 17
 d = 5
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
 # forma esperada (referencia): print("//", n // d)
 `,
         },
@@ -1276,7 +1372,10 @@ nota: / devuelve float en Python 3`,
         starterCode: {
           language: 'python',
           title: 'precedencia_potencia.py',
-          code: `print("sin paréntesis:", -3**2)
+          code: `# CASO-LIM-002 · T3-A-E2
+# DEFECT: corrige: print("sin paréntesis:", -3**2)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+print("sin paréntesis:", -3**2)
 print("con paréntesis:", (-3)**2)
 cuadrado_neg = ____  # debe ser 9
 assert cuadrado_neg == 9
@@ -1313,9 +1412,12 @@ assert OK`,
         starterCode: {
           language: 'python',
           title: 'precio_igv_expr.py',
-          code: `linea_a = 50
+          code: `# CASO-LIM-002 · T3-A-E3
+# DEFECT: corrige: linea_a = 50
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+linea_a = 50
 linea_b = 30
-# TODO: subtotal y total con IGV 18% y paréntesis
+# DEFECT: subtotal y total con IGV 18% y paréntesis
 subtotal = ____
 total = ____
 print("subtotal", subtotal)
@@ -1353,11 +1455,14 @@ total 94.39999999999999`,
         starterCode: {
           language: 'python',
           title: 'float_vs_decimal.py',
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-002 · T3-B-E1
+# DEFECT: corrige: # Fixture del paquete (conserva datos; no reescribas asserts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Fixture del paquete (conserva datos; no reescribas asserts)
 from decimal import Decimal
 
 assert Decimal("0.1") + Decimal("0.2") == Decimal("0.3")
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
 # forma esperada (referencia): print("float", 0.1 + 0.2)
 `,
         },
@@ -1393,10 +1498,13 @@ assert OK`,
         starterCode: {
           language: 'python',
           title: 'propina_soles.py',
-          code: `from decimal import Decimal, ROUND_HALF_EVEN
+          code: `# CASO-LIM-002 · T3-B-E2
+# DEFECT: corrige: from decimal import Decimal, ROUND_HALF_EVEN
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from decimal import Decimal, ROUND_HALF_EVEN
 
 cuenta = Decimal("85.50")
-# TODO: propina 10% y total con quantize
+# DEFECT: propina 10% y total con quantize
 propina = ____
 total = ____
 print(propina, total)
@@ -1442,10 +1550,13 @@ OK`,
         starterCode: {
           language: 'python',
           title: 'parse_monto.py',
-          code: `from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
+          code: `# CASO-LIM-002 · T3-B-E3
+# DEFECT: corrige: from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperati
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation
 
 def parse_monto(texto: str):
-    # TODO: (ok, Decimal|None, error|None)
+    # DEFECT: (ok, Decimal|None, error|None)
     pass
 
 for s in ["150.50", "  20.1 ", "", "abc"]:
@@ -1494,9 +1605,12 @@ for s in ["150.50", "  20.1 ", "", "abc"]:
         starterCode: {
           language: 'python',
           title: 'saludo_fstring.py',
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-002 · T4-A-E1
+# DEFECT: corrige: # Fixture del paquete (conserva datos; no reescribas asserts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# Fixture del paquete (conserva datos; no reescribas asserts)
 nombre = "José"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# DEFECT: completa solo print/resultado del contrato (instruction + solution output)
 # forma esperada (referencia): print(f"Hola, {nombre}. Bienvenido al intake.")
 `,
         },
@@ -1526,13 +1640,16 @@ print(f"Hola, {nombre}. Bienvenido al intake.")`,
         starterCode: {
           language: 'python',
           title: 'reporte_cliente.py',
-          code: `from decimal import Decimal
+          code: `# CASO-LIM-002 · T4-A-E2
+# DEFECT: corrige: from decimal import Decimal
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from decimal import Decimal
 
 nombres = "Ana"
 apellido_paterno = "Ramos"
 contacto = "999000111"
 monto = Decimal("99.5")
-# TODO: reporte multi-línea con f-strings
+# DEFECT: reporte multi-línea con f-strings
 print(f"nombres: {____}")
 print(f"apellido_paterno: {____}")
 print(f"contacto: {____}")
@@ -1577,8 +1694,11 @@ monto: S/ 99.50`,
         starterCode: {
           language: 'python',
           title: 'simular_intake.py',
-          code: `def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
-    # TODO: devolver dict con campos + types
+          code: `# CASO-LIM-002 · T4-A-E3
+# DEFECT: corrige: def simular_intake(nombres: str, contacto: str, edad: str) -
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def simular_intake(nombres: str, contacto: str, edad: str) -> dict:
+    # DEFECT: devolver dict con campos + types
     pass
 
 r = simular_intake("  Ana  ", "999", "34")
@@ -1625,8 +1745,11 @@ OK`,
         starterCode: {
           language: 'python',
           title: 'parse_vacio.py',
-          code: `def parse_nombres(valor: str) -> dict:
-    # TODO: raw + clean + errors
+          code: `# CASO-LIM-002 · T4-B-E1
+# DEFECT: corrige: def parse_nombres(valor: str) -> dict:
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def parse_nombres(valor: str) -> dict:
+    # DEFECT: raw + clean + errors
     pass
 
 r = parse_nombres("")
@@ -1677,8 +1800,11 @@ OK`,
         starterCode: {
           language: 'python',
           title: 'parse_unicode.py',
-          code: `original = "  Ñahui  "
-# TODO: raw y clean
+          code: `# CASO-LIM-002 · T4-B-E2
+# DEFECT: corrige: original = "  Ñahui  "
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+original = "  Ñahui  "
+# DEFECT: raw y clean
 raw = ____
 clean = ____
 print(repr(raw), "→", repr(clean))
@@ -1718,12 +1844,15 @@ Unicode OK`,
         starterCode: {
           language: 'python',
           title: 'parse_client_suite.py',
-          code: `def safe_int(campo: str, valor: str):
-    # TODO
+          code: `# CASO-LIM-002 · T4-B-E3
+# DEFECT: corrige: def safe_int(campo: str, valor: str):
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def safe_int(campo: str, valor: str):
+    # DEFECT: implementa safe_int (strip + int + ValueError)
     pass
 
 def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):
-    # TODO: raw + clean + errors
+    # DEFECT: raw + clean + errors
     pass
 
 # tests
@@ -2021,6 +2150,16 @@ if __name__ == "__main__":
         url: 'https://peps.python.org/pep-0008/',
         note: 'snake_case, UPPER_CASE, evitar l/O/I',
       },
+      {
+        label: 'input / print (tutorial I/O)',
+        url: 'https://docs.python.org/3/tutorial/inputoutput.html',
+        note: 'f-strings y formateo de salida',
+      },
+      {
+        label: 'Python for Everybody — types chapter',
+        url: 'https://www.py4e.com/html3/02-variables',
+        note: 'Variables y tipos progressive disclosure',
+      },
     ],
     books: [
       {
@@ -2037,6 +2176,16 @@ if __name__ == "__main__":
         label: 'CS50P — variables, types, input',
         url: 'https://cs50.harvard.edu/python/',
         note: 'Benchmark de secuencia; no copiar ejercicios literales',
+      },
+      {
+        label: 'MIT 6.100L',
+        url: 'https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/',
+        note: 'Contratos y tipos básicos',
+      },
+      {
+        label: 'Coursera — Python for Everybody',
+        url: 'https://www.coursera.org/specializations/python',
+        note: 'Variables, I/O y tipos',
       },
       {
         label: 'Kaggle Learn — Python',

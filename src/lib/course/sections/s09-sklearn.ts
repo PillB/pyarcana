@@ -626,10 +626,10 @@ df = pd.DataFrame({
     "compro": np.random.choice([0, 1], n, p=[0.7, 0.3])
 })
 
-# TODO: define X, y
-# TODO: crea preprocessor (solo numéricas en este caso)
-# TODO: crea pipeline
-# TODO: cross_val_score con cv=5, scoring='roc_auc'`,
+# DEFECT: define X, y
+# DEFECT: crea preprocessor (solo numéricas en este caso)
+# DEFECT: crea pipeline
+# DEFECT: cross_val_score con cv=5, scoring='roc_auc'`,
         },
         solutionCode: {
           language: 'python',
@@ -731,24 +731,29 @@ import shap
 import joblib
 
 def cargar_datos(ruta="telco_churn.csv"):
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def construir_pipeline():
-    # TODO: ColumnTransformer + Pipeline
-    pass
+    # DEFECT: ColumnTransformer + Pipeline
+    # wrong stub: returns None
+    return None
 
 def comparar_modelos(pipeline, X_train, y_train):
-    # TODO: 3 modelos con CV
-    pass
+    # DEFECT: 3 modelos con CV
+    # wrong stub: returns None
+    return None
 
 def tune_best(pipeline, X_train, y_train):
-    # TODO: RandomizedSearchCV
-    pass
+    # DEFECT: RandomizedSearchCV
+    # wrong stub: returns None
+    return None
 
 def shap_analysis(model, X_test):
-    # TODO: beeswarm + waterfall
-    pass
+    # DEFECT: beeswarm + waterfall
+    # wrong stub: returns None
+    return None
 
 def main():
     # Pipeline completo

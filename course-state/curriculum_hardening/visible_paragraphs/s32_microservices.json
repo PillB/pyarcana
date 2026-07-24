@@ -1,0 +1,612 @@
+{
+  "index": 32,
+  "id": "microservices",
+  "title": "Feature engineering y pipelines sin leakage",
+  "file": "s32-microservices.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S32: features sin leakage (CP-N3-B)",
+      "len": 40
+    },
+    {
+      "i": 1,
+      "text": "Diccionario de la sección (léelo antes de T1). Feature catalog: dtypes y políticas por columna. Half-open window: [t−w, t) sin el instante de decisión. Train≡serve: mismo código y estado fitted en inferencia. Leakage: usar información futura, del label o de identidad prohibida. Train–serve skew: divergencia de distribuciones. fs-vN: id versionado del feature set. Group/time split: partición que evita entidades compartidas y futuro en train.",
+      "len": 444
+    },
+    {
+      "i": 2,
+      "text": "En V3, S32 no es el path principal de Docker/K8s: construyes la tabla de features del workbench CP-N3-B con filas sintéticas por par entidad/caso. El id microservices es legacy de plataforma.",
+      "len": 191
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: eventos y grafo sintético CASO-LIM-032. Salida: feature set fs-vN con checklist anti-leakage. Error: future ts, label features o overlap de entidades → no section_passed.",
+      "len": 200
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 tipos → T2 relacionales/ventanas → T3 pipelines → T4 validación. Stack didáctico: stdlib (listas, json, collections); sklearn Pipeline/ColumnTransformer se citan como referencia profesional sin exigir la librería en ejercicios.",
+      "len": 237
+    },
+    {
+      "i": 5,
+      "text": "Features numéricas, categóricas y texto",
+      "len": 39
+    },
+    {
+      "i": 6,
+      "text": "Diccionario T1-A. Feature catalog: mapa dtype→columnas con política de missing. Disponibilidad en t: solo valores conocidos en el instante de decisión. note_len / token_count: proxies de texto sin guardar el cuerpo. Unknown feature: columna en serve que no está en el catálogo de train.",
+      "len": 286
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: defines schema = {numeric:[…], categorical:[…], text:[…]} y validas set(row) ⊆ union(schema.values()). Si aparece una key desconocida, rechazas con REJECT_UNKNOWN_FEATURE antes de fit. No inventes dtypes en serve.",
+      "len": 224
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: schema + row sintético. Salida: listas por tipo, note_len y unknown=False. Error: feature fantasma o texto crudo con PII en el catálogo. Por qué importa: si no fijas «schema + row sintético» → «listas por tipo, note_len y unknown=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «feature fantasma o texto crudo con PII en el catálogo» para confirmar fail-closed.",
+      "len": 439
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-032-T1A (Red Andina): amount_7d numérica, canal categórica, note→note_len. Sirve al workbench CP-N3-B; features de contacto no son etiqueta de fraude.",
+      "len": 172
+    },
+    {
+      "i": 10,
+      "text": "Missing indicators, escalamiento y encoding",
+      "len": 43
+    },
+    {
+      "i": 11,
+      "text": "Missing indicator conserva la señal de ausencia; el fill (mediana/moda) no la borra. Z-score usa μ/σ de train. One-hot con columna unknown evita silent fill de categorías nuevas en serve.",
+      "len": 187
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: ind = [v is None for v in vals]; fill con mediana de train; z = (x-μ)/σ solo con stats fitted. Calcular mediana con test es leakage de estadísticas.",
+      "len": 159
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: serie con None, μ/σ de train, vocab. Salida: indicator, filled, z. Error: silent fill sin indicator o stats de test en fit. Por qué importa: si no fijas «serie con None, μ/σ de train, vocab» → «indicator, filled, z», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «silent fill sin indicator o stats de test en fit» para confirmar fail-closed.",
+      "len": 413
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-032-T1B: [1,None,3] → indicator + mediana 2; z con μ=0 σ=2. Train stats only en el feature set fs-vN.",
+      "len": 123
+    },
+    {
+      "i": 15,
+      "text": "Features relacionales y de grafo",
+      "len": 32
+    },
+    {
+      "i": 16,
+      "text": "Features de shared contact/address, degree y min path resumen topología observada. No conviertas matching o centralidad en label de parentesco o fraude.",
+      "len": 152
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: shared = int(a.addr==b.addr); degree = len(neighbors[e]); path missing → default alto (p. ej. 99). Solo atributos disponibles en t de decisión.",
+      "len": 154
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared, degree, pathlen. Error: usar label de decisión o outcome como feature. Por qué importa: si no fijas «dos entidades, vecinos, path dict» → «shared, degree, pathlen», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «usar label de decisión o outcome como feature» para confirmar fail-closed.",
+      "len": 409
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-032-T2A: shared_address=1, degree(E1)=2, path E1-E9→99. Grafo sintético Lima–Arequipa; evidencia relacional ≠ culpa.",
+      "len": 138
+    },
+    {
+      "i": 20,
+      "text": "Ventanas y frecuencia sin leakage",
+      "len": 33
+    },
+    {
+      "i": 21,
+      "text": "Ventana half-open [t−w, t) cuenta eventos sin el instante de decisión ni el futuro. Incluir ts>=t es leakage temporal clásico en features de frecuencia.",
+      "len": 152
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: cnt = sum(1 for ts in events if t-w <= ts < t). Documenta la política en el feature set; tests deben fallar si se incluye t.",
+      "len": 135
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: events, t, w. Salida: count, includes_t=False, policy=half_open. Error: ventana cerrada a la derecha que ve el label-time. Por qué importa: si no fijas «events, t, w» → «count, includes_t=False, policy=half_open», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ventana cerrada a la derecha que ve el label-time» para confirmar fail-closed.",
+      "len": 411
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-032-T2B: events [1,2,3,5], t=5, w=3 → count 2. Frecuencia de canal del workbench sin futuro.",
+      "len": 114
+    },
+    {
+      "i": 25,
+      "text": "Transformers custom y ColumnTransformer",
+      "len": 39
+    },
+    {
+      "i": 26,
+      "text": "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill→scale exige fitted=True; transform antes de fit debe fallar de forma explícita (no silent).",
+      "len": 170
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo didáctico: ModeImputer.fit guarda moda; transform reemplaza None. ColumnTransformer conceptual aplica por tipo de columna. sklearn es la referencia profesional; aquí stdlib progressive disclosure.",
+      "len": 206
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: serie categórica. Salida: transform con moda y fitted=True. Error: transform silencioso sin fit. Por qué importa: si no fijas «serie categórica» → «transform con moda y fitted=True», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «transform silencioso sin fit» para confirmar fail-closed.",
+      "len": 359
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-032-T3A: moda app sobre [app,app,web]; None→app. Pipeline reutilizable del feature set.",
+      "len": 109
+    },
+    {
+      "i": 30,
+      "text": "Persistencia fit/transform y versionado",
+      "len": 39
+    },
+    {
+      "i": 31,
+      "text": "El estado (mediana, vocab, μ/σ) se serializa (JSON) y se reutiliza en serve. Si el vocab cambia, version bump del feature set (fs-vN). Train≡serve es el gate.",
+      "len": 158
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: blob = json.dumps(state); load en serve; aplicar mediana de train al batch. Diff de vocab → fs-v2.",
+      "len": 109
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: state dict. Salida: round-trip y version. Error: servir sin version o recalcular stats en serve con batch de producción. Por qué importa: si no fijas «state dict» → «round-trip y version», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «servir sin version o recalcular stats en serve con batch de producción» para confirmar fail-closed.",
+      "len": 407
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-032-T3B: median=2, version fs-v1 round-trip. Artefacto del workbench CP-N3-B.",
+      "len": 99
+    },
+    {
+      "i": 35,
+      "text": "Split por entidad, grupo y tiempo",
+      "len": 33
+    },
+    {
+      "i": 36,
+      "text": "Split temporal y por entidad/grupo evitan leakage de identidad: la misma entidad en train y test infla métricas. Cutoff de tiempo: train < cutoff ≤ test.",
+      "len": 153
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: filtra filas por ts; overlap = |entities_train ∩ entities_test| debe ser 0 cuando la unidad es entidad. Group split por entity_id.",
+      "len": 141
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: rows con ts y entity, cutoff. Salida: n_train, n_test, overlap=0. Error: shuffle aleatorio con entidades repetidas en ambos lados. Por qué importa: si no fijas «rows con ts y entity, cutoff» → «n_train, n_test, overlap=0», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «shuffle aleatorio con entidades repetidas en ambos lados» para confirmar fail-closed.",
+      "len": 427
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-032-T4A: cutoff 2026-02-01, e1 train / e2 test, overlap 0. Defensa principal del baseline S33.",
+      "len": 116
+    },
+    {
+      "i": 40,
+      "text": "Leakage scan, train–serve skew y versionado",
+      "len": 43
+    },
+    {
+      "i": 41,
+      "text": "Escanea nombres leaky (label, decision, target, is_fraud) y mide train–serve skew (distribuciones). El gate de features versiona fs-vN antes de entrenar S33.",
+      "len": 157
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: leaky = [n for n in names if any(k in n for k in banned)]. Skew flag si μ_train vs μ_serve diverge más del umbral documentado.",
+      "len": 137
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: feature names + stats. Salida: lista leaky, skew flag, feature_set. Error: entrenar con label_decision en X. Por qué importa: si no fijas «feature names + stats» → «lista leaky, skew flag, feature_set», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «entrenar con label_decision en X» para confirmar fail-closed.",
+      "len": 383
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-032-T4B: detecta label_decision; skew True; promueve fs-v2. Cierra pipeline del workbench.",
+      "len": 112
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S32: features sin leakage (CP-N3-B)",
+      "text": "Mapa S32: features sin leakage (CP-N3-B)"
+    },
+    {
+      "i": 1,
+      "len": 444,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario de la sección (léelo antes de T1). Feature catalog: dtypes y políticas por columna. Half-open window: [t−w, t) sin el instante de decisión. Train≡serve: mismo código y ",
+      "text": "Diccionario de la sección (léelo antes de T1). Feature catalog: dtypes y políticas por columna. Half-open window: [t−w, t) sin el instante de decisión. Train≡serve: mismo código y estado fitted en inferencia. Leakage: usar información futura, del label o de identidad prohibida. Train–serve skew: divergencia de distribuciones. fs-vN: id versionado del feature set. Group/time split: partición que evita entidades compartidas y futuro en train."
+    },
+    {
+      "i": 2,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S32 no es el path principal de Docker/K8s: construyes la tabla de features del workbench CP-N3-B con filas sintéticas por par entidad/caso. El id microservices es legacy de ",
+      "text": "En V3, S32 no es el path principal de Docker/K8s: construyes la tabla de features del workbench CP-N3-B con filas sintéticas por par entidad/caso. El id microservices es legacy de plataforma."
+    },
+    {
+      "i": 3,
+      "len": 200,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: eventos y grafo sintético CASO-LIM-032. Salida: feature set fs-vN con checklist anti-leakage. Error: future ts, label features o overlap de entidades ",
+      "text": "Contrato de sección. Entrada: eventos y grafo sintético CASO-LIM-032. Salida: feature set fs-vN con checklist anti-leakage. Error: future ts, label features o overlap de entidades → no section_passed."
+    },
+    {
+      "i": 4,
+      "len": 237,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 tipos → T2 relacionales/ventanas → T3 pipelines → T4 validación. Stack didáctico: stdlib (listas, json, collections); sklearn Pipeline/ColumnTransformer se citan como ref",
+      "text": "Orden: T1 tipos → T2 relacionales/ventanas → T3 pipelines → T4 validación. Stack didáctico: stdlib (listas, json, collections); sklearn Pipeline/ColumnTransformer se citan como referencia profesional sin exigir la librería en ejercicios."
+    },
+    {
+      "i": 5,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Features numéricas, categóricas y texto",
+      "text": "Features numéricas, categóricas y texto"
+    },
+    {
+      "i": 6,
+      "len": 286,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario T1-A. Feature catalog: mapa dtype→columnas con política de missing. Disponibilidad en t: solo valores conocidos en el instante de decisión. note_len / token_count: prox",
+      "text": "Diccionario T1-A. Feature catalog: mapa dtype→columnas con política de missing. Disponibilidad en t: solo valores conocidos en el instante de decisión. note_len / token_count: proxies de texto sin guardar el cuerpo. Unknown feature: columna en serve que no está en el catálogo de train."
+    },
+    {
+      "i": 7,
+      "len": 224,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: defines schema = {numeric:[…], categorical:[…], text:[…]} y validas set(row) ⊆ union(schema.values()). Si aparece una key desconocida, rechazas con REJECT_UNKNOWN_FEATUR",
+      "text": "Mecanismo: defines schema = {numeric:[…], categorical:[…], text:[…]} y validas set(row) ⊆ union(schema.values()). Si aparece una key desconocida, rechazas con REJECT_UNKNOWN_FEATURE antes de fit. No inventes dtypes en serve."
+    },
+    {
+      "i": 8,
+      "len": 439,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: schema + row sintético. Salida: listas por tipo, note_len y unknown=False. Error: feature fantasma o texto crudo con PII en el catálogo. Por qué import",
+      "text": "Contrato operativo. Entrada: schema + row sintético. Salida: listas por tipo, note_len y unknown=False. Error: feature fantasma o texto crudo con PII en el catálogo. Por qué importa: si no fijas «schema + row sintético» → «listas por tipo, note_len y unknown=False», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «feature fantasma o texto crudo con PII en el catálogo» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 172,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T1A (Red Andina): amount_7d numérica, canal categórica, note→note_len. Sirve al workbench CP-N3-B; features de contacto no son etiqueta de fraude.",
+      "text": "Aplicación a CASO-LIM-032-T1A (Red Andina): amount_7d numérica, canal categórica, note→note_len. Sirve al workbench CP-N3-B; features de contacto no son etiqueta de fraude."
+    },
+    {
+      "i": 10,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Missing indicators, escalamiento y encoding",
+      "text": "Missing indicators, escalamiento y encoding"
+    },
+    {
+      "i": 11,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Missing indicator conserva la señal de ausencia; el fill (mediana/moda) no la borra. Z-score usa μ/σ de train. One-hot con columna unknown evita silent fill de categorías nuevas en",
+      "text": "Missing indicator conserva la señal de ausencia; el fill (mediana/moda) no la borra. Z-score usa μ/σ de train. One-hot con columna unknown evita silent fill de categorías nuevas en serve."
+    },
+    {
+      "i": 12,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: ind = [v is None for v in vals]; fill con mediana de train; z = (x-μ)/σ solo con stats fitted. Calcular mediana con test es leakage de estadísticas.",
+      "text": "Mecanismo: ind = [v is None for v in vals]; fill con mediana de train; z = (x-μ)/σ solo con stats fitted. Calcular mediana con test es leakage de estadísticas."
+    },
+    {
+      "i": 13,
+      "len": 413,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: serie con None, μ/σ de train, vocab. Salida: indicator, filled, z. Error: silent fill sin indicator o stats de test en fit. Por qué importa: si no fija",
+      "text": "Contrato operativo. Entrada: serie con None, μ/σ de train, vocab. Salida: indicator, filled, z. Error: silent fill sin indicator o stats de test en fit. Por qué importa: si no fijas «serie con None, μ/σ de train, vocab» → «indicator, filled, z», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «silent fill sin indicator o stats de test en fit» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 123,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T1B: [1,None,3] → indicator + mediana 2; z con μ=0 σ=2. Train stats only en el feature set fs-vN.",
+      "text": "Aplicación a CASO-LIM-032-T1B: [1,None,3] → indicator + mediana 2; z con μ=0 σ=2. Train stats only en el feature set fs-vN."
+    },
+    {
+      "i": 15,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Features relacionales y de grafo",
+      "text": "Features relacionales y de grafo"
+    },
+    {
+      "i": 16,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Features de shared contact/address, degree y min path resumen topología observada. No conviertas matching o centralidad en label de parentesco o fraude.",
+      "text": "Features de shared contact/address, degree y min path resumen topología observada. No conviertas matching o centralidad en label de parentesco o fraude."
+    },
+    {
+      "i": 17,
+      "len": 154,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: shared = int(a.addr==b.addr); degree = len(neighbors[e]); path missing → default alto (p. ej. 99). Solo atributos disponibles en t de decisión.",
+      "text": "Mecanismo: shared = int(a.addr==b.addr); degree = len(neighbors[e]); path missing → default alto (p. ej. 99). Solo atributos disponibles en t de decisión."
+    },
+    {
+      "i": 18,
+      "len": 409,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared, degree, pathlen. Error: usar label de decisión o outcome como feature. Por qué importa: si no fijas ",
+      "text": "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared, degree, pathlen. Error: usar label de decisión o outcome como feature. Por qué importa: si no fijas «dos entidades, vecinos, path dict» → «shared, degree, pathlen», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «usar label de decisión o outcome como feature» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T2A: shared_address=1, degree(E1)=2, path E1-E9→99. Grafo sintético Lima–Arequipa; evidencia relacional ≠ culpa.",
+      "text": "Aplicación a CASO-LIM-032-T2A: shared_address=1, degree(E1)=2, path E1-E9→99. Grafo sintético Lima–Arequipa; evidencia relacional ≠ culpa."
+    },
+    {
+      "i": 20,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ventanas y frecuencia sin leakage",
+      "text": "Ventanas y frecuencia sin leakage"
+    },
+    {
+      "i": 21,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ventana half-open [t−w, t) cuenta eventos sin el instante de decisión ni el futuro. Incluir ts>=t es leakage temporal clásico en features de frecuencia.",
+      "text": "Ventana half-open [t−w, t) cuenta eventos sin el instante de decisión ni el futuro. Incluir ts>=t es leakage temporal clásico en features de frecuencia."
+    },
+    {
+      "i": 22,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: cnt = sum(1 for ts in events if t-w <= ts < t). Documenta la política en el feature set; tests deben fallar si se incluye t.",
+      "text": "Mecanismo: cnt = sum(1 for ts in events if t-w <= ts < t). Documenta la política en el feature set; tests deben fallar si se incluye t."
+    },
+    {
+      "i": 23,
+      "len": 411,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: events, t, w. Salida: count, includes_t=False, policy=half_open. Error: ventana cerrada a la derecha que ve el label-time. Por qué importa: si no fijas",
+      "text": "Contrato operativo. Entrada: events, t, w. Salida: count, includes_t=False, policy=half_open. Error: ventana cerrada a la derecha que ve el label-time. Por qué importa: si no fijas «events, t, w» → «count, includes_t=False, policy=half_open», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ventana cerrada a la derecha que ve el label-time» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 114,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T2B: events [1,2,3,5], t=5, w=3 → count 2. Frecuencia de canal del workbench sin futuro.",
+      "text": "Aplicación a CASO-LIM-032-T2B: events [1,2,3,5], t=5, w=3 → count 2. Frecuencia de canal del workbench sin futuro."
+    },
+    {
+      "i": 25,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Transformers custom y ColumnTransformer",
+      "text": "Transformers custom y ColumnTransformer"
+    },
+    {
+      "i": 26,
+      "len": 170,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill→scale exige fitted=True; transform antes de fit debe fallar de forma explícita (no silent).",
+      "text": "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill→scale exige fitted=True; transform antes de fit debe fallar de forma explícita (no silent)."
+    },
+    {
+      "i": 27,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: ModeImputer.fit guarda moda; transform reemplaza None. ColumnTransformer conceptual aplica por tipo de columna. sklearn es la referencia profesional; aquí stdl",
+      "text": "Mecanismo didáctico: ModeImputer.fit guarda moda; transform reemplaza None. ColumnTransformer conceptual aplica por tipo de columna. sklearn es la referencia profesional; aquí stdlib progressive disclosure."
+    },
+    {
+      "i": 28,
+      "len": 359,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: serie categórica. Salida: transform con moda y fitted=True. Error: transform silencioso sin fit. Por qué importa: si no fijas «serie categórica» → «tra",
+      "text": "Contrato operativo. Entrada: serie categórica. Salida: transform con moda y fitted=True. Error: transform silencioso sin fit. Por qué importa: si no fijas «serie categórica» → «transform con moda y fitted=True», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «transform silencioso sin fit» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T3A: moda app sobre [app,app,web]; None→app. Pipeline reutilizable del feature set.",
+      "text": "Aplicación a CASO-LIM-032-T3A: moda app sobre [app,app,web]; None→app. Pipeline reutilizable del feature set."
+    },
+    {
+      "i": 30,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Persistencia fit/transform y versionado",
+      "text": "Persistencia fit/transform y versionado"
+    },
+    {
+      "i": 31,
+      "len": 158,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El estado (mediana, vocab, μ/σ) se serializa (JSON) y se reutiliza en serve. Si el vocab cambia, version bump del feature set (fs-vN). Train≡serve es el gate.",
+      "text": "El estado (mediana, vocab, μ/σ) se serializa (JSON) y se reutiliza en serve. Si el vocab cambia, version bump del feature set (fs-vN). Train≡serve es el gate."
+    },
+    {
+      "i": 32,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: blob = json.dumps(state); load en serve; aplicar mediana de train al batch. Diff de vocab → fs-v2.",
+      "text": "Mecanismo: blob = json.dumps(state); load en serve; aplicar mediana de train al batch. Diff de vocab → fs-v2."
+    },
+    {
+      "i": 33,
+      "len": 407,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: state dict. Salida: round-trip y version. Error: servir sin version o recalcular stats en serve con batch de producción. Por qué importa: si no fijas «",
+      "text": "Contrato operativo. Entrada: state dict. Salida: round-trip y version. Error: servir sin version o recalcular stats en serve con batch de producción. Por qué importa: si no fijas «state dict» → «round-trip y version», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «servir sin version o recalcular stats en serve con batch de producción» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 99,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T3B: median=2, version fs-v1 round-trip. Artefacto del workbench CP-N3-B.",
+      "text": "Aplicación a CASO-LIM-032-T3B: median=2, version fs-v1 round-trip. Artefacto del workbench CP-N3-B."
+    },
+    {
+      "i": 35,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Split por entidad, grupo y tiempo",
+      "text": "Split por entidad, grupo y tiempo"
+    },
+    {
+      "i": 36,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Split temporal y por entidad/grupo evitan leakage de identidad: la misma entidad en train y test infla métricas. Cutoff de tiempo: train < cutoff ≤ test.",
+      "text": "Split temporal y por entidad/grupo evitan leakage de identidad: la misma entidad en train y test infla métricas. Cutoff de tiempo: train < cutoff ≤ test."
+    },
+    {
+      "i": 37,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: filtra filas por ts; overlap = |entities_train ∩ entities_test| debe ser 0 cuando la unidad es entidad. Group split por entity_id.",
+      "text": "Mecanismo: filtra filas por ts; overlap = |entities_train ∩ entities_test| debe ser 0 cuando la unidad es entidad. Group split por entity_id."
+    },
+    {
+      "i": 38,
+      "len": 427,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: rows con ts y entity, cutoff. Salida: n_train, n_test, overlap=0. Error: shuffle aleatorio con entidades repetidas en ambos lados. Por qué importa: si ",
+      "text": "Contrato operativo. Entrada: rows con ts y entity, cutoff. Salida: n_train, n_test, overlap=0. Error: shuffle aleatorio con entidades repetidas en ambos lados. Por qué importa: si no fijas «rows con ts y entity, cutoff» → «n_train, n_test, overlap=0», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «shuffle aleatorio con entidades repetidas en ambos lados» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T4A: cutoff 2026-02-01, e1 train / e2 test, overlap 0. Defensa principal del baseline S33.",
+      "text": "Aplicación a CASO-LIM-032-T4A: cutoff 2026-02-01, e1 train / e2 test, overlap 0. Defensa principal del baseline S33."
+    },
+    {
+      "i": 40,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Leakage scan, train–serve skew y versionado",
+      "text": "Leakage scan, train–serve skew y versionado"
+    },
+    {
+      "i": 41,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Escanea nombres leaky (label, decision, target, is_fraud) y mide train–serve skew (distribuciones). El gate de features versiona fs-vN antes de entrenar S33.",
+      "text": "Escanea nombres leaky (label, decision, target, is_fraud) y mide train–serve skew (distribuciones). El gate de features versiona fs-vN antes de entrenar S33."
+    },
+    {
+      "i": 42,
+      "len": 137,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: leaky = [n for n in names if any(k in n for k in banned)]. Skew flag si μ_train vs μ_serve diverge más del umbral documentado.",
+      "text": "Mecanismo: leaky = [n for n in names if any(k in n for k in banned)]. Skew flag si μ_train vs μ_serve diverge más del umbral documentado."
+    },
+    {
+      "i": 43,
+      "len": 383,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: feature names + stats. Salida: lista leaky, skew flag, feature_set. Error: entrenar con label_decision en X. Por qué importa: si no fijas «feature name",
+      "text": "Contrato operativo. Entrada: feature names + stats. Salida: lista leaky, skew flag, feature_set. Error: entrenar con label_decision en X. Por qué importa: si no fijas «feature names + stats» → «lista leaky, skew flag, feature_set», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «entrenar con label_decision en X» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-032-T4B: detecta label_decision; skew True; promueve fs-v2. Cierra pipeline del workbench.",
+      "text": "Aplicación a CASO-LIM-032-T4B: detecta label_decision; skew True; promueve fs-v2. Cierra pipeline del workbench."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 13696
+}

@@ -1,0 +1,671 @@
+{
+  "index": 1,
+  "id": "setup",
+  "title": "Entorno reproducible y trabajo seguro",
+  "file": "s01-setup.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Por qué el setup importa más de lo que crees",
+      "len": 44
+    },
+    {
+      "i": 1,
+      "text": "Diccionario del día 1 (léelo antes de seguir; el resto de la sección profundiza cada término). Intérprete: el programa python/python3 que ejecuta tu código. Terminal (shell): la ventana de texto donde escribes comandos. Entorno virtual (venv): una carpeta del proyecto (canónica: .venv) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. pip: instalador de paquetes de terceros. requirements.txt: archivo que lista esas dependencias con versión. Repo (repositorio): la carpeta del proyecto bajo Git (control de versiones: historial de quién cambió qué). Clonar: copiar un repo desde un remoto (p. ej. GitHub) a tu laptop. Commit: guardar un snapshot del historial con un mensaje. Pull Request (PR): pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.",
+      "len": 898
+    },
+    {
+      "i": 2,
+      "text": "Mucha gente salta el setup porque \"ya aprenderá en el camino\". Error. En producción, un entorno mal configurado genera errores fantasma: \"a mí me funciona\" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega clona tu repo (copia el repositorio), crea su propio entorno virtual, ejecuta pip install -r requirements.txt (instala los paquetes listados) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.",
+      "len": 535
+    },
+    {
+      "i": 3,
+      "text": "En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y entornos virtuales con el módulo venv (más común) o conda (en equipos más legacy o de investigación). Las startups más nuevas están migrando a uv (más rápido), pero todavía no es estándar. Vamos con venv porque es lo que vas a encontrar en el 95% de los puestos.",
+      "len": 433
+    },
+    {
+      "i": 4,
+      "text": "La regla de oro: un proyecto = un entorno virtual = un requirements.txt. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las dependencias (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar.",
+      "len": 413
+    },
+    {
+      "i": 5,
+      "text": "El intérprete Python y el REPL",
+      "len": 30
+    },
+    {
+      "i": 6,
+      "text": "Cuando instalas Python, lo que realmente instalas es un intérprete: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse python o python3. La primera habilidad profesional no es escribir un algoritmo: es verificar qué intérprete estás usando. En Windows a veces el comando python no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener python3 como comando principal. Por eso siempre empiezas con python --version (o python3 --version) y anotas la respuesta. Para este curso apuntamos a Python 3.12 o superior.",
+      "len": 595
+    },
+    {
+      "i": 7,
+      "text": "El REPL (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo python (o python3) y Enter. Verás el prompt >>>. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: 2 + 2 devuelve 4, type(\"hola\") devuelve <class 'str'>. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: quit() o exit(), o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL no cierra tu terminal: vuelves al prompt de la shell ($ o PS>).",
+      "len": 542
+    },
+    {
+      "i": 8,
+      "text": "Hay una diferencia crítica entre sesión REPL y script .py. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con python hello.py. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \"ábrelo en el intérprete y mira el tipo\", te está pidiendo el REPL. Cuando dice \"corre el entrypoint\", te está pidiendo un archivo. Confundir ambos genera la sensación de que \"a mí me funciona\" en la laptop y falla en el servidor.",
+      "len": 576
+    },
+    {
+      "i": 9,
+      "text": "Tu primer script usa tres piezas mínimas: (1) print(...) escribe texto a la salida estándar (lo ves en la terminal). (2) def nombre(): define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama main. (3) el guardián if __name__ == \"__main__\": solo corre main() cuando ejecutas el archivo con python archivo.py (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: import sys y sys.version.split()[0]. Un f-string formatea texto con variables: print(f\"Hola {nombre}\") — la f delante de las comillas permite {expresiones} dentro.",
+      "len": 605
+    },
+    {
+      "i": 10,
+      "text": "Anotaciones de tipo opcionales (pistas): def main() -> None: dice “esta función no devuelve un valor útil”. -> None y : str en parámetros son anotaciones (type hints): documentan el contrato y ayudan a Ruff/editores; en S01 Python no las exige en runtime. Si el starter trae -> None, puedes dejarlo o copiarlo; no cambia la lógica del script.",
+      "len": 342
+    },
+    {
+      "i": 11,
+      "text": "El intérprete en la terminal (comandos de verificación)",
+      "len": 55
+    },
+    {
+      "i": 12,
+      "text": "Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes.",
+      "len": 107
+    },
+    {
+      "i": 13,
+      "text": "Terminal, rutas y códigos de salida",
+      "len": 35
+    },
+    {
+      "i": 14,
+      "text": "La terminal (bash, zsh o PowerShell) es el lugar donde lanzas procesos: python, git, mkdir. Cada comando que escribes es un proceso hijo de la shell. Cuando termina, devuelve un código de salida (exit status): por convención, 0 significa éxito y cualquier valor distinto de 0 significa fallo. En bash/zsh lo lees con echo $?. En PowerShell, con echo $LASTEXITCODE. CI, scripts y pipelines usan ese número para decidir si continúan o se detienen. Un mensaje de error en pantalla y un código 0 (o al revés) son cosas distintas: siempre mira el código cuando automatizas.",
+      "len": 568
+    },
+    {
+      "i": 15,
+      "text": "No confundas el directorio de trabajo actual (cwd: dónde “estás” con cd y pwd / Get-Location) con el PATH (lista de carpetas donde el sistema busca ejecutables como python). Puedes estar en ~/proyectos/python-ds-journey y aun así fallar python si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. mkdir y cd mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH.",
+      "len": 475
+    },
+    {
+      "i": 16,
+      "text": "En Python, sys.exit(n) termina el proceso con código n. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale con 0 si los argumentos son correctos y con 1 si faltan. En data ops verás el mismo contrato: un job ETL “failed” casi siempre es exit code distinto de cero, no solo un print rojo. Practica leer $? / $LASTEXITCODE después de cada comando crítico antes de culpar a la librería.",
+      "len": 454
+    },
+    {
+      "i": 17,
+      "text": "Argumentos de línea de comandos: sys.argv es una lista de strings. sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1]. len(sys.argv) cuenta cuántos elementos hay (incluye el nombre del script). Ejemplo: python check_arg.py ok → sys.argv == [\"check_arg.py\", \"ok\"] y len(sys.argv) == 2. Rebanado (slice): sys.argv[1:] es la sublista desde el índice 1 hasta el final (todos los args del usuario, sin el nombre del script). La forma general es lista[inicio:fin] (fin excluido); omitir fin llega al final. Para errores al usuario usa print(\"uso: ...\", file=sys.stderr) y luego sys.exit(1).",
+      "len": 621
+    },
+    {
+      "i": 18,
+      "text": "Qué intérprete es este proceso: sys.executable es la ruta absoluta del binario Python que está corriendo tu script (ej. .../.venv/bin/python). Si import requests falla, compara sys.executable con el pip que usaste: la regla de oro es instalar con python -m pip install ... usando el mismo ejecutable. Así evitas el clásico \"lo instalé pero ModuleNotFoundError\".",
+      "len": 361
+    },
+    {
+      "i": 19,
+      "text": "cwd, PATH y códigos de salida en la shell",
+      "len": 41
+    },
+    {
+      "i": 20,
+      "text": "Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa sys.exit.",
+      "len": 110
+    },
+    {
+      "i": 21,
+      "text": "Componentes del stack que vamos a instalar",
+      "len": 42
+    },
+    {
+      "i": 22,
+      "text": "Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS Code. Cada una tiene su rol específico y no se mezclan. Python es el lenguaje. VS Code es el editor donde escribes código. Git es el sistema de control de versiones que registra cada cambio. GitHub es la nube donde publicas tu código para que otros lo vean y colaboren.",
+      "len": 450
+    },
+    {
+      "i": 23,
+      "text": "Una decisión clave: ¿venv o conda? Para data science en Perú, venv es suficiente y es lo estándar. conda es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a veces entra en conflicto con pip. Solo te recomiendo conda si trabajas con investigadores que ya lo usan, o si necesitas CUDA/GPU para deep learning. En el 90% de los casos de data analysis (pandas, numpy, sklearn, matplotlib), venv + pip es lo correcto.",
+      "len": 435
+    },
+    {
+      "i": 24,
+      "text": "Python viene con una biblioteca estándar que incluye módulos como sys (información del sistema), datetime (fechas y horas), os (sistema operativo), y json (manejo de JSON). Estos módulos no necesitan pip install — funcionan con solo hacer import sys o from datetime import datetime. En contraste, paquetes de terceros como pandas, numpy, o matplotlib NO vienen con Python y sí necesitan pip install antes de poder importarlos. Esta distinción es la causa #1 del error ModuleNotFoundError en principiantes: intentan import pandas sin haber hecho pip install pandas primero.",
+      "len": 572
+    },
+    {
+      "i": 25,
+      "text": "Entornos virtuales con venv",
+      "len": 27
+    },
+    {
+      "i": 26,
+      "text": "Un entorno virtual es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo venv: python -m venv .venv. La regla de oro no cambia: un proyecto = un entorno = un conjunto de dependencias. Así evitas que el pandas 2.x de un cliente rompa el notebook legacy de otro. Instalar paquetes “en el Python global” del sistema es la vía rápida al caos en tres meses.",
+      "len": 449
+    },
+    {
+      "i": 27,
+      "text": "Nombre de la carpeta: la documentación oficial de Python recomienda .venv (con punto): queda semi-oculto en listados Unix y se distingue de archivos .env de secretos. El nombre venv (sin punto) también es válido y lo verás en muchos tutoriales; en este curso el canónico es .venv, y tratamos venv como alias aceptado si ya lo usas. Ambos deben ir en .gitignore — nunca subas el entorno a GitHub (pesa decenas o cientos de MB y se regenera).",
+      "len": 440
+    },
+    {
+      "i": 28,
+      "text": "Activación engancha la shell al Python del entorno: en macOS/Linux, source .venv/bin/activate; en Windows PowerShell, .venv\\Scripts\\Activate.ps1. El prompt suele mostrar (.venv). deactivate vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta .venv y la recreas con el mismo comando. conda sigue siendo alternativa en investigación o GPU, pero no es el default de este curso. Herramientas más nuevas como uv son tendencia; aquí dominas venv porque es lo que encontrarás en la mayoría de onboarding corporativos.",
+      "len": 563
+    },
+    {
+      "i": 29,
+      "text": "pip, freeze y requirements.txt",
+      "len": 30
+    },
+    {
+      "i": 30,
+      "text": "Con el .venv activado, instalas dependencias de terceros con python -m pip. El prefijo python -m ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló en un Python y import usa otro”. Comandos del día a día: python -m pip install paquete, pin con paquete==1.2.3, listar con python -m pip list, y exportar un snapshot con python -m pip freeze > requirements.txt. Para restaurar en otra máquina o en un entorno limpio: python -m pip install -r requirements.txt. La biblioteca estándar (sys, datetime, pathlib, csv, json…) no va a requirements: se importa sin pip install.",
+      "len": 598
+    },
+    {
+      "i": 31,
+      "text": "pip freeze escribe todo lo instalado en el entorno activo, incluidas dependencias transitivas (si instalas requests, también aparecen urllib3, certifi, etc.). Eso es un snapshot reproducible muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, uv lock van más allá). En S01 usamos freeze + == porque es el mínimo que encontrarás en onboarding corporativo y en muchos repos de data. Entiende el límite: freeze captura lo que hay hoy en tu venv; no resuelve conflictos multiplataforma ni firma paquetes.",
+      "len": 569
+    },
+    {
+      "i": 32,
+      "text": "Flujo profesional: (1) activar .venv, (2) instalar lo necesario, (3) python -m pip freeze > requirements.txt, (4) commitear el archivo (no la carpeta .venv/). Si un colega clona y hace install -r, debería obtener las mismas versiones pinneadas. Si ves ModuleNotFoundError, primero pregunta: ¿estoy en el venv correcto? ¿usé python -m pip? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”.",
+      "len": 437
+    },
+    {
+      "i": 33,
+      "text": "Git: commits y lectura de diffs",
+      "len": 31
+    },
+    {
+      "i": 34,
+      "text": "Git es un sistema de control de versiones: registra quién cambió qué y por qué, no solo “guardar en la nube”. Flujo local mínimo: git init (una vez por repo), editas archivos, git status (¿qué cambió?), git add (staging), git commit -m \"...\" (punto de retorno con mensaje). Cada commit es un snapshot recuperable. GitHub/GitLab son remotos donde publicas esos commits; el historial útil empieza en tu máquina con mensajes claros.",
+      "len": 429
+    },
+    {
+      "i": 35,
+      "text": "La convención Conventional Commits usa un prefijo + descripción en imperativo y en minúsculas tras el prefijo: feat:, fix:, docs:, refactor:, test:, chore:. Ejemplos: feat: agregar script hello_env, docs: documentar instalación del venv, fix: corregir ruta en README. Evita “cambios”, “wip”, “arreglé algo”: en seis meses nadie (ni tú) sabrá qué mirar. Equipos de datos en bancos y fintech en Perú suelen pedir este estilo en code review.",
+      "len": 438
+    },
+    {
+      "i": 36,
+      "text": "Leer un diff es tan importante como escribir el commit. git diff muestra cambios sin stage; git diff --staged lo ya agregado; git show el último commit (o un hash). Líneas con + se añadieron; con - se quitaron. Un archivo nuevo aparece como todo +. Antes de commit, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega.",
+      "len": 384
+    },
+    {
+      "i": 37,
+      "text": "Ramas, Pull Requests y recuperación segura",
+      "len": 42
+    },
+    {
+      "i": 38,
+      "text": "Trabajar siempre en main es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una rama de feature con git switch -c feat/nombre-corto, haz commits ahí, publica con git push -u origin feat/nombre-corto, y abre un Pull Request (PR) en GitHub para revisar antes de integrar a main. El PR no es burocracia: es el lugar donde un colega lee el diff, comenta y aprueba. Nombres útiles: feat/hello-env, docs/readme-install, fix/gitignore-env.",
+      "len": 461
+    },
+    {
+      "i": 39,
+      "text": "Un conflicto aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, git add y un commit de merge o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no paniquear y no “arreglar” con historial destructivo. La regla de oro de este curso: no hagas git push --force a main. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en onboarding, ni eso.",
+      "len": 454
+    },
+    {
+      "i": 40,
+      "text": "Recuperación no destructiva del día a día: git restore archivo descarta cambios sin commitear en el working tree (vuelve a la última versión commiteada o staged, según el caso). git stash guarda cambios temporales y deja el árbol limpio; git stash pop los recupera. Prefiere restore/stash a reset --hard como primer reflejo: hard borra trabajo no commiteado de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.",
+      "len": 457
+    },
+    {
+      "i": 41,
+      "text": "VS Code y Ruff como calidad mínima",
+      "len": 34
+    },
+    {
+      "i": 42,
+      "text": "El editor recomendado en este curso es VS Code con la extensión de Python (Pylance para tipos e IntelliSense) y Ruff (linter/formateador ultra rápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes del code review — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop.",
+      "len": 396
+    },
+    {
+      "i": 43,
+      "text": "La configuración mínima vive en pyproject.toml en la raíz del proyecto, sección [tool.ruff] y opcionalmente [tool.ruff.lint]. Valores sensatos para empezar: line-length = 88, target-version acorde a tu Python, y select = [\"E\", \"F\", \"I\"] (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: python -m pip install ruff. Ejecuta: python -m ruff check ruta/ o un archivo. ruff format formatea; en S01 el foco es ruff check.",
+      "len": 433
+    },
+    {
+      "i": 44,
+      "text": "Flujo: escribes código → ruff check reporta (ej. F401 import sin usar) → corriges o, en casos justificados avanzados, documentas un noqa (en S01 prefiere corregir). No habilites select = [\"ALL\"] el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran.",
+      "len": 336
+    },
+    {
+      "i": 45,
+      "text": "Archivos de calidad: ignore, secretos y README",
+      "len": 46
+    },
+    {
+      "i": 46,
+      "text": ".gitignore le dice a Git qué no trackear. Mínimo Python/data: .venv/, venv/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/, y a menudo data/raw/ o dumps grandes si tu política es no versionar datos pesados. Incluye ambos nombres de entorno (.venv/ y venv/) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo ya está trackeado, agregarlo al ignore no lo saca del historial: necesitas git rm --cached archivo y un commit.",
+      "len": 494
+    },
+    {
+      "i": 47,
+      "text": ".env guarda secretos y variables locales (API keys, contraseñas). Nunca va al repo. .env.example sí: lista las claves con valores vacíos o ficticios para que un colega sepa qué copiar a su .env privado. Ejemplo: DATABASE_URL= y API_TOKEN= sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo.",
+      "len": 433
+    },
+    {
+      "i": 48,
+      "text": "README.md es el onboarding del clon limpio: título, qué hace el repo, mención al esqueleto CP-N1-A (Client Intake & Data Quality), instalación (python -m venv .venv, activate, python -m pip install -r requirements.txt), uso (python scripts/hello_env.py), y una nota de seguridad (no commitear .env, datos sintéticos). Para S01 agrega data/clients_synthetic.csv (PII falsa) y data/data_dictionary.md describiendo columnas. Un repo sin README ni diccionario de datos no se puede auditar ni reutilizar en S02–S04.",
+      "len": 510
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Por qué el setup importa más de lo que crees",
+      "text": "Por qué el setup importa más de lo que crees"
+    },
+    {
+      "i": 1,
+      "len": 898,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario del día 1 (léelo antes de seguir; el resto de la sección profundiza cada término). Intérprete: el programa python/python3 que ejecuta tu código. Terminal (shell): la ve",
+      "text": "Diccionario del día 1 (léelo antes de seguir; el resto de la sección profundiza cada término). Intérprete: el programa python/python3 que ejecuta tu código. Terminal (shell): la ventana de texto donde escribes comandos. Entorno virtual (venv): una carpeta del proyecto (canónica: .venv) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. pip: instalador de paquetes de terceros. requirements.txt: archivo que lista esas dependencias con versión. Repo (repositorio): la carpeta del proyecto bajo Git (control de versiones: historial de quién cambió qué). Clonar: copiar un repo desde un remoto (p. ej. GitHub) a tu laptop. Commit: guardar un snapshot del historial con un mensaje. Pull Request (PR): pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes."
+    },
+    {
+      "i": 2,
+      "len": 535,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mucha gente salta el setup porque \"ya aprenderá en el camino\". Error. En producción, un entorno mal configurado genera errores fantasma: \"a mí me funciona\" es la frase más temida e",
+      "text": "Mucha gente salta el setup porque \"ya aprenderá en el camino\". Error. En producción, un entorno mal configurado genera errores fantasma: \"a mí me funciona\" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega clona tu repo (copia el repositorio), crea su propio entorno virtual, ejecuta pip install -r requirements.txt (instala los paquetes listados) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás."
+    },
+    {
+      "i": 3,
+      "len": 433,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y entornos ",
+      "text": "En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y entornos virtuales con el módulo venv (más común) o conda (en equipos más legacy o de investigación). Las startups más nuevas están migrando a uv (más rápido), pero todavía no es estándar. Vamos con venv porque es lo que vas a encontrar en el 95% de los puestos."
+    },
+    {
+      "i": 4,
+      "len": 413,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La regla de oro: un proyecto = un entorno virtual = un requirements.txt. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué ",
+      "text": "La regla de oro: un proyecto = un entorno virtual = un requirements.txt. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las dependencias (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar."
+    },
+    {
+      "i": 5,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "El intérprete Python y el REPL",
+      "text": "El intérprete Python y el REPL"
+    },
+    {
+      "i": 6,
+      "len": 595,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cuando instalas Python, lo que realmente instalas es un intérprete: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse python o python3. La pri",
+      "text": "Cuando instalas Python, lo que realmente instalas es un intérprete: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse python o python3. La primera habilidad profesional no es escribir un algoritmo: es verificar qué intérprete estás usando. En Windows a veces el comando python no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener python3 como comando principal. Por eso siempre empiezas con python --version (o python3 --version) y anotas la respuesta. Para este curso apuntamos a Python 3.12 o superior."
+    },
+    {
+      "i": 7,
+      "len": 542,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El REPL (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo python (o python3) y Enter. Verás el prompt >>>. Ahí puedes escribir una expresión, ",
+      "text": "El REPL (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo python (o python3) y Enter. Verás el prompt >>>. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: 2 + 2 devuelve 4, type(\"hola\") devuelve <class 'str'>. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: quit() o exit(), o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL no cierra tu terminal: vuelves al prompt de la shell ($ o PS>)."
+    },
+    {
+      "i": 8,
+      "len": 576,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hay una diferencia crítica entre sesión REPL y script .py. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanza",
+      "text": "Hay una diferencia crítica entre sesión REPL y script .py. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con python hello.py. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \"ábrelo en el intérprete y mira el tipo\", te está pidiendo el REPL. Cuando dice \"corre el entrypoint\", te está pidiendo un archivo. Confundir ambos genera la sensación de que \"a mí me funciona\" en la laptop y falla en el servidor."
+    },
+    {
+      "i": 9,
+      "len": 605,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tu primer script usa tres piezas mínimas: (1) print(...) escribe texto a la salida estándar (lo ves en la terminal). (2) def nombre(): define una función — un bloque indentado que ",
+      "text": "Tu primer script usa tres piezas mínimas: (1) print(...) escribe texto a la salida estándar (lo ves en la terminal). (2) def nombre(): define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama main. (3) el guardián if __name__ == \"__main__\": solo corre main() cuando ejecutas el archivo con python archivo.py (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: import sys y sys.version.split()[0]. Un f-string formatea texto con variables: print(f\"Hola {nombre}\") — la f delante de las comillas permite {expresiones} dentro."
+    },
+    {
+      "i": 10,
+      "len": 342,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Anotaciones de tipo opcionales (pistas): def main() -> None: dice “esta función no devuelve un valor útil”. -> None y : str en parámetros son anotaciones (type hints): documentan e",
+      "text": "Anotaciones de tipo opcionales (pistas): def main() -> None: dice “esta función no devuelve un valor útil”. -> None y : str en parámetros son anotaciones (type hints): documentan el contrato y ayudan a Ruff/editores; en S01 Python no las exige en runtime. Si el starter trae -> None, puedes dejarlo o copiarlo; no cambia la lógica del script."
+    },
+    {
+      "i": 11,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "El intérprete en la terminal (comandos de verificación)",
+      "text": "El intérprete en la terminal (comandos de verificación)"
+    },
+    {
+      "i": 12,
+      "len": 107,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes.",
+      "text": "Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes."
+    },
+    {
+      "i": 13,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Terminal, rutas y códigos de salida",
+      "text": "Terminal, rutas y códigos de salida"
+    },
+    {
+      "i": 14,
+      "len": 568,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La terminal (bash, zsh o PowerShell) es el lugar donde lanzas procesos: python, git, mkdir. Cada comando que escribes es un proceso hijo de la shell. Cuando termina, devuelve un có",
+      "text": "La terminal (bash, zsh o PowerShell) es el lugar donde lanzas procesos: python, git, mkdir. Cada comando que escribes es un proceso hijo de la shell. Cuando termina, devuelve un código de salida (exit status): por convención, 0 significa éxito y cualquier valor distinto de 0 significa fallo. En bash/zsh lo lees con echo $?. En PowerShell, con echo $LASTEXITCODE. CI, scripts y pipelines usan ese número para decidir si continúan o se detienen. Un mensaje de error en pantalla y un código 0 (o al revés) son cosas distintas: siempre mira el código cuando automatizas."
+    },
+    {
+      "i": 15,
+      "len": 475,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No confundas el directorio de trabajo actual (cwd: dónde “estás” con cd y pwd / Get-Location) con el PATH (lista de carpetas donde el sistema busca ejecutables como python). Puedes",
+      "text": "No confundas el directorio de trabajo actual (cwd: dónde “estás” con cd y pwd / Get-Location) con el PATH (lista de carpetas donde el sistema busca ejecutables como python). Puedes estar en ~/proyectos/python-ds-journey y aun así fallar python si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. mkdir y cd mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH."
+    },
+    {
+      "i": 16,
+      "len": 454,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En Python, sys.exit(n) termina el proceso con código n. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale co",
+      "text": "En Python, sys.exit(n) termina el proceso con código n. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale con 0 si los argumentos son correctos y con 1 si faltan. En data ops verás el mismo contrato: un job ETL “failed” casi siempre es exit code distinto de cero, no solo un print rojo. Practica leer $? / $LASTEXITCODE después de cada comando crítico antes de culpar a la librería."
+    },
+    {
+      "i": 17,
+      "len": 621,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Argumentos de línea de comandos: sys.argv es una lista de strings. sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1]. len(sys.argv) cuenta cuá",
+      "text": "Argumentos de línea de comandos: sys.argv es una lista de strings. sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1]. len(sys.argv) cuenta cuántos elementos hay (incluye el nombre del script). Ejemplo: python check_arg.py ok → sys.argv == [\"check_arg.py\", \"ok\"] y len(sys.argv) == 2. Rebanado (slice): sys.argv[1:] es la sublista desde el índice 1 hasta el final (todos los args del usuario, sin el nombre del script). La forma general es lista[inicio:fin] (fin excluido); omitir fin llega al final. Para errores al usuario usa print(\"uso: ...\", file=sys.stderr) y luego sys.exit(1)."
+    },
+    {
+      "i": 18,
+      "len": 361,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Qué intérprete es este proceso: sys.executable es la ruta absoluta del binario Python que está corriendo tu script (ej. .../.venv/bin/python). Si import requests falla, compara sys",
+      "text": "Qué intérprete es este proceso: sys.executable es la ruta absoluta del binario Python que está corriendo tu script (ej. .../.venv/bin/python). Si import requests falla, compara sys.executable con el pip que usaste: la regla de oro es instalar con python -m pip install ... usando el mismo ejecutable. Así evitas el clásico \"lo instalé pero ModuleNotFoundError\"."
+    },
+    {
+      "i": 19,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "cwd, PATH y códigos de salida en la shell",
+      "text": "cwd, PATH y códigos de salida en la shell"
+    },
+    {
+      "i": 20,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa sys.exit.",
+      "text": "Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa sys.exit."
+    },
+    {
+      "i": 21,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Componentes del stack que vamos a instalar",
+      "text": "Componentes del stack que vamos a instalar"
+    },
+    {
+      "i": 22,
+      "len": 450,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS",
+      "text": "Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS Code. Cada una tiene su rol específico y no se mezclan. Python es el lenguaje. VS Code es el editor donde escribes código. Git es el sistema de control de versiones que registra cada cambio. GitHub es la nube donde publicas tu código para que otros lo vean y colaboren."
+    },
+    {
+      "i": 23,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una decisión clave: ¿venv o conda? Para data science en Perú, venv es suficiente y es lo estándar. conda es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a",
+      "text": "Una decisión clave: ¿venv o conda? Para data science en Perú, venv es suficiente y es lo estándar. conda es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a veces entra en conflicto con pip. Solo te recomiendo conda si trabajas con investigadores que ya lo usan, o si necesitas CUDA/GPU para deep learning. En el 90% de los casos de data analysis (pandas, numpy, sklearn, matplotlib), venv + pip es lo correcto."
+    },
+    {
+      "i": 24,
+      "len": 572,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Python viene con una biblioteca estándar que incluye módulos como sys (información del sistema), datetime (fechas y horas), os (sistema operativo), y json (manejo de JSON). Estos m",
+      "text": "Python viene con una biblioteca estándar que incluye módulos como sys (información del sistema), datetime (fechas y horas), os (sistema operativo), y json (manejo de JSON). Estos módulos no necesitan pip install — funcionan con solo hacer import sys o from datetime import datetime. En contraste, paquetes de terceros como pandas, numpy, o matplotlib NO vienen con Python y sí necesitan pip install antes de poder importarlos. Esta distinción es la causa #1 del error ModuleNotFoundError en principiantes: intentan import pandas sin haber hecho pip install pandas primero."
+    },
+    {
+      "i": 25,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Entornos virtuales con venv",
+      "text": "Entornos virtuales con venv"
+    },
+    {
+      "i": 26,
+      "len": 449,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un entorno virtual es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo venv: pyth",
+      "text": "Un entorno virtual es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo venv: python -m venv .venv. La regla de oro no cambia: un proyecto = un entorno = un conjunto de dependencias. Así evitas que el pandas 2.x de un cliente rompa el notebook legacy de otro. Instalar paquetes “en el Python global” del sistema es la vía rápida al caos en tres meses."
+    },
+    {
+      "i": 27,
+      "len": 440,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Nombre de la carpeta: la documentación oficial de Python recomienda .venv (con punto): queda semi-oculto en listados Unix y se distingue de archivos .env de secretos. El nombre ven",
+      "text": "Nombre de la carpeta: la documentación oficial de Python recomienda .venv (con punto): queda semi-oculto en listados Unix y se distingue de archivos .env de secretos. El nombre venv (sin punto) también es válido y lo verás en muchos tutoriales; en este curso el canónico es .venv, y tratamos venv como alias aceptado si ya lo usas. Ambos deben ir en .gitignore — nunca subas el entorno a GitHub (pesa decenas o cientos de MB y se regenera)."
+    },
+    {
+      "i": 28,
+      "len": 563,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Activación engancha la shell al Python del entorno: en macOS/Linux, source .venv/bin/activate; en Windows PowerShell, .venv\\Scripts\\Activate.ps1. El prompt suele mostrar (.venv). d",
+      "text": "Activación engancha la shell al Python del entorno: en macOS/Linux, source .venv/bin/activate; en Windows PowerShell, .venv\\Scripts\\Activate.ps1. El prompt suele mostrar (.venv). deactivate vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta .venv y la recreas con el mismo comando. conda sigue siendo alternativa en investigación o GPU, pero no es el default de este curso. Herramientas más nuevas como uv son tendencia; aquí dominas venv porque es lo que encontrarás en la mayoría de onboarding corporativos."
+    },
+    {
+      "i": 29,
+      "len": 30,
+      "rank": 9,
+      "issues": [
+        {
+          "code": "too_short",
+          "severity": "med",
+          "detail": "len=30"
+        }
+      ],
+      "excerpt": "pip, freeze y requirements.txt",
+      "text": "pip, freeze y requirements.txt"
+    },
+    {
+      "i": 30,
+      "len": 598,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Con el .venv activado, instalas dependencias de terceros con python -m pip. El prefijo python -m ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló ",
+      "text": "Con el .venv activado, instalas dependencias de terceros con python -m pip. El prefijo python -m ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló en un Python y import usa otro”. Comandos del día a día: python -m pip install paquete, pin con paquete==1.2.3, listar con python -m pip list, y exportar un snapshot con python -m pip freeze > requirements.txt. Para restaurar en otra máquina o en un entorno limpio: python -m pip install -r requirements.txt. La biblioteca estándar (sys, datetime, pathlib, csv, json…) no va a requirements: se importa sin pip install."
+    },
+    {
+      "i": 31,
+      "len": 569,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "pip freeze escribe todo lo instalado en el entorno activo, incluidas dependencias transitivas (si instalas requests, también aparecen urllib3, certifi, etc.). Eso es un snapshot re",
+      "text": "pip freeze escribe todo lo instalado en el entorno activo, incluidas dependencias transitivas (si instalas requests, también aparecen urllib3, certifi, etc.). Eso es un snapshot reproducible muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, uv lock van más allá). En S01 usamos freeze + == porque es el mínimo que encontrarás en onboarding corporativo y en muchos repos de data. Entiende el límite: freeze captura lo que hay hoy en tu venv; no resuelve conflictos multiplataforma ni firma paquetes."
+    },
+    {
+      "i": 32,
+      "len": 437,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Flujo profesional: (1) activar .venv, (2) instalar lo necesario, (3) python -m pip freeze > requirements.txt, (4) commitear el archivo (no la carpeta .venv/). Si un colega clona y ",
+      "text": "Flujo profesional: (1) activar .venv, (2) instalar lo necesario, (3) python -m pip freeze > requirements.txt, (4) commitear el archivo (no la carpeta .venv/). Si un colega clona y hace install -r, debería obtener las mismas versiones pinneadas. Si ves ModuleNotFoundError, primero pregunta: ¿estoy en el venv correcto? ¿usé python -m pip? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”."
+    },
+    {
+      "i": 33,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Git: commits y lectura de diffs",
+      "text": "Git: commits y lectura de diffs"
+    },
+    {
+      "i": 34,
+      "len": 429,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Git es un sistema de control de versiones: registra quién cambió qué y por qué, no solo “guardar en la nube”. Flujo local mínimo: git init (una vez por repo), editas archivos, git ",
+      "text": "Git es un sistema de control de versiones: registra quién cambió qué y por qué, no solo “guardar en la nube”. Flujo local mínimo: git init (una vez por repo), editas archivos, git status (¿qué cambió?), git add (staging), git commit -m \"...\" (punto de retorno con mensaje). Cada commit es un snapshot recuperable. GitHub/GitLab son remotos donde publicas esos commits; el historial útil empieza en tu máquina con mensajes claros."
+    },
+    {
+      "i": 35,
+      "len": 438,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La convención Conventional Commits usa un prefijo + descripción en imperativo y en minúsculas tras el prefijo: feat:, fix:, docs:, refactor:, test:, chore:. Ejemplos: feat: agregar",
+      "text": "La convención Conventional Commits usa un prefijo + descripción en imperativo y en minúsculas tras el prefijo: feat:, fix:, docs:, refactor:, test:, chore:. Ejemplos: feat: agregar script hello_env, docs: documentar instalación del venv, fix: corregir ruta en README. Evita “cambios”, “wip”, “arreglé algo”: en seis meses nadie (ni tú) sabrá qué mirar. Equipos de datos en bancos y fintech en Perú suelen pedir este estilo en code review."
+    },
+    {
+      "i": 36,
+      "len": 384,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Leer un diff es tan importante como escribir el commit. git diff muestra cambios sin stage; git diff --staged lo ya agregado; git show el último commit (o un hash). Líneas con + se",
+      "text": "Leer un diff es tan importante como escribir el commit. git diff muestra cambios sin stage; git diff --staged lo ya agregado; git show el último commit (o un hash). Líneas con + se añadieron; con - se quitaron. Un archivo nuevo aparece como todo +. Antes de commit, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega."
+    },
+    {
+      "i": 37,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ramas, Pull Requests y recuperación segura",
+      "text": "Ramas, Pull Requests y recuperación segura"
+    },
+    {
+      "i": 38,
+      "len": 461,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Trabajar siempre en main es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una rama de feature con git switch -c feat/nombre-corto, haz commits ahí, p",
+      "text": "Trabajar siempre en main es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una rama de feature con git switch -c feat/nombre-corto, haz commits ahí, publica con git push -u origin feat/nombre-corto, y abre un Pull Request (PR) en GitHub para revisar antes de integrar a main. El PR no es burocracia: es el lugar donde un colega lee el diff, comenta y aprueba. Nombres útiles: feat/hello-env, docs/readme-install, fix/gitignore-env."
+    },
+    {
+      "i": 39,
+      "len": 454,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un conflicto aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, git add y un commit de merge o de resolución. En S01 no necesi",
+      "text": "Un conflicto aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, git add y un commit de merge o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no paniquear y no “arreglar” con historial destructivo. La regla de oro de este curso: no hagas git push --force a main. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en onboarding, ni eso."
+    },
+    {
+      "i": 40,
+      "len": 457,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Recuperación no destructiva del día a día: git restore archivo descarta cambios sin commitear en el working tree (vuelve a la última versión commiteada o staged, según el caso). gi",
+      "text": "Recuperación no destructiva del día a día: git restore archivo descarta cambios sin commitear en el working tree (vuelve a la última versión commiteada o staged, según el caso). git stash guarda cambios temporales y deja el árbol limpio; git stash pop los recupera. Prefiere restore/stash a reset --hard como primer reflejo: hard borra trabajo no commiteado de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado."
+    },
+    {
+      "i": 41,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "VS Code y Ruff como calidad mínima",
+      "text": "VS Code y Ruff como calidad mínima"
+    },
+    {
+      "i": 42,
+      "len": 396,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El editor recomendado en este curso es VS Code con la extensión de Python (Pylance para tipos e IntelliSense) y Ruff (linter/formateador ultra rápido escrito en Rust). No sustituye",
+      "text": "El editor recomendado en este curso es VS Code con la extensión de Python (Pylance para tipos e IntelliSense) y Ruff (linter/formateador ultra rápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes del code review — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop."
+    },
+    {
+      "i": 43,
+      "len": 433,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La configuración mínima vive en pyproject.toml en la raíz del proyecto, sección [tool.ruff] y opcionalmente [tool.ruff.lint]. Valores sensatos para empezar: line-length = 88, targe",
+      "text": "La configuración mínima vive en pyproject.toml en la raíz del proyecto, sección [tool.ruff] y opcionalmente [tool.ruff.lint]. Valores sensatos para empezar: line-length = 88, target-version acorde a tu Python, y select = [\"E\", \"F\", \"I\"] (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: python -m pip install ruff. Ejecuta: python -m ruff check ruta/ o un archivo. ruff format formatea; en S01 el foco es ruff check."
+    },
+    {
+      "i": 44,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Flujo: escribes código → ruff check reporta (ej. F401 import sin usar) → corriges o, en casos justificados avanzados, documentas un noqa (en S01 prefiere corregir). No habilites se",
+      "text": "Flujo: escribes código → ruff check reporta (ej. F401 import sin usar) → corriges o, en casos justificados avanzados, documentas un noqa (en S01 prefiere corregir). No habilites select = [\"ALL\"] el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran."
+    },
+    {
+      "i": 45,
+      "len": 46,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Archivos de calidad: ignore, secretos y README",
+      "text": "Archivos de calidad: ignore, secretos y README"
+    },
+    {
+      "i": 46,
+      "len": 494,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": ".gitignore le dice a Git qué no trackear. Mínimo Python/data: .venv/, venv/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/, y a menudo data/raw/ o dumps grandes si tu política es ",
+      "text": ".gitignore le dice a Git qué no trackear. Mínimo Python/data: .venv/, venv/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/, y a menudo data/raw/ o dumps grandes si tu política es no versionar datos pesados. Incluye ambos nombres de entorno (.venv/ y venv/) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo ya está trackeado, agregarlo al ignore no lo saca del historial: necesitas git rm --cached archivo y un commit."
+    },
+    {
+      "i": 47,
+      "len": 433,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": ".env guarda secretos y variables locales (API keys, contraseñas). Nunca va al repo. .env.example sí: lista las claves con valores vacíos o ficticios para que un colega sepa qué cop",
+      "text": ".env guarda secretos y variables locales (API keys, contraseñas). Nunca va al repo. .env.example sí: lista las claves con valores vacíos o ficticios para que un colega sepa qué copiar a su .env privado. Ejemplo: DATABASE_URL= y API_TOKEN= sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo."
+    },
+    {
+      "i": 48,
+      "len": 510,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "README.md es el onboarding del clon limpio: título, qué hace el repo, mención al esqueleto CP-N1-A (Client Intake & Data Quality), instalación (python -m venv .venv, activate, pyth",
+      "text": "README.md es el onboarding del clon limpio: título, qué hace el repo, mención al esqueleto CP-N1-A (Client Intake & Data Quality), instalación (python -m venv .venv, activate, python -m pip install -r requirements.txt), uso (python scripts/hello_env.py), y una nota de seguridad (no commitear .env, datos sintéticos). Para S01 agrega data/clients_synthetic.csv (PII falsa) y data/data_dictionary.md describiendo columnas. Un repo sin README ni diccionario de datos no se puede auditar ni reutilizar en S02–S04."
+    }
+  ],
+  "worst_rank": 9,
+  "high_issues": [],
+  "raw_len": 26299,
+  "screenshot": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/visible_paragraphs/s01_setup_theory.png"
+}

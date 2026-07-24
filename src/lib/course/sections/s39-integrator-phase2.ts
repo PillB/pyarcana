@@ -28,10 +28,31 @@ export const section39: CourseSection = {
     {
       heading: "Cierre CP-N3-C + regresión N3 + CF-3",
       paragraphs: [
+        "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos N3 en **lane separada** (esta autoría no escribe PASS). **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
         "En V3, **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
         "Contrato de promoción (conceptual, no auto-ejecutado aquí). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de **CF-3**. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: reclamar PASS en ledger, seed o checkpoint desde la lane de autoría. Criterio: la calificación de promoción y CF-3 ocurre en lane separada; aquí solo dejas evidencia reproducible.",
         "Orden pedagógico de esta sección: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y postmortem). El caso sintético `CASO-LIM-039` modela una cola de revisión para una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude.",
       ],
+      code: {
+        language: 'python',
+        title: "s39_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-LIM-039",
+        "gates": ["CP-N3-C", "regression_S27_S39", "CF-3_separate_lane"],
+        "auto_fraud": False,
+        "section_passed_written_here": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("auto_fraud", c["auto_fraud"])
+print("section_passed_written_here", c["section_passed_written_here"])
+`,
+        output: `case CASO-LIM-039
+auto_fraud False
+section_passed_written_here False`,
+      },
       callout: {
         type: "info",
         title: "Gate CP-N3-C + regresión",
@@ -43,23 +64,27 @@ export const section39: CourseSection = {
       heading: "intake → ER → relación → features → modelo",
       subtopicId: "S39-T1-A",
       paragraphs: [
-        "El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **grafo relacional** expone paths de co-ocurrencia; **features** se materializan sin leakage de labels futuros; el **modelo** emite un score de prioridad; la **cola** recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato.",
-        "Contrato operativo. Entrada: payload con `run_id`, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, `label_space` en `needs_review` y bandera `auto_fraud=False`. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano.",
-        "Aplicación al caso sintético `CASO-LIM-039-T1A` (cola de onboarding digital en Lima): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet.",
+        "El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **grafo relacional** expone paths de co-ocurrencia; **features** se materializan sin leakage de labels futuros; el **modelo** emite un score de prioridad; la **cola** recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato. El score **nunca** es veredicto de conducta indebida.",
+        "Contrato operativo. Entrada: payload con `run_id`, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, `label_space` en `needs_review` y bandera `auto_fraud=False` siempre. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal o de parentesco. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano con HITL.",
+        "Aplicación al caso sintético `CASO-LIM-039-T1A` (cola de onboarding digital en Lima, fintech ficticia): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet con citas y path.",
       ],
       code: {
         language: 'python',
         title: "pipeline.py",
-        code: `stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
-payload = {
-    "run_id": "n3-reg-001",
-    "case_id": "CASO-LIM-039-T1A",
-    "stage": "model_score",
-    "score": 0.66,
-    "label_space": "needs_review",
-    "auto_fraud": False,
-}
-print("pipeline", " > ".join(stages))
+        code: `def build_pipeline_payload(case_id: str, score: float) -> dict:
+    stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
+    return {
+        "stages": stages,
+        "run_id": "n3-reg-001",
+        "case_id": case_id,
+        "stage": "model_score",
+        "score": score,
+        "label_space": "needs_review",
+        "auto_fraud": False,
+    }
+
+payload = build_pipeline_payload("CASO-LIM-039-T1A", 0.66)
+print("pipeline", " > ".join(payload["stages"]))
 print("label_space", payload["label_space"])
 print("auto_fraud", payload["auto_fraud"])`,
         output: `pipeline intake > er > relation_graph > features > model_score > queue
@@ -84,14 +109,17 @@ auto_fraud False`,
       code: {
         language: 'python',
         title: "registry.py",
-        code: `registry = {
+        code: `def owner_count(registry: dict) -> int:
+    return len({v["owner"] for v in registry.values()})
+
+registry = {
     "er_engine": {"ver": "1.2.0", "owner": "data-quality"},
     "graph_schema": {"ver": "3.0.0", "owner": "investigations"},
     "feature_set": {"ver": "fs-v3", "owner": "ml-platform"},
     "ranker": {"ver": "2.1.0", "owner": "ml-risk"},
 }
 print(sorted(registry))
-print("owners", len({v["owner"] for v in registry.values()}))
+print("owners", owner_count(registry))
 print("compat", "semver")`,
         output: `['er_engine', 'feature_set', 'graph_schema', 'ranker']
 owners 4
@@ -115,7 +143,11 @@ compat semver`,
       code: {
         language: 'python',
         title: "evidence_packet.py",
-        code: `packet = {
+        code: `def packet_ok(packet):
+    need = ("case_id", "score", "evidence", "graph_path")
+    return all(k in packet and packet[k] for k in need)
+
+packet = {
     "case_id": "CASO-LIM-039-T2A",
     "score": 0.81,
     "evidence": ["shared_phone_synth", "tx_path_len_2"],
@@ -125,7 +157,7 @@ compat semver`,
 }
 print(packet["case_id"], packet["score"])
 print("path", packet["graph_path"])
-print("layers", 4)`,
+print("layers", 4 if packet_ok(packet) else 0)`,
         output: `CASO-LIM-039-T2A 0.81
 path ['E1', 'ph:900', 'E2']
 layers 4`,
@@ -184,20 +216,23 @@ overrides 1`,
       code: {
         language: 'python',
         title: "risk_checklist.py",
-        code: `checklist = {
+        code: `def release_ok(checklist: dict) -> bool:
+    return all([
+        checklist["pii_minimized"],
+        checklist["rbac"],
+        not checklist["secrets_in_repo"],
+        checklist["slice_metrics"],
+        checklist["input_limits"],
+    ])
+
+checklist = {
     "pii_minimized": True,
     "rbac": True,
     "secrets_in_repo": False,
     "slice_metrics": True,
     "input_limits": True,
 }
-print("release_ok", all([
-    checklist["pii_minimized"],
-    checklist["rbac"],
-    not checklist["secrets_in_repo"],
-    checklist["slice_metrics"],
-    checklist["input_limits"],
-]))
+print("release_ok", release_ok(checklist))
 print("items", len(checklist))
 print("fraud_auto", False)`,
         output: `release_ok True
@@ -253,17 +288,25 @@ rollback model_previous`,
       code: {
         language: 'python',
         title: "acceptance.py",
-        code: `acceptance = [
-    "e2e_synthetic_run",
-    "baseline_in_metrics",
-    "abstention_path",
-    "audit_log",
-    "no_auto_fraud_label",
-    "regression_smoke_s27_s39",
-]
-print("n_criteria", len(acceptance))
-print("demo_paths", ["happy", "override", "ood_abstain"])
-print("cf3_note", "separate_lane_for_pass")`,
+        code: `def acceptance_bundle() -> dict:
+    criteria = [
+        "e2e_synthetic_run",
+        "baseline_in_metrics",
+        "abstention_path",
+        "audit_log",
+        "no_auto_fraud_label",
+        "regression_smoke_s27_s39",
+    ]
+    return {
+        "n_criteria": len(criteria),
+        "demo_paths": ["happy", "override", "ood_abstain"],
+        "cf3_note": "separate_lane_for_pass",
+    }
+
+bundle = acceptance_bundle()
+print("n_criteria", bundle["n_criteria"])
+print("demo_paths", bundle["demo_paths"])
+print("cf3_note", bundle["cf3_note"])`,
         output: `n_criteria 6
 demo_paths ['happy', 'override', 'ood_abstain']
 cf3_note separate_lane_for_pass`,
@@ -286,19 +329,26 @@ cf3_note separate_lane_for_pass`,
       code: {
         language: 'python',
         title: "value_pm.py",
-        code: `value = {
+        code: `def value_metrics(value):
+    keys = ("precision_at_k", "override_rate", "median_review_s")
+    return all(k in value for k in keys)
+
+def postmortem_ok(pm):
+    return pm.get("blameless") is True and "root_cause" in pm and pm.get("actions")
+
+value = {
     "precision_at_k": 0.55,
     "override_rate": 0.12,
     "median_review_s": 90,
 }
 postmortem = {
-    "severity": "T0-T3",
+    "timeline": "T0-T3",
     "root_cause": "calib_drift",
     "actions": ["rollback", "recalibrate"],
     "blameless": True,
 }
-print(value)
-print(postmortem["root_cause"])
+print(value if value_metrics(value) else {})
+print(postmortem["root_cause"] if postmortem_ok(postmortem) else "missing")
 print("cards", ["model", "data", "system"])`,
         output: `{'precision_at_k': 0.55, 'override_rate': 0.12, 'median_review_s': 90}
 calib_drift
@@ -323,8 +373,11 @@ cards ['model', 'data', 'system']`,
         code: {
           language: 'python',
           title: "pipe_demo.py",
-          code: `stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
-print(" > ".join(stages))
+          code: `def pipeline_line() -> str:
+    stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
+    return " > ".join(stages)
+
+print(pipeline_line())
 print("label_space", "needs_review")
 print("auto_fraud", False)`,
           output: `intake > er > relation_graph > features > model_score > queue
@@ -341,8 +394,11 @@ auto_fraud False`,
         code: {
           language: 'python',
           title: "reg_demo.py",
-          code: `reg = {"er_engine": "dq", "ranker": "ml-risk"}
-print(len({v for v in reg.values()}))
+          code: `def distinct_owners(reg: dict) -> int:
+    return len(set(reg.values()))
+
+reg = {"er_engine": "dq", "ranker": "ml-risk"}
+print(distinct_owners(reg))
 print("semver", True)
 print("owner_required", True)`,
           output: `2
@@ -359,10 +415,13 @@ owner_required True`,
         code: {
           language: 'python',
           title: "pkt_demo.py",
-          code: `keys = sorted(["case_id", "score", "evidence", "graph_path"])
+          code: `def packet_keys(keys):
+    return sorted(keys)
+
+keys = packet_keys(["case_id", "score", "evidence", "graph_path"])
 print(keys)
 print("layers", 4)
-print("score_alone_ok", False)`,
+print("score_alone_ok", "score" in keys and len(keys) > 1 and False)`,
           output: `['case_id', 'evidence', 'graph_path', 'score']
 layers 4
 score_alone_ok False`,
@@ -377,10 +436,13 @@ score_alone_ok False`,
         code: {
           language: 'python',
           title: "dec_demo.py",
-          code: `event = {"final": "skip", "override": True}
-print(event)
+          code: `def log_override(final: str) -> dict:
+    return {"final": final, "override": True, "audit": True}
+
+event = log_override("skip")
+print({"final": event["final"], "override": event["override"]})
 print("n_overrides", 1)
-print("audit", True)`,
+print("audit", event["audit"])`,
           output: `{'final': 'skip', 'override': True}
 n_overrides 1
 audit True`,
@@ -395,7 +457,10 @@ audit True`,
         code: {
           language: 'python',
           title: "risk_demo.py",
-          code: `print(True)
+          code: `def risk_release_ok(secrets_in_repo: bool, auto_fraud: bool) -> bool:
+    return (not secrets_in_repo) and (not auto_fraud)
+
+print(risk_release_ok(False, False))
 print("secrets_in_repo", False)
 print("auto_fraud", False)`,
           output: `True
@@ -412,7 +477,14 @@ auto_fraud False`,
         code: {
           language: 'python',
           title: "ops_demo.py",
-          code: `print("human_only")
+          code: `def ops_mode(incident: bool, drift_high: bool) -> str:
+    if incident:
+        return "human_only"
+    if drift_high:
+        return "abstain_more"
+    return "normal"
+
+print(ops_mode(True, False))
 print("rollback", "prev_model")
 print("priority", "incident_over_drift")`,
           output: `human_only
@@ -429,7 +501,17 @@ priority incident_over_drift`,
         code: {
           language: 'python',
           title: "acc_demo.py",
-          code: `print(6)
+          code: `def n_acceptance_criteria() -> int:
+    return len([
+        "e2e_synthetic_run",
+        "baseline_in_metrics",
+        "abstention_path",
+        "audit_log",
+        "no_auto_fraud_label",
+        "regression_smoke_s27_s39",
+    ])
+
+print(n_acceptance_criteria())
 print("regression", "S27-S39")
 print("cf3_pass_lane", "separate")`,
           output: `6
@@ -446,8 +528,14 @@ cf3_pass_lane separate`,
         code: {
           language: 'python',
           title: "val_demo.py",
-          code: `print(["precision_at_k", "override_rate", "median_review_s"])
-print(sorted(["model", "data", "system"]))
+          code: `def value_metrics() -> list:
+    return ["precision_at_k", "override_rate", "median_review_s"]
+
+def card_types() -> list:
+    return sorted(["model", "data", "system"])
+
+print(value_metrics())
+print(card_types())
 print("postmortem", True)`,
           output: `['precision_at_k', 'override_rate', 'median_review_s']
 ['data', 'model', 'system']
@@ -793,7 +881,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e3.py",
-          code: `registry = {
+          code: `# CASO-LIM-039 · registry owners+bump
+# DEFECT: decide no valida owners ni bump
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+registry = {
     "er_engine": {"ver": "1.2.0", "owner": "data-quality", "breaking": False, "bump": "patch"},
     "graph_schema": {"ver": "3.0.0", "owner": "investigations", "breaking": True, "bump": "major"},
     "feature_set": {"ver": "fs-v3", "owner": "ml-platform", "breaking": False, "bump": "minor"},
@@ -1260,7 +1351,10 @@ assert meets is True
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e2.py",
-          code: `def assess(c: dict) -> str:
+          code: `# CASO-LIM-039 · secrets_in_repo block
+# DEFECT: assess PASS sin bloquear secrets_in_repo
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(c: dict) -> str:
     required = {"pii_minimized", "rbac", "secrets_in_repo", "slice_metrics", "input_limits"}
     missing = sorted(required - c.keys())
     if missing:
@@ -1436,7 +1530,10 @@ assert meets is True
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e2.py",
-          code: `def mode(drift_high, incident):
+          code: `# CASO-LIM-039 · drift/incident modes
+# DEFECT: ramas invertidas human_only/abstain
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def mode(drift_high, incident):
     # DEFECTO: ramas invertidas
     if drift_high:
         return "human_only"
@@ -1537,7 +1634,10 @@ print(*decide(happy))
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e1.py",
-          code: `acceptance = [
+          code: `# CASO-LIM-039 · acceptance no auto_fraud
+# DEFECT: clave auto_fraud_ok incorrecta
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+acceptance = [
     "e2e_synthetic_run",
     "baseline_in_metrics",
     "abstention_path",
@@ -1591,7 +1691,10 @@ assert meets is True
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e2.py",
-          code: `def assess(notes: dict) -> str:
+          code: `# CASO-LIM-039 · regression notes gate
+# DEFECT: acepta section_passed True (auto pass)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(notes: dict) -> str:
     required = {"regression_scope", "cf3_lane", "section_passed"}
     missing = sorted(required - notes.keys())
     if missing:
@@ -1652,7 +1755,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e3.py",
-          code: `def decide(paths: list):
+          code: `# CASO-LIM-039 · e2e path matrix
+# DEFECT: decide CONTINUE sin validar paths
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(paths: list):
     # DEFECTO
     return "CONTINUE", len(paths)
 
@@ -1699,7 +1805,10 @@ print(*decide(["happy", "override", "ood_abstain"]))
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e1.py",
-          code: `cards = ["model", "data", "system"]
+          code: `# CASO-LIM-039 · model/data/system cards
+# DEFECT: exige ops extra innecesariamente
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+cards = ["model", "data", "system"]
 # DEFECTO: exige ops
 meets = set(cards) == {"model", "data", "system", "ops"}
 status = "PASS" if meets else "REJECT_CARDS"
@@ -1735,7 +1844,10 @@ assert meets is True
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e2.py",
-          code: `def assess(payload: dict) -> str:
+          code: `# CASO-LIM-039 · value metrics not only auc
+# DEFECT: acepta auc solo como value
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(payload: dict) -> str:
     if "value" not in payload:
         return "MISSING:value"
     # DEFECTO: acepta solo auc
@@ -1985,12 +2097,42 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
       {
         label: "Google Model Cards",
         url: "https://modelcards.withgoogle.com/about",
-        note: "Plantilla de model cards para límites del score y label_space",
+        note: "Límites del score, label_space y no auto-fraude",
       },
       {
-        label: "SRE / error budgets",
+        label: "NIST AI RMF",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Gobernanza y riesgo de sistemas de IA",
+      },
+      {
+        label: "SRE / embracing risk",
         url: "https://sre.google/sre-book/embracing-risk/",
-        note: "Ops, incidentes y trade-offs de confiabilidad",
+        note: "Error budget, incidentes y trade-offs ops",
+      },
+      {
+        label: "SRE postmortem culture",
+        url: "https://sre.google/sre-book/postmortem-culture/",
+        note: "Postmortems blameless del triage",
+      },
+      {
+        label: "sklearn model evaluation",
+        url: "https://scikit-learn.org/stable/modules/model_evaluation.html",
+        note: "Métricas y calibración conceptual del ranker",
+      },
+      {
+        label: "sklearn calibration",
+        url: "https://scikit-learn.org/stable/modules/calibration.html",
+        note: "Confiabilidad de scores de prioridad",
+      },
+      {
+        label: "Python logging (audit trail)",
+        url: "https://docs.python.org/3/library/logging.html",
+        note: "Audit log sin PII real",
+      },
+      {
+        label: "Twelve-Factor App",
+        url: "https://12factor.net/",
+        note: "Contratos ops del control plane",
       },
     ],
     books: [
@@ -2005,9 +2147,34 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
     ],
     courses: [
       {
-        label: "Responsible AI overview",
+        label: "TensorFlow Responsible AI",
         url: "https://www.tensorflow.org/responsible_ai",
-        note: "Prácticas de oversight y documentación",
+        note: "Oversight, fairness y documentación",
+      },
+      {
+        label: "Coursera Machine Learning (Andrew Ng)",
+        url: "https://www.coursera.org/learn/machine-learning",
+        note: "Baselines y evaluación responsable",
+      },
+      {
+        label: "deeplearning.ai — AI For Everyone",
+        url: "https://www.deeplearning.ai/courses/ai-for-everyone/",
+        note: "Framing responsable de IA en producto",
+      },
+      {
+        label: "MIT 6.036 Intro ML",
+        url: "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+        note: "Fundamentos ML del score de prioridad",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python",
+        note: "Pedagogía progresiva",
+      },
+      {
+        label: "Py4E",
+        url: "https://www.py4e.com",
+        note: "Stdlib-first progressive disclosure",
       },
     ],
   },

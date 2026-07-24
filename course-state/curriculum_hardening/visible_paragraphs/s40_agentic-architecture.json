@@ -1,0 +1,496 @@
+{
+  "index": 40,
+  "id": "agentic-architecture",
+  "title": "Arquitectura, DDD y decisiones técnicas",
+  "file": "s40-agentic-architecture.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
+      "len": 52
+    },
+    {
+      "i": 1,
+      "text": "Esta sección abre el Nivel 4 (Master) partiendo de S39: usa únicamente contratos, pruebas y controles ya presentados en N3. El caso CASO-LIM-040 es sintético (Red Andina, Lima) y se ejecuta sin credenciales, sin servicios externos y sin PII real de clientes.",
+      "len": 258
+    },
+    {
+      "i": 2,
+      "text": "Producto incremental: dossier de arquitectura gobernada. Entrada: requisitos funcionales, quality attributes, vocabulario de dominio y restricciones; salida: fronteras intake/ER/relación/triage/reporting/IA, C4, ports/adapters, ADRs y evolución compatible con dueños explícitos.",
+      "len": 278
+    },
+    {
+      "i": 3,
+      "text": "La secuencia mantiene liberación gradual I Do → We Do → You Do: teoría con mecanismo y contrato medible, demo local con funciones, ejercicio guiado (E1), validación independiente (E2) y transferencia fail-closed con breach o incertidumbre (E3) sobre fixtures peruanos sintéticos.",
+      "len": 279
+    },
+    {
+      "i": 4,
+      "text": "requisitos funcionales y quality attributes",
+      "len": 43
+    },
+    {
+      "i": 5,
+      "text": "Un requisito funcional (FR) nombra una capacidad observable — por ejemplo «encolar un caso de triage» — mientras un quality attribute (QA) se escribe como escenario medible con fuente, estímulo, entorno, respuesta y métrica. Sin ese escenario, palabras como «rápido» o «seguro» no se pueden probar ni rechazar en un gate de arquitectura.",
+      "len": 337
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo de T1-A. Entrada: lista de FR, escenarios QA con umbral numérico y dueño explícito. Salida: escenario completo (source/stimulus/environment/response/measure/owner) listo para priorizar trade-offs. Error: umbral sin unidad, owner vacío, o FR que mezcla UI con regla de dominio. Criterio: cada flujo crítico del mapa intake→ER→relación→triage→reporting→IA cruza una frontera con medida y responsable.",
+      "len": 417
+    },
+    {
+      "i": 7,
+      "text": "Aplicación a CASO-LIM-040-1A (Red Andina, organización ficticia en Lima): el peak de 100 req/s sobre intake exige latency_p95_ms ≤ 300 con owner=platform. Si observed_ms supera el umbral, el gate emite REJECT_QA_SCENARIO; si falta owner, REQUEST_QA_OWNER. Datos sintéticos; la latencia no prueba fraude ni parentesco, solo capacidad del servicio de encolado.",
+      "len": 358
+    },
+    {
+      "i": 8,
+      "text": "trade-offs, riesgos y criterios medibles",
+      "len": 40
+    },
+    {
+      "i": 9,
+      "text": "Un trade-off compara alternativas (sync vs async, monolito vs workers) contra criterios ponderados: latencia, costo operativo, complejidad de fallos y tiempo de cambio. Cada opción acumula riesgo residual (probabilidad × impacto) y un dueño que acepta o reabre la decisión; no existe arquitectura «universalmente mejor».",
+      "len": 320
+    },
+    {
+      "i": 10,
+      "text": "Contrato operativo de T1-B. Entrada: tabla scores por alternativa, selected, risk_owner y residual_risk acotado. Salida: decisión documentada con score mínimo (o maximizado según convención) y riesgo residual aceptado. Error: elegir por moda de framework, o aceptar residual sin dueño. Criterio: la alternativa ganadora es la de menor costo total bajo la métrica acordada y residual_risk ≤ umbral del gate.",
+      "len": 406
+    },
+    {
+      "i": 11,
+      "text": "En CASO-LIM-040-1B, async puntúa 2.2 frente a sync 3.8 (menor es mejor) con residual_risk=2 y risk_owner=arquitectura. Si selected no es el mínimo, se reabre con REOPEN_TRADEOFF; sin residual_risk se escala ESCALATE_RESIDUAL_RISK. El caso es sintético y no implica veredicto legal sobre clientes.",
+      "len": 296
+    },
+    {
+      "i": 12,
+      "text": "cohesión/coupling y capas",
+      "len": 25
+    },
+    {
+      "i": 13,
+      "text": "Alta cohesión agrupa reglas que cambian por la misma razón (p. ej. políticas de triage juntas); bajo acoplamiento evita que presentación o reporting dicten el dominio. Las capas típicas — presentation, application, domain, infrastructure — se recorren en un solo sentido: nadie salta de UI al repositorio saltándose la aplicación.",
+      "len": 330
+    },
+    {
+      "i": 14,
+      "text": "Contrato operativo de T2-A. Entrada: lista ordenada de layers y grafo de dependencies (aristas from→to). Salida: diagrama sin arista domain→infrastructure ni presentation→infrastructure. Error: dominio que importa SQL/HTTP, o capa que salta niveles. Criterio: el grafo se puede auditar en CI didáctico y un breach produce REDRAW_BOUNDARY; falta de grafo produce REVIEW_LAYER_OWNER.",
+      "len": 381
+    },
+    {
+      "i": 15,
+      "text": "Sobre CASO-LIM-040-2A, las aristas permitidas son presentation→application, application→domain e infrastructure→domain (adapters). Una arista domain→infrastructure invalida el mapa de Red Andina y fuerza redibujar la frontera antes de promover CP-N4-A. El fixture es sintético y no mezcla PII real.",
+      "len": 298
+    },
+    {
+      "i": 16,
+      "text": "ports/adapters y dependencia hacia dominio",
+      "len": 42
+    },
+    {
+      "i": 17,
+      "text": "Un port declara lo que el dominio necesita (p. ej. «cargar caso», «publicar evento») sin conocer HTTP, SQL o SMTP. Un adapter traduce esa interfaz a una tecnología concreta; las flechas de dependencia apuntan hacia políticas estables del dominio, no al revés (dependency inversion didáctica).",
+      "len": 292
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo de T2-B. Entrada: caso de dominio y adapter en memoria (fake repo/queue). Salida: test del dominio que pasa sin red ni base de datos. Error: importar cliente SMTP/SQL dentro de la entidad o servicio de dominio. Criterio: se puede sustituir el adapter real por uno fake manteniendo el mismo port; breach → INVERT_DEPENDENCY; contrato incompleto → DEFINE_PORT_CONTRACT.",
+      "len": 386
+    },
+    {
+      "i": 19,
+      "text": "En CASO-LIM-040-2B, un Repo fake devuelve status open y el dominio encola el cierre sin SMTP ni SQL. Si el servicio de dominio construyera un string SMTP, el gate fallaría con INVERT_DEPENDENCY. Fixtures sintéticos de Red Andina; el status del caso no prueba fraude, parentesco ni intención del cliente.",
+      "len": 303
+    },
+    {
+      "i": 20,
+      "text": "bounded contexts y lenguaje ubicuo",
+      "len": 34
+    },
+    {
+      "i": 21,
+      "text": "Un bounded context da significado local a términos del lenguaje ubicuo: «caso» en intake no es el mismo objeto que un «record» de ER ni una «cola» de triage. El context map declara traducciones y anti-corrupción para que los equipos no fusionen vocabulario por accidente de naming.",
+      "len": 281
+    },
+    {
+      "i": 22,
+      "text": "Contrato operativo de T3-A. Entrada: glosario por contexto (Intake, ER, Relación, Triage, Reporting, IA) y reglas de traducción. Salida: context map revisado sin fuga de términos entre contextos. Error: un solo modelo canónico forzado a todos los equipos. Criterio: workshop de lenguaje produce glosario versionado; split forzado → SPLIT_CONTEXTS; datos insuficientes → WORKSHOP_UBIQUITOUS_LANGUAGE.",
+      "len": 399
+    },
+    {
+      "i": 23,
+      "text": "Para CASO-LIM-040-3A, Intake habla de Case y source=email; ER habla de Record y Score de matching. «Case» no aparece en el vocabulario de ER a propósito. El mapa de Red Andina documenta el anti-corruption layer entre contextos sin copiar PII real ni secretos de producción.",
+      "len": 273
+    },
+    {
+      "i": 24,
+      "text": "entities, value objects y servicios",
+      "len": 35
+    },
+    {
+      "i": 25,
+      "text": "Una entity conserva identidad a lo largo del tiempo (CASE-1 sigue siendo CASE-1 aunque cambie el status). Un value object se compara por valor (Money 150 PEN es igual a otro Money 150 PEN). Un servicio de dominio aloja una regla que no cabe limpia en una sola entidad (p. ej. fusión de scores de prioridad).",
+      "len": 307
+    },
+    {
+      "i": 26,
+      "text": "Contrato operativo de T3-B. Entrada: fixtures de identidad, igualdad de VO e invariantes de servicio. Salida: pruebas que fallan si se muta el id o se trata un VO como entidad mutable. Error: usar el score de ER como prueba de parentesco o fraude. Criterio: invariantes ejecutables; breach de modelo → REJECT_DOMAIN_MODEL; ambigüedad → CLARIFY_INVARIANT.",
+      "len": 354
+    },
+    {
+      "i": 27,
+      "text": "En CASO-LIM-040-3B, CASE-1 con Money 150 PEN y un servicio stateless que fusiona scores a 0.7 demuestran el trío entity/VO/service sobre fixtures de Lima. Los datos son sintéticos; el merged score solo ordena trabajo humano en la cola y no declara culpa, fraude ni parentesco.",
+      "len": 276
+    },
+    {
+      "i": 28,
+      "text": "diagramas C4/flujo y ADRs",
+      "len": 25
+    },
+    {
+      "i": 29,
+      "text": "C4 (contexto, contenedores, componentes, código) explica quién usa qué sistema y cómo fluyen los casos entre intake y reporting. Un ADR (Architecture Decision Record) guarda contexto, decisión, alternativas, estado y consecuencias — no solo el dibujo final — para que la decisión sea reversible y auditable.",
+      "len": 307
+    },
+    {
+      "i": 30,
+      "text": "Contrato operativo de T4-A. Entrada: diagrama C4 mínimo (personas + contenedores) y ADR con alternativas y señal de reversión. Salida: C4 enlazado a ADR accepted. Error: ADR sin consecuencias o C4 decorativo sin flujo intake→…→reporting. Criterio: dueño de arquitectura acepta el par C4+ADR; draft incompleto → RETURN_ADR_TO_DRAFT o REQUEST_ARCH_REVIEW.",
+      "len": 353
+    },
+    {
+      "i": 31,
+      "text": "Sobre CASO-LIM-040-4A, contenedores api/worker/db/object_store y ADR-001 accepted con consecuencias documentadas anclan el inicio de CP-N4-A. El flujo head «intake → validate → enqueue» se verifica en el demo local sintético de Red Andina; sin ADR reversible no hay promoción de arquitectura.",
+      "len": 292
+    },
+    {
+      "i": 32,
+      "text": "APIs, eventos, deuda y evolución compatible",
+      "len": 43
+    },
+    {
+      "i": 33,
+      "text": "La evolución compatible es aditiva: se agregan campos opcionales y se versionan eventos; no se renombran ni eliminan campos que un consumer v1 aún lee. La deuda técnica lleva id, dueño, fecha y criterio de retiro; sin eso, la deuda es solo queja en el chat del equipo y no un backlog gobernado.",
+      "len": 294
+    },
+    {
+      "i": 34,
+      "text": "Contrato operativo de T4-B. Entrada: payload v1, payload v1.1 aditivo, lista de deuda con owner y paydown. Salida: consumer contract de v1 en verde y deuda negociable. Error: breaking change silencioso o deuda sin dueño. Criterio: tests de compatibilidad pasan; breach → BLOCK_BREAKING_CHANGE; negociación de versión → NEGOTIATE_VERSION.",
+      "len": 337
+    },
+    {
+      "i": 35,
+      "text": "En CASO-LIM-040-4B, el payload v1 con case_id y status se extiende a v1.1 con priority sin romper el consumer contract. La deuda D1 con paydown=async_job y el evento case.created cierran el mapa evolutivo de Red Andina para el gate de arquitectura del CP-N4-A.",
+      "len": 260
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
+      "text": "Ruta de S40: Arquitectura, DDD y decisiones técnicas"
+    },
+    {
+      "i": 1,
+      "len": 258,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Esta sección abre el Nivel 4 (Master) partiendo de S39: usa únicamente contratos, pruebas y controles ya presentados en N3. El caso CASO-LIM-040 es sintético (Red Andina, Lima) y s",
+      "text": "Esta sección abre el Nivel 4 (Master) partiendo de S39: usa únicamente contratos, pruebas y controles ya presentados en N3. El caso CASO-LIM-040 es sintético (Red Andina, Lima) y se ejecuta sin credenciales, sin servicios externos y sin PII real de clientes."
+    },
+    {
+      "i": 2,
+      "len": 278,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Producto incremental: dossier de arquitectura gobernada. Entrada: requisitos funcionales, quality attributes, vocabulario de dominio y restricciones; salida: fronteras intake/ER/re",
+      "text": "Producto incremental: dossier de arquitectura gobernada. Entrada: requisitos funcionales, quality attributes, vocabulario de dominio y restricciones; salida: fronteras intake/ER/relación/triage/reporting/IA, C4, ports/adapters, ADRs y evolución compatible con dueños explícitos."
+    },
+    {
+      "i": 3,
+      "len": 279,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La secuencia mantiene liberación gradual I Do → We Do → You Do: teoría con mecanismo y contrato medible, demo local con funciones, ejercicio guiado (E1), validación independiente (",
+      "text": "La secuencia mantiene liberación gradual I Do → We Do → You Do: teoría con mecanismo y contrato medible, demo local con funciones, ejercicio guiado (E1), validación independiente (E2) y transferencia fail-closed con breach o incertidumbre (E3) sobre fixtures peruanos sintéticos."
+    },
+    {
+      "i": 4,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "requisitos funcionales y quality attributes",
+      "text": "requisitos funcionales y quality attributes"
+    },
+    {
+      "i": 5,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un requisito funcional (FR) nombra una capacidad observable — por ejemplo «encolar un caso de triage» — mientras un quality attribute (QA) se escribe como escenario medible con fue",
+      "text": "Un requisito funcional (FR) nombra una capacidad observable — por ejemplo «encolar un caso de triage» — mientras un quality attribute (QA) se escribe como escenario medible con fuente, estímulo, entorno, respuesta y métrica. Sin ese escenario, palabras como «rápido» o «seguro» no se pueden probar ni rechazar en un gate de arquitectura."
+    },
+    {
+      "i": 6,
+      "len": 417,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T1-A. Entrada: lista de FR, escenarios QA con umbral numérico y dueño explícito. Salida: escenario completo (source/stimulus/environment/response/measure/owne",
+      "text": "Contrato operativo de T1-A. Entrada: lista de FR, escenarios QA con umbral numérico y dueño explícito. Salida: escenario completo (source/stimulus/environment/response/measure/owner) listo para priorizar trade-offs. Error: umbral sin unidad, owner vacío, o FR que mezcla UI con regla de dominio. Criterio: cada flujo crítico del mapa intake→ER→relación→triage→reporting→IA cruza una frontera con medida y responsable."
+    },
+    {
+      "i": 7,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-040-1A (Red Andina, organización ficticia en Lima): el peak de 100 req/s sobre intake exige latency_p95_ms ≤ 300 con owner=platform. Si observed_ms supera el ",
+      "text": "Aplicación a CASO-LIM-040-1A (Red Andina, organización ficticia en Lima): el peak de 100 req/s sobre intake exige latency_p95_ms ≤ 300 con owner=platform. Si observed_ms supera el umbral, el gate emite REJECT_QA_SCENARIO; si falta owner, REQUEST_QA_OWNER. Datos sintéticos; la latencia no prueba fraude ni parentesco, solo capacidad del servicio de encolado."
+    },
+    {
+      "i": 8,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "trade-offs, riesgos y criterios medibles",
+      "text": "trade-offs, riesgos y criterios medibles"
+    },
+    {
+      "i": 9,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un trade-off compara alternativas (sync vs async, monolito vs workers) contra criterios ponderados: latencia, costo operativo, complejidad de fallos y tiempo de cambio. Cada opción",
+      "text": "Un trade-off compara alternativas (sync vs async, monolito vs workers) contra criterios ponderados: latencia, costo operativo, complejidad de fallos y tiempo de cambio. Cada opción acumula riesgo residual (probabilidad × impacto) y un dueño que acepta o reabre la decisión; no existe arquitectura «universalmente mejor»."
+    },
+    {
+      "i": 10,
+      "len": 406,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T1-B. Entrada: tabla scores por alternativa, selected, risk_owner y residual_risk acotado. Salida: decisión documentada con score mínimo (o maximizado según c",
+      "text": "Contrato operativo de T1-B. Entrada: tabla scores por alternativa, selected, risk_owner y residual_risk acotado. Salida: decisión documentada con score mínimo (o maximizado según convención) y riesgo residual aceptado. Error: elegir por moda de framework, o aceptar residual sin dueño. Criterio: la alternativa ganadora es la de menor costo total bajo la métrica acordada y residual_risk ≤ umbral del gate."
+    },
+    {
+      "i": 11,
+      "len": 296,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-040-1B, async puntúa 2.2 frente a sync 3.8 (menor es mejor) con residual_risk=2 y risk_owner=arquitectura. Si selected no es el mínimo, se reabre con REOPEN_TRADEOFF; s",
+      "text": "En CASO-LIM-040-1B, async puntúa 2.2 frente a sync 3.8 (menor es mejor) con residual_risk=2 y risk_owner=arquitectura. Si selected no es el mínimo, se reabre con REOPEN_TRADEOFF; sin residual_risk se escala ESCALATE_RESIDUAL_RISK. El caso es sintético y no implica veredicto legal sobre clientes."
+    },
+    {
+      "i": 12,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "cohesión/coupling y capas",
+      "text": "cohesión/coupling y capas"
+    },
+    {
+      "i": 13,
+      "len": 330,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Alta cohesión agrupa reglas que cambian por la misma razón (p. ej. políticas de triage juntas); bajo acoplamiento evita que presentación o reporting dicten el dominio. Las capas tí",
+      "text": "Alta cohesión agrupa reglas que cambian por la misma razón (p. ej. políticas de triage juntas); bajo acoplamiento evita que presentación o reporting dicten el dominio. Las capas típicas — presentation, application, domain, infrastructure — se recorren en un solo sentido: nadie salta de UI al repositorio saltándose la aplicación."
+    },
+    {
+      "i": 14,
+      "len": 381,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T2-A. Entrada: lista ordenada de layers y grafo de dependencies (aristas from→to). Salida: diagrama sin arista domain→infrastructure ni presentation→infrastru",
+      "text": "Contrato operativo de T2-A. Entrada: lista ordenada de layers y grafo de dependencies (aristas from→to). Salida: diagrama sin arista domain→infrastructure ni presentation→infrastructure. Error: dominio que importa SQL/HTTP, o capa que salta niveles. Criterio: el grafo se puede auditar en CI didáctico y un breach produce REDRAW_BOUNDARY; falta de grafo produce REVIEW_LAYER_OWNER."
+    },
+    {
+      "i": 15,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sobre CASO-LIM-040-2A, las aristas permitidas son presentation→application, application→domain e infrastructure→domain (adapters). Una arista domain→infrastructure invalida el mapa",
+      "text": "Sobre CASO-LIM-040-2A, las aristas permitidas son presentation→application, application→domain e infrastructure→domain (adapters). Una arista domain→infrastructure invalida el mapa de Red Andina y fuerza redibujar la frontera antes de promover CP-N4-A. El fixture es sintético y no mezcla PII real."
+    },
+    {
+      "i": 16,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "ports/adapters y dependencia hacia dominio",
+      "text": "ports/adapters y dependencia hacia dominio"
+    },
+    {
+      "i": 17,
+      "len": 292,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un port declara lo que el dominio necesita (p. ej. «cargar caso», «publicar evento») sin conocer HTTP, SQL o SMTP. Un adapter traduce esa interfaz a una tecnología concreta; las fl",
+      "text": "Un port declara lo que el dominio necesita (p. ej. «cargar caso», «publicar evento») sin conocer HTTP, SQL o SMTP. Un adapter traduce esa interfaz a una tecnología concreta; las flechas de dependencia apuntan hacia políticas estables del dominio, no al revés (dependency inversion didáctica)."
+    },
+    {
+      "i": 18,
+      "len": 386,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T2-B. Entrada: caso de dominio y adapter en memoria (fake repo/queue). Salida: test del dominio que pasa sin red ni base de datos. Error: importar cliente SMT",
+      "text": "Contrato operativo de T2-B. Entrada: caso de dominio y adapter en memoria (fake repo/queue). Salida: test del dominio que pasa sin red ni base de datos. Error: importar cliente SMTP/SQL dentro de la entidad o servicio de dominio. Criterio: se puede sustituir el adapter real por uno fake manteniendo el mismo port; breach → INVERT_DEPENDENCY; contrato incompleto → DEFINE_PORT_CONTRACT."
+    },
+    {
+      "i": 19,
+      "len": 303,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-040-2B, un Repo fake devuelve status open y el dominio encola el cierre sin SMTP ni SQL. Si el servicio de dominio construyera un string SMTP, el gate fallaría con INVE",
+      "text": "En CASO-LIM-040-2B, un Repo fake devuelve status open y el dominio encola el cierre sin SMTP ni SQL. Si el servicio de dominio construyera un string SMTP, el gate fallaría con INVERT_DEPENDENCY. Fixtures sintéticos de Red Andina; el status del caso no prueba fraude, parentesco ni intención del cliente."
+    },
+    {
+      "i": 20,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "bounded contexts y lenguaje ubicuo",
+      "text": "bounded contexts y lenguaje ubicuo"
+    },
+    {
+      "i": 21,
+      "len": 281,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un bounded context da significado local a términos del lenguaje ubicuo: «caso» en intake no es el mismo objeto que un «record» de ER ni una «cola» de triage. El context map declara",
+      "text": "Un bounded context da significado local a términos del lenguaje ubicuo: «caso» en intake no es el mismo objeto que un «record» de ER ni una «cola» de triage. El context map declara traducciones y anti-corrupción para que los equipos no fusionen vocabulario por accidente de naming."
+    },
+    {
+      "i": 22,
+      "len": 399,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T3-A. Entrada: glosario por contexto (Intake, ER, Relación, Triage, Reporting, IA) y reglas de traducción. Salida: context map revisado sin fuga de términos e",
+      "text": "Contrato operativo de T3-A. Entrada: glosario por contexto (Intake, ER, Relación, Triage, Reporting, IA) y reglas de traducción. Salida: context map revisado sin fuga de términos entre contextos. Error: un solo modelo canónico forzado a todos los equipos. Criterio: workshop de lenguaje produce glosario versionado; split forzado → SPLIT_CONTEXTS; datos insuficientes → WORKSHOP_UBIQUITOUS_LANGUAGE."
+    },
+    {
+      "i": 23,
+      "len": 273,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para CASO-LIM-040-3A, Intake habla de Case y source=email; ER habla de Record y Score de matching. «Case» no aparece en el vocabulario de ER a propósito. El mapa de Red Andina docu",
+      "text": "Para CASO-LIM-040-3A, Intake habla de Case y source=email; ER habla de Record y Score de matching. «Case» no aparece en el vocabulario de ER a propósito. El mapa de Red Andina documenta el anti-corruption layer entre contextos sin copiar PII real ni secretos de producción."
+    },
+    {
+      "i": 24,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "entities, value objects y servicios",
+      "text": "entities, value objects y servicios"
+    },
+    {
+      "i": 25,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una entity conserva identidad a lo largo del tiempo (CASE-1 sigue siendo CASE-1 aunque cambie el status). Un value object se compara por valor (Money 150 PEN es igual a otro Money ",
+      "text": "Una entity conserva identidad a lo largo del tiempo (CASE-1 sigue siendo CASE-1 aunque cambie el status). Un value object se compara por valor (Money 150 PEN es igual a otro Money 150 PEN). Un servicio de dominio aloja una regla que no cabe limpia en una sola entidad (p. ej. fusión de scores de prioridad)."
+    },
+    {
+      "i": 26,
+      "len": 354,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T3-B. Entrada: fixtures de identidad, igualdad de VO e invariantes de servicio. Salida: pruebas que fallan si se muta el id o se trata un VO como entidad muta",
+      "text": "Contrato operativo de T3-B. Entrada: fixtures de identidad, igualdad de VO e invariantes de servicio. Salida: pruebas que fallan si se muta el id o se trata un VO como entidad mutable. Error: usar el score de ER como prueba de parentesco o fraude. Criterio: invariantes ejecutables; breach de modelo → REJECT_DOMAIN_MODEL; ambigüedad → CLARIFY_INVARIANT."
+    },
+    {
+      "i": 27,
+      "len": 276,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-040-3B, CASE-1 con Money 150 PEN y un servicio stateless que fusiona scores a 0.7 demuestran el trío entity/VO/service sobre fixtures de Lima. Los datos son sintéticos;",
+      "text": "En CASO-LIM-040-3B, CASE-1 con Money 150 PEN y un servicio stateless que fusiona scores a 0.7 demuestran el trío entity/VO/service sobre fixtures de Lima. Los datos son sintéticos; el merged score solo ordena trabajo humano en la cola y no declara culpa, fraude ni parentesco."
+    },
+    {
+      "i": 28,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "diagramas C4/flujo y ADRs",
+      "text": "diagramas C4/flujo y ADRs"
+    },
+    {
+      "i": 29,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "C4 (contexto, contenedores, componentes, código) explica quién usa qué sistema y cómo fluyen los casos entre intake y reporting. Un ADR (Architecture Decision Record) guarda contex",
+      "text": "C4 (contexto, contenedores, componentes, código) explica quién usa qué sistema y cómo fluyen los casos entre intake y reporting. Un ADR (Architecture Decision Record) guarda contexto, decisión, alternativas, estado y consecuencias — no solo el dibujo final — para que la decisión sea reversible y auditable."
+    },
+    {
+      "i": 30,
+      "len": 353,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T4-A. Entrada: diagrama C4 mínimo (personas + contenedores) y ADR con alternativas y señal de reversión. Salida: C4 enlazado a ADR accepted. Error: ADR sin co",
+      "text": "Contrato operativo de T4-A. Entrada: diagrama C4 mínimo (personas + contenedores) y ADR con alternativas y señal de reversión. Salida: C4 enlazado a ADR accepted. Error: ADR sin consecuencias o C4 decorativo sin flujo intake→…→reporting. Criterio: dueño de arquitectura acepta el par C4+ADR; draft incompleto → RETURN_ADR_TO_DRAFT o REQUEST_ARCH_REVIEW."
+    },
+    {
+      "i": 31,
+      "len": 292,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sobre CASO-LIM-040-4A, contenedores api/worker/db/object_store y ADR-001 accepted con consecuencias documentadas anclan el inicio de CP-N4-A. El flujo head «intake → validate → enq",
+      "text": "Sobre CASO-LIM-040-4A, contenedores api/worker/db/object_store y ADR-001 accepted con consecuencias documentadas anclan el inicio de CP-N4-A. El flujo head «intake → validate → enqueue» se verifica en el demo local sintético de Red Andina; sin ADR reversible no hay promoción de arquitectura."
+    },
+    {
+      "i": 32,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "APIs, eventos, deuda y evolución compatible",
+      "text": "APIs, eventos, deuda y evolución compatible"
+    },
+    {
+      "i": 33,
+      "len": 294,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La evolución compatible es aditiva: se agregan campos opcionales y se versionan eventos; no se renombran ni eliminan campos que un consumer v1 aún lee. La deuda técnica lleva id, d",
+      "text": "La evolución compatible es aditiva: se agregan campos opcionales y se versionan eventos; no se renombran ni eliminan campos que un consumer v1 aún lee. La deuda técnica lleva id, dueño, fecha y criterio de retiro; sin eso, la deuda es solo queja en el chat del equipo y no un backlog gobernado."
+    },
+    {
+      "i": 34,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de T4-B. Entrada: payload v1, payload v1.1 aditivo, lista de deuda con owner y paydown. Salida: consumer contract de v1 en verde y deuda negociable. Error: break",
+      "text": "Contrato operativo de T4-B. Entrada: payload v1, payload v1.1 aditivo, lista de deuda con owner y paydown. Salida: consumer contract de v1 en verde y deuda negociable. Error: breaking change silencioso o deuda sin dueño. Criterio: tests de compatibilidad pasan; breach → BLOCK_BREAKING_CHANGE; negociación de versión → NEGOTIATE_VERSION."
+    },
+    {
+      "i": 35,
+      "len": 260,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-040-4B, el payload v1 con case_id y status se extiende a v1.1 con priority sin romper el consumer contract. La deuda D1 con paydown=async_job y el evento case.created c",
+      "text": "En CASO-LIM-040-4B, el payload v1 con case_id y status se extiende a v1.1 con priority sin romper el consumer contract. La deuda D1 con paydown=async_job y el evento case.created cierran el mapa evolutivo de Red Andina para el gate de arquitectura del CP-N4-A."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 15475,
+  "screenshot": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/visible_paragraphs/s40_agentic-architecture_theory.png"
+}

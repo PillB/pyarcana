@@ -1,0 +1,469 @@
+{
+  "index": 38,
+  "id": "performance-extreme",
+  "title": "Concurrencia, observabilidad y workflows resilientes",
+  "file": "s38-performance-extreme.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Operación del triage (CP-N3-C)",
+      "len": 30
+    },
+    {
+      "i": 1,
+      "text": "Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un worker caído. No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia.",
+      "len": 321
+    },
+    {
+      "i": 2,
+      "text": "Contrato operativo de la sección. Entrada: cola de casos sintéticos CASO-LIM-038, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry/DLQ. Salida: pipeline reanudable con trace por case_id, métricas de cola y runbook de fallos. Error: side effect duplicado, PII raw en logs o cola sin backpressure bloquea promoción. Criterio: mismo resultado funcional tras reejecución controlada.",
+      "len": 410
+    },
+    {
+      "i": 3,
+      "text": "Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia un API mock y CPU de features en lotes. Legacy id performance-extreme se conserva; el path V3 es concurrencia + resiliencia, no Numba/Cython extremo. Orden: T1 Concurrencia → T2 Control de carga → T3 Observabilidad → T4 Workflows resilientes.",
+      "len": 358
+    },
+    {
+      "i": 5,
+      "text": "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada.",
+      "len": 330
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo. Entrada: etiqueta de bound (io | cpu | mixed) medida en el path caliente del triage. Salida: elección documentada async_or_threads | processes | batch_then_io. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
+      "len": 391
+    },
+    {
+      "i": 7,
+      "text": "Aplicación a CASO-LIM-038-T1A: el intake llama a un proveedor mock de normalización (I/O) y luego calcula features locales (CPU). Primero midemos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool. Datos sintéticos; sin credenciales ni red real.",
+      "len": 337
+    },
+    {
+      "i": 8,
+      "text": "I/O vs CPU, GIL y serialización",
+      "len": 31
+    },
+    {
+      "i": 9,
+      "text": "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json). Si el payload entre procesos es grande, el pool puede ser más lento que un solo proceso bien vectorizado.",
+      "len": 303
+    },
+    {
+      "i": 10,
+      "text": "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia compact_payload. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso.",
+      "len": 380
+    },
+    {
+      "i": 11,
+      "text": "Aplicación a CASO-LIM-038-T1B: en lugar de enviar el registro completo del cliente sintético al worker, enviamos {case_id, score, feature_ids}. json.dumps del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC.",
+      "len": 320
+    },
+    {
+      "i": 12,
+      "text": "pools, backpressure y rate limits",
+      "len": 33
+    },
+    {
+      "i": 13,
+      "text": "Un pool acota la concurrencia máxima (N workers). Una cola con maxsize aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. Un rate limit (token bucket didáctico) protege al proveedor mock de un ban o de saturación.",
+      "len": 274
+    },
+    {
+      "i": 14,
+      "text": "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana.",
+      "len": 328
+    },
+    {
+      "i": 15,
+      "text": "Aplicación a CASO-LIM-038-T2A: el batch de Lima (ficticio) intenta encolar 1000 casos; con maxsize=50 y bucket de 2 tokens, los productores esperan y el tercer allow inmediato es False. Esto evita tumbar el worker de scoring y el mock API. No hay PII real; solo case_id sintéticos.",
+      "len": 281
+    },
+    {
+      "i": 16,
+      "text": "cancelación, timeout y recursos",
+      "len": 31
+    },
+    {
+      "i": 17,
+      "text": "Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (retry_or_dlq). La cancelación libera la tarea colgada; el finally o context manager cierra conexiones y archivos aunque falle el fetch.",
+      "len": 292
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: función de fetch mock, timeout_s y política on_fail. Salida: dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin tope. Criterio: toda I/O externa del triage tiene timeout y camino de fallo explícito hacia retry o DLQ.",
+      "len": 283
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-038-T2B: el mock de geocoding tarda más que el budget; la política marca timeout y enruta a DLQ tras N reintentos. El socket sintético se cierra en finally. Incidente clásico documentado en runbook: «sin timeout → cola bloqueada → p95 explotado».",
+      "len": 268
+    },
+    {
+      "i": 21,
+      "text": "Los tres pilares de observabilidad: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_id / corr une el camino sin volcar el payload completo del cliente.",
+      "len": 246
+    },
+    {
+      "i": 22,
+      "text": "Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléfono en claro, o métricas sin dimensiones útiles. Criterio: un on-call puede reconstruir el path de un caso con corr sin abrir PII.",
+      "len": 310
+    },
+    {
+      "i": 23,
+      "text": "Aplicación a CASO-LIM-038-T3A: al marcar scored emitimos {level:INFO, case_id, event, score, corr} y la métrica queue_depth. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales.",
+      "len": 240
+    },
+    {
+      "i": 24,
+      "text": "correlation, redacción y SLI/SLO",
+      "len": 32
+    },
+    {
+      "i": 25,
+      "text": "Redactar PII en logs es obligatorio: un email sintético ana@example.pe se muestra como an***. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado con el dueño del servicio. El error budget se consume cuando se viola el SLO.",
+      "len": 256
+    },
+    {
+      "i": 26,
+      "text": "Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano y valor redactado. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII completa «por si acaso». Criterio: dashboards y alertas se basan en SLI; el runbook dice qué hacer cuando el error budget se agota.",
+      "len": 312
+    },
+    {
+      "i": 27,
+      "text": "Aplicación a CASO-LIM-038-T3B: p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política de error budget. Solo datos sintéticos.",
+      "len": 220
+    },
+    {
+      "i": 28,
+      "text": "states, checkpoint e idempotencia",
+      "len": 33
+    },
+    {
+      "i": 29,
+      "text": "Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (case:step:ver) garantiza que reejecutar el mismo paso no duplica side effects (doble enqueue, doble notificación mock).",
+      "len": 280
+    },
+    {
+      "i": 30,
+      "text": "Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con step/status y resume_from. Error: reintentar sin key y crear dos tickets de review. Criterio: tras matar el worker a mitad de batch, el resume continúa desde el último checkpoint bueno sin rehacer pasos done.",
+      "len": 305
+    },
+    {
+      "i": 31,
+      "text": "Aplicación a CASO-LIM-038-T4A: caso c1 completó features; al reiniciar, resume_from=features (o el siguiente paso pendiente según diseño). La key c1:features:v3 evita recalcular y reescribir dos veces. Sin secretos ni PII real en el store de checkpoint.",
+      "len": 253
+    },
+    {
+      "i": 32,
+      "text": "retry, dead-letter, replay y runbook",
+      "len": 36
+    },
+    {
+      "i": 33,
+      "text": "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call.",
+      "len": 283
+    },
+    {
+      "i": 34,
+      "text": "Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta dlq y flag runbook. Error: retry infinito, o borrar DLQ sin análisis. Criterio: el camino de fallo se prueba en sandbox antes de prod; el runbook existe y se actualiza tras cada incidente sintético de drill.",
+      "len": 337
+    },
+    {
+      "i": 35,
+      "text": "Aplicación a CASO-LIM-038-T4B: attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Drill de on-call: reiniciar worker, verificar checkpoint, rejugar batch acotado.",
+      "len": 257
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Operación del triage (CP-N3-C)",
+      "text": "Operación del triage (CP-N3-C)"
+    },
+    {
+      "i": 1,
+      "len": 321,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un wo",
+      "text": "Esta sección opera el pipeline de triage CP-N3-C bajo carga realista: el batch debe reanudarse tras un crash, trazar cada caso sintético y sobrevivir a un proveedor lento o a un worker caído. No optimizamos microsegundos a ciegas; diseñamos concurrencia correcta, observabilidad y workflows con checkpoint e idempotencia."
+    },
+    {
+      "i": 2,
+      "len": 410,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo de la sección. Entrada: cola de casos sintéticos CASO-LIM-038, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry/DLQ. Salida: pipe",
+      "text": "Contrato operativo de la sección. Entrada: cola de casos sintéticos CASO-LIM-038, límites de tasa del proveedor mock, budgets de latencia p95 y políticas de retry/DLQ. Salida: pipeline reanudable con trace por case_id, métricas de cola y runbook de fallos. Error: side effect duplicado, PII raw en logs o cola sin backpressure bloquea promoción. Criterio: mismo resultado funcional tras reejecución controlada."
+    },
+    {
+      "i": 3,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia un API mock y CPU de features en lotes. Legacy id performance-ex",
+      "text": "Caso sintético Red Andina (organización ficticia, datos inventados): un worker de scoring recibe picos de I/O hacia un API mock y CPU de features en lotes. Legacy id performance-extreme se conserva; el path V3 es concurrencia + resiliencia, no Numba/Cython extremo. Orden: T1 Concurrencia → T2 Control de carga → T3 Observabilidad → T4 Workflows resilientes."
+    },
+    {
+      "i": 5,
+      "len": 330,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring",
+      "text": "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada."
+    },
+    {
+      "i": 6,
+      "len": 391,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: etiqueta de bound (io | cpu | mixed) medida en el path caliente del triage. Salida: elección documentada async_or_threads | processes | batch_then_io. ",
+      "text": "Contrato operativo. Entrada: etiqueta de bound (io | cpu | mixed) medida en el path caliente del triage. Salida: elección documentada async_or_threads | processes | batch_then_io. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework."
+    },
+    {
+      "i": 7,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T1A: el intake llama a un proveedor mock de normalización (I/O) y luego calcula features locales (CPU). Primero midemos wall vs CPU; si wall >> CPU en el ",
+      "text": "Aplicación a CASO-LIM-038-T1A: el intake llama a un proveedor mock de normalización (I/O) y luego calcula features locales (CPU). Primero midemos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool. Datos sintéticos; sin credenciales ni red real."
+    },
+    {
+      "i": 8,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "I/O vs CPU, GIL y serialización",
+      "text": "I/O vs CPU, GIL y serialización"
+    },
+    {
+      "i": 9,
+      "len": 303,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e I",
+      "text": "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json). Si el payload entre procesos es grande, el pool puede ser más lento que un solo proceso bien vectorizado."
+    },
+    {
+      "i": 10,
+      "len": 380,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia compact_p",
+      "text": "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia compact_payload. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso."
+    },
+    {
+      "i": 11,
+      "len": 320,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T1B: en lugar de enviar el registro completo del cliente sintético al worker, enviamos {case_id, score, feature_ids}. json.dumps del dict compacto cabe en",
+      "text": "Aplicación a CASO-LIM-038-T1B: en lugar de enviar el registro completo del cliente sintético al worker, enviamos {case_id, score, feature_ids}. json.dumps del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC."
+    },
+    {
+      "i": 12,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "pools, backpressure y rate limits",
+      "text": "pools, backpressure y rate limits"
+    },
+    {
+      "i": 13,
+      "len": 274,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un pool acota la concurrencia máxima (N workers). Una cola con maxsize aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OO",
+      "text": "Un pool acota la concurrencia máxima (N workers). Una cola con maxsize aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. Un rate limit (token bucket didáctico) protege al proveedor mock de un ban o de saturación."
+    },
+    {
+      "i": 14,
+      "len": 328,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infini",
+      "text": "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana."
+    },
+    {
+      "i": 15,
+      "len": 281,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T2A: el batch de Lima (ficticio) intenta encolar 1000 casos; con maxsize=50 y bucket de 2 tokens, los productores esperan y el tercer allow inmediato es F",
+      "text": "Aplicación a CASO-LIM-038-T2A: el batch de Lima (ficticio) intenta encolar 1000 casos; con maxsize=50 y bucket de 2 tokens, los productores esperan y el tercer allow inmediato es False. Esto evita tumbar el worker de scoring y el mock API. No hay PII real; solo case_id sintéticos."
+    },
+    {
+      "i": 16,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "cancelación, timeout y recursos",
+      "text": "cancelación, timeout y recursos"
+    },
+    {
+      "i": 17,
+      "len": 292,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (retry_or_dlq). La cance",
+      "text": "Sin timeout, un proveedor lento puede colgar un worker indefinidamente y tumbar el SLA del batch. La política didáctica define segundos de espera y on_fail (retry_or_dlq). La cancelación libera la tarea colgada; el finally o context manager cierra conexiones y archivos aunque falle el fetch."
+    },
+    {
+      "i": 18,
+      "len": 283,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: función de fetch mock, timeout_s y política on_fail. Salida: dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin t",
+      "text": "Contrato operativo. Entrada: función de fetch mock, timeout_s y política on_fail. Salida: dict de política y flag de cierre de recurso. Error: olvidar close, o retry infinito sin tope. Criterio: toda I/O externa del triage tiene timeout y camino de fallo explícito hacia retry o DLQ."
+    },
+    {
+      "i": 19,
+      "len": 268,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T2B: el mock de geocoding tarda más que el budget; la política marca timeout y enruta a DLQ tras N reintentos. El socket sintético se cierra en finally. I",
+      "text": "Aplicación a CASO-LIM-038-T2B: el mock de geocoding tarda más que el budget; la política marca timeout y enruta a DLQ tras N reintentos. El socket sintético se cierra en finally. Incidente clásico documentado en runbook: «sin timeout → cola bloqueada → p95 explotado»."
+    },
+    {
+      "i": 21,
+      "len": 246,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los tres pilares de observabilidad: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_i",
+      "text": "Los tres pilares de observabilidad: logs (eventos discretos), metrics (agregados: cola, latencia, errores) y traces (spans por caso a lo largo de intake→score→queue). correlation_id / corr une el camino sin volcar el payload completo del cliente."
+    },
+    {
+      "i": 22,
+      "len": 310,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléf",
+      "text": "Contrato operativo. Entrada: evento de scoring con case_id sintético, score y corr. Salida: línea de log estructurado + métrica nombrada + pii_raw=False. Error: loguear email/teléfono en claro, o métricas sin dimensiones útiles. Criterio: un on-call puede reconstruir el path de un caso con corr sin abrir PII."
+    },
+    {
+      "i": 23,
+      "len": 240,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T3A: al marcar scored emitimos {level:INFO, case_id, event, score, corr} y la métrica queue_depth. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry re",
+      "text": "Aplicación a CASO-LIM-038-T3A: al marcar scored emitimos {level:INFO, case_id, event, score, corr} y la métrica queue_depth. Nivel DEBUG solo en sandbox. No usamos OpenTelemetry real en el ejercicio; modelamos el contrato con dicts locales."
+    },
+    {
+      "i": 24,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "correlation, redacción y SLI/SLO",
+      "text": "correlation, redacción y SLI/SLO"
+    },
+    {
+      "i": 25,
+      "len": 256,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Redactar PII en logs es obligatorio: un email sintético ana@example.pe se muestra como an***. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado c",
+      "text": "Redactar PII en logs es obligatorio: un email sintético ana@example.pe se muestra como an***. Los SLI miden realidad (p95 de score_ms, error_rate); el SLO es el objetivo acordado con el dueño del servicio. El error budget se consume cuando se viola el SLO."
+    },
+    {
+      "i": 26,
+      "len": 312,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano y valor redactado. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII",
+      "text": "Contrato operativo. Entrada: SLI observados y umbrales SLO. Salida: slo_ok booleano y valor redactado. Error: comparar al revés (celebrar latencia peor que el límite) o guardar PII completa «por si acaso». Criterio: dashboards y alertas se basan en SLI; el runbook dice qué hacer cuando el error budget se agota."
+    },
+    {
+      "i": 27,
+      "len": 220,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T3B: p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política",
+      "text": "Aplicación a CASO-LIM-038-T3B: p95=120ms vs SLO 200ms y error_rate=0.01 vs 0.02 → slo_ok True. Si p95 sube a 400ms, se abre incidente y se pausan deploys no urgentes según política de error budget. Solo datos sintéticos."
+    },
+    {
+      "i": 28,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "states, checkpoint e idempotencia",
+      "text": "states, checkpoint e idempotencia"
+    },
+    {
+      "i": 29,
+      "len": 280,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (case:step:ver) gara",
+      "text": "Un workflow de triage avanza por estados: pending → running → done | failed. Tras cada paso caro (features, score) se escribe un checkpoint. La idempotency key (case:step:ver) garantiza que reejecutar el mismo paso no duplica side effects (doble enqueue, doble notificación mock)."
+    },
+    {
+      "i": 30,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con step/status y resume_from. Error: reintentar sin key y crear dos tickets de review.",
+      "text": "Contrato operativo. Entrada: state dict del caso y clave de idempotencia. Salida: checkpoint con step/status y resume_from. Error: reintentar sin key y crear dos tickets de review. Criterio: tras matar el worker a mitad de batch, el resume continúa desde el último checkpoint bueno sin rehacer pasos done."
+    },
+    {
+      "i": 31,
+      "len": 253,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T4A: caso c1 completó features; al reiniciar, resume_from=features (o el siguiente paso pendiente según diseño). La key c1:features:v3 evita recalcular y ",
+      "text": "Aplicación a CASO-LIM-038-T4A: caso c1 completó features; al reiniciar, resume_from=features (o el siguiente paso pendiente según diseño). La key c1:features:v3 evita recalcular y reescribir dos veces. Sin secretos ni PII real en el store de checkpoint."
+    },
+    {
+      "i": 32,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "retry, dead-letter, replay y runbook",
+      "text": "retry, dead-letter, replay y runbook"
+    },
+    {
+      "i": 33,
+      "len": 283,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se",
+      "text": "Retry con backoff exponencial (y jitter en prod) absorbe fallos transitorios. La DLQ (dead-letter queue) aísla mensajes venenosos que fallan siempre. El replay es controlado: no se reinyecta la DLQ entera sin inspección. El runbook lista síntomas → checks → acciones para el on-call."
+    },
+    {
+      "i": 34,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta dlq y flag runbook. Error: retry infinito, o borra",
+      "text": "Contrato operativo. Entrada: attempt number y base de backoff; mensaje marcado poison o retriable. Salida: serie de esperas, ruta dlq y flag runbook. Error: retry infinito, o borrar DLQ sin análisis. Criterio: el camino de fallo se prueba en sandbox antes de prod; el runbook existe y se actualiza tras cada incidente sintético de drill."
+    },
+    {
+      "i": 35,
+      "len": 257,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-038-T4B: attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Dri",
+      "text": "Aplicación a CASO-LIM-038-T4B: attempts 0..3 con base 0.1 → [0.1, 0.2, 0.4, 0.8]. Un payload malformado va a DLQ como poison; el replay se hace caso a caso tras fix del parser. Drill de on-call: reiniciar worker, verificar checkpoint, rejugar batch acotado."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 15270
+}

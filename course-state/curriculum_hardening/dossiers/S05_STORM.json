@@ -1,0 +1,161 @@
+{
+  "section": 5,
+  "title": "Funciones, contratos y descomposición",
+  "file": "s05-oop.ts",
+  "n_required": 5,
+  "n_logged": 5,
+  "generated_at": "2026-07-24T04:54:36.301+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "pure normalizers; no real PII; I/O at edge",
+    "v3_retarget": "functions contracts not OOP classes",
+    "expert_pass_at": "2026-07-24T04:54:36.301+00:00"
+  },
+  "unique_foci": 5,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "def return None trap",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Defining functions",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+          "note": "def"
+        },
+        {
+          "family": "PEP 257",
+          "title": "Docstrings",
+          "url": "https://peps.python.org/pep-0257/",
+          "note": "docs"
+        },
+        {
+          "family": "Python",
+          "title": "typing",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "hints"
+        }
+      ],
+      "synthesize": "S5 «Funciones, contratos y descomposición» cycle 1/5: «def return None trap» via PEP 257, Python (CP-N1-B normalizers start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «def return None trap».",
+      "expand_scope": "E1/E2/E3 + docs for «def return None trap»; V3 roadmap; pair S05 normalizers → S06 collections memory store.",
+      "re_synthesize": "Decision 1/5: «def return None trap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "verb function names",
+      "research": [
+        {
+          "family": "PEP 257",
+          "title": "Docstrings",
+          "url": "https://peps.python.org/pep-0257/",
+          "note": "docs"
+        },
+        {
+          "family": "Python",
+          "title": "typing",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "hints"
+        },
+        {
+          "family": "Python",
+          "title": "Scopes LEGB",
+          "url": "https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces",
+          "note": "LEGB"
+        }
+      ],
+      "synthesize": "S5 «Funciones, contratos y descomposición» cycle 2/5: «verb function names» via PEP 257, Python (CP-N1-B normalizers start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «verb function names».",
+      "expand_scope": "E1/E2/E3 + docs for «verb function names»; V3 roadmap; pair S05 normalizers → S06 collections memory store.",
+      "re_synthesize": "Decision 2/5: «verb function names» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "positional keyword defaults",
+      "research": [
+        {
+          "family": "Python",
+          "title": "typing",
+          "url": "https://docs.python.org/3/library/typing.html",
+          "note": "hints"
+        },
+        {
+          "family": "Python",
+          "title": "Scopes LEGB",
+          "url": "https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces",
+          "note": "LEGB"
+        },
+        {
+          "family": "PEP 8",
+          "title": "Function names",
+          "url": "https://peps.python.org/pep-0008/#function-and-variable-names",
+          "note": "names"
+        }
+      ],
+      "synthesize": "S5 «Funciones, contratos y descomposición» cycle 3/5: «positional keyword defaults» via PEP 8, Python (CP-N1-B normalizers start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «positional keyword defaults».",
+      "expand_scope": "E1/E2/E3 + docs for «positional keyword defaults»; V3 roadmap; pair S05 normalizers → S06 collections memory store.",
+      "re_synthesize": "Decision 3/5: «positional keyword defaults» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "mutable default bug",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Scopes LEGB",
+          "url": "https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces",
+          "note": "LEGB"
+        },
+        {
+          "family": "PEP 8",
+          "title": "Function names",
+          "url": "https://peps.python.org/pep-0008/#function-and-variable-names",
+          "note": "names"
+        },
+        {
+          "family": "Py4E",
+          "title": "Functions",
+          "url": "https://www.py4e.com/html3/04-functions",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S5 «Funciones, contratos y descomposición» cycle 4/5: «mutable default bug» via PEP 8, Py4E, Python (CP-N1-B normalizers start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «mutable default bug».",
+      "expand_scope": "E1/E2/E3 + docs for «mutable default bug»; V3 roadmap; pair S05 normalizers → S06 collections memory store.",
+      "re_synthesize": "Decision 4/5: «mutable default bug» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "keyword-only country PE",
+      "research": [
+        {
+          "family": "PEP 8",
+          "title": "Function names",
+          "url": "https://peps.python.org/pep-0008/#function-and-variable-names",
+          "note": "names"
+        },
+        {
+          "family": "Py4E",
+          "title": "Functions",
+          "url": "https://www.py4e.com/html3/04-functions",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "functions"
+        }
+      ],
+      "synthesize": "S5 «Funciones, contratos y descomposición» cycle 5/5: «keyword-only country PE» via Harvard, PEP 8, Py4E (CP-N1-B normalizers start).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «keyword-only country PE».",
+      "expand_scope": "E1/E2/E3 + docs for «keyword-only country PE»; V3 roadmap; pair S05 normalizers → S06 collections memory store.",
+      "re_synthesize": "Decision 5/5: «keyword-only country PE» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

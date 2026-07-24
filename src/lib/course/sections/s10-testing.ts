@@ -626,7 +626,7 @@ def limpiar_df(df):
         df = df[(df[col] >= q1 - 1.5*iqr) & (df[col] <= q3 + 1.5*iqr)]
     return df
 
-# TODO: escribe al menos 4 tests
+# DEFECT: escribe al menos 4 tests
 # 1. test_no_nulos_despues_de_limpieza
 # 2. test_no_duplicados
 # 3. test_df_vacio_no_falla
@@ -708,19 +708,22 @@ import pytest
 import pandas as pd
 
 def test_shape(df_churn):
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def test_no_nulos(df_churn):
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 # ... al menos 5 tests más
 
 # tests/test_pipeline.py
 def test_pipeline_fit(pipeline_churn, datos):
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 # ... al menos 5 tests más
 

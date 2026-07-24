@@ -1,0 +1,1087 @@
+{
+  "section": 38,
+  "title": "Concurrencia, observabilidad y workflows resilientes",
+  "file": "s38-performance-extreme.ts",
+  "n_required": 38,
+  "n_logged": 38,
+  "generated_at": "2026-07-24T03:55:52.585606+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO-LIM-038 DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "idempotent_resume; no_pii_logs; backpressure",
+    "v3_retarget": "concurrency/resilience not Numba extreme",
+    "expert_pass_at": "2026-07-24T03:55:52.585606+00:00"
+  },
+  "unique_foci": 38,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "measure before concurrency model",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        },
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 1/38: «measure before concurrency model» via Docs, OTel (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «measure before concurrency model».",
+      "expand_scope": "E1/E2/E3 + docs for «measure before concurrency model»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 1/38: «measure before concurrency model» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "threads for I/O bound triage",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "concurrent.futures",
+          "url": "https://docs.python.org/3/library/concurrent.futures.html",
+          "note": "pools"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "structured logs"
+        },
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 2/38: «threads for I/O bound triage» via Docs, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «threads for I/O bound triage».",
+      "expand_scope": "E1/E2/E3 + docs for «threads for I/O bound triage»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 2/38: «threads for I/O bound triage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "processes for CPU features GIL",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "multiprocessing",
+          "url": "https://docs.python.org/3/library/multiprocessing.html",
+          "note": "process GIL"
+        },
+        {
+          "family": "Docs",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "compact payload"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 3/38: «processes for CPU features GIL» via Docs, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «processes for CPU features GIL».",
+      "expand_scope": "E1/E2/E3 + docs for «processes for CPU features GIL»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 3/38: «processes for CPU features GIL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "async event loop no CPU block",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 4/38: «async event loop no CPU block» via Docs, OTel, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «async event loop no CPU block».",
+      "expand_scope": "E1/E2/E3 + docs for «async event loop no CPU block»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 4/38: «async event loop no CPU block» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "mixed bound batch_then_io",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "structured logs"
+        },
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        },
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 5/38: «mixed bound batch_then_io» via Docs, SRE, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «mixed bound batch_then_io».",
+      "expand_scope": "E1/E2/E3 + docs for «mixed bound batch_then_io»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 5/38: «mixed bound batch_then_io» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "compact JSON payload IPC",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "compact payload"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 6/38: «compact JSON payload IPC» via Docs, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «compact JSON payload IPC».",
+      "expand_scope": "E1/E2/E3 + docs for «compact JSON payload IPC»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 6/38: «compact JSON payload IPC» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "pool max workers bound",
+      "research": [
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 7/38: «pool max workers bound» via MIT, OTel, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «pool max workers bound».",
+      "expand_scope": "E1/E2/E3 + docs for «pool max workers bound»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 7/38: «pool max workers bound» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "queue maxsize backpressure",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        },
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 8/38: «queue maxsize backpressure» via SRE, Stanford, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «queue maxsize backpressure».",
+      "expand_scope": "E1/E2/E3 + docs for «queue maxsize backpressure»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 8/38: «queue maxsize backpressure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "token bucket rate limit",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 9/38: «token bucket rate limit» via 12factor, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «token bucket rate limit».",
+      "expand_scope": "E1/E2/E3 + docs for «token bucket rate limit»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 9/38: «token bucket rate limit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "timeouts and cancellation",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 10/38: «timeouts and cancellation» via Coursera, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «timeouts and cancellation».",
+      "expand_scope": "E1/E2/E3 + docs for «timeouts and cancellation»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 10/38: «timeouts and cancellation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "finally close resources",
+      "research": [
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 11/38: «finally close resources» via Harvard, Stanford, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «finally close resources».",
+      "expand_scope": "E1/E2/E3 + docs for «finally close resources»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 11/38: «finally close resources» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "structured logs no PII",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 12/38: «structured logs no PII» via 12factor, MIT, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «structured logs no PII».",
+      "expand_scope": "E1/E2/E3 + docs for «structured logs no PII»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 12/38: «structured logs no PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "metrics queue depth latency",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 13/38: «metrics queue depth latency» via Coursera, Live, MIT (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «metrics queue depth latency».",
+      "expand_scope": "E1/E2/E3 + docs for «metrics queue depth latency»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 13/38: «metrics queue depth latency» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "OpenTelemetry traces conceptual",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "httpx",
+          "url": "https://github.com/encode/httpx",
+          "note": "async HTTP ref"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 14/38: «OpenTelemetry traces conceptual» via GitHub, Harvard, Stanford (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «OpenTelemetry traces conceptual».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenTelemetry traces conceptual»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 14/38: «OpenTelemetry traces conceptual» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "correlation_id header",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 15/38: «correlation_id header» via 12factor, Docs, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «correlation_id header».",
+      "expand_scope": "E1/E2/E3 + docs for «correlation_id header»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 15/38: «correlation_id header» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "redact emails phones in logs",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "concurrent.futures",
+          "url": "https://docs.python.org/3/library/concurrent.futures.html",
+          "note": "pools"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 16/38: «redact emails phones in logs» via Coursera, Docs, Live (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «redact emails phones in logs».",
+      "expand_scope": "E1/E2/E3 + docs for «redact emails phones in logs»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 16/38: «redact emails phones in logs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "SLI vs SLO error budget",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "httpx",
+          "url": "https://github.com/encode/httpx",
+          "note": "async HTTP ref"
+        },
+        {
+          "family": "Docs",
+          "title": "multiprocessing",
+          "url": "https://docs.python.org/3/library/multiprocessing.html",
+          "note": "process GIL"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 17/38: «SLI vs SLO error budget» via Docs, GitHub, Harvard (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «SLI vs SLO error budget».",
+      "expand_scope": "E1/E2/E3 + docs for «SLI vs SLO error budget»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 17/38: «SLI vs SLO error budget» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "workflow states pending running done",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        },
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 18/38: «workflow states pending running done» via Docs, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «workflow states pending running done».",
+      "expand_scope": "E1/E2/E3 + docs for «workflow states pending running done»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 18/38: «workflow states pending running done» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "checkpoint after expensive step",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "concurrent.futures",
+          "url": "https://docs.python.org/3/library/concurrent.futures.html",
+          "note": "pools"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "structured logs"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 19/38: «checkpoint after expensive step» via Docs, Live (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «checkpoint after expensive step».",
+      "expand_scope": "E1/E2/E3 + docs for «checkpoint after expensive step»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 19/38: «checkpoint after expensive step» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "idempotency key case:step:ver",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "httpx",
+          "url": "https://github.com/encode/httpx",
+          "note": "async HTTP ref"
+        },
+        {
+          "family": "Docs",
+          "title": "multiprocessing",
+          "url": "https://docs.python.org/3/library/multiprocessing.html",
+          "note": "process GIL"
+        },
+        {
+          "family": "Docs",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "compact payload"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 20/38: «idempotency key case:step:ver» via Docs, GitHub (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «idempotency key case:step:ver».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotency key case:step:ver»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 20/38: «idempotency key case:step:ver» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "no duplicate side effects on resume",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        },
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 21/38: «no duplicate side effects on resume» via Docs, OTel (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «no duplicate side effects on resume».",
+      "expand_scope": "E1/E2/E3 + docs for «no duplicate side effects on resume»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 21/38: «no duplicate side effects on resume» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "retry exponential backoff",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "concurrent.futures",
+          "url": "https://docs.python.org/3/library/concurrent.futures.html",
+          "note": "pools"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "structured logs"
+        },
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 22/38: «retry exponential backoff» via Docs, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «retry exponential backoff».",
+      "expand_scope": "E1/E2/E3 + docs for «retry exponential backoff»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 22/38: «retry exponential backoff» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "dead-letter poison messages",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "multiprocessing",
+          "url": "https://docs.python.org/3/library/multiprocessing.html",
+          "note": "process GIL"
+        },
+        {
+          "family": "Docs",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "compact payload"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 23/38: «dead-letter poison messages» via Docs, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «dead-letter poison messages».",
+      "expand_scope": "E1/E2/E3 + docs for «dead-letter poison messages»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 23/38: «dead-letter poison messages» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "controlled replay not blind requeue",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        },
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 24/38: «controlled replay not blind requeue» via Docs, OTel, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «controlled replay not blind requeue».",
+      "expand_scope": "E1/E2/E3 + docs for «controlled replay not blind requeue»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 24/38: «controlled replay not blind requeue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "runbook on-call symptoms checks actions",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "structured logs"
+        },
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        },
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 25/38: «runbook on-call symptoms checks actions» via Docs, SRE, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «runbook on-call symptoms checks actions».",
+      "expand_scope": "E1/E2/E3 + docs for «runbook on-call symptoms checks actions»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 25/38: «runbook on-call symptoms checks actions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "CASO-LIM-038 Red Andina synthetic",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "compact payload"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 26/38: «CASO-LIM-038 Red Andina synthetic» via Docs, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «CASO-LIM-038 Red Andina synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-038 Red Andina synthetic»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 26/38: «CASO-LIM-038 Red Andina synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "V3 retarget not Numba Cython extreme",
+      "research": [
+        {
+          "family": "OTel",
+          "title": "OpenTelemetry concepts",
+          "url": "https://opentelemetry.io/docs/concepts/",
+          "note": "traces"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 27/38: «V3 retarget not Numba Cython extreme» via MIT, OTel, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «V3 retarget not Numba Cython extreme».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not Numba Cython extreme»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 27/38: «V3 retarget not Numba Cython extreme» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "E1 guided concurrency DEFECT",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO budget"
+        },
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 28/38: «E1 guided concurrency DEFECT» via SRE, Stanford, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E1 guided concurrency DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided concurrency DEFECT»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 28/38: «E1 guided concurrency DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "E2 independent observability policy",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "retry DLQ"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 29/38: «E2 independent observability policy» via 12factor, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E2 independent observability policy».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent observability policy»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 29/38: «E2 independent observability policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "E3 transfer resilience workflow",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLI"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 30/38: «E3 transfer resilience workflow» via Coursera, MIT, SRE (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E3 transfer resilience workflow».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer resilience workflow»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 30/38: «E3 transfer resilience workflow» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "MIT 6.824 distributed mindset",
+      "research": [
+        {
+          "family": "Tenacity",
+          "title": "Tenacity",
+          "url": "https://tenacity.readthedocs.io/",
+          "note": "backoff"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 31/38: «MIT 6.824 distributed mindset» via Harvard, Stanford, Tenacity (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «MIT 6.824 distributed mindset».",
+      "expand_scope": "E1/E2/E3 + docs for «MIT 6.824 distributed mindset»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 31/38: «MIT 6.824 distributed mindset» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "Stanford CS110 processes threads",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.824",
+          "url": "https://pdos.csail.mit.edu/6.824/",
+          "note": "distributed"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 32/38: «Stanford CS110 processes threads» via 12factor, MIT, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «Stanford CS110 processes threads».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS110 processes threads»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 32/38: «Stanford CS110 processes threads» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "SRE workbook monitoring",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.031",
+          "url": "https://web.mit.edu/6.031/www/sp22/",
+          "note": "construction"
+        },
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 33/38: «SRE workbook monitoring» via Coursera, Live, MIT (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «SRE workbook monitoring».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE workbook monitoring»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 33/38: «SRE workbook monitoring» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "pair feed to S39 integrator ops",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS110",
+          "url": "https://web.stanford.edu/class/cs110/",
+          "note": "processes threads"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "httpx",
+          "url": "https://github.com/encode/httpx",
+          "note": "async HTTP ref"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 34/38: «pair feed to S39 integrator ops» via GitHub, Harvard, Stanford (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «pair feed to S39 integrator ops».",
+      "expand_scope": "E1/E2/E3 + docs for «pair feed to S39 integrator ops»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 34/38: «pair feed to S39 integrator ops» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "selfCheck non-trivial MCQ ≥5",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 35/38: «selfCheck non-trivial MCQ ≥5» via 12factor, Docs, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «selfCheck non-trivial MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck non-trivial MCQ ≥5»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 35/38: «selfCheck non-trivial MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "provider slow process crash restart",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Cloud Computing",
+          "url": "https://www.coursera.org/learn/cloud-computing",
+          "note": "distributed ops"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "concurrent.futures",
+          "url": "https://docs.python.org/3/library/concurrent.futures.html",
+          "note": "pools"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 36/38: «provider slow process crash restart» via Coursera, Docs, Live (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «provider slow process crash restart».",
+      "expand_scope": "E1/E2/E3 + docs for «provider slow process crash restart»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 36/38: «provider slow process crash restart» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "duplicate_side_effect_ok False",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "httpx",
+          "url": "https://github.com/encode/httpx",
+          "note": "async HTTP ref"
+        },
+        {
+          "family": "Docs",
+          "title": "multiprocessing",
+          "url": "https://docs.python.org/3/library/multiprocessing.html",
+          "note": "process GIL"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 37/38: «duplicate_side_effect_ok False» via Docs, GitHub, Harvard (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «duplicate_side_effect_ok False».",
+      "expand_scope": "E1/E2/E3 + docs for «duplicate_side_effect_ok False»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 37/38: «duplicate_side_effect_ok False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "pii_in_logs_ok False",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "Docs",
+          "title": "asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html",
+          "note": "async I/O"
+        },
+        {
+          "family": "Docs",
+          "title": "queue",
+          "url": "https://docs.python.org/3/library/queue.html",
+          "note": "backpressure"
+        }
+      ],
+      "synthesize": "S38 «Concurrencia, observabilidad y workflows resilientes» cycle 38/38: «pii_in_logs_ok False» via Docs, Py4E (CASO-LIM-038).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «pii_in_logs_ok False».",
+      "expand_scope": "E1/E2/E3 + docs for «pii_in_logs_ok False»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 38/38: «pii_in_logs_ok False» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:55:52.585606+00:00"
+}

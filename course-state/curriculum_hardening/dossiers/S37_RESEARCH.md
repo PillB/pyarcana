@@ -1,42 +1,35 @@
-# Research dossier — S37 Profiling, algoritmos y rendimiento
+# S37 Research Dossier (STORM n=37)
 
-**Section file:** `s37-dbt-bigquery.ts`  
-**Platform id (conservado):** `dbt-bigquery`  
-**Residual:** STUB (avg_para≈70, avg_instr≈25, starters vacíos)  
-**Target:** gold vs S01/S02 depth + operational contracts phase-appropriate (escala CP-N3-C; no dbt cloud real)
+**Title:** Profiling, algoritmos y rendimiento
+**File:** `s37-dbt-bigquery.ts`
+**Cycles:** 37
+**Method:** hand_STORM_domain_sources
+**Generated:** 2026-07-24T03:52:39.133530+00:00
 
-## Competitive sources
+## Competitive anchors
+- https://docs.python.org/3/library/time.html#time.perf_counter
+- https://docs.python.org/3/library/timeit.html
+- https://docs.python.org/3/library/tracemalloc.html
+- https://docs.python.org/3/library/profile.html
+- https://docs.python.org/3/library/statistics.html
+- https://docs.python.org/3/library/collections.html#collections.defaultdict
+- https://sre.google/workbook/monitoring/
+- https://docs.pytest.org/
+- https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/
+- https://web.stanford.edu/class/cs161/
+- https://www.coursera.org/learn/algorithms-part1
+- https://cs50.harvard.edu/python
+- https://www.py4e.com
+- https://www.bigocheatsheet.com/
+- https://github.com/benfred/py-spy
+- https://github.com/plasma-umass/scalene
+- https://pillb.github.io/pyarcana/
+- https://docs.python.org/3/library/functools.html#functools.lru_cache
+- https://pandas.pydata.org/docs/user_guide/scale.html
+- https://12factor.net/
 
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Coursera | *Python for Everybody* / *Data Structures* (Michigan) — complexity intuition; *Algorithms, Part I* (Princeton / Coursera, Sedgewick) — big-O and cost of pairs; *Google IT Automation with Python* — measuring scripts before optimizing |
-| MIT | MIT 6.006 *Introduction to Algorithms* (OCW) — asymptotic analysis; MIT 6.172 *Performance Engineering of Software Systems* — measurement, profiling, and “measure first” culture |
-| Stanford | CS161 *Design and Analysis of Algorithms* — complexity; CS149 / parallel systems notes — when data layout and memory dominate |
-| Harvard | CS50 / CS61 conceptual modules on runtime and memory; Harvard Extension *Data Science* modules on sampling and benchmarking hygiene |
-| GitHub | `python/cpython` (`time.perf_counter`, `cProfile`); `pyutils` / `scalene-profiler/scalene`; entity-resolution blocking notes in `dedupeio/dedupe` (candidate pair reduction) |
-| Video | PyCon talks on high-performance Python (e.g. *PyPy / profiling* sessions); *“Using cProfile”* tutorials; Maria Santos / SciPy talks on vectorization trade-offs; “High Performance Python” book companion material |
+See `S37_STORM.json`.
+PA: `../paragraph_analysis/S37_PARAGRAPHS.md`
 
-## Section map (titles/subtopics)
-
-1. **Mapa** — Rendimiento del triage (CP-N3-C escala): mismo resultado + reporte antes/después  
-2. **S37-T1-A** wall/CPU y memory profiling  
-3. **S37-T1-B** benchmark fixture, warmup y variabilidad  
-4. **S37-T2-A** complejidad y blocking (O(n²) pairs)  
-5. **S37-T2-B** estructuras, vectorización y reducción de candidatos  
-6. **S37-T3-A** dtypes, chunking y columnar  
-7. **S37-T3-B** caching, invalidación y out-of-core  
-8. **S37-T4-A** performance budget y tests  
-9. **S37-T4-B** costo total, claridad y no microoptimización  
-
-## Coverage gaps
-
-- One-line theory; empty starters; micro-instructions.  
-- Must retheme legacy dbt/BigQuery id to profiling of N3 path without teaching unreleased cloud APIs.  
-- Progressive disclosure: no S38-only DLQ/runbook as exercise dependency (S38 is later in reverse walk but may exist in course order — exercises may use only concepts introduced by S37 and prior; pools/async detailed in S38 so avoid requiring them here).
-
-## Expansion plan
-
-1. Theory ≥3 paras ≥180 chars with CASO-LIM-037.  
-2. 24 weDo ≥150 chars + fixtures + pass outputs.  
-3. Starters with one defect (wrong median, inverted budget, etc.).  
-4. `S37_DONE.md` before/after kb.
+## Git restore
+NO — worktree ≥ HEAD.

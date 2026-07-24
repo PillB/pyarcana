@@ -1,0 +1,495 @@
+{
+  "index": 13,
+  "id": "rpa-automation",
+  "title": "Familiarity Evidence Dashboard y cierre de nivel",
+  "file": "s13-rpa-automation.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
+      "len": 66
+    },
+    {
+      "i": 1,
+      "text": "En V3, S13 no es el path principal de Playwright, Ollama, OCR ni Prefect. Ese material se reubica al tramo de automatización avanzada. Aquí cierras CP-N1-C con un Familiarity Evidence Dashboard: ER por reglas, señales de relación separadas, explicación humana y operación responsable.",
+      "len": 284
+    },
+    {
+      "i": 2,
+      "text": "Promoción de nivel: tres capstones N1, regresión S01–S13 (level-1) y CF-1 aprobados. Solo datos sintéticos pseudonimizados. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 401
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Identidad (ER) → T2 Relación → T3 Decisión → T4 Producto/ops + CF-1. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 356
+    },
+    {
+      "i": 4,
+      "text": "Normalización, blocking y entity resolution",
+      "len": 43
+    },
+    {
+      "i": 5,
+      "text": "Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 364
+    },
+    {
+      "i": 6,
+      "text": "ER determinista por reglas produce entity_resolution_score ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 393
+    },
+    {
+      "i": 7,
+      "text": "No colapses ER con señales de relación: son scores separados en la ficha de caso. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización, blocking y entity resolution»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 336
+    },
+    {
+      "i": 8,
+      "text": "Verdad etiquetada, precision/recall y revisión clerical",
+      "len": 55
+    },
+    {
+      "i": 9,
+      "text": "Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 297
+    },
+    {
+      "i": 10,
+      "text": "Scores en banda de duda van a cola clerical (humano), no a auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 348
+    },
+    {
+      "i": 11,
+      "text": "Un FP no implica fraude: es error de matching de identidad, no veredicto legal. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Verdad etiquetada, precision/recall y revisión clerical»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 346
+    },
+    {
+      "i": 12,
+      "text": "Email/teléfono/dirección compartidos, distancia y apellidos",
+      "len": 59
+    },
+    {
+      "i": 13,
+      "text": "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 335
+    },
+    {
+      "i": 14,
+      "text": "Agrégalas en relationship_signal_score con pesos documentados. No es veredicto de parentesco. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 371
+    },
+    {
+      "i": 15,
+      "text": "Cada señal debe poder listarse en la explicación de la ficha. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Email/teléfono/dirección compartidos, distancia y apellidos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 332
+    },
+    {
+      "i": 16,
+      "text": "Transacciones directas y contrapartes comunes",
+      "len": 45
+    },
+    {
+      "i": 17,
+      "text": "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 329
+    },
+    {
+      "i": 18,
+      "text": "Modela un graphlet simple y emite objetos RelationshipEvidence con tipo y traza. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 358
+    },
+    {
+      "i": 19,
+      "text": "Disclaimer obligatorio: common counterparty ≠ collusion claim. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Transacciones directas y contrapartes comunes»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 319
+    },
+    {
+      "i": 20,
+      "text": "Score de evidencia, incertidumbre y explicación",
+      "len": 47
+    },
+    {
+      "i": 21,
+      "text": "Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 344
+    },
+    {
+      "i": 22,
+      "text": "Campos de auditoría: inputs usados, missing fields, versión de reglas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 348
+    },
+    {
+      "i": 23,
+      "text": "Señales conflictivas → explicación honesta, no score maquillado. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Score de evidencia, incertidumbre y explicación»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 323
+    },
+    {
+      "i": 24,
+      "text": "Umbral de revisión, abstención y no inferencia automática",
+      "len": 57
+    },
+    {
+      "i": 25,
+      "text": "Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ score < 0.80 → needs_review; score ≥ 0.80 → accept_pair. Nunca auto_fraud=true ni is_family=true.",
+      "len": 256
+    },
+    {
+      "i": 26,
+      "text": "Human-in-the-loop: la acción operativa es de datos (revisar/aceptar/rechazar par), no veredicto legal. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 380
+    },
+    {
+      "i": 27,
+      "text": "Auditoría: elimina cualquier path que setee parentesco/fraude automático. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Umbral de revisión, abstención y no inferencia automática»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 342
+    },
+    {
+      "i": 28,
+      "text": "Dashboard/mapa pseudonimizado y ficha de caso",
+      "len": 45
+    },
+    {
+      "i": 29,
+      "text": "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 346
+    },
+    {
+      "i": 30,
+      "text": "Pseudonimiza nombres en vista (A Q). Ficha muestra ER score y relationship score por separado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 372
+    },
+    {
+      "i": 31,
+      "text": "No es un design system completo (eso es tramo producto/UI posterior). Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Dashboard/mapa pseudonimizado y ficha de caso»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 326
+    },
+    {
+      "i": 32,
+      "text": "Privacidad, acceso, pruebas, demo y runbook",
+      "len": 43
+    },
+    {
+      "i": 33,
+      "text": "Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
+      "len": 331
+    },
+    {
+      "i": 34,
+      "text": "Tests green de ER, señales y umbrales. Demo de un comando. Runbook incluye incidente de PII en log. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
+      "len": 377
+    },
+    {
+      "i": 35,
+      "text": "Artefactos CF-1 + notas de regresión level-1 (S01–S13) cierran el nivel. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Privacidad, acceso, pruebas, demo y runbook»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 327
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 66,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
+      "text": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S13 no es el path principal de Playwright, Ollama, OCR ni Prefect. Ese material se reubica al tramo de automatización avanzada. Aquí cierras CP-N1-C con un Familiarity Evide",
+      "text": "En V3, S13 no es el path principal de Playwright, Ollama, OCR ni Prefect. Ese material se reubica al tramo de automatización avanzada. Aquí cierras CP-N1-C con un Familiarity Evidence Dashboard: ER por reglas, señales de relación separadas, explicación humana y operación responsable."
+    },
+    {
+      "i": 2,
+      "len": 401,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Promoción de nivel: tres capstones N1, regresión S01–S13 (level-1) y CF-1 aprobados. Solo datos sintéticos pseudonimizados. Contrato: entrada explícita → transformación documentada",
+      "text": "Promoción de nivel: tres capstones N1, regresión S01–S13 (level-1) y CF-1 aprobados. Solo datos sintéticos pseudonimizados. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 3,
+      "len": 356,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Identidad (ER) → T2 Relación → T3 Decisión → T4 Producto/ops + CF-1. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métr",
+      "text": "Orden: T1 Identidad (ER) → T2 Relación → T3 Decisión → T4 Producto/ops + CF-1. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Normalización, blocking y entity resolution",
+      "text": "Normalización, blocking y entity resolution"
+    },
+    {
+      "i": 5,
+      "len": 364,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evidencia, ",
+      "text": "Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 393,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "ER determinista por reglas produce entity_resolution_score ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+). Contrato: entrada explícita → transformación documentada → salid",
+      "text": "ER determinista por reglas produce entity_resolution_score ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 7,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No colapses ER con señales de relación: son scores separados en la ficha de caso. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, m",
+      "text": "No colapses ER con señales de relación: son scores separados en la ficha de caso. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización, blocking y entity resolution»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Verdad etiquetada, precision/recall y revisión clerical",
+      "text": "Verdad etiquetada, precision/recall y revisión clerical"
+    },
+    {
+      "i": 9,
+      "len": 297,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, dej",
+      "text": "Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 348,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Scores en banda de duda van a cola clerical (humano), no a auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no ",
+      "text": "Scores en banda de duda van a cola clerical (humano), no a auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 11,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un FP no implica fraude: es error de matching de identidad, no veredicto legal. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, mét",
+      "text": "Un FP no implica fraude: es error de matching de identidad, no veredicto legal. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Verdad etiquetada, precision/recall y revisión clerical»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 59,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Email/teléfono/dirección compartidos, distancia y apellidos",
+      "text": "Email/teléfono/dirección compartidos, distancia y apellidos"
+    },
+    {
+      "i": 13,
+      "len": 335,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el porqué es operativo: reduc",
+      "text": "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 371,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Agrégalas en relationship_signal_score con pesos documentados. No es veredicto de parentesco. Contrato: entrada explícita → transformación documentada → salida medible; si falta ev",
+      "text": "Agrégalas en relationship_signal_score con pesos documentados. No es veredicto de parentesco. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 15,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada señal debe poder listarse en la explicación de la ficha. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite cono",
+      "text": "Cada señal debe poder listarse en la explicación de la ficha. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Email/teléfono/dirección compartidos, distancia y apellidos»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Transacciones directas y contrapartes comunes",
+      "text": "Transacciones directas y contrapartes comunes"
+    },
+    {
+      "i": 17,
+      "len": 329,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el porqué es operativo: reduce ambi",
+      "text": "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 358,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Modela un graphlet simple y emite objetos RelationshipEvidence con tipo y traza. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el ",
+      "text": "Modela un graphlet simple y emite objetos RelationshipEvidence con tipo y traza. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 19,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Disclaimer obligatorio: common counterparty ≠ collusion claim. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite con",
+      "text": "Disclaimer obligatorio: common counterparty ≠ collusion claim. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Transacciones directas y contrapartes comunes»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Score de evidencia, incertidumbre y explicación",
+      "text": "Score de evidencia, incertidumbre y explicación"
+    },
+    {
+      "i": 21,
+      "len": 344,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, el porqué es operati",
+      "text": "Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 348,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Campos de auditoría: inputs usados, missing fields, versión de reglas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no ",
+      "text": "Campos de auditoría: inputs usados, missing fields, versión de reglas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 23,
+      "len": 323,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Señales conflictivas → explicación honesta, no score maquillado. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite c",
+      "text": "Señales conflictivas → explicación honesta, no score maquillado. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Score de evidencia, incertidumbre y explicación»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Umbral de revisión, abstención y no inferencia automática",
+      "text": "Umbral de revisión, abstención y no inferencia automática"
+    },
+    {
+      "i": 25,
+      "len": 256,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ score < 0.80 → needs_",
+      "text": "Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ score < 0.80 → needs_review; score ≥ 0.80 → accept_pair. Nunca auto_fraud=true ni is_family=true."
+    },
+    {
+      "i": 26,
+      "len": 380,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Human-in-the-loop: la acción operativa es de datos (revisar/aceptar/rechazar par), no veredicto legal. Contrato: entrada explícita → transformación documentada → salida medible; si",
+      "text": "Human-in-the-loop: la acción operativa es de datos (revisar/aceptar/rechazar par), no veredicto legal. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 27,
+      "len": 342,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Auditoría: elimina cualquier path que setee parentesco/fraude automático. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y",
+      "text": "Auditoría: elimina cualquier path que setee parentesco/fraude automático. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Umbral de revisión, abstención y no inferencia automática»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Dashboard/mapa pseudonimizado y ficha de caso",
+      "text": "Dashboard/mapa pseudonimizado y ficha de caso"
+    },
+    {
+      "i": 29,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia, el porqué es opera",
+      "text": "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 372,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pseudonimiza nombres en vista (A Q). Ficha muestra ER score y relationship score por separado. Contrato: entrada explícita → transformación documentada → salida medible; si falta e",
+      "text": "Pseudonimiza nombres en vista (A Q). Ficha muestra ER score y relationship score por separado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 31,
+      "len": 326,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No es un design system completo (eso es tramo producto/UI posterior). Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y lím",
+      "text": "No es un design system completo (eso es tramo producto/UI posterior). Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Dashboard/mapa pseudonimizado y ficha de caso»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Privacidad, acceso, pruebas, demo y runbook",
+      "text": "Privacidad, acceso, pruebas, demo y runbook"
+    },
+    {
+      "i": 33,
+      "len": 331,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el porqué es operativo: reduce am",
+      "text": "Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 377,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tests green de ER, señales y umbrales. Demo de un comando. Runbook incluye incidente de PII en log. Contrato: entrada explícita → transformación documentada → salida medible; si fa",
+      "text": "Tests green de ER, señales y umbrales. Demo de un comando. Runbook incluye incidente de PII en log. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15."
+    },
+    {
+      "i": 35,
+      "len": 327,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Artefactos CF-1 + notas de regresión level-1 (S01–S13) cierran el nivel. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y ",
+      "text": "Artefactos CF-1 + notas de regresión level-1 (S01–S13) cierran el nivel. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Privacidad, acceso, pruebas, demo y runbook»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 17696
+}

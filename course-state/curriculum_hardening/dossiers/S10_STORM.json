@@ -1,0 +1,301 @@
+{
+  "section": 10,
+  "title": "Módulos, packaging y CLI profesional",
+  "file": "s10-sklearn.ts",
+  "n_required": 10,
+  "n_logged": 10,
+  "generated_at": "2026-07-24T05:02:09.394+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "secrets out of repo; stdout data stderr logs; no PII",
+    "v3_retarget": "modules packaging CLI not sklearn ML",
+    "expert_pass_at": "2026-07-24T05:02:09.394+00:00"
+  },
+  "unique_foci": 10,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "import sys modules once",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Modules tutorial",
+          "url": "https://docs.python.org/3/tutorial/modules.html",
+          "note": "imports"
+        },
+        {
+          "family": "Python",
+          "title": "argparse",
+          "url": "https://docs.python.org/3/library/argparse.html",
+          "note": "CLI"
+        },
+        {
+          "family": "PyPA",
+          "title": "pyproject.toml guide",
+          "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+          "note": "packaging"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 1/10: «import sys modules once» via PyPA, Python (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «import sys modules once».",
+      "expand_scope": "E1/E2/E3 + docs for «import sys modules once»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 1/10: «import sys modules once» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "name main guard",
+      "research": [
+        {
+          "family": "Python",
+          "title": "argparse",
+          "url": "https://docs.python.org/3/library/argparse.html",
+          "note": "CLI"
+        },
+        {
+          "family": "PyPA",
+          "title": "pyproject.toml guide",
+          "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+          "note": "packaging"
+        },
+        {
+          "family": "PyPA",
+          "title": "Packaging User Guide",
+          "url": "https://packaging.python.org/en/latest/",
+          "note": "install"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 2/10: «name main guard» via PyPA, Python (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «name main guard».",
+      "expand_scope": "E1/E2/E3 + docs for «name main guard»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 2/10: «name main guard» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "public __all__ API",
+      "research": [
+        {
+          "family": "PyPA",
+          "title": "pyproject.toml guide",
+          "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+          "note": "packaging"
+        },
+        {
+          "family": "PyPA",
+          "title": "Packaging User Guide",
+          "url": "https://packaging.python.org/en/latest/",
+          "note": "install"
+        },
+        {
+          "family": "SemVer",
+          "title": "semver.org",
+          "url": "https://semver.org/",
+          "note": "versioning"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 3/10: «public __all__ API» via PyPA, SemVer (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «public __all__ API».",
+      "expand_scope": "E1/E2/E3 + docs for «public __all__ API»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 3/10: «public __all__ API» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "private underscore helpers",
+      "research": [
+        {
+          "family": "PyPA",
+          "title": "Packaging User Guide",
+          "url": "https://packaging.python.org/en/latest/",
+          "note": "install"
+        },
+        {
+          "family": "SemVer",
+          "title": "semver.org",
+          "url": "https://semver.org/",
+          "note": "versioning"
+        },
+        {
+          "family": "PyPA",
+          "title": "sampleproject",
+          "url": "https://github.com/pypa/sampleproject",
+          "note": "layout"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 4/10: «private underscore helpers» via PyPA, SemVer (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «private underscore helpers».",
+      "expand_scope": "E1/E2/E3 + docs for «private underscore helpers»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 4/10: «private underscore helpers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "semver major minor patch",
+      "research": [
+        {
+          "family": "SemVer",
+          "title": "semver.org",
+          "url": "https://semver.org/",
+          "note": "versioning"
+        },
+        {
+          "family": "PyPA",
+          "title": "sampleproject",
+          "url": "https://github.com/pypa/sampleproject",
+          "note": "layout"
+        },
+        {
+          "family": "Real Python",
+          "title": "app layouts",
+          "url": "https://realpython.com/python-application-layouts/",
+          "note": "src layout"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 5/10: «semver major minor patch» via PyPA, Real Python, SemVer (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «semver major minor patch».",
+      "expand_scope": "E1/E2/E3 + docs for «semver major minor patch»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 5/10: «semver major minor patch» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "src layout install e",
+      "research": [
+        {
+          "family": "PyPA",
+          "title": "sampleproject",
+          "url": "https://github.com/pypa/sampleproject",
+          "note": "layout"
+        },
+        {
+          "family": "Real Python",
+          "title": "app layouts",
+          "url": "https://realpython.com/python-application-layouts/",
+          "note": "src layout"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "modules"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 6/10: «src layout install e» via MIT, PyPA, Real Python (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «src layout install e».",
+      "expand_scope": "E1/E2/E3 + docs for «src layout install e»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 6/10: «src layout install e» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "pyproject name version requires-python",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "app layouts",
+          "url": "https://realpython.com/python-application-layouts/",
+          "note": "src layout"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "modules"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "libraries"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 7/10: «pyproject name version requires-python» via Harvard, MIT, Real Python (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pyproject name version requires-python».",
+      "expand_scope": "E1/E2/E3 + docs for «pyproject name version requires-python»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 7/10: «pyproject name version requires-python» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "subparsers ingest normalize compare report",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "modules"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "libraries"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 8/10: «subparsers ingest normalize compare report» via Coursera, Harvard, MIT (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «subparsers ingest normalize compare report».",
+      "expand_scope": "E1/E2/E3 + docs for «subparsers ingest normalize compare report»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 8/10: «subparsers ingest normalize compare report» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "exit codes 0 1 2",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "libraries"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "MOOC"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 9/10: «exit codes 0 1 2» via Coursera, Harvard, Live (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exit codes 0 1 2».",
+      "expand_scope": "E1/E2/E3 + docs for «exit codes 0 1 2»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 9/10: «exit codes 0 1 2» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "main argv returns int",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "MOOC"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Python",
+          "title": "sys.exit",
+          "url": "https://docs.python.org/3/library/sys.html#sys.exit",
+          "note": "exit codes"
+        }
+      ],
+      "synthesize": "S10 «Módulos, packaging y CLI profesional» cycle 10/10: «main argv returns int» via Coursera, Live, Python (familiarity_core CLI CP-N1-B/C).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «main argv returns int».",
+      "expand_scope": "E1/E2/E3 + docs for «main argv returns int»; V3 roadmap; pair S10 packaging → S11 next.",
+      "re_synthesize": "Decision 10/10: «main argv returns int» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

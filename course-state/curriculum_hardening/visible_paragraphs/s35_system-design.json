@@ -1,0 +1,612 @@
+{
+  "index": 35,
+  "id": "system-design",
+  "title": "Explicabilidad, equidad e incertidumbre",
+  "file": "s35-system-design.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S35: explicabilidad, equidad e incertidumbre",
+      "len": 49
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S35. Perm importance, explicación local, slice/cohorte, proxy, low_n, incertidumbre/intervalo, OOD, model card, contestabilidad, override/retiro.",
+      "len": 157
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisito S34. Producto: ficha que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana.",
+      "len": 124
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: modelo + scores CASO-LIM-035. Salida: explicaciones, slices, OOD policy, card y audit. Error: culpa por importancia, fairness sin n, silent OOD, auto-approve → bloqueo.",
+      "len": 187
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 explicación → T2 equidad → T3 incertidumbre → T4 gobernanza. Stack stdlib; SHAP/sklearn inspection como referencia profesional.",
+      "len": 137
+    },
+    {
+      "i": 5,
+      "text": "Coeficientes e importancia por permutación",
+      "len": 42
+    },
+    {
+      "i": 6,
+      "text": "Importancia por permutación: mide caída de métrica al barajar una feature. Más fiable que |coef| solo, pero sigue siendo asociativa.",
+      "len": 132
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: baseline_metric - metric_after_shuffle(feature). Ranking por drop.",
+      "len": 77
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: drops por feature, metric. Salida: top feature y causal False. Error: rank de culpa moral.",
+      "len": 109
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-LIM-035-T1A: shared_phone drop 0.1 > amount 0.03; no implica parentesco.",
+      "len": 88
+    },
+    {
+      "i": 10,
+      "text": "Explicación local, correlación y límites",
+      "len": 40
+    },
+    {
+      "i": 11,
+      "text": "Explicación local (contribuciones toy / idea SHAP): por qué este score. Correlación entre features confunde atribuciones. Límites: no es prueba causal ni legal.",
+      "len": 160
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: contrib = w_i * x_i; suma ≈ score − b. Documenta local_only=True.",
+      "len": 76
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: w, x. Salida: contribs y disclaimer. Error: usar explicación como veredicto.",
+      "len": 95
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-LIM-035-T1B: contribs amount 1.0 shared 0.2; local_only True.",
+      "len": 77
+    },
+    {
+      "i": 15,
+      "text": "Cohortes y métricas por slice",
+      "len": 29
+    },
+    {
+      "i": 16,
+      "text": "Equidad de medición: reporta precision/recall (o P@k) por cohorte/slice sintético (canal, región). n pequeño → incertidumbre alta.",
+      "len": 130
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: metric(slice)=tp/(tp+fp); flag low_n si n<min_n.",
+      "len": 59
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: metrics_by_slice, min_n. Salida: worst slice y low_n flags. Error: promediar ocultando slice roto.",
+      "len": 117
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-LIM-035-T2A: ussd 0.4 vs app 0.7; n_ussd=8 < 30 → low_n.",
+      "len": 72
+    },
+    {
+      "i": 20,
+      "text": "Proxies, sample size y daño diferencial",
+      "len": 39
+    },
+    {
+      "i": 21,
+      "text": "Proxies (distrito, canal) pueden correlacionar con atributos sensibles. Daño diferencial: mismo modelo, peores errores en un slice. n insuficiente → no afirmes paridad.",
+      "len": 168
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: checklist proxy_risk; require n>=min para claims; HITL en slices frágiles.",
+      "len": 85
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: proxy_flags, n, harm_gap. Salida: review_required. Error: afirmar fairness con n=5.",
+      "len": 102
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-LIM-035-T2B: proxy_risk True, n=5 → no claim de paridad.",
+      "len": 72
+    },
+    {
+      "i": 25,
+      "text": "Incertidumbre: calibración e intervalos (conformal idea)",
+      "len": 56
+    },
+    {
+      "i": 26,
+      "text": "Incertidumbre comunica que el score no es certeza. Conformal (idea): bandas con cobertura empírica. Intervalos anchos → abstenerse.",
+      "len": 131
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: width = hi-lo; si width > thr → uncertain. Calibración conecta con S34.",
+      "len": 82
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: lo, hi, thr. Salida: uncertain flag. Error: punto único sin banda en decisiones de alto impacto.",
+      "len": 115
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-LIM-035-T3A: [0.2,0.8] width 0.6 > 0.3 → uncertain True.",
+      "len": 72
+    },
+    {
+      "i": 30,
+      "text": "Out-of-distribution y abstención",
+      "len": 32
+    },
+    {
+      "i": 31,
+      "text": "OOD: input lejos del train (distancia toy / max |z|). Abstención envía a humano en vez de forzar clase.",
+      "len": 103
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: max_abs_z > z_thr → OOD → ABSTAIN.",
+      "len": 45
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: z_scores, thr. Salida: ood y action. Error: predecir en OOD sin flag.",
+      "len": 88
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-LIM-035-T3B: z=[0.1, 4.0], thr=3 → OOD ABSTAIN.",
+      "len": 63
+    },
+    {
+      "i": 35,
+      "text": "Model card y contestabilidad",
+      "len": 28
+    },
+    {
+      "i": 36,
+      "text": "Model card: intended use, datos, métricas, límites, ethical considerations. Contestabilidad: canal para apelar/override con registro.",
+      "len": 133
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: checklist de campos obligatorios; missing → no deploy.",
+      "len": 65
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: card fields. Salida: complete flag. Error: card vacía o sin límites.",
+      "len": 87
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-LIM-035-T4A: fields use/data/metrics/limits/ethics presentes.",
+      "len": 77
+    },
+    {
+      "i": 40,
+      "text": "Aprobación, override, apelación y retiro",
+      "len": 40
+    },
+    {
+      "i": 41,
+      "text": "Gobernanza: aprobación humana antes de acciones que afectan personas; override/apelación auditados; retiro si drift/daño.",
+      "len": 121
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: estados PENDING→APPROVED|REJECTED; override requiere reason_code; retire si harm_flag.",
+      "len": 97
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: state machine events. Salida: audit trail. Error: auto-approve de sanciones.",
+      "len": 95
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-LIM-035-T4B: ficha de caso con evidencia, contribución, incertidumbre y decisión humana (inicio CP-N3-C).",
+      "len": 121
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S35: explicabilidad, equidad e incertidumbre",
+      "text": "Mapa S35: explicabilidad, equidad e incertidumbre"
+    },
+    {
+      "i": 1,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S35. Perm importance, explicación local, slice/cohorte, proxy, low_n, incertidumbre/intervalo, OOD, model card, contestabilidad, override/retiro.",
+      "text": "Diccionario S35. Perm importance, explicación local, slice/cohorte, proxy, low_n, incertidumbre/intervalo, OOD, model card, contestabilidad, override/retiro."
+    },
+    {
+      "i": 2,
+      "len": 124,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisito S34. Producto: ficha que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana.",
+      "text": "Prerrequisito S34. Producto: ficha que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana."
+    },
+    {
+      "i": 3,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: modelo + scores CASO-LIM-035. Salida: explicaciones, slices, OOD policy, card y audit. Error: culpa por importancia, fairness sin n, silent OOD, auto-approve → b",
+      "text": "Contrato. Entrada: modelo + scores CASO-LIM-035. Salida: explicaciones, slices, OOD policy, card y audit. Error: culpa por importancia, fairness sin n, silent OOD, auto-approve → bloqueo."
+    },
+    {
+      "i": 4,
+      "len": 137,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 explicación → T2 equidad → T3 incertidumbre → T4 gobernanza. Stack stdlib; SHAP/sklearn inspection como referencia profesional.",
+      "text": "Orden: T1 explicación → T2 equidad → T3 incertidumbre → T4 gobernanza. Stack stdlib; SHAP/sklearn inspection como referencia profesional."
+    },
+    {
+      "i": 5,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Coeficientes e importancia por permutación",
+      "text": "Coeficientes e importancia por permutación"
+    },
+    {
+      "i": 6,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Importancia por permutación: mide caída de métrica al barajar una feature. Más fiable que |coef| solo, pero sigue siendo asociativa.",
+      "text": "Importancia por permutación: mide caída de métrica al barajar una feature. Más fiable que |coef| solo, pero sigue siendo asociativa."
+    },
+    {
+      "i": 7,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: baseline_metric - metric_after_shuffle(feature). Ranking por drop.",
+      "text": "Mecanismo: baseline_metric - metric_after_shuffle(feature). Ranking por drop."
+    },
+    {
+      "i": 8,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: drops por feature, metric. Salida: top feature y causal False. Error: rank de culpa moral.",
+      "text": "Contrato. Entrada: drops por feature, metric. Salida: top feature y causal False. Error: rank de culpa moral."
+    },
+    {
+      "i": 9,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T1A: shared_phone drop 0.1 > amount 0.03; no implica parentesco.",
+      "text": "Aplicación CASO-LIM-035-T1A: shared_phone drop 0.1 > amount 0.03; no implica parentesco."
+    },
+    {
+      "i": 10,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Explicación local, correlación y límites",
+      "text": "Explicación local, correlación y límites"
+    },
+    {
+      "i": 11,
+      "len": 160,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Explicación local (contribuciones toy / idea SHAP): por qué este score. Correlación entre features confunde atribuciones. Límites: no es prueba causal ni legal.",
+      "text": "Explicación local (contribuciones toy / idea SHAP): por qué este score. Correlación entre features confunde atribuciones. Límites: no es prueba causal ni legal."
+    },
+    {
+      "i": 12,
+      "len": 76,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: contrib = w_i * x_i; suma ≈ score − b. Documenta local_only=True.",
+      "text": "Mecanismo: contrib = w_i * x_i; suma ≈ score − b. Documenta local_only=True."
+    },
+    {
+      "i": 13,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: w, x. Salida: contribs y disclaimer. Error: usar explicación como veredicto.",
+      "text": "Contrato. Entrada: w, x. Salida: contribs y disclaimer. Error: usar explicación como veredicto."
+    },
+    {
+      "i": 14,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T1B: contribs amount 1.0 shared 0.2; local_only True.",
+      "text": "Aplicación CASO-LIM-035-T1B: contribs amount 1.0 shared 0.2; local_only True."
+    },
+    {
+      "i": 15,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Cohortes y métricas por slice",
+      "text": "Cohortes y métricas por slice"
+    },
+    {
+      "i": 16,
+      "len": 130,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Equidad de medición: reporta precision/recall (o P@k) por cohorte/slice sintético (canal, región). n pequeño → incertidumbre alta.",
+      "text": "Equidad de medición: reporta precision/recall (o P@k) por cohorte/slice sintético (canal, región). n pequeño → incertidumbre alta."
+    },
+    {
+      "i": 17,
+      "len": 59,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: metric(slice)=tp/(tp+fp); flag low_n si n<min_n.",
+      "text": "Mecanismo: metric(slice)=tp/(tp+fp); flag low_n si n<min_n."
+    },
+    {
+      "i": 18,
+      "len": 117,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: metrics_by_slice, min_n. Salida: worst slice y low_n flags. Error: promediar ocultando slice roto.",
+      "text": "Contrato. Entrada: metrics_by_slice, min_n. Salida: worst slice y low_n flags. Error: promediar ocultando slice roto."
+    },
+    {
+      "i": 19,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T2A: ussd 0.4 vs app 0.7; n_ussd=8 < 30 → low_n.",
+      "text": "Aplicación CASO-LIM-035-T2A: ussd 0.4 vs app 0.7; n_ussd=8 < 30 → low_n."
+    },
+    {
+      "i": 20,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Proxies, sample size y daño diferencial",
+      "text": "Proxies, sample size y daño diferencial"
+    },
+    {
+      "i": 21,
+      "len": 168,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Proxies (distrito, canal) pueden correlacionar con atributos sensibles. Daño diferencial: mismo modelo, peores errores en un slice. n insuficiente → no afirmes paridad.",
+      "text": "Proxies (distrito, canal) pueden correlacionar con atributos sensibles. Daño diferencial: mismo modelo, peores errores en un slice. n insuficiente → no afirmes paridad."
+    },
+    {
+      "i": 22,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: checklist proxy_risk; require n>=min para claims; HITL en slices frágiles.",
+      "text": "Mecanismo: checklist proxy_risk; require n>=min para claims; HITL en slices frágiles."
+    },
+    {
+      "i": 23,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: proxy_flags, n, harm_gap. Salida: review_required. Error: afirmar fairness con n=5.",
+      "text": "Contrato. Entrada: proxy_flags, n, harm_gap. Salida: review_required. Error: afirmar fairness con n=5."
+    },
+    {
+      "i": 24,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T2B: proxy_risk True, n=5 → no claim de paridad.",
+      "text": "Aplicación CASO-LIM-035-T2B: proxy_risk True, n=5 → no claim de paridad."
+    },
+    {
+      "i": 25,
+      "len": 56,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Incertidumbre: calibración e intervalos (conformal idea)",
+      "text": "Incertidumbre: calibración e intervalos (conformal idea)"
+    },
+    {
+      "i": 26,
+      "len": 131,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Incertidumbre comunica que el score no es certeza. Conformal (idea): bandas con cobertura empírica. Intervalos anchos → abstenerse.",
+      "text": "Incertidumbre comunica que el score no es certeza. Conformal (idea): bandas con cobertura empírica. Intervalos anchos → abstenerse."
+    },
+    {
+      "i": 27,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: width = hi-lo; si width > thr → uncertain. Calibración conecta con S34.",
+      "text": "Mecanismo: width = hi-lo; si width > thr → uncertain. Calibración conecta con S34."
+    },
+    {
+      "i": 28,
+      "len": 115,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: lo, hi, thr. Salida: uncertain flag. Error: punto único sin banda en decisiones de alto impacto.",
+      "text": "Contrato. Entrada: lo, hi, thr. Salida: uncertain flag. Error: punto único sin banda en decisiones de alto impacto."
+    },
+    {
+      "i": 29,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T3A: [0.2,0.8] width 0.6 > 0.3 → uncertain True.",
+      "text": "Aplicación CASO-LIM-035-T3A: [0.2,0.8] width 0.6 > 0.3 → uncertain True."
+    },
+    {
+      "i": 30,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Out-of-distribution y abstención",
+      "text": "Out-of-distribution y abstención"
+    },
+    {
+      "i": 31,
+      "len": 103,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "OOD: input lejos del train (distancia toy / max |z|). Abstención envía a humano en vez de forzar clase.",
+      "text": "OOD: input lejos del train (distancia toy / max |z|). Abstención envía a humano en vez de forzar clase."
+    },
+    {
+      "i": 32,
+      "len": 45,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: max_abs_z > z_thr → OOD → ABSTAIN.",
+      "text": "Mecanismo: max_abs_z > z_thr → OOD → ABSTAIN."
+    },
+    {
+      "i": 33,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: z_scores, thr. Salida: ood y action. Error: predecir en OOD sin flag.",
+      "text": "Contrato. Entrada: z_scores, thr. Salida: ood y action. Error: predecir en OOD sin flag."
+    },
+    {
+      "i": 34,
+      "len": 63,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T3B: z=[0.1, 4.0], thr=3 → OOD ABSTAIN.",
+      "text": "Aplicación CASO-LIM-035-T3B: z=[0.1, 4.0], thr=3 → OOD ABSTAIN."
+    },
+    {
+      "i": 35,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Model card y contestabilidad",
+      "text": "Model card y contestabilidad"
+    },
+    {
+      "i": 36,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Model card: intended use, datos, métricas, límites, ethical considerations. Contestabilidad: canal para apelar/override con registro.",
+      "text": "Model card: intended use, datos, métricas, límites, ethical considerations. Contestabilidad: canal para apelar/override con registro."
+    },
+    {
+      "i": 37,
+      "len": 65,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: checklist de campos obligatorios; missing → no deploy.",
+      "text": "Mecanismo: checklist de campos obligatorios; missing → no deploy."
+    },
+    {
+      "i": 38,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: card fields. Salida: complete flag. Error: card vacía o sin límites.",
+      "text": "Contrato. Entrada: card fields. Salida: complete flag. Error: card vacía o sin límites."
+    },
+    {
+      "i": 39,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T4A: fields use/data/metrics/limits/ethics presentes.",
+      "text": "Aplicación CASO-LIM-035-T4A: fields use/data/metrics/limits/ethics presentes."
+    },
+    {
+      "i": 40,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Aprobación, override, apelación y retiro",
+      "text": "Aprobación, override, apelación y retiro"
+    },
+    {
+      "i": 41,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Gobernanza: aprobación humana antes de acciones que afectan personas; override/apelación auditados; retiro si drift/daño.",
+      "text": "Gobernanza: aprobación humana antes de acciones que afectan personas; override/apelación auditados; retiro si drift/daño."
+    },
+    {
+      "i": 42,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: estados PENDING→APPROVED|REJECTED; override requiere reason_code; retire si harm_flag.",
+      "text": "Mecanismo: estados PENDING→APPROVED|REJECTED; override requiere reason_code; retire si harm_flag."
+    },
+    {
+      "i": 43,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: state machine events. Salida: audit trail. Error: auto-approve de sanciones.",
+      "text": "Contrato. Entrada: state machine events. Salida: audit trail. Error: auto-approve de sanciones."
+    },
+    {
+      "i": 44,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-035-T4B: ficha de caso con evidencia, contribución, incertidumbre y decisión humana (inicio CP-N3-C).",
+      "text": "Aplicación CASO-LIM-035-T4B: ficha de caso con evidencia, contribución, incertidumbre y decisión humana (inicio CP-N3-C)."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 8051
+}

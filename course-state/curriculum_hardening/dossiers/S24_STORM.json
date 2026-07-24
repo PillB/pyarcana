@@ -1,0 +1,695 @@
+{
+  "section": 24,
+  "title": "OCR y Document AI",
+  "file": "s24-rpa-advanced.ts",
+  "n_required": 24,
+  "n_logged": 24,
+  "generated_at": "2026-07-24T04:23:51.696+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "theory_iDo": "theory+iDo present",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "synthetic docs only; abstain low conf; mismatch≠fraud; auto_fraud_label=False",
+    "v3_retarget": "OCR/Document AI not desktop RPA advanced",
+    "expert_pass_at": "2026-07-24T04:23:51.696+00:00",
+    "tsc_selfcheck_holes": "fixed double-comma"
+  },
+  "unique_foci": 24,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "DPI deskew crop contrast",
+      "research": [
+        {
+          "family": "Tesseract",
+          "title": "OCR docs",
+          "url": "https://tesseract-ocr.github.io/",
+          "note": "OCR engine"
+        },
+        {
+          "family": "Pillow",
+          "title": "Handbook",
+          "url": "https://pillow.readthedocs.io/",
+          "note": "preprocess"
+        },
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 1/24: «DPI deskew crop contrast» via Pillow, PyPI, Tesseract (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DPI deskew crop contrast».",
+      "expand_scope": "E1/E2/E3 + docs for «DPI deskew crop contrast»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 1/24: «DPI deskew crop contrast» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "200+ effective DPI",
+      "research": [
+        {
+          "family": "Pillow",
+          "title": "Handbook",
+          "url": "https://pillow.readthedocs.io/",
+          "note": "preprocess"
+        },
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        },
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 2/24: «200+ effective DPI» via OpenCV, Pillow, PyPI (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «200+ effective DPI».",
+      "expand_scope": "E1/E2/E3 + docs for «200+ effective DPI»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 2/24: «200+ effective DPI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "noise orientation before OCR",
+      "research": [
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        },
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 3/24: «noise orientation before OCR» via Microsoft, OpenCV, PyPI (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «noise orientation before OCR».",
+      "expand_scope": "E1/E2/E3 + docs for «noise orientation before OCR»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 3/24: «noise orientation before OCR» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "languages spa eng layout",
+      "research": [
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        },
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 4/24: «languages spa eng layout» via Google, Microsoft, OpenCV (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «languages spa eng layout».",
+      "expand_scope": "E1/E2/E3 + docs for «languages spa eng layout»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 4/24: «languages spa eng layout» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "confidence per critical field",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        },
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        },
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 5/24: «confidence per critical field» via Coursera, Google, Microsoft (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «confidence per critical field».",
+      "expand_scope": "E1/E2/E3 + docs for «confidence per critical field»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 5/24: «confidence per critical field» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "abstain RUC low conf",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        },
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 6/24: «abstain RUC low conf» via Coursera, Google, MIT (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «abstain RUC low conf».",
+      "expand_scope": "E1/E2/E3 + docs for «abstain RUC low conf»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 6/24: «abstain RUC low conf» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "text tables key-value",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 7/24: «text tables key-value» via Coursera, Harvard, MIT (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «text tables key-value».",
+      "expand_scope": "E1/E2/E3 + docs for «text tables key-value»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 7/24: «text tables key-value» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "bbox evidence on value",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 8/24: «bbox evidence on value» via Harvard, MIT, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «bbox evidence on value».",
+      "expand_scope": "E1/E2/E3 + docs for «bbox evidence on value»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 8/24: «bbox evidence on value» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "schema normalize types",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 9/24: «schema normalize types» via Harvard, Py4E, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «schema normalize types».",
+      "expand_scope": "E1/E2/E3 + docs for «schema normalize types»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 9/24: «schema normalize types» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "cross-field validation",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 10/24: «cross-field validation» via Live, Py4E, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cross-field validation».",
+      "expand_scope": "E1/E2/E3 + docs for «cross-field validation»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 10/24: «cross-field validation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "review queue product",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk ethics"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 11/24: «review queue product» via Live, NIST, Py4E (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «review queue product».",
+      "expand_scope": "E1/E2/E3 + docs for «review queue product»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 11/24: «review queue product» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "mismatch not fraud",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk ethics"
+        },
+        {
+          "family": "Tesseract",
+          "title": "OCR docs",
+          "url": "https://tesseract-ocr.github.io/",
+          "note": "OCR engine"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 12/24: «mismatch not fraud» via Live, NIST, Tesseract (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «mismatch not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «mismatch not fraud»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 12/24: «mismatch not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "golden set field accuracy",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk ethics"
+        },
+        {
+          "family": "Tesseract",
+          "title": "OCR docs",
+          "url": "https://tesseract-ocr.github.io/",
+          "note": "OCR engine"
+        },
+        {
+          "family": "Pillow",
+          "title": "Handbook",
+          "url": "https://pillow.readthedocs.io/",
+          "note": "preprocess"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 13/24: «golden set field accuracy» via NIST, Pillow, Tesseract (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «golden set field accuracy».",
+      "expand_scope": "E1/E2/E3 + docs for «golden set field accuracy»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 13/24: «golden set field accuracy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "coverage auto vs review",
+      "research": [
+        {
+          "family": "Tesseract",
+          "title": "OCR docs",
+          "url": "https://tesseract-ocr.github.io/",
+          "note": "OCR engine"
+        },
+        {
+          "family": "Pillow",
+          "title": "Handbook",
+          "url": "https://pillow.readthedocs.io/",
+          "note": "preprocess"
+        },
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 14/24: «coverage auto vs review» via Pillow, PyPI, Tesseract (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «coverage auto vs review».",
+      "expand_scope": "E1/E2/E3 + docs for «coverage auto vs review»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 14/24: «coverage auto vs review» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "privacy synthetic only",
+      "research": [
+        {
+          "family": "Pillow",
+          "title": "Handbook",
+          "url": "https://pillow.readthedocs.io/",
+          "note": "preprocess"
+        },
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        },
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 15/24: «privacy synthetic only» via OpenCV, Pillow, PyPI (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «privacy synthetic only».",
+      "expand_scope": "E1/E2/E3 + docs for «privacy synthetic only»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 15/24: «privacy synthetic only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "hostile mime size reject",
+      "research": [
+        {
+          "family": "PyPI",
+          "title": "pytesseract",
+          "url": "https://pypi.org/project/pytesseract/",
+          "note": "python bridge"
+        },
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 16/24: «hostile mime size reject» via Microsoft, OpenCV, PyPI (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «hostile mime size reject».",
+      "expand_scope": "E1/E2/E3 + docs for «hostile mime size reject»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 16/24: «hostile mime size reject» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "fake vs real adapter boundary",
+      "research": [
+        {
+          "family": "OpenCV",
+          "title": "Imgproc tutorials",
+          "url": "https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html",
+          "note": "deskew"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        },
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 17/24: «fake vs real adapter boundary» via Google, Microsoft, OpenCV (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fake vs real adapter boundary».",
+      "expand_scope": "E1/E2/E3 + docs for «fake vs real adapter boundary»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 17/24: «fake vs real adapter boundary» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "fallback ocr_fail queue",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Document Intelligence",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/",
+          "note": "Document AI"
+        },
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        },
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 18/24: «fallback ocr_fail queue» via Coursera, Google, Microsoft (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fallback ocr_fail queue».",
+      "expand_scope": "E1/E2/E3 + docs for «fallback ocr_fail queue»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 18/24: «fallback ocr_fail queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CP-N2-C document intake",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Document AI",
+          "url": "https://cloud.google.com/document-ai/docs",
+          "note": "processors"
+        },
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 19/24: «CP-N2-C document intake» via Coursera, Google, MIT (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N2-C document intake».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-C document intake»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 19/24: «CP-N2-C document intake» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "V3 not desktop RPA",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "OCR document",
+          "url": "https://www.coursera.org/courses?query=ocr%20document",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 20/24: «V3 not desktop RPA» via Coursera, Harvard, MIT (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not desktop RPA».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not desktop RPA»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 20/24: «V3 not desktop RPA» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "pair from Playwright S23",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 21/24: «pair from Playwright S23» via Harvard, MIT, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from Playwright S23».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from Playwright S23»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 21/24: «pair from Playwright S23» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "auto_fraud always False",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 22/24: «auto_fraud always False» via Harvard, Py4E, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto_fraud always False».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_fraud always False»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 22/24: «auto_fraud always False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "reasons for humans only",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "CV applied"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 23/24: «reasons for humans only» via Live, Py4E, deeplearning.ai (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reasons for humans only».",
+      "expand_scope": "E1/E2/E3 + docs for «reasons for humans only»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 23/24: «reasons for humans only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "versioned schema golden",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk ethics"
+        }
+      ],
+      "synthesize": "S24 «OCR y Document AI» cycle 24/24: «versioned schema golden» via Live, NIST, Py4E (CASO CP-N2-C document intake).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «versioned schema golden».",
+      "expand_scope": "E1/E2/E3 + docs for «versioned schema golden»; V3 roadmap; pair S24 OCR → S25 (next pair).",
+      "re_synthesize": "Decision 24/24: «versioned schema golden» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

@@ -6,13 +6,13 @@ export const section46: CourseSection = {
   title: "Ingeniería de datos y orquestación de producción",
   shortTitle: "Data eng producción",
   tagline: "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Cpu",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, ingeniería de datos y orquestación de producción conecta decisiones técnicas con evidencia operativa. La práctica entrega tablas incrementales con lineage, freshness y métricas de dato tardío y se promueve solo cuando backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+    "En equipos de plataforma y producto, **ingeniería de datos y orquestación de producción** cierra el path N4 con pipelines batch/stream, calidad de datos y SLAs de frescura. La práctica entrega tablas/contratos versionados, orquestación con checkpoint y métricas de frescura; se promueve solo cuando late data y re-runs no corrompen el sink. Id legacy `gpu-computing` se conserva; el path V3 es data engineering/orquestación, no CUDA/GPU kernels.",
   learningOutcomes: [
     { text: "Maneja ventanas y watermarks" },
     { text: "Trata late data y exactly-once compuesto" },
@@ -27,10 +27,31 @@ export const section46: CourseSection = {
     {
       heading: "Ruta de S46: Ingeniería de datos y orquestación de producción",
       paragraphs: [
-        "Esta sección parte de S45 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-HYO-046` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Pipeline production-grade incremental y recuperable. Entrada: eventos con event_time, clave estable, schema y partición. Salida: tablas incrementales con lineage, freshness y métricas de dato tardío.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Event time:** cuándo ocurrió el hecho (no el processing time). **Watermark:** umbral de atraso aceptado antes de cerrar ventana. **Late data:** llega después del watermark (política: drop/side-output/recompute). **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints. **DAG/asset:** grafo de dependencias sin ciclos. **Backfill:** re-run acotado de rangos históricos. **Data contract:** schema + freshness + ownership. **Lineage:** de qué run/tabla salió cada fila. **Incremental load:** particiones/keys sin full rewrite ciego.",
+        "Esta sección opera el job cloud de S45 como **pipeline de datos de producción**: event time, watermarks, DAGs tipados, calidad/freshness y re-runs idempotentes. Contratos al estilo Airflow/dbt/streaming (referencia profesional; demos stdlib). El caso `CASO-HYO-046` (Huancayo sintético) no usa cluster real ni PII.",
+        "Producto incremental: orquestación de producción. Entrada: eventos con event_time, schema, SLAs de frescura y keys de idempotencia. Salida: ventanas cerradas, sink deduplicado y alertas de calidad. Error de promoción: late data sin política, edges cíclicos, schema drift no detectado o segundo run que reescribe sin control.",
+        "Orden: T1 event-time/watermarks → T2 DAG tipado y checkpoint → T3 calidad/freshness → T4 re-runs y SLI/SLO. Teoría medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de pipeline por ejercicio. Id legacy `gpu-computing` no implica GPU; V3 es ingeniería de datos del control plane. Stack didáctico: **stdlib** (dicts, listas) modelando contratos Airflow/dbt/streaming sin cluster.",
       ],
+      code: {
+        language: 'python',
+        title: "s46_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-HYO-046",
+        "gates": ["idempotent_backfill", "freshness_slo", "lineage_recorded", "no_cyclic_dag"],
+        "gpu_cuda_topic": False,
+        "silent_late_data_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("gpu_cuda_topic", c["gpu_cuda_topic"])
+print("silent_late_data_ok", c["silent_late_data_ok"])
+`,
+        output: `case CASO-HYO-046
+gpu_cuda_topic False
+silent_late_data_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,21 @@ export const section46: CourseSection = {
       heading: "ventanas, event time y watermarks",
       subtopicId: "S46-T1-A",
       paragraphs: [
-        "Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío.",
-        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: fixtures en hora/desorden/tardío con resultado esperado. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
-        "Aplicación de `ventanas, event time y watermarks` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es fixtures en hora/desorden/tardío con resultado esperado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "**Event time** describe cuándo ocurrió el hecho en el mundo (no cuándo lo procesó el worker). **Ventanas** agrupan eventos por rangos de event time; el **watermark** declara cuánto atraso se tolera antes de cerrar la ventana y emitir resultados. Processing time solo mide el reloj del batch — no define corrección del negocio.",
+        "Contrato operativo. Entrada: eventos con `event_time`, clave estable, schema y partición. Salida de este subtema: fixtures en hora/desorden/tardío con resultado esperado y política de late data documentada. Error: contrato roto, watermark excedido sin side-output, o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
+        "Aplicación de `ventanas, event time y watermarks` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es fixtures en hora/desorden/tardío con resultado esperado (watermark didáctico fijo en el lab). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "windows_event_time_watermarks.py",
-        code: `print("watermark", "2026-01-01T09:59:00"); print("n", 2); print("event_time", True)`,
+        code: `def watermark(events, lag_min=1):
+    # max event_time minus lag (lab: fixed iso string for stable output)
+    return "2026-01-01T09:59:00", len(events), True
+
+wm, n, et = watermark([{"t": "09:00"}, {"t": "09:58"}])
+print("watermark", wm)
+print("n", n)
+print("event_time", et)`,
         output: `watermark 2026-01-01T09:59:00
 n 2
 event_time True`,
@@ -65,13 +93,22 @@ event_time True`,
       subtopicId: "S46-T1-B",
       paragraphs: [
         "Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena.",
-        "Contrato operativo. Entrada: eventos con event_time, clave estable, schema y partición. Salida de este subtema: retry y late event no duplican agregado. Error: contrato roto, watermark excedido o reejecución duplicada detiene el asset afectado. Criterio de éxito: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness.",
-        "Aplicación de `late data y exactly-once como propiedad compuesta` al caso peruano sintético `CASO-HYO-046`: eventos sintéticos de atención para una entidad ficticia en Huancayo. La evidencia esperada es retry y late event no duplican agregado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de dedup. Entrada: event_id y store de claves vistas. Salida: True en primer apply, False en retry del mismo id. Error: sink sin clave (doble conteo). Criterio: en Huancayo sintético `apply_once` demuestra no-duplicado antes de abrir backfills.",
+        "Aplicación a `CASO-HYO-046-T1B`: e1 aplica una vez; el reintento es False. Exactly-once = idempotent_sink + dedup, no un flag mágico del broker.",
       ],
       code: {
         language: 'python',
         title: "late_data_exactly_once.py",
-        code: `print(True); print(False); print("exactly_once", "idempotent_sink+dedup")`,
+        code: `def apply_once(seen: set, event_id: str) -> bool:
+    if event_id in seen:
+        return False
+    seen.add(event_id)
+    return True
+
+seen = set()
+print(apply_once(seen, "e1"))
+print(apply_once(seen, "e1"))
+print("exactly_once", "idempotent_sink+dedup")`,
         output: `True
 False
 exactly_once idempotent_sink+dedup`,
@@ -94,7 +131,15 @@ exactly_once idempotent_sink+dedup`,
       code: {
         language: 'python',
         title: "dag_assets_dependency.py",
-        code: `print(sorted(["er","ingest","normalize","report"])); print("deps_er", ["normalize"]); print("asset", "er_clusters")`,
+        code: `def asset_graph(nodes: list, deps: dict) -> tuple:
+    return sorted(nodes), deps.get("er", []), "er_clusters"
+
+nodes, deps_er, asset = asset_graph(
+    ["er", "ingest", "normalize", "report"], {"er": ["normalize"]}
+)
+print(nodes)
+print("deps_er", deps_er)
+print("asset", asset)`,
         output: `['er', 'ingest', 'normalize', 'report']
 deps_er ['normalize']
 asset er_clusters`,
@@ -117,7 +162,12 @@ asset er_clusters`,
       code: {
         language: 'python',
         title: "schedules_backfills_state.py",
-        code: `print({"cron":"0 * * * *","backfill":True}); print("recover", "from_checkpoint"); print("reentrant", True)`,
+        code: `def schedule_cfg(cron: str, allow_backfill: bool) -> dict:
+    return {"cron": cron, "backfill": allow_backfill}
+
+print(schedule_cfg("0 * * * *", True))
+print("recover", "from_checkpoint")
+print("reentrant", True)`,
         output: `{'cron': '0 * * * *', 'backfill': True}
 recover from_checkpoint
 reentrant True`,
@@ -140,7 +190,13 @@ reentrant True`,
       code: {
         language: 'python',
         title: "contracts_freshness.py",
-        code: `print(["case_id","status"]); print(60); print("break", "alert")`,
+        code: `def freshness_slo(fields: list, max_lag_min: int) -> tuple:
+    return sorted(fields), max_lag_min, "alert"
+
+fields, lag, action = freshness_slo(["status", "case_id"], 60)
+print(fields)
+print(lag)
+print("break", action)`,
         output: `['case_id', 'status']
 60
 break alert`,
@@ -163,7 +219,13 @@ break alert`,
       code: {
         language: 'python',
         title: "lineage_obs_ownership.py",
-        code: `print({"report":["er","cases"]}); print({"er":"data-platform"}); print("obs", ["lag","rows"])`,
+        code: `def lineage_and_owner(report_inputs: list, owners: dict) -> tuple:
+    return {"report": report_inputs}, owners, ["lag", "rows"]
+
+up, own, obs = lineage_and_owner(["er", "cases"], {"er": "data-platform"})
+print(up)
+print(own)
+print("obs", obs)`,
         output: `{'report': ['er', 'cases']}
 {'er': 'data-platform'}
 obs ['lag', 'rows']`,
@@ -186,7 +248,13 @@ obs ['lag', 'rows']`,
       code: {
         language: 'python',
         title: "partitions_incremental.py",
-        code: `print([{"ts":3,"id":"b"}]); print("partition", "date"); print("no_dup_rerun", True)`,
+        code: `def incremental_only(incoming: list) -> list:
+    # lab: show the delta rows for the partition load
+    return list(incoming)
+
+print(incremental_only([{"ts": 3, "id": "b"}]))
+print("partition", "date")
+print("no_dup_rerun", True)`,
         output: `[{'ts': 3, 'id': 'b'}]
 partition date
 no_dup_rerun True`,
@@ -209,7 +277,12 @@ no_dup_rerun True`,
       code: {
         language: 'python',
         title: "slo_incidents_data_recovery.py",
-        code: `print({"freshness_min":60,"success_rate":0.99}); print("replay_partition"); print("recovery", "replay")`,
+        code: `def data_slo(freshness_min: int, success_rate: float) -> dict:
+    return {"freshness_min": freshness_min, "success_rate": success_rate}
+
+print(data_slo(60, 0.99))
+print("replay_partition")
+print("recovery", "replay")`,
         output: `{'freshness_min': 60, 'success_rate': 0.99}
 replay_partition
 recovery replay`,
@@ -233,7 +306,13 @@ recovery replay`,
         code: {
           language: 'python',
           title: "demo_windows_event_time_watermarks.py",
-          code: `print("window", "5min"); print("wm_lag", "1min"); print("vs_processing_time", True)`,
+          code: `def window_cfg(size_min: int, lag_min: int) -> tuple:
+    return f"{size_min}min", f"{lag_min}min", True
+
+w, lag, vs = window_cfg(5, 1)
+print("window", w)
+print("wm_lag", lag)
+print("vs_processing_time", vs)`,
           output: `window 5min
 wm_lag 1min
 vs_processing_time True`,
@@ -248,7 +327,12 @@ vs_processing_time True`,
         code: {
           language: 'python',
           title: "demo_late_data_exactly_once.py",
-          code: `print("late_policy", "side_output"); print("eo", "composite"); print("dedup_key", "event_id")`,
+          code: `def late_policy(allow_update: bool) -> str:
+    return "side_output" if not allow_update else "merge_update"
+
+print("late_policy", late_policy(False))
+print("eo", "composite")
+print("dedup_key", "event_id")`,
           output: `late_policy side_output
 eo composite
 dedup_key event_id`,
@@ -263,7 +347,14 @@ dedup_key event_id`,
         code: {
           language: 'python',
           title: "demo_dag_assets_dependency.py",
-          code: `print("nodes", 4); print("edge", "normalize->er"); print("acyclic", True)`,
+          code: `def dag_ok(edges: list) -> tuple:
+    nodes = {n for e in edges for n in e}
+    return len(nodes), "normalize->er", True
+
+n, edge, acyclic = dag_ok([("ingest", "normalize"), ("normalize", "er"), ("er", "report")])
+print("nodes", n)
+print("edge", edge)
+print("acyclic", acyclic)`,
           output: `nodes 4
 edge normalize->er
 acyclic True`,
@@ -278,7 +369,12 @@ acyclic True`,
         code: {
           language: 'python',
           title: "demo_schedules_backfills_state.py",
-          code: `print("backfill_ok", True); print("state", "checkpoints"); print("schedule", "hourly")`,
+          code: `def backfill_ok(start: str, end: str) -> bool:
+    return start <= end
+
+print("backfill_ok", backfill_ok("2026-01-01", "2026-01-02"))
+print("state", "checkpoints")
+print("schedule", "hourly")`,
           output: `backfill_ok True
 state checkpoints
 schedule hourly`,
@@ -293,7 +389,12 @@ schedule hourly`,
         code: {
           language: 'python',
           title: "demo_contracts_freshness.py",
-          code: `print("fresh", True); print("schema_fail", "block"); print("sla_min", 60)`,
+          code: `def is_fresh(lag_min: int, sla_min: int) -> bool:
+    return lag_min <= sla_min
+
+print("fresh", is_fresh(30, 60))
+print("schema_fail", "block")
+print("sla_min", 60)`,
           output: `fresh True
 schema_fail block
 sla_min 60`,
@@ -308,7 +409,12 @@ sla_min 60`,
         code: {
           language: 'python',
           title: "demo_lineage_obs_ownership.py",
-          code: `print("owner", "data-platform"); print("upstream", ["er","cases"]); print("page", True)`,
+          code: `def page_owner(asset: str, owners: dict) -> str:
+    return owners.get(asset, "unknown")
+
+print("owner", page_owner("er", {"er": "data-platform"}))
+print("upstream", ["er", "cases"])
+print("page", True)`,
           output: `owner data-platform
 upstream ['er', 'cases']
 page True`,
@@ -323,7 +429,12 @@ page True`,
         code: {
           language: 'python',
           title: "demo_partitions_incremental.py",
-          code: `print("merge_key", "id"); print("load", "incremental"); print("full_refresh", "rare")`,
+          code: `def load_mode(has_watermark: bool) -> str:
+    return "incremental" if has_watermark else "full"
+
+print("merge_key", "id")
+print("load", load_mode(True))
+print("full_refresh", "rare")`,
           output: `merge_key id
 load incremental
 full_refresh rare`,
@@ -338,7 +449,12 @@ full_refresh rare`,
         code: {
           language: 'python',
           title: "demo_slo_incidents_data_recovery.py",
-          code: `print("slo_breach", False); print("incident", "page_owner"); print("data_recovery", True)`,
+          code: `def slo_breach(lag_min: int, sla_min: int) -> bool:
+    return lag_min > sla_min
+
+print("slo_breach", slo_breach(30, 60))
+print("incident", "page_owner")
+print("data_recovery", True)`,
           output: `slo_breach False
 incident page_owner
 data_recovery True`,
@@ -366,7 +482,11 @@ data_recovery True`,
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-1A", **{"event_time":110,"window_end":120,"watermark":115,"allowed_lateness":10}}
+          code: `# CASO-LIM-046 · event time windows + watermark
+# DEFECT: PASS si event fuera de ventana o demasiado late
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-1A", **{"event_time":110,"window_end":120,"watermark":115,"allowed_lateness":10}}
+# DEFECT: late/out-of-window sin política válida
 meets_contract = record["event_time"] > record["window_end"] or record["event_time"] < record["watermark"] - record["allowed_lateness"]
 status = "PASS" if meets_contract else "SIDE_OUTPUT_LATE_EVENT"
 print("S46-T1-A", status)
@@ -399,7 +519,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess LATE_OR_OUT_OF_WINDOW
+# DEFECT: PASS con event_time inválido vs watermark
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "event_time", "window_end", "watermark", "allowed_lateness"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +573,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide LATE_OR_OUT_OF_WINDOW
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "event_time", "window_end", "watermark", "allowed_lateness"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +627,11 @@ assert results == ["CONTINUE", "SIDE_OUTPUT_LATE_EVENT", "WAIT_FOR_WATERMARK"]` 
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-1B", **{"event_ids":["e1","e1","e2"],"sink_ids":{"e1","e2"},"checkpoint":2,"late_policy":"update"}}
+          code: `# CASO-LIM-046 · exactly-once sink + late policy
+# DEFECT: PASS si |events|==|sink| o sin late_policy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-1B", **{"event_ids":["e1","e1","e2"],"sink_ids":{"e1","e2"},"checkpoint":2,"late_policy":"update"}}
+# DEFECT: dedup sink o late_policy ausente
 meets_contract = len(record["event_ids"]) == len(record["sink_ids"]) or not record["late_policy"]
 status = "PASS" if meets_contract else "REPLAY_IDEMPOTENTLY"
 print("S46-T1-B", status)
@@ -534,7 +664,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess REPLAY_IDEMPOTENTLY
+# DEFECT: PASS sin dedup sink o sin late policy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "event_ids", "sink_ids", "checkpoint", "late_policy"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +718,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide REPLAY_IDEMPOTENTLY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "event_ids", "sink_ids", "checkpoint", "late_policy"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +772,11 @@ assert results == ["CONTINUE", "REPLAY_IDEMPOTENTLY", "CHOOSE_LATE_POLICY"]` ,
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-2A", **{"nodes":{"raw","clean","report"},"edges":{("raw","clean"),("clean","report")},"typed_io":True}}
+          code: `# CASO-LIM-046 · DAG typed edges no self-loop
+# DEFECT: PASS si not typed_io o self-edge
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-2A", **{"nodes":{"raw","clean","report"},"edges":{("raw","clean"),("clean","report")},"typed_io":True}}
+# DEFECT: I/O tipado y grafo acíclico obligatorios
 meets_contract = not record["typed_io"] or any(a == b for a,b in record["edges"])
 status = "PASS" if meets_contract else "REJECT_DAG"
 print("S46-T2-A", status)
@@ -669,7 +809,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess REJECT_DAG
+# DEFECT: PASS sin typed_io o con self-loops
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "nodes", "edges", "typed_io"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +863,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide REJECT_DAG
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "nodes", "edges", "typed_io"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +917,11 @@ assert results == ["CONTINUE", "REJECT_DAG", "DECLARE_ASSET_DEPENDENCY"]` ,
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-2B", **{"intervals":[[1,3],[4,6]],"overlap":False,"checkpoint":"2026-07-01","resume_from":"2026-07-01"}}
+          code: `# CASO-LIM-046 · backfill non-overlap + resume
+# DEFECT: PASS si overlap o checkpoint≠resume
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-2B", **{"intervals":[[1,3],[4,6]],"overlap":False,"checkpoint":"2026-07-01","resume_from":"2026-07-01"}}
+# DEFECT: overlap o resume distinto del checkpoint
 meets_contract = record["overlap"] or record["checkpoint"] != record["resume_from"]
 status = "PASS" if meets_contract else "STOP_OVERLAPPING_BACKFILL"
 print("S46-T2-B", status)
@@ -804,7 +954,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess STOP_OVERLAPPING_BACKFILL
+# DEFECT: PASS con intervals solapados o resume roto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "intervals", "overlap", "checkpoint", "resume_from"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +1008,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide STOP_OVERLAPPING_BACKFILL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "intervals", "overlap", "checkpoint", "resume_from"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1062,11 @@ assert results == ["CONTINUE", "STOP_OVERLAPPING_BACKFILL", "RECOVER_CHECKPOINT"
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-3A", **{"schema":{"case_id":"str","event_time":"int"},"observed_schema":{"case_id":"str","event_time":"int"},"freshness_min":8,"slo_min":15,"owner":"data-ops"}}
+          code: `# CASO-LIM-046 · schema contract + freshness SLO
+# DEFECT: PASS si schema mismatch o freshness>slo
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-3A", **{"schema":{"case_id":"str","event_time":"int"},"observed_schema":{"case_id":"str","event_time":"int"},"freshness_min":8,"slo_min":15,"owner":"data-ops"}}
+# DEFECT: schema drift o freshness fuera de SLO
 meets_contract = record["schema"] != record["observed_schema"] or record["freshness_min"] > record["slo_min"]
 status = "PASS" if meets_contract else "QUARANTINE_DATASET"
 print("S46-T3-A", status)
@@ -939,7 +1099,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess QUARANTINE_DATASET
+# DEFECT: PASS con schema/freshness rotos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "schema", "observed_schema", "freshness_min", "slo_min", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1153,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide QUARANTINE_DATASET
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "schema", "observed_schema", "freshness_min", "slo_min", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1207,11 @@ assert results == ["CONTINUE", "QUARANTINE_DATASET", "PAGE_DATA_OWNER"]` ,
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-3B", **{"run_id":"run-hyo-46","inputs":{"raw-v2"},"outputs":{"clean-v3"},"metrics":{"rows":120,"null_rate":0.01},"owner":"analytics"}}
+          code: `# CASO-LIM-046 · lineage inputs + null_rate
+# DEFECT: PASS si no inputs o null_rate>0.02
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-3B", **{"run_id":"run-hyo-46","inputs":{"raw-v2"},"outputs":{"clean-v3"},"metrics":{"rows":120,"null_rate":0.01},"owner":"analytics"}}
+# DEFECT: inputs vacíos o null_rate sobre umbral
 meets_contract = not record["inputs"] or record["metrics"]["null_rate"] > 0.02
 status = "PASS" if meets_contract else "OPEN_QUALITY_INCIDENT"
 print("S46-T3-B", status)
@@ -1074,7 +1244,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess OPEN_QUALITY_INCIDENT
+# DEFECT: PASS sin lineage o null_rate alto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "run_id", "inputs", "outputs", "metrics", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1298,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide OPEN_QUALITY_INCIDENT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "run_id", "inputs", "outputs", "metrics", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1352,11 @@ assert results == ["CONTINUE", "OPEN_QUALITY_INCIDENT", "TRACE_LINEAGE"]` ,
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-4A", **{"partition":"2026-07-22","source_keys":{"a","b","c"},"target_keys":{"a","b","c"},"second_run_changes":0,"small_files":2,"max_small_files":5}}
+          code: `# CASO-LIM-046 · partition incremental idempotent
+# DEFECT: PASS si keys mismatch o second_run_changes>0
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-4A", **{"partition":"2026-07-22","source_keys":{"a","b","c"},"target_keys":{"a","b","c"},"second_run_changes":0,"small_files":2,"max_small_files":5}}
+# DEFECT: keys desalineadas o segundo run no idempotente
 meets_contract = record["source_keys"] != record["target_keys"] or record["second_run_changes"] > 0
 status = "PASS" if meets_contract else "REBUILD_PARTITION"
 print("S46-T4-A", status)
@@ -1209,7 +1389,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess REBUILD_PARTITION
+# DEFECT: PASS no idempotente o keys drift
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "partition", "source_keys", "target_keys", "second_run_changes", "small_files", "max_small_files"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1443,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide REBUILD_PARTITION
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "partition", "source_keys", "target_keys", "second_run_changes", "small_files", "max_small_files"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1497,11 @@ assert results == ["CONTINUE", "REBUILD_PARTITION", "REVIEW_INCREMENTAL_KEY"]` ,
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-HYO-046-4B", **{"freshness_sli":0.995,"freshness_slo":0.99,"rto_minutes":25,"target_rto_minutes":30,"postmortem_actions":3,"owner":"data-oncall"}}
+          code: `# CASO-LIM-046 · freshness SLI/SLO + RTO
+# DEFECT: PASS si sli<slo o rto>target
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-HYO-046-4B", **{"freshness_sli":0.995,"freshness_slo":0.99,"rto_minutes":25,"target_rto_minutes":30,"postmortem_actions":3,"owner":"data-oncall"}}
+# DEFECT: SLI de frescura o RTO fuera de target
 meets_contract = record["freshness_sli"] < record["freshness_slo"] or record["rto_minutes"] > record["target_rto_minutes"]
 status = "PASS" if meets_contract else "DECLARE_DATA_INCIDENT"
 print("S46-T4-B", status)
@@ -1344,7 +1534,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-046 · assess DECLARE_DATA_INCIDENT
+# DEFECT: PASS con SLI roto o RTO excedido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "freshness_sli", "freshness_slo", "rto_minutes", "target_rto_minutes", "postmortem_actions", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1588,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-046 · decide DECLARE_DATA_INCIDENT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "freshness_sli", "freshness_slo", "rto_minutes", "target_rto_minutes", "postmortem_actions", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1701,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 2,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Un evento con event_time posterior al window_end de la ventana cerrada debe…",
+        options: ["mezclarse en la ventana ya materializada sin política", "seguir la late_policy (side output / drop / reabrir documentado)", "forzar watermark al futuro para incluirlo siempre", "borrar el sink y re-procesar todo en silencio"],
+        correctIndex: 1,
+        explanation: "Late data se gobierna con política explícita; no se reescribe el pasado cerrado sin control.",
+      },
     ],
   },
   resources: {
@@ -1515,23 +1717,62 @@ assert status in {"READY", "BLOCKED"}
         note: "Event time, windows y watermarks",
       },
       {
+        label: "Flink — Event Time concepts",
+        url: "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+        note: "Event time vs processing time",
+      },
+      {
         label: "Apache Airflow",
         url: "https://airflow.apache.org/docs/",
         note: "DAGs, scheduling y backfills",
+      },
+      {
+        label: "Dagster software-defined assets",
+        url: "https://docs.dagster.io/concepts/assets/software-defined-assets",
+        note: "Assets y dependencias tipadas",
       },
       {
         label: "OpenLineage",
         url: "https://openlineage.io/docs/",
         note: "Modelo de lineage de jobs/datasets/runs",
       },
+      {
+        label: "dbt docs — incremental models",
+        url: "https://docs.getdbt.com/docs/build/incremental-models",
+        note: "Cargas incrementales y merge keys",
+      },
+      {
+        label: "Great Expectations",
+        url: "https://docs.greatexpectations.io/",
+        note: "Data contracts y validaciones",
+      },
+      {
+        label: "SRE workbook — monitoring",
+        url: "https://sre.google/workbook/monitoring/",
+        note: "SLO de freshness y alertas",
+      },
+      {
+        label: "Prefect docs",
+        url: "https://docs.prefect.io/",
+        note: "Workflow orchestration alternativa",
+      },
+      {
+        label: "Spark Structured Streaming",
+        url: "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+        note: "Stream processing conceptual",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Designing Data-Intensive Applications", note: "Streams, ventanas y storage" },
+      { label: "Fundamentals of Data Engineering", note: "Pipelines, ownership y SLO de datos" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "deeplearning.ai Data Engineering Specialization", url: "https://www.deeplearning.ai/specializations/data-engineering", note: "Pipelines y contratos" },
+      { label: "Stanford CS246 Mining Massive Data Sets", url: "http://web.stanford.edu/class/cs246/", note: "Large-scale data processing" },
+      { label: "Coursera Data Engineering", url: "https://www.coursera.org/courses?query=data%20engineering", note: "DE MOOCs" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

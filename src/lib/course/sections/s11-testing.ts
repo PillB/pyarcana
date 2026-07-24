@@ -27,9 +27,9 @@ export const section11: CourseSection = {
     {
       heading: "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
       paragraphs: [
-        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`. Cada tipo nombra un concepto de matching local; el código deja de ser dicts anónimos y pasa a ser un núcleo testeable.",
+        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva. Si un campo obligatorio falta o viola un invariante, **falla al construir** — no rellenes en silencio. Stack: `dataclass`, properties, composition, `Protocol` (S01–S11); sin frameworks web ni ORMs de S19.",
+        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests). Caso sintético PE: ids `C00x`/`E0x`, emails `@ejemplo.pe`, montos `Decimal` en PEN/USD. Métrica del gate: cuatro tipos + tests puros + README de límites éticos. Nunca PII real ni APIs `is_fraud`/`is_family`."
       ],
       callout: {
         type: "info",
@@ -42,24 +42,27 @@ export const section11: CourseSection = {
       heading: "Clases, instancias y dataclass",
       subtopicId: "S11-T1-A",
       paragraphs: [
-        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Clases, instancias y dataclass»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación — reduce boilerplate sin perder el nombre del dominio. En familiaridad, `ClientRecord` es el borde de onboarding sintético, no un row de pandas.",
+        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido entre instancias. Prefiere `list[str] = field(default_factory=list)` a `emails=[]`. Fail-closed: no construyas con `None` silencioso donde el schema exige string no vacío.",
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B (`from_dict` → dataclass). Caso sintético: `ClientRecord(\"C001\", \"Ana Perez\", [\"ana@ejemplo.pe\"])`. Documenta qué campos son PII-sintética de demo y cuáles son ids estables de sistema."
       ],
       code: {
         language: 'python',
         title: "client_dataclass.py",
-        code: `from dataclasses import dataclass, field
+        code: `def s11_th_1():
+    from dataclasses import dataclass, field
 
-@dataclass
-class ClientRecord:
-    client_id: str
-    full_name: str
-    emails: list[str] = field(default_factory=list)
+    @dataclass
+    class ClientRecord:
+        client_id: str
+        full_name: str
+        emails: list[str] = field(default_factory=list)
 
-c = ClientRecord("C001", "Ana Perez", ["ana@ejemplo.pe"])
-print(c)
-print(type(c).__name__, c.client_id)`,
+    c = ClientRecord("C001", "Ana Perez", ["ana@ejemplo.pe"])
+    print(c)
+    print(type(c).__name__, c.client_id)
+
+s11_th_1()`,
         output: `ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])
 ClientRecord C001`,
       },
@@ -74,9 +77,9 @@ ClientRecord C001`,
       heading: "Invariantes y estados válidos",
       subtopicId: "S11-T1-B",
       paragraphs: [
-        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` positivo y `currency` pertenece al allowlist explícito `{'PEN', 'USD'}`. Nunca conviertas moneda en silencio. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Invariantes y estados válidos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — un `ClientRecord` a medias en un set de resolución es peor que un `ValueError` temprano. Las reglas viven junto al tipo, no en un script suelto del CLI.",
+        "Método `validate()` reutilizable ayuda en factories `from_dict` y rehidratación desde JSON. **Sin side-effects de negocio** al validar: no llames APIs, no escribas a disco, no “fixes” silenciosos de moneda. Stack: stdlib + `Decimal`; no ORM.",
+        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` **positivo** y `currency` ∈ allowlist `{'PEN','USD'}`. Nunca conviertas PEN→USD en el constructor. Caso sintético PE: `Transaction(\"T1\", Decimal(\"150.50\"), \"PEN\")` acepta; `\"EUR\"` o `amount<=0` rechaza."
       ],
       code: {
         language: 'python',
@@ -113,9 +116,9 @@ reject document_id vacío`,
       heading: "Propiedades y métodos",
       subtopicId: "S11-T2-A",
       paragraphs: [
-        "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Propiedades y métodos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "`@property` expone campos calculados (`display_name`, `masked_email`) **sin** mutación peligrosa desde afuera. La UI y los logs deben preferir la máscara; el email raw queda en el campo interno para el borde autorizado.",
+        "Métodos de instancia encapsulan consultas puras (`age_days_since(as_of)`). Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed si `email` no tiene `@` al calcular `masked_email` — o devuelve un sentinel documentado.",
+        "Setters validados solo cuando la mutación es parte del modelo de negocio; si no, prefiere **`frozen`** o devolver una **nueva instancia**. Caso sintético: `c.display_name` y `c.masked_email` para demo Lima sin imprimir PII completa en stdout de pipeline."
       ],
       code: {
         language: 'python',
@@ -152,9 +155,9 @@ print(c.display_name, c.masked_email)`,
       heading: "Igualdad, hash y mutabilidad consciente",
       subtopicId: "S11-T2-B",
       paragraphs: [
-        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Igualdad, hash y mutabilidad consciente»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts de resolución.",
+        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del `__eq__`. Usa `field(compare=False)` para etiquetas visibles (`display_name`) que no deben romper la igualdad. Fail-closed: `entity_id` vacío → `ValueError`.",
+        "Value objects (`RelationshipEvidence`) suelen ser frozen; agregados (`CaseFile` con listas) pueden ser mutables con cuidado y métodos `add`. Caso sintético: set `{E1, E1_relabel, E2}` tiene tamaño 2 si la igualdad es por `entity_id`."
       ],
       code: {
         language: 'python',
@@ -191,10 +194,10 @@ E1 in set True`,
       heading: "Composición antes que herencia",
       subtopicId: "S11-T3-A",
       paragraphs: [
-        "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Una evidencia usa un par canónico (`left_id < right_id`), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Composición antes que herencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
-        "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
+        "**has-a** (composición) modela mejor el caso: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`. No fuerces `Client(Person(BaseEntity))` solo para reutilizar un campo de nombre.",
+        "Una evidencia usa un **par canónico** (`left_id < right_id`), ids distintos y `signal_score` finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén. Fail-closed si el par no es canónico o el score es NaN/out-of-range.",
+        "Herencia solo si hay **subtipo real** (is-a). Mixins con cautela: complejidad invisible en MRO. Prefiere funciones puras o colaboración entre objetos. Caso sintético: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
+        "La composición mantiene el dominio auditable: puedes serializar el grafo de evidencias sin arrastrar jerarquías frágiles. Documenta en README que `signal_score` es **dato de matching**, no parentesco legal."
       ],
       code: {
         language: 'python',
@@ -238,9 +241,9 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       heading: "Protocolos y polimorfismo con propósito",
       subtopicId: "S11-T3-B",
       paragraphs: [
-        "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Protocolos y polimorfismo con propósito»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "`typing.Protocol` describe un **puerto** (`EntityStore` con `get`/`save`) sin forzar herencia. Duck typing estructural: cualquier objeto con esos métodos cumple el contrato en chequeo estático y, con `@runtime_checkable`, en `isinstance`.",
+        "Útil para **fakes en tests** y para no acoplar dominio a SQLite/HTTP. Evita ABC pesados si Protocol basta. Fail-closed en el adaptador real si la DB no responde — el dominio no captura eso; el borde sí.",
+        "No introduzcas Protocol “por si acaso” con una sola implementación y sin tests — YAGNI. Caso sintético: `FakeStore` en memoria para T4 tests; el adapter SQL llega en S12 sin reescribir `ClientService`."
       ],
       code: {
         language: 'python',
@@ -282,9 +285,9 @@ True`,
       heading: "Repositorios, servicios y serialización",
       subtopicId: "S11-T4-A",
       paragraphs: [
-        "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "CLI (S10) llama al service; el service no imprime ni parsea argparse. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Repositorios, servicios y serialización»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "**Repository** light: `get`/`save`. **Service** light: orquesta reglas de dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` viven en el **borde** de serialización, no mezclados con invariantes de negocio.",
+        "Serializa sin password fields ni PII innecesaria en logs. DTOs de borde no tienen que ser idénticos a las entidades internas (p. ej. omite `emails` crudos en un export de dashboard). Fail-closed si falta `client_id` en `from_dict`.",
+        "CLI (S10) llama al service; el service **no** imprime ni parsea argparse. Caso sintético: `ClientService(InMemoryClientRepository()).register(\"C001\", \"a@ejemplo.pe\")` → dict de borde sin decidir fraude."
       ],
       code: {
         language: 'python',
@@ -333,9 +336,9 @@ print(svc.register("C001", "a@ejemplo.pe"))`,
       heading: "Dependencias y pruebas del dominio",
       subtopicId: "S11-T4-B",
       paragraphs: [
-        "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta modelo de dominio testeable sin inventar hechos sobre personas reales.",
-        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: clases, dataclass, composition (S01–S11); no frameworks web, no ORMs de S19.",
-        "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto. Caso sintético Perú: entidades sintéticas Cliente/Caso con invariantes. Documenta decisión, métrica y límite conocido en el memo del subtema «Dependencias y pruebas del dominio»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Tests del dominio son **puros**: sin red, sin DB real, sin reloj de red. Fakes del `Protocol` bastan. Eso permite CI rápida y demos offline del gate CP-N1-C.",
+        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de “no existe el método” documenta la ética del producto en código. Fail-closed: score fuera de [0,1] no se “clamp” en silencio en el constructor.",
+        "Scores de resolución/relación son **campos**; un test verifica finitud, rango, par canónico y que no hay veredictos. Caso sintético: `test_no_fraud_api()` pasa si `RelationshipEvidence` solo expone ids + score. Nunca PII real en fixtures."
       ],
       code: {
         language: 'python',
@@ -466,19 +469,22 @@ l***@ejemplo.pe`,
         code: {
           language: 'python',
           title: "frozen_set.py",
-          code: `from dataclasses import dataclass, field
+          code: `def s11_ido_4():
+    from dataclasses import dataclass, field
 
-@dataclass(frozen=True)
-class ResolvedEntity:
-    entity_id: str
-    display_name: str = field(compare=False)
+    @dataclass(frozen=True)
+    class ResolvedEntity:
+        entity_id: str
+        display_name: str = field(compare=False)
 
-e1 = ResolvedEntity("E1", "Ana")
-e1b = ResolvedEntity("E1", "Ana actualizada")
-e2 = ResolvedEntity("E2", "Luis")
-s = {e1, e1b, e2}
-print("size", len(s))
-print("e1==e1b", e1 == e1b)`,
+    e1 = ResolvedEntity("E1", "Ana")
+    e1b = ResolvedEntity("E1", "Ana actualizada")
+    e2 = ResolvedEntity("E2", "Luis")
+    s = {e1, e1b, e2}
+    print("size", len(s))
+    print("e1==e1b", e1 == e1b)
+
+s11_ido_4()`,
           output: `size 2
 e1==e1b True`,
         },
@@ -492,28 +498,31 @@ e1==e1b True`,
         code: {
           language: 'python',
           title: "casefile_compose.py",
-          code: `from dataclasses import dataclass, field
+          code: `def s11_ido_5():
+    from dataclasses import dataclass, field
 
-@dataclass(frozen=True)
-class ResolvedEntity:
-    entity_id: str
+    @dataclass(frozen=True)
+    class ResolvedEntity:
+        entity_id: str
 
-@dataclass(frozen=True)
-class RelationshipEvidence:
-    left_id: str
-    right_id: str
-    signal_score: float
+    @dataclass(frozen=True)
+    class RelationshipEvidence:
+        left_id: str
+        right_id: str
+        signal_score: float
 
-@dataclass
-class CaseFile:
-    entity: ResolvedEntity
-    evidences: list[RelationshipEvidence] = field(default_factory=list)
+    @dataclass
+    class CaseFile:
+        entity: ResolvedEntity
+        evidences: list[RelationshipEvidence] = field(default_factory=list)
 
-cf = CaseFile(ResolvedEntity("E1"))
-cf.evidences.append(RelationshipEvidence("E1", "E2", 0.31))
-cf.evidences.append(RelationshipEvidence("E1", "E3", 0.12))
-print(cf.entity.entity_id, "n_ev", len(cf.evidences))
-print("scores", [e.signal_score for e in cf.evidences])`,
+    cf = CaseFile(ResolvedEntity("E1"))
+    cf.evidences.append(RelationshipEvidence("E1", "E2", 0.31))
+    cf.evidences.append(RelationshipEvidence("E1", "E3", 0.12))
+    print(cf.entity.entity_id, "n_ev", len(cf.evidences))
+    print("scores", [e.signal_score for e in cf.evidences])
+
+s11_ido_5()`,
           output: `E1 n_ev 2
 scores [0.31, 0.12]`,
         },
@@ -646,13 +655,18 @@ pass`,
         starterCode: {
           language: 'python',
           title: "complete_client.py",
-          code: `from dataclasses import dataclass, field
+          code: `# CASO-LIM-011 · ClientRecord dataclass
+# DEFECT: sin fields; default mutable list
+from dataclasses import dataclass
 
 @dataclass
 class ClientRecord:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    client_id: str
+    full_name: str
+    phones: list = []
+
+print(ClientRecord("C001", "Ana Perez"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -686,14 +700,19 @@ print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
         starterCode: {
           language: 'python',
           title: "transaction.py",
-          code: `from dataclasses import dataclass
-from decimal import Decimal
+          code: `# CASO-LIM-011 · Transaction Decimal
+# DEFECT: amount float
+from dataclasses import dataclass
 
 @dataclass
 class Transaction:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    tx_id: str
+    client_id: str
+    amount: float
+    currency: str
+
+print(Transaction("T1", "C001", 150.50, "PEN"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -729,13 +748,22 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
         starterCode: {
           language: 'python',
           title: "migrate_dict.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · from_dict factory
+# DEFECT: no classmethod; construye mal
+from dataclasses import dataclass
 
 @dataclass
 class ClientRecord:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    client_id: str
+    full_name: str
+
+    def from_dict(self, d: dict):
+        return d
+
+raw = {"client_id": "C007", "full_name": "Luis Ramos"}
+c = ClientRecord.from_dict(ClientRecord("x", "y"), raw)
+print(type(c).__name__, getattr(c, "client_id", c))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -774,14 +802,21 @@ print(type(c).__name__, c.client_id)`,
         starterCode: {
           language: 'python',
           title: "tx_invariant.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · Transaction invariants
+# DEFECT: no post_init; acepta 0 y EUR
+from dataclasses import dataclass
 from decimal import Decimal
 
 @dataclass
 class Transaction:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    tx_id: str
+    amount: Decimal
+    currency: str
+
+print(Transaction("T1", Decimal("10.00"), "PEN"))
+print(Transaction("T2", Decimal("0.00"), "PEN"))
+print(Transaction("T3", Decimal("1.00"), "EUR"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -836,13 +871,22 @@ reject currency no soportada`,
         starterCode: {
           language: 'python',
           title: "from_dict_validate.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · from_dict validation
+# DEFECT: no valida vacío
+from dataclasses import dataclass
 
 @dataclass
 class ClientRecord:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    client_id: str
+    document_id: str
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "ClientRecord":
+        return cls(str(d.get("client_id", "")), str(d.get("document_id", "")))
+
+print(ClientRecord.from_dict({"client_id": "C1", "document_id": "D1"}))
+print(ClientRecord.from_dict({"client_id": "C2", "document_id": " "}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -890,9 +934,14 @@ document_id vacío`,
         starterCode: {
           language: 'python',
           title: "invariants_list.py",
-          code: `# fixture
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · invariants list
+# DEFECT: omite signal_score y entity_id
+for inv in [
+    "INV: ClientRecord.document_id no vacío",
+    "INV: Transaction.amount es float > 0",
+]:
+    print(inv)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -927,13 +976,20 @@ INV: ResolvedEntity.entity_id único y no vacío`,
         starterCode: {
           language: 'python',
           title: "full_name_prop.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · full_name property
+# DEFECT: método no property; orden apellido primero
+from dataclasses import dataclass
 
 @dataclass
 class Person:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    first_name: str
+    last_name: str
+
+    def full_name(self) -> str:
+        return f"{self.last_name} {self.first_name}"
+
+print(Person("Ana", "Perez").full_name())
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -970,13 +1026,20 @@ print(Person("Ana", "Perez").full_name)`,
         starterCode: {
           language: 'python',
           title: "age_days.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · age_days_since
+# DEFECT: day_created - day invertido
+from dataclasses import dataclass
 
 @dataclass
 class Transaction:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    tx_id: str
+    day_created: int
+
+    def age_days_since(self, day: int) -> int:
+        return self.day_created - day
+
+print(Transaction("T1", 10).age_days_since(25))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1012,12 +1075,30 @@ print(Transaction("T1", 10).age_days_since(25))`,
         starterCode: {
           language: 'python',
           title: "score_setter.py",
-          code: `from math import isfinite
+          code: `# CASO-LIM-011 · score setter 0..1
+# DEFECT: no valida rango ni nan
+from math import isfinite
 
 class Signal:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    def __init__(self):
+        self._score = 0.0
+
+    @property
+    def score(self) -> float:
+        return self._score
+
+    @score.setter
+    def score(self, value: float) -> None:
+        self._score = float(value)
+
+s = Signal()
+s.score = 0.4
+print("ok", s.score)
+s.score = 1.5
+print("ok", s.score)
+s.score = float("nan")
+print("ok", s.score)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1072,13 +1153,21 @@ reject_nan score fuera de rango`,
         starterCode: {
           language: 'python',
           title: "entity_identity.py",
-          code: `from dataclasses import dataclass, field
+          code: `# CASO-LIM-011 · frozen equality
+# DEFECT: no frozen; name en compare
+from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass
 class ResolvedEntity:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    entity_id: str
+    display_name: str
+
+a = ResolvedEntity("E1", "Ana")
+b = ResolvedEntity("E1", "Ana actualizada")
+c = ResolvedEntity("E2", "Ana")
+print(a == b, a == c)
+print(len({a, b, c}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1120,13 +1209,23 @@ print(len({a, b, c}))`,
         starterCode: {
           language: 'python',
           title: "frozen_evidence.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · frozen set dedup
+# DEFECT: no frozen; len wrong
+from dataclasses import dataclass
 
-@dataclass(frozen=True)
+@dataclass
 class Evidence:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    left_id: str
+    right_id: str
+    signal_score: float
+
+s = {
+    Evidence("E1", "E2", 0.2),
+    Evidence("E1", "E2", 0.2),
+    Evidence("E1", "E3", 0.1),
+}
+print(len(s))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1165,10 +1264,23 @@ print(len(s))`,
         starterCode: {
           language: 'python',
           title: "mutable_key_bug.py",
-          code: `class MutableEntity:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · mutable hash bug
+# DEFECT: no muestra SAFE frozen
+class MutableEntity:
+    def __init__(self, eid, name):
+        self.eid = eid
+        self.name = name
+    def __hash__(self):
+        return hash((self.eid, self.name))
+    def __eq__(self, o):
+        return isinstance(o, MutableEntity) and (self.eid, self.name) == (o.eid, o.name)
+
+m = MutableEntity("E1", "Ana")
+d = {m: "row"}
+m.name = "Ana P"
+print("BUG lookup_after_mutate", d.get(m))
+print("SAFE", "skipped")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1218,13 +1330,23 @@ SAFE row`,
         starterCode: {
           language: 'python',
           title: "replace_inheritance.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · composition
+# DEFECT: herencia Person; design=inheritance
+from dataclasses import dataclass
 
 @dataclass
 class PersonInfo:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    first_name: str
+    last_name: str
+
+@dataclass
+class Client(PersonInfo):
+    client_id: str
+
+c = Client("Ana", "Perez", "C001")
+print(c.client_id, c.first_name)
+print("design=inheritance")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1265,13 +1387,23 @@ design=composition`,
         starterCode: {
           language: 'python',
           title: "casefile_add.py",
-          code: `from dataclasses import dataclass, field
+          code: `# CASO-LIM-011 · CaseFile evidences
+# DEFECT: default mutable list
+from dataclasses import dataclass
 
 @dataclass
 class CaseFile:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    case_id: str
+    evidences: list = []
+
+    def add_evidence(self, ev: dict) -> None:
+        self.evidences.append(ev)
+
+cf = CaseFile("CF1")
+cf.add_evidence({"score": 0.1})
+cf2 = CaseFile("CF2")
+print("n=", len(cf2.evidences))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1310,9 +1442,11 @@ print("n=", len(cf.evidences))`,
         starterCode: {
           language: 'python',
           title: "why_not_inherit.py",
-          code: `pass  # fixture vacío — usa solution contract
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · composition justification
+# DEFECT: recomienda herencia profunda
+print("JUST: Client debe heredar de Person siempre")
+print("JUST: composición solo si no hay tiempo")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1340,12 +1474,20 @@ JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser C
         starterCode: {
           language: 'python',
           title: "scorer_protocol.py",
-          code: `from typing import Protocol
+          code: `# CASO-LIM-011 · Protocol Scorer
+# DEFECT: FakeScorer sin score method name
+from typing import Protocol
 
 class Scorer(Protocol):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    def score(self, pair: tuple[str, str]) -> float: ...
+
+class FakeScorer:
+    def compute(self, pair: tuple[str, str]) -> float:
+        return 0.5
+
+s = FakeScorer()
+print(s.compute(("E1", "E2")))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1381,10 +1523,20 @@ print(s.score(("E1", "E2")))`,
         starterCode: {
           language: 'python',
           title: "two_normalizers.py",
-          code: `def apply(norm, text):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · inject normalizer
+# DEFECT: apply ignora norm
+def apply(norm, text):
+    return text
+
+def strip_norm(s: str) -> str:
+    return s.strip()
+
+def casefold_norm(s: str) -> str:
+    return s.strip().casefold()
+
+print(apply(strip_norm, " Ana "))
+print(apply(casefold_norm, " Ana "))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1421,9 +1573,11 @@ ana`,
         starterCode: {
           language: 'python',
           title: "when_not_protocol.py",
-          code: `pass  # fixture vacío — usa solution contract
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · when not Protocol
+# DEFECT: siempre crea Protocol
+print("WHEN_NOT: nunca; siempre Protocol")
+print("WHEN_NOT: siempre congela API día 1")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1451,13 +1605,21 @@ WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematur
         starterCode: {
           language: 'python',
           title: "to_dict_safe.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · to_dict sin password
+# DEFECT: incluye password
+from dataclasses import dataclass
 
 @dataclass
 class ClientRecord:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    client_id: str
+    email: str
+    password: str = ""
+
+    def to_dict(self) -> dict:
+        return {"client_id": self.client_id, "email": self.email, "password": self.password}
+
+print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1494,10 +1656,20 @@ print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
         starterCode: {
           language: 'python',
           title: "mem_repo.py",
-          code: `class Repo:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · Repo save/get
+# DEFECT: get siempre None
+class Repo:
+    def __init__(self):
+        self._d = {}
+    def save(self, row: dict) -> None:
+        self._d[row["client_id"]] = row
+    def get(self, client_id: str):
+        return None
+
+r = Repo()
+r.save({"client_id": "C001", "email": "a@ejemplo.pe"})
+print(r.get("C001"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1533,9 +1705,15 @@ print(r.get("C001"))`,
         starterCode: {
           language: 'python',
           title: "boundary_layers.py",
-          code: `# fixture
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · layers
+# DEFECT: service con print; cli sin exit codes
+for line in [
+    "LAYER: cli — solo print",
+    "LAYER: service — print de negocio",
+    "LAYER: domain/repo — acoplado a sqlite",
+]:
+    print(line)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1568,13 +1746,21 @@ LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
         starterCode: {
           language: 'python',
           title: "test_invariant.py",
-          code: `from dataclasses import dataclass
+          code: `# CASO-LIM-011 · test empty document
+# DEFECT: no post_init; test always pass
+from dataclasses import dataclass
 
 @dataclass
 class ClientRecord:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    client_id: str
+    document_id: str
+
+def test_empty_document_rejected():
+    ClientRecord("C1", " ")
+    return "pass"
+
+print(test_empty_document_rejected())
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1617,10 +1803,33 @@ print(test_empty_document_rejected())`,
         starterCode: {
           language: 'python',
           title: "fake_repo_tests.py",
-          code: `class FakeRepo:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · FakeRepo service tests
+# DEFECT: tests no ejecutan asserts reales
+class FakeRepo:
+    def __init__(self):
+        self.d = {}
+    def save(self, row):
+        pass
+    def get(self, id):
+        return None
+
+class Service:
+    def __init__(self, repo):
+        self.repo = repo
+    def register(self, id, name):
+        return {"id": id, "name": name}
+
+def test_register():
+    print("pass")
+
+def test_get():
+    print("pass")
+
+def test_missing():
+    print("pass")
+
+test_register(); test_get(); test_missing()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1678,10 +1887,11 @@ pass`,
         starterCode: {
           language: 'python',
           title: "extract_fraud.py",
-          code: `class BadClient:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-011 · no fraud in domain
+# DEFECT: mantiene decide_fraud en dominio
+print("ANTES: Client.decide_fraud(score)->bool veredicto en el dominio")
+print("DESPUES: Client.decide_fraud(score)->bool sigue en el dominio")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1874,34 +2084,64 @@ if __name__ == "__main__":
       {
         label: "dataclasses — Data Classes",
         url: "https://docs.python.org/3/library/dataclasses.html",
-        note: "frozen, field, post_init",
+        note: "frozen, field, post_init, compare=False",
       },
       {
         label: "typing.Protocol",
         url: "https://docs.python.org/3/library/typing.html#typing.Protocol",
-        note: "puertos estructurales",
+        note: "puertos estructurales EntityStore",
       },
       {
         label: "unittest — Unit testing framework",
         url: "https://docs.python.org/3/library/unittest.html",
-        note: "alternativa stdlib a pytest para dominio puro",
+        note: "tests de dominio puro sin red",
+      },
+      {
+        label: "decimal — Decimal fixed point",
+        url: "https://docs.python.org/3/library/decimal.html",
+        note: "Transaction.amount sin float money",
+      },
+      {
+        label: "Data model — special methods",
+        url: "https://docs.python.org/3/reference/datamodel.html#object.__eq__",
+        note: "eq/hash/frozen identity",
+      },
+      {
+        label: "typing — structural subtyping PEP 544",
+        url: "https://peps.python.org/pep-0544/",
+        note: "Protocols vs ABC",
       },
     ],
     books: [
       {
         label: "Architecture Patterns with Python (Percival & Gregory)",
-        note: "Repo/service/protocol — leer selectivamente.",
+        note: "Repo/service/protocol — capas sin fraude auto.",
       },
       {
         label: "Fluent Python — object model",
-        note: "eq/hash y data model.",
+        note: "eq/hash y data model consciente.",
       },
     ],
     courses: [
       {
         label: "pytest docs (soporte de calidad)",
         url: "https://docs.pytest.org/",
-        note: "Testing se reubica como soporte; el target V3 de S11 es el dominio.",
+        note: "Testing reubicado; target V3 S11 = dominio OOP.",
+      },
+      {
+        label: "Real Python — Python Classes",
+        url: "https://realpython.com/python-classes/",
+        note: "instancias, methods, encapsulation.",
+      },
+      {
+        label: "MIT 6.100L — objects & classes",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "fundamentos de objetos.",
+      },
+      {
+        label: "PyArcana live",
+        url: "https://pillb.github.io/pyarcana/",
+        note: "curso desplegado; alinear con V3 S11.",
       },
     ],
   },

@@ -1,34 +1,15 @@
-# Research dossier — S28 Pruebas de datos, propiedades e integración
-
-**Section file:** `src/lib/course/sections/s28-llm-agents.ts`  
-**Updated:** 2026-07-23T00:32:19.351213+00:00
-
-## Competitive sources (all mandatory classes)
-
-### Coursera / MOOC
-- Data Engineering Zoomcamp related Coursera data quality
-- IBM data engineering testing
-
-### MIT
-- MIT data-centric AI
-
-### Harvard
-- Harvard data quality
-
-### Yale
-- Yale StatLab
-
-### Stanford
-- Stanford data validation
-
-### GitHub
-- great-expectations; pandera; hypothesis
-
-### Video / tutorials
-- PyData property-based testing talks
-
-## Coverage gaps
-Property tests + integration fixtures; empty starters fixed.
-
-## Depth decision
-Gold bar: theory contracts + weDo instructions ≥150 chars + **starterCode.code ≥120 chars** with fixture + single TODO. Progressive disclosure; synthetic Peru cases; no fraud auto-labels.
+# S28 RESEARCH
+When: 2026-07-24T04:31:14.861+00:00
+- Hypothesis: https://hypothesis.readthedocs.io/
+- Hypothesis: https://hypothesis.readthedocs.io/en/latest/data.html
+- Python: https://docs.python.org/3/library/sqlite3.html
+- Python: https://docs.python.org/3/library/unittest.mock.html
+- pytest: https://docs.pytest.org/en/stable/how-to/fixtures.html
+- Great Expectations: https://docs.greatexpectations.io/
+- testcontainers: https://testcontainers.com/
+- Coursera: https://www.coursera.org/courses?query=data%20quality%20testing
+- deeplearning.ai: https://www.deeplearning.ai/specializations/data-engineering
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/

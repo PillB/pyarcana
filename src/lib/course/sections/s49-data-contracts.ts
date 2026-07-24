@@ -6,13 +6,13 @@ export const section49: CourseSection = {
   title: "Agentes, herramientas y context engineering",
   shortTitle: "Agentes y tools",
   tagline: "agente acotado consulta casos/reportes y prepara propuesta; no envía, no modifica prod ni decide riesgo sin aprobación",
-  estimatedHours: 19,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "FileCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, agentes, herramientas y context engineering conecta decisiones técnicas con evidencia operativa. La práctica entrega propuesta trazable y checkpoint; nunca un cambio de producción y se promueve solo cuando cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
+    "En equipos de plataforma y producto, **agentes, herramientas y context engineering** orquestan pasos con tools de scope mínimo, presupuestos y checkpoints. Se promueve solo cuando el agente no supera baseline en tareas conocidas sin plan evaluado, y los side effects exigen approval. Id legacy `data-contracts` se conserva; el path V3 es agentes/tools (no solo contratos de tablas).",
   learningOutcomes: [
     { text: "Elige workflow vs agente" },
     { text: "Diseña routing planner/evaluator" },
@@ -27,10 +27,31 @@ export const section49: CourseSection = {
     {
       heading: "Ruta de S49: Agentes, herramientas y context engineering",
       paragraphs: [
-        "Esta sección parte de S48 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-AYA-049` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Workflow de herramientas seguro y recuperable. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida: propuesta trazable y checkpoint; nunca un cambio de producción.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Workflow vs agente:** pasos conocidos vs decisiones acotadas con evaluator. **Planner/worker/evaluator:** descomponer, ejecutar, verificar. **Tool de responsabilidad única:** un efecto bien tipado. **Idempotencia de tool:** misma key ⇒ un solo side effect. **Context mínimo / JIT retrieval:** solo lo necesario, justo a tiempo. **Checkpoint / LKG:** last-known-good para recovery. **Budget:** max_steps y max_cost. **Sandbox + human approval:** sin red/prod/riesgo sin aprobación explícita.",
+        "Esta sección extiende RAG (S48) con **agentes y tools**: planes acotados, scopes, context windows y costos. Demos stdlib (contadores, sets) sin frameworks de agentes reales. El caso `CASO-AYA-049` (Ayacucho sintético) no ejecuta tools de red abiertas ni PII.",
+        "Producto incremental: propuesta de plan + tool calls auditables. Entrada: goal, tools con scope, max_steps/cost y evaluator. Salida: plan ≤ límites, effects=1 por tool idempotente, network closed sin approval. Error de promoción: éxito sin known_steps, side_effect multi-responsabilidad o replay de effects.",
+        "Orden: T1 baseline vs agente → T2 tools/scope → T3 context/checkpoint → T4 cost/network/approval. Teoría medible, iDo con helpers, weDo con defecto agentic por ejercicio. Id legacy no limita a data contracts tabulares; V3 es agent tool-use gobernado. Stack didáctico: **stdlib** sin frameworks de agentes ni red abierta.",
       ],
+      code: {
+        language: 'python',
+        title: "s49_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-AYA-049",
+        "gates": ["single_responsibility_tools", "idempotent_effects", "budget_stop", "human_approval_sensitive"],
+        "tabular_contracts_only_topic": False,
+        "prod_side_effect_without_approval_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("tabular_contracts_only_topic", c["tabular_contracts_only_topic"])
+print("prod_side_effect_without_approval_ok", c["prod_side_effect_without_approval_ok"])
+`,
+        output: `case CASO-AYA-049
+tabular_contracts_only_topic False
+prod_side_effect_without_approval_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,19 @@ export const section49: CourseSection = {
       heading: "workflow vs agente",
       subtopicId: "S49-T1-A",
       paragraphs: [
-        "Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable.",
-        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: ADR workflow/agente con baseline. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
-        "Aplicación de `workflow vs agente` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es ADR workflow/agente con baseline. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects.",
+        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto (`max_steps`/`max_cost`). Salida de este subtema: ADR workflow/agente con baseline documentado. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible (red/prod/riesgo).",
+        "Aplicación de `workflow vs agente` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es ADR que elige `workflow` cuando el path es determinista. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "workflow_vs_agent.py",
-        code: `print("workflow"); print("agent"); print("default", "workflow_when_deterministic")`,
+        code: `def choose_mode(deterministic: bool) -> str:
+    return "workflow" if deterministic else "agent"
+
+print(choose_mode(True))
+print(choose_mode(False))
+print("default", "workflow_when_deterministic")`,
         output: `workflow
 agent
 default workflow_when_deterministic`,
@@ -71,7 +97,12 @@ default workflow_when_deterministic`,
       code: {
         language: 'python',
         title: "routing_planner_evaluator.py",
-        code: `print(sorted(["evaluator","planner","router","worker"])); print("loop", "evaluator->worker"); print("pattern", "optimizer")`,
+        code: `def agent_roles() -> list:
+    return sorted(["evaluator", "planner", "router", "worker"])
+
+print(agent_roles())
+print("loop", "evaluator->worker")
+print("pattern", "optimizer")`,
         output: `['evaluator', 'planner', 'router', 'worker']
 loop evaluator->worker
 pattern optimizer`,
@@ -94,7 +125,12 @@ pattern optimizer`,
       code: {
         language: 'python',
         title: "single_responsibility_fns.py",
-        code: `print(["get_case","search_docs"]); print("srp", True); print("no_god_tool", True)`,
+        code: `def srp_tools(names: list) -> list:
+    return list(names)
+
+print(srp_tools(["get_case", "search_docs"]))
+print("srp", True)
+print("no_god_tool", True)`,
         output: `['get_case', 'search_docs']
 srp True
 no_god_tool True`,
@@ -117,7 +153,14 @@ no_god_tool True`,
       code: {
         language: 'python',
         title: "schema_perms_idempotency_errors.py",
-        code: `print({"ok":True,"idempotency_key":"k"}); print({"error":"forbidden"}); print("idempotent", True)`,
+        code: `def tool_call(allowed: bool, key: str) -> dict:
+    if not allowed:
+        return {"error": "forbidden"}
+    return {"ok": True, "idempotency_key": key}
+
+print(tool_call(True, "k"))
+print(tool_call(False, "k"))
+print("idempotent", True)`,
         output: `{'ok': True, 'idempotency_key': 'k'}
 {'error': 'forbidden'}
 idempotent True`,
@@ -140,7 +183,12 @@ idempotent True`,
       code: {
         language: 'python',
         title: "min_context_jit_checkpoints.py",
-        code: `print([{"text":"caso C1 abierto"}]); print("checkpoint", "after_tool"); print("min_context", True)`,
+        code: `def min_context(facts: list) -> list:
+    return [{"text": t} for t in facts]
+
+print(min_context(["caso C1 abierto"]))
+print("checkpoint", "after_tool")
+print("min_context", True)`,
         output: `[{'text': 'caso C1 abierto'}]
 checkpoint after_tool
 min_context True`,
@@ -163,7 +211,13 @@ min_context True`,
       code: {
         language: 'python',
         title: "memory_compaction_lkg.py",
-        code: `print(["s3","s4"]); print("lkg", 1); print("drop_old", True)`,
+        code: `def compact(steps: list, keep: int) -> tuple:
+    return steps[-keep:], 1, True
+
+kept, lkg, drop = compact(["s1", "s2", "s3", "s4"], 2)
+print(kept)
+print("lkg", lkg)
+print("drop_old", drop)`,
         output: `['s3', 's4']
 lkg 1
 drop_old True`,
@@ -186,7 +240,14 @@ drop_old True`,
       code: {
         language: 'python',
         title: "stopping_budgets.py",
-        code: `print("stop"); print("stop"); print("continue")`,
+        code: `def step(budget_left: int, goal_met: bool) -> str:
+    if goal_met or budget_left <= 0:
+        return "stop"
+    return "continue"
+
+print(step(0, False))
+print(step(3, True))
+print(step(3, False))`,
         output: `stop
 stop
 continue`,
@@ -203,13 +264,20 @@ continue`,
       subtopicId: "S49-T4-B",
       paragraphs: [
         "Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto.",
-        "Contrato operativo. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida de este subtema: acción de producción imposible sin aprobación. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto detiene el run. Criterio de éxito: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
-        "Aplicación de `sandbox, human approval y recuperación` al caso peruano sintético `CASO-AYA-049`: un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. La evidencia esperada es acción de producción imposible sin aprobación. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato human-in-the-loop. Entrada: nombre de tool y flag human_ok. Salida: `needs_human` si la tool es `prod_*` sin aprobación; `sandbox_ok` si es lectura. Error: enviar o mutar prod sin gate. Criterio: en Ayacucho sintético `run_tool('prod_send', False)` se detiene; search_docs no.",
+        "Aplicación a `CASO-AYA-049-T4B`: el agente prepara propuesta y checkpoint; nunca envía ni cambia prod. Recovery = resume_checkpoint, no re-ejecutar side effects.",
       ],
       code: {
         language: 'python',
         title: "sandbox_human_approval_recovery.py",
-        code: `print("sandbox_ok"); print("needs_human"); print("sandbox_ok")`,
+        code: `def run_tool(name: str, human_ok: bool) -> str:
+    if name.startswith("prod_") and not human_ok:
+        return "needs_human"
+    return "sandbox_ok"
+
+print(run_tool("search_docs", False))
+print(run_tool("prod_send", False))
+print(run_tool("search_docs", True))`,
         output: `sandbox_ok
 needs_human
 sandbox_ok`,
@@ -233,7 +301,12 @@ sandbox_ok`,
         code: {
           language: 'python',
           title: "demo_workflow_vs_agent.py",
-          code: `print("agent_when", "open_ended"); print("workflow_when", "fixed_steps"); print("safety", "prefer_workflow")`,
+          code: `def prefer(mode: str) -> str:
+    return "prefer_workflow" if mode != "must_agent" else "agent_ok"
+
+print("agent_when", "open_ended")
+print("workflow_when", "fixed_steps")
+print("safety", prefer("default"))`,
           output: `agent_when open_ended
 workflow_when fixed_steps
 safety prefer_workflow`,
@@ -248,7 +321,12 @@ safety prefer_workflow`,
         code: {
           language: 'python',
           title: "demo_routing_planner_evaluator.py",
-          code: `print("route", "planner"); print("eval", True); print("max_loops", 3)`,
+          code: `def max_loops(n: int) -> int:
+    return max(1, min(n, 5))
+
+print("route", "planner")
+print("eval", True)
+print("max_loops", max_loops(3))`,
           output: `route planner
 eval True
 max_loops 3`,
@@ -263,7 +341,12 @@ max_loops 3`,
         code: {
           language: 'python',
           title: "demo_single_responsibility_fns.py",
-          code: `print("one_tool_one_job", True); print("tools_n", 2); print("compose", "agent")`,
+          code: `def tools_n(tools: list) -> int:
+    return len(tools)
+
+print("one_tool_one_job", True)
+print("tools_n", tools_n(["get_case", "search_docs"]))
+print("compose", "agent")`,
           output: `one_tool_one_job True
 tools_n 2
 compose agent`,
@@ -278,7 +361,12 @@ compose agent`,
         code: {
           language: 'python',
           title: "demo_schema_perms_idempotency_errors.py",
-          code: `print("schema", True); print("perms", "allowlist"); print("errors", "typed")`,
+          code: `def perms_mode(strict: bool) -> str:
+    return "allowlist" if strict else "open"
+
+print("schema", True)
+print("perms", perms_mode(True))
+print("errors", "typed")`,
           output: `schema True
 perms allowlist
 errors typed`,
@@ -293,7 +381,12 @@ errors typed`,
         code: {
           language: 'python',
           title: "demo_min_context_jit_checkpoints.py",
-          code: `print("jit", True); print("k", 2); print("checkpoint", True)`,
+          code: `def top_k(items: list, k: int) -> int:
+    return min(k, len(items))
+
+print("jit", True)
+print("k", top_k(["a", "b", "c"], 2))
+print("checkpoint", True)`,
           output: `jit True
 k 2
 checkpoint True`,
@@ -308,7 +401,12 @@ checkpoint True`,
         code: {
           language: 'python',
           title: "demo_memory_compaction_lkg.py",
-          code: `print("compaction", True); print("lkg", True); print("memory_bound", 2)`,
+          code: `def memory_bound(n: int) -> int:
+    return max(1, n)
+
+print("compaction", True)
+print("lkg", True)
+print("memory_bound", memory_bound(2))`,
           output: `compaction True
 lkg True
 memory_bound 2`,
@@ -323,7 +421,13 @@ memory_bound 2`,
         code: {
           language: 'python',
           title: "demo_stopping_budgets.py",
-          code: `print("budget_tokens", 2000); print("budget_steps", 5); print("stop_on", "limit")`,
+          code: `def budgets(tokens: int, steps: int) -> tuple:
+    return tokens, steps, "limit"
+
+t, s, stop = budgets(2000, 5)
+print("budget_tokens", t)
+print("budget_steps", s)
+print("stop_on", stop)`,
           output: `budget_tokens 2000
 budget_steps 5
 stop_on limit`,
@@ -338,7 +442,12 @@ stop_on limit`,
         code: {
           language: 'python',
           title: "demo_sandbox_human_approval_recovery.py",
-          code: `print("sandbox", True); print("human_gate", True); print("recovery", "resume_checkpoint")`,
+          code: `def human_gate(sensitive: bool) -> bool:
+    return sensitive
+
+print("sandbox", True)
+print("human_gate", human_gate(True))
+print("recovery", "resume_checkpoint")`,
           output: `sandbox True
 human_gate True
 recovery resume_checkpoint`,
@@ -366,7 +475,11 @@ recovery resume_checkpoint`,
         starterCode: {
           language: 'python',
           title: "s49-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-1A", **{"known_steps":True,"branch_count":2,"tool_choice_uncertain":False,"baseline_success":0.96,"agent_success":0.9}}
+          code: `# CASO-LIM-049 · workflow vs agent choice
+# DEFECT: PASS si known_steps False o agent>baseline (pref agent sin necesidad)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-1A", **{"known_steps":True,"branch_count":2,"tool_choice_uncertain":False,"baseline_success":0.96,"agent_success":0.9}}
+# DEFECT: sin known_steps o agente no supera baseline
 meets_contract = not record["known_steps"] or record["agent_success"] > record["baseline_success"]
 status = "PASS" if meets_contract else "KEEP_DETERMINISTIC_WORKFLOW"
 print("S49-T1-A", status)
@@ -399,7 +512,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess KEEP_DETERMINISTIC_WORKFLOW
+# DEFECT: PASS cuando workflow determinista basta
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "known_steps", "branch_count", "tool_choice_uncertain", "baseline_success", "agent_success"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +566,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide KEEP_DETERMINISTIC_WORKFLOW
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "known_steps", "branch_count", "tool_choice_uncertain", "baseline_success", "agent_success"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +620,11 @@ assert results == ["CONTINUE", "KEEP_DETERMINISTIC_WORKFLOW", "RUN_AGENT_BASELIN
         starterCode: {
           language: 'python',
           title: "s49-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-1B", **{"route":"report","plan_steps":3,"max_steps":5,"worker_outputs":3,"evaluator_pass":True}}
+          code: `# CASO-LIM-049 · planner steps + evaluator
+# DEFECT: PASS si plan_steps>max o evaluator_pass False
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-1B", **{"route":"report","plan_steps":3,"max_steps":5,"worker_outputs":3,"evaluator_pass":True}}
+# DEFECT: plan sobre max_steps o evaluator fail
 meets_contract = record["plan_steps"] > record["max_steps"] or not record["evaluator_pass"]
 status = "PASS" if meets_contract else "STOP_AGENT_LOOP"
 print("S49-T1-B", status)
@@ -534,7 +657,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess STOP_AGENT_LOOP
+# DEFECT: PASS con loop sin cota o evaluator fail
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "route", "plan_steps", "max_steps", "worker_outputs", "evaluator_pass"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +711,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide STOP_AGENT_LOOP
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "route", "plan_steps", "max_steps", "worker_outputs", "evaluator_pass"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +765,11 @@ assert results == ["CONTINUE", "STOP_AGENT_LOOP", "REPLAN_WITH_BOUNDS"]` ,
         starterCode: {
           language: 'python',
           title: "s49-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-2A", **{"tool":"get_case_status","responsibilities":1,"schema_fields":{"case_id"},"side_effect":False,"typed_errors":True}}
+          code: `# CASO-LIM-049 · single-responsibility tools
+# DEFECT: PASS si responsibilities>1 o side_effect True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-2A", **{"tool":"get_case_status","responsibilities":1,"schema_fields":{"case_id"},"side_effect":False,"typed_errors":True}}
+# DEFECT: tool multi-responsabilidad o side_effect no declarado
 meets_contract = record["responsibilities"] > 1 or record["side_effect"]
 status = "PASS" if meets_contract else "DISABLE_OVERBROAD_TOOL"
 print("S49-T2-A", status)
@@ -669,7 +802,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess DISABLE_OVERBROAD_TOOL
+# DEFECT: PASS con tool multi-duty o side effect
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "tool", "responsibilities", "schema_fields", "side_effect", "typed_errors"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +856,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide DISABLE_OVERBROAD_TOOL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "tool", "responsibilities", "schema_fields", "side_effect", "typed_errors"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +910,11 @@ assert results == ["CONTINUE", "DISABLE_OVERBROAD_TOOL", "SPLIT_TOOL_CONTRACT"]`
         starterCode: {
           language: 'python',
           title: "s49-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":True,"scope":"report:prepare","granted":{"report:prepare"},"idempotency_key":"tool-1","attempts":2,"effects":1,"error_kind":"retryable"}}
+          code: `# CASO-LIM-049 · tool scope + idempotency
+# DEFECT: PASS si scope no granted o effects>1
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":True,"scope":"report:prepare","granted":{"report:prepare"},"idempotency_key":"tool-1","attempts":2,"effects":1,"error_kind":"retryable"}}
+# DEFECT: scope no granted o effects duplicados
 meets_contract = record["scope"] not in record["granted"] or record["effects"] > 1
 status = "PASS" if meets_contract else "DENY_TOOL_CALL"
 print("S49-T2-B", status)
@@ -804,7 +947,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess DENY_TOOL_CALL
+# DEFECT: PASS sin permiso o no idempotente
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "schema_valid", "scope", "granted", "idempotency_key", "attempts", "effects", "error_kind"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +1001,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide DENY_TOOL_CALL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "schema_valid", "scope", "granted", "idempotency_key", "attempts", "effects", "error_kind"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1055,11 @@ assert results == ["CONTINUE", "DENY_TOOL_CALL", "CLASSIFY_TOOL_ERROR"]` ,
         starterCode: {
           language: 'python',
           title: "s49-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":1200,"max_context_tokens":2000,"retrieved_just_in_time":True,"checkpoint_after_effect":True,"provenance":True}}
+          code: `# CASO-LIM-049 · context budget + JIT retrieval
+# DEFECT: PASS si tokens>max o no checkpoint_after_effect
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":1200,"max_context_tokens":2000,"retrieved_just_in_time":True,"checkpoint_after_effect":True,"provenance":True}}
+# DEFECT: context overflow o sin checkpoint post-efecto
 meets_contract = record["context_tokens"] > record["max_context_tokens"] or not record["checkpoint_after_effect"]
 status = "PASS" if meets_contract else "COMPACT_AND_CHECKPOINT"
 print("S49-T3-A", status)
@@ -939,7 +1092,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess COMPACT_AND_CHECKPOINT
+# DEFECT: PASS con contexto excesivo o sin checkpoint
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "context_tokens", "max_context_tokens", "retrieved_just_in_time", "checkpoint_after_effect", "provenance"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1146,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide COMPACT_AND_CHECKPOINT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "context_tokens", "max_context_tokens", "retrieved_just_in_time", "checkpoint_after_effect", "provenance"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1200,11 @@ assert results == ["CONTINUE", "COMPACT_AND_CHECKPOINT", "RETRIEVE_MINIMUM_CONTE
         starterCode: {
           language: 'python',
           title: "s49-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id","budget","no_prod_write"},"memory_retention_days":7,"last_known_good":"cp-7"}}
+          code: `# CASO-LIM-049 · memory compaction last-known-good
+# DEFECT: PASS si facts se pierden o no last_known_good
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id","budget","no_prod_write"},"memory_retention_days":7,"last_known_good":"cp-7"}}
+# DEFECT: hechos no monótonos o sin last_known_good
 meets_contract = not record["facts_before"] <= record["facts_after"] or not record["last_known_good"]
 status = "PASS" if meets_contract else "RESTORE_LAST_KNOWN_GOOD"
 print("S49-T3-B", status)
@@ -1074,7 +1237,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess RESTORE_LAST_KNOWN_GOOD
+# DEFECT: PASS con pérdida de facts o sin LKG
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "facts_before", "facts_after", "memory_retention_days", "last_known_good"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1291,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide RESTORE_LAST_KNOWN_GOOD
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "facts_before", "facts_after", "memory_retention_days", "last_known_good"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1345,11 @@ assert results == ["CONTINUE", "RESTORE_LAST_KNOWN_GOOD", "REVIEW_COMPACTION_LOS
         starterCode: {
           language: 'python',
           title: "s49-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-4A", **{"goal_met":True,"steps":4,"max_steps":6,"tokens":3200,"max_tokens":5000,"cost_pen":0.04,"max_cost_pen":0.06}}
+          code: `# CASO-LIM-049 · step/token/cost budgets
+# DEFECT: PASS si steps>max o cost>max
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-4A", **{"goal_met":True,"steps":4,"max_steps":6,"tokens":3200,"max_tokens":5000,"cost_pen":0.04,"max_cost_pen":0.06}}
+# DEFECT: steps/cost sobre presupuesto
 meets_contract = record["steps"] > record["max_steps"] or record["cost_pen"] > record["max_cost_pen"]
 status = "PASS" if meets_contract else "STOP_BUDGET_EXHAUSTED"
 print("S49-T4-A", status)
@@ -1209,7 +1382,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess STOP_BUDGET_EXHAUSTED
+# DEFECT: PASS con budgets agotados
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "goal_met", "steps", "max_steps", "tokens", "max_tokens", "cost_pen", "max_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1436,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide STOP_BUDGET_EXHAUSTED
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "goal_met", "steps", "max_steps", "tokens", "max_tokens", "cost_pen", "max_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1490,11 @@ assert results == ["CONTINUE", "STOP_BUDGET_EXHAUSTED", "ASK_FOR_SCOPE_REDUCTION
         starterCode: {
           language: 'python',
           title: "s49-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-AYA-049-4B", **{"network":"none","filesystem":"workspace-read","sensitive_action":"prepare-draft","approval_required":True,"approval_present":True,"checkpoint":"cp-9","replayed_effects":0}}
+          code: `# CASO-LIM-049 · sandbox network + human approval
+# DEFECT: PASS si network open o sin approval o replay effects
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-AYA-049-4B", **{"network":"none","filesystem":"workspace-read","sensitive_action":"prepare-draft","approval_required":True,"approval_present":True,"checkpoint":"cp-9","replayed_effects":0}}
+# DEFECT: network open sin approval o replay de effects
 meets_contract = record["network"] == "open" or not record["approval_present"] or record["replayed_effects"] > 0
 status = "PASS" if meets_contract else "SANDBOX_AND_STOP"
 print("S49-T4-B", status)
@@ -1344,7 +1527,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s49-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-049 · assess SANDBOX_AND_STOP
+# DEFECT: PASS con red abierta, sin HITL o re-efectos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "network", "filesystem", "sensitive_action", "approval_required", "approval_present", "checkpoint", "replayed_effects"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1581,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s49-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-049 · decide SANDBOX_AND_STOP
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "network", "filesystem", "sensitive_action", "approval_required", "approval_present", "checkpoint", "replayed_effects"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1694,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 1,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Una tool con side_effect y sin approval_present en red abierta debe…",
+        options: ["bloquearse hasta approval y scope en granted", "ejecutarse para maximizar autonomía", "elevar privilegios de red automáticamente", "reproducir effects en cada replay sin log"],
+        correctIndex: 0,
+        explanation: "Tool-use fail-closed: side effects y network abiertos requieren approval y scope explícitos.",
+      },
     ],
   },
   resources: {
@@ -1520,18 +1715,57 @@ assert status in {"READY", "BLOCKED"}
         note: "Schemas y tool calls",
       },
       {
+        label: "JSON Schema",
+        url: "https://json-schema.org/understanding-json-schema/",
+        note: "Schemas de argumentos de tools",
+      },
+      {
         label: "NIST AI RMF",
         url: "https://www.nist.gov/itl/ai-risk-management-framework",
         note: "Control y gestión de riesgo",
       },
+      {
+        label: "OWASP LLM Top 10",
+        url: "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        note: "Riesgos de agentes y tools",
+      },
+      {
+        label: "LangGraph / agent orchestration concepts",
+        url: "https://langchain-ai.github.io/langgraph/",
+        note: "Checkpoints y control de loops (referencia)",
+      },
+      {
+        label: "LlamaIndex agents guide",
+        url: "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+        note: "Agentes y tools (referencia)",
+      },
+      {
+        label: "Microsoft Semantic Kernel",
+        url: "https://learn.microsoft.com/semantic-kernel/",
+        note: "Plugins y planners (referencia)",
+      },
+      {
+        label: "SRE — Addressing Cascading Failures",
+        url: "https://sre.google/sre-book/addressing-cascading-failures/",
+        note: "Budgets, stops y recovery",
+      },
+      {
+        label: "Twelve-Factor App",
+        url: "https://12factor.net/",
+        note: "Config y procesos del servicio de agente",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Building ML Powered Applications", note: "Tooling y feedback humano" },
+      { label: "Site Reliability Engineering", note: "Budgets, stops y recovery" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "deeplearning.ai — Agentic AI / tools courses", url: "https://www.deeplearning.ai/", note: "Agentes y tool use intro" },
+      { label: "Coursera AI agents", url: "https://www.coursera.org/courses?query=ai%20agents", note: "Agentes MOOCs" },
+      { label: "Stanford CS224N", url: "https://web.stanford.edu/class/cs224n/", note: "NLP foundations" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

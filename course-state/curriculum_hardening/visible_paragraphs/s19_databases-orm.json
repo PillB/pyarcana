@@ -1,0 +1,482 @@
+{
+  "index": 19,
+  "id": "databases-orm",
+  "title": "Visualización y comunicación accesible",
+  "file": "s19-databases-orm.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Bases de Datos y ORMs” a visualización accesible (mapa)",
+      "len": 59
+    },
+    {
+      "i": 1,
+      "text": "En V3, S19 no es el path de SQLAlchemy/ORM de bases de datos (reubicado). El id databases-orm se conserva, pero el estudiante construye visualización y comunicación accesible para el dashboard ejecutivo de CP-N2-B: chart choice honesto, encodings, Matplotlib/Seaborn, modelo de filtros/tooltips y a11y sin sobreclaim.",
+      "len": 317
+    },
+    {
+      "i": 2,
+      "text": "Hilo conductor: figuras sintéticas de KPIs regionales (Lima/Cusco/Arequipa, PEN, n por barra) que alimentarán el reporting factory (S20–S21). Una sola idea principal por chart; metadata de pregunta, audiencia y limitaciones va con cada figura.",
+      "len": 243
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Intención (pregunta/audiencia/chart + ejes honestos) → T2 Estático (Matplotlib/Seaborn, composición, export) → T3 Interactivo/a11y (spec de filtros/tooltips, tabla alternativa) → T4 Integridad (unidades, fuente, contraste, alt text, no sobreclaim). Progressive disclosure: sin ORM ni SQL nuevos.",
+      "len": 305
+    },
+    {
+      "i": 4,
+      "text": "pregunta, audiencia y chart choice",
+      "len": 34
+    },
+    {
+      "i": 5,
+      "text": "El chart choice responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia temporal → línea; relación dos cuantitativas → scatter. Documenta en metadata: pregunta, chart_type, audiencia (ejecutivo vs analista).",
+      "len": 255
+    },
+    {
+      "i": 6,
+      "text": "Contrato: una idea principal por figura. Si hay dos preguntas, dos charts. El dict de especificación (pregunta, audiencia, chart) viaja con el PNG hacia el informe S21 para no perder el “por qué este gráfico”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 462
+    },
+    {
+      "i": 7,
+      "text": "Caso sintético Perú: “totales por región para comité” → bar; “tendencia de tickets web semanal” → line. Función elige_chart(pregunta) es un gate didáctico, no un clasificador ML: reglas legibles y testeables en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 469
+    },
+    {
+      "i": 8,
+      "text": "ejes, escalas y encodings honestos",
+      "len": 34
+    },
+    {
+      "i": 9,
+      "text": "Ejes de magnitudes absolutas en barras deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Encodings: posición > longitud > color > forma; dual-axis engaña con frecuencia. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 476
+    },
+    {
+      "i": 10,
+      "text": "Contrato: ylim bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el único canal para categorías críticas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 466
+    },
+    {
+      "i": 11,
+      "text": "Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. El ejercicio de “inflación visual” entrena el ojo antes de exportar al dashboard de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 452
+    },
+    {
+      "i": 13,
+      "text": "Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el slice está filtrado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 452
+    },
+    {
+      "i": 14,
+      "text": "Contrato de export: bbox_inches='tight', dpi documentado (p. ej. 120), nombre versionado. En demos del curso a veces solo imprimimos metadatos sin binario; en local guardas PNG/SVG según audiencia (slides vs impresión). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 472
+    },
+    {
+      "i": 15,
+      "text": "Caso: bar de dos regiones con ylabel='PEN' y ylim(0, …). Verifica get_ylim()[0]==0 y get_ylabel() en tests — el grader de weDo usa esos contratos, no “se ve bien en mi monitor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 430
+    },
+    {
+      "i": 16,
+      "text": "composición, annotations y exportación",
+      "len": 38
+    },
+    {
+      "i": 17,
+      "text": "Multi-panel (subplots) alinea comparaciones (Vol vs Med). Anota valores clave con bar_label o annotate sin saturar. Export: PNG para slides, SVG/PDF para impresión; nombre fig_cpn2b_v{version}.png. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 450
+    },
+    {
+      "i": 18,
+      "text": "Contrato de reproducibilidad: seed de datos + función build_figure() sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 412
+    },
+    {
+      "i": 19,
+      "text": "Caso sintético: 1×2 subplots títulos “Vol” y “Med”; meta de export {fmt:'png', dpi:120, panels:2}. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 430
+    },
+    {
+      "i": 20,
+      "text": "Plotly / filtros / tooltips (modelo de datos)",
+      "len": 45
+    },
+    {
+      "i": 21,
+      "text": "En entornos sin Plotly instalado, modelamos la vista interactiva como especificación: campos filtrables, tooltip template y viewport. Tooltips deben mostrar unidades y n, no solo el valor “bonito”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 450
+    },
+    {
+      "i": 22,
+      "text": "Contrato: al filtrar por región, el texto de conclusión del viewport se recalcula; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON) para audit del dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 459
+    },
+    {
+      "i": 23,
+      "text": "Caso: row {region:'Lima', median:28, n:40} → tooltip Lima: 28 PEN (n=40). Parity chart↔tabla: si la barra dice 1, la fila de tabla dice 1; si no, el gate de integridad falla. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 427
+    },
+    {
+      "i": 24,
+      "text": "estado, performance y alternativas accesibles",
+      "len": 45
+    },
+    {
+      "i": 25,
+      "text": "El estado del dashboard (filtros activos) debe ser serializable (json.dumps). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 454
+    },
+    {
+      "i": 26,
+      "text": "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con los mismos números que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 430
+    },
+    {
+      "i": 27,
+      "text": "Caso: filtro_region=Lima → state JSON compacto; alt_text une region:v con ; . Performance: documenta “sample 5k de 50k” si aplica — nunca ocultes el sesgo muestral del viewport. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 430
+    },
+    {
+      "i": 28,
+      "text": "unidades, fuente y limitaciones",
+      "len": 31
+    },
+    {
+      "i": 29,
+      "text": "Cada eje y tooltip lleva unidad (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: Fuente: … | Corte: … | n=… | Limitación: …. Sin fuente, el gráfico no entra al portfolio de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 463
+    },
+    {
+      "i": 30,
+      "text": "Contrato de caption: dict con claves unidad, fuente, limitacion (y n cuando aplique). Función pie(cap) une con | para el footer estable entre dashboard e informe. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 415
+    },
+    {
+      "i": 31,
+      "text": "Caso sintético: unidad PEN, fuente sintetico, limitación “solo canal web”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 393
+    },
+    {
+      "i": 32,
+      "text": "color, contraste, texto alternativo y no sobreclaim",
+      "len": 51
+    },
+    {
+      "i": 33,
+      "text": "Contraste suficiente texto/fondo; no uses solo color para categorías críticas — añade patrón, etiqueta o posición. Alt text describe el hallazgo principal y n, no “imagen de barras”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 435
+    },
+    {
+      "i": 34,
+      "text": "Contrato de claims: “Lima lidera en la muestra web” es permitido; “Lima es la mejor región del Perú” sin marco poblacional es RECHAZADO. classify_claim es el gate didáctico del weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 435
+    },
+    {
+      "i": 35,
+      "text": "Caso: alt Lima 28 PEN n=40 debe contener n=; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+      "len": 409
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 59,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Bases de Datos y ORMs” a visualización accesible (mapa)",
+      "text": "De “Bases de Datos y ORMs” a visualización accesible (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 317,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S19 no es el path de SQLAlchemy/ORM de bases de datos (reubicado). El id databases-orm se conserva, pero el estudiante construye visualización y comunicación accesible para ",
+      "text": "En V3, S19 no es el path de SQLAlchemy/ORM de bases de datos (reubicado). El id databases-orm se conserva, pero el estudiante construye visualización y comunicación accesible para el dashboard ejecutivo de CP-N2-B: chart choice honesto, encodings, Matplotlib/Seaborn, modelo de filtros/tooltips y a11y sin sobreclaim."
+    },
+    {
+      "i": 2,
+      "len": 243,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hilo conductor: figuras sintéticas de KPIs regionales (Lima/Cusco/Arequipa, PEN, n por barra) que alimentarán el reporting factory (S20–S21). Una sola idea principal por chart; met",
+      "text": "Hilo conductor: figuras sintéticas de KPIs regionales (Lima/Cusco/Arequipa, PEN, n por barra) que alimentarán el reporting factory (S20–S21). Una sola idea principal por chart; metadata de pregunta, audiencia y limitaciones va con cada figura."
+    },
+    {
+      "i": 3,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Intención (pregunta/audiencia/chart + ejes honestos) → T2 Estático (Matplotlib/Seaborn, composición, export) → T3 Interactivo/a11y (spec de filtros/tooltips, tabla altern",
+      "text": "Orden: T1 Intención (pregunta/audiencia/chart + ejes honestos) → T2 Estático (Matplotlib/Seaborn, composición, export) → T3 Interactivo/a11y (spec de filtros/tooltips, tabla alternativa) → T4 Integridad (unidades, fuente, contraste, alt text, no sobreclaim). Progressive disclosure: sin ORM ni SQL nuevos."
+    },
+    {
+      "i": 4,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "pregunta, audiencia y chart choice",
+      "text": "pregunta, audiencia y chart choice"
+    },
+    {
+      "i": 5,
+      "len": 255,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El chart choice responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia temporal → línea; relación dos cuantitativas → scatter. Docu",
+      "text": "El chart choice responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras; tendencia temporal → línea; relación dos cuantitativas → scatter. Documenta en metadata: pregunta, chart_type, audiencia (ejecutivo vs analista)."
+    },
+    {
+      "i": 6,
+      "len": 462,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: una idea principal por figura. Si hay dos preguntas, dos charts. El dict de especificación (pregunta, audiencia, chart) viaja con el PNG hacia el informe S21 para no perd",
+      "text": "Contrato: una idea principal por figura. Si hay dos preguntas, dos charts. El dict de especificación (pregunta, audiencia, chart) viaja con el PNG hacia el informe S21 para no perder el “por qué este gráfico”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 7,
+      "len": 469,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético Perú: “totales por región para comité” → bar; “tendencia de tickets web semanal” → line. Función elige_chart(pregunta) es un gate didáctico, no un clasificador ML: r",
+      "text": "Caso sintético Perú: “totales por región para comité” → bar; “tendencia de tickets web semanal” → line. Función elige_chart(pregunta) es un gate didáctico, no un clasificador ML: reglas legibles y testeables en weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 8,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "ejes, escalas y encodings honestos",
+      "text": "ejes, escalas y encodings honestos"
+    },
+    {
+      "i": 9,
+      "len": 476,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ejes de magnitudes absolutas en barras deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Encodings: posición > longitud > colo",
+      "text": "Ejes de magnitudes absolutas en barras deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Encodings: posición > longitud > color > forma; dual-axis engaña con frecuencia. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 10,
+      "len": 466,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: ylim bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el únic",
+      "text": "Contrato: ylim bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el único canal para categorías críticas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 11,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. El ejercicio de “inflación visual” entrena el ojo antes de exportar al da",
+      "text": "Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. El ejercicio de “inflación visual” entrena el ojo antes de exportar al dashboard de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 13,
+      "len": 452,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el s",
+      "text": "Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el slice está filtrado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 14,
+      "len": 472,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de export: bbox_inches='tight', dpi documentado (p. ej. 120), nombre versionado. En demos del curso a veces solo imprimimos metadatos sin binario; en local guardas PNG/SVG",
+      "text": "Contrato de export: bbox_inches='tight', dpi documentado (p. ej. 120), nombre versionado. En demos del curso a veces solo imprimimos metadatos sin binario; en local guardas PNG/SVG según audiencia (slides vs impresión). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 15,
+      "len": 430,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: bar de dos regiones con ylabel='PEN' y ylim(0, …). Verifica get_ylim()[0]==0 y get_ylabel() en tests — el grader de weDo usa esos contratos, no “se ve bien en mi monitor”. En",
+      "text": "Caso: bar de dos regiones con ylabel='PEN' y ylim(0, …). Verifica get_ylim()[0]==0 y get_ylabel() en tests — el grader de weDo usa esos contratos, no “se ve bien en mi monitor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 16,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "composición, annotations y exportación",
+      "text": "composición, annotations y exportación"
+    },
+    {
+      "i": 17,
+      "len": 450,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Multi-panel (subplots) alinea comparaciones (Vol vs Med). Anota valores clave con bar_label o annotate sin saturar. Export: PNG para slides, SVG/PDF para impresión; nombre fig_cpn2",
+      "text": "Multi-panel (subplots) alinea comparaciones (Vol vs Med). Anota valores clave con bar_label o annotate sin saturar. Export: PNG para slides, SVG/PDF para impresión; nombre fig_cpn2b_v{version}.png. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 18,
+      "len": 412,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de reproducibilidad: seed de datos + función build_figure() sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. En el workbench sint",
+      "text": "Contrato de reproducibilidad: seed de datos + función build_figure() sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 430,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: 1×2 subplots títulos “Vol” y “Med”; meta de export {fmt:'png', dpi:120, panels:2}. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). En",
+      "text": "Caso sintético: 1×2 subplots títulos “Vol” y “Med”; meta de export {fmt:'png', dpi:120, panels:2}. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 20,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Plotly / filtros / tooltips (modelo de datos)",
+      "text": "Plotly / filtros / tooltips (modelo de datos)"
+    },
+    {
+      "i": 21,
+      "len": 450,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En entornos sin Plotly instalado, modelamos la vista interactiva como especificación: campos filtrables, tooltip template y viewport. Tooltips deben mostrar unidades y n, no solo e",
+      "text": "En entornos sin Plotly instalado, modelamos la vista interactiva como especificación: campos filtrables, tooltip template y viewport. Tooltips deben mostrar unidades y n, no solo el valor “bonito”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 22,
+      "len": 459,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: al filtrar por región, el texto de conclusión del viewport se recalcula; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON)",
+      "text": "Contrato: al filtrar por región, el texto de conclusión del viewport se recalcula; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON) para audit del dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 23,
+      "len": 427,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: row {region:'Lima', median:28, n:40} → tooltip Lima: 28 PEN (n=40). Parity chart↔tabla: si la barra dice 1, la fila de tabla dice 1; si no, el gate de integridad falla. En el",
+      "text": "Caso: row {region:'Lima', median:28, n:40} → tooltip Lima: 28 PEN (n=40). Parity chart↔tabla: si la barra dice 1, la fila de tabla dice 1; si no, el gate de integridad falla. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 24,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "estado, performance y alternativas accesibles",
+      "text": "estado, performance y alternativas accesibles"
+    },
+    {
+      "i": 25,
+      "len": 454,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El estado del dashboard (filtros activos) debe ser serializable (json.dumps). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y docum",
+      "text": "El estado del dashboard (filtros activos) debe ser serializable (json.dumps). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 26,
+      "len": 430,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con los mismos números que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. En",
+      "text": "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con los mismos números que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 27,
+      "len": 430,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: filtro_region=Lima → state JSON compacto; alt_text une region:v con ; . Performance: documenta “sample 5k de 50k” si aplica — nunca ocultes el sesgo muestral del viewport. En",
+      "text": "Caso: filtro_region=Lima → state JSON compacto; alt_text une region:v con ; . Performance: documenta “sample 5k de 50k” si aplica — nunca ocultes el sesgo muestral del viewport. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 28,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "unidades, fuente y limitaciones",
+      "text": "unidades, fuente y limitaciones"
+    },
+    {
+      "i": 29,
+      "len": 463,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada eje y tooltip lleva unidad (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: Fuente: … | Corte: … | n=… | Limitación: …. Sin fuente, el gráfico no ",
+      "text": "Cada eje y tooltip lleva unidad (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: Fuente: … | Corte: … | n=… | Limitación: …. Sin fuente, el gráfico no entra al portfolio de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 30,
+      "len": 415,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de caption: dict con claves unidad, fuente, limitacion (y n cuando aplique). Función pie(cap) une con | para el footer estable entre dashboard e informe. En el workbench s",
+      "text": "Contrato de caption: dict con claves unidad, fuente, limitacion (y n cuando aplique). Función pie(cap) une con | para el footer estable entre dashboard e informe. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 31,
+      "len": 393,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: unidad PEN, fuente sintetico, limitación “solo canal web”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. En el workbench sintético (Lima/Cusco/A",
+      "text": "Caso sintético: unidad PEN, fuente sintetico, limitación “solo canal web”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 32,
+      "len": 51,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "color, contraste, texto alternativo y no sobreclaim",
+      "text": "color, contraste, texto alternativo y no sobreclaim"
+    },
+    {
+      "i": 33,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contraste suficiente texto/fondo; no uses solo color para categorías críticas — añade patrón, etiqueta o posición. Alt text describe el hallazgo principal y n, no “imagen de barras",
+      "text": "Contraste suficiente texto/fondo; no uses solo color para categorías críticas — añade patrón, etiqueta o posición. Alt text describe el hallazgo principal y n, no “imagen de barras”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 34,
+      "len": 435,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de claims: “Lima lidera en la muestra web” es permitido; “Lima es la mejor región del Perú” sin marco poblacional es RECHAZADO. classify_claim es el gate didáctico del weD",
+      "text": "Contrato de claims: “Lima lidera en la muestra web” es permitido; “Lima es la mejor región del Perú” sin marco poblacional es RECHAZADO. classify_claim es el gate didáctico del weDo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    },
+    {
+      "i": 35,
+      "len": 409,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: alt Lima 28 PEN n=40 debe contener n=; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory. En el workbench sintéti",
+      "text": "Caso: alt Lima 28 PEN n=40 debe contener n=; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids T00x/C00x) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16626
+}

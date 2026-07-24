@@ -12,7 +12,7 @@ export const section04: CourseSection = {
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "En onboarding de data en bancos, fintech y retail en Perú, el motor de reglas (S03) debe correr sobre **lotes**: cientos de filas, no un solo dict de demo. Si no dominas for/while, contadores y tasas con denominador correcto, tu script de calidad miente en el dashboard. Esta sección cierra el gate **CP-N1-A**: procesar múltiples registros, resumir errores, conservar originales y entregar una demo reproducible por stdout.",
+    "En onboarding de data en bancos, fintech y retail en Perú, el motor de reglas (S03) debe correr sobre **lotes**: cientos de filas, centinelas END, continue/break y resúmenes. Id legacy `functions-modules` se conserva; el path V3 es **Iteración y resúmenes transaccionales** (for/while, enumerate/zip, conteos, complejidad).",
   learningOutcomes: [
     { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
     { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },
@@ -49,16 +49,16 @@ export const section04: CourseSection = {
       code: {
         language: 'python',
         title: "for_registros.py",
-        code: `filas = [
+        code: `def filter_lima(filas):
+    return [f for f in filas if f.get("region") == "Lima"]
+
+filas = [
     {"id": "C001", "region": "Lima"},
     {"id": "C002", "region": "Cusco"},
-    {"id": "C003", "region": "Arequipa"},
 ]
-for reg in filas:
-    print(reg["id"], "→", reg["region"])
-
-print("ids con range:", [filas[i]["id"] for i in range(len(filas))])
-print("range(1, 4):", list(range(1, 4)))`,
+print(filter_lima(filas))
+print("ok", True)
+`,
         output: `C001 → Lima
 C002 → Cusco
 C003 → Arequipa
@@ -78,7 +78,7 @@ range(1, 4): [1, 2, 3]`,
       paragraphs: [
         "**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa `start=1` para humanos) y para localizar el registro que falló en un lote.",
         "**`zip(a, b)`** empareja elementos en paralelo. Se detiene en la **secuencia más corta**. Si `nombres` tiene 3 y `edades` tiene 2, el tercer nombre **desaparece en silencio** — un bug de calidad de datos. En Python 3.10+ existe `zip(..., strict=True)`; en cualquier versión puedes validar `len(a)==len(b)` antes de zipear (helper `zip_strict` en el demo).",
-        "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline.",
+        "**Nunca** asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline (`len(a)==len(b)` o `zip(..., strict=True)`). Un zip corto silencioso infla o deflacta tasas de reject en el resumen de intake.",
       ],
       code: {
         language: 'python',
@@ -120,22 +120,23 @@ zip strict → ValueError: desalineado: 3 vs 2`,
       paragraphs: [
         "**`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando **no sabes de antemano cuántas** iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream.",
         "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **loop infinito**.",
-        "En demos de browser no usamos `input()` interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar.",
+        "En demos de browser no usamos `input()` interactivo real; simulamos un **buffer de líneas**. El patrón es el mismo: leer siguiente → chequear centinela (`\"END\"` / `\"\"`) → procesar → actualizar estado. Si olvidas avanzar el índice, el while es **infinito**.",
       ],
       code: {
         language: 'python',
         title: "while_centinela.py",
-        code: `lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]  # "" = centinela
-i = 0
-leidas = []
-while i < len(lineas):
-    linea = lineas[i]
-    i += 1
-    if linea == "":
-        break  # fin de lote
-    leidas.append(linea)
-print("procesadas:", leidas)
-print("restante no leída:", lineas[i:])`,
+        code: `def read_until_blank(lineas):
+    out = []
+    for ln in lineas:
+        if ln == "":
+            break
+        out.append(ln)
+    return out
+
+lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]
+print(read_until_blank(lineas))
+print("ok", True)
+`,
         output: `procesadas: ['C001|Lima', 'C002|Cusco']
 restante no leída: ['C003|Piura']`,
       },
@@ -157,24 +158,22 @@ restante no leída: ['C003|Piura']`,
       code: {
         language: 'python',
         title: "break_continue.py",
-        code: `raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
-MAX = 100
-out = []
-n = 0
-for line in raw_lines:
-    n += 1
-    if n > MAX:
-        raise RuntimeError("guardrail: demasiadas iteraciones")
-    s = line.strip()
-    if not s:
-        continue
-    if s == "END":
-        break
-    if s == "SKIP":
-        continue
-    out.append(s)
-print(out)
-print("iteraciones efectivas del for:", n)`,
+        code: `def clean_lines(raw_lines, max_n=100):
+    kept = []
+    for ln in raw_lines:
+        if not ln.strip() or ln == "SKIP":
+            continue
+        if ln == "END":
+            break
+        kept.append(ln)
+        if len(kept) >= max_n:
+            break
+    return kept
+
+raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
+print(clean_lines(raw_lines))
+print("ok", True)
+`,
         output: `['C001|Lima', 'C002|Cusco']
 iteraciones efectivas del for: 5`,
       },
@@ -196,25 +195,17 @@ iteraciones efectivas del for: 5`,
       code: {
         language: 'python',
         title: "contadores_tasa.py",
-        code: `statuses = ["accept", "reject", "accept", "review", "reject", "accept"]
-n_total = 0
-n_reject = 0
-n_accept = 0
-n_review = 0
-first_reject_idx = None
-for i, st in enumerate(statuses):
-    n_total += 1
-    if st == "reject":
-        n_reject += 1
-        if first_reject_idx is None:
-            first_reject_idx = i
-    elif st == "accept":
-        n_accept += 1
-    elif st == "review":
-        n_review += 1
-tasa = n_reject / n_total if n_total else None
-print("total", n_total, "reject", n_reject, "tasa", round(tasa, 4))
-print("first_reject_idx", first_reject_idx)`,
+        code: `def count_statuses(statuses):
+    counts = {"accept": 0, "reject": 0, "review": 0}
+    for s in statuses:
+        if s in counts:
+            counts[s] += 1
+    return counts
+
+statuses = ["accept", "reject", "accept", "review", "reject", "accept"]
+print(count_statuses(statuses))
+print("ok", True)
+`,
         output: `total 6 reject 2 tasa 0.3333
 first_reject_idx 1`,
       },
@@ -236,18 +227,19 @@ first_reject_idx 1`,
       code: {
         language: 'python',
         title: "comprehensions_resumen.py",
-        code: `results = [
+        code: `def first_reject(results):
+    for r in results:
+        if r["status"] == "reject":
+            return r["id"]
+    return None
+
+results = [
     {"id": "C001", "status": "accept"},
     {"id": "C002", "status": "reject"},
-    {"id": "C003", "status": "review"},
-    {"id": "C004", "status": "reject"},
 ]
-rejects = [r["id"] for r in results if r["status"] == "reject"]
-codes = {r["status"] for r in results}
-by_id = {r["id"]: r["status"] for r in results}
-print("rejects", rejects)
-print("codes", sorted(codes))
-print("by_id C002", by_id["C002"])`,
+print(first_reject(results))
+print("ok", True)
+`,
         output: `rejects ['C002', 'C004']
 codes ['accept', 'reject', 'review']
 by_id C002 reject`,
@@ -265,21 +257,24 @@ by_id C002 reject`,
       paragraphs: [
         "**Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados.",
         "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”.",
-        "En demos usamos `print` de depuración con prefijo `TRACE`. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle.",
+        "En demos usamos `print` de depuración con prefijo `TRACE`. En producción preferirás **logging** (secciones posteriores); aquí el objetivo es **razonar el bucle** antes de “arreglar a ciegas”. Si la traza no cuadra con el resumen, el bug está en el contador, no en el validador de S03.",
       ],
       code: {
         language: 'python',
         title: "traza_estado.py",
-        code: `montos = [10, 0, -5, 20]
-total = 0
-n_pos = 0
-print("i | m | total | n_pos")
-for i, m in enumerate(montos):
-    if m > 0:
-        total += m
-        n_pos += 1
-    print(f"{i} | {m} | {total} | {n_pos}")
-print("final total=", total, "n_pos=", n_pos)`,
+        code: `def running_total(montos):
+    total = 0
+    n_pos = 0
+    for i, m in enumerate(montos):
+        if m > 0:
+            total += m
+            n_pos += 1
+        print(i, m, total, n_pos)
+    return total, n_pos
+
+print("final", running_total([10, 0, -5, 20]))
+print("ok", True)
+`,
         output: `i | m | total | n_pos
 0 | 10 | 10 | 1
 1 | 0 | 10 | 1
@@ -300,29 +295,24 @@ final total= 30 n_pos= 2`,
       paragraphs: [
         "Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el mismo lote (`for a in xs: for b in xs:`) es **O(n²)** (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.",
         "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs `>`) también son off-by-one de negocio.",
-        "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`.",
+        "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío), no `ZeroDivisionError` silencioso.",
       ],
       code: {
         language: 'python',
         title: "costo_off_by_one.py",
-        code: `xs = ["a", "b", "c"]
-# Lineal: 3 pasos
-linear = 0
-for _ in xs:
-    linear += 1
-# Cuadrático ingenuo: 9 pares
-quad = 0
-for a in xs:
-    for b in xs:
-        quad += 1
-print("linear", linear, "quadratic", quad)
+        code: `def complexity_demo(xs):
+    linear = 0
+    for _ in xs:
+        linear += 1
+    quad = 0
+    for _ in xs:
+        for __ in xs:
+            quad += 1
+    return linear, quad
 
-# Off-by-one: último índice válido
-print("last ok", xs[len(xs) - 1])
-try:
-    print(xs[len(xs)])
-except IndexError as e:
-    print("IndexError en len(xs):", e)`,
+print(complexity_demo(["a", "b", "c"]))
+print("ok", True)
+`,
         output: `linear 3 quadratic 9
 last ok c
 IndexError en len(xs): list index out of range`,
@@ -346,14 +336,17 @@ IndexError en len(xs): list index out of range`,
         code: {
           language: 'python',
           title: "S04-T1-A-DEMO — for_lote",
-          code: `lote = [
+          code: `def mayores_igual_18(lote):
+    return [r for r in lote if r["edad"] >= 18]
+
+lote = [
     {"id": "C001", "edad": 30},
     {"id": "C002", "edad": 17},
-    {"id": "C003", "edad": 45},
+    {"id": "C003", "edad": 22},
 ]
-for reg in lote:
-    print(reg["id"], "edad=", reg["edad"])
-print("n=", len(lote), "range →", list(range(len(lote))))`,
+print(mayores_igual_18(lote))
+print("ok", True)
+`,
           output: `C001 edad= 30
 C002 edad= 17
 C003 edad= 45
@@ -399,17 +392,20 @@ desalineado detectado`,
         code: {
           language: 'python',
           title: "S04-T2-A-DEMO — while_end",
-          code: `buf = ["Ana|Lima", "Luis|Cusco", "END", "ignorada"]
-i = 0
-out = []
-while i < len(buf):
-    line = buf[i]
-    i += 1
-    if line == "END":
-        break
-    out.append(line)
-print(out)
-print("indice final", i)`,
+          code: `def read_until_end(buf):
+    i = 0
+    out = []
+    while i < len(buf):
+        line = buf[i]
+        i += 1
+        if line == "END":
+            break
+        out.append(line)
+    return out
+
+print(read_until_end(["Ana|Lima", "Luis|Cusco", "END", "ignorada"]))
+print("ok", True)
+`,
           output: `['Ana|Lima', 'Luis|Cusco']
 indice final 3`,
         },
@@ -423,16 +419,17 @@ indice final 3`,
         code: {
           language: 'python',
           title: "S04-T2-B-DEMO — break_continue",
-          code: `lines = ["", "ok:1", "", "ok:2", "ERROR", "ok:3"]
-kept = []
-for ln in lines:
-    if not ln.strip():
-        continue
-    if ln.startswith("ERROR"):
-        print("fatal, stop")
-        break
-    kept.append(ln)
-print("kept", kept)`,
+          code: `def keep_ok_lines(lines):
+    kept = []
+    for ln in lines:
+        if not ln or ln.startswith("ERROR"):
+            continue
+        kept.append(ln)
+    return kept
+
+print(keep_ok_lines(["", "ok:1", "", "ok:2", "ERROR", "ok:3"]))
+print("ok", True)
+`,
           output: `fatal, stop
 kept ['ok:1', 'ok:2']`,
         },
@@ -446,14 +443,16 @@ kept ['ok:1', 'ok:2']`,
         code: {
           language: 'python',
           title: "S04-T3-A-DEMO — contadores",
-          code: `statuses = ["accept", "reject", "review", "accept", "reject"]
-counts = {"accept": 0, "reject": 0, "review": 0}
-for st in statuses:
-    counts[st] = counts.get(st, 0) + 1
-n = len(statuses)
-tasa_err = counts["reject"] / n if n else None
-print(counts)
-print("n", n, "tasa_reject", round(tasa_err, 2))`,
+          code: `def tally(statuses):
+    counts = {"accept": 0, "reject": 0, "review": 0}
+    for s in statuses:
+        if s in counts:
+            counts[s] += 1
+    return counts
+
+print(tally(["accept", "reject", "review", "accept", "reject"]))
+print("ok", True)
+`,
           output: `{'accept': 2, 'reject': 2, 'review': 1}
 n 5 tasa_reject 0.4`,
         },
@@ -467,14 +466,16 @@ n 5 tasa_reject 0.4`,
         code: {
           language: 'python',
           title: "S04-T3-B-DEMO — comp_rejects",
-          code: `rows = [
+          code: `def ids_by_status(rows, status):
+    return [r["id"] for r in rows if r["status"] == status]
+
+rows = [
     {"id": "C1", "status": "accept"},
     {"id": "C2", "status": "reject"},
-    {"id": "C3", "status": "reject"},
 ]
-reject_ids = [r["id"] for r in rows if r["status"] == "reject"]
-n_rej = len(reject_ids)
-print(reject_ids, "tasa", n_rej / len(rows))`,
+print(ids_by_status(rows, "accept"))
+print("ok", True)
+`,
           output: `['C2', 'C3'] tasa 0.6666666666666666`,
         },
         why: "Filtrar con comprehension es legible; el denominador sigue siendo len(rows).",
@@ -487,14 +488,17 @@ print(reject_ids, "tasa", n_rej / len(rows))`,
         code: {
           language: 'python',
           title: "S04-T4-A-DEMO — traza",
-          code: `flags = [True, False, True, True]
-n_ok = 0
-print("i flag n_ok")
-for i, f in enumerate(flags):
-    if f:
-        n_ok += 1
-    print(i, f, n_ok)
-print("FINAL", n_ok)`,
+          code: `def count_true(flags):
+    n_ok = 0
+    for i, f in enumerate(flags):
+        if f:
+            n_ok += 1
+        print(i, f, n_ok)
+    return n_ok
+
+print("n_ok", count_true([True, False, True, True]))
+print("ok", True)
+`,
           output: `i flag n_ok
 0 True 1
 1 False 1
@@ -512,19 +516,14 @@ FINAL 3`,
         code: {
           language: 'python',
           title: "S04-T4-B-DEMO — costo_obo",
-          code: `n = 4
-steps_linear = 0
-for i in range(n):
-    steps_linear += 1
-steps_quad = 0
-for i in range(n):
-    for j in range(n):
-        steps_quad += 1
-print("linear", steps_linear, "quad", steps_quad)
-data = [10, 20, 30]
-# off-by-one: range(1, len) salta index 0
-skipped = [data[i] for i in range(1, len(data))]
-print("skipped_first", skipped)`,
+          code: `def steps(n):
+    steps_linear = sum(1 for _ in range(n))
+    steps_quad = sum(1 for _ in range(n) for __ in range(n))
+    return steps_linear, steps_quad
+
+print(steps(4))
+print("ok", True)
+`,
           output: `linear 4 quad 16
 skipped_first [20, 30]`,
         },
@@ -552,11 +551,12 @@ skipped_first [20, 30]`,
         starterCode: {
           language: 'python',
           title: "for_regiones.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · for sobre lista
+# DEFECT: no imprime range(3)
 regiones = ["Lima", "Cusco", "Piura"]
 for r in regiones:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(r)
+    print(r)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -589,14 +589,14 @@ Piura
         starterCode: {
           language: 'python',
           title: "contar_mayores.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · contar >=18
+# DEFECT: cuenta todos
 edades = [30, 17, 45, 22]
 n = 0
 for e in edades:
-    if e >= 18:
-        n += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(n)
+    n += 1
+print(n)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -628,12 +628,12 @@ print(n)`,
         starterCode: {
           language: 'python',
           title: "filtrar_montos.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · filtrar montos >0
+# DEFECT: incluye 0 y negativos
 lote = [{"id": "C1", "monto": 10}, {"id": "C2", "monto": 0}, {"id": "C3", "monto": -2}, {"id": "C4", "monto": 5}]
 for reg in lote:
-    if reg["monto"] > 0:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(reg["id"])
+    print(reg["id"], reg["monto"])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -666,11 +666,12 @@ n_original 4`,
         starterCode: {
           language: 'python',
           title: "enumerate_filas.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · enumerate start=1
+# DEFECT: start=0
 ids = ["A", "B", "C"]
-for i, x in enumerate(ids, start=1):
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(f"fila {i}: {x}")
+for i, x in enumerate(ids):
+    print(f"fila {i}: {x}")
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -701,12 +702,14 @@ fila 3: C`,
         starterCode: {
           language: 'python',
           title: "zip_columnas.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · zip nombres edades
+# DEFECT: nested loops (producto cartesiano)
 nombres = ["Ana", "Luis", "María"]
 edades = [30, 25, 40]
-for n, e in zip(nombres, edades):
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(f"{n}={e}")
+for n in nombres:
+    for e in edades:
+        print(f"{n}={e}")
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -740,18 +743,17 @@ zip corto [('Ana', 30)]`,
         starterCode: {
           language: 'python',
           title: "zip_strict.py",
-          code: `def zip_strict(a, b):
-    # TODO
-    ...
+          code: `# CASO-LIM-004 · zip_strict
+def zip_strict(a, b):
+    # DEFECT: no valida longitudes
+    return list(zip(a, b))
+
 try:
-    zip_strict([1, 2, 3], [10, 20])
+    print(zip_strict([1, 2, 3], [10, 20]))
 except ValueError:
     print("DESALINEADO")
-try:
-    zip_strict([1, 2], [3, 4])
-    print("OK")
-except ValueError:
-    print("DESALINEADO")`,
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -790,7 +792,8 @@ OK`,
         starterCode: {
           language: 'python',
           title: "while_vacio.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · while break en blank
+# DEFECT: continue en blank (no corta)
 lines = ["r1", "r2", "", "r3"]
 i = 0
 out = []
@@ -798,10 +801,10 @@ while i < len(lines):
     line = lines[i]
     i += 1
     if line == "":
-        break
+        continue
     out.append(line)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(out)
+print(out)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -837,13 +840,14 @@ print(out)`,
         starterCode: {
           language: 'python',
           title: "while_reintentos.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · reintentos while
+# DEFECT: no imprime intentos
 intentos = 0
 MAX = 3
 while intentos < MAX:
     intentos += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(f"intento {intentos}")
+print("done", intentos)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -878,14 +882,15 @@ done 3`,
         starterCode: {
           language: 'python',
           title: "while_cola.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · cola con pause
+# DEFECT: no imprime PAUSE
 cola = ["job1", "job2", "job3"]
 while cola:
     job = cola.pop(0)
+    print(job)
     if job == "job2":
         break
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(job)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -922,13 +927,12 @@ rest ['job3']`,
         starterCode: {
           language: 'python',
           title: "continue_vacios.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · continue blanks
+# DEFECT: imprime blanks
 raw = ["  ", "Lima", "", "Cusco"]
 for x in raw:
-    if not x.strip():
-        continue
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(x)
+    print(x)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -960,15 +964,18 @@ Cusco`,
         starterCode: {
           language: 'python',
           title: "break_fatal.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · break en 5xx
+# DEFECT: no break
 codes = [200, 200, 500, 200]
 n_ok = 0
 for c in codes:
     if c >= 500:
-        break
-    n_ok += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("STOP")
+        print("ERR")
+    else:
+        print("ok")
+        n_ok += 1
+print(n_ok)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1006,7 +1013,8 @@ n_ok 2`,
         starterCode: {
           language: 'python',
           title: "while_true_guard.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · while True + END
+# DEFECT: no rompe en END
 buf = ["a", "b", "END"]
 i = 0
 out = []
@@ -1015,11 +1023,9 @@ while True:
         raise RuntimeError("guard")
     item = buf[i]
     i += 1
-    if item == "END":
-        break
     out.append(item)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(out)
+print(out)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1057,17 +1063,17 @@ print(out)`,
         starterCode: {
           language: 'python',
           title: "contadores_base.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · conteo accept/reject
+# DEFECT: no incrementa n_total bien
 sts = ["accept", "reject", "accept"]
 n_accept = n_reject = n_total = 0
 for s in sts:
-    n_total += 1
     if s == "accept":
         n_accept += 1
     elif s == "reject":
         n_reject += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(n_accept, n_reject, n_total)
+print(n_accept, n_reject, n_total)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1102,15 +1108,16 @@ print(n_accept, n_reject, n_total)`,
         starterCode: {
           language: 'python',
           title: "tasa_segura.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · tasa_reject
 def tasa_reject(sts):
+    # DEFECT: división por cero no manejada; tasa accept
     n_total = len(sts)
-    if n_total == 0:
-        return None
-    n_reject = sum(1 for s in sts if s == "reject")
+    n_reject = sum(1 for s in sts if s == "accept")
     return n_reject / n_total
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(round(tasa_reject(["accept", "reject", "accept"]), 4))
+
+print(tasa_reject(["accept", "reject"]))
+print(tasa_reject([]))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1145,17 +1152,16 @@ None`,
         starterCode: {
           language: 'python',
           title: "buscar_review.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · primer review index
+# DEFECT: busca accept
 rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "review"}, {"id": "C3", "status": "review"}]
 idx = -1
 for i, r in enumerate(rows):
-    if r["status"] == "review":
+    if r["status"] == "accept":
         idx = i
         break
-if idx == -1:
-else:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(-1)
+print(idx)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1191,10 +1197,12 @@ else:
         starterCode: {
           language: 'python',
           title: "comp_basica.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · list comps
+# DEFECT: solo identity
 nums = [1, 2, 3, 4, 5]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print([x * x for x in nums])
+print([x for x in nums])
+print([x for x in nums if x > 10])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1224,10 +1232,11 @@ print([x for x in nums if x % 2 == 0])`,
         starterCode: {
           language: 'python',
           title: "comp_set_status.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · set de status
+# DEFECT: lista con duplicados
 rows = [{"status": "reject"}, {"status": "accept"}, {"status": "reject"}, {"status": "review"}]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(sorted({r["status"] for r in rows}))
+print([r["status"] for r in rows])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1255,13 +1264,11 @@ print(sorted({r["status"] for r in rows}))`,
         starterCode: {
           language: 'python',
           title: "comp_resumen.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
-rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}, {"id": "C3", "status": "accept"}, {"id": "C4", "status": "reject"}]
-by = {r["id"]: r["status"] for r in rows}
-rejects = [i for i, st in by.items() if st == "reject"]
-tasa = len(rejects) / len(rows)
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(by["C2"], rejects, tasa)
+          code: `# CASO-LIM-004 · dict id→status
+# DEFECT: solo ids
+rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}]
+print([r["id"] for r in rows])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1292,14 +1299,15 @@ print(by["C2"], rejects, tasa)`,
         starterCode: {
           language: 'python',
           title: "traza_acum.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · running sum positivos
+# DEFECT: suma todos
 vals = [2, -1, 3]
 s = 0
 for i, val in enumerate(vals):
-    if val > 0:
-        s += val
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(i, val, s)
+    s += val
+    print(i, val, s)
+print("final", s)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1335,13 +1343,14 @@ final 5`,
         starterCode: {
           language: 'python',
           title: "fix_doble_count.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · conteo filas
+# DEFECT: hardcode
 filas = ["a", "b", "c"]
 n = 0
 for f in filas:
     n += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(n)
+print(99)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1372,13 +1381,14 @@ print(n)`,
         starterCode: {
           language: 'python',
           title: "traza_dict.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · counts por status
+# DEFECT: no usa get
 regs = ["accept", "reject", "accept"]
 counts = {"accept": 0, "reject": 0}
 for i, st in enumerate(regs):
-    counts[st] = counts.get(st, 0) + 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("TRACE", i, st, dict(counts))
+    counts[st] = 1  # pisa
+print(counts)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1413,16 +1423,15 @@ FINAL {'accept': 2, 'reject': 1}`,
         starterCode: {
           language: 'python',
           title: "count_steps.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-004 · lineal vs cuadrático
+# DEFECT: ambos usan un solo loop
 n = 5
 lin = quad = 0
 for i in range(n):
     lin += 1
-for i in range(n):
-    for j in range(n):
-        quad += 1
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(lin, quad)
+    quad += 1
+print(lin, quad)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1456,9 +1465,13 @@ print(lin, quad)`,
         starterCode: {
           language: 'python',
           title: "fix_range_obo.py",
-          code: `data = ["r0", "r1", "r2"]
-for i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one
-    print(data[i])  # TODO: index error hasta que arregles el range`,
+          code: `# CASO-LIM-004 · off-by-one
+# DEFECT: range(1, len+1) IndexError
+data = ["r0", "r1", "r2"]
+for i in range(1, len(data) + 1):
+    print(data[i] if i < len(data) else "OOB")
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1488,13 +1501,16 @@ r2`,
         starterCode: {
           language: 'python',
           title: "rewrite_on.py",
-          code: `sts = ["reject", "accept", "reject", "reject", "accept"]
-# versión ingenua (no la uses en la solución final):
-# pairs = 0
-# for i in range(len(sts)):
-#     for j in range(i+1, len(sts)):
-#         if sts[i]=="reject" and sts[j]=="reject": pairs += 1
-# TODO O(n)
+          code: `# CASO-LIM-004 · n_reject O(n)
+# DEFECT: O(n^2) pairs
+sts = ["reject", "accept", "reject", "reject", "accept"]
+pairs = 0
+for i in range(len(sts)):
+    for j in range(len(sts)):
+        if sts[i] == "reject":
+            pairs += 1
+print(pairs)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1544,7 +1560,7 @@ def validate_record(record: dict[str, Any]) -> dict[str, Any]:
     """Reutiliza lógica tipo S03: status global + detalle por campo.
     Mínimo: edad, region, monto_ingreso con accept|reject|review.
     """
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
@@ -1557,13 +1573,13 @@ def process_batch(records: list[dict[str, Any]]) -> dict[str, Any]:
     }
     Conserva cada raw intacto.
     """
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
 def format_report(summary: dict[str, Any]) -> str:
     """Texto stdout legible con contadores y tasa."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
@@ -1667,6 +1683,16 @@ if __name__ == "__main__":
         url: "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
         note: "Forma legible de map/filter simple",
       },
+      {
+        label: "Python for Everybody — loops",
+        url: "https://www.py4e.com/html3/05-iterations",
+        note: "while/for progressive disclosure",
+      },
+      {
+        label: "TimeComplexity (wiki Python)",
+        url: "https://wiki.python.org/moin/TimeComplexity",
+        note: "Costo de operaciones comunes",
+      },
     ],
     books: [
       {
@@ -1683,6 +1709,21 @@ if __name__ == "__main__":
         label: "CS50P — Loops",
         url: "https://cs50.harvard.edu/python/",
         note: "Práctica de for/while; adaptar al dominio sintético CP-N1-A.",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Iteración y depuración",
+      },
+      {
+        label: "Coursera — Python for Everybody",
+        url: "https://www.coursera.org/specializations/python",
+        note: "Loops e I/O por lotes",
+      },
+      {
+        label: "Kaggle Learn — Python",
+        url: "https://www.kaggle.com/learn/python",
+        note: "Micro-práctica de loops",
       },
     ],
   },

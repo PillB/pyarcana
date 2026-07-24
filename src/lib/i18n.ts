@@ -81,8 +81,8 @@ const translations: Record<Language, Dict> = {
     'course.method': 'Método I Do / We Do / You Do',
     'course.whyDifferent': '¿POR QUÉ ESTE CURSO ES DIFERENTE?',
     'course.certifications': 'Certificaciones gratuitas recomendadas',
-    'course.nextSection': 'Siguiente',
-    'course.previousSection': 'Anterior',
+    'course.nextSection': 'Sección siguiente',
+    'course.previousSection': 'Sección anterior',
 
     'section.theory': 'Teoría',
     'section.ido': 'Yo hago',
@@ -282,8 +282,8 @@ const translations: Record<Language, Dict> = {
     'course.method': 'Método I Do / We Do / You Do',
     'course.whyDifferent': '¿POR QUÉ ESTE CURSO ES DIFERENTE?',
     'course.certifications': 'Certificaciones gratuitas recomendadas',
-    'course.nextSection': 'Siguiente',
-    'course.previousSection': 'Anterior',
+    'course.nextSection': 'Sección siguiente',
+    'course.previousSection': 'Sección anterior',
 
     'section.theory': 'Teoría',
     'section.ido': 'Yo hago',
@@ -483,8 +483,8 @@ const translations: Record<Language, Dict> = {
     'course.method': 'I Do / We Do / You Do method',
     'course.whyDifferent': 'WHY IS THIS COURSE DIFFERENT?',
     'course.certifications': 'Recommended free certifications',
-    'course.nextSection': 'Next',
-    'course.previousSection': 'Previous',
+    'course.nextSection': 'Next section',
+    'course.previousSection': 'Previous section',
 
     'section.theory': 'Theory',
     'section.ido': 'I Do',

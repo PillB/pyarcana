@@ -1,0 +1,612 @@
+{
+  "index": 47,
+  "id": "opensource",
+  "title": "MLOps: experimentos, registro y serving",
+  "file": "s47-opensource.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S47: MLOps: experimentos, registro y serving",
+      "len": 52
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Run: corrida con params/métricas/seed. Lineage: data/code/env/split. Model registry: stages (None→Staging→Production) con approvals. Model card: use, limits, metrics, risks. Feature parity: batch == online. Canary/shadow: tráfico acotado o sin impacto. Last-good: versión restaurable con audit.",
+      "len": 307
+    },
+    {
+      "i": 2,
+      "text": "S47 cierra CP-N4-B / CF-4: experimento → registro → serving → canary → rollback. Id opensource es legacy; el contenido es MLOps de plataforma, no licensing.",
+      "len": 156
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: dataset versionado, commit, env, params, firma de features. Salida: run comparable, modelo registrado, deployment canary y decisión auditable. Error: lineage incompleto, firma incompatible o fallback ausente → no promoción.",
+      "len": 242
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-TAC-047 (organización ficticia de priorización de atención en Tacna (Frontera Sur Lab)): modelo sintético de priorización. T1 experiments → T2 registry → T3 serving → T4 delivery. Stdlib only en el lab.",
+      "len": 212
+    },
+    {
+      "i": 5,
+      "text": "tracking y reproducibilidad",
+      "len": 27
+    },
+    {
+      "i": 6,
+      "text": "Tracking registra seed, params y métricas. Reproducibilidad exige rerun dentro de tolerancia, no solo un screenshot del dashboard.",
+      "len": 130
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: abs(metric - rerun_metric) <= tolerance y seed fija (p. ej. 42) con params no vacíos.",
+      "len": 96
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: metric, rerun, tolerance, seed, params. Salida: run reproducible. Error: fuera de tolerancia → MARK_RUN_NONREPRODUCIBLE.",
+      "len": 139
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-TAC-047-1A: metric≈rerun con tol, seed=42, params depth=4 en el lab de Tacna.",
+      "len": 93
+    },
+    {
+      "i": 10,
+      "text": "data/code/env lineage y comparación",
+      "len": 35
+    },
+    {
+      "i": 11,
+      "text": "Comparar runs exige lineage homogéneo: mismos data/code/env/split y definición de métrica. Sin eso, un 'mejor score' es ruido.",
+      "len": 126
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: todos los campos de lineage truthy y candidate > baseline en la métrica acordada.",
+      "len": 92
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: lineage + scores. Salida: comparación válida. Error: lineage incompleto → INVALIDATE_COMPARISON.",
+      "len": 115
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-TAC-047-1B: ds-v3, git:abc, lock:def, holdout-v1, metric_definition presente, candidate>baseline.",
+      "len": 113
+    },
+    {
+      "i": 15,
+      "text": "firmas, stages y approvals",
+      "len": 26
+    },
+    {
+      "i": 16,
+      "text": "El registry exige firmas de I/O, stage (p. ej. staging) y approval humana/trazada antes de Production.",
+      "len": 102
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: input/output signatures exactas, stage==staging, approved=True.",
+      "len": 74
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: firmas + stage + approval. Salida: promoción a staging OK. Error: firma distinta o sin approval → DENY_MODEL_PROMOTION.",
+      "len": 138
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-TAC-047-2A: age:int,region:str → priority:float; staging aprobado.",
+      "len": 82
+    },
+    {
+      "i": 20,
+      "text": "artefactos, model card y compatibilidad",
+      "len": 39
+    },
+    {
+      "i": 21,
+      "text": "El artefacto lleva digest (sha256:), feature_version alineada al serving y model card con secciones use/limits/metrics/risks.",
+      "len": 125
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: digest prefix, feature_version == serving_feature_version, card_sections ⊇ set mínimo.",
+      "len": 97
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: digest, versions, card. Salida: artefacto aceptable. Error: mismatch → REJECT_MODEL_ARTIFACT.",
+      "len": 112
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-TAC-047-2B: sha256:model, features-v3 == serving, card completa.",
+      "len": 80
+    },
+    {
+      "i": 25,
+      "text": "batch/online y feature consistency",
+      "len": 34
+    },
+    {
+      "i": 26,
+      "text": "Training-serving skew aparece cuando batch y online no comparten la misma transformación. Exige paridad de features, sin leakage y contract tests mínimos.",
+      "len": 154
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: batch_features == online_features, leakage=False, contract_tests ≥ 3.",
+      "len": 80
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: vectores batch/online + flags. Salida: serving consistente. Error: skew → DISABLE_INCONSISTENT_SERVING.",
+      "len": 122
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-TAC-047-3A: features [0.1,0.4,0.8] idénticas, sin leakage, ≥3 tests.",
+      "len": 84
+    },
+    {
+      "i": 30,
+      "text": "latency, batching y fallback",
+      "len": 28
+    },
+    {
+      "i": 31,
+      "text": "Serving online necesita p95 ≤ SLO, batch_size acotado y fallback de reglas probado cuando el modelo falla.",
+      "len": 106
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: p95_ms ≤ slo_ms, 1≤batch≤64, fallback startswith rules- y fallback_tested.",
+      "len": 85
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: latencia, batch, fallback. Salida: SLO ok. Error: p95 alto o fallback ausente → ACTIVATE_SAFE_FALLBACK.",
+      "len": 122
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-TAC-047-3B: p95=120≤180, batch=16, rules-v2 tested.",
+      "len": 67
+    },
+    {
+      "i": 35,
+      "text": "shadow/canary y monitoring hooks",
+      "len": 32
+    },
+    {
+      "i": 36,
+      "text": "Shadow observa sin impactar; canary limita tráfico (p. ej. ≤10%) con hooks de calidad/error y criterio promote/stop.",
+      "len": 116
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: mode in {shadow,canary}, traffic_pct≤10, quality_delta ≥ -max_drop, error_rate≤max, hooks.",
+      "len": 101
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: modo, tráfico, deltas, hooks. Salida: canary sano o stop. Error: regresión → STOP_CANARY.",
+      "len": 108
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-TAC-047-4A: canary 5%, quality_delta +0.01, error bajo, hooks activos.",
+      "len": 86
+    },
+    {
+      "i": 40,
+      "text": "rollback, retirement y audit",
+      "len": 28
+    },
+    {
+      "i": 41,
+      "text": "Rollback a last-good, retirement de versiones y audit_entry cierran el ciclo. Compatible_features y rollback_tested son obligatorios.",
+      "len": 133
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: current≠last_good, compatible_features, rollback_tested, retired contiene versión, audit.",
+      "len": 100
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: versiones y banderas. Salida: restauración auditada. Error: sin last-good probado → ROLLBACK_TO_LAST_GOOD path blocked until fixed.",
+      "len": 150
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-TAC-047-4B: current 1.2.0 → last_good 1.1.0, 1.0.0 retired, audit_entry True.",
+      "len": 93
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S47: MLOps: experimentos, registro y serving",
+      "text": "Ruta de S47: MLOps: experimentos, registro y serving"
+    },
+    {
+      "i": 1,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Run: corrida con params/métricas/seed. Lineage: data/code/env/split. Model registry: stages (None→Staging→Production) con approvals. Model card: use, limits, metrics, ",
+      "text": "Diccionario. Run: corrida con params/métricas/seed. Lineage: data/code/env/split. Model registry: stages (None→Staging→Production) con approvals. Model card: use, limits, metrics, risks. Feature parity: batch == online. Canary/shadow: tráfico acotado o sin impacto. Last-good: versión restaurable con audit."
+    },
+    {
+      "i": 2,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S47 cierra CP-N4-B / CF-4: experimento → registro → serving → canary → rollback. Id opensource es legacy; el contenido es MLOps de plataforma, no licensing.",
+      "text": "S47 cierra CP-N4-B / CF-4: experimento → registro → serving → canary → rollback. Id opensource es legacy; el contenido es MLOps de plataforma, no licensing."
+    },
+    {
+      "i": 3,
+      "len": 242,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: dataset versionado, commit, env, params, firma de features. Salida: run comparable, modelo registrado, deployment canary y decisión auditable. Error: lineage inc",
+      "text": "Contrato. Entrada: dataset versionado, commit, env, params, firma de features. Salida: run comparable, modelo registrado, deployment canary y decisión auditable. Error: lineage incompleto, firma incompatible o fallback ausente → no promoción."
+    },
+    {
+      "i": 4,
+      "len": 212,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-TAC-047 (organización ficticia de priorización de atención en Tacna (Frontera Sur Lab)): modelo sintético de priorización. T1 experiments → T2 registry → T3 serving → T4 ",
+      "text": "Caso CASO-TAC-047 (organización ficticia de priorización de atención en Tacna (Frontera Sur Lab)): modelo sintético de priorización. T1 experiments → T2 registry → T3 serving → T4 delivery. Stdlib only en el lab."
+    },
+    {
+      "i": 5,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "tracking y reproducibilidad",
+      "text": "tracking y reproducibilidad"
+    },
+    {
+      "i": 6,
+      "len": 130,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tracking registra seed, params y métricas. Reproducibilidad exige rerun dentro de tolerancia, no solo un screenshot del dashboard.",
+      "text": "Tracking registra seed, params y métricas. Reproducibilidad exige rerun dentro de tolerancia, no solo un screenshot del dashboard."
+    },
+    {
+      "i": 7,
+      "len": 96,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: abs(metric - rerun_metric) <= tolerance y seed fija (p. ej. 42) con params no vacíos.",
+      "text": "Mecanismo: abs(metric - rerun_metric) <= tolerance y seed fija (p. ej. 42) con params no vacíos."
+    },
+    {
+      "i": 8,
+      "len": 139,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: metric, rerun, tolerance, seed, params. Salida: run reproducible. Error: fuera de tolerancia → MARK_RUN_NONREPRODUCIBLE.",
+      "text": "Contrato. Entrada: metric, rerun, tolerance, seed, params. Salida: run reproducible. Error: fuera de tolerancia → MARK_RUN_NONREPRODUCIBLE."
+    },
+    {
+      "i": 9,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-1A: metric≈rerun con tol, seed=42, params depth=4 en el lab de Tacna.",
+      "text": "Aplicación CASO-TAC-047-1A: metric≈rerun con tol, seed=42, params depth=4 en el lab de Tacna."
+    },
+    {
+      "i": 10,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "data/code/env lineage y comparación",
+      "text": "data/code/env lineage y comparación"
+    },
+    {
+      "i": 11,
+      "len": 126,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Comparar runs exige lineage homogéneo: mismos data/code/env/split y definición de métrica. Sin eso, un 'mejor score' es ruido.",
+      "text": "Comparar runs exige lineage homogéneo: mismos data/code/env/split y definición de métrica. Sin eso, un 'mejor score' es ruido."
+    },
+    {
+      "i": 12,
+      "len": 92,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: todos los campos de lineage truthy y candidate > baseline en la métrica acordada.",
+      "text": "Mecanismo: todos los campos de lineage truthy y candidate > baseline en la métrica acordada."
+    },
+    {
+      "i": 13,
+      "len": 115,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: lineage + scores. Salida: comparación válida. Error: lineage incompleto → INVALIDATE_COMPARISON.",
+      "text": "Contrato. Entrada: lineage + scores. Salida: comparación válida. Error: lineage incompleto → INVALIDATE_COMPARISON."
+    },
+    {
+      "i": 14,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-1B: ds-v3, git:abc, lock:def, holdout-v1, metric_definition presente, candidate>baseline.",
+      "text": "Aplicación CASO-TAC-047-1B: ds-v3, git:abc, lock:def, holdout-v1, metric_definition presente, candidate>baseline."
+    },
+    {
+      "i": 15,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "firmas, stages y approvals",
+      "text": "firmas, stages y approvals"
+    },
+    {
+      "i": 16,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El registry exige firmas de I/O, stage (p. ej. staging) y approval humana/trazada antes de Production.",
+      "text": "El registry exige firmas de I/O, stage (p. ej. staging) y approval humana/trazada antes de Production."
+    },
+    {
+      "i": 17,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: input/output signatures exactas, stage==staging, approved=True.",
+      "text": "Mecanismo: input/output signatures exactas, stage==staging, approved=True."
+    },
+    {
+      "i": 18,
+      "len": 138,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: firmas + stage + approval. Salida: promoción a staging OK. Error: firma distinta o sin approval → DENY_MODEL_PROMOTION.",
+      "text": "Contrato. Entrada: firmas + stage + approval. Salida: promoción a staging OK. Error: firma distinta o sin approval → DENY_MODEL_PROMOTION."
+    },
+    {
+      "i": 19,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-2A: age:int,region:str → priority:float; staging aprobado.",
+      "text": "Aplicación CASO-TAC-047-2A: age:int,region:str → priority:float; staging aprobado."
+    },
+    {
+      "i": 20,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "artefactos, model card y compatibilidad",
+      "text": "artefactos, model card y compatibilidad"
+    },
+    {
+      "i": 21,
+      "len": 125,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El artefacto lleva digest (sha256:), feature_version alineada al serving y model card con secciones use/limits/metrics/risks.",
+      "text": "El artefacto lleva digest (sha256:), feature_version alineada al serving y model card con secciones use/limits/metrics/risks."
+    },
+    {
+      "i": 22,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: digest prefix, feature_version == serving_feature_version, card_sections ⊇ set mínimo.",
+      "text": "Mecanismo: digest prefix, feature_version == serving_feature_version, card_sections ⊇ set mínimo."
+    },
+    {
+      "i": 23,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: digest, versions, card. Salida: artefacto aceptable. Error: mismatch → REJECT_MODEL_ARTIFACT.",
+      "text": "Contrato. Entrada: digest, versions, card. Salida: artefacto aceptable. Error: mismatch → REJECT_MODEL_ARTIFACT."
+    },
+    {
+      "i": 24,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-2B: sha256:model, features-v3 == serving, card completa.",
+      "text": "Aplicación CASO-TAC-047-2B: sha256:model, features-v3 == serving, card completa."
+    },
+    {
+      "i": 25,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "batch/online y feature consistency",
+      "text": "batch/online y feature consistency"
+    },
+    {
+      "i": 26,
+      "len": 154,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Training-serving skew aparece cuando batch y online no comparten la misma transformación. Exige paridad de features, sin leakage y contract tests mínimos.",
+      "text": "Training-serving skew aparece cuando batch y online no comparten la misma transformación. Exige paridad de features, sin leakage y contract tests mínimos."
+    },
+    {
+      "i": 27,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: batch_features == online_features, leakage=False, contract_tests ≥ 3.",
+      "text": "Mecanismo: batch_features == online_features, leakage=False, contract_tests ≥ 3."
+    },
+    {
+      "i": 28,
+      "len": 122,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: vectores batch/online + flags. Salida: serving consistente. Error: skew → DISABLE_INCONSISTENT_SERVING.",
+      "text": "Contrato. Entrada: vectores batch/online + flags. Salida: serving consistente. Error: skew → DISABLE_INCONSISTENT_SERVING."
+    },
+    {
+      "i": 29,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-3A: features [0.1,0.4,0.8] idénticas, sin leakage, ≥3 tests.",
+      "text": "Aplicación CASO-TAC-047-3A: features [0.1,0.4,0.8] idénticas, sin leakage, ≥3 tests."
+    },
+    {
+      "i": 30,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "latency, batching y fallback",
+      "text": "latency, batching y fallback"
+    },
+    {
+      "i": 31,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Serving online necesita p95 ≤ SLO, batch_size acotado y fallback de reglas probado cuando el modelo falla.",
+      "text": "Serving online necesita p95 ≤ SLO, batch_size acotado y fallback de reglas probado cuando el modelo falla."
+    },
+    {
+      "i": 32,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: p95_ms ≤ slo_ms, 1≤batch≤64, fallback startswith rules- y fallback_tested.",
+      "text": "Mecanismo: p95_ms ≤ slo_ms, 1≤batch≤64, fallback startswith rules- y fallback_tested."
+    },
+    {
+      "i": 33,
+      "len": 122,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: latencia, batch, fallback. Salida: SLO ok. Error: p95 alto o fallback ausente → ACTIVATE_SAFE_FALLBACK.",
+      "text": "Contrato. Entrada: latencia, batch, fallback. Salida: SLO ok. Error: p95 alto o fallback ausente → ACTIVATE_SAFE_FALLBACK."
+    },
+    {
+      "i": 34,
+      "len": 67,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-3B: p95=120≤180, batch=16, rules-v2 tested.",
+      "text": "Aplicación CASO-TAC-047-3B: p95=120≤180, batch=16, rules-v2 tested."
+    },
+    {
+      "i": 35,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "shadow/canary y monitoring hooks",
+      "text": "shadow/canary y monitoring hooks"
+    },
+    {
+      "i": 36,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Shadow observa sin impactar; canary limita tráfico (p. ej. ≤10%) con hooks de calidad/error y criterio promote/stop.",
+      "text": "Shadow observa sin impactar; canary limita tráfico (p. ej. ≤10%) con hooks de calidad/error y criterio promote/stop."
+    },
+    {
+      "i": 37,
+      "len": 101,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: mode in {shadow,canary}, traffic_pct≤10, quality_delta ≥ -max_drop, error_rate≤max, hooks.",
+      "text": "Mecanismo: mode in {shadow,canary}, traffic_pct≤10, quality_delta ≥ -max_drop, error_rate≤max, hooks."
+    },
+    {
+      "i": 38,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: modo, tráfico, deltas, hooks. Salida: canary sano o stop. Error: regresión → STOP_CANARY.",
+      "text": "Contrato. Entrada: modo, tráfico, deltas, hooks. Salida: canary sano o stop. Error: regresión → STOP_CANARY."
+    },
+    {
+      "i": 39,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-4A: canary 5%, quality_delta +0.01, error bajo, hooks activos.",
+      "text": "Aplicación CASO-TAC-047-4A: canary 5%, quality_delta +0.01, error bajo, hooks activos."
+    },
+    {
+      "i": 40,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "rollback, retirement y audit",
+      "text": "rollback, retirement y audit"
+    },
+    {
+      "i": 41,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Rollback a last-good, retirement de versiones y audit_entry cierran el ciclo. Compatible_features y rollback_tested son obligatorios.",
+      "text": "Rollback a last-good, retirement de versiones y audit_entry cierran el ciclo. Compatible_features y rollback_tested son obligatorios."
+    },
+    {
+      "i": 42,
+      "len": 100,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: current≠last_good, compatible_features, rollback_tested, retired contiene versión, audit.",
+      "text": "Mecanismo: current≠last_good, compatible_features, rollback_tested, retired contiene versión, audit."
+    },
+    {
+      "i": 43,
+      "len": 150,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: versiones y banderas. Salida: restauración auditada. Error: sin last-good probado → ROLLBACK_TO_LAST_GOOD path blocked until fixed.",
+      "text": "Contrato. Entrada: versiones y banderas. Salida: restauración auditada. Error: sin last-good probado → ROLLBACK_TO_LAST_GOOD path blocked until fixed."
+    },
+    {
+      "i": 44,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-TAC-047-4B: current 1.2.0 → last_good 1.1.0, 1.0.0 retired, audit_entry True.",
+      "text": "Aplicación CASO-TAC-047-4B: current 1.2.0 → last_good 1.1.0, 1.0.0 retired, audit_entry True."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 10100
+}

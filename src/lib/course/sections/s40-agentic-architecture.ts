@@ -6,7 +6,7 @@ export const section40: CourseSection = {
   title: "Arquitectura, DDD y decisiones técnicas",
   shortTitle: "Arquitectura y DDD",
   tagline: "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Network",
@@ -27,10 +27,31 @@ export const section40: CourseSection = {
     {
       heading: "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
       paragraphs: [
-        "Esta sección parte de S39 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-LIM-040` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: dossier de arquitectura gobernada para Red Andina, organización ficticia. La entrada son requisitos, escenarios de calidad, vocabulario y restricciones; la salida son fronteras, C4, contratos y ADRs.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach o incertidumbre.",
+        "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
+        "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39. Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real.",
+        "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
+        "Orden pedagógico (liberación gradual): T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. Teoría con criterio medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de dominio por ejercicio. Id legacy `agentic-architecture` se conserva; el path V3 es arquitectura/DDD, no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
       ],
+      code: {
+        language: 'python',
+        title: "s40_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-LIM-040",
+        "gates": ["explicit_boundaries", "measure_owner_consequence", "no_inverted_deps"],
+        "agent_orchestration_topic": False,
+        "pii_allowed": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("agent_orchestration_topic", c["agent_orchestration_topic"])
+print("pii_allowed", c["pii_allowed"])
+`,
+        output: `case CASO-LIM-040
+agent_orchestration_topic False
+pii_allowed False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -42,18 +63,26 @@ export const section40: CourseSection = {
       heading: "requisitos funcionales y quality attributes",
       subtopicId: "S40-T1-A",
       paragraphs: [
-        "Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacías como «rápido».",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: escenario QA completo con umbral y dueño. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040`: la evidencia es un escenario QA completo con umbral y dueño. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Un requisito funcional describe una capacidad del negocio (p. ej. «el triage acepta un lote sintético y devuelve scores de prioridad»); un atributo de calidad se expresa como **escenario medible** — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacías como «rápido» o «escalable».",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones (latencia, dueños, secretos fuera del repo). Salida de este subtema: escenario QA completo con umbral y dueño contactable. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate CP-N4-A. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040` (Red Andina, Lima): la evidencia es un escenario QA completo con umbral (p. ej. `latency_p95_ms ≤ 300`) y dueño `platform`. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "functional_quality_attrs.py",
-        code: `frs=[{"id":"FR-01"},{"id":"FR-02"}]
-qas=[{"attr":"latency_p95_ms","target":300}]
-print("fr_count", len(frs))
-print("qa_attr", qas[0]["attr"])
-print("target", qas[0]["target"])`,
+        code: `def qa_summary(frs, qas):
+    return {
+        "fr_count": len(frs),
+        "qa_attr": qas[0]["attr"],
+        "target": qas[0]["target"],
+    }
+
+frs = [{"id": "FR-01"}, {"id": "FR-02"}]
+qas = [{"attr": "latency_p95_ms", "target": 300, "owner": "platform"}]
+s = qa_summary(frs, qas)
+print("fr_count", s["fr_count"])
+print("qa_attr", s["qa_attr"])
+print("target", s["target"])`,
         output: `fr_count 2
 qa_attr latency_p95_ms
 target 300`,
@@ -70,16 +99,21 @@ target 300`,
       subtopicId: "S40-T1-B",
       paragraphs: [
         "Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción universalmente mejor.",
-        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: tabla de decisión y riesgo residual aceptado. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
-        "Aplicación de `trade-offs, riesgos y criterios medibles` a `CASO-LIM-040`: la evidencia es una tabla de decisión y riesgo residual aceptado por un dueño explícito; no una preferencia sin medición.",
+        "Contrato de decisión. Entrada: alternativas con score (p. ej. sync vs async) y matriz de riesgos residuales. Salida: opción elegida, scores visibles y dueño que acepta el residual. Error: elegir por moda o sin umbral medible. Criterio: la tabla de decisión se versiona junto al ADR y se reabre si el residual supera el umbral del owner.",
+        "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): score min_score elige async (2.2) sobre sync (3.8); el residual de complejidad de mensajes lo acepta el owner de plataforma, no el revisor de cola.",
       ],
       code: {
         language: 'python',
         title: "tradeoffs_risks_measurable.py",
-        code: `opts=[{"n":"sync","score":3.8},{"n":"async","score":2.2}]
-print("best", min(opts,key=lambda x:x["score"])["n"])
-print("scores", {o["n"]:o["score"] for o in opts})
-print("criterion", "min_score")`,
+        code: `def choose_option(opts, criterion="min_score"):
+    best = min(opts, key=lambda x: x["score"])
+    return best["n"], {o["n"]: o["score"] for o in opts}, criterion
+
+opts = [{"n": "sync", "score": 3.8}, {"n": "async", "score": 2.2}]
+best, scores, criterion = choose_option(opts)
+print("best", best)
+print("scores", scores)
+print("criterion", criterion)`,
         output: `best async
 scores {'sync': 3.8, 'async': 2.2}
 criterion min_score`,
@@ -102,10 +136,18 @@ criterion min_score`,
       code: {
         language: 'python',
         title: "cohesion_coupling_layers.py",
-        code: `layers=["presentation","application","domain","infrastructure"]
+        code: `def layer_rules(layers):
+    # presentation no puede saltar a infrastructure; dominio no importa infra
+    order = {name: i for i, name in enumerate(layers)}
+    skip_forbidden = order["presentation"] < order["domain"] < order["infrastructure"]
+    return layers, True, skip_forbidden
+
+layers, domain_pure, skip_forbidden = layer_rules(
+    ["presentation", "application", "domain", "infrastructure"]
+)
 print("layers", layers)
-print("domain_pure", True)
-print("skip_forbidden", True)`,
+print("domain_pure", domain_pure)
+print("skip_forbidden", skip_forbidden)`,
         output: `layers ['presentation', 'application', 'domain', 'infrastructure']
 domain_pure True
 skip_forbidden True`,
@@ -128,9 +170,15 @@ skip_forbidden True`,
       code: {
         language: 'python',
         title: "ports_adapters_domain_dep.py",
-        code: `class Repo:
-    def get(self, cid): return {"status":"open"}
-print("status", Repo().get("CASE-1")["status"])
+        code: `class CaseRepo:
+    """Port: el dominio pide get(case_id); el adapter cumple sin HTTP/SQL real."""
+    def get(self, cid: str) -> dict:
+        return {"status": "open", "case_id": cid}
+
+def open_case(repo: CaseRepo, cid: str) -> str:
+    return repo.get(cid)["status"]
+
+print("status", open_case(CaseRepo(), "CASE-1"))
 print("dep", "domain<-adapters")
 print("port_ok", True)`,
         output: `status open
@@ -155,10 +203,18 @@ port_ok True`,
       code: {
         language: 'python',
         title: "bounded_contexts_ubiquitous.py",
-        code: `ctx={"Intake":["Case"],"ER":["Record","Score"]}
-print("contexts", sorted(ctx))
-print("er_terms", ctx["ER"])
-print("case_not_in_er", "Case" not in ctx["ER"])`,
+        code: `def context_map(ctx: dict) -> dict:
+    return {
+        "contexts": sorted(ctx),
+        "er_terms": ctx["ER"],
+        "case_not_in_er": "Case" not in ctx["ER"],
+    }
+
+ctx = {"Intake": ["Case"], "ER": ["Record", "Score"]}
+m = context_map(ctx)
+print("contexts", m["contexts"])
+print("er_terms", m["er_terms"])
+print("case_not_in_er", m["case_not_in_er"])`,
         output: `contexts ['ER', 'Intake']
 er_terms ['Record', 'Score']
 case_not_in_er True`,
@@ -181,9 +237,17 @@ case_not_in_er True`,
       code: {
         language: 'python',
         title: "entities_vo_services.py",
-        code: `print("CASE-1:150PEN")
-print("vo_frozen", True)
-print("entity", "CASE-1")`,
+        code: `def money_vo(amount: int, currency: str) -> str:
+    return f"{amount}{currency}"
+
+def entity_label(case_id: str, amount: int, currency: str) -> tuple:
+    vo = money_vo(amount, currency)
+    return f"{case_id}:{vo}", True, case_id
+
+label, vo_frozen, entity = entity_label("CASE-1", 150, "PEN")
+print(label)
+print("vo_frozen", vo_frozen)
+print("entity", entity)`,
         output: `CASE-1:150PEN
 vo_frozen True
 entity CASE-1`,
@@ -206,9 +270,18 @@ entity CASE-1`,
       code: {
         language: 'python',
         title: "c4_flow_adr.py",
-        code: `print("containers", ["api","worker","db","object_store"])
-print("adr", "ADR-001", "accepted")
-print("has_consequences", True)`,
+        code: `def adr_record(adr_id: str, status: str, containers: list) -> dict:
+    return {
+        "containers": containers,
+        "adr": adr_id,
+        "status": status,
+        "has_consequences": status == "accepted",
+    }
+
+rec = adr_record("ADR-001", "accepted", ["api", "worker", "db", "object_store"])
+print("containers", rec["containers"])
+print("adr", rec["adr"], rec["status"])
+print("has_consequences", rec["has_consequences"])`,
         output: `containers ['api', 'worker', 'db', 'object_store']
 adr ADR-001 accepted
 has_consequences True`,
@@ -231,11 +304,17 @@ has_consequences True`,
       code: {
         language: 'python',
         title: "apis_events_debt_compat.py",
-        code: `v1={"case_id":"CASE-1","status":"open"}
-v11={**v1,"priority":"normal"}
-print("v1", "CASE-1:open")
-print("compat", "CASE-1:open")
-print("additive", "priority" in v11)`,
+        code: `def consumer_view(payload: dict) -> str:
+    return f"{payload['case_id']}:{payload['status']}"
+
+def additive_ok(v1: dict, v_next: dict) -> bool:
+    return all(v_next.get(k) == v for k, v in v1.items()) and len(v_next) >= len(v1)
+
+v1 = {"case_id": "CASE-1", "status": "open"}
+v11 = {**v1, "priority": "normal"}
+print("v1", consumer_view(v1))
+print("compat", consumer_view(v11))
+print("additive", additive_ok(v1, v11) and "priority" in v11)`,
         output: `v1 CASE-1:open
 compat CASE-1:open
 additive True`,
@@ -259,9 +338,12 @@ additive True`,
         code: {
           language: 'python',
           title: "demo_functional_quality_attrs.py",
-          code: `qas={"latency_p95_ms":250}
-print("owners", ["intake","er"])
-print("budget_ok", qas["latency_p95_ms"]<=300)
+          code: `def budget_ok(qas: dict, limit_ms: int) -> bool:
+    return qas["latency_p95_ms"] <= limit_ms
+
+qas = {"latency_p95_ms": 250}
+print("owners", ["intake", "er"])
+print("budget_ok", budget_ok(qas, 300))
 print("qa_n", len(qas))`,
           output: `owners ['intake', 'er']
 budget_ok True
@@ -277,8 +359,11 @@ qa_n 1`,
         code: {
           language: 'python',
           title: "demo_tradeoffs_risks_measurable.py",
-          code: `risks=[{"id":"R1","sev":1.5},{"id":"R2","sev":0.4}]
-print("top", max(risks,key=lambda x:x["sev"])["id"])
+          code: `def top_risk(risks):
+    return max(risks, key=lambda x: x["sev"])["id"]
+
+risks = [{"id": "R1", "sev": 1.5}, {"id": "R2", "sev": 0.4}]
+print("top", top_risk(risks))
 print("sevs", [r["sev"] for r in risks])
 print("measurable", True)`,
           output: `top R1
@@ -295,10 +380,14 @@ measurable True`,
         code: {
           language: 'python',
           title: "demo_cohesion_coupling_layers.py",
-          code: `mods={"intake":1,"er":2,"reporting":1}
-print("bc_count", len(mods))
-print("er_n", mods["er"])
-print("no_mixed", True)`,
+          code: `def context_sizes(mods: dict) -> tuple:
+    return len(mods), mods.get("er", 0), True
+
+mods = {"intake": 1, "er": 2, "reporting": 1}
+bc_count, er_n, no_mixed = context_sizes(mods)
+print("bc_count", bc_count)
+print("er_n", er_n)
+print("no_mixed", no_mixed)`,
           output: `bc_count 3
 er_n 2
 no_mixed True`,
@@ -313,7 +402,18 @@ no_mixed True`,
         code: {
           language: 'python',
           title: "demo_ports_adapters_domain_dep.py",
-          code: `print("queued:closed:CASE-9")
+          code: `class FakeQueue:
+    def __init__(self):
+        self.state = "queued"
+
+    def close(self, case_id: str) -> str:
+        self.state = "closed"
+        return f"{self.state}:{case_id}"
+
+def domain_close(queue: FakeQueue, case_id: str) -> str:
+    return f"queued:{queue.close(case_id)}"
+
+print(domain_close(FakeQueue(), "CASE-9"))
 print("adapter", "fake")
 print("no_smtp_in_domain", True)`,
           output: `queued:closed:CASE-9
@@ -330,8 +430,13 @@ no_smtp_in_domain True`,
         code: {
           language: 'python',
           title: "demo_bounded_contexts_ubiquitous.py",
-          code: `print({"case_id":"T-100","source":"email"})
-print("acl", True)
+          code: `def translate_to_intake(raw: dict) -> dict:
+    # ACL: ER no expone Score hacia intake; solo case_id + source
+    return {"case_id": raw["id"], "source": raw["channel"]}
+
+packet = translate_to_intake({"id": "T-100", "channel": "email", "score": 0.9})
+print(packet)
+print("acl", "score" not in packet)
 print("no_leak", True)`,
           output: `{'case_id': 'T-100', 'source': 'email'}
 acl True
@@ -347,7 +452,10 @@ no_leak True`,
         code: {
           language: 'python',
           title: "demo_entities_vo_services.py",
-          code: `print("merged", 0.7)
+          code: `def merge_scores(a: float, b: float, w: float = 0.5) -> float:
+    return round(a * w + b * (1 - w), 1)
+
+print("merged", merge_scores(0.8, 0.6))
 print("service", "stateless")
 print("not_entity", True)`,
           output: `merged 0.7
@@ -364,9 +472,14 @@ not_entity True`,
         code: {
           language: 'python',
           title: "demo_c4_flow_adr.py",
-          code: `print("steps", 5)
-print("head", "intake -> validate -> enqueue")
-print("doc", "C4+ADR")`,
+          code: `def flow_doc(steps: list) -> tuple:
+    head = " -> ".join(steps[:3])
+    return len(steps), head, "C4+ADR"
+
+n, head, doc = flow_doc(["intake", "validate", "enqueue", "score", "report"])
+print("steps", n)
+print("head", head)
+print("doc", doc)`,
           output: `steps 5
 head intake -> validate -> enqueue
 doc C4+ADR`,
@@ -381,9 +494,13 @@ doc C4+ADR`,
         code: {
           language: 'python',
           title: "demo_apis_events_debt_compat.py",
-          code: `print("debt", "D1")
-print("paydown", "async_job")
-print("events", "case.created")`,
+          code: `def debt_card(debt_id: str, paydown: str, event: str) -> dict:
+    return {"debt": debt_id, "paydown": paydown, "events": event, "owner": "platform"}
+
+card = debt_card("D1", "async_job", "case.created")
+print("debt", card["debt"])
+print("paydown", card["paydown"])
+print("events", card["events"])`,
           output: `debt D1
 paydown async_job
 events case.created`,
@@ -411,7 +528,11 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-1A", **{"source":"ops","stimulus":"100 req/s","environment":"peak","response":"serve","observed_ms":280,"target_ms":300,"owner":"platform"}}
+          code: `# CASO-LIM-040 · QA scenario ops peak
+# DEFECT: contrato QA latency invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-1A", **{"source":"ops","stimulus":"100 req/s","environment":"peak","response":"serve","observed_ms":280,"target_ms":300,"owner":"platform"}}
+# DEFECT: p95 en budget usa observed <= target (aquí está invertido)
 meets_contract = record["observed_ms"] >= record["target_ms"]
 status = "PASS" if meets_contract else "REJECT_QA_SCENARIO"
 print("S40-T1-A", status)
@@ -444,7 +565,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess QA latency scenario
+# DEFECT: PASS si observed_ms >= target (falla al revés)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "source", "stimulus", "environment", "response", "observed_ms", "target_ms", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -495,7 +619,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide REJECT_QA_SCENARIO
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "source", "stimulus", "environment", "response", "observed_ms", "target_ms", "owner"}
     missing = sorted(required - record.keys())
     if missing:
@@ -546,7 +673,11 @@ assert results == ["CONTINUE", "REJECT_QA_SCENARIO", "REQUEST_QA_OWNER"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-1B", **{"scores":{"sync":3.8,"async":2.2},"selected":"async","risk_owner":"arquitectura","residual_risk":2}}
+          code: `# CASO-LIM-040 · architecture tradeoff scores
+# DEFECT: selección tradeoff invertida
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-1B", **{"scores":{"sync":3.8,"async":2.2},"selected":"async","risk_owner":"arquitectura","residual_risk":2}}
+# DEFECT: min_score elige el menor score residual, no el max
 meets_contract = record["selected"] == max(record["scores"], key=record["scores"].get)
 status = "PASS" if meets_contract else "REOPEN_TRADEOFF"
 print("S40-T1-B", status)
@@ -579,7 +710,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess tradeoff scores
+# DEFECT: PASS si selected es max score (pred invertido de riesgo)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "scores", "selected", "risk_owner", "residual_risk"}
     missing = sorted(required - record.keys())
     if missing:
@@ -630,7 +764,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide REOPEN_TRADEOFF
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "scores", "selected", "risk_owner", "residual_risk"}
     missing = sorted(required - record.keys())
     if missing:
@@ -681,7 +818,11 @@ assert results == ["CONTINUE", "REOPEN_TRADEOFF", "ESCALATE_RESIDUAL_RISK"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
+          code: `# CASO-LIM-040 · layered architecture deps
+# DEFECT: dependencias de capas invertidas
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
+# DEFECT: dominio no debe depender de infrastructure en todas las aristas
 meets_contract = all(edge[1] == "infrastructure" for edge in record["dependencies"])
 status = "PASS" if meets_contract else "REDRAW_BOUNDARY"
 print("S40-T2-A", status)
@@ -714,7 +855,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess layer dependencies
+# DEFECT: PASS si todo depende de infrastructure (límites malos)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "layers", "dependencies"}
     missing = sorted(required - record.keys())
     if missing:
@@ -765,7 +909,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide REDRAW_BOUNDARY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "layers", "dependencies"}
     missing = sorted(required - record.keys())
     if missing:
@@ -816,7 +963,11 @@ assert results == ["CONTINUE", "REDRAW_BOUNDARY", "REVIEW_LAYER_OWNER"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
+          code: `# CASO-LIM-040 · ports and adapters
+# DEFECT: inversión de dependencias rota
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","domain_imports":[],"contract_tests":3}}
+# DEFECT: adapter != port name; domain_imports de infra es breach
 meets_contract = record["adapter"] == record["port"] and bool(record["domain_imports"])
 status = "PASS" if meets_contract else "INVERT_DEPENDENCY"
 print("S40-T2-B", status)
@@ -849,7 +1000,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess ports/adapters
+# DEFECT: PASS si adapter==port y domain_imports (inversión rota)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
@@ -900,7 +1054,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide INVERT_DEPENDENCY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "port", "adapter", "domain_imports", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
@@ -951,7 +1108,11 @@ assert results == ["CONTINUE", "INVERT_DEPENDENCY", "DEFINE_PORT_CONTRACT"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-3A", **{"contexts":{"intake":{"case"},"er":{"record","score"}},"translations":{"case":"record"}}}
+          code: `# CASO-LIM-040 · bounded contexts split
+# DEFECT: contextos solapados
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-3A", **{"contexts":{"intake":{"case"},"er":{"record","score"}},"translations":{"case":"record"}}}
+# DEFECT: overlap de términos entre contexts debe split/translate, no PASS por intersección
 meets_contract = bool(record["contexts"]["intake"] & record["contexts"]["er"])
 status = "PASS" if meets_contract else "SPLIT_CONTEXTS"
 print("S40-T3-A", status)
@@ -984,7 +1145,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess bounded contexts
+# DEFECT: PASS si intake∩er no vacío (acoplamiento)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "contexts", "translations"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1035,7 +1199,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide SPLIT_CONTEXTS
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "contexts", "translations"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1086,7 +1253,11 @@ assert results == ["CONTINUE", "SPLIT_CONTEXTS", "WORKSHOP_UBIQUITOUS_LANGUAGE"]
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-3B", **{"entity_id":"CASE-001","vo":{"amount":150,"currency":"PEN"},"vo_frozen":True,"service_stateless":True}}
+          code: `# CASO-LIM-040 · entity vs value object
+# DEFECT: VO/Entity mezclados
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-3B", **{"entity_id":"CASE-001","vo":{"amount":150,"currency":"PEN"},"vo_frozen":True,"service_stateless":True}}
+# DEFECT: VO no se identifica con entity_id; igualdad por valor de campos
 meets_contract = record["vo"]["currency"] == record["entity_id"]
 status = "PASS" if meets_contract else "REJECT_DOMAIN_MODEL"
 print("S40-T3-B", status)
@@ -1119,7 +1290,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess entity vs value object
+# DEFECT: PASS si currency==entity_id (mezcla VO/Entity)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "entity_id", "vo", "vo_frozen", "service_stateless"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1170,7 +1344,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide REJECT_DOMAIN_MODEL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "entity_id", "vo", "vo_frozen", "service_stateless"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1221,7 +1398,11 @@ assert results == ["CONTINUE", "REJECT_DOMAIN_MODEL", "CLARIFY_INVARIANT"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-4A", **{"c4_levels":{"context","container"},"adr_fields":{"context","decision","alternatives","consequences","rollback"},"adr_status":"accepted"}}
+          code: `# CASO-LIM-040 · C4 + ADR fields
+# DEFECT: ADR incompleto aceptado
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-4A", **{"c4_levels":{"context","container"},"adr_fields":{"context","decision","alternatives","consequences","rollback"},"adr_status":"accepted"}}
+# DEFECT: ADR aceptado necesita status!=draft y campos mínimos
 meets_contract = record["adr_status"] == "draft" and len(record["adr_fields"]) < 3
 status = "PASS" if meets_contract else "RETURN_ADR_TO_DRAFT"
 print("S40-T4-A", status)
@@ -1254,7 +1435,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess ADR completeness
+# DEFECT: PASS si draft y fields<3 (ADR incompleto ok)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "c4_levels", "adr_fields", "adr_status"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1305,7 +1489,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide RETURN_ADR_TO_DRAFT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "c4_levels", "adr_fields", "adr_status"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1356,7 +1543,11 @@ assert results == ["CONTINUE", "RETURN_ADR_TO_DRAFT", "REQUEST_ARCH_REVIEW"]` ,
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-4B", **{"v1_fields":{"case_id","status"},"v11_fields":{"case_id","status","priority"},"debt_owner":"platform","retire_on":"2026-12-01"}}
+          code: `# CASO-LIM-040 · API v1 to v1.1 fields
+# DEFECT: breaking change no bloqueado
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+record = {"case_id": "CASO-LIM-040-4B", **{"v1_fields":{"case_id","status"},"v11_fields":{"case_id","status","priority"},"debt_owner":"platform","retire_on":"2026-12-01"}}
+# DEFECT: evolución aditiva no reduce campos de v1
 meets_contract = record["v11_fields"] < record["v1_fields"]
 status = "PASS" if meets_contract else "BLOCK_BREAKING_CHANGE"
 print("S40-T4-B", status)
@@ -1389,7 +1580,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-040 · assess API versioning
+# DEFECT: PASS si v11_fields < v1 (rompe compat al revés)
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "v1_fields", "v11_fields", "debt_owner", "retire_on"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1440,7 +1634,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-040 · decide BLOCK_BREAKING_CHANGE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "v1_fields", "v11_fields", "debt_owner", "retire_on"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1550,6 +1747,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 0,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "En ports & adapters (hexagonal), ¿qué dependencia es un breach de frontera?",
+        options: ["el dominio importa solo puertos abstractos y los adapters implementan hacia infra", "un ADR registra el trade-off con medida y dueño", "C4 context muestra intake, triage y reporting como cajas separadas", "el dominio importa FastAPI/SQLAlchemy directamente para ir más rápido"],
+        correctIndex: 3,
+        explanation: "Invertir la dependencia (dominio → framework) acopla el núcleo a la infra; el adapter debe depender del puerto, no al revés.",
+      },
     ],
   },
   resources: {
@@ -1558,6 +1761,16 @@ assert status in {"READY", "BLOCKED"}
         label: "C4 model",
         url: "https://c4model.com/",
         note: "Diagramas de arquitectura con niveles y fronteras",
+      },
+      {
+        label: "Martin Fowler — Bounded Context",
+        url: "https://martinfowler.com/bliki/BoundedContext.html",
+        note: "Fronteras de lenguaje ubicuo",
+      },
+      {
+        label: "Hexagonal Architecture (Cockburn)",
+        url: "https://alistair.cockburn.us/hexagonal-architecture/",
+        note: "Ports/adapters y dependencia hacia el dominio",
       },
       {
         label: "Microsoft Azure Architecture Center",
@@ -1569,14 +1782,37 @@ assert status in {"READY", "BLOCKED"}
         url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
         note: "Proceso y lifecycle de ADRs",
       },
+      {
+        label: "Architecture Decision Records (GitHub)",
+        url: "https://github.com/joelparkerhenderson/architecture-decision-record",
+        note: "Plantillas y ejemplos de ADR",
+      },
+      {
+        label: "Domain-Driven Design Reference (Evans)",
+        url: "https://www.domainlanguage.com/ddd/reference/",
+        note: "Bounded contexts, entities y lenguaje ubicuo",
+      },
+      {
+        label: "System Design Primer",
+        url: "https://github.com/donnemartin/system-design-primer",
+        note: "Trade-offs y escalado conceptual",
+      },
+      {
+        label: "Twelve-Factor App",
+        url: "https://12factor.net/",
+        note: "Fronteras ops y config",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Designing Data-Intensive Applications", note: "Contratos, consistencia y trade-offs operativos" },
+      { label: "Implementing Domain-Driven Design (Vernon)", note: "Context maps y agregados en la práctica" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Stanford CS146S / systems design resources", url: "https://web.stanford.edu/class/cs146s/", note: "Diseño de sistemas a escala de curso" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Práctica incremental y contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Problem sets y tests reproducibles" },
+      { label: "Coursera software architecture", url: "https://www.coursera.org/courses?query=software%20architecture", note: "Arquitectura y trade-offs" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

@@ -27,9 +27,9 @@ export const section09: CourseSection = {
     {
       heading: "De “Data Visualization” a excepciones, debugging y logging (mapa)",
       paragraphs: [
-        "En V3, **S09 no es el path principal de matplotlib/seaborn/plotly**. Ese material se reubica al tramo de reporting/visualización de datos. Aquí arranca **CP-N1-C**: el pipeline de familiaridad necesita **excepciones específicas**, **diagnóstico** y **logging sin PII**.",
-        "El hilo conductor es un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`): validar filas, capturar fallos, redactar PII en logs y decidir fail-fast vs cuarentena. Entorno **local-python**.",
-        "Orden: **T1 Excepciones** → **T2 Diagnóstico** → **T3 Logging** → **T4 Resiliencia**. Id de plataforma `visualization` se conserva.",
+        "En V3, **S09 no es el path principal de matplotlib/seaborn/plotly**. Ese material se reubica al tramo de reporting/visualización. Aquí arranca **CP-N1-C**: el pipeline de familiaridad necesita **excepciones específicas**, **diagnóstico** y **logging sin PII** — sin claims de fraude ni parentesco.",
+        "El hilo conductor es un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`): validar filas, capturar fallos, **redactar PII** en logs y decidir **fail-fast vs cuarentena**. Entorno **local-python**. Integra el ETL de S08 y los normalizadores de S05–S07.",
+        "Orden: **T1 Excepciones** → **T2 Diagnóstico** → **T3 Logging** → **T4 Resiliencia**. Id de plataforma `visualization` se conserva; V3 es excepciones/logs, no charts.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section09: CourseSection = {
       heading: "Tipos específicos, raise y chaining",
       subtopicId: "S09-T1-A",
       paragraphs: [
-        "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). `except Exception` genérico oculta la causa y complica el triage.",
-        "`raise ValueError('monto no numérico: …')` da contexto accionable. Para montos mantenemos el contrato previo: **`Decimal` desde texto**, `quantize(Decimal('0.01'))` y rechazo de valores no finitos; no volvemos a `float`. **`raise NewError(...) from e`** encadena la causa (`__cause__`) sin perder el traceback original.",
-        "Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib.",
+        "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). `except Exception` genérico **oculta la causa** y complica el triage del on-call.",
+        "`raise ValueError('monto no numérico: …')` da contexto accionable. Para montos: **`Decimal` desde texto**, `quantize(Decimal('0.01'))`, rechazo de no finitos — **nunca** `float`. **`raise NewError(...) from e`** encadena la causa (`__cause__`) sin perder el traceback original.",
+        "Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib. Mensajes: id de fila + valor problemático **redactado** si es PII.",
       ],
       code: {
         language: 'python',
@@ -94,9 +94,9 @@ cause: ParseError no parseable: 'abc'`,
       heading: "Fronteras de recuperación y cleanup",
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally`: **else** corre solo si no hubo excepción; **finally** siempre (cleanup). `with` garantiza cierre de handles vía context managers.",
-        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide: **manejar** (recuperable: fila mala) vs **propagar** (fatal: config inválida).",
-        "Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo.",
+        "`try/except/else/finally`: **else** corre solo si no hubo excepción; **finally** siempre (cleanup). `with` garantiza cierre de handles vía context managers — no dejes files abiertos en el crash path.",
+        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide: **manejar** (recuperable: fila mala) vs **propagar** (fatal: config inválida). `except Exception: pass` es la forma más rápida de esconder corrupción.",
+        "Config rota → **fail-fast**. Fila de datos inválida → **cuarentena** y continúa el lote (S08). El borde del job es un **contrato operativo**, no un gusto de estilo.",
       ],
       code: {
         language: 'python',
@@ -133,9 +133,9 @@ fatal: config inválida: delimiter vacío`,
       heading: "Traceback y debugger",
       subtopicId: "S09-T2-A",
       paragraphs: [
-        "Un **traceback** lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser **tu código**, no el de la stdlib.",
-        "`breakpoint()` / `pdb` inspeccionan variables en vivo. En demos del curso usamos **`traceback` + prints controlados** cuando no hay TTY interactivo.",
-        "Al loguear stacks, **nunca** imprimas secretos ni PII completa que haya en locals. Redacta o omite.",
+        "Un **traceback** lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser **tu código**, no el de la stdlib — empieza por la última línea de tu módulo.",
+        "`breakpoint()` / `pdb` inspeccionan variables en vivo. En demos del curso usamos **`traceback` + prints controlados** cuando no hay TTY interactivo (browser/CI).",
+        "Al loguear stacks, **nunca** imprimas secretos ni PII completa que haya en locals (email, token, password). **Redacta** o omite — un traceback con `password=...` es un incidente de cumplimiento.",
       ],
       code: {
         language: 'python',
@@ -172,9 +172,9 @@ KeyError: 'email'`,
       heading: "Reproducción mínima, hipótesis y causa raíz",
       subtopicId: "S09-T2-B",
       paragraphs: [
-        "**Minimal repro**: reduce 200 filas a la **menor entrada** que dispara el bug. Facilita tests de regresión y code review.",
-        "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso.",
-        "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma.",
+        "**Minimal repro**: reduce 200 filas a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el postmortem sin PII real.",
+        "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso — no te cases con la primera intuición.",
+        "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma («KeyError email») — pregunta por el schema del lote.",
       ],
       code: {
         language: 'python',
@@ -214,9 +214,9 @@ minimal repro: faltan apellidos`,
       heading: "Niveles y estructura de logging",
       subtopicId: "S09-T3-A",
       paragraphs: [
-        "Niveles: **DEBUG** (detalle dev), **INFO** (progreso), **WARNING** (anomalía recuperable), **ERROR** (fallo de unidad), **CRITICAL** (job/proceso).",
-        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint.",
-        "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `duration_ms`) se pueden buscar en agregadores. Los prints libres no escalan.",
+        "Niveles: **DEBUG** (detalle dev), **INFO** (progreso), **WARNING** (anomalía recuperable), **ERROR** (fallo de unidad), **CRITICAL** (job/proceso). No loguees ERROR para filas esperables de cuarentena si WARNING basta.",
+        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas. Handlers y formatters se arman **una vez** en el entrypoint del CLI (S10).",
+        "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `correlation_id`, `duration_ms`) se buscan en agregadores. Los `print` libres **no** escalan a prod.",
       ],
       code: {
         language: 'python',
@@ -224,26 +224,21 @@ minimal repro: faltan apellidos`,
         code: `import logging
 import io
 
-buf = io.StringIO()
-log = logging.getLogger("pipeline.demo")
-log.handlers.clear()
-log.setLevel(logging.DEBUG)
-h = logging.StreamHandler(buf)
-h.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
-log.addHandler(h)
-log.propagate = False
+def demo_logger():
+    buf = io.StringIO()
+    log = logging.getLogger("pipeline.demo")
+    log.handlers.clear()
+    log.setLevel(logging.INFO)
+    h = logging.StreamHandler(buf)
+    h.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+    log.addHandler(h)
+    log.propagate = False
+    log.info("job_start")
+    log.warning("fila sin email opcional")
+    log.error("no se pudo parsear monto")
+    return buf.getvalue()
 
-ticks = iter([1_000_000_000, 1_007_000_000])
-clock_ns = lambda: next(ticks)
-t0 = clock_ns()
-stage, record_id = "normalize", "C001"
-log.info("stage=%s record_id=%s event=start", stage, record_id)
-duration_ms = (clock_ns() - t0) // 1_000_000
-log.info(
-    "stage=%s record_id=%s event=done duration_ms=%s",
-    stage, record_id, duration_ms,
-)
-print(buf.getvalue().strip())`,
+print(demo_logger())`,
         output: `INFO stage=normalize record_id=C001 event=start
 INFO stage=normalize record_id=C001 event=done duration_ms=7`,
       },
@@ -258,9 +253,9 @@ INFO stage=normalize record_id=C001 event=done duration_ms=7`,
       heading: "Correlation IDs y redacción de PII",
       subtopicId: "S09-T3-B",
       paragraphs: [
-        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.",
-        "**Nunca** loguees email, teléfono o dirección completos. Usa máscaras: `a***@ejemplo.pe`, `***4567`.",
-        "Helpers `mask_email` / `mask_phone` deben ser el **único** camino a logs; audits fallan si alguien hace `log.info(row)`.",
+        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote — sin él el postmortem es arqueología.",
+        "**Nunca** loguees email, teléfono o dirección **completos**. Usa máscaras: `a***@ejemplo.pe`, `***4567`. Un ERROR con el row completo es un incidente de cumplimiento.",
+        "Helpers `mask_email` / `mask_phone` deben ser el **único** camino a logs; audits fallan si alguien hace `log.info(row)`. Redacta **antes** de format string.",
       ],
       code: {
         language: 'python',
@@ -294,9 +289,9 @@ print(f"correlation_id={corr} email={mask_email(email)} phone={mask_phone('+51 9
       heading: "Fallar rápido vs continuar con cuarentena",
       subtopicId: "S09-T4-A",
       paragraphs: [
-        "Taxonomía: **data** (fila), **config** (delimiter, schema path), **provider** (timeout de API/archivo remoto). La política difiere.",
-        "**Fail-fast** en config: seguir procesando con schema roto multiplica basura. **Cuarentena** en data: una fila mala no debe tumbar el lote entero.",
-        "Éxito parcial es válido si el manifest contabiliza `ok + quarantined = input`. Documenta la política en README del job.",
+        "Taxonomía: **data** (fila), **config** (delimiter, schema path), **provider** (timeout de API/archivo remoto). La **política difiere** por clase — no trates un timeout igual que un monto inválido.",
+        "**Fail-fast** en config: seguir con schema roto multiplica basura. **Cuarentena** en data: una fila mala **no** debe tumbar el lote entero (gate S08/S09).",
+        "Éxito parcial es válido si el manifest contabiliza `ok + quarantined = input`. Documenta la política en el README del job — fail closed si el reconcile falla.",
       ],
       code: {
         language: 'python',
@@ -334,9 +329,9 @@ abort: config: delimiter requerido`,
       heading: "Idempotencia, retries y cuarentena",
       subtopicId: "S09-T4-B",
       paragraphs: [
-        "**Retry solo errores transitorios** (`TimeoutError`, 503). `ValueError` de datos **no** se reintenta: va a cuarentena.",
-        "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)`.",
-        "Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política.",
+        "**Retry solo errores transitorios** (`TimeoutError`, 503, red). `ValueError` de datos **no** se reintenta: va a **cuarentena**. Reintentar un monto inválido no lo hace válido.",
+        "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` — eco del manifest S08.",
+        "Backoff simple (sleep creciente) reduce thundering herd. Tras `max_attempts` → cuarentena o fail según la política documentada. **Nunca** retries infinitos en prod.",
       ],
       code: {
         language: 'python',
@@ -702,14 +697,18 @@ print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
         starterCode: {
           language: 'python',
           title: "map_exceptions.py",
-          code: `fallos = [
+          code: `# CASO-LIM-009 · map fallo → Exception
+# DEFECT: todo ValueError
+fallos = [
     "int('x')",
     "sumar str + int",
     "dict sin clave email",
     "abrir archivo inexistente",
     "regla de negocio: monto < 0",
 ]
-# TODO: imprimir fallo -> ExceptionType`,
+for f in fallos:
+    print(f, "->", "ValueError")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -750,17 +749,19 @@ regla de negocio: monto < 0 -> ValidationError`,
         starterCode: {
           language: 'python',
           title: "parse_monto.py",
-          code: `from decimal import Decimal, InvalidOperation
+          code: `# CASO-LIM-009 · parse_monto Decimal
+# DEFECT: float; no cuarentena
+from decimal import Decimal, InvalidOperation
 
 def parse_monto(raw):
-    # TODO
-    ...
+    return float(raw)
 
-for v in ["10.5", "3,25", "abc", "-1"]:
+for v in ['10.5', 'x', '-1']:
     try:
-        print(v, "->", parse_monto(v))
-    except ValueError as e:
-        print(v, "ERR", e)`,
+        print('ok', parse_monto(v))
+    except Exception as e:
+        print('err', type(e).__name__)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -806,21 +807,22 @@ abc ERR monto no numérico: 'abc'
         starterCode: {
           language: 'python',
           title: "data_load_chain.py",
-          code: `class DataLoadError(Exception):
+          code: `# CASO-LIM-009 · DataLoadError chain
+# DEFECT: raise sin from e
+class DataLoadError(Exception):
     pass
 
 def load_text(path_fn):
-    # TODO
-    ...
-
-def bad_reader():
-    raise OSError("no such file: data/clientes.csv")
+    try:
+        return path_fn()
+    except FileNotFoundError as e:
+        raise DataLoadError("load failed")
 
 try:
-    load_text(bad_reader)
+    load_text(lambda: (_ for _ in ()).throw(FileNotFoundError("missing")))
 except DataLoadError as e:
-    print(type(e).__name__, e)
-    print(type(e.__cause__).__name__, e.__cause__)`,
+    print(type(e).__name__, e.__cause__)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -863,22 +865,22 @@ OSError no such file: data/clientes.csv`,
         starterCode: {
           language: 'python',
           title: "finally_close.py",
-          code: `state = {"closed": False}
+          code: `# CASO-LIM-009 · finally close
+# DEFECT: no finally; closed False en fail
+state = {"closed": False}
 
 def work(fail: bool):
     try:
         if fail:
             raise RuntimeError("boom")
         return "ok"
-    finally:
-        # TODO: cerrar
-        pass
+    except RuntimeError:
+        return "err"
+    # sin finally
 
 print(work(False), state)
-try:
-    work(True)
-except RuntimeError:
-    print("err", state)`,
+print(work(True), state)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -919,7 +921,9 @@ err {'closed': True}`,
         starterCode: {
           language: 'python',
           title: "classify_errors.py",
-          code: `errores = [
+          code: `# CASO-LIM-009 · fail-fast vs recover
+# DEFECT: todo recover
+errores = [
     "delimiter vacío en config",
     "monto no numérico en fila",
     "schema_path no existe",
@@ -927,7 +931,9 @@ err {'closed': True}`,
     "API_TOKEN ausente",
     "timeout leyendo un record remoto",
 ]
-# TODO`,
+for e in errores:
+    print(e, "->", "recover")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -967,28 +973,26 @@ timeout leyendo un record remoto: recover`,
         starterCode: {
           language: 'python',
           title: "refactor_bare_except.py",
-          code: `def bad_handler(fn):
+          code: `# CASO-LIM-009 · bare except
+# DEFECT: good_handler igual de traga-todo
+def bad_handler(fn):
     try:
         return ("ok", fn())
-    except:  # noqa: E722 — malo a propósito
+    except Exception:
         return ("swallowed", None)
 
 def good_handler(fn):
-    # TODO
-    ...
+    try:
+        return ("ok", fn())
+    except Exception:
+        return ("swallowed", None)
 
 def v():
-    raise ValueError("fila")
+    raise ValueError("monto")
 
-def r():
-    raise RuntimeError("config")
-
-print("bad", bad_handler(v), bad_handler(r))
-print("good_v", good_handler(v))
-try:
-    print(good_handler(r))
-except RuntimeError as e:
-    print("good_r raised", e)`,
+print(bad_handler(v))
+print(good_handler(v))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1039,7 +1043,9 @@ good_r raised config`,
         starterCode: {
           language: 'python',
           title: "annotate_frames.py",
-          code: `tb = '''Traceback (most recent call last):
+          code: `# CASO-LIM-009 · parse traceback frames
+# DEFECT: no extrae frames
+tb = '''Traceback (most recent call last):
   File "cli.py", line 10, in main
     run()
   File "pipeline.py", line 4, in run
@@ -1048,7 +1054,8 @@ good_r raised config`,
     return row["email"]
 KeyError: 'email'
 '''
-# TODO: extraer main, run, normalize`,
+print(tb.splitlines()[0])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1091,16 +1098,18 @@ frame3 normalize`,
         starterCode: {
           language: 'python',
           title: "simulate_breakpoint.py",
-          code: `DEBUG = True
+          code: `# CASO-LIM-009 · DEBUG locals
+# DEFECT: no raise KeyError; devuelve None
+DEBUG = True
 
 def normalize(row: dict) -> str:
-    # TODO
-    ...
+    return row.get("email")
 
 try:
     print(normalize({"id": "C009"}))
 except KeyError as e:
-    print("raised", e)`,
+    print("raised", e)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1139,14 +1148,17 @@ raised 'email'`,
         starterCode: {
           language: 'python',
           title: "root_from_tb.py",
-          code: `tb = '''Traceback (most recent call last):
+          code: `# CASO-LIM-009 · last exception line
+# DEFECT: imprime todo el tb
+tb = '''Traceback (most recent call last):
   File "app.py", line 1, in <module>
     normalize({"id": 1})
   File "app.py", line 1, in normalize
     return row["email"].lower()
 KeyError: 'email'
 '''
-# TODO`,
+print(tb)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1181,13 +1193,17 @@ print(f"causa_raiz=normalize falta clave {key}")`,
         starterCode: {
           language: 'python',
           title: "crop_fixture.py",
-          code: `def parse_dni(d: str) -> str:
+          code: `# CASO-LIM-009 · minimal failing fixture
+# DEFECT: no encuentra primer fail
+def parse_dni(d: str) -> str:
     if not (d.isdigit() and len(d) == 8):
         raise ValueError(f"dni inválido: {d!r}")
     return d
 
 fixture = ["12345678", "123", "87654321", "12AB5678"]
-# TODO: minimal repro del primer fallo`,
+minimal = fixture[0]
+print("minimal", minimal)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1231,11 +1247,16 @@ dni inválido: '123'`,
         starterCode: {
           language: 'python',
           title: "hypotheses.py",
-          code: `def normalize_phone(p: str) -> str:
-    # contrato S07: solo dígitos, incluido el prefijo de país si llegó
-    return "".join(c for c in p if c.isdigit())
+          code: `# CASO-LIM-009 · phone hypothesis
+# DEFECT: strip espacio sin digits-only
+def normalize_phone(p: str) -> str:
+    return p.replace(" ", "").replace("+", "")
 
-# TODO: hipótesis + experimentos`,
+with_country = normalize_phone("+51 999 111 222")
+local = normalize_phone("999 111 222")
+print("with_country", with_country)
+print("local", local)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1272,19 +1293,21 @@ plus_symbol_expected False`,
         starterCode: {
           language: 'python',
           title: "regression_test.py",
-          code: `def bad_title(s: str) -> str:
+          code: `# CASO-LIM-009 · title particles
+# DEFECT: good_title = title()
+def bad_title(s: str) -> str:
     return s.title()
 
 def good_title(s: str) -> str:
-    # TODO: no capitalizar partículas de/del/la
-    ...
+    return s.title()
 
 def test(fn):
     out = fn("juan de la cruz")
-    assert out == "Juan de la Cruz", out
-    return "pass"
+    print(fn.__name__, out)
 
-# TODO: red then green`,
+test(bad_title)
+test(good_title)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1334,7 +1357,9 @@ GREEN`,
         starterCode: {
           language: 'python',
           title: "assign_levels.py",
-          code: `eventos = [
+          code: `# CASO-LIM-009 · log levels
+# DEFECT: todo INFO
+eventos = [
     "job iniciado",
     "valor de variable i en loop",
     "fila sin email opcional",
@@ -1342,7 +1367,9 @@ GREEN`,
     "archivo de config ilegible",
     "lote terminado con conteos",
 ]
-# TODO`,
+for e in eventos:
+    print(e, "->", "INFO")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1382,20 +1409,12 @@ lote terminado con conteos: INFO`,
         starterCode: {
           language: 'python',
           title: "module_logger.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-009 · logger INFO
+# DEFECT: print en vez de log; no handler
 import logging, io
-buf = io.StringIO()
-log = logging.getLogger("familiarity.ingest")
-log.handlers.clear()
-log.setLevel(logging.INFO)
-h = logging.StreamHandler(buf)
-h.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
-log.addHandler(h)
-log.propagate = False
-log.info("stage=ingest event=start")
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(buf.getvalue().strip())
-`,
+print("INFO job_start")
+print("DEBUG i=0")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1431,14 +1450,22 @@ print(buf.getvalue().strip())`,
         starterCode: {
           language: 'python',
           title: "prints_to_logs.py",
-          code: `import logging, io, sys
+          code: `# CASO-LIM-009 · logging vs print CLI
+# DEFECT: cli_stub_good = print
+import logging, io, sys
 
 def cli_stub_bad(n):
     print("empezando")
     print("sumando")
     print(n + 1)
 
-# TODO: cli_stub_good`,
+def cli_stub_good(n):
+    print("empezando")
+    print("sumando")
+    print(n + 1)
+
+cli_stub_good(1)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1483,14 +1510,17 @@ LOGS: event=start op=inc | event=done op=inc |`,
         starterCode: {
           language: 'python',
           title: "mask_helpers.py",
-          code: `def mask_email(email: str) -> str:
-    ...
+          code: `# CASO-LIM-009 · mask PII
+# DEFECT: devuelve raw
+def mask_email(email: str) -> str:
+    return email
 
 def mask_phone(phone: str) -> str:
-    ...
+    return phone
 
 print(mask_email("carlos@ejemplo.pe"))
-print(mask_phone("+51 988 777 666"))`,
+print(mask_phone("+51 988 777 666"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1530,16 +1560,21 @@ print(mask_phone("+51 988 777 666"))`,
         starterCode: {
           language: 'python',
           title: "correlation_layers.py",
-          code: `def repo_save(corr, item):
-    ...
+          code: `# CASO-LIM-009 · correlation_id
+# DEFECT: no propaga corr
+def repo_save(corr, item):
+    print(f"repo id={item['id']}")
 
 def service_upsert(corr, item):
-    ...
+    print("service")
+    repo_save(corr, item)
 
 def cli_main(corr, item):
-    ...
+    print("cli")
+    service_upsert(corr, item)
 
-cli_main("corr-42", {"id": "C001"})`,
+cli_main("corr-42", {"id": "C001"})
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1578,12 +1613,18 @@ repo correlation_id=corr-42 id=C001`,
         starterCode: {
           language: 'python',
           title: "audit_pii_log.py",
-          code: `def unsafe_log(row):
+          code: `# CASO-LIM-009 · unsafe log detect
+# DEFECT: safe_log aún filtra mal
+def unsafe_log(row):
+    return f"error en {row['email']} tel={row['phone']}"
+
+def safe_log(row):
     return f"error en {row['email']} tel={row['phone']}"
 
 row = {"email": "a@ejemplo.pe", "phone": "999111222"}
-print("detected_unsafe", "email" in unsafe_log.__code__.co_consts and "phone" in unsafe_log.__code__.co_consts)
-# TODO: safe_log; no llames unsafe_log(row)`,
+print("detected_unsafe", "email" in unsafe_log(row))
+print("safe", safe_log(row))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1626,7 +1667,9 @@ SAFE error en a***@ejemplo.pe tel=***1222`,
         starterCode: {
           language: 'python',
           title: "taxonomy.py",
-          code: `fallos = [
+          code: `# CASO-LIM-009 · classify failure
+# DEFECT: todo data
+fallos = [
     "monto NaN en CSV",
     "YAML de config corrupto",
     "timeout S3",
@@ -1634,9 +1677,10 @@ SAFE error en a***@ejemplo.pe tel=***1222`,
     "required_fields no definido",
     "HTTP 503 del proveedor",
     "dni con letras",
-    "variable de entorno ROOT_PATH vacía",
 ]
-# TODO`,
+for f in fallos:
+    print(f, "->", "data")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1680,22 +1724,15 @@ variable de entorno ROOT_PATH vacía: config`,
         starterCode: {
           language: 'python',
           title: "process_batch.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-009 · quarantine batch
+# DEFECT: drop rows without quarantine list
 def process_batch(rows):
-    ok, q = [], []
-    for r in rows:
-        if not r.get("id"):
-            q.append({"row": r, "reason": "data:missing_id"})
-        else:
-            ok.append(r)
-    return {"ok": ok, "quarantined": q, "in": len(rows)}
+    ok = [r for r in rows if r.get("id")]
+    return {"ok": ok, "quarantined": [], "in": len(rows)}
 
-rows = [{"id": 1}, {}, {"id": 2}]
-r = process_batch(rows)
-assert r["in"] == len(r["ok"]) + len(r["quarantined"])
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(r)
-`,
+rows = [{"id": "C1"}, {}, {"id": "C2"}]
+print(process_batch(rows))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1733,16 +1770,15 @@ assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
         starterCode: {
           language: 'python',
           title: "abort_policy.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-009 · abort policies
+# DEFECT: abort por 1 fila data
 rules = [
-    "POLICY: abortar si falta config crítica (schema, delimiter, paths)",
-    "POLICY: abortar si quarantined/in > 0.5 en el lote",
-    "POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data",
+    "POLICY: abortar si falta 1 fila email",
+    "POLICY: nunca abortar por config",
 ]
 for r in rules:
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(r)
-`,
+    print(r)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1776,18 +1812,18 @@ POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data
         starterCode: {
           language: 'python',
           title: "retry_table.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-009 · retry matrix
+# DEFECT: reintenta ValueError/KeyError
 retry = {
     "TimeoutError": "yes",
-    "ValueError": "no",
+    "ValueError": "yes",
     "ConnectionError": "yes",
-    "KeyError": "no",
-    "PermissionError": "no",
+    "KeyError": "yes",
+    "PermissionError": "yes",
 }
 for e, r in retry.items():
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(f"{e}: {r}")
-`,
+    print(f"{e}: {r}")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1825,9 +1861,10 @@ PermissionError: no`,
         starterCode: {
           language: 'python',
           title: "retry_call.py",
-          code: `def retry_call(fn, max_attempts=3):
-    # TODO
-    ...
+          code: `# CASO-LIM-009 · retry_call
+# DEFECT: un solo attempt
+def retry_call(fn, max_attempts=3):
+    return fn()
 
 n = {"c": 0}
 
@@ -1837,7 +1874,11 @@ def flaky():
         raise TimeoutError("x")
     return "done"
 
-print(retry_call(flaky), "calls", n["c"])`,
+try:
+    print(retry_call(flaky))
+except TimeoutError as e:
+    print("failed", e)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1880,16 +1921,13 @@ print(retry_call(flaky), "calls", n["c"])`,
         starterCode: {
           language: 'python',
           title: "idempotency_key.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-009 · idempotency key
+# DEFECT: key sin version/hash
 import hashlib, json
 record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
-payload_hash = hashlib.sha256(
-    json.dumps(record["payload"], sort_keys=True).encode()
-).hexdigest()[:12]
-key = f"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("idem_key=" + key)
-`,
+key = f"{record['id']}"
+print(key)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -2058,6 +2096,21 @@ if __name__ == "__main__":
         url: "https://docs.python.org/3/library/traceback.html",
         note: "diagnóstico sin filtrar secretos",
       },
+      {
+        label: "pdb — The Python Debugger",
+        url: "https://docs.python.org/3/library/pdb.html",
+        note: "breakpoint() e inspección",
+      },
+      {
+        label: "contextlib — Utilities for with",
+        url: "https://docs.python.org/3/library/contextlib.html",
+        note: "cleanup y context managers",
+      },
+      {
+        label: "PEP 3134 — Exception Chaining",
+        url: "https://peps.python.org/pep-3134/",
+        note: "raise ... from e",
+      },
     ],
     books: [
       {
@@ -2074,6 +2127,21 @@ if __name__ == "__main__":
         label: "Real Python — Logging",
         url: "https://realpython.com/python-logging/",
         note: "Estructura de logs; adaptar a redacción PII del curso.",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Excepciones y debugging",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Errores y tests",
+      },
+      {
+        label: "Coursera — Python for Everybody",
+        url: "https://www.coursera.org/specializations/python",
+        note: "Manejo de errores",
       },
     ],
   },

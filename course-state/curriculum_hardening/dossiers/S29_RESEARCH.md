@@ -1,34 +1,15 @@
-# Research dossier — S29 SQL avanzado y modelado relacional
-
-**Section file:** `src/lib/course/sections/s29-mlops.ts`  
-**Updated:** 2026-07-23T00:32:19.351213+00:00
-
-## Competitive sources (all mandatory classes)
-
-### Coursera / MOOC
-- IBM SQL for Data Science (Coursera)
-- University of Michigan SQL (Coursera)
-
-### MIT
-- MIT 6.830 databases
-
-### Harvard
-- CS50 SQL
-
-### Yale
-- Yale DB intros
-
-### Stanford
-- Stanford CS145
-
-### GitHub
-- sqlite docs; dbt-labs conceptual models
-
-### Video / tutorials
-- freeCodeCamp SQL advanced
-
-## Coverage gaps
-Append-only patterns; no silent deletes; rich starters.
-
-## Depth decision
-Gold bar: theory contracts + weDo instructions ≥150 chars + **starterCode.code ≥120 chars** with fixture + single TODO. Progressive disclosure; synthetic Peru cases; no fraud auto-labels.
+# S29 RESEARCH
+When: 2026-07-24T04:34:23.481+00:00
+- SQLite: https://www.sqlite.org/lang.html
+- SQLite: https://www.sqlite.org/eqp.html
+- SQLite: https://www.sqlite.org/foreignkeys.html
+- PostgreSQL: https://www.postgresql.org/docs/current/ddl-constraints.html
+- PostgreSQL: https://www.postgresql.org/docs/current/tutorial-window.html
+- Use The Index Luke: https://use-the-index-luke.com/
+- Python: https://docs.python.org/3/library/sqlite3.html
+- Coursera: https://www.coursera.org/courses?query=sql%20relational%20database
+- Stanford: https://cs145-fa20.github.io/
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/

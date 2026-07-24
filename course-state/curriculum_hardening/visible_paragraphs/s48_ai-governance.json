@@ -1,0 +1,612 @@
+{
+  "index": 48,
+  "id": "ai-governance",
+  "title": "LLM applications y RAG con evidencia",
+  "file": "s48-ai-governance.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta S48: LLM applications y RAG con evidencia verificable",
+      "len": 58
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Embedding: vector denso versionado. Similarity: ranking, no verdad. Chunk: fragmento con metadata/hash/ACL. Hybrid retrieval: lexical + vector (+ rerank). Grounding: claims con evidence_ids. Abstención: no responder sin soporte. Faithfulness: alineación respuesta↔contexto.",
+      "len": 286
+    },
+    {
+      "i": 2,
+      "text": "S48 inicia CP-N4-C: asistente sobre docs autorizados. Id ai-governance es legacy; el path V3 es RAG con evidencia, no política abstracta sola.",
+      "len": 142
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: docs versionados con ACL/provenance y query. Salida: respuesta estructurada con citas o abstención. Error: fragmento sin permiso, evidencia insuficiente o costo excedido → no responder.",
+      "len": 204
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-PUN-048 (cooperativa ficticia en Puno (Altiplano Docs Lab)): manuales sintéticos. T1 embeddings → T2 ingesta → T3 retrieval → T4 generación/eval. Stdlib (dot product toy).",
+      "len": 181
+    },
+    {
+      "i": 5,
+      "text": "T1-A Embeddings versionados y similarity para ranking",
+      "len": 53
+    },
+    {
+      "i": 6,
+      "text": "Los embeddings colocan textos en un espacio; similarity (p. ej. producto punto) ordena candidatos. La versión del modelo de embedding es parte del índice.",
+      "len": 154
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: top doc = argmax_k ⟨q, d_k⟩ con version==emb-v2. No prueba verdad factual.",
+      "len": 85
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: query vector, docs, version. Salida: ranking reproducible. Error: top inesperado o versión rota → REJECT_EMBEDDING_RANK.",
+      "len": 139
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-PUN-048-1A: q=[1,0], d1=[0.8,0.2], d2=[0.1,0.9] → top d1 con emb-v2.",
+      "len": 84
+    },
+    {
+      "i": 10,
+      "text": "T1-B Límites de embedding, versiones y evaluación retenida",
+      "len": 58
+    },
+    {
+      "i": 11,
+      "text": "Cambiar embeddings exige eval retenida: candidate_recall ≥ min y > baseline, holdout nombrado y costo de reindex acotado.",
+      "len": 121
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: umbrales numéricos + holdout prefix + cost_pen ≤ 50 (unidades sintéticas).",
+      "len": 85
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: recalls, holdout, cost. Salida: promover o keep baseline. Error: no mejora → KEEP_EMBEDDING_BASELINE.",
+      "len": 120
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-PUN-048-1B: 0.81 > 0.72 y ≥0.78, holdout rag-holdout-*, cost≤50.",
+      "len": 80
+    },
+    {
+      "i": 15,
+      "text": "T2-A Chunking con metadata, dedup por hash y provenance",
+      "len": 55
+    },
+    {
+      "i": 16,
+      "text": "El chunking corta docs con metadata (section) y dedup por hash. La versión de fuente (…-v3) ancla provenance.",
+      "len": 109
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: unique hashes == expected; cada chunk tiene section; source_version endswith -v3.",
+      "len": 92
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: chunks. Salida: corpus deduplicado trazable. Error: dups/sin section → DEDUP_AND_RECHUNK.",
+      "len": 108
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-PUN-048-2A: hashes únicos, section policy, source …-v3.",
+      "len": 71
+    },
+    {
+      "i": 20,
+      "text": "T2-B ACL por fragmento, deletion y provenance de fuente",
+      "len": 55
+    },
+    {
+      "i": 21,
+      "text": "Cada fragmento trae ACL, flag deleted y provenance. Usuario solo ve intersección de ACL; delete invalida cache.",
+      "len": 111
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: user_acl ∩ chunk_acl no vacío, not deleted, provenance prefix doc-, cache_invalidated.",
+      "len": 97
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: acls y flags. Salida: visible o filtrado. Error: sin permiso → FILTER_OR_DELETE_CHUNK.",
+      "len": 105
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-PUN-048-2B: user {public,ops} ∩ chunk, no deleted, provenance doc-*, cache ok.",
+      "len": 94
+    },
+    {
+      "i": 25,
+      "text": "T3-A Retrieval lexical/vector/hybrid y reranking calibrado",
+      "len": 58
+    },
+    {
+      "i": 26,
+      "text": "Hybrid combina scores lexical y vector con pesos; el top debe coincidir con el esperado tras calibración.",
+      "len": 105
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: score = w_lexlex + w_vecvec; argmax == expected_top.",
+      "len": 63
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: maps lexical/vector y weights. Salida: top híbrido. Error: top incorrecto → RECALIBRATE_HYBRID_RANK.",
+      "len": 119
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-PUN-048-3A: lex/vec maps sintéticos con pesos calibrados → expected_top.",
+      "len": 88
+    },
+    {
+      "i": 30,
+      "text": "T3-B Contexto con presupuesto de tokens, citas y permisos",
+      "len": 57
+    },
+    {
+      "i": 31,
+      "text": "El contexto tiene presupuesto de tokens; cada claim material debe estar en cited_claims con ACL de cita válida.",
+      "len": 111
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: claims ⊆ cited_claims, citation_acl True, context_tokens ≤ max.",
+      "len": 74
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: claims/citas/tokens. Salida: contexto citable. Error: claim sin cita → ABSTAIN_UNCITED.",
+      "len": 106
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-PUN-048-3B: claims {c1,c2} citadas, tokens bajo max, citation_acl.",
+      "len": 82
+    },
+    {
+      "i": 35,
+      "text": "T4-A Structured output grounded en evidence ids permitidos",
+      "len": 58
+    },
+    {
+      "i": 36,
+      "text": "La salida estructurada respeta schema (answer + evidence_ids) y solo usa evidence permitida; instrucciones inyectadas en docs se ignoran.",
+      "len": 137
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: keys de output == schema; evidence_ids ⊆ allowed; injected_instruction_ignored.",
+      "len": 90
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: output y allowlist. Salida: grounded OK. Error: id no permitido → REJECT_UNGROUNDED_OUTPUT.",
+      "len": 110
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-PUN-048-4A: answer + evidence d7#2 permitido; injection ignorada.",
+      "len": 81
+    },
+    {
+      "i": 40,
+      "text": "T4-B Eval de retrieval/answer, costo y abstención sin soporte",
+      "len": 61
+    },
+    {
+      "i": 41,
+      "text": "Evalúa retrieval_recall y faithfulness por separado, con cost_cap y support. Si no hay soporte, abstén con razón.",
+      "len": 113
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: recall≥min, faithfulness≥min, cost≤cap, support True.",
+      "len": 64
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: métricas y costo. Salida: answer o abstain. Error: bajo soporte → ABSTAIN_WITH_REASON.",
+      "len": 105
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-PUN-048-4B: recall 0.84, faithfulness 0.91, cost bajo cap, support True.",
+      "len": 88
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta S48: LLM applications y RAG con evidencia verificable",
+      "text": "Ruta S48: LLM applications y RAG con evidencia verificable"
+    },
+    {
+      "i": 1,
+      "len": 286,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Embedding: vector denso versionado. Similarity: ranking, no verdad. Chunk: fragmento con metadata/hash/ACL. Hybrid retrieval: lexical + vector (+ rerank). Grounding: c",
+      "text": "Diccionario. Embedding: vector denso versionado. Similarity: ranking, no verdad. Chunk: fragmento con metadata/hash/ACL. Hybrid retrieval: lexical + vector (+ rerank). Grounding: claims con evidence_ids. Abstención: no responder sin soporte. Faithfulness: alineación respuesta↔contexto."
+    },
+    {
+      "i": 2,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S48 inicia CP-N4-C: asistente sobre docs autorizados. Id ai-governance es legacy; el path V3 es RAG con evidencia, no política abstracta sola.",
+      "text": "S48 inicia CP-N4-C: asistente sobre docs autorizados. Id ai-governance es legacy; el path V3 es RAG con evidencia, no política abstracta sola."
+    },
+    {
+      "i": 3,
+      "len": 204,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: docs versionados con ACL/provenance y query. Salida: respuesta estructurada con citas o abstención. Error: fragmento sin permiso, evidencia insuficiente o costo ",
+      "text": "Contrato. Entrada: docs versionados con ACL/provenance y query. Salida: respuesta estructurada con citas o abstención. Error: fragmento sin permiso, evidencia insuficiente o costo excedido → no responder."
+    },
+    {
+      "i": 4,
+      "len": 181,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-PUN-048 (cooperativa ficticia en Puno (Altiplano Docs Lab)): manuales sintéticos. T1 embeddings → T2 ingesta → T3 retrieval → T4 generación/eval. Stdlib (dot product toy)",
+      "text": "Caso CASO-PUN-048 (cooperativa ficticia en Puno (Altiplano Docs Lab)): manuales sintéticos. T1 embeddings → T2 ingesta → T3 retrieval → T4 generación/eval. Stdlib (dot product toy)."
+    },
+    {
+      "i": 5,
+      "len": 53,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-A Embeddings versionados y similarity para ranking",
+      "text": "T1-A Embeddings versionados y similarity para ranking"
+    },
+    {
+      "i": 6,
+      "len": 154,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Los embeddings colocan textos en un espacio; similarity (p. ej. producto punto) ordena candidatos. La versión del modelo de embedding es parte del índice.",
+      "text": "Los embeddings colocan textos en un espacio; similarity (p. ej. producto punto) ordena candidatos. La versión del modelo de embedding es parte del índice."
+    },
+    {
+      "i": 7,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: top doc = argmax_k ⟨q, d_k⟩ con version==emb-v2. No prueba verdad factual.",
+      "text": "Mecanismo: top doc = argmax_k ⟨q, d_k⟩ con version==emb-v2. No prueba verdad factual."
+    },
+    {
+      "i": 8,
+      "len": 139,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: query vector, docs, version. Salida: ranking reproducible. Error: top inesperado o versión rota → REJECT_EMBEDDING_RANK.",
+      "text": "Contrato. Entrada: query vector, docs, version. Salida: ranking reproducible. Error: top inesperado o versión rota → REJECT_EMBEDDING_RANK."
+    },
+    {
+      "i": 9,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-1A: q=[1,0], d1=[0.8,0.2], d2=[0.1,0.9] → top d1 con emb-v2.",
+      "text": "Aplicación CASO-PUN-048-1A: q=[1,0], d1=[0.8,0.2], d2=[0.1,0.9] → top d1 con emb-v2."
+    },
+    {
+      "i": 10,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T1-B Límites de embedding, versiones y evaluación retenida",
+      "text": "T1-B Límites de embedding, versiones y evaluación retenida"
+    },
+    {
+      "i": 11,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cambiar embeddings exige eval retenida: candidate_recall ≥ min y > baseline, holdout nombrado y costo de reindex acotado.",
+      "text": "Cambiar embeddings exige eval retenida: candidate_recall ≥ min y > baseline, holdout nombrado y costo de reindex acotado."
+    },
+    {
+      "i": 12,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: umbrales numéricos + holdout prefix + cost_pen ≤ 50 (unidades sintéticas).",
+      "text": "Mecanismo: umbrales numéricos + holdout prefix + cost_pen ≤ 50 (unidades sintéticas)."
+    },
+    {
+      "i": 13,
+      "len": 120,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: recalls, holdout, cost. Salida: promover o keep baseline. Error: no mejora → KEEP_EMBEDDING_BASELINE.",
+      "text": "Contrato. Entrada: recalls, holdout, cost. Salida: promover o keep baseline. Error: no mejora → KEEP_EMBEDDING_BASELINE."
+    },
+    {
+      "i": 14,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-1B: 0.81 > 0.72 y ≥0.78, holdout rag-holdout-*, cost≤50.",
+      "text": "Aplicación CASO-PUN-048-1B: 0.81 > 0.72 y ≥0.78, holdout rag-holdout-*, cost≤50."
+    },
+    {
+      "i": 15,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-A Chunking con metadata, dedup por hash y provenance",
+      "text": "T2-A Chunking con metadata, dedup por hash y provenance"
+    },
+    {
+      "i": 16,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El chunking corta docs con metadata (section) y dedup por hash. La versión de fuente (…-v3) ancla provenance.",
+      "text": "El chunking corta docs con metadata (section) y dedup por hash. La versión de fuente (…-v3) ancla provenance."
+    },
+    {
+      "i": 17,
+      "len": 92,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: unique hashes == expected; cada chunk tiene section; source_version endswith -v3.",
+      "text": "Mecanismo: unique hashes == expected; cada chunk tiene section; source_version endswith -v3."
+    },
+    {
+      "i": 18,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: chunks. Salida: corpus deduplicado trazable. Error: dups/sin section → DEDUP_AND_RECHUNK.",
+      "text": "Contrato. Entrada: chunks. Salida: corpus deduplicado trazable. Error: dups/sin section → DEDUP_AND_RECHUNK."
+    },
+    {
+      "i": 19,
+      "len": 71,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-2A: hashes únicos, section policy, source …-v3.",
+      "text": "Aplicación CASO-PUN-048-2A: hashes únicos, section policy, source …-v3."
+    },
+    {
+      "i": 20,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T2-B ACL por fragmento, deletion y provenance de fuente",
+      "text": "T2-B ACL por fragmento, deletion y provenance de fuente"
+    },
+    {
+      "i": 21,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada fragmento trae ACL, flag deleted y provenance. Usuario solo ve intersección de ACL; delete invalida cache.",
+      "text": "Cada fragmento trae ACL, flag deleted y provenance. Usuario solo ve intersección de ACL; delete invalida cache."
+    },
+    {
+      "i": 22,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: user_acl ∩ chunk_acl no vacío, not deleted, provenance prefix doc-, cache_invalidated.",
+      "text": "Mecanismo: user_acl ∩ chunk_acl no vacío, not deleted, provenance prefix doc-, cache_invalidated."
+    },
+    {
+      "i": 23,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: acls y flags. Salida: visible o filtrado. Error: sin permiso → FILTER_OR_DELETE_CHUNK.",
+      "text": "Contrato. Entrada: acls y flags. Salida: visible o filtrado. Error: sin permiso → FILTER_OR_DELETE_CHUNK."
+    },
+    {
+      "i": 24,
+      "len": 94,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-2B: user {public,ops} ∩ chunk, no deleted, provenance doc-*, cache ok.",
+      "text": "Aplicación CASO-PUN-048-2B: user {public,ops} ∩ chunk, no deleted, provenance doc-*, cache ok."
+    },
+    {
+      "i": 25,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-A Retrieval lexical/vector/hybrid y reranking calibrado",
+      "text": "T3-A Retrieval lexical/vector/hybrid y reranking calibrado"
+    },
+    {
+      "i": 26,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hybrid combina scores lexical y vector con pesos; el top debe coincidir con el esperado tras calibración.",
+      "text": "Hybrid combina scores lexical y vector con pesos; el top debe coincidir con el esperado tras calibración."
+    },
+    {
+      "i": 27,
+      "len": 63,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: score = w_lexlex + w_vecvec; argmax == expected_top.",
+      "text": "Mecanismo: score = w_lexlex + w_vecvec; argmax == expected_top."
+    },
+    {
+      "i": 28,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: maps lexical/vector y weights. Salida: top híbrido. Error: top incorrecto → RECALIBRATE_HYBRID_RANK.",
+      "text": "Contrato. Entrada: maps lexical/vector y weights. Salida: top híbrido. Error: top incorrecto → RECALIBRATE_HYBRID_RANK."
+    },
+    {
+      "i": 29,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-3A: lex/vec maps sintéticos con pesos calibrados → expected_top.",
+      "text": "Aplicación CASO-PUN-048-3A: lex/vec maps sintéticos con pesos calibrados → expected_top."
+    },
+    {
+      "i": 30,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T3-B Contexto con presupuesto de tokens, citas y permisos",
+      "text": "T3-B Contexto con presupuesto de tokens, citas y permisos"
+    },
+    {
+      "i": 31,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El contexto tiene presupuesto de tokens; cada claim material debe estar en cited_claims con ACL de cita válida.",
+      "text": "El contexto tiene presupuesto de tokens; cada claim material debe estar en cited_claims con ACL de cita válida."
+    },
+    {
+      "i": 32,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: claims ⊆ cited_claims, citation_acl True, context_tokens ≤ max.",
+      "text": "Mecanismo: claims ⊆ cited_claims, citation_acl True, context_tokens ≤ max."
+    },
+    {
+      "i": 33,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: claims/citas/tokens. Salida: contexto citable. Error: claim sin cita → ABSTAIN_UNCITED.",
+      "text": "Contrato. Entrada: claims/citas/tokens. Salida: contexto citable. Error: claim sin cita → ABSTAIN_UNCITED."
+    },
+    {
+      "i": 34,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-3B: claims {c1,c2} citadas, tokens bajo max, citation_acl.",
+      "text": "Aplicación CASO-PUN-048-3B: claims {c1,c2} citadas, tokens bajo max, citation_acl."
+    },
+    {
+      "i": 35,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-A Structured output grounded en evidence ids permitidos",
+      "text": "T4-A Structured output grounded en evidence ids permitidos"
+    },
+    {
+      "i": 36,
+      "len": 137,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La salida estructurada respeta schema (answer + evidence_ids) y solo usa evidence permitida; instrucciones inyectadas en docs se ignoran.",
+      "text": "La salida estructurada respeta schema (answer + evidence_ids) y solo usa evidence permitida; instrucciones inyectadas en docs se ignoran."
+    },
+    {
+      "i": 37,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: keys de output == schema; evidence_ids ⊆ allowed; injected_instruction_ignored.",
+      "text": "Mecanismo: keys de output == schema; evidence_ids ⊆ allowed; injected_instruction_ignored."
+    },
+    {
+      "i": 38,
+      "len": 110,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: output y allowlist. Salida: grounded OK. Error: id no permitido → REJECT_UNGROUNDED_OUTPUT.",
+      "text": "Contrato. Entrada: output y allowlist. Salida: grounded OK. Error: id no permitido → REJECT_UNGROUNDED_OUTPUT."
+    },
+    {
+      "i": 39,
+      "len": 81,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-4A: answer + evidence d7#2 permitido; injection ignorada.",
+      "text": "Aplicación CASO-PUN-048-4A: answer + evidence d7#2 permitido; injection ignorada."
+    },
+    {
+      "i": 40,
+      "len": 61,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "T4-B Eval de retrieval/answer, costo y abstención sin soporte",
+      "text": "T4-B Eval de retrieval/answer, costo y abstención sin soporte"
+    },
+    {
+      "i": 41,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evalúa retrieval_recall y faithfulness por separado, con cost_cap y support. Si no hay soporte, abstén con razón.",
+      "text": "Evalúa retrieval_recall y faithfulness por separado, con cost_cap y support. Si no hay soporte, abstén con razón."
+    },
+    {
+      "i": 42,
+      "len": 64,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: recall≥min, faithfulness≥min, cost≤cap, support True.",
+      "text": "Mecanismo: recall≥min, faithfulness≥min, cost≤cap, support True."
+    },
+    {
+      "i": 43,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: métricas y costo. Salida: answer o abstain. Error: bajo soporte → ABSTAIN_WITH_REASON.",
+      "text": "Contrato. Entrada: métricas y costo. Salida: answer o abstain. Error: bajo soporte → ABSTAIN_WITH_REASON."
+    },
+    {
+      "i": 44,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-PUN-048-4B: recall 0.84, faithfulness 0.91, cost bajo cap, support True.",
+      "text": "Aplicación CASO-PUN-048-4B: recall 0.84, faithfulness 0.91, cost bajo cap, support True."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 10226
+}

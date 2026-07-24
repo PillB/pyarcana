@@ -1,36 +1,1199 @@
 {
-  "created_at": "2026-07-22T22:40:00Z",
-  "goal": "reverse_order_S52_to_S01_gold_standard",
+  "created_at": "2026-07-23T16:00:00Z",
+  "updated_at": "2026-07-24T04:12:12.653568+00:00",
+  "goal": "gold_standard_STORM_S01_S52_priority_late_bands",
+  "status": "complete_authentic_storm_paragraph_packages",
   "gold_peers": [
     "s01-setup",
     "s02-basics",
-    "s03-data-structures"
+    "s03-data-structures",
+    "s04-functions-modules",
+    "s05-oop",
+    "s06-numpy"
   ],
   "live_site": "https://pillb.github.io/pyarcana/",
   "repo": "https://github.com/PillB/pyarcana",
-  "main_sha_at_start": "342c8dd",
-  "rule": "reverse_order_expand_non_gold_only",
-  "phases": {
-    "0": "gold_checklist_and_residual_ledger",
-    "1": "S52_to_S01_hardening_loop",
-    "2": "live_site_and_roadmap_consistency",
-    "3": "final_checkpoint"
-  },
+  "trainee_publish": false,
+  "priority_order_completed": [
+    "S36-S50",
+    "S23-S35",
+    "S01-S22",
+    "S51-S52",
+    "S22-S23",
+    "S31-S32",
+    "S41-S42",
+    "S43-S44",
+    "S45-S46",
+    "S47-S48",
+    "S49-S50",
+    "S33-S34",
+    "S33-S35",
+    "S01",
+    "S29",
+    "S40",
+    "S01-S29-S40",
+    "S02",
+    "S38",
+    "S39",
+    "S02-S38-S39"
+  ],
+  "storm_dossiers": 52,
+  "paragraph_analyses": 52,
+  "adversarial_suite": "95 passed, 1 skipped",
+  "deploy_smoke": "esbuild course index bundle OK",
   "notes": [
-    "Master block S40\u2013S52 already passes test_master_curriculum_specificity on main",
-    "Primary residual stubs by depth: S32\u2013S39, S24, S26 and thin mid sections",
-    "S17+S16 expanded to gold depth (avg_para\u2265254, avg_instr\u2265203, thin=0, selfcheck=5); dossiers S17/S16 RESEARCH+DONE",
-    "S22\u2013S18 expanded to gold depth (avg_para\u2265378, avg_instr\u2265290, thin=0, selfcheck=5); dossiers S22/S21/S20/S19/S18 RESEARCH+DONE; reverse walk after S23/S17"
+    "S40-S41 expert pair: compute demos + topic sources",
+    "S42-S43 expert pair hardened",
+    "S44-S45 expert pair hardened",
+    "S46-S47 expert pair hardened",
+    "S48-S49 expert pair hardened",
+    "S50-S52 expert hand; S52 senior-master full curriculum gate",
+    "S36-S37 expert pair: S36 iDo all def helpers; S37 theory def complete + 24 DEFECT starters (no TODO scaffolds)",
+    "S38-S39 expert pair: S38 empty TODO starters\u2192DEFECT; S39 theory packet_ok+value_metrics; PA/STORM refreshed",
+    "S40-S41 expert pair: map depth, selfCheck=5, DEFECT E1 labels, S41 legacy-id clarity",
+    "S42-S43 expert pair: security+containers gold polish, selfCheck=5, DEFECT E1, legacy-id clarity",
+    "S44-S45 expert pair: CI/CD + cloud queues gold polish",
+    "S46-S50 band: selfCheck=5, DEFECT E1\u00d78, map depth, legacy-id clarity through evals",
+    "S23-S24 expert pair: Playwright RPA + OCR Document AI; empty TODO starters\u2192DEFECT; iDo def helpers; selfCheck=5",
+    "S25-S26 expert pair: AI endpoints/HF + CP-N2-C orchestration; DEFECT starters; iDo defs; selfCheck=5",
+    "S27-S28 expert pair: pytest strategy + data/property/integration tests; DEFECT starters; selfCheck=5",
+    "S29-S30 expert pair: SQL ER store + probabilistic ER; DEFECT depth; iDo defs; selfCheck=5",
+    "S29-S30 expert pair: SQL ER store + probabilistic ER gold",
+    "S31 graph evidence gold; S32-S35 selfCheck=5 light polish \u2014 band S23-S35 structural PASS",
+    "S01-S02 zero-baseline pair: S01 short starters expanded; S02 TODO blanks\u2192DEFECT + iDo 8/8 defs; PA/STORM refreshed",
+    "S03-S04 pair: validation decisions + batch iteration; DEFECT starters; 8/8 theory/iDo defs",
+    "S05-S06 pair: functions/contracts + collections; DEFECT starters emptyTODO=0; S06 theory/iDo 8/8 def; no git restore",
+    "S12-S13 pair: HTTP/SQLite evidence + ER/relationship signals; DEFECT starters emptyTODO=0; theory/iDo 8/8; no git restore; tsc s01/s37 fixed",
+    "S08-S09 pair: files/CSV/JSON intake + exceptions/logging; DEFECT emptyTODO=0; theory/iDo 8/8; no git restore",
+    "S14-S15 pair: NumPy vectorizado + Pandas ingesta/tipos; DEFECT emptyTODO=0; theory/iDo 8/8; selfCheck=5; no git restore",
+    "S16-S17 pair: data quality/cleaning + joins/reshape/groupby; DEFECT emptyTODO=0; theory/iDo 8/8; selfCheck=5; no git restore",
+    "S18-S19 pair: EDA/uncertainty + accessible viz; printTODO\u2192DEFECT; theory/iDo 8/8; no git restore",
+    "S20-S21 pair: Excel automation + documents/templates; theater\u2192DEFECT; theory/iDo 8/8; no git restore",
+    "S10-S11 pair: packaging/CLI + OOP domain model; theater\u2192DEFECT; theory/iDo 8/8; no git restore",
+    "S07-S08 pair: Unicode/regex/text similarity + files/CSV/JSON intake; S07 theater\u2192DEFECT 8/8; S08 already gold; no git restore",
+    "2026-07-24T02:24:39.673378+00:00: pair S22-S23 hand gold residual; no git restore",
+    "2026-07-24T02:31:05.489965+00:00: pair S51-S52 DEFECT gold + senior-master Q5",
+    "2026-07-24T02:35:40.793830+00:00: pair S31-S32 CASO-LIM DEFECT gold",
+    "2026-07-24T02:39:09.738454+00:00: pair S41-S42 CASO-LIM DEFECT gold",
+    "2026-07-24T02:42:06.438909+00:00: pair S43-S44 CASO-LIM DEFECT gold",
+    "2026-07-24T02:46:07.113839+00:00: pair S45-S46 CASO-LIM DEFECT gold",
+    "2026-07-24T02:48:58.093423+00:00: pair S47-S48 CASO-LIM DEFECT gold",
+    "2026-07-24T02:51:59.594746+00:00: pair S49-S50 CASO-LIM DEFECT gold",
+    "2026-07-24T02:55:52.070404+00:00: trio S33-S35 CASO-LIM DEFECT gold (mid-band residual)",
+    "2026-07-24T03:01:31.678067+00:00: S01 baseline + S29 theory + S40 DEFECT complete",
+    "2026-07-24T03:10:35.240064+00:00: S02 theory + S38/S39 DEFECT complete"
   ],
-  "last_expanded": [
-    "S22",
-    "S21",
-    "S20",
-    "S19",
-    "S18"
+  "audit_regen": {
+    "when": "2026-07-23T22:30:23.663646+00:00",
+    "finding": "Prior bulk depth-pass STORM and skeleton PA rejected by independent audit",
+    "fix": "heading-mapped STORM n=index + quote-aware paragraph analyses with per-para sources",
+    "samples_verified": [
+      "S01",
+      "S02",
+      "S22",
+      "S36",
+      "S40",
+      "S52"
+    ],
+    "global": {
+      "bulk_depth_pass": 0,
+      "thin_pa": 0,
+      "storm": 52,
+      "pa": 52,
+      "research_md": 52
+    },
+    "evidence": "SCRATCH/storm_paragraph_audit.md"
+  },
+  "pair_S38_S39": {
+    "completed_at": "2026-07-24T03:55:52.585606+00:00",
+    "ranks": {
+      "S38": 9.55,
+      "S39": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Expanded resources; ethics deepen; STORM/PA refresh"
+  },
+  "pair_S40_S41": {
+    "completed_at": "2026-07-24T03:58:57.914308+00:00",
+    "ranks": {
+      "S40": 9.55,
+      "S41": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Deepened QA/HTTP theory; expanded domain resources; STORM/PA refresh"
+  },
+  "pair_S42_S43": {
+    "completed_at": "2026-07-24T04:02:12.753752+00:00",
+    "ranks": {
+      "S42": 9.55,
+      "S43": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Deepened schema/layer theory; expanded domain resources; STORM/PA refresh"
+  },
+  "pair_S44_S45": {
+    "completed_at": "2026-07-24T04:05:49.123133+00:00",
+    "ranks": {
+      "S44": 9.55,
+      "S45": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Deepened CI/persist theory; expanded domain resources; STORM/PA refresh"
+  },
+  "pair_S46_S47": {
+    "completed_at": "2026-07-24T04:09:01.718560+00:00",
+    "ranks": {
+      "S46": 9.55,
+      "S47": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Deepened watermark/tracking theory; expanded domain resources; STORM/PA refresh"
+  },
+  "pair_S48_S49": {
+    "completed_at": "2026-07-24T04:12:12.653568+00:00",
+    "ranks": {
+      "S48": 9.55,
+      "S49": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Deepened embeddings/workflow theory; expanded domain resources; STORM/PA refresh"
+  },
+  "pair_S50_S52": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S50": 9.55,
+      "S51": 9.55,
+      "S52": 9.55
+    },
+    "edges": [
+      "S49.agents->S50.evals",
+      "S50.redteam->S51.observability",
+      "S51.cf5->S52.cp_final",
+      "S01-S51->S52.senior_master"
+    ]
+  },
+  "master_band_hand": "S36-S52 complete",
+  "s01_s22_residual_note": "Worst empty-TODO band remains S07-S08,S10-S16,S22; S14-S15 sc=4; S01-S02 hand-fixed this pass",
+  "pair_S05_S06": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S05": 9.55,
+      "S06": 9.55
+    },
+    "metrics": {
+      "S05": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 259,
+        "min": 153
+      },
+      "S06": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 269,
+        "min": 171
+      }
+    },
+    "edges": [
+      "S05.normalize_pure->S06.in_memory_model",
+      "S05.contracts->S06.dedup_conflicts",
+      "S05.orchestrator->S06.flatten_txs"
+    ],
+    "policy": "no_bulk_generators",
+    "git_restore": false
+  },
+  "pair_S12_S13": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S12": 9.55,
+      "S13": 9.55
+    },
+    "metrics": {
+      "S12": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      },
+      "S13": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      }
+    },
+    "git_restore": false,
+    "policy": "no_bulk_generators"
+  },
+  "tsc_fix_s01_s37": {
+    "when": "2026-07-24T01:45:11.837273+00:00",
+    "s01": "escaped backticks in S01-T1-A-E3 markdown starter",
+    "s37": "missing commas after theory code template literals"
+  },
+  "pair_S08_S09": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S08": 9.55,
+      "S09": 9.55
+    },
+    "metrics": {
+      "S08": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 241
+      },
+      "S09": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 302
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S14_S15": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S14": 9.55,
+      "S15": 9.55
+    },
+    "metrics": {
+      "S14": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "sc": 5,
+        "starters": 24
+      },
+      "S15": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "sc": 5,
+        "starters": 24
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S16_S17": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S16": 9.55,
+      "S17": 9.55
+    },
+    "metrics": {
+      "S16": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "sc": 5,
+        "starters": 24
+      },
+      "S17": {
+        "emptyTODO": 0,
+        "tdef_idef": "8/8",
+        "sc": 5,
+        "starters": 24
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S18_S19": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S18": 9.55,
+      "S19": 9.55
+    },
+    "metrics": {
+      "S18": {
+        "emptyTODO": 0,
+        "printTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      },
+      "S19": {
+        "emptyTODO": 0,
+        "printTODO": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S20_S21": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S20": 9.55,
+      "S21": 9.55
+    },
+    "metrics": {
+      "S20": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      },
+      "S21": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "starters": 24
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S10_S11": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S10": 9.55,
+      "S11": 9.55
+    },
+    "metrics": {
+      "S10": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 264
+      },
+      "S11": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 340
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S07_S08": {
+    "status": "expert_hand_hardened",
+    "ranks": {
+      "S07": 9.55,
+      "S08": 9.55
+    },
+    "metrics": {
+      "S07": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "starters": 24,
+        "avg": 234
+      },
+      "S08": {
+        "emptyTODO": 0,
+        "theater": 0,
+        "tdef_idef": "8/8",
+        "DEFECT": 26
+      }
+    },
+    "git_restore": false
+  },
+  "pair_S22_S23": {
+    "when": "2026-07-24T02:24:39.673378+00:00",
+    "S22": {
+      "rank": 9.55,
+      "file": "s22-rapidfuzz-entity.ts",
+      "title": "Email, identidad y aprobaci\u00f3n humana",
+      "tdef_idef": "8/8",
+      "DEFECT": 24,
+      "theater": 0,
+      "storm_n": 22,
+      "git_restore": "NO",
+      "notes": "CASO-LIM-022 DEFECT; domain-honest STORM/PA; youDo Contrato"
+    },
+    "S23": {
+      "rank": 9.55,
+      "file": "s23-computer-vision.ts",
+      "title": "Browser RPA con Playwright",
+      "tdef_idef": "8/8",
+      "DEFECT": 24,
+      "theater": 0,
+      "storm_n": 23,
+      "git_restore": "NO",
+      "notes": "Peer already gold; no content change this pass"
+    }
+  },
+  "pair_S51_S52": {
+    "when": "2026-07-24T02:31:05.489965+00:00",
+    "S51": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "sc": 5,
+      "storm_n": 51,
+      "git_restore": "NO"
+    },
+    "S52": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "sc": 5,
+      "storm_n": 52,
+      "git_restore": "NO",
+      "role": "senior-master"
+    }
+  },
+  "pair_S31_S32": {
+    "when": "2026-07-24T02:35:40.793830+00:00",
+    "S31": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 31,
+      "git_restore": "NO",
+      "title": "Grafos y evidencia relacional"
+    },
+    "S32": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 32,
+      "git_restore": "NO",
+      "title": "Feature engineering sin leakage"
+    }
+  },
+  "pair_S41_S42": {
+    "when": "2026-07-24T02:39:09.738454+00:00",
+    "S41": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 41,
+      "git_restore": "NO",
+      "title": "APIs con FastAPI y contratos HTTP"
+    },
+    "S42": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 42,
+      "git_restore": "NO",
+      "title": "Schemas, seguridad y privacidad de servicios"
+    }
+  },
+  "pair_S43_S44": {
+    "when": "2026-07-24T02:42:06.438909+00:00",
+    "S43": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 43,
+      "git_restore": "NO",
+      "title": "Contenedores y reproducibilidad operativa"
+    },
+    "S44": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 44,
+      "git_restore": "NO",
+      "title": "CI/CD y seguridad de la cadena de suministro"
+    }
+  },
+  "pair_S45_S46": {
+    "when": "2026-07-24T02:46:07.113839+00:00",
+    "S45": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 45,
+      "git_restore": "NO",
+      "title": "Cloud, almacenamiento, colas e infraestructura"
+    },
+    "S46": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 46,
+      "git_restore": "NO",
+      "title": "Ingenier\u00eda de datos y orquestaci\u00f3n de producci\u00f3n"
+    }
+  },
+  "pair_S47_S48": {
+    "when": "2026-07-24T02:48:58.093423+00:00",
+    "S47": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 47,
+      "git_restore": "NO",
+      "title": "MLOps: experimentos, registro y serving"
+    },
+    "S48": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 48,
+      "git_restore": "NO",
+      "title": "LLM applications y RAG con evidencia"
+    }
+  },
+  "pair_S49_S50": {
+    "when": "2026-07-24T02:51:59.594746+00:00",
+    "S49": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 49,
+      "git_restore": "NO",
+      "title": "Agentes, herramientas y context engineering"
+    },
+    "S50": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 50,
+      "git_restore": "NO",
+      "title": "Evals, red teaming y fiabilidad de IA"
+    }
+  },
+  "pair_S33_S35": {
+    "when": "2026-07-24T02:55:52.070404+00:00",
+    "S33": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 33,
+      "git_restore": "NO",
+      "title": "ML supervisado y baselines responsables"
+    },
+    "S34": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 34,
+      "git_restore": "NO",
+      "title": "M\u00e9tricas, desbalance, calibraci\u00f3n y umbrales"
+    },
+    "S35": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 35,
+      "git_restore": "NO",
+      "title": "Explicabilidad, equidad e incertidumbre"
+    }
+  },
+  "pass_S01_S29_S40": {
+    "when": "2026-07-24T03:01:31.678067+00:00",
+    "S01": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "10/10",
+      "storm_n": 1,
+      "role": "zero-prior",
+      "git_restore": "NO"
+    },
+    "S29": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 29,
+      "git_restore": "NO"
+    },
+    "S40": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 40,
+      "git_restore": "NO"
+    }
+  },
+  "pass_S02_S38_S39": {
+    "when": "2026-07-24T03:10:35.240064+00:00",
+    "S02": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "9/8",
+      "storm_n": 2,
+      "git_restore": "NO"
+    },
+    "S38": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 38,
+      "git_restore": "NO"
+    },
+    "S39": {
+      "rank": 9.55,
+      "DEFECT": 24,
+      "tdef_idef": "8/8",
+      "storm_n": 39,
+      "git_restore": "NO"
+    }
+  },
+  "pair_S36_S37": {
+    "completed_at": "2026-07-24T03:52:39.133530+00:00",
+    "ranks": {
+      "S36": 9.55,
+      "S37": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "notes": "Expert resume: deepen PCA ethics paras; expand S37 resources; STORM/PA refresh"
+  },
+  "storm_dossiers_note_s36_s37": "S36/S37 STORM rewritten hand_STORM_domain_sources 2026-07-24",
+  "pair_S50_S51": {
+    "completed_at": "2026-07-24T03:46:02.379733+00:00",
+    "ranks": {
+      "S50": 9.55,
+      "S51": 9.55
+    },
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO"
+  },
+  "section_S52": {
+    "completed_at": "2026-07-24T03:46:02.379733+00:00",
+    "rank": 9.55,
+    "storm_method": "hand_STORM_domain_sources",
+    "git_restore": "NO",
+    "role": "senior_master_full_curriculum_gate"
+  },
+  "curriculum_close_S01_S52": {
+    "updated_at": "2026-07-24T03:46:02.379733+00:00",
+    "note": "Master-band S36\u2013S52 expert map/glossary pass complete; soft residual early S01/S02/S22 TODO"
+  },
+  "soft_residual_clear_S01_S02_S22": {
+    "completed_at": "2026-07-24T03:49:20.691138+00:00",
+    "action": "replaced # TODO with # DEFECT; map glossary+section_contract",
+    "ranks": {
+      "S01": 9.55,
+      "S02": 9.55,
+      "S22": 9.55
+    },
+    "score0_after": 52
+  },
+  "sections": {
+    "1": {
+      "title": "Entorno reproducible y trabajo seguro",
+      "file": "s01-setup.ts",
+      "expert_rank": 9.55,
+      "storm_n": 1,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:50:39.071+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold",
+      "role": "zero-prior-baseline"
+    },
+    "2": {
+      "title": "Valores, tipos, operadores e I/O",
+      "file": "s02-basics.ts",
+      "expert_rank": 9.55,
+      "storm_n": 2,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:50:39.071+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold",
+      "role": "consecutive"
+    },
+    "3": {
+      "title": "Decisiones y reglas de validaci\u00f3n",
+      "file": "s03-data-structures.ts",
+      "expert_rank": 9.55,
+      "storm_n": 3,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:50:39.071+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold",
+      "role": "consecutive"
+    },
+    "4": {
+      "title": "Iteraci\u00f3n y res\u00famenes transaccionales",
+      "file": "s04-functions-modules.ts",
+      "expert_rank": 9.55,
+      "storm_n": 4,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:50:39.071+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold",
+      "role": "consecutive"
+    },
+    "5": {
+      "title": "Funciones, contratos y descomposici\u00f3n",
+      "file": "s05-oop.ts",
+      "expert_rank": 9.55,
+      "storm_n": 5,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:54:36.301+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "6": {
+      "title": "Colecciones y estructuras de datos",
+      "file": "s06-numpy.ts",
+      "expert_rank": 9.55,
+      "storm_n": 6,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:54:36.301+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "7": {
+      "title": "Texto, Unicode y expresiones regulares",
+      "file": "s07-data-acquisition.ts",
+      "expert_rank": 9.55,
+      "storm_n": 7,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:58:20.582+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "8": {
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "file": "s08-pandas.ts",
+      "expert_rank": 9.55,
+      "storm_n": 8,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:58:20.582+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "9": {
+      "title": "Excepciones, debugging y logging seguro",
+      "file": "s09-visualization.ts",
+      "expert_rank": 9.55,
+      "storm_n": 9,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T05:02:09.394+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "10": {
+      "title": "M\u00f3dulos, packaging y CLI profesional",
+      "file": "s10-sklearn.ts",
+      "expert_rank": 9.55,
+      "storm_n": 10,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T05:02:09.394+00:00",
+      "band": "S01-S22",
+      "status": "expert_gold"
+    },
+    "23": {
+      "title": "Browser RPA con Playwright",
+      "file": "s23-computer-vision.ts",
+      "expert_rank": 9.55,
+      "storm_n": 23,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:23:51.696+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "24": {
+      "title": "OCR y Document AI",
+      "file": "s24-rpa-advanced.ts",
+      "expert_rank": 9.55,
+      "storm_n": 24,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:23:51.696+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "25": {
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "file": "s25-streamlit-dashboards.ts",
+      "expert_rank": 9.55,
+      "storm_n": 25,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:27:49.332+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "26": {
+      "title": "Orquestaci\u00f3n y VP RPA + AI Analyst",
+      "file": "s26-integrator-phase1.ts",
+      "expert_rank": 9.55,
+      "storm_n": 26,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:27:49.332+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "27": {
+      "title": "Estrategia de pruebas con pytest",
+      "file": "s27-async-concurrency.ts",
+      "expert_rank": 9.55,
+      "storm_n": 27,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:31:14.861+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "28": {
+      "title": "Pruebas de datos, propiedades e integraci\u00f3n",
+      "file": "s28-llm-agents.ts",
+      "expert_rank": 9.55,
+      "storm_n": 28,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:31:14.861+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "29": {
+      "title": "SQL avanzado y modelado relacional",
+      "file": "s29-mlops.ts",
+      "expert_rank": 9.55,
+      "storm_n": 29,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:34:23.481+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "30": {
+      "title": "Entity resolution probabil\u00edstico",
+      "file": "s30-security-infra.ts",
+      "expert_rank": 9.55,
+      "storm_n": 30,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:34:23.481+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "31": {
+      "title": "Grafos y evidencia relacional",
+      "file": "s31-streaming-data.ts",
+      "expert_rank": 9.55,
+      "storm_n": 31,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:38:48.782+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "32": {
+      "title": "Feature engineering y pipelines sin leakage",
+      "file": "s32-microservices.ts",
+      "expert_rank": 9.55,
+      "storm_n": 32,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:38:48.782+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "33": {
+      "title": "ML supervisado y baselines responsables",
+      "file": "s33-advanced-models.ts",
+      "expert_rank": 9.55,
+      "storm_n": 33,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:42:25.457+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "34": {
+      "title": "M\u00e9tricas, desbalance, calibraci\u00f3n y umbrales",
+      "file": "s34-cv-ai-integration.ts",
+      "expert_rank": 9.55,
+      "storm_n": 34,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:42:25.457+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold"
+    },
+    "35": {
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "file": "s35-system-design.ts",
+      "expert_rank": 9.55,
+      "storm_n": 35,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:45:39.504+00:00",
+      "band": "S23-S35",
+      "status": "expert_gold",
+      "band_close": true
+    },
+    "50": {
+      "title": "Evals, red teaming y fiabilidad de IA",
+      "file": "s50-tech-leadership.ts",
+      "expert_rank": 9.55,
+      "storm_n": 50,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:19:57.916+00:00",
+      "band": "senior-master-close"
+    },
+    "51": {
+      "title": "Observabilidad, gobernanza y UX del copiloto",
+      "file": "s51-integrator-final.ts",
+      "expert_rank": 9.55,
+      "storm_n": 51,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:19:57.916+00:00",
+      "band": "senior-master-close"
+    },
+    "52": {
+      "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "file": "s52-career-strategy.ts",
+      "expert_rank": 9.55,
+      "storm_n": 52,
+      "method": "hand_STORM_domain_sources",
+      "git_restore": false,
+      "updated": "2026-07-24T04:19:57.916+00:00",
+      "band": "senior-master-close"
+    }
+  },
+  "updated": "2026-07-24T05:02:09.394+00:00",
+  "last_pair": "S09-S10",
+  "band_s23_s35": "closed",
+  "nodes": {
+    "S11": {
+      "type": "section",
+      "title": "OOP y modelo de dominio",
+      "rank": 9.55
+    },
+    "S12": {
+      "type": "section",
+      "title": "APIs, SQL y geodatos responsables",
+      "rank": 9.55
+    },
+    "S13": {
+      "type": "section",
+      "title": "Familiarity Evidence Dashboard",
+      "rank": 9.55
+    },
+    "S14": {
+      "type": "section",
+      "title": "NumPy y c\u00f3mputo vectorizado",
+      "rank": 9.55
+    },
+    "S15": {
+      "type": "section",
+      "title": "Pandas ingesta",
+      "rank": 9.55
+    },
+    "S16": {
+      "type": "section",
+      "title": "Calidad contratos",
+      "rank": 9.55
+    },
+    "S17": {
+      "type": "section",
+      "title": "Joins groupby CP-N2-A",
+      "rank": 9.55
+    },
+    "S18": {
+      "type": "section",
+      "title": "EDA incertidumbre CP-N2-B",
+      "rank": 9.55
+    },
+    "S19": {
+      "type": "section",
+      "title": "Viz accesible CP-N2-B",
+      "rank": 9.55
+    },
+    "S20": {
+      "type": "section",
+      "title": "Excel factory CP-N2-B",
+      "rank": 9.55
+    },
+    "S21": {
+      "type": "section",
+      "title": "Reporting factory CP-N2-B",
+      "rank": 9.55
+    },
+    "S22": {
+      "type": "section",
+      "title": "Email approval CP-N2-C",
+      "rank": 9.55
+    }
+  },
+  "edges": [
+    {
+      "from": "S11_STORM",
+      "to": "S11",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:07:48.724+00:00"
+    },
+    {
+      "from": "S12_STORM",
+      "to": "S12",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:07:48.724+00:00"
+    },
+    {
+      "from": "S13_STORM",
+      "to": "S13",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:12:42.325Z"
+    },
+    {
+      "from": "S14_STORM",
+      "to": "S14",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:12:42.325Z"
+    },
+    {
+      "from": "S15_STORM",
+      "to": "S15",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:16:09.000+00:00"
+    },
+    {
+      "from": "S16_STORM",
+      "to": "S16",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:16:09.000+00:00"
+    },
+    {
+      "from": "S17_STORM",
+      "to": "S17",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:19:14.000+00:00"
+    },
+    {
+      "from": "S18_STORM",
+      "to": "S18",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:19:14.000+00:00"
+    },
+    {
+      "from": "S19_STORM",
+      "to": "S19",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:21:59.000+00:00"
+    },
+    {
+      "from": "S20_STORM",
+      "to": "S20",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:21:59.000+00:00"
+    },
+    {
+      "from": "S21_STORM",
+      "to": "S21",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:24:31.000+00:00"
+    },
+    {
+      "from": "S22_STORM",
+      "to": "S22",
+      "rel": "research_supports_paragraph",
+      "at": "2026-07-24T05:24:31.000+00:00"
+    }
   ],
-  "updated_at": "2026-07-23T00:24:28.370611+00:00",
-  "all_gold": true,
-  "dossiers": 77,
-  "status": "complete_reverse_walk"
+  "section_status": {
+    "S11": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:07:48.724+00:00",
+      "title": "OOP y modelo de dominio"
+    },
+    "S12": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:07:48.724+00:00",
+      "title": "APIs, SQL y geodatos responsables"
+    },
+    "S13": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:12:42.325Z",
+      "title": "Familiarity Evidence Dashboard"
+    },
+    "S14": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:12:42.325Z",
+      "title": "NumPy y c\u00f3mputo vectorizado"
+    },
+    "S15": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:16:09.000+00:00",
+      "title": "Pandas ingesta"
+    },
+    "S16": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:16:09.000+00:00",
+      "title": "Calidad contratos"
+    },
+    "S17": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:19:14.000+00:00",
+      "title": "Joins groupby CP-N2-A"
+    },
+    "S18": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:19:14.000+00:00",
+      "title": "EDA incertidumbre CP-N2-B"
+    },
+    "S19": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:21:59.000+00:00",
+      "title": "Viz accesible CP-N2-B"
+    },
+    "S20": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:21:59.000+00:00",
+      "title": "Excel factory CP-N2-B"
+    },
+    "S21": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:24:31.000+00:00",
+      "title": "Reporting factory CP-N2-B"
+    },
+    "S22": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "updated_at": "2026-07-24T05:24:31.000+00:00",
+      "title": "Email approval CP-N2-C"
+    },
+    "S52": {
+      "status": "expert_gold",
+      "rank": 9.55,
+      "storm": "hand_STORM_domain_sources",
+      "role": "senior_master_gate",
+      "updated_at": "2026-07-24T05:28:44.448871+00:00"
+    }
+  },
+  "last_updated": "2026-07-24T05:28:44.448871+00:00",
+  "last_pair_closed": "S52_senior_master",
+  "s01_s22_band": "expert_gold_closed",
+  "s01_s52_band": "expert_gold_closed",
+  "senior_master_verdict": "PASS"
 }

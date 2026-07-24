@@ -278,6 +278,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         whileTap={{ scale: 0.94 }}
         onClick={onPrev}
         disabled={!hasPrev}
+        data-testid="section-prev"
         aria-label={tr('course.previousSection')}
         className={cn(
           'fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
@@ -297,6 +298,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         whileTap={{ scale: 0.94 }}
         onClick={onNext}
         disabled={!hasNext}
+        data-testid="section-next"
         aria-label={tr('course.nextSection')}
         className={cn(
           'fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',

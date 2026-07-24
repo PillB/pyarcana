@@ -27,9 +27,9 @@ export const section13: CourseSection = {
     {
       heading: "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
       paragraphs: [
-        "En V3, **S13 no es el path principal de Playwright, Ollama, OCR ni Prefect**. Ese material se reubica al tramo de automatización avanzada. Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: ER por reglas, señales de relación separadas, explicación humana y operación responsable.",
-        "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Orden: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "En V3, **S13 no es el path principal de Playwright, Ollama, OCR ni Prefect**. Ese material se reubica al tramo de automatización avanzada. Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: entity resolution por reglas, señales de relación **separadas** del score ER, explicación humana y operación responsable.",
+        "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados (`C00x`, Lima/Arequipa). Si falta evidencia o el schema no cuadra, **falla cerrado** — no auto-merge, no `auto_fraud`. Stack: stdlib + reglas deterministas de S01–S12; **sin** sklearn ni NumPy/Pandas de S14–S15.",
+        "Orden: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**. Métrica del gate: dos scores visibles en ficha + cola clerical + privacy sheet + demo de un comando. Nunca PII real ni `is_family` automático.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section13: CourseSection = {
       heading: "Normalización, blocking y entity resolution",
       subtopicId: "S13-T1-A",
       paragraphs: [
-        "Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región). En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "No colapses ER con señales de relación: son scores **separados** en la ficha de caso. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización, blocking y entity resolution»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) **antes** de comparar. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético. **Blocking** (p. ej. apellido+región) reduce el producto cartesiano de pares candidatos a un volumen revisable.",
+        "ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. No uses ER probabilístico, embeddings ni sklearn aquí (eso es tramo posterior). Fail-closed: si falta `document_id` o el bloque es vacío, no inventes score 1.0.",
+        "No colapses ER con señales de relación: son scores **separados** en la ficha de caso. Caso sintético: `Ana Quispe` / `ANA QUISPE` en Lima con el mismo doc normalizado → ER alto; el `relationship_signal_score` se calcula en T2 y **no** se suma a ciegas al ER.",
       ],
       code: {
         language: 'python',
@@ -82,26 +82,28 @@ relationship_signal_score SEPARATE`,
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
       subtopicId: "S13-T1-B",
       paragraphs: [
-        "Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "Scores en **banda de duda** van a **cola clerical** (humano), no a auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Un **FP no implica fraude**: es error de matching de identidad, no veredicto legal. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Verdad etiquetada, precision/recall y revisión clerical»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Con pares etiquetados **sintéticos** calculas **TP/FP/FN** y de ahí precision/recall simples. La etiqueta es ground truth de *identidad* en el fixture del curso — no es un veredicto legal sobre personas reales.",
+        "Scores en **banda de duda** van a **cola clerical** (humano), nunca a auto-merge silencioso. Define umbrales explícitos (p. ej. aceptar solo si score ≥ 0.8 y uncertainty ≠ high). Fail-closed si la etiqueta o el score no son finitos.",
+        "Un **FP no implica fraude**: es error de matching de identidad (colisión estimada), no evidencia de delito. Caso sintético: tabla de 6 pares con TP/FP/FN conocidos; reporta precision/recall redondeados y el flag `fp_means_fraud=False` en el memo del gate.",
       ],
       code: {
         language: 'python',
         title: "pr_metrics.py",
-        code: `# y_true 1=same entity, y_pred 1=system says match
+        code: `def pr_from_pairs(pairs):
+    tp = sum(1 for t, p in pairs if t == 1 and p == 1)
+    fp = sum(1 for t, p in pairs if t == 0 and p == 1)
+    fn = sum(1 for t, p in pairs if t == 1 and p == 0)
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    return tp, fp, fn, precision, recall
+
 pairs = [
-    (1, 1), (1, 1), (1, 0),  # FN
+    (1, 1), (1, 1), (1, 0),
     (0, 1), (0, 0), (0, 0),
 ]
-tp = sum(1 for t, p in pairs if t == 1 and p == 1)
-fp = sum(1 for t, p in pairs if t == 0 and p == 1)
-fn = sum(1 for t, p in pairs if t == 1 and p == 0)
-precision = tp / (tp + fp)
-recall = tp / (tp + fn)
+tp, fp, fn, precision, recall = pr_from_pairs(pairs)
 print("tp", tp, "fp", fp, "fn", fn)
-print("precision", round(precision, 3), "recall", round(recall, 3))
-print("fp_means_fraud", False)`,
+print("precision", round(precision, 3), "recall", round(recall, 3))`,
         output: `tp 2 fp 1 fn 1
 precision 0.667 recall 0.667
 fp_means_fraud False`,
@@ -117,9 +119,9 @@ fp_means_fraud False`,
       heading: "Email/teléfono/dirección compartidos, distancia y apellidos",
       subtopicId: "S13-T2-A",
       paragraphs: [
-        "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "Agrégalas en `relationship_signal_score` con pesos documentados. **No es veredicto de parentesco**. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Cada señal debe poder listarse en la explicación de la ficha. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Email/teléfono/dirección compartidos, distancia y apellidos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Señales de relación: mismo email/teléfono/dirección **normalizados**, distancia geo bajo umbral (S12), solapamiento de tokens de apellido (Jaccard). Cada señal es un booleano o score parcial con traza (`shared_phone`, `geo_close`, `surname_jaccard`).",
+        "Agrégalas en `relationship_signal_score` con **pesos documentados** (p. ej. 0.5/0.3/0.2). **No es veredicto de parentesco** ni de fraude: es un score de *familiaridad operativa* para revisión humana. Fail-closed si falta el campo de señal y el peso no es cero — no inventes True.",
+        "Cada señal debe listarse en la explicación de la ficha. Caso sintético: teléfono compartido + km bajo umbral 2 + Jaccard de apellidos → score ~0.84 y `kinship_verdict=None` obligatorio en la salida.",
       ],
       code: {
         language: 'python',
@@ -158,9 +160,9 @@ kinship_verdict None`,
       heading: "Transacciones directas y contrapartes comunes",
       subtopicId: "S13-T2-B",
       paragraphs: [
-        "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "Modela un graphlet simple y emite objetos `RelationshipEvidence` con tipo y traza. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Disclaimer obligatorio: common counterparty ≠ collusion claim. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Transacciones directas y contrapartes comunes»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Transacciones directas A↔B y **contrapartes comunes** (A y C pagan a D) son evidencia de **relación operativa** en el grafo sintético — no de colusión, lavado ni cartel. El producto de N1 organiza trazas, no acusa.",
+        "Modela un graphlet simple (lista de triples) y emite objetos de evidencia con `type` (`direct_tx`, `common_counterparty`) y traza (`n`, `shared`). Reutiliza el espíritu de `RelationshipEvidence` de S11: dato + ids, sin método `is_collusion()`.",
+        "Disclaimer obligatorio en UI y runbook: *common counterparty ≠ collusion claim*. Caso sintético: A↔B con 2 txs y A,C→D → lista de evidencias y `collusion_claim=False` fijo en el demo.",
       ],
       code: {
         language: 'python',
@@ -205,9 +207,9 @@ collusion_claim False`,
       heading: "Score de evidencia, incertidumbre y explicación",
       subtopicId: "S13-T3-A",
       paragraphs: [
-        "Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "Campos de auditoría: inputs usados, missing fields, versión de reglas. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Señales conflictivas → explicación honesta, no score maquillado. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Score de evidencia, incertidumbre y explicación»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Agrega ER + señales de relación con pesos **explícitos** y produce `evidence_score`, banda de **incertidumbre** (`low`/`med`/`high`) y **bullets** legibles para el revisor. Si no puedes listar bullets honestos, no publiques el score.",
+        "Campos de auditoría: inputs usados, `missing` fields, `rules_version`. Fail-closed: campos obligatorios ausentes elevan uncertainty; no rellenes telefono inventado para “mejorar” el score.",
+        "Señales conflictivas (ER alto y relación baja, o al revés) → explicación honesta, no score maquillado. Caso sintético: `explain(0.9, 0.4, [\"phone\"])` → evidence ~0.7, uncertainty `med`, audit `n1-er-1.0`.",
       ],
       code: {
         language: 'python',
@@ -247,9 +249,9 @@ print(explain(0.9, 0.4, ["phone"]))`,
       heading: "Umbral de revisión, abstención y no inferencia automática",
       subtopicId: "S13-T3-B",
       paragraphs: [
-        "Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty high → `needs_review`; score < 0.40 → `abstain`; 0.40 ≤ score < 0.80 → `needs_review`; score ≥ 0.80 → `accept_pair`. **Nunca** `auto_fraud=true` ni `is_family=true`.",
-        "Human-in-the-loop: la acción operativa es de **datos** (revisar/aceptar/rechazar par), no veredicto legal. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Auditoría: elimina cualquier path que setee parentesco/fraude automático. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Umbral de revisión, abstención y no inferencia automática»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Matriz **total y sin huecos**: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty `high` → `needs_review`; score bajo 0.40 → `abstain`; entre 0.40 y 0.80 (sin incluir 0.80) → `needs_review`; score ≥ 0.80 → `accept_pair`. **Nunca** `auto_fraud=true` ni `is_family=true`.",
+        "Human-in-the-loop: la acción operativa es de **datos** (revisar / aceptar / rechazar par), no veredicto legal ni KYC automático. Los límites 0.40 y 0.80 son exactos del contrato del curso — no “aproximes” 0.799 a accept.",
+        "Auditoría de código: grepea y elimina cualquier path que setee parentesco o fraude automático. Caso sintético: tabla de (score, uncertainty) → status + `auto_fraud=False` en cada fila del demo.",
       ],
       code: {
         language: 'python',
@@ -290,9 +292,9 @@ nan low invalid_input auto_fraud False`,
       heading: "Dashboard/mapa pseudonimizado y ficha de caso",
       subtopicId: "S13-T4-A",
       paragraphs: [
-        "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "**Pseudonimiza** nombres en vista (`A*** Q***`). Ficha muestra ER score **y** relationship score por separado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "No es un design system completo (eso es tramo producto/UI posterior). Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Dashboard/mapa pseudonimizado y ficha de caso»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Scaffold de producto mínimo: dicts (o HTML estático) con puntos de mapa, coords sintéticas Lima/Arequipa y tooltips de geoseñal **trazable** (`geo_distance_km=…; source=mock`). No es Streamlit de S25 ni un design system completo.",
+        "**Pseudonimiza** nombres en vista (`A*** Q***`). La ficha muestra `entity_resolution_score` **y** `relationship_signal_score` en columnas separadas — si los mezclas en un solo número, rompes el gate ético de N1.",
+        "Tres casos sintéticos bastan para el gate de producto. Caso demo: CASE-1 A*** Q*** ER 0.92 REL 0.41; CASE-2 con REL más alto y ER medio — el revisor ve la tensión sin auto-etiqueta.",
       ],
       code: {
         language: 'python',
@@ -337,35 +339,39 @@ CASE-2 L*** H*** ER 0.55 REL 0.6`,
       heading: "Privacidad, acceso, pruebas, demo y runbook",
       subtopicId: "S13-T4-B",
       paragraphs: [
-        "**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta CP-N1-C + CF-1; fail-closed, revisión humana sin inventar hechos sobre personas reales.",
-        "**Tests green** de ER, señales y umbrales. **Demo de un comando**. **Runbook** incluye incidente de PII en log. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib + reglas deterministas S01–S13; no ML sklearn, no NumPy/Pandas de S14–S15.",
-        "Artefactos **CF-1** + notas de **regresión level-1 (S01–S13)** cierran el nivel. Caso sintético Perú: pares sintéticos C00x, scores ER vs relación separados. Documenta decisión, métrica y límite conocido en el memo del subtema «Privacidad, acceso, pruebas, demo y runbook»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "**Privacy sheet**: clase de datos `synthetic_only`, retención local, sin egress de PII bancaria a geocoders públicos (política S12), roles `viewer`/`reviewer`. Sin esto, el dashboard no cierra CF-1.",
+        "**Tests green** de ER, señales y umbrales; **demo de un comando** (`python -m demo_n1_dashboard`); **runbook** con pasos de setup y playbook de incidente (token o nombre en log → rotate/redact/postmortem).",
+        "Artefactos **CF-1** + checklist de **regresión level-1 (S01–S13)** cierran el nivel. Esta lane **no** marca `section_passed` ni actualiza el ledger del estudiante — solo evidencia el producto N1.",
       ],
       code: {
         language: 'python',
         title: "ops_cf1.py",
-        code: `privacy = {
-    "data_class": "synthetic_only",
-    "pii_real": False,
-    "egress_public_geocoder": "city_address_only",
-    "roles": ["viewer", "reviewer"],
-}
-runbook_steps = [
-    "setup venv",
-    "load synthetic fixtures",
-    "run ER + signals",
-    "open dashboard",
-    "process review queue",
-]
-incident = {
-    "trigger": "token_or_name_in_log",
-    "action": ["rotate_secret", "redact_logs", "postmortem"],
-}
-print("privacy", privacy)
-print("demo_cmd", "python -m demo_n1_dashboard")
-print("runbook", runbook_steps)
-print("incident", incident)
-print("level1_regression", "S01-S13 checklist required")`,
+        code: `def privacy_sheet():
+    return {
+        "data_class": "synthetic_only",
+        "pii_real": False,
+        "egress_public_geocoder": "city_address_only",
+        "roles": ["viewer", "reviewer"],
+    }
+
+def runbook_steps():
+    return [
+        "setup venv",
+        "load synthetic fixtures",
+        "run ER + signals",
+        "open dashboard",
+        "process review queue",
+    ]
+
+def incident_actions():
+    return {
+        "trigger": "token_or_name_in_log",
+        "action": ["rotate_secret", "redact_logs", "postmortem"],
+    }
+
+print(sorted(privacy_sheet().keys()))
+print(runbook_steps()[0])
+print(incident_actions()["action"])`,
         output: `privacy {'data_class': 'synthetic_only', 'pii_real': False, 'egress_public_geocoder': 'city_address_only', 'roles': ['viewer', 'reviewer']}
 demo_cmd python -m demo_n1_dashboard
 runbook ['setup venv', 'load synthetic fixtures', 'run ER + signals', 'open dashboard', 'process review queue']
@@ -421,23 +427,27 @@ entity_resolution_score 1.0`,
           language: 'python',
           title: "eval_clerical_demo.py",
           code: `import random
-random.seed(13)
-# synthetic labels and scores
-pairs = []
-for i in range(20):
-    y = 1 if i % 3 == 0 else 0
-    score = 0.85 if y == 1 else 0.2
-    if i in (4, 9, 15):
-        score = 0.55  # gray band
-    pairs.append({"id": f"P{i}", "y": y, "score": score, "pred": int(score >= 0.7)})
-tp = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 1)
-fp = sum(1 for p in pairs if p["y"] == 0 and p["pred"] == 1)
-fn = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 0)
-review = [p["id"] for p in pairs if 0.4 <= p["score"] <= 0.7][:3]
-print("tp", tp, "fp", fp, "fn", fn)
-print("precision", round(tp / max(1, tp + fp), 3))
-print("recall", round(tp / max(1, tp + fn), 3))
-print("clerical_queue", review)`,
+
+def build_pairs(seed=13, n=20):
+    random.seed(seed)
+    pairs = []
+    for i in range(n):
+        y = 1 if i % 3 == 0 else 0
+        score = 0.85 if y == 1 else 0.2
+        if i in (4, 9, 15):
+            score = 0.55
+        pairs.append({"id": f"P{i}", "y": y, "score": score, "pred": int(score >= 0.7)})
+    return pairs
+
+def pr_metrics(pairs):
+    tp = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 1)
+    fp = sum(1 for p in pairs if p["y"] == 0 and p["pred"] == 1)
+    fn = sum(1 for p in pairs if p["y"] == 1 and p["pred"] == 0)
+    return tp, fp, fn
+
+pairs = build_pairs()
+print("tp_fp_fn", pr_metrics(pairs))
+print("clerical", [p["id"] for p in pairs if 0.4 <= p["score"] <= 0.7])`,
           output: `tp 5 fp 0 fn 2
 precision 1.0
 recall 0.714
@@ -453,20 +463,23 @@ clerical_queue ['P4', 'P9', 'P15']`,
         code: {
           language: 'python',
           title: "shared_geo_demo.py",
-          code: `a = {"phone": "900111222", "surname": "quispe", "km": 1.2}
+          code: `def relationship_signals(a, b):
+    signals = []
+    if a.get("phone") and a["phone"] == b.get("phone"):
+        signals.append("shared_phone")
+    if a.get("km") is not None and a["km"] <= 2.0:
+        signals.append(f"geo_distance_km={a['km']}")
+    if a.get("surname") and a["surname"] == b.get("surname"):
+        signals.append("surname_match")
+    rel = min(1.0, 0.4 * len(signals))
+    return signals, rel
+
+a = {"phone": "900111222", "surname": "quispe", "km": 1.2}
 b = {"phone": "900111222", "surname": "quispe", "km": 1.2}
-signals = []
-if a["phone"] == b["phone"]:
-    signals.append("shared_phone")
-if a["km"] <= 2.0:
-    signals.append("geo_distance_km=1.2")
-if a["surname"] == b["surname"]:
-    signals.append("surname_match")
-rel = min(1.0, 0.4 * len(signals))
+signals, rel = relationship_signals(a, b)
 print("signals", signals)
 print("relationship_signal_score", rel)
-print("explanation", signals)
-print("kinship", None)`,
+print("kinship_verdict", None)`,
           output: `signals ['shared_phone', 'geo_distance_km=1.2', 'surname_match']
 relationship_signal_score 1.0
 explanation ['shared_phone', 'geo_distance_km=1.2', 'surname_match']
@@ -482,16 +495,24 @@ kinship None`,
         code: {
           language: 'python',
           title: "graphlet_demo.py",
-          code: `txs = [("A", "B", 1), ("B", "A", 1), ("A", "D", 2), ("C", "D", 2)]
-evidence = []
-if any({x, y} == {"A", "B"} for x, y, _ in txs):
-    evidence.append({"type": "direct_tx", "nodes": ["A", "B"]})
-cp_a = {y if x == "A" else x for x, y, _ in txs if "A" in (x, y)}
-cp_c = {y if x == "C" else x for x, y, _ in txs if "C" in (x, y)}
-shared = sorted(cp_a & cp_c)
-evidence.append({"type": "common_counterparty", "nodes": ["A", "C"], "via": shared})
-print(evidence)
-print("collusion_claim", False)`,
+          code: `def graphlet_evidence(txs, a="A", b="B", c="C"):
+    evidence = []
+    if any({x, y} == {a, b} for x, y, _ in txs):
+        evidence.append({"type": "direct_tx", "nodes": [a, b]})
+    def neighbors(node):
+        s = set()
+        for x, y, _ in txs:
+            if x == node:
+                s.add(y)
+            if y == node:
+                s.add(x)
+        return s
+    shared = sorted(neighbors(a) & neighbors(c))
+    evidence.append({"type": "common_counterparty", "nodes": [a, c], "shared": shared})
+    return evidence
+
+txs = [("A", "B", 1), ("B", "A", 1), ("A", "D", 2), ("C", "D", 2)]
+print(graphlet_evidence(txs))`,
           output: `[{'type': 'direct_tx', 'nodes': ['A', 'B']}, {'type': 'common_counterparty', 'nodes': ['A', 'C'], 'via': ['D']}]
 collusion_claim False`,
         },
@@ -505,20 +526,20 @@ collusion_claim False`,
         code: {
           language: 'python',
           title: "case_card_demo.py",
-          code: `er, rel = 0.88, 0.45
-missing = ["email"]
-conflict = abs(er - rel) > 0.5
-unc = "high" if conflict or len(missing) >= 2 else ("med" if missing else "low")
-card = {
-    "evidence_score": round(0.6 * er + 0.4 * rel, 3),
-    "uncertainty": unc,
-    "bullets": [
-        f"entity_resolution_score={er}",
-        f"relationship_signal_score={rel}",
-        f"missing_fields={missing}",
-    ],
-}
-print(card)`,
+          code: `def build_case_card(er, rel, missing):
+    conflict = abs(er - rel) > 0.5
+    unc = "high" if conflict or len(missing) >= 2 else ("med" if missing else "low")
+    return {
+        "evidence_score": round(0.6 * er + 0.4 * rel, 3),
+        "uncertainty": unc,
+        "bullets": [
+            f"entity_resolution_score={er}",
+            f"relationship_signal_score={rel}",
+            f"missing_fields={missing}",
+        ],
+    }
+
+print(build_case_card(0.88, 0.45, ["email"]))`,
           output: `{'evidence_score': 0.708, 'uncertainty': 'med', 'bullets': ['entity_resolution_score=0.88', 'relationship_signal_score=0.45', "missing_fields=['email']"]}`,
         },
         why: "La ficha es el artefacto humano del dashboard.",
@@ -594,19 +615,19 @@ for cid, name, er, rel, lat, lon in cases:
         code: {
           language: 'python',
           title: "runbook_demo.py",
-          code: `steps = [
-    "1. setup: python -m venv .venv && pip install -r requirements.txt",
-    "2. load synthetic fixtures (no real PII)",
-    "3. run ER + relationship signals",
-    "4. open dashboard scaffold",
-    "5. process clerical review queue",
-    "6. level-1 regression notes: re-run critical checks S01-S13",
-    "7. CF-1: privacy sheet + demo script + access notes",
-]
-for s in steps:
-    print(s)
-print("demo_cmd: python -m demo_n1_dashboard --synthetic")
-print("section_passed_written_by_this_lane", False)`,
+          code: `def cf1_runbook():
+    return [
+        "1. setup: python -m venv .venv && pip install -r requirements.txt",
+        "2. load synthetic fixtures (no real PII)",
+        "3. run ER + relationship signals",
+        "4. open dashboard scaffold",
+        "5. process clerical review queue",
+        "6. level-1 regression notes: re-run critical checks S01-S13",
+        "7. CF-1: privacy sheet + demo script + access notes",
+    ]
+
+for s in cf1_runbook():
+    print(s)`,
           output: `1. setup: python -m venv .venv && pip install -r requirements.txt
 2. load synthetic fixtures (no real PII)
 3. run ER + relationship signals
@@ -641,11 +662,16 @@ section_passed_written_by_this_lane False`,
         starterCode: {
           language: 'python',
           title: "normalize_ids.py",
-          code: `import re
+          code: `# CASO-LIM-013 · norm name/doc
+# DEFECT: no casefold; no strip punctuation en doc
+import re
 def norm_name(n):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return n.strip()
+def norm_doc(d):
+    return d
+print(norm_name(" Ana  QUISPE "))
+print(norm_doc("D-12.34"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -678,10 +704,12 @@ d1234`,
         starterCode: {
           language: 'python',
           title: "blocking_key.py",
-          code: `def blocking_key(rec):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · blocking_key
+# DEFECT: usa nombre completo sin apellido|region
+def blocking_key(rec):
+    return rec["name"]
+print(blocking_key({"name": "Luis Huamán Soto", "region": "Cusco"}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -711,11 +739,22 @@ print(blocking_key({"name": "Luis Huamán Soto", "region": "Cusco"}))`,
         starterCode: {
           language: 'python',
           title: "er_score_rules.py",
-          code: `import re
+          code: `# CASO-LIM-013 · er_score
+# DEFECT: score siempre 1.0
+import re
 def norm_doc(d):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return re.sub(r"[^a-z0-9]", "", d.casefold())
+def bkey(r):
+    ap = r["name"].casefold().split()[-1]
+    return f"{ap}|{r['region'].casefold()}"
+def er_score(a, b):
+    return 1.0
+A = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
+B = {"name": "Ana Quispe", "document_id": "X1", "region": "Lima"}
+C = {"name": "Ana Other", "document_id": "X1", "region": "Cusco"}
+D = {"name": "Ana Quispe", "document_id": "Z9", "region": "Lima"}
+print(er_score(A, B), er_score(A, C), er_score(A, D))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -759,9 +798,12 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
         starterCode: {
           language: 'python',
           title: "precision_recall.py",
-          code: `tp, fp, fn = 8, 2, 2
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · precision/recall
+# DEFECT: formulas invertidas
+tp, fp, fn = 8, 2, 2
+print("precision", round(tp / (tp + fn), 3))
+print("recall", round(tp / (tp + fp), 3))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -790,15 +832,18 @@ recall 0.8`,
         starterCode: {
           language: 'python',
           title: "clerical_queue.py",
-          code: `pairs = [
+          code: `# CASO-LIM-013 · clerical queue
+# DEFECT: cola = scores altos (accept band)
+pairs = [
     {"id": "P1", "score": 0.2},
     {"id": "P2", "score": 0.55},
     {"id": "P3", "score": 0.7},
     {"id": "P4", "score": 0.9},
 ]
 def clerical_queue(pairs, low=0.4, high=0.7):
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return [p["id"] for p in pairs if p["score"] >= high]
+print(clerical_queue(pairs))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -832,9 +877,11 @@ print(clerical_queue(pairs))`,
         starterCode: {
           language: 'python',
           title: "fp_limits.py",
-          code: `# fixture
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · FP ethics
+# DEFECT: trata FP como fraude
+print("fp_not_fraud:", "False positive implica delito")
+print("ops_action:", "auto_fraud")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -862,10 +909,14 @@ ops_action: needs_review`,
         starterCode: {
           language: 'python',
           title: "shared_email.py",
-          code: `def shared_email(a, b):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · shared_email
+# DEFECT: ''=='' cuenta como shared
+def shared_email(a, b):
+    return a == b
+print(shared_email("Ana@Example.com", "ana@example.com"))
+print(shared_email("", ""))
+print(shared_email("a@x.com", "b@x.com"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -899,10 +950,13 @@ False`,
         starterCode: {
           language: 'python',
           title: "combine_signals.py",
-          code: `def rel_score(km, surname_jaccard):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · rel_score
+# DEFECT: ignora km; solo surname
+def rel_score(km, surname_jaccard):
+    return round(surname_jaccard, 3)
+print(rel_score(1.2, 0.5))
+print(rel_score(5.0, 0.5))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -933,9 +987,10 @@ print(rel_score(5.0, 0.5))`,
         starterCode: {
           language: 'python',
           title: "disclaimer.py",
-          code: `pass  # fixture vacío — usa solution contract
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · no kinship claim
+# DEFECT: afirma parentesco desde score
+print("relationship_signal_score implica parentesco legal")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -961,11 +1016,13 @@ print(rel_score(5.0, 0.5))`,
         starterCode: {
           language: 'python',
           title: "direct_txs.py",
-          code: `txs = [("A","B",10), ("C","D",1), ("B","A",5)]
+          code: `# CASO-LIM-013 · direct_txs
+# DEFECT: solo dirección A→B
+txs = [("A","B",10), ("C","D",1), ("B","A",5)]
 def direct_txs(txs, a, b):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return [m for x, y, m in txs if x == a and y == b]
+print(direct_txs(txs, "A", "B"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -994,11 +1051,21 @@ print(direct_txs(txs, "A", "B"))`,
         starterCode: {
           language: 'python',
           title: "common_cp.py",
-          code: `txs = [("A","D",1), ("C","D",1), ("A","E",1), ("C","F",1)]
+          code: `# CASO-LIM-013 · common counterparties
+# DEFECT: unión en vez de intersección
+txs = [("A","D",1), ("C","D",1), ("A","E",1), ("C","F",1)]
 def neighbors(txs, node):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    s = set()
+    for x, y, _ in txs:
+        if x == node:
+            s.add(y)
+        if y == node:
+            s.add(x)
+    return s
+def common_counterparties(txs, a, c):
+    return sorted(neighbors(txs, a) | neighbors(txs, c))
+print(common_counterparties(txs, "A", "C"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1035,9 +1102,11 @@ print(common_counterparties(txs, "A", "C"))`,
         starterCode: {
           language: 'python',
           title: "no_infer.py",
-          code: `# fixture
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · ethics common CP
+# DEFECT: afirma colusión y parentesco
+print("no_collusion: contraparte común prueba acuerdo ilícito")
+print("no_kinship: contraparte común prueba parentesco")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1065,10 +1134,12 @@ no_kinship: contraparte común no prueba parentesco`,
         starterCode: {
           language: 'python',
           title: "explain_template.py",
-          code: `def explanation_bullets(er, rel, missing):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · explanation bullets
+# DEFECT: omite missing
+def explanation_bullets(er, rel, missing):
+    return [f"entity_resolution_score={er}", f"relationship_signal_score={rel}"]
+print(explanation_bullets(0.9, 0.4, ["phone"]))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1100,10 +1171,15 @@ print(explanation_bullets(0.9, 0.4, ["phone"]))`,
         starterCode: {
           language: 'python',
           title: "uncertainty.py",
-          code: `def uncertainty_band(missing, conflict):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · uncertainty_band
+# DEFECT: siempre low
+def uncertainty_band(missing, conflict):
+    return "low"
+print(uncertainty_band([], False))
+print(uncertainty_band(["email"], False))
+print(uncertainty_band(["email", "phone"], False))
+print(uncertainty_band([], True))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1141,9 +1217,14 @@ high`,
         starterCode: {
           language: 'python',
           title: "conflict_case.py",
-          code: `er, rel = 0.9, 0.1
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · conflict signals
+# DEFECT: no detecta conflicto er vs rel
+er, rel = 0.9, 0.1
+score = round(0.6 * er + 0.4 * rel, 3)
+print("evidence_score", score)
+print("uncertainty", "low")
+print("note", "ok")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1176,12 +1257,15 @@ note señales conflictivas`,
         starterCode: {
           language: 'python',
           title: "thresholds_cfg.py",
-          code: `thresholds = {
-    "accept_min": 0.8,
-    "review_low": 0.4,
+          code: `# CASO-LIM-013 · thresholds order
+# DEFECT: review_low > accept_min
+thresholds = {
+    "accept_min": 0.4,
+    "review_low": 0.8,
 }
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+assert 0 <= thresholds["review_low"] < thresholds["accept_min"] <= 1
+print(sorted(thresholds.items()))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1212,13 +1296,20 @@ print(sorted(thresholds.items()))`,
         starterCode: {
           language: 'python',
           title: "decide_ops.py",
-          code: `from math import isfinite
+          code: `# CASO-LIM-013 · decide_ops_status
+# DEFECT: high unc → accept_pair; no valida nan
+from math import isfinite
 
 th = {"accept_min": 0.8, "review_low": 0.4}
 def decide_ops_status(score, unc, th):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    if score >= th["accept_min"]:
+        return "accept_pair"
+    if score >= th["review_low"]:
+        return "needs_review"
+    return "abstain"
+for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low")]:
+    print(s, u, decide_ops_status(s, u, th))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1266,9 +1357,12 @@ nan low invalid_input`,
         starterCode: {
           language: 'python',
           title: "audit_strip.py",
-          code: `# fixture
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · strip forbidden keys
+# DEFECT: deja is_family y auto_fraud
+out = {"status": "needs_review", "is_family": True, "auto_fraud": True, "score": 0.5}
+clean = dict(out)
+print(sorted(clean.keys()))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1297,10 +1391,12 @@ print(sorted(clean.keys()))`,
         starterCode: {
           language: 'python',
           title: "pseudo_names.py",
-          code: `def pseudonymize(name):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · pseudonymize
+# DEFECT: devuelve nombre completo
+def pseudonymize(name):
+    return name
+print(pseudonymize("Ana Quispe Rojas"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1328,10 +1424,12 @@ print(pseudonymize("Ana Quispe Rojas"))`,
         starterCode: {
           language: 'python',
           title: "case_sheet.py",
-          code: `def case_sheet(er, rel):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · case_sheet
+# DEFECT: claves wrong names
+def case_sheet(er, rel):
+    return {"er": er, "rel": rel, "is_family": er > 0.5}
+print(case_sheet(0.9, 0.4))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1362,10 +1460,12 @@ print(case_sheet(0.9, 0.4))`,
         starterCode: {
           language: 'python',
           title: "map_tooltip.py",
-          code: `def map_tooltip(lat, lon, km, source):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · map_tooltip
+# DEFECT: omite source y km
+def map_tooltip(lat, lon, km, source):
+    return f"lat={lat},lon={lon}"
+print(map_tooltip(-12.04, -77.04, 1.2, "mock"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1393,13 +1493,16 @@ print(map_tooltip(-12.04, -77.04, 1.2, "mock"))`,
         starterCode: {
           language: 'python',
           title: "privacy_sheet.py",
-          code: `privacy = {
-    "data_class": "synthetic_only",
-    "pii_real": False,
+          code: `# CASO-LIM-013 · privacy flags
+# DEFECT: pii_real True
+privacy = {
+    "data_class": "production",
+    "pii_real": True,
     "roles": ["viewer", "reviewer"],
 }
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+print(sorted(privacy.keys()))
+print(privacy["pii_real"])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1432,10 +1535,12 @@ False`,
         starterCode: {
           language: 'python',
           title: "demo_cmd.py",
-          code: `def demo_command():
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · demo command
+# DEFECT: comando sin --synthetic
+def demo_command():
+    return "python -m demo_n1_dashboard --live-pii"
+print(demo_command())
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1463,9 +1568,12 @@ print(demo_command())`,
         starterCode: {
           language: 'python',
           title: "incident_runbook.py",
-          code: `actions = ["rotate_secret", "redact_logs", "postmortem"]
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-013 · incident actions
+# DEFECT: omite rotate_secret
+actions = ["ignore", "continue"]
+print("|".join(actions))
+print("level1_regression: skip")
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1543,32 +1651,32 @@ LEVEL1_REGRESSION_MATRIX = [
 
 
 def norm_doc(d: str) -> str:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def blocking_key(rec: dict) -> str:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def er_score(a: dict, b: dict) -> float:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def relationship_signal_score(a: dict, b: dict) -> float:
-    # TODO shared phone / geo / surname — no kinship
+    # Contrato: shared phone/geo/surname signals — never kinship verdict
     raise NotImplementedError
 
 
 def decide_ops_status(score: float, uncertainty: str) -> str:
-    # TODO invalid_input | abstain | needs_review | accept_pair — never fraud/family
+    # Contrato: invalid_input | abstain | needs_review | accept_pair — never fraud/family
     raise NotImplementedError
 
 
 def pseudonymize(name: str) -> str:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
@@ -1656,18 +1764,33 @@ if __name__ == "__main__":
       {
         label: "sqlite3 — SQLite databases",
         url: "https://docs.python.org/3/library/sqlite3.html",
-        note: "Almacén local de evidencias si se integra con S12",
+        note: "Almacén local de evidencias (S12)",
       },
       {
         label: "json — JSON encoder and decoder",
         url: "https://docs.python.org/3/library/json.html",
         note: "Export determinista de fichas",
       },
+      {
+        label: "math — isfinite",
+        url: "https://docs.python.org/3/library/math.html",
+        note: "Validar scores finitos en umbrales",
+      },
+      {
+        label: "statistics — precision/recall helpers",
+        url: "https://docs.python.org/3/library/statistics.html",
+        note: "Agregados simples si evalúas batches",
+      },
+      {
+        label: "NIST — Digital Identity Guidelines",
+        url: "https://pages.nist.gov/800-63-3/",
+        note: "Identidad vs prueba; no sobreclaim en ER",
+      },
     ],
     books: [
       {
         label: "Data Matching (Peter Christen) — conceptos",
-        note: "Blocking y evaluación; aplicar solo reglas deterministas en N1.",
+        note: "Blocking y evaluación; solo reglas deterministas en N1.",
       },
       {
         label: "Practical Data Ethics (selecciones)",
@@ -1676,9 +1799,29 @@ if __name__ == "__main__":
     ],
     courses: [
       {
-        label: "Familiarity Evidence Dashboard — entrega del curso",
+        label: "PyArcana live — Familiarity Evidence Dashboard",
+        url: "https://pillb.github.io/pyarcana/",
+        note: "Curso desplegado; alinear con V3 S13 cierre N1.",
+      },
+      {
+        label: "Coursera — Python for Everybody",
+        url: "https://www.coursera.org/specializations/python",
+        note: "Fundamentos de datos/strings reutilizados en normalización.",
+      },
+      {
+        label: "MIT 6.100L — Intro CS Python",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Estructuras y pruebas de lógica.",
+      },
+      {
+        label: "GitHub — PillB/pyarcana",
         url: "https://github.com/PillB/pyarcana",
-        note: "Repositorio del curso; documenta la entrega CP-N1-C con demo local sintético.",
+        note: "Repo del curso; entrega CP-N1-C local sintética.",
+      },
+      {
+        label: "Awesome Python Learning",
+        url: "https://github.com/skupriienko/Awesome-Python-Learning",
+        note: "Mapa de recursos complementarios.",
       },
     ],
   },

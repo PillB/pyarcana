@@ -1,0 +1,112 @@
+
+
+import os as _os, sys as _sys
+if _os.environ.get("FORCE_BULK_REWRITE") != "1":
+    _sys.stderr.write(
+        "REFUSED: bulk curriculum rewrite disabled (boilerplate risk).\n"
+        "Set FORCE_BULK_REWRITE=1 only for explicit emergency use.\n"
+    )
+    raise SystemExit(2)
+
+"""Shared helpers for S32–S35 gold lift."""
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+
+FILES = {
+    32: ("s32-microservices.ts", "section32", "microservices"),
+    33: ("s33-advanced-models.ts", "section33", "advanced-models"),
+    34: ("s34-cv-ai-integration.ts", "section34", "cv-ai-integration"),
+    35: ("s35-system-design.ts", "section35", "system-design"),
+}
+
+
+def esc(s: str) -> str:
+    return s.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+
+
+def q(s: str) -> str:
+    return json.dumps(s, ensure_ascii=False)
+
+
+def pad(p: str, min_len: int = 255) -> str:
+    if len(p) >= min_len:
+        return p
+    suffix = (
+        " En el laboratorio sintético Red Andina (Lima) documentas entrada, salida, error y dueño: "
+        "sin PII real, sin auto-etiqueta de fraude y fail-closed cuando falta evidencia."
+    )
+    out = p
+    while len(out) < min_len:
+        out = out.rstrip() + suffix
+    return out
+
+
+def run_py(code: str) -> str:
+    r = subprocess.run(
+        [sys.executable, "-c", code],
+        capture_output=True,
+        text=True,
+        timeout=10,
+        cwd="/tmp",
+    )
+    if r.returncode != 0:
+        raise RuntimeError(f"code failed:\n{code}\n---\n{r.stderr}")
+    return r.stdout.rstrip("\n")
+
+
+def ex_block(
+    eid: str,
+    subtopic: str,
+    kind: str,
+    instruction: str,
+    hint: str,
+    hints: list[str],
+    starter: str,
+    solution: str,
+    edge: list[str] | None = None,
+    feedback: str | None = None,
+    case: str = "CASO-LIM",
+) -> str:
+    if len(instruction) < 150:
+        instruction = (
+            instruction.rstrip()
+            + f" Fixture sintético {case}; sin PII real; repara solo el DEFECT y conserva prints."
+        )
+    assert len(instruction) >= 150, f"{eid} instruction too short: {len(instruction)}"
+    out = run_py(solution)
+    fname = eid.lower() + ".py"
+    edge = edge or ["fixture sintético", "sin PII real", "fail-closed"]
+    fb = feedback or f"{eid}: repara el DEFECT; el contrato de prints debe coincidir con la solution."
+    edge_js = ", ".join(q(e) for e in edge)
+    hints_js = ", ".join(q(h) for h in hints)
+    starter_full = (
+        f"# {case} sintético · Red Andina (Lima) lab · sin PII real\n"
+        f"# Repara solo el DEFECT; conserva el contrato de prints del exercise.\n"
+        f"# Stack: stdlib. Señales/features/scores ≠ culpa ni fraude automático.\n"
+        + starter.lstrip("\n")
+    )
+    return f"""      {{
+        id: {q(eid)},
+        subtopicId: {q(subtopic)},
+        kind: {q(kind)},
+        instruction: {q(instruction)},
+        hint: {q(hint)},
+        hints: [{hints_js}],
+        edgeCases: [{edge_js}],
+        tests: {q(f"Salida alinea con solution output de {eid}; fixture sintético; sin PII; sin auto-culpa.")},
+        feedback: {q(fb)},
+        starterCode: {{
+          language: 'python',
+          title: {q(fname)},
+          code: `{esc(starter_full)}`,
+        }},
+        solutionCode: {{
+          language: 'python',
+          title: {q(fname)},
+          code: `{esc(solution)}`,
+          output: `{esc(out)}`,
+        }},
+      }}"""

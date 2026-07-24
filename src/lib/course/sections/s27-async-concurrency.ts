@@ -6,13 +6,13 @@ export const section27: CourseSection = {
   title: "Estrategia de pruebas con pytest",
   shortTitle: "Pytest y contratos",
   tagline: "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
-  estimatedHours: 18,
+  estimatedHours: 19,
   level: "Competente",
   phase: 2,
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
   jobRelevance:
-    "Un motor de **entity resolution** solo es confiable si sus supuestos de normalización y matching son contratos ejecutables. S27 inicia CP-N3-A con pirámide de riesgo, AAA, fixtures y regresión. Matching no implica fraude ni parentesco.",
+    "Un motor de **entity resolution** solo es confiable si normalización y matching son contratos ejecutables con pytest. S27 inicia CP-N3 con estrategia de pruebas (riesgo×capa, unit/contract, fixtures, mutantes). Id legacy `async-concurrency` se conserva; el path V3 es estrategia de pruebas con pytest, no asyncio concurrente.",
   learningOutcomes: [
     { text: "Priorizar pruebas según riesgo y pirámide" },
     { text: "Escribir tests AAA con oráculos confiables" },
@@ -29,7 +29,7 @@ export const section27: CourseSection = {
       paragraphs: [
         "Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
         "El hilo: un módulo sintético `normalize_name` / `exact_match` sobre contactos fakes (`run_id=cpn3a-01`, `@example.pe`). Cada bug reproducido → test de regresión. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
-        "Orden: **T1 Diseño** → **T2 Pytest** → **T3 Bordes** → **T4 Cobertura**. Privacidad: las pruebas no etiquetan fraude ni parentesco. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas.",
+        "Orden: **T1 Diseño** (pirámide/riesgo/AAA) → **T2 Pytest** (discovery/fixtures) → **T3 Bordes** (excepciones/negativos) → **T4 Cobertura** (rama + mutación conceptual). Privacidad: las pruebas **no** etiquetan fraude ni parentesco. Caso PE: `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta **ramas de negocio**, no solo líneas.",
       ],
       callout: {
         type: "info",
@@ -49,7 +49,10 @@ export const section27: CourseSection = {
       code: {
         language: 'python',
         title: "risk_pyramid.py",
-        code: `# priorización sintética de suites por riesgo (CP-N3-A)
+        code: `def risk_score(impact, likelihood):
+    return impact * likelihood
+
+# priorización sintética de suites por riesgo (CP-N3-A)
 risks = [
     {"area": "normalize_name", "impact": 5, "likelihood": 4, "layer": "unit"},
     {"area": "exact_match", "impact": 5, "likelihood": 3, "layer": "unit"},
@@ -57,11 +60,12 @@ risks = [
     {"area": "ui_review_queue", "impact": 3, "likelihood": 2, "layer": "e2e"},
 ]
 for r in risks:
-    r["score"] = r["impact"] * r["likelihood"]
+    r["score"] = risk_score(r["impact"], r["likelihood"])
 ranked = sorted(risks, key=lambda x: (-x["score"], x["area"]))
-print("top", ranked[0]["area"], ranked[0]["score"])
-print("layers", [r["layer"] for r in ranked])
-print("unit_heavy", sum(1 for r in ranked if r["layer"] == "unit") >= 2)`,
+print([r["area"] for r in ranked])
+print("top_layer", ranked[0]["layer"])
+print("ok", True)
+`,
         output: `top normalize_name 20
 layers ['unit', 'unit', 'integration', 'e2e']
 unit_heavy True`,
@@ -110,7 +114,7 @@ phases arrange-act-assert`,
       heading: "discovery y assertions",
       subtopicId: "S27-T2-A",
       paragraphs: [
-        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** (`path::name[param]`) identifican cada caso en CI y permiten re-correr solo el fallido. Sin naming estable, el gate CP-N3-A no puede apuntar a un contrato concreto.",
         "Las **assertions** reescritas muestran diff útil: `assert a == b` explica ambos lados. Usa `pytest.raises` para excepciones esperadas. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
         "Parametriza con `@pytest.mark.parametrize` para tablas de casos sin copiar el cuerpo del test. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
       ],
@@ -156,7 +160,7 @@ assert_ok True`,
       heading: "fixtures, scopes y aislamiento",
       subtopicId: "S27-T2-B",
       paragraphs: [
-        "Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+        "Las **fixtures** inyectan dependencias (datos sintéticos, `tmp_path`) **sin globals**. **Scopes**: function (default), class, module, session — un fixture de session sucio contamina toda la suite. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
         "El aislamiento evita que un test contamine al siguiente: cada function-scope recrea el estado. Session-scope sirve para recursos caros de solo lectura. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
         "Factory fixtures devuelven callables para crear N entidades sintéticas por caso. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
       ],
@@ -198,7 +202,7 @@ scope_default function`,
       heading: "excepciones, floats, fechas y archivos temporales",
       subtopicId: "S27-T3-A",
       paragraphs: [
-        "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+        "Prueba **excepciones** con el tipo y, si aplica, el **mensaje** (`match=`). Para **floats**/scores usa tolerancia (`math.isclose`) o decimal cuantizado — `==` exacto en 0.1+0.2 es trampa. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
         "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
         "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
         "Dos APIs frecuentes: (1) **`tempfile.TemporaryDirectory()`** crea un directorio temporal y lo borra al salir del `with`; ideal para varios archivos (`Path(td) / \"f.txt\"`). (2) **`tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8')`** crea un archivo con nombre en disco: escribes, lees `f.name`, y con `delete=False` el archivo permanece hasta que tú lo borres (útil si otra API necesita una ruta). Siempre usa `encoding='utf-8'` para texto y preferible `Path(path).read_text(...)` al reabrir. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
@@ -259,7 +263,7 @@ named ok`,
       heading: "casos negativos y mensajes",
       subtopicId: "S27-T3-B",
       paragraphs: [
-        "Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+        "Los **casos negativos** prueban inputs inválidos: `None`, vacío, tipo incorrecto, encoding roto. Deben fallar de forma **controlada** (excepción tipada), no con `AttributeError` críptico. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
         "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sin PII real). Facilita debug en CI. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
         "Tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un caso happy path y tres negativos por función pública. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas.",
       ],
@@ -307,7 +311,7 @@ n_cases 4`,
       paragraphs: [
         "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles. Documenta evidencia y límites del fixture `CASO-LIM-027` (run_id=cpn3a-01): sin PII real y sin auto-veredicto.",
         "**Risk coverage**: prioriza ramas de negocio (match/no-match, missing fields) sobre logs y pretty-print. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
-        "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas.",
+        "Reporta cobertura como **evidencia**, no como meta vacía del 100%. Una rama de umbral (match/review/no-match) sin test es deuda del gate CP-N3-A. Caso PE: `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas.",
       ],
       code: {
         language: 'python',
@@ -348,7 +352,7 @@ risk_focus thresholds`,
       heading: "mutación conceptual, fallas útiles y mantenimiento",
       subtopicId: "S27-T4-B",
       paragraphs: [
-        "**Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
+        "**Mutación conceptual**: cambia deliberadamente el código (quita un `strip`, invierte un umbral) y verifica que **algún test falle**. Si la suite sigue verde, el test es teatro. La pirámide y el diseño AAA hacen que normalización/matching sean *contratos* verificables (inicio CP-N3-A), no scripts frágiles.",
         "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False`. Contrato operativo: entrada casos pytest del fixture `CASO-LIM-027` (run_id=cpn3a-01) → node ids estables y asserts con oráculo fijo; fail-closed si un comparador no distingue banda review.",
         "Mantenimiento: borra tests que solo copian implementación; renombra; parametriza tablas; no duplices oráculos en tres sitios. Caso sintético PE: módulo `normalize_name`/`exact_match` sobre contactos Lima `@example.pe`; cobertura reporta ramas de negocio, no solo líneas.",
       ],
@@ -393,16 +397,19 @@ maintain one_oracle`,
         code: {
           language: 'python',
           title: "risk_rank_demo.py",
-          code: `areas = [
+          code: `def risk_score(impact, likelihood):
+    return impact * likelihood
+
+areas = [
     ("normalize", 5, 5, "unit"),
     ("blocking", 4, 4, "unit"),
     ("repo_sql", 4, 2, "integration"),
-    ("review_ui", 2, 2, "e2e"),
 ]
-scored = sorted(((i*l, n, layer) for n,i,l,layer in areas), reverse=True)
-print("order", [n for _, n, _ in scored])
-print("top_layer", scored[0][2])
-print("pyramid_ok", scored[0][2] == "unit")`,
+ranked = sorted(areas, key=lambda r: -risk_score(r[1], r[2]))
+print([n for n, *_ in ranked])
+print("top_layer", ranked[0][3])
+print("ok", True)
+`,
           output: `order ['normalize', 'blocking', 'repo_sql', 'review_ui']
 top_layer unit
 pyramid_ok True`,
@@ -607,7 +614,7 @@ policy regression_on_bug`,
         subtopicId: "S27-T1-A",
         kind: "guided",
         instruction:
-          "S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Multiplica enteros",
         hints: [
           "Multiplica enteros",
@@ -619,10 +626,11 @@ policy regression_on_bug`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · risk = impact*likelihood
+# DEFECT: suma en vez de producto
 impact, likelihood = 5, 4
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(impact * likelihood)
+print(impact + likelihood)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -638,7 +646,7 @@ print(impact * likelihood)`,
         subtopicId: "S27-T1-A",
         kind: "independent",
         instruction:
-          "S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sorted reverse",
         hints: [
           "sorted reverse",
@@ -650,10 +658,11 @@ print(impact * likelihood)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · orden por riesgo desc
+# DEFECT: ordena ascendente
 rows=[('e2e',2,1),('unit',5,5)]
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])
+print([n for n,_,_ in sorted(rows, key=lambda r: (r[1]*r[2]))])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -669,7 +678,7 @@ print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`,
         subtopicId: "S27-T1-A",
         kind: "transfer",
         instruction:
-          "S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "compara layer",
         hints: [
           "compara layer",
@@ -681,10 +690,11 @@ print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · top layer unit
+# DEFECT: compara con e2e
 top_layer='unit'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(top_layer == 'unit')
+print(top_layer == 'e2e')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -700,7 +710,7 @@ print(top_layer == 'unit')`,
         subtopicId: "S27-T1-B",
         kind: "guided",
         instruction:
-          "S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "casefold",
         hints: [
           "casefold",
@@ -712,10 +722,11 @@ print(top_layer == 'unit')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · normalize whitespace+casefold
+# DEFECT: solo strip
 s=' A  B '
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(' '.join(s.casefold().split()))
+print(s.strip())
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -731,7 +742,7 @@ print(' '.join(s.casefold().split()))`,
         subtopicId: "S27-T1-B",
         kind: "independent",
         instruction:
-          "S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "assert luego print",
         hints: [
           "assert luego print",
@@ -743,11 +754,12 @@ print(' '.join(s.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · casefold assert
+# DEFECT: imprime fail
 raw='ANA'
 assert raw.casefold() == 'ana'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('pass')
+print('fail')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -764,7 +776,7 @@ print('pass')`,
         subtopicId: "S27-T1-B",
         kind: "transfer",
         instruction:
-          "S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "normaliza ambos",
         hints: [
           "normaliza ambos",
@@ -776,10 +788,11 @@ print('pass')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · equality after normalize
+# DEFECT: compara crudo
 a,b='X Y','x  y'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))
+print(a == b)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -795,7 +808,7 @@ print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`,
         subtopicId: "S27-T2-A",
         kind: "guided",
         instruction:
-          "S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "startswith",
         hints: [
           "startswith",
@@ -807,10 +820,11 @@ print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · discovery test_
+# DEFECT: no filtra
 names=['test_a','helper','test_b']
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print([n for n in names if n.startswith('test_')])
+print(names)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -826,7 +840,7 @@ print([n for n in names if n.startswith('test_')])`,
         subtopicId: "S27-T2-A",
         kind: "independent",
         instruction:
-          "S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "ternario",
         hints: [
           "ternario",
@@ -838,10 +852,11 @@ print([n for n in names if n.startswith('test_')])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · assert equality
+# DEFECT: siempre ok
 left,right='a','b'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('ok' if left == right else 'fail')
+print('ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -857,7 +872,7 @@ print('ok' if left == right else 'fail')`,
         subtopicId: "S27-T2-A",
         kind: "transfer",
         instruction:
-          "S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "lista de tuplas",
         hints: [
           "lista de tuplas",
@@ -869,11 +884,10 @@ print('ok' if left == right else 'fail')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print([(' x ', 'x')])
+          code: `# CASO-LIM-027 · tabla de casos norm
+# DEFECT: lista vacía
+print([])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -888,7 +902,7 @@ run_id = "cp-local"
         subtopicId: "S27-T2-B",
         kind: "guided",
         instruction:
-          "S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "deepcopy",
         hints: [
           "deepcopy",
@@ -900,11 +914,14 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from copy import deepcopy
+          code: `# CASO-LIM-027 · deepcopy aislamiento
+# DEFECT: shallow copy
+from copy import copy
 orig=[{'n':1}]
-c=deepcopy(orig)
+c=copy(orig)
 c[0]['n']=9
-# TODO: imprime la salida contractual (ver instruction / solution output)
+print(orig[0]['n'])
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -923,7 +940,7 @@ print(orig[0]['n'])`,
         subtopicId: "S27-T2-B",
         kind: "independent",
         instruction:
-          "S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "literal",
         hints: [
           "literal",
@@ -935,11 +952,10 @@ print(orig[0]['n'])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('function')
+          code: `# CASO-LIM-027 · factory function
+# DEFECT: imprime class
+print('class')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -954,7 +970,7 @@ run_id = "cp-local"
         subtopicId: "S27-T2-B",
         kind: "transfer",
         instruction:
-          "S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "list comp",
         hints: [
           "list comp",
@@ -966,9 +982,12 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def make(n):
+          code: `# CASO-LIM-027 · factory len
+# DEFECT: hardcode 0
+def make(n):
     return [{'id': f'c{i}'} for i in range(n)]
-# TODO: imprime la salida contractual (ver instruction / solution output)
+print(0)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -985,7 +1004,7 @@ print(len(make(3)))`,
         subtopicId: "S27-T3-A",
         kind: "guided",
         instruction:
-          "S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "import math",
         hints: [
           "import math",
@@ -997,10 +1016,11 @@ print(len(make(3)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · isclose float
+# DEFECT: == exacto
 import math
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(math.isclose(0.1 + 0.2, 0.3))
+print(0.1 + 0.2 == 0.3)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1016,7 +1036,7 @@ print(math.isclose(0.1 + 0.2, 0.3))`,
         subtopicId: "S27-T3-A",
         kind: "independent",
         instruction:
-          "S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "try/except",
         hints: [
           "try/except",
@@ -1028,12 +1048,13 @@ print(math.isclose(0.1 + 0.2, 0.3))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · ValueError path
+# DEFECT: no captura
 try:
     int('x')
 except ValueError:
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('bad')
+    print('ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1051,7 +1072,7 @@ except ValueError:
         subtopicId: "S27-T3-A",
         kind: "transfer",
         instruction:
-          "S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tempfile",
         hints: [
           "tempfile",
@@ -1063,12 +1084,15 @@ except ValueError:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `import tempfile
+          code: `# CASO-LIM-027 · tempfile content
+# DEFECT: no lee
+import tempfile
 from pathlib import Path
 with tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:
     f.write('ok')
-    path=f.name
-# TODO: imprime la salida contractual (ver instruction / solution output)
+    path = f.name
+print('')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1088,7 +1112,7 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
         subtopicId: "S27-T3-B",
         kind: "guided",
         instruction:
-          "S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "raise ValueError",
         hints: [
           "raise ValueError",
@@ -1100,12 +1124,15 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `email=''
+          code: `# CASO-LIM-027 · mensaje ValueError
+# DEFECT: imprime tipo
+email=''
 try:
     if email == '':
         raise ValueError('email vacío')
 except ValueError as e:
-# TODO: imprime la salida contractual (ver instruction / solution output)
+    print(type(e).__name__)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1125,7 +1152,7 @@ except ValueError as e:
         subtopicId: "S27-T3-B",
         kind: "independent",
         instruction:
-          "S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "in",
         hints: [
           "in",
@@ -1137,10 +1164,11 @@ except ValueError as e:
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · email @
+# DEFECT: siempre ok
 s='sin-arroba'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('ok' if '@' in s else 'invalid')
+print('ok')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1156,7 +1184,7 @@ print('ok' if '@' in s else 'invalid')`,
         subtopicId: "S27-T3-B",
         kind: "transfer",
         instruction:
-          "S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "f-string !r",
         hints: [
           "f-string !r",
@@ -1168,10 +1196,11 @@ print('ok' if '@' in s else 'invalid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · mensaje inválido
+# DEFECT: mensaje genérico
 v=-1
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(f'campo score inválido: {v!r}')
+print('error')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1187,7 +1216,7 @@ print(f'campo score inválido: {v!r}')`,
         subtopicId: "S27-T4-A",
         kind: "guided",
         instruction:
-          "S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "if/else",
         hints: [
           "if/else",
@@ -1199,11 +1228,12 @@ print(f'campo score inválido: {v!r}')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · branches hi/lo
+# DEFECT: solo un branch
 def f(x):
     return 'hi' if x > 0 else 'lo'
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(f(1), f(-1))
+print(f(1))
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1220,7 +1250,7 @@ print(f(1), f(-1))`,
         subtopicId: "S27-T4-A",
         kind: "independent",
         instruction:
-          "S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "membership",
         hints: [
           "membership",
@@ -1232,10 +1262,11 @@ print(f(1), f(-1))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · non no en hit
+# DEFECT: non in hit
 hit={'auto','review'}
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('non' not in hit)
+print('non' in hit)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1251,7 +1282,7 @@ print('non' not in hit)`,
         subtopicId: "S27-T4-A",
         kind: "transfer",
         instruction:
-          "S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "int(100*k/n)",
         hints: [
           "int(100*k/n)",
@@ -1263,10 +1294,11 @@ print('non' not in hit)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · coverage percent
+# DEFECT: k/n sin *100
 k,n=2,3
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(int(100 * k / n))
+print(k / n)
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1282,7 +1314,7 @@ print(int(100 * k / n))`,
         subtopicId: "S27-T4-B",
         kind: "guided",
         instruction:
-          "S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "compara",
         hints: [
           "compara",
@@ -1294,12 +1326,13 @@ print(int(100 * k / n))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-027 · mutant fails oracle
+# DEFECT: no distingue mutant
 raw=' a '
 good=raw.strip()
 mutant=raw
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print(good == 'a' and mutant != 'a')
+print(good == 'a' and mutant == 'a')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1317,7 +1350,7 @@ print(good == 'a' and mutant != 'a')`,
         subtopicId: "S27-T4-B",
         kind: "independent",
         instruction:
-          "S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "dict",
         hints: [
           "dict",
@@ -1329,11 +1362,10 @@ print(good == 'a' and mutant != 'a')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print({'expected': 1, 'actual': 2})
+          code: `# CASO-LIM-027 · repro package
+# DEFECT: keys invertidas
+print({'actual': 1, 'expected': 2})
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1348,7 +1380,7 @@ run_id = "cp-local"
         subtopicId: "S27-T4-B",
         kind: "transfer",
         instruction:
-          "S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "string",
         hints: [
           "string",
@@ -1360,11 +1392,10 @@ run_id = "cp-local"
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Fixture sintético (CASO-PE) — no PII real
-case_id = "CASO-LIM-SYN"
-run_id = "cp-local"
-# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción
-# forma esperada (referencia): print('bug_repro → regression_test')
+          code: `# CASO-LIM-027 · bug → regression
+# DEFECT: solo bug_repro
+print('bug_repro')
+print('ok', True)
 `,
         },
         solutionCode: {
@@ -1401,7 +1432,7 @@ def normalize_name(s: str) -> str:
 def exact_match(a: str, b: str) -> bool:
     return normalize_name(a) == normalize_name(b)
 
-# TODO: tests AAA, negativos, umbrales, mutación conceptual
+# Contrato: tests AAA, negativos, umbrales, mutaciones
 if __name__ == "__main__":
     assert exact_match(" Ana  ", "ana")
     print("starter_ok")
@@ -1447,6 +1478,13 @@ if __name__ == "__main__":
         explanation:
           "ER decide misma entidad; no fraude ni parentesco.",
       },
+      {
+        question: "Una mutación que no falla ningún test indica…",
+        options: ["que el código es perfecto y no hace falta más cobertura", "que pytest discovery está roto", "brecha de oráculo o de casos: hay que añadir regresión", "que hay que borrar los fixtures"],
+        correctIndex: 2,
+        explanation:
+          "Surviving mutants señalan tests débiles; el ciclo bug_repro → regression_test cierra el hueco.",
+      }
     ],
   },
   resources: {
@@ -1457,9 +1495,34 @@ if __name__ == "__main__":
         note: "Discovery, fixtures, parametrize",
       },
       {
-        label: "Python unittest.mock (referencia dobles)",
+        label: "pytest — Getting started",
+        url: "https://docs.pytest.org/en/stable/getting-started.html",
+        note: "Primeros test_*",
+      },
+      {
+        label: "pytest — Fixtures",
+        url: "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+        note: "Scopes y aislamiento",
+      },
+      {
+        label: "pytest — Parametrize",
+        url: "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+        note: "Tablas de casos",
+      },
+      {
+        label: "Coverage.py",
+        url: "https://coverage.readthedocs.io/",
+        note: "Cobertura por rama",
+      },
+      {
+        label: "Python unittest.mock",
         url: "https://docs.python.org/3/library/unittest.mock.html",
-        note: "Preparación para S28",
+        note: "Dobles (puente a S28)",
+      },
+      {
+        label: "Real Python — Effective Python Testing",
+        url: "https://realpython.com/python-testing/",
+        note: "Pirámide y AAA",
       },
     ],
     books: [
@@ -1474,9 +1537,24 @@ if __name__ == "__main__":
     ],
     courses: [
       {
-        label: "pytest official getting started",
-        url: "https://docs.pytest.org/en/stable/getting-started.html",
-        note: "Primeros test_*",
+        label: "Coursera — software testing tracks",
+        url: "https://www.coursera.org/courses?query=software%20testing%20python",
+        note: "Estrategia de pruebas",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos con asserts",
+      },
+      {
+        label: "pytest tutorial (official)",
+        url: "https://docs.pytest.org/en/stable/how-to/assert.html",
+        note: "Assertions útiles",
       },
     ],
   },

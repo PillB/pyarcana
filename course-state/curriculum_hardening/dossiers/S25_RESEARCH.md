@@ -1,37 +1,16 @@
-# Research dossier — S25 Endpoints de IA, Hugging Face y prompting evaluado
-
-**Section file:** `src/lib/course/sections/s25-streamlit-dashboards.ts`  
-**Updated:** 2026-07-23T00:32:19.351213+00:00
-
-## Competitive sources (all mandatory classes)
-
-### Coursera / MOOC
-- DeepLearning.AI Generative AI with LLMs (Coursera)
-- Google Generative AI for Developers (Coursera)
-
-### MIT
-- MIT 6.S191 deep learning intro (public)
-- MIT AI alignment short programs (public pages)
-
-### Harvard
-- CS50 AI (Harvard) — search/ML overview
-- Berkman Center AI ethics primers
-
-### Yale
-- Yale AI & ethics reading groups / ISPS
-
-### Stanford
-- Stanford CS224N / CS25 guest lectures on prompting (public)
-- Stanford HAI policy briefs
-
-### GitHub
-- huggingface/transformers examples; openai/evals patterns; guardrails repos
-
-### Video / tutorials
-- Andrej Karpathy / HF course videos; Full Stack Deep Learning LLM production talks
-
-## Coverage gaps
-Empty # TODO starters; need fixture+single print TODO; no auto fraud labels from model scores.
-
-## Depth decision
-Gold bar: theory contracts + weDo instructions ≥150 chars + **starterCode.code ≥120 chars** with fixture + single TODO. Progressive disclosure; synthetic Peru cases; no fraud auto-labels.
+# S25 RESEARCH
+When: 2026-07-24T04:27:49.332+00:00
+- Hugging Face: https://huggingface.co/docs/transformers/pipeline_tutorial
+- Hugging Face: https://huggingface.co/docs/hub/model-cards
+- Hugging Face: https://huggingface.co/docs/inference-endpoints/index
+- Hugging Face: https://huggingface.co/learn
+- OWASP: https://genai.owasp.org/llm-top-10/
+- OWASP: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+- JSON Schema: https://json-schema.org/learn/getting-started-step-by-step
+- OpenAI: https://platform.openai.com/docs/guides/structured-outputs
+- deeplearning.ai: https://www.deeplearning.ai/
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- NIST: https://www.nist.gov/itl/ai-risk-management-framework
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/

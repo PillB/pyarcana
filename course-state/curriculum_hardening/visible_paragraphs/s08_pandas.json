@@ -1,0 +1,495 @@
+{
+  "index": 8,
+  "id": "pandas",
+  "title": "Archivos, CSV, JSON y contratos de ingesta",
+  "file": "s08-pandas.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)",
+      "len": 58
+    },
+    {
+      "i": 1,
+      "text": "En V3, S08 no es el path principal de pandas groupby/merge/EDA. Ese material se reubica al nivel 2 de data. Aquí cierras el gate CP-N1-B: ingesta CSV + JSON con pathlib, cuarentena, hashes, manifest y reconciliación de conteos — en stdlib.",
+      "len": 239
+    },
+    {
+      "i": 2,
+      "text": "Integra normalizadores (S05–S07) y el modelo en memoria (S06). Entorno declarado local-python (filesystem). Datos sintéticos en data/; salidas en out/. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 426
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Archivos → T2 CSV → T3 JSON → T4 Provenance y manifest. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 340
+    },
+    {
+      "i": 4,
+      "text": "pathlib, with, modos y encodings",
+      "len": 32
+    },
+    {
+      "i": 5,
+      "text": "pathlib.Path unifica rutas. Path.read_text(encoding='utf-8') / write_text son convenientes; with path.open(...) as f da control de modo. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 339
+    },
+    {
+      "i": 6,
+      "text": "Modos: r lectura, w trunca, a append, x crea exclusivo. Siempre declara encoding='utf-8' en texto. errors= (strict default, replace) debe ser decisión documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 438
+    },
+    {
+      "i": 7,
+      "text": "path.exists() / is_file() evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o Path(__file__).resolve().parent. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «pathlib, with, modos y encodings»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 377
+    },
+    {
+      "i": 8,
+      "text": "Newlines y escritura atómica",
+      "len": 28
+    },
+    {
+      "i": 9,
+      "text": "CSV en Python: abre con newline='' para que el módulo csv controle terminadores. Texto universal: prefiere \\n en salidas del pipeline. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 337
+    },
+    {
+      "i": 10,
+      "text": "Escritura atómica: escribe a un archivo temporal en el mismo directorio y luego os.replace(tmp, dest). Si el proceso muere a medias, no dejas el destino truncado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 437
+    },
+    {
+      "i": 11,
+      "text": "Detectar \\r\\n en inputs ayuda a documentar provenance de origen Windows vs Unix. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Newlines y escritura atómica»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 325
+    },
+    {
+      "i": 12,
+      "text": "Dialectos, headers y tipos",
+      "len": 26
+    },
+    {
+      "i": 13,
+      "text": "csv.DictReader / DictWriter trabajan con headers. Declara fieldnames. Cast de tipos (int, Decimal) es explícito y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza. El contrato monetario iniciado en S02 continúa: Decimal desde texto y cuantizado a 0.01, nunca float.",
+      "len": 285
+    },
+    {
+      "i": 14,
+      "text": "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el contrato de columnas documentado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 411
+    },
+    {
+      "i": 15,
+      "text": "Dialectos (delimitador ; vs ,) se configuran; no asumas Excel latam sin mirar el archivo. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Dialectos, headers y tipos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 332
+    },
+    {
+      "i": 16,
+      "text": "Filas irregulares y cuarentena",
+      "len": 30
+    },
+    {
+      "i": 17,
+      "text": "Filas con más/menos columnas que el header son irregulares. No las “arregles” en silencio: mándalas a quarantine.csv con motivo y conserva el raw. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 349
+    },
+    {
+      "i": 18,
+      "text": "Resumen de motivos (contador por reason) alimenta el manifest y el dashboard de calidad. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 363
+    },
+    {
+      "i": 19,
+      "text": "Good path escribe solo filas que pasaron schema + casts + normalización. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Filas irregulares y cuarentena»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 319
+    },
+    {
+      "i": 20,
+      "text": "Objetos/arrays y serialización JSON",
+      "len": 35
+    },
+    {
+      "i": 21,
+      "text": "json.loads / dumps y load / dump sobre archivos. JSON objects → dict; arrays → list. JSONL (un objeto por línea) es útil para streams de txs. JSON no tiene tipo Decimal: en este curso serializamos montos exactos como strings (\"10.00\") y al leerlos reconstruimos Decimal; nunca los degradamos a float.",
+      "len": 300
+    },
+    {
+      "i": 22,
+      "text": "ensure_ascii=False preserva tildes legibles. sort_keys=True ayuda a determinismo en manifests. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 369
+    },
+    {
+      "i": 23,
+      "text": "datetime no es serializable por defecto: convierte a isoformat() o str para evitar TypeError. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Objetos/arrays y serialización JSON»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 345
+    },
+    {
+      "i": 24,
+      "text": "Schema, nulls y evolución compatible",
+      "len": 36
+    },
+    {
+      "i": 25,
+      "text": "Valida required keys antes de normalizar. null JSON → None en Python. Distingue null explícito de clave ausente si la política lo requiere. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 342
+    },
+    {
+      "i": 26,
+      "text": "Evolución: añadir campo opcional con default no rompe lectores viejos. Quitar required sí es breaking. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 377
+    },
+    {
+      "i": 27,
+      "text": "validate_schema(obj, required) retorna ok/errors para cuarentena. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Schema, nulls y evolución compatible»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 318
+    },
+    {
+      "i": 28,
+      "text": "Backups, hashes y provenance",
+      "len": 28
+    },
+    {
+      "i": 29,
+      "text": "hashlib.sha256 del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 333
+    },
+    {
+      "i": 30,
+      "text": "Backup: copia input.bak o a backups/ antes de transformar. No mutes el original in place. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+      "len": 364
+    },
+    {
+      "i": 31,
+      "text": "Provenance mínima: {path, sha256, bytes, received_at} por fuente. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Backups, hashes y provenance»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 310
+    },
+    {
+      "i": 32,
+      "text": "Reconciliación y manifest de corrida",
+      "len": 36
+    },
+    {
+      "i": 33,
+      "text": "Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con name, hash y conteos n_in, n_clean, n_quarantine. Los totales de corrida se calculan sumando fuentes; no se escriben a mano. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+      "len": 405
+    },
+    {
+      "i": 34,
+      "text": "Reconciliación en dos niveles: cada fuente cumple n_in == n_clean + n_quarantine y los totales son la suma exacta de las fuentes. Validar solo el agregado puede ocultar un sobrante en CSV compensado por un faltante en JSON. Si cualquier fuente no cuadra, falla la corrida — no publiques clean a medias.",
+      "len": 302
+    },
+    {
+      "i": 35,
+      "text": "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Reconciliación y manifest de corrida»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 336
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)",
+      "text": "De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 239,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S08 no es el path principal de pandas groupby/merge/EDA. Ese material se reubica al nivel 2 de data. Aquí cierras el gate CP-N1-B: ingesta CSV + JSON con pathlib, cuarentena",
+      "text": "En V3, S08 no es el path principal de pandas groupby/merge/EDA. Ese material se reubica al nivel 2 de data. Aquí cierras el gate CP-N1-B: ingesta CSV + JSON con pathlib, cuarentena, hashes, manifest y reconciliación de conteos — en stdlib."
+    },
+    {
+      "i": 2,
+      "len": 426,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Integra normalizadores (S05–S07) y el modelo en memoria (S06). Entorno declarado local-python (filesystem). Datos sintéticos en data/; salidas en out/. Contrato: entrada explícita ",
+      "text": "Integra normalizadores (S05–S07) y el modelo en memoria (S06). Entorno declarado local-python (filesystem). Datos sintéticos en data/; salidas en out/. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 3,
+      "len": 340,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Archivos → T2 CSV → T3 JSON → T4 Provenance y manifest. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y lí",
+      "text": "Orden: T1 Archivos → T2 CSV → T3 JSON → T4 Provenance y manifest. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "pathlib, with, modos y encodings",
+      "text": "pathlib, with, modos y encodings"
+    },
+    {
+      "i": 5,
+      "len": 339,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "pathlib.Path unifica rutas. Path.read_text(encoding='utf-8') / write_text son convenientes; with path.open(...) as f da control de modo. En ingesta de archivos, el porqué es operat",
+      "text": "pathlib.Path unifica rutas. Path.read_text(encoding='utf-8') / write_text son convenientes; with path.open(...) as f da control de modo. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 438,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Modos: r lectura, w trunca, a append, x crea exclusivo. Siempre declara encoding='utf-8' en texto. errors= (strict default, replace) debe ser decisión documentada. Contrato: entrad",
+      "text": "Modos: r lectura, w trunca, a append, x crea exclusivo. Siempre declara encoding='utf-8' en texto. errors= (strict default, replace) debe ser decisión documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 7,
+      "len": 377,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "path.exists() / is_file() evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o Path(__file__).resolve().parent. Caso sintético Perú: CSV/JSON sintéticos de cliente",
+      "text": "path.exists() / is_file() evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o Path(__file__).resolve().parent. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «pathlib, with, modos y encodings»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Newlines y escritura atómica",
+      "text": "Newlines y escritura atómica"
+    },
+    {
+      "i": 9,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "CSV en Python: abre con newline='' para que el módulo csv controle terminadores. Texto universal: prefiere \\n en salidas del pipeline. En ingesta de archivos, el porqué es operativ",
+      "text": "CSV en Python: abre con newline='' para que el módulo csv controle terminadores. Texto universal: prefiere \\n en salidas del pipeline. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 437,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Escritura atómica: escribe a un archivo temporal en el mismo directorio y luego os.replace(tmp, dest). Si el proceso muere a medias, no dejas el destino truncado. Contrato: entrada",
+      "text": "Escritura atómica: escribe a un archivo temporal en el mismo directorio y luego os.replace(tmp, dest). Si el proceso muere a medias, no dejas el destino truncado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 11,
+      "len": 325,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Detectar \\r\\n en inputs ayuda a documentar provenance de origen Windows vs Unix. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisió",
+      "text": "Detectar \\r\\n en inputs ayuda a documentar provenance de origen Windows vs Unix. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Newlines y escritura atómica»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Dialectos, headers y tipos",
+      "text": "Dialectos, headers y tipos"
+    },
+    {
+      "i": 13,
+      "len": 285,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "csv.DictReader / DictWriter trabajan con headers. Declara fieldnames. Cast de tipos (int, Decimal) es explícito y fallos van a reject/cuarentena — no silencies con 0 mágico sin tra",
+      "text": "csv.DictReader / DictWriter trabajan con headers. Declara fieldnames. Cast de tipos (int, Decimal) es explícito y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza. El contrato monetario iniciado en S02 continúa: Decimal desde texto y cuantizado a 0.01, nunca float."
+    },
+    {
+      "i": 14,
+      "len": 411,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el contrato de columnas documentado. Contrato: entrada explícita → transformació",
+      "text": "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el contrato de columnas documentado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 15,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Dialectos (delimitador ; vs ,) se configuran; no asumas Excel latam sin mirar el archivo. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Document",
+      "text": "Dialectos (delimitador ; vs ,) se configuran; no asumas Excel latam sin mirar el archivo. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Dialectos, headers y tipos»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Filas irregulares y cuarentena",
+      "text": "Filas irregulares y cuarentena"
+    },
+    {
+      "i": 17,
+      "len": 349,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Filas con más/menos columnas que el header son irregulares. No las “arregles” en silencio: mándalas a quarantine.csv con motivo y conserva el raw. En ingesta de archivos, el porqué",
+      "text": "Filas con más/menos columnas que el header son irregulares. No las “arregles” en silencio: mándalas a quarantine.csv con motivo y conserva el raw. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 363,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Resumen de motivos (contador por reason) alimenta el manifest y el dashboard de calidad. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidenc",
+      "text": "Resumen de motivos (contador por reason) alimenta el manifest y el dashboard de calidad. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 19,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Good path escribe solo filas que pasaron schema + casts + normalización. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métri",
+      "text": "Good path escribe solo filas que pasaron schema + casts + normalización. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Filas irregulares y cuarentena»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Objetos/arrays y serialización JSON",
+      "text": "Objetos/arrays y serialización JSON"
+    },
+    {
+      "i": 21,
+      "len": 300,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "json.loads / dumps y load / dump sobre archivos. JSON objects → dict; arrays → list. JSONL (un objeto por línea) es útil para streams de txs. JSON no tiene tipo Decimal: en este cu",
+      "text": "json.loads / dumps y load / dump sobre archivos. JSON objects → dict; arrays → list. JSONL (un objeto por línea) es útil para streams de txs. JSON no tiene tipo Decimal: en este curso serializamos montos exactos como strings (\"10.00\") y al leerlos reconstruimos Decimal; nunca los degradamos a float."
+    },
+    {
+      "i": 22,
+      "len": 369,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "ensure_ascii=False preserva tildes legibles. sort_keys=True ayuda a determinismo en manifests. Contrato: entrada explícita → transformación documentada → salida medible; si falta e",
+      "text": "ensure_ascii=False preserva tildes legibles. sort_keys=True ayuda a determinismo en manifests. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 23,
+      "len": 345,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "datetime no es serializable por defecto: convierte a isoformat() o str para evitar TypeError. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Docu",
+      "text": "datetime no es serializable por defecto: convierte a isoformat() o str para evitar TypeError. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Objetos/arrays y serialización JSON»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Schema, nulls y evolución compatible",
+      "text": "Schema, nulls y evolución compatible"
+    },
+    {
+      "i": 25,
+      "len": 342,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Valida required keys antes de normalizar. null JSON → None en Python. Distingue null explícito de clave ausente si la política lo requiere. En ingesta de archivos, el porqué es ope",
+      "text": "Valida required keys antes de normalizar. null JSON → None en Python. Distingue null explícito de clave ausente si la política lo requiere. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 377,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evolución: añadir campo opcional con default no rompe lectores viejos. Quitar required sí es breaking. Contrato: entrada explícita → transformación documentada → salida medible; si",
+      "text": "Evolución: añadir campo opcional con default no rompe lectores viejos. Quitar required sí es breaking. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 27,
+      "len": 318,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "validate_schema(obj, required) retorna ok/errors para cuarentena. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y lí",
+      "text": "validate_schema(obj, required) retorna ok/errors para cuarentena. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Schema, nulls y evolución compatible»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Backups, hashes y provenance",
+      "text": "Backups, hashes y provenance"
+    },
+    {
+      "i": 29,
+      "len": 333,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "hashlib.sha256 del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos. En ingesta de archivos, el porqué es operativo: r",
+      "text": "hashlib.sha256 del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 364,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Backup: copia input.bak o a backups/ antes de transformar. No mutes el original in place. Contrato: entrada explícita → transformación documentada → salida medible; si falta eviden",
+      "text": "Backup: copia input.bak o a backups/ antes de transformar. No mutes el original in place. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12."
+    },
+    {
+      "i": 31,
+      "len": 310,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Provenance mínima: {path, sha256, bytes, received_at} por fuente. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y lí",
+      "text": "Provenance mínima: {path, sha256, bytes, received_at} por fuente. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Backups, hashes y provenance»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Reconciliación y manifest de corrida",
+      "text": "Reconciliación y manifest de corrida"
+    },
+    {
+      "i": 33,
+      "len": 405,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con name, hash y conteos n_in, n_clean, n_quarantine. Los totales de corrida se calculan sumando fuentes; ",
+      "text": "Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con name, hash y conteos n_in, n_clean, n_quarantine. Los totales de corrida se calculan sumando fuentes; no se escriben a mano. En ingesta de archivos, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 302,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reconciliación en dos niveles: cada fuente cumple n_in == n_clean + n_quarantine y los totales son la suma exacta de las fuentes. Validar solo el agregado puede ocultar un sobrante",
+      "text": "Reconciliación en dos niveles: cada fuente cumple n_in == n_clean + n_quarantine y los totales son la suma exacta de las fuentes. Validar solo el agregado puede ocultar un sobrante en CSV compensado por un faltante en JSON. Si cualquier fuente no cuadra, falla la corrida — no publiques clean a medias."
+    },
+    {
+      "i": 35,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta deci",
+      "text": "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Reconciliación y manifest de corrida»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14915
+}

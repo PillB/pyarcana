@@ -6,13 +6,13 @@ export const section48: CourseSection = {
   title: "LLM applications y RAG con evidencia",
   shortTitle: "RAG con evidencia",
   tagline: "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
-  estimatedHours: 19,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, llm applications y rag con evidencia conecta decisiones técnicas con evidencia operativa. La práctica entrega respuesta estructurada con citas verificables o abstención explícita y se promueve solo cuando retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+    "En equipos de plataforma y producto, **LLM applications y RAG con evidencia** entregan respuestas citadas con ACL y groundedness, no alucinaciones operativas. Se promueve solo cuando claims están soportados por evidencia permitida y la inyección de instrucciones en documentos se trata como data. Id legacy `ai-governance` se conserva; el path V3 es RAG/aplicaciones LLM con evidencia (gobernanza de respuesta), no solo políticas abstractas.",
   learningOutcomes: [
     { text: "Calcula embeddings y similarity" },
     { text: "Versiona embeddings y evalúa límites" },
@@ -27,10 +27,31 @@ export const section48: CourseSection = {
     {
       heading: "Ruta de S48: LLM applications y RAG con evidencia",
       paragraphs: [
-        "Esta sección parte de S47 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-PUN-048` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Asistente RAG autorizado y evaluado. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida: respuesta estructurada con citas verificables o abstención explícita.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Embedding:** vector de representación (versióned). **Similarity:** ranking aproximado, no verdad. **Chunking:** partir docs con metadata y dedup. **ACL:** control de acceso por fragmento. **Hybrid retrieval:** lexical + vector + rerank. **Grounding:** cada claim material apunta a `evidence_id` permitido. **Abstención:** no responder si retrieval no sostiene. **Prompt injection en docs:** se trata como data hostil, no instrucción. **Holdout eval:** recall/answer medidos por separado.",
+        "Esta sección construye **RAG con evidencia** sobre el serving de S47: retrieval, chunking con ACL, citas y groundedness. Demos stdlib (scores, sets) al estilo vector store conceptual. El caso `CASO-PUN-048` (Puno sintético) no llama APIs de LLM reales ni indexa PII.",
+        "Producto incremental: respuesta estructurada con evidence_ids. Entrada: query, corpus con ACL, holdout de recall y política de citas. Salida: top-k permitido, claims ⊆ cited, injection ignorada. Error de promoción: recall bajo baseline, chunk borrado aún visible, o claim sin soporte.",
+        "Orden: T1 retrieval/holdout → T2 chunk/ACL → T3 rank/citas → T4 groundedness y anti-injection. Teoría medible, iDo con helpers, weDo con defecto RAG por ejercicio. Id legacy se alinea a gobernanza de evidencia; V3 es RAG con prueba, no auto-fraude. Stack didáctico: **stdlib** (scores, sets) sin APIs LLM reales ni PII.",
       ],
+      code: {
+        language: 'python',
+        title: "s48_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-PUN-048",
+        "gates": ["claims_subset_cited", "acl_enforced", "abstain_if_unsupported", "injection_as_data"],
+        "policy_only_topic": False,
+        "ungrounded_claim_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("policy_only_topic", c["policy_only_topic"])
+print("ungrounded_claim_ok", c["ungrounded_claim_ok"])
+`,
+        output: `case CASO-PUN-048
+policy_only_topic False
+ungrounded_claim_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,22 @@ export const section48: CourseSection = {
       heading: "embeddings y similarity",
       subtopicId: "S48-T1-A",
       paragraphs: [
-        "Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte del índice.",
-        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: ranking reproducible con versión de embedding. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
-        "Aplicación de `embeddings y similarity` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es ranking reproducible con versión de embedding. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Embeddings aproximan relaciones en un espacio vectorial y **similarity solo ordena candidatos** — no prueba verdad ni autoriza un claim. Versión del modelo de embedding, normalización y métrica (cosine, etc.) son parte del contrato del índice: cambiar cualquiera sin re-eval rompe el holdout.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: ranking reproducible con versión de embedding documentada. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder (fail-closed). Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `embeddings y similarity` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es ranking reproducible con versión de embedding (demo cosine 2D en el lab). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "embeddings_similarity.py",
-        code: `print(1.0); print(0.0); print("emb_dim", 2)`,
+        code: `def cosine(a, b):
+    num = sum(x * y for x, y in zip(a, b))
+    da = sum(x * x for x in a) ** 0.5
+    db = sum(y * y for y in b) ** 0.5
+    return num / (da * db) if da and db else 0.0
+
+print(cosine([1, 0], [1, 0]))
+print(cosine([1, 0], [0, 1]))
+print("emb_dim", 2)`,
         output: `1.0
 0.0
 emb_dim 2`,
@@ -71,7 +100,13 @@ emb_dim 2`,
       code: {
         language: 'python',
         title: "limits_versions_eval.py",
-        code: `print({"version":"e5-v1","max_tokens":512}); print("limit", 512); print("versioned", True)`,
+        code: `def emb_contract(version: str, max_tokens: int) -> dict:
+    return {"version": version, "max_tokens": max_tokens}
+
+c = emb_contract("e5-v1", 512)
+print(c)
+print("limit", c["max_tokens"])
+print("versioned", True)`,
         output: `{'version': 'e5-v1', 'max_tokens': 512}
 limit 512
 versioned True`,
@@ -94,7 +129,12 @@ versioned True`,
       code: {
         language: 'python',
         title: "chunking_metadata_dedup.py",
-        code: `print(["abcdefghij","abcdefghij","abcdefghij"]); print("meta", ["doc_id","page"]); print("dedup", "hash")`,
+        code: `def chunk(text: str, size: int) -> list:
+    return [text[i:i + size] for i in range(0, len(text), size)]
+
+print(chunk("abcdefghijabcdefghijabcdefghij", 10))
+print("meta", ["doc_id", "page"])
+print("dedup", "hash")`,
         output: `['abcdefghij', 'abcdefghij', 'abcdefghij']
 meta ['doc_id', 'page']
 dedup hash`,
@@ -117,7 +157,12 @@ dedup hash`,
       code: {
         language: 'python',
         title: "acl_deletion_provenance.py",
-        code: `print(True); print(False); print("delete", "tombstone")`,
+        code: `def allowed(user_roles: set, doc_acl: set) -> bool:
+    return bool(user_roles & doc_acl)
+
+print(allowed({"ops"}, {"ops", "admin"}))
+print(allowed({"guest"}, {"ops"}))
+print("delete", "tombstone")`,
         output: `True
 False
 delete tombstone`,
@@ -140,7 +185,13 @@ delete tombstone`,
       code: {
         language: 'python',
         title: "lexical_vector_hybrid_rerank.py",
-        code: `print({"d1":0.74,"d2":0.06}); print("rerank", "weighted_dense_lexical"); print("mode", "hybrid")`,
+        code: `def hybrid(dense: dict, lexical: dict, w=0.7) -> dict:
+    keys = sorted(set(dense) | set(lexical))
+    return {k: round(w * dense.get(k, 0) + (1 - w) * lexical.get(k, 0), 2) for k in keys}
+
+print(hybrid({"d1": 1.0, "d2": 0.0}, {"d1": 0.1, "d2": 0.2}))
+print("rerank", "weighted_dense_lexical")
+print("mode", "hybrid")`,
         output: `{'d1': 0.74, 'd2': 0.06}
 rerank weighted_dense_lexical
 mode hybrid`,
@@ -163,7 +214,12 @@ mode hybrid`,
       code: {
         language: 'python',
         title: "context_cites_permissions.py",
-        code: `print("[c1] SLA 300ms"); print("perm_filter", True); print("min_ctx", True)`,
+        code: `def cite(chunk_id: str, text: str) -> str:
+    return f"[{chunk_id}] {text}"
+
+print(cite("c1", "SLA 300ms"))
+print("perm_filter", True)
+print("min_ctx", True)`,
         output: `[c1] SLA 300ms
 perm_filter True
 min_ctx True`,
@@ -186,7 +242,12 @@ min_ctx True`,
       code: {
         language: 'python',
         title: "structured_grounding.py",
-        code: `print(True); print(False); print("json", True)`,
+        code: `def grounded(answer: dict) -> bool:
+    return bool(answer.get("cites")) and "claim" in answer
+
+print(grounded({"claim": "SLA 300ms", "cites": ["c1"]}))
+print(grounded({"claim": "guess", "cites": []}))
+print("json", True)`,
         output: `True
 False
 json True`,
@@ -203,13 +264,18 @@ json True`,
       subtopicId: "S48-T4-B",
       paragraphs: [
         "Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte.",
-        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: respuesta no soportada se abstiene. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
-        "Aplicación de `retrieval/answer eval, costo y abstención` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es respuesta no soportada se abstiene. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de abstención. Entrada: score de soporte retrieval y umbral thr. Salida: `answer` si support≥thr, si no `abstain`. Error: inventar citas o forzar respuesta con support bajo. Criterio: en Puno sintético `decide(0.2)` es abstain y se documenta el costo de tokens del intento.",
+        "Aplicación a `CASO-PUN-048-T4B`: support alto responde; support bajo se abstiene. No es veredicto de conducta; solo groundedness sobre docs autorizados.",
       ],
       code: {
         language: 'python',
         title: "retrieval_answer_eval_cost_abstain.py",
-        code: `print("answer"); print("abstain"); print("cost_tokens", 1200)`,
+        code: `def decide(support: float, thr: float = 0.5) -> str:
+    return "answer" if support >= thr else "abstain"
+
+print(decide(0.8))
+print(decide(0.2))
+print("cost_tokens", 1200)`,
         output: `answer
 abstain
 cost_tokens 1200`,
@@ -233,7 +299,12 @@ cost_tokens 1200`,
         code: {
           language: 'python',
           title: "demo_embeddings_similarity.py",
-          code: `print("sim", "cosine"); print("space", "unit"); print("synth_docs", True)`,
+          code: `def sim_name(metric: str) -> str:
+    return metric if metric in ("cosine", "dot") else "cosine"
+
+print("sim", sim_name("cosine"))
+print("space", "unit")
+print("synth_docs", True)`,
           output: `sim cosine
 space unit
 synth_docs True`,
@@ -248,7 +319,12 @@ synth_docs True`,
         code: {
           language: 'python',
           title: "demo_limits_versions_eval.py",
-          code: `print("eval", "nDCG@10"); print("version", "e5-v1"); print("regression_suite", True)`,
+          code: `def eval_metric(k: int = 10) -> str:
+    return f"nDCG@{k}"
+
+print("eval", eval_metric(10))
+print("version", "e5-v1")
+print("regression_suite", True)`,
           output: `eval nDCG@10
 version e5-v1
 regression_suite True`,
@@ -263,7 +339,12 @@ regression_suite True`,
         code: {
           language: 'python',
           title: "demo_chunking_metadata_dedup.py",
-          code: `print("chunk_n", 3); print("overlap", "optional"); print("dedup_key", "sha1")`,
+          code: `def chunk_n(text: str, size: int) -> int:
+    return (len(text) + size - 1) // size
+
+print("chunk_n", chunk_n("abcdefghijabcdefghijabcdefghij", 10))
+print("overlap", "optional")
+print("dedup_key", "sha1")`,
           output: `chunk_n 3
 overlap optional
 dedup_key sha1`,
@@ -278,7 +359,12 @@ dedup_key sha1`,
         code: {
           language: 'python',
           title: "demo_acl_deletion_provenance.py",
-          code: `print("provenance", "doc_version"); print("acl_enforce", True); print("hard_delete", "policy")`,
+          code: `def enforce_acl(enforce: bool) -> bool:
+    return enforce
+
+print("provenance", "doc_version")
+print("acl_enforce", enforce_acl(True))
+print("hard_delete", "policy")`,
           output: `provenance doc_version
 acl_enforce True
 hard_delete policy`,
@@ -293,7 +379,12 @@ hard_delete policy`,
         code: {
           language: 'python',
           title: "demo_lexical_vector_hybrid_rerank.py",
-          code: `print("lexical", "bm25_like"); print("vector", "cosine"); print("fuse", "linear")`,
+          code: `def fuse_mode(use_hybrid: bool) -> str:
+    return "linear" if use_hybrid else "dense_only"
+
+print("lexical", "bm25_like")
+print("vector", "cosine")
+print("fuse", fuse_mode(True))`,
           output: `lexical bm25_like
 vector cosine
 fuse linear`,
@@ -308,7 +399,12 @@ fuse linear`,
         code: {
           language: 'python',
           title: "demo_context_cites_permissions.py",
-          code: `print("cites", True); print("drop_denied", True); print("context_budget", 2)`,
+          code: `def drop_denied(chunks: list, allowed: set) -> list:
+    return [c for c in chunks if c in allowed]
+
+print("cites", True)
+print("drop_denied", len(drop_denied(["c1", "c2"], {"c1"})) == 1)
+print("context_budget", 2)`,
           output: `cites True
 drop_denied True
 context_budget 2`,
@@ -323,7 +419,12 @@ context_budget 2`,
         code: {
           language: 'python',
           title: "demo_structured_grounding.py",
-          code: `print("structured", {"decision":"ok","cites":["c1"]}); print("grounded", True); print("schema", True)`,
+          code: `def structured_out(decision: str, cites: list) -> dict:
+    return {"decision": decision, "cites": cites}
+
+print("structured", structured_out("ok", ["c1"]))
+print("grounded", True)
+print("schema", True)`,
           output: `structured {'decision': 'ok', 'cites': ['c1']}
 grounded True
 schema True`,
@@ -338,7 +439,12 @@ schema True`,
         code: {
           language: 'python',
           title: "demo_retrieval_answer_eval_cost_abstain.py",
-          code: `print("eval", "answer_faithfulness"); print("abstain", True); print("cost_cap", True)`,
+          code: `def should_abstain(support: float, thr: float = 0.5) -> bool:
+    return support < thr
+
+print("eval", "answer_faithfulness")
+print("abstain", should_abstain(0.2))
+print("cost_cap", True)`,
           output: `eval answer_faithfulness
 abstain True
 cost_cap True`,
@@ -366,7 +472,11 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-1A", **{"query":[1.0,0.0],"docs":{"d1":[0.8,0.2],"d2":[0.1,0.9]},"metric":"dot","version":"emb-v2","expected_top":"d1"}}
+          code: `# CASO-LIM-048 · embedding similarity ranking
+# DEFECT: PASS con min/dot ranking incorrecto vs expected_top
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-1A", **{"query":[1.0,0.0],"docs":{"d1":[0.8,0.2],"d2":[0.1,0.9]},"metric":"dot","version":"emb-v2","expected_top":"d1"}}
+# DEFECT: ranking por similitud mínima incorrecta (debería max)
 meets_contract = min(record["docs"], key=lambda k: sum(a*b for a,b in zip(record["query"],record["docs"][k]))) == record["expected_top"]
 status = "PASS" if meets_contract else "REJECT_EMBEDDING_RANK"
 print("S48-T1-A", status)
@@ -399,7 +509,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess RECOMPUTE_SIMILARITY
+# DEFECT: PASS si top doc no es el de mayor score
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "query", "docs", "metric", "version", "expected_top"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +563,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide RECOMPUTE_SIMILARITY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "query", "docs", "metric", "version", "expected_top"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +617,11 @@ assert results == ["CONTINUE", "REJECT_EMBEDDING_RANK", "REVIEW_METRIC_VERSION"]
         starterCode: {
           language: 'python',
           title: "s48-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-1B", **{"baseline_recall":0.72,"candidate_recall":0.81,"min_recall":0.78,"holdout":"rag-holdout-v1","reindex_cost_pen":30}}
+          code: `# CASO-LIM-048 · embedding eval vs baseline holdout
+# DEFECT: PASS si candidate_recall<baseline o sin holdout
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-1B", **{"baseline_recall":0.72,"candidate_recall":0.81,"min_recall":0.78,"holdout":"rag-holdout-v1","reindex_cost_pen":30}}
+# DEFECT: recall bajo baseline o sin holdout
 meets_contract = record["candidate_recall"] < record["baseline_recall"] or not record["holdout"]
 status = "PASS" if meets_contract else "KEEP_EMBEDDING_BASELINE"
 print("S48-T1-B", status)
@@ -534,7 +654,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess KEEP_EMBEDDING_BASELINE
+# DEFECT: PASS con regresión o sin holdout
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "baseline_recall", "candidate_recall", "min_recall", "holdout", "reindex_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +708,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide KEEP_EMBEDDING_BASELINE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "baseline_recall", "candidate_recall", "min_recall", "holdout", "reindex_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +762,11 @@ assert results == ["CONTINUE", "KEEP_EMBEDDING_BASELINE", "EVALUATE_ERROR_SLICES
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-2A", **{"chunks":[{"id":"d1#1","hash":"a","section":"policy"},{"id":"d1#2","hash":"b","section":"limits"}],"unique_hashes":2,"source_version":"d1-v3"}}
+          code: `# CASO-LIM-048 · chunk hash dedup
+# DEFECT: PASS si hashes únicos < n chunks (duplicados)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-2A", **{"chunks":[{"id":"d1#1","hash":"a","section":"policy"},{"id":"d1#2","hash":"b","section":"limits"}],"unique_hashes":2,"source_version":"d1-v3"}}
+# DEFECT: chunks duplicados por hash
 meets_contract = len({c["hash"] for c in record["chunks"]}) < len(record["chunks"])
 status = "PASS" if meets_contract else "DEDUP_AND_RECHUNK"
 print("S48-T2-A", status)
@@ -669,7 +799,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess DEDUP_AND_RECHUNK
+# DEFECT: PASS con hashes duplicados
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "chunks", "unique_hashes", "source_version"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +853,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide DEDUP_AND_RECHUNK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "chunks", "unique_hashes", "source_version"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +907,11 @@ assert results == ["CONTINUE", "DEDUP_AND_RECHUNK", "RESTORE_CHUNK_METADATA"]` ,
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-2B", **{"user_acl":{"public","ops"},"chunk_acl":{"ops"},"deleted":False,"provenance":"doc-7-v2","cache_invalidated":True}}
+          code: `# CASO-LIM-048 · chunk ACL + soft delete
+# DEFECT: PASS si ACL vacío o deleted True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-2B", **{"user_acl":{"public","ops"},"chunk_acl":{"ops"},"deleted":False,"provenance":"doc-7-v2","cache_invalidated":True}}
+# DEFECT: ACL sin intersección o chunk deleted visible
 meets_contract = not bool(record["user_acl"] & record["chunk_acl"]) or record["deleted"]
 status = "PASS" if meets_contract else "FILTER_OR_DELETE_CHUNK"
 print("S48-T2-B", status)
@@ -804,7 +944,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess FILTER_OR_DELETE_CHUNK
+# DEFECT: PASS sin intersección ACL o chunk deleted
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "user_acl", "chunk_acl", "deleted", "provenance", "cache_invalidated"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +998,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide FILTER_OR_DELETE_CHUNK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "user_acl", "chunk_acl", "deleted", "provenance", "cache_invalidated"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1052,11 @@ assert results == ["CONTINUE", "FILTER_OR_DELETE_CHUNK", "VERIFY_ACL_PROVENANCE"
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-3A", **{"lexical":{"d1":0.9,"d2":0.2},"vector":{"d1":0.6,"d2":0.8},"weights":{"lexical":0.6,"vector":0.4},"expected_top":"d1"}}
+          code: `# CASO-LIM-048 · hybrid rank not pure vector
+# DEFECT: PASS si max(vector) se usa como top en vez de hybrid
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-3A", **{"lexical":{"d1":0.9,"d2":0.2},"vector":{"d1":0.6,"d2":0.8},"weights":{"lexical":0.6,"vector":0.4},"expected_top":"d1"}}
+# DEFECT: top vector no coincide con esperado (starter invierte lógica de pass)
 meets_contract = max(record["vector"], key=record["vector"].get) == record["expected_top"]
 status = "PASS" if meets_contract else "RECALIBRATE_HYBRID_RANK"
 print("S48-T3-A", status)
@@ -939,7 +1089,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess RECALIBRATE_HYBRID_RANK
+# DEFECT: PASS rankeando solo vector
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "lexical", "vector", "weights", "expected_top"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1143,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide RECALIBRATE_HYBRID_RANK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "lexical", "vector", "weights", "expected_top"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1197,11 @@ assert results == ["CONTINUE", "RECALIBRATE_HYBRID_RANK", "REVIEW_RERANK_CANDIDA
         starterCode: {
           language: 'python',
           title: "s48-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-3B", **{"claims":{"c1","c2"},"cited_claims":{"c1","c2"},"citation_acl":True,"context_tokens":800,"max_context_tokens":1000}}
+          code: `# CASO-LIM-048 · claims fully cited + ACL
+# DEFECT: PASS si claims not ⊆ cited o citation_acl False
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-3B", **{"claims":{"c1","c2"},"cited_claims":{"c1","c2"},"citation_acl":True,"context_tokens":800,"max_context_tokens":1000}}
+# DEFECT: claims no subset de citas o ACL de cita rota
 meets_contract = not record["claims"] <= record["cited_claims"] or not record["citation_acl"]
 status = "PASS" if meets_contract else "ABSTAIN_UNCITED"
 print("S48-T3-B", status)
@@ -1074,7 +1234,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess ABSTAIN_UNCITED
+# DEFECT: PASS con claims sin cita o ACL rota
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "claims", "cited_claims", "citation_acl", "context_tokens", "max_context_tokens"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1288,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide ABSTAIN_UNCITED
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "claims", "cited_claims", "citation_acl", "context_tokens", "max_context_tokens"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1342,11 @@ assert results == ["CONTINUE", "ABSTAIN_UNCITED", "REQUEST_AUTHORIZED_CONTEXT"]`
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"plazo 30 días","evidence_ids":["d7#2"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":True}}
+          code: `# CASO-LIM-048 · grounded structured output
+# DEFECT: PASS si evidence_ids fuera de allowed o injection no ignored
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"plazo 30 días","evidence_ids":["d7#2"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":True}}
+# DEFECT: evidence fuera de allowlist o injection no ignorada
 meets_contract = not set(record["output"]["evidence_ids"]) <= record["allowed_evidence"] or not record["injected_instruction_ignored"]
 status = "PASS" if meets_contract else "REJECT_UNGROUNDED_OUTPUT"
 print("S48-T4-A", status)
@@ -1209,7 +1379,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess REJECT_UNGROUNDED_OUTPUT
+# DEFECT: PASS con evidencia no permitida o prompt injection
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "output", "schema_keys", "allowed_evidence", "injected_instruction_ignored"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1433,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide REJECT_UNGROUNDED_OUTPUT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "output", "schema_keys", "allowed_evidence", "injected_instruction_ignored"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1487,11 @@ assert results == ["CONTINUE", "REJECT_UNGROUNDED_OUTPUT", "VALIDATE_OUTPUT_SCHE
         starterCode: {
           language: 'python',
           title: "s48-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-PUN-048-4B", **{"retrieval_recall":0.84,"min_recall":0.8,"faithfulness":0.91,"min_faithfulness":0.9,"cost_pen":0.08,"cost_cap_pen":0.1,"support":True}}
+          code: `# CASO-LIM-048 · faithfulness + support abstain
+# DEFECT: PASS si faithfulness < min o sin support
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-PUN-048-4B", **{"retrieval_recall":0.84,"min_recall":0.8,"faithfulness":0.91,"min_faithfulness":0.9,"cost_pen":0.08,"cost_cap_pen":0.1,"support":True}}
+# DEFECT: faithfulness bajo o sin support
 meets_contract = record["faithfulness"] < record["min_faithfulness"] or not record["support"]
 status = "PASS" if meets_contract else "ABSTAIN_WITH_REASON"
 print("S48-T4-B", status)
@@ -1344,7 +1524,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s48-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-048 · assess ABSTAIN_WITH_REASON
+# DEFECT: PASS con baja faithfulness o sin support
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "retrieval_recall", "min_recall", "faithfulness", "min_faithfulness", "cost_pen", "cost_cap_pen", "support"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1578,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s48-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-048 · decide ABSTAIN_WITH_REASON
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "retrieval_recall", "min_recall", "faithfulness", "min_faithfulness", "cost_pen", "cost_cap_pen", "support"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1691,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 0,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Un claim en la respuesta sin support en evidence_ids permitidos debe…",
+        options: ["publicarse igual si el estilo es persuasivo", "elevar privilegios de ACL del chunk", "borrar el holdout para inflar recall", "rechazarse o marcarse unsupported / abstain"],
+        correctIndex: 3,
+        explanation: "Groundedness fail-closed: sin evidencia permitida no hay claim operativo.",
+      },
     ],
   },
   resources: {
@@ -1515,7 +1707,12 @@ assert status in {"READY", "BLOCKED"}
         note: "Patrones de ingesta, retrieval y grounding",
       },
       {
-        label: "Elasticsearch hybrid search",
+        label: "OpenAI Embeddings guide",
+        url: "https://platform.openai.com/docs/guides/embeddings",
+        note: "Embeddings y métricas de similaridad",
+      },
+      {
+        label: "Elasticsearch hybrid search (RRF)",
         url: "https://www.elastic.co/guide/en/elasticsearch/reference/current/rrf.html",
         note: "Fusión de ranking lexical/vector",
       },
@@ -1524,14 +1721,47 @@ assert status in {"READY", "BLOCKED"}
         url: "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
         note: "Aislamiento de instrucciones y contenido",
       },
+      {
+        label: "LangChain RAG tutorial concepts",
+        url: "https://python.langchain.com/docs/tutorials/rag/",
+        note: "Chunking, retrieval y grounding (referencia conceptual)",
+      },
+      {
+        label: "LlamaIndex docs",
+        url: "https://docs.llamaindex.ai/en/stable/",
+        note: "Retrieval y pipelines (referencia)",
+      },
+      {
+        label: "Sentence Transformers",
+        url: "https://www.sbert.net/",
+        note: "Embeddings locales didácticos",
+      },
+      {
+        label: "Haystack docs",
+        url: "https://docs.haystack.deepset.ai/",
+        note: "Pipelines de retrieval",
+      },
+      {
+        label: "Stanford CS224N materials (NLP)",
+        url: "https://web.stanford.edu/class/cs224n/",
+        note: "Embeddings y similarity formal",
+      },
+      {
+        label: "NIST AI RMF",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Human oversight y riesgo de IA",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Speech and Language Processing (Jurafsky & Martin)", note: "IR y embeddings (consulta selectiva)" },
+      { label: "Designing Data-Intensive Applications", note: "Índices, ranking y sistemas" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "deeplearning.ai — LLM / RAG courses", url: "https://www.deeplearning.ai/", note: "RAG y evals intro" },
+      { label: "Coursera RAG / generative AI", url: "https://www.coursera.org/courses?query=retrieval%20augmented%20generation", note: "RAG MOOCs" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

@@ -6,13 +6,13 @@ export const section43: CourseSection = {
   title: "Contenedores y reproducibilidad operativa",
   shortTitle: "Contenedores",
   tagline: "Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "BarChart3",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, contenedores y reproducibilidad operativa conecta decisiones técnicas con evidencia operativa. La práctica entrega imágenes mínimas, servicios sanos y recuperación documentada con un comando y se promueve solo cuando build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
+    "En equipos de plataforma y producto, **contenedores y reproducibilidad operativa** empaquetan el control plane (S41–S42) en un servicio que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio. Se promueve solo cuando el build es repetible en entorno nuevo, no hay secretos horneados y los límites de recursos/CVE críticos están bajo control. Id legacy `llmops` se conserva; el path V3 es contenedores/ops, no pipelines de fine-tuning LLM.",
   learningOutcomes: [
     { text: "Optimiza Dockerfile y layers" },
     { text: "Usa non-root y reduce tamaño" },
@@ -27,10 +27,31 @@ export const section43: CourseSection = {
     {
       heading: "Ruta de S43: Contenedores y reproducibilidad operativa",
       paragraphs: [
-        "Esta sección parte de S42 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-TRU-043` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Governed Python Service Platform reproducible. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida: imágenes mínimas, servicios sanos y recuperación documentada con un comando.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Layer cache:** ordenar deps antes de app para no invalidar en cada commit. **Non-root:** proceso con UID sin privilegios. **Secret injection:** secretos en runtime, nunca horneados en la imagen. **Health/readiness:** el proceso responde solo cuando puede servir. **Compose:** API/worker/DB/cache locales con deps ordenadas. **Multi-stage:** build tools fuera de la imagen final. **Resource limits:** CPU/memoria acotados. **SBOM/scan:** inventario y CVEs antes de promover.",
+        "Esta sección empaqueta el servicio seguro de S42 en **contenedores reproducibles** sin cluster real: contratos al estilo Dockerfile/Compose (referencia Docker; progressive disclosure con dicts y checks stdlib). El caso `CASO-TRU-043` (plataforma ficticia en Trujillo) es sintético: sin secretos reales ni registro remoto obligatorio.",
+        "Producto incremental: Governed Python Service Platform. Entrada: código fijado, lock de deps, config no secreta y secretos inyectados en runtime. Salida: layers cacheables, non-root, health/readiness, compose API/worker/DB/cache y runbook de recovery. Error de promoción: root UID, secret horneado, health falso o migración no reversible.",
+        "Orden: T1 Dockerfile/non-root → T2 config/secrets/signals → T3 compose y migraciones → T4 locks, multi-stage, scan y límites. Teoría medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto ops por ejercicio. Id legacy `llmops` no implica LLMOps de modelos; V3 es reproducibilidad del servicio en contenedor. Stack didáctico: **stdlib** modelando contratos Docker/Compose sin cluster real.",
       ],
+      code: {
+        language: 'python',
+        title: "s43_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-TRU-043",
+        "gates": ["repeatable_build", "non_root", "no_baked_secrets", "resource_limits"],
+        "llmops_finetune_topic": False,
+        "root_uid_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("llmops_finetune_topic", c["llmops_finetune_topic"])
+print("root_uid_ok", c["root_uid_ok"])
+`,
+        output: `case CASO-TRU-043
+llmops_finetune_topic False
+root_uid_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,22 @@ export const section43: CourseSection = {
       heading: "Dockerfile, layers y cache",
       subtopicId: "S43-T1-A",
       paragraphs: [
-        "Ordena layers de estable a cambiante: dependencias primero y código después; cache útil acelera sin hacer el build dependiente de estado oculto.",
-        "Contrato operativo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida de este subtema: dos builds producen el mismo digest lógico. Error: imagen mutable, proceso root, health check falso o migración no reversible bloquea release. Criterio de éxito: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
-        "Aplicación de `Dockerfile, layers y cache` al caso peruano sintético `CASO-TRU-043`: API, worker, base y cache locales de una plataforma ficticia en Trujillo. La evidencia esperada es dos builds producen el mismo digest lógico. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Ordena layers de **estable a cambiante**: base y dependencias primero, código de aplicación después. Así el cache de build acelera commits de app sin re-resolver pip en cada push. Un cache «mágico» que depende de estado oculto del host rompe la reproducibilidad entre máquinas.",
+        "Contrato de cache. Entrada: secuencia de layers `base→deps→app→cmd` y lock de dependencias. Salida: `cache_hint=deps_before_app` y digest lógico estable entre dos builds con el mismo lock. Error: copiar el source antes del lock (invalida cache en cada commit) o hornear secretos en una layer. Criterio: en el lab de Trujillo sintético, un cambio solo de app no re-resuelve pip si deps no cambió.",
+        "Aplicación a `CASO-TRU-043-T1A`: `layer_order` valida deps antes de app. Sin secretos en el Dockerfile; el secret se inyecta en runtime (T2-A). Evidencia: dos builds con el mismo lock producen el mismo digest lógico de deps.",
       ],
       code: {
         language: 'python',
         title: "dockerfile_layers_cache.py",
-        code: `print("layers", ["base","deps","app","cmd"]); print("cache_hint", "deps_before_app"); print("dockerfile", True)`,
+        code: `def layer_order(steps: list) -> tuple:
+    # deps before app maximizes cache hits when only source changes
+    hint = "deps_before_app" if steps.index("deps") < steps.index("app") else "reorder"
+    return steps, hint, True
+
+layers, hint, ok = layer_order(["base", "deps", "app", "cmd"])
+print("layers", layers)
+print("cache_hint", hint)
+print("dockerfile", ok)`,
         output: `layers ['base', 'deps', 'app', 'cmd']
 cache_hint deps_before_app
 dockerfile True`,
@@ -71,7 +100,13 @@ dockerfile True`,
       code: {
         language: 'python',
         title: "bases_nonroot_size.py",
-        code: `print("user", "appuser"); print("nonroot", True); print("uid", 10001)`,
+        code: `def nonroot_user(user: str, uid: int) -> dict:
+    return {"user": user, "nonroot": uid >= 1000, "uid": uid}
+
+u = nonroot_user("appuser", 10001)
+print("user", u["user"])
+print("nonroot", u["nonroot"])
+print("uid", u["uid"])`,
         output: `user appuser
 nonroot True
 uid 10001`,
@@ -94,7 +129,14 @@ uid 10001`,
       code: {
         language: 'python',
         title: "config_secrets_volumes.py",
-        code: `print("env", "prod"); print("secret_ref", "\${SECRET}"); print("volume", "/data")`,
+        code: `def runtime_config(env: str, secret_ref: str, volume: str) -> dict:
+    # secrets are references only — never baked values
+    return {"env": env, "secret_ref": secret_ref, "volume": volume}
+
+cfg = runtime_config("prod", "\${SECRET}", "/data")
+print("env", cfg["env"])
+print("secret_ref", cfg["secret_ref"])
+print("volume", cfg["volume"])`,
         output: `env prod
 secret_ref \${SECRET}
 volume /data`,
@@ -117,7 +159,12 @@ volume /data`,
       code: {
         language: 'python',
         title: "net_health_signals.py",
-        code: `print(sorted(["/healthz","/readyz"])); print("signals", ["SIGTERM","SIGINT"]); print("net", "private")`,
+        code: `def health_endpoints(paths: list) -> list:
+    return sorted(paths)
+
+print(health_endpoints(["/readyz", "/healthz"]))
+print("signals", ["SIGTERM", "SIGINT"])
+print("net", "private")`,
         output: `['/healthz', '/readyz']
 signals ['SIGTERM', 'SIGINT']
 net private`,
@@ -140,7 +187,17 @@ net private`,
       code: {
         language: 'python',
         title: "api_worker_db_cache.py",
-        code: `print("services", ["api","worker","db","cache"]); print("has_worker", True); print("cache", "redis_like")`,
+        code: `def stack_ok(services: list) -> dict:
+    return {
+        "services": services,
+        "has_worker": "worker" in services,
+        "cache": "redis_like" if "cache" in services else "none",
+    }
+
+s = stack_ok(["api", "worker", "db", "cache"])
+print("services", s["services"])
+print("has_worker", s["has_worker"])
+print("cache", s["cache"])`,
         output: `services ['api', 'worker', 'db', 'cache']
 has_worker True
 cache redis_like`,
@@ -163,7 +220,12 @@ cache redis_like`,
       code: {
         language: 'python',
         title: "deps_migrations_ephemeral.py",
-        code: `print("migrate_before_api", True); print("ephemeral", ["tmp","cache"]); print("deps_lock", True)`,
+        code: `def boot_order(steps: list) -> bool:
+    return steps.index("migrate") < steps.index("api")
+
+print("migrate_before_api", boot_order(["deps", "migrate", "api"]))
+print("ephemeral", ["tmp", "cache"])
+print("deps_lock", True)`,
         output: `migrate_before_api True
 ephemeral ['tmp', 'cache']
 deps_lock True`,
@@ -186,7 +248,17 @@ deps_lock True`,
       code: {
         language: 'python',
         title: "locks_multistage.py",
-        code: `print("multistage", ["builder","runtime"]); print("locks", ["requirements.txt"]); print("reproducible", True)`,
+        code: `def multistage_plan(has_lock: bool) -> dict:
+    return {
+        "multistage": ["builder", "runtime"],
+        "locks": ["requirements.txt"] if has_lock else [],
+        "reproducible": has_lock,
+    }
+
+p = multistage_plan(True)
+print("multistage", p["multistage"])
+print("locks", p["locks"])
+print("reproducible", p["reproducible"])`,
         output: `multistage ['builder', 'runtime']
 locks ['requirements.txt']
 reproducible True`,
@@ -209,7 +281,17 @@ reproducible True`,
       code: {
         language: 'python',
         title: "scan_limits_debug.py",
-        code: `print("limits", {"cpu":"1","mem":"512Mi"}); print("scan_clean", True); print("debug", "ephemeral_shell")`,
+        code: `def scan_gate(critical: int, limits: dict) -> dict:
+    return {
+        "limits": limits,
+        "scan_clean": critical == 0,
+        "debug": "ephemeral_shell",
+    }
+
+g = scan_gate(0, {"cpu": "1", "mem": "512Mi"})
+print("limits", g["limits"])
+print("scan_clean", g["scan_clean"])
+print("debug", g["debug"])`,
         output: `limits {'cpu': '1', 'mem': '512Mi'}
 scan_clean True
 debug ephemeral_shell`,
@@ -233,7 +315,14 @@ debug ephemeral_shell`,
         code: {
           language: 'python',
           title: "demo_dockerfile_layers_cache.py",
-          code: `print("pip_before_app", True); print("n_steps", 5); print("cache", "stable_layers_first")`,
+          code: `def dockerfile_steps(steps: list) -> tuple:
+    pip_before = steps.index("deps") < steps.index("app")
+    return pip_before, len(steps), "stable_layers_first" if pip_before else "reorder"
+
+ok, n, cache = dockerfile_steps(["base", "deps", "app", "user", "cmd"])
+print("pip_before_app", ok)
+print("n_steps", n)
+print("cache", cache)`,
           output: `pip_before_app True
 n_steps 5
 cache stable_layers_first`,
@@ -248,7 +337,15 @@ cache stable_layers_first`,
         code: {
           language: 'python',
           title: "demo_bases_nonroot_size.py",
-          code: `print("smaller", "distroless"); print("mb", 40); print("base", "slim")`,
+          code: `def choose_base(size_mb: int) -> tuple:
+    base = "slim" if size_mb <= 80 else "full"
+    smaller = "distroless" if size_mb <= 50 else base
+    return smaller, size_mb, base
+
+smaller, mb, base = choose_base(40)
+print("smaller", smaller)
+print("mb", mb)
+print("base", base)`,
           output: `smaller distroless
 mb 40
 base slim`,
@@ -263,7 +360,12 @@ base slim`,
         code: {
           language: 'python',
           title: "demo_config_secrets_volumes.py",
-          code: `print("no_hardcoded", True); print("mount", "readonly_config"); print("ok", True)`,
+          code: `def image_has_secret(layers: list) -> bool:
+    return any("SECRET=" in layer for layer in layers)
+
+print("no_hardcoded", not image_has_secret(["ENV=prod", "CMD=api"]))
+print("mount", "readonly_config")
+print("ok", True)`,
           output: `no_hardcoded True
 mount readonly_config
 ok True`,
@@ -278,7 +380,14 @@ ok True`,
         code: {
           language: 'python',
           title: "demo_net_health_signals.py",
-          code: `print(200); print(503); print("graceful", True)`,
+          code: `def health_status(ready: bool, live: bool) -> int:
+    if not live:
+        return 503
+    return 200 if ready else 503
+
+print(health_status(True, True))
+print(health_status(False, True))
+print("graceful", True)`,
           output: `200
 503
 graceful True`,
@@ -293,7 +402,13 @@ graceful True`,
         code: {
           language: 'python',
           title: "demo_api_worker_db_cache.py",
-          code: `print("api_deps", ["db","cache"]); print("worker_deps", ["db","cache"]); print("split", True)`,
+          code: `def service_deps(name: str) -> list:
+    shared = ["db", "cache"]
+    return shared if name in ("api", "worker") else []
+
+print("api_deps", service_deps("api"))
+print("worker_deps", service_deps("worker"))
+print("split", True)`,
           output: `api_deps ['db', 'cache']
 worker_deps ['db', 'cache']
 split True`,
@@ -308,7 +423,12 @@ split True`,
         code: {
           language: 'python',
           title: "demo_deps_migrations_ephemeral.py",
-          code: `print("migrations", "expand_contract"); print("data", "ephemeral_ok"); print("order", "migrate_first")`,
+          code: `def migrate_strategy(reversible: bool) -> str:
+    return "expand_contract" if reversible else "blocked"
+
+print("migrations", migrate_strategy(True))
+print("data", "ephemeral_ok")
+print("order", "migrate_first")`,
           output: `migrations expand_contract
 data ephemeral_ok
 order migrate_first`,
@@ -323,7 +443,17 @@ order migrate_first`,
         code: {
           language: 'python',
           title: "demo_locks_multistage.py",
-          code: `print("builder_has_compilers", True); print("runtime_slim", True); print("lock", "pinned")`,
+          code: `def stages(has_compiler: bool, lock_pinned: bool) -> dict:
+    return {
+        "builder_has_compilers": has_compiler,
+        "runtime_slim": not has_compiler or True,
+        "lock": "pinned" if lock_pinned else "floating",
+    }
+
+s = stages(True, True)
+print("builder_has_compilers", s["builder_has_compilers"])
+print("runtime_slim", s["runtime_slim"])
+print("lock", s["lock"])`,
           output: `builder_has_compilers True
 runtime_slim True
 lock pinned`,
@@ -338,7 +468,12 @@ lock pinned`,
         code: {
           language: 'python',
           title: "demo_scan_limits_debug.py",
-          code: `print("block_deploy", False); print("mem", "512Mi"); print("scan", "ci_gate")`,
+          code: `def block_deploy(critical_findings: int) -> bool:
+    return critical_findings > 0
+
+print("block_deploy", block_deploy(0))
+print("mem", "512Mi")
+print("scan", "ci_gate")`,
           output: `block_deploy False
 mem 512Mi
 scan ci_gate`,
@@ -366,7 +501,11 @@ scan ci_gate`,
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-1A", **{"lock_copied_before_source":True,"dependency_layer_reused":True,"source_change_rebuilds":1,"digest_stable":True}}
+          code: `# CASO-LIM-043 · Dockerfile layer cache order
+# DEFECT: PASS si no reusa capa deps y rebuilds>3 (invertido)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-1A", **{"lock_copied_before_source":True,"dependency_layer_reused":True,"source_change_rebuilds":1,"digest_stable":True}}
+# DEFECT: cache de deps debe reutilizarse; rebuilds de source no deben re-resolver deps
 meets_contract = not record["dependency_layer_reused"] and record["source_change_rebuilds"] > 3
 status = "PASS" if meets_contract else "REORDER_DOCKERFILE"
 print("S43-T1-A", status)
@@ -399,7 +538,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess REORDER_DOCKERFILE
+# DEFECT: PASS sin dependency_layer_reused
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "lock_copied_before_source", "dependency_layer_reused", "source_change_rebuilds", "digest_stable"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +592,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide REORDER_DOCKERFILE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "lock_copied_before_source", "dependency_layer_reused", "source_change_rebuilds", "digest_stable"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +646,11 @@ assert results == ["CONTINUE", "REORDER_DOCKERFILE", "INSPECT_CACHE_INVALIDATION
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-1B", **{"base_pinned":True,"uid":10001,"capabilities":set(),"runtime_mb":118,"max_mb":150}}
+          code: `# CASO-LIM-043 · non-root base + size
+# DEFECT: PASS si uid==0 o capabilities no vacías
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-1B", **{"base_pinned":True,"uid":10001,"capabilities":set(),"runtime_mb":118,"max_mb":150}}
+# DEFECT: root o capabilities extra bloquean non-root
 meets_contract = record["uid"] == 0 or bool(record["capabilities"])
 status = "PASS" if meets_contract else "REBUILD_NONROOT"
 print("S43-T1-B", status)
@@ -534,7 +683,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess REBUILD_NONROOT
+# DEFECT: PASS con root o caps extra
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "base_pinned", "uid", "capabilities", "runtime_mb", "max_mb"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +737,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide REBUILD_NONROOT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "base_pinned", "uid", "capabilities", "runtime_mb", "max_mb"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +791,11 @@ assert results == ["CONTINUE", "REBUILD_NONROOT", "SELECT_PATCHABLE_BASE"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-2A", **{"secret_baked":False,"runtime_secret":True,"config_declared":True,"durable_volumes":{"db"},"ephemeral_volumes":{"cache"}}}
+          code: `# CASO-LIM-043 · secrets not baked + durable volumes
+# DEFECT: PASS si secret_baked o db en ephemeral
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-2A", **{"secret_baked":False,"runtime_secret":True,"config_declared":True,"durable_volumes":{"db"},"ephemeral_volumes":{"cache"}}}
+# DEFECT: secret horneado o volumen de DB efímero mal clasificado
 meets_contract = record["secret_baked"] or "db" in record["ephemeral_volumes"]
 status = "PASS" if meets_contract else "REMOVE_BAKED_SECRET"
 print("S43-T2-A", status)
@@ -669,7 +828,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess REMOVE_BAKED_SECRET
+# DEFECT: PASS con secret en imagen o DB efímera
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "secret_baked", "runtime_secret", "config_declared", "durable_volumes", "ephemeral_volumes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +882,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide REMOVE_BAKED_SECRET
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "secret_baked", "runtime_secret", "config_declared", "durable_volumes", "ephemeral_volumes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +936,11 @@ assert results == ["CONTINUE", "REMOVE_BAKED_SECRET", "CLASSIFY_VOLUME"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-2B", **{"private_network":True,"readiness_db":True,"liveness_loop":True,"sigterm_drains":True,"grace_seconds":30}}
+          code: `# CASO-LIM-043 · readiness + SIGTERM drain
+# DEFECT: PASS si falta readiness_db o no drena
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-2B", **{"private_network":True,"readiness_db":True,"liveness_loop":True,"sigterm_drains":True,"grace_seconds":30}}
+# DEFECT: readiness y drain en SIGTERM son obligatorios
 meets_contract = not record["readiness_db"] or not record["sigterm_drains"]
 status = "PASS" if meets_contract else "DRAIN_AND_ISOLATE"
 print("S43-T2-B", status)
@@ -804,7 +973,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess DRAIN_AND_ISOLATE
+# DEFECT: PASS sin readiness o sin sigterm_drains
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "private_network", "readiness_db", "liveness_loop", "sigterm_drains", "grace_seconds"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +1027,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide DRAIN_AND_ISOLATE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "private_network", "readiness_db", "liveness_loop", "sigterm_drains", "grace_seconds"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1081,11 @@ assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-3A", **{"services":{"api","worker","db","cache"},"healthy":{"api","worker","db","cache"},"api_retries_db":True,"networks":{"front","back"}}}
+          code: `# CASO-LIM-043 · compose stack health
+# DEFECT: PASS si healthy≠services y sin retries a DB
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-3A", **{"services":{"api","worker","db","cache"},"healthy":{"api","worker","db","cache"},"api_retries_db":True,"networks":{"front","back"}}}
+# DEFECT: stack unhealthy sin retries controlados
 meets_contract = record["healthy"] != record["services"] and not record["api_retries_db"]
 status = "PASS" if meets_contract else "STOP_UNHEALTHY_STACK"
 print("S43-T3-A", status)
@@ -939,7 +1118,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess STOP_UNHEALTHY_STACK
+# DEFECT: PASS con servicios no healthy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "services", "healthy", "api_retries_db", "networks"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1172,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide STOP_UNHEALTHY_STACK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "services", "healthy", "api_retries_db", "networks"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1226,11 @@ assert results == ["CONTINUE", "STOP_UNHEALTHY_STACK", "WAIT_FOR_DEPENDENCY"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-3B", **{"migration":"expand","old_code_compatible":True,"ephemeral_reset":True,"backup_restored":True}}
+          code: `# CASO-LIM-043 · expand/contract migrations
+# DEFECT: PASS si migration contract sin compat
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-3B", **{"migration":"expand","old_code_compatible":True,"ephemeral_reset":True,"backup_restored":True}}
+# DEFECT: migración contract requiere compat con código viejo o rollback
 meets_contract = record["migration"] == "contract" and not record["old_code_compatible"]
 status = "PASS" if meets_contract else "ROLL_BACK_MIGRATION"
 print("S43-T3-B", status)
@@ -1074,7 +1263,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess ROLL_BACK_MIGRATION
+# DEFECT: PASS con migrate contract y old_code incompatible
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "migration", "old_code_compatible", "ephemeral_reset", "backup_restored"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1317,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide ROLL_BACK_MIGRATION
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "migration", "old_code_compatible", "ephemeral_reset", "backup_restored"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1371,11 @@ assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-4A", **{"lock_hash":"sha256:abc","stages":{"builder","runtime"},"compiler_in_runtime":False,"runtime_deps_locked":True}}
+          code: `# CASO-LIM-043 · locks + multi-stage
+# DEFECT: PASS si runtime_deps no locked o compiler en runtime
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-4A", **{"lock_hash":"sha256:abc","stages":{"builder","runtime"},"compiler_in_runtime":False,"runtime_deps_locked":True}}
+# DEFECT: runtime debe ir locked y sin compiler de build
 meets_contract = not record["runtime_deps_locked"] or record["compiler_in_runtime"]
 status = "PASS" if meets_contract else "BLOCK_UNPINNED_BUILD"
 print("S43-T4-A", status)
@@ -1209,7 +1408,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess BLOCK_UNPINNED_BUILD
+# DEFECT: PASS sin lock o con compiler en runtime
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "lock_hash", "stages", "compiler_in_runtime", "runtime_deps_locked"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1462,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide BLOCK_UNPINNED_BUILD
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "lock_hash", "stages", "compiler_in_runtime", "runtime_deps_locked"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1516,11 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
+          code: `# CASO-LIM-043 · CVE scan + debug shell + logs
+# DEFECT: PASS si critical_cves>0 o debug_shell o logs sin redact
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
+# DEFECT: CVE críticos, shell de debug o logs con PII → quarantine
 meets_contract = record["critical_cves"] > 0 or record["debug_shell"] or not record["logs_redacted"]
 status = "PASS" if meets_contract else "QUARANTINE_IMAGE"
 print("S43-T4-B", status)
@@ -1344,7 +1553,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-043 · assess QUARANTINE_IMAGE
+# DEFECT: PASS con CVEs/debug shell/logs crudos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1607,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-043 · decide QUARANTINE_IMAGE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1720,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 3,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Un Dockerfile que copia el source antes del lock de dependencias…",
+        options: ["maximiza cache: solo app cambia y deps no se re-resuelven", "es obligatorio para non-root", "invalida cache de deps en cada commit de código (reorder a deps_before_app)", "garantiza el mismo digest aunque el lock cambie"],
+        correctIndex: 2,
+        explanation: "Layers deben ir de estable a cambiante: deps/lock antes de app; copiar source primero rompe el cache de dependencias.",
+      },
     ],
   },
   resources: {
@@ -1513,6 +1734,16 @@ assert status in {"READY", "BLOCKED"}
         label: "Dockerfile reference",
         url: "https://docs.docker.com/reference/dockerfile/",
         note: "Layers, usuarios y builds",
+      },
+      {
+        label: "Docker multi-stage builds",
+        url: "https://docs.docker.com/build/building/multi-stage/",
+        note: "Builder vs runtime",
+      },
+      {
+        label: "Docker best practices",
+        url: "https://docs.docker.com/build/building/best-practices/",
+        note: "Cache, non-root y tamaño",
       },
       {
         label: "Docker Compose Specification",
@@ -1524,14 +1755,42 @@ assert status in {"READY", "BLOCKED"}
         url: "https://github.com/opencontainers/image-spec",
         note: "Formato y contenido de imágenes",
       },
+      {
+        label: "OWASP Docker Security Cheat Sheet",
+        url: "https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html",
+        note: "Hardening de contenedores",
+      },
+      {
+        label: "NIST SP 800-190 App Container Security",
+        url: "https://csrc.nist.gov/publications/detail/sp/800-190/final",
+        note: "Amenazas y controles de contenedores",
+      },
+      {
+        label: "Twelve-Factor App",
+        url: "https://12factor.net/",
+        note: "Config, logs y procesos desechables",
+      },
+      {
+        label: "Trivy (image scanning)",
+        url: "https://github.com/aquasecurity/trivy",
+        note: "Scan de CVEs en imágenes",
+      },
+      {
+        label: "Python signal handling",
+        url: "https://docs.python.org/3/library/signal.html",
+        note: "Shutdown limpio (SIGTERM)",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Container Security (Rice)", note: "Non-root, supply chain y runtime" },
+      { label: "Site Reliability Engineering", note: "Health, capacity y cambio seguro" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Coursera Docker courses", url: "https://www.coursera.org/courses?query=docker", note: "Contenedores y orquestación intro" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
+      { label: "Kubernetes probes (conceptual transfer)", url: "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes", note: "Health/readiness analogy" },
     ],
   },
 }

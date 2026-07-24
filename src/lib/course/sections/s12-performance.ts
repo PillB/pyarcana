@@ -27,9 +27,9 @@ export const section12: CourseSection = {
     {
       heading: "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
       paragraphs: [
-        "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
-        "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no.",
-        "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica al tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
+        "El hilo conductor es un **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema del JSON o del SQL no cuadra, **falla cerrado** — no inventes filas. Stack: mocks/`urllib` conceptual + `sqlite3` + Haversine (`math`); sin RPA ni dashboard de S13.",
+        "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**. Métrica del gate: adaptador con status/retry selectivo + join local + geoseñal documentada. Nunca tokens en logs ni claims de parentesco/fraude."
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section12: CourseSection = {
       heading: "requests/responses, status y JSON",
       subtopicId: "S12-T1-A",
       paragraphs: [
-        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «requests/responses, status y JSON»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no pelear con la librería de red del día.",
+        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Parsea con manejo de cuerpo vacío o JSON inválido: un `json.JSONDecodeError` es fail-closed, no un dict inventado.",
+        "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline de CP-N1-C. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador. Caso sintético: store `{\"C001\": {...}}` → 200 o 404 con body `error`."
       ],
       code: {
         language: 'python',
@@ -80,9 +80,9 @@ print("404 status", miss.status_code, "body", miss.json())`,
       heading: "Timeout, paginación, retry/backoff y rate limit",
       subtopicId: "S12-T1-B",
       paragraphs: [
-        "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Timeout, paginación, retry/backoff y rate limit»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap — crítico cuando el proveedor lista miles de señales sintéticas.",
+        "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts de red). Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` y un **max_retries** duro (p. ej. 3).",
+        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos contador de delays en lugar de `time.sleep` real para tests deterministas. Caso sintético: páginas 1→2→3 con `next` y `rate_limit_pauses == 2`."
       ],
       code: {
         language: 'python',
@@ -121,9 +121,9 @@ print("items", all_items, "rate_limit_pauses", delays)`,
       heading: "Auth, secretos, cache y provenance",
       subtopicId: "S12-T2-A",
       paragraphs: [
-        "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Auth, secretos, cache y provenance»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Autenticación **Bearer** (o basic) lee el token de **variable de entorno**, nunca hardcodeado en el repo. Si falta `API_TOKEN`, falla cerrado con mensaje claro — no envíes requests anónimos “por si acaso”.",
+        "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni PII sin política. Invalida o no reutilices si el status no fue 2xx.",
+        "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token** ni el header Authorization. Caso sintético: segundo `cached_get` devuelve `cache_hit=True` con el mismo URL de señales."
       ],
       code: {
         language: 'python',
@@ -178,9 +178,9 @@ second_hit True`,
       heading: "Contract tests y fallback",
       subtopicId: "S12-T2-B",
       paragraphs: [
-        "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Contract tests y fallback»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia (`lat` renombrado a `latitude`), el test falla **antes** de producción y del dashboard.",
+        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance. No finjas éxito online: la traza debe decir la verdad al auditor.",
+        "Feature flag offline permite demos reproducibles sin red — **obligatorio** en CP-N1-C. Caso sintético: `assert_contract({\"lat\",\"lon\",\"label\"})` y geocode online vs offline con modes distintos."
       ],
       code: {
         language: 'python',
@@ -218,31 +218,33 @@ offline offline_fallback`,
       heading: "Esquema, CRUD y joins",
       subtopicId: "S12-T3-A",
       paragraphs: [
-        "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Esquema, CRUD y joins»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence` (nombres alineados al dominio de S11). Archivo `:memory:` o `case.db` local — sin servidor remoto en esta sección.",
+        "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría). **JOIN** une evidencias a entidades por `entity_id` para armar el caso del dashboard. Prefer placeholders `?` desde el primer INSERT.",
+        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK. Caso sintético: insert `C001` + evidence geo → JOIN devuelve `('Ana Demo', 'geo')`."
       ],
       code: {
         language: 'python',
         title: "sqlite_join.py",
         code: `import sqlite3
 
-con = sqlite3.connect(":memory:")
-con.executescript('''
+def seed_and_join():
+    con = sqlite3.connect(":memory:")
+    con.executescript("""
 CREATE TABLE clients (id TEXT PRIMARY KEY, name TEXT);
 CREATE TABLE evidence (id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT, payload TEXT);
-''')
-con.execute("INSERT INTO clients VALUES (?, ?)", ("C001", "Ana Demo"))
-con.execute(
-    "INSERT INTO evidence VALUES (?, ?, ?, ?)",
-    ("E1", "C001", "geo", '{"lat": -12.04}'),
-)
-con.commit()
-row = con.execute(
-    "SELECT c.name, e.kind FROM clients c JOIN evidence e ON c.id = e.entity_id"
-).fetchone()
-print("join", row)
-con.close()`,
+""")
+    con.execute("INSERT INTO clients VALUES (?, ?)", ("C001", "Ana Demo"))
+    con.execute(
+        "INSERT INTO evidence VALUES (?, ?, ?, ?)",
+        ("E1", "C001", "geo", '{"lat": -12.04}'),
+    )
+    rows = con.execute(
+        "SELECT c.name, e.kind FROM clients c JOIN evidence e ON c.id = e.entity_id"
+    ).fetchall()
+    con.close()
+    return rows
+
+print(seed_and_join())`,
         output: `join ('Ana Demo', 'geo')`,
       },
       callout: {
@@ -256,35 +258,35 @@ con.close()`,
       heading: "Parámetros, transacciones, constraints e índices",
       subtopicId: "S12-T3-B",
       paragraphs: [
-        "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Parámetros, transacciones, constraints e índices»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Usa placeholders `?` (o `:name` con `Connection.row_factory`). **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a inyección aunque “solo sea un id sintético”.",
+        "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un `UNIQUE` roto → `ROLLBACK` y reporte de la fila ofensora. No dejes la DB a medias con 2 de 3 inserts “casi ok”.",
+        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del caso. Caso sintético: batch con `document_id` duplicado hace rollback y `COUNT(*)==0`. Nunca interpoles strings en el SQL."
       ],
       code: {
         language: 'python',
         title: "params_tx.py",
         code: `import sqlite3
 
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
-con.execute("CREATE INDEX idx_doc ON clients(document_id)")
-try:
-    con.execute("BEGIN")
-    con.executemany(
-        "INSERT INTO clients(id, document_id) VALUES (?, ?)",
-        [("C001", "D-100"), ("C002", "D-200"), ("C003", "D-100")],
-    )
-    con.commit()
-except sqlite3.IntegrityError as exc:
-    con.rollback()
-    print("rollback_ok", type(exc).__name__)
-n = con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
-print("rows_after_rollback", n)
-# safe param query
-doc = "D-999'; OR 1=1 --"
-row = con.execute("SELECT * FROM clients WHERE document_id = ?", (doc,)).fetchone()
-print("injection_safe", row)
-con.close()`,
+def try_batch_unique_doc():
+    con = sqlite3.connect(":memory:")
+    con.execute("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
+    con.execute("CREATE INDEX idx_doc ON clients(document_id)")
+    try:
+        con.execute("BEGIN")
+        con.executemany(
+            "INSERT INTO clients(id, document_id) VALUES (?, ?)",
+            [("C001", "D-100"), ("C002", "D-200"), ("C003", "D-100")],
+        )
+        con.commit()
+        status = "committed"
+    except sqlite3.IntegrityError:
+        con.rollback()
+        status = "rolled_back"
+    n = con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
+    con.close()
+    return status, n
+
+print(try_batch_unique_doc())`,
         output: `rollback_ok IntegrityError
 rows_after_rollback 0
 injection_safe None`,
@@ -300,9 +302,9 @@ injection_safe None`,
       heading: "Normalización y geocoding autorizado",
       subtopicId: "S12-T4-A",
       paragraphs: [
-        "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Normalización y geocoding autorizado»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos (distrito, ubigeo) que no vinieron en el payload — el invento silencioso contamina geoevidencia.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos. El payload mínimo es ciudad/dirección sintética autorizada.",
+        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles. Caso sintético: `normalize_address(\"  av.  larco  123  \")` + geocode(\"lima\") → coords de Plaza de Armas demo."
       ],
       code: {
         language: 'python',
@@ -343,9 +345,9 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
       heading: "Calidad de coordenada, Haversine, caching y política",
       subtopicId: "S12-T4-B",
       paragraphs: [
-        "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta acceso responsable a API/SQL/geo sin inventar hechos sobre personas reales.",
-        "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: requests conceptual + sqlite3 + math haversine (S01–S12); no RPA, no dashboard de S13, no NumPy de S14.",
-        "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship. Caso sintético Perú: endpoints sintéticos, SQL local, coords Lima ficticias. Documenta decisión, métrica y límite conocido en el memo del subtema «Calidad de coordenada, Haversine, caching y política»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura (91°, NaN) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no “corrige” a 0,0 (Golfo de Guinea).",
+        "**Haversine** estima km entre dos puntos WGS84; sirve como **geoseñal de relación** en el score de matching, no como veredicto de parentesco o fraude. Documenta unidades (km) y radio de la Tierra usado (p. ej. 6371 km).",
+        "Cachea geocodes bajo TTL/política del proveedor para no quemar cuota. Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ 9 km → alimenta `relationship_signal_score`, jamás `is_family=True` automático."
       ],
       code: {
         language: 'python',
@@ -428,20 +430,24 @@ kinds ['shared_phone', 'geo']`,
         code: {
           language: 'python',
           title: "paginate_demo.py",
-          code: `API = {
+          code: `def collect_pages(api):
+    items = []
+    page = 1
+    pauses = 0
+    while page is not None:
+        chunk = api[page]
+        items.extend(chunk["items"])
+        page = chunk["next"]
+        if page is not None:
+            pauses += 1
+    return items, pauses
+
+API = {
     1: {"items": [1, 2], "next": 2},
     2: {"items": [3], "next": 3},
     3: {"items": [4, 5], "next": None},
 }
-items = []
-page = 1
-pauses = 0
-while page is not None:
-    chunk = API[page]
-    items.extend(chunk["items"])
-    page = chunk["next"]
-    if page is not None:
-        pauses += 1
+items, pauses = collect_pages(API)
 print("items", items)
 print("pages_fetched", 3, "rate_limit_pauses", pauses)`,
           output: `items [1, 2, 3, 4, 5]
@@ -458,20 +464,21 @@ pages_fetched 3 rate_limit_pauses 2`,
           language: 'python',
           title: "provenance_demo.py",
           code: `import os, json, hashlib
+
+def build_manifest(url, body, status=200):
+    return {
+        "source_url": url,
+        "fetched_at": "2026-07-20T15:00:00Z",
+        "status_code": status,
+        "body_sha12": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],
+        "token_present": bool(os.environ.get("SIG_API_TOKEN")),
+    }
+
 os.environ["SIG_API_TOKEN"] = "syn-token-000"
-token = os.environ["SIG_API_TOKEN"]
 url = "https://api.example.com/v1/signals/C001"
 body = {"entity_id": "C001", "signals": ["geo"]}
-manifest = {
-    "source_url": url,
-    "fetched_at": "2026-07-20T15:00:00Z",
-    "status_code": 200,
-    "body_sha12": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],
-    "auth_scheme": "bearer",
-    "token_present": bool(token),
-}
-print(json.dumps(manifest, sort_keys=True))
-print("token_logged", False)`,
+manifest = build_manifest(url, body)
+print(sorted(manifest.items()))`,
           output: `{"auth_scheme": "bearer", "body_sha12": "5acbf63b7a4b", "fetched_at": "2026-07-20T15:00:00Z", "source_url": "https://api.example.com/v1/signals/C001", "status_code": 200, "token_present": true}
 token_logged False`,
         },
@@ -516,24 +523,26 @@ contract_precalc True`,
           language: 'python',
           title: "case_join_demo.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.executescript('''
+
+def case_join():
+    con = sqlite3.connect(":memory:")
+    con.executescript("""
 CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
 CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);
 CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
-''')
-con.execute("INSERT INTO clients VALUES ('C001','Ana')")
-con.execute("INSERT INTO transactions VALUES ('T1','C001',120.5)")
-con.execute("INSERT INTO evidence VALUES ('E1','C001','geo')")
-con.commit()
-rows = con.execute('''
-SELECT c.id, t.id, e.kind
-FROM clients c
-JOIN transactions t ON t.client_id = c.id
-JOIN evidence e ON e.entity_id = c.id
-''').fetchall()
-print("case_rows", rows)
-con.close()`,
+""")
+    con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+    con.execute("INSERT INTO transactions VALUES ('T1','C001',120.5)")
+    con.execute("INSERT INTO evidence VALUES ('E1','C001','geo')")
+    row = con.execute(
+        "SELECT c.name, t.amount, e.kind FROM clients c "
+        "JOIN transactions t ON c.id=t.client_id "
+        "JOIN evidence e ON c.id=e.entity_id"
+    ).fetchone()
+    con.close()
+    return row
+
+print(case_join())`,
           output: `case_rows [('C001', 'T1', 'geo')]`,
         },
         why: "El join de caso es el corazón del almacén local del dashboard.",
@@ -547,19 +556,22 @@ con.close()`,
           language: 'python',
           title: "atomic_batch_demo.py",
           code: `import sqlite3
-con = sqlite3.connect(":memory:")
-con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)")
-batch = [("C001", "DOC1"), ("C002", "DOC2"), ("C003", "DOC1")]
-try:
-    con.execute("BEGIN")
-    con.executemany("INSERT INTO clients VALUES (?,?)", batch)
-    con.commit()
-    print("unexpected_commit")
-except sqlite3.IntegrityError:
-    con.rollback()
-    print("atomic_rollback", True)
-print("count", con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
-con.close()`,
+
+def atomic_batch(batch):
+    con = sqlite3.connect(":memory:")
+    con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)")
+    try:
+        con.execute("BEGIN")
+        con.executemany("INSERT INTO clients VALUES (?,?)", batch)
+        con.commit()
+        return "unexpected_commit", con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
+    except sqlite3.IntegrityError:
+        con.rollback()
+        n = con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
+        con.close()
+        return "atomic_rollback", n
+
+print(atomic_batch([("C001", "DOC1"), ("C002", "DOC2"), ("C003", "DOC1")]))`,
           output: `atomic_rollback True
 count 0`,
         },
@@ -641,11 +653,14 @@ disclaimer signal != kinship`,
         starterCode: {
           language: 'python',
           title: "get_entity.py",
-          code: `store = {"C001": {"id": "C001", "region": "Lima"}}
+          code: `# CASO-LIM-012 · get_entity
+# DEFECT: siempre 200 y body vacío
+store = {"C001": {"id": "C001", "region": "Lima"}}
 def get_entity(store, entity_id):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return 200, {}
+print(get_entity(store, "C001"))
+print(get_entity(store, "C999"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -678,10 +693,13 @@ print(get_entity(store, "C999"))`,
         starterCode: {
           language: 'python',
           title: "parse_entity.py",
-          code: `def parse_entity(payload):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · parse_entity
+# DEFECT: no valida keys; devuelve payload crudo
+def parse_entity(payload):
+    return payload
+print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
+print(parse_entity({"id": "C001"}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -715,15 +733,18 @@ None`,
         starterCode: {
           language: 'python',
           title: "status_table.py",
-          code: `STATUS_ACTION = {
+          code: `# CASO-LIM-012 · STATUS_ACTION
+# DEFECT: 429/500 → fail_client (no retry)
+STATUS_ACTION = {
     200: "use_body",
     404: "missing",
-    429: "retry",
-    500: "retry",
-    400: "fix_client",
+    429: "fail_client",
+    500: "fail_client",
+    400: "fail_client",
 }
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+for code in [200, 404, 429, 400, 500]:
+    print(code, STATUS_ACTION.get(code, "unknown"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -761,10 +782,15 @@ for code in [200, 404, 429, 400, 500]:
         starterCode: {
           language: 'python',
           title: "timeout_sim.py",
-          code: `def fetch(timeout_s, cost_s):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · timeout
+# DEFECT: compara al revés (cost < timeout es timeout)
+def fetch(timeout_s, cost_s):
+    if cost_s < timeout_s:
+        return "timeout"
+    return "ok"
+print(fetch(2.0, 0.5))
+print(fetch(1.0, 3.0))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -796,14 +822,16 @@ timeout`,
         starterCode: {
           language: 'python',
           title: "collect_pages.py",
-          code: `api = {
+          code: `# CASO-LIM-012 · paginación
+# DEFECT: solo primera página
+api = {
     1: {"items": ["a"], "next": 2},
     2: {"items": ["b", "c"], "next": None},
 }
 def collect_all(api):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return list(api[1]["items"])
+print(collect_all(api))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -841,10 +869,13 @@ print(collect_all(api))`,
         starterCode: {
           language: 'python',
           title: "retry_policy.py",
-          code: `def should_retry(status):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · should_retry
+# DEFECT: reintenta 4xx de cliente
+def should_retry(status):
+    return status >= 400
+for s in [400, 404, 429, 503, 200]:
+    print(s, should_retry(s))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -877,10 +908,16 @@ for s in [400, 404, 429, 503, 200]:
         starterCode: {
           language: 'python',
           title: "require_token.py",
-          code: `def require_token(env):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · require_token
+# DEFECT: devuelve "" en vez de raise
+def require_token(env):
+    return env.get("API_TOKEN", "")
+print(require_token({"API_TOKEN": "abc"}))
+try:
+    print(require_token({}))
+except ValueError as e:
+    print(str(e))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -916,10 +953,20 @@ API_TOKEN missing`,
         starterCode: {
           language: 'python',
           title: "cache_get.py",
-          code: `class Cache:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · Cache get/set
+# DEFECT: get siempre miss; set no-op
+class Cache:
+    def __init__(self):
+        self._data = {}
+    def get(self, url):
+        return None, False
+    def set(self, url, body):
+        pass
+c = Cache()
+c.set("u1", {"ok": True})
+print(c.get("u1"))
+print(c.get("missing"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -958,10 +1005,12 @@ print(c.get("missing"))`,
         starterCode: {
           language: 'python',
           title: "provenance_fields.py",
-          code: `def min_provenance(url, status, cache_hit):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · provenance mínima
+# DEFECT: omite status y cache_hit
+def min_provenance(url, status, cache_hit):
+    return {"source_url": url, "fetched_at": "2026-07-20T00:00:00Z"}
+print(sorted(min_provenance("https://x", 200, False).items()))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -994,10 +1043,18 @@ print(sorted(min_provenance("https://x", 200, False).items()))`,
         starterCode: {
           language: 'python',
           title: "assert_keys.py",
-          code: `def assert_keys(payload, required):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · assert_keys
+# DEFECT: no valida; siempre pasa
+def assert_keys(payload, required):
+    return True
+assert_keys({"lat": 1, "lon": 2}, ["lat", "lon"])
+print("ok")
+try:
+    assert_keys({"lat": 1}, ["lat", "lon"])
+    print("passed_bad")
+except AssertionError as e:
+    print(e)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1033,10 +1090,13 @@ missing keys: ['lon']`,
         starterCode: {
           language: 'python',
           title: "fallback_5xx.py",
-          code: `def fetch_with_fallback(status, local_body):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · fallback offline
+# DEFECT: ignora status; siempre online
+def fetch_with_fallback(status, local_body):
+    return {"online": True}, "online"
+print(fetch_with_fallback(200, {"lat": 0}))
+print(fetch_with_fallback(503, {"lat": -12.0}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1068,12 +1128,15 @@ print(fetch_with_fallback(503, {"lat": -12.0}))`,
         starterCode: {
           language: 'python',
           title: "online_offline_matrix.py",
-          code: `matrix = {
+          code: `# CASO-LIM-012 · mode matrix
+# DEFECT: ambos modos → live_api
+matrix = {
     True: "live_api",
-    False: "local_file",
+    False: "live_api",
 }
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+for online in (True, False):
+    print(online, matrix[online])
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1105,9 +1168,15 @@ False local_file`,
         starterCode: {
           language: 'python',
           title: "create_evidence.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · CREATE evidence
+# DEFECT: tabla sin PRIMARY KEY; no inserta
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE evidence(id TEXT, entity_id TEXT, kind TEXT)")
+con.commit()
+print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1141,9 +1210,16 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "crud_client.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · UPDATE/DELETE
+# DEFECT: no actualiza; count final incorrecto
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+con.execute("INSERT INTO clients VALUES (?,?)", ("C001", "Ana"))
+print(con.execute("SELECT name FROM clients WHERE id=?", ("C001",)).fetchone()[0])
+print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1178,9 +1254,22 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "join_evidence.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · JOIN
+# DEFECT: select sin JOIN; mezcla ids
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript("""
+CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
+CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
+INSERT INTO clients VALUES ('C001','Ana');
+INSERT INTO evidence VALUES ('E1','C001','geo');
+INSERT INTO evidence VALUES ('E2','C001','phone');
+INSERT INTO evidence VALUES ('E3','C002','geo');
+""")
+rows = con.execute("SELECT kind FROM evidence ORDER BY kind").fetchall()
+print([r[0] for r in rows])
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1221,9 +1310,16 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "safe_sql.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · SQL injection safe
+# DEFECT: f-string concat (vulnerable)
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+user_id = "C001' OR '1'='1"
+print(con.execute(f"SELECT name FROM clients WHERE id = '{user_id}'").fetchone())
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1255,9 +1351,21 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "tx_rollback.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · transaction rollback
+# DEFECT: no rollback tras IntegrityError
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY)")
+try:
+    con.execute("BEGIN")
+    con.execute("INSERT INTO clients VALUES ('C001')")
+    con.execute("INSERT INTO clients VALUES ('C001')")
+    con.commit()
+except sqlite3.IntegrityError:
+    pass
+print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1294,9 +1402,15 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "choose_index.py",
-          code: `import sqlite3
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · index
+# DEFECT: no crea índice document_id
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
+names = [r[1] for r in con.execute("PRAGMA index_list('clients')").fetchall()]
+print(sorted(names))
+con.close()
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1328,11 +1442,13 @@ con.close()`,
         starterCode: {
           language: 'python',
           title: "norm_addr.py",
-          code: `import re
+          code: `# CASO-LIM-012 · normalize_address
+# DEFECT: solo strip; no colapsa espacios
+import re
 def normalize_address(s):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return s.strip()
+print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1361,10 +1477,17 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
         starterCode: {
           language: 'python',
           title: "mock_geocoder.py",
-          code: `class MockGeocoder:
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · MockGeocoder
+# DEFECT: siempre Lima coords
+class MockGeocoder:
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    def geocode(self, city):
+        lat, lon = self.DB["Lima"]
+        return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
+g = MockGeocoder()
+print(g.geocode("Lima")["lat"])
+print(g.geocode("Cusco"))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1400,11 +1523,14 @@ None`,
         starterCode: {
           language: 'python',
           title: "egress_checklist.py",
-          code: `ALLOWED = {"address", "city", "country"}
+          code: `# CASO-LIM-012 · allowlist payload
+# DEFECT: siempre True
+ALLOWED = {"address", "city", "country"}
 def allowed_for_public_geocoder(payload):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return True
+print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1435,10 +1561,13 @@ False`,
         starterCode: {
           language: 'python',
           title: "valid_coords.py",
-          code: `def valid_lat_lon(lat, lon):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · valid lat/lon
+# DEFECT: no chequea lon
+def valid_lat_lon(lat, lon):
+    return -90 <= lat <= 90
+for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
+    print(p, valid_lat_lon(*p))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1470,11 +1599,15 @@ for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
         starterCode: {
           language: 'python',
           title: "haversine_test.py",
-          code: `import math
+          code: `# CASO-LIM-012 · haversine
+# DEFECT: distancia euclídea * 111 (no haversine)
+import math
 def haversine_km(a, b):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+    return abs(a[1] - b[1]) * 111.0
+d = haversine_km((0.0, 0.0), (0.0, 1.0))
+print(round(d, 2))
+assert abs(d - 111.19) < 1
+print("tolerance_ok")`,
         },
         solutionCode: {
           language: 'python',
@@ -1512,10 +1645,16 @@ tolerance_ok`,
         starterCode: {
           language: 'python',
           title: "geo_as_signal.py",
-          code: `def as_relationship_signal(km):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-012 · relationship signal
+# DEFECT: inventa kinship_verdict True
+def as_relationship_signal(km):
+    return {
+        "type": "geo_distance_km",
+        "value": km,
+        "kinship_verdict": True,
+    }
+print(as_relationship_signal(1.2))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1565,17 +1704,17 @@ from typing import Any, Optional
 
 
 def require_token(env: dict) -> str:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def should_retry(status: int) -> bool:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def normalize_address(s: str) -> str:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
@@ -1583,18 +1722,18 @@ class MockGeocoder:
     DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
 
     def geocode(self, city: str) -> Optional[dict]:
-        # TODO
+        # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
         raise NotImplementedError
 
 
 def haversine_km(a: tuple[float, float], b: tuple[float, float]) -> float:
-    # TODO
+    # Contrato: corrige el DEFECT del starter (no dejes NotImplemented)
     raise NotImplementedError
 
 
 def build_db() -> sqlite3.Connection:
     con = sqlite3.connect(":memory:")
-    # TODO schema clients/transactions/evidence
+    # Contrato: CREATE clients / transactions / evidence (+ índices)
     return con
 
 
@@ -1664,7 +1803,7 @@ if __name__ == "__main__":
       {
         label: "urllib.request — Extensible library for opening URLs",
         url: "https://docs.python.org/3/library/urllib.request.html",
-        note: "HTTP síncrono stdlib; en el curso priorizamos mocks + status/JSON",
+        note: "HTTP síncrono stdlib; curso prioriza mocks + status/JSON",
       },
       {
         label: "sqlite3 — DB-API 2.0 interface for SQLite",
@@ -1674,29 +1813,64 @@ if __name__ == "__main__":
       {
         label: "http — HTTP modules",
         url: "https://docs.python.org/3/library/http.html",
-        note: "status codes semánticos",
+        note: "status codes semánticos 2xx/4xx/5xx",
       },
       {
         label: "math — Mathematical functions",
         url: "https://docs.python.org/3/library/math.html",
         note: "Haversine con sin/cos/asin",
       },
+      {
+        label: "json — JSON encoder and decoder",
+        url: "https://docs.python.org/3/library/json.html",
+        note: "parse seguro; JSONDecodeError fail-closed",
+      },
+      {
+        label: "hashlib — Secure hashes",
+        url: "https://docs.python.org/3/library/hashlib.html",
+        note: "cache keys de URL GET",
+      },
+      {
+        label: "OWASP — SQL Injection",
+        url: "https://owasp.org/www-community/attacks/SQL_Injection",
+        note: "por qué placeholders, no f-strings",
+      },
+      {
+        label: "RFC 7231 — HTTP Semantics",
+        url: "https://httpwg.org/specs/rfc7231.html",
+        note: "método, status, retry semantics",
+      },
     ],
     books: [
       {
         label: "Python Cookbook — network/data recipes",
-        note: "Adaptar a mocks y provenance del curso; no copiar PII real.",
+        note: "Adaptar a mocks y provenance; no PII real.",
       },
       {
-        label: "Designing Data-Intensive Applications (Kleppmann) — selecciones",
-        note: "Contratos, reintentos y datos derivados; alinear con límites N1.",
+        label: "Designing Data-Intensive Applications (Kleppmann)",
+        note: "Contratos, reintentos y datos derivados; límites N1.",
       },
     ],
     courses: [
       {
         label: "Real Python — Working with JSON",
         url: "https://realpython.com/python-json/",
-        note: "Parse seguro; practicar con fixtures locales.",
+        note: "Parse seguro con fixtures locales.",
+      },
+      {
+        label: "Real Python — SQLite",
+        url: "https://realpython.com/python-sql-libraries/#sqlite",
+        note: "CRUD local y conexiones.",
+      },
+      {
+        label: "MDN — HTTP status codes",
+        url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+        note: "mapa mental 2xx/4xx/5xx.",
+      },
+      {
+        label: "PyArcana live",
+        url: "https://pillb.github.io/pyarcana/",
+        note: "curso desplegado; alinear con V3 S12.",
       },
     ],
   },

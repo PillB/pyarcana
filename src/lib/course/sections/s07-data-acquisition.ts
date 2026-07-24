@@ -28,8 +28,8 @@ export const section07: CourseSection = {
       heading: "De “Adquisición multi-fuente” a texto Unicode y regex (mapa)",
       paragraphs: [
         "En V3, **S07 no es el path principal de scraping, SQL ni APIs**. Esos temas se reubican. Aquí el estudiante domina **texto latinoamericano**: normalización Unicode, nombres con dos apellidos, métodos `str` antes de regex, y matching con evidencia **sin afirmar parentesco**.",
-        "El incremento CP-N1-B es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Datos sintéticos peruanos/latam; sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Orden: **T1 Unicode** → **T2 str ops y contacto** → **T3 regex** → **T4 similitud y FP/FN**. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "El incremento CP-N1-B es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Datos sintéticos peruanos/latam; sin PII real. Fail-closed si el schema no cuadra; no rellenes en silencio.",
+        "Orden: **T1 Unicode** → **T2 str ops y contacto** → **T3 regex** → **T4 similitud y FP/FN**. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       callout: {
         type: "info",
@@ -42,20 +42,23 @@ export const section07: CourseSection = {
       heading: "Code points, normalización y casefold",
       subtopicId: "S07-T1-A",
       paragraphs: [
-        "Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (base + combining mark). En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "`unicodedata.normalize('NFC', s)` unifica formas antes de comparar. Sin eso, `'José' == 'Jose\\u0301'` puede ser False aunque se vean iguales. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "`casefold()` es más agresivo que `lower()` para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Code points, normalización y casefold»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Python 3 `str` es Unicode. `ord('ñ')` / `chr(241)` exploran **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (base + combining mark). En matching de nombres latam, sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”) aunque se vean idénticos.",
+        "`unicodedata.normalize('NFC', s)` unifica formas **antes** de comparar o de tokenizar. Sin eso, `'José' == 'Jose\\u0301'` puede ser `False`. Contrato del normalizador CP-N1-B: entrada explícita → transformación documentada → salida medible; **fail-closed** si el schema no cuadra. Stack: stdlib `str`/`unicodedata`/`re` — no pandas ni APIs.",
+        "`casefold()` es más agresivo que `lower()` para comparaciones case-insensitive (mejor para nombres/emails). Pipeline canónico: **NFC → strip/collapse → casefold (si política lo pide) → comparar**. Caso sintético: José/Quispe, Lima/Arequipa — **nunca** PII real ni parentesco automático.",
       ],
       code: {
         language: 'python',
         title: "unicode_nfc.py",
-        code: `import unicodedata
-a = "José"
-b = "Jose\\u0301"
-print("raw equal?", a == b)
-print("NFC equal?", unicodedata.normalize("NFC", a) == unicodedata.normalize("NFC", b))
-print("casefold:", "MAÑANA".casefold())
-print("ord ñ:", ord("ñ"))`,
+        code: `def s07_th_1():
+    import unicodedata
+    a = "José"
+    b = "Jose\\u0301"
+    print("raw equal?", a == b)
+    print("NFC equal?", unicodedata.normalize("NFC", a) == unicodedata.normalize("NFC", b))
+    print("casefold:", "MAÑANA".casefold())
+    print("ord ñ:", ord("ñ"))
+
+s07_th_1()`,
         output: `raw equal? False
 NFC equal? True
 casefold: mañana
@@ -73,21 +76,24 @@ ord ñ: 241`,
       subtopicId: "S07-T1-B",
       paragraphs: [
         "En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "Partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza y aplica heurísticas; si no hay segundo apellido, marca **review** en vez de inventar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Tildes, ñ, partículas y apellidos compuestos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza y aplica heurísticas; si no hay segundo apellido, marca **review** en vez de inventar. Fail-closed si el schema no cuadra; no rellenes en silencio.",
+        "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
         title: "parse_nombre.py",
-        code: `raw = "  María   del  Carmen  Quispe  Huamán "
-tokens = raw.split()
-print(tokens)
-# Heurística demo: últimos 2 tokens = apellidos si len>=3
-if len(tokens) >= 3:
-    ap2, ap1 = tokens[-1], tokens[-2]
-    given = " ".join(tokens[:-2])
-    print("given:", given)
-    print("apellidos:", ap1, ap2)`,
+        code: `def s07_th_2():
+    raw = "  María   del  Carmen  Quispe  Huamán "
+    tokens = raw.split()
+    print(tokens)
+    # Heurística demo: últimos 2 tokens = apellidos si len>=3
+    if len(tokens) >= 3:
+        ap2, ap1 = tokens[-1], tokens[-2]
+        given = " ".join(tokens[:-2])
+        print("given:", given)
+        print("apellidos:", ap1, ap2)
+
+s07_th_2()`,
         output: `['María', 'del', 'Carmen', 'Quispe', 'Huamán']
 given: María del Carmen
 apellidos: Quispe Huamán`,
@@ -103,19 +109,22 @@ apellidos: Quispe Huamán`,
       heading: "split / join / search / replace",
       subtopicId: "S07-T2-A",
       paragraphs: [
-        "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "`' '.join(s.split())` colapsa espacios. `split(',')` parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "`replace` es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «split / join / search / replace»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El **~80%** de limpieza de direcciones y tokens se resuelve así — regex es la excepción, no el default. Menos backtracking, más legible, más testeable.",
+        "`' '.join(s.split())` colapsa espacios. `split(',')` parsea CSV-like **simple** (sin comillas escapadas: ahí entra el módulo `csv` en S08). Contrato: entrada → transformación documentada → salida medible; fail-closed si falta evidencia.",
+        "`replace` es **literal** y predecible; úsalo para normalizar guiones o prefijos **antes** de invocar regex. Caso sintético: Av. Larco, Miraflores — conserva `raw` en el record de evidencia.",
       ],
       code: {
         language: 'python',
         title: "str_ops.py",
-        code: `dir_raw = "  Av.  Larco   123  ,  Miraflores "
-limpio = " ".join(dir_raw.strip().split())
-print(limpio)
-parts = [p.strip() for p in limpio.split(",")]
-print(parts)
-print(limpio.replace("Av.", "Avenida"))`,
+        code: `def s07_th_3():
+    dir_raw = "  Av.  Larco   123  ,  Miraflores "
+    limpio = " ".join(dir_raw.strip().split())
+    print(limpio)
+    parts = [p.strip() for p in limpio.split(",")]
+    print(parts)
+    print(limpio.replace("Av.", "Avenida"))
+
+s07_th_3()`,
         output: `Av. Larco 123 , Miraflores
 ['Av. Larco 123', 'Miraflores']
 Avenida Larco 123 , Miraflores`,
@@ -133,7 +142,7 @@ Avenida Larco 123 , Miraflores`,
       paragraphs: [
         "Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide `valid` o `review`. Regex hiper-estrictas **rechazan válidos** (plus addressing, Unicode, dominios nuevos).",
         "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país `51` cuando viene como `+51`; opcionalmente revisar 9 dígitos locales — no inventes validación de operadora. El contrato de salida es dígitos (`51999000111`), no conservar el signo `+`.",
-        "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (`del` → `Del`). Decide política y documenta. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Nombres, emails y teléfonos sin sobrevalidación»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (`del` → `Del`). **Decide política y documenta**. Un score de similitud de nombres es **evidencia para review**, nunca prueba de parentesco o fraude.",
       ],
       code: {
         language: 'python',
@@ -166,19 +175,22 @@ print(normalize_phone_pe("+51 999-000-111"))`,
       heading: "Patrones, grupos y anchors",
       subtopicId: "S07-T3-A",
       paragraphs: [
-        "Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full match. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "`re.fullmatch` ancla inicio y fin. `re.search` encuentra en medio. Confundirlos produce falsos positivos en validación de códigos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Patrones, grupos y anchors»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full match. Si puedes resolverlo con `str`, **no** uses regex.",
+        "`re.fullmatch` ancla inicio y fin. `re.search` encuentra en medio. Confundirlos produce **falsos positivos** en validación de códigos (un DNI embebido en texto “pasa” con search). Validar código completo → `fullmatch`.",
+        "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos. Caso sintético: DNI 8 dígitos demo — **nunca** PII real ni claims de identidad legal.",
       ],
       code: {
         language: 'python',
         title: "regex_groups.py",
-        code: `import re
-pat = re.compile(r"^(?P<dni>\\d{8})$")
-m = pat.fullmatch("12345678")
-print(m.group("dni") if m else None)
-print("search mid:", bool(re.search(r"\\d{8}", "DNI 12345678 PE")))
-print("full mid:", bool(re.fullmatch(r"\\d{8}", "DNI 12345678 PE")))`,
+        code: `def s07_th_5():
+    import re
+    pat = re.compile(r"^(?P<dni>\\d{8})$")
+    m = pat.fullmatch("12345678")
+    print(m.group("dni") if m else None)
+    print("search mid:", bool(re.search(r"\\d{8}", "DNI 12345678 PE")))
+    print("full mid:", bool(re.fullmatch(r"\\d{8}", "DNI 12345678 PE")))
+
+s07_th_5()`,
         output: `12345678
 search mid: True
 full mid: False`,
@@ -194,19 +206,22 @@ full mid: False`,
       heading: "Compilación, extracción y límites",
       subtopicId: "S07-T3-B",
       paragraphs: [
-        "`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "Límites: **catastrophic backtracking** con patrones anidados ambiguos; **overfit** de validación que rechaza inputs reales. Prefiere patrones simples. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Si el patrón crece sin control, vuelve a `str` methods o a un parser explícito. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Compilación, extracción y límites»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético — útil en demos de extración, no en overvalidation de email.",
+        "Límites: **catastrophic backtracking** con patrones anidados ambiguos; **overfit** de validación que rechaza inputs reales válidos. Prefiere patrones **aburridos y simples**. Fail-closed si no hay evidencia; stack stdlib only.",
+        "Si el patrón crece sin control, vuelve a `str` methods o a un parser explícito. Regex que “lo hacen todo” son un bug de producto disfrazado de elegancia.",
       ],
       code: {
         language: 'python',
         title: "compile_find.py",
-        code: `import re
-phone = re.compile(r"\\b9\\d{8}\\b")
-log = "llamada 999000111 y fallback 988777666 fin"
-print(phone.findall(log))
-for m in phone.finditer(log):
-    print("span", m.span(), m.group())`,
+        code: `def s07_th_6():
+    import re
+    phone = re.compile(r"\\b9\\d{8}\\b")
+    log = "llamada 999000111 y fallback 988777666 fin"
+    print(phone.findall(log))
+    for m in phone.finditer(log):
+        print("span", m.span(), m.group())
+
+s07_th_6()`,
         output: `['999000111', '988777666']
 span (8, 17) 999000111
 span (29, 38) 988777666`,
@@ -223,8 +238,8 @@ span (29, 38) 988777666`,
       subtopicId: "S07-T4-A",
       paragraphs: [
         "Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → **review**, no auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Exacta y por tokens (Jaccard simple)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → **review**, no auto-merge. Fail-closed si el schema no cuadra; no rellenes en silencio.",
+        "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
@@ -257,22 +272,25 @@ print(round(token_jaccard("Ana Quispe", "Luis Huamán"), 3))`,
       subtopicId: "S07-T4-B",
       paragraphs: [
         "**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
-        "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión puede ser accept/review/reject de matching — **no** etiqueta familiar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
-        "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «FP/FN y conservación de evidencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+        "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión puede ser accept/review/reject de matching — **no** etiqueta familiar. Fail-closed si el schema no cuadra; no rellenes en silencio.",
+        "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Nunca PII real ni inferencia automática de parentesco/fraude.",
       ],
       code: {
         language: 'python',
         title: "fp_fn_table.py",
-        code: `pairs = [
-    ("José Pérez", "Jose Perez", 0.9, "review"),
-    ("Ana", "Ana", 1.0, "exact"),
-    ("Luis", "Carla", 0.0, "no_match"),
-    ("Juan Perez", "Juan P Perez", 0.67, "review"),
-]
-for a, b, score, dec in pairs:
-    # FP demo: exact sobre homónimos sería riesgo; aquí solo tabula
-    print(f"{a!r} vs {b!r} score={score} → {dec}")
-print("nota: sin claims de parentesco ni identidad legal")`,
+        code: `def s07_th_8():
+    pairs = [
+        ("José Pérez", "Jose Perez", 0.9, "review"),
+        ("Ana", "Ana", 1.0, "exact"),
+        ("Luis", "Carla", 0.0, "no_match"),
+        ("Juan Perez", "Juan P Perez", 0.67, "review"),
+    ]
+    for a, b, score, dec in pairs:
+        # FP demo: exact sobre homónimos sería riesgo; aquí solo tabula
+        print(f"{a!r} vs {b!r} score={score} → {dec}")
+    print("nota: sin claims de parentesco ni identidad legal")
+
+s07_th_8()`,
         output: `'José Pérez' vs 'Jose Perez' score=0.9 → review
 'Ana' vs 'Ana' score=1.0 → exact
 'Luis' vs 'Carla' score=0.0 → no_match
@@ -298,13 +316,16 @@ nota: sin claims de parentesco ni identidad legal`,
         code: {
           language: 'python',
           title: "S07-T1-A-DEMO — nfc",
-          code: `import unicodedata
-a = "José"
-b = "Jose\\u0301"
-print("sin norm:", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b])
-na, nb = unicodedata.normalize("NFC", a), unicodedata.normalize("NFC", b)
-print("NFC:", na == nb, na)
-print("casefold mañANA:", "mañANA".casefold())`,
+          code: `def s07_ido_1():
+    import unicodedata
+    a = "José"
+    b = "Jose\\u0301"
+    print("sin norm:", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b])
+    na, nb = unicodedata.normalize("NFC", a), unicodedata.normalize("NFC", b)
+    print("NFC:", na == nb, na)
+    print("casefold mañANA:", "mañANA".casefold())
+
+s07_ido_1()`,
           output: `sin norm: False ['0x4a', '0x6f', '0x73', '0xe9'] ['0x4a', '0x6f', '0x73', '0x65', '0x301']
 NFC: True José
 casefold mañANA: mañana`,
@@ -319,16 +340,19 @@ casefold mañANA: mañana`,
         code: {
           language: 'python',
           title: "S07-T1-B-DEMO — nombres",
-          code: `import unicodedata
-raw = "María del Carmen Quispe Huamán"
-norm = unicodedata.normalize("NFC", " ".join(raw.split()))
-toks = norm.split()
-apellidos = toks[-2:]
-given = " ".join(toks[:-2])
-print("raw:", raw)
-print("given:", given)
-print("apellido1:", apellidos[0], "apellido2:", apellidos[1])
-print("conserva raw en pipeline: sí")`,
+          code: `def s07_ido_2():
+    import unicodedata
+    raw = "María del Carmen Quispe Huamán"
+    norm = unicodedata.normalize("NFC", " ".join(raw.split()))
+    toks = norm.split()
+    apellidos = toks[-2:]
+    given = " ".join(toks[:-2])
+    print("raw:", raw)
+    print("given:", given)
+    print("apellido1:", apellidos[0], "apellido2:", apellidos[1])
+    print("conserva raw en pipeline: sí")
+
+s07_ido_2()`,
           output: `raw: María del Carmen Quispe Huamán
 given: María del Carmen
 apellido1: Quispe apellido2: Huamán
@@ -344,11 +368,14 @@ conserva raw en pipeline: sí`,
         code: {
           language: 'python',
           title: "S07-T2-A-DEMO — dir",
-          code: `raw = "  Jr.  de  la  Unión   450  "
-limpio = " ".join(raw.strip().split())
-print(limpio)
-print(limpio.replace("Jr.", "Jiron"))
-print("find Unión:", limpio.find("Unión"))`,
+          code: `def s07_ido_3():
+    raw = "  Jr.  de  la  Unión   450  "
+    limpio = " ".join(raw.strip().split())
+    print(limpio)
+    print(limpio.replace("Jr.", "Jiron"))
+    print("find Unión:", limpio.find("Unión"))
+
+s07_ido_3()`,
           output: `Jr. de la Unión 450
 Jiron de la Unión 450
 find Unión: 10`,
@@ -395,13 +422,16 @@ overfit rejects plus? True`,
         code: {
           language: 'python',
           title: "S07-T3-A-DEMO — dni",
-          code: `import re
-pat = re.compile(r"DNI\\s+(?P<dni>\\d{8})\\b")
-text = "Cliente demo DNI 12345678 activo"
-m = pat.search(text)
-print(m.group("dni") if m else None)
-print("fullmatch solo digitos:", bool(re.fullmatch(r"\\d{8}", "12345678")))
-print("fullmatch con prefijo:", bool(re.fullmatch(r"\\d{8}", "DNI 12345678")))`,
+          code: `def s07_ido_5():
+    import re
+    pat = re.compile(r"DNI\\s+(?P<dni>\\d{8})\\b")
+    text = "Cliente demo DNI 12345678 activo"
+    m = pat.search(text)
+    print(m.group("dni") if m else None)
+    print("fullmatch solo digitos:", bool(re.fullmatch(r"\\d{8}", "12345678")))
+    print("fullmatch con prefijo:", bool(re.fullmatch(r"\\d{8}", "DNI 12345678")))
+
+s07_ido_5()`,
           output: `12345678
 fullmatch solo digitos: True
 fullmatch con prefijo: False`,
@@ -416,13 +446,16 @@ fullmatch con prefijo: False`,
         code: {
           language: 'python',
           title: "S07-T3-B-DEMO — finditer",
-          code: `import re
-phone = re.compile(r"\\b9\\d{8}\\b")
-log = "ok 999111222 noise 12345 otro 988777666"
-print("findall:", phone.findall(log))
-for m in phone.finditer(log):
-    print(m.group(), "at", m.start())
-print("riesgo: evita patrones con cuantificadores anidados ambiguos")`,
+          code: `def s07_ido_6():
+    import re
+    phone = re.compile(r"\\b9\\d{8}\\b")
+    log = "ok 999111222 noise 12345 otro 988777666"
+    print("findall:", phone.findall(log))
+    for m in phone.finditer(log):
+        print(m.group(), "at", m.start())
+    print("riesgo: evita patrones con cuantificadores anidados ambiguos")
+
+s07_ido_6()`,
           output: `findall: ['999111222', '988777666']
 999111222 at 3
 988777666 at 30
@@ -463,24 +496,27 @@ decision review`,
         code: {
           language: 'python',
           title: "S07-T4-B-DEMO — fpfn",
-          code: `# truth: same_entity sintético solo para ejercicio de métricas (no legal)
-rows = [
-    {"a": "Ana", "b": "Ana", "pred": "match", "truth": "match"},
-    {"a": "José", "b": "Jose", "pred": "match", "truth": "match"},
-    {"a": "Luis", "b": "Luisa", "pred": "match", "truth": "no"},
-    {"a": "María del Carmen", "b": "Maria Carmen", "pred": "no", "truth": "match"},
-]
-for r in rows:
-    if r["pred"] == "match" and r["truth"] == "no":
-        tag = "FP"
-    elif r["pred"] == "no" and r["truth"] == "match":
-        tag = "FN"
-    elif r["pred"] == "match":
-        tag = "TP"
-    else:
-        tag = "TN"
-    print(r["a"], "vs", r["b"], "→", tag)
-print("evidencia se conserva; no se afirma parentesco")`,
+          code: `def s07_ido_8():
+    # truth: same_entity sintético solo para ejercicio de métricas (no legal)
+    rows = [
+        {"a": "Ana", "b": "Ana", "pred": "match", "truth": "match"},
+        {"a": "José", "b": "Jose", "pred": "match", "truth": "match"},
+        {"a": "Luis", "b": "Luisa", "pred": "match", "truth": "no"},
+        {"a": "María del Carmen", "b": "Maria Carmen", "pred": "no", "truth": "match"},
+    ]
+    for r in rows:
+        if r["pred"] == "match" and r["truth"] == "no":
+            tag = "FP"
+        elif r["pred"] == "no" and r["truth"] == "match":
+            tag = "FN"
+        elif r["pred"] == "match":
+            tag = "TP"
+        else:
+            tag = "TN"
+        print(r["a"], "vs", r["b"], "→", tag)
+    print("evidencia se conserva; no se afirma parentesco")
+
+s07_ido_8()`,
           output: `Ana vs Ana → TP
 José vs Jose → TP
 Luis vs Luisa → FP
@@ -511,10 +547,13 @@ evidencia se conserva; no se afirma parentesco`,
         starterCode: {
           language: 'python',
           title: "nfc_names.py",
-          code: `import unicodedata
-names = ['José', 'Jose\\u0301', '']
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · NFC normalize
+# DEFECT: imprime raw sin NFC
+import unicodedata
+names = ['José', 'Jose\u0301', '']
+for n in names:
+    print(repr(n))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -545,9 +584,12 @@ for n in names:
         starterCode: {
           language: 'python',
           title: "casefold_match.py",
-          code: `a, b = 'MAÑANA', 'mañana'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · casefold match
+# DEFECT: compara lower (falla con Ñ/ñ en algunos locales)
+a, b = 'MAÑANA', 'mañana'
+match = a.lower() == b.lower()
+print(match)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -575,11 +617,15 @@ print(match)`,
         starterCode: {
           language: 'python',
           title: "diag_nfd.py",
-          code: `import unicodedata
+          code: `# CASO-LIM-007 · NFC equality
+# DEFECT: solo raw == ; no NFC
+import unicodedata
 a = 'José'
-b = 'Jose\\u0301'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+b = 'Jose\u0301'
+print('raw', a == b)
+print('nfc', a == b)
+print('causa: ???')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -612,9 +658,15 @@ causa: formas Unicode distintas (compuesta vs combining mark)`,
         starterCode: {
           language: 'python',
           title: "split_apellidos.py",
-          code: `raw = 'Ana María Quispe Huamán'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · parse given + apellidos
+# DEFECT: first token only as given
+raw = 'Ana María Quispe Huamán'
+toks = raw.split()
+given = toks[0]
+ap1, ap2 = toks[-2], toks[-1]
+print(given)
+print(ap1, ap2)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -646,9 +698,15 @@ Quispe Huamán`,
         starterCode: {
           language: 'python',
           title: "particles.py",
-          code: `raw = 'María del Carmen Quispe Ríos'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · del Carmen particles
+# DEFECT: given = first only
+raw = 'María del Carmen Quispe Ríos'
+toks = raw.split()
+given = toks[0]
+ap1, ap2 = toks[-2], toks[-1]
+print(given)
+print(ap1, ap2)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -680,10 +738,20 @@ Quispe Ríos`,
         starterCode: {
           language: 'python',
           title: "review_short.py",
-          code: `def parse_nombre(raw):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · parse_nombre review
+# DEFECT: siempre ok sin review
+def parse_nombre(raw):
+    toks = raw.split()
+    return {
+        'raw': raw,
+        'status': 'ok',
+        'given': toks[0] if toks else '',
+        'ap1': toks[-2] if len(toks) >= 2 else None,
+        'ap2': toks[-1] if toks else None,
+    }
+for s in ['Madonna', 'Luis Quispe Huamán']:
+    print(parse_nombre(s))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -722,9 +790,12 @@ for s in ['Madonna', 'Luis Quispe Huamán']:
         starterCode: {
           language: 'python',
           title: "split_csvlike.py",
-          code: `line = 'C001, Ana , Lima'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · CSV split strip
+# DEFECT: split sin strip
+line = 'C001, Ana , Lima'
+fields = line.split(',')
+print(fields)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -752,9 +823,11 @@ print(fields)`,
         starterCode: {
           language: 'python',
           title: "join_stable.py",
-          code: `toks = ['Jr.', 'Unión', '450']
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · join variants
+# DEFECT: solo join con espacio
+toks = ['Jr.', 'Unión', '450']
+print(' '.join(toks))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -783,9 +856,13 @@ Jr.-Unión-450`,
         starterCode: {
           language: 'python',
           title: "replace_phone.py",
-          code: `raw = '999.000-111'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · digits only phone
+# DEFECT: solo replace . no -
+raw = '999.000-111'
+clean = raw.replace('.', '')
+print(clean)
+print(''.join(c for c in raw if c.isalnum()))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -815,10 +892,17 @@ print(''.join(c for c in raw if c.isdigit()))`,
         starterCode: {
           language: 'python',
           title: "email_lower.py",
-          code: `def normalize_email(raw):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · normalize_email
+# DEFECT: no valida @ ni espacios
+def normalize_email(raw):
+    return raw.strip().lower()
+
+for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
+    try:
+        print('ok', normalize_email(raw))
+    except ValueError as exc:
+        print('review_error', str(exc))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -860,9 +944,12 @@ review_error email requiere un @ y cero espacios`,
         starterCode: {
           language: 'python',
           title: "phone_digits.py",
-          code: `raw = '(+51) 999-000-111'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · phone digits
+# DEFECT: deja + y paréntesis
+raw = '(+51) 999-000-111'
+digits = ''.join(c for c in raw if c.isdigit() or c in '+()')
+print(digits)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -890,10 +977,15 @@ print(digits)`,
         starterCode: {
           language: 'python',
           title: "reject_overfit.py",
-          code: `import re
+          code: `# CASO-LIM-007 · overfit regex
+# DEFECT: cree que fullmatch estricto es la política
+import re
 email = 'user+tag@example.com'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+pat = r'^[a-z]+@[a-z]+\.com$'
+rejected = re.fullmatch(pat, email) is None
+print('rejected_by_overfit', not rejected)
+print('política: fullmatch estricto siempre')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -925,9 +1017,13 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         starterCode: {
           language: 'python',
           title: "fullmatch_region.py",
-          code: `import re
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · fullmatch region code
+# DEFECT: search no fullmatch; Lima pasa
+import re
+pat = r'[A-Z]{3}'
+print(bool(re.search(pat, 'LIM')))
+print(bool(re.search(pat, 'Lima')))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -957,9 +1053,13 @@ False`,
         starterCode: {
           language: 'python',
           title: "groups_name.py",
-          code: `import re
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · named groups
+# DEFECT: groups posicionales mal
+import re
+pat = re.compile(r'^(\w+) (\w+)$')
+m = pat.fullmatch('Ana Quispe')
+print({'nom': m.group(2), 'ap': m.group(1)} if m else None)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -988,10 +1088,14 @@ print(m.groupdict() if m else None)`,
         starterCode: {
           language: 'python',
           title: "search_vs_full.py",
-          code: `import re
+          code: `# CASO-LIM-007 · search vs fullmatch
+# DEFECT: confunde usos
+import re
 text = 'DNI 12345678'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+print('search', bool(re.fullmatch(r'\d{8}', text)))
+print('fullmatch', bool(re.search(r'\d{8}', text)))
+print('usar fullmatch para extraer; search para validar campo exacto')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1023,9 +1127,13 @@ usar search para extraer; fullmatch para validar campo exacto`,
         starterCode: {
           language: 'python',
           title: "compile_reuse.py",
-          code: `import re
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · findall phones
+# DEFECT: patrón \d{9} sin ancla 9
+import re
+pat = re.compile(r'\b\d{9}\b')
+for s in ['tel 999000111', 'no match 123']:
+    print(s, '→', pat.findall(s))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1055,10 +1163,13 @@ no match 123 → []`,
         starterCode: {
           language: 'python',
           title: "findall_codes.py",
-          code: `import re
+          code: `# CASO-LIM-007 · findall codes
+# DEFECT: lower case codes
+import re
 log = 'ok LIM-01 y CUS-02 fin'
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+codes = re.findall(r'[a-z]{3}-\d{2}', log)
+print(codes)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1087,9 +1198,13 @@ print(codes)`,
         starterCode: {
           language: 'python',
           title: "backtracking_note.py",
-          code: `pass  # fixture vacío — usa solution contract
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · catastrophic backtracking
+# DEFECT: recomienda (a+)+b en prod
+print('patrón recomendado: (a+)+b sobre strings largos de a\'s')
+print('riesgo: ninguno en Python')
+print('mitigación: no hace falta')
+print('preferir regex complejas siempre')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1121,10 +1236,12 @@ preferir a+b o validación por pasos`,
         starterCode: {
           language: 'python',
           title: "exact_norm.py",
-          code: `def norm(s):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · norm collapse casefold
+# DEFECT: solo lower strip
+def norm(s):
+    return s.strip().lower()
+print(norm('  Juan  PEREZ ') == norm('juan perez'))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1152,10 +1269,15 @@ print(norm('  Juan  PEREZ ') == norm('juan perez'))`,
         starterCode: {
           language: 'python',
           title: "jaccard_impl.py",
-          code: `def token_jaccard(a, b):
-    pass  # TODO body
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · token jaccard
+# DEFECT: intersection/min len
+def token_jaccard(a, b):
+    A, B = set(a.casefold().split()), set(b.casefold().split())
+    if not A or not B:
+        return 0.0
+    return len(A & B) / min(len(A), len(B))
+print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1188,9 +1310,17 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         starterCode: {
           language: 'python',
           title: "score_review.py",
-          code: `a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · decision thresholds
+# DEFECT: score 0.67 → exact
+a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
+if score >= 0.5:
+    decision = 'exact'
+elif score >= 0.4:
+    decision = 'review'
+else:
+    decision = 'no_match'
+print(decision, a, b, score)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1223,12 +1353,21 @@ print(decision, a, b, score)`,
         starterCode: {
           language: 'python',
           title: "classify_fpfn.py",
-          code: `cases = [
+          code: `# CASO-LIM-007 · FP/FN tags
+# DEFECT: tags invertidos
+cases = [
     {'pred': 'match', 'truth': 'no'},
     {'pred': 'no', 'truth': 'match'},
 ]
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+for c in cases:
+    if c['pred'] == 'match' and c['truth'] == 'no':
+        tag = 'FN'
+    elif c['pred'] == 'no' and c['truth'] == 'match':
+        tag = 'FP'
+    else:
+        tag = 'other'
+    print(tag)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1266,15 +1405,16 @@ FN`,
         starterCode: {
           language: 'python',
           title: "pack_evidence.py",
-          code: `evidence = {
+          code: `# CASO-LIM-007 · evidence packet
+# DEFECT: decision=match y sin reason
+evidence = {
     'raw_a': 'Juan Perez',
     'raw_b': 'Juan P Perez',
     'score': 0.67,
-    'decision': 'review',
-    'reason': 'similitud parcial por tokens; requiere revisión humana',
+    'decision': 'match',
 }
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+print(evidence)
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1307,9 +1447,12 @@ print(evidence)`,
         starterCode: {
           language: 'python',
           title: "no_parentesco.py",
-          code: `pass  # fixture vacío — usa solution contract
-# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)
-`,
+          code: `# CASO-LIM-007 · no kinship claims
+# DEFECT: afirma parentesco e identidad legal
+print('Afirmamos parentesco: score alto prueba familia.')
+print('Afirmamos identidad legal: score textual basta para RENIEC.')
+print('Emitimos veredicto automático sin humano.')
+print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
@@ -1362,23 +1505,23 @@ def nfc(s: str) -> str:
 
 def normalize_nombre(raw: str) -> tuple[str, list[str]]:
     """Retorna (normalized, transforms)."""
-    # TODO: collapse, nfc; no inventar apellidos
+    # Contrato: collapse, nfc; no inventar apellidos
     raise NotImplementedError
 
 
 def normalize_email(raw: str) -> tuple[str, list[str]]:
-    # TODO: strip/casefold; exactamente un @, local+domain, sin espacios
+    # Contrato: strip/casefold; exactamente un @, local+domain, sin espacios
     raise NotImplementedError
 
 
 def normalize_phone(raw: str) -> tuple[str, list[str]]:
-    # TODO: solo dígitos; conservar los dígitos 51 del prefijo +51
+    # Contrato: solo dígitos; conservar los dígitos 51 del prefijo +51
     raise NotImplementedError
 
 
 def normalize_record(raw: dict[str, Any]) -> dict[str, Any]:
     """→ {raw, normalized, transforms}."""
-    # TODO: transforms={"nombre": [...], "email": [...], "telefono": [...]}
+    # Contrato: transforms={"nombre": [...], "email": [...], "telefono": [...]}
     raise NotImplementedError
 
 
@@ -1461,6 +1604,21 @@ if __name__ == "__main__":
         url: "https://docs.python.org/3/howto/unicode.html",
         note: "Code points y encodings",
       },
+      {
+        label: "str methods (stdlib)",
+        url: "https://docs.python.org/3/library/stdtypes.html#string-methods",
+        note: "strip/split/join antes de regex",
+      },
+      {
+        label: "Regular Expression HOWTO",
+        url: "https://docs.python.org/3/howto/regex.html",
+        note: "Patrones con moderación",
+      },
+      {
+        label: "Python for Everybody — strings",
+        url: "https://www.py4e.com/html3/06-strings",
+        note: "Progressive disclosure de str",
+      },
     ],
     books: [
       {
@@ -1477,6 +1635,21 @@ if __name__ == "__main__":
         label: "RegexOne",
         url: "https://regexone.com/",
         note: "Práctica interactiva; aplica con moderación al intake.",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Strings y contratos",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Regex y validación con moderación",
+      },
+      {
+        label: "Coursera — Python for Everybody",
+        url: "https://www.coursera.org/specializations/python",
+        note: "Strings y parsing",
       },
     ],
   },

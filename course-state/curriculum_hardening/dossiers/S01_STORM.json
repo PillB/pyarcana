@@ -1,0 +1,50 @@
+{
+  "section": 1,
+  "title": "Entorno reproducible y trabajo seguro",
+  "file": "s01-setup.ts",
+  "n_required": 1,
+  "n_logged": 1,
+  "generated_at": "2026-07-24T04:51:04.818+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT≥HEAD",
+    "ethics": "secrets out of repo; zero-prior baseline; no real credentials",
+    "v3_retarget": "reproducible env not soft soft-skills only",
+    "expert_pass_at": "2026-07-24T04:51:04.818+00:00",
+    "role": "zero-prior baseline"
+  },
+  "unique_foci": 1,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "zero prior dictionary",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Downloads",
+          "url": "https://python.org/downloads/",
+          "note": "install"
+        },
+        {
+          "family": "Python",
+          "title": "venv docs",
+          "url": "https://docs.python.org/3/library/venv.html",
+          "note": "venv"
+        },
+        {
+          "family": "pip",
+          "title": "User Guide",
+          "url": "https://pip.pypa.io/en/stable/user_guide/",
+          "note": "pip"
+        }
+      ],
+      "synthesize": "S1 «Entorno reproducible y trabajo seguro» cycle 1/1: «zero prior dictionary» via Python, pip (CASO-LIM-001).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «zero prior dictionary».",
+      "expand_scope": "E1/E2/E3 + docs for «zero prior dictionary»; V3 roadmap; pair S01 zero baseline → S02 values/types.",
+      "re_synthesize": "Decision 1/1: «zero prior dictionary» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

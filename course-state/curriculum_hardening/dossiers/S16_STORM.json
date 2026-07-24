@@ -1,0 +1,488 @@
+{
+  "section": 16,
+  "title": "Calidad, limpieza y contratos de datos",
+  "file": "s16-wxpython-gui.ts",
+  "n_required": 16,
+  "n_logged": 16,
+  "generated_at": "2026-07-24T05:16:09.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 25 > HEAD 0",
+    "ethics": "never silent fix; quarantine+metrics; required nulls fail closed",
+    "v3_retarget": "quality contracts CP-N2-A not wxPython GUI",
+    "expert_pass_at": "2026-07-24T05:16:09.000+00:00",
+    "theater_strip": "theory already domain-specific; resources expanded"
+  },
+  "unique_foci": 16,
+  "source_url_count": 16,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget quality contracts not wxPython",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "missing data",
+          "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+          "note": "nulls"
+        },
+        {
+          "family": "pandas",
+          "title": "drop_duplicates",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html",
+          "note": "dups"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby nunique",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.nunique.html",
+          "note": "conflicts"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 1/16: «V3 retarget quality contracts not wxPython» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget quality contracts not wxPython».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget quality contracts not wxPython»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 1/16: «V3 retarget quality contracts not wxPython» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "null policy required vs optional",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "drop_duplicates",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html",
+          "note": "dups"
+        },
+        {
+          "family": "pandas",
+          "title": "groupby nunique",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.nunique.html",
+          "note": "conflicts"
+        },
+        {
+          "family": "GE",
+          "title": "Great Expectations",
+          "url": "https://greatexpectations.io/docs/",
+          "note": "contracts"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 2/16: «null policy required vs optional» via pandas, GE (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «null policy required vs optional».",
+      "expand_scope": "E1/E2/E3 + docs for «null policy required vs optional»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 2/16: «null policy required vs optional» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "impute cap with was_null indicator",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "groupby nunique",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.nunique.html",
+          "note": "conflicts"
+        },
+        {
+          "family": "GE",
+          "title": "Great Expectations",
+          "url": "https://greatexpectations.io/docs/",
+          "note": "contracts"
+        },
+        {
+          "family": "pandas",
+          "title": "text",
+          "url": "https://pandas.pydata.org/docs/user_guide/text.html",
+          "note": "normalize"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 3/16: «impute cap with was_null indicator» via pandas, GE (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «impute cap with was_null indicator».",
+      "expand_scope": "E1/E2/E3 + docs for «impute cap with was_null indicator»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 3/16: «impute cap with was_null indicator» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "exact duplicates vs key conflicts",
+      "research": [
+        {
+          "family": "GE",
+          "title": "Great Expectations",
+          "url": "https://greatexpectations.io/docs/",
+          "note": "contracts"
+        },
+        {
+          "family": "pandas",
+          "title": "text",
+          "url": "https://pandas.pydata.org/docs/user_guide/text.html",
+          "note": "normalize"
+        },
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.quantile.html",
+          "note": "IQR"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 4/16: «exact duplicates vs key conflicts» via GE, pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «exact duplicates vs key conflicts».",
+      "expand_scope": "E1/E2/E3 + docs for «exact duplicates vs key conflicts»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 4/16: «exact duplicates vs key conflicts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "quarantine keeps full evidence",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "text",
+          "url": "https://pandas.pydata.org/docs/user_guide/text.html",
+          "note": "normalize"
+        },
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.quantile.html",
+          "note": "IQR"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "audit metrics"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 5/16: «quarantine keeps full evidence» via pandas, Python (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «quarantine keeps full evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «quarantine keeps full evidence»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 5/16: «quarantine keeps full evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "normalize string money keep raw",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "quantile",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.quantile.html",
+          "note": "IQR"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "audit metrics"
+        },
+        {
+          "family": "pandas",
+          "title": "user guide",
+          "url": "https://pandas.pydata.org/docs/user_guide/index.html",
+          "note": "cleaning"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 6/16: «normalize string money keep raw» via pandas, Python (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «normalize string money keep raw».",
+      "expand_scope": "E1/E2/E3 + docs for «normalize string money keep raw»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 6/16: «normalize string money keep raw» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "IQR candidate domain error decide",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "audit metrics"
+        },
+        {
+          "family": "pandas",
+          "title": "user guide",
+          "url": "https://pandas.pydata.org/docs/user_guide/index.html",
+          "note": "cleaning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "quality pipelines"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 7/16: «IQR candidate domain error decide» via Python, pandas, deeplearning.ai (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «IQR candidate domain error decide».",
+      "expand_scope": "E1/E2/E3 + docs for «IQR candidate domain error decide»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 7/16: «IQR candidate domain error decide» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "schema drift named column fail",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "user guide",
+          "url": "https://pandas.pydata.org/docs/user_guide/index.html",
+          "note": "cleaning"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "quality pipelines"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 8/16: «schema drift named column fail» via pandas, deeplearning.ai, Coursera (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «schema drift named column fail».",
+      "expand_scope": "E1/E2/E3 + docs for «schema drift named column fail»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 8/16: «schema drift named column fail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "cross-field fin after inicio",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "quality pipelines"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 9/16: «cross-field fin after inicio» via deeplearning.ai, Coursera, Live (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «cross-field fin after inicio».",
+      "expand_scope": "E1/E2/E3 + docs for «cross-field fin after inicio»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 9/16: «cross-field fin after inicio» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "metrics rows_in clean quarantine pass",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "validation"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 10/16: «metrics rows_in clean quarantine pass» via Coursera, Live, MIT (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «metrics rows_in clean quarantine pass».",
+      "expand_scope": "E1/E2/E3 + docs for «metrics rows_in clean quarantine pass»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 10/16: «metrics rows_in clean quarantine pass» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "audit trail append-only events",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "validation"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 11/16: «audit trail append-only events» via Live, MIT, Harvard (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «audit trail append-only events».",
+      "expand_scope": "E1/E2/E3 + docs for «audit trail append-only events»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 11/16: «audit trail append-only events» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "never silent fix quality gate",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "validation"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 12/16: «never silent fix quality gate» via MIT, Harvard, GitHub (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «never silent fix quality gate».",
+      "expand_scope": "E1/E2/E3 + docs for «never silent fix quality gate»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 12/16: «never silent fix quality gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "drop_duplicates after classify",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 13/16: «drop_duplicates after classify» via Harvard, GitHub (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «drop_duplicates after classify».",
+      "expand_scope": "E1/E2/E3 + docs for «drop_duplicates after classify»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 13/16: «drop_duplicates after classify» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "business key cardinality one row",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "pandas",
+          "title": "fillna",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html",
+          "note": "impute cap"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 14/16: «business key cardinality one row» via GitHub, pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «business key cardinality one row».",
+      "expand_scope": "E1/E2/E3 + docs for «business key cardinality one row»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 14/16: «business key cardinality one row» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "plausible extreme vs domain error",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "pandas",
+          "title": "fillna",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html",
+          "note": "impute cap"
+        },
+        {
+          "family": "pandas",
+          "title": "missing data",
+          "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+          "note": "nulls"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 15/16: «plausible extreme vs domain error» via GitHub, pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «plausible extreme vs domain error».",
+      "expand_scope": "E1/E2/E3 + docs for «plausible extreme vs domain error»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 15/16: «plausible extreme vs domain error» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "CP-N2-A quality portfolio metrics",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "fillna",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html",
+          "note": "impute cap"
+        },
+        {
+          "family": "pandas",
+          "title": "missing data",
+          "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+          "note": "nulls"
+        },
+        {
+          "family": "pandas",
+          "title": "drop_duplicates",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html",
+          "note": "dups"
+        }
+      ],
+      "synthesize": "S16 «Calidad, limpieza y contratos de datos» cycle 16/16: «CP-N2-A quality portfolio metrics» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-A quality portfolio metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-A quality portfolio metrics»; V3 roadmap; pair S16.",
+      "re_synthesize": "Decision 16/16: «CP-N2-A quality portfolio metrics» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://pandas.pydata.org/docs/user_guide/missing_data.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.nunique.html",
+    "https://greatexpectations.io/docs/",
+    "https://pandas.pydata.org/docs/user_guide/text.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.quantile.html",
+    "https://docs.python.org/3/library/json.html",
+    "https://pandas.pydata.org/docs/user_guide/index.html",
+    "https://www.deeplearning.ai/specializations/data-engineering",
+    "https://www.coursera.org/specializations/python",
+    "https://pillb.github.io/pyarcana/",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html"
+  ]
+}

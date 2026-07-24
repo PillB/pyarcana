@@ -1,0 +1,78 @@
+{
+  "section": 2,
+  "title": "Valores, tipos, operadores e I/O",
+  "file": "s02-basics.ts",
+  "n_required": 2,
+  "n_logged": 2,
+  "generated_at": "2026-07-24T04:51:04.818+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT≥HEAD",
+    "ethics": "no real PII; raw preserved; decimal for money",
+    "v3_retarget": "values types IO not conditionals loops",
+    "expert_pass_at": "2026-07-24T04:51:04.818+00:00",
+    "role": "consecutive pair"
+  },
+  "unique_foci": 2,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "literal vs type",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Tutorial intro",
+          "url": "https://docs.python.org/3/tutorial/introduction.html",
+          "note": "literals"
+        },
+        {
+          "family": "Python",
+          "title": "Built-in types",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "note": "types"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money"
+        }
+      ],
+      "synthesize": "S2 «Valores, tipos, operadores e I/O» cycle 1/2: «literal vs type» via Python (CASO-LIM-002).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «literal vs type».",
+      "expand_scope": "E1/E2/E3 + docs for «literal vs type»; V3 roadmap; pair S02 types → S03 rules engine.",
+      "re_synthesize": "Decision 1/2: «literal vs type» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "42 vs str 42",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Built-in types",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "note": "types"
+        },
+        {
+          "family": "Python",
+          "title": "decimal",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "note": "money"
+        },
+        {
+          "family": "PEP 8",
+          "title": "Style",
+          "url": "https://peps.python.org/pep-0008/",
+          "note": "names"
+        }
+      ],
+      "synthesize": "S2 «Valores, tipos, operadores e I/O» cycle 2/2: «42 vs str 42» via PEP 8, Python (CASO-LIM-002).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «42 vs str 42».",
+      "expand_scope": "E1/E2/E3 + docs for «42 vs str 42»; V3 roadmap; pair S02 types → S03 rules engine.",
+      "re_synthesize": "Decision 2/2: «42 vs str 42» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

@@ -27,10 +27,31 @@ export const section37: CourseSection = {
     {
       heading: "Rendimiento del triage (CP-N3-C escala)",
       paragraphs: [
+        "**Diccionario de la sección** (léelo antes de T1). **Wall time:** reloj de pared (`time.perf_counter`). **CPU time:** tiempo de procesador. **Warmup:** corrida descartada (cold start miente). **Blocking:** particionar por clave para no generar todos los pares O(n²). **Performance budget:** umbral de ms/memoria/pares que el CI light puede fallar. **same_result:** el speedup no vale si cambia el resultado funcional del matching/features.",
         "Escalar el triage no es «hacer el código más clever»: es medir el path caliente, preservar el mismo resultado funcional y publicar un reporte antes/después con dataset, hardware y límites explícitos. Sin esa disciplina, la optimización es teatro y puede romper privacidad o tests.",
         "Contrato operativo de la sección. Entrada: fixture sintético `CASO-LIM-037`, métricas wall/CPU/memoria, conteo de pares candidatos y budgets acordados. Salida: reporte de escala con speedup y reducción de pares, más tests de regresión de performance. Error: cambiar el resultado semántico, omitir warmup o microoptimizar 2% sin medición bloquea el gate de escala.",
-        "Caso Red Andina (ficticio): matching y features sobre registros sintéticos de Lima/Cusco. El id de plataforma `dbt-bigquery` se conserva por legacy; el path V3 es profiling y algoritmos del triage N3, no un lab de SQL cloud. Orden: T1 Medición → T2 Algos/blocking → T3 Memoria → T4 Budgets y costo total.",
+        "Caso Red Andina (ficticio): matching y features sobre registros sintéticos de Lima/Cusco. El id de plataforma `dbt-bigquery` se conserva por legacy; el path V3 es profiling y algoritmos del triage N3, no un lab de SQL cloud. Orden: T1 Medición → T2 Algos/blocking → T3 Memoria → T4 Budgets y costo total. Stack didáctico: **stdlib** (`time`, `statistics`, `collections`) para progressive disclosure.",
       ],
+      code: {
+        language: 'python',
+        title: "s37_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-LIM-037",
+        "gate": ["same_result", "before_after", "budget"],
+        "micro_only_ok": False,
+        "skip_privacy_or_tests": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("micro_only_ok", c["micro_only_ok"])
+print("skip_privacy_or_tests", c["skip_privacy_or_tests"])
+`,
+        output: `case CASO-LIM-037
+micro_only_ok False
+skip_privacy_or_tests False`,
+      },
       callout: {
         type: "info",
         title: "Gate de escala",
@@ -50,12 +71,17 @@ export const section37: CourseSection = {
         language: 'python',
         title: "wall.py",
         code: `import time
-t0 = time.perf_counter()
-s = sum(range(100000))
-wall = time.perf_counter() - t0
-print("wall_ms", round(wall * 1000, 3))
-print("result", s > 0)
-print("n", 100000)`,
+
+def profile_wall(n: int):
+    t0 = time.perf_counter()
+    s = sum(range(n))
+    wall = time.perf_counter() - t0
+    return round(wall * 1000, 3), s > 0, n
+
+wall_ms, ok, n = profile_wall(100000)
+print("wall_ms", wall_ms)
+print("result", ok)
+print("n", n)`,
         output: `wall_ms 1.505
 result True
 n 100000`,
@@ -110,13 +136,16 @@ warmup True`,
       code: {
         language: 'python',
         title: "blocking_cost.py",
-        code: `n = 100
-pairs_all = n * (n - 1) // 2
-blocks = 10
-pairs_b = blocks * (n // blocks) * (n // blocks - 1) // 2
-print("all_pairs", pairs_all)
-print("blocked_pairs", pairs_b)
-print("reduction", round(1 - pairs_b / pairs_all, 3))`,
+        code: `def blocking_cost(n: int, blocks: int):
+    pairs_all = n * (n - 1) // 2
+    size = n // blocks
+    pairs_b = blocks * size * (size - 1) // 2
+    return pairs_all, pairs_b, round(1 - pairs_b / pairs_all, 3)
+
+all_pairs, blocked_pairs, reduction = blocking_cost(100, 10)
+print("all_pairs", all_pairs)
+print("blocked_pairs", blocked_pairs)
+print("reduction", reduction)`,
         output: `all_pairs 4950
 blocked_pairs 450
 reduction 0.909`,
@@ -140,11 +169,15 @@ reduction 0.909`,
         language: 'python',
         title: "inv_index.py",
         code: `from collections import defaultdict
+
+def inverted_index(rows):
+    inv = defaultdict(list)
+    for city, e in rows:
+        inv[city].append(e)
+    return {k: len(v) for k, v in inv.items()}
+
 rows = [("Lima", "e1"), ("Lima", "e2"), ("Cusco", "e3")]
-inv = defaultdict(list)
-for city, e in rows:
-    inv[city].append(e)
-print("blocks", {k: len(v) for k, v in inv.items()})
+print("blocks", inverted_index(rows))
 print("structure", "inverted_index")
 print("ok", True)`,
         output: `blocks {'Lima': 2, 'Cusco': 1}
@@ -199,11 +232,17 @@ ok True`,
       code: {
         language: 'python',
         title: "cache.py",
-        code: `cache = {}
+        code: `def cache_put(store, key, value):
+    store[key] = value
+    return key in store
+
+def invalidate_policy():
+    return "version_or_cutoff"
+
+cache = {}
 key = ("fs-v3", "2026-01-01")
-cache[key] = {"n_pairs": 1000}
-print("hit", key in cache)
-print("invalidate_on", "version_or_cutoff")
+print("hit", cache_put(cache, key, {"n_pairs": 1000}))
+print("invalidate_on", invalidate_policy())
 print("ooc", "chunk_if_needed")`,
         output: `hit True
 invalidate_on version_or_cutoff
@@ -227,9 +266,11 @@ ooc chunk_if_needed`,
       code: {
         language: 'python',
         title: "budget.py",
-        code: `budget_ms = 50
-measured_ms = 12
-print("pass", measured_ms <= budget_ms)
+        code: `def budget_pass(budget_ms: float, measured_ms: float):
+    return measured_ms <= budget_ms, budget_ms, measured_ms
+
+ok, budget_ms, measured_ms = budget_pass(50, 12)
+print("pass", ok)
 print("budget_ms", budget_ms)
 print("measured_ms", measured_ms)`,
         output: `pass True
@@ -254,10 +295,16 @@ measured_ms 12`,
       code: {
         language: 'python',
         title: "before_after.py",
-        code: `before = {"ms": 100, "pairs": 1_000_000}
+        code: `def speedup(before_ms, after_ms):
+    return before_ms / after_ms
+
+def pair_reduction(before_pairs, after_pairs):
+    return before_pairs // after_pairs
+
+before = {"ms": 100, "pairs": 1_000_000}
 after = {"ms": 20, "pairs": 50_000}
-print("speedup", before["ms"] / after["ms"])
-print("pair_reduction", before["pairs"] // after["pairs"])
+print("speedup", speedup(before["ms"], after["ms"]))
+print("pair_reduction", pair_reduction(before["pairs"], after["pairs"]))
 print("micro_only", False)`,
         output: `speedup 5.0
 pair_reduction 20
@@ -283,10 +330,18 @@ micro_only False`,
           language: 'python',
           title: "s37_t1_a_demo.py",
           code: `import time
-t0=time.perf_counter(); sum(range(10000)); print(round((time.perf_counter()-t0)*1000,3))
-print('n', 10000)
-print('ok', True)`,
-          output: `0.156
+
+def wall_ms(n: int) -> float:
+    t0 = time.perf_counter()
+    sum(range(n))
+    return round((time.perf_counter() - t0) * 1000, 3)
+
+n = 10000
+ms = wall_ms(n)
+print("wall_ms", ms)
+print("n", n)
+print("ok", ms >= 0)`,
+          output: `wall_ms 0.156
 n 10000
 ok True`,
         },
@@ -301,10 +356,15 @@ ok True`,
           language: 'python',
           title: "s37_t1_b_demo.py",
           code: `import statistics
-print(statistics.median([3,1,2]))
-print('warmup', True)
-print('n_runs', 3)`,
-          output: `2
+
+def median_runs(samples):
+    return statistics.median(samples), True, len(samples)
+
+med, warmup, n_runs = median_runs([3, 1, 2])
+print("median", med)
+print("warmup", warmup)
+print("n_runs", n_runs)`,
+          output: `median 2
 warmup True
 n_runs 3`,
         },
@@ -318,10 +378,15 @@ n_runs 3`,
         code: {
           language: 'python',
           title: "s37_t2_a_demo.py",
-          code: `n=4; print(n*(n-1)//2)
-print('blocked', 2)
-print('ok', True)`,
-          output: `6
+          code: `def pair_count(n: int) -> int:
+    return n * (n - 1) // 2
+
+n = 4
+blocked = 2  # p.ej. un bloque de size 2
+print("all_pairs", pair_count(n))
+print("blocked", blocked)
+print("ok", pair_count(n) > blocked)`,
+          output: `all_pairs 6
 blocked 2
 ok True`,
         },
@@ -335,10 +400,19 @@ ok True`,
         code: {
           language: 'python',
           title: "s37_t2_b_demo.py",
-          code: `print({'Lima':2})
-print('structure', 'inverted_index')
-print('ok', True)`,
-          output: `{'Lima': 2}
+          code: `from collections import defaultdict
+
+def block_sizes(rows):
+    inv = defaultdict(list)
+    for city, eid in rows:
+        inv[city].append(eid)
+    return {k: len(v) for k, v in inv.items()}
+
+sizes = block_sizes([("Lima", "e1"), ("Lima", "e2"), ("Cusco", "e3")])
+print("blocks", sizes)
+print("structure", "inverted_index")
+print("ok", sizes.get("Lima") == 2)`,
+          output: `blocks {'Lima': 2, 'Cusco': 1}
 structure inverted_index
 ok True`,
         },
@@ -352,10 +426,14 @@ ok True`,
         code: {
           language: 'python',
           title: "s37_t3_a_demo.py",
-          code: `print([3,3,3,1])
-print('size', 3)
-print('ok', True)`,
-          output: `[3, 3, 3, 1]
+          code: `def chunk_sizes(n: int, size: int):
+    return [size] * (n // size) + ([n % size] if n % size else [])
+
+sizes = chunk_sizes(10, 3)
+print("chunk_sizes", sizes)
+print("size", 3)
+print("ok", sizes == [3, 3, 3, 1])`,
+          output: `chunk_sizes [3, 3, 3, 1]
 size 3
 ok True`,
         },
@@ -369,9 +447,14 @@ ok True`,
         code: {
           language: 'python',
           title: "s37_t3_b_demo.py",
-          code: `print(True)
-print('key', 'fs-v3')
-print('ok', True)`,
+          code: `def cache_hit(store, key):
+    return key in store
+
+store = {("fs-v3", "2026-01-01"): {"n_pairs": 1000}}
+key = ("fs-v3", "2026-01-01")
+print(cache_hit(store, key))
+print("key", key[0])
+print("ok", True)`,
           output: `True
 key fs-v3
 ok True`,
@@ -386,9 +469,12 @@ ok True`,
         code: {
           language: 'python',
           title: "s37_t4_a_demo.py",
-          code: `print(True)
-print('budget', 50)
-print('measured', 10)`,
+          code: `def under_budget(budget_ms: float, measured_ms: float) -> bool:
+    return measured_ms <= budget_ms
+
+print(under_budget(50, 10))
+print("budget", 50)
+print("measured", 10)`,
           output: `True
 budget 50
 measured 10`,
@@ -403,9 +489,12 @@ measured 10`,
         code: {
           language: 'python',
           title: "s37_t4_b_demo.py",
-          code: `print(4.0)
-print('micro_only', False)
-print('ok', True)`,
+          code: `def speedup(before_ms: float, after_ms: float) -> float:
+    return before_ms / after_ms
+
+print(speedup(100, 25))
+print("micro_only", False)
+print("ok", True)`,
           output: `4.0
 micro_only False
 ok True`,
@@ -430,11 +519,12 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e1.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("n", 1000)
+          code: `# CASO-LIM-037 sintético · sin PII real
+# DEFECT: n reportado como 0; el sample de wall debe ser 1000
+n = 1000
+print("n", 0)
+print("metric", "wall")
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -462,10 +552,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e2.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · conserva la lista metrics
+# DEFECT: omite n=len(metrics) y no imprime la lista
 metrics = ["wall", "cpu", "memory"]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(metrics)
+print("ok", True)
+print("n", 0)
 `,
         },
         solutionCode: {
@@ -494,11 +585,11 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("same_result", True)
+          code: `# CASO-LIM-037 · same_result es política de bench
+# DEFECT: same_result marcado False (rompe comparabilidad before/after)
+print("same_result", False)
+print("ok", True)
+print("n", 1)
 `,
         },
         solutionCode: {
@@ -526,11 +617,13 @@ n 1`,
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e1.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · mediana de runs
 import statistics
 vals = [5, 1, 4]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(statistics.median(vals))
+# DEFECT: imprime la media, no la mediana; y olvida warmup
+print(statistics.mean(vals))
+print("n_runs", 3)
+print("warmup", False)
 `,
         },
         solutionCode: {
@@ -560,11 +653,11 @@ warmup True`,
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e2.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("warmup", True)
+          code: `# CASO-LIM-037 · warmup de bench
+# DEFECT: no descarta el primer run
+print("warmup", False)
+print("discard_first", False)
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -592,10 +685,12 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e3.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · proxy p95 con n chico
 xs = [1, 2, 9]
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(max(xs))
+# DEFECT: usa min en lugar de max como proxy de cola
+print(min(xs))
+print("proxy", "p95_small_n")
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -624,10 +719,12 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e1.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · pares n*(n-1)/2
 n = 10
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(n * (n - 1) // 2)
+# DEFECT: usa n*n (cuenta diagonales / dobles)
+print(n * n)
+print("n", n)
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -656,10 +753,12 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e2.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · reducción por blocking
 all_p, blocked = 45, 10
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(round(1 - blocked / all_p, 3))
+# DEFECT: reporta blocked/all_p en vez de 1 - blocked/all_p
+print(round(blocked / all_p, 3))
+print("ok", True)
+print("blocking", True)
 `,
         },
         solutionCode: {
@@ -688,11 +787,11 @@ blocking True`,
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("prefer", "blocking")
+          code: `# CASO-LIM-037 · preferir blocking a microopt
+# DEFECT: prefiere microoptimización
+print("prefer", "microopt")
+print("ok", True)
+print("micro", True)
 `,
         },
         solutionCode: {
@@ -720,11 +819,11 @@ micro False`,
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e1.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("structure", "set")
+          code: `# CASO-LIM-037 · estructura de índice
+# DEFECT: usa scan lineal en vez de set/index
+print("structure", "list_scan")
+print("ok", True)
+print("scan", True)
 `,
         },
         solutionCode: {
@@ -752,8 +851,12 @@ scan False`,
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e2.py",
-          code: `rows = [("Lima", "e1"), ("Lima", "e2"), ("Cusco", "e3")]
-count = 0  # TODO count Lima
+          code: `# CASO-LIM-037 · count Lima rows
+# DEFECT: count queda en 0 (no filtra por Lima)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+rows = [("Lima", "e1"), ("Lima", "e2"), ("Cusco", "e3")]
+# DEFECT: count queda en 0 (no filtra por Lima)
+count = 0
 print(count)
 print("city", "Lima")
 print("ok", True)
@@ -786,11 +889,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("order", ["block", "score"])
+          code: `# CASO-LIM-037 · orden block → score
+# DEFECT: invierte el orden (score antes de block)
+print("order", ["score", "block"])
+print("ok", True)
+print("n", 2)
 `,
         },
         solutionCode: {
@@ -818,10 +921,12 @@ n 2`,
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e1.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · número de chunks
 n, size = 10, 4
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print((n + size - 1) // size)
+# DEFECT: truncamiento n//size (pierde el resto)
+print(n // size)
+print("size", size)
+print("ok", True)
 `,
         },
         solutionCode: {
@@ -850,11 +955,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e2.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(["id", "amt"])
+          code: `# CASO-LIM-037 · subset columnar
+# DEFECT: carga todas las columnas
+print(["id", "amt", "blob", "notes"])
+print("ok", True)
+print("columnar", False)
 `,
         },
         solutionCode: {
@@ -882,11 +987,11 @@ columnar True`,
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("dtype", "int32")
+          code: `# CASO-LIM-037 · dtype angosto
+# DEFECT: usa int64 por defecto (más memoria)
+print("dtype", "int64")
+print("ok", True)
+print("mem", "higher")
 `,
         },
         solutionCode: {
@@ -914,7 +1019,9 @@ mem lower`,
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e1.py",
-          code: `key = ("fs-v1",)  # TODO include cutoff
+          code: `# CASO-LIM-037 · cache key con cutoff
+# DEFECT: key sin cutoff → miss falso
+key = ("fs-v1",)
 cache = {("fs-v1", "cut"): True}
 print(key)
 print("hit", key in cache)
@@ -948,11 +1055,11 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e2.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("version_change")
+          code: `# CASO-LIM-037 · invalidación por versión
+# DEFECT: no invalida al cambiar versión
+print("keep_forever")
+print("ok", True)
+print("stale", False)
 `,
         },
         solutionCode: {
@@ -980,11 +1087,11 @@ stale True`,
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("ooc", "chunk")
+          code: `# CASO-LIM-037 · out-of-core
+# DEFECT: asume todo en RAM
+print("ooc", "load_all")
+print("ok", True)
+print("ram", "unbounded")
 `,
         },
         solutionCode: {
@@ -1012,10 +1119,12 @@ ram bounded`,
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e1.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · budget pass (bajo umbral)
 budget, measured = 10, 9
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(measured <= budget)
+# DEFECT: compara al revés
+print(measured > budget)
+print("budget", budget)
+print("measured", measured)
 `,
         },
         solutionCode: {
@@ -1044,10 +1153,12 @@ measured 9`,
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e2.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · budget fail (sobre umbral)
 budget, measured = 10, 12
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(measured <= budget)
+# DEFECT: hardcodea True aunque measured>budget
+print(True)
+print("budget", budget)
+print("measured", measured)
 `,
         },
         solutionCode: {
@@ -1076,11 +1187,11 @@ measured 12`,
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(["latency_p95", "memory", "pairs"])
+          code: `# CASO-LIM-037 · dimensiones del budget
+# DEFECT: solo reporta latency (incompleto)
+print(["latency_p95"])
+print("ok", True)
+print("n", 1)
 `,
         },
         solutionCode: {
@@ -1108,10 +1219,12 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e1.py",
-          code: `# Fixture del paquete (conserva datos; no reescribas asserts)
+          code: `# CASO-LIM-037 · speedup before/after
 before, after = 80, 20
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(before / after)
+# DEFECT: after/before (inverso) y marca micro_only
+print(after / before)
+print("ok", True)
+print("micro_only", True)
 `,
         },
         solutionCode: {
@@ -1140,11 +1253,11 @@ micro_only False`,
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e2.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print("prefer", "clarity")
+          code: `# CASO-LIM-037 · claridad > shave 2%
+# DEFECT: prefiere micro-shave
+print("prefer", "micro_shave")
+print("ok", True)
+print("shave", "2pct_yes")
 `,
         },
         solutionCode: {
@@ -1172,11 +1285,11 @@ shave 2pct_no`,
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e3.py",
-          code: `# Fixture sintético CASO-PE — sin PII real
-case_id = "CASO-LIM-SYN"
-run_id = "local-check"
-# TODO: completa solo print/resultado del contrato (instruction + solution output)
-# forma esperada (referencia): print(["before", "after", "dataset", "hardware"])
+          code: `# CASO-LIM-037 · reporte before/after completo
+# DEFECT: omite dataset y hardware
+print(["before", "after"])
+print("ok", True)
+print("n", 2)
 `,
         },
         solutionCode: {
@@ -1256,9 +1369,14 @@ if __name__=='__main__':
   },
   resources: {
     docs: [
-      { label: "Python time.perf_counter", url: "https://docs.python.org/3/library/time.html", note: "Wall clock" },
-      { label: "Python profilers", url: "https://docs.python.org/3/library/profile.html", note: "cProfile" },
+      { label: "Python time.perf_counter", url: "https://docs.python.org/3/library/time.html#time.perf_counter", note: "Wall clock monotónico" },
+      { label: "Python timeit", url: "https://docs.python.org/3/library/timeit.html", note: "Microbenchmarks" },
+      { label: "Python profilers (cProfile)", url: "https://docs.python.org/3/library/profile.html", note: "Hot path" },
+      { label: "Python tracemalloc", url: "https://docs.python.org/3/library/tracemalloc.html", note: "Memoria" },
+      { label: "collections.defaultdict", url: "https://docs.python.org/3/library/collections.html#collections.defaultdict", note: "Índice invertido" },
       { label: "Big-O cheat sheet", url: "https://www.bigocheatsheet.com/", note: "Complejidad" },
+      { label: "SRE workbook — monitoring", url: "https://sre.google/workbook/monitoring/", note: "Budgets y SLI" },
+      { label: "pytest docs", url: "https://docs.pytest.org/", note: "Regresión de performance en CI" },
     ],
     books: [
       { label: "High Performance Python", note: "Profiling y memoria" },
@@ -1267,6 +1385,9 @@ if __name__=='__main__':
     courses: [
       { label: "MIT 6.006 Introduction to Algorithms (OCW)", url: "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/", note: "Asymptotics" },
       { label: "Coursera: Algorithms, Part I (Princeton)", url: "https://www.coursera.org/learn/algorithms-part1", note: "Big-O y costos" },
+      { label: "Stanford CS161 Algorithms", url: "https://web.stanford.edu/class/cs161/", note: "Diseño algorítmico" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python", note: "Pedagogía progresiva" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

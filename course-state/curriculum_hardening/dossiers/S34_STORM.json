@@ -1,0 +1,973 @@
+{
+  "section": 34,
+  "title": "Métricas, desbalance, calibración y umbrales",
+  "file": "s34-cv-ai-integration.ts",
+  "n_required": 34,
+  "n_logged": 34,
+  "generated_at": "2026-07-24T04:42:25.457+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "never fraud=true; scores=queue priority; abstain band; no PII",
+    "v3_retarget": "metrics/calibration not CV YOLO",
+    "expert_pass_at": "2026-07-24T04:42:25.457+00:00"
+  },
+  "unique_foci": 34,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "confusion before accuracy",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 1/34: «confusion before accuracy» via sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «confusion before accuracy».",
+      "expand_scope": "E1/E2/E3 + docs for «confusion before accuracy»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 1/34: «confusion before accuracy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "precision recall F1 PR-AUC",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 2/34: «precision recall F1 PR-AUC» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «precision recall F1 PR-AUC».",
+      "expand_scope": "E1/E2/E3 + docs for «precision recall F1 PR-AUC»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 2/34: «precision recall F1 PR-AUC» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "precision at k queue",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 3/34: «precision at k queue» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «precision at k queue».",
+      "expand_scope": "E1/E2/E3 + docs for «precision at k queue»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 3/34: «precision at k queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "capacity overload thr",
+      "research": [
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 4/34: «capacity overload thr» via Google, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «capacity overload thr».",
+      "expand_scope": "E1/E2/E3 + docs for «capacity overload thr»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 4/34: «capacity overload thr» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "class weights train fold only",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 5/34: «class weights train fold only» via Google, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «class weights train fold only».",
+      "expand_scope": "E1/E2/E3 + docs for «class weights train fold only»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 5/34: «class weights train fold only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "no global oversample before CV",
+      "research": [
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 6/34: «no global oversample before CV» via Coursera, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no global oversample before CV».",
+      "expand_scope": "E1/E2/E3 + docs for «no global oversample before CV»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 6/34: «no global oversample before CV» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "prevalence base rate with PR",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 7/34: «prevalence base rate with PR» via Coursera, NIST, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prevalence base rate with PR».",
+      "expand_scope": "E1/E2/E3 + docs for «prevalence base rate with PR»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 7/34: «prevalence base rate with PR» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "all-neg accuracy trap",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 8/34: «all-neg accuracy trap» via Coursera, MIT, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «all-neg accuracy trap».",
+      "expand_scope": "E1/E2/E3 + docs for «all-neg accuracy trap»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 8/34: «all-neg accuracy trap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "Brier reliability bins",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 9/34: «Brier reliability bins» via Harvard, MIT, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Brier reliability bins».",
+      "expand_scope": "E1/E2/E3 + docs for «Brier reliability bins»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 9/34: «Brier reliability bins» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "score probability of priority not guilt",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 10/34: «score probability of priority not guilt» via Harvard, MIT, Py4E (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «score probability of priority not guilt».",
+      "expand_scope": "E1/E2/E3 + docs for «score probability of priority not guilt»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 10/34: «score probability of priority not guilt» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "Platt isotonic holdout cal",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 11/34: «Platt isotonic holdout cal» via Harvard, Live, Py4E (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Platt isotonic holdout cal».",
+      "expand_scope": "E1/E2/E3 + docs for «Platt isotonic holdout cal»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 11/34: «Platt isotonic holdout cal» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "no in-sample calibration",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 12/34: «no in-sample calibration» via Live, Py4E, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no in-sample calibration».",
+      "expand_scope": "E1/E2/E3 + docs for «no in-sample calibration»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 12/34: «no in-sample calibration» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "thr by cost and capacity versioned",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 13/34: «thr by cost and capacity versioned» via Live, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «thr by cost and capacity versioned».",
+      "expand_scope": "E1/E2/E3 + docs for «thr by cost and capacity versioned»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 13/34: «thr by cost and capacity versioned» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "abstain low high band",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 14/34: «abstain low high band» via sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «abstain low high band».",
+      "expand_scope": "E1/E2/E3 + docs for «abstain low high band»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 14/34: «abstain low high band» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "force label ban",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 15/34: «force label ban» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «force label ban».",
+      "expand_scope": "E1/E2/E3 + docs for «force label ban»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 15/34: «force label ban» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "slice metrics sensitivity",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 16/34: «slice metrics sensitivity» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «slice metrics sensitivity».",
+      "expand_scope": "E1/E2/E3 + docs for «slice metrics sensitivity»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 16/34: «slice metrics sensitivity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "CP-N3-B close gate",
+      "research": [
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 17/34: «CP-N3-B close gate» via Google, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-B close gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-B close gate»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 17/34: «CP-N3-B close gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "V3 not YOLO CV",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 18/34: «V3 not YOLO CV» via Google, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not YOLO CV».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not YOLO CV»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 18/34: «V3 not YOLO CV» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "pair from S33 baselines",
+      "research": [
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 19/34: «pair from S33 baselines» via Coursera, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S33 baselines».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S33 baselines»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 19/34: «pair from S33 baselines» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "fraud label false always",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 20/34: «fraud label false always» via Coursera, NIST, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fraud label false always».",
+      "expand_scope": "E1/E2/E3 + docs for «fraud label false always»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 20/34: «fraud label false always» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "synthetic needs_review labels",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 21/34: «synthetic needs_review labels» via Coursera, MIT, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic needs_review labels».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic needs_review labels»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 21/34: «synthetic needs_review labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "top-k precision clerical",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 22/34: «top-k precision clerical» via Harvard, MIT, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «top-k precision clerical».",
+      "expand_scope": "E1/E2/E3 + docs for «top-k precision clerical»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 22/34: «top-k precision clerical» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "cost matrix thr-v1",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 23/34: «cost matrix thr-v1» via Harvard, MIT, Py4E (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost matrix thr-v1».",
+      "expand_scope": "E1/E2/E3 + docs for «cost matrix thr-v1»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 23/34: «cost matrix thr-v1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "holdout_v1 calibrator set",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 24/34: «holdout_v1 calibrator set» via Harvard, Live, Py4E (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «holdout_v1 calibrator set».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout_v1 calibrator set»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 24/34: «holdout_v1 calibrator set» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "workbench explain queue",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 25/34: «workbench explain queue» via Live, Py4E, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «workbench explain queue».",
+      "expand_scope": "E1/E2/E3 + docs for «workbench explain queue»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 25/34: «workbench explain queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "ER not parentesco",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 26/34: «ER not parentesco» via Live, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ER not parentesco».",
+      "expand_scope": "E1/E2/E3 + docs for «ER not parentesco»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 26/34: «ER not parentesco» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "report prevalence with metrics",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "P/R/F Brier"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 27/34: «report prevalence with metrics» via sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «report prevalence with metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «report prevalence with metrics»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 27/34: «report prevalence with metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "threshold not library 0.5",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "Platt isotonic"
+        },
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 28/34: «threshold not library 0.5» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «threshold not library 0.5».",
+      "expand_scope": "E1/E2/E3 + docs for «threshold not library 0.5»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 28/34: «threshold not library 0.5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "queue load vs cap",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "PR curve",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+          "note": "PR-AUC"
+        },
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 29/34: «queue load vs cap» via Google, sklearn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «queue load vs cap».",
+      "expand_scope": "E1/E2/E3 + docs for «queue load vs cap»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 29/34: «queue load vs cap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "reject promote uncalibrated",
+      "research": [
+        {
+          "family": "Google",
+          "title": "ML Crash Course classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification",
+          "note": "thresholds"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 30/34: «reject promote uncalibrated» via Google, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject promote uncalibrated».",
+      "expand_scope": "E1/E2/E3 + docs for «reject promote uncalibrated»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 30/34: «reject promote uncalibrated» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "sensibility thr n_pos_pred",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "honest metrics"
+        },
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 31/34: «sensibility thr n_pos_pred» via Google, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sensibility thr n_pos_pred».",
+      "expand_scope": "E1/E2/E3 + docs for «sensibility thr n_pos_pred»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 31/34: «sensibility thr n_pos_pred» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "Red Andina fiction case",
+      "research": [
+        {
+          "family": "imbalanced-learn",
+          "title": "Docs",
+          "url": "https://imbalanced-learn.org/stable/",
+          "note": "resampling"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 32/34: «Red Andina fiction case» via Coursera, NIST, imbalanced-learn (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Red Andina fiction case».",
+      "expand_scope": "E1/E2/E3 + docs for «Red Andina fiction case»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 32/34: «Red Andina fiction case» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "auto_fraud never",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 33/34: «auto_fraud never» via Coursera, NIST, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto_fraud never».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_fraud never»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 33/34: «auto_fraud never» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "gold focus 34 CASO-LIM-034 / CP-N3-B workbench close",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "ML specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+          "note": "evaluation"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "calibration"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S34 «Métricas, desbalance, calibración y umbrales» cycle 34/34: «gold focus 34 CASO-LIM-034 / CP-N3-B workbench close» via Coursera, MIT, deeplearning.ai (CASO-LIM-034 / CP-N3-B workbench close).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 34 CASO-LIM-034 / CP-N3-B workbench close».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 34 CASO-LIM-034 / CP-N3-B workbench close»; V3 roadmap; pair S34 closes CP-N3-B → S35 next.",
+      "re_synthesize": "Decision 34/34: «gold focus 34 CASO-LIM-034 / CP-N3-B workbench close» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

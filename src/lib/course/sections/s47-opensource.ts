@@ -6,13 +6,13 @@ export const section47: CourseSection = {
   title: "MLOps: experimentos, registro y serving",
   shortTitle: "MLOps serving",
   tagline: "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
-  estimatedHours: 19,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Github",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, mlops: experimentos, registro y serving conecta decisiones técnicas con evidencia operativa. La práctica entrega run comparable, modelo registrado, deployment canary y decisión auditable y se promueve solo cuando solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+    "En equipos de plataforma y producto, **MLOps: experimentos, registro y serving** industrializa el modelo del workbench: runs reproducibles, registry con etapas, feature parity y rollout/rollback. Se promueve solo cuando el candidato supera baseline con datos fijos y el serving respeta el feature contract. Id legacy `opensource` se conserva; el path V3 es MLOps, no licensing de OSS en abstracto.",
   learningOutcomes: [
     { text: "Trackea experimentos reproducibles" },
     { text: "Compara runs con lineage completo" },
@@ -27,10 +27,31 @@ export const section47: CourseSection = {
     {
       heading: "Ruta de S47: MLOps: experimentos, registro y serving",
       paragraphs: [
-        "Esta sección parte de S46 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-TAC-047` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Production Data/ML Platform con CF-4. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida: run comparable, modelo registrado, deployment canary y decisión auditable.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Experiment run:** params + metrics + seed + artefactos + dataset version. **Lineage:** data/code/env que produjo el run. **Model registry stage:** None → Staging → Production (con approve). **Model card:** límites, intended use y riesgos. **Feature consistency:** mismas firmas train/serve. **Shadow/canary:** tráfico gradual sin sustituir todo. **Fallback:** modelo o regla previa si p95/errores fallan. **Retirement:** retirar versión con audit, no borrar evidencia.",
+        "Esta sección industrializa señales del triage (N3) y el path N4 con **MLOps**: experiment tracking, model registry, feature store parity y serving con SLO. Demos stdlib al estilo MLflow/registry (referencia). El caso `CASO-TAC-047` (Tacna sintético) no entrena en GPU ni sube modelos reales.",
+        "Producto incremental: run comparable + promote controlado. Entrada: dataset/version, métricas, card mínima y feature versions. Salida: candidate vs baseline, stage registry y canary/rollback. Error de promoción: métrica no reproducible, stage=production sin approve, leakage train/serve o p95 fuera de SLO sin fallback.",
+        "Orden: T1 runs/métricas → T2 registry/cards → T3 features online/batch → T4 traffic y rollback. Teoría medible, iDo con helpers, weDo con defecto MLOps por ejercicio. Id legacy `opensource` no es el foco; V3 es MLOps del servicio gobernado. Stack didáctico: **stdlib** modelando contratos MLflow/registry sin cluster GPU.",
       ],
+      code: {
+        language: 'python',
+        title: "s47_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-TAC-047",
+        "gates": ["repro_metrics", "approve_before_prod", "feature_parity", "rollback_possible"],
+        "oss_licensing_topic": False,
+        "prod_without_approve_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("oss_licensing_topic", c["oss_licensing_topic"])
+print("prod_without_approve_ok", c["prod_without_approve_ok"])
+`,
+        output: `case CASO-TAC-047
+oss_licensing_topic False
+prod_without_approve_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,20 @@ export const section47: CourseSection = {
       heading: "tracking y reproducibilidad",
       subtopicId: "S47-T1-A",
       paragraphs: [
-        "Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.",
-        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: rerun dentro de tolerancia declarada. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
-        "Aplicación de `tracking y reproducibilidad` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es rerun dentro de tolerancia declarada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Tracking registra **parámetros, métricas, seed, artefactos y versión de dataset**; reproducibilidad exige poder **re-ejecutar el baseline** con el mismo lineage y obtener métricas dentro de tolerancia — no solo mirar un dashboard de una corrida antigua. Sin seed y sin data version, el run es anécdota, no evidencia de promote.",
+        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: rerun dentro de tolerancia declarada y lineage completo. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción a Staging/Production. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
+        "Aplicación de `tracking y reproducibilidad` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es rerun con seed fijo y métrica `f1` dentro de tolerancia. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "tracking_reproducibility.py",
-        code: `print("r1"); print({"f1":0.81}); print("repro", 42)`,
+        code: `def log_run(run_id: str, metrics: dict, seed: int) -> tuple:
+    return run_id, metrics, seed
+
+rid, m, seed = log_run("r1", {"f1": 0.81}, 42)
+print(rid)
+print(m)
+print("repro", seed)`,
         output: `r1
 {'f1': 0.81}
 repro 42`,
@@ -71,7 +98,12 @@ repro 42`,
       code: {
         language: 'python',
         title: "data_code_env_lineage_compare.py",
-        code: `print({"data":"ds-v3","code":"git:abc","env":"locked"}); print("compare", ["f1","latency"]); print("diff", True)`,
+        code: `def lineage(data: str, code: str, env: str) -> dict:
+    return {"data": data, "code": code, "env": env}
+
+print(lineage("ds-v3", "git:abc", "locked"))
+print("compare", ["f1", "latency"])
+print("diff", True)`,
         output: `{'data': 'ds-v3', 'code': 'git:abc', 'env': 'locked'}
 compare ['f1', 'latency']
 diff True`,
@@ -94,7 +126,12 @@ diff True`,
       code: {
         language: 'python',
         title: "signatures_stages_approvals.py",
-        code: `print({"stage":"Staging","approvals":["ml-lead"]}); print("signature", "required"); print("prod_gate", True)`,
+        code: `def promote_request(stage: str, approvers: list) -> dict:
+    return {"stage": stage, "approvals": approvers}
+
+print(promote_request("Staging", ["ml-lead"]))
+print("signature", "required")
+print("prod_gate", True)`,
         output: `{'stage': 'Staging', 'approvals': ['ml-lead']}
 signature required
 prod_gate True`,
@@ -117,7 +154,12 @@ prod_gate True`,
       code: {
         language: 'python',
         title: "artifacts_card_compat.py",
-        code: `print({"model":"er-ranker","version":"1.2.0"}); print("artifact", "model.pkl"); print("card_required", True)`,
+        code: `def model_ref(name: str, version: str) -> dict:
+    return {"model": name, "version": version}
+
+print(model_ref("er-ranker", "1.2.0"))
+print("artifact", "model.pkl")
+print("card_required", True)`,
         output: `{'model': 'er-ranker', 'version': '1.2.0'}
 artifact model.pkl
 card_required True`,
@@ -134,13 +176,18 @@ card_required True`,
       subtopicId: "S47-T3-A",
       paragraphs: [
         "Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage.",
-        "Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: paridad de features en fixtures. Error: lineage incompleto, firma incompatible, regresión o fallback ausente impide promoción. Criterio de éxito: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.",
-        "Aplicación de `batch/online y feature consistency` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La evidencia esperada es paridad de features en fixtures. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de paridad. Entrada: firma batch y firma online de features. Salida: `consistent=True` solo si las firmas coinciden. Error: servir online con featurize distinto al training. Criterio: en Tacna sintético `feature_parity('features_v3','features_v3')` es True antes de canary.",
+        "Aplicación a `CASO-TAC-047-T3A`: mismos modes batch/online y skew_risk en watch. Sin PII; el score de prioridad no es veredicto de conducta.",
       ],
       code: {
         language: 'python',
         title: "batch_online_feature_consistency.py",
-        code: `print("consistent", True); print("modes", ["batch","online"]); print("skew_risk", "watch")`,
+        code: `def feature_parity(batch_sig: str, online_sig: str) -> bool:
+    return batch_sig == online_sig
+
+print("consistent", feature_parity("features_v3", "features_v3"))
+print("modes", ["batch", "online"])
+print("skew_risk", "watch")`,
         output: `consistent True
 modes ['batch', 'online']
 skew_risk watch`,
@@ -163,7 +210,12 @@ skew_risk watch`,
       code: {
         language: 'python',
         title: "latency_batching_fallback.py",
-        code: `print({"p95_ms":50,"fallback":"rules"}); print("on_timeout", "rules"); print("batching", True)`,
+        code: `def serving_slo(p95_ms: int, fallback: str) -> dict:
+    return {"p95_ms": p95_ms, "fallback": fallback}
+
+print(serving_slo(50, "rules"))
+print("on_timeout", "rules")
+print("batching", True)`,
         output: `{'p95_ms': 50, 'fallback': 'rules'}
 on_timeout rules
 batching True`,
@@ -186,7 +238,13 @@ batching True`,
       code: {
         language: 'python',
         title: "shadow_canary_monitoring.py",
-        code: `print("shadow"); print(["f1","latency","drift"]); print("canary_next", True)`,
+        code: `def shadow_hooks(metrics: list) -> tuple:
+    return "shadow", metrics, True
+
+mode, hooks, nxt = shadow_hooks(["f1", "latency", "drift"])
+print(mode)
+print(hooks)
+print("canary_next", nxt)`,
         output: `shadow
 ['f1', 'latency', 'drift']
 canary_next True`,
@@ -209,7 +267,12 @@ canary_next True`,
       code: {
         language: 'python',
         title: "rollback_retire_audit.py",
-        code: `print({"action":"rollback","to":"1.1.0"}); print("decisions_kept", True); print("cf4", "deployable_path")`,
+        code: `def rollback_to(version: str) -> dict:
+    return {"action": "rollback", "to": version}
+
+print(rollback_to("1.1.0"))
+print("decisions_kept", True)
+print("cf4", "deployable_path")`,
         output: `{'action': 'rollback', 'to': '1.1.0'}
 decisions_kept True
 cf4 deployable_path`,
@@ -233,7 +296,12 @@ cf4 deployable_path`,
         code: {
           language: 'python',
           title: "demo_tracking_reproducibility.py",
-          code: `print("tracking", "mlflow_like"); print("params", True); print("seed", 42)`,
+          code: `def track_seed(seed: int) -> int:
+    return seed
+
+print("tracking", "mlflow_like")
+print("params", True)
+print("seed", track_seed(42))`,
           output: `tracking mlflow_like
 params True
 seed 42`,
@@ -248,7 +316,13 @@ seed 42`,
         code: {
           language: 'python',
           title: "demo_data_code_env_lineage_compare.py",
-          code: `print("data", "ds-v3"); print("code", "git:abc"); print("env", "locked")`,
+          code: `def pin_env(data: str, code: str) -> tuple:
+    return data, code, "locked"
+
+d, c, e = pin_env("ds-v3", "git:abc")
+print("data", d)
+print("code", c)
+print("env", e)`,
           output: `data ds-v3
 code git:abc
 env locked`,
@@ -263,7 +337,12 @@ env locked`,
         code: {
           language: 'python',
           title: "demo_signatures_stages_approvals.py",
-          code: `print("stage", "Staging"); print("approve", True); print("signature", True)`,
+          code: `def can_promote(stage: str, approved: bool, has_sig: bool) -> bool:
+    return stage == "Staging" and approved and has_sig
+
+print("stage", "Staging")
+print("approve", can_promote("Staging", True, True))
+print("signature", True)`,
           output: `stage Staging
 approve True
 signature True`,
@@ -278,7 +357,12 @@ signature True`,
         code: {
           language: 'python',
           title: "demo_artifacts_card_compat.py",
-          code: `print("compat", "features_v3"); print("version", "1.2.0"); print("artifact_hash", True)`,
+          code: `def compat_features(sig: str) -> str:
+    return sig
+
+print("compat", compat_features("features_v3"))
+print("version", "1.2.0")
+print("artifact_hash", True)`,
           output: `compat features_v3
 version 1.2.0
 artifact_hash True`,
@@ -293,7 +377,12 @@ artifact_hash True`,
         code: {
           language: 'python',
           title: "demo_batch_online_feature_consistency.py",
-          code: `print("batch", True); print("online", True); print("same_codepath", True)`,
+          code: `def same_codepath(batch_mod: str, online_mod: str) -> bool:
+    return batch_mod == online_mod
+
+print("batch", True)
+print("online", True)
+print("same_codepath", same_codepath("featurize_v3", "featurize_v3"))`,
           output: `batch True
 online True
 same_codepath True`,
@@ -308,7 +397,12 @@ same_codepath True`,
         code: {
           language: 'python',
           title: "demo_latency_batching_fallback.py",
-          code: `print("latency_ok", True); print("fallback", "rules"); print("batch", 32)`,
+          code: `def latency_ok(p95_ms: float, budget_ms: float) -> bool:
+    return p95_ms <= budget_ms
+
+print("latency_ok", latency_ok(40, 50))
+print("fallback", "rules")
+print("batch", 32)`,
           output: `latency_ok True
 fallback rules
 batch 32`,
@@ -323,7 +417,12 @@ batch 32`,
         code: {
           language: 'python',
           title: "demo_shadow_canary_monitoring.py",
-          code: `print("shadow", True); print("hooks", True); print("promote_if", "gates_green")`,
+          code: `def promote_if(gates: dict) -> str:
+    return "gates_green" if all(gates.values()) else "stop"
+
+print("shadow", True)
+print("hooks", True)
+print("promote_if", promote_if({"f1": True, "latency": True}))`,
           output: `shadow True
 hooks True
 promote_if gates_green`,
@@ -338,7 +437,12 @@ promote_if gates_green`,
         code: {
           language: 'python',
           title: "demo_rollback_retire_audit.py",
-          code: `print("rollback", "1.1.0"); print("retire", "1.0.0"); print("audit", True)`,
+          code: `def last_good(versions: list) -> str:
+    return versions[-1]
+
+print("rollback", last_good(["1.0.0", "1.1.0"]))
+print("retire", "1.0.0")
+print("audit", True)`,
           output: `rollback 1.1.0
 retire 1.0.0
 audit True`,
@@ -366,7 +470,11 @@ audit True`,
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-1A", **{"seed":42,"params":{"depth":4},"metric":0.81,"rerun_metric":0.805,"tolerance":0.01}}
+          code: `# CASO-LIM-047 · tracking seed/metric reproducibility
+# DEFECT: PASS si |metric-rerun|>tolerance (no-reproducible)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-1A", **{"seed":42,"params":{"depth":4},"metric":0.81,"rerun_metric":0.805,"tolerance":0.01}}
+# DEFECT: métrica no reproducible fuera de tolerancia
 meets_contract = abs(record["metric"] - record["rerun_metric"]) > record["tolerance"]
 status = "PASS" if meets_contract else "MARK_RUN_NONREPRODUCIBLE"
 print("S47-T1-A", status)
@@ -399,7 +507,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess MARK_RUN_NONREPRODUCIBLE
+# DEFECT: PASS cuando rerun diverge del seed/params
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "seed", "params", "metric", "rerun_metric", "tolerance"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +561,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide MARK_RUN_NONREPRODUCIBLE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "seed", "params", "metric", "rerun_metric", "tolerance"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +615,11 @@ assert results == ["CONTINUE", "MARK_RUN_NONREPRODUCIBLE", "INVESTIGATE_RANDOMNE
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-1B", **{"data":"ds-v3","code":"git:abc","env":"lock:def","split":"holdout-v1","metric_definition":"f1-v2","candidate":0.82,"baseline":0.78}}
+          code: `# CASO-LIM-047 · lineage + candidate vs baseline
+# DEFECT: PASS si no data o candidate≤baseline
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-1B", **{"data":"ds-v3","code":"git:abc","env":"lock:def","split":"holdout-v1","metric_definition":"f1-v2","candidate":0.82,"baseline":0.78}}
+# DEFECT: sin data o candidate no supera baseline
 meets_contract = not record["data"] or record["candidate"] <= record["baseline"]
 status = "PASS" if meets_contract else "INVALIDATE_COMPARISON"
 print("S47-T1-B", status)
@@ -534,7 +652,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess INVALIDATE_COMPARISON
+# DEFECT: PASS sin lineage o sin mejora vs baseline
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "data", "code", "env", "split", "metric_definition", "candidate", "baseline"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +706,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide INVALIDATE_COMPARISON
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "data", "code", "env", "split", "metric_definition", "candidate", "baseline"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +760,11 @@ assert results == ["CONTINUE", "INVALIDATE_COMPARISON", "RESTORE_LINEAGE"]` ,
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
+          code: `# CASO-LIM-047 · model stage + approval gate
+# DEFECT: PASS si no approved o stage ya production
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
+# DEFECT: production sin approved o stage incorrecto
 meets_contract = not record["approved"] or record["stage"] == "production"
 status = "PASS" if meets_contract else "DENY_MODEL_PROMOTION"
 print("S47-T2-A", status)
@@ -669,7 +797,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess DENY_MODEL_PROMOTION
+# DEFECT: PASS sin approval o promote ilegal a prod
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "input_signature", "output_signature", "stage", "approved"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +851,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide DENY_MODEL_PROMOTION
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "input_signature", "output_signature", "stage", "approved"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +905,11 @@ assert results == ["CONTINUE", "DENY_MODEL_PROMOTION", "REQUEST_MODEL_APPROVAL"]
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-2B", **{"artifact_digest":"sha256:model","feature_version":"features-v3","serving_feature_version":"features-v3","card_sections":{"use","limits","metrics","risks"}}}
+          code: `# CASO-LIM-047 · artifact digest + model card
+# DEFECT: PASS si feature_version drift o card_sections<4
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-2B", **{"artifact_digest":"sha256:model","feature_version":"features-v3","serving_feature_version":"features-v3","card_sections":{"use","limits","metrics","risks"}}}
+# DEFECT: feature version skew o card incompleta
 meets_contract = record["feature_version"] != record["serving_feature_version"] or len(record["card_sections"]) < 4
 status = "PASS" if meets_contract else "REJECT_MODEL_ARTIFACT"
 print("S47-T2-B", status)
@@ -804,7 +942,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess REJECT_MODEL_ARTIFACT
+# DEFECT: PASS con serving skew o card incompleta
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "artifact_digest", "feature_version", "serving_feature_version", "card_sections"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +996,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide REJECT_MODEL_ARTIFACT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "artifact_digest", "feature_version", "serving_feature_version", "card_sections"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1050,11 @@ assert results == ["CONTINUE", "REJECT_MODEL_ARTIFACT", "COMPLETE_MODEL_CARD"]` 
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-3A", **{"batch_features":[0.1,0.4,0.8],"online_features":[0.1,0.4,0.8],"leakage":False,"contract_tests":3}}
+          code: `# CASO-LIM-047 · batch/online feature consistency
+# DEFECT: PASS si batch≠online o leakage True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-3A", **{"batch_features":[0.1,0.4,0.8],"online_features":[0.1,0.4,0.8],"leakage":False,"contract_tests":3}}
+# DEFECT: train/serve skew o leakage
 meets_contract = record["batch_features"] != record["online_features"] or record["leakage"]
 status = "PASS" if meets_contract else "DISABLE_INCONSISTENT_SERVING"
 print("S47-T3-A", status)
@@ -939,7 +1087,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess DISABLE_INCONSISTENT_SERVING
+# DEFECT: PASS con skew o leakage
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "batch_features", "online_features", "leakage", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1141,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide DISABLE_INCONSISTENT_SERVING
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "batch_features", "online_features", "leakage", "contract_tests"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1195,11 @@ assert results == ["CONTINUE", "DISABLE_INCONSISTENT_SERVING", "TRACE_FEATURE_PI
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-3B", **{"p95_ms":120,"slo_ms":180,"batch_size":16,"fallback":"rules-v2","fallback_tested":True}}
+          code: `# CASO-LIM-047 · p95 latency + fallback tested
+# DEFECT: PASS si p95>slo o fallback no tested
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-3B", **{"p95_ms":120,"slo_ms":180,"batch_size":16,"fallback":"rules-v2","fallback_tested":True}}
+# DEFECT: p95 fuera de SLO o fallback no probado
 meets_contract = record["p95_ms"] > record["slo_ms"] or not record["fallback_tested"]
 status = "PASS" if meets_contract else "ACTIVATE_SAFE_FALLBACK"
 print("S47-T3-B", status)
@@ -1074,7 +1232,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess ACTIVATE_SAFE_FALLBACK
+# DEFECT: PASS con latencia rota o fallback no ensayado
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "p95_ms", "slo_ms", "batch_size", "fallback", "fallback_tested"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1286,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide ACTIVATE_SAFE_FALLBACK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "p95_ms", "slo_ms", "batch_size", "fallback", "fallback_tested"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1340,11 @@ assert results == ["CONTINUE", "ACTIVATE_SAFE_FALLBACK", "TUNE_BATCH_OR_CAPACITY
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-4A", **{"mode":"canary","traffic_pct":5,"quality_delta":0.01,"max_quality_drop":0.02,"error_rate":0.004,"max_error_rate":0.01,"hooks":True}}
+          code: `# CASO-LIM-047 · canary traffic + error budget
+# DEFECT: PASS si traffic_pct>10 o error_rate>max
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-4A", **{"mode":"canary","traffic_pct":5,"quality_delta":0.01,"max_quality_drop":0.02,"error_rate":0.004,"max_error_rate":0.01,"hooks":True}}
+# DEFECT: canary sobre tráfico/error permitidos
 meets_contract = record["traffic_pct"] > 10 or record["error_rate"] > record["max_error_rate"]
 status = "PASS" if meets_contract else "STOP_CANARY"
 print("S47-T4-A", status)
@@ -1209,7 +1377,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess STOP_CANARY
+# DEFECT: PASS con canary over-traffic o error alto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "mode", "traffic_pct", "quality_delta", "max_quality_drop", "error_rate", "max_error_rate", "hooks"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1431,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide STOP_CANARY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "mode", "traffic_pct", "quality_delta", "max_quality_drop", "error_rate", "max_error_rate", "hooks"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1485,11 @@ assert results == ["CONTINUE", "STOP_CANARY", "COLLECT_MORE_SHADOW_EVIDENCE"]` ,
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-4B", **{"current":"1.2.0","last_good":"1.1.0","compatible_features":True,"rollback_tested":True,"retired":{"1.0.0"},"audit_entry":True}}
+          code: `# CASO-LIM-047 · rollback last_good + retirement
+# DEFECT: PASS si features incompatibles o rollback no tested
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-TAC-047-4B", **{"current":"1.2.0","last_good":"1.1.0","compatible_features":True,"rollback_tested":True,"retired":{"1.0.0"},"audit_entry":True}}
+# DEFECT: features incompatibles o rollback no probado
 meets_contract = not record["compatible_features"] or not record["rollback_tested"]
 status = "PASS" if meets_contract else "ROLLBACK_TO_LAST_GOOD"
 print("S47-T4-B", status)
@@ -1344,7 +1522,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-047 · assess ROLLBACK_TO_LAST_GOOD
+# DEFECT: PASS sin compat o sin rollback_tested
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "current", "last_good", "compatible_features", "rollback_tested", "retired", "audit_entry"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1576,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-047 · decide ROLLBACK_TO_LAST_GOOD
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "current", "last_good", "compatible_features", "rollback_tested", "retired", "audit_entry"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1689,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 3,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Un modelo en stage production sin approved=True debe…",
+        options: ["servirse igual porque el digest existe", "escalar a 100% de tráfico", "bloquearse hasta aprobación y card mínima", "borrar el baseline para forzar el candidate"],
+        correctIndex: 2,
+        explanation: "Registry fail-closed: production exige aprobación explícita y artefactos de gobernanza.",
+      },
     ],
   },
   resources: {
@@ -1515,23 +1705,61 @@ assert status in {"READY", "BLOCKED"}
         note: "Tracking, registry y serving",
       },
       {
+        label: "MLflow Tracking",
+        url: "https://mlflow.org/docs/latest/tracking.html",
+        note: "Params, metrics, seed y artefactos",
+      },
+      {
+        label: "MLflow Model Registry",
+        url: "https://mlflow.org/docs/latest/model-registry.html",
+        note: "Stages y approvals",
+      },
+      {
         label: "KServe",
         url: "https://kserve.github.io/website/latest/",
         note: "Serving, canary y runtimes",
+      },
+      {
+        label: "Feast feature store",
+        url: "https://github.com/feast-dev/feast",
+        note: "Feature parity train/serve",
       },
       {
         label: "Google Model Cards",
         url: "https://modelcards.withgoogle.com/about",
         note: "Documentación de uso, métricas y límites",
       },
+      {
+        label: "sklearn model evaluation",
+        url: "https://scikit-learn.org/stable/modules/model_evaluation.html",
+        note: "Métricas comparables entre runs",
+      },
+      {
+        label: "TFX / ML Metadata (concepts)",
+        url: "https://www.tensorflow.org/tfx/guide/mlmd",
+        note: "Lineage de artefactos ML",
+      },
+      {
+        label: "Google MLOps whitepaper",
+        url: "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+        note: "Niveles de MLOps y gates",
+      },
+      {
+        label: "NIST AI RMF",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Gobernanza y human oversight",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Building Machine Learning Powered Applications", note: "Serving y feedback loops" },
+      { label: "Site Reliability Engineering", note: "SLO, canary y rollback" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Coursera MLOps courses", url: "https://www.coursera.org/courses?query=mlops", note: "Experiment tracking y deployment" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
+      { label: "SRE release engineering", url: "https://sre.google/sre-book/release-engineering/", note: "Canary y rollback conceptual" },
     ],
   },
 }

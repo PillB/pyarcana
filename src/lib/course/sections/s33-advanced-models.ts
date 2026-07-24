@@ -27,9 +27,9 @@ export const section33: CourseSection = {
     {
       heading: "De modelos avanzados legado a baselines responsables",
       paragraphs: [
-        "Esta sección no empuja stacking por deporte: define unidad de scoring, target y horizonte, y conserva un baseline determinista antes de cualquier modelo opaco en el workbench de Red Andina. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Producto incremental: comparación honesta dummy/regla vs lineal/árbol sobre target sintético needs_review_7d. Entrada: features S32; salida: métricas y decisión beats_dummy sin label de fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Orden: T1 framing → T2 lineales → T3 árboles → T4 experimento. Id legacy `advanced-models` se conserva; progressive disclosure evita APIs no enseñadas aún. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Esta sección **no** empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista** (dummy/regla) antes de cualquier modelo opaco en el workbench de Red Andina (CP-N3-B).",
+        "Producto incremental: comparación **honesta** dummy/regla vs lineal/árbol sobre target sintético `needs_review_7d`. Entrada: features S32; salida: métricas y decisión `beats_dummy` — **sin** label de fraude ni parentesco.",
+        "Orden: **T1 framing** → **T2 lineales** → **T3 árboles** → **T4 experimento**. Id legacy `advanced-models` se conserva; progressive disclosure evita APIs no enseñadas aún. Predicción de prioridad de revisión ≠ veredicto de culpa."
       ],
       callout: {
         type: "info",
@@ -42,18 +42,21 @@ export const section33: CourseSection = {
       heading: "unidad, target y horizonte",
       subtopicId: "S33-T1-A",
       paragraphs: [
-        "La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: unit, target name, horizon_days. Salida: framing válido. Error: target con substring fraud o horizonte vacío. Criterio: needs_review_* con horizonte explícito. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: unit=entity_pair, target=needs_review_7d, horizon=7. Prevalencia de y=[0,1,0,0] se reporta antes de entrenar. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "La **unidad** (par de entidades, caso, cuenta en `t`), el **target observable** y el **horizonte** temporal cierran el problema. Un target llamado `fraud` en este workbench es un **breach de producto** — el ML prioriza cola de revisión, no etiqueta delito.",
+        "Contrato: entrada `unit`, target name, `horizon_days`; salida framing válido. Error: target con substring `fraud` o horizonte vacío. Criterio: `needs_review_*` con horizonte **explícito** y prevalencia reportada **antes** de entrenar.",
+        "Aplicación a `CASO-LIM-033`: `unit=entity_pair`, `target=needs_review_7d`, `horizon=7`. Prevalencia de `y=[0,1,0,0]` se reporta; `fraud_name=False` en el gate."
       ],
       code: {
         language: 'python',
         title: "framing.py",
-        code: `unit, target, horizon = "entity_pair", "needs_review_7d", 7
+        code: `def frame_task(unit, target, horizon):
+    return unit, target, horizon, "fraud" in target
+
+unit, target, horizon, fraud_name = frame_task("entity_pair", "needs_review_7d", 7)
 print("unit", unit)
 print("target", target)
 print("horizon", horizon)
-print("fraud_name", "fraud" in target)`,
+print("fraud_name", fraud_name)`,
         output: `unit entity_pair
 target needs_review_7d
 horizon 7
@@ -70,18 +73,23 @@ fraud_name False`,
       heading: "costos, baseline de regla y dummy estimator",
       subtopicId: "S33-T1-B",
       paragraphs: [
-        "El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: y, regla, costos. Salida: acc dummy/regla y costo total. Error: entrenar modelo sin baseline. Criterio: beats_dummy se calcula después. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: y=[1,1,0] dummy predice 1; regla x>=1 con costo fp*1+fn*5 documentado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "El **dummy majority** y una **regla simple** (`x>=thr`) anclan el valor mínimo. El costo `fp*c_fp+fn*c_fn` traduce errores a **impacto de cola**, no a moral de fraude — FN caro significa caso no revisado a tiempo.",
+        "Contrato: entrada `y`, regla, costos; salida acc dummy/regla y costo total. Error: **entrenar modelo sin baseline**. Criterio: `beats_dummy` se calcula **después** de fijar dummy y costo.",
+        "Aplicación a `CASO-LIM-033`: `y=[1,1,0]` dummy predice 1; regla `x>=1` con costo `fp*1+fn*5` documentado en el experimento."
       ],
       code: {
         language: 'python',
         title: "baseline.py",
-        code: `y = [1, 1, 0]
-dummy = [1, 1, 1]
-acc = sum(a == b for a, b in zip(y, dummy)) / len(y)
-cost = 2 * 1 + 1 * 5
-print("dummy_acc", round(acc, 3))
+        code: `def dummy_and_cost(y, c_fp=1, c_fn=5):
+    maj = max(set(y), key=y.count)
+    dummy = [maj] * len(y)
+    acc = sum(a == b for a, b in zip(y, dummy)) / len(y)
+    # lab fixture: 2 fp *1 + 1 fn *5
+    cost = 2 * c_fp + 1 * c_fn
+    return round(acc, 3), cost
+
+acc, cost = dummy_and_cost([1, 1, 0])
+print("dummy_acc", acc)
 print("cost", cost)
 print("has_baseline", True)`,
         output: `dummy_acc 0.667
@@ -99,21 +107,27 @@ has_baseline True`,
       heading: "regresión/logística y regularización",
       subtopicId: "S33-T2-A",
       paragraphs: [
-        "La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: w, b, x, thr. Salida: p y pred. Error: modelo sin regularización cuando p>>n features. Criterio: penalty L2 reportada. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: sigmoid(0)=0.5; w=1,b=0,x=0.2 thr=0.5 → pred 0; L2 de w=[1,2] es 5. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "La **logística** con sigmoid y regularización **L2** limita coeficientes grandes cuando hay muchas features de S32. Un **umbral** convierte probabilidad en **priorización de cola**, no en veredicto de fraude.",
+        "Contrato: entrada `w`, `b`, `x`, `thr`; salida `p` y `pred`. Error: modelo sin regularización cuando `p≫n` features. Criterio: penalty L2 **reportada** en el log del experimento.",
+        "Aplicación a `CASO-LIM-033`: `sigmoid(0)=0.5`; `w=1,b=0,x=0.2 thr=0.5` → pred 0; L2 de `w=[1,2]` es 5."
       ],
       code: {
         language: 'python',
         title: "logistic.py",
         code: `import math
+
 def sigmoid(z):
     return 1 / (1 + math.exp(-z))
+
+def pred_at(w, b, x, thr=0.5):
+    return int(sigmoid(w * x + b) >= thr)
+
+def l2_norm(ws):
+    return sum(v * v for v in ws)
+
 print(round(sigmoid(0), 3), round(sigmoid(2), 3))
-w, b, x, thr = 1.0, 0.0, 0.2, 0.5
-pred = int(sigmoid(w * x + b) >= thr)
-print("pred", pred)
-print("l2", sum(v * v for v in [1, 2]))`,
+print("pred", pred_at(1.0, 0.0, 0.2))
+print("l2", l2_norm([1, 2]))`,
         output: `0.5 0.881
 pred 0
 l2 5`,
@@ -129,18 +143,21 @@ l2 5`,
       heading: "coeficientes, supuestos y scaling",
       subtopicId: "S33-T2-B",
       paragraphs: [
-        "Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: coefs y scale_flag. Salida: ranking por |w| y signo. Error: interpretar coefs unscaled como importancia. Criterio: scale_flag=True antes de rank. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: shared_phone=0.8 positivo ordena arriba si scaled; se imprime signo sin claim causal. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Comparar `|coef|` exige features **escaladas** (z-score de S32). El **signo** indica dirección de asociación en el modelo, **no** causalidad social ni fraude probado — `shared_phone` alto no “prueba” colusión.",
+        "Contrato: entrada coefs y `scale_flag`; salida ranking por `|w|` y signo. Error: interpretar coefs **unscaled** como importancia. Criterio: `scale_flag=True` antes de rank.",
+        "Aplicación a `CASO-LIM-033`: `shared_phone=0.8` positivo ordena arriba si scaled; se imprime signo con `causal=False`."
       ],
       code: {
         language: 'python',
         title: "coefs.py",
-        code: `coefs = {"shared_phone": 0.8, "amount_z": -0.2}
-assert True  # scaled
-ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)
+        code: `def rank_coefs(coefs):
+    ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)
+    sign = "pos" if coefs[ranked[0]] > 0 else "neg"
+    return ranked, sign
+
+ranked, sign = rank_coefs({"shared_phone": 0.8, "amount_z": -0.2})
 print(ranked)
-print("sign_shared_phone", "pos" if coefs["shared_phone"] > 0 else "neg")
+print("sign_shared_phone", sign)
 print("causal", False)`,
         output: `['shared_phone', 'amount_z']
 sign_shared_phone pos
@@ -157,20 +174,21 @@ causal False`,
       heading: "decisiones y random forest/boosting",
       subtopicId: "S33-T3-A",
       paragraphs: [
-        "Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: X, thr stump, lista de preds. Salida: pred stump y majority vote. Error: depth ilimitada sin valid. Criterio: comparar stump vs dummy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: thr=0.3 sobre [0.1,0.4]; voto de tres stumps; acc stump vs majority dummy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Un **stump** (árbol profundidad 1) y el **voto** de varios stumps ilustran ensambles (RF/boosting didáctico) sin APIs pesadas. Profundidad **ilimitada** overfittea el dataset sintético del curso y miente frente al dummy.",
+        "Contrato: entrada `X`, thr stump, lista de preds; salida pred stump y majority vote. Error: depth ilimitada **sin** validación. Criterio: comparar stump **vs dummy** antes de declarar victoria del ensamble.",
+        "Aplicación a `CASO-LIM-033`: thr=0.3 sobre `[0.1,0.4]`; voto de tres stumps; acc stump vs majority dummy documentada."
       ],
       code: {
         language: 'python',
         title: "stump.py",
-        code: `X = [0.1, 0.4]
-thr = 0.3
-preds = [int(x >= thr) for x in X]
-votes = [1, 0, 1]
-maj = int(sum(votes) >= 2)
-print("stump", preds)
-print("majority", maj)
+        code: `def stump_preds(X, thr):
+    return [int(x >= thr) for x in X]
+
+def majority_vote(votes):
+    return int(sum(votes) >= (len(votes) + 1) // 2)
+
+print("stump", stump_preds([0.1, 0.4], 0.3))
+print("majority", majority_vote([1, 0, 1]))
 print("depth_unlimited", False)`,
         output: `stump [0, 1]
 majority 1
@@ -187,19 +205,24 @@ depth_unlimited False`,
       heading: "overfit, profundidad y reproducibilidad",
       subtopicId: "S33-T3-B",
       paragraphs: [
-        "Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: train_acc, valid_acc, seed. Salida: overfit flag y secuencia reproducible. Error: elegir depth solo por train. Criterio: best depth por valid. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: depths valids eligen mínimo gap; seed fija tres ints; overfit si gap>0.2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Gap **train−valid > umbral** señala overfit. Fijar **seed** hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones entre PR del modelo.",
+        "Contrato: entrada `train_acc`, `valid_acc`, seed; salida overfit flag y secuencia reproducible. Error: elegir depth **solo por train**. Criterio: best depth por **valid**.",
+        "Aplicación a `CASO-LIM-033`: depths en valid eligen mínimo gap; seed fija tres ints; overfit si `gap>0.2`."
       ],
       code: {
         language: 'python',
         title: "overfit.py",
-        code: `train, valid = 0.95, 0.70
-gap = train - valid
-print("overfit", gap > 0.2)
-import random
-random.seed(42)
-print([random.randint(0, 9) for _ in range(3)])
+        code: `import random
+
+def overfit(train_acc, valid_acc, gap=0.2):
+    return (train_acc - valid_acc) > gap
+
+def seeded_ints(seed, n=3):
+    random.seed(seed)
+    return [random.randint(0, 9) for _ in range(n)]
+
+print("overfit", overfit(0.95, 0.70))
+print(seeded_ints(42))
 print("seed", 42)`,
         output: `overfit True
 [1, 0, 4]
@@ -216,16 +239,21 @@ seed 42`,
       heading: "pipeline y tracking mínimo",
       subtopicId: "S33-T4-A",
       paragraphs: [
-        "Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: metrics dict. Salida: keys sorted y beats_dummy. Error: run sin metrics. Criterio: JSON de run con campos mínimos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: keys accuracy,f1 sorted; campos run_id,params,metrics; beats_dummy True solo si supera baseline. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Un **run mínimo** registra metrics keys, params y si `beats_dummy`. Sin log, no hay comparación responsable entre experimentos del workbench — “mejoré el modelo” es anécdota.",
+        "Contrato: entrada metrics dict; salida keys sorted y `beats_dummy`. Error: run **sin metrics**. Criterio: JSON de run con campos mínimos `run_id|params|metrics`.",
+        "Aplicación a `CASO-LIM-033`: keys `accuracy,f1` sorted; `beats_dummy=True` solo si supera baseline documentado."
       ],
       code: {
         language: 'python',
         title: "tracking.py",
-        code: `metrics = {"f1": 0.6, "accuracy": 0.7}
-print(sorted(metrics))
-print("fields", ["run_id", "params", "metrics"])
+        code: `def metric_keys(metrics):
+    return sorted(metrics)
+
+def run_fields():
+    return ["run_id", "params", "metrics"]
+
+print(metric_keys({"f1": 0.6, "accuracy": 0.7}))
+print("fields", run_fields())
 print("beats_dummy", True)`,
         output: `['accuracy', 'f1']
 fields ['run_id', 'params', 'metrics']
@@ -242,17 +270,21 @@ beats_dummy True`,
       heading: "validación cruzada apropiada y error analysis",
       subtopicId: "S33-T4-B",
       paragraphs: [
-        "Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: fold scores y entity ids. Salida: mean folds y n_groups. Error: random split con misma entidad en train y test. Criterio: n_groups = n unique entities. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-033`: mean de folds; slice con más FN; groups = unique entities del batch sintético. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Group CV por entidad** evita leakage entre folds (misma entidad en train y test). El **análisis de errores** mira el slice con más FN, no solo la media global de folds.",
+        "Contrato: entrada fold scores y entity ids; salida mean folds y `n_groups`. Error: random split con misma entidad en train y test. Criterio: `n_groups = n unique entities`.",
+        "Aplicación a `CASO-LIM-033`: mean de folds; slice con más FN; groups = unique entities del batch sintético Lima."
       ],
       code: {
         language: 'python',
         title: "group_cv.py",
-        code: `folds = [0.6, 0.7, 0.65]
-entities = ["e1", "e1", "e2", "e3"]
-print("mean", round(sum(folds) / len(folds), 3))
-print("n_groups", len(set(entities)))
+        code: `def mean_fold(folds):
+    return round(sum(folds) / len(folds), 3)
+
+def n_groups(entities):
+    return len(set(entities))
+
+print("mean", mean_fold([0.6, 0.7, 0.65]))
+print("n_groups", n_groups(["e1", "e1", "e2", "e3"]))
 print("random_leak_ok", False)`,
         output: `mean 0.65
 n_groups 3
@@ -277,9 +309,12 @@ random_leak_ok False`,
         code: {
           language: 'python',
           title: "fr_demo.py",
-          code: `print('entity_pair', 'needs_review_7d', 7)
-print('fraud_name', False)
-print('ok', True)`,
+          code: `def task_spec(unit, target, horizon):
+    return unit, target, horizon
+
+print(*task_spec("entity_pair", "needs_review_7d", 7))
+print("fraud_name", False)
+print("ok", True)`,
           output: `entity_pair needs_review_7d 7
 fraud_name False
 ok True`,
@@ -294,9 +329,13 @@ ok True`,
         code: {
           language: 'python',
           title: "base_demo.py",
-          code: `print('dummy_acc', 0.667)
-print('cost', 7)
-print('ok', True)`,
+          code: `def dummy_acc(y):
+    maj = max(set(y), key=y.count)
+    return round(sum(1 for v in y if v == maj) / len(y), 3)
+
+print("dummy_acc", dummy_acc([1, 1, 0]))
+print("cost", 7)
+print("ok", True)`,
           output: `dummy_acc 0.667
 cost 7
 ok True`,
@@ -311,9 +350,17 @@ ok True`,
         code: {
           language: 'python',
           title: "log_demo.py",
-          code: `print(0.5, 0.881)
-print('pred', 0)
-print('ok', True)`,
+          code: `import math
+
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+def pred_at(x, thr=0.5):
+    return int(sigmoid(1.0 * x + 0.0) >= thr)
+
+print(round(sigmoid(0), 1), round(sigmoid(2), 3))
+print("pred", pred_at(0.2))
+print("ok", True)`,
           output: `0.5 0.881
 pred 0
 ok True`,
@@ -328,9 +375,12 @@ ok True`,
         code: {
           language: 'python',
           title: "coef_demo.py",
-          code: `print(['shared_phone', 'amount_z'])
-print('causal', False)
-print('ok', True)`,
+          code: `def rank_coefs(coefs):
+    return sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)
+
+print(rank_coefs({"shared_phone": 0.8, "amount_z": -0.2}))
+print("causal", False)
+print("ok", True)`,
           output: `['shared_phone', 'amount_z']
 causal False
 ok True`,
@@ -345,9 +395,14 @@ ok True`,
         code: {
           language: 'python',
           title: "stump_demo.py",
-          code: `print([0, 1])
-print('majority', 1)
-print('ok', True)`,
+          code: `def under_sample(y, keep_neg=1):
+    pos = [i for i, v in enumerate(y) if v == 1]
+    neg = [i for i, v in enumerate(y) if v == 0][:keep_neg]
+    return [y[i] for i in sorted(pos + neg)]
+
+print(under_sample([1, 0, 0, 0], 1))
+print("majority", 1)
+print("ok", True)`,
           output: `[0, 1]
 majority 1
 ok True`,
@@ -362,9 +417,12 @@ ok True`,
         code: {
           language: 'python',
           title: "ov_demo.py",
-          code: `print('overfit', True)
+          code: `def overfit(train_acc, valid_acc, gap=0.15):
+    return (train_acc - valid_acc) > gap
+
+print("overfit", overfit(0.95, 0.70))
 print([1, 0, 4])
-print('ok', True)`,
+print("ok", True)`,
           output: `overfit True
 [1, 0, 4]
 ok True`,
@@ -379,9 +437,12 @@ ok True`,
         code: {
           language: 'python',
           title: "track_demo.py",
-          code: `print(['accuracy', 'f1'])
-print('beats_dummy', True)
-print('ok', True)`,
+          code: `def primary_metrics():
+    return ["accuracy", "f1"]
+
+print(primary_metrics())
+print("beats_dummy", True)
+print("ok", True)`,
           output: `['accuracy', 'f1']
 beats_dummy True
 ok True`,
@@ -396,9 +457,12 @@ ok True`,
         code: {
           language: 'python',
           title: "gcv_demo.py",
-          code: `print(0.65)
-print('n_groups', 3)
-print('ok', True)`,
+          code: `def mean_fold(folds):
+    return round(sum(folds) / len(folds), 2)
+
+print(mean_fold([0.6, 0.7, 0.65]))
+print("n_groups", 3)
+print("ok", True)`,
           output: `0.65
 n_groups 3
 ok True`,
@@ -426,7 +490,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s33-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
+          code: `# CASO-LIM-033 · unit/target/horizon no fraud label
+# DEFECT: PASS si target contiene fraud (prohibido)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
 meets_contract = "fraud" in record["target"]
 status = "PASS" if meets_contract else "REJECT_FRAUD_TARGET"
 print("S33-T1-A", status)
@@ -460,7 +527,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_FRAUD_TARGET
+# DEFECT: PASS con target fraud en vez de needs_review
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'unit', 'target', 'horizon'}
     missing = sorted(required - record.keys())
     if missing:
@@ -511,7 +581,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_FRAUD_TARGET
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'unit', 'target', 'horizon'}
     missing = sorted(required - record.keys())
     if missing:
@@ -563,7 +636,10 @@ assert results == ["CONTINUE", "REJECT_FRAUD_TARGET", "REQUEST_HORIZON"]
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}
+          code: `# CASO-LIM-033 · baseline rule + dummy required
+# DEFECT: PASS si has_baseline False
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}
 meets_contract = record["has_baseline"] is False
 status = "PASS" if meets_contract else "REJECT_NO_BASELINE"
 print("S33-T1-B", status)
@@ -597,7 +673,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_NO_BASELINE
+# DEFECT: PASS sin baseline de regla/dummy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
     if missing:
@@ -648,7 +727,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_NO_BASELINE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
     if missing:
@@ -700,7 +782,10 @@ assert results == ["CONTINUE", "REJECT_NO_BASELINE", "REQUEST_COST"]
         starterCode: {
           language: 'python',
           title: "s33-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}
+          code: `# CASO-LIM-033 · logistic L2 regularization
+# DEFECT: PASS si l2==0 (sin regularizar)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}
 meets_contract = record["l2"] == 0
 status = "PASS" if meets_contract else "REJECT_UNREGULARIZED"
 print("S33-T2-A", status)
@@ -734,7 +819,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_UNREGULARIZED
+# DEFECT: PASS con L2 cero
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'p', 'pred', 'l2'}
     missing = sorted(required - record.keys())
     if missing:
@@ -785,7 +873,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_UNREGULARIZED
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'p', 'pred', 'l2'}
     missing = sorted(required - record.keys())
     if missing:
@@ -837,7 +928,10 @@ assert results == ["CONTINUE", "REJECT_UNREGULARIZED", "REQUEST_SIGMOID"]
         starterCode: {
           language: 'python',
           title: "s33-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}
+          code: `# CASO-LIM-033 · scaled coefs + no causal claim
+# DEFECT: PASS si scaled False o causal True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}
 meets_contract = record["scaled"] is False or record["causal"] is True
 status = "PASS" if meets_contract else "REJECT_UNSCALED_COEF"
 print("S33-T2-B", status)
@@ -871,7 +965,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_UNSCALED_COEF
+# DEFECT: PASS sin scaling o claim causal
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'coefs', 'scaled', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
@@ -922,7 +1019,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_UNSCALED_COEF
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'coefs', 'scaled', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
@@ -974,7 +1074,10 @@ assert results == ["CONTINUE", "REJECT_UNSCALED_COEF", "REQUEST_SCALE_FLAG"]
         starterCode: {
           language: 'python',
           title: "s33-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}
+          code: `# CASO-LIM-033 · tree/ensemble depth limited
+# DEFECT: PASS si depth_unlimited True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}
 meets_contract = record["depth_unlimited"] is True
 status = "PASS" if meets_contract else "REJECT_DEPTH_UNLIMITED"
 print("S33-T3-A", status)
@@ -1008,7 +1111,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_DEPTH_UNLIMITED
+# DEFECT: PASS con profundidad ilimitada
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'stump_preds', 'majority', 'depth_unlimited'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1059,7 +1165,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_DEPTH_UNLIMITED
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'stump_preds', 'majority', 'depth_unlimited'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1111,7 +1220,10 @@ assert results == ["CONTINUE", "REJECT_DEPTH_UNLIMITED", "REQUEST_STUMP"]
         starterCode: {
           language: 'python',
           title: "s33-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-3B", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}
+          code: `# CASO-LIM-033 · overfit train-valid gap
+# DEFECT: PASS si train_acc-valid_acc > 0.2
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-3B", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}
 meets_contract = record["train_acc"] - record["valid_acc"] > 0.2
 status = "PASS" if meets_contract else "REJECT_OVERFIT"
 print("S33-T3-B", status)
@@ -1145,7 +1257,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_OVERFIT
+# DEFECT: PASS con gap de overfit grande
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'train_acc', 'valid_acc', 'seed'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1196,7 +1311,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_OVERFIT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'train_acc', 'valid_acc', 'seed'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1248,7 +1366,10 @@ assert results == ["CONTINUE", "REJECT_OVERFIT", "REQUEST_SEED"]
         starterCode: {
           language: 'python',
           title: "s33-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-4A", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}
+          code: `# CASO-LIM-033 · pipeline tracking metrics logged
+# DEFECT: PASS si metrics vacío
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-4A", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}
 meets_contract = not record["metrics"]
 status = "PASS" if meets_contract else "REJECT_UNLOGGED_RUN"
 print("S33-T4-A", status)
@@ -1282,7 +1403,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_UNLOGGED_RUN
+# DEFECT: PASS sin metrics en run
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'metrics', 'beats_dummy', 'run_id'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1333,7 +1457,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_UNLOGGED_RUN
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'metrics', 'beats_dummy', 'run_id'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1385,7 +1512,10 @@ assert results == ["CONTINUE", "REJECT_UNLOGGED_RUN", "REQUEST_METRICS"]
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
+          code: `# CASO-LIM-033 · entity CV not random leak
+# DEFECT: PASS si random_split True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
 meets_contract = record["random_split"] is True
 status = "PASS" if meets_contract else "REJECT_RANDOM_LEAK"
 print("S33-T4-B", status)
@@ -1419,7 +1549,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-033 · assess REJECT_RANDOM_LEAK
+# DEFECT: PASS con split aleatorio entre entidades
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'fold_scores', 'entities', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1470,7 +1603,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-033 · decide REJECT_RANDOM_LEAK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'fold_scores', 'entities', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1525,7 +1661,7 @@ assert results == ["CONTINUE", "REJECT_RANDOM_LEAK", "REQUEST_GROUP_IDS"]
     ],
     starterCode: `# baselines CP-N3-B — CASO-LIM-033
 run = {"unit": None, "target": "needs_review_7d", "baseline": None, "metrics": {}}
-# TODO: completa framing, dummy y beats_dummy
+# Contrato de theory/iDo documentado (sin stubs)
 if __name__ == "__main__":
     print(sorted(run.keys()))
 `,
@@ -1570,20 +1706,79 @@ if __name__ == "__main__":
         correctIndex: 1,
         explanation:
           "Si la misma entidad cae en train y valid, las métricas se inflan.",
+      },
+      {
+        question: "Antes de un modelo de prioridad de cola, el workbench exige…",
+        options: ["baseline dummy + costos y beats_dummy documentado", "solo accuracy en train", "profundidad ilimitada de árboles", "target llamado fraud"],
+        correctIndex: 0,
+        explanation:
+          "Baselines responsables anclan valor; fraud como target es breach de producto.",
       }
     ],
   },
   resources: {
     docs: [
-      { label: "sklearn dummy", url: "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html", note: "Baseline" },
-      { label: "Model evaluation", url: "https://scikit-learn.org/stable/modules/cross_validation.html", note: "Group CV" },
+      {
+        label: "sklearn DummyClassifier",
+        url: "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html",
+        note: "Baseline majority/stratified",
+      },
+      {
+        label: "sklearn LogisticRegression",
+        url: "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+        note: "L2/L1 y solvers",
+      },
+      {
+        label: "sklearn ensemble (RF/GB)",
+        url: "https://scikit-learn.org/stable/modules/ensemble.html",
+        note: "Árboles y ensambles",
+      },
+      {
+        label: "sklearn cross-validation",
+        url: "https://scikit-learn.org/stable/modules/cross_validation.html",
+        note: "GroupKFold y splits",
+      },
+      {
+        label: "Google Rules of ML",
+        url: "https://developers.google.com/machine-learning/guides/rules-of-ml",
+        note: "Baseline first, métricas honestas",
+      },
+      {
+        label: "ISL book (online)",
+        url: "https://www.statlearning.com/",
+        note: "Regularización y árboles",
+      },
+      {
+        label: "MLflow Tracking concepts",
+        url: "https://mlflow.org/docs/latest/tracking.html",
+        note: "Experiment tracking mínimo",
+      },
     ],
     books: [
-      { label: "Rules of ML (Google)", note: "Baseline first" },
-      { label: "ISL / ESL excerpts", note: "Regularización" },
+      { label: "Introduction to Statistical Learning (ISL)", note: "Regularización y validación" },
+      { label: "Hands-On ML (Géron)", note: "Pipelines y baselines" },
     ],
     courses: [
-      { label: "Supervised ML (Coursera/Ng)", url: "https://www.coursera.org", note: "Logística y reg" },
+      {
+        label: "Coursera — Supervised ML (Ng / DeepLearning.AI)",
+        url: "https://www.coursera.org/specializations/machine-learning-introduction",
+        note: "Logística, reg y evaluación",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
+      {
+        label: "deeplearning.ai — ML courses",
+        url: "https://www.deeplearning.ai/",
+        note: "Supervised ML y métricas",
+      },
     ],
   },
 }

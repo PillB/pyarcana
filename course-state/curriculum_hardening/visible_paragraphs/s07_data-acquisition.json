@@ -1,0 +1,495 @@
+{
+  "index": 7,
+  "id": "data-acquisition",
+  "title": "Texto, Unicode y expresiones regulares",
+  "file": "s07-data-acquisition.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Adquisición multi-fuente” a texto Unicode y regex (mapa)",
+      "len": 60
+    },
+    {
+      "i": 1,
+      "text": "En V3, S07 no es el path principal de scraping, SQL ni APIs. Esos temas se reubican. Aquí el estudiante domina texto latinoamericano: normalización Unicode, nombres con dos apellidos, métodos str antes de regex, y matching con evidencia sin afirmar parentesco.",
+      "len": 260
+    },
+    {
+      "i": 2,
+      "text": "El incremento CP-N1-B es un normalizador de registro que conserva raw, produce normalized y lista transforms. Datos sintéticos peruanos/latam; sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 417
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Unicode → T2 str ops y contacto → T3 regex → T4 similitud y FP/FN. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 367
+    },
+    {
+      "i": 4,
+      "text": "Code points, normalización y casefold",
+      "len": 37
+    },
+    {
+      "i": 5,
+      "text": "Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combining mark). En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 382
+    },
+    {
+      "i": 6,
+      "text": "unicodedata.normalize('NFC', s) unifica formas antes de comparar. Sin eso, 'José' == 'Jose\\u0301' puede ser False aunque se vean iguales. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 398
+    },
+    {
+      "i": 7,
+      "text": "casefold() es más agresivo que lower() para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Code points, normalización y casefold»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 396
+    },
+    {
+      "i": 8,
+      "text": "Tildes, ñ, partículas y apellidos compuestos",
+      "len": 44
+    },
+    {
+      "i": 9,
+      "text": "En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 343
+    },
+    {
+      "i": 10,
+      "text": "Partículas (de, del, de la, y) pueden ir en nombres o apellidos (María del Carmen, de la Cruz). Un parser suave tokeniza y aplica heurísticas; si no hay segundo apellido, marca review en vez de inventar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 464
+    },
+    {
+      "i": 11,
+      "text": "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Tildes, ñ, partículas y apellidos compuestos»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 369
+    },
+    {
+      "i": 12,
+      "text": "split / join / search / replace",
+      "len": 31
+    },
+    {
+      "i": 13,
+      "text": "Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 336
+    },
+    {
+      "i": 14,
+      "text": "' '.join(s.split()) colapsa espacios. split(',') parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 390
+    },
+    {
+      "i": 15,
+      "text": "replace es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «split / join / search / replace»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 359
+    },
+    {
+      "i": 16,
+      "text": "Nombres, emails y teléfonos sin sobrevalidación",
+      "len": 47
+    },
+    {
+      "i": 17,
+      "text": "Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide valid o review. Regex hiper-estrictas rechazan válidos (plus addressing, Unicode, dominios nuevos).",
+      "len": 279
+    },
+    {
+      "i": 18,
+      "text": "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país 51 cuando viene como +51; opcionalmente revisar 9 dígitos locales — no inventes validación de operadora. El contrato de salida es dígitos (51999000111), no conservar el signo +.",
+      "len": 255
+    },
+    {
+      "i": 19,
+      "text": "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (del → Del). Decide política y documenta. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Nombres, emails y teléfonos sin sobrevalidación»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 397
+    },
+    {
+      "i": 20,
+      "text": "Patrones, grupos y anchors",
+      "len": 26
+    },
+    {
+      "i": 21,
+      "text": "Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 366
+    },
+    {
+      "i": 22,
+      "text": "re.fullmatch ancla inicio y fin. re.search encuentra en medio. Confundirlos produce falsos positivos en validación de códigos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 387
+    },
+    {
+      "i": 23,
+      "text": "Grupos con nombre (?P<name>...) mejoran legibilidad al extraer campos. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Patrones, grupos y anchors»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 327
+    },
+    {
+      "i": 24,
+      "text": "Compilación, extracción y límites",
+      "len": 33
+    },
+    {
+      "i": 25,
+      "text": "re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 346
+    },
+    {
+      "i": 26,
+      "text": "Límites: catastrophic backtracking con patrones anidados ambiguos; overfit de validación que rechaza inputs reales. Prefiere patrones simples. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 403
+    },
+    {
+      "i": 27,
+      "text": "Si el patrón crece sin control, vuelve a str methods o a un parser explícito. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Compilación, extracción y límites»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 341
+    },
+    {
+      "i": 28,
+      "text": "Exacta y por tokens (Jaccard simple)",
+      "len": 36
+    },
+    {
+      "i": 29,
+      "text": "Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 356
+    },
+    {
+      "i": 30,
+      "text": "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → review, no auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 343
+    },
+    {
+      "i": 31,
+      "text": "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Exacta y por tokens (Jaccard simple)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 367
+    },
+    {
+      "i": 32,
+      "text": "FP/FN y conservación de evidencia",
+      "len": 33
+    },
+    {
+      "i": 33,
+      "text": "FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+      "len": 357
+    },
+    {
+      "i": 34,
+      "text": "Empaqueta evidencia: {raw_a, raw_b, score, decision, reason}. La decisión puede ser accept/review/reject de matching — no etiqueta familiar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+      "len": 401
+    },
+    {
+      "i": 35,
+      "text": "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «FP/FN y conservación de evidencia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 376
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 60,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Adquisición multi-fuente” a texto Unicode y regex (mapa)",
+      "text": "De “Adquisición multi-fuente” a texto Unicode y regex (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 260,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S07 no es el path principal de scraping, SQL ni APIs. Esos temas se reubican. Aquí el estudiante domina texto latinoamericano: normalización Unicode, nombres con dos apellid",
+      "text": "En V3, S07 no es el path principal de scraping, SQL ni APIs. Esos temas se reubican. Aquí el estudiante domina texto latinoamericano: normalización Unicode, nombres con dos apellidos, métodos str antes de regex, y matching con evidencia sin afirmar parentesco."
+    },
+    {
+      "i": 2,
+      "len": 417,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El incremento CP-N1-B es un normalizador de registro que conserva raw, produce normalized y lista transforms. Datos sintéticos peruanos/latam; sin PII real. Contrato: entrada explí",
+      "text": "El incremento CP-N1-B es un normalizador de registro que conserva raw, produce normalized y lista transforms. Datos sintéticos peruanos/latam; sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 3,
+      "len": 367,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Unicode → T2 str ops y contacto → T3 regex → T4 similitud y FP/FN. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documen",
+      "text": "Orden: T1 Unicode → T2 str ops y contacto → T3 regex → T4 similitud y FP/FN. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Adquisición multi-fuente” a texto Unicode y regex (mapa)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 4,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Code points, normalización y casefold",
+      "text": "Code points, normalización y casefold"
+    },
+    {
+      "i": 5,
+      "len": 382,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combining mark). En texto y ",
+      "text": "Python 3 str es Unicode. ord('ñ') / chr(241) exploran code points. La misma letra puede codificarse de formas distintas: NFC (compuesta) vs NFD (base + combining mark). En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 398,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "unicodedata.normalize('NFC', s) unifica formas antes de comparar. Sin eso, 'José' == 'Jose\\u0301' puede ser False aunque se vean iguales. Contrato: entrada explícita → transformaci",
+      "text": "unicodedata.normalize('NFC', s) unifica formas antes de comparar. Sin eso, 'José' == 'Jose\\u0301' puede ser False aunque se vean iguales. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 7,
+      "len": 396,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "casefold() es más agresivo que lower() para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados). Caso sintético Perú: nombres sintéticos José/Quispe",
+      "text": "casefold() es más agresivo que lower() para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Code points, normalización y casefold»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Tildes, ñ, partículas y apellidos compuestos",
+      "text": "Tildes, ñ, partículas y apellidos compuestos"
+    },
+    {
+      "i": 9,
+      "len": 343,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el porqué es operativo: re",
+      "text": "En Perú y Latam es común nombre(s) + apellido1 + apellido2. No fuerces el formato US (first/last único). Conserva el raw siempre. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 464,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Partículas (de, del, de la, y) pueden ir en nombres o apellidos (María del Carmen, de la Cruz). Un parser suave tokeniza y aplica heurísticas; si no hay segundo apellido, marca rev",
+      "text": "Partículas (de, del, de la, y) pueden ir en nombres o apellidos (María del Carmen, de la Cruz). Un parser suave tokeniza y aplica heurísticas; si no hay segundo apellido, marca review en vez de inventar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 11,
+      "len": 369,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima",
+      "text": "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Tildes, ñ, partículas y apellidos compuestos»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "split / join / search / replace",
+      "text": "split / join / search / replace"
+    },
+    {
+      "i": 13,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el porqué es operativo: reduce am",
+      "text": "Antes de regex: strip, split, join, replace, find, startswith. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 390,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "' '.join(s.split()) colapsa espacios. split(',') parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08). Contrato: entrada explícita → transformación docum",
+      "text": "' '.join(s.split()) colapsa espacios. split(',') parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 15,
+      "len": 359,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "replace es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, L",
+      "text": "replace es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «split / join / search / replace»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Nombres, emails y teléfonos sin sobrevalidación",
+      "text": "Nombres, emails y teléfonos sin sobrevalidación"
+    },
+    {
+      "i": 17,
+      "len": 279,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide ",
+      "text": "Email: strip + casefold y una comprobación modesta pero completa: exactamente un @, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide valid o review. Regex hiper-estrictas rechazan válidos (plus addressing, Unicode, dominios nuevos)."
+    },
+    {
+      "i": 18,
+      "len": 255,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país 51 cuando viene como +51; opcionalmente revisar 9 dígitos locales — no inventes validación de operador",
+      "text": "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país 51 cuando viene como +51; opcionalmente revisar 9 dígitos locales — no inventes validación de operadora. El contrato de salida es dígitos (51999000111), no conservar el signo +."
+    },
+    {
+      "i": 19,
+      "len": 397,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (del → Del). Decide política y documenta. Caso sintético Perú: nombres sintéticos José/Quispe, emails/",
+      "text": "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (del → Del). Decide política y documenta. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Nombres, emails y teléfonos sin sobrevalidación»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Patrones, grupos y anchors",
+      "text": "Patrones, grupos y anchors"
+    },
+    {
+      "i": 21,
+      "len": 366,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En texto y similaridad, el ",
+      "text": "Regex cuando el patrón es regular de verdad: DNI sintético 8 dígitos, códigos de región, prefijos. Usa re con grupos (...) y anchors ^$ para full match. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 387,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "re.fullmatch ancla inicio y fin. re.search encuentra en medio. Confundirlos produce falsos positivos en validación de códigos. Contrato: entrada explícita → transformación document",
+      "text": "re.fullmatch ancla inicio y fin. re.search encuentra en medio. Confundirlos produce falsos positivos en validación de códigos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 23,
+      "len": 327,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Grupos con nombre (?P<name>...) mejoran legibilidad al extraer campos. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta dec",
+      "text": "Grupos con nombre (?P<name>...) mejoran legibilidad al extraer campos. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Patrones, grupos y anchors»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Compilación, extracción y límites",
+      "text": "Compilación, extracción y límites"
+    },
+    {
+      "i": 25,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el porqué es operativo:",
+      "text": "re.compile reutiliza el patrón en loops (claridad + micro-ahorro). findall / finditer extraen múltiples matches de un log sintético. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 403,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Límites: catastrophic backtracking con patrones anidados ambiguos; overfit de validación que rechaza inputs reales. Prefiere patrones simples. Contrato: entrada explícita → transfo",
+      "text": "Límites: catastrophic backtracking con patrones anidados ambiguos; overfit de validación que rechaza inputs reales. Prefiere patrones simples. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 27,
+      "len": 341,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Si el patrón crece sin control, vuelve a str methods o a un parser explícito. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Docume",
+      "text": "Si el patrón crece sin control, vuelve a str methods o a un parser explícito. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Compilación, extracción y límites»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Exacta y por tokens (Jaccard simple)",
+      "text": "Exacta y por tokens (Jaccard simple)"
+    },
+    {
+      "i": 29,
+      "len": 356,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y similaridad, el porqué es ",
+      "text": "Matching de texto en intake: primero igualdad normalizada (NFC + casefold + collapse). Si no, similitud por tokens (Jaccard) como señal débil. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 343,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → review, no auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o e",
+      "text": "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → review, no auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 31,
+      "len": 367,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios",
+      "text": "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Exacta y por tokens (Jaccard simple)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "FP/FN y conservación de evidencia",
+      "text": "FP/FN y conservación de evidencia"
+    },
+    {
+      "i": 33,
+      "len": 357,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y similaridad, el porqué es",
+      "text": "FP (false positive): el sistema dice match y no debería. FN: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y similaridad, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 401,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Empaqueta evidencia: {raw_a, raw_b, score, decision, reason}. La decisión puede ser accept/review/reject de matching — no etiqueta familiar. Contrato: entrada explícita → transform",
+      "text": "Empaqueta evidencia: {raw_a, raw_b, score, decision, reason}. La decisión puede ser accept/review/reject de matching — no etiqueta familiar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+."
+    },
+    {
+      "i": 35,
+      "len": 376,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfon",
+      "text": "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «FP/FN y conservación de evidencia»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14821
+}

@@ -1,0 +1,1059 @@
+{
+  "section": 37,
+  "title": "Profiling, algoritmos y rendimiento",
+  "file": "s37-dbt-bigquery.ts",
+  "n_required": 37,
+  "n_logged": 37,
+  "generated_at": "2026-07-24T03:52:39.133530+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO-LIM-037 DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "same_result+budget; no micro-only",
+    "v3_retarget": "profiling not cloud dbt SQL",
+    "expert_resume_pass": "2026-07-24T03:52:39.133530+00:00"
+  },
+  "unique_foci": 37,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "same_result before speedup",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "wall"
+        },
+        {
+          "family": "Docs",
+          "title": "cProfile",
+          "url": "https://docs.python.org/3/library/profile.html",
+          "note": "hot path"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 1/37: «same_result before speedup» via Docs, SRE (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «same_result before speedup».",
+      "expand_scope": "E1/E2/E3 + docs for «same_result before speedup»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 1/37: «same_result before speedup» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "wall+n always reported",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "timeit",
+          "url": "https://docs.python.org/3/library/timeit.html",
+          "note": "bench"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "median"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 2/37: «wall+n always reported» via Docs, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «wall+n always reported».",
+      "expand_scope": "E1/E2/E3 + docs for «wall+n always reported»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 2/37: «wall+n always reported» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "warmup cold start lie",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "tracemalloc",
+          "url": "https://docs.python.org/3/library/tracemalloc.html",
+          "note": "memory"
+        },
+        {
+          "family": "Docs",
+          "title": "defaultdict",
+          "url": "https://docs.python.org/3/library/collections.html#collections.defaultdict",
+          "note": "inverted index"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 3/37: «warmup cold start lie» via Docs, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «warmup cold start lie».",
+      "expand_scope": "E1/E2/E3 + docs for «warmup cold start lie»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 3/37: «warmup cold start lie» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "median robust bench",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "cProfile",
+          "url": "https://docs.python.org/3/library/profile.html",
+          "note": "hot path"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 4/37: «median robust bench» via Docs, SRE, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «median robust bench».",
+      "expand_scope": "E1/E2/E3 + docs for «median robust bench»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 4/37: «median robust bench» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "O(n²) vs blocking pairs",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "median"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        },
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 5/37: «O(n²) vs blocking pairs» via Coursera, Docs, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «O(n²) vs blocking pairs».",
+      "expand_scope": "E1/E2/E3 + docs for «O(n²) vs blocking pairs»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 5/37: «O(n²) vs blocking pairs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "inverted index candidates",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "defaultdict",
+          "url": "https://docs.python.org/3/library/collections.html#collections.defaultdict",
+          "note": "inverted index"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 6/37: «inverted index candidates» via Docs, Harvard, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «inverted index candidates».",
+      "expand_scope": "E1/E2/E3 + docs for «inverted index candidates»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 6/37: «inverted index candidates» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "chunk anti-OOM",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 7/37: «chunk anti-OOM» via Py4E, SRE, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «chunk anti-OOM».",
+      "expand_scope": "E1/E2/E3 + docs for «chunk anti-OOM»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 7/37: «chunk anti-OOM» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "cache version_or_cutoff",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        },
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        },
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 8/37: «cache version_or_cutoff» via Big-O, Coursera, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «cache version_or_cutoff».",
+      "expand_scope": "E1/E2/E3 + docs for «cache version_or_cutoff»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 8/37: «cache version_or_cutoff» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "performance budget CI light",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 9/37: «performance budget CI light» via GitHub, Harvard, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «performance budget CI light».",
+      "expand_scope": "E1/E2/E3 + docs for «performance budget CI light»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 9/37: «performance budget CI light» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "cost total > micro 2%",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 10/37: «cost total > micro 2%» via GitHub, Py4E, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «cost total > micro 2%».",
+      "expand_scope": "E1/E2/E3 + docs for «cost total > micro 2%»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 10/37: «cost total > micro 2%» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "CASO-LIM-037 Red Andina scale",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        },
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 11/37: «CASO-LIM-037 Red Andina scale» via Big-O, Coursera, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «CASO-LIM-037 Red Andina scale».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-037 Red Andina scale»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 11/37: «CASO-LIM-037 Red Andina scale» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "V3 retarget not cloud dbt SQL",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        },
+        {
+          "family": "Docs",
+          "title": "lru_cache",
+          "url": "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+          "note": "cache invalidation"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 12/37: «V3 retarget not cloud dbt SQL» via Docs, GitHub, Harvard (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «V3 retarget not cloud dbt SQL».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not cloud dbt SQL»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 12/37: «V3 retarget not cloud dbt SQL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "pair from S36 signals to scale",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        },
+        {
+          "family": "pandas",
+          "title": "scale to large",
+          "url": "https://pandas.pydata.org/docs/user_guide/scale.html",
+          "note": "chunk OOC"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 13/37: «pair from S36 signals to scale» via GitHub, Py4E, pandas (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «pair from S36 signals to scale».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S36 signals to scale»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 13/37: «pair from S36 signals to scale» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "E1 wall DEFECT",
+      "research": [
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 14/37: «E1 wall DEFECT» via 12factor, Big-O, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E1 wall DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 wall DEFECT»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 14/37: «E1 wall DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "E2 blocking reduction",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        },
+        {
+          "family": "Docs",
+          "title": "lru_cache",
+          "url": "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+          "note": "cache invalidation"
+        },
+        {
+          "family": "Docs",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "wall"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 15/37: «E2 blocking reduction» via Docs, GitHub (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E2 blocking reduction».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 blocking reduction»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 15/37: «E2 blocking reduction» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "E3 budget same_result",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        },
+        {
+          "family": "pandas",
+          "title": "scale to large",
+          "url": "https://pandas.pydata.org/docs/user_guide/scale.html",
+          "note": "chunk OOC"
+        },
+        {
+          "family": "Docs",
+          "title": "timeit",
+          "url": "https://docs.python.org/3/library/timeit.html",
+          "note": "bench"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 16/37: «E3 budget same_result» via Docs, GitHub, pandas (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E3 budget same_result».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 budget same_result»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 16/37: «E3 budget same_result» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "perf_counter monotonic",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Docs",
+          "title": "tracemalloc",
+          "url": "https://docs.python.org/3/library/tracemalloc.html",
+          "note": "memory"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 17/37: «perf_counter monotonic» via 12factor, Docs, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «perf_counter monotonic».",
+      "expand_scope": "E1/E2/E3 + docs for «perf_counter monotonic»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 17/37: «perf_counter monotonic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "MIT 6.006 asymptotics",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "lru_cache",
+          "url": "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+          "note": "cache invalidation"
+        },
+        {
+          "family": "Docs",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "wall"
+        },
+        {
+          "family": "Docs",
+          "title": "cProfile",
+          "url": "https://docs.python.org/3/library/profile.html",
+          "note": "hot path"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 18/37: «MIT 6.006 asymptotics» via Docs (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «MIT 6.006 asymptotics».",
+      "expand_scope": "E1/E2/E3 + docs for «MIT 6.006 asymptotics»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 18/37: «MIT 6.006 asymptotics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "SRE monitoring budgets",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "scale to large",
+          "url": "https://pandas.pydata.org/docs/user_guide/scale.html",
+          "note": "chunk OOC"
+        },
+        {
+          "family": "Docs",
+          "title": "timeit",
+          "url": "https://docs.python.org/3/library/timeit.html",
+          "note": "bench"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "median"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 19/37: «SRE monitoring budgets» via Docs, pandas (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «SRE monitoring budgets».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE monitoring budgets»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 19/37: «SRE monitoring budgets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "pytest regression",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Docs",
+          "title": "tracemalloc",
+          "url": "https://docs.python.org/3/library/tracemalloc.html",
+          "note": "memory"
+        },
+        {
+          "family": "Docs",
+          "title": "defaultdict",
+          "url": "https://docs.python.org/3/library/collections.html#collections.defaultdict",
+          "note": "inverted index"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 20/37: «pytest regression» via 12factor, Docs (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «pytest regression».",
+      "expand_scope": "E1/E2/E3 + docs for «pytest regression»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 20/37: «pytest regression» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "dtypes and columnar subset",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "wall"
+        },
+        {
+          "family": "Docs",
+          "title": "cProfile",
+          "url": "https://docs.python.org/3/library/profile.html",
+          "note": "hot path"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 21/37: «dtypes and columnar subset» via Docs, SRE (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «dtypes and columnar subset».",
+      "expand_scope": "E1/E2/E3 + docs for «dtypes and columnar subset»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 21/37: «dtypes and columnar subset» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "out-of-core chunk_if_needed",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "timeit",
+          "url": "https://docs.python.org/3/library/timeit.html",
+          "note": "bench"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "median"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 22/37: «out-of-core chunk_if_needed» via Docs, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «out-of-core chunk_if_needed».",
+      "expand_scope": "E1/E2/E3 + docs for «out-of-core chunk_if_needed»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 22/37: «out-of-core chunk_if_needed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "micro_only_ok False",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "tracemalloc",
+          "url": "https://docs.python.org/3/library/tracemalloc.html",
+          "note": "memory"
+        },
+        {
+          "family": "Docs",
+          "title": "defaultdict",
+          "url": "https://docs.python.org/3/library/collections.html#collections.defaultdict",
+          "note": "inverted index"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 23/37: «micro_only_ok False» via Docs, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «micro_only_ok False».",
+      "expand_scope": "E1/E2/E3 + docs for «micro_only_ok False»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 23/37: «micro_only_ok False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "skip privacy tests forbidden",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "cProfile",
+          "url": "https://docs.python.org/3/library/profile.html",
+          "note": "hot path"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 24/37: «skip privacy tests forbidden» via Docs, SRE, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «skip privacy tests forbidden».",
+      "expand_scope": "E1/E2/E3 + docs for «skip privacy tests forbidden»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 24/37: «skip privacy tests forbidden» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "before/after report hardware limits",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "median"
+        },
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        },
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 25/37: «before/after report hardware limits» via Coursera, Docs, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «before/after report hardware limits».",
+      "expand_scope": "E1/E2/E3 + docs for «before/after report hardware limits»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 25/37: «before/after report hardware limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "clarity over opaque rewrite",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "defaultdict",
+          "url": "https://docs.python.org/3/library/collections.html#collections.defaultdict",
+          "note": "inverted index"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 26/37: «clarity over opaque rewrite» via Docs, Harvard, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «clarity over opaque rewrite».",
+      "expand_scope": "E1/E2/E3 + docs for «clarity over opaque rewrite»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 26/37: «clarity over opaque rewrite» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "selfCheck perf MCQ",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "budgets"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 27/37: «selfCheck perf MCQ» via Py4E, SRE, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «selfCheck perf MCQ».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck perf MCQ»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 27/37: «selfCheck perf MCQ» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "stdlib time statistics collections",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "pytest",
+          "url": "https://docs.pytest.org/",
+          "note": "CI regression"
+        },
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        },
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 28/37: «stdlib time statistics collections» via Big-O, Coursera, pytest (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «stdlib time statistics collections».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib time statistics collections»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 28/37: «stdlib time statistics collections» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "Stanford CS161 design",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.006",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+          "note": "complexity"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 29/37: «Stanford CS161 design» via GitHub, Harvard, MIT (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «Stanford CS161 design».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS161 design»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 29/37: «Stanford CS161 design» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "py-spy scalene reference",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS161",
+          "url": "https://web.stanford.edu/class/cs161/",
+          "note": "algo design"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 30/37: «py-spy scalene reference» via GitHub, Py4E, Stanford (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «py-spy scalene reference».",
+      "expand_scope": "E1/E2/E3 + docs for «py-spy scalene reference»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 30/37: «py-spy scalene reference» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "pair reduction metric primary",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Algorithms Part I",
+          "url": "https://www.coursera.org/learn/algorithms-part1",
+          "note": "Big-O"
+        },
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 31/37: «pair reduction metric primary» via Big-O, Coursera, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «pair reduction metric primary».",
+      "expand_scope": "E1/E2/E3 + docs for «pair reduction metric primary»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 31/37: «pair reduction metric primary» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "warmup + n_runs documented",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        },
+        {
+          "family": "Docs",
+          "title": "lru_cache",
+          "url": "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+          "note": "cache invalidation"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 32/37: «warmup + n_runs documented» via Docs, GitHub, Harvard (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «warmup + n_runs documented».",
+      "expand_scope": "E1/E2/E3 + docs for «warmup + n_runs documented»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 32/37: «warmup + n_runs documented» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "fixture fixed for CI",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        },
+        {
+          "family": "pandas",
+          "title": "scale to large",
+          "url": "https://pandas.pydata.org/docs/user_guide/scale.html",
+          "note": "chunk OOC"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 33/37: «fixture fixed for CI» via GitHub, Py4E, pandas (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «fixture fixed for CI».",
+      "expand_scope": "E1/E2/E3 + docs for «fixture fixed for CI»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 33/37: «fixture fixed for CI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "nightly stricter budget optional",
+      "research": [
+        {
+          "family": "Big-O",
+          "title": "Big-O cheat sheet",
+          "url": "https://www.bigocheatsheet.com/",
+          "note": "complexity"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 34/37: «nightly stricter budget optional» via 12factor, Big-O, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «nightly stricter budget optional».",
+      "expand_scope": "E1/E2/E3 + docs for «nightly stricter budget optional»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 34/37: «nightly stricter budget optional» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "no real PII in benches",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "py-spy",
+          "url": "https://github.com/benfred/py-spy",
+          "note": "sampling profiler"
+        },
+        {
+          "family": "Docs",
+          "title": "lru_cache",
+          "url": "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+          "note": "cache invalidation"
+        },
+        {
+          "family": "Docs",
+          "title": "perf_counter",
+          "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+          "note": "wall"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 35/37: «no real PII in benches» via Docs, GitHub (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «no real PII in benches».",
+      "expand_scope": "E1/E2/E3 + docs for «no real PII in benches»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 35/37: «no real PII in benches» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "progressive disclosure",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "scalene",
+          "url": "https://github.com/plasma-umass/scalene",
+          "note": "CPU+mem"
+        },
+        {
+          "family": "pandas",
+          "title": "scale to large",
+          "url": "https://pandas.pydata.org/docs/user_guide/scale.html",
+          "note": "chunk OOC"
+        },
+        {
+          "family": "Docs",
+          "title": "timeit",
+          "url": "https://docs.python.org/3/library/timeit.html",
+          "note": "bench"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 36/37: «progressive disclosure» via Docs, GitHub, pandas (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «progressive disclosure».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 36/37: «progressive disclosure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "Graph edge research_supports_paragraph",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops"
+        },
+        {
+          "family": "Docs",
+          "title": "tracemalloc",
+          "url": "https://docs.python.org/3/library/tracemalloc.html",
+          "note": "memory"
+        }
+      ],
+      "synthesize": "S37 «Profiling, algoritmos y rendimiento» cycle 37/37: «Graph edge research_supports_paragraph» via 12factor, Docs, Live (CASO-LIM-037).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «Graph edge research_supports_paragraph».",
+      "expand_scope": "E1/E2/E3 + docs for «Graph edge research_supports_paragraph»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 37/37: «Graph edge research_supports_paragraph» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:52:39.133530+00:00"
+}

@@ -1,0 +1,1255 @@
+{
+  "section": 44,
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "file": "s44-multimodal.ts",
+  "n_required": 44,
+  "n_logged": 44,
+  "generated_at": "2026-07-24T04:05:49.123133+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "critical tests green; sbom provenance; no secrets in logs",
+    "v3_retarget": "CI/CD supply chain not multimodal vision",
+    "expert_pass_at": "2026-07-24T04:05:49.123133+00:00"
+  },
+  "unique_foci": 44,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "lint types tests fail-fast order",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        },
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 1/44: «lint types tests fail-fast order» via GitHub, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «lint types tests fail-fast order».",
+      "expand_scope": "E1/E2/E3 + docs for «lint types tests fail-fast order»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 1/44: «lint types tests fail-fast order» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "CI matrix supported combinations only",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        },
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        },
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 2/44: «CI matrix supported combinations only» via GitHub, Sigstore, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CI matrix supported combinations only».",
+      "expand_scope": "E1/E2/E3 + docs for «CI matrix supported combinations only»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 2/44: «CI matrix supported combinations only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "caches artifacts and conditions",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        },
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 3/44: «caches artifacts and conditions» via CycloneDX, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «caches artifacts and conditions».",
+      "expand_scope": "E1/E2/E3 + docs for «caches artifacts and conditions»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 3/44: «caches artifacts and conditions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "least privilege workflow permissions",
+      "research": [
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        },
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 4/44: «least privilege workflow permissions» via Docs, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «least privilege workflow permissions».",
+      "expand_scope": "E1/E2/E3 + docs for «least privilege workflow permissions»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 4/44: «least privilege workflow permissions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "pin actions and dependencies by digest",
+      "research": [
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        },
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 5/44: «pin actions and dependencies by digest» via MIT, Sigstore, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pin actions and dependencies by digest».",
+      "expand_scope": "E1/E2/E3 + docs for «pin actions and dependencies by digest»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 5/44: «pin actions and dependencies by digest» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "secret scanning block on leak",
+      "research": [
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 6/44: «secret scanning block on leak» via CycloneDX, Harvard, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «secret scanning block on leak».",
+      "expand_scope": "E1/E2/E3 + docs for «secret scanning block on leak»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 6/44: «secret scanning block on leak» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "SBOM generation CycloneDX SPDX",
+      "research": [
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        },
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        },
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 7/44: «SBOM generation CycloneDX SPDX» via Coursera, Docs, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SBOM generation CycloneDX SPDX».",
+      "expand_scope": "E1/E2/E3 + docs for «SBOM generation CycloneDX SPDX»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 7/44: «SBOM generation CycloneDX SPDX» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "provenance SLSA levels",
+      "research": [
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 8/44: «provenance SLSA levels» via MIT, Py4E, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «provenance SLSA levels».",
+      "expand_scope": "E1/E2/E3 + docs for «provenance SLSA levels»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 8/44: «provenance SLSA levels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "attestations Sigstore in-toto",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 9/44: «attestations Sigstore in-toto» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «attestations Sigstore in-toto».",
+      "expand_scope": "E1/E2/E3 + docs for «attestations Sigstore in-toto»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 9/44: «attestations Sigstore in-toto» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "environments require approvals",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        },
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 10/44: «environments require approvals» via Coursera, Docs, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «environments require approvals».",
+      "expand_scope": "E1/E2/E3 + docs for «environments require approvals»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 10/44: «environments require approvals» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "canary then full promote",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 11/44: «canary then full promote» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «canary then full promote».",
+      "expand_scope": "E1/E2/E3 + docs for «canary then full promote»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 11/44: «canary then full promote» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "blue-green switch and rollback digest",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 12/44: «blue-green switch and rollback digest» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «blue-green switch and rollback digest».",
+      "expand_scope": "E1/E2/E3 + docs for «blue-green switch and rollback digest»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 12/44: «blue-green switch and rollback digest» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "migrations with expand-contract",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        },
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 13/44: «migrations with expand-contract» via Coursera, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «migrations with expand-contract».",
+      "expand_scope": "E1/E2/E3 + docs for «migrations with expand-contract»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 13/44: «migrations with expand-contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "branch protection required reviews",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        },
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 14/44: «branch protection required reviews» via 12factor, CNCF, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «branch protection required reviews».",
+      "expand_scope": "E1/E2/E3 + docs for «branch protection required reviews»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 14/44: «branch protection required reviews» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "release notes evidence package",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        },
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 15/44: «release notes evidence package» via GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «release notes evidence package».",
+      "expand_scope": "E1/E2/E3 + docs for «release notes evidence package»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 15/44: «release notes evidence package» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "failure handling auditable artifacts",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        },
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        },
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 16/44: «failure handling auditable artifacts» via GitHub, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «failure handling auditable artifacts».",
+      "expand_scope": "E1/E2/E3 + docs for «failure handling auditable artifacts»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 16/44: «failure handling auditable artifacts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "critical test red blocks publish",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        },
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        },
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 17/44: «critical test red blocks publish» via 12factor, CNCF, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «critical test red blocks publish».",
+      "expand_scope": "E1/E2/E3 + docs for «critical test red blocks publish»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 17/44: «critical test red blocks publish» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "CASO-PIU-044 Piura synthetic ops",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        },
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        },
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 18/44: «CASO-PIU-044 Piura synthetic ops» via GitHub, SLSA (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-PIU-044 Piura synthetic ops».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-PIU-044 Piura synthetic ops»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 18/44: «CASO-PIU-044 Piura synthetic ops» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "V3 retarget not multimodal vision LLM",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        },
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        },
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 19/44: «V3 retarget not multimodal vision LLM» via GitHub, OWASP, Sigstore (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not multimodal vision LLM».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not multimodal vision LLM»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 19/44: «V3 retarget not multimodal vision LLM» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CP-N4-B supply chain gate",
+      "research": [
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        },
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        },
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 20/44: «CP-N4-B supply chain gate» via CNCF, CycloneDX, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-B supply chain gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-B supply chain gate»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 20/44: «CP-N4-B supply chain gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "E1 guided CI plan DEFECT",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        },
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 21/44: «E1 guided CI plan DEFECT» via GitHub, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided CI plan DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided CI plan DEFECT»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 21/44: «E1 guided CI plan DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "E2 independent SBOM provenance",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        },
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        },
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 22/44: «E2 independent SBOM provenance» via GitHub, Sigstore, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent SBOM provenance».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent SBOM provenance»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 22/44: «E2 independent SBOM provenance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E3 transfer rollback approval",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        },
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 23/44: «E3 transfer rollback approval» via CycloneDX, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer rollback approval».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer rollback approval»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 23/44: «E3 transfer rollback approval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "GitHub Actions security hardening",
+      "research": [
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        },
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 24/44: «GitHub Actions security hardening» via Docs, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «GitHub Actions security hardening».",
+      "expand_scope": "E1/E2/E3 + docs for «GitHub Actions security hardening»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 24/44: «GitHub Actions security hardening» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "SLSA specification competitive research",
+      "research": [
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        },
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 25/44: «SLSA specification competitive research» via MIT, Sigstore, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SLSA specification competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «SLSA specification competitive research»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 25/44: «SLSA specification competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "NIST SSDF practices",
+      "research": [
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 26/44: «NIST SSDF practices» via CycloneDX, Harvard, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST SSDF practices».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST SSDF practices»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 26/44: «NIST SSDF practices» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "CNCF supply chain paper",
+      "research": [
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        },
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        },
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 27/44: «CNCF supply chain paper» via Coursera, Docs, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CNCF supply chain paper».",
+      "expand_scope": "E1/E2/E3 + docs for «CNCF supply chain paper»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 27/44: «CNCF supply chain paper» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "SRE release engineering",
+      "research": [
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 28/44: «SRE release engineering» via MIT, Py4E, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE release engineering».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE release engineering»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 28/44: «SRE release engineering» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "pair from S43 container to pipeline",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 29/44: «pair from S43 container to pipeline» via Harvard, Live, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S43 container to pipeline».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S43 container to pipeline»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 29/44: «pair from S43 container to pipeline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "selfCheck CI/CD MCQ ≥5",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        },
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 30/44: «selfCheck CI/CD MCQ ≥5» via Coursera, Docs, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck CI/CD MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck CI/CD MCQ ≥5»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 30/44: «selfCheck CI/CD MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "no real secrets in workflow logs",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 31/44: «no real secrets in workflow logs» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no real secrets in workflow logs».",
+      "expand_scope": "E1/E2/E3 + docs for «no real secrets in workflow logs»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 31/44: «no real secrets in workflow logs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "unpinned vuln dep is gate failure",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 32/44: «unpinned vuln dep is gate failure» via GitHub, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unpinned vuln dep is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «unpinned vuln dep is gate failure»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 32/44: «unpinned vuln dep is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "attestation missing is gate failure",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "DevOps CI/CD",
+          "url": "https://www.coursera.org/courses?query=devops%20cicd",
+          "note": "CI/CD MOOCs"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        },
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 33/44: «attestation missing is gate failure» via Coursera, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «attestation missing is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «attestation missing is gate failure»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 33/44: «attestation missing is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "reproducible artifact by digest",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        },
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 34/44: «reproducible artifact by digest» via 12factor, CNCF, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reproducible artifact by digest».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible artifact by digest»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 34/44: «reproducible artifact by digest» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "staging rollback demo required",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        },
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 35/44: «staging rollback demo required» via GitHub, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «staging rollback demo required».",
+      "expand_scope": "E1/E2/E3 + docs for «staging rollback demo required»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 35/44: «staging rollback demo required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "pip secure installs pinning",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "release"
+        },
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        },
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 36/44: «pip secure installs pinning» via GitHub, OWASP, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pip secure installs pinning».",
+      "expand_scope": "E1/E2/E3 + docs for «pip secure installs pinning»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 36/44: «pip secure installs pinning» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "CodeQL static analysis optional gate",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "build release run"
+        },
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        },
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 37/44: «CodeQL static analysis optional gate» via 12factor, CNCF, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CodeQL static analysis optional gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CodeQL static analysis optional gate»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 37/44: «CodeQL static analysis optional gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "12-factor build release run",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "CodeQL",
+          "url": "https://codeql.github.com/",
+          "note": "static analysis"
+        },
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        },
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 38/44: «12-factor build release run» via GitHub, SLSA (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor build release run».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor build release run»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 38/44: «12-factor build release run» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "progressive disclosure stdlib contracts",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Dependency-Check",
+          "url": "https://owasp.org/www-project-dependency-check/",
+          "note": "vuln deps"
+        },
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        },
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 39/44: «progressive disclosure stdlib contracts» via GitHub, OWASP, Sigstore (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib contracts»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 39/44: «progressive disclosure stdlib contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "Coursera DevOps competitive research",
+      "research": [
+        {
+          "family": "CNCF",
+          "title": "Supply chain security paper",
+          "url": "https://tag-security.cncf.io/community/working-groups/supply-chain-security/supply-chain-security-paper/",
+          "note": "supply chain"
+        },
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        },
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 40/44: «Coursera DevOps competitive research» via CNCF, CycloneDX, GitHub (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Coursera DevOps competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «Coursera DevOps competitive research»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 40/44: «Coursera DevOps competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "MIT 6.100L foundations",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Actions security hardening",
+          "url": "https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+          "note": "least privilege"
+        },
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 41/44: «MIT 6.100L foundations» via GitHub, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «MIT 6.100L foundations».",
+      "expand_scope": "E1/E2/E3 + docs for «MIT 6.100L foundations»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 41/44: «MIT 6.100L foundations» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "Harvard CS50P pedagogy",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Environments for deployment",
+          "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+          "note": "approvals"
+        },
+        {
+          "family": "Sigstore",
+          "title": "Sigstore docs",
+          "url": "https://docs.sigstore.dev/",
+          "note": "signing attestations"
+        },
+        {
+          "family": "in-toto",
+          "title": "in-toto",
+          "url": "https://in-toto.io/",
+          "note": "supply chain integrity"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 42/44: «Harvard CS50P pedagogy» via GitHub, Sigstore, in-toto (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Harvard CS50P pedagogy».",
+      "expand_scope": "E1/E2/E3 + docs for «Harvard CS50P pedagogy»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 42/44: «Harvard CS50P pedagogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "SPDX CycloneDX dual SBOM awareness",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Branch protection",
+          "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+          "note": "review policy"
+        },
+        {
+          "family": "CycloneDX",
+          "title": "CycloneDX SBOM",
+          "url": "https://cyclonedx.org/docs/",
+          "note": "SBOM"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure software development"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 43/44: «SPDX CycloneDX dual SBOM awareness» via CycloneDX, GitHub, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SPDX CycloneDX dual SBOM awareness».",
+      "expand_scope": "E1/E2/E3 + docs for «SPDX CycloneDX dual SBOM awareness»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 43/44: «SPDX CycloneDX dual SBOM awareness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "environment protection rules",
+      "research": [
+        {
+          "family": "SLSA",
+          "title": "SLSA specification",
+          "url": "https://slsa.dev/spec/",
+          "note": "provenance levels"
+        },
+        {
+          "family": "SPDX",
+          "title": "SPDX",
+          "url": "https://spdx.dev/",
+          "note": "SBOM standard"
+        },
+        {
+          "family": "Docs",
+          "title": "pip secure installs",
+          "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+          "note": "pinning"
+        }
+      ],
+      "synthesize": "S44 «CI/CD y seguridad de la cadena de suministro» cycle 44/44: «environment protection rules» via Docs, SLSA, SPDX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «environment protection rules».",
+      "expand_scope": "E1/E2/E3 + docs for «environment protection rules»; V3 roadmap; pair S44↔S45.",
+      "re_synthesize": "Decision 44/44: «environment protection rules» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:05:49.123133+00:00"
+}

@@ -1203,12 +1203,14 @@ if __name__ == "__main__":
 from typing import Iterator
 
 def stream_csv(path: str, monto_min: float = 100.0) -> Iterator[dict]:
-    """TODO: Lee CSV fila por fila, filtra monto > monto_min, yield dicts."""
-    pass
+    """DEFECT path: Lee CSV fila por fila, filtra monto > monto_min, yield dicts."""
+    # DEFECT: empty body
+    return None
 
 def batch(items: Iterator, n: int = 100) -> Iterator[list]:
-    """TODO: Agrupa items de a n, yield listas."""
-    pass
+    """DEFECT path: Agrupa items de a n, yield listas."""
+    # DEFECT: empty body
+    return None
 
 # Test:
 # for b in batch(stream_csv("ventas.csv", monto_min=500), n=50):
@@ -1276,8 +1278,9 @@ os.unlink(path)`,
 import time
 
 def fetch_all_pages(base_url: str, per_page: int = 100) -> list[dict]:
-    """TODO: Trae todas las páginas de una API paginada con ?page=N."""
-    pass
+    """DEFECT path: Trae todas las páginas de una API paginada con ?page=N."""
+    # DEFECT: empty body
+    return None
 
 # Test (mock):
 # data = fetch_all_pages("https://api.example.com/items")
@@ -1359,18 +1362,20 @@ import re
 import logging
 from pathlib import Path
 
-# TODO: patrón regex para teléfonos peruanos
+# DEFECT: patrón regex para teléfonos peruanos
 PATRON_TELEFONO = r"..."
 
 def limpiar_telefonos(texto: str) -> list[str]:
-    """TODO: Encuentra y normaliza teléfonos peruanos."""
-    pass
+    """DEFECT path: Encuentra y normaliza teléfonos peruanos."""
+    # DEFECT: empty body
+    return None
 
 def main():
-    # TODO: argparse con --input, --output, --verbose
-    # TODO: configurar logging
-    # TODO: leer archivo, limpiar, escribir output, loggear count
-    pass
+    # DEFECT: argparse con --input, --output, --verbose
+    # DEFECT: configurar logging
+    # DEFECT: leer archivo, limpiar, escribir output, loggear count
+    # wrong stub: returns None
+    return None
 
 if __name__ == "__main__":
     main()`,
@@ -1501,18 +1506,21 @@ lead-scraper = "lead_scraper.cli:main"
 import argparse, logging
 def main():
     parser = argparse.ArgumentParser(description="Lead scraper pipeline")
-    # TODO: --api-url, --max-pages, --db, --workers, --verbose, --log-file
-    # TODO: orquestar acquire → clean → db → features
-    pass
+    # DEFECT: --api-url, --max-pages, --db, --workers, --verbose, --log-file
+    # DEFECT: orquestar acquire → clean → db → features
+    # wrong stub: returns None
+    return None
 
 # src/lead_scraper/clean.py
 import re
 def extract_emails(text: str) -> list[str]:
-    # TODO: regex para emails
-    pass
+    # DEFECT: regex para emails
+    # wrong stub: returns None
+    return None
 def normalize_phones(text: str) -> list[str]:
-    # TODO: regex para teléfonos peruanos
-    pass
+    # DEFECT: regex para teléfonos peruanos
+    # wrong stub: returns None
+    return None
 
 # Continúa con db.py, features.py, acquire.py...`,
     portfolioNote:

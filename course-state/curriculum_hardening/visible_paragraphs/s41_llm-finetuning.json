@@ -1,0 +1,612 @@
+{
+  "index": 41,
+  "id": "llm-finetuning",
+  "title": "APIs con FastAPI y contratos HTTP",
+  "file": "s41-llm-finetuning.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa: APIs con FastAPI y contratos HTTP",
+      "len": 39
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S41 (léelo antes de T1). Recurso: sustantivo versionado (/v1/jobs). Idempotency-Key: clave que liga request→respuesta sin segundo efecto. Dependency: capacidad inyectable (db, user) sustituible en tests. OpenAPI: contrato máquina de paths/schemas/status. Boundary async: I/O con await; CPU/durable fuera del event loop. Pirámide: unit (regla) → contract (HTTP) → integration (adapter). Rate limit: 429 recuperable. Trace id: correlación sin PII.",
+      "len": 457
+    },
+    {
+      "i": 2,
+      "text": "Esta sección parte de S40 y usa contratos, pruebas y controles ya presentados. El producto incremental es un servicio de jobs sintéticos para una oficina ficticia en Arequipa: crear con clave no duplica efectos; consultar conserva compatibilidad de consumidores.",
+      "len": 262
+    },
+    {
+      "i": 3,
+      "text": "Contrato de sección. Entrada: solicitudes HTTP versionadas con identidad sintética e Idempotency-Key. Salida: respuestas OpenAPI sin PII con status, evidencia y errores estables. Error: payload inválido, timeout, duplicado conflictivo o límite excedido → error tipado y observable; sin secretos en logs.",
+      "len": 303
+    },
+    {
+      "i": 4,
+      "text": "Orden didáctico: T1 HTTP/OpenAPI → T2 FastAPI routing/deps/modelos → T3 sync-async/lifecycle → T4 pruebas y obs. Stack: stdlib + contratos tipo FastAPI (sin red externa en ejercicios). Caso CASO-LIM-041. Gate CP-N4-A · API HTTP gobernada.",
+      "len": 238
+    },
+    {
+      "i": 5,
+      "text": "Recursos, métodos y status HTTP",
+      "len": 31
+    },
+    {
+      "i": 6,
+      "text": "Modela recursos con sustantivos versionados y métodos por semántica: POST crea, GET lee, PUT/PATCH actualiza, DELETE retira. Los status separan 201 (creado), 200 (ok), 404 (ausente), 409 (conflicto), 422 (validación) y 5xx (fallo interno). Un 200 en create esconde la semántica y rompe clientes.",
+      "len": 295
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo didáctico: una matriz (method, resource) → expected_status se evalúa con un dict de request. Si POST /v1/jobs y el dominio creó el job, el status debe ser 201; si el recurso no existe en GET, 404. No se inventa body de error con PII.",
+      "len": 243
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: method, resource, created. Salida: status coherente y resource que termina en el coleccionable. Error: status 200 en create o GET sobre colección inventada. Criterio: matriz método/recurso/status probada. Por qué importa: si no fijas «method, resource, created» → «status coherente y resource que termina en el co», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «status 200 en create o GET sobre colección inventada» para confirmar fail-closed.",
+      "len": 516
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-041-1A (Arequipa sintético): POST /v1/jobs con created=True → 201. Sirve al control plane de jobs de evidencia; no expone claves internas ni DNI. En fintech peruana el mismo error (201 vs 200) rompe reintentos de integradores.",
+      "len": 248
+    },
+    {
+      "i": 10,
+      "text": "Idempotencia, paginación y versionado",
+      "len": 37
+    },
+    {
+      "i": 11,
+      "text": "La idempotencia liga una clave al hash del request y al resultado almacenado: el mismo POST no crea un segundo efecto. La paginación por cursor evita offsets inestables. La versión (/v1) hace explícito el contrato para consumidores viejos.",
+      "len": 239
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: store[key] = (request_hash, response). En replay, si el hash coincide, devuelves la respuesta guardada y effects permanece 1; si el hash difiere con la misma key, conflicto 409. Cursor estable = último id visto, no página numérica mutante.",
+      "len": 250
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: key, request_hash, stored_hash, effects, cursor, version. Salida: replay idéntico sin segundo efecto. Error: key reutilizada con body distinto o page offset que salta filas al insertar. Por qué importa: si no fijas «key, request_hash, stored_hash, effects, cursor, version» → «replay idéntico sin segundo efecto», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «key reutilizada con body distinto o page offset que salta filas al ins» para confirmar fail-closed.",
+      "len": 532
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-041-1B: key idem-lim-1, hash coincidente, effects=1, cursor job-020, version v1. En el servicio de jobs de Arequipa, reintentos de red no deben duplicar ER runs sintéticos.",
+      "len": 194
+    },
+    {
+      "i": 15,
+      "text": "Routing, dependencies y modelos",
+      "len": 31
+    },
+    {
+      "i": 16,
+      "text": "FastAPI separa routing (qué path), dependencies (capacidades inyectadas) y modelos (contratos de datos). El handler coordina; la dependencia provee db/user; el dominio conserva reglas sin importar HTTP.",
+      "len": 202
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: def create_job(payload, db=Depends(get_db), user=Depends(current_user)) — en el laboratorio modelamos deps como lista y contamos líneas del handler. Si el dominio importa Request o lee headers, la frontera se rompe y los tests no pueden sustituir adapters.",
+      "len": 267
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: handler_lines, dependency_injectable, domain_imports_http. Salida: handler delgado con dependencia sustituible. Error: handler monolítico o dominio acoplado a Starlette. Por qué importa: si no fijas «handler_lines, dependency_injectable, domain_imports_http» → «handler delgado con dependencia sustituible», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «handler monolítico o dominio acoplado a Starlette» para confirmar fail-closed.",
+      "len": 505
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-041-2A: handler ≤5 líneas, deps inyectables, domain_called=True sin imports HTTP. Facilita contract tests del job service sin red.",
+      "len": 152
+    },
+    {
+      "i": 20,
+      "text": "Validación, serialización y documentación",
+      "len": 41
+    },
+    {
+      "i": 21,
+      "text": "Pydantic (o validación equivalente) rechaza entrada inválida antes del dominio. La serialización expone solo campos de la vista permitida; OpenAPI debe coincidir con el comportamiento observado (paths, status, schemas).",
+      "len": 219
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: input_valid=False → status 422 y body sin secret/db_pk. response_fields es un conjunto permitido; internal_fields nunca se serializa. Un OpenAPI desactualizado es un breach de contrato aunque el handler “funcione”.",
+      "len": 225
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: input_valid, status, response_fields, internal_fields, openapi_matches. Salida: request inválido rechazado y response sin campos internos. Error: 200 con secret o schema que miente. Por qué importa: si no fijas «input_valid, status, response_fields, internal_fields, opena» → «request inválido rechazado y response sin campos i», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «200 con secret o schema que miente» para confirmar fail-closed.",
+      "len": 512
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-041-2B: 422, fields {job_id, status}, internal {secret, db_pk}, openapi_matches=True. Protección de PII/claves en Arequipa sintético.",
+      "len": 155
+    },
+    {
+      "i": 25,
+      "text": "Sync/async y background boundaries",
+      "len": 34
+    },
+    {
+      "i": 26,
+      "text": "Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine del request ni en una tarea en memoria sin garantía. El boundary se documenta: request path vs worker/queue.",
+      "len": 203
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: si work_kind=='io' usa await; si cpu, offload; si durable, encola job y responde 202/queued. Contar uses_await y cpu_offloaded es el checklist del PR de plataforma.",
+      "len": 175
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: work_kind, uses_await, cpu_offloaded, durable_job. Salida: boundary sync/async y background documentada. Error: hash pesado en el event loop o job solo en memoria del proceso web. Por qué importa: si no fijas «work_kind, uses_await, cpu_offloaded, durable_job» → «boundary sync/async y background documentada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «hash pesado en el event loop o job solo en memoria del proceso web» para confirmar fail-closed.",
+      "len": 525
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-041-3A: io+await, cpu_offloaded, durable_job. El worker de Arequipa procesa evidencia sin bloquear el API.",
+      "len": 128
+    },
+    {
+      "i": 30,
+      "text": "Errores, timeouts y lifecycle",
+      "len": 29
+    },
+    {
+      "i": 31,
+      "text": "Errores estables llevan código, mensaje seguro y trace id; los timeouts se presupuestan de extremo a extremo (client > service > db). El lifecycle abre/cierra recursos una vez en startup/shutdown.",
+      "len": 196
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: db_budget_ms < service_budget_ms < client_timeout_ms. Si se vence, cancelas, cierras conexiones y devuelves UPSTREAM_TIMEOUT sin filtrar secretos. Shutdown drena requests en vuelo.",
+      "len": 191
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: presupuestos, error_code, resource_closed. Salida: timeout y shutdown sin recurso huérfano. Error: client 100ms y db 500ms, o pool sin close. Por qué importa: si no fijas «presupuestos, error_code, resource_closed» → «timeout y shutdown sin recurso huérfano», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «client 100ms y db 500ms, o pool sin close» para confirmar fail-closed.",
+      "len": 449
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-041-3B: 450 < 700 < 900 ms, error tipado, resource_closed=True. Observabilidad del job service sin PII en el mensaje.",
+      "len": 139
+    },
+    {
+      "i": 35,
+      "text": "Unit, contract e integration",
+      "len": 28
+    },
+    {
+      "i": 36,
+      "text": "Unit prueba reglas de dominio sin HTTP. Contract prueba el acuerdo HTTP/OpenAPI (status, schema). Integration prueba adapters reales controlados (db de test). Cada nivel responde una pregunta distinta; un solo e2e frágil no basta.",
+      "len": 230
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: conjunto layers debe incluir unit/contract/integration; un fallo sembrado (p. ej. schema) se detecta en contract, no solo en unit. Cuenta total de tests y pirámide documentada en el PR.",
+      "len": 196
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: layers, flags de cobertura y seeded_failure_detected. Salida: pirámide con fallo sembrado detectado en el nivel correcto. Error: solo unit o contract desalineado con OpenAPI. Por qué importa: si no fijas «layers, flags de cobertura y seeded_failure_detected» → «pirámide con fallo sembrado detectado en el nivel », el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo unit o contract desalineado con OpenAPI» para confirmar fail-closed.",
+      "len": 507
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-041-4A: tres capas True y seeded_failure_detected. Gate del servicio de jobs en Arequipa.",
+      "len": 111
+    },
+    {
+      "i": 40,
+      "text": "Compatibility, rate limit y observabilidad",
+      "len": 42
+    },
+    {
+      "i": 41,
+      "text": "Compatibilidad se prueba contra consumidores viejos (header/version). Rate limiting responde 429 con señal recuperable (Retry-After). Observabilidad correlaciona request→job→resultado con trace id y sin PII en logs.",
+      "len": 215
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: token bucket used <= limit; si excede, 429. old_consumer_passes debe ser True antes de promover breaking changes. pii_in_log False es gate de privacidad.",
+      "len": 164
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: old_consumer_passes, limit, used, trace_id, pii_in_log. Salida: 429/compatibilidad/trace id cubiertos. Error: log con email o promover sin consumer v1. Por qué importa: si no fijas «old_consumer_passes, limit, used, trace_id, pii_in_log» → «429/compatibilidad/trace id cubiertos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «log con email o promover sin consumer v1» para confirmar fail-closed.",
+      "len": 469
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-041-4B: used 73/100, trace tr-lim-041, sin PII. Control plane Arequipa listo para ops.",
+      "len": 108
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa: APIs con FastAPI y contratos HTTP",
+      "text": "Mapa: APIs con FastAPI y contratos HTTP"
+    },
+    {
+      "i": 1,
+      "len": 457,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S41 (léelo antes de T1). Recurso: sustantivo versionado (/v1/jobs). Idempotency-Key: clave que liga request→respuesta sin segundo efecto. Dependency: capacidad inyectab",
+      "text": "Diccionario S41 (léelo antes de T1). Recurso: sustantivo versionado (/v1/jobs). Idempotency-Key: clave que liga request→respuesta sin segundo efecto. Dependency: capacidad inyectable (db, user) sustituible en tests. OpenAPI: contrato máquina de paths/schemas/status. Boundary async: I/O con await; CPU/durable fuera del event loop. Pirámide: unit (regla) → contract (HTTP) → integration (adapter). Rate limit: 429 recuperable. Trace id: correlación sin PII."
+    },
+    {
+      "i": 2,
+      "len": 262,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Esta sección parte de S40 y usa contratos, pruebas y controles ya presentados. El producto incremental es un servicio de jobs sintéticos para una oficina ficticia en Arequipa: crea",
+      "text": "Esta sección parte de S40 y usa contratos, pruebas y controles ya presentados. El producto incremental es un servicio de jobs sintéticos para una oficina ficticia en Arequipa: crear con clave no duplica efectos; consultar conserva compatibilidad de consumidores."
+    },
+    {
+      "i": 3,
+      "len": 303,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de sección. Entrada: solicitudes HTTP versionadas con identidad sintética e Idempotency-Key. Salida: respuestas OpenAPI sin PII con status, evidencia y errores estables. E",
+      "text": "Contrato de sección. Entrada: solicitudes HTTP versionadas con identidad sintética e Idempotency-Key. Salida: respuestas OpenAPI sin PII con status, evidencia y errores estables. Error: payload inválido, timeout, duplicado conflictivo o límite excedido → error tipado y observable; sin secretos en logs."
+    },
+    {
+      "i": 4,
+      "len": 238,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden didáctico: T1 HTTP/OpenAPI → T2 FastAPI routing/deps/modelos → T3 sync-async/lifecycle → T4 pruebas y obs. Stack: stdlib + contratos tipo FastAPI (sin red externa en ejercici",
+      "text": "Orden didáctico: T1 HTTP/OpenAPI → T2 FastAPI routing/deps/modelos → T3 sync-async/lifecycle → T4 pruebas y obs. Stack: stdlib + contratos tipo FastAPI (sin red externa en ejercicios). Caso CASO-LIM-041. Gate CP-N4-A · API HTTP gobernada."
+    },
+    {
+      "i": 5,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Recursos, métodos y status HTTP",
+      "text": "Recursos, métodos y status HTTP"
+    },
+    {
+      "i": 6,
+      "len": 295,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Modela recursos con sustantivos versionados y métodos por semántica: POST crea, GET lee, PUT/PATCH actualiza, DELETE retira. Los status separan 201 (creado), 200 (ok), 404 (ausente",
+      "text": "Modela recursos con sustantivos versionados y métodos por semántica: POST crea, GET lee, PUT/PATCH actualiza, DELETE retira. Los status separan 201 (creado), 200 (ok), 404 (ausente), 409 (conflicto), 422 (validación) y 5xx (fallo interno). Un 200 en create esconde la semántica y rompe clientes."
+    },
+    {
+      "i": 7,
+      "len": 243,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: una matriz (method, resource) → expected_status se evalúa con un dict de request. Si POST /v1/jobs y el dominio creó el job, el status debe ser 201; si el recu",
+      "text": "Mecanismo didáctico: una matriz (method, resource) → expected_status se evalúa con un dict de request. Si POST /v1/jobs y el dominio creó el job, el status debe ser 201; si el recurso no existe en GET, 404. No se inventa body de error con PII."
+    },
+    {
+      "i": 8,
+      "len": 516,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: method, resource, created. Salida: status coherente y resource que termina en el coleccionable. Error: status 200 en create o GET sobre colección inven",
+      "text": "Contrato operativo. Entrada: method, resource, created. Salida: status coherente y resource que termina en el coleccionable. Error: status 200 en create o GET sobre colección inventada. Criterio: matriz método/recurso/status probada. Por qué importa: si no fijas «method, resource, created» → «status coherente y resource que termina en el co», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «status 200 en create o GET sobre colección inventada» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 248,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-1A (Arequipa sintético): POST /v1/jobs con created=True → 201. Sirve al control plane de jobs de evidencia; no expone claves internas ni DNI. En fintech p",
+      "text": "Aplicación a CASO-LIM-041-1A (Arequipa sintético): POST /v1/jobs con created=True → 201. Sirve al control plane de jobs de evidencia; no expone claves internas ni DNI. En fintech peruana el mismo error (201 vs 200) rompe reintentos de integradores."
+    },
+    {
+      "i": 10,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Idempotencia, paginación y versionado",
+      "text": "Idempotencia, paginación y versionado"
+    },
+    {
+      "i": 11,
+      "len": 239,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La idempotencia liga una clave al hash del request y al resultado almacenado: el mismo POST no crea un segundo efecto. La paginación por cursor evita offsets inestables. La versión",
+      "text": "La idempotencia liga una clave al hash del request y al resultado almacenado: el mismo POST no crea un segundo efecto. La paginación por cursor evita offsets inestables. La versión (/v1) hace explícito el contrato para consumidores viejos."
+    },
+    {
+      "i": 12,
+      "len": 250,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: store[key] = (request_hash, response). En replay, si el hash coincide, devuelves la respuesta guardada y effects permanece 1; si el hash difiere con la misma key, confli",
+      "text": "Mecanismo: store[key] = (request_hash, response). En replay, si el hash coincide, devuelves la respuesta guardada y effects permanece 1; si el hash difiere con la misma key, conflicto 409. Cursor estable = último id visto, no página numérica mutante."
+    },
+    {
+      "i": 13,
+      "len": 532,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: key, request_hash, stored_hash, effects, cursor, version. Salida: replay idéntico sin segundo efecto. Error: key reutilizada con body distinto o page o",
+      "text": "Contrato operativo. Entrada: key, request_hash, stored_hash, effects, cursor, version. Salida: replay idéntico sin segundo efecto. Error: key reutilizada con body distinto o page offset que salta filas al insertar. Por qué importa: si no fijas «key, request_hash, stored_hash, effects, cursor, version» → «replay idéntico sin segundo efecto», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «key reutilizada con body distinto o page offset que salta filas al ins» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 194,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-1B: key idem-lim-1, hash coincidente, effects=1, cursor job-020, version v1. En el servicio de jobs de Arequipa, reintentos de red no deben duplicar ER ru",
+      "text": "Aplicación a CASO-LIM-041-1B: key idem-lim-1, hash coincidente, effects=1, cursor job-020, version v1. En el servicio de jobs de Arequipa, reintentos de red no deben duplicar ER runs sintéticos."
+    },
+    {
+      "i": 15,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Routing, dependencies y modelos",
+      "text": "Routing, dependencies y modelos"
+    },
+    {
+      "i": 16,
+      "len": 202,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "FastAPI separa routing (qué path), dependencies (capacidades inyectadas) y modelos (contratos de datos). El handler coordina; la dependencia provee db/user; el dominio conserva reg",
+      "text": "FastAPI separa routing (qué path), dependencies (capacidades inyectadas) y modelos (contratos de datos). El handler coordina; la dependencia provee db/user; el dominio conserva reglas sin importar HTTP."
+    },
+    {
+      "i": 17,
+      "len": 267,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: def create_job(payload, db=Depends(get_db), user=Depends(current_user)) — en el laboratorio modelamos deps como lista y contamos líneas del handler. Si el dominio import",
+      "text": "Mecanismo: def create_job(payload, db=Depends(get_db), user=Depends(current_user)) — en el laboratorio modelamos deps como lista y contamos líneas del handler. Si el dominio importa Request o lee headers, la frontera se rompe y los tests no pueden sustituir adapters."
+    },
+    {
+      "i": 18,
+      "len": 505,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: handler_lines, dependency_injectable, domain_imports_http. Salida: handler delgado con dependencia sustituible. Error: handler monolítico o dominio aco",
+      "text": "Contrato operativo. Entrada: handler_lines, dependency_injectable, domain_imports_http. Salida: handler delgado con dependencia sustituible. Error: handler monolítico o dominio acoplado a Starlette. Por qué importa: si no fijas «handler_lines, dependency_injectable, domain_imports_http» → «handler delgado con dependencia sustituible», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «handler monolítico o dominio acoplado a Starlette» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-2A: handler ≤5 líneas, deps inyectables, domain_called=True sin imports HTTP. Facilita contract tests del job service sin red.",
+      "text": "Aplicación a CASO-LIM-041-2A: handler ≤5 líneas, deps inyectables, domain_called=True sin imports HTTP. Facilita contract tests del job service sin red."
+    },
+    {
+      "i": 20,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Validación, serialización y documentación",
+      "text": "Validación, serialización y documentación"
+    },
+    {
+      "i": 21,
+      "len": 219,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pydantic (o validación equivalente) rechaza entrada inválida antes del dominio. La serialización expone solo campos de la vista permitida; OpenAPI debe coincidir con el comportamie",
+      "text": "Pydantic (o validación equivalente) rechaza entrada inválida antes del dominio. La serialización expone solo campos de la vista permitida; OpenAPI debe coincidir con el comportamiento observado (paths, status, schemas)."
+    },
+    {
+      "i": 22,
+      "len": 225,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: input_valid=False → status 422 y body sin secret/db_pk. response_fields es un conjunto permitido; internal_fields nunca se serializa. Un OpenAPI desactualizado es un bre",
+      "text": "Mecanismo: input_valid=False → status 422 y body sin secret/db_pk. response_fields es un conjunto permitido; internal_fields nunca se serializa. Un OpenAPI desactualizado es un breach de contrato aunque el handler “funcione”."
+    },
+    {
+      "i": 23,
+      "len": 512,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: input_valid, status, response_fields, internal_fields, openapi_matches. Salida: request inválido rechazado y response sin campos internos. Error: 200 c",
+      "text": "Contrato operativo. Entrada: input_valid, status, response_fields, internal_fields, openapi_matches. Salida: request inválido rechazado y response sin campos internos. Error: 200 con secret o schema que miente. Por qué importa: si no fijas «input_valid, status, response_fields, internal_fields, opena» → «request inválido rechazado y response sin campos i», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «200 con secret o schema que miente» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 155,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-2B: 422, fields {job_id, status}, internal {secret, db_pk}, openapi_matches=True. Protección de PII/claves en Arequipa sintético.",
+      "text": "Aplicación a CASO-LIM-041-2B: 422, fields {job_id, status}, internal {secret, db_pk}, openapi_matches=True. Protección de PII/claves en Arequipa sintético."
+    },
+    {
+      "i": 25,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Sync/async y background boundaries",
+      "text": "Sync/async y background boundaries"
+    },
+    {
+      "i": 26,
+      "len": 203,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine del request ni en una tarea en memoria sin garantía. El boundary se documenta: reques",
+      "text": "Async beneficia espera de I/O; trabajo CPU-bound o durable no debe esconderse en una coroutine del request ni en una tarea en memoria sin garantía. El boundary se documenta: request path vs worker/queue."
+    },
+    {
+      "i": 27,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: si work_kind=='io' usa await; si cpu, offload; si durable, encola job y responde 202/queued. Contar uses_await y cpu_offloaded es el checklist del PR de plataforma.",
+      "text": "Mecanismo: si work_kind=='io' usa await; si cpu, offload; si durable, encola job y responde 202/queued. Contar uses_await y cpu_offloaded es el checklist del PR de plataforma."
+    },
+    {
+      "i": 28,
+      "len": 525,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: work_kind, uses_await, cpu_offloaded, durable_job. Salida: boundary sync/async y background documentada. Error: hash pesado en el event loop o job solo",
+      "text": "Contrato operativo. Entrada: work_kind, uses_await, cpu_offloaded, durable_job. Salida: boundary sync/async y background documentada. Error: hash pesado en el event loop o job solo en memoria del proceso web. Por qué importa: si no fijas «work_kind, uses_await, cpu_offloaded, durable_job» → «boundary sync/async y background documentada», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «hash pesado en el event loop o job solo en memoria del proceso web» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 128,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-3A: io+await, cpu_offloaded, durable_job. El worker de Arequipa procesa evidencia sin bloquear el API.",
+      "text": "Aplicación a CASO-LIM-041-3A: io+await, cpu_offloaded, durable_job. El worker de Arequipa procesa evidencia sin bloquear el API."
+    },
+    {
+      "i": 30,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Errores, timeouts y lifecycle",
+      "text": "Errores, timeouts y lifecycle"
+    },
+    {
+      "i": 31,
+      "len": 196,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Errores estables llevan código, mensaje seguro y trace id; los timeouts se presupuestan de extremo a extremo (client > service > db). El lifecycle abre/cierra recursos una vez en s",
+      "text": "Errores estables llevan código, mensaje seguro y trace id; los timeouts se presupuestan de extremo a extremo (client > service > db). El lifecycle abre/cierra recursos una vez en startup/shutdown."
+    },
+    {
+      "i": 32,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: db_budget_ms < service_budget_ms < client_timeout_ms. Si se vence, cancelas, cierras conexiones y devuelves UPSTREAM_TIMEOUT sin filtrar secretos. Shutdown drena request",
+      "text": "Mecanismo: db_budget_ms < service_budget_ms < client_timeout_ms. Si se vence, cancelas, cierras conexiones y devuelves UPSTREAM_TIMEOUT sin filtrar secretos. Shutdown drena requests en vuelo."
+    },
+    {
+      "i": 33,
+      "len": 449,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: presupuestos, error_code, resource_closed. Salida: timeout y shutdown sin recurso huérfano. Error: client 100ms y db 500ms, o pool sin close. Por qué i",
+      "text": "Contrato operativo. Entrada: presupuestos, error_code, resource_closed. Salida: timeout y shutdown sin recurso huérfano. Error: client 100ms y db 500ms, o pool sin close. Por qué importa: si no fijas «presupuestos, error_code, resource_closed» → «timeout y shutdown sin recurso huérfano», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «client 100ms y db 500ms, o pool sin close» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 139,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-3B: 450 < 700 < 900 ms, error tipado, resource_closed=True. Observabilidad del job service sin PII en el mensaje.",
+      "text": "Aplicación a CASO-LIM-041-3B: 450 < 700 < 900 ms, error tipado, resource_closed=True. Observabilidad del job service sin PII en el mensaje."
+    },
+    {
+      "i": 35,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Unit, contract e integration",
+      "text": "Unit, contract e integration"
+    },
+    {
+      "i": 36,
+      "len": 230,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Unit prueba reglas de dominio sin HTTP. Contract prueba el acuerdo HTTP/OpenAPI (status, schema). Integration prueba adapters reales controlados (db de test). Cada nivel responde u",
+      "text": "Unit prueba reglas de dominio sin HTTP. Contract prueba el acuerdo HTTP/OpenAPI (status, schema). Integration prueba adapters reales controlados (db de test). Cada nivel responde una pregunta distinta; un solo e2e frágil no basta."
+    },
+    {
+      "i": 37,
+      "len": 196,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: conjunto layers debe incluir unit/contract/integration; un fallo sembrado (p. ej. schema) se detecta en contract, no solo en unit. Cuenta total de tests y pirámide docum",
+      "text": "Mecanismo: conjunto layers debe incluir unit/contract/integration; un fallo sembrado (p. ej. schema) se detecta en contract, no solo en unit. Cuenta total de tests y pirámide documentada en el PR."
+    },
+    {
+      "i": 38,
+      "len": 507,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: layers, flags de cobertura y seeded_failure_detected. Salida: pirámide con fallo sembrado detectado en el nivel correcto. Error: solo unit o contract d",
+      "text": "Contrato operativo. Entrada: layers, flags de cobertura y seeded_failure_detected. Salida: pirámide con fallo sembrado detectado en el nivel correcto. Error: solo unit o contract desalineado con OpenAPI. Por qué importa: si no fijas «layers, flags de cobertura y seeded_failure_detected» → «pirámide con fallo sembrado detectado en el nivel », el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «solo unit o contract desalineado con OpenAPI» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 111,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-4A: tres capas True y seeded_failure_detected. Gate del servicio de jobs en Arequipa.",
+      "text": "Aplicación a CASO-LIM-041-4A: tres capas True y seeded_failure_detected. Gate del servicio de jobs en Arequipa."
+    },
+    {
+      "i": 40,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Compatibility, rate limit y observabilidad",
+      "text": "Compatibility, rate limit y observabilidad"
+    },
+    {
+      "i": 41,
+      "len": 215,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Compatibilidad se prueba contra consumidores viejos (header/version). Rate limiting responde 429 con señal recuperable (Retry-After). Observabilidad correlaciona request→job→result",
+      "text": "Compatibilidad se prueba contra consumidores viejos (header/version). Rate limiting responde 429 con señal recuperable (Retry-After). Observabilidad correlaciona request→job→resultado con trace id y sin PII en logs."
+    },
+    {
+      "i": 42,
+      "len": 164,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: token bucket used <= limit; si excede, 429. old_consumer_passes debe ser True antes de promover breaking changes. pii_in_log False es gate de privacidad.",
+      "text": "Mecanismo: token bucket used <= limit; si excede, 429. old_consumer_passes debe ser True antes de promover breaking changes. pii_in_log False es gate de privacidad."
+    },
+    {
+      "i": 43,
+      "len": 469,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: old_consumer_passes, limit, used, trace_id, pii_in_log. Salida: 429/compatibilidad/trace id cubiertos. Error: log con email o promover sin consumer v1.",
+      "text": "Contrato operativo. Entrada: old_consumer_passes, limit, used, trace_id, pii_in_log. Salida: 429/compatibilidad/trace id cubiertos. Error: log con email o promover sin consumer v1. Por qué importa: si no fijas «old_consumer_passes, limit, used, trace_id, pii_in_log» → «429/compatibilidad/trace id cubiertos», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «log con email o promover sin consumer v1» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-041-4B: used 73/100, trace tr-lim-041, sin PII. Control plane Arequipa listo para ops.",
+      "text": "Aplicación a CASO-LIM-041-4B: used 73/100, trace tr-lim-041, sin PII. Control plane Arequipa listo para ops."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 16740
+}

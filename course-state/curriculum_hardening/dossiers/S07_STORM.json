@@ -1,0 +1,217 @@
+{
+  "section": 7,
+  "title": "Texto, Unicode y expresiones regulares",
+  "file": "s07-data-acquisition.ts",
+  "n_required": 7,
+  "n_logged": 7,
+  "generated_at": "2026-07-24T04:58:20.582+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "score≠parentesco/fraude; no real PII; overvalidation reject",
+    "v3_retarget": "Unicode/regex not scraping APIs",
+    "expert_pass_at": "2026-07-24T04:58:20.582+00:00"
+  },
+  "unique_foci": 7,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "NFC vs NFD false negatives",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unicodedata",
+          "url": "https://docs.python.org/3/library/unicodedata.html",
+          "note": "NFC"
+        },
+        {
+          "family": "Python",
+          "title": "re",
+          "url": "https://docs.python.org/3/library/re.html",
+          "note": "regex"
+        },
+        {
+          "family": "Python",
+          "title": "Unicode HOWTO",
+          "url": "https://docs.python.org/3/howto/unicode.html",
+          "note": "unicode"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 1/7: «NFC vs NFD false negatives» via Python (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NFC vs NFD false negatives».",
+      "expand_scope": "E1/E2/E3 + docs for «NFC vs NFD false negatives»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 1/7: «NFC vs NFD false negatives» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "casefold vs lower",
+      "research": [
+        {
+          "family": "Python",
+          "title": "re",
+          "url": "https://docs.python.org/3/library/re.html",
+          "note": "regex"
+        },
+        {
+          "family": "Python",
+          "title": "Unicode HOWTO",
+          "url": "https://docs.python.org/3/howto/unicode.html",
+          "note": "unicode"
+        },
+        {
+          "family": "Python",
+          "title": "str methods",
+          "url": "https://docs.python.org/3/library/stdtypes.html#string-methods",
+          "note": "str ops"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 2/7: «casefold vs lower» via Python (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «casefold vs lower».",
+      "expand_scope": "E1/E2/E3 + docs for «casefold vs lower»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 2/7: «casefold vs lower» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "latam two surnames particles",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Unicode HOWTO",
+          "url": "https://docs.python.org/3/howto/unicode.html",
+          "note": "unicode"
+        },
+        {
+          "family": "Python",
+          "title": "str methods",
+          "url": "https://docs.python.org/3/library/stdtypes.html#string-methods",
+          "note": "str ops"
+        },
+        {
+          "family": "Python",
+          "title": "Regex HOWTO",
+          "url": "https://docs.python.org/3/howto/regex.html",
+          "note": "regex ped"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 3/7: «latam two surnames particles» via Python (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «latam two surnames particles».",
+      "expand_scope": "E1/E2/E3 + docs for «latam two surnames particles»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 3/7: «latam two surnames particles» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "str before regex 80 percent",
+      "research": [
+        {
+          "family": "Python",
+          "title": "str methods",
+          "url": "https://docs.python.org/3/library/stdtypes.html#string-methods",
+          "note": "str ops"
+        },
+        {
+          "family": "Python",
+          "title": "Regex HOWTO",
+          "url": "https://docs.python.org/3/howto/regex.html",
+          "note": "regex ped"
+        },
+        {
+          "family": "Py4E",
+          "title": "Strings",
+          "url": "https://www.py4e.com/html3/06-strings",
+          "note": "strings"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 4/7: «str before regex 80 percent» via Py4E, Python (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «str before regex 80 percent».",
+      "expand_scope": "E1/E2/E3 + docs for «str before regex 80 percent»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 4/7: «str before regex 80 percent» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "collapse spaces join split",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Regex HOWTO",
+          "url": "https://docs.python.org/3/howto/regex.html",
+          "note": "regex ped"
+        },
+        {
+          "family": "Py4E",
+          "title": "Strings",
+          "url": "https://www.py4e.com/html3/06-strings",
+          "note": "strings"
+        },
+        {
+          "family": "RegexOne",
+          "title": "Interactive",
+          "url": "https://regexone.com/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 5/7: «collapse spaces join split» via Py4E, Python, RegexOne (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «collapse spaces join split».",
+      "expand_scope": "E1/E2/E3 + docs for «collapse spaces join split»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 5/7: «collapse spaces join split» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "email modest one at sign",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Strings",
+          "url": "https://www.py4e.com/html3/06-strings",
+          "note": "strings"
+        },
+        {
+          "family": "RegexOne",
+          "title": "Interactive",
+          "url": "https://regexone.com/",
+          "note": "practice"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 6/7: «email modest one at sign» via MIT, Py4E, RegexOne (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «email modest one at sign».",
+      "expand_scope": "E1/E2/E3 + docs for «email modest one at sign»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 6/7: «email modest one at sign» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "phone digits PE 51 prefix",
+      "research": [
+        {
+          "family": "RegexOne",
+          "title": "Interactive",
+          "url": "https://regexone.com/",
+          "note": "practice"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "regex mod"
+        }
+      ],
+      "synthesize": "S7 «Texto, Unicode y expresiones regulares» cycle 7/7: «phone digits PE 51 prefix» via Harvard, MIT, RegexOne (CP-N1-B text normalizer).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «phone digits PE 51 prefix».",
+      "expand_scope": "E1/E2/E3 + docs for «phone digits PE 51 prefix»; V3 roadmap; pair S07 text → S08 file ingest close CP-N1-B.",
+      "re_synthesize": "Decision 7/7: «phone digits PE 51 prefix» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

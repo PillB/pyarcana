@@ -1,0 +1,599 @@
+{
+  "index": 51,
+  "id": "integrator-final",
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "file": "s51-integrator-final.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
+      "len": 57
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Trace: correlación prompt/retrieval/tool/answer con versiones. Redacción: elimina PII antes de exportar observabilidad. Registry: pin de modelo/prompt/dataset/index/evaluator. SLO/drift: umbrales con owner y runbook. Contestabilidad: corrección y apelación humana. CF-5: congela 12 artefactos e interfaces.",
+      "len": 319
+    },
+    {
+      "i": 2,
+      "text": "S51 cierra CP-N4-C y CF-5: el copiloto es operable solo si se reconstruye qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir. Id integrator-final es legacy de plataforma; el path V3 es observabilidad → gobierno → operación → UX.",
+      "len": 247
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: trace id, versiones, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección/apelación. Error: PII en trace, versión latest, drift sin owner o acción irreversible sin confirmación → incidente + rollback.",
+      "len": 270
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-MOQ-051 (entidad ficticia de operaciones con copiloto en Moquegua (Costa Sur Ops Lab)): copiloto sintético de ops. T1 traces/métricas → T2 registry/cambio → T3 SLO/incidentes → T4 UX contestable. Stdlib. Sin PII real.",
+      "len": 227
+    },
+    {
+      "i": 5,
+      "text": "traces de prompts/retrieval/tools",
+      "len": 33
+    },
+    {
+      "i": 6,
+      "text": "Un trace correlaciona spans prompt/retrieval/tool/answer con trace_id estable y un bundle de versiones. Exportar sin redacción es un incidente de privacidad, no un 'log útil'.",
+      "len": 175
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: trace_id prefijado, spans ⊇ {prompt,retrieval,tool,answer}, versions no vacías y pii_in_trace is False. Si falta cualquier pieza, cuarentena; no rellenes spans inventados.",
+      "len": 182
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: trace_id, spans, versions, pii_in_trace. Salida: trace reconstruible sin PII. Error: PII o spans incompletos → REDACT_AND_QUARANTINE_TRACE. Ausencia de flag → RESTORE_TRACE_CONTEXT.",
+      "len": 200
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-MOQ-051-1A: tr-moq-51 con cuatro spans, prompt/model/index versionados y pii_in_trace=False. En Moquegua sintético, ops puede auditar el copiloto sin datos personales.",
+      "len": 183
+    },
+    {
+      "i": 10,
+      "text": "tokens, costo, latency y redacción",
+      "len": 34
+    },
+    {
+      "i": 11,
+      "text": "Tokens por etapa deben sumar el total; p95 de latency se compara al SLO; redacción cuenta campos scrubbed antes del dashboard. Un total inventado esconde costo real.",
+      "len": 165
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: prompt+retrieval+answer == total_tokens, p95_ms ≤ slo_ms y redacted_fields ≥ 1. Breach de SLO o tokens inconsistentes activa alerta, no un promedio maquillado.",
+      "len": 170
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: conteos de tokens, p95, slo, redacted_fields. Salida: dashboard por etapa con prueba de redacción. Error: suma rota o p95>slo → ALERT_COST_LATENCY. Sin redacción → FIX_REDACTION_PIPELINE.",
+      "len": 206
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-MOQ-051-1B: 800+400+300=1500 tokens, p95 900≤1200, 4 campos redactados.",
+      "len": 87
+    },
+    {
+      "i": 15,
+      "text": "registro de modelo/prompt/dataset",
+      "len": 33
+    },
+    {
+      "i": 16,
+      "text": "El registry pinnea release, model, prompt, dataset, index y evaluator. latest no es versión: impide reproducir y auditar. El bundle del release es inmutable.",
+      "len": 157
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: todos los campos truthy y immutable is True; ninguna versión puede ser la cadena latest. Un release solo se promociona si el system card apunta al mismo digest.",
+      "len": 171
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: release + seis artefactos + flag immutable. Salida: respuesta enlazada a bundle versionado. Error: pin flojo → FREEZE_RELEASE_BUNDLE. Campo ausente → REGISTER_MISSING_VERSION.",
+      "len": 194
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-MOQ-051-2A: copilot-7 con m2/p3/d5/i4/e2 e immutable=True.",
+      "len": 74
+    },
+    {
+      "i": 20,
+      "text": "cambio, acceso, retención y auditoría",
+      "len": 37
+    },
+    {
+      "i": 21,
+      "text": "Change control exige autor + aprobador distintos y riesgo clasificado. Acceso es mínimo (role allowlist). Retención tiene días y purge plan; el audit es append-only.",
+      "len": 165
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: author != approver, role ∈ allowlist, retention_days > 0, audit_append_only. Un cambio sin aprobador independiente es ungoverned aunque el diff sea 'pequeño'.",
+      "len": 169
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: change, access, retention, audit flags. Salida: cambio y acceso auditables. Error: sin aprobación → REJECT_UNGOVERNED_CHANGE. Sin evidencia → REQUEST_INDEPENDENT_APPROVAL.",
+      "len": 190
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-MOQ-051-2B: rfc+approve, retention 180d, roles ops-read, audit append-only.",
+      "len": 91
+    },
+    {
+      "i": 26,
+      "text": "SLO combina availability/quality/latency. Feedback (thumbs) es sesgado: no es label de ground truth. Drift exige slice, baseline y owner antes de actuar.",
+      "len": 153
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: availability ≥ target, quality ≥ min, p95 ≤ slo, owner truthy y drift_score ≤ max_drift. Alerta sin runbook es ruido, no operación.",
+      "len": 142
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: métricas + owner + drift. Salida: alerta accionable con owner/runbook. Error: umbral roto → PAGE_ONCALL_DRIFT. Sin owner → ASSIGN_SLO_OWNER.",
+      "len": 159
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-MOQ-051-3A: avail 0.995, quality 0.92, p95 ok, owner sre-moq, drift 0.04≤0.1.",
+      "len": 93
+    },
+    {
+      "i": 30,
+      "text": "incidents, rollback y postmortem",
+      "len": 32
+    },
+    {
+      "i": 31,
+      "text": "Un incidente de copiloto exige rollback al last-good pin, postmortem blameless y action items con dueño. Simular rollback sin medir tiempo no demuestra RTO.",
+      "len": 156
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: rolled_back_to == last_good, rollback_minutes ≤ rto, postmortem=True y len(action_items) ≥ 1. No se borra el trace del incidente para 'limpiar ruido'.",
+      "len": 161
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: last_good, rolled_back_to, minutos, postmortem, actions. Salida: simulacro de rollback y acciones verificadas. Error: RTO roto → ROLLBACK_COPILOT. Sin dueño de acción → ESCALATE_TO_OWNER.",
+      "len": 206
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-MOQ-051-3B: rollback a m1 en 18≤30 min, postmortem y 2 action items.",
+      "len": 84
+    },
+    {
+      "i": 35,
+      "text": "incertidumbre, citas y confirmaciones",
+      "len": 37
+    },
+    {
+      "i": 36,
+      "text": "La UX debe mostrar incertidumbre, citar evidencia y pedir confirmación antes de side-effects. Un 'sí silencioso' a una tool write es un dark pattern operativo.",
+      "len": 159
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: shows_uncertainty, cites_evidence_ids no vacío, confirm_before_side_effect y no dark_pattern. La confirmación es un gate, no un tooltip omitible.",
+      "len": 156
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: flags de UX y lista de cites. Salida: usuario entiende evidencia y confirma acción. Error: sin confirmación → REQUIRE_EXPLICIT_CONFIRM. Sin cites → REQUEST_CITATION_UI.",
+      "len": 187
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-MOQ-051-4A: uncertainty on, cites [c1,c2], confirm gate, no dark patterns.",
+      "len": 90
+    },
+    {
+      "i": 40,
+      "text": "accesibilidad, corrección y contestabilidad",
+      "len": 43
+    },
+    {
+      "i": 41,
+      "text": "a11y: teclado completo, labels de screen reader y contraste ≥ mínimo. Corrección y apelación humana son parte del producto, no un ticket opcional.",
+      "len": 146
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: keyboard_complete, screen_reader_labels, contrast_ratio ≥ min_contrast, correction_available y appeal_to_human. Fallar a11y bloquea release de UX del copiloto.",
+      "len": 170
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: flags a11y + corrección + appeal. Salida: flujo WCAG y apelación completables. Error: a11y roto → FAIL_ACCESSIBILITY_GATE. Sin appeal → ROUTE_CONTESTATION.",
+      "len": 174
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-MOQ-051-4B: teclado ok, labels, contraste 5.1≥4.5, corrección y appeal humanos.",
+      "len": 95
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 57,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
+      "text": "Ruta de S51: Observabilidad, gobernanza y UX del copiloto"
+    },
+    {
+      "i": 1,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Trace: correlación prompt/retrieval/tool/answer con versiones. Redacción: elimina PII antes de exportar observabilidad. Registry: pin de modelo/prompt/dataset/index/ev",
+      "text": "Diccionario. Trace: correlación prompt/retrieval/tool/answer con versiones. Redacción: elimina PII antes de exportar observabilidad. Registry: pin de modelo/prompt/dataset/index/evaluator. SLO/drift: umbrales con owner y runbook. Contestabilidad: corrección y apelación humana. CF-5: congela 12 artefactos e interfaces."
+    },
+    {
+      "i": 2,
+      "len": 247,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S51 cierra CP-N4-C y CF-5: el copiloto es operable solo si se reconstruye qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir. Id integrator-final es legacy de pl",
+      "text": "S51 cierra CP-N4-C y CF-5: el copiloto es operable solo si se reconstruye qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir. Id integrator-final es legacy de plataforma; el path V3 es observabilidad → gobierno → operación → UX."
+    },
+    {
+      "i": 3,
+      "len": 270,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: trace id, versiones, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección/apelación. Error: PII en trace, vers",
+      "text": "Contrato. Entrada: trace id, versiones, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección/apelación. Error: PII en trace, versión latest, drift sin owner o acción irreversible sin confirmación → incidente + rollback."
+    },
+    {
+      "i": 4,
+      "len": 227,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-MOQ-051 (entidad ficticia de operaciones con copiloto en Moquegua (Costa Sur Ops Lab)): copiloto sintético de ops. T1 traces/métricas → T2 registry/cambio → T3 SLO/incide",
+      "text": "Caso CASO-MOQ-051 (entidad ficticia de operaciones con copiloto en Moquegua (Costa Sur Ops Lab)): copiloto sintético de ops. T1 traces/métricas → T2 registry/cambio → T3 SLO/incidentes → T4 UX contestable. Stdlib. Sin PII real."
+    },
+    {
+      "i": 5,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "traces de prompts/retrieval/tools",
+      "text": "traces de prompts/retrieval/tools"
+    },
+    {
+      "i": 6,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un trace correlaciona spans prompt/retrieval/tool/answer con trace_id estable y un bundle de versiones. Exportar sin redacción es un incidente de privacidad, no un 'log útil'.",
+      "text": "Un trace correlaciona spans prompt/retrieval/tool/answer con trace_id estable y un bundle de versiones. Exportar sin redacción es un incidente de privacidad, no un 'log útil'."
+    },
+    {
+      "i": 7,
+      "len": 182,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: trace_id prefijado, spans ⊇ {prompt,retrieval,tool,answer}, versions no vacías y pii_in_trace is False. Si falta cualquier pieza, cuarentena; no rellenes spans inventado",
+      "text": "Mecanismo: trace_id prefijado, spans ⊇ {prompt,retrieval,tool,answer}, versions no vacías y pii_in_trace is False. Si falta cualquier pieza, cuarentena; no rellenes spans inventados."
+    },
+    {
+      "i": 8,
+      "len": 200,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: trace_id, spans, versions, pii_in_trace. Salida: trace reconstruible sin PII. Error: PII o spans incompletos → REDACT_AND_QUARANTINE_TRACE. Ausencia de flag → RE",
+      "text": "Contrato. Entrada: trace_id, spans, versions, pii_in_trace. Salida: trace reconstruible sin PII. Error: PII o spans incompletos → REDACT_AND_QUARANTINE_TRACE. Ausencia de flag → RESTORE_TRACE_CONTEXT."
+    },
+    {
+      "i": 9,
+      "len": 183,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-1A: tr-moq-51 con cuatro spans, prompt/model/index versionados y pii_in_trace=False. En Moquegua sintético, ops puede auditar el copiloto sin datos personal",
+      "text": "Aplicación CASO-MOQ-051-1A: tr-moq-51 con cuatro spans, prompt/model/index versionados y pii_in_trace=False. En Moquegua sintético, ops puede auditar el copiloto sin datos personales."
+    },
+    {
+      "i": 10,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "tokens, costo, latency y redacción",
+      "text": "tokens, costo, latency y redacción"
+    },
+    {
+      "i": 11,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tokens por etapa deben sumar el total; p95 de latency se compara al SLO; redacción cuenta campos scrubbed antes del dashboard. Un total inventado esconde costo real.",
+      "text": "Tokens por etapa deben sumar el total; p95 de latency se compara al SLO; redacción cuenta campos scrubbed antes del dashboard. Un total inventado esconde costo real."
+    },
+    {
+      "i": 12,
+      "len": 170,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: prompt+retrieval+answer == total_tokens, p95_ms ≤ slo_ms y redacted_fields ≥ 1. Breach de SLO o tokens inconsistentes activa alerta, no un promedio maquillado.",
+      "text": "Mecanismo: prompt+retrieval+answer == total_tokens, p95_ms ≤ slo_ms y redacted_fields ≥ 1. Breach de SLO o tokens inconsistentes activa alerta, no un promedio maquillado."
+    },
+    {
+      "i": 13,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: conteos de tokens, p95, slo, redacted_fields. Salida: dashboard por etapa con prueba de redacción. Error: suma rota o p95>slo → ALERT_COST_LATENCY. Sin redacción",
+      "text": "Contrato. Entrada: conteos de tokens, p95, slo, redacted_fields. Salida: dashboard por etapa con prueba de redacción. Error: suma rota o p95>slo → ALERT_COST_LATENCY. Sin redacción → FIX_REDACTION_PIPELINE."
+    },
+    {
+      "i": 14,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-1B: 800+400+300=1500 tokens, p95 900≤1200, 4 campos redactados.",
+      "text": "Aplicación CASO-MOQ-051-1B: 800+400+300=1500 tokens, p95 900≤1200, 4 campos redactados."
+    },
+    {
+      "i": 15,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "registro de modelo/prompt/dataset",
+      "text": "registro de modelo/prompt/dataset"
+    },
+    {
+      "i": 16,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El registry pinnea release, model, prompt, dataset, index y evaluator. latest no es versión: impide reproducir y auditar. El bundle del release es inmutable.",
+      "text": "El registry pinnea release, model, prompt, dataset, index y evaluator. latest no es versión: impide reproducir y auditar. El bundle del release es inmutable."
+    },
+    {
+      "i": 17,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: todos los campos truthy y immutable is True; ninguna versión puede ser la cadena latest. Un release solo se promociona si el system card apunta al mismo digest.",
+      "text": "Mecanismo: todos los campos truthy y immutable is True; ninguna versión puede ser la cadena latest. Un release solo se promociona si el system card apunta al mismo digest."
+    },
+    {
+      "i": 18,
+      "len": 194,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: release + seis artefactos + flag immutable. Salida: respuesta enlazada a bundle versionado. Error: pin flojo → FREEZE_RELEASE_BUNDLE. Campo ausente → REGISTER_MI",
+      "text": "Contrato. Entrada: release + seis artefactos + flag immutable. Salida: respuesta enlazada a bundle versionado. Error: pin flojo → FREEZE_RELEASE_BUNDLE. Campo ausente → REGISTER_MISSING_VERSION."
+    },
+    {
+      "i": 19,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-2A: copilot-7 con m2/p3/d5/i4/e2 e immutable=True.",
+      "text": "Aplicación CASO-MOQ-051-2A: copilot-7 con m2/p3/d5/i4/e2 e immutable=True."
+    },
+    {
+      "i": 20,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "cambio, acceso, retención y auditoría",
+      "text": "cambio, acceso, retención y auditoría"
+    },
+    {
+      "i": 21,
+      "len": 165,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Change control exige autor + aprobador distintos y riesgo clasificado. Acceso es mínimo (role allowlist). Retención tiene días y purge plan; el audit es append-only.",
+      "text": "Change control exige autor + aprobador distintos y riesgo clasificado. Acceso es mínimo (role allowlist). Retención tiene días y purge plan; el audit es append-only."
+    },
+    {
+      "i": 22,
+      "len": 169,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: author != approver, role ∈ allowlist, retention_days > 0, audit_append_only. Un cambio sin aprobador independiente es ungoverned aunque el diff sea 'pequeño'.",
+      "text": "Mecanismo: author != approver, role ∈ allowlist, retention_days > 0, audit_append_only. Un cambio sin aprobador independiente es ungoverned aunque el diff sea 'pequeño'."
+    },
+    {
+      "i": 23,
+      "len": 190,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: change, access, retention, audit flags. Salida: cambio y acceso auditables. Error: sin aprobación → REJECT_UNGOVERNED_CHANGE. Sin evidencia → REQUEST_INDEPENDENT",
+      "text": "Contrato. Entrada: change, access, retention, audit flags. Salida: cambio y acceso auditables. Error: sin aprobación → REJECT_UNGOVERNED_CHANGE. Sin evidencia → REQUEST_INDEPENDENT_APPROVAL."
+    },
+    {
+      "i": 24,
+      "len": 91,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-2B: rfc+approve, retention 180d, roles ops-read, audit append-only.",
+      "text": "Aplicación CASO-MOQ-051-2B: rfc+approve, retention 180d, roles ops-read, audit append-only."
+    },
+    {
+      "i": 26,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SLO combina availability/quality/latency. Feedback (thumbs) es sesgado: no es label de ground truth. Drift exige slice, baseline y owner antes de actuar.",
+      "text": "SLO combina availability/quality/latency. Feedback (thumbs) es sesgado: no es label de ground truth. Drift exige slice, baseline y owner antes de actuar."
+    },
+    {
+      "i": 27,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: availability ≥ target, quality ≥ min, p95 ≤ slo, owner truthy y drift_score ≤ max_drift. Alerta sin runbook es ruido, no operación.",
+      "text": "Mecanismo: availability ≥ target, quality ≥ min, p95 ≤ slo, owner truthy y drift_score ≤ max_drift. Alerta sin runbook es ruido, no operación."
+    },
+    {
+      "i": 28,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: métricas + owner + drift. Salida: alerta accionable con owner/runbook. Error: umbral roto → PAGE_ONCALL_DRIFT. Sin owner → ASSIGN_SLO_OWNER.",
+      "text": "Contrato. Entrada: métricas + owner + drift. Salida: alerta accionable con owner/runbook. Error: umbral roto → PAGE_ONCALL_DRIFT. Sin owner → ASSIGN_SLO_OWNER."
+    },
+    {
+      "i": 29,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-3A: avail 0.995, quality 0.92, p95 ok, owner sre-moq, drift 0.04≤0.1.",
+      "text": "Aplicación CASO-MOQ-051-3A: avail 0.995, quality 0.92, p95 ok, owner sre-moq, drift 0.04≤0.1."
+    },
+    {
+      "i": 30,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "incidents, rollback y postmortem",
+      "text": "incidents, rollback y postmortem"
+    },
+    {
+      "i": 31,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un incidente de copiloto exige rollback al last-good pin, postmortem blameless y action items con dueño. Simular rollback sin medir tiempo no demuestra RTO.",
+      "text": "Un incidente de copiloto exige rollback al last-good pin, postmortem blameless y action items con dueño. Simular rollback sin medir tiempo no demuestra RTO."
+    },
+    {
+      "i": 32,
+      "len": 161,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: rolled_back_to == last_good, rollback_minutes ≤ rto, postmortem=True y len(action_items) ≥ 1. No se borra el trace del incidente para 'limpiar ruido'.",
+      "text": "Mecanismo: rolled_back_to == last_good, rollback_minutes ≤ rto, postmortem=True y len(action_items) ≥ 1. No se borra el trace del incidente para 'limpiar ruido'."
+    },
+    {
+      "i": 33,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: last_good, rolled_back_to, minutos, postmortem, actions. Salida: simulacro de rollback y acciones verificadas. Error: RTO roto → ROLLBACK_COPILOT. Sin dueño de a",
+      "text": "Contrato. Entrada: last_good, rolled_back_to, minutos, postmortem, actions. Salida: simulacro de rollback y acciones verificadas. Error: RTO roto → ROLLBACK_COPILOT. Sin dueño de acción → ESCALATE_TO_OWNER."
+    },
+    {
+      "i": 34,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-3B: rollback a m1 en 18≤30 min, postmortem y 2 action items.",
+      "text": "Aplicación CASO-MOQ-051-3B: rollback a m1 en 18≤30 min, postmortem y 2 action items."
+    },
+    {
+      "i": 35,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "incertidumbre, citas y confirmaciones",
+      "text": "incertidumbre, citas y confirmaciones"
+    },
+    {
+      "i": 36,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La UX debe mostrar incertidumbre, citar evidencia y pedir confirmación antes de side-effects. Un 'sí silencioso' a una tool write es un dark pattern operativo.",
+      "text": "La UX debe mostrar incertidumbre, citar evidencia y pedir confirmación antes de side-effects. Un 'sí silencioso' a una tool write es un dark pattern operativo."
+    },
+    {
+      "i": 37,
+      "len": 156,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: shows_uncertainty, cites_evidence_ids no vacío, confirm_before_side_effect y no dark_pattern. La confirmación es un gate, no un tooltip omitible.",
+      "text": "Mecanismo: shows_uncertainty, cites_evidence_ids no vacío, confirm_before_side_effect y no dark_pattern. La confirmación es un gate, no un tooltip omitible."
+    },
+    {
+      "i": 38,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: flags de UX y lista de cites. Salida: usuario entiende evidencia y confirma acción. Error: sin confirmación → REQUIRE_EXPLICIT_CONFIRM. Sin cites → REQUEST_CITAT",
+      "text": "Contrato. Entrada: flags de UX y lista de cites. Salida: usuario entiende evidencia y confirma acción. Error: sin confirmación → REQUIRE_EXPLICIT_CONFIRM. Sin cites → REQUEST_CITATION_UI."
+    },
+    {
+      "i": 39,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-4A: uncertainty on, cites [c1,c2], confirm gate, no dark patterns.",
+      "text": "Aplicación CASO-MOQ-051-4A: uncertainty on, cites [c1,c2], confirm gate, no dark patterns."
+    },
+    {
+      "i": 40,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "accesibilidad, corrección y contestabilidad",
+      "text": "accesibilidad, corrección y contestabilidad"
+    },
+    {
+      "i": 41,
+      "len": 146,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "a11y: teclado completo, labels de screen reader y contraste ≥ mínimo. Corrección y apelación humana son parte del producto, no un ticket opcional.",
+      "text": "a11y: teclado completo, labels de screen reader y contraste ≥ mínimo. Corrección y apelación humana son parte del producto, no un ticket opcional."
+    },
+    {
+      "i": 42,
+      "len": 170,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: keyboard_complete, screen_reader_labels, contrast_ratio ≥ min_contrast, correction_available y appeal_to_human. Fallar a11y bloquea release de UX del copiloto.",
+      "text": "Mecanismo: keyboard_complete, screen_reader_labels, contrast_ratio ≥ min_contrast, correction_available y appeal_to_human. Fallar a11y bloquea release de UX del copiloto."
+    },
+    {
+      "i": 43,
+      "len": 174,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: flags a11y + corrección + appeal. Salida: flujo WCAG y apelación completables. Error: a11y roto → FAIL_ACCESSIBILITY_GATE. Sin appeal → ROUTE_CONTESTATION.",
+      "text": "Contrato. Entrada: flags a11y + corrección + appeal. Salida: flujo WCAG y apelación completables. Error: a11y roto → FAIL_ACCESSIBILITY_GATE. Sin appeal → ROUTE_CONTESTATION."
+    },
+    {
+      "i": 44,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-MOQ-051-4B: teclado ok, labels, contraste 5.1≥4.5, corrección y appeal humanos.",
+      "text": "Aplicación CASO-MOQ-051-4B: teclado ok, labels, contraste 5.1≥4.5, corrección y appeal humanos."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 13233
+}

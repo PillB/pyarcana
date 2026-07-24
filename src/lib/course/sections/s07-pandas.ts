@@ -544,9 +544,9 @@ empleados = pd.DataFrame({
     "años_experiencia": np.random.randint(0, 20, 200)
 })
 
-# TODO: salario promedio por departamento
-# TODO: top 3 empleados por salario en cada departamento
-# TODO: correlación entre años de experiencia y salario`,
+# DEFECT: salario promedio por departamento
+# DEFECT: top 3 empleados por salario en cada departamento
+# DEFECT: correlación entre años de experiencia y salario`,
         },
         solutionCode: {
           language: 'python',
@@ -627,23 +627,27 @@ import numpy as np
 
 def cargar_datos(ruta="netflix_titles.csv"):
     """Carga y parsea el dataset."""
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def limpiar(df):
     """Limpia nulos, tipos, strings."""
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def analizar(df):
     """Responde 5 preguntas de negocio."""
-    # TODO: P1, P2, P3, P4, P5
-    pass
+    # DEFECT: P1, P2, P3, P4, P5
+    # wrong stub: returns None
+    return None
 
 def exportar(df, ruta="netflix_clean.csv"):
     """Exporta dataset limpio."""
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def main():
     # Pipeline

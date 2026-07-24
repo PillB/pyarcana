@@ -1,30 +1,17 @@
-# Research dossier — S24 OCR y Document AI
-
-**Section file:** `s24-rpa-advanced.ts`  
-**Title:** OCR y Document AI  
-**Residual:** STUB (avg_para≈86, avg_instr≈50, starters min≈7)  
-**Target:** gold vs S01/S02 pedagogy + CP-N2-C document intake contracts  
-
-## Competitive sources
-
-| Class | Named sources & takeaways |
-|-------|---------------------------|
-| Coursera | *How Google does Machine Learning* / Document AI overviews; *Python for Everybody* + imaging modules; DeepLearning.AI production courses on confidence thresholds and human review |
-| MIT | MIT OCW computer vision preprocessing (deskew, contrast, noise); document layout as geometric structure before recognition |
-| Stanford | CS231n preprocessing hygiene; reading-order / layout cues; confidence calibration themes for detection systems |
-| Harvard | Data science / digital humanities OCR workshops — language packs, evaluation on golden pages, privacy of scanned corpora |
-| Yale | Digital collections OCR quality metrics — field-level accuracy, abstention vs forced decode |
-| GitHub | `tesseract-ocr/tesseract` + `pytesseract`; `ocrmypdf`; layout parsers (pdfplumber patterns); awesome-ocr lists; synthetic invoice fixtures |
-| Video | Tesseract/OpenCV document preprocessing tutorials; Google Document AI demos emphasizing bounding boxes + confidence |
-
-## Coverage gaps in current stub
-- Theory too thin on **why** DPI/deskew order, per-field confidence, and schema versioning matter for intake SLAs.
-- Exercises say “imprime X” without naming concept, fixture id, or pass string in full contract form.
-- Missing explicit **no-fraud** policy language: RUC/total mismatch → `review_not_fraud`, never auto-fraud.
-- Starters lack synthetic factura/RUC fixtures and clear single-defect TODOs.
-
-## Expansion plan
-1. Deepen 9 theory blocks (≥3 × ≥180 chars) with synthetic Peru facturas/IDs and adapter real/fake boundary.
-2. Expand 24 weDo instructions ≥150 chars with I/O contracts and exact pass strings.
-3. Enrich starters; preserve solution outputs and progressive disclosure (no cloud Document AI SDK required in graded exercises).
-4. Keep privacy/hostile-file gates and human_rescan fallback as fail-closed paths.
+# S24 RESEARCH
+When: 2026-07-24T04:23:51.696+00:00
+Case: CASO CP-N2-C document intake
+Sources:
+- Tesseract: https://tesseract-ocr.github.io/
+- Pillow: https://pillow.readthedocs.io/
+- PyPI: https://pypi.org/project/pytesseract/
+- OpenCV: https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html
+- Microsoft: https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/
+- Google: https://cloud.google.com/document-ai/docs
+- Coursera: https://www.coursera.org/courses?query=ocr%20document
+- MIT: https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/
+- Harvard: https://cs50.harvard.edu/python/
+- deeplearning.ai: https://www.deeplearning.ai/
+- Py4E: https://www.py4e.com
+- Live: https://pillb.github.io/pyarcana/
+- NIST: https://www.nist.gov/itl/ai-risk-management-framework

@@ -1,0 +1,663 @@
+{
+  "section": 22,
+  "title": "Email, identidad y aprobación humana",
+  "file": "s22-rapidfuzz-entity.ts",
+  "n_required": 22,
+  "n_logged": 22,
+  "generated_at": "2026-07-24T05:24:31.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 77 > HEAD 0",
+    "ethics": "draft only no auto-send; human approval; match≠fraud",
+    "v3_retarget": "email approval CP-N2-C not RapidFuzz ER",
+    "expert_pass_at": "2026-07-24T05:24:31.000+00:00",
+    "theater_strip": "workbench ×23",
+    "resources_expanded": true
+  },
+  "unique_foci": 22,
+  "source_url_count": 22,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget email approval not RapidFuzz ER",
+      "research": [
+        {
+          "family": "Python",
+          "title": "email examples",
+          "url": "https://docs.python.org/3/library/email.examples.html",
+          "note": "MIME"
+        },
+        {
+          "family": "Python",
+          "title": "email package",
+          "url": "https://docs.python.org/3/library/email.html",
+          "note": "API"
+        },
+        {
+          "family": "Python",
+          "title": "html.escape",
+          "url": "https://docs.python.org/3/library/html.html",
+          "note": "template escape"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 1/22: «V3 retarget email approval not RapidFuzz ER» via Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget email approval not RapidFuzz ER».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget email approval not RapidFuzz ER»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 1/22: «V3 retarget email approval not RapidFuzz ER» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "MIME multipart utf-8 attachments",
+      "research": [
+        {
+          "family": "Python",
+          "title": "email package",
+          "url": "https://docs.python.org/3/library/email.html",
+          "note": "API"
+        },
+        {
+          "family": "Python",
+          "title": "html.escape",
+          "url": "https://docs.python.org/3/library/html.html",
+          "note": "template escape"
+        },
+        {
+          "family": "OWASP",
+          "title": "XSS prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+          "note": "sanitize"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 2/22: «MIME multipart utf-8 attachments» via Python, OWASP (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «MIME multipart utf-8 attachments».",
+      "expand_scope": "E1/E2/E3 + docs for «MIME multipart utf-8 attachments»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 2/22: «MIME multipart utf-8 attachments» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "no secrets in email body",
+      "research": [
+        {
+          "family": "Python",
+          "title": "html.escape",
+          "url": "https://docs.python.org/3/library/html.html",
+          "note": "template escape"
+        },
+        {
+          "family": "OWASP",
+          "title": "XSS prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+          "note": "sanitize"
+        },
+        {
+          "family": "IETF",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "scopes"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 3/22: «no secrets in email body» via Python, OWASP, IETF (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «no secrets in email body».",
+      "expand_scope": "E1/E2/E3 + docs for «no secrets in email body»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 3/22: «no secrets in email body» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "HTML template sanitization escape",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "XSS prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+          "note": "sanitize"
+        },
+        {
+          "family": "IETF",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "scopes"
+        },
+        {
+          "family": "Google",
+          "title": "OAuth policies",
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "note": "least privilege"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 4/22: «HTML template sanitization escape» via OWASP, IETF, Google (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «HTML template sanitization escape».",
+      "expand_scope": "E1/E2/E3 + docs for «HTML template sanitization escape»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 4/22: «HTML template sanitization escape» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "OAuth minimum scopes only",
+      "research": [
+        {
+          "family": "IETF",
+          "title": "OAuth 2.0 RFC 6749",
+          "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+          "note": "scopes"
+        },
+        {
+          "family": "Google",
+          "title": "OAuth policies",
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "note": "least privilege"
+        },
+        {
+          "family": "Python",
+          "title": "uuid",
+          "url": "https://docs.python.org/3/library/uuid.html",
+          "note": "idempotency"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 5/22: «OAuth minimum scopes only» via IETF, Google, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «OAuth minimum scopes only».",
+      "expand_scope": "E1/E2/E3 + docs for «OAuth minimum scopes only»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 5/22: «OAuth minimum scopes only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "draft sandbox never auto send",
+      "research": [
+        {
+          "family": "Google",
+          "title": "OAuth policies",
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "note": "least privilege"
+        },
+        {
+          "family": "Python",
+          "title": "uuid",
+          "url": "https://docs.python.org/3/library/uuid.html",
+          "note": "idempotency"
+        },
+        {
+          "family": "Python",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 6/22: «draft sandbox never auto send» via Google, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «draft sandbox never auto send».",
+      "expand_scope": "E1/E2/E3 + docs for «draft sandbox never auto send»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 6/22: «draft sandbox never auto send» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "draft expiration TTL",
+      "research": [
+        {
+          "family": "Python",
+          "title": "uuid",
+          "url": "https://docs.python.org/3/library/uuid.html",
+          "note": "idempotency"
+        },
+        {
+          "family": "Python",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "state machine"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 7/22: «draft expiration TTL» via Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «draft expiration TTL».",
+      "expand_scope": "E1/E2/E3 + docs for «draft expiration TTL»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 7/22: «draft expiration TTL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "recipient resolution synthetic only",
+      "research": [
+        {
+          "family": "Python",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "state machine"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 8/22: «recipient resolution synthetic only» via Python, Coursera (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «recipient resolution synthetic only».",
+      "expand_scope": "E1/E2/E3 + docs for «recipient resolution synthetic only»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 8/22: «recipient resolution synthetic only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "verify email format and allowlist",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "state machine"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 9/22: «verify email format and allowlist» via Python, Coursera, MIT (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «verify email format and allowlist».",
+      "expand_scope": "E1/E2/E3 + docs for «verify email format and allowlist»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 9/22: «verify email format and allowlist» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "CC BCC privacy minimum disclosure",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 10/22: «CC BCC privacy minimum disclosure» via Coursera, MIT, Harvard (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CC BCC privacy minimum disclosure».",
+      "expand_scope": "E1/E2/E3 + docs for «CC BCC privacy minimum disclosure»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 10/22: «CC BCC privacy minimum disclosure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "approval queue state machine",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "logic"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 11/22: «approval queue state machine» via MIT, Harvard, Live (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «approval queue state machine».",
+      "expand_scope": "E1/E2/E3 + docs for «approval queue state machine»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 11/22: «approval queue state machine» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "draft pending approved rejected sent expired",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 12/22: «draft pending approved rejected sent expired» via Harvard, Live, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «draft pending approved rejected sent expired».",
+      "expand_scope": "E1/E2/E3 + docs for «draft pending approved rejected sent expired»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 12/22: «draft pending approved rejected sent expired» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "fail closed without human approval",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "OWASP",
+          "title": "Authentication",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+          "note": "auth"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 13/22: «fail closed without human approval» via Live, GitHub, OWASP (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «fail closed without human approval».",
+      "expand_scope": "E1/E2/E3 + docs for «fail closed without human approval»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 13/22: «fail closed without human approval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "idempotency key retry no duplicate send",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "OWASP",
+          "title": "Authentication",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+          "note": "auth"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "workflows"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 14/22: «idempotency key retry no duplicate send» via GitHub, OWASP, deeplearning.ai (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «idempotency key retry no duplicate send».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotency key retry no duplicate send»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 14/22: «idempotency key retry no duplicate send» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "audit log without real PII",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Authentication",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+          "note": "auth"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "workflows"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 15/22: «audit log without real PII» via OWASP, deeplearning.ai, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «audit log without real PII».",
+      "expand_scope": "E1/E2/E3 + docs for «audit log without real PII»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 15/22: «audit log without real PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "matching contacts not fraud kinship",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "workflows"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "smtplib",
+          "url": "https://docs.python.org/3/library/smtplib.html",
+          "note": "do not auto-send in course"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 16/22: «matching contacts not fraud kinship» via deeplearning.ai, GitHub, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «matching contacts not fraud kinship».",
+      "expand_scope": "E1/E2/E3 + docs for «matching contacts not fraud kinship»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 16/22: «matching contacts not fraud kinship» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "eml local files only in course",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "smtplib",
+          "url": "https://docs.python.org/3/library/smtplib.html",
+          "note": "do not auto-send in course"
+        },
+        {
+          "family": "IETF",
+          "title": "MIME RFC 2045",
+          "url": "https://datatracker.ietf.org/doc/html/rfc2045",
+          "note": "multipart"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 17/22: «eml local files only in course» via GitHub, Python, IETF (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «eml local files only in course».",
+      "expand_scope": "E1/E2/E3 + docs for «eml local files only in course»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 17/22: «eml local files only in course» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "service account least privilege",
+      "research": [
+        {
+          "family": "Python",
+          "title": "smtplib",
+          "url": "https://docs.python.org/3/library/smtplib.html",
+          "note": "do not auto-send in course"
+        },
+        {
+          "family": "IETF",
+          "title": "MIME RFC 2045",
+          "url": "https://datatracker.ietf.org/doc/html/rfc2045",
+          "note": "multipart"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 18/22: «service account least privilege» via Python, IETF, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «service account least privilege».",
+      "expand_scope": "E1/E2/E3 + docs for «service account least privilege»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 18/22: «service account least privilege» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CASO-LIM-022 contract gates",
+      "research": [
+        {
+          "family": "IETF",
+          "title": "MIME RFC 2045",
+          "url": "https://datatracker.ietf.org/doc/html/rfc2045",
+          "note": "multipart"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "NIST",
+          "title": "Digital Identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity verification concepts"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 19/22: «CASO-LIM-022 contract gates» via IETF, GitHub, NIST (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CASO-LIM-022 contract gates».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-022 contract gates»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 19/22: «CASO-LIM-022 contract gates» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "synthetic example.pe recipients",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "NIST",
+          "title": "Digital Identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity verification concepts"
+        },
+        {
+          "family": "Python",
+          "title": "secrets",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "token hygiene"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 20/22: «synthetic example.pe recipients» via GitHub, NIST, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic example.pe recipients».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic example.pe recipients»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 20/22: «synthetic example.pe recipients» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CP-N2-C start gate",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "Digital Identity",
+          "url": "https://pages.nist.gov/800-63-3/",
+          "note": "identity verification concepts"
+        },
+        {
+          "family": "Python",
+          "title": "secrets",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "token hygiene"
+        },
+        {
+          "family": "Python",
+          "title": "email examples",
+          "url": "https://docs.python.org/3/library/email.examples.html",
+          "note": "MIME"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 21/22: «CP-N2-C start gate» via NIST, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-C start gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-C start gate»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 21/22: «CP-N2-C start gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "no real SMTP send path in lessons",
+      "research": [
+        {
+          "family": "Python",
+          "title": "secrets",
+          "url": "https://docs.python.org/3/library/secrets.html",
+          "note": "token hygiene"
+        },
+        {
+          "family": "Python",
+          "title": "email examples",
+          "url": "https://docs.python.org/3/library/email.examples.html",
+          "note": "MIME"
+        },
+        {
+          "family": "Python",
+          "title": "email package",
+          "url": "https://docs.python.org/3/library/email.html",
+          "note": "API"
+        }
+      ],
+      "synthesize": "S22 «Email, identidad y aprobación humana» cycle 22/22: «no real SMTP send path in lessons» via Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «no real SMTP send path in lessons».",
+      "expand_scope": "E1/E2/E3 + docs for «no real SMTP send path in lessons»; V3 roadmap; pair S22.",
+      "re_synthesize": "Decision 22/22: «no real SMTP send path in lessons» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://docs.python.org/3/library/email.examples.html",
+    "https://docs.python.org/3/library/email.html",
+    "https://docs.python.org/3/library/html.html",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+    "https://datatracker.ietf.org/doc/html/rfc6749",
+    "https://developers.google.com/identity/protocols/oauth2/policies",
+    "https://docs.python.org/3/library/uuid.html",
+    "https://docs.python.org/3/library/logging.html",
+    "https://docs.python.org/3/library/json.html",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://pillb.github.io/pyarcana/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+    "https://www.deeplearning.ai/specializations/data-engineering",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://docs.python.org/3/library/smtplib.html",
+    "https://datatracker.ietf.org/doc/html/rfc2045",
+    "https://github.com/https-deeplearning-ai",
+    "https://pages.nist.gov/800-63-3/",
+    "https://docs.python.org/3/library/secrets.html"
+  ]
+}

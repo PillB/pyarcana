@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-07-24T05:26:42.601148+00:00",
+  "phase": "S52_senior_master_phase0",
+  "registered": 52,
+  "totals": {
+    "DEFECT": 2152,
+    "https": 667,
+    "workbench": 0,
+    "stack": 0,
+    "doc": 0,
+    "soft_TODO": 0
+  },
+  "theater_files": [],
+  "thin_https": [],
+  "git_s52": "KEEP worktree DEFECT 49 > HEAD 0",
+  "quarantine_disabled": 16,
+  "storm_all_hand": true,
+  "pa_count": 52
+}

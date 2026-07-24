@@ -1,0 +1,495 @@
+{
+  "index": 3,
+  "id": "data-structures",
+  "title": "Decisiones y reglas de validación",
+  "file": "s03-data-structures.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Data Structures” a decisiones de validación (mapa de la sección)",
+      "len": 68
+    },
+    {
+      "i": 1,
+      "text": "En V3, S03 no es el path principal de list/dict/CSV/JSON. Esos temas viven conceptualmente en S06 (y módulos posteriores). Aquí el estudiante domina lo que el motor de reglas de intake necesita: booleanos, control de flujo y políticas accept / reject / review sobre un registro sintético de cliente.",
+      "len": 299
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un validador de campos (validate_field / validate_record) que devuelve {status, code, message}. Datos ficticios únicamente (example.com, teléfonos inventados). Nunca subas PII real al repo.",
+      "len": 210
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Booleanos (comparaciones → truthiness) → T2 Control (if/elif/else → guards) → T3 Reglas (rangos/allowlists → decision tables/match) → T4 Verificación (invariantes → mensajes y tests de ramas).",
+      "len": 213
+    },
+    {
+      "i": 4,
+      "text": "Comparaciones y el operador in",
+      "len": 30
+    },
+    {
+      "i": 5,
+      "text": "Un booleano de negocio nace de una comparación: ==, !=, <, <=, >, >=. En intake, comparas edades, montos, códigos y regiones. Python también permite encadenar: 18 <= edad <= 65 equivale a (18 <= edad) and (edad <= 65) y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena).",
+      "len": 308
+    },
+    {
+      "i": 6,
+      "text": "Pertenencia: x in coleccion / x not in coleccion funciona con str, list, set, dict (busca claves). Para allowlists de códigos fijos, un set de literales es ideal: lectura clara y chequeo O(1). Atención a mayúsculas: \"dni\" in {\"DNI\"} es False — normaliza antes o documenta el contrato.",
+      "len": 284
+    },
+    {
+      "i": 7,
+      "text": "is vs ==: usa is None / is not None para ausencia. No uses is para comparar números o strings de negocio (True is 1 es False aunque True == 1 sea True). == pregunta “¿mismo valor?”; is pregunta “¿mismo objeto?”.",
+      "len": 211
+    },
+    {
+      "i": 8,
+      "text": "Qué es verdadero en un if (y qué no es “ausente”)",
+      "len": 49
+    },
+    {
+      "i": 9,
+      "text": "Python evalúa la truthiness de un valor en if, while, and y or. Son falsy (por defecto): None, False, 0, 0.0, 0j, \"\", (), [], {}, set(), range(0). Casi todo lo demás es truthy, incluso [0] o \"False\".",
+      "len": 199
+    },
+    {
+      "i": 10,
+      "text": "El error canónico del gate V3: if monto: trata 0 como “no hay monto”. En negocio, cero puede ser válido y None significa ausente. Separa políticas: presencia con is None, rango con comparaciones numéricas, vacío de texto con == \"\" o not s.strip() según el contrato.",
+      "len": 265
+    },
+    {
+      "i": 11,
+      "text": "and / or hacen short-circuit y devuelven un operando (no siempre True/False). \"\" or \"default\" → \"default\"; 0 and 99 → 0. not sí devuelve booleano. Prioridad: not se une más fuerte que and, y and más que or.",
+      "len": 206
+    },
+    {
+      "i": 12,
+      "text": "Ramas de decisión con if/elif/else",
+      "len": 34
+    },
+    {
+      "i": 13,
+      "text": "La forma canónica de una decisión exclusiva es if / elif / else. Se evalúan en orden; la primera condición verdadera gana y el resto no se ejecuta. El else es el catch-all (útil para reject o review por defecto).",
+      "len": 212
+    },
+    {
+      "i": 14,
+      "text": "Indentación define el bloque: 4 espacios es el estilo del curso. Un if seguido de otro if (sin elif) no es excluyente: ambos pueden dispararse y sobrescribir el status. Eso es un bug clásico al clasificar scores.",
+      "len": 212
+    },
+    {
+      "i": 15,
+      "text": "Para el motor de reglas, un patrón limpio es devolver un solo status por campo: accept, review o reject. Fronteras (score >= 80) deben estar documentadas en la tabla de ejemplos.",
+      "len": 178
+    },
+    {
+      "i": 16,
+      "text": "Salidas tempranas y ramas que nunca se tocan",
+      "len": 44
+    },
+    {
+      "i": 17,
+      "text": "Una guard clause (salida temprana) valida precondiciones y retorna de inmediato con reject/review, dejando el camino feliz al final sin pirámide de if anidados. Mejora legibilidad y reduce bugs de indentación.",
+      "len": 209
+    },
+    {
+      "i": 18,
+      "text": "Orden típico en validadores: 1) ausencia (is None) → 2) tipo → 3) rango/allowlist → 4) accept. Si comparas edad < 18 antes de chequear None, obtienes TypeError.",
+      "len": 160
+    },
+    {
+      "i": 19,
+      "text": "Una rama muerta es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. if x >= 0: ... elif x > 5: — el elif solo vería negativos, nunca x > 5). Aprende a leer el orden como un revisor de PRs.",
+      "len": 217
+    },
+    {
+      "i": 20,
+      "text": "Reglas de dominio: rangos y listas permitidas",
+      "len": 45
+    },
+    {
+      "i": 21,
+      "text": "Una allowlist es el conjunto de valores admitidos (ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}). Si el valor no está, suele ir a review (dato desconocido) o reject (política estricta). Nombra constantes en UPPER_CASE.",
+      "len": 218
+    },
+    {
+      "i": 22,
+      "text": "Un rango usa comparaciones o encadenamiento: MIN_EDAD <= edad <= MAX_EDAD. Combina reglas con and/or de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos NOT_IN_ALLOWLIST vs OUT_OF_RANGE).",
+      "len": 230
+    },
+    {
+      "i": 23,
+      "text": "Tri-estado en dominio: accept (cumple), reject (viola hard), review (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite.",
+      "len": 171
+    },
+    {
+      "i": 24,
+      "text": "Tablas de decisión y match/case",
+      "len": 31
+    },
+    {
+      "i": 25,
+      "text": "Una decision table es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla.",
+      "len": 217
+    },
+    {
+      "i": 26,
+      "text": "match / case (Python 3.10+) brilla cuando el sujeto es un literal o estado finito (\"OK\", \"MISSING\", códigos de error). Soporta OR patterns (case \"A\" | \"B\":) y el comodín case _: (debe ser explícito para defaults). El primer case que matchea gana.",
+      "len": 246
+    },
+    {
+      "i": 27,
+      "text": "Cuándo preferir if: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. match no depreca if; elige por claridad.",
+      "len": 159
+    },
+    {
+      "i": 28,
+      "text": "Invariantes: promesas que el dato debe cumplir",
+      "len": 46
+    },
+    {
+      "i": 29,
+      "text": "Un invariante de campo es una promesa en español: “contacto es un str de 9 dígitos, o None si aún no se capturó”. No es código todavía: es especificación. Los ejemplos canónicos (accept/reject/review/missing) son la forma más barata de validar que el invariante es usable.",
+      "len": 272
+    },
+    {
+      "i": 30,
+      "text": "Mínimo profesional: al menos un ejemplo por estado de decisión que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción.",
+      "len": 152
+    },
+    {
+      "i": 31,
+      "text": "assert sirve en desarrollo y tests, pero no como única validación de intake en producción (python -O desactiva asserts). Usa returns con status/code/message para reglas de negocio.",
+      "len": 180
+    },
+    {
+      "i": 32,
+      "text": "Mensajes que se pueden ejecutar y pruebas por rama",
+      "len": 50
+    },
+    {
+      "i": 33,
+      "text": "Un mensaje accionable nombra el campo, el problema y la acción esperada: Campo 'edad'=-5 fuera de rango; usa 0–120. Evita mensajes vagos como Error o inválido. Códigos estables (MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW, OK) permiten métricas y i18n después.",
+      "len": 270
+    },
+    {
+      "i": 34,
+      "text": "Un test por rama del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta.",
+      "len": 132
+    },
+    {
+      "i": 35,
+      "text": "No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo test rojo → arreglar regla → verde es la forma de depurar off-by-one en fronteras (>= 18 vs > 18).",
+      "len": 175
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 68,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “Data Structures” a decisiones de validación (mapa de la sección)",
+      "text": "De “Data Structures” a decisiones de validación (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 299,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S03 no es el path principal de list/dict/CSV/JSON. Esos temas viven conceptualmente en S06 (y módulos posteriores). Aquí el estudiante domina lo que el motor de reglas de in",
+      "text": "En V3, S03 no es el path principal de list/dict/CSV/JSON. Esos temas viven conceptualmente en S06 (y módulos posteriores). Aquí el estudiante domina lo que el motor de reglas de intake necesita: booleanos, control de flujo y políticas accept / reject / review sobre un registro sintético de cliente."
+    },
+    {
+      "i": 2,
+      "len": 210,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un validador de campos (validate_field / validate_record) que devuelve {status, code, message}. Datos ficticios únicamente (example.com, teléfonos inventados).",
+      "text": "El hilo conductor es un validador de campos (validate_field / validate_record) que devuelve {status, code, message}. Datos ficticios únicamente (example.com, teléfonos inventados). Nunca subas PII real al repo."
+    },
+    {
+      "i": 3,
+      "len": 213,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Booleanos (comparaciones → truthiness) → T2 Control (if/elif/else → guards) → T3 Reglas (rangos/allowlists → decision tables/match) → T4 Verificación (invarian",
+      "text": "Orden pedagógico: T1 Booleanos (comparaciones → truthiness) → T2 Control (if/elif/else → guards) → T3 Reglas (rangos/allowlists → decision tables/match) → T4 Verificación (invariantes → mensajes y tests de ramas)."
+    },
+    {
+      "i": 4,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Comparaciones y el operador in",
+      "text": "Comparaciones y el operador in"
+    },
+    {
+      "i": 5,
+      "len": 308,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un booleano de negocio nace de una comparación: ==, !=, <, <=, >, >=. En intake, comparas edades, montos, códigos y regiones. Python también permite encadenar: 18 <= edad <= 65 equ",
+      "text": "Un booleano de negocio nace de una comparación: ==, !=, <, <=, >, >=. En intake, comparas edades, montos, códigos y regiones. Python también permite encadenar: 18 <= edad <= 65 equivale a (18 <= edad) and (edad <= 65) y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena)."
+    },
+    {
+      "i": 6,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pertenencia: x in coleccion / x not in coleccion funciona con str, list, set, dict (busca claves). Para allowlists de códigos fijos, un set de literales es ideal: lectura clara y c",
+      "text": "Pertenencia: x in coleccion / x not in coleccion funciona con str, list, set, dict (busca claves). Para allowlists de códigos fijos, un set de literales es ideal: lectura clara y chequeo O(1). Atención a mayúsculas: \"dni\" in {\"DNI\"} es False — normaliza antes o documenta el contrato."
+    },
+    {
+      "i": 7,
+      "len": 211,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "is vs ==: usa is None / is not None para ausencia. No uses is para comparar números o strings de negocio (True is 1 es False aunque True == 1 sea True). == pregunta “¿mismo valor?”",
+      "text": "is vs ==: usa is None / is not None para ausencia. No uses is para comparar números o strings de negocio (True is 1 es False aunque True == 1 sea True). == pregunta “¿mismo valor?”; is pregunta “¿mismo objeto?”."
+    },
+    {
+      "i": 8,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Qué es verdadero en un if (y qué no es “ausente”)",
+      "text": "Qué es verdadero en un if (y qué no es “ausente”)"
+    },
+    {
+      "i": 9,
+      "len": 199,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Python evalúa la truthiness de un valor en if, while, and y or. Son falsy (por defecto): None, False, 0, 0.0, 0j, \"\", (), [], {}, set(), range(0). Casi todo lo demás es truthy, inc",
+      "text": "Python evalúa la truthiness de un valor en if, while, and y or. Son falsy (por defecto): None, False, 0, 0.0, 0j, \"\", (), [], {}, set(), range(0). Casi todo lo demás es truthy, incluso [0] o \"False\"."
+    },
+    {
+      "i": 10,
+      "len": 265,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El error canónico del gate V3: if monto: trata 0 como “no hay monto”. En negocio, cero puede ser válido y None significa ausente. Separa políticas: presencia con is None, rango con",
+      "text": "El error canónico del gate V3: if monto: trata 0 como “no hay monto”. En negocio, cero puede ser válido y None significa ausente. Separa políticas: presencia con is None, rango con comparaciones numéricas, vacío de texto con == \"\" o not s.strip() según el contrato."
+    },
+    {
+      "i": 11,
+      "len": 206,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "and / or hacen short-circuit y devuelven un operando (no siempre True/False). \"\" or \"default\" → \"default\"; 0 and 99 → 0. not sí devuelve booleano. Prioridad: not se une más fuerte ",
+      "text": "and / or hacen short-circuit y devuelven un operando (no siempre True/False). \"\" or \"default\" → \"default\"; 0 and 99 → 0. not sí devuelve booleano. Prioridad: not se une más fuerte que and, y and más que or."
+    },
+    {
+      "i": 12,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ramas de decisión con if/elif/else",
+      "text": "Ramas de decisión con if/elif/else"
+    },
+    {
+      "i": 13,
+      "len": 212,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La forma canónica de una decisión exclusiva es if / elif / else. Se evalúan en orden; la primera condición verdadera gana y el resto no se ejecuta. El else es el catch-all (útil pa",
+      "text": "La forma canónica de una decisión exclusiva es if / elif / else. Se evalúan en orden; la primera condición verdadera gana y el resto no se ejecuta. El else es el catch-all (útil para reject o review por defecto)."
+    },
+    {
+      "i": 14,
+      "len": 212,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Indentación define el bloque: 4 espacios es el estilo del curso. Un if seguido de otro if (sin elif) no es excluyente: ambos pueden dispararse y sobrescribir el status. Eso es un b",
+      "text": "Indentación define el bloque: 4 espacios es el estilo del curso. Un if seguido de otro if (sin elif) no es excluyente: ambos pueden dispararse y sobrescribir el status. Eso es un bug clásico al clasificar scores."
+    },
+    {
+      "i": 15,
+      "len": 178,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para el motor de reglas, un patrón limpio es devolver un solo status por campo: accept, review o reject. Fronteras (score >= 80) deben estar documentadas en la tabla de ejemplos.",
+      "text": "Para el motor de reglas, un patrón limpio es devolver un solo status por campo: accept, review o reject. Fronteras (score >= 80) deben estar documentadas en la tabla de ejemplos."
+    },
+    {
+      "i": 16,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Salidas tempranas y ramas que nunca se tocan",
+      "text": "Salidas tempranas y ramas que nunca se tocan"
+    },
+    {
+      "i": 17,
+      "len": 209,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una guard clause (salida temprana) valida precondiciones y retorna de inmediato con reject/review, dejando el camino feliz al final sin pirámide de if anidados. Mejora legibilidad ",
+      "text": "Una guard clause (salida temprana) valida precondiciones y retorna de inmediato con reject/review, dejando el camino feliz al final sin pirámide de if anidados. Mejora legibilidad y reduce bugs de indentación."
+    },
+    {
+      "i": 18,
+      "len": 160,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden típico en validadores: 1) ausencia (is None) → 2) tipo → 3) rango/allowlist → 4) accept. Si comparas edad < 18 antes de chequear None, obtienes TypeError.",
+      "text": "Orden típico en validadores: 1) ausencia (is None) → 2) tipo → 3) rango/allowlist → 4) accept. Si comparas edad < 18 antes de chequear None, obtienes TypeError."
+    },
+    {
+      "i": 19,
+      "len": 217,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una rama muerta es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. if x >= 0: ... elif x > 5: — el elif solo vería negativos, nunca x > 5). Aprende a ",
+      "text": "Una rama muerta es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. if x >= 0: ... elif x > 5: — el elif solo vería negativos, nunca x > 5). Aprende a leer el orden como un revisor de PRs."
+    },
+    {
+      "i": 20,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Reglas de dominio: rangos y listas permitidas",
+      "text": "Reglas de dominio: rangos y listas permitidas"
+    },
+    {
+      "i": 21,
+      "len": 218,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una allowlist es el conjunto de valores admitidos (ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}). Si el valor no está, suele ir a review (dato desconocido) o reject (política estri",
+      "text": "Una allowlist es el conjunto de valores admitidos (ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}). Si el valor no está, suele ir a review (dato desconocido) o reject (política estricta). Nombra constantes en UPPER_CASE."
+    },
+    {
+      "i": 22,
+      "len": 230,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un rango usa comparaciones o encadenamiento: MIN_EDAD <= edad <= MAX_EDAD. Combina reglas con and/or de forma explícita; documenta si el fallo de allowlist es distinto del fallo de",
+      "text": "Un rango usa comparaciones o encadenamiento: MIN_EDAD <= edad <= MAX_EDAD. Combina reglas con and/or de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos NOT_IN_ALLOWLIST vs OUT_OF_RANGE)."
+    },
+    {
+      "i": 23,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tri-estado en dominio: accept (cumple), reject (viola hard), review (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite.",
+      "text": "Tri-estado en dominio: accept (cumple), reject (viola hard), review (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite."
+    },
+    {
+      "i": 24,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Tablas de decisión y match/case",
+      "text": "Tablas de decisión y match/case"
+    },
+    {
+      "i": 25,
+      "len": 217,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una decision table es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas e",
+      "text": "Una decision table es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla."
+    },
+    {
+      "i": 26,
+      "len": 246,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "match / case (Python 3.10+) brilla cuando el sujeto es un literal o estado finito (\"OK\", \"MISSING\", códigos de error). Soporta OR patterns (case \"A\" | \"B\":) y el comodín case _: (d",
+      "text": "match / case (Python 3.10+) brilla cuando el sujeto es un literal o estado finito (\"OK\", \"MISSING\", códigos de error). Soporta OR patterns (case \"A\" | \"B\":) y el comodín case _: (debe ser explícito para defaults). El primer case que matchea gana."
+    },
+    {
+      "i": 27,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cuándo preferir if: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. match no depreca if; elige por claridad.",
+      "text": "Cuándo preferir if: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. match no depreca if; elige por claridad."
+    },
+    {
+      "i": 28,
+      "len": 46,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Invariantes: promesas que el dato debe cumplir",
+      "text": "Invariantes: promesas que el dato debe cumplir"
+    },
+    {
+      "i": 29,
+      "len": 272,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un invariante de campo es una promesa en español: “contacto es un str de 9 dígitos, o None si aún no se capturó”. No es código todavía: es especificación. Los ejemplos canónicos (a",
+      "text": "Un invariante de campo es una promesa en español: “contacto es un str de 9 dígitos, o None si aún no se capturó”. No es código todavía: es especificación. Los ejemplos canónicos (accept/reject/review/missing) son la forma más barata de validar que el invariante es usable."
+    },
+    {
+      "i": 30,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mínimo profesional: al menos un ejemplo por estado de decisión que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción.",
+      "text": "Mínimo profesional: al menos un ejemplo por estado de decisión que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción."
+    },
+    {
+      "i": 31,
+      "len": 180,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "assert sirve en desarrollo y tests, pero no como única validación de intake en producción (python -O desactiva asserts). Usa returns con status/code/message para reglas de negocio.",
+      "text": "assert sirve en desarrollo y tests, pero no como única validación de intake en producción (python -O desactiva asserts). Usa returns con status/code/message para reglas de negocio."
+    },
+    {
+      "i": 32,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mensajes que se pueden ejecutar y pruebas por rama",
+      "text": "Mensajes que se pueden ejecutar y pruebas por rama"
+    },
+    {
+      "i": 33,
+      "len": 270,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un mensaje accionable nombra el campo, el problema y la acción esperada: Campo 'edad'=-5 fuera de rango; usa 0–120. Evita mensajes vagos como Error o inválido. Códigos estables (MI",
+      "text": "Un mensaje accionable nombra el campo, el problema y la acción esperada: Campo 'edad'=-5 fuera de rango; usa 0–120. Evita mensajes vagos como Error o inválido. Códigos estables (MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW, OK) permiten métricas y i18n después."
+    },
+    {
+      "i": 34,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un test por rama del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta.",
+      "text": "Un test por rama del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta."
+    },
+    {
+      "i": 35,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo test rojo → arreglar regla → verde es la forma de depurar off-by-one en fronteras (>= 18 vs > 18).",
+      "text": "No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo test rojo → arreglar regla → verde es la forma de depurar off-by-one en fronteras (>= 18 vs > 18)."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 12886
+}

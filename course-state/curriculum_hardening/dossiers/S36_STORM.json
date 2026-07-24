@@ -1,0 +1,1031 @@
+{
+  "section": 36,
+  "title": "Clustering, anomalías y validación temporal",
+  "file": "s36-ai-apis-advanced.ts",
+  "n_required": 36,
+  "n_logged": 36,
+  "generated_at": "2026-07-24T03:52:39.133530+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO-LIM-036 DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "anomaly≠guilt; contamination≠fraud; HITL",
+    "v3_retarget": "clustering/anomalies not agent APIs",
+    "expert_resume_pass": "2026-07-24T03:52:39.133530+00:00"
+  },
+  "unique_foci": 36,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "anomaly ≠ guilt ethical gate",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Clustering guide",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html",
+          "note": "k-means density"
+        },
+        {
+          "family": "sklearn",
+          "title": "StandardScaler",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+          "note": "scale first"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 1/36: «anomaly ≠ guilt ethical gate» via Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «anomaly ≠ guilt ethical gate».",
+      "expand_scope": "E1/E2/E3 + docs for «anomaly ≠ guilt ethical gate»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 1/36: «anomaly ≠ guilt ethical gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "scale-first before distances",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html",
+          "note": "IF LOF novelty"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "sigma rules"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 2/36: «scale-first before distances» via Coursera, Docs, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «scale-first before distances».",
+      "expand_scope": "E1/E2/E3 + docs for «scale-first before distances»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 2/36: «scale-first before distances» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "1D centroids as geometric mean",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "PCA",
+          "url": "https://scikit-learn.org/stable/modules/decomposition.html#pca",
+          "note": "explore only"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "unsupervised"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 3/36: «1D centroids as geometric mean» via MIT, Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «1D centroids as geometric mean».",
+      "expand_scope": "E1/E2/E3 + docs for «1D centroids as geometric mean»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 3/36: «1D centroids as geometric mean» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "multi-seed k stability",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "StandardScaler",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+          "note": "scale first"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 4/36: «multi-seed k stability» via Harvard, Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «multi-seed k stability».",
+      "expand_scope": "E1/E2/E3 + docs for «multi-seed k stability»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 4/36: «multi-seed k stability» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "silhouette limits not sanctions",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "sigma rules"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 5/36: «silhouette limits not sanctions» via Coursera, Docs, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «silhouette limits not sanctions».",
+      "expand_scope": "E1/E2/E3 + docs for «silhouette limits not sanctions»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 5/36: «silhouette limits not sanctions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "PCA exploratory decision_model=False",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "unsupervised"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 6/36: «PCA exploratory decision_model=False» via MIT, Stanford, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «PCA exploratory decision_model=False».",
+      "expand_scope": "E1/E2/E3 + docs for «PCA exploratory decision_model=False»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 6/36: «PCA exploratory decision_model=False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "no business moral axis names",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 7/36: «no business moral axis names» via Harvard, NIST, Stanford (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «no business moral axis names».",
+      "expand_scope": "E1/E2/E3 + docs for «no business moral axis names»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 7/36: «no business moral axis names» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "sigma rules transparent to reviewer",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 8/36: «sigma rules transparent to reviewer» via Coursera, Google, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «sigma rules transparent to reviewer».",
+      "expand_scope": "E1/E2/E3 + docs for «sigma rules transparent to reviewer»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 8/36: «sigma rules transparent to reviewer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "novelty vs outlier",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 9/36: «novelty vs outlier» via MIT, Py4E, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «novelty vs outlier».",
+      "expand_scope": "E1/E2/E3 + docs for «novelty vs outlier»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 9/36: «novelty vs outlier» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "contamination as capacity not fraud rate",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 10/36: «contamination as capacity not fraud rate» via Harvard, Live, NIST (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «contamination as capacity not fraud rate».",
+      "expand_scope": "E1/E2/E3 + docs for «contamination as capacity not fraud rate»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 10/36: «contamination as capacity not fraud rate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "temporal backtest no leakage",
+      "research": [
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "sklearn",
+          "title": "Precision-recall",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics",
+          "note": "P@k"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 11/36: «temporal backtest no leakage» via Google, Video, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «temporal backtest no leakage».",
+      "expand_scope": "E1/E2/E3 + docs for «temporal backtest no leakage»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 11/36: «temporal backtest no leakage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "precision@k scarce labels HITL",
+      "research": [
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        },
+        {
+          "family": "sklearn",
+          "title": "Time series CV",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "note": "no leakage"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 12/36: «precision@k scarce labels HITL» via Py4E, Video, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «precision@k scarce labels HITL».",
+      "expand_scope": "E1/E2/E3 + docs for «precision@k scarce labels HITL»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 12/36: «precision@k scarce labels HITL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "CASO-LIM-036 Red Andina synthetic",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "scikit-learn",
+          "url": "https://github.com/scikit-learn/scikit-learn",
+          "note": "reference impl"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 13/36: «CASO-LIM-036 Red Andina synthetic» via GitHub, Live, NIST (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «CASO-LIM-036 Red Andina synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-036 Red Andina synthetic»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 13/36: «CASO-LIM-036 Red Andina synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "stdlib statistics progressive disclosure",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "sklearn",
+          "title": "Precision-recall",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics",
+          "note": "P@k"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python specialization",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "scaffolded exercises"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 14/36: «stdlib statistics progressive disclosure» via Coursera, Google, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «stdlib statistics progressive disclosure».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib statistics progressive disclosure»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 14/36: «stdlib statistics progressive disclosure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "sklearn professional reference only",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        },
+        {
+          "family": "sklearn",
+          "title": "Time series CV",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "note": "no leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Clustering guide",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html",
+          "note": "k-means density"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 15/36: «sklearn professional reference only» via Py4E, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «sklearn professional reference only».",
+      "expand_scope": "E1/E2/E3 + docs for «sklearn professional reference only»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 15/36: «sklearn professional reference only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "E1 formula DEFECT",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "scikit-learn",
+          "url": "https://github.com/scikit-learn/scikit-learn",
+          "note": "reference impl"
+        },
+        {
+          "family": "sklearn",
+          "title": "Outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html",
+          "note": "IF LOF novelty"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 16/36: «E1 formula DEFECT» via GitHub, Live, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E1 formula DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 formula DEFECT»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 16/36: «E1 formula DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "E2 policy DEFECT",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Precision-recall",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics",
+          "note": "P@k"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python specialization",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "scaffolded exercises"
+        },
+        {
+          "family": "sklearn",
+          "title": "PCA",
+          "url": "https://scikit-learn.org/stable/modules/decomposition.html#pca",
+          "note": "explore only"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 17/36: «E2 policy DEFECT» via Coursera, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E2 policy DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 policy DEFECT»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 17/36: «E2 policy DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "E3 transfer fail-closed",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Time series CV",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "note": "no leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Clustering guide",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html",
+          "note": "k-means density"
+        },
+        {
+          "family": "sklearn",
+          "title": "StandardScaler",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+          "note": "scale first"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 18/36: «E3 transfer fail-closed» via sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «E3 transfer fail-closed».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer fail-closed»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 18/36: «E3 transfer fail-closed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "pair consistency with S37 scale",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "scikit-learn",
+          "url": "https://github.com/scikit-learn/scikit-learn",
+          "note": "reference impl"
+        },
+        {
+          "family": "sklearn",
+          "title": "Outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html",
+          "note": "IF LOF novelty"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "sigma rules"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 19/36: «pair consistency with S37 scale» via Docs, GitHub, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «pair consistency with S37 scale».",
+      "expand_scope": "E1/E2/E3 + docs for «pair consistency with S37 scale»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 19/36: «pair consistency with S37 scale» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "selfCheck ethics MCQ",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python specialization",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "scaffolded exercises"
+        },
+        {
+          "family": "sklearn",
+          "title": "PCA",
+          "url": "https://scikit-learn.org/stable/modules/decomposition.html#pca",
+          "note": "explore only"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "unsupervised"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 20/36: «selfCheck ethics MCQ» via Coursera, Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «selfCheck ethics MCQ».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck ethics MCQ»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 20/36: «selfCheck ethics MCQ» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "contamination expected_flags",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Clustering guide",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html",
+          "note": "k-means density"
+        },
+        {
+          "family": "sklearn",
+          "title": "StandardScaler",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+          "note": "scale first"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 21/36: «contamination expected_flags» via Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «contamination expected_flags».",
+      "expand_scope": "E1/E2/E3 + docs for «contamination expected_flags»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 21/36: «contamination expected_flags» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "window flag_rate mean",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html",
+          "note": "IF LOF novelty"
+        },
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "sigma rules"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 22/36: «window flag_rate mean» via Coursera, Docs, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «window flag_rate mean».",
+      "expand_scope": "E1/E2/E3 + docs for «window flag_rate mean»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 22/36: «window flag_rate mean» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CS229 unsupervised math",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "PCA",
+          "url": "https://scikit-learn.org/stable/modules/decomposition.html#pca",
+          "note": "explore only"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "unsupervised"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 23/36: «CS229 unsupervised math» via MIT, Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «CS229 unsupervised math».",
+      "expand_scope": "E1/E2/E3 + docs for «CS229 unsupervised math»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 23/36: «CS229 unsupervised math» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "StatQuest PCA axes",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "StandardScaler",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html",
+          "note": "scale first"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 24/36: «StatQuest PCA axes» via Harvard, Stanford, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «StatQuest PCA axes».",
+      "expand_scope": "E1/E2/E3 + docs for «StatQuest PCA axes»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 24/36: «StatQuest PCA axes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "NIST human oversight",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "statistics",
+          "url": "https://docs.python.org/3/library/statistics.html",
+          "note": "sigma rules"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 25/36: «NIST human oversight» via Coursera, Docs, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «NIST human oversight».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST human oversight»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 25/36: «NIST human oversight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "Model Cards limits",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "unsupervised"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 26/36: «Model Cards limits» via MIT, Stanford, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «Model Cards limits».",
+      "expand_scope": "E1/E2/E3 + docs for «Model Cards limits»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 26/36: «Model Cards limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "auto_guilt always False",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229 notes",
+          "url": "https://cs229.stanford.edu/notes2022fall/main_notes.pdf",
+          "note": "k-means PCA math"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 27/36: «auto_guilt always False» via Harvard, NIST, Stanford (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «auto_guilt always False».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_guilt always False»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 27/36: «auto_guilt always False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "cluster id never sanction",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "k-means cost"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 28/36: «cluster id never sanction» via Coursera, Google, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «cluster id never sanction».",
+      "expand_scope": "E1/E2/E3 + docs for «cluster id never sanction»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 28/36: «cluster id never sanction» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "review utility over ROC fantasy",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML foundations"
+        },
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 29/36: «review utility over ROC fantasy» via MIT, Py4E, Video (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «review utility over ROC fantasy».",
+      "expand_scope": "E1/E2/E3 + docs for «review utility over ROC fantasy»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 29/36: «review utility over ROC fantasy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "V3 retarget not agent APIs",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 30/36: «V3 retarget not agent APIs» via Harvard, Live, NIST (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «V3 retarget not agent APIs».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not agent APIs»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 30/36: «V3 retarget not agent APIs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "jobRelevance fintech Lima triage",
+      "research": [
+        {
+          "family": "Video",
+          "title": "StatQuest PCA",
+          "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ",
+          "note": "axes ≠ moral"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "sklearn",
+          "title": "Precision-recall",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics",
+          "note": "P@k"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 31/36: «jobRelevance fintech Lima triage» via Google, Video, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «jobRelevance fintech Lima triage».",
+      "expand_scope": "E1/E2/E3 + docs for «jobRelevance fintech Lima triage»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 31/36: «jobRelevance fintech Lima triage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "synthetic only no PII",
+      "research": [
+        {
+          "family": "Video",
+          "title": "StatQuest k-means",
+          "url": "https://www.youtube.com/watch?v=4b5d3muPQmA",
+          "note": "centroids"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        },
+        {
+          "family": "sklearn",
+          "title": "Time series CV",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "note": "no leakage"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 32/36: «synthetic only no PII» via Py4E, Video, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «synthetic only no PII».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic only no PII»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 32/36: «synthetic only no PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "four-layer pedagogy Anchor→Case",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "scikit-learn",
+          "url": "https://github.com/scikit-learn/scikit-learn",
+          "note": "reference impl"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 33/36: «four-layer pedagogy Anchor→Case» via GitHub, Live, NIST (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «four-layer pedagogy Anchor→Case».",
+      "expand_scope": "E1/E2/E3 + docs for «four-layer pedagogy Anchor→Case»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 33/36: «four-layer pedagogy Anchor→Case» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "IF LOF conceptual + readable rule",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "sklearn",
+          "title": "Precision-recall",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics",
+          "note": "P@k"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python specialization",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "scaffolded exercises"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 34/36: «IF LOF conceptual + readable rule» via Coursera, Google, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «IF LOF conceptual + readable rule».",
+      "expand_scope": "E1/E2/E3 + docs for «IF LOF conceptual + readable rule»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 34/36: «IF LOF conceptual + readable rule» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "holdout temporal fit past score future",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib first"
+        },
+        {
+          "family": "sklearn",
+          "title": "Time series CV",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "note": "no leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Clustering guide",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html",
+          "note": "k-means density"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 35/36: «holdout temporal fit past score future» via Py4E, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «holdout temporal fit past score future».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout temporal fit past score future»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 35/36: «holdout temporal fit past score future» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "Graph edge research_supports_paragraph",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "GitHub",
+          "title": "scikit-learn",
+          "url": "https://github.com/scikit-learn/scikit-learn",
+          "note": "reference impl"
+        },
+        {
+          "family": "sklearn",
+          "title": "Outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html",
+          "note": "IF LOF novelty"
+        }
+      ],
+      "synthesize": "S36 «Clustering, anomalías y validación temporal» cycle 36/36: «Graph edge research_supports_paragraph» via GitHub, Live, sklearn (CASO-LIM-036).",
+      "critique": "Reject theater/TODO/score→guilt; require computed DEFECT+defs for «Graph edge research_supports_paragraph».",
+      "expand_scope": "E1/E2/E3 + docs for «Graph edge research_supports_paragraph»; V3 roadmap; pair S36↔S37.",
+      "re_synthesize": "Decision 36/36: «Graph edge research_supports_paragraph» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:52:39.133530+00:00"
+}

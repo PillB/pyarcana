@@ -1,0 +1,889 @@
+{
+  "section": 31,
+  "title": "Grafos y evidencia relacional",
+  "file": "s31-streaming-data.ts",
+  "n_required": 31,
+  "n_logged": 31,
+  "generated_at": "2026-07-24T04:38:48.782+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "centrality≠guilt; path evidence not fraud; synthetic PII only; auto_fraud=False",
+    "v3_retarget": "graphs/evidence not Kafka streaming",
+    "expert_pass_at": "2026-07-24T04:38:48.782+00:00"
+  },
+  "unique_foci": 31,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "nodes edges directed weight",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 1/31: «nodes edges directed weight» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «nodes edges directed weight».",
+      "expand_scope": "E1/E2/E3 + docs for «nodes edges directed weight»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 1/31: «nodes edges directed weight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "weight evidence not verdict",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 2/31: «weight evidence not verdict» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «weight evidence not verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «weight evidence not verdict»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 2/31: «weight evidence not verdict» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "multigraph multiple edges detail",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 3/31: «multigraph multiple edges detail» via NetworkX, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «multigraph multiple edges detail».",
+      "expand_scope": "E1/E2/E3 + docs for «multigraph multiple edges detail»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 3/31: «multigraph multiple edges detail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "temporal ts window filter",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 4/31: «temporal ts window filter» via NetworkX, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «temporal ts window filter».",
+      "expand_scope": "E1/E2/E3 + docs for «temporal ts window filter»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 4/31: «temporal ts window filter» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "provenance source run record_id",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        },
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 5/31: «provenance source run record_id» via Neo4j, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «provenance source run record_id».",
+      "expand_scope": "E1/E2/E3 + docs for «provenance source run record_id»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 5/31: «provenance source run record_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "build from entities transactions contacts",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        },
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        },
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 6/31: «build from entities transactions contacts» via Neo4j, Stanford, W3C (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «build from entities transactions contacts».",
+      "expand_scope": "E1/E2/E3 + docs for «build from entities transactions contacts»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 6/31: «build from entities transactions contacts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "owns transfer shared_phone types",
+      "research": [
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        },
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 7/31: «owns transfer shared_phone types» via Coursera, Neo4j, Stanford (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «owns transfer shared_phone types».",
+      "expand_scope": "E1/E2/E3 + docs for «owns transfer shared_phone types»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 7/31: «owns transfer shared_phone types» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "synthetic stable ids no real PII",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 8/31: «synthetic stable ids no real PII» via Coursera, MIT, Stanford (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic stable ids no real PII».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic stable ids no real PII»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 8/31: «synthetic stable ids no real PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "aggregate without delete detail",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 9/31: «aggregate without delete detail» via Coursera, Harvard, MIT (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «aggregate without delete detail».",
+      "expand_scope": "E1/E2/E3 + docs for «aggregate without delete detail»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 9/31: «aggregate without delete detail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "degree components paths BFS depth limit",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 10/31: «degree components paths BFS depth limit» via Harvard, MIT, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «degree components paths BFS depth limit».",
+      "expand_scope": "E1/E2/E3 + docs for «degree components paths BFS depth limit»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 10/31: «degree components paths BFS depth limit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "reproducible path list edges evidence",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 11/31: «reproducible path list edges evidence» via Harvard, Live, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reproducible path list edges evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible path list edges evidence»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 11/31: «reproducible path list edges evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "centrality structure not guilt",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 12/31: «centrality structure not guilt» via Live, NetworkX, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «centrality structure not guilt».",
+      "expand_scope": "E1/E2/E3 + docs for «centrality structure not guilt»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 12/31: «centrality structure not guilt» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "hub may be legitimate processor",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 13/31: «hub may be legitimate processor» via Live, NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «hub may be legitimate processor».",
+      "expand_scope": "E1/E2/E3 + docs for «hub may be legitimate processor»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 13/31: «hub may be legitimate processor» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "subgraph seed k hops filters",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 14/31: «subgraph seed k hops filters» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «subgraph seed k hops filters».",
+      "expand_scope": "E1/E2/E3 + docs for «subgraph seed k hops filters»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 14/31: «subgraph seed k hops filters» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "invariants weights nonneg provenance",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 15/31: «invariants weights nonneg provenance» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «invariants weights nonneg provenance».",
+      "expand_scope": "E1/E2/E3 + docs for «invariants weights nonneg provenance»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 15/31: «invariants weights nonneg provenance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "visualize privacy no PII labels",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 16/31: «visualize privacy no PII labels» via NetworkX, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «visualize privacy no PII labels».",
+      "expand_scope": "E1/E2/E3 + docs for «visualize privacy no PII labels»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 16/31: «visualize privacy no PII labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "edge click shows records ts source",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 17/31: «edge click shows records ts source» via NetworkX, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «edge click shows records ts source».",
+      "expand_scope": "E1/E2/E3 + docs for «edge click shows records ts source»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 17/31: «edge click shows records ts source» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "CP-N3-B start",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        },
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 18/31: «CP-N3-B start» via Neo4j, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-B start».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-B start»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 18/31: «CP-N3-B start» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "V3 not streaming Kafka",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        },
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        },
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 19/31: «V3 not streaming Kafka» via Neo4j, Stanford, W3C (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not streaming Kafka».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not streaming Kafka»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 19/31: «V3 not streaming Kafka» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "pair bridge to S32 features",
+      "research": [
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        },
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 20/31: «pair bridge to S32 features» via Coursera, Neo4j, Stanford (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge to S32 features».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge to S32 features»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 20/31: «pair bridge to S32 features» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "auto fraud false",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "SNAP",
+          "url": "https://snap.stanford.edu/",
+          "note": "scale graphs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 21/31: «auto fraud false» via Coursera, MIT, Stanford (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto fraud false».",
+      "expand_scope": "E1/E2/E3 + docs for «auto fraud false»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 21/31: «auto fraud false» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "path exportable audit",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Network analysis",
+          "url": "https://www.coursera.org/courses?query=network%20analysis%20graph",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 22/31: «path exportable audit» via Coursera, Harvard, MIT (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «path exportable audit».",
+      "expand_scope": "E1/E2/E3 + docs for «path exportable audit»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 22/31: «path exportable audit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "component connected meaning",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 23/31: «component connected meaning» via Harvard, MIT, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «component connected meaning».",
+      "expand_scope": "E1/E2/E3 + docs for «component connected meaning»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 23/31: «component connected meaning» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "directed vs undirected shared address",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 24/31: «directed vs undirected shared address» via Harvard, Live, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «directed vs undirected shared address».",
+      "expand_scope": "E1/E2/E3 + docs for «directed vs undirected shared address»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 24/31: «directed vs undirected shared address» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "units PEN count score schema",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 25/31: «units PEN count score schema» via Live, NetworkX, Py4E (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «units PEN count score schema».",
+      "expand_scope": "E1/E2/E3 + docs for «units PEN count score schema»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 25/31: «units PEN count score schema» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "fail closed missing record_id",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 26/31: «fail closed missing record_id» via Live, NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail closed missing record_id».",
+      "expand_scope": "E1/E2/E3 + docs for «fail closed missing record_id»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 26/31: «fail closed missing record_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "Lima Red Andina case",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Graph types",
+          "url": "https://networkx.org/documentation/stable/reference/classes/index.html",
+          "note": "graphs"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 27/31: «Lima Red Andina case» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Lima Red Andina case».",
+      "expand_scope": "E1/E2/E3 + docs for «Lima Red Andina case»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 27/31: «Lima Red Andina case» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "reviewer path not verdict",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Tutorial",
+          "url": "https://networkx.org/documentation/stable/tutorial.html",
+          "note": "API"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 28/31: «reviewer path not verdict» via NetworkX (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reviewer path not verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «reviewer path not verdict»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 28/31: «reviewer path not verdict» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "test graph cardinalities paths",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Shortest paths",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+          "note": "paths"
+        },
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 29/31: «test graph cardinalities paths» via NetworkX, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «test graph cardinalities paths».",
+      "expand_scope": "E1/E2/E3 + docs for «test graph cardinalities paths»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 29/31: «test graph cardinalities paths» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "no parentesco from edge type contact",
+      "research": [
+        {
+          "family": "NetworkX",
+          "title": "Centrality",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+          "note": "centrality"
+        },
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 30/31: «no parentesco from edge type contact» via NetworkX, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no parentesco from edge type contact».",
+      "expand_scope": "E1/E2/E3 + docs for «no parentesco from edge type contact»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 30/31: «no parentesco from edge type contact» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "time window aggregation",
+      "research": [
+        {
+          "family": "Wikipedia",
+          "title": "Graph theory",
+          "url": "https://en.wikipedia.org/wiki/Graph_theory",
+          "note": "context"
+        },
+        {
+          "family": "W3C",
+          "title": "PROV overview",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "note": "provenance"
+        },
+        {
+          "family": "Neo4j",
+          "title": "Data modeling",
+          "url": "https://neo4j.com/docs/getting-started/data-modeling/",
+          "note": "typed edges"
+        }
+      ],
+      "synthesize": "S31 «Grafos y evidencia relacional» cycle 31/31: «time window aggregation» via Neo4j, W3C, Wikipedia (CASO-LIM-031 / CP-N3-B graphs).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «time window aggregation».",
+      "expand_scope": "E1/E2/E3 + docs for «time window aggregation»; V3 roadmap; pair S31 graphs → S32 features from graph.",
+      "re_synthesize": "Decision 31/31: «time window aggregation» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

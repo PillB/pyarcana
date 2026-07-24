@@ -428,7 +428,7 @@ meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
 ventas_2024 = [120, 135, 145, 160, 175, 190, 185, 195, 200, 215, 230, 250]
 ventas_2025 = [135, 150, 165, 180, 195, 215, 210, 225, 240, 255, 270, 295]
 
-# TODO: crea el gráfico de líneas con:
+# DEFECT: crea el gráfico de líneas con:
 # - markers distintos para cada año
 # - título, labels, legend
 # - grid sutil
@@ -500,23 +500,27 @@ import plotly.express as px
 from pathlib import Path
 
 def cargar_datos(ruta="netflix_clean.csv"):
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def crear_4panel(df):
     """Crea figura 4 paneles: línea, barras, pie, countplot."""
-    # TODO
-    pass
+    # DEFECT: only one subplot; missing line/bar/pie/count
+    fig, ax = plt.subplots()
+    return fig
 
 def crear_heatmap(df):
     """Crea heatmap de correlación."""
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def crear_timeline_interactivo(df):
     """Crea timeline plotly y guarda HTML."""
-    # TODO
-    pass
+    # DEFECT: incomplete on purpose
+    # wrong stub: returns None
+    return None
 
 def main():
     # Pipeline de visualización

@@ -1,0 +1,106 @@
+{
+  "section": 3,
+  "title": "Decisiones y reglas de validación",
+  "file": "s03-data-structures.ts",
+  "n_required": 3,
+  "n_logged": 3,
+  "generated_at": "2026-07-24T04:51:04.818+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT≥HEAD",
+    "ethics": "None≠0; messages actionable; no real PII",
+    "v3_retarget": "rules engine not list/dict path",
+    "expert_pass_at": "2026-07-24T04:51:04.818+00:00",
+    "role": "consecutive pair"
+  },
+  "unique_foci": 3,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "comparisons in set",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Truth testing",
+          "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing",
+          "note": "falsy"
+        },
+        {
+          "family": "Python",
+          "title": "Comparisons",
+          "url": "https://docs.python.org/3/library/stdtypes.html#comparisons",
+          "note": "in is"
+        },
+        {
+          "family": "Python",
+          "title": "Control flow",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html",
+          "note": "if match"
+        }
+      ],
+      "synthesize": "S3 «Decisiones y reglas de validación» cycle 1/3: «comparisons in set» via Python (CASO-LIM-003).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «comparisons in set».",
+      "expand_scope": "E1/E2/E3 + docs for «comparisons in set»; V3 roadmap; pair S03 rules → S04 batch iteration.",
+      "re_synthesize": "Decision 1/3: «comparisons in set» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "truthiness vs None",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Comparisons",
+          "url": "https://docs.python.org/3/library/stdtypes.html#comparisons",
+          "note": "in is"
+        },
+        {
+          "family": "Python",
+          "title": "Control flow",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html",
+          "note": "if match"
+        },
+        {
+          "family": "PEP 636",
+          "title": "Pattern matching",
+          "url": "https://peps.python.org/pep-0636/",
+          "note": "match"
+        }
+      ],
+      "synthesize": "S3 «Decisiones y reglas de validación» cycle 2/3: «truthiness vs None» via PEP 636, Python (CASO-LIM-003).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «truthiness vs None».",
+      "expand_scope": "E1/E2/E3 + docs for «truthiness vs None»; V3 roadmap; pair S03 rules → S04 batch iteration.",
+      "re_synthesize": "Decision 2/3: «truthiness vs None» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "zero valid monto",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Control flow",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html",
+          "note": "if match"
+        },
+        {
+          "family": "PEP 636",
+          "title": "Pattern matching",
+          "url": "https://peps.python.org/pep-0636/",
+          "note": "match"
+        },
+        {
+          "family": "Py4E",
+          "title": "Conditionals",
+          "url": "https://www.py4e.com/html3/03-conditional",
+          "note": "if"
+        }
+      ],
+      "synthesize": "S3 «Decisiones y reglas de validación» cycle 3/3: «zero valid monto» via PEP 636, Py4E, Python (CASO-LIM-003).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «zero valid monto».",
+      "expand_scope": "E1/E2/E3 + docs for «zero valid monto»; V3 roadmap; pair S03 rules → S04 batch iteration.",
+      "re_synthesize": "Decision 3/3: «zero valid monto» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

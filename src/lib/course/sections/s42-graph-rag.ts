@@ -6,13 +6,13 @@ export const section42: CourseSection = {
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
   tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, schemas, seguridad y privacidad de servicios conecta decisiones técnicas con evidencia operativa. La práctica entrega decisión allow/deny auditable y vista pseudonimizada mínima y se promueve solo cuando un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+    "En equipos de plataforma y producto, **schemas, seguridad y privacidad de servicios** convierten la API de S41 en un control plane fail-closed: validación estricta, authz deny-by-default y minimización de datos. La práctica entrega allow/deny auditable y vistas pseudonimizadas; se promueve solo cuando un actor no lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups. Id legacy `graph-rag` se conserva; el path V3 es seguridad/privacidad de servicios, no GraphRAG/LLM retrieval.",
   learningOutcomes: [
     { text: "Define schemas Pydantic/JSON Schema" },
     { text: "Evoluciona schemas con validación de negocio" },
@@ -27,10 +27,31 @@ export const section42: CourseSection = {
     {
       heading: "Ruta de S42: Schemas, seguridad y privacidad de servicios",
       paragraphs: [
-        "Esta sección parte de S41 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-CUS-042` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Threat model y matriz de permisos del control plane. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida: decisión allow/deny auditable y vista pseudonimizada mínima.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URLs o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redaction:** campo sensible no reaparece en logs, respuestas ni backups activos.",
+        "Esta sección endurece el control plane de S41 (HTTP versionado) con **schemas, authz y privacidad**. Solo stdlib + contratos al estilo Pydantic/JSON Schema/OWASP (referencia profesional). El caso `CASO-CUS-042` (soporte sintético en Cusco) no usa credenciales reales, PII ni red externa.",
+        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redaction y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo.",
+        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Teoría con criterio medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto de seguridad por ejercicio. Id legacy `graph-rag` no implica GraphRAG; V3 es seguridad del servicio gobernado. Stack didáctico: **stdlib** (dicts, sets) modelando contratos Pydantic/OWASP sin cluster.",
       ],
+      code: {
+        language: 'python',
+        title: "s42_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-CUS-042",
+        "gates": ["strict_schema", "deny_by_default", "no_cross_tenant", "redaction_holds"],
+        "graph_rag_topic": False,
+        "cross_tenant_read_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("graph_rag_topic", c["graph_rag_topic"])
+print("cross_tenant_read_ok", c["cross_tenant_read_ok"])
+`,
+        output: `case CASO-CUS-042
+graph_rag_topic False
+cross_tenant_read_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,19 @@ export const section42: CourseSection = {
       heading: "Pydantic y JSON Schema",
       subtopicId: "S42-T1-A",
       paragraphs: [
-        "Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: schema exportado y fixtures válidos/inválidos. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `Pydantic y JSON Schema` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es schema exportado y fixtures válidos/inválidos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP; el schema de borde es **estricto** (rechaza campos extra) y **no sustituye** invariantes del negocio (p. ej. «un analista no lee el caso de otro tenant»). La validación de forma es el primer fail-closed; la autorización y la retención vienen después.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: schema exportado y fixtures válidos/inválidos ejecutables. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `Pydantic y JSON Schema` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es schema exportado y fixtures válidos/inválidos (`case_id`+`status` OK; `extra` rechazado). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "pydantic_jsonschema.py",
-        code: `print(True); print(False); print("jsonschema", True)`,
+        code: `def validate_case(payload: dict, required: set) -> bool:
+    return required.issubset(payload) and "extra" not in payload
+
+print(validate_case({"case_id": "C1", "status": "open"}, {"case_id", "status"}))
+print(validate_case({"case_id": "C1", "extra": 1}, {"case_id", "status"}))
+print("jsonschema", True)`,
         output: `True
 False
 jsonschema True`,
@@ -71,7 +97,17 @@ jsonschema True`,
       code: {
         language: 'python',
         title: "evolution_unions_business_val.py",
-        code: `print("EmailEvent"); print("SmsEvent"); print("union", "discriminated")`,
+        code: `def event_kind(payload: dict) -> str:
+    kind = payload.get("type")
+    if kind == "email":
+        return "EmailEvent"
+    if kind == "sms":
+        return "SmsEvent"
+    raise ValueError("unknown_event")
+
+print(event_kind({"type": "email", "to": "a@example.pe"}))
+print(event_kind({"type": "sms", "to": "+51"}))
+print("union", "discriminated")`,
         output: `EmailEvent
 SmsEvent
 union discriminated`,
@@ -88,13 +124,18 @@ union discriminated`,
       subtopicId: "S42-T2-A",
       paragraphs: [
         "Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.",
-        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: prueba actor A no lee caso B. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
-        "Aplicación de `authn/authz y RBAC` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es prueba actor A no lee caso B. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de autorización. Entrada: actor_id, owner_id del caso y rol. Salida: allow solo si admin o actor==owner. Error: confiar en el user-agent o en un claim sin resource binding. Criterio: la prueba `can_read(u1,u2,analyst)` es False en el lab de Cusco sintético antes de abrir el control plane.",
+        "Aplicación a `CASO-CUS-042-T2A`: el analista u1 lee su caso; el caso de u2 se deniega. Authn ≠ authz: conocer la identidad no otorga permiso cruzado.",
       ],
       code: {
         language: 'python',
         title: "authn_authz_rbac.py",
-        code: `print(True); print(False); print("authn_vs_authz", "identity!=permission")`,
+        code: `def can_read(actor: str, owner: str, role: str) -> bool:
+    return role == "admin" or actor == owner
+
+print(can_read("u1", "u1", "analyst"))
+print(can_read("u1", "u2", "analyst"))
+print("authn_vs_authz", "identity!=permission")`,
         output: `True
 False
 authn_vs_authz identity!=permission`,
@@ -117,7 +158,12 @@ authn_vs_authz identity!=permission`,
       code: {
         language: 'python',
         title: "scopes_service_ids_deny.py",
-        code: `print(True); print(False); print("deny_by_default", True)`,
+        code: `def allow(scope_set: set, needed: str) -> bool:
+    return needed in scope_set  # deny-by-default if missing
+
+print(allow({"jobs:run", "jobs:read"}, "jobs:run"))
+print(allow({"jobs:read"}, "jobs:admin"))
+print("deny_by_default", True)`,
         output: `True
 False
 deny_by_default True`,
@@ -140,7 +186,15 @@ deny_by_default True`,
       code: {
         language: 'python',
         title: "limits_injection_ssrf_path.py",
-        code: `print("/data/a.txt"); print("blocked", "traversal"); print("ssrf_guard", "allowlist")`,
+        code: `def safe_path(base: str, user_path: str) -> str:
+    joined = f"{base.rstrip('/')}/{user_path.lstrip('/')}"
+    if ".." in user_path.split("/"):
+        raise ValueError("traversal")
+    return joined
+
+print(safe_path("/data", "a.txt"))
+print("blocked", "traversal")
+print("ssrf_guard", "allowlist")`,
         output: `/data/a.txt
 blocked traversal
 ssrf_guard allowlist`,
@@ -164,7 +218,11 @@ ssrf_guard allowlist`,
         language: 'python',
         title: "secrets_crypto_deps.py",
         code: `import hashlib
-print("fp", hashlib.sha256(b"not-a-real-secret").hexdigest()[:12])
+
+def secret_fingerprint(raw: bytes) -> str:
+    return hashlib.sha256(raw).hexdigest()[:12]
+
+print("fp", secret_fingerprint(b"not-a-real-secret"))
 print("store", "env_or_vault")
 print("never_log_raw", True)`,
         output: `fp ed24bc0bb03d
@@ -189,7 +247,12 @@ never_log_raw True`,
       code: {
         language: 'python',
         title: "minimize_purpose_retention.py",
-        code: `print("minimized", ["case_id","status"]); print("purpose", "case_ops"); print("retention", 90)`,
+        code: `def minimize(fields: dict, allow: set) -> list:
+    return sorted(k for k in fields if k in allow)
+
+print("minimized", minimize({"case_id": "C1", "status": "open", "email": "x"}, {"case_id", "status"}))
+print("purpose", "case_ops")
+print("retention", 90)`,
         output: `minimized ['case_id', 'status']
 purpose case_ops
 retention 90`,
@@ -213,7 +276,11 @@ retention 90`,
         language: 'python',
         title: "audit_delete_pseudo_access.py",
         code: `import hashlib
-print("pseudo", hashlib.sha256(b"synth:user-1").hexdigest()[:16])
+
+def pseudonym(subject: str) -> str:
+    return hashlib.sha256(f"synth:{subject}".encode()).hexdigest()[:16]
+
+print("pseudo", pseudonym("user-1"))
 print("audit_n", 1)
 print("delete", "soft+hard_policy")`,
         output: `pseudo d6e07b73dc2ab4b4
@@ -239,7 +306,14 @@ delete soft+hard_policy`,
         code: {
           language: 'python',
           title: "demo_pydantic_jsonschema.py",
-          code: `print({"age":3}); print("pydantic_like", True); print("strict", True)`,
+          code: `def strict_age(payload: dict) -> dict:
+    if not isinstance(payload.get("age"), int) or payload["age"] < 0:
+        raise ValueError("invalid_age")
+    return {"age": payload["age"]}
+
+print(strict_age({"age": 3}))
+print("pydantic_like", True)
+print("strict", True)`,
           output: `{'age': 3}
 pydantic_like True
 strict True`,
@@ -254,7 +328,15 @@ strict True`,
         code: {
           language: 'python',
           title: "demo_evolution_unions_business_val.py",
-          code: `print(10); print("err", "amount"); print("evol", "add_optional")`,
+          code: `def business_amount(v1: dict) -> int:
+    # v1 readers ignore optional fields; amount remains required
+    if "amount" not in v1:
+        raise ValueError("amount")
+    return int(v1["amount"])
+
+print(business_amount({"amount": 10, "currency": "PEN"}))
+print("err", "amount")
+print("evol", "add_optional")`,
           output: `10
 err amount
 evol add_optional`,
@@ -269,7 +351,15 @@ evol add_optional`,
         code: {
           language: 'python',
           title: "demo_authn_authz_rbac.py",
-          code: `print("authn", "u1"); print("roles", ["analyst"]); print("authz_needed", True)`,
+          code: `def authn(user_id: str) -> str:
+    return user_id
+
+def roles_for(user_id: str) -> list:
+    return ["analyst"] if user_id else []
+
+print("authn", authn("u1"))
+print("roles", roles_for("u1"))
+print("authz_needed", True)`,
           output: `authn u1
 roles ['analyst']
 authz_needed True`,
@@ -284,7 +374,13 @@ authz_needed True`,
         code: {
           language: 'python',
           title: "demo_scopes_service_ids_deny.py",
-          code: `print("er-worker"); print(["jobs:run"]); print("service_identity", True)`,
+          code: `def service_scopes(service_id: str) -> list:
+    catalog = {"er-worker": ["jobs:run"], "api": ["jobs:read"]}
+    return catalog.get(service_id, [])
+
+print("er-worker")
+print(service_scopes("er-worker"))
+print("service_identity", True)`,
           output: `er-worker
 ['jobs:run']
 service_identity True`,
@@ -299,7 +395,13 @@ service_identity True`,
         code: {
           language: 'python',
           title: "demo_limits_injection_ssrf_path.py",
-          code: `print(True); print(False); print("injection", "parameterized")`,
+          code: `def url_allowed(url: str, allow: set) -> bool:
+    host = url.split("://", 1)[-1].split("/", 1)[0]
+    return host in allow
+
+print(url_allowed("https://docs.example.pe/a", {"docs.example.pe"}))
+print(url_allowed("http://169.254.169.254/", {"docs.example.pe"}))
+print("injection", "parameterized")`,
           output: `True
 False
 injection parameterized`,
@@ -314,7 +416,12 @@ injection parameterized`,
         code: {
           language: 'python',
           title: "demo_secrets_crypto_deps.py",
-          code: `print("high", ["old"]); print("crypto", "AES-GCM-at-rest"); print("rotate", True)`,
+          code: `def risk_deps(deps: list, max_age_days: int = 180) -> list:
+    return [d["name"] for d in deps if d.get("age_days", 0) > max_age_days]
+
+print("high", risk_deps([{"name": "old", "age_days": 400}]))
+print("crypto", "AES-GCM-at-rest")
+print("rotate", True)`,
           output: `high ['old']
 crypto AES-GCM-at-rest
 rotate True`,
@@ -329,7 +436,12 @@ rotate True`,
         code: {
           language: 'python',
           title: "demo_minimize_purpose_retention.py",
-          code: `print({"case_id":"C1"}); print("drop_email_for_log", True); print("purpose_bound", True)`,
+          code: `def for_log(record: dict) -> dict:
+    return {k: v for k, v in record.items() if k != "email"}
+
+print(for_log({"case_id": "C1", "email": "x@example.pe"}))
+print("drop_email_for_log", True)
+print("purpose_bound", True)`,
           output: `{'case_id': 'C1'}
 drop_email_for_log True
 purpose_bound True`,
@@ -344,7 +456,14 @@ purpose_bound True`,
         code: {
           language: 'python',
           title: "demo_audit_delete_pseudo_access.py",
-          code: `print(True); print(False); print("no_cross_tenant", True)`,
+          code: `def deleted_gone(store: dict, case_id: str) -> bool:
+    return case_id not in store
+
+store = {"C1": {"status": "open"}}
+del store["C1"]
+print(deleted_gone(store, "C1"))
+print(deleted_gone({"C1": {}}, "C1"))
+print("no_cross_tenant", True)`,
           output: `True
 False
 no_cross_tenant True`,
@@ -372,7 +491,11 @@ no_cross_tenant True`,
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+          code: `# CASO-LIM-042 · Pydantic extra=forbid + business rule
+# DEFECT: PASS si extra allow y no business_rule
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+# DEFECT: extra debe rechazarse; business_rule es obligatoria
 meets_contract = record["extra_policy"] == "allow" and not record["business_rule"]
 status = "PASS" if meets_contract else "REJECT_SCHEMA"
 print("S42-T1-A", status)
@@ -405,7 +528,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess schema reject
+# DEFECT: PASS con extra allow sin business_rule
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
     missing = sorted(required - record.keys())
     if missing:
@@ -456,7 +582,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide REJECT_SCHEMA
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
     missing = sorted(required - record.keys())
     if missing:
@@ -507,7 +636,11 @@ assert results == ["CONTINUE", "REJECT_SCHEMA", "REVIEW_BUSINESS_INVARIANT"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+          code: `# CASO-LIM-042 · schema evolution compatibility
+# DEFECT: PASS si rename_required o union tags incompletos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+# DEFECT: rename_required y unions incompletas bloquean evolución
 meets_contract = record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"]
 status = "PASS" if meets_contract else "VERSION_SCHEMA"
 print("S42-T1-B", status)
@@ -540,7 +673,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess VERSION_SCHEMA
+# DEFECT: PASS con breaking change o tags no handled
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
     missing = sorted(required - record.keys())
     if missing:
@@ -591,7 +727,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide VERSION_SCHEMA
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
     missing = sorted(required - record.keys())
     if missing:
@@ -642,7 +781,11 @@ assert results == ["CONTINUE", "VERSION_SCHEMA", "MIGRATE_CONSUMERS"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+          code: `# CASO-LIM-042 · authz actor==owner
+# DEFECT: PASS si authenticated y actor≠owner (cross-tenant)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+# DEFECT: authn sin authz cross-tenant es DENY
 meets_contract = record["authenticated"] and record["actor"] != record["resource_owner"]
 status = "PASS" if meets_contract else "DENY_CROSS_TENANT"
 print("S42-T2-A", status)
@@ -675,7 +818,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess DENY_CROSS_TENANT
+# DEFECT: PASS con actor distinto del resource_owner
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
     missing = sorted(required - record.keys())
     if missing:
@@ -726,7 +872,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide DENY_CROSS_TENANT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
     missing = sorted(required - record.keys())
     if missing:
@@ -777,7 +926,11 @@ assert results == ["CONTINUE", "DENY_CROSS_TENANT", "VERIFY_RESOURCE_OWNER"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+          code: `# CASO-LIM-042 · OAuth scopes on route
+# DEFECT: PASS si scope no granted o route no declared
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+# DEFECT: scope faltante o ruta no declarada → DENY
 meets_contract = record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"]
 status = "PASS" if meets_contract else "DENY_SCOPE"
 print("S42-T2-B", status)
@@ -810,7 +963,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess DENY_SCOPE
+# DEFECT: PASS sin scope o sin route_declared
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
@@ -861,7 +1017,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide DENY_SCOPE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
     missing = sorted(required - record.keys())
     if missing:
@@ -912,7 +1071,11 @@ assert results == ["CONTINUE", "DENY_SCOPE", "REQUEST_NARROW_GRANT"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+          code: `# CASO-LIM-042 · upload size + path traversal
+# DEFECT: PASS si bytes>max o path bajo /etc
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+# DEFECT: path/size traversal no confiable
 meets_contract = record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc")
 status = "PASS" if meets_contract else "REJECT_UNTRUSTED_INPUT"
 print("S42-T3-A", status)
@@ -945,7 +1108,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess REJECT_UNTRUSTED_INPUT
+# DEFECT: PASS con oversize o path traversal
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
@@ -996,7 +1162,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide REJECT_UNTRUSTED_INPUT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1047,7 +1216,11 @@ assert results == ["CONTINUE", "REJECT_UNTRUSTED_INPUT", "SECURITY_REVIEW"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+          code: `# CASO-LIM-042 · secrets + dependency CVEs
+# DEFECT: PASS si secret_in_repo o deps sin pin
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+# DEFECT: secreto en repo o dep sin pin bloquea
 meets_contract = record["secret_in_repo"] or not record["dependency_pinned"]
 status = "PASS" if meets_contract else "ROTATE_AND_BLOCK"
 print("S42-T3-B", status)
@@ -1080,7 +1253,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess ROTATE_AND_BLOCK
+# DEFECT: PASS con secret en repo o unpinned deps
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1131,7 +1307,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide ROTATE_AND_BLOCK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1182,7 +1361,11 @@ assert results == ["CONTINUE", "ROTATE_AND_BLOCK", "ASSESS_DEPENDENCY_RISK"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+          code: `# CASO-LIM-042 · data minimisation + retention
+# DEFECT: PASS si collected>needed o retention>max
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+# DEFECT: minimización y retención vencida
 meets_contract = record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"]
 status = "PASS" if meets_contract else "MINIMIZE_AND_EXPIRE"
 print("S42-T4-A", status)
@@ -1215,7 +1398,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess MINIMIZE_AND_EXPIRE
+# DEFECT: PASS con over-collection o over-retention
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1266,7 +1452,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide MINIMIZE_AND_EXPIRE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1317,7 +1506,11 @@ assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+          code: `# CASO-LIM-042 · audit without PII + purge derivatives
+# DEFECT: PASS si audit∩PII o derived no deleted
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+# DEFECT: PII en audit o derivados no purgados
 meets_contract = bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"]
 status = "PASS" if meets_contract else "PURGE_DERIVATIVES"
 print("S42-T4-B", status)
@@ -1350,7 +1543,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-042 · assess PURGE_DERIVATIVES
+# DEFECT: PASS con PII en audit o derived vivos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1401,7 +1597,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-042 · decide PURGE_DERIVATIVES
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1511,6 +1710,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 2,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Política deny-by-default de scopes: si el scope pedido no está en los granted…",
+        options: ["se permite el acceso y se loguea un warning", "se deniega y se conserva evidencia de la decisión", "se elevan privilegios temporalmente", "se devuelve 200 con el body completo del otro tenant"],
+        correctIndex: 1,
+        explanation: "Authz fail-closed: scope insuficiente → DENY con audit trail; nunca silently allow ni cross-tenant.",
+      },
     ],
   },
   resources: {
@@ -1521,23 +1726,61 @@ assert status in {"READY", "BLOCKED"}
         note: "Validación y JSON Schema",
       },
       {
+        label: "JSON Schema",
+        url: "https://json-schema.org/",
+        note: "Contrato de forma interoperable",
+      },
+      {
         label: "OWASP API Security Top 10",
-        url: "https://owasp.org/API-Security/",
+        url: "https://owasp.org/www-project-api-security/",
         note: "Riesgos y controles de APIs",
+      },
+      {
+        label: "OWASP Cheat Sheet Series",
+        url: "https://cheatsheetseries.owasp.org/",
+        note: "Authn/authz, SSRF, secrets",
+      },
+      {
+        label: "OWASP Secrets Management Cheat Sheet",
+        url: "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+        note: "Secretos fuera del repo y rotación",
       },
       {
         label: "NIST Privacy Framework",
         url: "https://www.nist.gov/privacy-framework",
         note: "Gestión de riesgo de privacidad",
       },
+      {
+        label: "NIST SP 800-63",
+        url: "https://pages.nist.gov/800-63-3/",
+        note: "Identidad digital y autenticación",
+      },
+      {
+        label: "NIST SP 800-88 media sanitization",
+        url: "https://csrc.nist.gov/publications/detail/sp/800-88/rev-1/final",
+        note: "Borrado y retención",
+      },
+      {
+        label: "OAuth 2.0 RFC 6749",
+        url: "https://datatracker.ietf.org/doc/html/rfc6749",
+        note: "Scopes y autorización",
+      },
+      {
+        label: "Python secrets / hashlib",
+        url: "https://docs.python.org/3/library/secrets.html",
+        note: "Tokens y pseudonimización didáctica",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Designing Data-Intensive Applications", note: "Contratos, aislamiento y evolución" },
+      { label: "Threat Modeling (Shostack)", note: "Amenazas y controles en el control plane" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Stanford CS253 Web Security (materials)", url: "https://web.stanford.edu/class/cs253/", note: "Web/app security patterns" },
+      { label: "Google Cybersecurity Professional Certificate", url: "https://www.coursera.org/professional-certificates/google-cybersecurity", note: "Fundamentos de seguridad" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
     ],
   },
 }

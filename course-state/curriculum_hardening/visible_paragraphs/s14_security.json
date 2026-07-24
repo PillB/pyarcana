@@ -1,0 +1,469 @@
+{
+  "index": 14,
+  "id": "security",
+  "title": "NumPy y cómputo vectorizado",
+  "file": "s14-security.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)",
+      "len": 82
+    },
+    {
+      "i": 1,
+      "text": "En V3, S14 no es el path principal de OWASP LLM, prompt injection ni presidio. Ese material se reubica conceptualmente hacia el tramo de seguridad/IA. Aquí construyes el inicio de CP-N2-A: ndarrays, máscaras, ufuncs, broadcasting, views/copies, NaN y vectorización con métricas de calidad sintéticas.",
+      "len": 300
+    },
+    {
+      "i": 2,
+      "text": "El hilo conductor es un tablero de calidad (completitud, unicidad, rangos, señales por pares) calculado en NumPy. Solo datos sintéticos latam (regiones Lima/Arequipa/Cusco, ids C00x). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 447
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Arrays → T2 Operaciones → T3 Semántica → T4 Rendimiento. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 352
+    },
+    {
+      "i": 5,
+      "text": "Un ndarray es un bloque contiguo (o strided) de datos homogéneos. dtype fija el tipo (p. ej. float64, int32); shape es la tupla de dimensiones; ndim = len(shape); itemsize es bytes por elemento. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 402
+    },
+    {
+      "i": 6,
+      "text": "Crear con dtype explícito evita sorpresas (int vs float en divisiones). Valida siempre arr.dtype, arr.shape y arr.ndim al recibir un array de un pipeline. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 418
+    },
+    {
+      "i": 7,
+      "text": "En calidad de datos, un vector de flags de completitud suele ser bool o uint8; un score de 0–1 es float64. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ndarray, dtype y shape»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 332
+    },
+    {
+      "i": 8,
+      "text": "creación, indexación y máscaras",
+      "len": 31
+    },
+    {
+      "i": 9,
+      "text": "np.array, arange, linspace y zeros/ones/full crean arrays. Indexación clásica (a[i], a[i:j]) y fancy index (a[[0,2]]) seleccionan elementos. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 348
+    },
+    {
+      "i": 10,
+      "text": "Una máscara booleana a > umbral produce un array de bool del mismo shape; a[mask] filtra. Es la forma idiomática de calidad: “filas con score < 0.5”. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 413
+    },
+    {
+      "i": 11,
+      "text": "Ojo: filtrar con máscara suele devolver copia (o array 1D nuevo); no asumas view. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «creación, indexación y máscaras»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 316
+    },
+    {
+      "i": 13,
+      "text": "Las ufuncs (np.add, np.sqrt, operadores +, ) aplican elemento a elemento en C. Las reducciones (sum, mean, std, min, max) colapsan ejes. En NumPy vectorizado, el porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 345
+    },
+    {
+      "i": 14,
+      "text": "axis=0 reduce filas→agrega por columna; axis=1 por fila. keepdims=True preserva dimensiones para rebroadcast. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 373
+    },
+    {
+      "i": 15,
+      "text": "Métricas de calidad: mean(flags) = completitud; std(scores, axis=0) = dispersión por variable. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ufuncs y reducciones»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 318
+    },
+    {
+      "i": 16,
+      "text": "broadcasting y compatibilidad de shapes",
+      "len": 39
+    },
+    {
+      "i": 17,
+      "text": "El broadcasting alinea shapes de derecha a izquierda: dimensiones iguales, o una es 1, o ausente. Si no, ValueError. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 324
+    },
+    {
+      "i": 18,
+      "text": "newaxis / None inserta un eje de tamaño 1 para alinear vectores de filas/columnas (p. ej. señales por pares). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 373
+    },
+    {
+      "i": 19,
+      "text": "Documenta el shape esperado en comentarios: evita “magia” que falla en producción con un batch distinto. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «broadcasting y compatibilidad de shapes»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 347
+    },
+    {
+      "i": 20,
+      "text": "views/copies y mutabilidad",
+      "len": 26
+    },
+    {
+      "i": 21,
+      "text": "Un view comparte memoria con el base (arr.base is not None a menudo); un copy es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 378
+    },
+    {
+      "i": 22,
+      "text": "arr.flags.writeable controla mutación. Mutar un view muta el original — fuente clásica de bugs en pipelines. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 372
+    },
+    {
+      "i": 23,
+      "text": "Usa .copy() cuando debas aislar transformaciones (p. ej. normalizar scores sin tocar el raw). Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «views/copies y mutabilidad»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 323
+    },
+    {
+      "i": 24,
+      "text": "NaN, inf y estabilidad numérica",
+      "len": 31
+    },
+    {
+      "i": 25,
+      "text": "np.nan y ±inf rompen mean/sum clásicos. Usa np.isnan/isinf, nansum/nanmean, o máscaras. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 295
+    },
+    {
+      "i": 26,
+      "text": "np.finfo(float).eps acota ruido de redondeo. Overflow en enteros y float produce wrap o inf. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 356
+    },
+    {
+      "i": 27,
+      "text": "En calidad, un NaN en un campo no es “cero”: es ausencia. Métricas robustas lo documentan. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «NaN, inf y estabilidad numérica»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 325
+    },
+    {
+      "i": 28,
+      "text": "vectorización frente a loops",
+      "len": 28
+    },
+    {
+      "i": 29,
+      "text": "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 327
+    },
+    {
+      "i": 30,
+      "text": "Benchmark honesto: mismo input, warmup opcional, time.perf_counter, reporta ratio. No compares N=10. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 364
+    },
+    {
+      "i": 31,
+      "text": "A veces un loop claro gana en N pequeño o lógica irregular; documenta el umbral. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «vectorización frente a loops»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 312
+    },
+    {
+      "i": 32,
+      "text": "memoria, medición y tests con tolerancia",
+      "len": 40
+    },
+    {
+      "i": 33,
+      "text": "nbytes y itemsize size estiman memoria del array. Evita copias innecesarias en datasets grandes. En NumPy vectorizado, el porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+      "len": 305
+    },
+    {
+      "i": 34,
+      "text": "np.allclose(a, b, rtol=, atol=) compara floats con tolerancia. np.testing.assert_allclose falla con mensaje claro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+      "len": 378
+    },
+    {
+      "i": 35,
+      "text": "En CP-N2-A, el baseline loop y la versión vectorizada deben ser equivalentes dentro de rtol/atol. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «memoria, medición y tests con tolerancia»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 341
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)",
+      "text": "De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 300,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S14 no es el path principal de OWASP LLM, prompt injection ni presidio. Ese material se reubica conceptualmente hacia el tramo de seguridad/IA. Aquí construyes el inicio de ",
+      "text": "En V3, S14 no es el path principal de OWASP LLM, prompt injection ni presidio. Ese material se reubica conceptualmente hacia el tramo de seguridad/IA. Aquí construyes el inicio de CP-N2-A: ndarrays, máscaras, ufuncs, broadcasting, views/copies, NaN y vectorización con métricas de calidad sintéticas."
+    },
+    {
+      "i": 2,
+      "len": 447,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El hilo conductor es un tablero de calidad (completitud, unicidad, rangos, señales por pares) calculado en NumPy. Solo datos sintéticos latam (regiones Lima/Arequipa/Cusco, ids C00",
+      "text": "El hilo conductor es un tablero de calidad (completitud, unicidad, rangos, señales por pares) calculado en NumPy. Solo datos sintéticos latam (regiones Lima/Arequipa/Cusco, ids C00x). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 3,
+      "len": 352,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Arrays → T2 Operaciones → T3 Semántica → T4 Rendimiento. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocid",
+      "text": "Orden: T1 Arrays → T2 Operaciones → T3 Semántica → T4 Rendimiento. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 5,
+      "len": 402,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un ndarray es un bloque contiguo (o strided) de datos homogéneos. dtype fija el tipo (p. ej. float64, int32); shape es la tupla de dimensiones; ndim = len(shape); itemsize es bytes",
+      "text": "Un ndarray es un bloque contiguo (o strided) de datos homogéneos. dtype fija el tipo (p. ej. float64, int32); shape es la tupla de dimensiones; ndim = len(shape); itemsize es bytes por elemento. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 418,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Crear con dtype explícito evita sorpresas (int vs float en divisiones). Valida siempre arr.dtype, arr.shape y arr.ndim al recibir un array de un pipeline. Contrato: entrada explíci",
+      "text": "Crear con dtype explícito evita sorpresas (int vs float en divisiones). Valida siempre arr.dtype, arr.shape y arr.ndim al recibir un array de un pipeline. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 7,
+      "len": 332,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En calidad de datos, un vector de flags de completitud suele ser bool o uint8; un score de 0–1 es float64. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Docu",
+      "text": "En calidad de datos, un vector de flags de completitud suele ser bool o uint8; un score de 0–1 es float64. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ndarray, dtype y shape»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "creación, indexación y máscaras",
+      "text": "creación, indexación y máscaras"
+    },
+    {
+      "i": 9,
+      "len": 348,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "np.array, arange, linspace y zeros/ones/full crean arrays. Indexación clásica (a[i], a[i:j]) y fancy index (a[[0,2]]) seleccionan elementos. En NumPy vectorizado, el porqué es oper",
+      "text": "np.array, arange, linspace y zeros/ones/full crean arrays. Indexación clásica (a[i], a[i:j]) y fancy index (a[[0,2]]) seleccionan elementos. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 413,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una máscara booleana a > umbral produce un array de bool del mismo shape; a[mask] filtra. Es la forma idiomática de calidad: “filas con score < 0.5”. Contrato: entrada explícita → ",
+      "text": "Una máscara booleana a > umbral produce un array de bool del mismo shape; a[mask] filtra. Es la forma idiomática de calidad: “filas con score < 0.5”. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 11,
+      "len": 316,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ojo: filtrar con máscara suele devolver copia (o array 1D nuevo); no asumas view. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y",
+      "text": "Ojo: filtrar con máscara suele devolver copia (o array 1D nuevo); no asumas view. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «creación, indexación y máscaras»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 13,
+      "len": 345,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las ufuncs (np.add, np.sqrt, operadores +, ) aplican elemento a elemento en C. Las reducciones (sum, mean, std, min, max) colapsan ejes. En NumPy vectorizado, el porqué* es operati",
+      "text": "Las ufuncs (np.add, np.sqrt, operadores +, ) aplican elemento a elemento en C. Las reducciones (sum, mean, std, min, max) colapsan ejes. En NumPy vectorizado, el porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 373,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "axis=0 reduce filas→agrega por columna; axis=1 por fila. keepdims=True preserva dimensiones para rebroadcast. Contrato: entrada explícita → transformación documentada → salida medi",
+      "text": "axis=0 reduce filas→agrega por columna; axis=1 por fila. keepdims=True preserva dimensiones para rebroadcast. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 15,
+      "len": 318,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Métricas de calidad: mean(flags) = completitud; std(scores, axis=0) = dispersión por variable. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisi",
+      "text": "Métricas de calidad: mean(flags) = completitud; std(scores, axis=0) = dispersión por variable. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ufuncs y reducciones»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "broadcasting y compatibilidad de shapes",
+      "text": "broadcasting y compatibilidad de shapes"
+    },
+    {
+      "i": 17,
+      "len": 324,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El broadcasting alinea shapes de derecha a izquierda: dimensiones iguales, o una es 1, o ausente. Si no, ValueError. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad",
+      "text": "El broadcasting alinea shapes de derecha a izquierda: dimensiones iguales, o una es 1, o ausente. Si no, ValueError. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 373,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "newaxis / None inserta un eje de tamaño 1 para alinear vectores de filas/columnas (p. ej. señales por pares). Contrato: entrada explícita → transformación documentada → salida medi",
+      "text": "newaxis / None inserta un eje de tamaño 1 para alinear vectores de filas/columnas (p. ej. señales por pares). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 19,
+      "len": 347,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Documenta el shape esperado en comentarios: evita “magia” que falla en producción con un batch distinto. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Docume",
+      "text": "Documenta el shape esperado en comentarios: evita “magia” que falla en producción con un batch distinto. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «broadcasting y compatibilidad de shapes»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "views/copies y mutabilidad",
+      "text": "views/copies y mutabilidad"
+    },
+    {
+      "i": 21,
+      "len": 378,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un view comparte memoria con el base (arr.base is not None a menudo); un copy es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar. En NumPy ",
+      "text": "Un view comparte memoria con el base (arr.base is not None a menudo); un copy es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 372,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "arr.flags.writeable controla mutación. Mutar un view muta el original — fuente clásica de bugs en pipelines. Contrato: entrada explícita → transformación documentada → salida medib",
+      "text": "arr.flags.writeable controla mutación. Mutar un view muta el original — fuente clásica de bugs en pipelines. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 23,
+      "len": 323,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Usa .copy() cuando debas aislar transformaciones (p. ej. normalizar scores sin tocar el raw). Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisió",
+      "text": "Usa .copy() cuando debas aislar transformaciones (p. ej. normalizar scores sin tocar el raw). Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «views/copies y mutabilidad»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "NaN, inf y estabilidad numérica",
+      "text": "NaN, inf y estabilidad numérica"
+    },
+    {
+      "i": 25,
+      "len": 295,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "np.nan y ±inf rompen mean/sum clásicos. Usa np.isnan/isinf, nansum/nanmean, o máscaras. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja r",
+      "text": "np.nan y ±inf rompen mean/sum clásicos. Usa np.isnan/isinf, nansum/nanmean, o máscaras. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 356,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "np.finfo(float).eps acota ruido de redondeo. Overflow en enteros y float produce wrap o inf. Contrato: entrada explícita → transformación documentada → salida medible; si falta evi",
+      "text": "np.finfo(float).eps acota ruido de redondeo. Overflow en enteros y float produce wrap o inf. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 27,
+      "len": 325,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En calidad, un NaN en un campo no es “cero”: es ausencia. Métricas robustas lo documentan. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, ",
+      "text": "En calidad, un NaN en un campo no es “cero”: es ausencia. Métricas robustas lo documentan. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «NaN, inf y estabilidad numérica»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 28,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "vectorización frente a loops",
+      "text": "vectorización frente a loops"
+    },
+    {
+      "i": 29,
+      "len": 327,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado. En NumPy vectorizado, el porqué es operativo: reduce ambigüe",
+      "text": "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado. En NumPy vectorizado, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 364,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Benchmark honesto: mismo input, warmup opcional, time.perf_counter, reporta ratio. No compares N=10. Contrato: entrada explícita → transformación documentada → salida medible; si f",
+      "text": "Benchmark honesto: mismo input, warmup opcional, time.perf_counter, reporta ratio. No compares N=10. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 31,
+      "len": 312,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "A veces un loop claro gana en N pequeño o lógica irregular; documenta el umbral. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y ",
+      "text": "A veces un loop claro gana en N pequeño o lógica irregular; documenta el umbral. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «vectorización frente a loops»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "memoria, medición y tests con tolerancia",
+      "text": "memoria, medición y tests con tolerancia"
+    },
+    {
+      "i": 33,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "nbytes y itemsize size estiman memoria del array. Evita copias innecesarias en datasets grandes. En NumPy vectorizado, el porqué* es operativo: reduce ambigüedad en pipelines local",
+      "text": "nbytes y itemsize size estiman memoria del array. Evita copias innecesarias en datasets grandes. En NumPy vectorizado, el porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 378,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "np.allclose(a, b, rtol=, atol=) compara floats con tolerancia. np.testing.assert_allclose falla con mensaje claro. Contrato: entrada explícita → transformación documentada → salida",
+      "text": "np.allclose(a, b, rtol=, atol=) compara floats con tolerancia. np.testing.assert_allclose falla con mensaje claro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn."
+    },
+    {
+      "i": 35,
+      "len": 341,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CP-N2-A, el baseline loop y la versión vectorizada deben ser equivalentes dentro de rtol/atol. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta dec",
+      "text": "En CP-N2-A, el baseline loop y la versión vectorizada deben ser equivalentes dentro de rtol/atol. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «memoria, medición y tests con tolerancia»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14943
+}

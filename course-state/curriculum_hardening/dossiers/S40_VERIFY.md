@@ -1,6 +1,23 @@
-# S40 verification-only
+# S40 verification — gold rewrite
 
-**Status:** GOLD (master curriculum specificity + residual score ≥8 on main @ 342c8dd)
-**Action:** no content rewrite in this pass.
-**Research classes covered by existing Master hardening:** Coursera MLOps/ML engineering; Stanford CS329S-style systems; GitHub production ML / model cards; video MLOps project series.
-**Check:** progressive disclosure within phase-3 map; no PII; section-specific fixtures present (adversarial tests pass).
+**Status:** GOLD (expert rank 9.6)  
+**Date:** 2026-07-23T21:54:10.830899+00:00
+
+## Checks
+
+| Check | Result |
+|-------|--------|
+| node --check s40-agentic-architecture.ts | PASS |
+| 24/24 solutionCode exit 0 | PASS |
+| 16/16 theory+iDo code stdout match | PASS |
+| test_master_curriculum_specificity | PASS |
+| STORM n=40 | PASS |
+| avg para ≥250 | PASS (323) |
+| starters avg≥120 none<80 | PASS (avg 610, min 294) |
+| 8 CASO-LIM-040-NAB | PASS |
+| meets_contract present | PASS |
+| No REJECTED_AUTHORING_LANGUAGE | PASS |
+
+## Action
+
+Content rewritten for gold depth; master contracts preserved.

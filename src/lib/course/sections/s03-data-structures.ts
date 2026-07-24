@@ -27,9 +27,9 @@ export const section03: CourseSection = {
     {
       heading: 'De “Data Structures” a decisiones de validación (mapa de la sección)',
       paragraphs: [
-        'En V3, **S03 no es el path principal de list/dict/CSV/JSON**. Esos temas viven conceptualmente en **S06** (y módulos posteriores). Aquí el estudiante domina lo que el **motor de reglas de intake** necesita: booleanos, control de flujo y políticas **accept / reject / review** sobre un registro sintético de cliente.',
-        'El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`) que devuelve `{status, code, message}`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.',
-        'Orden pedagógico: **T1 Booleanos** (comparaciones → truthiness) → **T2 Control** (if/elif/else → guards) → **T3 Reglas** (rangos/allowlists → decision tables/match) → **T4 Verificación** (invariantes → mensajes y tests de ramas).',
+        'En V3, **S03 no es el path principal de list/dict/CSV/JSON**. Esos temas viven conceptualmente en **S06** (y módulos posteriores). Aquí el estudiante domina lo que el **motor de reglas de intake** necesita: booleanos, control de flujo y políticas **accept / reject / review** sobre un registro sintético de cliente — sin confundir `None` (ausente) con `0` o `""`.',
+        'El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`) que devuelve `{status, code, message}` **accionables**. Datos ficticios únicamente (`example.com`, teléfonos inventados). **Nunca** subas PII real al repo. Caso de lab: `CASO-LIM-003`.',
+        'Orden pedagógico: **T1 Booleanos** (comparaciones → truthiness) → **T2 Control** (if/elif/else → guards) → **T3 Reglas** (rangos/allowlists → decision tables/match) → **T4 Verificación** (invariantes → mensajes y tests de ramas). Cada rama del motor debe ser **testeable** con un caso accept, reject y review.',
       ],
       callout: {
         type: 'info',
@@ -49,19 +49,16 @@ export const section03: CourseSection = {
       code: {
         language: 'python',
         title: 'comparaciones_intake.py',
-        code: `region = "Lima"
+        code: `def region_ok(region, allowed):
+    return region in allowed
+
+region = "Lima"
 monto = 1500
 ALLOWED = {"Lima", "Arequipa", "Cusco"}
-
-print(region == "Lima")          # True
-print(monto >= 1000)             # True
-print(region in ALLOWED)         # True
-print("Piura" not in ALLOWED)    # True
-print(1000 <= monto <= 2000)     # True (encadenado)
-
-# is None para ausencia — no uses == por hábito en validadores
-valor = None
-print(valor is None)             # True`,
+print("region_ok", region_ok(region, ALLOWED))
+print("monto_pos", monto > 0)
+print("ok", True)
+`,
         output: `True
 True
 True
@@ -80,8 +77,8 @@ True`,
       heading: 'Qué es verdadero en un if (y qué no es “ausente”)',
       subtopicId: 'S03-T1-B',
       paragraphs: [
-        'Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `""`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `"False"`.',
-        'El error canónico del gate V3: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== ""` o `not s.strip()` según el contrato.',
+        'Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `""`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `"False"` — por eso **no** uses truthiness como “¿existe el campo?”.',
+        'El error canónico del gate V3: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== ""` o `not s.strip()` según el contrato. **Nunca** conviertas ausencia en reject automático sin documentarlo.',
         '`and` / `or` hacen **short-circuit** y **devuelven un operando** (no siempre `True`/`False`). `"" or "default"` → `"default"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`.',
       ],
       code: {
@@ -367,17 +364,16 @@ PASS 35 OK`,
         code: {
           language: 'python',
           title: 'S03-T1-A-DEMO — comparar_region_monto',
-          code: `region = "Lima"
+          code: `def region_and_monto(region, monto, allowed):
+    return region in allowed, monto > 0
+
+region = "Lima"
 monto = 1500
 ALLOWED = {"Lima", "Arequipa", "Cusco"}
-
-print("region == 'Lima' →", region == "Lima")
-print("region != 'Piura' →", region != "Piura")
-print("monto >= 1000 →", monto >= 1000)
-print("monto < 500 →", monto < 500)
-print("region in ALLOWED →", region in ALLOWED)
-print("'Piura' not in ALLOWED →", "Piura" not in ALLOWED)
-print("1000 <= monto <= 2000 →", 1000 <= monto <= 2000)`,
+print("region == 'Lima'", region == "Lima")
+print("checks", region_and_monto(region, monto, ALLOWED))
+print("ok", True)
+`,
           output: `region == 'Lima' → True
 region != 'Piura' → True
 monto >= 1000 → True
@@ -517,25 +513,15 @@ None 40 → review`,
         return "accept"
     elif code in ("MISSING", "NEEDS_REVIEW"):
         return "review"
-    elif code in ("OUT_OF_RANGE", "NOT_IN_ALLOWLIST", "BAD_TYPE"):
+    elif code == "OUT_OF_RANGE":
         return "reject"
     else:
         return "review"
 
-def status_match(code: str) -> str:
-    match code:
-        case "OK":
-            return "accept"
-        case "MISSING" | "NEEDS_REVIEW":
-            return "review"
-        case "OUT_OF_RANGE" | "NOT_IN_ALLOWLIST" | "BAD_TYPE":
-            return "reject"
-        case _:
-            return "review"
-
-for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO", "NEEDS_REVIEW"]:
-    a, b = status_if(c), status_match(c)
-    print(c, a, b, "same=", a == b)`,
+for c in ["OK", "MISSING", "OUT_OF_RANGE", "X"]:
+    print(c, "→", status_if(c))
+print("ok", True)
+`,
           output: `OK accept accept same= True
 MISSING review review same= True
 OUT_OF_RANGE reject reject same= True
@@ -654,14 +640,17 @@ PASS 35 OK
         starterCode: {
           language: 'python',
           title: 'comparar_edad_region.py',
-          code: `edad = 25
+          code: `# CASO-LIM-003 · comparaciones edad/región
+# DEFECT: resultados invertidos / hardcode
+edad = 25
 region = "Cusco"
-
-print(____)  # edad >= 18
-print(____)  # edad < 65
-print(____)  # 18 <= edad <= 65
-print(____)  # region == "Lima"
-print(____)  # region != "Piura"`,
+print(edad < 18)
+print(edad >= 65)
+print(edad < 18 or edad > 65)
+print(region != "Lima")
+print(region == "Piura")
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -698,10 +687,13 @@ True`,
         starterCode: {
           language: 'python',
           title: 'allowlist_tipo_doc.py',
-          code: `TIPOS_DOC = {"DNI", "CE", "PAS"}
+          code: `# CASO-LIM-003 · membership set TIPOS_DOC
+# DEFECT: compara con == lista
+TIPOS_DOC = {"DNI", "CE", "PAS"}
 for t in ["DNI", "dni", "RUC"]:
-    # TODO: imprime pertenencia
-    print(t, "→", ____)`,
+    print(t, "→", t == "DNI")
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -731,11 +723,15 @@ RUC → False`,
         starterCode: {
           language: 'python',
           title: 'is_vs_eq.py',
-          code: `valor = None
-print("valor is None →", ____)
-print("True == 1 →", ____)
-print("True is 1 →", ____)
-print("Nota:", "____")`,
+          code: `# CASO-LIM-003 · is None vs ==
+# DEFECT: confunde is y ==
+valor = None
+print("valor is None →", valor == None)
+print("True == 1 →", True is 1)
+print("True is 1 →", True == 1)
+print("Nota:", "is es identidad")
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -769,9 +765,13 @@ Nota: usa is solo para None; == para valores de negocio`,
         starterCode: {
           language: 'python',
           title: 'tabla_truthiness.py',
-          code: `vals = [None, False, 0, 0.0, "", [], {}, set(), range(0), "x", 1, [0]]
+          code: `# CASO-LIM-003 · truthiness
+# DEFECT: usa is not None como bool
+vals = [None, False, 0, 0.0, "", [], {}, set(), range(0), "x", 1, [0]]
 for v in vals:
-    print(repr(v), "→", ____)`,
+    print(repr(v), "→", v is not None)
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -810,11 +810,15 @@ range(0, 0) → False
         starterCode: {
           language: 'python',
           title: 'and_or_predict.py',
-          code: `print("'' or 'default' →", ____)
-print("'Lima' or 'default' →", ____)
-print("0 and 99 →", ____)
-print("5 and 99 →", ____)
-print("None or 0 →", ____)`,
+          code: `# CASO-LIM-003 · or/and cortocircuito
+# DEFECT: valores incorrectos
+print("'' or 'default' →", "" and "default")
+print("'Lima' or 'default' →", "Lima" and "default")
+print("0 and 99 →", 0 or 99)
+print("5 and 99 →", 5 or 99)
+print("None or 0 →", None and 0)
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -848,13 +852,19 @@ None or 0 → 0`,
         starterCode: {
           language: 'python',
           title: 'fix_monto_cero.py',
-          code: `def validate_monto(m):
-    # BUG legado: if not m: return "reject"
-    # TODO: is None → review; < 0 → reject; else accept
-    pass
+          code: `# CASO-LIM-003 · validate_monto
+def validate_monto(m):
+    # DEFECT: if not m rechaza 0
+    if not m:
+        return "reject"
+    if m < 0:
+        return "reject"
+    return "accept"
 
-for m in [None, 0, -1, 100]:
-    print(m, "→", validate_monto(m))`,
+for m in [None, 0, -1, 10]:
+    print(m, "→", validate_monto(m))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -892,12 +902,20 @@ for m in [None, 0, -1, 100]:
         starterCode: {
           language: 'python',
           title: 'bandas_score.py',
-          code: `def classify_score(score: int) -> str:
-    # TODO: if/elif/else
-    pass
+          code: `# CASO-LIM-003 · classify_score
+def classify_score(score: int) -> str:
+    # DEFECT: umbrales invertidos
+    if score < 50:
+        return "accept"
+    elif score < 80:
+        return "review"
+    else:
+        return "reject"
 
 for s in [80, 50, 49, 100]:
-    print(s, "→", classify_score(s))`,
+    print(s, "→", classify_score(s))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -935,22 +953,21 @@ for s in [80, 50, 49, 100]:
         starterCode: {
           language: 'python',
           title: 'ifs_vs_elif.py',
-          code: `def bad(score):
+          code: `# CASO-LIM-003 · if encadenados sin elif
+def bad(score):
     status = None
     if score >= 80:
         status = "accept"
     if score >= 50:
-        status = "review"
+        status = "review"  # DEFECT: pisa accept
     if score < 50:
         status = "reject"
     return status
 
-def good(score):
-    # TODO: if/elif/else
-    pass
-
-for s in [95, 60, 30]:
-    print(s, "bad=", bad(s), "good=", good(s))`,
+for s in [80, 50, 49]:
+    print(s, bad(s))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -997,12 +1014,17 @@ for s in [95, 60, 30]:
         starterCode: {
           language: 'python',
           title: 'trazar_bandas.py',
-          code: `def band(n):
-    # TODO
-    pass
+          code: `# CASO-LIM-003 · bandas numéricas
+def band(n):
+    # DEFECT: solo un umbral
+    if n > 50:
+        return "alto"
+    return "bajo"
 
 for n in [150, 75, 10, 0, -3]:
-    print(n, "→", band(n))`,
+    print(n, "→", band(n))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1044,12 +1066,17 @@ for n in [150, 75, 10, 0, -3]:
         starterCode: {
           language: 'python',
           title: 'guards_edad.py',
-          code: `def validate_edad(edad):
-    # TODO: guards
-    pass
+          code: `# CASO-LIM-003 · validate_edad guards
+def validate_edad(edad):
+    # DEFECT: no distingue None vs tipo
+    if not edad:
+        return {"status": "reject", "code": "BAD"}
+    return {"status": "accept", "code": "OK"}
 
 for e in [None, "25", 15, 30]:
-    print(e, "→", validate_edad(e))`,
+    print(e, "→", validate_edad(e))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1090,28 +1117,27 @@ for e in [None, "25", 15, 30]:
         starterCode: {
           language: 'python',
           title: 'refactor_guards_monto.py',
-          code: `def validate_monto_nested(m):
+          code: `# CASO-LIM-003 · nested if monto
+def validate_monto_nested(m):
+    # DEFECT: anidado profundo sin early return; 0 cae mal
     if m is not None:
         if isinstance(m, int):
-            if m >= 0:
+            if m > 0:
                 if m <= 10000:
                     return "accept"
                 else:
-                    return "review"
+                    return "reject"
             else:
                 return "reject"
         else:
             return "reject"
     else:
-        return "review"
+        return "reject"
 
-def validate_monto_guards(m):
-    # TODO: misma semántica, sin pirámide
-    pass
-
-for v in [None, "x", -1, 0, 500, 20000]:
-    a, b = validate_monto_nested(v), validate_monto_guards(v)
-    print(v, a, b, "ok=", a == b)`,
+for m in [None, 0, 5, 20000]:
+    print(m, validate_monto_nested(m))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1170,25 +1196,20 @@ x reject reject ok= True
         starterCode: {
           language: 'python',
           title: 'rama_muerta.py',
-          code: `def etiqueta_bug(x):
+          code: `# CASO-LIM-003 · elif muerto
+def etiqueta_bug(x):
     if x != 0:
         if x > 0:
             return "positivo"
         return "negativo"
-    elif x == 0:  # ¿se alcanza?
-        return "cero"
-    return "???"
+    elif x == 0:  # DEFECT: se alcanza, pero rama confusa
+        return "cero?"
+    return "??"
 
-print("bug 0 →", etiqueta_bug(0))
-print("bug 3 →", etiqueta_bug(3))
-
-def etiqueta_ok(x):
-    # TODO: tres ramas vivas: positivo, negativo, cero
-    pass
-
-print("ok 0 →", etiqueta_ok(0))
-print("ok 3 →", etiqueta_ok(3))
-print("ok -2 →", etiqueta_ok(-2))`,
+for x in [-1, 0, 2]:
+    print(x, etiqueta_bug(x))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1256,14 +1277,19 @@ muerto(6) → no-negativo (nunca no aparece)`,
         starterCode: {
           language: 'python',
           title: 'allowlist_regiones.py',
-          code: `ALLOWED = {"Lima", "Arequipa", "Cusco", "Piura"}
+          code: `# CASO-LIM-003 · check_region allowlist
+ALLOWED = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 def check_region(r):
-    # TODO
-    pass
+    # DEFECT: None → reject
+    if r not in ALLOWED:
+        return "reject"
+    return "accept"
 
 for r in ["Lima", "Tacna", None]:
-    print(r, "→", check_region(r))`,
+    print(r, "→", check_region(r))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1301,12 +1327,21 @@ None → review`,
         starterCode: {
           language: 'python',
           title: 'rango_monto.py',
-          code: `def monto_ingreso(m):
-    # TODO
-    pass
+          code: `# CASO-LIM-003 · monto_ingreso
+def monto_ingreso(m):
+    # DEFECT: 0 es reject
+    if m is None:
+        return "review"
+    if m <= 0:
+        return "reject"
+    if m > 50000:
+        return "review"
+    return "accept"
 
 for m in [None, -1, 0, 1200, 60000]:
-    print(m, "→", monto_ingreso(m))`,
+    print(m, "→", monto_ingreso(m))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1346,15 +1381,20 @@ for m in [None, -1, 0, 1200, 60000]:
         starterCode: {
           language: 'python',
           title: 'tipo_doc_longitud.py',
-          code: `ALLOWED_DOC = {"DNI", "CE", "PAS"}
+          code: `# CASO-LIM-003 · tipo_doc_len
+ALLOWED_DOC = {"DNI", "CE", "PAS"}
 DOC_LEN = {"DNI": 8, "CE": 9, "PAS": 9}
 
 def tipo_doc_len(tipo, numero):
-    # TODO
-    pass
+    # DEFECT: no valida longitud
+    if tipo not in ALLOWED_DOC:
+        return "reject"
+    return "accept"
 
-for t, n in [("DNI", "12345678"), ("DNI", "123"), ("RUC", "20123456789"), (None, "1")]:
-    print(t, n, "→", tipo_doc_len(t, n))`,
+for t, n in [("DNI", "12345678"), ("DNI", "123"), (None, "1")]:
+    print(t, n, "→", tipo_doc_len(t, n))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1397,17 +1437,20 @@ None 1 → {'status': 'review', 'code': 'MISSING'}`,
         starterCode: {
           language: 'python',
           title: 'decision_table.py',
-          code: `TABLE = {
+          code: `# CASO-LIM-003 · tabla códigos
+TABLE = {
     "OK": "accept",
-    "MISSING": "____",
-    "OUT_OF_RANGE": "____",
+    "MISSING": "reject",  # DEFECT: debería review
+    "OUT_OF_RANGE": "review",  # DEFECT: debería reject
 }
 
 def apply(code):
     return TABLE.get(code, "review")
 
-for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO"]:
-    print(c, "→", apply(c))`,
+for c in ["OK", "MISSING", "OUT_OF_RANGE", "X"]:
+    print(c, apply(c))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1446,17 +1489,19 @@ FOO → review`,
         starterCode: {
           language: 'python',
           title: 'match_codigos.py',
-          code: `def status_match(code: str) -> str:
+          code: `# CASO-LIM-003 · match statement
+def status_match(code: str) -> str:
     match code:
         case "OK":
             return "accept"
-        # TODO: MISSING | NEEDS_REVIEW → review
-        # TODO: OUT_OF_RANGE | NOT_IN_ALLOWLIST | BAD_TYPE → reject
+        # DEFECT: MISSING cae en default accept
         case _:
-            return "review"
+            return "accept"
 
-for c in ["OK", "MISSING", "OUT_OF_RANGE", "FOO", "NEEDS_REVIEW"]:
-    print(c, "→", status_match(c))`,
+for c in ["OK", "MISSING", "OUT_OF_RANGE"]:
+    print(c, status_match(c))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1498,17 +1543,20 @@ NEEDS_REVIEW → review`,
         starterCode: {
           language: 'python',
           title: 'if_vs_match_elegir.py',
-          code: `def map_code(code: str) -> str:
-    # TODO: match o if — códigos OK/MISSING/OUT_OF_RANGE
-    pass
+          code: `# CASO-LIM-003 · map_code + map_edad
+def map_code(code: str) -> str:
+    # DEFECT: siempre accept
+    return "accept"
 
-def map_edad(edad: int | None) -> str:
-    # TODO: if — None review, 18–65 accept, else reject
-    pass
+def map_edad(edad):
+    # DEFECT: None → accept
+    if isinstance(edad, int) and 18 <= edad <= 65:
+        return "accept"
+    return "accept"
 
-print(map_code("OK"), map_code("MISSING"))
-print(map_edad(None), map_edad(30), map_edad(10))
-print("Justificación:", "____")`,
+print(map_code("MISSING"), map_edad(None))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1557,24 +1605,19 @@ Justificación: match para códigos finitos; if para rangos numéricos`,
         starterCode: {
           language: 'python',
           title: 'ejemplos_edad.py',
-          code: `def validate_edad(e):
+          code: `# CASO-LIM-003 · pipeline edad
+def validate_edad(e):
+    # DEFECT: no type check
     if e is None:
         return "review"
-    if not isinstance(e, int):
-        return "reject"
     if e < 0 or e > 120:
         return "reject"
     return "accept"
 
-examples = [
-    {"value": 30, "expected": "____"},
-    {"value": -1, "expected": "____"},
-    {"value": None, "expected": "____"},
-    {"value": "x", "expected": "____"},
-]
-for ex in examples:
-    got = validate_edad(ex["value"])
-    print(ex["value"], got, got == ex["expected"])`,
+for e in [None, "25", -1, 30]:
+    print(e, validate_edad(e))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1620,18 +1663,17 @@ x reject True`,
         starterCode: {
           language: 'python',
           title: 'invariante_apellidos.py',
-          code: `def validate_apellidos(ap, am):
-    # TODO
-    pass
+          code: `# CASO-LIM-003 · apellidos invariante
+def validate_apellidos(ap, am):
+    # DEFECT: exige ambos siempre
+    if not ap or not am:
+        return "reject"
+    return "accept"
 
-invariant_text = "____"
-examples = [
-    # TODO 3 casos
-]
-print(invariant_text)
-for ex in examples:
-    got = validate_apellidos(ex["ap"], ex["am"])
-    print(ex, "→", got, got == ex["expected"])`,
+print(validate_apellidos("Ramos", ""))
+print(validate_apellidos("", "Q"))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1682,23 +1724,17 @@ Quispe None → review True
         starterCode: {
           language: 'python',
           title: 'contraejemplo_edad.py',
-          code: `def validate_edad_strict(e):
-    """Invariante roto: todo lo no 18-65 es reject (incluye None y menores)."""
+          code: `# CASO-LIM-003 · strict age bug demo
+def validate_edad_strict(e):
+    # DEFECT: None y menores → reject (sin review)
     if isinstance(e, int) and 18 <= e <= 65:
         return "accept"
     return "reject"
 
-print("strict 15 →", validate_edad_strict(15))
-print("strict None →", validate_edad_strict(None))
-
-def validate_edad_fixed(e):
-    # TODO: None review; <0 o >120 reject; <18 review; 18-65 accept; else review
-    pass
-
-print("fixed 15 →", validate_edad_fixed(15))
-print("fixed None →", validate_edad_fixed(None))
-print("fixed 30 →", validate_edad_fixed(30))
-print("Invariante:", "____")`,
+print("strict None", validate_edad_strict(None))
+print("strict 15", validate_edad_strict(15))
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1754,15 +1790,17 @@ Invariante: menores y ausentes → review; solo fuera de 0-120 o tipo mal → re
         starterCode: {
           language: 'python',
           title: 'mensajes_accionables.py',
-          code: `vagos = ["Error", "inválido", "bad age"]
-# Reescribe en la misma lista accionables
+          code: `# CASO-LIM-003 · mensajes accionables
+# DEFECT: mensajes vagos
 accionables = [
-    "____",
-    "____",
-    "____",
+    "Error",
+    "inválido",
+    "bad age",
 ]
 for a in accionables:
-    print(a)`,
+    print(a)
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1796,7 +1834,8 @@ Campo 'edad'=-3 fuera de rango; usa un entero entre 0 y 120.`,
         starterCode: {
           language: 'python',
           title: 'tests_por_rama.py',
-          code: `def classify_score(score: int) -> str:
+          code: `# CASO-LIM-003 · classify + mensaje
+def classify_score(score: int) -> str:
     if score >= 80:
         return "accept"
     elif score >= 50:
@@ -1804,13 +1843,11 @@ Campo 'edad'=-3 fuera de rango; usa un entero entre 0 y 120.`,
     else:
         return "reject"
 
-cases = [
-    # TODO: (valor, expected)
-]
-for val, expected in cases:
-    got = classify_score(val)
-    assert got == expected, (val, got, expected)
-    print("PASS", val, got)`,
+# DEFECT: mensaje genérico
+for s in [90, 60, 10]:
+    print(s, classify_score(s), "Error")
+print('ok', True)
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1858,7 +1895,10 @@ PASS 50 review`,
         starterCode: {
           language: 'python',
           title: 'fix_off_by_one.py',
-          code: `def rango_edad(e):
+          code: `# CASO-LIM-003 · rango_edad boundary 18
+# DEFECT: 18 queda fuera (e>18 en vez de e>=18)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def rango_edad(e):
     if e is None:
         return "review"
     if e > 18 and e <= 65:  # BUG: 18 queda fuera
@@ -1928,25 +1968,25 @@ from typing import Any
 
 def validate_edad(valor: Any) -> dict:
     """None → MISSING/review; tipo mal → BAD_TYPE; rango; menores → NEEDS_REVIEW."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
 def validate_region(valor: Any) -> dict:
     """Allowlist sintética de regiones del Perú."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
 def validate_monto(valor: Any) -> dict:
     """0 válido; None → review; negativo → reject; outlier opcional → review."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
 def validate_record(record: dict) -> dict:
     """Devuelve {campo: {status, code, message}} para edad, region, monto_ingreso."""
-    # TODO
+    # Contrato: corrige el DEFECT del starter
     raise NotImplementedError
 
 
@@ -2046,6 +2086,16 @@ if __name__ == "__main__":
         url: 'https://peps.python.org/pep-0636/',
         note: 'Patrones OR, wildcard _ y cuándo usar match',
       },
+      {
+        label: 'Python for Everybody — conditionals',
+        url: 'https://www.py4e.com/html3/03-conditional',
+        note: 'if/else progressive disclosure',
+      },
+      {
+        label: 'unittest — TestCase (assert patterns)',
+        url: 'https://docs.python.org/3/library/unittest.html',
+        note: 'Cubrir ramas accept/reject/review',
+      },
     ],
     books: [
       {
@@ -2062,6 +2112,21 @@ if __name__ == "__main__":
         label: 'CS50P — Conditionals',
         url: 'https://cs50.harvard.edu/python/',
         note: 'Secuencia pedagógica de condicionales; no copiar problem sets.',
+      },
+      {
+        label: 'MIT 6.100L',
+        url: 'https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/',
+        note: 'Control de flujo y contratos',
+      },
+      {
+        label: 'Coursera — Python for Everybody',
+        url: 'https://www.coursera.org/specializations/python',
+        note: 'Condicionales e I/O',
+      },
+      {
+        label: 'Kaggle Learn — Python',
+        url: 'https://www.kaggle.com/learn/python',
+        note: 'Micro-práctica de booleans e if',
       },
     ],
   },

@@ -12,7 +12,7 @@ export const section31: CourseSection = {
   icon: "Network",
   accentColor: "bg-gradient-to-br from-violet-500 to-indigo-800",
   jobRelevance:
-    "En investigación de relaciones entre entidades (banca, BPO, compliance en Perú), necesitas un **grafo temporal con evidencia por arista** — no un dashboard de sospechosos. Id de plataforma `streaming-data` conservado; retemática V3 **Grafos y evidencia relacional** e **inicio de CP-N3-B**. Centralidad no es culpabilidad; ER/matching no implica fraude ni parentesco.",
+    "En investigación de relaciones entre entidades (banca, BPO, compliance en Perú), necesitas un **grafo de evidencia**: nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión. Id legacy `streaming-data` se conserva; el path V3 es grafos y evidencia relacional, no Kafka/streams.",
   learningOutcomes: [
     { text: "Modelar nodos/aristas con peso y dirección" },
     { text: "Representar multigrafo temporal con provenance" },
@@ -44,25 +44,29 @@ export const section31: CourseSection = {
       paragraphs: [
         "Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuencia, confianza). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
         "Dirigido vs no dirigido: transferencias son dirigidas; “comparte dirección” suele modelarse no dirigido o bidireccional simétrico. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "El peso es evidencia cuantitativa, no veredicto. Documenta unidades (PEN, count, score) en el schema del grafo. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
+        "El **peso** es evidencia cuantitativa (**no** veredicto de culpa). Documenta **unidades** (PEN, count, score) en el schema del grafo. Caso PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve **path + evidencia**, nunca un auto-veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
         title: "graph_model.py",
-        code: `# modelo mínimo de grafo dirigido con pesos (CP-N3-B)
-nodes = {
-    "E1": {"kind": "entity", "label": "Ana López"},
-    "E2": {"kind": "entity", "label": "Luis Ríos"},
-    "C1": {"kind": "account", "label": "cta-1001"},
-}
-edges = [
-    {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "directed": True},
-    {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "directed": False},
-    {"src": "C1", "dst": "E2", "etype": "transfer", "weight": 250.0, "directed": True},
-]
-print("n_nodes", len(nodes))
-print("n_edges", len(edges))
-print("types", sorted({e["etype"] for e in edges}))`,
+        code: `def s31_th_1():
+    # modelo mínimo de grafo dirigido con pesos (CP-N3-B)
+    nodes = {
+        "E1": {"kind": "entity", "label": "Ana López"},
+        "E2": {"kind": "entity", "label": "Luis Ríos"},
+        "C1": {"kind": "account", "label": "cta-1001"},
+    }
+    edges = [
+        {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "directed": True},
+        {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "directed": False},
+        {"src": "C1", "dst": "E2", "etype": "transfer", "weight": 250.0, "directed": True},
+    ]
+    print("n_nodes", len(nodes))
+    print("n_edges", len(edges))
+    print("types", sorted({e["etype"] for e in edges}))
+
+s31_th_1()
+`,
         output: `n_nodes 3
 n_edges 3
 types ['owns', 'shared_phone', 'transfer']`,
@@ -78,26 +82,30 @@ types ['owns', 'shared_phone', 'transfer']`,
       heading: "multigrafo, tiempo y provenance",
       subtopicId: "S31-T1-B",
       paragraphs: [
-        "Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
-        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados deben filtrar por ventana cuando el caso lo exija. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
+        "Un **multigrafo** permite **varias aristas** entre el mismo par (varias transferencias, varios contactos). **No** colapses a una sola arista sin guardar el detalle fuente — el revisor necesita `record_id`s para auditar. El grafo **explica** conexiones; **no** etiqueta culpabilidad.",
+        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados **filtran por ventana** cuando el caso lo exija (no mezcles 2019 con 2026 sin decirlo). Contrato: fixture `CASO-LIM-031` → grafo con tipos, pesos y provenance; error si falta `record_id`.",
+        "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. **Sin provenance, el grafo es decoración** y no pasa el gate de evidencia de CP-N3-B. Caso PE: path + evidencia, nunca auto-fraude.",
       ],
       code: {
         language: 'python',
         title: "multigraph_prov.py",
-        code: `from datetime import datetime, timezone
-# multiaristas E1→E2 con provenance
-raw_edges = [
-    {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 100.0,
-     "ts": "2026-01-10T10:00:00Z", "source": "tx_ledger", "record_id": "tx-1"},
-    {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 50.0,
-     "ts": "2026-01-12T15:00:00Z", "source": "tx_ledger", "record_id": "tx-2"},
-    {"src": "E1", "dst": "E2", "etype": "shared_email", "amount": 1.0,
-     "ts": "2026-01-01T00:00:00Z", "source": "crm", "record_id": "crm-9"},
-]
-print("multi_count", len(raw_edges))
-print("sources", sorted({e["source"] for e in raw_edges}))
-print("has_provenance", all("record_id" in e and "source" in e for e in raw_edges))`,
+        code: `def s31_th_2():
+    from datetime import datetime, timezone
+    # multiaristas E1→E2 con provenance
+    raw_edges = [
+        {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 100.0,
+         "ts": "2026-01-10T10:00:00Z", "source": "tx_ledger", "record_id": "tx-1"},
+        {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 50.0,
+         "ts": "2026-01-12T15:00:00Z", "source": "tx_ledger", "record_id": "tx-2"},
+        {"src": "E1", "dst": "E2", "etype": "shared_email", "amount": 1.0,
+         "ts": "2026-01-01T00:00:00Z", "source": "crm", "record_id": "crm-9"},
+    ]
+    print("multi_count", len(raw_edges))
+    print("sources", sorted({e["source"] for e in raw_edges}))
+    print("has_provenance", all("record_id" in e and "source" in e for e in raw_edges))
+
+s31_th_2()
+`,
         output: `multi_count 3
 sources ['crm', 'tx_ledger']
 has_provenance True`,
@@ -115,37 +123,41 @@ has_provenance True`,
       paragraphs: [
         "Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
         "Patrón habitual: entity —owns→ account; account —transfer→ account; entity —has_contact→ contact_value. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "Datos sintéticos con ids estables (`ent-001`). Nunca cargues PII real en ejercicios del curso. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
+        "Datos **sintéticos** con ids estables (`ent-001`). **Nunca** cargues PII real en ejercicios del curso. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
         title: "build_from_tables.py",
-        code: `entities = [
-    {"id": "ent-001", "name": "Ana López"},
-    {"id": "ent-002", "name": "Luis Ríos"},
-]
-accounts = [
-    {"id": "acc-1", "owner": "ent-001"},
-    {"id": "acc-2", "owner": "ent-002"},
-]
-txs = [
-    {"id": "tx-1", "src": "acc-1", "dst": "acc-2", "amount": 120.0},
-]
-contacts = [
-    {"entity": "ent-001", "kind": "email", "value": "ana@example.pe"},
-    {"entity": "ent-002", "kind": "email", "value": "luis@example.pe"},
-    {"entity": "ent-001", "kind": "phone", "value": "+51-900-000-001"},
-    {"entity": "ent-002", "kind": "phone", "value": "+51-900-000-001"},  # shared phone sintético
-]
-nodes = {e["id"] for e in entities} | {a["id"] for a in accounts}
-edges = (
-    [{"src": a["owner"], "dst": a["id"], "etype": "owns"} for a in accounts]
-    + [{"src": t["src"], "dst": t["dst"], "etype": "transfer", "weight": t["amount"]} for t in txs]
-    + [{"src": c["entity"], "dst": c["value"], "etype": "has_" + c["kind"]} for c in contacts]
-)
-print("nodes", len(nodes) + len({c["value"] for c in contacts}))
-print("edges", len(edges))
-print("shared_phone", True)`,
+        code: `def s31_th_3():
+    entities = [
+        {"id": "ent-001", "name": "Ana López"},
+        {"id": "ent-002", "name": "Luis Ríos"},
+    ]
+    accounts = [
+        {"id": "acc-1", "owner": "ent-001"},
+        {"id": "acc-2", "owner": "ent-002"},
+    ]
+    txs = [
+        {"id": "tx-1", "src": "acc-1", "dst": "acc-2", "amount": 120.0},
+    ]
+    contacts = [
+        {"entity": "ent-001", "kind": "email", "value": "ana@example.pe"},
+        {"entity": "ent-002", "kind": "email", "value": "luis@example.pe"},
+        {"entity": "ent-001", "kind": "phone", "value": "+51-900-000-001"},
+        {"entity": "ent-002", "kind": "phone", "value": "+51-900-000-001"},  # shared phone sintético
+    ]
+    nodes = {e["id"] for e in entities} | {a["id"] for a in accounts}
+    edges = (
+        [{"src": a["owner"], "dst": a["id"], "etype": "owns"} for a in accounts]
+        + [{"src": t["src"], "dst": t["dst"], "etype": "transfer", "weight": t["amount"]} for t in txs]
+        + [{"src": c["entity"], "dst": c["value"], "etype": "has_" + c["kind"]} for c in contacts]
+    )
+    print("nodes", len(nodes) + len({c["value"] for c in contacts}))
+    print("edges", len(edges))
+    print("shared_phone", True)
+
+s31_th_3()
+`,
         output: `nodes 7
 edges 7
 shared_phone True`,
@@ -168,22 +180,26 @@ shared_phone True`,
       code: {
         language: 'python',
         title: "dedup_agg.py",
-        code: `from collections import defaultdict
-detail = [
-    {"src": "E1", "dst": "E2", "amount": 100.0, "record_id": "tx-1"},
-    {"src": "E1", "dst": "E2", "amount": 50.0, "record_id": "tx-2"},
-    {"src": "E2", "dst": "E3", "amount": 20.0, "record_id": "tx-3"},
-]
-agg = defaultdict(lambda: {"sum": 0.0, "n": 0, "records": []})
-for d in detail:
-    k = (d["src"], d["dst"])
-    agg[k]["sum"] += d["amount"]
-    agg[k]["n"] += 1
-    agg[k]["records"].append(d["record_id"])
-# capa agregada + detalle intacto
-print("pairs", len(agg))
-print("E1_E2", agg[("E1", "E2")]["sum"], agg[("E1", "E2")]["n"])
-print("detail_kept", len(detail) == sum(v["n"] for v in agg.values()))`,
+        code: `def s31_th_4():
+    from collections import defaultdict
+    detail = [
+        {"src": "E1", "dst": "E2", "amount": 100.0, "record_id": "tx-1"},
+        {"src": "E1", "dst": "E2", "amount": 50.0, "record_id": "tx-2"},
+        {"src": "E2", "dst": "E3", "amount": 20.0, "record_id": "tx-3"},
+    ]
+    agg = defaultdict(lambda: {"sum": 0.0, "n": 0, "records": []})
+    for d in detail:
+        k = (d["src"], d["dst"])
+        agg[k]["sum"] += d["amount"]
+        agg[k]["n"] += 1
+        agg[k]["records"].append(d["record_id"])
+    # capa agregada + detalle intacto
+    print("pairs", len(agg))
+    print("E1_E2", agg[("E1", "E2")]["sum"], agg[("E1", "E2")]["n"])
+    print("detail_kept", len(detail) == sum(v["n"] for v in agg.values()))
+
+s31_th_4()
+`,
         output: `pairs 2
 E1_E2 150.0 2
 detail_kept True`,
@@ -201,7 +217,7 @@ detail_kept True`,
       paragraphs: [
         "**Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
         "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso suele vivir en un subgrafo acotado. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "**Caminos**: BFS/DFS con límite de profundidad; el path reproducible lista nodos, aristas y evidencia. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
+        "**Caminos**: BFS/DFS con **límite de profundidad**; el path **reproducible** lista nodos, aristas y evidencia. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -264,7 +280,7 @@ path_A_D ['A', 'B', 'D']`,
       heading: "centralidad con interpretación limitada",
       subtopicId: "S31-T3-B",
       paragraphs: [
-        "**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "**Degree / betweenness / closeness** miden **estructura**, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center). La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
         "Interpreta con contexto: tipo de arista, ventana temporal, y si el nodo es infraestructura vs persona. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
         "Nunca automatices “alta centralidad → fraude”. Eso viola el gate de CP-N3-B. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
       ],
@@ -313,7 +329,7 @@ not_guilt True`,
       heading: "subgrafos y pruebas",
       subtopicId: "S31-T4-A",
       paragraphs: [
-        "Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
+        "Extrae un **subgrafo de caso**: nodos seed + **k hops** + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente. La estructura relacional se usa para *explicar* conexiones auditables en investigación, no para etiquetar culpabilidad automática.",
         "Tests de grafo: cardinalidades, path existe/no existe, componente esperada, idempotencia de construcción. Contrato operativo: entrada filas sintéticas del fixture `CASO-LIM-031` (run_id=cpn3b-01) → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
         "Cada bug de construcción (arista invertida, nodo huérfano) debe tener regresión. Caso sintético PE (Lima, Red Andina): contactos `@example.pe` y transferencias demo; el revisor ve path + evidencia, nunca un veredicto de fraude o parentesco. Documenta evidencia y límites del fixture `CASO-LIM-031` (run_id=cpn3b-01): sin PII real y sin auto-veredicto.",
       ],
@@ -418,11 +434,16 @@ scalable_view subgraph_only`,
 edges = [
     ("E1", "A1", "owns", 1.0, True),
     ("E2", "A2", "owns", 1.0, True),
-    ("A1", "A2", "transfer", 99.5, True),
+    ("E1", "E2", "share_phone", 0.8, False),
 ]
-print("n", len(nodes), "e", len(edges))
-print("directed_tx", edges[2][4])
-print("weight", edges[2][3])`,
+
+def edge_types(edges):
+    return sorted({e[2] for e in edges})
+
+print("nodes", len(nodes), "edges", len(edges))
+print("types", edge_types(edges))
+print("ok", True)
+`,
           output: `n 4 e 3
 directed_tx True
 weight 99.5`,
@@ -439,11 +460,21 @@ weight 99.5`,
           title: "multi_demo.py",
           code: `edges = [
     {"pair": ("E1", "E2"), "ts": "2026-03-01", "rid": "r1", "src": "crm"},
-    {"pair": ("E1", "E2"), "ts": "2026-03-02", "rid": "r2", "src": "crm"},
+    {"pair": ("E1", "E2"), "ts": "2026-01-15", "rid": "r0", "src": "tx"},
 ]
-print("multi", len(edges))
-print("rids", [e["rid"] for e in edges])
-print("prov_ok", all(e.get("src") and e.get("rid") for e in edges))`,
+
+def latest_by_pair(edges):
+    best = {}
+    for e in edges:
+        k = e["pair"]
+        if k not in best or e["ts"] > best[k]["ts"]:
+            best[k] = e
+    return best
+
+print(latest_by_pair(edges)[("E1", "E2")]["rid"])
+print("provenance", True)
+print("ok", True)
+`,
           output: `multi 2
 rids ['r1', 'r2']
 prov_ok True`,
@@ -460,14 +491,18 @@ prov_ok True`,
           title: "build_demo.py",
           code: `ents = [{"id": "e1"}, {"id": "e2"}]
 accs = [{"id": "a1", "owner": "e1"}]
-phones = [{"e": "e1", "v": "9001"}, {"e": "e2", "v": "9001"}]
-edges = [(a["owner"], a["id"], "owns") for a in accs]
-# shared contact via contact node
-for p in phones:
-    edges.append((p["e"], "ph:" + p["v"], "has_phone"))
-print("edges", len(edges))
-print("contact_node", "ph:9001")
-print("builders", "tables_ok")`,
+phones = [{"e": "e1", "v": "900"}, {"e": "e2", "v": "900"}]
+
+def build_nodes(ents, accs, phones):
+    nodes = {e["id"] for e in ents}
+    nodes |= {a["id"] for a in accs}
+    nodes |= {p["v"] for p in phones}
+    return sorted(nodes)
+
+print(build_nodes(ents, accs, phones))
+print("projection", True)
+print("ok", True)
+`,
           output: `edges 3
 contact_node ph:9001
 builders tables_ok`,
@@ -483,17 +518,25 @@ builders tables_ok`,
           language: 'python',
           title: "agg_demo.py",
           code: `from collections import defaultdict
+
 rows = [
     ("E1", "E2", 10.0, "t1"),
     ("E1", "E2", 5.0, "t2"),
+    ("E2", "E3", 1.0, "t3"),
 ]
-agg = defaultdict(lambda: {"sum": 0.0, "ids": []})
-for s, d, a, i in rows:
-    agg[(s, d)]["sum"] += a
-    agg[(s, d)]["ids"].append(i)
-print("sum", agg[("E1", "E2")]["sum"])
-print("ids", agg[("E1", "E2")]["ids"])
-print("detail_n", len(rows))`,
+
+def aggregate_pairs(rows):
+    agg = defaultdict(lambda: {"amount": 0.0, "n": 0})
+    for a, b, amt, _ in rows:
+        k = (a, b)
+        agg[k]["amount"] += amt
+        agg[k]["n"] += 1
+    return dict(agg)
+
+print(aggregate_pairs(rows)[("E1", "E2")])
+print("aggregate", True)
+print("ok", True)
+`,
           output: `sum 15.0
 ids ['t1', 't2']
 detail_n 2`,
@@ -545,14 +588,20 @@ repro True`,
           language: 'python',
           title: "cent_demo.py",
           code: `from collections import Counter
+
+def degree_hub(edges):
+    deg = Counter()
+    for u, v in edges:
+        deg[u] += 1
+        deg[v] += 1
+    hub = max(deg, key=deg.get)
+    return hub, deg[hub]
+
 edges = [("H", "A"), ("H", "B"), ("H", "C"), ("A", "B")]
-deg = Counter()
-for u, v in edges:
-    deg[u] += 1; deg[v] += 1
-top = deg.most_common(1)[0]
-print("top_node", top[0], "degree", top[1])
-print("interpretation", "structure_only")
-print("guilt_label", False)`,
+print(degree_hub(edges))
+print("hub", True)
+print("ok", True)
+`,
           output: `top_node H degree 3
 interpretation structure_only
 guilt_label False`,
@@ -568,15 +617,18 @@ guilt_label False`,
           language: 'python',
           title: "ego_demo.py",
           code: `from collections import defaultdict
+
+def neighbors(adj, src):
+    return sorted(adj.get(src, []))
+
 adj = defaultdict(set)
-for u, v in [("S", "A"), ("S", "B"), ("A", "X"), ("Z", "Y")]:
-    adj[u].add(v); adj[v].add(u)
-seed, k = "S", 1
-nodes = {seed} | set(adj[seed])
-assert "A" in nodes and "Z" not in nodes
-print("ego", sorted(nodes))
-print("k", k)
-print("test_ok", True)`,
+for u, v in [("S", "A"), ("S", "B"), ("A", "C")]:
+    adj[u].add(v)
+    adj[v].add(u)
+print(neighbors(adj, "S"))
+print("path_support", True)
+print("ok", True)
+`,
           output: `ego ['A', 'B', 'S']
 k 1
 test_ok True`,
@@ -614,7 +666,7 @@ pii_full False`,
         subtopicId: "S31-T1-A",
         kind: "guided",
         instruction:
-          "S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Usa literales de dict/list.",
         hints: [
           "Usa literales de dict/list.",
@@ -626,12 +678,14 @@ pii_full False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `nodes = {"E1": {}, "E2": {}, "A1": {}}
+          code: `# CASO-LIM-031 · graph nodes+edges schema
+# DEFECT: omite print n_nodes; contrato incompleto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+nodes = {"E1": {}, "E2": {}, "A1": {}}
 edges = [
     {"src": "E1", "dst": "A1", "etype": "owns", "weight": 1.0, "directed": True},
     {"src": "E1", "dst": "E2", "etype": "link", "weight": 0.5, "directed": False},
 ]
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n_edges", len(edges))
 print("n_directed", sum(1 for e in edges if e["directed"]))
 `,
@@ -657,7 +711,7 @@ n_directed 1`,
         subtopicId: "S31-T1-A",
         kind: "independent",
         instruction:
-          "S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Acumula en un dict.",
         hints: [
           "Acumula en un dict.",
@@ -669,12 +723,14 @@ n_directed 1`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]
+          code: `# CASO-LIM-031 · out-weight by node
+# DEFECT: omite top saliente; print incompleto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]
 out = {}
 for s, d, w in edges:
     out[s] = out.get(s, 0.0) + w
 top = max(out, key=out.get)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("value", out[top])
 print("n", len(out))
 `,
@@ -700,7 +756,7 @@ n 2`,
         subtopicId: "S31-T1-A",
         kind: "transfer",
         instruction:
-          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sets para etypes.",
         hints: [
           "sets para etypes.",
@@ -712,8 +768,10 @@ n 2`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]
-# TODO: imprime la salida contractual (ver instruction / solution output)
+          code: `# CASO-LIM-031 · directed vs undirected counts
+# DEFECT: omite conteo directed
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]
 print("undirected", sum(1 for e in edges if not e["directed"]))
 print("etypes", sorted({e["etype"] for e in edges}))
 `,
@@ -735,7 +793,7 @@ etypes ['share', 'tx']`,
         subtopicId: "S31-T1-B",
         kind: "guided",
         instruction:
-          "S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "tuple (src,dst) como clave.",
         hints: [
           "tuple (src,dst) como clave.",
@@ -747,11 +805,13 @@ etypes ['share', 'tx']`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import Counter
+          code: `# CASO-LIM-031 · multi-edge pairs
+# DEFECT: omite par multi-arista dominante
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import Counter
 rows = [('E1','E2'),('E1','E2'),('E2','E3')]
 c = Counter(rows)
 pair, n = c.most_common(1)[0]
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n", n)
 print("pairs", len(c))
 `,
@@ -776,7 +836,7 @@ pairs 2`,
         subtopicId: "S31-T1-B",
         kind: "independent",
         instruction:
-          "S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "Compara strings ISO fecha ordenables.",
         hints: [
           "Compara strings ISO fecha ordenables.",
@@ -788,9 +848,11 @@ pairs 2`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]
+          code: `# CASO-LIM-031 · time filter edges
+# DEFECT: omite n filtrado por ts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]
 f = [e for e in edges if e["ts"] >= "2026-02-01"]
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("prov", all("record_id" in e for e in f))
 print("first", f[0]["record_id"])
 `,
@@ -813,7 +875,7 @@ first b`,
         subtopicId: "S31-T1-B",
         kind: "transfer",
         instruction:
-          "S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "strip de strings.",
         hints: [
           "strip de strings.",
@@ -825,11 +887,13 @@ first b`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]
+          code: `# CASO-LIM-031 · provenance validation
+# DEFECT: omite all_ok de provenance
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]
 def ok(e):
     return bool(e.get("source") and e.get("record_id"))
 n_bad = sum(1 for e in edges if not ok(e))
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n_bad", n_bad)
 print("n", len(edges))
 `,
@@ -854,7 +918,7 @@ n 3`,
         subtopicId: "S31-T2-A",
         kind: "guided",
         instruction:
-          "S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "list comprehension.",
         hints: [
           "list comprehension.",
@@ -866,9 +930,11 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]
+          code: `# CASO-LIM-031 · owns edges from accounts
+# DEFECT: omite lista owns
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]
 owns = sorted((a["owner"], a["id"]) for a in accounts)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n", len(owns))
 print("etype", "owns")
 `,
@@ -891,7 +957,7 @@ etype owns`,
         subtopicId: "S31-T2-A",
         kind: "independent",
         instruction:
-          "S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "groupby por value.",
         hints: [
           "groupby por value.",
@@ -903,13 +969,15 @@ etype owns`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict
+          code: `# CASO-LIM-031 · shared contact values
+# DEFECT: omite shared contacts
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict
 contacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]
 m = defaultdict(set)
 for e, v in contacts:
     m[v].add(e)
 shared = sorted(v for v, es in m.items() if len(es) >= 2)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n_shared", len(shared))
 print("note", "not_parentesco")
 `,
@@ -936,7 +1004,7 @@ note not_parentesco`,
         subtopicId: "S31-T2-A",
         kind: "transfer",
         instruction:
-          "S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sets.",
         hints: [
           "sets.",
@@ -948,9 +1016,11 @@ note not_parentesco`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `entities=['e1','e2']; accounts=['a1']; contacts=['900','901']
+          code: `# CASO-LIM-031 · union node set
+# DEFECT: omite n_nodes del union
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+entities=['e1','e2']; accounts=['a1']; contacts=['900','901']
 nodes = set(entities) | set(accounts) | set(contacts)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("has_contact", "900" in nodes)
 print("has_ent", "e1" in nodes)
 `,
@@ -973,7 +1043,7 @@ has_ent True`,
         subtopicId: "S31-T2-B",
         kind: "guided",
         instruction:
-          "S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "map.get(x,x).",
         hints: [
           "map.get(x,x).",
@@ -985,10 +1055,12 @@ has_ent True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `canon = {'r1':'E1','r2':'E1','r3':'E2'}
+          code: `# CASO-LIM-031 · canonical id collapse
+# DEFECT: omite canonical_edges
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+canon = {'r1':'E1','r2':'E1','r3':'E2'}
 edges = [('r1','r3'),('r2','r3')]
 ce = sorted({(canon[a], canon[b]) for a, b in edges})
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n", len(ce))
 print("collapsed", True)
 `,
@@ -1012,7 +1084,7 @@ collapsed True`,
         subtopicId: "S31-T2-B",
         kind: "independent",
         instruction:
-          "S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "defaultdict.",
         hints: [
           "defaultdict.",
@@ -1024,14 +1096,16 @@ collapsed True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict
+          code: `# CASO-LIM-031 · aggregate amount keep records
+# DEFECT: omite sum agregada
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict
 rows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]
 agg = defaultdict(lambda: {'sum': 0, 'records': []})
 for r in rows:
     k = (r['src'], r['dst'])
     agg[k]['sum'] += r['amount']
     agg[k]['records'].append(r['record_id'])
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("records", agg[('A','B')]['records'])
 print("detail_kept", True)
 `,
@@ -1059,7 +1133,7 @@ detail_kept True`,
         subtopicId: "S31-T2-B",
         kind: "transfer",
         instruction:
-          "S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "sum v['n'].",
         hints: [
           "sum v['n'].",
@@ -1071,10 +1145,12 @@ detail_kept True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `detail_n=5
+          code: `# CASO-LIM-031 · aggregate vs detail invariant
+# DEFECT: omite ok invariante sum n
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+detail_n=5
 aggs=[{'n':2},{'n':3}]
 total = sum(a['n'] for a in aggs)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("total", total)
 print("detail_n", detail_n)
 `,
@@ -1098,7 +1174,7 @@ detail_n 5`,
         subtopicId: "S31-T3-A",
         kind: "guided",
         instruction:
-          "S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "undirected: cuenta ambos extremos.",
         hints: [
           "undirected: cuenta ambos extremos.",
@@ -1110,12 +1186,14 @@ detail_n 5`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict
+          code: `# CASO-LIM-031 · undirected degree
+# DEFECT: omite dict de grados
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict
 edges=[('a','b'),('b','c'),('a','c')]
 deg = defaultdict(int)
 for u, v in edges:
     deg[u] += 1; deg[v] += 1
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("max", max(deg.values()))
 print("n", len(deg))
 `,
@@ -1141,7 +1219,7 @@ n 3`,
         subtopicId: "S31-T3-A",
         kind: "independent",
         instruction:
-          "S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "DFS o BFS.",
         hints: [
           "DFS o BFS.",
@@ -1153,7 +1231,10 @@ n 3`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict
+          code: `# CASO-LIM-031 · connected components
+# DEFECT: omite lista de componentes
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict
 edges=[('a','b'),('c','d'),('d','e')]
 adj = defaultdict(set)
 for u, v in edges:
@@ -1172,7 +1253,6 @@ for s in sorted(adj):
                 seen.add(m); stack.append(m)
     comps.append(sorted(comp))
 comps = sorted(comps, key=lambda c: c[0])
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n_comp", len(comps))
 print("ok", True)
 `,
@@ -1212,7 +1292,7 @@ ok True`,
         subtopicId: "S31-T3-A",
         kind: "transfer",
         instruction:
-          "S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "deque BFS.",
         hints: [
           "deque BFS.",
@@ -1224,7 +1304,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict, deque
+          code: `# CASO-LIM-031 · BFS path hops
+# DEFECT: omite path BFS
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict, deque
 adj = defaultdict(set)
 for u, v in [('A','B'),('B','C'),('C','D')]:
     adj[u].add(v); adj[v].add(u)
@@ -1237,7 +1320,6 @@ while q:
     for m in sorted(adj[n]):
         if m not in seen:
             seen.add(m); q.append((m, p+[m]))
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("hops", len(path)-1)
 print("found", path is not None)
 `,
@@ -1271,7 +1353,7 @@ found True`,
         subtopicId: "S31-T3-B",
         kind: "guided",
         instruction:
-          "S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "score = deg/max_deg.",
         hints: [
           "score = deg/max_deg.",
@@ -1283,11 +1365,13 @@ found True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `deg={'H':3,'A':1,'B':1,'C':1}
+          code: `# CASO-LIM-031 · normalized degree centrality
+# DEFECT: omite top centrality
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+deg={'H':3,'A':1,'B':1,'C':1}
 m = max(deg.values())
 norm = {k: deg[k]/m for k in deg}
 top = max(norm, key=norm.get)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("score", round(norm[top], 2))
 print("guilt", False)
 `,
@@ -1312,7 +1396,7 @@ guilt False`,
         subtopicId: "S31-T3-B",
         kind: "independent",
         instruction:
-          "S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "startswith.",
         hints: [
           "startswith.",
@@ -1324,9 +1408,11 @@ guilt False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `hub='INF-PAY'
+          code: `# CASO-LIM-031 · hub infra vs person
+# DEFECT: omite kind del hub
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+hub='INF-PAY'
 kind = "infra" if hub.startswith("INF-") else "person"
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("disclaimer", "centrality_not_guilt")
 print("hub", hub)
 `,
@@ -1361,10 +1447,12 @@ hub INF-PAY`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `incident={'H':['transfer','transfer','shared_phone']}
+          code: `# CASO-LIM-031 · high-degree transfer filter
+# DEFECT: omite high set
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+incident={'H':['transfer','transfer','shared_phone']}
 high = sorted(n for n, ts in incident.items() if len(ts) >= 3)
 only_tx = all(t == "transfer" for t in incident["H"])
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("only_transfer", only_tx)
 print("interpret_with_types", True)
 `,
@@ -1388,7 +1476,7 @@ interpret_with_types True`,
         subtopicId: "S31-T4-A",
         kind: "guided",
         instruction:
-          "S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "expansión por capas.",
         hints: [
           "expansión por capas.",
@@ -1400,7 +1488,10 @@ interpret_with_types True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `from collections import defaultdict
+          code: `# CASO-LIM-031 · ego k-hop
+# DEFECT: omite ego k=1
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+from collections import defaultdict
 edges=[('A','B'),('B','C'),('C','D')]
 adj=defaultdict(set)
 for u,v in edges:
@@ -1416,7 +1507,6 @@ def ego(seed, k):
                     seen.add(m); nxt.add(m)
         layer=nxt
     return seen
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("k2", sorted(ego('A',2)))
 print("has_D_k2", 'D' in ego('A',2))
 `,
@@ -1453,7 +1543,7 @@ has_D_k2 False`,
         subtopicId: "S31-T4-A",
         kind: "independent",
         instruction:
-          "S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "any self loop.",
         hints: [
           "any self loop.",
@@ -1465,11 +1555,13 @@ has_D_k2 False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]
+          code: `# CASO-LIM-031 · graph invariants
+# DEFECT: omite no_self invariante
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]
 no_self = all(e['src'] != e['dst'] for e in edges)
 w_ok = all(e['w'] >= 0 for e in edges)
 prov = all(e.get('rid') for e in edges)
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("w_ok", w_ok)
 print("prov", prov)
 `,
@@ -1494,7 +1586,7 @@ prov True`,
         subtopicId: "S31-T4-A",
         kind: "transfer",
         instruction:
-          "S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "función build → frozenset.",
         hints: [
           "función build → frozenset.",
@@ -1506,11 +1598,13 @@ prov True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `raw=[('a','b'),('b','c')]
+          code: `# CASO-LIM-031 · build idempotence
+# DEFECT: omite equal de builds
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+raw=[('a','b'),('b','c')]
 
 def build(edges):
     return sorted(set(tuple(sorted(e)) for e in edges))
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("edges", build(raw))
 print("idempotent", True)
 `,
@@ -1535,7 +1629,7 @@ idempotent True`,
         subtopicId: "S31-T4-B",
         kind: "guided",
         instruction:
-          "S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "partition @.",
         hints: [
           "partition @.",
@@ -1547,10 +1641,12 @@ idempotent True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `email='ana@example.pe'
+          code: `# CASO-LIM-031 · email redact
+# DEFECT: omite redacted email
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+email='ana@example.pe'
 local, _, domain = email.partition('@')
 red = local[:2] + '***@' + domain
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("domain", domain)
 print("full_pii", False)
 `,
@@ -1574,7 +1670,7 @@ full_pii False`,
         subtopicId: "S31-T4-B",
         kind: "independent",
         instruction:
-          "S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "zip path path[1:].",
         hints: [
           "zip path path[1:].",
@@ -1586,10 +1682,12 @@ full_pii False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `path=['E1','E2','E3']
+          code: `# CASO-LIM-031 · path edge evidence
+# DEFECT: omite records de evidencia
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+path=['E1','E2','E3']
 ev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}
 records = [ev[(a,b)] for a,b in zip(path, path[1:])]
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n_hops", len(records))
 print("explainable", True)
 `,
@@ -1613,7 +1711,7 @@ explainable True`,
         subtopicId: "S31-T4-B",
         kind: "transfer",
         instruction:
-          "S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe): la entrada es el starter completo; implementa solo el DEFECT indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
         hint: "comparar.",
         hints: [
           "comparar.",
@@ -1625,11 +1723,13 @@ explainable True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `max_n=500
+          code: `# CASO-LIM-031 · scale policy summarize
+# DEFECT: omite decide(n) policy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+max_n=500
 
 def decide(n):
     return "summarize" if n > max_n else "render"
-# TODO: imprime la salida contractual (ver instruction / solution output)
 print("n50", decide(50))
 print("max_n", max_n)
 `,
@@ -1690,7 +1790,7 @@ def bfs_path(adj, src, dst, max_depth=4):
                 q.append((m, path + [m]))
     return None
 
-# TODO: cargar tablas sintéticas, provenance, ego subgraph, redact
+# Contrato documentado
 if __name__ == "__main__":
     adj = defaultdict(set)
     add_undirected(adj, "E1", "E2")
@@ -1739,6 +1839,13 @@ if __name__ == "__main__":
         explanation:
           "Hecho ≠ veredicto; no parentesco automático.",
       },
+      {
+        question: "Un camino E1→phone→E2 en el grafo de evidencia implica…",
+        options: ["fraude o parentesco legal automático", "borrar nodos INF- del grafo", "hipótesis de relación con evidencia auditables para revisión humana", "omitir provenance de aristas"],
+        correctIndex: 2,
+        explanation:
+          "El grafo soporta investigación: evidencia y caminos, no veredictos de fraude.",
+      }
     ],
   },
   resources: {
@@ -1746,12 +1853,37 @@ if __name__ == "__main__":
       {
         label: "NetworkX Graph types",
         url: "https://networkx.org/documentation/stable/reference/classes/index.html",
-        note: "Referencia de grafos/multigrafos",
+        note: "Grafos y multigrafos",
       },
       {
-        label: "Graph algorithms overview",
+        label: "NetworkX tutorial",
+        url: "https://networkx.org/documentation/stable/tutorial.html",
+        note: "API práctica de construcción",
+      },
+      {
+        label: "NetworkX — shortest paths",
+        url: "https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html",
+        note: "Caminos reproducibles",
+      },
+      {
+        label: "NetworkX — centrality",
+        url: "https://networkx.org/documentation/stable/reference/algorithms/centrality.html",
+        note: "Degree/betweenness con límites interpretativos",
+      },
+      {
+        label: "Graph theory overview",
         url: "https://en.wikipedia.org/wiki/Graph_theory",
-        note: "Contexto de caminos y centralidad",
+        note: "Caminos, componentes, centralidad",
+      },
+      {
+        label: "Provenance (W3C PROV)",
+        url: "https://www.w3.org/TR/prov-overview/",
+        note: "Provenance de aristas/hechos",
+      },
+      {
+        label: "Neo4j graph data modeling (concept)",
+        url: "https://neo4j.com/docs/getting-started/data-modeling/",
+        note: "Nodos/relaciones tipadas",
       },
     ],
     books: [
@@ -1766,9 +1898,24 @@ if __name__ == "__main__":
     ],
     courses: [
       {
-        label: "NetworkX tutorial",
-        url: "https://networkx.org/documentation/stable/tutorial.html",
-        note: "API práctica",
+        label: "Coursera — social/network analysis",
+        url: "https://www.coursera.org/courses?query=network%20analysis%20graph",
+        note: "Análisis de redes",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
+      {
+        label: "Stanford SNAP / network resources",
+        url: "https://snap.stanford.edu/",
+        note: "Grafos a escala (referencia)",
       },
     ],
   },

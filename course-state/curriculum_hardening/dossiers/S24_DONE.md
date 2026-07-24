@@ -1,29 +1,9 @@
-# S24 DONE — gold expansion
-
-**Section:** `s24-rpa-advanced.ts` — OCR y Document AI  
-**Date:** 2026-07-22  
-**Order:** reverse walk 26 → 24 → 23
-
-## Sizes (before → after)
-
-| Metric | Before | After | Δ |
-|--------|--------|-------|---|
-| Bytes | 39375 | 50128 | +10753 |
-| Lines | 1267 | 1294 | +27 |
-| Theory avg/min para chars | stub short | avg≈222 / min=180 | |
-| weDo instr avg/min chars | stub short | avg≈223 / min=153 | |
-
-## Checklist vs GOLD_STANDARD_CHECKLIST.md
-- [x] Theory ≥9 headings; ≥3 paragraphs × ≥180 chars (ES-PE, synthetic Peru cases)
-- [x] weDo 24 exercises; instructions ≥150 chars with I/O contracts + pass strings
-- [x] starterCode enriched (fixture + single TODO defect)
-- [x] solutionCode/outputs preserved (grader oracles)
-- [x] Progressive disclosure (no later-only APIs)
-- [x] No fraud claims from OCR/RPA/match scores; HITL/approve/fail-closed language
-- [x] TypeScript `tsc --noEmit` clean for section file
-- [x] Research dossier `S24_RESEARCH.md` (Coursera + MIT/Stanford/Harvard/Yale + GitHub + video)
-
-## Artifacts
-- `course-state/curriculum_hardening/dossiers/S24_RESEARCH.md`
-- `course-state/curriculum_hardening/dossiers/S24_DONE.md`
-- `src/lib/course/sections/s24-rpa-advanced.ts`
+# S24 DONE — expert gold S23–S35 band
+When: 2026-07-24T04:23:51.696+00:00
+Title: OCR y Document AI
+STORM: n=24 hand_STORM_domain_sources
+PA rank ≥9.55
+Git: KEEP worktree
+soft_TODO=0 DEFECT=25
+Ethics: synthetic docs only; abstain low conf; mismatch≠fraud; auto_fraud_label=False
+V3: OCR/Document AI not desktop RPA advanced

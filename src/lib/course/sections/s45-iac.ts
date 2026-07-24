@@ -6,13 +6,13 @@ export const section45: CourseSection = {
   title: "Cloud, almacenamiento, colas e infraestructura",
   shortTitle: "Cloud y colas",
   tagline: "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
-  estimatedHours: 18,
+  estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Cloud",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, cloud, almacenamiento, colas e infraestructura conecta decisiones técnicas con evidencia operativa. La práctica entrega estado durable, resultado en object store y fallas terminales en dead-letter queue y se promueve solo cuando reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+    "En equipos de plataforma y producto, **cloud, almacenamiento, colas e infraestructura** operan el job asíncrono del control plane: object store de artefactos, estado durable, colas con DLQ e IAM mínimo. Se promueve solo cuando reintentos no duplican resultados y costo, backup y recovery están medidos. Id legacy `iac` se conserva; el path V3 es cloud/colas/ops, no solo Terraform como fin en sí mismo.",
   learningOutcomes: [
     { text: "Elige object/relacional/cache" },
     { text: "Define consistencia, lifecycle y backups" },
@@ -27,10 +27,31 @@ export const section45: CourseSection = {
     {
       heading: "Ruta de S45: Cloud, almacenamiento, colas e infraestructura",
       paragraphs: [
-        "Esta sección parte de S44 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-IQU-045` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
-        "Producto incremental: Arquitectura distribuida mínima declarativa. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas terminales en dead-letter queue.",
-        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
+        "**Diccionario de la sección** (léelo antes de T1). **Object store:** blobs/artefactos por key. **Relacional:** invariantes y consultas. **Cache:** copia descartable (no fuente de verdad). **Delivery semantics:** at-least-once / at-most-once / exactly-once como propiedad compuesta. **Dedup:** idempotency key del mensaje. **DLQ:** dead-letter de mensajes venenosos. **IAM least-privilege:** permisos mínimos por rol. **Egress control:** salidas de red autorizadas. **IaC:** infra declarativa por environment. **Budget/quota:** costo y límites medidos.",
+        "Esta sección opera el artefacto de S44 como **job asíncrono en la nube** (modelo didáctico, sin cuenta real): object store, relacional, cache, colas con delivery semantics y presupuestos. Contratos al estilo Well-Architected/Terraform language (referencia). El caso `CASO-IQU-045` (reportes sintéticos en Iquitos) no usa credenciales ni egress real.",
+        "Producto incremental: arquitectura distribuida mínima. Entrada: job idempotente, artefacto, política de entrega, presupuesto e IAM least-privilege. Salida: estado durable, resultado en object store y terminales en DLQ. Error de promoción: cache como verdad, ack antes de efecto, egress no autorizado o restore no medido.",
+        "Orden: T1 persistencia → T2 colas/dedup/DLQ → T3 compute/IAM/egress → T4 IaC, costo y recovery. Teoría medible, iDo que calcula el contrato, weDo E1/E2/E3 con un defecto cloud/ops por ejercicio. Id legacy `iac` no limita el alcance a un vendor; V3 es almacenamiento+colas+infra del path N4. Stack didáctico: **stdlib** modelando contratos cloud sin cuenta real.",
       ],
+      code: {
+        language: 'python',
+        title: "s45_map_contract.py",
+        code: `def section_contract():
+    return {
+        "case": "CASO-IQU-045",
+        "gates": ["idempotent_retry", "dlq_present", "iam_least_privilege", "budget_measured"],
+        "terraform_only_topic": False,
+        "cache_as_source_of_truth_ok": False,
+    }
+
+c = section_contract()
+print("case", c["case"])
+print("terraform_only_topic", c["terraform_only_topic"])
+print("cache_as_source_of_truth_ok", c["cache_as_source_of_truth_ok"])
+`,
+        output: `case CASO-IQU-045
+terraform_only_topic False
+cache_as_source_of_truth_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate de promoción",
@@ -41,14 +62,21 @@ export const section45: CourseSection = {
       heading: "object store, relacional y cache",
       subtopicId: "S45-T1-A",
       paragraphs: [
-        "Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritativo.",
-        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: ADR de persistencia con fuente de verdad. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
-        "Aplicación de `object store, relacional y cache` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es ADR de persistencia con fuente de verdad. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Elige **object store** para blobs/artefactos por key, **relacional** para invariantes y consultas, y **cache** solo para copias descartables. **No uses cache como registro autoritativo**: si el job reintenta, la verdad debe vivir en store o DB durable, no en un TTL que mentirá al revisor.",
+        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: ADR de persistencia con fuente de verdad explícita (`object` | `relational` | `cache`). Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
+        "Aplicación de `object store, relacional y cache` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es ADR de persistencia con fuente de verdad (artefactos en object store; status del job en relacional). No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
         title: "object_relational_cache.py",
-        code: `print(sorted(["cache","object","relational"])); print("object", "artifacts"); print("choose", "by_access_pattern")`,
+        code: `def store_choices() -> tuple:
+    kinds = sorted(["cache", "object", "relational"])
+    return kinds, "artifacts", "by_access_pattern"
+
+kinds, obj, how = store_choices()
+print(kinds)
+print("object", obj)
+print("choose", how)`,
         output: `['cache', 'object', 'relational']
 object artifacts
 choose by_access_pattern`,
@@ -71,7 +99,12 @@ choose by_access_pattern`,
       code: {
         language: 'python',
         title: "consistency_lifecycle_backups.py",
-        code: `print({"hot_days":30,"backup":"daily"}); print("rpo", "24h"); print("consistency", "job_status_strong")`,
+        code: `def lifecycle_policy(hot_days: int, backup: str) -> dict:
+    return {"hot_days": hot_days, "backup": backup}
+
+print(lifecycle_policy(30, "daily"))
+print("rpo", "24h")
+print("consistency", "job_status_strong")`,
         output: `{'hot_days': 30, 'backup': 'daily'}
 rpo 24h
 consistency job_status_strong`,
@@ -94,7 +127,17 @@ consistency job_status_strong`,
       code: {
         language: 'python',
         title: "queue_event_delivery.py",
-        code: `print({"delivery":"at_least_once"}); print("dup_ok", True); print("consumer", "idempotent")`,
+        code: `def delivery_contract(mode: str) -> dict:
+    return {
+        "delivery": mode,
+        "dup_ok": mode == "at_least_once",
+        "consumer": "idempotent",
+    }
+
+c = delivery_contract("at_least_once")
+print({"delivery": c["delivery"]})
+print("dup_ok", c["dup_ok"])
+print("consumer", c["consumer"])`,
         output: `{'delivery': 'at_least_once'}
 dup_ok True
 consumer idempotent`,
@@ -111,13 +154,24 @@ consumer idempotent`,
       subtopicId: "S45-T2-B",
       paragraphs: [
         "Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado.",
-        "Contrato operativo. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida de este subtema: duplicado, desorden y terminal en DLQ probados. Error: mensaje duplicado, cuota, egress no autorizado o restore no probado activa contención. Criterio de éxito: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
-        "Aplicación de `dedup, ordering y dead-letter` al caso peruano sintético `CASO-IQU-045`: procesamiento sintético de reportes para una organización ficticia en Iquitos. La evidencia esperada es duplicado, desorden y terminal en DLQ probados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
+        "Contrato de reentrega. Entrada: clave de mensaje y contador de intentos. Salida: `new` en primer consumo, `dup` si la clave ya se vio, `dlq` tras max attempts. Error: reintentar sin store de dedup (doble side-effect). Criterio: en Iquitos sintético `ingest` demuestra new/dup y el lab documenta DLQ after_3.",
+        "Aplicación a `CASO-IQU-045-T2B`: primera clave `k1` → new; segunda → dup. Ordering per-partition se declara, no se inventa en el consumer.",
       ],
       code: {
         language: 'python',
         title: "dedup_ordering_dlq.py",
-        code: `print("new"); print("dup"); print("dlq", "after_3")`,
+        code: `def ingest(seen: set, key: str, attempts: int, max_attempts: int = 3) -> str:
+    if key in seen:
+        return "dup"
+    if attempts >= max_attempts:
+        return "dlq"
+    seen.add(key)
+    return "new"
+
+seen = set()
+print(ingest(seen, "k1", 0))
+print(ingest(seen, "k1", 1))
+print("dlq", "after_3")`,
         output: `new
 dup
 dlq after_3`,
@@ -140,7 +194,12 @@ dlq after_3`,
       code: {
         language: 'python',
         title: "compute_autoscale_net.py",
-        code: `print({"min":1,"max":5}); print({"private":True}); print("autoscale", "queue_depth")`,
+        code: `def scale_bounds(min_n: int, max_n: int) -> dict:
+    return {"min": min_n, "max": max_n}
+
+print(scale_bounds(1, 5))
+print({"private": True})
+print("autoscale", "queue_depth")`,
         output: `{'min': 1, 'max': 5}
 {'private': True}
 autoscale queue_depth`,
@@ -163,7 +222,12 @@ autoscale queue_depth`,
       code: {
         language: 'python',
         title: "iam_private_egress.py",
-        code: `print(["s3:PutObject","sqs:Receive"]); print("egress", "restricted"); print("private_path", True)`,
+        code: `def least_privilege(actions: list) -> list:
+    return sorted(set(actions))
+
+print(least_privilege(["sqs:Receive", "s3:PutObject", "s3:PutObject"]))
+print("egress", "restricted")
+print("private_path", True)`,
         output: `['s3:PutObject', 'sqs:Receive']
 egress restricted
 private_path True`,
@@ -186,7 +250,13 @@ private_path True`,
       code: {
         language: 'python',
         title: "declarative_config_envs.py",
-        code: `print(["dev","prod"]); print(["network","data","app"]); print("declarative", True)`,
+        code: `def iac_layers(envs: list, stacks: list) -> tuple:
+    return sorted(envs), stacks, True
+
+envs, stacks, declarative = iac_layers(["prod", "dev"], ["network", "data", "app"])
+print(envs)
+print(stacks)
+print("declarative", declarative)`,
         output: `['dev', 'prod']
 ['network', 'data', 'app']
 declarative True`,
@@ -209,7 +279,13 @@ declarative True`,
       code: {
         language: 'python',
         title: "cost_quotas_recovery_portability.py",
-        code: `print({"monthly_usd":200}); print({"rto_min":60}); print("portable", "container_images")`,
+        code: `def cost_and_rto(monthly_usd: int, rto_min: int) -> tuple:
+    return {"monthly_usd": monthly_usd}, {"rto_min": rto_min}
+
+budget, rto = cost_and_rto(200, 60)
+print(budget)
+print(rto)
+print("portable", "container_images")`,
         output: `{'monthly_usd': 200}
 {'rto_min': 60}
 portable container_images`,
@@ -233,7 +309,12 @@ portable container_images`,
         code: {
           language: 'python',
           title: "demo_object_relational_cache.py",
-          code: `print("blob", "s3_like"); print("sql", "jobs_table"); print("cache", "redis_like")`,
+          code: `def pick_store(kind: str) -> str:
+    return {"blob": "s3_like", "sql": "jobs_table", "cache": "redis_like"}[kind]
+
+print("blob", pick_store("blob"))
+print("sql", pick_store("sql"))
+print("cache", pick_store("cache"))`,
           output: `blob s3_like
 sql jobs_table
 cache redis_like`,
@@ -248,7 +329,12 @@ cache redis_like`,
         code: {
           language: 'python',
           title: "demo_consistency_lifecycle_backups.py",
-          code: `print("lifecycle", True); print("backup", "daily"); print("restore_tested", True)`,
+          code: `def restore_ok(rpo_h: int, last_backup_h: int) -> bool:
+    return last_backup_h <= rpo_h
+
+print("lifecycle", True)
+print("backup", "daily")
+print("restore_tested", restore_ok(24, 12))`,
           output: `lifecycle True
 backup daily
 restore_tested True`,
@@ -263,7 +349,13 @@ restore_tested True`,
         code: {
           language: 'python',
           title: "demo_queue_event_delivery.py",
-          code: `print("queue", "jobs"); print("event", "job.finished"); print("delivery", "at_least_once")`,
+          code: `def queue_event(name: str) -> tuple:
+    return name, f"{name.rstrip('s')}.finished", "at_least_once"
+
+q, ev, deliv = queue_event("jobs")
+print("queue", q)
+print("event", ev)
+print("delivery", deliv)`,
           output: `queue jobs
 event job.finished
 delivery at_least_once`,
@@ -278,7 +370,12 @@ delivery at_least_once`,
         code: {
           language: 'python',
           title: "demo_dedup_ordering_dlq.py",
-          code: `print("order", "per_partition"); print("dlq", True); print("dedup_store", "redis_or_db")`,
+          code: `def dlq_enabled(max_receive: int) -> bool:
+    return max_receive >= 3
+
+print("order", "per_partition")
+print("dlq", dlq_enabled(3))
+print("dedup_store", "redis_or_db")`,
           output: `order per_partition
 dlq True
 dedup_store redis_or_db`,
@@ -293,7 +390,12 @@ dedup_store redis_or_db`,
         code: {
           language: 'python',
           title: "demo_compute_autoscale_net.py",
-          code: `print("scale_on", "lag"); print("private", True); print("api_edge", True)`,
+          code: `def scale_signal(queue_lag: int, threshold: int = 100) -> str:
+    return "lag" if queue_lag >= 0 else "cpu"
+
+print("scale_on", scale_signal(50))
+print("private", True)
+print("api_edge", True)`,
           output: `scale_on lag
 private True
 api_edge True`,
@@ -308,7 +410,12 @@ api_edge True`,
         code: {
           language: 'python',
           title: "demo_iam_private_egress.py",
-          code: `print("least_privilege", True); print("no_0_0_0_0_admin", True); print("egress", "allowlist")`,
+          code: `def admin_open_to_world(cidrs: list) -> bool:
+    return "0.0.0.0/0" in cidrs
+
+print("least_privilege", True)
+print("no_0_0_0_0_admin", not admin_open_to_world(["10.0.0.0/8"]))
+print("egress", "allowlist")`,
           output: `least_privilege True
 no_0_0_0_0_admin True
 egress allowlist`,
@@ -323,7 +430,13 @@ egress allowlist`,
         code: {
           language: 'python',
           title: "demo_declarative_config_envs.py",
-          code: `print("env_parity", True); print("config_as_code", True); print("drift_detect", True)`,
+          code: `def drift_ok(desired: dict, actual: dict) -> bool:
+    return desired == actual
+
+desired = {"instances": 2}
+print("env_parity", True)
+print("config_as_code", True)
+print("drift_detect", drift_ok(desired, {"instances": 2}))`,
           output: `env_parity True
 config_as_code True
 drift_detect True`,
@@ -338,7 +451,12 @@ drift_detect True`,
         code: {
           language: 'python',
           title: "demo_cost_quotas_recovery_portability.py",
-          code: `print("quota", True); print("cost_alert", 0.8); print("recovery_drill", True)`,
+          code: `def cost_alert_ratio(spend: float, budget: float) -> float:
+    return round(spend / budget, 1)
+
+print("quota", True)
+print("cost_alert", cost_alert_ratio(160, 200))
+print("recovery_drill", True)`,
           output: `quota True
 cost_alert 0.8
 recovery_drill True`,
@@ -366,7 +484,11 @@ recovery_drill True`,
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-1A", **{"blob_store":"object","transactions":"relational","cache_authoritative":False,"cache_ttl_s":300}}
+          code: `# CASO-LIM-045 · object/relational/cache roles
+# DEFECT: PASS si cache_authoritative o transactions=cache
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-1A", **{"blob_store":"object","transactions":"relational","cache_authoritative":False,"cache_ttl_s":300}}
+# DEFECT: cache no es fuente de verdad ni de transacciones
 meets_contract = record["cache_authoritative"] or record["transactions"] == "cache"
 status = "PASS" if meets_contract else "REDESIGN_PERSISTENCE"
 print("S45-T1-A", status)
@@ -399,7 +521,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess REDESIGN_PERSISTENCE
+# DEFECT: PASS con cache como fuente de verdad
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "blob_store", "transactions", "cache_authoritative", "cache_ttl_s"}
     missing = sorted(required - record.keys())
     if missing:
@@ -450,7 +575,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide REDESIGN_PERSISTENCE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "blob_store", "transactions", "cache_authoritative", "cache_ttl_s"}
     missing = sorted(required - record.keys())
     if missing:
@@ -501,7 +629,11 @@ assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-1B", **{"operation":"job-status","consistency":"read-after-write","backup_age_h":4,"rpo_h":6,"restore_minutes":25,"rto_minutes":30}}
+          code: `# CASO-LIM-045 · RPO/RTO backup lifecycle
+# DEFECT: PASS si backup_age>rpo o restore>rto
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-1B", **{"operation":"job-status","consistency":"read-after-write","backup_age_h":4,"rpo_h":6,"restore_minutes":25,"rto_minutes":30}}
+# DEFECT: backup/restore fuera de RPO/RTO
 meets_contract = record["backup_age_h"] > record["rpo_h"] or record["restore_minutes"] > record["rto_minutes"]
 status = "PASS" if meets_contract else "DECLARE_DATA_LOSS_RISK"
 print("S45-T1-B", status)
@@ -534,7 +666,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess DECLARE_DATA_LOSS_RISK
+# DEFECT: PASS con RPO/RTO rotos
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "operation", "consistency", "backup_age_h", "rpo_h", "restore_minutes", "rto_minutes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -585,7 +720,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide DECLARE_DATA_LOSS_RISK
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "operation", "consistency", "backup_age_h", "rpo_h", "restore_minutes", "rto_minutes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -636,7 +774,11 @@ assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-2A", **{"delivery":"at-least-once","effect_durable":True,"acked_after_effect":True,"idempotency_key":"job-iqu-1","backoff":True}}
+          code: `# CASO-LIM-045 · at-least-once + idempotency ack
+# DEFECT: PASS si no acked_after_effect o sin idempotency_key
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-2A", **{"delivery":"at-least-once","effect_durable":True,"acked_after_effect":True,"idempotency_key":"job-iqu-1","backoff":True}}
+# DEFECT: ack tras efecto + idempotency key obligatorios
 meets_contract = not record["acked_after_effect"] or not record["idempotency_key"]
 status = "PASS" if meets_contract else "NACK_AND_RETRY"
 print("S45-T2-A", status)
@@ -669,7 +811,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess NACK_AND_RETRY
+# DEFECT: PASS sin ack post-efecto o sin key
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "delivery", "effect_durable", "acked_after_effect", "idempotency_key", "backoff"}
     missing = sorted(required - record.keys())
     if missing:
@@ -720,7 +865,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide NACK_AND_RETRY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "delivery", "effect_durable", "acked_after_effect", "idempotency_key", "backoff"}
     missing = sorted(required - record.keys())
     if missing:
@@ -771,7 +919,11 @@ assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-2B", **{"message_ids":["m1","m1","m2"],"processed_ids":{"m1","m2"},"ordered_partition":True,"terminal_in_dlq":True}}
+          code: `# CASO-LIM-045 · dedup processed_ids + DLQ
+# DEFECT: PASS si |processed|==|messages| o no terminal_in_dlq
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-2B", **{"message_ids":["m1","m1","m2"],"processed_ids":{"m1","m2"},"ordered_partition":True,"terminal_in_dlq":True}}
+# DEFECT: dedup real o terminal en DLQ para poison
 meets_contract = len(record["processed_ids"]) == len(record["message_ids"]) or not record["terminal_in_dlq"]
 status = "PASS" if meets_contract else "DEDUP_OR_DLQ"
 print("S45-T2-B", status)
@@ -804,7 +956,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess DEDUP_OR_DLQ
+# DEFECT: PASS sin dedup real o sin DLQ terminal
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "message_ids", "processed_ids", "ordered_partition", "terminal_in_dlq"}
     missing = sorted(required - record.keys())
     if missing:
@@ -855,7 +1010,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide DEDUP_OR_DLQ
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "message_ids", "processed_ids", "ordered_partition", "terminal_in_dlq"}
     missing = sorted(required - record.keys())
     if missing:
@@ -906,7 +1064,11 @@ assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-3A", **{"backlog":80,"workers":4,"target_per_worker":25,"quota_workers":6,"private_network":True,"backpressure":True}}
+          code: `# CASO-LIM-045 · autoscaling quota + backpressure
+# DEFECT: PASS si workers>quota o sin backpressure
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-3A", **{"backlog":80,"workers":4,"target_per_worker":25,"quota_workers":6,"private_network":True,"backpressure":True}}
+# DEFECT: workers sobre cuota o sin backpressure
 meets_contract = record["workers"] > record["quota_workers"] or not record["backpressure"]
 status = "PASS" if meets_contract else "APPLY_BACKPRESSURE"
 print("S45-T3-A", status)
@@ -939,7 +1101,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess APPLY_BACKPRESSURE
+# DEFECT: PASS over-quota o sin backpressure
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "backlog", "workers", "target_per_worker", "quota_workers", "private_network", "backpressure"}
     missing = sorted(required - record.keys())
     if missing:
@@ -990,7 +1155,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide APPLY_BACKPRESSURE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "backlog", "workers", "target_per_worker", "quota_workers", "private_network", "backpressure"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1041,7 +1209,11 @@ assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-3B", **{"allowed_actions":{"object:get","queue:ack"},"requested_action":"object:get","private_path":True,"egress_host":"api.internal","egress_allow":{"api.internal"}}}
+          code: `# CASO-LIM-045 · IAM least privilege + egress
+# DEFECT: PASS si action no allowed o egress no allowlisted
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-3B", **{"allowed_actions":{"object:get","queue:ack"},"requested_action":"object:get","private_path":True,"egress_host":"api.internal","egress_allow":{"api.internal"}}}
+# DEFECT: IAM/egress allowlist fail-closed
 meets_contract = record["requested_action"] not in record["allowed_actions"] or record["egress_host"] not in record["egress_allow"]
 status = "PASS" if meets_contract else "DENY_IAM_OR_EGRESS"
 print("S45-T3-B", status)
@@ -1074,7 +1246,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess DENY_IAM_OR_EGRESS
+# DEFECT: PASS con acción/egress no autorizados
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "allowed_actions", "requested_action", "private_path", "egress_host", "egress_allow"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1125,7 +1300,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide DENY_IAM_OR_EGRESS
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "allowed_actions", "requested_action", "private_path", "egress_host", "egress_allow"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1176,7 +1354,11 @@ assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-4A", **{"declared_resources":{"queue","bucket"},"planned_resources":{"queue","bucket"},"environment":"staging","secret_values_in_plan":False,"destructive_changes":0}}
+          code: `# CASO-LIM-045 · IaC plan secrets + destructive
+# DEFECT: PASS si secret_values_in_plan o destructive_changes>0
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-4A", **{"declared_resources":{"queue","bucket"},"planned_resources":{"queue","bucket"},"environment":"staging","secret_values_in_plan":False,"destructive_changes":0}}
+# DEFECT: plan no debe exponer secretos ni destruir sin control
 meets_contract = record["secret_values_in_plan"] or record["destructive_changes"] > 0
 status = "PASS" if meets_contract else "REJECT_IAC_PLAN"
 print("S45-T4-A", status)
@@ -1209,7 +1391,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess REJECT_IAC_PLAN
+# DEFECT: PASS con secretos en plan o destroy
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "declared_resources", "planned_resources", "environment", "secret_values_in_plan", "destructive_changes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1260,7 +1445,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide REJECT_IAC_PLAN
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "declared_resources", "planned_resources", "environment", "secret_values_in_plan", "destructive_changes"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1311,7 +1499,11 @@ assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]` ,
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-IQU-045-4B", **{"forecast_pen":820,"budget_pen":1000,"quota_used":72,"quota_limit":100,"restore_tested":True,"portable_export":True}}
+          code: `# CASO-LIM-045 · cost forecast + quotas
+# DEFECT: PASS si forecast>budget o quota_used>limit
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-IQU-045-4B", **{"forecast_pen":820,"budget_pen":1000,"quota_used":72,"quota_limit":100,"restore_tested":True,"portable_export":True}}
+# DEFECT: presupuesto/cuota excedidos
 meets_contract = record["forecast_pen"] > record["budget_pen"] or record["quota_used"] > record["quota_limit"]
 status = "PASS" if meets_contract else "FREEZE_SCALE_OUT"
 print("S45-T4-B", status)
@@ -1344,7 +1536,10 @@ assert meets_contract is True` ,
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-045 · assess FREEZE_SCALE_OUT
+# DEFECT: PASS over budget o over quota
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", "forecast_pen", "budget_pen", "quota_used", "quota_limit", "restore_tested", "portable_export"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1395,7 +1590,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-045 · decide FREEZE_SCALE_OUT
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", "forecast_pen", "budget_pen", "quota_used", "quota_limit", "restore_tested", "portable_export"}
     missing = sorted(required - record.keys())
     if missing:
@@ -1505,6 +1703,12 @@ assert status in {"READY", "BLOCKED"}
         correctIndex: 1,
         explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
+      {
+        question: "Tras N reintentos fallidos, un mensaje poison debe…",
+        options: ["ir a DLQ terminal con evidencia y sin segundo side effect silencioso", "reintentarse en bucle infinito", "borrarse sin audit trail", "escribirse en el cache como fuente de verdad"],
+        correctIndex: 0,
+        explanation: "Delivery resiliente: poison → DLQ controlada; reintentos con idempotency no duplican resultados de negocio.",
+      },
     ],
   },
   resources: {
@@ -1524,14 +1728,53 @@ assert status in {"READY", "BLOCKED"}
         url: "https://cloudevents.io/",
         note: "Envelope interoperable de eventos",
       },
+      {
+        label: "AWS SQS best practices",
+        url: "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html",
+        note: "At-least-once, DLQ, idempotencia",
+      },
+      {
+        label: "AWS SQS dead-letter queues",
+        url: "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+        note: "DLQ y poison messages",
+      },
+      {
+        label: "AWS IAM best practices",
+        url: "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+        note: "Least privilege",
+      },
+      {
+        label: "Twelve-Factor App",
+        url: "https://12factor.net/",
+        note: "Config, backing services y disposability",
+      },
+      {
+        label: "NIST SP 800-53",
+        url: "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
+        note: "Controles de seguridad y acceso",
+      },
+      {
+        label: "Python queue module",
+        url: "https://docs.python.org/3/library/queue.html",
+        note: "Semántica de colas didáctica",
+      },
+      {
+        label: "OpenTelemetry concepts",
+        url: "https://opentelemetry.io/docs/concepts/",
+        note: "Observabilidad del job asíncrono",
+      },
     ],
     books: [
-      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
-      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
+      { label: "Designing Data-Intensive Applications", note: "Colas, storage y consistencia" },
+      { label: "Site Reliability Engineering", note: "Capacity, cost y recovery" },
     ],
     courses: [
-      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
+      { label: "Coursera Cloud architecture", url: "https://www.coursera.org/courses?query=cloud%20architecture", note: "Storage, queues e IAM intro" },
+      { label: "MIT 6.824 Distributed Systems", url: "https://pdos.csail.mit.edu/6.824/", note: "Fault tolerance conceptual" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
+      { label: "FinOps Foundation", url: "https://www.finops.org/", note: "Costo y presupuestos" },
     ],
   },
 }

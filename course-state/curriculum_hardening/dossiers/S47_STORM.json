@@ -1,0 +1,1339 @@
+{
+  "section": 47,
+  "title": "MLOps: experimentos, registro y serving",
+  "file": "s47-opensource.ts",
+  "n_required": 47,
+  "n_logged": 47,
+  "generated_at": "2026-07-24T04:09:01.718560+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "repro metrics; approve before prod; feature parity; rollback keeps evidence",
+    "v3_retarget": "MLOps not OSS licensing abstract",
+    "expert_pass_at": "2026-07-24T04:09:01.718560+00:00"
+  },
+  "unique_foci": 47,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "experiment tracking params metrics seed",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 1/47: «experiment tracking params metrics seed» via Google, KServe, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «experiment tracking params metrics seed».",
+      "expand_scope": "E1/E2/E3 + docs for «experiment tracking params metrics seed»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 1/47: «experiment tracking params metrics seed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "reproducible rerun within tolerance",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 2/47: «reproducible rerun within tolerance» via MLflow, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reproducible rerun within tolerance».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible rerun within tolerance»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 2/47: «reproducible rerun within tolerance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "data code env lineage comparison",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        },
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 3/47: «data code env lineage comparison» via Feast, MLflow, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data code env lineage comparison».",
+      "expand_scope": "E1/E2/E3 + docs for «data code env lineage comparison»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 3/47: «data code env lineage comparison» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "baseline vs candidate metrics fixed dataset",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 4/47: «baseline vs candidate metrics fixed dataset» via Google, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «baseline vs candidate metrics fixed dataset».",
+      "expand_scope": "E1/E2/E3 + docs for «baseline vs candidate metrics fixed dataset»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 4/47: «baseline vs candidate metrics fixed dataset» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "model registry stages None Staging Production",
+      "research": [
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 5/47: «model registry stages None Staging Production» via Coursera, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «model registry stages None Staging Production».",
+      "expand_scope": "E1/E2/E3 + docs for «model registry stages None Staging Production»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 5/47: «model registry stages None Staging Production» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "approvals before production stage",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 6/47: «approvals before production stage» via Feast, MIT, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «approvals before production stage».",
+      "expand_scope": "E1/E2/E3 + docs for «approvals before production stage»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 6/47: «approvals before production stage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "model card intended use limits",
+      "research": [
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 7/47: «model card intended use limits» via Google, Harvard, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «model card intended use limits».",
+      "expand_scope": "E1/E2/E3 + docs for «model card intended use limits»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 7/47: «model card intended use limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "artifact signatures and compatibility",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 8/47: «artifact signatures and compatibility» via Coursera, Py4E, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «artifact signatures and compatibility».",
+      "expand_scope": "E1/E2/E3 + docs for «artifact signatures and compatibility»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 8/47: «artifact signatures and compatibility» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "batch vs online serving modes",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 9/47: «batch vs online serving modes» via Live, MIT, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «batch vs online serving modes».",
+      "expand_scope": "E1/E2/E3 + docs for «batch vs online serving modes»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 9/47: «batch vs online serving modes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "feature consistency train serve",
+      "research": [
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 10/47: «feature consistency train serve» via Google, Harvard, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feature consistency train serve».",
+      "expand_scope": "E1/E2/E3 + docs for «feature consistency train serve»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 10/47: «feature consistency train serve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "latency p95 batching tradeoffs",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 11/47: «latency p95 batching tradeoffs» via BentoML, Coursera, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «latency p95 batching tradeoffs».",
+      "expand_scope": "E1/E2/E3 + docs for «latency p95 batching tradeoffs»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 11/47: «latency p95 batching tradeoffs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "fallback previous model or rules",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 12/47: «fallback previous model or rules» via Kubeflow, Live, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fallback previous model or rules».",
+      "expand_scope": "E1/E2/E3 + docs for «fallback previous model or rules»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 12/47: «fallback previous model or rules» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "shadow traffic no user impact",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        },
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 13/47: «shadow traffic no user impact» via Harvard, SRE, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «shadow traffic no user impact».",
+      "expand_scope": "E1/E2/E3 + docs for «shadow traffic no user impact»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 13/47: «shadow traffic no user impact» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "canary percentage then promote",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 14/47: «canary percentage then promote» via 12factor, BentoML, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «canary percentage then promote».",
+      "expand_scope": "E1/E2/E3 + docs for «canary percentage then promote»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 14/47: «canary percentage then promote» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "monitoring hooks drift latency errors",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 15/47: «monitoring hooks drift latency errors» via Kubeflow, Live, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «monitoring hooks drift latency errors».",
+      "expand_scope": "E1/E2/E3 + docs for «monitoring hooks drift latency errors»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 15/47: «monitoring hooks drift latency errors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "rollback previous version keep evidence",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        },
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 16/47: «rollback previous version keep evidence» via MLflow, SRE, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rollback previous version keep evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «rollback previous version keep evidence»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 16/47: «rollback previous version keep evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "retirement without deleting audit",
+      "research": [
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 17/47: «retirement without deleting audit» via 12factor, BentoML, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «retirement without deleting audit».",
+      "expand_scope": "E1/E2/E3 + docs for «retirement without deleting audit»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 17/47: «retirement without deleting audit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "train serve skew detection",
+      "research": [
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 18/47: «train serve skew detection» via Google, Kubeflow, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «train serve skew detection».",
+      "expand_scope": "E1/E2/E3 + docs for «train serve skew detection»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 18/47: «train serve skew detection» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "no GPU required for lab contracts",
+      "research": [
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 19/47: «no GPU required for lab contracts» via MLflow, TFX, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no GPU required for lab contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «no GPU required for lab contracts»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 19/47: «no GPU required for lab contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CASO-TAC-047 Tacna synthetic prioritization",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        },
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 20/47: «CASO-TAC-047 Tacna synthetic prioritization» via 12factor, Feast, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-TAC-047 Tacna synthetic prioritization».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-TAC-047 Tacna synthetic prioritization»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 20/47: «CASO-TAC-047 Tacna synthetic prioritization» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "V3 retarget not OSS licensing abstract",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 21/47: «V3 retarget not OSS licensing abstract» via Google, KServe, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not OSS licensing abstract».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not OSS licensing abstract»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 21/47: «V3 retarget not OSS licensing abstract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "CP-N4-B CF-4 MLOps gate",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 22/47: «CP-N4-B CF-4 MLOps gate» via MLflow, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-B CF-4 MLOps gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-B CF-4 MLOps gate»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 22/47: «CP-N4-B CF-4 MLOps gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E1 guided tracking DEFECT",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        },
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 23/47: «E1 guided tracking DEFECT» via Feast, MLflow, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided tracking DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided tracking DEFECT»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 23/47: «E1 guided tracking DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E2 independent registry approve",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 24/47: «E2 independent registry approve» via Google, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent registry approve».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent registry approve»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 24/47: «E2 independent registry approve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E3 transfer canary rollback",
+      "research": [
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 25/47: «E3 transfer canary rollback» via Coursera, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer canary rollback».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer canary rollback»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 25/47: «E3 transfer canary rollback» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "MLflow tracking competitive research",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 26/47: «MLflow tracking competitive research» via Feast, MIT, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «MLflow tracking competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «MLflow tracking competitive research»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 26/47: «MLflow tracking competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "MLflow model registry stages",
+      "research": [
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 27/47: «MLflow model registry stages» via Google, Harvard, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «MLflow model registry stages».",
+      "expand_scope": "E1/E2/E3 + docs for «MLflow model registry stages»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 27/47: «MLflow model registry stages» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "Google Model Cards",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 28/47: «Google Model Cards» via Coursera, Py4E, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Google Model Cards».",
+      "expand_scope": "E1/E2/E3 + docs for «Google Model Cards»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 28/47: «Google Model Cards» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "Feast feature store parity",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 29/47: «Feast feature store parity» via Live, MIT, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Feast feature store parity».",
+      "expand_scope": "E1/E2/E3 + docs for «Feast feature store parity»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 29/47: «Feast feature store parity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "KServe serving patterns",
+      "research": [
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 30/47: «KServe serving patterns» via Google, Harvard, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «KServe serving patterns».",
+      "expand_scope": "E1/E2/E3 + docs for «KServe serving patterns»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 30/47: «KServe serving patterns» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "TFX ML Metadata lineage",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 31/47: «TFX ML Metadata lineage» via BentoML, Coursera, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «TFX ML Metadata lineage».",
+      "expand_scope": "E1/E2/E3 + docs for «TFX ML Metadata lineage»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 31/47: «TFX ML Metadata lineage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "Google MLOps whitepaper levels",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 32/47: «Google MLOps whitepaper levels» via Kubeflow, Live, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Google MLOps whitepaper levels».",
+      "expand_scope": "E1/E2/E3 + docs for «Google MLOps whitepaper levels»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 32/47: «Google MLOps whitepaper levels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "NIST AI RMF human oversight",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        },
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 33/47: «NIST AI RMF human oversight» via Harvard, SRE, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST AI RMF human oversight».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST AI RMF human oversight»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 33/47: «NIST AI RMF human oversight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "pair from S46 data pipeline to model promote",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 34/47: «pair from S46 data pipeline to model promote» via 12factor, BentoML, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S46 data pipeline to model promote».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S46 data pipeline to model promote»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 34/47: «pair from S46 data pipeline to model promote» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "selfCheck MLOps MCQ ≥5",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 35/47: «selfCheck MLOps MCQ ≥5» via Kubeflow, Live, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck MLOps MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck MLOps MCQ ≥5»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 35/47: «selfCheck MLOps MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "prod without approve is gate failure",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Release engineering",
+          "url": "https://sre.google/sre-book/release-engineering/",
+          "note": "canary rollback"
+        },
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 36/47: «prod without approve is gate failure» via MLflow, SRE, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prod without approve is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «prod without approve is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 36/47: «prod without approve is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "non-repro metrics is gate failure",
+      "research": [
+        {
+          "family": "BentoML",
+          "title": "BentoML docs",
+          "url": "https://docs.bentoml.com/",
+          "note": "model serving"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 37/47: «non-repro metrics is gate failure» via 12factor, BentoML, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «non-repro metrics is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «non-repro metrics is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 37/47: «non-repro metrics is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "feature leakage train serve is gate failure",
+      "research": [
+        {
+          "family": "Kubeflow",
+          "title": "Kubeflow",
+          "url": "https://www.kubeflow.org/docs/",
+          "note": "ML pipelines"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 38/47: «feature leakage train serve is gate failure» via Google, Kubeflow, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feature leakage train serve is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «feature leakage train serve is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 38/47: «feature leakage train serve is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "p95 breach without fallback is gate failure",
+      "research": [
+        {
+          "family": "W&B",
+          "title": "Weights & Biases",
+          "url": "https://docs.wandb.ai/",
+          "note": "experiment tracking"
+        },
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 39/47: «p95 breach without fallback is gate failure» via MLflow, TFX, W&B (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «p95 breach without fallback is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «p95 breach without fallback is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 39/47: «p95 breach without fallback is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "progressive disclosure stdlib registry",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        },
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 40/47: «progressive disclosure stdlib registry» via 12factor, Feast, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib registry».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib registry»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 40/47: «progressive disclosure stdlib registry» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "BentoML serving alternative",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow docs",
+          "url": "https://mlflow.org/docs/latest/",
+          "note": "MLOps platform"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 41/47: «BentoML serving alternative» via Google, KServe, MLflow (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «BentoML serving alternative».",
+      "expand_scope": "E1/E2/E3 + docs for «BentoML serving alternative»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 41/47: «BentoML serving alternative» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "Kubeflow pipeline analogy",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "MLflow tracking",
+          "url": "https://mlflow.org/docs/latest/tracking.html",
+          "note": "experiments"
+        },
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 42/47: «Kubeflow pipeline analogy» via MLflow, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Kubeflow pipeline analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «Kubeflow pipeline analogy»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 42/47: «Kubeflow pipeline analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "W&B experiment tracking transfer",
+      "research": [
+        {
+          "family": "MLflow",
+          "title": "Model registry",
+          "url": "https://mlflow.org/docs/latest/model-registry.html",
+          "note": "stages"
+        },
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 43/47: «W&B experiment tracking transfer» via Feast, MLflow, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «W&B experiment tracking transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «W&B experiment tracking transfer»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 43/47: «W&B experiment tracking transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "SRE release engineering canary",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "model limits"
+        },
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 44/47: «SRE release engineering canary» via Google, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE release engineering canary».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE release engineering canary»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 44/47: «SRE release engineering canary» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "sklearn evaluation metrics",
+      "research": [
+        {
+          "family": "TFX",
+          "title": "ML Metadata",
+          "url": "https://www.tensorflow.org/tfx/guide/mlmd",
+          "note": "lineage"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps courses",
+          "url": "https://www.coursera.org/courses?query=mlops",
+          "note": "MLOps MOOCs"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 45/47: «sklearn evaluation metrics» via Coursera, TFX, sklearn (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sklearn evaluation metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «sklearn evaluation metrics»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 45/47: «sklearn evaluation metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "12-factor config for serving",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Feast feature store",
+          "url": "https://github.com/feast-dev/feast",
+          "note": "feature parity"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "govern map measure"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 46/47: «12-factor config for serving» via Feast, MIT, NIST (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor config for serving».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor config for serving»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 46/47: «12-factor config for serving» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "CF-4 deployable path validation",
+      "research": [
+        {
+          "family": "KServe",
+          "title": "KServe",
+          "url": "https://kserve.github.io/website/latest/",
+          "note": "serving"
+        },
+        {
+          "family": "Google",
+          "title": "MLOps whitepaper",
+          "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+          "note": "MLOps levels"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S47 «MLOps: experimentos, registro y serving» cycle 47/47: «CF-4 deployable path validation» via Google, Harvard, KServe (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CF-4 deployable path validation».",
+      "expand_scope": "E1/E2/E3 + docs for «CF-4 deployable path validation»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 47/47: «CF-4 deployable path validation» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:09:01.718560+00:00"
+}

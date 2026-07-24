@@ -30,8 +30,9 @@ test.describe('E2E max — 52 sections × 5 tabs', () => {
         ).toBeGreaterThan(10)
       }
 
-      await expect(page.locator('button[aria-label="Sección anterior"]')).toBeVisible()
-      await expect(page.locator('button[aria-label="Sección siguiente"]')).toBeVisible()
+      // Prefer stable testids; aria labels are i18n ("Sección anterior" / "Previous section")
+      await expect(page.getByTestId('section-prev')).toBeVisible()
+      await expect(page.getByTestId('section-next')).toBeVisible()
 
       const crit = guard.critical()
       expect(crit, crit.join('\n')).toHaveLength(0)

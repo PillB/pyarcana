@@ -1,0 +1,1395 @@
+{
+  "section": 49,
+  "title": "Agentes, herramientas y context engineering",
+  "file": "s49-data-contracts.ts",
+  "n_required": 49,
+  "n_logged": 49,
+  "generated_at": "2026-07-24T04:12:12.653568+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "idempotent tools; budget stop; human approval sensitive",
+    "v3_retarget": "agents/tools not tabular contracts only",
+    "expert_pass_at": "2026-07-24T04:12:12.653568+00:00"
+  },
+  "unique_foci": 49,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "workflow when steps known",
+      "research": [
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 1/49: «workflow when steps known» via Anthropic, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «workflow when steps known».",
+      "expand_scope": "E1/E2/E3 + docs for «workflow when steps known»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 1/49: «workflow when steps known» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "agent when decision bounded with evaluator",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 2/49: «agent when decision bounded with evaluator» via Microsoft, OWASP, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «agent when decision bounded with evaluator».",
+      "expand_scope": "E1/E2/E3 + docs for «agent when decision bounded with evaluator»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 2/49: «agent when decision bounded with evaluator» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "routing planner worker evaluator",
+      "research": [
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 3/49: «routing planner worker evaluator» via LangGraph, NIST, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «routing planner worker evaluator».",
+      "expand_scope": "E1/E2/E3 + docs for «routing planner worker evaluator»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 3/49: «routing planner worker evaluator» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "single responsibility tools",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 4/49: «single responsibility tools» via 12factor, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «single responsibility tools».",
+      "expand_scope": "E1/E2/E3 + docs for «single responsibility tools»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 4/49: «single responsibility tools» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "tool schema validation",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 5/49: «tool schema validation» via Microsoft, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tool schema validation».",
+      "expand_scope": "E1/E2/E3 + docs for «tool schema validation»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 5/49: «tool schema validation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "permissions least privilege tools",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 6/49: «permissions least privilege tools» via NIST, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «permissions least privilege tools».",
+      "expand_scope": "E1/E2/E3 + docs for «permissions least privilege tools»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 6/49: «permissions least privilege tools» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "idempotent tool effects",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 7/49: «idempotent tool effects» via 12factor, JSON Schema, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «idempotent tool effects».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotent tool effects»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 7/49: «idempotent tool effects» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "typed tool errors",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 8/49: «typed tool errors» via Harvard, Microsoft, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «typed tool errors».",
+      "expand_scope": "E1/E2/E3 + docs for «typed tool errors»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 8/49: «typed tool errors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "minimal context window",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 9/49: «minimal context window» via Coursera, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «minimal context window».",
+      "expand_scope": "E1/E2/E3 + docs for «minimal context window»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 9/49: «minimal context window» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "just-in-time retrieval",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 10/49: «just-in-time retrieval» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «just-in-time retrieval».",
+      "expand_scope": "E1/E2/E3 + docs for «just-in-time retrieval»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 10/49: «just-in-time retrieval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "checkpoints after expensive steps",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 11/49: «checkpoints after expensive steps» via Harvard, Live, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «checkpoints after expensive steps».",
+      "expand_scope": "E1/E2/E3 + docs for «checkpoints after expensive steps»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 11/49: «checkpoints after expensive steps» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "memory compaction",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        },
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 12/49: «memory compaction» via AutoGen, Coursera, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «memory compaction».",
+      "expand_scope": "E1/E2/E3 + docs for «memory compaction»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 12/49: «memory compaction» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "last-known-good recovery",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 13/49: «last-known-good recovery» via CrewAI, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «last-known-good recovery».",
+      "expand_scope": "E1/E2/E3 + docs for «last-known-good recovery»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 13/49: «last-known-good recovery» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "stopping conditions max steps",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 14/49: «stopping conditions max steps» via Harvard, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stopping conditions max steps».",
+      "expand_scope": "E1/E2/E3 + docs for «stopping conditions max steps»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 14/49: «stopping conditions max steps» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "cost budget max tokens",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        },
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 15/49: «cost budget max tokens» via Anthropic, AutoGen, Coursera (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost budget max tokens».",
+      "expand_scope": "E1/E2/E3 + docs for «cost budget max tokens»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 15/49: «cost budget max tokens» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "sandbox network closed default",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 16/49: «sandbox network closed default» via CrewAI, OpenAI, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sandbox network closed default».",
+      "expand_scope": "E1/E2/E3 + docs for «sandbox network closed default»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 16/49: «sandbox network closed default» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "human approval for sensitive actions",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        },
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 17/49: «human approval for sensitive actions» via LangGraph, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «human approval for sensitive actions».",
+      "expand_scope": "E1/E2/E3 + docs for «human approval for sensitive actions»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 17/49: «human approval for sensitive actions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "no prod modify without approval",
+      "research": [
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 18/49: «no prod modify without approval» via Anthropic, AutoGen, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no prod modify without approval».",
+      "expand_scope": "E1/E2/E3 + docs for «no prod modify without approval»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 18/49: «no prod modify without approval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "no risk decision without human",
+      "research": [
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 19/49: «no risk decision without human» via CrewAI, OWASP, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no risk decision without human».",
+      "expand_scope": "E1/E2/E3 + docs for «no risk decision without human»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 19/49: «no risk decision without human» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "CASO-AYA-049 Ayacucho synthetic reports",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        },
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 20/49: «CASO-AYA-049 Ayacucho synthetic reports» via LangGraph, NIST, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-AYA-049 Ayacucho synthetic reports».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-AYA-049 Ayacucho synthetic reports»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 20/49: «CASO-AYA-049 Ayacucho synthetic reports» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "V3 retarget agents not tabular contracts only",
+      "research": [
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 21/49: «V3 retarget agents not tabular contracts only» via Anthropic, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget agents not tabular contracts only».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget agents not tabular contracts only»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 21/49: «V3 retarget agents not tabular contracts only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "CP-N4-C bounded agent gate",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 22/49: «CP-N4-C bounded agent gate» via Microsoft, OWASP, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-C bounded agent gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-C bounded agent gate»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 22/49: «CP-N4-C bounded agent gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E1 guided workflow vs agent DEFECT",
+      "research": [
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 23/49: «E1 guided workflow vs agent DEFECT» via LangGraph, NIST, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided workflow vs agent DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided workflow vs agent DEFECT»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 23/49: «E1 guided workflow vs agent DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E2 independent tool scope",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 24/49: «E2 independent tool scope» via 12factor, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent tool scope».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent tool scope»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 24/49: «E2 independent tool scope» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E3 transfer budget approval",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 25/49: «E3 transfer budget approval» via Microsoft, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer budget approval».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer budget approval»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 25/49: «E3 transfer budget approval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "Anthropic building effective agents",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 26/49: «Anthropic building effective agents» via NIST, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Anthropic building effective agents».",
+      "expand_scope": "E1/E2/E3 + docs for «Anthropic building effective agents»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 26/49: «Anthropic building effective agents» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "OpenAI function calling",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 27/49: «OpenAI function calling» via 12factor, JSON Schema, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenAI function calling».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenAI function calling»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 27/49: «OpenAI function calling» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "LangGraph agent graphs",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 28/49: «LangGraph agent graphs» via Harvard, Microsoft, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «LangGraph agent graphs».",
+      "expand_scope": "E1/E2/E3 + docs for «LangGraph agent graphs»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 28/49: «LangGraph agent graphs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "OWASP LLM Top 10",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 29/49: «OWASP LLM Top 10» via Coursera, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OWASP LLM Top 10».",
+      "expand_scope": "E1/E2/E3 + docs for «OWASP LLM Top 10»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 29/49: «OWASP LLM Top 10» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "NIST AI RMF human oversight",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 30/49: «NIST AI RMF human oversight» via 12factor, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NIST AI RMF human oversight».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST AI RMF human oversight»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 30/49: «NIST AI RMF human oversight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "JSON Schema for tool args",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 31/49: «JSON Schema for tool args» via Harvard, Live, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «JSON Schema for tool args».",
+      "expand_scope": "E1/E2/E3 + docs for «JSON Schema for tool args»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 31/49: «JSON Schema for tool args» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "LlamaIndex agents guide",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        },
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 32/49: «LlamaIndex agents guide» via AutoGen, Coursera, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «LlamaIndex agents guide».",
+      "expand_scope": "E1/E2/E3 + docs for «LlamaIndex agents guide»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 32/49: «LlamaIndex agents guide» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "pair from S48 RAG to tool-using agent",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 33/49: «pair from S48 RAG to tool-using agent» via CrewAI, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S48 RAG to tool-using agent».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S48 RAG to tool-using agent»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 33/49: «pair from S48 RAG to tool-using agent» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "selfCheck agents MCQ ≥5",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 34/49: «selfCheck agents MCQ ≥5» via Harvard, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck agents MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck agents MCQ ≥5»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 34/49: «selfCheck agents MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "multi-responsibility tool is gate failure",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        },
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 35/49: «multi-responsibility tool is gate failure» via Anthropic, AutoGen, Coursera (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «multi-responsibility tool is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «multi-responsibility tool is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 35/49: «multi-responsibility tool is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "replay side effects is gate failure",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 36/49: «replay side effects is gate failure» via CrewAI, OpenAI, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «replay side effects is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «replay side effects is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 36/49: «replay side effects is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "open network without approval is gate failure",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        },
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 37/49: «open network without approval is gate failure» via LangGraph, Live, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «open network without approval is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «open network without approval is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 37/49: «open network without approval is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "success without known_steps is gate failure",
+      "research": [
+        {
+          "family": "AutoGen",
+          "title": "AutoGen docs",
+          "url": "https://microsoft.github.io/autogen/",
+          "note": "multi-agent"
+        },
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 38/49: «success without known_steps is gate failure» via Anthropic, AutoGen, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «success without known_steps is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «success without known_steps is gate failure»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 38/49: «success without known_steps is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "progressive disclosure stdlib counters sets",
+      "research": [
+        {
+          "family": "CrewAI",
+          "title": "CrewAI docs",
+          "url": "https://docs.crewai.com/",
+          "note": "crew patterns"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 39/49: «progressive disclosure stdlib counters sets» via CrewAI, OWASP, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib counters sets».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib counters sets»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 39/49: «progressive disclosure stdlib counters sets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "Semantic Kernel plugins transfer",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Agents guide",
+          "url": "https://platform.openai.com/docs/guides/agents",
+          "note": "agents platform"
+        },
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 40/49: «Semantic Kernel plugins transfer» via LangGraph, NIST, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Semantic Kernel plugins transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «Semantic Kernel plugins transfer»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 40/49: «Semantic Kernel plugins transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "AutoGen multi-agent analogy",
+      "research": [
+        {
+          "family": "Anthropic",
+          "title": "Building effective agents",
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "note": "agent patterns"
+        },
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 41/49: «AutoGen multi-agent analogy» via Anthropic, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «AutoGen multi-agent analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «AutoGen multi-agent analogy»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 41/49: «AutoGen multi-agent analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "CrewAI crew patterns",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Function calling",
+          "url": "https://platform.openai.com/docs/guides/function-calling",
+          "note": "tools"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 42/49: «CrewAI crew patterns» via Microsoft, OWASP, OpenAI (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CrewAI crew patterns».",
+      "expand_scope": "E1/E2/E3 + docs for «CrewAI crew patterns»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 42/49: «CrewAI crew patterns» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "SRE cascading failures budgets",
+      "research": [
+        {
+          "family": "LangGraph",
+          "title": "LangGraph docs",
+          "url": "https://langchain-ai.github.io/langgraph/",
+          "note": "agent graphs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 43/49: «SRE cascading failures budgets» via LangGraph, NIST, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE cascading failures budgets».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE cascading failures budgets»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 43/49: «SRE cascading failures budgets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "12-factor config for agent services",
+      "research": [
+        {
+          "family": "LlamaIndex",
+          "title": "Agents guide",
+          "url": "https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/",
+          "note": "agents"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 44/49: «12-factor config for agent services» via 12factor, JSON Schema, LlamaIndex (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12-factor config for agent services».",
+      "expand_scope": "E1/E2/E3 + docs for «12-factor config for agent services»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 44/49: «12-factor config for agent services» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "Stanford CS224n foundations",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          "note": "LLM risks"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 45/49: «Stanford CS224n foundations» via Microsoft, OWASP, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stanford CS224n foundations».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS224n foundations»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 45/49: «Stanford CS224n foundations» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "deeplearning.ai agent courses",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "human oversight"
+        },
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 46/49: «deeplearning.ai agent courses» via NIST, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deeplearning.ai agent courses».",
+      "expand_scope": "E1/E2/E3 + docs for «deeplearning.ai agent courses»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 46/49: «deeplearning.ai agent courses» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "proposal only never auto-send",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "JSON Schema",
+          "url": "https://json-schema.org/understanding-json-schema/",
+          "note": "tool schemas"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "config processes"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 47/49: «proposal only never auto-send» via 12factor, JSON Schema, MIT (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «proposal only never auto-send».",
+      "expand_scope": "E1/E2/E3 + docs for «proposal only never auto-send»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 47/49: «proposal only never auto-send» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 48,
+      "focus": "audit log of tool calls required",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Semantic Kernel",
+          "url": "https://learn.microsoft.com/semantic-kernel/",
+          "note": "plugins planners"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS224n NLP",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "note": "NLP foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 48/49: «audit log of tool calls required» via Harvard, Microsoft, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «audit log of tool calls required».",
+      "expand_scope": "E1/E2/E3 + docs for «audit log of tool calls required»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 48/49: «audit log of tool calls required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 49,
+      "focus": "sandbox recovery runbook",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Cascading failures",
+          "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+          "note": "budgets stop"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI agents courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "agent courses"
+        },
+        {
+          "family": "Coursera",
+          "title": "Agentic AI courses",
+          "url": "https://www.coursera.org/courses?query=ai%20agents",
+          "note": "agents MOOCs"
+        }
+      ],
+      "synthesize": "S49 «Agentes, herramientas y context engineering» cycle 49/49: «sandbox recovery runbook» via Coursera, SRE, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sandbox recovery runbook».",
+      "expand_scope": "E1/E2/E3 + docs for «sandbox recovery runbook»; V3 roadmap; pair S48↔S49.",
+      "re_synthesize": "Decision 49/49: «sandbox recovery runbook» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:12:12.653568+00:00"
+}

@@ -1,0 +1,833 @@
+{
+  "section": 29,
+  "title": "SQL avanzado y modelado relacional",
+  "file": "s29-mlops.ts",
+  "n_required": 29,
+  "n_logged": 29,
+  "generated_at": "2026-07-24T04:34:23.481+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "match decision ≠ fraud; append-only history; synthetic ids only",
+    "v3_retarget": "SQL/relational store not MLOps",
+    "expert_pass_at": "2026-07-24T04:34:23.481+00:00"
+  },
+  "unique_foci": 29,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "source records entities candidate pairs decisions evidence",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        },
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 1/29: «source records entities candidate pairs decisions evidence» via SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «source records entities candidate pairs decisions evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «source records entities candidate pairs decisions evidence»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 1/29: «source records entities candidate pairs decisions evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "append only decision history",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 2/29: «append only decision history» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «append only decision history».",
+      "expand_scope": "E1/E2/E3 + docs for «append only decision history»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 2/29: «append only decision history» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "PK FK CHECK score 0 1",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 3/29: «PK FK CHECK score 0 1» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «PK FK CHECK score 0 1».",
+      "expand_scope": "E1/E2/E3 + docs for «PK FK CHECK score 0 1»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 3/29: «PK FK CHECK score 0 1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "canonical entity_a less entity_b",
+      "research": [
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        },
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 4/29: «canonical entity_a less entity_b» via PostgreSQL, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «canonical entity_a less entity_b».",
+      "expand_scope": "E1/E2/E3 + docs for «canonical entity_a less entity_b»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 4/29: «canonical entity_a less entity_b» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "3NF no denormalize pairs",
+      "research": [
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        },
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 5/29: «3NF no denormalize pairs» via PostgreSQL, Python, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «3NF no denormalize pairs».",
+      "expand_scope": "E1/E2/E3 + docs for «3NF no denormalize pairs»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 5/29: «3NF no denormalize pairs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "temporal valid_from valid_to",
+      "research": [
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        },
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 6/29: «temporal valid_from valid_to» via Coursera, Python, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «temporal valid_from valid_to».",
+      "expand_scope": "E1/E2/E3 + docs for «temporal valid_from valid_to»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 6/29: «temporal valid_from valid_to» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "provenance source_system transform_version",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        },
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 7/29: «provenance source_system transform_version» via Coursera, Python, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «provenance source_system transform_version».",
+      "expand_scope": "E1/E2/E3 + docs for «provenance source_system transform_version»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 7/29: «provenance source_system transform_version» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "CTE named steps",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 8/29: «CTE named steps» via Coursera, MIT, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CTE named steps».",
+      "expand_scope": "E1/E2/E3 + docs for «CTE named steps»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 8/29: «CTE named steps» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "window ROW_NUMBER RANK",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 9/29: «window ROW_NUMBER RANK» via Harvard, MIT, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «window ROW_NUMBER RANK».",
+      "expand_scope": "E1/E2/E3 + docs for «window ROW_NUMBER RANK»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 9/29: «window ROW_NUMBER RANK» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "anti join NOT EXISTS review queue",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 10/29: «anti join NOT EXISTS review queue» via Harvard, MIT, Py4E (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «anti join NOT EXISTS review queue».",
+      "expand_scope": "E1/E2/E3 + docs for «anti join NOT EXISTS review queue»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 10/29: «anti join NOT EXISTS review queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "cardinality fan-out blocking",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 11/29: «cardinality fan-out blocking» via Harvard, Live, Py4E (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cardinality fan-out blocking».",
+      "expand_scope": "E1/E2/E3 + docs for «cardinality fan-out blocking»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 11/29: «cardinality fan-out blocking» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "NULL IS NULL COUNT col",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 12/29: «NULL IS NULL COUNT col» via Live, Py4E, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «NULL IS NULL COUNT col».",
+      "expand_scope": "E1/E2/E3 + docs for «NULL IS NULL COUNT col»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 12/29: «NULL IS NULL COUNT col» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "ACID decision plus evidence",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        },
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 13/29: «ACID decision plus evidence» via Live, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ACID decision plus evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «ACID decision plus evidence»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 13/29: «ACID decision plus evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "isolation levels concept",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        },
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 14/29: «isolation levels concept» via SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «isolation levels concept».",
+      "expand_scope": "E1/E2/E3 + docs for «isolation levels concept»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 14/29: «isolation levels concept» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "upsert ON CONFLICT stable id",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 15/29: «upsert ON CONFLICT stable id» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «upsert ON CONFLICT stable id».",
+      "expand_scope": "E1/E2/E3 + docs for «upsert ON CONFLICT stable id»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 15/29: «upsert ON CONFLICT stable id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "concurrency unique pair constraint",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 16/29: «concurrency unique pair constraint» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «concurrency unique pair constraint».",
+      "expand_scope": "E1/E2/E3 + docs for «concurrency unique pair constraint»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 16/29: «concurrency unique pair constraint» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "indexes on score status block_key",
+      "research": [
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        },
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 17/29: «indexes on score status block_key» via PostgreSQL, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «indexes on score status block_key».",
+      "expand_scope": "E1/E2/E3 + docs for «indexes on score status block_key»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 17/29: «indexes on score status block_key» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "migrations expand backfill contract",
+      "research": [
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        },
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 18/29: «migrations expand backfill contract» via PostgreSQL, Python, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «migrations expand backfill contract».",
+      "expand_scope": "E1/E2/E3 + docs for «migrations expand backfill contract»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 18/29: «migrations expand backfill contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "repository pattern no raw SQL scatter",
+      "research": [
+        {
+          "family": "Use The Index Luke",
+          "title": "Index guide",
+          "url": "https://use-the-index-luke.com/",
+          "note": "indices"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        },
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 19/29: «repository pattern no raw SQL scatter» via Coursera, Python, Use The Index Luke (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «repository pattern no raw SQL scatter».",
+      "expand_scope": "E1/E2/E3 + docs for «repository pattern no raw SQL scatter»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 19/29: «repository pattern no raw SQL scatter» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "pooling connections",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "API lab"
+        },
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 20/29: «pooling connections» via Coursera, Python, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pooling connections».",
+      "expand_scope": "E1/E2/E3 + docs for «pooling connections»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 20/29: «pooling connections» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "sqlite memory repo tests",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "SQL relational",
+          "url": "https://www.coursera.org/courses?query=sql%20relational%20database",
+          "note": "MOOC"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 21/29: «sqlite memory repo tests» via Coursera, MIT, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sqlite memory repo tests».",
+      "expand_scope": "E1/E2/E3 + docs for «sqlite memory repo tests»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 21/29: «sqlite memory repo tests» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "match not fraud",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS145 materials",
+          "url": "https://cs145-fa20.github.io/",
+          "note": "relational"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 22/29: «match not fraud» via Harvard, MIT, Stanford (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «match not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «match not fraud»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 22/29: «match not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CASO-LIM-029 Red Andina",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 23/29: «CASO-LIM-029 Red Andina» via Harvard, MIT, Py4E (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-LIM-029 Red Andina».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-029 Red Andina»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 23/29: «CASO-LIM-029 Red Andina» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "V3 not MLOps",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 24/29: «V3 not MLOps» via Harvard, Live, Py4E (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not MLOps».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not MLOps»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 24/29: «V3 not MLOps» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "pair bridge to S30 ER",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 25/29: «pair bridge to S30 ER» via Live, Py4E, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge to S30 ER».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge to S30 ER»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 25/29: «pair bridge to S30 ER» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "run_id versioned queries",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        },
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 26/29: «run_id versioned queries» via Live, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «run_id versioned queries».",
+      "expand_scope": "E1/E2/E3 + docs for «run_id versioned queries»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 26/29: «run_id versioned queries» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "fail-closed missing key",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Language",
+          "url": "https://www.sqlite.org/lang.html",
+          "note": "SQL local"
+        },
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 27/29: «fail-closed missing key» via SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail-closed missing key».",
+      "expand_scope": "E1/E2/E3 + docs for «fail-closed missing key»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 27/29: «fail-closed missing key» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "synthetic emails example.pe",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "EXPLAIN QUERY PLAN",
+          "url": "https://www.sqlite.org/eqp.html",
+          "note": "planes"
+        },
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 28/29: «synthetic emails example.pe» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic emails example.pe».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic emails example.pe»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 28/29: «synthetic emails example.pe» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "window partition by entity",
+      "research": [
+        {
+          "family": "SQLite",
+          "title": "Foreign keys",
+          "url": "https://www.sqlite.org/foreignkeys.html",
+          "note": "FK"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Constraints",
+          "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+          "note": "CHECK UNIQUE"
+        },
+        {
+          "family": "PostgreSQL",
+          "title": "Window functions",
+          "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+          "note": "windows"
+        }
+      ],
+      "synthesize": "S29 «SQL avanzado y modelado relacional» cycle 29/29: «window partition by entity» via PostgreSQL, SQLite (CASO-LIM-029 / CP-N3-A SQL warehouse).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «window partition by entity».",
+      "expand_scope": "E1/E2/E3 + docs for «window partition by entity»; V3 roadmap; pair S29 SQL warehouse → S30 probabilistic ER.",
+      "re_synthesize": "Decision 29/29: «window partition by entity» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

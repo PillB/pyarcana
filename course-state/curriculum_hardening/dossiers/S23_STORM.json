@@ -1,0 +1,667 @@
+{
+  "section": 23,
+  "title": "Browser RPA con Playwright",
+  "file": "s23-computer-vision.ts",
+  "n_required": 23,
+  "n_logged": 23,
+  "generated_at": "2026-07-24T04:23:51.696+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "theory_iDo": "theory+iDo present",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "no CAPTCHA bypass; ToS abort; no real bank/SUNAT creds; synthetic fixture only",
+    "v3_retarget": "Browser RPA/Playwright not CNN computer vision",
+    "expert_pass_at": "2026-07-24T04:23:51.696+00:00",
+    "tsc_selfcheck_holes": "fixed double-comma"
+  },
+  "unique_foci": 23,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "user-facing locators role label text",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Python docs",
+          "url": "https://playwright.dev/python/",
+          "note": "API browser"
+        },
+        {
+          "family": "Playwright",
+          "title": "Best practices",
+          "url": "https://playwright.dev/python/docs/best-practices",
+          "note": "locators"
+        },
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 1/23: «user-facing locators role label text» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «user-facing locators role label text».",
+      "expand_scope": "E1/E2/E3 + docs for «user-facing locators role label text»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 1/23: «user-facing locators role label text» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "data-testid product contract",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Best practices",
+          "url": "https://playwright.dev/python/docs/best-practices",
+          "note": "locators"
+        },
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        },
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 2/23: «data-testid product contract» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data-testid product contract».",
+      "expand_scope": "E1/E2/E3 + docs for «data-testid product contract»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 2/23: «data-testid product contract» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "CSS last resort",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        },
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        },
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 3/23: «CSS last resort» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CSS last resort».",
+      "expand_scope": "E1/E2/E3 + docs for «CSS last resort»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 3/23: «CSS last resort» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "auto-wait actionable",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        },
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        },
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 4/23: «auto-wait actionable» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto-wait actionable».",
+      "expand_scope": "E1/E2/E3 + docs for «auto-wait actionable»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 4/23: «auto-wait actionable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "no fixed sleep",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        },
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        },
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 5/23: «no fixed sleep» via Playwright, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no fixed sleep».",
+      "expand_scope": "E1/E2/E3 + docs for «no fixed sleep»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 5/23: «no fixed sleep» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "expect postconditions",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        },
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 6/23: «expect postconditions» via MIT, Playwright, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «expect postconditions».",
+      "expand_scope": "E1/E2/E3 + docs for «expect postconditions»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 6/23: «expect postconditions» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "forms uploads downloads",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 7/23: «forms uploads downloads» via Harvard, MIT, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «forms uploads downloads».",
+      "expand_scope": "E1/E2/E3 + docs for «forms uploads downloads»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 7/23: «forms uploads downloads» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "storage_state session reuse",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 8/23: «storage_state session reuse» via Coursera, Harvard, MIT (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «storage_state session reuse».",
+      "expand_scope": "E1/E2/E3 + docs for «storage_state session reuse»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 8/23: «storage_state session reuse» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "Page Object separation",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Playwright GitHub",
+          "url": "https://github.com/microsoft/playwright",
+          "note": "source"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 9/23: «Page Object separation» via Coursera, Harvard, Microsoft (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Page Object separation».",
+      "expand_scope": "E1/E2/E3 + docs for «Page Object separation»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 9/23: «Page Object separation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "auth states anonymous authenticated",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Playwright GitHub",
+          "url": "https://github.com/microsoft/playwright",
+          "note": "source"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 10/23: «auth states anonymous authenticated» via Coursera, Microsoft, Py4E (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auth states anonymous authenticated».",
+      "expand_scope": "E1/E2/E3 + docs for «auth states anonymous authenticated»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 10/23: «auth states anonymous authenticated» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "trace screenshot error package",
+      "research": [
+        {
+          "family": "Microsoft",
+          "title": "Playwright GitHub",
+          "url": "https://github.com/microsoft/playwright",
+          "note": "source"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 11/23: «trace screenshot error package» via Live, Microsoft, Py4E (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «trace screenshot error package».",
+      "expand_scope": "E1/E2/E3 + docs for «trace screenshot error package»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 11/23: «trace screenshot error package» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "console ERR filter",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Playwright",
+          "title": "Python docs",
+          "url": "https://playwright.dev/python/",
+          "note": "API browser"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 12/23: «console ERR filter» via Live, Playwright, Py4E (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «console ERR filter».",
+      "expand_scope": "E1/E2/E3 + docs for «console ERR filter»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 12/23: «console ERR filter» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "retry transient only",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Playwright",
+          "title": "Python docs",
+          "url": "https://playwright.dev/python/",
+          "note": "API browser"
+        },
+        {
+          "family": "Playwright",
+          "title": "Best practices",
+          "url": "https://playwright.dev/python/docs/best-practices",
+          "note": "locators"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 13/23: «retry transient only» via Live, Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «retry transient only».",
+      "expand_scope": "E1/E2/E3 + docs for «retry transient only»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 13/23: «retry transient only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "never retry captcha",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Python docs",
+          "url": "https://playwright.dev/python/",
+          "note": "API browser"
+        },
+        {
+          "family": "Playwright",
+          "title": "Best practices",
+          "url": "https://playwright.dev/python/docs/best-practices",
+          "note": "locators"
+        },
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 14/23: «never retry captcha» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «never retry captcha».",
+      "expand_scope": "E1/E2/E3 + docs for «never retry captcha»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 14/23: «never retry captcha» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "recovery stale locator",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Best practices",
+          "url": "https://playwright.dev/python/docs/best-practices",
+          "note": "locators"
+        },
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        },
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 15/23: «recovery stale locator» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «recovery stale locator».",
+      "expand_scope": "E1/E2/E3 + docs for «recovery stale locator»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 15/23: «recovery stale locator» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "api > export > rpa > human",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Locators",
+          "url": "https://playwright.dev/python/docs/locators",
+          "note": "get_by_role"
+        },
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        },
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 16/23: «api > export > rpa > human» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «api > export > rpa > human».",
+      "expand_scope": "E1/E2/E3 + docs for «api > export > rpa > human»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 16/23: «api > export > rpa > human» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "document RPA reason",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Trace viewer",
+          "url": "https://playwright.dev/python/docs/trace-viewer",
+          "note": "diagnostics"
+        },
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        },
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 17/23: «document RPA reason» via Playwright (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «document RPA reason».",
+      "expand_scope": "E1/E2/E3 + docs for «document RPA reason»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 17/23: «document RPA reason» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "ToS abort wins",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Auth",
+          "url": "https://playwright.dev/python/docs/auth",
+          "note": "storage_state"
+        },
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        },
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 18/23: «ToS abort wins» via Playwright, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ToS abort wins».",
+      "expand_scope": "E1/E2/E3 + docs for «ToS abort wins»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 18/23: «ToS abort wins» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CAPTCHA human handoff",
+      "research": [
+        {
+          "family": "Playwright",
+          "title": "Codegen",
+          "url": "https://playwright.dev/python/docs/codegen",
+          "note": "exploration"
+        },
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 19/23: «CAPTCHA human handoff» via MIT, Playwright, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CAPTCHA human handoff».",
+      "expand_scope": "E1/E2/E3 + docs for «CAPTCHA human handoff»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 19/23: «CAPTCHA human handoff» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "desktop fallback scoped",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "ARIA APG",
+          "url": "https://www.w3.org/WAI/ARIA/apg/",
+          "note": "roles"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 20/23: «desktop fallback scoped» via Harvard, MIT, W3C (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «desktop fallback scoped».",
+      "expand_scope": "E1/E2/E3 + docs for «desktop fallback scoped»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 20/23: «desktop fallback scoped» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "synthetic fixture local only",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 21/23: «synthetic fixture local only» via Coursera, Harvard, MIT (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic fixture local only».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic fixture local only»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 21/23: «synthetic fixture local only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "CP-N2-C web adapter gate",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Playwright GitHub",
+          "url": "https://github.com/microsoft/playwright",
+          "note": "source"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 22/23: «CP-N2-C web adapter gate» via Coursera, Harvard, Microsoft (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N2-C web adapter gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-C web adapter gate»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 22/23: «CP-N2-C web adapter gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "V3 not CNN vision",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Playwright automation",
+          "url": "https://www.coursera.org/courses?query=playwright%20test%20automation",
+          "note": "MOOC"
+        },
+        {
+          "family": "Microsoft",
+          "title": "Playwright GitHub",
+          "url": "https://github.com/microsoft/playwright",
+          "note": "source"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S23 «Browser RPA con Playwright» cycle 23/23: «V3 not CNN vision» via Coursera, Microsoft, Py4E (CASO CP-N2-C web adapter).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not CNN vision».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not CNN vision»; V3 roadmap; pair S23 Playwright RPA → S24 OCR Document AI.",
+      "re_synthesize": "Decision 23/23: «V3 not CNN vision» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

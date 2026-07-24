@@ -1,0 +1,612 @@
+{
+  "index": 30,
+  "id": "security-infra",
+  "title": "Entity resolution probabilístico",
+  "file": "s30-security-infra.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S30 — Entity resolution probabilístico (CP-N3-A cierre)",
+      "len": 60
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S30. Normalización/comparadores: exact, edit/token, fecha. Missingness: ausencia informativa. Blocking: reduce pares imposibles. Candidate recall: ¿los matches reales entraron al bloque? Pesos/thresholds: bandas auto/review/non. Clerical review: humano. Pairwise/cluster metrics: evaluación con labels sintéticos.",
+      "len": 325
+    },
+    {
+      "i": 2,
+      "text": "Cierre CP-N3-A: Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido y cola de revisión. ER solo decide «misma entidad»; no relación ni riesgo. Id security-infra legacy. Caso CASO-LIM-030.",
+      "len": 221
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: records sintéticos y labels de pares. Salida: blocks, scores, bandas, precision/recall. Error: auto-fraude o usar mismo par en train y test de umbrales.",
+      "len": 171
+    },
+    {
+      "i": 4,
+      "text": "Orden T1 Comparadores → T2 Blocking → T3 Matching → T4 Evaluación. Stack: stdlib (difflib, collections).",
+      "len": 104
+    },
+    {
+      "i": 5,
+      "text": "Normalización y comparadores (exact/edit/token)",
+      "len": 47
+    },
+    {
+      "i": 6,
+      "text": "Normaliza antes de comparar. Exact post-normalize; edit (ratio difflib) para typos; token para orden de palabras. Frecuencia y missingness modulan confianza, no culpa.",
+      "len": 167
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: ratio = SequenceMatcher(None,a,b).ratio(); exact = 1.0 si iguales normalizados.",
+      "len": 90
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: dos nombres sintéticos. Salida: exact/edit scores. CASO-LIM-030-T1A.",
+      "len": 87
+    },
+    {
+      "i": 9,
+      "text": "Aplicación: 'Juan Perez' vs 'juan pérez' exact tras normalize. No es prueba de fraude.",
+      "len": 86
+    },
+    {
+      "i": 10,
+      "text": "Missingness informativa y frecuencia",
+      "len": 36
+    },
+    {
+      "i": 11,
+      "text": "Un campo vacío puede ser informativo (no recolectado) o error. La frecuencia de un token raro sube discriminación pero no prueba identidad sola. Documenta missing como feature, no como culpa.",
+      "len": 191
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: si ambos missing → score neutro; si uno missing → penalización controlada.",
+      "len": 85
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: valores a/b posiblemente None. Salida: code BOTH_MISSING/ONE_MISSING/OK. CASO-LIM-030-T1B.",
+      "len": 109
+    },
+    {
+      "i": 14,
+      "text": "Aplicación: phone None vs None → BOTH_MISSING. Revisión humana si es crítico.",
+      "len": 77
+    },
+    {
+      "i": 15,
+      "text": "Blocking: reglas y candidate recall",
+      "len": 35
+    },
+    {
+      "i": 16,
+      "text": "Blocking genera solo pares plausibles (misma inicial+apellido token, mismo dominio email). Candidate recall: fracción de matches etiquetados que cayeron en algún bloque.",
+      "len": 169
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: block_key(rec); agrupa; mide recall = matched_in_blocks / true_matches.",
+      "len": 82
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: records + labels. Salida: n_blocks, recall. CASO-LIM-030-T2A.",
+      "len": 80
+    },
+    {
+      "i": 19,
+      "text": "Aplicación: key = name[0]+len; recall medido en sintético. Pares imposibles fuera.",
+      "len": 82
+    },
+    {
+      "i": 20,
+      "text": "Combinaciones, costo y pares imposibles",
+      "len": 39
+    },
+    {
+      "i": 21,
+      "text": "Sin blocking, n² explota. El costo es número de comparaciones. Pares imposibles (reglas de negocio sintéticas) se excluyen.",
+      "len": 123
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: comparisons = sum(len(block) choose 2); cap de presupuesto.",
+      "len": 70
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: tamaños de bloque. Salida: n_comparisons y under_budget. CASO-LIM-030-T2B.",
+      "len": 93
+    },
+    {
+      "i": 24,
+      "text": "Aplicación: bloques 3 y 1 → 3 comparaciones. Presupuesto 100.",
+      "len": 61
+    },
+    {
+      "i": 25,
+      "text": "Pesos, probabilidad y thresholds",
+      "len": 32
+    },
+    {
+      "i": 26,
+      "text": "Combina scores de campos con pesos; aplica thresholds a bandas auto/review/non. La estimación puede ser train sintético; la cluster consistency evita contradicciones A=B, B=C, A≠C sin revisión.",
+      "len": 193
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: s = w_namename + w_emailemail; bandas 0.9/0.6.",
+      "len": 57
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: field scores + weights. Salida: band. CASO-LIM-030-T3A.",
+      "len": 74
+    },
+    {
+      "i": 29,
+      "text": "Aplicación: name 1.0 email 0.0 pesos 0.7/0.3 → score 0.7 → review. No auto-fraude.",
+      "len": 82
+    },
+    {
+      "i": 30,
+      "text": "Clerical review y consistencia de cluster",
+      "len": 41
+    },
+    {
+      "i": 31,
+      "text": "Clerical review encola band review. Cluster consistency: si A~B y B~C con alta confianza, A~C debe revisarse si el modelo dice non.",
+      "len": 131
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: grafo de auto-edges; detectar contradicción con transitive closure simple.",
+      "len": 85
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: edges auto + juicio non. Salida: needs_review True si contradicción. CASO-LIM-030-T3B.",
+      "len": 105
+    },
+    {
+      "i": 34,
+      "text": "Aplicación: A-B, B-C auto; A-C non → review. Humano manda.",
+      "len": 58
+    },
+    {
+      "i": 35,
+      "text": "Labeled pairs, splits por entidad y métricas",
+      "len": 44
+    },
+    {
+      "i": 36,
+      "text": "Evalúa con pares etiquetados sintéticos. Split por entidad evita leakage de la misma persona en train/test de umbrales. Precision/recall pairwise; reporta error slices (p. ej. solo email missing).",
+      "len": 196
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: pred vs gold; precision = TP/(TP+FP); recall = TP/(TP+FN).",
+      "len": 69
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: preds y gold sets. Salida: precision, recall. CASO-LIM-030-T4A.",
+      "len": 82
+    },
+    {
+      "i": 39,
+      "text": "Aplicación: 2 TP, 1 FP, 1 FN → P=2/3 R=2/3. No acusar personas reales.",
+      "len": 70
+    },
+    {
+      "i": 40,
+      "text": "Error slices y cola de revisión",
+      "len": 31
+    },
+    {
+      "i": 41,
+      "text": "Un error slice agrupa fallos (p. ej. typos fuertes, missing phone). La cola prioriza review por score de incertidumbre, no por culpa.",
+      "len": 133
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: filtrar FN por regla de slice; reportar n y rate.",
+      "len": 60
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: errores etiquetados. Salida: slice_rate. CASO-LIM-030-T4B.",
+      "len": 77
+    },
+    {
+      "i": 44,
+      "text": "Aplicación: 2 de 4 errores son missing_phone → rate 0.5. Acción: mejorar captura, no sancionar.",
+      "len": 95
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 60,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S30 — Entity resolution probabilístico (CP-N3-A cierre)",
+      "text": "Mapa S30 — Entity resolution probabilístico (CP-N3-A cierre)"
+    },
+    {
+      "i": 1,
+      "len": 325,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S30. Normalización/comparadores: exact, edit/token, fecha. Missingness: ausencia informativa. Blocking: reduce pares imposibles. Candidate recall: ¿los matches reales e",
+      "text": "Diccionario S30. Normalización/comparadores: exact, edit/token, fecha. Missingness: ausencia informativa. Blocking: reduce pares imposibles. Candidate recall: ¿los matches reales entraron al bloque? Pesos/thresholds: bandas auto/review/non. Clerical review: humano. Pairwise/cluster metrics: evaluación con labels sintéticos."
+    },
+    {
+      "i": 2,
+      "len": 221,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cierre CP-N3-A: Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido y cola de revisión. ER solo decide «misma entidad»; no relación ni riesgo. Id ",
+      "text": "Cierre CP-N3-A: Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido y cola de revisión. ER solo decide «misma entidad»; no relación ni riesgo. Id security-infra legacy. Caso CASO-LIM-030."
+    },
+    {
+      "i": 3,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: records sintéticos y labels de pares. Salida: blocks, scores, bandas, precision/recall. Error: auto-fraude o usar mismo par en train y test de umbrales.",
+      "text": "Contrato. Entrada: records sintéticos y labels de pares. Salida: blocks, scores, bandas, precision/recall. Error: auto-fraude o usar mismo par en train y test de umbrales."
+    },
+    {
+      "i": 4,
+      "len": 104,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden T1 Comparadores → T2 Blocking → T3 Matching → T4 Evaluación. Stack: stdlib (difflib, collections).",
+      "text": "Orden T1 Comparadores → T2 Blocking → T3 Matching → T4 Evaluación. Stack: stdlib (difflib, collections)."
+    },
+    {
+      "i": 5,
+      "len": 47,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Normalización y comparadores (exact/edit/token)",
+      "text": "Normalización y comparadores (exact/edit/token)"
+    },
+    {
+      "i": 6,
+      "len": 167,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Normaliza antes de comparar. Exact post-normalize; edit (ratio difflib) para typos; token para orden de palabras. Frecuencia y missingness modulan confianza, no culpa.",
+      "text": "Normaliza antes de comparar. Exact post-normalize; edit (ratio difflib) para typos; token para orden de palabras. Frecuencia y missingness modulan confianza, no culpa."
+    },
+    {
+      "i": 7,
+      "len": 90,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: ratio = SequenceMatcher(None,a,b).ratio(); exact = 1.0 si iguales normalizados.",
+      "text": "Mecanismo: ratio = SequenceMatcher(None,a,b).ratio(); exact = 1.0 si iguales normalizados."
+    },
+    {
+      "i": 8,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: dos nombres sintéticos. Salida: exact/edit scores. CASO-LIM-030-T1A.",
+      "text": "Contrato. Entrada: dos nombres sintéticos. Salida: exact/edit scores. CASO-LIM-030-T1A."
+    },
+    {
+      "i": 9,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 'Juan Perez' vs 'juan pérez' exact tras normalize. No es prueba de fraude.",
+      "text": "Aplicación: 'Juan Perez' vs 'juan pérez' exact tras normalize. No es prueba de fraude."
+    },
+    {
+      "i": 10,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Missingness informativa y frecuencia",
+      "text": "Missingness informativa y frecuencia"
+    },
+    {
+      "i": 11,
+      "len": 191,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un campo vacío puede ser informativo (no recolectado) o error. La frecuencia de un token raro sube discriminación pero no prueba identidad sola. Documenta missing como feature, no ",
+      "text": "Un campo vacío puede ser informativo (no recolectado) o error. La frecuencia de un token raro sube discriminación pero no prueba identidad sola. Documenta missing como feature, no como culpa."
+    },
+    {
+      "i": 12,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: si ambos missing → score neutro; si uno missing → penalización controlada.",
+      "text": "Mecanismo: si ambos missing → score neutro; si uno missing → penalización controlada."
+    },
+    {
+      "i": 13,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: valores a/b posiblemente None. Salida: code BOTH_MISSING/ONE_MISSING/OK. CASO-LIM-030-T1B.",
+      "text": "Contrato. Entrada: valores a/b posiblemente None. Salida: code BOTH_MISSING/ONE_MISSING/OK. CASO-LIM-030-T1B."
+    },
+    {
+      "i": 14,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: phone None vs None → BOTH_MISSING. Revisión humana si es crítico.",
+      "text": "Aplicación: phone None vs None → BOTH_MISSING. Revisión humana si es crítico."
+    },
+    {
+      "i": 15,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Blocking: reglas y candidate recall",
+      "text": "Blocking: reglas y candidate recall"
+    },
+    {
+      "i": 16,
+      "len": 169,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Blocking genera solo pares plausibles (misma inicial+apellido token, mismo dominio email). Candidate recall: fracción de matches etiquetados que cayeron en algún bloque.",
+      "text": "Blocking genera solo pares plausibles (misma inicial+apellido token, mismo dominio email). Candidate recall: fracción de matches etiquetados que cayeron en algún bloque."
+    },
+    {
+      "i": 17,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: block_key(rec); agrupa; mide recall = matched_in_blocks / true_matches.",
+      "text": "Mecanismo: block_key(rec); agrupa; mide recall = matched_in_blocks / true_matches."
+    },
+    {
+      "i": 18,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: records + labels. Salida: n_blocks, recall. CASO-LIM-030-T2A.",
+      "text": "Contrato. Entrada: records + labels. Salida: n_blocks, recall. CASO-LIM-030-T2A."
+    },
+    {
+      "i": 19,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: key = name[0]+len; recall medido en sintético. Pares imposibles fuera.",
+      "text": "Aplicación: key = name[0]+len; recall medido en sintético. Pares imposibles fuera."
+    },
+    {
+      "i": 20,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Combinaciones, costo y pares imposibles",
+      "text": "Combinaciones, costo y pares imposibles"
+    },
+    {
+      "i": 21,
+      "len": 123,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Sin blocking, n² explota. El costo es número de comparaciones. Pares imposibles (reglas de negocio sintéticas) se excluyen.",
+      "text": "Sin blocking, n² explota. El costo es número de comparaciones. Pares imposibles (reglas de negocio sintéticas) se excluyen."
+    },
+    {
+      "i": 22,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: comparisons = sum(len(block) choose 2); cap de presupuesto.",
+      "text": "Mecanismo: comparisons = sum(len(block) choose 2); cap de presupuesto."
+    },
+    {
+      "i": 23,
+      "len": 93,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: tamaños de bloque. Salida: n_comparisons y under_budget. CASO-LIM-030-T2B.",
+      "text": "Contrato. Entrada: tamaños de bloque. Salida: n_comparisons y under_budget. CASO-LIM-030-T2B."
+    },
+    {
+      "i": 24,
+      "len": 61,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: bloques 3 y 1 → 3 comparaciones. Presupuesto 100.",
+      "text": "Aplicación: bloques 3 y 1 → 3 comparaciones. Presupuesto 100."
+    },
+    {
+      "i": 25,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Pesos, probabilidad y thresholds",
+      "text": "Pesos, probabilidad y thresholds"
+    },
+    {
+      "i": 26,
+      "len": 193,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Combina scores de campos con pesos; aplica thresholds a bandas auto/review/non. La estimación puede ser train sintético; la cluster consistency evita contradicciones A=B, B=C, A≠C ",
+      "text": "Combina scores de campos con pesos; aplica thresholds a bandas auto/review/non. La estimación puede ser train sintético; la cluster consistency evita contradicciones A=B, B=C, A≠C sin revisión."
+    },
+    {
+      "i": 27,
+      "len": 57,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: s = w_namename + w_emailemail; bandas 0.9/0.6.",
+      "text": "Mecanismo: s = w_namename + w_emailemail; bandas 0.9/0.6."
+    },
+    {
+      "i": 28,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: field scores + weights. Salida: band. CASO-LIM-030-T3A.",
+      "text": "Contrato. Entrada: field scores + weights. Salida: band. CASO-LIM-030-T3A."
+    },
+    {
+      "i": 29,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: name 1.0 email 0.0 pesos 0.7/0.3 → score 0.7 → review. No auto-fraude.",
+      "text": "Aplicación: name 1.0 email 0.0 pesos 0.7/0.3 → score 0.7 → review. No auto-fraude."
+    },
+    {
+      "i": 30,
+      "len": 41,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Clerical review y consistencia de cluster",
+      "text": "Clerical review y consistencia de cluster"
+    },
+    {
+      "i": 31,
+      "len": 131,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Clerical review encola band review. Cluster consistency: si A~B y B~C con alta confianza, A~C debe revisarse si el modelo dice non.",
+      "text": "Clerical review encola band review. Cluster consistency: si A~B y B~C con alta confianza, A~C debe revisarse si el modelo dice non."
+    },
+    {
+      "i": 32,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: grafo de auto-edges; detectar contradicción con transitive closure simple.",
+      "text": "Mecanismo: grafo de auto-edges; detectar contradicción con transitive closure simple."
+    },
+    {
+      "i": 33,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: edges auto + juicio non. Salida: needs_review True si contradicción. CASO-LIM-030-T3B.",
+      "text": "Contrato. Entrada: edges auto + juicio non. Salida: needs_review True si contradicción. CASO-LIM-030-T3B."
+    },
+    {
+      "i": 34,
+      "len": 58,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: A-B, B-C auto; A-C non → review. Humano manda.",
+      "text": "Aplicación: A-B, B-C auto; A-C non → review. Humano manda."
+    },
+    {
+      "i": 35,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Labeled pairs, splits por entidad y métricas",
+      "text": "Labeled pairs, splits por entidad y métricas"
+    },
+    {
+      "i": 36,
+      "len": 196,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evalúa con pares etiquetados sintéticos. Split por entidad evita leakage de la misma persona en train/test de umbrales. Precision/recall pairwise; reporta error slices (p. ej. solo",
+      "text": "Evalúa con pares etiquetados sintéticos. Split por entidad evita leakage de la misma persona en train/test de umbrales. Precision/recall pairwise; reporta error slices (p. ej. solo email missing)."
+    },
+    {
+      "i": 37,
+      "len": 69,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: pred vs gold; precision = TP/(TP+FP); recall = TP/(TP+FN).",
+      "text": "Mecanismo: pred vs gold; precision = TP/(TP+FP); recall = TP/(TP+FN)."
+    },
+    {
+      "i": 38,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: preds y gold sets. Salida: precision, recall. CASO-LIM-030-T4A.",
+      "text": "Contrato. Entrada: preds y gold sets. Salida: precision, recall. CASO-LIM-030-T4A."
+    },
+    {
+      "i": 39,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 2 TP, 1 FP, 1 FN → P=2/3 R=2/3. No acusar personas reales.",
+      "text": "Aplicación: 2 TP, 1 FP, 1 FN → P=2/3 R=2/3. No acusar personas reales."
+    },
+    {
+      "i": 40,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Error slices y cola de revisión",
+      "text": "Error slices y cola de revisión"
+    },
+    {
+      "i": 41,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un error slice agrupa fallos (p. ej. typos fuertes, missing phone). La cola prioriza review por score de incertidumbre, no por culpa.",
+      "text": "Un error slice agrupa fallos (p. ej. typos fuertes, missing phone). La cola prioriza review por score de incertidumbre, no por culpa."
+    },
+    {
+      "i": 42,
+      "len": 60,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: filtrar FN por regla de slice; reportar n y rate.",
+      "text": "Mecanismo: filtrar FN por regla de slice; reportar n y rate."
+    },
+    {
+      "i": 43,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: errores etiquetados. Salida: slice_rate. CASO-LIM-030-T4B.",
+      "text": "Contrato. Entrada: errores etiquetados. Salida: slice_rate. CASO-LIM-030-T4B."
+    },
+    {
+      "i": 44,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 2 de 4 errores son missing_phone → rate 0.5. Acción: mejorar captura, no sancionar.",
+      "text": "Aplicación: 2 de 4 errores son missing_phone → rate 0.5. Acción: mejorar captura, no sancionar."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 9572
+}

@@ -27,9 +27,9 @@ export const section34: CourseSection = {
     {
       heading: "Cierre CP-N3-B: Relationship Investigation Workbench",
       paragraphs: [
-        "Esta sección cierra CP-N3-B integrando grafo (S31), features (S32) y baselines (S33) con métricas de ranking, calibración y umbrales por capacidad de revisión humana en Red Andina (ficticia). En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Producto incremental: workbench que prioriza cola y explica; no imprime fraud=true. Entrada: scores y labels sintéticos needs_review; salida: precision@k, Brier, thr versionado y banda de abstención. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Orden pedagógico: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Id legacy `cv-ai-integration` se conserva; no hay YOLO ni CV en V3 de esta sección. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Esta sección **cierra CP-N3-B** integrando grafo (S31), features (S32) y baselines (S33) con **métricas de ranking**, **calibración** y **umbrales por capacidad** de revisión humana en Red Andina (ficticia).",
+        "Producto incremental: workbench que **prioriza cola y explica**; **no** imprime `fraud=true`. Entrada: scores y labels sintéticos `needs_review`; salida: precision@k, Brier, thr versionado y banda de abstención.",
+        "Orden: **T1 métricas** → **T2 desbalance** → **T3 calibración** → **T4 decisión**. Id legacy `cv-ai-integration` se conserva; **no** hay YOLO ni computer vision en V3 de esta sección. ER/matching ≠ parentesco ni fraude."
       ],
       callout: {
         type: "info",
@@ -42,20 +42,22 @@ export const section34: CourseSection = {
       heading: "confusion matrix, precision/recall/F y PR-AUC",
       subtopicId: "S34-T1-A",
       paragraphs: [
-        "Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: y y pred binarios. Salida: TP/FP/FN/TN y F1. Error: reportar solo accuracy con prevalencia baja. Criterio: confusion completa antes de elegir thr. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: y=[1,0] pred=[1,1] produce FP; F1 con P=R=0.5 es 0.5. El workbench documenta costos distintos de FP y FN. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Con **desbalance**, accuracy engaña. **Precision, recall, Fβ** y el área bajo la curva **precision-recall** describen mejor la cola de revisión que un solo % de aciertos — la mayoría de pares no necesitan review.",
+        "Contrato: entrada `y` y `pred` binarios; salida TP/FP/FN/TN y F1. Error: reportar **solo accuracy** con prevalencia baja. Criterio: confusion **completa** antes de elegir thr.",
+        "Aplicación a `CASO-LIM-034`: `y=[1,0] pred=[1,1]` produce FP; F1 con P=R=0.5 es 0.5. El workbench documenta **costos distintos** de FP y FN (cola vs miss)."
       ],
       code: {
         language: 'python',
         title: "confusion.py",
-        code: `y, pred = [1, 0], [1, 1]
-tp = sum(1 for a, b in zip(y, pred) if a == 1 and b == 1)
-fp = sum(1 for a, b in zip(y, pred) if a == 0 and b == 1)
-fn = sum(1 for a, b in zip(y, pred) if a == 1 and b == 0)
-print("tp", tp, "fp", fp, "fn", fn)
+        code: `def confusion_counts(y, pred):
+    tp = sum(1 for a, b in zip(y, pred) if a == 1 and b == 1)
+    fp = sum(1 for a, b in zip(y, pred) if a == 0 and b == 1)
+    fn = sum(1 for a, b in zip(y, pred) if a == 1 and b == 0)
+    return tp, fp, fn
+
+print("tp_fp_fn", confusion_counts([1, 0], [1, 1]))
 print("accuracy_only", False)`,
-        output: `tp 1 fp 1 fn 0
+        output: `tp_fp_fn (1, 1, 0)
 accuracy_only False`,
       },
       callout: {
@@ -69,19 +71,21 @@ accuracy_only False`,
       heading: "top-k y carga de revisión",
       subtopicId: "S34-T1-B",
       paragraphs: [
-        "precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar recall. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: labels top-k y capacidad. Salida: precision@k y flag de overload. Error: ignorar capacidad operativa. Criterio: k alineado a capacidad diaria. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: top-3 labels [1,0,1] → precision@3=2/3; 50 alertas vs capacidad 10 → overload y thr se reevalua. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**precision@k** y **recall@k** miden la calidad de los **k primeros** de la cola. Si alertas **> capacidad**, la carga satura al equipo: el thr debe **bajar el volumen**, no solo maximizar recall a costa de overload.",
+        "Contrato: entrada labels top-k y capacidad; salida precision@k y flag de overload. Error: **ignorar capacidad operativa**. Criterio: `k` alineado a capacidad diaria del clerical review.",
+        "Aplicación a `CASO-LIM-034`: top-3 labels `[1,0,1]` → precision@3=2/3; 50 alertas vs capacidad 10 → overload y thr se reevalúa."
       ],
       code: {
         language: 'python',
         title: "topk.py",
-        code: `labels = [1, 0, 1]
-k = 3
-prec = sum(labels[:k]) / k
-load, cap = 50, 10
-print("precision_at_k", round(prec, 3))
-print("overload", load > cap)
+        code: `def precision_at_k(labels, k):
+    return sum(labels[:k]) / k
+
+def queue_overload(load, cap):
+    return load > cap
+
+print("precision_at_k", round(precision_at_k([1, 0, 1], 3), 3))
+print("overload", queue_overload(50, 10))
 print("fraud_label", False)`,
         output: `precision_at_k 0.667
 overload True
@@ -98,16 +102,17 @@ fraud_label False`,
       heading: "class weights y resampling dentro de CV",
       subtopicId: "S34-T2-A",
       paragraphs: [
-        "Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: conteos n0/n1. Salida: ratio de pesos y flag de política CV-safe. Error: oversample global. Criterio: minority count documentado sin tocar test. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: n0=9 n1=1 → weight ratio 9; política resample_global=False en el pipeline del workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Class weights** o **resampling solo dentro del fold de train** evitan leakage. Resamplear **todo** el dataset antes de CV infla métricas y **miente** sobre producción.",
+        "Contrato: entrada conteos `n0/n1`; salida ratio de pesos y flag de política CV-safe. Error: **oversample global**. Criterio: minority count documentado **sin** tocar test/holdout.",
+        "Aplicación a `CASO-LIM-034`: `n0=9 n1=1` → weight ratio 9; política `resample_global=False` en el pipeline del workbench."
       ],
       code: {
         language: 'python',
         title: "weights.py",
-        code: `n0, n1 = 9, 1
-w1_over_w0 = n0 / n1
-print("weight_ratio", w1_over_w0)
+        code: `def weight_ratio(n0, n1):
+    return n0 / n1
+
+print("weight_ratio", weight_ratio(9, 1))
 print("resample_global", False)
 print("cv_safe", True)`,
         output: `weight_ratio 9.0
@@ -125,18 +130,21 @@ cv_safe True`,
       heading: "prevalencia y métricas engañosas",
       subtopicId: "S34-T2-B",
       paragraphs: [
-        "Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: prevalencia y política de reporte. Salida: base rate y advertencia de precision. Error: comparar precision entre periodos sin base rate. Criterio: reportar prevalencia junto a P/R.",
-        "Aplicación a `CASO-LIM-034`: 25/1000=0.025; all-neg accuracy≈0.98 engaña. El workbench prefiere PR y carga de cola. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Si la **prevalencia** cae, la misma especificidad produce **peor precision**. Un clasificador **all-negative** luce genial en accuracy cuando la clase positiva es rara — y no prioriza ninguna cola.",
+        "Contrato: entrada prevalencia y política de reporte; salida base rate y advertencia de precision. Error: comparar precision entre periodos **sin** base rate. Criterio: reportar prevalencia **junto** a P/R.",
+        "Aplicación a `CASO-LIM-034`: 25/1000=0.025; all-neg accuracy≈0.975 engaña. El workbench prefiere **PR** y carga de cola."
       ],
       code: {
         language: 'python',
         title: "prevalence.py",
-        code: `pos, n = 25, 1000
-prev = pos / n
-all_neg_acc = 1 - prev
-print("prevalence", prev)
-print("all_neg_acc", round(all_neg_acc, 3))
+        code: `def prevalence(pos, n):
+    return pos / n
+
+def all_neg_accuracy(prev):
+    return 1 - prev
+
+print("prevalence", prevalence(25, 1000))
+print("all_neg_acc", round(all_neg_accuracy(0.025), 3))
 print("accuracy_enough", False)`,
         output: `prevalence 0.025
 all_neg_acc 0.975
@@ -153,16 +161,17 @@ accuracy_enough False`,
       heading: "reliability curves y Brier",
       subtopicId: "S34-T3-A",
       paragraphs: [
-        "Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: p y y. Salida: Brier y bin mean vs freq. Error: calibrar a ojo sin holdout. Criterio: menor Brier es mejor entre modelos comparables. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: p=1 y=1 → Brier 0; un bin con mean p=0.8 y freq=0.5 muestra mala reliability. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Brier** (media de `(p−y)²`) y **reliability** (media de `p` vs frecuencia en bins) miden si el score se puede leer como probabilidad de **priorización**, **no** de culpa o fraude.",
+        "Contrato: entrada `p` y `y`; salida Brier y bin mean vs freq. Error: calibrar a ojo **sin** holdout. Criterio: menor Brier es mejor entre modelos comparables con misma tarea.",
+        "Aplicación a `CASO-LIM-034`: `p=1,y=1` → Brier 0; un bin con mean p=0.8 y freq=0.5 muestra **mala reliability**."
       ],
       code: {
         language: 'python',
         title: "brier.py",
-        code: `p, y = 1.0, 1
-brier = (p - y) ** 2
-print("brier", brier)
+        code: `def brier_one(p, y):
+    return (p - y) ** 2
+
+print("brier", brier_one(1.0, 1))
 print("mean_p", 0.8, "freq", 0.5)
 print("calibrated", False)`,
         output: `brier 0.0
@@ -180,15 +189,18 @@ calibrated False`,
       heading: "calibradores y evaluación fuera de muestra",
       subtopicId: "S34-T3-B",
       paragraphs: [
-        "Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: raw scores y nombre de calibrador. Salida: scores clipados/calibrados misma longitud. Error: fit calibrator en test final. Criterio: holdout de calibración versionado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: clip 1.5→1.0 y -0.2→0.0; calibrator_set=holdout_v1; raw y cal tienen misma longitud. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "**Platt** o **isotonic** se ajustan en un set de calibración **distinto** del train del modelo base. Evaluar calibración en el mismo set de fit es **autoengaño**.",
+        "Contrato: entrada raw scores y nombre de calibrador; salida scores clipados/calibrados misma longitud. Error: fit calibrator en **test final**. Criterio: holdout de calibración **versionado**.",
+        "Aplicación a `CASO-LIM-034`: clip `1.5→1.0` y `-0.2→0.0`; `calibrator_set=holdout_v1`; raw y cal tienen misma longitud."
       ],
       code: {
         language: 'python',
         title: "calibrator.py",
-        code: `raw = [1.5, -0.2, 0.4]
-cal = [min(1.0, max(0.0, x)) for x in raw]
+        code: `def clip_scores(raw, lo=0.0, hi=1.0):
+    return [min(hi, max(lo, x)) for x in raw]
+
+raw = [1.5, -0.2, 0.4]
+cal = clip_scores(raw)
 print(cal)
 print("calibrator_set", "holdout_v1")
 print("same_len", len(raw) == len(cal))`,
@@ -207,19 +219,22 @@ same_len True`,
       heading: "threshold por costo/capacidad",
       subtopicId: "S34-T4-A",
       paragraphs: [
-        "El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: scores, costos, k deseado. Salida: thr que deja k en review y costo total. Error: thr fijo sin costos. Criterio: config thr versionada en el workbench. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: scores [0.1,0.4,0.6,0.9] con thr que deja 2 en review; costo fp*2+fn*10 documentado. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "El **umbral** se elige por **costo** (`fp*c_fp+fn*c_fn`) y por **capacidad de la cola**, no por un default 0.5 de librería. El thr se **versiona** (`thr-v1`) para auditoría y rollback.",
+        "Contrato: entrada scores, costos, k deseado; salida thr que deja k en review y costo total. Error: thr fijo **sin** costos. Criterio: config thr versionada en el workbench.",
+        "Aplicación a `CASO-LIM-034`: scores `[0.1,0.4,0.6,0.9]` con thr que deja 2 en review; costo `fp*2+fn*10` documentado."
       ],
       code: {
         language: 'python',
         title: "threshold.py",
-        code: `scores = [0.1, 0.4, 0.6, 0.9]
+        code: `def n_in_review(scores, thr):
+    return sum(1 for s in scores if s >= thr)
+
+def review_cost(n_fp, n_fn, c_fp=2, c_fn=10):
+    return n_fp * c_fp + n_fn * c_fn
+
 thr = 0.6
-in_review = sum(1 for s in scores if s >= thr)
-cost = 3 * 2 + 1 * 10
-print("thr", thr, "n_review", in_review)
-print("cost", cost)
+print("thr", thr, "n_review", n_in_review([0.1, 0.4, 0.6, 0.9], thr))
+print("cost", review_cost(3, 1))
 print("thr_id", "thr-v1")`,
         output: `thr 0.6 n_review 2
 cost 16
@@ -236,9 +251,9 @@ thr_id thr-v1`,
       heading: "abstención, slices y sensibilidad",
       subtopicId: "S34-T4-B",
       paragraphs: [
-        "Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Contrato operativo. Entrada: score, low, high. Salida: decide review|skip|abstain y dict de slice metrics. Error: forzar 0/1 en banda. Criterio: abstain es primera clase. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
-        "Aplicación a `CASO-LIM-034`: score 0.5 con low=0.3 high=0.7 → abstain; thr 0.5 vs 0.6 cambia n_pos_pred en sensibilidad. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+        "Banda **low/high de abstención** evita forzar labels 0/1 en zona gris. **Sensibilidad a thr** y métricas **por slice** detectan degradación local antes de promover el modelo — y **nunca** convierten score en auto-fraude.",
+        "Contrato: entrada score, low, high; salida `review|skip|abstain` y dict de slice metrics. Error: **forzar 0/1** en banda. Criterio: abstain es **primera clase** del producto.",
+        "Aplicación a `CASO-LIM-034`: score 0.5 con low=0.3 high=0.7 → `abstain`; thr 0.5 vs 0.6 cambia `n_pos_pred` en sensibilidad."
       ],
       code: {
         language: 'python',
@@ -275,8 +290,10 @@ ok True`,
         code: {
           language: 'python',
           title: "cm_demo.py",
-          code: `y,p=[1,0],[1,1]
-print('fp', sum(a==0 and b==1 for a,b in zip(y,p)))
+          code: `def fp_count(y, p):
+    return sum(a == 0 and b == 1 for a, b in zip(y, p))
+
+print('fp', fp_count([1, 0], [1, 1]))
 print('accuracy_only', False)
 print('ok', True)`,
           output: `fp 1
@@ -293,8 +310,11 @@ ok True`,
         code: {
           language: 'python',
           title: "topk_demo.py",
-          code: `print(round(2/3,3))
-print('overload', True)
+          code: `def precision_at_k(labels, k):
+    return sum(labels[:k]) / k
+
+print(round(precision_at_k([1, 0, 1], 3), 3))
+print('overload', 50 > 10)
 print('ok', True)`,
           output: `0.667
 overload True
@@ -310,7 +330,10 @@ ok True`,
         code: {
           language: 'python',
           title: "w_demo.py",
-          code: `print(9)
+          code: `def weight_ratio(n0, n1):
+    return n0 / n1
+
+print(weight_ratio(9, 1))
 print('resample_global', False)
 print('ok', True)`,
           output: `9
@@ -327,8 +350,11 @@ ok True`,
         code: {
           language: 'python',
           title: "prev_demo.py",
-          code: `print(0.025)
-print('all_neg_acc', 0.975)
+          code: `def prevalence(pos, n):
+    return pos / n
+
+print(prevalence(25, 1000))
+print('all_neg_acc', round(1 - 0.025, 3))
 print('ok', True)`,
           output: `0.025
 all_neg_acc 0.975
@@ -344,7 +370,10 @@ ok True`,
         code: {
           language: 'python',
           title: "brier_demo.py",
-          code: `print(0.0)
+          code: `def brier_one(p, y):
+    return (p - y) ** 2
+
+print(brier_one(1.0, 1))
 print('calibrated', False)
 print('ok', True)`,
           output: `0.0
@@ -361,7 +390,10 @@ ok True`,
         code: {
           language: 'python',
           title: "cal_demo.py",
-          code: `print([1.0,0.0])
+          code: `def clip_scores(raw):
+    return [min(1.0, max(0.0, x)) for x in raw]
+
+print(clip_scores([1.5, -0.2])[:2])
 print('calibrator_set', 'holdout_v1')
 print('ok', True)`,
           output: `[1.0, 0.0]
@@ -378,7 +410,10 @@ ok True`,
         code: {
           language: 'python',
           title: "thr_demo.py",
-          code: `print('n_review', 2)
+          code: `def n_in_review(scores, thr):
+    return sum(1 for s in scores if s >= thr)
+
+print('n_review', n_in_review([0.1, 0.4, 0.6, 0.9], 0.6))
 print('thr_id', 'thr-v1')
 print('ok', True)`,
           output: `n_review 2
@@ -395,7 +430,14 @@ ok True`,
         code: {
           language: 'python',
           title: "abs_demo.py",
-          code: `print('abstain')
+          code: `def decide(score, low=0.3, high=0.7):
+    if score < low:
+        return 'skip'
+    if score > high:
+        return 'review'
+    return 'abstain'
+
+print(decide(0.5))
 print('force_label', False)
 print('ok', True)`,
           output: `abstain
@@ -425,7 +467,10 @@ ok True`,
         starterCode: {
           language: 'python',
           title: "s34-t1-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
+          code: `# CASO-LIM-034 · confusion matrix not accuracy-only
+# DEFECT: PASS si accuracy_only True
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-1A", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}
 meets_contract = record["accuracy_only"] is True
 status = "PASS" if meets_contract else "REJECT_ACCURACY_ONLY"
 print("S34-T1-A", status)
@@ -459,7 +504,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_ACCURACY_ONLY
+# DEFECT: PASS con accuracy como única métrica
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
     missing = sorted(required - record.keys())
     if missing:
@@ -510,7 +558,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_ACCURACY_ONLY
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'tp', 'fp', 'fn', 'accuracy_only'}
     missing = sorted(required - record.keys())
     if missing:
@@ -562,7 +613,10 @@ assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
         starterCode: {
           language: 'python',
           title: "s34-t1-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
+          code: `# CASO-LIM-034 · top-k review load vs capacity
+# DEFECT: PASS si load > capacity
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-1B", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}
 meets_contract = record["load"] > record["capacity"]
 status = "PASS" if meets_contract else "REJECT_QUEUE_OVERLOAD"
 print("S34-T1-B", status)
@@ -596,7 +650,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_QUEUE_OVERLOAD
+# DEFECT: PASS con cola de revisión sobrecargada
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'precision_at_k', 'load', 'capacity'}
     missing = sorted(required - record.keys())
     if missing:
@@ -647,7 +704,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_QUEUE_OVERLOAD
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'precision_at_k', 'load', 'capacity'}
     missing = sorted(required - record.keys())
     if missing:
@@ -699,7 +759,10 @@ assert results == ["CONTINUE", "REJECT_QUEUE_OVERLOAD", "REQUEST_CAPACITY"]
         starterCode: {
           language: 'python',
           title: "s34-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
+          code: `# CASO-LIM-034 · resample only inside folds
+# DEFECT: PASS si resample_global True (leak)
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-2A", **{'n0': 9, 'n1': 1, 'resample_global': False}}
 meets_contract = record["resample_global"] is True
 status = "PASS" if meets_contract else "REJECT_LEAKY_RESAMPLE"
 print("S34-T2-A", status)
@@ -733,7 +796,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_LEAKY_RESAMPLE
+# DEFECT: PASS con resampling global pre-split
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'n0', 'n1', 'resample_global'}
     missing = sorted(required - record.keys())
     if missing:
@@ -784,7 +850,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_LEAKY_RESAMPLE
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'n0', 'n1', 'resample_global'}
     missing = sorted(required - record.keys())
     if missing:
@@ -836,7 +905,10 @@ assert results == ["CONTINUE", "REJECT_LEAKY_RESAMPLE", "REQUEST_WEIGHTS"]
         starterCode: {
           language: 'python',
           title: "s34-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
+          code: `# CASO-LIM-034 · prevalence-aware metrics
+# DEFECT: PASS si accuracy_enough True a baja prevalencia
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-2B", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}
 meets_contract = record["accuracy_enough"] is True
 status = "PASS" if meets_contract else "REJECT_PREVALENCE_BLIND"
 print("S34-T2-B", status)
@@ -870,7 +942,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_PREVALENCE_BLIND
+# DEFECT: PASS creyendo accuracy basta con desbalance
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
     missing = sorted(required - record.keys())
     if missing:
@@ -921,7 +996,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_PREVALENCE_BLIND
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'prevalence', 'all_neg_acc', 'accuracy_enough'}
     missing = sorted(required - record.keys())
     if missing:
@@ -973,7 +1051,10 @@ assert results == ["CONTINUE", "REJECT_PREVALENCE_BLIND", "REQUEST_BASE_RATE"]
         starterCode: {
           language: 'python',
           title: "s34-t3-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
+          code: `# CASO-LIM-034 · calibration mean_p vs freq
+# DEFECT: PASS si |mean_p-freq| > 0.3
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-3A", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}
 meets_contract = abs(record["mean_p"] - record["freq"]) > 0.3
 status = "PASS" if meets_contract else "REJECT_UNCALIBRATED"
 print("S34-T3-A", status)
@@ -1007,7 +1088,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_UNCALIBRATED
+# DEFECT: PASS con calibración rota
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'brier', 'mean_p', 'freq'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1058,7 +1142,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_UNCALIBRATED
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'brier', 'mean_p', 'freq'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1110,7 +1197,10 @@ assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
         starterCode: {
           language: 'python',
           title: "s34-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
+          code: `# CASO-LIM-034 · calibrator on holdout not train
+# DEFECT: PASS si calibrator_set train_in_sample
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-3B", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}
 meets_contract = record["calibrator_set"] == "train_in_sample"
 status = "PASS" if meets_contract else "REJECT_IN_SAMPLE_CAL"
 print("S34-T3-B", status)
@@ -1144,7 +1234,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_IN_SAMPLE_CAL
+# DEFECT: PASS con calibración in-sample
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'raw', 'cal', 'calibrator_set'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1195,7 +1288,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_IN_SAMPLE_CAL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'raw', 'cal', 'calibrator_set'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1247,7 +1343,10 @@ assert results == ["CONTINUE", "REJECT_IN_SAMPLE_CAL", "REQUEST_CAL_SET"]
         starterCode: {
           language: 'python',
           title: "s34-t4-a-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
+          code: `# CASO-LIM-034 · cost/capacity threshold id
+# DEFECT: PASS si thr_id default fijo
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-4A", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}
 meets_contract = record["thr_id"] == "default"
 status = "PASS" if meets_contract else "REJECT_FIXED_THR"
 print("S34-T4-A", status)
@@ -1281,7 +1380,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_FIXED_THR
+# DEFECT: PASS con umbral fijo sin costo/capacidad
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1332,7 +1434,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_FIXED_THR
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'thr', 'n_review', 'thr_id', 'cost'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1384,7 +1489,10 @@ assert results == ["CONTINUE", "REJECT_FIXED_THR", "REQUEST_COST_MATRIX"]
         starterCode: {
           language: 'python',
           title: "s34-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
+          code: `# CASO-LIM-034 · abstain band not force label
+# DEFECT: PASS si decision force_1
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+record = {"case_id": "CASO-LIM-034-4B", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}
 meets_contract = record["decision"] == "force_1"
 status = "PASS" if meets_contract else "REJECT_FORCE_LABEL"
 print("S34-T4-B", status)
@@ -1418,7 +1526,10 @@ assert meets_contract is True
         starterCode: {
           language: 'python',
           title: "s34-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `# CASO-LIM-034 · assess REJECT_FORCE_LABEL
+# DEFECT: PASS forzando etiqueta en zona de abstención
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def assess(record: dict) -> str:
     required = {"case_id", 'score', 'low', 'high', 'decision'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1469,7 +1580,10 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s34-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `# CASO-LIM-034 · decide REJECT_FORCE_LABEL
+# DEFECT: missing→CONTINUE; pred invertido
+# Contrato: corrige el DEFECT; salida alineada a solutionCode
+def decide(record: dict) -> str:
     required = {"case_id", 'score', 'low', 'high', 'decision'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1524,7 +1638,7 @@ assert results == ["CONTINUE", "REJECT_FORCE_LABEL", "REQUEST_ABSTAIN_BAND"]
     ],
     starterCode: `# workbench CP-N3-B — CASO-LIM-034
 report = {"confusion": {}, "precision_at_k": None, "thr_id": None, "decision": None}
-# TODO: completa métricas, thr versionado y abstain
+# Contrato de theory/iDo documentado (sin stubs)
 if __name__ == "__main__":
     print(sorted(report.keys()))
 `,
@@ -1569,20 +1683,79 @@ if __name__ == "__main__":
         correctIndex: 2,
         explanation:
           "La abstención es salida de primera clase para zona gris del workbench.",
+      },
+      {
+        question: "El umbral de cola se elige por…",
+        options: ["default 0.5 de la librería", "costo/capacidad y se versiona (thr-vN)", "maximizar solo recall sin carga", "calibrar en el mismo test final"],
+        correctIndex: 1,
+        explanation:
+          "Thr versionado por costo y capacidad; calibración en holdout.",
       }
     ],
   },
   resources: {
     docs: [
-      { label: "sklearn metrics", url: "https://scikit-learn.org/stable/modules/model_evaluation.html", note: "P/R/F, Brier" },
-      { label: "Calibration", url: "https://scikit-learn.org/stable/modules/calibration.html", note: "Holdout cal" },
+      {
+        label: "sklearn model evaluation",
+        url: "https://scikit-learn.org/stable/modules/model_evaluation.html",
+        note: "P/R/F, ROC, PR, Brier",
+      },
+      {
+        label: "sklearn calibration",
+        url: "https://scikit-learn.org/stable/modules/calibration.html",
+        note: "Platt/isotonic holdout",
+      },
+      {
+        label: "sklearn precision_recall_curve",
+        url: "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html",
+        note: "PR curve para desbalance",
+      },
+      {
+        label: "Google ML Crash Course — classification",
+        url: "https://developers.google.com/machine-learning/crash-course/classification",
+        note: "Umbrales y métricas",
+      },
+      {
+        label: "Google Rules of ML",
+        url: "https://developers.google.com/machine-learning/guides/rules-of-ml",
+        note: "Métricas honestas y slices",
+      },
+      {
+        label: "Imbalanced-learn docs",
+        url: "https://imbalanced-learn.org/stable/",
+        note: "Resampling dentro de pipelines",
+      },
+      {
+        label: "NIST AI RMF (risk context)",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Riesgo y uso responsable",
+      },
     ],
     books: [
-      { label: "Evaluating ML models", note: "Costos y thr" },
-      { label: "Fairness & slices", note: "Daño por cohorte" },
+      { label: "Evaluating Machine Learning Models", note: "Costos, thr y desbalance" },
+      { label: "Fairness and Machine Learning (Barocas et al.)", note: "Slices y daño por cohorte" },
     ],
     courses: [
-      { label: "ML Crash Course — thresholds", url: "https://developers.google.com/machine-learning/crash-course", note: "Umbrales" },
+      {
+        label: "Coursera — ML specialization metrics",
+        url: "https://www.coursera.org/specializations/machine-learning-introduction",
+        note: "Evaluación supervisada",
+      },
+      {
+        label: "deeplearning.ai — ML courses",
+        url: "https://www.deeplearning.ai/",
+        note: "Calibración y métricas",
+      },
+      {
+        label: "MIT 6.100L",
+        url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+        note: "Contratos y tests",
+      },
+      {
+        label: "Harvard CS50P",
+        url: "https://cs50.harvard.edu/python/",
+        note: "Proyectos reproducibles",
+      },
     ],
   },
 }

@@ -42,6 +42,7 @@
     "mini-services",
     "scripts",
     "course-state",
-    "tests"
+    "tests",
+    "trainee_research_attempt"
   ]
 }
