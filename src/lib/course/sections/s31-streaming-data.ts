@@ -83,8 +83,8 @@ types ['owns', 'shared_phone', 'transfer']`,
       subtopicId: "S31-T1-B",
       paragraphs: [
         "Un **multigrafo** permite **varias aristas** entre el mismo par (varias transferencias, varios contactos). **No** colapses a una sola arista sin guardar el detalle fuente: el revisor necesita los `record_id` para auditar cada hecho.",
-        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados **filtran por ventana** cuando el caso lo exija; no mezcles 2019 con 2026 sin documentarlo. Si falta `record_id`, el builder debe fallar de forma tipificada.",
-        "**Provenance** (`source_system`, `run_id`, `record_id`) responde “¿de dónde salió esta arista?”. Sin provenance el grafo no sirve al workbench de CP-N3-B: es layout sin auditoría.",
+        "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados **filtran por ventana** cuando el caso lo exija; no mezcles 2019 con 2026 sin documentarlo. Si falta `record_id`, el builder debe fallar de forma tipificada (rechazo explícito, no arista “huérfana” silenciosa).",
+        "**Provenance** (`source_system`, `run_id`, `record_id`) responde “¿de dónde salió esta arista?”. El revisor de CP-N3-B abre un hop y debe poder saltar al registro fuente en el ledger o CRM sintético. Sin provenance el grafo es solo layout: no sirve para auditoría ni para la cola humana.",
       ],
       code: {
         language: 'python',
@@ -280,9 +280,9 @@ path_A_D ['A', 'B', 'D']`,
       heading: "Centralidad con interpretación limitada",
       subtopicId: "S31-T3-B",
       paragraphs: [
-        "**Degree centrality** (grado normalizado) mide **cuántos vecinos** tiene un nodo: es **estructura**, no culpa. Un hub puede ser un procesador de pagos legítimo o un teléfono de call center compartido. *Betweenness* y *closeness* existen (ver NetworkX en recursos); en S31 dominas **degree + interpretación** y dejas las otras para profundizar con la documentación enlazada.",
-        "Interpreta con contexto: tipo de arista, ventana temporal y si el nodo es **infraestructura** (`INF-…`) vs **persona** (`PER-…`). Un score alto solo prioriza la cola de revisión humana.",
-        "Nunca automatices “alta centralidad → fraude”. Eso viola el espíritu de CP-N3-B y del workbench de S34: la métrica informa; el revisor decide con evidencia.",
+        "**Degree centrality** (grado normalizado) mide **cuántos vecinos** tiene un nodo: es **estructura**, no culpa. Un hub puede ser un procesador de pagos legítimo o un teléfono de call center compartido. *Betweenness* (cuántos caminos cortos pasan por el nodo) y *closeness* (qué tan cerca está del resto) existen en NetworkX; en S31 dominas **degree + interpretación** y dejas las otras para la documentación enlazada — sin fingir que ya las calculaste.",
+        "Interpreta con contexto antes de priorizar: **tipo de arista** (¿solo `transfer` o también `shared_phone`?), **ventana temporal** (¿el grado creció en un pico reciente?) y si el nodo es **infraestructura** (`INF-…`) vs **persona** (`PER-…`). Un score alto solo ordena la cola de revisión humana; no cierra el caso.",
+        "Nunca automatices “alta centralidad → fraude”. Eso viola el espíritu de CP-N3-B y del workbench de S34: la métrica **informa** la investigación; el revisor **decide** con path + records + contexto de negocio. Reporta siempre métrica + tipos de arista + disclaimer de no-culpabilidad.",
       ],
       code: {
         language: 'python',
@@ -314,9 +314,9 @@ not_guilt True`,
       heading: "Subgrafos y pruebas",
       subtopicId: "S31-T4-A",
       paragraphs: [
-        "Extrae un **subgrafo de caso** (*ego-subgraph* o *ego-k*): el **seed** (semilla del caso) más vecinos a **k hops** (saltos), con filtros de tipo/tiempo. Así el revisor no navega el grafo completo.",
-        "Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente, construcción **idempotente** (mismas filas → mismo grafo ordenado). Cada bug de construcción (arista invertida, nodo huérfano) merece regresión.",
-        "Tests típicos: cardinalidades, path existe/no existe, componente esperada, `ego(seed, k)` no incluye nodos fuera del radio. Ejemplo de revisión: seed `E1`, k=1 incluye el teléfono compartido; k=2 ya alcanza `E2` por ese contacto — el path es hipótesis, no veredicto.",
+        "Extrae un **subgrafo de caso** (*ego-subgraph* o *ego-k*): el **seed** (semilla del caso — p. ej. la entidad bajo revisión) más vecinos a **k hops** (saltos), con filtros de tipo y/o ventana temporal. El revisor trabaja sobre ese recorte; no navega el grafo completo del banco.",
+        "Prueba invariantes de construcción: sin self-loops basura, pesos ≥ 0, provenance presente en toda arista de evidencia, y construcción **idempotente** (mismas filas → mismo grafo ordenado). Cada bug (arista invertida, nodo huérfano, `record_id` perdido) merece un test de regresión con fixture sintético.",
+        "Tests típicos: cardinalidades, path existe/no existe, componente esperada, `ego(seed, k)` no incluye nodos fuera del radio. Mini-caso: seed `E1`, k=1 incluye el teléfono compartido `ph:900`; k=2 ya alcanza `E2` por ese contacto. El path `E1 → ph:900 → E2` es **hipótesis con evidencia**, no veredicto de fraude ni parentesco.",
       ],
       code: {
         language: 'python',
@@ -364,9 +364,9 @@ k 2`,
       heading: "Visualización, escalabilidad, privacidad y evidencia por arista",
       subtopicId: "S31-T4-B",
       paragraphs: [
-        "Visualiza **subgrafos acotados**; no intentes dibujar 100k nodos en el navegador del revisor. Si `n_nodes` supera un umbral, la política correcta es **resumir** (top hubs, componentes) en lugar de renderizar todo.",
-        "**Privacidad**: enmascara PII (email parcial, teléfono parcial). Los roles ven solo lo necesario. Un layout bonito con PII completa es un incidente de compliance.",
-        "**Evidencia por arista**: al hacer clic en un hop, muestra `records`, `ts` y `source`. Mini-caso: el revisor abre el path `E1 → ph:900 → E2`, ve dos `record_id` del contacto compartido y un disclaimer de centralidad — nunca un auto-label de fraude. Ese contrato alimenta la cola de CP-N3-B y el workbench de S34.",
+        "Visualiza **subgrafos acotados**; no intentes dibujar 100k nodos en el navegador del revisor. A escala tipo SNAP (miles o millones de nodos), la política correcta es: **ego-k o componente del caso** para explorar, y **resumir** (top hubs, tamaños de componentes, conteos por etype) cuando `n_nodes` supera un umbral de render. Renderizar todo no es “más transparente”: es ruido e inoperable.",
+        "**Privacidad**: enmascara PII en labels de la vista (email parcial, teléfono parcial). Los roles ven solo lo necesario para la revisión. Un layout bonito con PII completa es un **incidente de compliance**, no un entregable de portafolio.",
+        "**Evidencia por arista — storyboard del revisor (CASO-LIM-031):** (1) abre el caso con seed `E1`; (2) expande ego k=2 y localiza el hop `E1 → ph:900 → E2`; (3) al hacer clic en cada hop ve `records`, `ts` y `source`; (4) lee el disclaimer de centralidad del hub de contacto; (5) **no** recibe auto-label de fraude ni parentesco — solo hipótesis con evidencia para la cola humana. Ese contrato alimenta CP-N3-B y el workbench de S34.",
       ],
       code: {
         language: 'python',
@@ -400,12 +400,12 @@ scalable_view subgraph_only`,
         type: "warning",
         title: "Privacidad en viz",
         content:
-          "Un layout bonito con PII completa es un incidente. Redacta por defecto.",
+          "Redacta labels por defecto. Muestra records del hop al revisor autorizado; nunca PII completa en capturas de portafolio.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro el inicio de CP-N3-B: modelo de grafo, multiaristas con provenance, construcción desde tablas, paths y centralidad con límites — sin convertir estructura en culpa.",
+    intro: "Te muestro el inicio de CP-N3-B paso a paso: modelo tipado, multiaristas con provenance, proyección tablas→grafo, agregación con detalle, path con hop limit, degree con disclaimer, ego-k y vista redactada. Observa la salida de cada demo: es el contrato que luego practicarás en We Do.",
     steps: [
       {
         demoId: "S31-T1-A-DEMO",
@@ -678,7 +678,7 @@ pii_full False`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios de modelo, multigrafo, construcción, agregación, paths, centralidad, subgrafos y privacidad. Completa lo que falta en el starter y alinea tu salida al contrato de cada ejercicio.",
+    intro: "24 ejercicios guiados → independientes → transferencia (T1–T4). Cada starter deja un hueco real de construcción o validación: completa el contrato de salida con el fixture sintético `CASO-LIM-031` (sin PII real; sin etiquetar fraude ni parentesco).",
     steps: [
       {
         id: "S31-T1-A-E1",
@@ -1030,7 +1030,7 @@ note not_parentesco`,
         subtopicId: "S31-T2-A",
         kind: "transfer",
         instruction:
-          "S31-T2-A-E3 · Construye `nodes = entities ∪ accounts ∪ contact_values` e imprime `|nodes|` y flags de membresía. Fixture `CASO-LIM-031`.",
+          "S31-T2-A-E3 · Construye el conjunto de nodos del grafo como unión `entities ∪ accounts ∪ contact_values`. Imprime `|nodes|`, si el contacto `900` está en el set y si la entidad `e1` está en el set. Fixture sintético `CASO-LIM-031`.",
         hint: "Union de tres sets.",
         hints: [
           "nodes = set(entities) | set(accounts) | set(contacts).",
@@ -1070,7 +1070,7 @@ has_ent True`,
         subtopicId: "S31-T2-B",
         kind: "guided",
         instruction:
-          "S31-T2-B-E1 · Colapsa raw_ids a canonical con un mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture `CASO-LIM-031`.",
+          "S31-T2-B-E1 · Tras el ER de S30, colapsa `raw_id` → id canónico con un mapa y reescribe las aristas. Imprime las aristas canónicas únicas (sorted), el conteo y `collapsed=True`. Fixture `CASO-LIM-031`.",
         hint: "canon.get(x, x); set de tuples.",
         hints: [
           "ce = sorted({(canon[a], canon[b]) for a, b in edges}).",
@@ -1108,7 +1108,7 @@ collapsed True`,
         subtopicId: "S31-T2-B",
         kind: "independent",
         instruction:
-          "S31-T2-B-E2 · Agrega `amount` por (src, dst) y **conserva** `records`; imprime sum y records para ('A', 'B'). Fixture `CASO-LIM-031`.",
+          "S31-T2-B-E2 · Agrega `amount` por par `(src, dst)` y **conserva** la lista de `record_id` (capa de detalle). Imprime `sum`, `records` y `detail_kept` para el par `('A', 'B')`. Fixture `CASO-LIM-031`.",
         hint: "defaultdict con sum y lista; append record_id.",
         hints: [
           "agg[k]['sum'] += amount; agg[k]['records'].append(record_id).",
@@ -1317,7 +1317,7 @@ ok True`,
         subtopicId: "S31-T3-A",
         kind: "transfer",
         instruction:
-          "S31-T3-A-E3 · BFS path de 'A' a 'D' en la cadena A–B–C–D; imprime path, hops y found. Fixture `CASO-LIM-031`.",
+          "S31-T3-A-E3 · Implementa BFS reproducible del path de `'A'` a `'D'` en la cadena A–B–C–D (vecinos sorted). Imprime `path`, `hops` (len−1) y `found`. Fixture `CASO-LIM-031`; camino = hipótesis, no veredicto.",
         hint: "deque BFS; hops = len(path) - 1.",
         hints: [
           "q = deque([('A', ['A'])]); seen = {'A'}.",
@@ -1511,7 +1511,7 @@ interpret_with_types True`,
         subtopicId: "S31-T4-A",
         kind: "guided",
         instruction:
-          "S31-T4-A-E1 · Implementa `ego(seed, k)` e imprime ego k=1 y k=2 desde 'A' en la cadena A–B–C–D (k=2 no incluye D). Fixture `CASO-LIM-031`.",
+          "S31-T4-A-E1 · Implementa `ego(seed, k)` (subgrafo de caso: semilla + k saltos) e imprime los nodos de ego k=1 y k=2 desde `'A'` en la cadena A–B–C–D. Verifica que k=2 **no** incluye `D`. Fixture `CASO-LIM-031`.",
         hint: "Expansión por capas con sets.",
         hints: [
           "layer actual → vecinos no vistos → nueva layer.",
@@ -1571,7 +1571,7 @@ has_D_k2 False`,
         subtopicId: "S31-T4-A",
         kind: "independent",
         instruction:
-          "S31-T4-A-E2 · Prueba invariantes: no self-loops, weights ≥ 0, provenance presente. Imprime los tres flags. Fixture `CASO-LIM-031`.",
+          "S31-T4-A-E2 · Evalúa tres invariantes de calidad del grafo: sin self-loops, pesos `w ≥ 0`, y provenance (`rid`) presente en cada arista. Imprime `no_self`, `w_ok` y `prov`. El starter incluye un self-loop a propósito. Fixture `CASO-LIM-031`.",
         hint: "any self-loop; all weights; all rid.",
         hints: [
           "no_self = all(e['src'] != e['dst'] for e in edges).",
@@ -1731,7 +1731,7 @@ explainable True`,
         subtopicId: "S31-T4-B",
         kind: "transfer",
         instruction:
-          "S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize'; si no, 'render'. Imprime decisión para 5000 y 50 con max_n=500. Fixture `CASO-LIM-031`.",
+          "S31-T4-B-E3 · Política de escala (intuición SNAP): si `n_nodes > max_n`, devuelve `'summarize'` (top hubs / componentes); si no, `'render'` el subgrafo. Imprime la decisión para 5000 y 50 con `max_n=500`. Fixture `CASO-LIM-031`.",
         hint: "decide(n) = 'summarize' if n > max_n else 'render'.",
         hints: [
           "No intentes dibujar 5000 nodos en el navegador del revisor.",
@@ -1771,22 +1771,22 @@ max_n 500`,
   youDo: {
     title: "Grafo temporal con caminos de evidencia (CP-N3-B inicio)",
     context:
-      "Construye un grafo sintético entity/account/contact/tx con multiaristas, provenance y consulta de camino reproducible. Reporta centralidad solo con disclaimer de estructura (no es culpabilidad). Hechos de contacto compartido no implican fraude ni parentesco.",
+      "Tras el ER de S30, construye un grafo sintético entity/account/contact/tx (fixture conceptual `CASO-LIM-031`, `@example.pe`) con multiaristas, provenance y consulta de camino reproducible con hop limit. El revisor debe poder abrir un path (p. ej. `E1 → ph:900 → E2`), ver records por hop y un disclaimer de centralidad — sin auto-label de fraude ni parentesco. Reporta degree solo como estructura.",
     objectives: [
       "Modelo nodos/aristas con dirección, peso y tipos del schema canónico",
       "Multigrafo temporal con provenance por arista",
       "Construcción desde tablas y agregación sin borrar detalle",
       "Grado, componentes, paths con hop limit",
-      "Subgrafo de caso, tests y vista redactada con evidencia",
+      "Subgrafo de caso (ego-k), tests de invariantes y vista redactada con evidencia",
     ],
     requirements: [
-      "Datos sintéticos solo; sin PII real (`@example.pe`, fixture conceptual CASO-LIM-031)",
+      "Datos sintéticos únicamente; sin PII real (`@example.pe`, fixture conceptual CASO-LIM-031 / run_id conceptual cpn3b-01)",
       "Módulo o `graph.json` con nodos/aristas tipadas (`owns`, `transfer`, `shared_phone`, `has_phone`, `has_email`, …)",
-      "Capa de detalle + capa agregada (records conservados)",
-      "`path(src, dst, max_hops)` reproducible (mismo orden en re-ejecución)",
-      "Tests mínimos: no self-loop basura, provenance presente, construcción idempotente",
-      "Vista de path con labels redactados + records por hop",
-      "README es-PE con disclaimer: centralidad = estructura, no culpa",
+      "Capa de detalle + capa agregada (lista de `record_id` conservada por par)",
+      "`path(src, dst, max_hops)` reproducible (vecinos sorted; mismo orden en re-ejecución)",
+      "Tests mínimos: no self-loop basura, provenance presente, construcción idempotente, ego-k no excede radio",
+      "Vista de path con labels redactados + records por hop + disclaimer de centralidad",
+      "README es-PE: schema, hop limit, política render vs summarize, centralidad = estructura no culpa",
       "Cero labels automáticos de fraude o parentesco",
     ],
     starterCode: `# CP-N3-B inicio — grafo de evidencia (CASO-LIM-031 sintético)
@@ -1848,7 +1848,7 @@ if __name__ == "__main__":
     print("disclaimer", "centrality_structure_only_not_guilt")
 `,
     portfolioNote:
-      "Inicio CP-N3-B: entrega un grafo temporal con evidencia, tests mínimos y una vista de path redactada lista para portafolio.",
+      "Inicio CP-N3-B: entrega un grafo temporal con evidencia, tests mínimos, política de escala documentada y una vista de path redactada lista para portafolio (puente natural hacia el workbench de S34).",
     rubric: [
       { criterion: "Modelo de grafo completo (tipos, pesos, provenance, multiedges)", weight: "25%" },
       { criterion: "Correctitud técnica (paths, agregación, tests) en entorno local-python", weight: "20%" },
@@ -1864,121 +1864,71 @@ if __name__ == "__main__":
     questions: [
       {
         question: "En CP-N3-B, un score alto de centralidad significa:",
-        options: [
-          "Fraude confirmado",
-          "Parentesco automático",
-          "Posición estructural que requiere contexto, no culpa",
-          "Borrar al nodo",
-        ],
+        options: ["Fraude confirmado", "Parentesco automático", "Posición estructural que requiere contexto, no culpa", "Borrar al nodo"],
         correctIndex: 2,
         explanation:
           "Centralidad mide estructura de la red; no es veredicto de culpabilidad.",
       },
       {
         question: "Provenance en una arista sirve para:",
-        options: [
-          "Auditar source/record_id del hecho relacional",
-          "Solo color en UI",
-          "Entrenar redes neuronales obligatoriamente",
-          "Ocultar el path",
-        ],
+        options: ["Auditar source/record_id del hecho relacional", "Solo color en UI", "Entrenar redes neuronales obligatoriamente", "Ocultar el path"],
         correctIndex: 0,
         explanation:
           "Sin source y record_id el revisor no puede auditar el hecho.",
       },
       {
         question: "Al agregar transferencias entre el mismo par debes:",
-        options: [
-          "Borrar record_ids",
-          "Conservar detalle o punteros además del agregado",
-          "Etiquetar fraude",
-          "Eliminar el multigrafo",
-        ],
+        options: ["Borrar record_ids", "Conservar detalle o punteros además del agregado", "Etiquetar fraude", "Eliminar el multigrafo"],
         correctIndex: 1,
         explanation:
           "El agregado acelera filtros; el detalle responde la auditoría.",
       },
       {
         question: "Shared phone entre dos entidades implica:",
-        options: [
-          "Parentesco legal",
-          "Colusión",
-          "Fraude automático",
-          "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
-        ],
+        options: ["Parentesco legal", "Colusión", "Fraude automático", "Un hecho de contacto compartido a investigar con evidencia, no veredicto"],
         correctIndex: 3,
         explanation:
           "Hecho de contacto ≠ veredicto de parentesco o fraude.",
       },
       {
         question: "Un camino E1→phone→E2 en el grafo de evidencia implica…",
-        options: [
-          "fraude o parentesco legal automático",
-          "borrar nodos INF- del grafo",
-          "hipótesis de relación con evidencia auditable para revisión humana",
-          "omitir provenance de aristas",
-        ],
+        options: ["fraude o parentesco legal automático", "borrar nodos INF- del grafo", "hipótesis de relación con evidencia auditable para revisión humana", "omitir provenance de aristas"],
         correctIndex: 2,
         explanation:
           "El grafo soporta investigación: evidencia y caminos, no veredictos.",
       },
       {
         question: "¿Por qué modelar un multigrafo en transferencias E1→E2?",
-        options: [
-          "Para borrar el detalle y dejar un solo peso",
-          "Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría",
-          "Porque NetworkX lo exige siempre",
-          "Para etiquetar fraude automáticamente",
-        ],
-        correctIndex: 1,
+        options: ["Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría", "Para borrar el detalle y dejar un solo peso", "Porque NetworkX lo exige siempre", "Para etiquetar fraude automáticamente"],
+        correctIndex: 0,
         explanation:
           "Varias aristas = varios hechos auditables; el agregado es una capa aparte.",
       },
       {
         question: "Un hop limit en BFS del workbench sirve sobre todo para:",
-        options: [
-          "Garantizar que el camino demuestre fraude",
-          "Acotar costo y ruido de caminos largos poco accionables",
-          "Eliminar la necesidad de provenance",
-          "Convertir el grafo en no dirigido",
-        ],
+        options: ["Garantizar que el camino demuestre fraude", "Acotar costo y ruido de caminos largos poco accionables", "Eliminar la necesidad de provenance", "Convertir el grafo en no dirigido"],
         correctIndex: 1,
         explanation:
           "Sin límite, caminos largos son caros y poco útiles para revisión humana.",
       },
       {
         question: "En el schema de esta sección, una transferencia de cuenta a cuenta se modela como arista:",
-        options: [
-          "no dirigida con etype owns",
-          "dirigida con etype transfer y peso en PEN (u otra unidad documentada)",
-          "sin tipo, solo con layout visual",
-          "siempre como shared_phone",
-        ],
-        correctIndex: 1,
+        options: ["no dirigida con etype owns", "sin tipo, solo con layout visual", "siempre como shared_phone", "dirigida con etype transfer y peso en PEN (u otra unidad documentada)"],
+        correctIndex: 3,
         explanation:
           "transfer es dirigida; owns es entidad→cuenta; shared_phone es hecho de contacto.",
       },
       {
         question: "Un ego-subgraph con seed S y k=1 incluye:",
-        options: [
-          "Todo el grafo del banco",
-          "Solo S y sus vecinos directos (radio 1)",
-          "Solo nodos con centralidad máxima",
-          "Únicamente aristas transfer, nunca contactos",
-        ],
-        correctIndex: 1,
+        options: ["Todo el grafo del banco", "Solo nodos con centralidad máxima", "Solo S y sus vecinos directos (radio 1)", "Únicamente aristas transfer, nunca contactos"],
+        correctIndex: 2,
         explanation:
           "ego-k = semilla + vecinos hasta k saltos; k=1 es el anillo inmediato del caso.",
       },
       {
         question: "Si mezclas PEN y conteos en el mismo campo weight sin documentar unidades:",
-        options: [
-          "Mejora el ranking automático de fraude",
-          "Rompes agregaciones y comparaciones posteriores del workbench",
-          "NetworkX lo corrige solo",
-          "El multigrafo deja de ser necesario",
-        ],
-        correctIndex: 1,
+        options: ["Rompes agregaciones y comparaciones posteriores del workbench", "Mejora el ranking automático de fraude", "NetworkX lo corrige solo", "El multigrafo deja de ser necesario"],
+        correctIndex: 0,
         explanation:
           "El peso es evidencia cuantitativa: declara unidades (PEN, count, score) en el schema.",
       },

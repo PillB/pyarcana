@@ -27,15 +27,17 @@ export const section04: CourseSection = {
     {
       heading: "Mapa de la sección: iteración y resúmenes por lotes",
       paragraphs: [
-        "En esta sección dominas lo que el **cierre de CP-N1-A** necesita: recorrer **múltiples registros**, acumular contadores, evitar loops infinitos y reportar **tasas con denominadores correctos**. Temas de empaquetado, CLI y decorators se abordan más adelante en el curso.",
-        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y **conserva el original** de cada fila. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
-        "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one).",
+        "**Antes de T1, tres ideas base** (no memorices el resto aún). Un **bucle** repite un bloque mientras haya elementos o mientras una condición sea verdadera. Un **centinela** es un valor especial que marca el fin del lote (`\"\"`, `\"END\"`). Una **tasa** es un contador dividido por el total de registros **intentados** — solo si ese total es mayor que cero; si el lote está vacío, reportas `None`, no divides.",
+        "Desde **S03** ya validas un registro (accept / reject / review). Aquí aplicas esa lógica a **muchas filas** en un solo pase **O(n)**: recorres el lote, acumulas contadores, evitas loops infinitos y emites un resumen con **denominador correcto**. Eso es lo que cierra el gate **CP-N1-A**. Empaquetado, CLI y decorators se abordan más adelante; no los necesitas para este cierre.",
+        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro, imprime por stdout un resumen y **conserva el original (raw)** de cada fila. Caso de laboratorio: `CASO-LIM-004`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+        "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one). En cada subtema: teoría → demo I Do → We Do (E1 guiado, E2 independiente, E3 transferencia).",
+        "Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do del batch + self-check. Si un demo se siente denso, rehazlo con lápiz (tabla TRACE) antes de copiar la solución. Cuando veas `def ...` en un ejemplo, es solo una **receta nombrada** para el playground — el diseño formal de funciones llega en la sección siguiente.",
       ],
       callout: {
         type: "info",
         title: "Alcance de esta sección",
         content:
-          "El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A): lotes, contadores y tasas. No cubrimos decorators ni packaging aquí; cuando llegues a módulos/CLI y OOP de dominio, reutilizarás estos bucles sobre el mismo hilo de intake.",
+          "El target de entrega es el **Client Intake & Data Quality Script** (gate CP-N1-A): lotes, contadores, tasas con denominador correcto y raw intacto. No cubrimos decorators ni packaging aquí; cuando llegues a módulos/CLI y OOP de dominio, reutilizarás estos bucles sobre el mismo hilo de intake.",
       },
     },
     {
@@ -44,7 +46,7 @@ export const section04: CourseSection = {
       paragraphs: [
         "El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: **listas de registros** (dicts), **líneas de texto** y **`range(n)`** cuando quieres un contador 0..n-1.",
         "**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
-        "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y dentro llamar a `validate_record`. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista.",
+        "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y, más adelante en el You Do, llamar a `validate_record` dentro del bucle. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista. Prefiere el for por valor; `range(len(...))` solo cuando el índice es imprescindible.",
       ],
       code: {
         language: 'python',
@@ -141,7 +143,7 @@ while i < len(lineas):
 print("procesadas:", procesadas)
 print("restante no leída:", lineas[i:])
 `,
-        output: `procesadas: ['C001|Lima', 'C002|Cusco']
+        output: `procesadas: ['C001|Sucursal-Norte', 'C002|Sucursal-Sur']
 restante no leída: ['C003|Piura']`,
       },
       callout: {
@@ -176,12 +178,12 @@ restante no leída: ['C003|Piura']`,
             break
     return kept, iters
 
-raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
+raw_lines = ["  ", "C001|Sucursal-Centro", "SKIP", "C002|Oficina-Este", "END"]
 kept, iters = clean_lines(raw_lines)
 print(kept)
 print("iteraciones efectivas del for:", iters)
 `,
-        output: `['C001|Lima', 'C002|Cusco']
+        output: `['C001|Oficina-Oeste', 'C002|Cliente-A']
 iteraciones efectivas del for: 5`,
       },
       callout: {
@@ -335,7 +337,7 @@ IndexError en len(xs): list index out of range`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema). Ejecuta en orden T1→T4. Cada demo es un fragmento del procesador por lotes del gate CP-N1-A. Datos sintéticos; entorno browser-pyodide salvo que se indique.",
+    intro: "Ocho demos **I Do** (uno por subtema). Ejecuta en orden T1→T4 sin saltar: primero observas el patrón ejecutable, luego lo practicas en We Do. Cada demo es un fragmento del procesador por lotes del gate CP-N1-A; el `output` debe coincidir al pulsar Run. Si ves `def nombre(...):`, es solo una receta nombrada para reutilizar el ejemplo. Datos sintéticos; entorno browser-pyodide salvo que se indique.",
     steps: [
       {
         demoId: "S04-T1-A-DEMO",
@@ -371,7 +373,7 @@ n= 3 range → [0, 1, 2]`,
           language: 'python',
           title: "S04-T1-B-DEMO — enumerate_zip",
           code: `ids = ["C001", "C002", "C003"]
-regiones = ["Lima", "Cusco", "Arequipa"]
+regiones = ["Cliente-B", "Sucursal-Norte", "Arequipa"]
 
 def zip_strict(a, b):
     if len(a) != len(b):
@@ -380,13 +382,13 @@ def zip_strict(a, b):
 
 for i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1):
     print(f"fila {i}: {rid} @ {reg}")
-mal = ["Lima", "Cusco"]
+mal = ["Sucursal-Sur", "Sucursal-Centro"]
 try:
     list(zip_strict(ids, mal))
 except ValueError:
     print("desalineado detectado")`,
-          output: `fila 1: C001 @ Lima
-fila 2: C002 @ Cusco
+          output: `fila 1: C001 @ Oficina-Este
+fila 2: C002 @ Oficina-Oeste
 fila 3: C003 @ Arequipa
 desalineado detectado`,
         },
@@ -400,7 +402,7 @@ desalineado detectado`,
         code: {
           language: 'python',
           title: "S04-T2-A-DEMO — while_end",
-          code: `buf = ["Ana|Lima", "Luis|Cusco", "END", "ignorada"]
+          code: `buf = ["Ana|Cliente-A", "Luis|Cliente-B", "END", "ignorada"]
 i = 0
 out = []
 while i < len(buf):
@@ -412,7 +414,7 @@ while i < len(buf):
 print(out)
 print("indice final", i)
 `,
-          output: `['Ana|Lima', 'Luis|Cusco']
+          output: `['Ana|Sucursal-Norte', 'Luis|Sucursal-Sur']
 indice final 3`,
         },
         why: "El centinela corta el lote; lo posterior no se procesa. i avanza siempre → no hay infinito.",
@@ -537,14 +539,14 @@ skipped_first [20, 30]`,
     ],
   },
   weDo: {
-    intro: "Andamiaje por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa los **8 subtemas** (24 ejercicios). Cada uno trae **2 hints**. Ejecuta y compara; no inventes salidas. Datos sintéticos únicamente.",
+    intro: "Andamiaje por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa los **8 subtemas** (24 ejercicios). Cada uno trae **2 hints** y un starter con un **DEFECT** intencional (CASO-LIM-004). Ejecuta, corrige y compara con la salida esperada; no inventes salidas. Si el bloque se siente largo, un subtema por sesión (~2 h) mantiene la carga razonable. Datos sintéticos únicamente.",
     steps: [
       {
         id: "S04-T1-A-E1",
         subtopicId: "S04-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.",
+          "E1 (guiado) — Concepto: `for` por valor y `range` con stop exclusivo. Fixture: `regiones = [\"Sucursal-Centro\", \"Oficina-Este\", \"Piura\"]`. Imprime cada región en su propia línea con un `for`; luego imprime `list(range(3))` (esperado: `[0, 1, 2]`). Contrato: un for simple sin índices; no mutes la lista.",
         hint: "for r in regiones: print(r)",
         hints: [
           "for r in regiones: print(r)",
@@ -558,7 +560,7 @@ skipped_first [20, 30]`,
           title: "for_regiones.py",
           code: `# CASO-LIM-004 · for sobre lista
 # DEFECT: no imprime range(3)
-regiones = ["Lima", "Cusco", "Piura"]
+regiones = ["Oficina-Oeste", "Cliente-A", "Piura"]
 for r in regiones:
     print(r)
 print('ok', True)
@@ -567,13 +569,13 @@ print('ok', True)
         solutionCode: {
           language: 'python',
           title: "for_regiones.py",
-          code: `regiones = ["Lima", "Cusco", "Piura"]
+          code: `regiones = ["Cliente-B", "Sucursal-Norte", "Piura"]
 for r in regiones:
     print(r)
 print(list(range(3)))`,
-          output: `Lima
-Cusco
-Piura
+          output: `Sucursal-Sur
+Sucursal-Centro
+Oficina-Este
 [0, 1, 2]`,
         },
       },
@@ -582,7 +584,7 @@ Piura
         subtopicId: "S04-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.",
+          "E2 (independiente) — Concepto: contador manual en un for (sin comprehension). Fixture: `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` e imprime solo el entero (esperado: 3). Contrato: no uses list comprehension todavía; el for + if entrena el resumen del gate.",
         hint: "n = 0; for e in edades: if e >= 18: n += 1",
         hints: [
           "n = 0; for e in edades: if e >= 18: n += 1",
@@ -659,7 +661,7 @@ n_original 4`,
         subtopicId: "S04-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.",
+          "E1 (guiado) — Concepto: `enumerate` con `start=1` para reportes legibles. Fixture: `ids = [\"A\", \"B\", \"C\"]`. Imprime exactamente `fila k: id` (k desde 1). Contrato: no armes el índice a mano con `range`; el índice interno de la lista sigue siendo 0-based.",
         hint: "for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')",
         hints: [
           "for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')",
@@ -785,7 +787,7 @@ OK`,
         subtopicId: "S04-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.",
+          "E1 (guiado) — Concepto: while + centinela vacío. Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío **sin incluirlo**. Imprime la lista resultante (esperado: `['r1','r2']`). Contrato: `r3` no se procesa porque el centinela corta el lote.",
         hint: "while i < len: leer, i+=1, if line=='': break else append",
         hints: [
           "while i < len: leer, i+=1, if line=='': break else append",
@@ -920,21 +922,21 @@ rest ['job3']`,
         subtopicId: "S04-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.",
+          "E1 (guiado) — Concepto: `continue` para saltar basura. Fixture: `raw = [\"  \", \"Oficina-Oeste\", \"\", \"Cliente-A\"]`. Con for, si `not x.strip()` haz continue; imprime solo regiones válidas (Cliente-B y Sucursal-Norte, una por línea). Contrato: no uses break aquí — solo saltas filas vacías o de solo espacios.",
         hint: "if not x.strip(): continue",
         hints: [
           "if not x.strip(): continue",
-          "Solo Lima y Cusco.",
+          "Solo Sucursal-Sur y Sucursal-Centro.",
         ],
         edgeCases: ["whitespace only"],
-        tests: "Lima\\nCusco",
+        tests: "Oficina-Este\\nCusco",
         feedback: "continue es el filtro de filas vacías del intake por líneas.",
         starterCode: {
           language: 'python',
           title: "continue_vacios.py",
           code: `# CASO-LIM-004 · continue blanks
 # DEFECT: imprime blanks
-raw = ["  ", "Lima", "", "Cusco"]
+raw = ["  ", "Oficina-Oeste", "", "Cliente-A"]
 for x in raw:
     print(x)
 print('ok', True)
@@ -943,13 +945,13 @@ print('ok', True)
         solutionCode: {
           language: 'python',
           title: "continue_vacios.py",
-          code: `raw = ["  ", "Lima", "", "Cusco"]
+          code: `raw = ["  ", "Cliente-B", "", "Sucursal-Norte"]
 for x in raw:
     if not x.strip():
         continue
     print(x)`,
-          output: `Lima
-Cusco`,
+          output: `Sucursal-Sur
+Sucursal-Centro`,
         },
       },
       {
@@ -1056,7 +1058,7 @@ print(out)`,
         subtopicId: "S04-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.",
+          "E1 (guiado) — Concepto: contadores en un pase O(n). Fixture: `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa n_accept, n_reject, n_total e incrementa en un for. Imprime los tres en ese orden (esperado: `2 1 3`). Contrato: n_total cuenta cada fila intentada, no solo los accept.",
         hint: "n_total = len o +=1 por fila",
         hints: [
           "n_total = len o +=1 por fila",
@@ -1145,7 +1147,7 @@ None`,
         subtopicId: "S04-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.",
+          "E3 (transferencia) — Concepto: búsqueda lineal con break. En una lista de dicts con `id` y `status`, halla el **primer** `status==\"review\"`. Si no hay, imprime -1; si hay, imprime el índice y el id (fixture del starter: índice 1, id C2). Contrato: no uses `.index()`; practicas el patrón manual del intake.",
         hint: "first = None; for i,r in enumerate(...): if ...: first=i; break",
         hints: [
           "first = None; for i,r in enumerate(...): if ...: first=i; break",
@@ -1190,7 +1192,7 @@ else:
         subtopicId: "S04-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.",
+          "E1 (guiado) — Concepto: list comprehension para map y filter simples. Fixture: `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares (`x % 2 == 0`). Imprímelas en ese orden (esperado: `[1,4,9,16,25]` y `[2,4]`). Contrato: una comprehension por lista; sin for explícito en este ejercicio.",
         hint: "[x*x for x in nums] y [x for x in nums if x%2==0]",
         hints: [
           "[x*x for x in nums] y [x for x in nums if x%2==0]",
@@ -1225,7 +1227,7 @@ print([x for x in nums if x % 2 == 0])`,
         subtopicId: "S04-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.",
+          "E2 (independiente) — Concepto: set comprehension + sorted. De `rows` con clave `status`, obtén el conjunto de statuses distintos y ordénalo alfabéticamente para el reporte. Imprime la lista ordenada (esperado: accept, reject, review). Contrato: set comprehension que elimine duplicados; no un for que deje la lista sucia.",
         hint: "sorted({r['status'] for r in rows})",
         hints: [
           "sorted({r['status'] for r in rows})",
@@ -1292,7 +1294,7 @@ print(by["C2"], rejects, tasa)`,
         subtopicId: "S04-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.",
+          "E1 (guiado) — Concepto: traza de estado paso a paso. Fixture: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso, suma solo si `val > 0` e imprime `i, val, s`. Contrato: el negativo no mueve `s`; al final `s` debe ser 5. La traza te entrena a depurar contadores del resumen.",
         hint: "if val > 0: s += val; luego print",
         hints: [
           "if val > 0: s += val; luego print",
@@ -1336,7 +1338,7 @@ final 5`,
         subtopicId: "S04-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).",
+          "E2 (independiente) — Concepto: contador doble por fila (bug de resumen). El starter incrementa `n` dos veces por cada elemento de `filas = [\"a\", \"b\", \"c\"]`. Traza mentalmente, corrige el DEFECT e imprime `n` (debe ser 3, no 6). Contrato: un solo `n += 1` por fila; sin hardcodear el resultado.",
         hint: "Busca n += 1 duplicado",
         hints: [
           "Busca n += 1 duplicado",
@@ -1417,7 +1419,7 @@ FINAL {'accept': 2, 'reject': 1}`,
         subtopicId: "S04-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.",
+          "E1 (guiado) — Concepto: sentir O(n) vs O(n²) con números chicos. Para `n=5`, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números en una línea (esperado: `5 25`). Contrato: no inventes los números — derívalos contando iteraciones reales.",
         hint: "linear n, quad n*n",
         hints: [
           "linear n, quad n*n",
@@ -1459,7 +1461,7 @@ print(lin, quad)`,
         subtopicId: "S04-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices válidos e imprimir cada elemento.",
+          "E2 (independiente) — Concepto: off-by-one con `range`. Fixture: `data = [\"r0\", \"r1\", \"r2\"]`. El starter usa `for i in range(1, len(data)+1)` y provoca **IndexError** en el último índice. Arréglalo para recorrer todos los índices válidos e imprimir cada elemento (r0, r1, r2). Contrato: `range(len(data))` → 0..n-1; no suavices el error con `if i < len` en el starter roto — corrige el range.",
         hint: "range(len(data)) → 0..n-1",
         hints: [
           "range(len(data)) → 0..n-1",
@@ -1536,7 +1538,7 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
   youDo: {
     title: "Client Intake & Data Quality Script (cierre CP-N1-A)",
     context:
-      "Cierra el gate **CP-N1-A**. Sobre el parser (S02) y el motor de reglas (S03), construyes un procesador por **lotes**: múltiples registros sintéticos, un pase O(n), contadores accept/reject/review, **tasa de error con denominador = n_total** (None si vacío), conservación del **raw** por fila y reporte por stdout. La CLI instalable llega en S10.",
+      "Cierra el gate **CP-N1-A**. Sobre el parser (S02) y el motor de reglas (S03), construyes un procesador por **lotes**: múltiples registros sintéticos, un pase O(n), contadores accept/reject/review, **tasa de error con denominador = n_total** (`None` si el lote está vacío), conservación del **raw** por fila y reporte por stdout. El starter trae `_run_tests` con un fixture de 3 filas y un lote vacío: implementa las tres funciones hasta que `tests OK` se imprima. El empaquetado CLI se ve más adelante en el curso.",
     objectives: [
       "Procesar ≥3 registros sintéticos en un solo pase",
       "Emitir contadores y tasa_reject con denominador correcto",
@@ -1545,12 +1547,12 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
       "Demo reproducible con if __name__ == '__main__'",
     ],
     requirements: [
-      "process_batch(records) → summary con n_total, contadores, tasa_reject, results[]",
-      "Cada result incluye raw intacto + status agregado + detalle de campos",
-      "tasa_reject is None cuando n_total == 0 (sin ZeroDivisionError)",
-      "Sin PII real; datos sintéticos embebidos",
-      "Sin loops O(n²) innecesarios para el resumen",
-      "README o docstring con denominador de tasas explicado en español",
+      "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
+      "Cada result incluye raw intacto + status agregado + detalle de campos (accept|reject|review)",
+      "tasa_reject is None cuando n_total == 0 (sin ZeroDivisionError); si n_total > 0, tasa_reject ∈ [0, 1]",
+      "Fixture de _run_tests (3 filas): n_total == 3; results[0]['raw']['raw_line'] == '30|Oficina-Este|0'; lote vacío → tasa_reject is None",
+      "Sin PII real; datos sintéticos embebidos; sin loops O(n²) innecesarios para el resumen",
+      "README o docstring en español: explica el denominador de tasas y por qué se conserva el raw",
     ],
     starterCode: `"""intake_quality_batch.py — cierre CP-N1-A (S04)
 Procesa múltiples registros sintéticos, resume tasas, conserva raw.
@@ -1591,13 +1593,13 @@ def format_report(summary: dict[str, Any]) -> str:
 
 def _run_tests() -> None:
     batch = [
-        {"edad": 30, "region": "Lima", "monto_ingreso": 0, "raw_line": "30|Lima|0"},
-        {"edad": None, "region": "Lima", "monto_ingreso": 10, "raw_line": "|Lima|10"},
+        {"edad": 30, "region": "Oficina-Oeste", "monto_ingreso": 0, "raw_line": "30|Cliente-A|0"},
+        {"edad": None, "region": "Cliente-B", "monto_ingreso": 10, "raw_line": "|Sucursal-Norte|10"},
         {"edad": 15, "region": "Tacna", "monto_ingreso": -1, "raw_line": "15|Tacna|-1"},
     ]
     s = process_batch(batch)
     assert s["n_total"] == 3
-    assert s["results"][0]["raw"]["raw_line"] == "30|Lima|0"
+    assert s["results"][0]["raw"]["raw_line"] == "30|Sucursal-Sur|0"
     assert s["tasa_reject"] is None or 0 <= s["tasa_reject"] <= 1
     empty = process_batch([])
     assert empty["tasa_reject"] is None
@@ -1606,8 +1608,8 @@ def _run_tests() -> None:
 
 def main() -> None:
     demo = [
-        {"edad": 40, "region": "Cusco", "monto_ingreso": 100, "raw_line": "40|Cusco|100"},
-        {"edad": -3, "region": "Lima", "monto_ingreso": 50, "raw_line": "-3|Lima|50"},
+        {"edad": 40, "region": "Sucursal-Centro", "monto_ingreso": 100, "raw_line": "40|Oficina-Este|100"},
+        {"edad": -3, "region": "Oficina-Oeste", "monto_ingreso": 50, "raw_line": "-3|Cliente-A|50"},
     ]
     summary = process_batch(demo)
     print(format_report(summary))
@@ -1618,7 +1620,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README muestra una tabla de ejemplo (3 filas), el cálculo de tasa y una captura de la demo stdout. Explica por qué el raw se conserva. Eso es evidencia publicable del gate CP-N1-A.",
+      "En el README muestra una tabla de ejemplo (3 filas del fixture o del demo), el cálculo de tasa (n_reject / n_total) y una captura de la demo stdout. Explica por qué el raw se conserva y qué haces cuando el lote está vacío. Eso es evidencia publicable del gate CP-N1-A.",
     rubric: [
       { criterion: "Procesa lote multi-registro en O(n)", weight: "25%" },
       { criterion: "Tasas con denominador correcto / vacío seguro", weight: "25%" },
@@ -1667,12 +1669,7 @@ if __name__ == "__main__":
       },
       {
         question: "En un while con centinela \"END\", ¿qué debe pasar cada iteración para no colgarte?",
-        options: [
-          "Nada: Python corta solo",
-          "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela",
-          "Usar solo continue",
-          "Multiplicar n_total por 2",
-        ],
+        options: ["Nada: Python corta solo", "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela", "Usar solo continue", "Multiplicar n_total por 2"],
         correctIndex: 1,
         explanation:
           "Sin variable de control que cambie (o break en centinela), la condición puede quedar siempre verdadera → loop infinito.",
@@ -1680,25 +1677,15 @@ if __name__ == "__main__":
       {
         question:
           "En un lote de líneas de intake, ¿cuál es la diferencia correcta entre continue y break?",
-        options: [
-          "continue y break hacen exactamente lo mismo",
-          "continue salta a la siguiente iteración; break termina el bucle actual",
-          "break salta una fila; continue cierra todo el programa",
-          "continue solo existe en while; break solo en for",
-        ],
-        correctIndex: 1,
+        options: ["continue y break hacen exactamente lo mismo", "break salta una fila; continue cierra todo el programa", "continue salta a la siguiente iteración; break termina el bucle actual", "continue solo existe en while; break solo en for"],
+        correctIndex: 2,
         explanation:
           "continue omite el resto del cuerpo y pasa a la siguiente fila (p. ej. vacíos). break sale del bucle (p. ej. ERROR fatal o centinela END). Confundirlos deja pasar filas que debían cortar el lote o corta demasiado pronto.",
       },
       {
         question: "¿Para qué sirve enumerate(ids, start=1) en un reporte de intake?",
-        options: [
-          "Ordena la lista alfabéticamente",
-          "Numera filas desde 1 para humanos sin armar el índice a mano",
-          "Elimina duplicados del lote",
-          "Convierte la lista en un dict",
-        ],
-        correctIndex: 1,
+        options: ["Numera filas desde 1 para humanos sin armar el índice a mano", "Ordena la lista alfabéticamente", "Elimina duplicados del lote", "Convierte la lista en un dict"],
+        correctIndex: 0,
         explanation:
           "enumerate entrega (índice, valor). Con start=1 reportas “fila 1, fila 2…” legible para humanos; el índice interno de la lista sigue siendo 0-based.",
       },

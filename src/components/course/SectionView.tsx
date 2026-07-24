@@ -90,12 +90,56 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
   const subStepsDone = completedSubSteps[section.id] || []
   const allDone = SUB_STEPS.every((s) => subStepsDone.includes(s))
 
+  // Scroll: new sections open at top; returning to a section restores the last offset.
+  // Positions are session-scoped (sessionStorage) so refresh keeps resume only for this tab.
   useEffect(() => {
-     
     setLastVisited(section.id)
-    // scroll to top
-    document.getElementById('section-content')?.scrollTo({ top: 0, behavior: 'smooth' })
+
+    const key = `pyarcana:sectionScroll:${section.id}`
+    const savedRaw =
+      typeof window !== 'undefined' ? sessionStorage.getItem(key) : null
+    const saved = savedRaw != null ? Number(savedRaw) : NaN
+    const restore = Number.isFinite(saved) && saved > 0
+
+    // Prefer the document scroll (main content is not a nested scroller in layout).
+    const apply = () => {
+      if (restore) {
+        window.scrollTo({ top: saved, behavior: 'auto' })
+        document
+          .getElementById('section-content')
+          ?.scrollTo({ top: 0, behavior: 'auto' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        document
+          .getElementById('section-content')
+          ?.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+    // Wait a frame so sticky headers / tab reset don't steal the offset.
+    const id = window.requestAnimationFrame(apply)
+    return () => window.cancelAnimationFrame(id)
   }, [section.id, setLastVisited])
+
+  // Persist scroll while reading; clear is not needed (overwrite on leave).
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const key = `pyarcana:sectionScroll:${section.id}`
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        sessionStorage.setItem(key, String(window.scrollY || 0))
+        ticking = false
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      // Final write when leaving this section (before next section mounts).
+      sessionStorage.setItem(key, String(window.scrollY || 0))
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [section.id])
 
   // Reset active tab when section changes (deferred to avoid effect cascading)
   useEffect(() => {
@@ -2917,60 +2961,54 @@ test_not_null(metrics, "date")`,
       hint: 'Anade una transaccion duplicada y observa si test_unique falla',
     },
     'performance-extreme': {
-      title: 'Practica benchmarking y vectorizacion',
-      code: `# Practica performance: comparar enfoques
-import time
+      title: 'Practica backpressure, timeout e idempotencia',
+      code: `# CASO-LIM-038 · contratos de operación (stdlib only)
+from queue import Queue
 
-# 1. Loop tradicional vs comprehension
-n = 100000
+class TokenBucket:
+    """Didáctico estático: sin refill por tiempo (en prod sí hay ventana)."""
 
-# Loop con append
-t0 = time.time()
-result_loop = []
-for i in range(n):
-    if i % 2 == 0:
-        result_loop.append(i ** 2)
-t_loop = time.time() - t0
+    def __init__(self, rate: int):
+        self.tokens = rate
 
-# List comprehension
-t0 = time.time()
-result_comp = [i ** 2 for i in range(n) if i % 2 == 0]
-t_comp = time.time() - t0
+    def allow(self) -> bool:
+        if self.tokens >= 1:
+            self.tokens -= 1
+            return True
+        return False
 
-print(f"=== List Comprehension vs Loop ===")
-print(f"  Loop:          {t_loop:.4f}s ({len(result_loop)} items)")
-print(f"  Comprehension: {t_comp:.4f}s ({len(result_comp)} items)")
-print(f"  Speedup:       {t_loop/t_comp:.1f}x")
+# Backpressure: cola acotada del worker de scoring
+q: Queue[str] = Queue(maxsize=2)
+for case_id in ("c-synth-1", "c2", "c3"):
+    if q.full():
+        print("backpressure", case_id)
+    else:
+        q.put(case_id)
+        print("enqueued", case_id)
 
-# 2. Simular Numba (sin Numba real - mostrar el concepto)
-print(f"\\n=== Numba JIT (concepto) ===")
-print(f"  Sin @njit: Python interpreta cada linea")
-print(f"  Con @njit: compila a codigo maquina LLVM")
-print(f"  Para n=1,000,000: Python=500ms, Numba=5ms (100x)")
+# Rate limit hacia el proveedor mock
+b = TokenBucket(2)
+print("allows", [b.allow() for _ in range(3)])
 
-# 3. Simular Polars vs pandas (concepto)
-print(f"\\n=== Polars vs Pandas (concepto) ===")
-print(f"  Pandas: single-threaded, eager evaluation")
-print(f"  Polars: multi-threaded, lazy evaluation")
-print(f"  Para groupby+agg en 1M filas:")
-print(f"    Pandas:  ~2.5s")
-print(f"    Polars:  ~0.1s (25x mas rapido)")
+# Timeout simulado (sin red): latencia mock vs presupuesto
+def fetch_policy(latency_ms: float, timeout_s: float) -> dict:
+    timed_out = latency_ms > timeout_s * 1000
+    return {
+        "status": "timeout" if timed_out else "ok",
+        "seconds": timeout_s,
+        "on_fail": "retry_or_dlq",
+    }
 
-# 4. Vectorizacion (sin NumPy - mostrar concepto)
-print(f"\\n=== Vectorizacion ===")
-# Mal: loop elemento por elemento
-t0 = time.time()
-result_bad = [i * 2 for i in range(n)]
-t_bad = time.time() - t0
+print("timeout_policy", fetch_policy(latency_ms=200, timeout_s=0.05))
 
-# Bien: usar range con step (simulando vectorizacion)
-t0 = time.time()
-result_good = list(range(0, n * 2, 2))
-t_good = time.time() - t0
+# Idempotency key: case:step:ver
+def idem_key(case: str, step: str, ver: str) -> str:
+    return f"{case}:{step}:{ver}"
 
-print(f"  Loop:      {t_bad:.4f}s")
-print(f"  Optimized: {t_good:.4f}s ({t_bad/t_good:.1f}x)")`,
-      hint: 'Cambia n a 1,000,000 y observa como cambia el speedup',
+print("key", idem_key("c-synth-1", "score", "v1"))
+print("pii_raw", False)
+`,
+      hint: 'Sube maxsize a 3 y observa cómo desaparece el backpressure del tercer caso.',
     },
     'integrator-phase2': {
       title: 'Practica CI/CD y monitoreo',

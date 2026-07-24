@@ -64,8 +64,8 @@ pii_in_logs_ok False`,
       subtopicId: "S38-T1-A",
       paragraphs: [
         "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada. **Mide primero** (wall vs CPU en el path caliente); la moda del framework no es un contrato. En stdlib, el modelo se materializa con `concurrent.futures.ThreadPoolExecutor` / `ProcessPoolExecutor` o `asyncio` + `wait_for` para timeouts; aquí practicamos el **criterio de elección**, colas acotadas y contratos de fallo sin lanzar pools pesados ni red real en el navegador.",
-        "Contrato operativo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage sintético. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io`. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
-        "Aplicación a `CASO-LIM-038-T1A` (Red Andina sintético): el caso `c-synth-1` entra por intake (I/O al proveedor mock de normalización) y luego calcula features locales (CPU). Primero midimos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool. Datos inventados; sin credenciales ni red real; sin PII en logs del bench. El mismo `c-synth-1` reaparece en T2 (cola y timeout), T3 (corr y SLO) y T4 (checkpoint y DLQ): es un solo batch que se endurece por capas.",
+        "Contrato operativo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage sintético y un tope de workers N. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io` y pool_size = N. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
+        "Aplicación a `CASO-LIM-038-T1A` (Red Andina sintético): el caso `c-synth-1` entra por intake (I/O al proveedor mock de normalización) y luego calcula features locales (CPU). Primero midimos wall vs CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool con N acotado (p. ej. 4). Datos inventados; sin credenciales ni red real; sin PII en logs del bench. El mismo `c-synth-1` reaparece en T2 (cola y timeout), T3 (corr y SLO) y T4 (checkpoint y DLQ): es un solo batch que se endurece por capas.",
       ],
       code: {
         language: 'python',
@@ -85,9 +85,14 @@ def pick(bound: str) -> str:
         "mixed": "batch_then_io",
     }.get(bound, "measure")
 
+def pool_plan(bound: str, n_workers: int = 4) -> dict:
+    # En prod: ThreadPoolExecutor / ProcessPoolExecutor(max_workers=n)
+    return {"model": pick(bound), "max_workers": n_workers, "executor": "stdlib_futures"}
+
 # c-synth-1: tramo features denso (CPU)
 bound = measure_bound(wall_ms=100, cpu_ms=95)
-print(pick(bound))
+plan = pool_plan(bound, n_workers=4)
+print(plan["model"])
 print(pick("io"))
 print("measure_first", True)`,
         output: `processes
@@ -105,9 +110,9 @@ measure_first True`,
       heading: "I/O vs CPU, GIL y serialización",
       subtopicId: "S38-T1-B",
       paragraphs: [
-        "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json). Si el payload entre procesos es grande, el pool puede ser más lento que un solo proceso bien vectorizado.",
+        "El GIL de CPython limita el paralelismo de CPU multi-thread: varios hilos de Python puro casi no aceleran un cálculo denso. Los procesos evitan el GIL, pero pagan serialización e IPC (pickle/json entre procesos). Si el payload entre workers es grande, el pool puede ser **más lento** que un solo proceso bien vectorizado: el tiempo se va en copiar bytes, no en score. Por eso la decisión «processes» de T1-A solo es completa cuando también mides el tamaño del blob que cruzará el boundary.",
         "Contrato operativo. Entrada: payload del caso (case_id, score, features compactas) y decisión de modelo de concurrencia. Salida: tamaño en bytes del payload y preferencia `compact_payload`. Error: copiar DataFrames enteros entre procesos o loguear el blob crudo con PII. Criterio: el costo de serialización está medido y el payload entre workers es el mínimo necesario para el paso.",
-        "Aplicación a `CASO-LIM-038-T1B` (sigue `c-synth-1`): en lugar de enviar el registro completo del cliente sintético al process pool de features, enviamos `{case_id, score, feature_ids}`. json.dumps del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC. Puente a T2: con el modelo elegido, la cola del worker aún puede crecer sin límite si no hay backpressure.",
+        "Aplicación a `CASO-LIM-038-T1B` (sigue `c-synth-1`): en lugar de enviar el registro completo del cliente sintético al process pool de features, enviamos `{case_id, score, feature_ids}`. `json.dumps` del dict compacto cabe en decenas de bytes; el GIL sigue limitando threads CPU, así que el scoring denso va a processes solo si el payload compacto justifica el IPC. En código de producción usarías `ProcessPoolExecutor` con ese payload mínimo; aquí medimos bytes y preferimos compacto sin lanzar procesos en el playground. Puente a T2: con el modelo elegido, la cola del worker aún puede crecer sin límite si no hay backpressure.",
       ],
       code: {
         language: 'python',
@@ -137,9 +142,9 @@ prefer compact_payload`,
       heading: "Pools, backpressure y rate limits",
       subtopicId: "S38-T2-A",
       paragraphs: [
-        "Un pool acota la concurrencia máxima (N workers). Una cola con `maxsize` aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. Un rate limit (token bucket **didáctico estático**: tokens iniciales sin recarga en el fixture) protege al proveedor mock de un ban o de saturación. En prod el bucket se rellena por ventana de tiempo; aquí solo practicamos allow/deny y cola acotada.",
+        "Un pool acota la concurrencia máxima (N workers). Una cola con `maxsize` aplica backpressure: el productor se bloquea o rechaza cuando la cola está llena, en lugar de crecer hasta OOM. En stdlib eso es `queue.Queue(maxsize=Q)` (o `asyncio.Queue` en async): no es un comentario de diseño, es un tope de memoria. Un rate limit (token bucket **didáctico estático**: tokens iniciales sin recarga en el fixture) protege al proveedor mock de un ban o de saturación. En prod el bucket se rellena por ventana de tiempo; aquí solo practicamos allow/deny y cola acotada para fijar el modelo mental.",
         "Contrato operativo. Entrada: tasa permitida R, profundidad máxima de cola Q, ráfaga de casos sintéticos. Salida: secuencia de allow/deny y señal de backpressure. Error: cola infinita, o ignorar 429 del proveedor. Criterio: bajo pico sintético, la memoria se mantiene acotada y el proveedor no recibe más de R tokens por ventana.",
-        "Aplicación a `CASO-LIM-038-T2A` (`c-synth-1` y vecinos): el batch de Lima (ficticio) intenta encolar una ráfaga; con `Queue(maxsize=2)` el tercer case_id no entra y se registra backpressure. El bucket de 2 tokens niega el tercer allow inmediato. Así no tumbamos el worker de scoring ni el mock API. Sin PII real; solo case_id sintéticos. Puente a T2-B: aunque la cola esté acotada, un fetch sin timeout aún puede colgar un worker.",
+        "Aplicación a `CASO-LIM-038-T2A` (`c-synth-1` y vecinos): el batch de Lima (ficticio) intenta encolar una ráfaga; con `Queue(maxsize=2)` el tercer case_id no entra y se registra backpressure. El bucket de 2 tokens niega el tercer allow inmediato. Así no tumbamos el worker de scoring ni el mock API. Sin PII real; solo case_id sintéticos. Puente a T2-B: aunque la cola esté acotada, un fetch sin timeout aún puede colgar un worker — la profundidad de cola y el timeout son capas distintas del mismo incidente.",
       ],
       code: {
         language: 'python',
@@ -372,7 +377,7 @@ runbook True`,
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos sobre el hilo de `c-synth-1` / CASO-LIM-038 (sintético): medir bound → payload compacto → cola acotada → timeout → observabilidad (o11y) → SLO → checkpoint → retry/DLQ. Cada demo ejecuta un mecanismo stdlib o un contrato local; sin red real ni PII.",
+    intro: "Te muestro 8 demos sobre el hilo de `c-synth-1` / CASO-LIM-038 (sintético), en el mismo orden que endurecerías un batch en operación: medir bound (S37 → aquí) → payload compacto → cola acotada → timeout → observabilidad (o11y) → SLO/error budget → checkpoint → retry/DLQ/runbook. Cada demo ejecuta un mecanismo stdlib o un contrato local con think-aloud; sin red real ni PII. Al final del You Do ensamblas los cuatro pilares para el gate CP-N3-C (S39 los integrará en el Case Triage).",
     steps: [
       {
         demoId: "S38-T1-A-DEMO",
@@ -605,7 +610,7 @@ runbook True`,
     ],
   },
   weDo: {
-    intro: "S38 · Laboratorio de operación resiliente del triage (24 retos). E1 repara un defecto del contrato, E2 fija la política válida/inválida y E3 transfiere el criterio a un incidente sintético. Fixtures CASO-LIM-038; sin PII real ni red.",
+    intro: "S38 · Laboratorio de operación resiliente del triage (24 retos). E1 repara un defecto del contrato, E2 fija la política válida/inválida y E3 transfiere el criterio a un incidente sintético nuevo (cambio de fixture, no solo renombrar el print). Sigue el hilo de `c-synth-1` cuando el fixture lo indique. Fixtures CASO-LIM-038; sin PII real ni red.",
     steps: [
       {
         id: "S38-T1-A-E1",
@@ -625,7 +630,7 @@ runbook True`,
           title: "s38-t1-a-e1.py",
           code: `# CASO-LIM-038-1A — defect: pick ignora bound (siempre async)
 def pick(bound: str) -> str:
-    return "async_or_threads"  # DEFECT: CPU-bound needs processes under GIL
+    return "async_or_threads"  # DEFECTO: CPU-bound necesita processes por el GIL
 
 bound = "cpu"
 choice = pick(bound)
@@ -673,7 +678,7 @@ ok True`,
           title: "s38-t1-a-e2.py",
           code: `# CASO-LIM-038-1A2 — defect: pick fuerza processes en I/O
 def pick(bound: str) -> str:
-    return "processes"  # DEFECT: pure I/O should use async_or_threads
+    return "processes"  # DEFECTO: I/O puro debe usar async_or_threads
 
 bound = "io"
 choice = pick(bound)
@@ -721,7 +726,7 @@ ok True`,
           title: "s38-t1-a-e3.py",
           code: `# CASO-LIM-038 · measure before model (transfer)
 wall_ms, cpu_ms = 100, 95
-# DEFECT: measure_first=False y choice por moda (async) sin medir bound
+# DEFECTO: measure_first=False y choice por moda (async) sin medir bound
 measure_first = False
 choice = "async_or_threads"
 print(choice)
@@ -776,11 +781,11 @@ ok True`,
           language: 'python',
           title: "s38-t1-b-e1.py",
           code: `# CASO-LIM-038 · json size metric
-# DEFECT: usa len(str) en vez de json.dumps encode
+# DEFECTO: usa len(str) en vez de json.dumps encode
 import json
 payload = {"x": 2}
 # defect: wrong serialization metric
-print(len(str(payload)))  # DEFECT: use json.dumps(payload).encode()
+print(len(str(payload)))  # DEFECTO: usa json.dumps(payload).encode()
 print("ok", True)
 print("compact", True)
 `,
@@ -817,7 +822,7 @@ compact True`,
           title: "s38-t1-b-e2.py",
           code: `# CASO-LIM-038 · GIL CPU threads
 def gil_status(model: str, bound: str) -> str:
-    # DEFECT: asume unlimited aunque bound sea cpu en threads
+    # DEFECTO: asume unlimited aunque bound sea cpu en threads
     return "unlimited"
 
 status = gil_status("threads", "cpu")
@@ -866,7 +871,7 @@ cpu_threads True`,
 import json
 full = {"case_id": "c1", "email": "ana@example.pe", "score": 0.2}
 compact = {"case_id": "c1", "score": 0.2}
-# DEFECT: prefiere full_record sin medir bytes ni riesgo de PII
+# DEFECTO: prefiere full_record sin medir bytes ni riesgo de PII
 prefer = "full_record"
 print(prefer)
 print("ok", True)
@@ -911,7 +916,7 @@ bytes 31`,
           language: 'python',
           title: "s38-t2-a-e1.py",
           code: `# CASO-LIM-038 · token bucket rate
-# DEFECT: rate=3 en vez de 2 del fixture
+# DEFECTO: rate=3 en vez de 2 del fixture
 class TokenBucket:
     def __init__(self, rate):
         self.tokens = rate
@@ -920,7 +925,7 @@ class TokenBucket:
             self.tokens -= 1
             return True
         return False
-b = TokenBucket(3)  # DEFECT: rate must be 2 for fixture
+b = TokenBucket(3)  # DEFECTO: rate del fixture es 2
 allows = [b.allow() for _ in range(3)]
 print(sum(1 for a in allows if a))
 print("third", allows[2])
@@ -1016,7 +1021,7 @@ class TokenBucket:
             self.tokens -= 1
             return True
         return False
-b = TokenBucket(99)  # DEFECT: sin límite real → flood
+b = TokenBucket(99)  # DEFECTO: sin límite real → flood
 print("flood")
 print("ok", True)
 print("ban_risk", False)
@@ -1062,7 +1067,7 @@ ban_risk True`,
           title: "s38-t2-b-e1.py",
           code: `# CASO-LIM-038 · retry/DLQ policy con simulación de latencia
 def fetch_policy(latency_ms: float, timeout_s: float) -> dict:
-    # DEFECT: seconds=0 on_fail=ignore → hang sin camino de fallo
+    # DEFECTO: seconds=0 on_fail=ignore → hang sin camino de fallo
     return {"seconds": 0, "on_fail": "ignore", "status": "ok"}
 
 pol = fetch_policy(latency_ms=8000, timeout_s=5)
@@ -1114,7 +1119,7 @@ try:
     raise RuntimeError("fetch mock falló")
 except RuntimeError:
     pass
-# DEFECT: no hay finally → conn filtrada
+# DEFECTO: no hay finally → conn filtrada
 print(closed)
 print("resource", "conn")
 print("ok", closed)
@@ -1143,27 +1148,31 @@ ok True`,
         id: "S38-T2-B-E3",
         subtopicId: "S38-T2-B",
         kind: "transfer",
-        instruction: "S38-T2-B-E3 · Transferencia: un proveedor mock con latency_ms=5000 y timeout_s=1.0 debe marcar incidente. Imprime incident True, ok True, n 1. Starter usa timeout_s=0 (defect: hang sin presupuesto) y niega el incidente. Usa needs_incident(latency_ms, timeout_s) del runbook CASO-LIM-038.",
-        hint: "Hang sin timeout = incidente de cola bloqueada.",
+        instruction: "S38-T2-B-E3 · Transferencia runbook: con latency_ms=5000 y timeout_s=1.0 marca incidente de proveedor lento. Imprime incident True, ok True y action 'open_runbook' (no 'ignore'). Starter usa timeout_s=0, niega el incidente y action='ignore' (defect: hang sin playbook). Implementa needs_incident + action_for del fixture CASO-LIM-038.",
+        hint: "Hang o timeout superado ⇒ incidente y open_runbook.",
         hints: [
-          "needs_incident = latency_ms > timeout_s * 1000.",
-          "timeout_s debe ser > 0; el runbook lista este síntoma.",
+          "needs_incident: timeout_s<=0 o latency > timeout*1000.",
+          "Si hay incidente, action_for → open_runbook (no ignore).",
         ],
         edgeCases: ["p95 explotado", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E3.",
-        feedback: "S38-T2-B-E3: nombrar el incidente es el primer paso del runbook.",
+        feedback: "S38-T2-B-E3: nombrar el incidente y abrir el runbook es el primer paso operable.",
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e3.py",
           code: `# CASO-LIM-038 · timeout debe generar incidente operable
 def needs_incident(latency_ms: float, timeout_s: float) -> bool:
     if timeout_s <= 0:
-        return False  # DEFECT: sin presupuesto de espera se niega el incidente
+        return False  # DEFECTO: sin presupuesto niega el incidente
     return latency_ms > timeout_s * 1000
 
-print("incident", needs_incident(5000, 0))
-print("ok", True)
-print("n", 0)
+def action_for(hit: bool) -> str:
+    return "ignore"  # DEFECTO: no abre runbook
+
+hit = needs_incident(5000, 0)
+print("incident", hit)
+print("ok", hit is True and action_for(hit) == "open_runbook")
+print("action", action_for(hit))
 `,
         },
         solutionCode: {
@@ -1174,14 +1183,17 @@ print("n", 0)
         return True  # sin timeout = hang = incidente
     return latency_ms > timeout_s * 1000
 
+def action_for(hit: bool) -> str:
+    return "open_runbook" if hit else "continue"
+
 hit = needs_incident(5000, 1.0)
 print("incident", hit)
-print("ok", hit is True)
-print("n", 1)
+print("ok", hit is True and action_for(hit) == "open_runbook")
+print("action", action_for(hit))
 `,
           output: `incident True
 ok True
-n 1`,
+action open_runbook`,
         },
       },
       {
@@ -1202,7 +1214,7 @@ n 1`,
           title: "s38-t3-a-e1.py",
           code: `# CASO-LIM-038 · trace correlation id
 def emit_scored(case_id: str, corr, score: float) -> dict:
-    # DEFECT: corr=None en evento scored (ignora el parámetro corr)
+    # DEFECTO: corr=None en evento scored (ignora el parámetro corr)
     return {"event": "scored", "case_id": case_id, "corr": None, "score": score, "pii_raw": False}
 
 event = emit_scored("c-synth-1", "corr-1", 0.4)
@@ -1250,7 +1262,7 @@ ok True`,
           language: 'python',
           title: "s38-t3-a-e2.py",
           code: `# CASO-LIM-038 · tres pilares de observabilidad
-# DEFECT: solo logs (omiso metrics/traces)
+# DEFECTO: solo logs (omiso metrics/traces)
 signals = {"logs": True, "metrics": False, "traces": False}
 order = ("logs", "metrics", "traces")
 pillars = [k for k in order if signals[k]]
@@ -1292,10 +1304,10 @@ n 3`,
           title: "s38-t3-a-e3.py",
           code: `# CASO-LIM-038 · pii_raw prohibido en logs
 def redact(s: str) -> str:
-    return s  # DEFECT: no enmascara
+    return s  # DEFECTO: no enmascara
 
 email = "ana@example.pe"
-pii_raw = True  # DEFECT: permite PII cruda
+pii_raw = True  # DEFECTO: permite PII cruda
 print(pii_raw)
 print("ok", redact(email) == "an***")
 print("redact", False)
@@ -1335,10 +1347,10 @@ redact True`,
           language: 'python',
           title: "s38-t3-b-e1.py",
           code: `# CASO-LIM-038 · PII redaction logs
-# DEFECT: imprime teléfono crudo
+# DEFECTO: imprime teléfono crudo
 phone = "90000001"
 # defect: raw phone in log
-print(phone)  # DEFECT: redact to 90****01
+print(phone)  # DEFECTO: redactar a 90****01
 print("ok", True)
 print("pii", False)
 `,
@@ -1361,34 +1373,45 @@ pii False`,
         id: "S38-T3-B-E2",
         subtopicId: "S38-T3-B",
         kind: "independent",
-        instruction: "S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado del error budget sintético CASO-LIM-038-3B.",
-        hint: "slo_ok cuando observado <= objetivo de latencia.",
+        instruction: "S38-T3-B-E2 · SLI compuesto: p95_ms=100 (SLO≤200) y error_rate=0.01 (SLO≤0.02). Implementa slo_ok(sli, slo) que sea True solo si **ambos** umbrales se cumplen. Imprime True, p95 100 y limit 200. Starter solo mira p95 y además compara al revés (defect: ignora error_rate y invierte el signo).",
+        hint: "slo_ok = p95 <= slo_p95 AND error_rate <= slo_err.",
         hints: [
-          "slo_ok cuando observado <= objetivo de latencia.",
+          "Ambos SLI deben respetar su SLO; uno solo no basta.",
           "Comparación invertida enciende alertas falsas o las apaga.",
         ],
-        edgeCases: ["error_rate también en SLO real", "sintético"],
+        edgeCases: ["error_rate alto con p95 ok", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E2.",
-        feedback: "S38-T3-B-E2: el signo de la comparación es el bug más caro en alertas.",
+        feedback: "S38-T3-B-E2: un SLO multi-SLI evita celebrar latencia buena con errores altos.",
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e2.py",
-          code: `# CASO-LIM-038 · SLO p95 vs limit
-p95, limit = 100, 200
-slo_ok = p95 > limit  # DEFECT: comparación invertida
-print(slo_ok)
-print("p95", p95)
-print("limit", limit)
+          code: `# CASO-LIM-038 · SLO multi-SLI (p95 + error_rate)
+sli = {"p95_ms": 100, "error_rate": 0.01}
+slo = {"p95_ms": 200, "error_rate": 0.02}
+
+def slo_ok(sli: dict, slo: dict) -> bool:
+    # DEFECTO: solo p95 y con signo invertido; ignora error_rate
+    return sli["p95_ms"] > slo["p95_ms"]
+
+ok = slo_ok(sli, slo)
+print(ok)
+print("p95", sli["p95_ms"])
+print("limit", slo["p95_ms"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "s38-t3-b-e2.py",
-          code: `p95, limit = 100, 200
-slo_ok = p95 <= limit
-print(slo_ok)
-print("p95", p95)
-print("limit", limit)
+          code: `sli = {"p95_ms": 100, "error_rate": 0.01}
+slo = {"p95_ms": 200, "error_rate": 0.02}
+
+def slo_ok(sli: dict, slo: dict) -> bool:
+    return sli["p95_ms"] <= slo["p95_ms"] and sli["error_rate"] <= slo["error_rate"]
+
+ok = slo_ok(sli, slo)
+print(ok)
+print("p95", sli["p95_ms"])
+print("limit", slo["p95_ms"])
 `,
           output: `True
 p95 100
@@ -1456,11 +1479,11 @@ n 1`,
           language: 'python',
           title: "s38-t4-a-e1.py",
           code: `# CASO-LIM-038 · estados del workflow
-# DEFECT: estados incompletos (sin failed) y terminal mal definido
+# DEFECTO: estados incompletos (sin failed) y terminal mal definido
 WORKFLOW_STATES = ["pending", "running", "done"]
 
 def is_terminal(status: str) -> bool:
-    return status == "done"  # DEFECT: failed también es terminal
+    return status == "done"  # DEFECTO: failed también es terminal
 
 print(WORKFLOW_STATES)
 print("ok", "failed" in WORKFLOW_STATES and is_terminal("failed"))
@@ -1488,37 +1511,41 @@ n 4`,
         id: "S38-T4-A-E2",
         subtopicId: "S38-T4-A",
         kind: "independent",
-        instruction: "S38-T4-A-E2 · Construye idempotency key case:step:ver con f-string desde case='case', step='step', ver='ver'. Imprime la key, ok True, dup False. Starter imprime 'case:step' sin :ver y dup True (defect: colisiones al cambiar lógica).",
+        instruction: "S38-T4-A-E2 · Implementa idem_key(case, step, ver) → 'case:step:ver'. Con case='c-synth-1', step='features', ver='v3' imprime la key, ok True (key termina en :v3 y tiene 3 segmentos) y dup False. Starter imprime 'c-synth-1:features' sin :ver y dup True (defect: colisiones al cambiar lógica).",
         hint: "Incluye step y versión de lógica: f'{case}:{step}:{ver}'.",
         hints: [
-          "Incluye step y versión de lógica para evitar colisiones.",
-          "dup False = reejecutar no duplica side effects.",
+          "Incluye step y versión de lógica para evitar colisiones entre deploys.",
+          "dup False = reejecutar el mismo paso no duplica side effects.",
         ],
         edgeCases: ["doble enqueue", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E2.",
-        feedback: "S38-T4-A-E2: la key estable es la base de la idempotencia.",
+        feedback: "S38-T4-A-E2: la key estable es la base de la idempotencia del checkpoint.",
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e2.py",
           code: `# CASO-LIM-038 · idempotency key case:step:ver
-case, step, ver = "case", "step", "ver"
-# DEFECT: omite ver → colisiones al cambiar lógica
-key = f"{case}:{step}"
+def idem_key(case: str, step: str, ver: str) -> str:
+    # DEFECTO: omite ver → colisiones al cambiar lógica
+    return f"{case}:{step}"
+
+key = idem_key("c-synth-1", "features", "v3")
 print(key)
-print("ok", True)
+print("ok", key.count(":") == 2 and key.endswith(":v3"))
 print("dup", True)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "s38-t4-a-e2.py",
-          code: `case, step, ver = "case", "step", "ver"
-key = f"{case}:{step}:{ver}"
+          code: `def idem_key(case: str, step: str, ver: str) -> str:
+    return f"{case}:{step}:{ver}"
+
+key = idem_key("c-synth-1", "features", "v3")
 print(key)
-print("ok", key == "case:step:ver")
+print("ok", key.count(":") == 2 and key.endswith(":v3"))
 print("dup", False)
 `,
-          output: `case:step:ver
+          output: `c-synth-1:features:v3
 ok True
 dup False`,
         },
@@ -1542,7 +1569,7 @@ dup False`,
           code: `# CASO-LIM-038 · checkpoint resume al siguiente paso
 NEXT = {"features": "score", "score": "notify", "notify": "done"}
 state = {"last_done": "features", "status": "done"}
-# DEFECT: hardcode intake en vez de NEXT[last_done]
+# DEFECTO: hardcode intake en vez de NEXT[last_done]
 print("intake")
 print("ok", True)
 print("checkpoint", True)
@@ -1580,9 +1607,9 @@ checkpoint True`,
           language: 'python',
           title: "s38-t4-b-e1.py",
           code: `# CASO-LIM-038 · exponential backoff
-# DEFECT: base*attempt lineal en vez de 2**attempt
+# DEFECTO: base*attempt lineal en vez de 2**attempt
 def backoff(attempt, base=0.1):
-    return base * attempt  # DEFECT: exponential base * 2**attempt
+    return base * attempt  # DEFECTO: exponencial base * 2**attempt
 print(backoff(3))
 print("ok", True)
 print("attempt", 3)
@@ -1620,7 +1647,7 @@ attempt 3`,
           title: "s38-t4-b-e2.py",
           code: `# CASO-LIM-038 · poison message a DLQ
 def route(kind: str) -> str:
-    return "retry_forever"  # DEFECT: veneno no debe reintentarse a ciegas
+    return "retry_forever"  # DEFECTO: veneno no debe reintentarse a ciegas
 print(route("poison"))
 print("ok", True)
 print("replay", "uncontrolled")
@@ -1701,11 +1728,11 @@ ok True`,
       "Documentación en español profesional",
       "Mismo resultado tras resume controlado (last_done → siguiente paso)",
     ],
-    starterCode: `# workflow resiliente CASO-LIM-038 · scaffold de los 4 pilares
+    starterCode: `# workflow resiliente CASO-LIM-038 · scaffold de 4 pilares (completa lo marcado)
 from queue import Queue
 
 state = {
-    "case_id": "c1",
+    "case_id": "c-synth-1",
     "step": "intake",
     "status": "pending",
     "corr": "corr-038",
@@ -1715,6 +1742,17 @@ NEXT = {"intake": "features", "features": "score", "score": "notify", "notify": 
 
 def redact(s: str) -> str:
     return s[:2] + "***" if len(s) > 2 else "***"
+
+def measure_bound(wall_ms: float, cpu_ms: float) -> str:
+    # TODO del portafolio: wall>>cpu → io; cpu denso → cpu; si no mixed
+    raise NotImplementedError("elige bound a partir de wall_ms/cpu_ms")
+
+def pick(bound: str) -> str:
+    raise NotImplementedError("mapea io/cpu/mixed a modelo de concurrencia")
+
+def fetch_policy(latency_ms: float, timeout_s: float) -> dict:
+    # TODO: status timeout|ok, on_fail retry_or_dlq, seconds
+    raise NotImplementedError("timeout mock del proveedor")
 
 def checkpoint(state: dict, step: str) -> dict:
     out = dict(state)
@@ -1733,7 +1771,12 @@ def route(kind: str, attempt: int = 0, max_attempts: int = 3) -> str:
         return "dlq"
     return "retry"
 
+def runbook() -> dict:
+    # TODO: symptoms + actions (restart_worker, replay_batch, escalate_provider)
+    raise NotImplementedError("runbook de on-call")
+
 if __name__ == "__main__":
+    # Demo parcial del scaffold (completa measure/pick/fetch/runbook arriba)
     print("log", {"event": "start", "corr": state["corr"], "email": redact("ana@example.pe")})
     print(checkpoint(state, "features"))
     print("backoff", [round(backoff(i), 3) for i in range(3)])
@@ -1741,7 +1784,7 @@ if __name__ == "__main__":
     print("route_poison", route("poison"))
 `,
     portfolioNote:
-      "Operación CP-N3-C; evidencia de pipeline reanudable con trace por caso. Extiende el scaffold: timeout mock (latencia vs presupuesto), ruta poison→DLQ, métrica de cola y un runbook corto en markdown (síntomas → checks → acciones).",
+      "Operación CP-N3-C; evidencia de pipeline reanudable con trace por caso. Completa measure_bound + pick, fetch_policy (timeout mock), métrica de cola y runbook() con síntomas→acciones. Documenta en markdown un drill de proveedor lento. Sin red real ni PII.",
     rubric: [
       { criterion: "Alineación al gate de operación de la sección (CP-N3-C)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -1786,31 +1829,27 @@ if __name__ == "__main__":
       },
       {
         question: "Cuando el error budget se agota, la política operativa suele:",
-        options: [
-          "Ignorar el SLO hasta el próximo quarter",
-          "Priorizar estabilidad (p. ej. pausar deploys no urgentes) y remediación",
-          "Duplicar side effects para recuperar throughput",
-          "Desactivar correlation_id",
-        ],
-        correctIndex: 1,
+        options: ["Ignorar el SLO hasta el próximo quarter", "Duplicar side effects para recuperar throughput", "Desactivar correlation_id", "Priorizar estabilidad (p. ej. pausar deploys no urgentes) y remediación"],
+        correctIndex: 3,
         explanation: "El error budget convierte el SLO en decisión: al agotarse, se prioriza estabilidad sobre features.",
       },
       {
         question: "Un mensaje que falla siempre de forma no transitoria debe ir a:",
-        options: ["Retry infinito", "DLQ con replay controlado", "Logs con PII completa", "Proceso sin timeout"],
-        correctIndex: 1,
+        options: ["DLQ con replay controlado", "Retry infinito", "Logs con PII completa", "Proceso sin timeout"],
+        correctIndex: 0,
         explanation: "La DLQ aísla veneno; el replay se hace caso a caso tras inspección, no en bucle ciego.",
       },
       {
         question: "Antes de elegir threads, processes o async, la disciplina correcta es:",
-        options: [
-          "Adoptar el framework de moda del equipo",
-          "Medir el bottleneck (wall vs CPU) del path caliente y documentar el bound",
-          "Lanzar cientos de procesos por defecto",
-          "Desactivar timeouts para maximizar throughput",
-        ],
-        correctIndex: 1,
+        options: ["Adoptar el framework de moda del equipo", "Lanzar cientos de procesos por defecto", "Medir el bottleneck (wall vs CPU) del path caliente y documentar el bound", "Desactivar timeouts para maximizar throughput"],
+        correctIndex: 2,
         explanation: "S37 y S38 comparten la regla: medir primero. La elección de concurrencia se justifica con bound observado, no con preferencia de API.",
+      },
+      {
+        question: "Tras un checkpoint con last_done='features', al reiniciar el worker resume_from debe ser:",
+        options: ["features (rehacer el paso por seguridad)", "score (siguiente paso pendiente según el mapa del workflow)", "intake (siempre desde el inicio del batch)", "None (borrar el checkpoint y confiar en la suerte)"],
+        correctIndex: 1,
+        explanation: "last_done nombra el paso terminado; resume_from avanza al siguiente pendiente. Reejecutar un paso done sin idempotency key arriesga side effects duplicados.",
       },
     ],
   },

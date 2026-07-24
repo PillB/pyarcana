@@ -122,9 +122,9 @@ log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
  title: "sample_bias.py",
  code: `def s18_th_3():
     # población sintética de tickets por región
-    pob = {"Lima": 0.55, "Arequipa": 0.25, "Cusco": 0.20}
-    # muestra sesgada: sobremuestra Lima (lista de str, no ndarray de objetos)
-    muestra = ["Lima"] * 40 + ["Arequipa"] * 8 + ["Cusco"] * 2
+    pob = {"Sucursal-Norte": 0.55, "Arequipa": 0.25, "Cusco": 0.20}
+    # muestra sesgada: sobremuestra Sucursal-Sur (lista de str, no ndarray de objetos)
+    muestra = ["Sucursal-Centro"] * 40 + ["Arequipa"] * 8 + ["Cusco"] * 2
     from collections import Counter
     c = Counter(muestra)
     n = len(muestra)
@@ -135,9 +135,9 @@ log1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]`,
     print("bias_pp", bias)
 
 s18_th_3()`,
- output: `share_muestra {'Lima': 0.8, 'Arequipa': 0.16, 'Cusco': 0.04}
-share_pob {'Lima': 0.55, 'Arequipa': 0.25, 'Cusco': 0.2}
-bias_pp {'Lima': 0.25, 'Arequipa': -0.09, 'Cusco': -0.16}`,
+ output: `share_muestra {'Oficina-Este': 0.8, 'Arequipa': 0.16, 'Cusco': 0.04}
+share_pob {'Oficina-Oeste': 0.55, 'Arequipa': 0.25, 'Cusco': 0.2}
+bias_pp {'Cliente-A': 0.25, 'Cliente-B': -0.09, 'Sucursal-Norte': -0.16}`,
  },
  callout: {
  type: "danger",
@@ -253,8 +253,8 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
  subtopicId: "S18-T3-B",
  paragraphs: [
  "Segmenta por región, canal o cohorte con **reglas explícitas** (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son **candidatos a revisión**, nunca “fraudes demostrados” ni culpa de persona/región.",
- "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es claim causal no soportado.",
- "Caso sintético: montos con un 80 PEN en Cusco → flag anomalía en ese id; tasa Cusco 0.2 vs Lima 0.0 es hallazgo descriptivo. El portfolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni auto-fraude.",
+ "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Sucursal-Sur genera outliers porque…” — eso es claim causal no soportado.",
+ "Caso sintético: montos con un 80 PEN en Sucursal-Centro → flag anomalía en ese id; tasa Oficina-Este 0.2 vs Oficina-Oeste 0.0 es hallazgo descriptivo. El portfolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni auto-fraude.",
  ],
  code: {
  language: 'python',
@@ -264,7 +264,7 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
     import pandas as pd
 
     df = pd.DataFrame({
-     "region": ["Lima"] * 5 + ["Cusco"] * 5,
+     "region": ["Cliente-A"] * 5 + ["Cliente-B"] * 5,
      "monto": [20, 22, 21, 25, 19, 18, 23, 80, 21, 20],
     })
     q1, q3 = df["monto"].quantile(0.25), df["monto"].quantile(0.75)
@@ -277,7 +277,7 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
 
 s18_th_6()`,
  output: `limites 15.88 26.88
-{'Cusco': 0.2, 'Lima': 0.0}
+{'Sucursal-Norte': 0.2, 'Sucursal-Sur': 0.0}
 ids_anom [7]`,
  },
  callout: {
@@ -293,15 +293,15 @@ ids_anom [7]`,
  paragraphs: [
  "Separa tres capas: **pregunta de negocio**, **hipótesis comprobable**, **evidencia calculada**. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio).",
  "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert del script.",
- "Caso sintético: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|Lima)=27.5, n=40, IC z o bootstrap documentado, límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Lima; no “desplegar campaña nacional”. Sin PII real ni claims de fraude.",
+ "Caso sintético: “¿El ticket mediano en Sucursal-Centro supera 25 PEN?” → median(monto|Oficina-Este)=27.5, n=40, IC z o bootstrap documentado, límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Oficina-Oeste; no “desplegar campaña nacional”. Sin PII real ni claims de fraude.",
  ],
  code: {
  language: 'python',
  title: "qhe_template.py",
  code: `def s18_th_7():
     # plantilla de traza hallazgo → cálculo (sintético)
-    pregunta = "¿El ticket mediano en Lima supera 25 PEN?"
-    metrica = "median(monto | region==Lima)"
+    pregunta = "¿El ticket mediano en Cliente-A supera 25 PEN?"
+    metrica = "median(monto | region==Cliente-B)"
     resultado = {"n": 40, "median": 27.5, "ic95_z_or_boot": (24.0, 31.0)}
     limite = "muestra de canal web, no incluye tienda física"
     print("pregunta:", pregunta)
@@ -311,8 +311,8 @@ ids_anom [7]`,
     print("no_es_decision:", "no lanzar campaña aún")
 
 s18_th_7()`,
- output: `pregunta: ¿El ticket mediano en Lima supera 25 PEN?
-metrica: median(monto | region==Lima)
+ output: `pregunta: ¿El ticket mediano en Sucursal-Norte supera 25 PEN?
+metrica: median(monto | region==Sucursal-Sur)
 resultado: {'n': 40, 'median': 27.5, 'ic95_z_or_boot': (24.0, 31.0)}
 limite: muestra de canal web, no incluye tienda física
 no_es_decision: no lanzar campaña aún`,
@@ -367,7 +367,7 @@ mean 15.0`,
  }
  ],
  iDo: {
- intro: "Te demuestro el EDA de CP-N2-B inicio: resúmenes, sesgo, intervalos, correlación sin causalidad y data notes con datos sintéticos peruanos.",
+ intro: "Partimos del dataset limpio y el memo de límites de **S17 (CP-N2-A)**. Te demuestro el EDA de **CP-N2-B** inicio: resúmenes, sesgo, IC z + bootstrap, correlación/Spearman sin causalidad, flags Tukey y data notes con tickets sintéticos (Sucursal-Centro/Oficina-Este/Oficina-Oeste, PEN). En S19 ese paquete alimenta el dashboard accesible.",
  steps: [
  {
  demoId: "S18-T1-A-DEMO",
@@ -438,8 +438,8 @@ log1p_median 2.833`,
     from collections import Counter
     import numpy as np
 
-    pob = {"Lima": 0.50, "Arequipa": 0.30, "Cusco": 0.20}
-    muestra = ["Lima"] * 70 + ["Arequipa"] * 20 + ["Cusco"] * 10
+    pob = {"Cliente-A": 0.50, "Cliente-B": 0.30, "Sucursal-Norte": 0.20}
+    muestra = ["Sucursal-Sur"] * 70 + ["Sucursal-Centro"] * 20 + ["Oficina-Este"] * 10
     c = Counter(muestra)
     n = sum(c.values())
     share = {k: c[k] / n for k in pob}
@@ -448,7 +448,7 @@ log1p_median 2.833`,
     print("cobertura", "LIMITADA" if max(abs(share[k] - pob[k]) for k in pob) > 0.1 else "OK")
 
 s18_ido_3()`,
- output: `{'Lima': 0.7, 'Arequipa': 0.2, 'Cusco': 0.1}
+ output: `{'Oficina-Oeste': 0.7, 'Cliente-A': 0.2, 'Cliente-B': 0.1}
 max_abs_bias_pp 0.2
 cobertura LIMITADA`,
  },
@@ -458,7 +458,7 @@ cobertura LIMITADA`,
  demoId: "S18-T2-B-DEMO",
  subtopicId: "S18-T2-B",
  environment: "local-python",
- description: "Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos",
+ description: "Reportar IC 95% z, bootstrap de la diferencia y Cohen's d entre dos grupos sintéticos",
  code: {
  language: 'python',
  title: "demo_effect.py",
@@ -477,20 +477,32 @@ cobertura LIMITADA`,
     print("ic95", (round(float(ic[0]), 2), round(float(ic[1]), 2)))
     print("cohens_d", round(float(d), 3))
     print("n", len(ctrl), len(trat))
+    # bootstrap de la diferencia: remuestrear ambos grupos con reemplazo
+    B = 200
+    boot_diff = np.empty(B)
+    for i in range(B):
+        c = rng.choice(ctrl, size=len(ctrl), replace=True)
+        t = rng.choice(trat, size=len(trat), replace=True)
+        boot_diff[i] = t.mean() - c.mean()
+    lo, hi = np.quantile(boot_diff, [0.025, 0.975])
+    print("boot_diff_ic95", (round(float(lo), 2), round(float(hi), 2)))
+    print("nota", "z_approx_y_bootstrap; no_probado")
 
 s18_ido_4()`,
  output: `diff 2.15
 ic95 (-2.17, 6.47)
 cohens_d 0.233
-n 35 35`,
+n 35 35
+boot_diff_ic95 (-2.11, 6.7)
+nota z_approx_y_bootstrap; no_probado`,
  },
- why: "Magnitud + intervalo + n comunican incertidumbre mejor que un solo p-value.",
+ why: "Magnitud + IC z + bootstrap + n comunican incertidumbre mejor que un solo p-value o un 'probado al 95%'.",
  },
  {
  demoId: "S18-T3-A-DEMO",
  subtopicId: "S18-T3-A",
  environment: "local-python",
- description: "Mostrar correlación alta generada por confusor y caída al residualizar",
+ description: "Correlación alta por confusor, caída al residualizar, y Spearman monótono de control",
  code: {
  language: 'python',
  title: "demo_corr.py",
@@ -509,14 +521,21 @@ n 35 35`,
     r_res = float(np.corrcoef(rx, ry)[0, 1])
     print("r_raw", round(r_raw, 3))
     print("r_residual_z", round(r_res, 3))
+    # control monótono: Spearman = Pearson sobre rangos
+    xs = np.array([1.0, 2.0, 3.0, 10.0])
+    ys = np.array([1.0, 4.0, 9.0, 100.0])
+    rsx = np.argsort(np.argsort(xs)).astype(float)
+    rsy = np.argsort(np.argsort(ys)).astype(float)
+    print("spearman_mono", round(float(np.corrcoef(rsx, rsy)[0, 1]), 3))
     print("claim", "asociacion_observada_no_causal")
 
 s18_ido_5()`,
  output: `r_raw 0.974
 r_residual_z 0.166
+spearman_mono 1.0
 claim asociacion_observada_no_causal`,
  },
- why: "Enseña a no inferir causalidad solo porque r es alto.",
+ why: "r alto no implica causa; residualizar confusores y reportar Spearman monótono refuerzan el hábito de asociación observada.",
  },
  {
  demoId: "S18-T3-B-DEMO",
@@ -530,7 +549,7 @@ claim asociacion_observada_no_causal`,
     import pandas as pd
 
     df = pd.DataFrame({
-     "region": ["Lima"]*8 + ["Arequipa"]*6 + ["Cusco"]*6,
+     "region": ["Sucursal-Norte"]*8 + ["Sucursal-Sur"]*6 + ["Sucursal-Centro"]*6,
      "monto": [20,22,21,19,25,24,23,22, 18,19,20,21,17,55, 16,18,19,20,17,90],
     })
     q1, q3 = df["monto"].quantile([0.25, 0.75])
@@ -543,7 +562,7 @@ claim asociacion_observada_no_causal`,
 
 s18_ido_6()`,
  output: `lo_hi 13.5 27.5
-{'sum': {'Arequipa': 1, 'Cusco': 1, 'Lima': 0}, 'mean': {'Arequipa': 0.167, 'Cusco': 0.167, 'Lima': 0.0}}
+{'sum': {'Oficina-Este': 1, 'Oficina-Oeste': 1, 'Cliente-A': 0}, 'mean': {'Cliente-B': 0.167, 'Sucursal-Norte': 0.167, 'Sucursal-Sur': 0.0}}
 sin_claim_causal True`,
  },
  why: "Flags + tasas por segmento; la narrativa causal queda fuera del EDA.",
@@ -558,10 +577,10 @@ sin_claim_causal True`,
  title: "demo_qhe.py",
  code: `def s18_ido_7():
     evidencia = {
-     "pregunta": "¿Hay diferencia de ticket mediano Lima vs Cusco?",
+     "pregunta": "¿Hay diferencia de ticket mediano Sucursal-Centro vs Oficina-Este?",
      "hipotesis": "mediana_Lima > mediana_Cusco en canal web junio",
      "calculo": "median por region, n>=30",
-     "resultado": {"Lima": 28.0, "Cusco": 22.5, "n_Lima": 40, "n_Cusco": 32},
+     "resultado": {"Oficina-Oeste": 28.0, "Cliente-A": 22.5, "n_Lima": 40, "n_Cusco": 32},
      "incertidumbre": "IC z aproximado; bootstrap si colas pesadas; muestra web-only",
      "decision": None,
     }
@@ -570,8 +589,8 @@ sin_claim_causal True`,
     print("decision_es_none", evidencia["decision"] is None)
 
 s18_ido_7()`,
- output: `¿Hay diferencia de ticket mediano Lima vs Cusco?
-hallazgo {'Lima': 28.0, 'Cusco': 22.5, 'n_Lima': 40, 'n_Cusco': 32}
+ output: `¿Hay diferencia de ticket mediano Cliente-B vs Sucursal-Norte?
+hallazgo {'Sucursal-Sur': 28.0, 'Sucursal-Centro': 22.5, 'n_Lima': 40, 'n_Cusco': 32}
 decision_es_none True`,
  },
  why: "La traza pregunta→cálculo→límite es el artefacto de calidad de CP-N2-B inicio.",
@@ -591,7 +610,7 @@ decision_es_none True`,
     df = pd.DataFrame({
      "ticket_id": [f"T{i:03d}" for i in range(1, 6)],
      "monto": [10.0, 12.0, 0.0, 15.0, 11.0],
-     "region": ["Lima", "Cusco", "Lima", "Arequipa", "Lima"],
+     "region": ["Oficina-Este", "Oficina-Oeste", "Cliente-A", "Cliente-B", "Sucursal-Norte"],
     })
     n0 = len(df)
     df2 = df[df["monto"] > 0].copy()
@@ -616,7 +635,7 @@ median_final 11.5`,
  ],
  },
  weDo: {
- intro: "Practica 24 ejercicios (guided → independent → transfer) sobre distribuciones, incertidumbre y evidencia trazable.",
+ intro: "Practica 24 ejercicios en liberación gradual (guiado → independiente → transferencia): centro/robustez, sesgo, IC y bootstrap, Pearson/Spearman sin causalidad, Tukey sin fraude, Q→H→E y data notes. Cada bug o scaffold del starter es un hábito del portfolio CP-N2-B; no copies la solución antes de ejecutar.",
  steps: [
  {
  id: "S18-T1-A-E1",
@@ -853,7 +872,7 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  subtopicId: "S18-T2-A",
  kind: "guided",
  instruction:
- "E1 (guiado) — En la muestra sintética de `S18-T2-A-E1`, calcula la **proporción de Lima** y imprímela como `share_Lima` (2 decimales). El bug indicado en el starter cuenta la región equivocada.",
+ "E1 (guiado) — En la muestra sintética de `S18-T2-A-E1`, calcula la **proporción de Sucursal-Sur** y imprímela como `share_Lima` (2 decimales). El bug indicado en el starter cuenta la región equivocada.",
  hint: "share = conteo de la región / n de la muestra.",
  hints: [
  "share = conteo de la región / n de la muestra.",
@@ -861,21 +880,21 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  ],
  edgeCases: ["muestra vacía"],
  tests: "salida coincide con solution output",
- feedback: "¿Contaste Lima o otra región? share_Lima = count(Lima) / n.",
+ feedback: "¿Contaste Sucursal-Centro o otra región? share_Lima = count(Oficina-Este) / n.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-018 · sample share
-# Bug a corregir: cuenta Cusco no Lima
-muestra = ["Lima", "Lima", "Cusco", "Lima"]
-share_lima = muestra.count("Cusco") / len(muestra)
+# Bug a corregir: cuenta Oficina-Oeste no Cliente-A
+muestra = ["Cliente-B", "Sucursal-Norte", "Sucursal-Sur", "Sucursal-Centro"]
+share_lima = muestra.count("Oficina-Este") / len(muestra)
 print("share_Lima", round(share_lima, 2))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `muestra = ["Lima", "Lima", "Cusco", "Lima"]
-share_lima = muestra.count("Lima") / len(muestra)
+ code: `muestra = ["Oficina-Oeste", "Cliente-A", "Cliente-B", "Sucursal-Norte"]
+share_lima = muestra.count("Sucursal-Sur") / len(muestra)
 print("share_Lima", round(share_lima, 2))`,
  output: `share_Lima 0.75`,
  },
@@ -935,7 +954,7 @@ def max_bias(pob, counts):
  # Completa: peor |count/n − pob| entre claves de pob
  raise NotImplementedError
 
-print(round(max_bias({"Lima": 0.5, "Cusco": 0.5}, {"Lima": 9, "Cusco": 1}), 2))`,
+print(round(max_bias({"Sucursal-Centro": 0.5, "Oficina-Este": 0.5}, {"Oficina-Oeste": 9, "Cliente-A": 1}), 2))`,
  },
  solutionCode: {
  language: 'python',
@@ -944,7 +963,7 @@ print(round(max_bias({"Lima": 0.5, "Cusco": 0.5}, {"Lima": 9, "Cusco": 1}), 2))`
  n = sum(counts.values())
  return max(abs(counts[k] / n - pob[k]) for k in pob)
 
-print(round(max_bias({"Lima": 0.5, "Cusco": 0.5}, {"Lima": 9, "Cusco": 1}), 2))`,
+print(round(max_bias({"Cliente-B": 0.5, "Sucursal-Norte": 0.5}, {"Sucursal-Sur": 9, "Sucursal-Centro": 1}), 2))`,
  output: `0.4`,
  },
  },
@@ -1018,30 +1037,45 @@ print("d", round(d, 2))`,
  subtopicId: "S18-T2-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Con `diff` y `se` del starter (`S18-T2-B-E3`), arma el **IC 95% aproximado** de la diferencia: (diff − z·se, diff + z·se) con z≈1.96 y redondeo a 2 decimales; imprime `ic95` como tupla. Completa el cálculo (el starter solo deja los insumos). Recuerda: el IC es del parámetro bajo el modelo de muestreo, no el rango donde cae el 95% de los tickets.",
- hint: "z ≈ 1.96; low = diff − z·se; high = diff + z·se; round a 2 decimales.",
+ "E3 (transferencia) — Con montos sintéticos de cola pesada (`S18-T2-B-E3`), implementa un **bootstrap simple** de la media: remuestrea con reemplazo `B` veces (seed y `B` ya fijos en el starter), toma los percentiles 2.5 y 97.5 de esas medias e imprime `boot_ic95` como tupla a 2 decimales, más `n` y la nota `bootstrap_simple`. No uses la fórmula z·s/√n aquí: el punto es practicar remuestreo cuando la aproximación normal es dudosa. El IC describe incertidumbre del estimador, no el rango donde cae el 95% de los tickets.",
+ hint: "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
  hints: [
- "z ≈ 1.96; low = diff − z·se; high = diff + z·se; round a 2 decimales.",
- "Etiqueta exacta: print(\"ic95\", ic).",
+ "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
+ "No reinicies el Generator dentro del bucle; usa el rng del starter.",
  ],
- edgeCases: ["se negativo inválido"],
+ edgeCases: ["B=1 inútil", "x vacío"],
  tests: "salida coincide con solution output",
- feedback: "Para ~95% con aproximación normal del estimador usa z≈1.96. El IC es del parámetro, no del rango de los datos.",
+ feedback: "Bootstrap = remuestrear con reemplazo y percentiles de la estadística. No es z·s/√n ni el rango del 95% de los datos crudos.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-018 · IC95 de una diferencia (transferencia)
-diff, se = 4, 1.5
-# Completa: ic95 ≈ (diff ± 1.96*se) redondeado a 2 decimales
-print("ic95", None)`,
+ code: `# CASO-LIM-018 · bootstrap de la media (transferencia)
+import numpy as np
+x = np.array([10.0, 12.0, 11.0, 13.0, 50.0])
+rng = np.random.default_rng(42)
+B = 100
+# Completa: B medias remuestreadas; percentiles 2.5 y 97.5
+print("boot_ic95", None)
+print("n", len(x))
+print("nota", "???")`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `diff, se = 4, 1.5
-ic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))
-print("ic95", ic)`,
- output: `ic95 (1.06, 6.94)`,
+ code: `import numpy as np
+x = np.array([10.0, 12.0, 11.0, 13.0, 50.0])
+rng = np.random.default_rng(42)
+B = 100
+boots = np.empty(B)
+for i in range(B):
+    boots[i] = rng.choice(x, size=len(x), replace=True).mean()
+lo, hi = np.quantile(boots, [0.025, 0.975])
+print("boot_ic95", (round(float(lo), 2), round(float(hi), 2)))
+print("n", len(x))
+print("nota", "bootstrap_simple")`,
+ output: `boot_ic95 (10.89, 31.17)
+n 5
+nota bootstrap_simple`,
  },
  },
  {
@@ -1083,29 +1117,35 @@ print("r", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
  subtopicId: "S18-T3-A",
  kind: "independent",
  instruction:
- "E2 (independiente) — Etiqueta el hallazgo de correlación sin lenguaje causal: con el r del starter (`S18-T3-A-E2`), imprime `asociacion_observada` si |r| > 0.5, si no `asociacion_debil`. El bug indicado en el starter usa un umbral demasiado estricto. Nunca imprimas “causa” solo por |r| alto.",
- hint: "Umbral de práctica del lab: |r| > 0.5 → asociación_observada.",
+ "E2 (independiente) — Calcula **Spearman** (correlación de rangos) entre los arrays sintéticos de `S18-T3-A-E2`: convierte cada serie a rangos y aplica Pearson sobre esos rangos; imprime `spearman` a 3 decimales. El bug del starter reporta Pearson en la escala original (útil, pero no es Spearman). Spearman resume asociación monótona; sigue siendo asociación observada, no causa.",
+ hint: "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
  hints: [
- "Umbral de práctica del lab: |r| > 0.5 → asociación_observada.",
- "Solo esas dos etiquetas; sin verbos causales.",
+ "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
+ "Redondea a 3 decimales; etiqueta exacta spearman.",
  ],
- edgeCases: ["r nan"],
+ edgeCases: ["empates en rangos (aquí no hay)"],
  tests: "salida coincide con solution output",
- feedback: "Un umbral 0.9 esconde asociaciones moderadas. El contrato del lab usa 0.5 y verbos de asociación, no de causa.",
+ feedback: "Spearman = Pearson sobre rangos. Si usaste corrcoef(x, y) crudo, obtienes Pearson, no Spearman.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-018 · r threshold label
-# Bug a corregir: umbral 0.9 demasiado alto
-r = 0.82
-print("asociacion_observada" if abs(r) > 0.9 else "asociacion_debil")`,
+ code: `# CASO-LIM-018 · Spearman via rangos
+# Bug a corregir: Pearson en escala original (no rangos)
+import numpy as np
+x = np.array([1.0, 2.0, 3.0, 10.0])
+y = np.array([1.0, 4.0, 9.0, 100.0])  # monótona no lineal
+print("spearman", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `r = 0.82
-print("asociacion_observada" if abs(r) > 0.5 else "asociacion_debil")`,
- output: `asociacion_observada`,
+ code: `import numpy as np
+x = np.array([1.0, 2.0, 3.0, 10.0])
+y = np.array([1.0, 4.0, 9.0, 100.0])
+rx = np.argsort(np.argsort(x)).astype(float)
+ry = np.argsort(np.argsort(y)).astype(float)
+print("spearman", round(float(np.corrcoef(rx, ry)[0, 1]), 3))`,
+ output: `spearman 1.0`,
  },
  },
  {
@@ -1202,22 +1242,22 @@ print("n_hi", int((m > hi).sum()))`,
  subtopicId: "S18-T3-B",
  kind: "independent",
  instruction:
- "E2 (independiente) — Calcula la **tasa de flags en Lima** (no la tasa global) con los arrays sintéticos de `S18-T3-B-E2`. Imprime `tasa_Lima`. Una tasa alta es hallazgo descriptivo, no prueba de causa regional.",
- hint: "Filtra flags donde region == \"Lima\" y toma la media.",
+ "E2 (independiente) — Calcula la **tasa de flags en Oficina-Este** (no la tasa global) con los arrays sintéticos de `S18-T3-B-E2`. Imprime `tasa_Lima`. Una tasa alta es hallazgo descriptivo, no prueba de causa regional.",
+ hint: "Filtra flags donde region == \"Oficina-Oeste\" y toma la media.",
  hints: [
- "Filtra flags donde region == \"Lima\" y toma la media.",
- "No uses flag.mean() global si el contrato pide Lima.",
+ "Filtra flags donde region == \"Cliente-A\" y toma la media.",
+ "No uses flag.mean() global si el contrato pide Cliente-B.",
  ],
  edgeCases: ["segmento vacío"],
  tests: "salida coincide con solution output",
- feedback: "La tasa global mezcla regiones. Enmascara con region == \"Lima\" antes del mean.",
+ feedback: "La tasa global mezcla regiones. Enmascara con region == \"Sucursal-Norte\" antes del mean.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-018 · tasa por región
-# Bug a corregir: tasa global no Lima
+# Bug a corregir: tasa global no Sucursal-Sur
 import numpy as np
-region = np.array(["Lima", "Lima", "Cusco"])
+region = np.array(["Sucursal-Centro", "Oficina-Este", "Oficina-Oeste"])
 flag = np.array([True, True, False])
 print("tasa_Lima", float(flag.mean()))`,
  },
@@ -1225,9 +1265,9 @@ print("tasa_Lima", float(flag.mean()))`,
  language: 'python',
  title: "exercise.py",
  code: `import numpy as np
-region = np.array(["Lima", "Lima", "Cusco"])
+region = np.array(["Cliente-A", "Cliente-B", "Sucursal-Norte"])
 flag = np.array([True, True, False])
-print("tasa_Lima", float(flag[region == "Lima"].mean()))`,
+print("tasa_Lima", float(flag[region == "Sucursal-Sur"].mean()))`,
  output: `tasa_Lima 1.0`,
  },
  },
@@ -1359,7 +1399,7 @@ def traza(pregunta, metrica, valor, limite):
  # Completa: imprime P, M, V y L con esos prefijos
  pass
 
-traza("ticket mediano Lima", "median", 27.5, "solo web")`,
+traza("ticket mediano Sucursal-Centro", "median", 27.5, "solo web")`,
  },
  solutionCode: {
  language: 'python',
@@ -1370,8 +1410,8 @@ traza("ticket mediano Lima", "median", 27.5, "solo web")`,
  print("V:", valor)
  print("L:", limite)
 
-traza("ticket mediano Lima", "median", 27.5, "solo web")`,
- output: `P: ticket mediano Lima
+traza("ticket mediano Oficina-Este", "median", 27.5, "solo web")`,
+ output: `P: ticket mediano Oficina-Oeste
 M: median
 V: 27.5
 L: solo web`,
@@ -1485,57 +1525,83 @@ print(note)`,
  youDo: {
  title: "EDA honesto para CP-N2-B (inicio)",
  context:
- "Eres analista en un equipo de insights en Lima. En **S17** dejaste un dataset limpio y un memo de límites (CP-N2-A). Aquí abres **CP-N2-B**: sobre un extracto sintético de tickets (sin PII real) produces un EDA que distingue hallazgo, hipótesis y decisión, con incertidumbre explícita y data notes. El artefacto alimenta el dashboard accesible de S19.",
+ "Eres analista en un equipo de insights en Cliente-A. En **S17** dejaste un dataset limpio y un memo de límites (CP-N2-A). Aquí abres **CP-N2-B**: sobre un extracto sintético de tickets (sin PII real) produces un EDA que distingue hallazgo, hipótesis y decisión, con incertidumbre explícita y data notes. El artefacto alimenta el dashboard accesible de S19.",
  objectives: [
  "Resumir distribuciones con n, centro, dispersión y cuantiles (y métrica robusta si hay cola)",
- "Diagnosticar sesgo muestral vs cuotas y declarar cobertura",
- "Reportar al menos un IC (z o bootstrap documentado) o tamaño de efecto con n",
- "Interpretar correlación/segmentos sin claims causales; flags Tukey ≠ fraude",
- "Entregar script/notebook con data notes, seed y huella de filas",
+ "Diagnosticar sesgo muestral vs cuotas y declarar cobertura LIMITADA/OK",
+ "Reportar al menos un IC (z y/o bootstrap documentado) o tamaño de efecto (p. ej. Cohen's d) con n",
+ "Interpretar correlación/Spearman o segmentos sin claims causales; flags Tukey ≠ fraude",
+ "Entregar script/notebook con data notes, seed y huella de filas listo para S19",
  ],
  requirements: [
- "Solo datos sintéticos o anonimizados de práctica",
- "Cada conclusión referencia un cálculo (n, métrica, IC/flag o código)",
- "Data note con origen, filtros, n_raw/n_final, seed (y hash corto si aplica)",
- "Sin secretos ni credenciales ni PII real",
+ "Solo datos sintéticos o anonimizados de práctica (sin PII real)",
+ "Cada conclusión referencia un cálculo (n, métrica, IC/flag o código) y un límite de cobertura",
+ "Data note con origen, filtros, n_raw/n_final, seed y hash corto del CSV ordenado",
+ "Sin secretos ni credenciales",
  "Español profesional (es-PE)",
- "Checkpoints mínimos en la salida: (1) resumen tabular, (2) bias/cobertura, (3) IC o d, (4) nota no-causal, (5) data note JSON",
+ "Salida mínima auditable: (1) resumen tabular, (2) bias_pp + cobertura, (3) ic95_z o boot_ic95 o d + n, (4) claim no-causal, (5) data note JSON",
+ "Si usas z sobre montos lognormales, declara el límite; si hay colas, documenta bootstrap",
  ],
  starterCode: `import hashlib
 import json
+from collections import Counter
 import numpy as np
 import pandas as pd
 
 # Portfolio CP-N2-B (inicio) · CASO-LIM-018 · solo sintéticos
-# Reutiliza hábitos de S17 (filtros documentados) y añade incertidumbre.
+# Hilo S17 → S18 → S19: reutiliza filtros documentados; añade incertidumbre y data notes.
 
 rng = np.random.default_rng(18)
 df_raw = pd.DataFrame({
     "ticket_id": [f"T{i:03d}" for i in range(1, 101)],
-    "region": rng.choice(["Lima", "Arequipa", "Cusco"], size=100, p=[0.7, 0.2, 0.1]),
+    "region": rng.choice(["Cliente-B", "Sucursal-Norte", "Sucursal-Sur"], size=100, p=[0.7, 0.2, 0.1]),
     "monto": rng.lognormal(3.0, 0.5, 100),
+    "visitas": rng.integers(1, 20, size=100),
 })
-# opcional: un outlier sintético de cola
-df_raw.loc[0, "monto"] = 400.0
+df_raw.loc[0, "monto"] = 400.0  # cola sintética
 
-# TODO 1 — Filtro y n_raw / n_final (p. ej. monto > 0)
+# --- Checkpoint 1: filtro y cobertura de filas ---
 df = df_raw[df_raw["monto"] > 0].copy()
 n_raw, n_final = len(df_raw), len(df)
+print("n_raw", n_raw, "n_final", n_final)
 
-# TODO 2 — Resumen: n, mean, median, std(ddof=1), IQR o cuantiles
-# print("resumen", ...)
+# --- Checkpoint 2: resumen de distribución (completa el dict) ---
+q = np.quantile(df["monto"], [0.25, 0.5, 0.75, 0.9])
+resumen = {
+    "n": n_final,
+    "mean": round(float(df["monto"].mean()), 2),
+    "median": round(float(df["monto"].median()), 2),
+    "std": round(float(df["monto"].std(ddof=1)), 2),
+    "IQR": round(float(q[2] - q[0]), 2),
+    # TODO: añade p90 si el negocio pregunta por cola
+}
+print("resumen", resumen)
 
-# TODO 3 — Sesgo vs cuotas poblacionales sintéticas y cobertura
-pob = {"Lima": 0.55, "Arequipa": 0.25, "Cusco": 0.20}
-# print("bias_pp", ...); print("cobertura", "LIMITADA" o "OK")
+# --- Checkpoint 3: sesgo muestral vs cuotas sintéticas ---
+pob = {"Sucursal-Centro": 0.55, "Oficina-Este": 0.25, "Oficina-Oeste": 0.20}
+counts = Counter(df["region"])
+share = {k: counts.get(k, 0) / n_final for k in pob}
+bias_pp = {k: round(share[k] - pob[k], 3) for k in pob}
+max_abs = max(abs(v) for v in bias_pp.values())
+cobertura = "LIMITADA" if max_abs > 0.1 else "OK"
+print("bias_pp", bias_pp)
+print("cobertura", cobertura)
 
-# TODO 4 — Un IC 95% aprox. de la media o Cohen's d entre dos regiones; reporta n
-# Cuidado: montos lognormales → declara límite de la aproximación z
+# --- Checkpoint 4: IC z y/o bootstrap de la media (montos lognormales → declara límite) ---
+# Esqueleto z (completa se e imprime ic95_z). Opcional: bootstrap B=200 como en T2-B.
+m = float(df["monto"].mean())
+s = float(df["monto"].std(ddof=1))
+# se = s / np.sqrt(n_final)
+# ic95_z = (round(m - 1.96 * se, 2), round(m + 1.96 * se, 2))
+print("ic95_z", "TODO")
+print("nota_ic", "z_approx_en_lognormal_limitada; preferir_bootstrap_si_colas")
 
-# TODO 5 — Correlación o segmentos: etiqueta asociación_observada / sin claim causal
-# Flags Tukey = candidatos a revisión, no fraude
+# --- Checkpoint 5: asociación / segmentos sin claim causal ---
+# Ejemplo: Pearson monto~visitas + etiqueta; o flags Tukey por región.
+# r = float(np.corrcoef(df["monto"], df["visitas"])[0, 1])
+print("claim", "asociacion_observada_no_causal")  # no borres esta etiqueta ética
 
-# TODO 6 — Data note JSON + seed + sha1 corto del CSV ordenado
+# --- Checkpoint 6: data note reproducible (base hacia S19) ---
 payload = df.sort_values("ticket_id").to_csv(index=False).encode()
 note = {
     "origen": "sintetico_local",
@@ -1544,7 +1610,8 @@ note = {
     "filtros": ["monto > 0"],
     "seed": 18,
     "sha1_8": hashlib.sha1(payload).hexdigest()[:8],
-    "limites": "muestra sintética sesgada a Lima; no generalizar a todo el Perú",
+    "limites": "muestra sintética sesgada a Cliente-A; no generalizar a todo el Perú",
+    "etica": "flags_y_correlacion_no_son_fraude_ni_causa",
 }
 print(json.dumps(note, ensure_ascii=False))
 print(df.head())
@@ -1591,40 +1658,32 @@ print(df.head())
  "Selección no representativa sesga estimaciones aunque el cálculo sea correcto.",
  },
  {
- question: "En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?",
- options: [
- "Afirmar que más visitas causan más gasto y recomendar campaña automática",
- "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño",
- "Eliminar la correlación del informe porque “no es causal” y no mostrar el número",
- "Usar solo la media y omitir n e intervalos para simplificar el slide ejecutivo",
- ],
+ question: "En un EDA de tickets sintéticos Cliente-B/Sucursal-Norte, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?",
+ options: ["Afirmar que más visitas causan más gasto y recomendar campaña automática", "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño", "Eliminar la correlación del informe porque “no es causal” y no mostrar el número", "Usar solo la media y omitir n e intervalos para simplificar el slide ejecutivo"],
  correctIndex: 1,
  explanation:
  "Correlación ≠ causalidad. El EDA reporta asociación con n/límites y posibles confusores; no borra el número ni salta a decisión automática.",
  },
  {
  question: "Un IC 95% para la media muestral de tickets, ¿qué NO debes afirmar?",
- options: [
- "El intervalo es compatible con incertidumbre de muestreo bajo el modelo usado",
- "Reporto n junto al intervalo",
- "Quedó probado al 95% que la media poblacional es exactamente el punto central",
- "Con colas pesadas y n chico debo ser cauteloso con la aproximación z",
- ],
- correctIndex: 2,
+ options: ["El intervalo es compatible con incertidumbre de muestreo bajo el modelo usado", "Reporto n junto al intervalo", "Con colas pesadas y n chico debo ser cauteloso con la aproximación z", "Quedó probado al 95% que la media poblacional es exactamente el punto central"],
+ correctIndex: 3,
  explanation:
  "El IC no “prueba” un valor puntual ni equivale al rango del 95% de los datos; comunica incertidumbre bajo supuestos.",
  },
  {
- question: "Una tasa de flags Tukey más alta en Cusco implica:",
- options: [
- "Fraude demostrado en Cusco",
- "Hallazgo descriptivo de anomalías univariadas; la decisión de investigación es humana",
- "Que la media es mejor que la mediana",
- "Que el IC es innecesario",
- ],
- correctIndex: 1,
+ question: "Una tasa de flags Tukey más alta en Sucursal-Sur implica:",
+ options: ["Hallazgo descriptivo de anomalías univariadas; la decisión de investigación es humana", "Fraude demostrado en Sucursal-Centro", "Que la media es mejor que la mediana", "Que el IC es innecesario"],
+ correctIndex: 0,
  explanation:
  "Anomalía ≠ culpa ni fraude automático. Documenta método, n y límites; la investigación es posterior y humana.",
+ },
+ {
+ question: "Cohen's d ≈ 1.1 entre media de tickets del grupo B y del grupo A (con n reportado) comunica principalmente:",
+ options: ["Que la campaña está probada al 95% y debe desplegarse ya", "Que no hay confusores posibles", "Una magnitud de diferencia estandarizada en la muestra; aún hace falta IC, n y límites de cobertura", "Que la mediana es incorrecta y solo debe usarse la media"],
+ correctIndex: 2,
+ explanation:
+ "El tamaño de efecto habla de magnitud, no de prueba causal ni de decisión automática. Siempre acompáñalo de n e incertidumbre.",
  },
  ],
  },

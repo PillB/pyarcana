@@ -86,21 +86,46 @@ export default function Home() {
   }
 
   const handleSelectSection = (id: string) => {
+    // Snapshot scroll of the section we are leaving so return can resume.
+    if (
+      typeof window !== 'undefined' &&
+      activeSectionId &&
+      activeSectionId !== id
+    ) {
+      sessionStorage.setItem(
+        `pyarcana:sectionScroll:${activeSectionId}`,
+        String(window.scrollY || 0),
+      )
+    }
     if (id === '__resources__') {
       setView('resources')
       updateUrl(null, 'resources')
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     } else {
       setActiveSectionId(id)
       setView('section')
       updateUrl(id, 'section')
+      // Scroll restore/top is handled by SectionView on section.id change.
+      // Force top only when opening a section with no registered offset.
+      if (typeof window !== 'undefined') {
+        const saved = sessionStorage.getItem(`pyarcana:sectionScroll:${id}`)
+        if (saved == null || Number(saved) <= 0) {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      }
     }
     setSidebarOpen(false)
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
   }
 
   const handleHome = () => {
+    if (typeof window !== 'undefined' && activeSectionId) {
+      sessionStorage.setItem(
+        `pyarcana:sectionScroll:${activeSectionId}`,
+        String(window.scrollY || 0),
+      )
+    }
     setView('home')
     setActiveSectionId(null)
     updateUrl(null, 'home')

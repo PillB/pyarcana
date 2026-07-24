@@ -119,9 +119,9 @@ reject document_id vacío`,
       heading: "Propiedades y métodos",
       subtopicId: "S11-T2-A",
       paragraphs: [
-        "`@property` expone campos calculados (`display_name`, `masked_email`) **sin** mutación peligrosa desde afuera. La UI y los logs deben preferir la máscara; el email raw queda en el campo interno para el borde autorizado.",
-        "Métodos de instancia encapsulan consultas puras (`age_days_since(as_of)`). Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed o sentinel documentado si `emails` está vacío o el primer email no tiene `@` al calcular `masked_email`.",
-        "Setters validados solo cuando la mutación es parte del modelo de negocio; si no, prefiere **`frozen`** o devolver una **nueva instancia**. Caso sintético: `c.display_name` y `c.masked_email` para demo Lima sin imprimir PII completa en stdout de pipeline."
+        "`@property` expone campos calculados (`display_name`, `masked_email`) **sin** mutación peligrosa desde afuera. La UI, los logs y el dashboard de evidencia deben preferir la máscara; el email raw queda en el campo interno solo para el borde autorizado (export legal, backoffice).",
+        "Métodos de instancia encapsulan consultas puras (`age_days_since(as_of)`). Evita side-effects en properties: no envían mail, no escriben disco, no llaman red. Fail-closed o sentinel documentado si `emails` está vacío o el primer email no tiene `@` al calcular `masked_email` — nunca un `IndexError` en un pipeline de matching.",
+        "Setters validados solo cuando la mutación es parte del modelo de negocio (p. ej. un score 0..1); si no, prefiere **`frozen`** o devolver una **nueva instancia**. Caso sintético PE: `ClientRecord(\"C003\", \"DNI-3\", \"Lucía Méndez\", [\"lucia@ejemplo.pe\"])` imprime display_name y email enmascarado sin PII completa en stdout."
       ],
       code: {
         language: 'python',
@@ -357,9 +357,9 @@ print(svc.register("C001", "DNI-1", "Ana Pérez", "a@ejemplo.pe"))`,
       heading: "Dependencias y pruebas del dominio",
       subtopicId: "S11-T4-B",
       paragraphs: [
-        "Tests del dominio son **puros**: sin red, sin DB real, sin reloj de red. Fakes del `Protocol` bastan. Eso permite CI rápida y demos offline del gate CP-N1-C.",
-        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de “no existe el método” documenta la ética del producto en código. Fail-closed: score fuera de [0,1] no se “clamp” en silencio en el constructor.",
-        "Scores de resolución/relación son **campos**; un test verifica finitud, rango, par canónico y que no hay veredictos. Caso sintético: `test_no_fraud_api()` pasa si `RelationshipEvidence` solo expone ids + score. Nunca PII real en fixtures."
+        "Tests del dominio son **puros**: sin red, sin DB real, sin reloj de red. Fakes del `Protocol` bastan para ejercitar repos y servicios. Eso permite CI rápida, demos offline del gate **CP-N1-C** y feedback inmediato en local-python.",
+        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`). Un test de “no existe el método” documenta la ética del producto en código — no es adorno: protege el límite legal del matching. Fail-closed: score fuera de [0,1] no se “clamp” en silencio en el constructor.",
+        "Scores de resolución/relación son **campos**; un test verifica finitud, rango, par canónico y que no hay veredictos. Caso sintético: `test_no_fraud_api()` pasa si `RelationshipEvidence` solo expone ids + score. Nunca PII real en fixtures (`@ejemplo.pe`, ids `C00x`/`E0x`)."
       ],
       code: {
         language: 'python',
@@ -429,7 +429,7 @@ c = ClientRecord.from_dict(raw)
 print(c)`,
           output: `ClientRecord(client_id='C001', document_id='DNI-1', full_name='Ana Pérez', emails=['ana@ejemplo.pe'])`,
         },
-        why: "from_dict nombra el borde dict→dominio con la forma canónica de ClientRecord.",
+        why: "from_dict nombra el borde dict→dominio con la forma canónica de ClientRecord; el CLI/JSON ya no inventa campos sueltos.",
       },
       {
         demoId: "S11-T1-B-DEMO",
@@ -612,7 +612,7 @@ def upsert(store: EntityStore, entity: dict) -> dict:
 print(upsert(FakeStore(), {"entity_id": "E9", "name": "Demo"}))`,
           output: `{'entity_id': 'E9', 'name': 'Demo'}`,
         },
-        why: "El service depende del Protocol, no de una clase base pesada.",
+        why: "El service depende del Protocol (puerto), no de una clase base pesada — el adapter SQL llega en S12 sin reescribir reglas.",
       },
       {
         demoId: "S11-T4-A-DEMO",
@@ -696,12 +696,12 @@ print(test_no_family_verdict())`,
           output: `pass
 pass`,
         },
-        why: "La suite protege el límite ético del modelo.",
+        why: "La suite protege el límite ético del modelo: scores son datos; no hay is_fraud ni is_related_family.",
       },
     ],
   },
   weDo: {
-    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Tests del dominio; sin red/DB. Datos sintéticos.",
+    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Cada starter trae un defecto deliberado (default mutable, float money, herencia forzada, etc.). Tests del dominio; sin red/DB. Datos sintéticos PE.",
     steps: [
       {
         id: "S11-T1-A-E1",
@@ -715,8 +715,8 @@ pass`,
           "Instancia con C001, DNI-1, Ana Pérez y un email @ejemplo.pe.",
         ],
         edgeCases: ["default=[] sería mutable compartido"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Salida: un repr `ClientRecord(...)` con emails=['ana@ejemplo.pe']; no uses emails=[].",
+        feedback: "Si dos instancias comparten la misma lista de emails, el default era mutable: usa default_factory.",
         starterCode: {
           language: 'python',
           title: "complete_client.py",
@@ -732,7 +732,7 @@ class ClientRecord:
     emails: list = []
 
 print(ClientRecord("C001", "DNI-1", "Ana Pérez"))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -762,8 +762,8 @@ print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["ana@ejemplo.pe"]))`,
           "Crea Decimal('150.50'); nunca lo construyas desde float.",
         ],
         edgeCases: ["currency PEN", "dos decimales", "sin float"],
-        tests: "Contrato exacto: repr muestra amount=Decimal('150.50') y currency='PEN'; el código no llama float().",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Contrato exacto: repr con amount=Decimal('150.50') y currency='PEN'; el código no llama float().",
+        feedback: "Money en dominio usa Decimal desde texto; float(150.50) introduce ruido binario.",
         starterCode: {
           language: 'python',
           title: "transaction.py",
@@ -779,7 +779,7 @@ class Transaction:
     currency: str
 
 print(Transaction("T1", "C001", 150.50, "PEN"))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -810,8 +810,8 @@ print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
           "Imprime el tipo y el client_id.",
         ],
         edgeCases: ["KeyError si falta campo — aceptable o validar en T1-B"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `ClientRecord C007`. from_dict es @classmethod y devuelve instancia, no el dict crudo.",
+        feedback: "from_dict en la clase (no en la instancia) es el borde dict→dominio que reutilizas en el repo.",
         starterCode: {
           language: 'python',
           title: "migrate_dict.py",
@@ -837,7 +837,7 @@ raw = {
 }
 c = ClientRecord.from_dict(ClientRecord("x", "y", "z"), raw)
 print(type(c).__name__, getattr(c, "client_id", c))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -883,8 +883,8 @@ print(type(c).__name__, c.client_id)`,
           "Muestra ok PEN y rechazos por cero y EUR.",
         ],
         edgeCases: ["amount negativo", "float prohibido", "currency minúscula", "EUR fuera del allowlist"],
-        tests: "Contrato exacto: Decimal('10.00')/PEN válido; cero y EUR lanzan ValueError; float 10.0 se rechaza; no se convierte currency automáticamente.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Tres líneas: repr PEN válido; `reject amount debe ser > 0`; `reject currency no soportada`.",
+        feedback: "Fail-closed: cero y EUR mueren al construir; no hay conversión silenciosa de moneda.",
         starterCode: {
           language: 'python',
           title: "tx_invariant.py",
@@ -902,7 +902,7 @@ class Transaction:
 print(Transaction("T1", Decimal("10.00"), "PEN"))
 print(Transaction("T2", Decimal("0.00"), "PEN"))
 print(Transaction("T3", Decimal("1.00"), "EUR"))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -952,8 +952,8 @@ reject currency no soportada`,
           "Prueba ok y fail con document_id de solo espacios.",
         ],
         edgeCases: ["strip evita espacios como id válido"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: ClientRecord(C1, D1) válido; luego `document_id vacío` para el caso de solo espacios.",
+        feedback: "strip() evita que un espacio pase como document_id “válido”.",
         starterCode: {
           language: 'python',
           title: "from_dict_validate.py",
@@ -972,7 +972,7 @@ class ClientRecord:
 
 print(ClientRecord.from_dict({"client_id": "C1", "document_id": "D1"}))
 print(ClientRecord.from_dict({"client_id": "C2", "document_id": " "}))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1015,8 +1015,8 @@ document_id vacío`,
           "strip() antes de comprobar vacío.",
         ],
         edgeCases: ["Invariantes de negocio ≠ veredictos de fraude"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: lista con errores de ambos ids vacíos; luego `[]` para el registro válido.",
+        feedback: "validate() que devuelve lista es reutilizable en UI/API; __post_init__ puede lanzar si prefieres fail-closed.",
         starterCode: {
           language: 'python',
           title: "validate_method.py",
@@ -1036,7 +1036,7 @@ bad = ClientRecord("", "  ")
 good = ClientRecord("C1", "D1")
 print(bad.validate())
 print(good.validate())
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1076,8 +1076,8 @@ print(good.validate())`,
           "Print full_name (no full_name()).",
         ],
         edgeCases: ["No guardar full_name duplicado si se puede calcular"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `Ana Pérez`. Debe ser @property (acceso sin paréntesis), orden nombre+apellido.",
+        feedback: "Property calcula; no dupliques full_name como campo almacenado.",
         starterCode: {
           language: 'python',
           title: "full_name_prop.py",
@@ -1094,7 +1094,7 @@ class PersonName:
         return f"{self.last_name} {self.first_name}"
 
 print(PersonName("Ana", "Pérez").full_name())
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1126,8 +1126,8 @@ print(PersonName("Ana", "Pérez").full_name)`,
           "Prueba con números sintéticos.",
         ],
         edgeCases: ["En prod usa date/datetime; aquí simplificamos"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `15`. Consulta pura: day - day_created (no inviertas el orden).",
+        feedback: "Métodos de consulta no mutan ni llaman red; solo calculan.",
         starterCode: {
           language: 'python',
           title: "age_days.py",
@@ -1144,7 +1144,7 @@ class Transaction:
         return self.day_created - day
 
 print(Transaction("T1", 10).age_days_since(25))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1175,8 +1175,8 @@ print(Transaction("T1", 10).age_days_since(25))`,
           "Muestra ok y rechaza 1.5 y NaN.",
         ],
         edgeCases: ["NaN", "Infinity", "score es señal, no veredicto"],
-        tests: "Contrato exacto: 0.4 válido; 1.5 y float('nan') lanzan ValueError('score fuera de rango').",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Tres líneas: `ok 0.4`; `reject score fuera de rango`; `reject_nan score fuera de rango`.",
+        feedback: "NaN e inf no son scores válidos: isfinite + rango [0,1] antes de guardar.",
         starterCode: {
           language: 'python',
           title: "score_setter.py",
@@ -1203,7 +1203,7 @@ s.score = 1.5
 print("ok", s.score)
 s.score = float("nan")
 print("ok", s.score)
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1252,9 +1252,9 @@ reject_nan score fuera de rango`,
           "dataclass(frozen=True) + field(compare=False) en display_name.",
           "Dos E1 con nombres distintos son iguales; E2 no lo es.",
         ],
-        edgeCases: ["entity_id vacío se rechaza", "document_id nunca participa en identidad"],
-        tests: "Contrato exacto: E1/Ana == E1/Ana actualizada; E1 != E2; set tiene 2 elementos; entity_id vacío lanza ValueError.",
-        feedback: "La identidad estable es entity_id; etiquetas y documentos pueden corregirse.",
+        edgeCases: ["entity_id vacío se rechaza en demos de teoría/I Do", "document_id nunca participa en identidad"],
+        tests: "Dos líneas: `True False` (E1==E1 y E1!=E2) y `2` (tamaño del set con dos E1 + un E2).",
+        feedback: "La identidad estable es entity_id; etiquetas visibles pueden corregirse sin romper el set.",
         starterCode: {
           language: 'python',
           title: "entity_identity.py",
@@ -1272,7 +1272,7 @@ b = ResolvedEntity("E1", "Ana actualizada")
 c = ResolvedEntity("E2", "Ana")
 print(a == b, a == c)
 print(len({a, b, c}))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1309,8 +1309,8 @@ print(len({a, b, c}))`,
           "Imprime len del set con duplicado.",
         ],
         edgeCases: ["Duplicado exacto colapsa en set"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `2`. Sin frozen, el set no colapsa duplicados de valor.",
+        feedback: "frozen + eq por campos habilita sets de evidencias sin keys inestables.",
         starterCode: {
           language: 'python',
           title: "frozen_evidence.py",
@@ -1330,7 +1330,7 @@ s = {
     Evidence("E1", "E3", 0.1),
 }
 print(len(s))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1364,8 +1364,8 @@ print(len(s))`,
           "Con mutable: cambiar campo rompe lookup.",
         ],
         edgeCases: ["No implementes __hash__ en mutables"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: `BUG lookup_after_mutate None` y `SAFE row`.",
+        feedback: "Mutar un campo que entra en hash rompe el dict; frozen evita ese anti-patrón.",
         starterCode: {
           language: 'python',
           title: "mutable_key_bug.py",
@@ -1385,7 +1385,7 @@ d = {m: "row"}
 m.name = "Ana P"
 print("BUG lookup_after_mutate", d.get(m))
 print("SAFE", "skipped")
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1430,8 +1430,8 @@ SAFE row`,
           "Imprime client_id y person.first_name; luego design=composition.",
         ],
         edgeCases: ["Composición permite cambiar PersonInfo sin romper Client"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas exactas: `C001 Ana` y `design=composition` (no uses design=inheritance).",
+        feedback: "has-a (Client tiene PersonInfo) suele bastar; is-a forzado acopla jerarquías sin subtipo real.",
         starterCode: {
           language: 'python',
           title: "replace_inheritance.py",
@@ -1451,7 +1451,7 @@ class Client(PersonInfo):
 c = Client("Ana", "Pérez", "C001")
 print(c.client_id, c.first_name)
 print("design=inheritance")
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1488,7 +1488,7 @@ design=composition`,
         ],
         edgeCases: ["Validar score en el value object, no solo en CaseFile", "default=[] comparte la misma lista entre instancias"],
         tests: "Contrato exacto: una línea `n= 2 empty 0` (CF1 con dos evidencias; CF2 sin contaminar).",
-        feedback: "Si CF2 no arranca en 0, el default mutable compartió la lista entre expedientes.",
+        feedback: "Si CF2 no arranca en 0, el default mutable compartió la lista entre expedientes — usa default_factory.",
         starterCode: {
           language: 'python',
           title: "casefile_add.py",
@@ -1509,7 +1509,7 @@ cf.add_evidence({"score": 0.1})
 cf.add_evidence({"score": 0.2})
 cf2 = CaseFile("CF2")
 print("n=", len(cf.evidences), "empty", len(cf2.evidences))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1544,8 +1544,8 @@ print("n=", len(cf.evidences), "empty", len(cf2.evidences))`,
           "CaseFile.add recibe RelationshipEvidence ya validada.",
         ],
         edgeCases: ["(E2,E1) no es canónico si E1 < E2"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: `n_ev 2` y `reject par no canónico` (E2,E1 debe fallar al construir).",
+        feedback: "El par canónico evita duplicar (E1,E2) y (E2,E1) como relaciones distintas.",
         starterCode: {
           language: 'python',
           title: "canonical_evidence.py",
@@ -1572,7 +1572,7 @@ cf = CaseFile("CF1")
 cf.add(RelationshipEvidence("E1", "E2", 0.4))
 cf.add(RelationshipEvidence("E2", "E1", 0.5))  # no canónico, debería fallar
 print("n_ev", len(cf.evidences))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1624,8 +1624,8 @@ reject par no canónico`,
           "typing.Protocol; el método debe llamarse score.",
         ],
         edgeCases: ["El Protocol no se instancia"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `0.5`. El método del fake se llama `score`, no `compute`.",
+        feedback: "El nombre del método es el contrato del puerto; un fake con otro nombre no cumple el Protocol.",
         starterCode: {
           language: 'python',
           title: "scorer_protocol.py",
@@ -1642,7 +1642,7 @@ class FakeScorer:
 
 s = FakeScorer()
 print(s.compute(("E1", "E2")))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1673,8 +1673,8 @@ print(s.score(("E1", "E2")))`,
           "Imprime ambos resultados.",
         ],
         edgeCases: ["Duck typing: cualquier callable sirve"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: `Ana` (strip) y `ana` (casefold).",
+        feedback: "Inyectar el normalizer evita hardcodear una sola política de texto en el dominio.",
         starterCode: {
           language: 'python',
           title: "two_normalizers.py",
@@ -1691,7 +1691,7 @@ def casefold_norm(s: str) -> str:
 
 print(apply(strip_norm, " Ana "))
 print(apply(casefold_norm, " Ana "))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1723,8 +1723,8 @@ ana`,
           "Recorre la lista de casos y formatea WHEN_NOT:/INTRODUCE: + label.",
         ],
         edgeCases: ["Una sola impl sin fake → WHEN_NOT; API inestable → WHEN_NOT aunque haya 2 adapters"],
-        tests: "Contrato exacto: tres líneas — WHEN_NOT: solo_una_impl, WHEN_NOT: api_inestable, INTRODUCE: dos_adapters_con_fake.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Tres líneas: WHEN_NOT: solo_una_impl; WHEN_NOT: api_inestable; INTRODUCE: dos_adapters_con_fake.",
+        feedback: "YAGNI: Protocol cuando hay ≥2 adapters o fakes de test y la API ya está estable.",
         starterCode: {
           language: 'python',
           title: "when_not_protocol.py",
@@ -1743,7 +1743,7 @@ cases = [
 for n, fake, stable, label in cases:
     decision = "INTRODUCE" if should_introduce_protocol(n, fake, stable) else "WHEN_NOT"
     print(f"{decision}: {label}")
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1782,8 +1782,8 @@ INTRODUCE: dos_adapters_con_fake`,
           "Copia emails con list(...) para no filtrar la lista interna.",
         ],
         edgeCases: ["Notas internas y secretos no pertenecen al export de matching; no modeles secretos en el agregado de familiaridad"],
-        tests: "Contrato exacto: el dict impreso no contiene la clave internal_note; incluye client_id, document_id, full_name y emails.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Un dict con client_id/document_id/full_name/emails; la clave internal_note no aparece.",
+        feedback: "to_dict es borde de dashboard: omite notas internas y nunca serialices secretos del agregado.",
         starterCode: {
           language: 'python',
           title: "to_dict_safe.py",
@@ -1809,7 +1809,7 @@ class ClientRecord:
         }
 
 print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review").to_dict())
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1848,8 +1848,8 @@ print(ClientRecord("C001", "DNI-1", "Ana Pérez", ["a@ejemplo.pe"], "VIP review"
           "Roundtrip de un client dict.",
         ],
         edgeCases: ["get retorna None si no existe"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: dict C001 con email a@ejemplo.pe tras save/get.",
+        feedback: "Repo light: save/get sin conocer CLI ni HTTP.",
         starterCode: {
           language: 'python',
           title: "mem_repo.py",
@@ -1866,7 +1866,7 @@ class Repo:
 r = Repo()
 r.save({"client_id": "C001", "email": "a@ejemplo.pe"})
 print(r.get("C001"))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1897,8 +1897,8 @@ print(r.get("C001"))`,
           "cli puede print y parsear argv; no sostiene invariantes de dominio.",
         ],
         edgeCases: ["Logging de correlación puede colgarse del service sin print de negocio"],
-        tests: "Contrato exacto: tres líneas LAYER con flags True/False como en la solución.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Tres líneas LAYER: cli print/cli True; service ambos False; domain inv=True y sin print/cli.",
+        feedback: "La CLI puede imprimir; el service orquesta; solo el dominio sostiene invariantes.",
         starterCode: {
           language: 'python',
           title: "boundary_layers.py",
@@ -1925,7 +1925,7 @@ for L in classify():
         f"LAYER: {L.name} print={L.may_print} "
         f"cli={L.may_parse_cli} inv={L.holds_invariants}"
     )
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -1968,8 +1968,8 @@ LAYER: domain print=False cli=False inv=True`,
           "print del resultado del test.",
         ],
         edgeCases: ["Tests puros: sin I/O de red"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Una línea: `pass`. El test solo pasa si document vacío lanza ValueError.",
+        feedback: "Un test que no ejercita el rechazo es teatro: el try/except debe ser real.",
         starterCode: {
           language: 'python',
           title: "test_invariant.py",
@@ -1987,7 +1987,7 @@ def test_empty_document_rejected():
     return "pass"
 
 print(test_empty_document_rejected())
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -2025,8 +2025,8 @@ print(test_empty_document_rejected())`,
           "Imprime pass x3.",
         ],
         edgeCases: ["Fake no es mock mágico: es implementación en memoria"],
-        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Tres líneas `pass` (register, get existente, get missing). Asserts reales, no prints vacíos.",
+        feedback: "Fake en memoria + asserts = suite de dominio sin red ni DB.",
         starterCode: {
           language: 'python',
           title: "fake_repo_tests.py",
@@ -2056,7 +2056,7 @@ def test_missing():
     print("pass")
 
 test_register(); test_get(); test_missing()
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -2109,8 +2109,8 @@ pass`,
           "Usa hasattr sobre la clase final, no sobre la versión defectuosa.",
         ],
         edgeCases: ["Umbrales de producto y revisión humana viven fuera del modelo de dominio"],
-        tests: "Contrato exacto: dos líneas — ANTES has_decide_fraud True y DESPUES signal_score 0.95 has_decide_fraud False; sin métodos de veredicto en RelationshipEvidence.",
-        feedback: "Compara tu salida con la solución.",
+        tests: "Dos líneas: `ANTES has_decide_fraud True` y `DESPUES signal_score 0.95 has_decide_fraud False`.",
+        feedback: "Scores son datos de matching; decide_fraud/is_family no viven en el dominio de familiaridad.",
         starterCode: {
           language: 'python',
           title: "extract_fraud.py",
@@ -2127,7 +2127,7 @@ class Client:
 
 print("ANTES has_decide_fraud", hasattr(Client, "decide_fraud"))
 print("DESPUES signal_score", 0.95, "has_decide_fraud", hasattr(Client, "decide_fraud"))
-print('ok', True)`,
+`,
         },
         solutionCode: {
           language: 'python',
@@ -2321,7 +2321,7 @@ if __name__ == "__main__":
     test_domain()
 `,
     portfolioNote:
-      "Diagrama textual de entidades + lista de invariantes + badge mental 'sin is_fraud'. Muestra 3 tests pasando sobre FakeStore.",
+      "Entrega: diagrama textual de las cuatro entidades, lista de invariantes (fail-closed), README de límites éticos (sin is_fraud/is_family) y salida `tests_pass` del oráculo. Datos solo sintéticos (@ejemplo.pe / C00x).",
     rubric: [
       { criterion: "Alineación al gate CP-N1-C y a los objetivos de la sección", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -2338,42 +2338,42 @@ if __name__ == "__main__":
         options: ["Es más corto", "Obliga a usar Protocol", "Evita el default mutable compartido entre instancias", "Activa el garbage collector"],
         correctIndex: 2,
         explanation:
-          "Un [] compartido muta todas las instancias.",
+          "Un default `[]` se evalúa una sola vez: todas las instancias comparten la misma lista. `default_factory=list` crea una lista nueva por instancia.",
       },
       {
         question: "RelationshipEvidence.signal_score representa…",
         options: ["Una señal/dato numérico, no un veredicto de fraude o familia", "Veredicto legal de parentesco", "Password hasheado", "Exit code del CLI"],
         correctIndex: 0,
         explanation:
-          "El dominio almacena evidencia; no decide fraude/parentesco.",
+          "En matching de familiaridad el score es evidencia numérica. El dominio no emite parentesco legal ni fraude; eso queda fuera del núcleo CP-N1-C.",
       },
       {
         question: "Un Protocol EntityStore sirve para…",
         options: ["Conectarse solo a Postgres", "Definir un puerto get/save implementable por fakes y adapters", "Reemplazar dataclass", "Serializar a PDF"],
         correctIndex: 1,
         explanation:
-          "Puertos estructurales sin herencia forzada.",
+          "Protocol describe un puerto estructural: FakeStore en tests y adapter SQL en S12 pueden implementar get/save sin heredar de una ABC pesada.",
       },
       {
         question: "Objeto inválido: ¿cuándo fallar?",
         options: ["Al final del mes", "Nunca", "Solo en producción", "En la construcción (__post_init__/validate)"],
         correctIndex: 3,
         explanation:
-          "Fail on invalid construct evita estados corruptos.",
+          "Fail-closed al construir evita un ClientRecord o Transaction inválido circulando por el set de resolución.",
       },
       {
         question: "Client hereda de Person…",
         options: ["Siempre es la mejor opción", "Es obligatoria en Python", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Impide tests"],
         correctIndex: 2,
         explanation:
-          "has-a > is-a forzado sin subtipo real.",
+          "Sin subtipo real (is-a), la herencia acopla jerarquías. Composición (Client tiene PersonInfo) mantiene el grafo de dominio auditable.",
       },
       {
         question: "¿Qué no debe tener el dominio de familiaridad?",
         options: ["is_fraud() automático", "to_dict", "Invariantes", "Tests unitarios"],
         correctIndex: 0,
         explanation:
-          "Sin veredictos de fraude en el modelo del curso.",
+          "APIs de veredicto (is_fraud, is_related_family) no pertenecen al modelo: scores son datos; la decisión humana o de producto vive fuera.",
       },
     ],
   },

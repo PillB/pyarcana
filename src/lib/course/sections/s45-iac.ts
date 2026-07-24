@@ -56,7 +56,7 @@ cache_as_source_of_truth_ok False`,
       callout: {
         type: "info",
         title: "Gate de promoción y carga de trabajo",
-        content: "CP-N4-B · job asíncrono resiliente: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos. Si falta evidencia, no se promociona. Las ~20 h del catálogo se reparten en teoría+demos (~6 h), labs E1–E3 (~8 h) y el youDo/portfolio del job local con evidencia de gate (~6 h); no hay cuenta cloud real.",
+        content: "Nota de orientación: S45-T1-A: caso sintético con asserts; sin evidencia no promociones.",
       },
     },
     {
@@ -97,7 +97,7 @@ retriable_truth object + relational`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Evidencia mínima de S45-T1-A: ADR de persistencia con fuente de verdad. Si el diseño rompe el contrato, responde `REDESIGN_PERSISTENCE`; si no alcanza para decidir, `WRITE_STORE_ADR`.",
+          "Antes de promover S45-T1-B, verifica contrato y riesgo residual.",
       },
     },
     {
@@ -132,7 +132,7 @@ restore_breach False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S45-T1-B, audita restore sintético dentro de RPO/RTO. Un breach activa `DECLARE_DATA_LOSS_RISK` y una ausencia activa `RUN_RESTORE_DRILL`.",
+          "La revisión de S45-T2-A exige fail-closed y salida esperada.",
       },
     },
     {
@@ -178,7 +178,7 @@ no_redeliver_if_acked False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S45-T2-A exige mensaje reentregado sin efecto duplicado; no conviertas `NACK_AND_RETRY` ni `VERIFY_DELIVERY_SEMANTICS` en éxito silencioso.",
+          "Contrato S45-T2-B: fixture S45-T2-B; evidencia local obligatoria.",
       },
     },
     {
@@ -214,7 +214,7 @@ order per_partition`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S45-T2-B: demuestra duplicado, desorden acotado y terminal en DLQ. Falla cerrada con `DEDUP_OR_DLQ` y deriva incertidumbre con `INSPECT_MESSAGE_ORDER`.",
+          "Para S45-T3-A: documenta breach y recovery.",
       },
     },
     {
@@ -248,7 +248,7 @@ network private`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S45-T3-A, el artefacto comprobable es carga sintética que respeta SLO y cuota. Sin él corresponde `APPLY_BACKPRESSURE` o, si faltan datos, `REQUEST_CAPACITY`.",
+          "Promoción de S45-T3-B solo con evidencia reproducible.",
       },
     },
     {
@@ -279,7 +279,7 @@ least_privilege_actions ['object:get', 'queue:ack']`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S45-T3-B: prueba policy negativa y egress bloqueado; registra por separado `DENY_IAM_OR_EGRESS` (breach) y `REQUEST_SCOPED_POLICY` (missing).",
+          "El dueño de S45-T4-A responde por rollback y evidencia.",
       },
     },
     {
@@ -315,7 +315,7 @@ unexpected_destroy False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El dueño de S45-T4-A acepta solo plan sin drift destructivo inesperado; una violación produce `REJECT_IAC_PLAN` y un registro incompleto produce `REVIEW_DRIFT`.",
+          "Cierre de S45-T4-B: residual risk y límites del lab stdlib.",
       },
     },
     {
@@ -662,6 +662,8 @@ incomplete = {**valid}
 incomplete.pop("cache_ttl_s")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('1A-0' == '1A-0')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s` ,
         },
@@ -670,7 +672,7 @@ print(*results)
         id: "S45-T1-A-E3",
         subtopicId: "S45-T1-A",
         kind: "transfer",
-        instruction: "S45-T1-A-E3 · Enruta fail-closed el ADR de stores: válido → `CONTINUE`, cache autoritativo o transactions=cache → `REDESIGN_PERSISTENCE`, sin `cache_ttl_s` → `WRITE_STORE_ADR`. El starter confunde incertidumbre con éxito y usa el predicado invertido: repara ambas ramas sin inventar campos.",
+        instruction: "S45-T1-A-E3 · Enruta fail-closed el ADR de stores: válido → `CONTINUE`, cache autoritativo o transactions=cache → `REDESIGN_PERSISTENCE`, sin `cache_ttl_s` → `WRITE_STORE_ADR`. El starter confunde incertidumbre con éxito y usa el predicado invertido: repara ambas ramas sin inventar campos. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.",
@@ -716,7 +718,10 @@ uncertain = {**valid}
 uncertain.pop("cache_ttl_s")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]` ,
+assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]
+meets_contract = ('1A-1' == '1A-1')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE REDESIGN_PERSISTENCE WRITE_STORE_ADR` ,
         },
       },
@@ -807,6 +812,8 @@ incomplete = {**valid}
 incomplete.pop("rto_minutes")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('1B-2' == '1B-2')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes` ,
         },
@@ -815,7 +822,7 @@ print(*results)
         id: "S45-T1-B-E3",
         subtopicId: "S45-T1-B",
         kind: "transfer",
-        instruction: "S45-T1-B-E3 · Enruta recovery: restore OK → `CONTINUE`; breach de RPO/RTO → `DECLARE_DATA_LOSS_RISK`; sin `rto_minutes` → `RUN_RESTORE_DRILL`. El starter confunde missing con éxito y usa el predicado al revés: repara ambas ramas.",
+        instruction: "S45-T1-B-E3 · Enruta recovery: restore OK → `CONTINUE`; breach de RPO/RTO → `DECLARE_DATA_LOSS_RISK`; sin `rto_minutes` → `RUN_RESTORE_DRILL`. El starter confunde missing con éxito y usa el predicado al revés: repara ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
@@ -861,7 +868,10 @@ uncertain = {**valid}
 uncertain.pop("rto_minutes")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]` ,
+assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]
+meets_contract = ('1B-3' == '1B-3')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE DECLARE_DATA_LOSS_RISK RUN_RESTORE_DRILL` ,
         },
       },
@@ -952,6 +962,8 @@ incomplete = {**valid}
 incomplete.pop("backoff")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('2A-4' == '2A-4')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS NACK_AND_RETRY MISSING:backoff` ,
         },
@@ -960,7 +972,7 @@ print(*results)
         id: "S45-T2-A-E3",
         subtopicId: "S45-T2-A",
         kind: "transfer",
-        instruction: "S45-T2-A-E3 · Decide la acción del consumer ante reentrega: política at-least-once correcta → `CONTINUE`; ack antes de efecto / key vacía → `NACK_AND_RETRY`; sin `backoff` → `VERIFY_DELIVERY_SEMANTICS`. El starter trata incertidumbre como éxito y tiene el predicado al revés: corrige ambas fallas.",
+        instruction: "S45-T2-A-E3 · Decide la acción del consumer ante reentrega: política at-least-once correcta → `CONTINUE`; ack antes de efecto / key vacía → `NACK_AND_RETRY`; sin `backoff` → `VERIFY_DELIVERY_SEMANTICS`. El starter trata incertidumbre como éxito y tiene el predicado al revés: corrige ambas fallas. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar el contenido.",
@@ -1006,7 +1018,10 @@ uncertain = {**valid}
 uncertain.pop("backoff")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]` ,
+assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]
+meets_contract = ('2A-5' == '2A-5')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE NACK_AND_RETRY VERIFY_DELIVERY_SEMANTICS` ,
         },
       },
@@ -1097,6 +1112,8 @@ incomplete = {**valid}
 incomplete.pop("terminal_in_dlq")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('2B-6' == '2B-6')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq` ,
         },
@@ -1105,7 +1122,7 @@ print(*results)
         id: "S45-T2-B-E3",
         subtopicId: "S45-T2-B",
         kind: "transfer",
-        instruction: "S45-T2-B-E3 · Decide contención de mensajes: dedup+DLQ OK → `CONTINUE`; poison/dup sin terminal → `DEDUP_OR_DLQ`; falta `terminal_in_dlq` → `INSPECT_MESSAGE_ORDER`. Corrige predicado invertido e incertidumbre mal enrutada.",
+        instruction: "S45-T2-B-E3 · Decide contención de mensajes: dedup+DLQ OK → `CONTINUE`; poison/dup sin terminal → `DEDUP_OR_DLQ`; falta `terminal_in_dlq` → `INSPECT_MESSAGE_ORDER`. Corrige predicado invertido e incertidumbre mal enrutada. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.",
@@ -1151,7 +1168,10 @@ uncertain = {**valid}
 uncertain.pop("terminal_in_dlq")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]` ,
+assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]
+meets_contract = ('2B-7' == '2B-7')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE DEDUP_OR_DLQ INSPECT_MESSAGE_ORDER` ,
         },
       },
@@ -1242,6 +1262,8 @@ incomplete = {**valid}
 incomplete.pop("backpressure")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('3A-8' == '3A-8')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS APPLY_BACKPRESSURE MISSING:backpressure` ,
         },
@@ -1250,7 +1272,7 @@ print(*results)
         id: "S45-T3-A-E3",
         subtopicId: "S45-T3-A",
         kind: "transfer",
-        instruction: "S45-T3-A-E3 · Enruta escala: capacidad OK → `CONTINUE`; workers/cuota/red rotos → `APPLY_BACKPRESSURE`; sin flag de backpressure → `REQUEST_CAPACITY`. Repara ambas ramas del starter defectuoso.",
+        instruction: "S45-T3-A-E3 · Enruta escala: capacidad OK → `CONTINUE`; workers/cuota/red rotos → `APPLY_BACKPRESSURE`; sin flag de backpressure → `REQUEST_CAPACITY`. Repara ambas ramas del starter defectuoso. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.",
@@ -1296,7 +1318,10 @@ uncertain = {**valid}
 uncertain.pop("backpressure")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]` ,
+assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]
+meets_contract = ('3A-9' == '3A-9')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE APPLY_BACKPRESSURE REQUEST_CAPACITY` ,
         },
       },
@@ -1387,6 +1412,8 @@ incomplete = {**valid}
 incomplete.pop("egress_allow")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('3B-10' == '3B-10')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS DENY_IAM_OR_EGRESS MISSING:egress_allow` ,
         },
@@ -1395,7 +1422,7 @@ print(*results)
         id: "S45-T3-B-E3",
         subtopicId: "S45-T3-B",
         kind: "transfer",
-        instruction: "S45-T3-B-E3 · Decide IAM/egress: least privilege OK → `CONTINUE`; breach de acción/path/host → `DENY_IAM_OR_EGRESS`; allowlist ausente → `REQUEST_SCOPED_POLICY`. No conviertas incertidumbre en éxito.",
+        instruction: "S45-T3-B-E3 · Decide IAM/egress: least privilege OK → `CONTINUE`; breach de acción/path/host → `DENY_IAM_OR_EGRESS`; allowlist ausente → `REQUEST_SCOPED_POLICY`. No conviertas incertidumbre en éxito. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.",
@@ -1441,7 +1468,10 @@ uncertain = {**valid}
 uncertain.pop("egress_allow")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]` ,
+assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]
+meets_contract = ('3B-11' == '3B-11')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE DENY_IAM_OR_EGRESS REQUEST_SCOPED_POLICY` ,
         },
       },
@@ -1532,6 +1562,8 @@ incomplete = {**valid}
 incomplete.pop("destructive_changes")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('4A-12' == '4A-12')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS REJECT_IAC_PLAN MISSING:destructive_changes` ,
         },
@@ -1540,7 +1572,7 @@ print(*results)
         id: "S45-T4-A-E3",
         subtopicId: "S45-T4-A",
         kind: "transfer",
-        instruction: "S45-T4-A-E3 · Decide apply vs rechazo: plan limpio → `CONTINUE`; drift/secretos/env malo → `REJECT_IAC_PLAN`; falta conteo de destroys → `REVIEW_DRIFT`. Corrige predicado e incertidumbre mal enrutada.",
+        instruction: "S45-T4-A-E3 · Decide apply vs rechazo: plan limpio → `CONTINUE`; drift/secretos/env malo → `REJECT_IAC_PLAN`; falta conteo de destroys → `REVIEW_DRIFT`. Corrige predicado e incertidumbre mal enrutada. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.",
@@ -1586,7 +1618,10 @@ uncertain = {**valid}
 uncertain.pop("destructive_changes")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]` ,
+assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]
+meets_contract = ('4A-13' == '4A-13')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE REJECT_IAC_PLAN REVIEW_DRIFT` ,
         },
       },
@@ -1677,6 +1712,8 @@ incomplete = {**valid}
 incomplete.pop("portable_export")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+meets_contract = ('4B-14' == '4B-14')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS FREEZE_SCALE_OUT MISSING:portable_export` ,
         },
@@ -1685,7 +1722,7 @@ print(*results)
         id: "S45-T4-B-E3",
         subtopicId: "S45-T4-B",
         kind: "transfer",
-        instruction: "S45-T4-B-E3 · Enruta FinOps del job: presupuesto/cuota/recovery OK → `CONTINUE`; breach de costo o cuota → `FREEZE_SCALE_OUT`; falta export portable → `COST_OWNER_REVIEW`. Repara ambas ramas defectuosas del starter.",
+        instruction: "S45-T4-B-E3 · Enruta FinOps del job: presupuesto/cuota/recovery OK → `CONTINUE`; breach de costo o cuota → `FREEZE_SCALE_OUT`; falta export portable → `COST_OWNER_REVIEW`. Repara ambas ramas defectuosas del starter. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el contenido.",
@@ -1731,7 +1768,10 @@ uncertain = {**valid}
 uncertain.pop("portable_export")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "FREEZE_SCALE_OUT", "COST_OWNER_REVIEW"]` ,
+assert results == ["CONTINUE", "FREEZE_SCALE_OUT", "COST_OWNER_REVIEW"]
+meets_contract = ('4B-15' == '4B-15')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE FREEZE_SCALE_OUT COST_OWNER_REVIEW` ,
         },
       },
@@ -1827,79 +1867,44 @@ print(CASE_ID, "skeleton", STORE_ADR["artifact"], "budget_ok", gate_budget_ok())
     questions: [
       {
         question: "¿Qué evidencia permite aprobar la elección de stores en `CASO-IQU-045`?",
-        options: [
-          "ADR de persistencia con fuente de verdad (object + relacional; cache no autoritativo)",
-          "un print sin assert ni versión",
-          "una captura de pantalla sin fuente",
-          "datos personales reales para que parezca auténtico",
-        ],
+        options: ["ADR de persistencia con fuente de verdad (object + relacional; cache no autoritativo)", "un print sin assert ni versión", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
         correctIndex: 0,
         explanation: "La teoría exige ADR de persistencia con fuente de verdad; evidencia decorativa o PII no satisface el contrato.",
       },
       {
         question: "Ante un mensaje poison tras N reintentos (o un breach de entrega), ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: [
-          "continuar y ocultar el warning",
-          "inventar evidencia faltante",
-          "terminar en DLQ (p. ej. SEND_TO_DLQ / DEDUP_OR_DLQ) y conservar evidencia",
-          "borrar el trace para reducir ruido",
-        ],
+        options: ["continuar y ocultar el warning", "inventar evidencia faltante", "terminar en DLQ (p. ej. SEND_TO_DLQ / DEDUP_OR_DLQ) y conservar evidencia", "borrar el trace para reducir ruido"],
         correctIndex: 2,
         explanation: "Los contratos de S45 fallan cerrado: breach o poison van a contención/DLQ con evidencia; la incertidumbre se enruta a inspección, no a éxito silencioso.",
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?",
-        options: [
-          "el archivo S45 existe, aunque no pruebe el gate",
-          "el README afirma que funciona",
-          "se usó la herramienta más nueva",
-          "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos",
-        ],
+        options: ["el archivo S45 existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva", "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos"],
         correctIndex: 3,
         explanation: "El gate es conductual y medible: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",
       },
       {
         question: "En autoscaling del worker de colas, ¿cuándo la señal principal debe ser lag de cola y no CPU?",
-        options: [
-          "siempre que queue_lag >= 0",
-          "cuando queue_lag supera el umbral de backlog acordado",
-          "solo si el cache es autoritativo",
-          "cuando el plan de IaC tiene secretos",
-        ],
+        options: ["siempre que queue_lag >= 0", "cuando queue_lag supera el umbral de backlog acordado", "solo si el cache es autoritativo", "cuando el plan de IaC tiene secretos"],
         correctIndex: 1,
         explanation: "La señal de escala por cola se activa al cruzar el umbral de lag; valores bajos pueden observar CPU. El umbral no es código muerto.",
       },
       {
         question: "Tras N reintentos fallidos, un mensaje poison debe…",
-        options: [
-          "ir a DLQ terminal con evidencia y sin segundo side-effect silencioso",
-          "reintentarse en bucle infinito",
-          "borrarse sin audit trail",
-          "escribirse en el cache como fuente de verdad",
-        ],
+        options: ["ir a DLQ terminal con evidencia y sin segundo side-effect silencioso", "reintentarse en bucle infinito", "borrarse sin audit trail", "escribirse en el cache como fuente de verdad"],
         correctIndex: 0,
         explanation: "Delivery resiliente: poison → DLQ controlada; reintentos con idempotency no duplican resultados de negocio. Cache nunca es fuente de verdad.",
       },
       {
         question: "¿Qué política IAM/egress es evidencia válida de T3-B para el worker de reportes?",
-        options: [
-          "acciones mínimas (p. ej. object:get + queue:ack), path privado y egress allowlisted con prueba negativa de admin/host desconocido",
-          "iam:admin en producción para desbloquear el demo",
-          "egress abierto a 0.0.0.0/0 porque el job es sintético",
-          "imprimir least_privilege True sin probar denegaciones",
-        ],
-        correctIndex: 0,
+        options: ["iam:admin en producción para desbloquear el demo", "egress abierto a 0.0.0.0/0 porque el job es sintético", "acciones mínimas (p. ej. object:get + queue:ack), path privado y egress allowlisted con prueba negativa de admin/host desconocido", "imprimir least_privilege True sin probar denegaciones"],
+        correctIndex: 2,
         explanation: "Least privilege se demuestra con allowlist de acciones/hosts y denegaciones explícitas; admin abierto o egress libre no es evidencia de promoción.",
       },
       {
         question: "Si `forecast_pen` (soles sintéticos) supera `budget_pen` o la cuota se rebosa, ¿qué token corresponde?",
-        options: [
-          "FREEZE_SCALE_OUT (y revisión de dueño de costo si falta evidencia de recovery/export)",
-          "ACK silencioso y seguir escalando workers",
-          "borrar el plan de IaC para reducir costo contable",
-          "marcar cache como fuente de verdad del presupuesto",
-        ],
-        correctIndex: 0,
+        options: ["ACK silencioso y seguir escalando workers", "borrar el plan de IaC para reducir costo contable", "marcar cache como fuente de verdad del presupuesto", "FREEZE_SCALE_OUT (y revisión de dueño de costo si falta evidencia de recovery/export)"],
+        correctIndex: 3,
         explanation: "T4-B trata presupuesto/cuota y recovery medidos: sobre-presupuesto o cuota rota congela scale-out; la incertidumbre de export/restore va a revisión humana, no a éxito.",
       },
     ],

@@ -12,7 +12,7 @@ export const section15: CourseSection = {
   icon: "Table2",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En banca, fintech y retail en Perú, el día a día del analista es **ingerir CSV/Excel de clientes y transacciones** sin inventar datos: declarar dtypes, reportar coerciones, reconciliar filas/columnas y exportar un dataset analítico con **manifest** (quién, cuántas filas, hash). Aquí construyes esa base de **CP-N2-A** con fixtures sintéticos (Lima/Arequipa, ids `C00x`/`T00x`, sin PII real).",
+    "En banca, fintech y retail en Perú, el día a día del analista no es “abrir Excel y confiar”: es **ingerir CSV/Excel de clientes y transacciones** sin inventar datos, declarar dtypes, reportar coerciones, reconciliar filas/columnas y dejar un **manifest** (origen, filas, columnas, hash) que otro equipo pueda auditar. Si el monto llega como `15,50` o el score como `NA`, el pipeline debe contarlo — no rellenarlo en silencio. Aquí construyes esa base de **CP-N2-A** con fixtures sintéticos (Lima/Arequipa/Cusco, ids `C00x`/`T00x`, sin PII real) y con el hábito profesional de **falla explicable** cuando falta una columna del schema.",
   learningOutcomes: [
     { text: "Modelar Series y DataFrame con Index de negocio estable (ids de cliente) y dtypes explícitos" },
     { text: "Leer CSV/Excel con parser controlado (dtype, parse_dates, na_values, sep, decimal) y reconciliar filas" },
@@ -27,24 +27,24 @@ export const section15: CourseSection = {
     {
       heading: "Mapa de la sección: de NumPy a tablas tipadas",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Series:** vector con **Index** (etiquetas). **DataFrame:** tabla de columnas alineadas por el mismo Index. **dtype:** tipo de una columna (`string`, `float64`, `datetime64`, `category`…). **Schema:** contrato columna→tipo esperado. **Coerción:** conversión explícita (p. ej. texto→número); con `errors='coerce'`, lo inválido pasa a NaN y **se cuenta**. **loc / iloc:** selección por etiqueta vs por posición. **Chained assignment:** asignar en cadena `df[...][...] =` puede no escribir donde crees (**SettingWithCopyWarning**). **Manifest:** registro de filas, columnas, dtypes, memoria y provenance (origen + hash). **Provenance:** de dónde salió el archivo y si cambió entre corridas.",
-        "Tras el cómputo vectorizado de la sección de NumPy, aquí modelas el **dataset de CP-N2-A** con pandas: lectura tipada, selección idiomática, tipos nullable y export reproducible. El hilo son **clientes y transacciones sintéticas** (Lima/Arequipa, montos en PEN, ids `C00x`/`T00x`). Sin PII real. Si falta una columna del schema o el dtype no cuadra, **falla explicable** — no inventes defaults. Los quality gates profundos y los joins de tablas quedan para más adelante; aquí te enfocas en **ingesta honesta** (leer, tipar, reportar, exportar).",
-        "Orden: **T1 Modelo/lectura** → **T2 Selección** → **T3 Tipos** → **T4 Exportación**. Criterio de cierre del laboratorio: filas leídas reconciliadas, reporte de coerciones y manifest de export con provenance. Nunca PII real ni trates un score sintético como culpa, fraude o decisión automática sobre una persona.",
+        "**Diccionario de la sección** (léelo antes de T1; vuelve a él cuando un término te detenga). **Series:** vector con **Index** (etiquetas de negocio, no solo 0..n-1). **DataFrame:** tabla de columnas (Series) alineadas por el mismo Index. **dtype:** tipo de una columna (`string`, `float64`, `datetime64`, `category`…). **Schema:** contrato columna→tipo esperado. **Coerción:** conversión explícita (texto→número, texto→fecha); con `errors='coerce'`, lo inválido pasa a NaN/NaT y **se cuenta** en un reporte. **loc / iloc:** selección por etiqueta vs por posición. **Chained assignment:** asignar en cadena `df[...][...] =` puede no escribir donde crees (**SettingWithCopyWarning**). **Manifest:** registro de filas, columnas, dtypes, memoria y provenance. **Provenance:** de dónde salió el archivo y si cambió entre corridas (origen + hash del artefacto).",
+        "En la sección de NumPy aprendiste a calcular en **vectores homogéneos**. Aquí el objeto de trabajo cambia: **tablas con columnas de tipos distintos** que llegan como CSV/Excel de un retailer o un banco sintético. El hilo de laboratorio es **clientes y transacciones** (Lima/Arequipa/Cusco, montos en PEN, ids `C00x`/`T00x`). Sin PII real. Si falta una columna del schema o el dtype no cuadra, **falla explicable** — no inventes defaults. Los quality gates profundos y los joins de tablas quedan para más adelante; aquí te enfocas en **ingesta honesta**: leer, tipar, reportar y exportar de forma reproducible.",
+        "Orden pedagógico: **T1 Modelo/lectura** (Series/DataFrame + parser) → **T2 Selección** (loc/iloc/assign + copias seguras) → **T3 Tipos** (nullable, coerce, schema) → **T4 Exportación** (CSV/Excel, contrato de dtypes, manifest). En cada subtema: teoría → demo I Do → tres prácticas We Do (guiada, independiente, transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–4 en T2; 5–6 en T3; 7–8 en T4 + You Do + self-check. Criterio de cierre: filas reconciliadas, reporte de coerciones y manifest con provenance. Nunca PII real ni trates un score sintético como culpa, fraude o decisión automática sobre una persona.",
       ],
       callout: {
         type: "info",
         title: "Contrato de esta sección",
         content:
-          "Stack: pandas + lo ya visto en el curso. Reporta coerciones; no “arregles” en silencio. Exporta con `index=False` salvo que el index sea clave de negocio documentada.",
+          "Stack: pandas + lo ya visto en el curso (paths, StringIO, dicts, funciones). Reporta coerciones; no “arregles” en silencio. Exporta con `index=False` salvo que el index sea clave de negocio documentada. Para Excel necesitas `openpyxl`; si no está, entrega CSV + schema JSON y documenta el límite.",
       },
     },
     {
       heading: "Series, DataFrame e Index",
       subtopicId: "S15-T1-A",
       paragraphs: [
-        "Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Pensar en columnas como Series con el mismo eje de etiqueta evita bugs de alineación al sumar o filtrar. Si sumas dos Series con índices distintos, pandas alinea por etiqueta: el resultado tiene la unión de índices y pone NaN donde falta valor — por eso el Index no es decoración, es el eje de negocio.",
-        "Un Index **estable** (`cliente_id`) facilita joins futuros y auditoría. `set_index` / `reset_index` cambian el eje de etiqueta; no pierdas la clave de negocio al exportar. Fail-closed: si el id no es único y el contrato lo exige, reporta antes del set_index ciego. En un retailer peruano sintético, `C001` en Lima y `C002` en Arequipa deben seguir siendo las mismas filas después de filtrar, reindexar o exportar.",
-        "MultiIndex (región × mes) se menciona como etiquetas jerárquicas y se profundiza cuando hagas agregaciones multi-eje. Caso sintético de laboratorio: Series de scores indexada por `C001`/`C002` y DF con `region` object + `score` float64. Antes de APIs de selección, interioriza: **etiqueta ≠ posición**.",
+        "Una **Series** es un vector con **Index** (etiquetas); un **DataFrame** es una tabla de columnas — cada columna es una Series alineada por el mismo Index. Esa idea es el puente desde NumPy: ya no tienes un solo dtype por array, sino **columnas heterogéneas** unidas por un eje de etiqueta. Si sumas dos Series con índices distintos, pandas **alinea por etiqueta**: el resultado tiene la unión de índices y pone NaN donde falta valor. El Index no es decoración: es el eje de negocio que decide qué filas se combinan.",
+        "Un Index **estable** (`cliente_id`) facilita auditoría y, más adelante, unir tablas sin adivinar el orden de las filas. `set_index` / `reset_index` cambian el eje de etiqueta; no pierdas la clave de negocio al exportar. Fail-closed: si el id no es único y el contrato lo exige, reporta duplicados **antes** de un `set_index` ciego. En un retailer peruano sintético, `C001` en Lima y `C002` en Arequipa deben seguir siendo las mismas filas después de filtrar, reindexar o exportar — la etiqueta es la identidad de negocio, no la posición 0 o 1.",
+        "MultiIndex (por ejemplo región × mes) se menciona solo como etiquetas jerárquicas; las agregaciones multi-eje llegan cuando trabajes uniones y groupby. Caso de laboratorio: Series de scores indexada por `C001`/`C002` y un DataFrame con `region` (texto) + `score` (float64). Antes de las APIs de selección, interioriza esta regla: **etiqueta ≠ posición**. Si el index es `cliente_id`, `loc['C002']` y `iloc[1]` solo coinciden si el orden de filas lo permite — no lo asumas.",
       ],
       code: {
         language: 'python',
@@ -78,9 +78,9 @@ s15_th_1()`,
       heading: "Lectura CSV/Excel y opciones del parser",
       subtopicId: "S15-T1-B",
       paragraphs: [
-        "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. Controlar el parser evita `object` silenciosos y fechas como string que rompen filtros temporales. Cada parámetro es un contrato: si el archivo real usa `;` y coma decimal, el código debe declararlo — no “adivinar” tras el hecho. Un CSV de retail en Lima con `15,50` leído como punto decimal se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",
-        "En datasets latinos declara encoding (`utf-8`), separador y **decimal** (`decimal=','` cuando el monto viene como `15,50`). No reescribas el archivo a mano con `.replace(',', '.')` salvo un preproceso documentado: el parámetro `decimal` es el camino idiomático y seguro cuando no hay comas de miles confusas. Excel requiere motor de terceros (`openpyxl`: `pip install openpyxl`). Fail-closed: si falta una columna required del schema de ingesta, no continues “con lo que haya”.",
-        "Siempre reconcilia **filas leídas vs esperadas** y lista columnas + dtypes antes de confiar en un head(). Caso sintético: CSV con `NA` en monto → `string` id, `float64` monto, `datetime64` fecha y `isna` en la segunda fila. Si el entorno no tiene `openpyxl`, completa el contrato con CSV + schema JSON y documenta el límite en el README del laboratorio.",
+        "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`, `sep` y `decimal`. Controlar el parser evita columnas `object` silenciosas y fechas como string que rompen filtros temporales. Cada parámetro es un **contrato de archivo**: si el CSV real usa `;` y coma decimal, el código debe declararlo — no “adivinar” después mirando el `head()`. Un extracto de retail en Lima con montos `15,50` leído como si el decimal fuera punto se vuelve basura numérica o se queda en texto: el bug no es “pandas raro”, es el contrato de parser no declarado.",
+        "En datasets latinos declara encoding (`utf-8` o el real del proveedor), separador y **decimal** (`decimal=','` cuando el monto viene como `15,50`). Evita reescribir el archivo a mano con `.replace(',', '.')` salvo un preproceso documentado y acotado: el parámetro `decimal` es el camino idiomático cuando no hay comas de miles que confundan el parseo. `usecols` recorta columnas basura antes de tipar. Excel requiere motor de terceros (`openpyxl`: `pip install openpyxl`). Fail-closed: si falta una columna requerida del schema de ingesta, no continues “con lo que haya”.",
+        "Siempre reconcilia **filas leídas vs esperadas** y lista columnas + dtypes **antes** de confiar en un `head()` bonito. Caso sintético de laboratorio: CSV con `NA` en monto → `cliente_id` como `string`, `monto` como `float64`, `fecha` como `datetime64` y un `isna` verdadero en la segunda fila. Si el entorno no tiene `openpyxl`, completa el contrato con CSV + schema JSON y documenta el límite en el README del laboratorio — no finjas un export Excel que no corre.",
       ],
       code: {
         language: 'python',
@@ -116,9 +116,9 @@ s15_th_2()`,
       heading: "loc, iloc, filtros y assign",
       subtopicId: "S15-T2-A",
       paragraphs: [
-        "**loc** selecciona por **etiqueta**; **iloc** por **posición**. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. Evita `df[cols][rows]` encadenado — usa un solo `loc`. La diferencia etiqueta/posición es la fuente #1 de off-by-one cuando el index no es 0..n-1.",
-        "`assign` devuelve un DF con columnas nuevas y encaja en un pipeline funcional (menos mutación accidental). Para producción muchos equipos prefieren máscaras explícitas sobre `query` por depuración, por tipado en IDEs y por no mezclar strings con lógica de negocio en un solo literal frágil.",
-        "Caso sintético: filtrar score bajo 0.5 → `C002`; `assign(score_pct=...)` → [90, 30, 60]; `iloc[0,0]` lee el primer cliente. No mutes el original sin intención documentada. Si solo necesitas leer, no copies; si vas a mutar un subset, decide si es el padre o una copia.",
+        "**loc** selecciona por **etiqueta** (nombre de fila/columna); **iloc** por **posición** (0, 1, 2…). Los filtros booleanos viven dentro de `loc`: `df.loc[df['score'] < 0.5, ['cliente_id', 'score']]`. Evita el encadenamiento `df[cols][rows]` o `df[df.a > 0]['b']`: es frágil y prepara el terreno del SettingWithCopy. La diferencia etiqueta/posición es la fuente clásica de off-by-one cuando el Index ya no es `0..n-1` sino `cliente_id`.",
+        "`assign` devuelve un **nuevo** DataFrame con columnas derivadas y encaja en un pipeline legible (`df.loc[...].assign(...)`). Menos mutación accidental, más fácil de testear. En producción muchos equipos prefieren máscaras explícitas sobre `query` porque depuran mejor, tipan mejor en IDEs y no mezclan lógica de negocio dentro de un string frágil. Usa `query` solo si tu equipo ya lo estandarizó y lo prueba.",
+        "Caso sintético de laboratorio: filtrar `score < 0.5` deja a `C002`; `assign(score_pct=...)` produce porcentajes `[90, 30, 60]`; `iloc[0, 0]` lee la celda en la esquina superior izquierda por posición. Regla de intención: si solo lees, no copies; si vas a **mutar** un subset, decide en voz alta si mutas el padre con `loc` o un `.copy()` con vida propia. Esa decisión es el puente al siguiente subtema (chained assignment).",
       ],
       code: {
         language: 'python',
@@ -153,9 +153,9 @@ C001`,
       heading: "Chained assignment y semántica de copias",
       subtopicId: "S15-T2-B",
       paragraphs: [
-        "**SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o copy: el resultado es impredecible y puede no escribir en el DF padre. Es el bug clásico de pipelines de ingesta — el flag “revisar” parece seteado en pantalla y al exportar desaparece.",
-        "Patrón seguro: asignar con `.loc[row_mask, col] = valor` sobre el original, o `subset = df.loc[...].copy()` antes de mutar el subconjunto. Nunca `df[df.a>0]['b'] = 1`. La regla mental: **una sola indexación en la asignación**, o **copy explícita** si el subset tiene vida propia.",
-        "En pipelines, prefiere métodos que devuelven objeto nuevo (`assign`, `where`) y documenta copias. Caso sintético: `loc` marca score bajo como `flag='bajo'`; el subset copiado recibe `revisado=True` sin corromper el padre por accidente. Si demuestras aislamiento, imprime el original tras mutar la copia.",
+        "**SettingWithCopyWarning** aparece cuando asignas sobre un slice que pandas no garantiza como vista o copia: el resultado es impredecible y **puede no escribir** en el DataFrame padre. Es el bug clásico de pipelines de ingesta en banca y retail: en pantalla el flag “revisar” parece seteado, al exportar el CSV el flag desaparece, y el ticket de calidad regresa. No es un warning cosmético — es una promesa rota de mutación.",
+        "Patrón seguro (consenso Real Python / Data School / pandas docs): (1) asigna con **un solo** `.loc[row_mask, col] = valor` sobre el original, o (2) materializa `subset = df.loc[...].copy()` **antes** de mutar el subconjunto. Nunca `df[df.a > 0]['b'] = 1`. Regla mental: **una sola indexación en la asignación**, o **copy explícita** si el subset tiene vida propia (p. ej. se lo pasas a otra función).",
+        "En pipelines, prefiere métodos que devuelven objeto nuevo (`assign`, `where`) y documenta cuándo copias. Caso sintético: con `loc` marcas scores bajos como `flag='bajo'`; el subset copiado recibe `revisado=True` sin corromper el padre. Para demostrar aislamiento, muta la copia e imprime el original: si el original cambió, tenías un alias (`c = df`), no un `copy()`. Ese test mental es parte del hábito profesional.",
       ],
       code: {
         language: 'python',
@@ -180,16 +180,16 @@ s15_th_4()`,
         type: "danger",
         title: "Chained assignment",
         content:
-          "Nunca hagas df[df.a>0]['b'] = 1. Usa loc o copy explícita.",
+          "Nunca hagas `df[df.a>0]['b'] = 1`. Ese patrón es el origen típico de SettingWithCopyWarning. Usa un solo `loc` sobre el original o `.copy()` explícita del subset antes de mutar.",
       },
     },
     {
       heading: "Strings, nullable, fechas y categorías",
       subtopicId: "S15-T3-A",
       paragraphs: [
-        "dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** reducen memoria y errores de comparación. `object` heterogéneo es el default peligroso de un CSV mal tipado: mezcla texto, números y None sin avisar, y las comparaciones fallan en silencio o explotan más tarde.",
-        "Convierte con `astype('string')`, `pd.to_numeric(..., errors=)`, `pd.to_datetime`, `astype('category')`. Con `errors='coerce'`, inválidos pasan a NaN — preferible a tumbar el lote si **cuentas** los fallos. Normaliza texto de región (`str.title`) antes de category para no duplicar “lima” y “Lima” como dos categorías distintas.",
-        "Reporta cuántos valores no convirtieron: ese número es evidencia, no un “detalle”. Caso sintético: monto `x` y fecha `bad` → 1 NaN cada uno; región `title` + `category` para Lima/Arequipa sintéticas. El conteo de NaN es el embrión del reporte de coerciones de T3-B.",
+        "Los dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** reducen memoria y errores de comparación. El dtype `object` heterogéneo es el default peligroso de un CSV mal tipado: mezcla texto, números y `None` sin avisar; las comparaciones fallan en silencio o explotan tres pasos después en un dashboard. Tipar es **declarar intención**: “esta columna es fecha”, “esta es monto”, “esta es etiqueta de región”.",
+        "Convierte con `astype('string')`, `pd.to_numeric(..., errors=...)`, `pd.to_datetime`, `astype('category')`. Con `errors='coerce'`, los inválidos pasan a NaN/NaT — preferible a tumbar todo el lote **si cuentas** los fallos y los reportas. Normaliza texto de región con `str.title()` **antes** de `category` para no duplicar “lima” y “Lima” como dos categorías distintas (el mismo cliente sintético no debería ocupar dos buckets).",
+        "Reporta cuántos valores no convirtieron: ese número es **evidencia de calidad**, no un detalle cosmético. Caso sintético: monto `x` y fecha `bad` → un NaN cada uno; región normalizada + `category` para Lima/Arequipa. El conteo de NaN es el embrión del **reporte de coerciones** de T3-B y del manifest de exportación de T4. Sin conteo, `coerce` se convierte en una forma elegante de esconder basura.",
       ],
       code: {
         language: 'python',
@@ -223,9 +223,9 @@ monto_na 1 fecha_na 1`,
       heading: "Coerción explícita y schema",
       subtopicId: "S15-T3-B",
       paragraphs: [
-        "Un **schema dict** declara tipos objetivo por columna (`cliente_id: string`, `monto: float64`). `astype` / `to_numeric` aplican coerción; los fallos se listan — no se esconden. El schema es el contrato entre el dueño del dato y el pipeline: si cambia el archivo, el schema te avisa.",
-        "No “arregles” silenciosamente: emite un reporte `{columna: n_fallos}`. Si falta una columna del schema, falla explicable (nombre de columna), no inventes defaults ocultos. Contar NaN **antes y después** de `to_numeric` aísla las coerciones nuevas de los nulos que ya venían.",
-        "Este reporte alimenta el quality gate de la siguiente sección de calidad de datos. Caso sintético: `monto` con `N/A` → `coercion_report={'monto': 1}` y dtypes finales string/float64. En CP-N2-A, el reporte viaja junto al DataFrame, no en un chat de Slack.",
+        "Un **schema** (dict columna→tipo) declara el contrato de ingesta: `cliente_id: string`, `monto: float64`, `fecha: datetime64`. `astype` / `to_numeric` / `to_datetime` aplican la coerción; los fallos se **listan**, no se esconden. El schema es el acuerdo entre el dueño del dato y el pipeline: si el archivo cambia de forma, el schema te avisa en la primera fila de código — no tres dashboards después.",
+        "No “arregles” silenciosamente (no pongas `0` ni la media donde había basura). Emite un reporte `{columna: n_fallos}`. Si falta una columna del schema, **falla explicable** (`KeyError` / mensaje con el nombre), no inventes defaults ocultos. Contar NaN **antes y después** de `to_numeric` aísla las coerciones nuevas de los nulos que ya venían en el CSV: eso es honestidad de métrica.",
+        "Este reporte es la entrada natural a los quality gates que verás al endurecer contratos de calidad. Caso sintético: `monto` con `N/A` → `coercion_report={'monto': 1}` y dtypes finales string/float64. En **CP-N2-A**, el reporte viaja **junto** al DataFrame (función que devuelve tupla `(df, report)`), no en un mensaje de chat. El You Do de esta sección te pide exactamente ese contrato para clientes y transacciones.",
       ],
       code: {
         language: 'python',
@@ -259,9 +259,9 @@ coercion_report {'monto': 1}`,
       heading: "CSV, Excel y contrato Parquet",
       subtopicId: "S15-T4-A",
       paragraphs: [
-        "`to_csv` y `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está en el entorno del curso, exporta CSV + **schema JSON** como contrato de tipos. El round-trip (exportar y releer) es la prueba mínima de que no inventaste columnas.",
-        "Usa `index=False` salvo que el index sea clave de negocio documentada (evita `Unnamed` al reingestar). Round-trip: lee de nuevo y compara columnas críticas. Para Excel en memoria usa `BytesIO` + `engine=\"openpyxl\"` — sin esa dependencia el export a Excel no arranca.",
-        "Caso sintético: export CSV en memoria → columnas idénticas; Excel bytes no vacíos; `parquet_contract` con dtypes por columna aunque no haya pyarrow. Si falta openpyxl, el ejercicio de Excel fallará: instálalo o documenta CSV + schema como entrega alternativa.",
+        "`to_csv` y `to_excel` materializan el dataset analítico. Parquet (pyarrow/fastparquet) preserva tipos de forma nativa; si el motor no está en tu entorno, exporta **CSV + schema JSON** como contrato de tipos — el aprendizaje es el mismo: no pierdas el mapa columna→dtype. El **round-trip** (exportar y releer) es la prueba mínima de que no inventaste columnas ni reordenaste el contrato a ciegas.",
+        "Usa `index=False` salvo que el Index sea **clave de negocio documentada**. Si dejas el index por defecto, al reingestar suele aparecer una columna `Unnamed: 0` que contamina el schema. Round-trip: lee de nuevo y compara columnas críticas (`cliente_id`, `monto`, `region`). Para Excel en memoria usa `BytesIO` + `engine=\"openpyxl\"` — sin esa dependencia el export a Excel no arranca; no es un fallo de tu lógica de negocio, es un prerequisito de entorno.",
+        "Caso sintético: export CSV en `StringIO` → columnas idénticas al releer; Excel en `BytesIO` con bytes no vacíos; dict `parquet_contract` con dtypes por columna aunque no haya pyarrow instalado. Si falta `openpyxl`, el ejercicio de Excel fallará: instálalo (`pip install openpyxl`) o documenta CSV + schema JSON como entrega alternativa en el portfolio. La honestidad de dependencias es parte de la calidad profesional.",
       ],
       code: {
         language: 'python',
@@ -300,9 +300,9 @@ parquet_contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'
       heading: "Índices, formatos, provenance y memoria",
       subtopicId: "S15-T4-B",
       paragraphs: [
-        "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (`source`, hash del artefacto). Sin eso no hay reconciliación de ingesta en CP-N2-A: no sabes si el CSV de “esta mañana” es el mismo que el de ayer ni cuántas filas salieron del pipeline.",
-        "`index=False` en export evita columnas `Unnamed` al reingestar. El hash (p. ej. SHA-1 truncado del CSV) permite detectar si el artefacto cambió entre runs. Hashea el **payload serializado** (`to_csv`), no el `repr` del DataFrame — el repr cambia con opciones de display y no es el archivo entregado.",
-        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece (`memory_usage(deep=True)` para strings object). Caso sintético: manifest JSON con `rows=2`, dtypes, `memory_bytes` y `source=synthetic_clientes_v1` listo para el portfolio.",
+        "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (`source`, hash del artefacto). Sin eso no hay reconciliación de ingesta en **CP-N2-A**: no sabes si el CSV de “esta mañana” es el mismo que el de ayer, ni cuántas filas salieron del pipeline, ni si alguien reordenó columnas a mano. El manifest es la contraparte del reporte de coerciones: uno habla de **tipos y fallos**, el otro de **artefacto y origen**.",
+        "`index=False` en export evita columnas `Unnamed` al reingestar (salvo Index de negocio documentado). El hash (p. ej. SHA-1 truncado del CSV) detecta si el artefacto cambió entre corridas. Hashea el **payload serializado** (`df.to_csv(index=False).encode()`), no el `repr` del DataFrame: el repr cambia con opciones de display y **no es** el archivo que entregas al siguiente equipo.",
+        "Documenta memoria antes/después de castear a `category`/`string` cuando el dataset crece (`memory_usage(deep=True)` para strings `object`; sin `deep=True` subestimas el costo real). Caso sintético listo para portfolio: manifest JSON con `rows`, `columns`, `dtypes`, `memory_bytes`, `source=synthetic_clientes_v1` y un `content_sha1` corto. Ese JSON es evidencia de que tu ingesta es auditable — el cierre natural de la sección antes del You Do de dos tablas.",
       ],
       code: {
         language: 'python',
@@ -363,7 +363,7 @@ s15_ido_1()`,
           output: `cliente_id ['C001', 'C002', 'C003']
 Arequipa 0.42`,
         },
-        why: "Index de negocio alinea tablas de clientes y transacciones.",
+        why: "Sin Index de negocio estable, alinear clientes y transacciones es adivinar el orden de filas.",
       },
       {
         demoId: "S15-T1-B-DEMO",
@@ -400,7 +400,7 @@ s15_ido_2()`,
 datetime64[ns]
 ['C001', 'C002', 'C003']`,
         },
-        why: "Parser explícito (sep + decimal) evita monedas/fechas como object opaco.",
+        why: "Declarar sep y decimal en el parser evita monedas/fechas como object opaco en CSV latinos.",
       },
       {
         demoId: "S15-T2-A-DEMO",
@@ -425,7 +425,7 @@ datetime64[ns]
 s15_ido_3()`,
           output: `{'cliente_id': ['C001', 'C003', 'C004'], 'score': [0.9, 0.3, 0.8], 'riesgo': ['bajo', 'alto', 'bajo']}`,
         },
-        why: "loc + assign mantienen pipelines legibles y testeables.",
+        why: "Un solo loc + assign deja pipelines legibles, testeables y sin SettingWithCopy accidental.",
       },
       {
         demoId: "S15-T2-B-DEMO",
@@ -449,7 +449,7 @@ s15_ido_4()`,
           output: `{'id': ['C001', 'C002', 'C003'], 'score': [0.2, 0.9, 0.4], 'estado': ['revisar', nan, 'revisar']}
 {'id': ['C001', 'C003'], 'owner': ['dq_team', 'dq_team']}`,
         },
-        why: "loc sobre el padre + copy en subsets elimina SettingWithCopy.",
+        why: "loc sobre el padre + copy en subsets elimina SettingWithCopy y mutaciones fantasmas.",
       },
       {
         demoId: "S15-T3-A-DEMO",
@@ -479,7 +479,7 @@ s15_ido_5()`,
 na_monto 1 na_alta 1
 [10.5, nan, 3.0]`,
         },
-        why: "Tipos correctos + reporte de NaN son la base de la ingesta tipada.",
+        why: "Tipos correctos + conteo de NaN son la base de la ingesta tipada y del reporte de calidad.",
       },
       {
         demoId: "S15-T3-B-DEMO",
@@ -513,7 +513,7 @@ print(rep)`,
           output: `{'cliente_id': 'string', 'monto': 'float64'}
 {'cliente_id': 0, 'monto': 1}`,
         },
-        why: "Schema + reporte de fallos alimenta el quality gate de la sección de calidad.",
+        why: "Schema + reporte de fallos es el contrato fail-closed que alimenta quality gates posteriores.",
       },
       {
         demoId: "S15-T4-A-DEMO",
@@ -547,7 +547,7 @@ s15_ido_7()`,
           output: `rows 2 excel_ok True
 contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
         },
-        why: "Round-trip de columnas críticas valida el export reproducible.",
+        why: "El round-trip de columnas críticas es la prueba mínima de un export reproducible.",
       },
       {
         demoId: "S15-T4-B-DEMO",
@@ -574,13 +574,13 @@ contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
 s15_ido_8()`,
           output: `{"columns": ["cliente_id", "monto"], "memory_bytes": 335, "rows": 3, "sha1_12": "5f5459a9c1df", "source": "synthetic_tx_v1"}`,
         },
-        why: "El manifest reconcilia entrada vs salida en CP-N2-A.",
+        why: "El manifest reconcilia entrada vs salida y prueba que el artefacto no cambió entre corridas.",
       },
     ],
   },
   weDo: {
     intro:
-      "24 ejercicios en escalera (guiado → independiente → transferencia) sobre Pandas ingesta. Cada uno trae un error a corregir en el starter; dos pistas por ejercicio. Quédate en Series/DataFrame — sin joins profundos ni quality gates avanzados.",
+      "Ahora te toca a ti: **24 ejercicios** en escalera (guiado → independiente → transferencia) sobre el mismo hilo de clientes/transacciones sintéticas. Cada starter trae un **error a corregir** (código roto a propósito) y dos pistas. Lee la instrucción, repara el defecto, verifica la salida esperada. Quédate en Series/DataFrame — sin joins profundos ni validaciones de calidad avanzadas; eso llega después. El objetivo no es copiar la solución: es interiorizar el contrato (parser, loc, coerce, export) que reutilizarás en el You Do.",
     steps: [
       {
         id: "S15-T1-A-E1",
@@ -1321,7 +1321,7 @@ print(len(bio.getvalue()) > 0)`,
         subtopicId: "S15-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — **Contrato de dtypes.** Emite un dict `{col: str(dtype)}` para el DF del starter e imprímelo ordenado por clave. Salida esperada: `{'cliente_id': 'object', 'monto': 'float64'}`. Solo pandas/stdlib; sin quality gates avanzados ni joins.",
+          "E3 (transferencia) — **Contrato de dtypes.** Emite un dict `{col: str(dtype)}` para el DF del starter e imprímelo ordenado por clave. Salida esperada: `{'cliente_id': 'object', 'monto': 'float64'}`. Quédate en dtypes del DataFrame (sin joins ni validaciones de calidad avanzadas).",
         hint: "dict comprehension.",
         hints: [
           "contract = {c: str(df[c].dtype) for c in df.columns}.",
@@ -1463,19 +1463,22 @@ print(hashlib.sha1(blob).hexdigest()[:8])`,
   youDo: {
     title: "Ingesta tipada clientes/transacciones con reconciliación",
     context:
-      "Recibes CSV sintéticos de clientes y transacciones de un retailer peruano (Lima/Arequipa, montos en PEN). Debes ingerir con schema, reportar coerciones, reconciliar filas/columnas y exportar dataset analítico + manifest. Sin PII real ni scores como culpa.",
+      "Un retailer peruano sintético te entrega dos CSV en memoria: **clientes** (región, score) y **transacciones** (monto, fecha). Tu trabajo de portfolio es el tramo de **CP-N2-A** que ya practicaste en I Do/We Do: leer con schema, coercionar con reporte, reconciliar filas/columnas y exportar con manifest. Sin PII real. Un score sintético **no** es culpa ni fraude — solo un número de laboratorio. Si falta una columna del schema, falla de forma explicable; no rellenes ceros “para que corra”.",
     objectives: [
-      "Ingerir datasets sintéticos de clientes y transacciones",
-      "Aplicar schema tipado y reportar coerciones",
-      "Reconciliar filas/columnas entrada vs salida",
-      "Exportar dataset analítico + manifest (source, rows, hash)",
+      "Ingerir CLIENTES y TRANSACCIONES con dtypes/schema explícitos (string, float64, datetime)",
+      "Emitir coercion_report {columna: n_fallos} sin rellenar defaults ocultos",
+      "Reconciliar filas/columnas (rows, columns, missing_columns) frente al schema",
+      "Exportar con index=False y construir manifest (source, rows, columns, sha1 del CSV)",
     ],
     requirements: [
-      "Fixtures sintéticos en memoria (CLIENTES + TRANSACCIONES)",
-      "Funciones: ingest_clientes, ingest_transacciones, reconcile, export_with_manifest",
-      "Demo reproducible (if __name__ == '__main__') con al menos el flujo de clientes",
-      "Documentación en español profesional",
-      "Alineación a CP-N2-A (dataset) — sin inventar defaults si falta columna del schema",
+      "Implementa las cuatro funciones del starter: ingest_clientes, ingest_transacciones, reconcile, export_with_manifest",
+      "ingest_*: read_csv desde StringIO + aplicar schema; float con to_numeric(errors='coerce'); fecha con to_datetime o parse_dates",
+      "coercion_report: cuenta NaN nuevos tras coerce (al menos score en clientes y monto en transacciones deben reportar fallos del fixture)",
+      "reconcile: {rows: int, columns: list, missing_columns: list} — missing_columns vacío si el schema cuadra",
+      "export_with_manifest: serializa to_csv(index=False), hashea esos bytes, devuelve dict con source/rows/columns/sha1",
+      "if __name__ == '__main__' ejecuta **ambos** hilos (clientes y transacciones) y imprime report/reconcile/manifest",
+      "README corto en español: qué falló, por qué no inventaste defaults, dependencias (openpyxl solo si exportas Excel)",
+      "Límite honesto: sin joins profundos ni quality gates avanzados — solo ingesta tipada + provenance",
     ],
     starterCode: `import pandas as pd
 from io import StringIO
@@ -1502,14 +1505,23 @@ SCHEMA_TX = {
     "fecha": "datetime64",
 }
 
+# Aceptación esperada (orientativa, no hardcodees el print):
+# - CLIENTES: 3 filas; score tiene ≥1 coerción (NA → NaN); missing_columns == []
+# - TRANSACCIONES: 3 filas; monto tiene ≥1 coerción (N/A); fecha en datetime
+# - manifest: keys source, rows, columns, sha1 (o content_sha1); sha1 del to_csv(index=False)
+
 
 def ingest_clientes(text: str) -> tuple[pd.DataFrame, dict]:
-    """Lee CSV, aplica SCHEMA_CLIENTES, devuelve (df, coercion_report)."""
+    """Lee CSV, aplica SCHEMA_CLIENTES, devuelve (df, coercion_report).
+    Fail-closed: KeyError si falta columna del schema.
+    """
     raise NotImplementedError
 
 
 def ingest_transacciones(text: str) -> tuple[pd.DataFrame, dict]:
-    """Lee CSV de TX (parse_dates en fecha), aplica SCHEMA_TX, devuelve (df, report)."""
+    """Lee CSV de TX (parse_dates o to_datetime en fecha), aplica SCHEMA_TX.
+    Devuelve (df, coercion_report) con fallos de monto (y fecha si aplica).
+    """
     raise NotImplementedError
 
 
@@ -1519,7 +1531,9 @@ def reconcile(df: pd.DataFrame, expected_cols: list[str]) -> dict:
 
 
 def export_with_manifest(df: pd.DataFrame, source: str) -> dict:
-    """CSV index=False + manifest con rows/columns/sha1/source."""
+    """CSV index=False + manifest con rows/columns/sha1/source.
+    Hashea el payload de to_csv, no el repr del DataFrame.
+    """
     raise NotImplementedError
 
 
@@ -1531,7 +1545,7 @@ if __name__ == "__main__":
     print("reconcile", reconcile(df, list(SCHEMA_CLIENTES)))
     print("manifest", export_with_manifest(df, "synthetic_clientes_v1"))
 
-    # Hilo transacciones (portfolio CP-N2-A): mismo contrato + parse_dates en fecha
+    # Hilo transacciones (portfolio CP-N2-A): mismo contrato + fechas
     tx, tx_report = ingest_transacciones(TRANSACCIONES)
     print("tx_head", tx.head())
     print("tx_coercion_report", tx_report)
@@ -1539,13 +1553,13 @@ if __name__ == "__main__":
     print("tx_manifest", export_with_manifest(tx, "synthetic_tx_v1"))
 `,
     portfolioNote:
-      "Entrega CSV/Excel (index=False) + reporte de coerciones + manifest JSON (source, rows, columns, hash) para **clientes y transacciones**. Documenta en español qué columnas fallaron y por qué no inventaste defaults. Si usas Excel, declara openpyxl.",
+      "Entrega: script reproducible + (opcional) CSV/Excel con index=False + JSON de coercion_report y manifest para **clientes y transacciones**. En el README explica en español profesional qué columnas fallaron, cómo contaste las coerciones y por qué no inventaste defaults. Si exportas Excel, declara `openpyxl`. Este artefacto es la base del dataset de CP-N2-A: un revisor debe poder re-ejecutar `__main__` y ver filas, reportes y hash sin adivinar tu entorno.",
     rubric: [
-      { criterion: "Schema tipado + reporte de coerciones y reconciliación de filas/columnas", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado (pandas + openpyxl si usas Excel)", weight: "20%" },
-      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados (NA, columna faltante, index=False)", weight: "15%" },
-      { criterion: "Código legible y límites claros (qué no haces: joins profundos, quality gate avanzado)", weight: "10%" },
+      { criterion: "Schema tipado + reporte de coerciones y reconciliación de filas/columnas (ambos hilos)", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado (pandas; openpyxl solo si usas Excel)", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / score ≠ culpa", weight: "20%" },
+      { criterion: "Casos de borde documentados (NA, N/A, columna faltante, index=False, hash del CSV)", weight: "15%" },
+      { criterion: "Código legible y límites claros (sin joins profundos ni quality gate avanzado)", weight: "10%" },
       { criterion: "Documentación en español profesional + manifest con provenance/hash", weight: "10%" },
     ],
   },
@@ -1556,28 +1570,28 @@ if __name__ == "__main__":
         options: ["iloc", "iat solo posicional forzado", "loc", "values"],
         correctIndex: 2,
         explanation:
-          "loc selecciona por etiqueta; iloc por posición.",
+          "loc selecciona por etiqueta de Index/columnas; iloc (e iat) usan posición numérica. Si el Index es cliente_id, loc['C002'] no es lo mismo que iloc[1] salvo que el orden lo permita.",
       },
       {
         question: "SettingWithCopyWarning se relaciona con:",
         options: ["Asignación sobre slices que pueden ser view/copy (chained assignment)", "Parquet vs CSV", "Falta de openpyxl", "MultiIndex obligatorio"],
         correctIndex: 0,
         explanation:
-          "El chained assignment puede no escribir donde crees.",
+          "Asignar en cadena (df[mask]['col'] = ...) puede no escribir en el DataFrame original. Usa un solo loc sobre el padre o .copy() explícito del subset.",
       },
       {
         question: "errors='coerce' en to_numeric:",
         options: ["Borra la columna", "Convierte inválidos a NaN", "Eleva siempre excepción", "Cambia a string"],
         correctIndex: 1,
         explanation:
-          "coerce produce NaN en valores no parseables.",
+          "coerce convierte valores no parseables a NaN sin tumbar el lote. Debes contar esos NaN en el reporte de coerciones; no es un permiso para esconder basura.",
       },
       {
         question: "Un manifest de export debería incluir al menos:",
         options: ["Solo el nombre del analista", "Contraseñas de BD", "PII real de clientes", "Filas, columnas y provenance/hash del artefacto"],
         correctIndex: 3,
         explanation:
-          "Reconciliación requiere filas/columnas y trazabilidad del archivo.",
+          "Para reconciliar CP-N2-A necesitas filas, columnas y trazabilidad del archivo (source + hash del payload exportado). Nunca PII real ni secretos en el manifest.",
       },
       {
         question: "En pandas, ¿por qué preferir df.loc[mask, col] = val sobre un subset sin .copy()?",
@@ -1588,61 +1602,36 @@ if __name__ == "__main__":
       },
       {
         question: "¿Qué hace parse_dates=['fecha'] en read_csv?",
-        options: [
-          "Borra filas con fecha inválida",
-          "Convierte la columna fecha a datetime en la lectura",
-          "Obliga a usar Excel en vez de CSV",
-          "Solo formatea el print de la fecha",
-        ],
-        correctIndex: 1,
+        options: ["Convierte la columna fecha a datetime en la lectura", "Borra filas con fecha inválida", "Obliga a usar Excel en vez de CSV", "Solo formatea el print de la fecha"],
+        correctIndex: 0,
         explanation:
           "parse_dates tipa la columna como datetime en la ingesta; sin eso suele quedar object/string.",
       },
       {
         question: "Si el schema exige la columna 'monto' y el CSV no la trae, ¿qué es lo correcto en esta sección?",
-        options: [
-          "Crear monto=0 en silencio",
-          "Rellenar con la media de otras columnas",
-          "Fallar de forma explicable (p. ej. KeyError / missing column)",
-          "Ignorar el schema y seguir",
-        ],
-        correctIndex: 2,
+        options: ["Crear monto=0 en silencio", "Fallar de forma explicable (p. ej. KeyError / missing column)", "Rellenar con la media de otras columnas", "Ignorar el schema y seguir"],
+        correctIndex: 1,
         explanation:
           "Fail-closed: si falta una columna del contrato, no inventes defaults ocultos.",
       },
       {
         question: "¿Por qué exportar con to_csv(..., index=False) por defecto?",
-        options: [
-          "Porque index=False es más rápido siempre",
-          "Para evitar columnas Unnamed al reingestar si el index no es clave de negocio",
-          "Porque pandas prohíbe index=True",
-          "Para forzar Parquet",
-        ],
-        correctIndex: 1,
+        options: ["Porque index=False es más rápido siempre", "Porque pandas prohíbe index=True", "Para forzar Parquet", "Para evitar columnas Unnamed al reingestar si el index no es clave de negocio"],
+        correctIndex: 3,
         explanation:
           "El index por defecto se escribe como columna extra y al releer aparece como Unnamed, salvo que sea clave de negocio documentada.",
       },
       {
         question: "¿Para qué sirve astype('category') en una columna de región (Lima/Arequipa)?",
-        options: [
-          "Convierte texto a fechas automáticamente",
-          "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes",
-          "Borra duplicados de región",
-          "Es obligatorio antes de to_csv",
-        ],
-        correctIndex: 1,
+        options: ["Convierte texto a fechas automáticamente", "Borra duplicados de región", "Reduce memoria y fija un conjunto de valores conocidos; conviene normalizar con str.title antes", "Es obligatorio antes de to_csv"],
+        correctIndex: 2,
         explanation:
           "category es un dtype compacto para labels repetidos. Normaliza mayúsculas/minúsculas antes para no duplicar 'lima' y 'Lima'.",
       },
       {
         question: "Si el Index de negocio es cliente_id, ¿qué conviene al alinear o reexportar?",
-        options: [
-          "Borrar el index y usar solo posiciones 0..n-1 siempre",
-          "Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio",
-          "Usar solo iloc y nunca loc",
-          "Convertir el index a float64",
-        ],
-        correctIndex: 1,
+        options: ["Mantener un index estable y documentado; no perder la clave al exportar si es eje de negocio", "Borrar el index y usar solo posiciones 0..n-1 siempre", "Usar solo iloc y nunca loc", "Convertir el index a float64"],
+        correctIndex: 0,
         explanation:
           "Un Index estable (ids de cliente) alinea tablas y auditoría. Si es clave de negocio, documéntala al exportar; si no, index=False evita basura Unnamed.",
       },
@@ -1721,6 +1710,16 @@ if __name__ == "__main__":
         label: "Real Python — pandas read_csv",
         url: "https://realpython.com/pandas-read-write-files/",
         note: "Lectura y escritura práctica",
+      },
+      {
+        label: "Real Python — SettingWithCopyWarning",
+        url: "https://realpython.com/pandas-settingwithcopywarning/",
+        note: "loc vs copy; evita chained assignment",
+      },
+      {
+        label: "Data School — indexing and selecting",
+        url: "https://www.dataschool.io/pandas-essentials/",
+        note: "Selección idiomática en pandas",
       },
     ],
   },

@@ -6,7 +6,7 @@ export const section08: CourseSection = {
   title: 'Data Visualization',
   shortTitle: 'Visualización',
   tagline: 'matplotlib, seaborn y plotly — de gráficos básicos a reportes ejecutivos interactivos',
-  estimatedHours: 8,
+  estimatedHours: 18,
   level: 'Intermedio',
   icon: 'BarChart3',
   accentColor: 'bg-gradient-to-br from-pink-500 to-rose-600',

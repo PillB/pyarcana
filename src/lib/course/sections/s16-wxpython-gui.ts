@@ -27,9 +27,9 @@ export const section16: CourseSection = {
     {
       heading: "Mapa de la sección: del CSV tipado al quality gate",
       paragraphs: [
-        "En S15 leíste clientes y transacciones con dtypes controlados. En **S16** el foco es el **quality gate de CP-N2-A**: políticas de null, imputación limitada con indicadores, duplicados vs conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail. Sin un gate, un `fillna` silencioso puede inflar un KPI de gerencia y nadie sabe qué filas se inventaron.",
-        "Regla de oro: **nunca “arreglar” silenciosamente**. Toda transformación deja métrica, indicador o rastro en cuarentena. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cusco, prefijos `S/`, ids `C00x`); nunca PII real ni DNIs de personas.",
-        "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs conflictos, evidencia de clave) → **T3 Normalización** (strings/números/fechas/cats, outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16.",
+        "En S15 leíste clientes y transacciones con dtypes controlados. Imagina el lunes siguiente: alguien hace `monto.fillna(0)` “para que no falle el job”, el KPI de ticket promedio se infla y en la reunión de gerencia nadie puede decir **cuántas filas se inventaron**. En **S16** construyes el **quality gate de CP-N2-A** para que eso no pase: políticas de null, imputación limitada con indicadores, duplicados vs conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail (rastro de auditoría append-only).",
+        "Regla de oro: **nunca “arreglar” silenciosamente**. Toda transformación deja métrica, indicador o fila en cuarentena. **Fail-closed** = si el contrato se rompe, el job **no** aprueba en silencio: publica métricas y sale en fallo. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cusco, prefijos `S/`, ids `C00x`); nunca PII real ni DNIs de personas.",
+        "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs conflictos, evidencia de clave) → **T3 Normalización** (strings/números/fechas/categorías, outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16. El set limpio alimenta los joins y el portfolio de **S17**.",
       ],
       callout: {
         type: "info",
@@ -39,7 +39,7 @@ export const section16: CourseSection = {
       },
     },
     {
-      heading: "nulls y políticas por campo",
+      heading: "Nulls y políticas por campo",
       subtopicId: "S16-T1-A",
       paragraphs: [
         "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA de S17.",
@@ -78,7 +78,7 @@ null_rate_email 0.3333333333333333`,
       },
     },
     {
-      heading: "indicadores y límites de imputación",
+      heading: "Indicadores y límites de imputación",
       subtopicId: "S16-T1-B",
       paragraphs: [
         "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
@@ -116,7 +116,7 @@ s16_th_2()`,
       },
     },
     {
-      heading: "duplicados exactos vs conflictos",
+      heading: "Duplicados exactos vs conflictos",
       subtopicId: "S16-T2-A",
       paragraphs: [
         "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
@@ -151,7 +151,7 @@ conflict_ids ['C002']`,
       },
     },
     {
-      heading: "claves, cardinalidad y conservación de evidencia",
+      heading: "Claves, cardinalidad y conservación de evidencia",
       subtopicId: "S16-T2-B",
       paragraphs: [
         "Define la **clave de negocio** y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a **cuarentena con evidencia completa** (todas las versiones + columnas de origen/batch), no se eliminan sin log append-only.",
@@ -190,7 +190,7 @@ evidence_cols ['cliente_id', 'score', 'src']`,
       },
     },
     {
-      heading: "normalización de strings, números, fechas y categorías",
+      heading: "Normalización de strings, números, fechas y categorías",
       subtopicId: "S16-T3-A",
       paragraphs: [
         "Normalización: strings (`strip`, colapso de espacios, `title`/`casefold`), números con **locale documentado** (no adivines), fechas multi-formato y categorías con mapa de sinónimos (`LIM`→`Lima`). **Normalizar ≠ imputar**: no inventes valores, solo canonicidad.",
@@ -253,7 +253,7 @@ fechas ['2024-03-01', '2024-03-15', '2024-03-15']`,
       },
     },
     {
-      heading: "outliers plausibles vs errores",
+      heading: "Outliers plausibles vs errores",
       subtopicId: "S16-T3-B",
       paragraphs: [
         "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un **error de dominio** viola bounds (monto < 0, lat 999, edad 200). IQR/z-score solo **candidatan**; el dominio de negocio **decide** error vs flag.",
@@ -288,11 +288,11 @@ plausible_extreme [5000]`,
       },
     },
     {
-      heading: "reglas de schema y cross-field",
+      heading: "Reglas de schema y cross-field",
       subtopicId: "S16-T4-A",
       paragraphs: [
         "Contrato de **schema**: columnas presentes, dtypes esperados y nullability por campo. **Cross-field**: p. ej. `fecha_fin >= fecha_ini`, `monto > 0` si estado=pagado. Cada regla devuelve máscara de fallos + código de error legible para cuarentena.",
-        "Ante **schema drift** (desviación de esquema: columna required faltante o renombrada), el gate falla con el **nombre** de la columna — no con un `KeyError` opaco al final del pipeline. Columnas extra pueden warn o fail según política documentada en el runbook.",
+        "Ante **schema drift** (desviación de esquema: columna required faltante o renombrada), el gate falla con el **nombre** de la columna — no con un `KeyError` opaco al final del pipeline. Es el mismo espíritu fail-closed: el drift se hace visible al operador. Columnas extra pueden warn o fail según política documentada en el runbook del job.",
         "Caso: expected `{inicio, fin, monto}`; detecta cross-field `fin<inicio` e índices de monto negativo. Imprime `drift`, `cross_fail_idx` y `neg_idx` con códigos legibles. Este bloque es el puente al join validado y al portfolio de S17.",
       ],
       code: {
@@ -327,7 +327,7 @@ neg_idx [1]`,
       },
     },
     {
-      heading: "métricas, cuarentena y audit trail",
+      heading: "Métricas, cuarentena y audit trail",
       subtopicId: "S16-T4-B",
       paragraphs: [
         "Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, tasas de null/dup/fail_schema y `pass` booleano. Un fail **sin métricas** no se puede operar en un job nocturno ni explicar a negocio, riesgo o auditoría interna.",
@@ -368,7 +368,7 @@ s16_th_8()`,
     }
   ],
   iDo: {
-    intro: "8 demos del quality gate: nulls, imputación, dups, evidencia, normalización, outliers, contratos, audit.",
+    intro: "Ocho demos de un solo hilo: un batch sintético de clientes PE pasa por null policy, imputación con cap, dups/conflictos, evidencia, normalización PEN, outliers, schema/cross-field y métricas+audit. Observa el patrón fail-closed en cada paso.",
     steps: [
       {
         demoId: "S16-T1-A-DEMO",
@@ -587,38 +587,40 @@ s16_ido_8()`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios E1/E2/E3 de calidad y contratos. Dos pistas cada uno.",
+    intro: "24 ejercicios (E1 guiado → E2 independiente → E3 transferencia) por subtema del gate. Cada starter trae un error de lógica a corregir; dos pistas conceptuales. No imprimas éxito a ciegas: el oracle es la métrica o etiqueta correcta.",
     steps: [
       {
         id: "S16-T1-A-E1",
         subtopicId: "S16-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. Pass: el conteo exacto del fixture del starter (no imputes antes de contar).",
-        hint: "isna() cuenta ausencias; notna cuenta presentes. Suma e int().",
+          "E1 (guiado) — Concepto: conteo de nulls en campo **required**. Fixture con `id` required y un null. Imprime dos valores: (1) conteo de nulls con `isna` y (2) la etiqueta `violates` si el conteo > 0, si no `ok`. Pass: `1 violates`. No imputes antes de contar; no uses `notna` para el conteo de ausencias.",
+        hint: "n = isna().sum(); etiqueta violates si n>0. notna cuenta presentes, no ausencias.",
         hints: [
-          "isna() cuenta ausencias; notna cuenta presentes.",
-          "int(df['id'].isna().sum()) imprime el entero del fixture.",
+          "Primero n = int(df['id'].isna().sum()) — isna, no notna.",
+          "Luego print(n, 'violates' if n > 0 else 'ok') → 1 violates.",
         ],
-        edgeCases: ["contar filas", "fillna antes"],
+        edgeCases: ["contar filas", "fillna antes", "usar notna para ausencias"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Si imprimiste 1 ok o 0 violates, mezclaste notna con isna o invertiste la etiqueta. Required con null ⇒ violates.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Lab · conteo de nulls en id
-# Pista: el conteo de ausencias usa isna, no notna
+          code: `# Lab · nulls en required + etiqueta de violación
+# Pista: cuenta con isna (no notna) y etiqueta violates si n > 0
 import pandas as pd
-df = pd.DataFrame({"id": ["C001", None]})
-print(int(df["id"].notna().sum()))`,
+df = pd.DataFrame({"id": ["C001", None, "C003"]})
+n = int(df["id"].notna().sum())
+print(n, "ok")`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"id": ["C001", None]})
-print(int(df["id"].isna().sum()))`,
-          output: `1`,
+df = pd.DataFrame({"id": ["C001", None, "C003"]})
+n = int(df["id"].isna().sum())
+print(n, "violates" if n > 0 else "ok")`,
+          output: `1 violates`,
         },
       },
       {
@@ -1347,39 +1349,53 @@ print("drift" if missing else "schema_ok")`,
         subtopicId: "S16-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: rows_clean desde cuarentena. Dado `rows_in=10` y una lista `quarantine` con 3 filas rechazadas, imprime `rows_clean = rows_in - len(quarantine)`. Pass: `7`. La métrica se deriva del audit, no de un literal suelto.",
-        hint: "Resta len(quarantine) a rows_in; no sumes.",
+          "E1 (guiado) — Concepto: bloque `metrics` del run. Dado `rows_in=10` y `quarantine` con 3 filas, construye un dict `metrics` con `rows_in`, `rows_clean` (entradas − rechazadas), `rows_quarantine` y `pass` (True solo si quarantine vacía). Imprime el dict con claves en orden lexicográfico vía `json.dumps(..., sort_keys=True)`. Pass: JSON del oracle. La métrica se deriva del audit, no de un literal suelto.",
+        hint: "rows_clean = rows_in - len(quarantine); pass = (len(quarantine) == 0).",
         hints: [
-          "quarantine es una lista de dicts; usa len(quarantine).",
-          "print(rows_in - len(quarantine))",
+          "No sumes filas rechazadas a rows_in; resta para rows_clean.",
+          "json.dumps(metrics, sort_keys=True) fija el orden de claves del oracle.",
         ],
-        edgeCases: ["porcentaje", "sumar en vez de restar"],
+        edgeCases: ["porcentaje", "sumar en vez de restar", "pass True con cuarentena"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Con 3 en cuarentena, rows_clean=7 y pass=false. Un literal 7 sin el bloque metrics no cumple el contrato del gate.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Lab · rows_clean desde cuarentena
-# Pista: limpia = entradas - rechazadas (resta, no suma)
+          code: `# Lab · bloque metrics del run
+# Pista: rows_clean = rows_in - len(quarantine); pass solo si quarantine vacía
+import json
 rows_in = 10
 quarantine = [
     {"id": "C002", "reason": "null_required"},
     {"id": "C004", "reason": "domain_error"},
     {"id": "C007", "reason": "schema_drift"},
 ]
-print(rows_in + len(quarantine))`,
+metrics = {
+    "rows_in": rows_in,
+    "rows_clean": rows_in + len(quarantine),
+    "rows_quarantine": len(quarantine),
+    "pass": True,
+}
+print(json.dumps(metrics, sort_keys=True))`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `rows_in = 10
+          code: `import json
+rows_in = 10
 quarantine = [
     {"id": "C002", "reason": "null_required"},
     {"id": "C004", "reason": "domain_error"},
     {"id": "C007", "reason": "schema_drift"},
 ]
-print(rows_in - len(quarantine))`,
-          output: `7`,
+metrics = {
+    "rows_in": rows_in,
+    "rows_clean": rows_in - len(quarantine),
+    "rows_quarantine": len(quarantine),
+    "pass": len(quarantine) == 0,
+}
+print(json.dumps(metrics, sort_keys=True))`,
+          output: `{"pass": false, "rows_clean": 7, "rows_in": 10, "rows_quarantine": 3}`,
         },
       },
       {
@@ -1400,9 +1416,10 @@ print(rows_in - len(quarantine))`,
           language: 'python',
           title: "exercise.py",
           code: `# Lab · audit trail append-only
-# Pista: append del evento quarantine; no reasignes audit = [...]
+# Pista: append del evento quarantine; no reasignes audit = [solo el último]
 audit = [{"event": "start"}]
-print(len(audit), "start")`,
+audit = [{"event": "quarantine", "n": 2}]  # error: pisa el historial
+print(len(audit), audit[-1]["event"])`,
         },
         solutionCode: {
           language: 'python',
@@ -1506,7 +1523,7 @@ if __name__ == "__main__":
     print(m)
 `,
     portfolioNote:
-      "El gate debe emitir métricas incluso cuando pass=False. El set clean (si lo publicas) es el único input válido para los joins y el portfolio de S17.",
+      "El gate debe emitir métricas incluso cuando pass=False. Ejemplo de forma esperada del JSON: {\"pass\": false, \"rows_in\": 4, \"rows_clean\": …, \"rows_quarantine\": …}. El set clean (si lo publicas) es el único input válido para los joins y el portfolio de S17.",
     rubric: [
       { criterion: "Alineación al quality gate de la sección (fail-closed + métricas + cuarentena)", weight: "25%" },
       { criterion: "Correctitud técnica: null policy, dups/conflictos, domain, schema", weight: "20%" },
@@ -1552,6 +1569,27 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "Operar un fail exige rows_in/clean/quarantine y razones; el audit es append-only y el exit code refleja pass.",
+      },
+      {
+        question: "En un contrato PEN sintético, el monto textual `3,00` (solo coma) se interpreta como:",
+        options: ["300.0 (coma de miles)", "3.0 (decimal latino)", "None (inválido)", "3,00 como string sin parsear"],
+        correctIndex: 1,
+        explanation:
+          "Con solo coma, el contrato documentado de esta sección trata la coma como decimal latino: 3,00 → 3.0. Borrar la coma a ciegas produce 300 y sesga KPIs.",
+      },
+      {
+        question: "Fail-closed en un quality gate significa:",
+        options: ["Cerrar el notebook al primer warning", "Reintentar fillna hasta que pass=True", "Si el contrato se rompe, el job no aprueba en silencio: falla con métricas y cuarentena", "Aprobar el batch y loguear el error después"],
+        correctIndex: 2,
+        explanation:
+          "Fail-closed protege al consumidor (S17, gerencia, riesgo): el gate publica el fallo con evidencia en lugar de “arreglar” y seguir.",
+      },
+      {
+        question: "Ante dos filas con el mismo cliente_id y regiones distintas, la acción correcta es:",
+        options: ["Clasificar como conflicto, conservar evidencia en cuarentena y documentar la regla de resolución", "drop_duplicates keep='first' sin log", "Promediar las regiones como texto", "Rellenar región con moda global del dataset"],
+        correctIndex: 0,
+        explanation:
+          "Conflicto de atributo ≠ duplicado exacto: borrar a ciegas elimina la evidencia. Cuarentena + audit permiten revisión humana.",
       }
     ],
   },

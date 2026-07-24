@@ -12,16 +12,16 @@ export const section24: CourseSection = {
   icon: "Bot",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **document intake** de CP-N2-C convierte imágenes sintéticas en campos con evidencia (bbox, confidence) y cola de revisión. OCR se expone con un contrato común `real`/`fake` para tests; abstenerse bajo confidence es control de calidad, no veredicto de fraude. En backoffice (p. ej. facturas sintéticas de Lima), el valor profesional es encolar bien — no «cerrar» por score.",
+    "En un backoffice de Lima (facturas, boletas y PDFs de proveedores), el cuello de botella no es “leer letras”: es convertir un artefacto (PNG/PDF sintético en el lab) en **campos con evidencia** que un humano pueda auditar en minutos. El **document intake** de CP-N2-C modela ese camino: preproceso → OCR con confidence y bbox → schema → validación cross-field → cola HITL y métricas por campo. El OCR se expone con un contrato común `real`/`fake` para tests; abstenerse bajo confidence es control de calidad, no veredicto de fraude. El valor profesional es **encolar bien** — no “cerrar” casos por score ni inventar dígitos de RUC.",
   learningOutcomes: [
-    { text: "Preprocesar imágenes (DPI, deskew, crop, contraste)" },
-    { text: "Corregir ruido y orientación" },
-    { text: "Ejecutar OCR con idiomas, confidence por campo y orden de lectura básico" },
-    { text: "Extraer texto, tablas y pares clave–valor" },
-    { text: "Normalizar a schema de extracción" },
-    { text: "Validar cross-field y encolar revisión" },
-    { text: "Evaluar exactitud por campo en golden set" },
-    { text: "Manejar privacidad, hostiles y fallback" },
+    { text: "Preprocesar imágenes sintéticas (DPI, deskew, crop, contraste) y dejar flags auditables" },
+    { text: "Corregir ruido y orientación antes de correr el motor OCR" },
+    { text: "Ejecutar OCR con idiomas, confidence por campo y orden de lectura básico por bbox" },
+    { text: "Extraer texto, tablas y pares clave–valor con evidencia del valor" },
+    { text: "Normalizar a schema (RUC 11 dígitos, montos PE, fechas ISO) sin inventar valores" },
+    { text: "Validar cross-field, acumular reasons[] y encolar revisión sin label de fraude" },
+    { text: "Evaluar exactitud por campo y coverage_auto sobre un golden set sintético" },
+    { text: "Aplicar gates de privacidad, mime/tamaño hostiles y fallback human_rescan" },
   ],
   theory: [
     {
@@ -43,9 +43,10 @@ export const section24: CourseSection = {
       heading: "DPI, deskew, crop y contraste",
       subtopicId: "S24-T1-A",
       paragraphs: [
-        "**DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a **≥200** (ideal **300** efectivos) antes del motor. **Deskew** corrige inclinación de escaneo móvil; **crop** quita márgenes negros; **contraste** ayuda tinta débil **sin inventar dígitos** — el preproceso no es un “mejorador de fraude”.",
-        "Modelamos ops como transformaciones sobre **metadatos** de imagen sintética (`w, h, dpi, skew_deg, contrast`): no necesitas OpenCV instalado para aprender el **contrato** del pipeline. Cada op deja flags (`deskew_applied`) auditables en el run de intake CP-N2-C.",
-        "Pipeline canónico: `load → dpi_check → deskew → crop → contrast → OCR`. Caso PE sintético: foto de boleta a 96 DPI y 1.8° de sesgo; tras preproceso `dpi=200`, `deskew_applied=True`, crop 2–5% y contrast escalado — listo para adapter con `lang=spa`.",
+        "Cuando una boleta llega al intake a **96 DPI** (foto de celular, PDF rasterizado barato), el motor OCR confunde “8” con “B” y el RUC se rompe. **DPI** es densidad de puntos por pulgada: el lab eleva a **≥200** (ideal **300** efectivos) *antes* del motor. **Deskew** corrige la inclinación del escaneo; **crop** recorta márgenes negros que distraen al layout; **contraste** ayuda tinta débil. Ninguna de estas ops “arregla fraude”: no inventan dígitos ni reescriben montos.",
+        "En este curso modelamos las ops como transformaciones sobre **metadatos** de imagen sintética (`w, h, dpi, skew_deg, contrast`). No necesitas OpenCV instalado para aprender el **contrato** del pipeline: qué entra, qué sale y qué flags quedan en el log. Cada corrida deja `deskew_applied` y el `crop_box` auditable — así el revisor o el test de regresión saben *qué* se le hizo a la página antes del OCR.",
+        "Pipeline canónico: `load → dpi_check → deskew → crop → contrast → OCR`. Caso PE sintético (Lima, batch nocturno): foto de boleta a 96 DPI y 1.8° de sesgo. Tras preproceso esperas `dpi=200`, `deskew_applied=True`, `skew_deg=0.0` (ángulo ya corregido), crop ~2–5% y contraste escalado con tope — listo para el adapter con `lang=spa`.",
+        "Borde útil: si el sesgo es casi nulo (`|skew| < 0.5°`), no marques deskew “por si acaso”; un flag falso ensucia la auditoría. Si el DPI ya es 300, `max(dpi, 200)` lo deja intacto. El preproceso es barato frente a re-OCR: invierte ahí antes de culpar al motor.",
       ],
       code: {
         language: 'python',
@@ -69,18 +70,19 @@ print(meta["dpi"], meta["deskew_applied"], meta["crop_box"][0], round(meta["cont
       },
       callout: {
         type: "tip",
-        title: "200+ DPI",
+        title: "Criterio de preproceso antes del motor",
         content:
-          "Para texto pequeño, apunta a 300 DPI efectivos antes de OCR.",
+          "Checklist: (1) dpi ≥ 200 (ideal 300 en tipografía pequeña), (2) deskew_applied solo si |skew| ≥ 0.5°, (3) crop deja márgenes sin recortar sello/total, (4) contraste con tope — nunca reescribe dígitos. Si falla RUC, revisa este checklist antes de cambiar de modelo OCR.",
       },
     },
     {
       heading: "Ruido y orientación",
       subtopicId: "S24-T1-B",
       paragraphs: [
-        "Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar confidence alta en basura si OCR corre al revés. Detecta orientación por scores de señales (cabecera, densidad) o modelo; corrige **antes** de OCR.",
-        "Simulamos score por rotación y un denoise de contrato sobre flags 0/1 (no es un filtro de imagen real: solo auditamos el flag de ruido). Si score_orient < 0.5, el intake prefiere manual_orient (humano gira la página) antes de forzar auto con baja certeza — fail-closed de calidad.",
-        "Caso sintético: página con scores {0:0.1, 90:0.05, 180:0.7, 270:0.15} → 180°. Un OCR previo a orientar produce campos RUC permutados; el runbook exige fix_orientation en el preflight del batch nocturno.",
+        "Dos enemigos silenciosos del intake: **ruido** (sal/pimienta, JPEG agresivo) y **orientación** (0°/90°/180°/270°). Si corres OCR con la página al revés, el layout se rompe y —peor— el motor a veces devuelve **confidence alta en basura**. El revisor confía en el score y no mira el bbox: se cuela un RUC inventado en la cola “auto”.",
+        "Detecta orientación por scores de señales (cabecera “FACTURA”, densidad de texto) o por un modelo ligero; elige la rotación de **máximo score** y aplica la corrección **antes** del motor. Simulamos scores por rotación y un denoise de **contrato** sobre flags 0/1: no es un filtro de imagen real (un denoise de producción usaría mediana o morfología); aquí auditamos el flag de ruido para tests y runbooks.",
+        "Si el mejor score de orientación queda **bajo 0.5**, el intake prefiere `manual_orient` (un humano gira la página) antes de forzar auto con baja certeza — fail-closed de calidad. Forzar OCR “para no parar el batch” es el anti-patrón que llena la cola de basura cara de revisar.",
+        "Caso sintético del lab: scores `{0:0.1, 90:0.05, 180:0.7, 270:0.15}` → 180° con score 0.7 → `auto` (aún así rotas la página *antes* del OCR). Un OCR previo a orientar permuta dígitos de RUC; el runbook del batch nocturno exige `fix_orientation` en el preflight, junto a mime y tamaño.",
       ],
       code: {
         language: 'python',
@@ -103,18 +105,19 @@ denoise [0, 0, 0, 0, 0]`,
       },
       callout: {
         type: "warning",
-        title: "OCR antes de orientar",
+        title: "Orden obligatorio: orientar → luego OCR",
         content:
-          "Correr OCR sin corregir 180° produce campos basura con alta confianza falsa a veces.",
+          "Si el mejor score es 180° (aunque sea 0.7), rota la página y *después* llama al motor. OCR “al revés para ahorrar un paso” genera campos basura con confidence engañosa. Si score < 0.5 → manual_orient, no auto-aceptes.",
       },
     },
     {
       heading: "Idiomas, layout y confidence",
       subtopicId: "S24-T2-A",
       paragraphs: [
-        "Configura **idiomas** (spa+eng) según el corpus: facturas PE en español con tokens EN de software. El **layout** (bloques, columnas) guía el **orden de lectura**: ordena por `(col, y, x)` o por bbox; no concatenes columnas a ciegas o mezclas “Total” de la derecha con ítems de la izquierda.",
-        "Cada token/campo trae **confidence** 0–1. Umbral de **abstención por campo crítico** (RUC, total): un promedio global esconde el dígito débil. Si RUC conf < 0.85 → review_queue, no inventes dígitos ni “corrijas” con checksum inventado sin política.",
-        "Contrato del adapter: ocr_page(tokens, lang) → lista {text, conf, bbox, lang}. Low-conf se lista para HITL. FakeOcrAdapter devuelve observaciones fijadas para tests de parsing; nunca se presenta como motor real en logs de producción del curso.",
+        "Configura **idiomas** (`spa+eng`) según el corpus: facturas PE en español con tokens EN de software (“SUBTOTAL”, “SKU”). Un motor mal configurado en solo `eng` castiga acentos y “RUC”. El **layout** (bloques, columnas) guía el **orden de lectura**: en el lab ordenamos por bbox `(y0, x0)` — arriba→abajo, izquierda→derecha. No concatenes columnas a ciegas o mezclarás el “Total” de la derecha con ítems de la izquierda.",
+        "Cada token/campo trae **confidence** entre 0 y 1. El error clásico es promediar: un RUC a 0.55 y un “FACTURA” a 0.99 promedian “bien” y el intake auto-acepta basura. Usa **abstención por campo crítico** (RUC, total): si conf del RUC < 0.85 → `review_queue`. No inventes dígitos ni “corrijas” con un checksum inventado sin política escrita.",
+        "Contrato del adapter: `ocr_page(tokens, lang) → lista {text, conf, bbox, lang}`. Los low-conf se listan para HITL. `FakeOcrAdapter` devuelve observaciones fijadas para tests de parsing y abstención; **nunca** se presenta como motor real en logs de “producción” del curso. `TesseractAdapter` solo si el runtime declara el binario instalado.",
+        "Caso sintético: tokens desordenados (valor RUC primero en la lista, cabecera después). Tras ordenar por bbox, el orden de lectura es FACTURA → RUC → valor. El valor 20123456789 con conf 0.72 va a low_conf aunque el resto de la página se vea “nítida”.",
       ],
       code: {
         language: 'python',
@@ -138,18 +141,19 @@ n 3 low_conf [('20123456789', 0.72)]`,
       },
       callout: {
         type: "info",
-        title: "Abstención",
+        title: "Abstención por campo crítico (no por promedio)",
         content:
-          "Si RUC < 0.85 → review_queue, no inventes dígitos.",
+          "Umbral didáctico del lab para RUC: conf < 0.85 → review_queue. Calcula min(conf de críticos) o revisa campo a campo. Promediar 0.55 con 0.99 para “pasar” es anti-patrón: oculta el dígito débil. Nunca rellenes dígitos faltantes.",
       },
     },
     {
       heading: "Texto, tablas y pares clave–valor",
       subtopicId: "S24-T2-B",
       paragraphs: [
-        "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor, Total→monto) con bbox de evidencia del **valor**, no solo del label. Heurística KV didáctica: “Clave: valor” en la misma línea tras split de “:”.",
-        "Tablas sintéticas como listas de listas con header en fila 0; n_data_rows = len(table)-1. Ítems de factura demo alimentan validación de suma vs total, siempre con tolerancia monetaria.",
-        "Caso PE: líneas “RUC: 20123456789” y “Total: 150.00” → dict KV; tabla 2 ítems. Evidencia: adjunta bbox del valor RUC al field dict para que el revisor resalte en UI sin re-OCRizar.",
+        "Del OCR salen tres familias útiles: **texto corrido**, **tablas** (filas/columnas) y **pares clave–valor** (KV: RUC→valor, Total→monto). En intake, el KV es la unidad mínima que alimenta el schema. Heurística didáctica del lab: línea con “Clave: valor” → `split(\":\", 1)` y `strip` de ambos lados.",
+        "La evidencia no es el label “RUC” en negrita: es el **bbox del valor** (los dígitos). El revisor en UI resalta ese rectángulo sin re-OCRizar. Si solo guardas el bbox del label, el humano no ve el número dudoso y pierde tiempo.",
+        "Tablas sintéticas: listas de listas con header en fila 0; `n_data_rows = len(table) - 1`. Los ítems (montos de línea) alimentan la validación `sum(líneas) ≈ total` con tolerancia monetaria (0.01). Contar el header como ítem infla la suma y manda a revisión por error de parsing, no de negocio.",
+        "Caso PE: líneas “RUC: 20123456789” y “Total: 150.00” → dict KV; tabla de 2 ítems. Adjunta bbox del valor RUC al field dict. Más adelante, Document AI comercial hace layout multi-columna y tablas complejas; aquí fijas el contrato de evidencia antes de cambiar de motor.",
       ],
       code: {
         language: 'python',
@@ -175,18 +179,19 @@ table_rows 2 header ['Item', 'Monto']`,
       },
       callout: {
         type: "tip",
-        title: "Evidencia por campo",
+        title: "Evidencia = valor + bbox del valor",
         content:
-          "Guarda bbox del valor, no solo del label.",
+          "Al armar el field dict guarda: name, value, conf, bbox del valor (no del label). Sin bbox el HITL no resalta; sin conf no sabes si abstener. El label “RUC” solo ayuda al parser, no al revisor.",
       },
     },
     {
       heading: "Schema y normalización",
       subtopicId: "S24-T3-A",
       paragraphs: [
-        "Un **schema** define campos, tipos y required (ruc str11, total float, fecha date). Normaliza monedas, fechas a ISO y RUC a solo dígitos. Output canónico: {field, value, conf, bbox, source_doc_id} + schema_version en metadata del run.",
-        "Montos PE usan **coma decimal** (`\"150,00\"` → 150.0); no borres comas a ciegas o convertirás centavos en miles. Si hay miles y decimal (`\"1.150,00\"`), quita puntos de miles y cambia la coma por punto. Formato EN (`\"150.00\"`) ya trae punto decimal. Si tras normalizar RUC no tiene longitud 11, value=None — no rellenes con ceros mágicos. Fechas DD/MM/YYYY de boletas sintéticas pasan a YYYY-MM-DD con datetime.strptime.",
-        "Versionar schema evita que un deploy cambie el significado de total_incl_igv a mitad de un golden set. Contrato lab: norm_ruc / norm_total / norm_fecha puras, testeables sin I/O de red.",
+        "Un **schema** define campos, tipos y required: p. ej. `ruc` str de 11 dígitos, `total` float, `fecha` date ISO. La normalización es el puente entre “lo que el OCR leyó” y “lo que el sistema puede validar”. Output canónico por campo: `{field, value, conf, bbox, source_doc_id}` más `schema_version` en metadata del run.",
+        "Montos en Perú usan **coma decimal**: `\"150,00\"` es ciento cincuenta, no quince mil. Si borras comas a ciegas (`replace(\",\", \"\")`) obtienes `15000.0` y envenenas la validación cross-field y el golden set. Regla didáctica: si hay coma y punto (`\"1.150,00\"`), quita puntos de miles y cambia la coma por punto; si solo hay coma, cámbiala por punto; si solo hay punto estilo EN (`\"150.00\"`), ya es float-ready.",
+        "RUC: deja solo dígitos; si la longitud no es 11, `value=None` — no rellenes con ceros mágicos ni “completes” con checksum sin política. Fechas de boleta `DD/MM/YYYY` → `YYYY-MM-DD` con `strptime` day-first (formato PE); el formato US `%m/%d/%Y` interpreta mal el día 15.",
+        "Versionar el schema (`invoice.v1`) evita que un deploy cambie el significado de `total_incl_igv` a mitad de un golden set. Contrato del lab: `norm_ruc` / `norm_total` / `norm_fecha` puras, testeables sin red ni archivos reales.",
       ],
       code: {
         language: 'python',
@@ -228,18 +233,19 @@ print({
       },
       callout: {
         type: "warning",
-        title: "None ≠ 0",
+        title: "None ≠ 0 (y coma ≠ miles)",
         content:
-          "Si no normaliza, deja null y manda a revisión; no pongas 0.0.",
+          "Si el RUC no normaliza a 11 dígitos, deja None y manda a revisión — no pongas \"000...\" ni 0.0 en total. En montos PE, \"150,00\" → 150.0; borrar comas a ciegas produce 15000.0 y rompe el intake.",
       },
     },
     {
       heading: "Validación cross-field y cola de revisión",
       subtopicId: "S24-T3-B",
       paragraphs: [
-        "Cross-field: `abs(sum(líneas) - total) > 0.01` → `needs_review`. RUC None → `reasons.append('ruc_missing')`. Varias reasons se acumulan; el documento no se auto-acepta si la lista no está vacía o conf de críticos es baja.",
-        "La cola de revisión (HITL: *human-in-the-loop*, humano en el circuito) es el **producto**: `status=review`, `reasons[]`, evidencias bbox. **Mismatch ≠ fraude**: imprime política review_not_fraud para entrenar el hábito. Humanos investigan; el sistema solo encola.",
-        "Caso sintético del lab: total 150.0 vs líneas [100, 50] → auto; total 150.0 vs [100, 40] con ruc None y conf baja → needs_review con varias reasons. El intake batch marca human_queue y sigue con el siguiente doc sin bloquear todo el archivo.",
+        "La validación **cross-field** compara campos entre sí: `abs(sum(líneas) - total) > 0.01` → `total_mismatch`. RUC `None` → `ruc_missing`. Confidence de RUC bajo umbral → `ruc_low_conf`. Las reasons se **acumulan** en una lista; el documento no se auto-acepta si la lista no está vacía.",
+        "La cola de revisión (HITL: *human-in-the-loop*) es el **producto**, no un “error del sistema”. Entregas `status=needs_review`, `reasons[]` y bbox para que un humano decida. **Mismatch contable ≠ fraude**: una boleta mal tipada o un OCR con un dígito flojo no es acusación. Política del lab: `review_not_fraud` — humanos investigan; el pipeline solo encola.",
+        "Caso sintético del lab (mismos números en teoría, demo y transferencia): total 150.0 vs líneas [100, 50] y RUC confiable → `auto` con reasons vacías; total 150.0 vs [100, 40], ruc None y conf 0.5 → `needs_review` con `total_mismatch`, `ruc_missing` y `ruc_low_conf`.",
+        "En batch nocturno, un doc en cola no debe detener el archivo: marcas `human_queue`, logueas reasons y pasas al siguiente. Fail-closed de *calidad* (no auto-aceptar basura) no es lo mismo que fail-stop de *throughput* (tirar el batch entero).",
       ],
       code: {
         language: 'python',
@@ -265,18 +271,19 @@ note: validation≠fraud_label`,
       },
       callout: {
         type: "danger",
-        title: "Sin label de fraude",
+        title: "Política: needs_review ≠ fraude",
         content:
-          "Una inconsistencia contable es cola de revisión, no acusación.",
+          "total_mismatch, ruc_missing o low_conf solo llenan reasons[] y status=needs_review. Nunca emitas label auto_fraud desde OCR. Una inconsistencia contable es cola de revisión, no acusación ni parentesco.",
       },
     },
     {
       heading: "Golden set sintético, exactitud por campo y cobertura",
       subtopicId: "S24-T4-A",
       paragraphs: [
-        "Un **golden set** de páginas/campos etiquetados a mano mide exactitud por campo (ruc, total, fecha), no un accuracy global engañoso. Campo crítico tiene SLO propio: caer en RUC es más grave que en glosa opcional.",
-        "Accuracy = correct/n; por campo se compara pred vs true en lista de dicts. coverage_auto = auto/(auto+review) mide cuánto pasa sin HITL — subir cobertura bajando umbral sin medir error es anti-patrón.",
-        "Caso PE de lab: 3/4 correctos → 0.75; ruc acc 0.5 en dos filas; auto=7,review=3 → coverage 0.7. Reporta métricas en el paquete de CP-N2-C sin pretender que OCR “valida identidad legal”.",
+        "Un **golden set** es un conjunto pequeño de páginas/campos etiquetados a mano (pred vs true) que sirve de “verdad de laboratorio”. Mides exactitud **por campo** (ruc, total, fecha), no un accuracy global que esconde fallos caros. Caer en RUC es más grave que errar una glosa opcional: cada campo crítico tiene su propio SLO.",
+        "`field_acc = correct / n` compara `ruc_pred == ruc_true` (o total) fila a fila. En paralelo, `coverage_auto = auto / (auto + review)` mide qué fracción de documentos pasa sin HITL. Son métricas distintas: puedes tener cobertura alta y accuracy de RUC baja si bajaste el umbral de abstención.",
+        "Anti-patrón de producto: subir `coverage_auto` bajando el umbral de confidence **sin** mirar `acc_ruc`. El dashboard se ve “verde” y el backoffice recibe RUC basura en auto. Reporta siempre el par: exactitud de críticos + cobertura + tasa de abstención.",
+        "Caso PE de lab: accuracy global 3/4 → 0.75; en dos filas de golden, `acc_ruc=0.5` y `acc_total=0.5`; con auto=7 y review=3 → `coverage_auto=0.7`. Empaqueta estas métricas en CP-N2-C sin pretender que el OCR “valida identidad legal” o parentesco.",
       ],
       code: {
         language: 'python',
@@ -301,18 +308,19 @@ coverage_auto 0.7`,
       },
       callout: {
         type: "tip",
-        title: "Por campo",
+        title: "Reporta el par: accuracy de campo + cobertura",
         content:
-          "Reporta acc_ruc, acc_total, abstention_rate por separado.",
+          "Imprime al menos acc_ruc, acc_total y coverage_auto=auto/(auto+review). No sustituyas accuracy por cobertura. Si coverage sube y acc_ruc baja, el umbral de abstención está mal calibrado.",
       },
     },
     {
       heading: "Privacidad, archivos hostiles y fallback",
       subtopicId: "S24-T4-B",
       paragraphs: [
-        "Privacidad: solo fixtures sintéticos; no subas PDFs reales de clientes al sandbox. Allowlist mime pdf/png/jpeg; zip u otros → reject. Size cap (p. ej. 5e6 bytes) mitiga zip-bomb y DoS al worker OCR.",
-        "Archivos hostiles (corrupción, ratio de compresión absurdo) se rechazan o van a cuarentena. Fallback operativo: ocr_fail → human_rescan (re-escaneo o tipeo asistido), no reintentar 100 veces el mismo binario roto.",
-        "Contrato de seguridad del intake: fail-closed en mime/size; logs sin PII real; Fake vs Real adapters etiquetados. El revisor ve reasons y bbox, nunca un badge de “fraude detectado por OCR”.",
+        "Privacidad primero: en el lab solo fixtures **sintéticos** (facturas demo, IDs fake). No subas PDFs reales de clientes al sandbox ni al repo. Minimiza: cuando solo necesitas campos + bbox en el expediente, no retengas la imagen cruda más de lo necesario.",
+        "Antes del motor, un **gate de admisión**: allowlist de mime (`application/pdf`, `image/png`, `image/jpeg`); zip u otros → `reject`. Tope de tamaño (p. ej. 5_000_000 bytes) mitiga zip-bomb y DoS al worker OCR. No confíes en la extensión del nombre de archivo (`factura.pdf.zip` disfrazado).",
+        "Si el OCR falla con un binario corrupto (`ocr_fail`), el fallback operativo es `human_rescan` (re-escaneo o tipeo asistido) — no reintentar 100 veces el mismo archivo. Reintentar en bucle quema CPU y no mejora un PDF roto.",
+        "Contrato de seguridad del intake: fail-closed en mime/size; logs sin PII real; adapters `real`/`fake` etiquetados en logs. El revisor ve reasons y bbox; nunca un badge de “fraude detectado por OCR”.",
       ],
       code: {
         language: 'python',
@@ -338,20 +346,20 @@ print(gate_file({"mime": "application/pdf", "n_bytes": 9_000_000}))`,
       },
       callout: {
         type: "warning",
-        title: "Minimización",
+        title: "Gate antes del motor + minimización",
         content:
-          "Borra imágenes crudas cuando solo necesitas campos + bbox en el expediente.",
+          "Orden: (1) mime allowlist, (2) size cap, (3) recién entonces OCR. Zip o >5e6 bytes → reject. ocr_fail → human_rescan, no bucle infinito. Borra imágenes crudas cuando el expediente solo necesita campos + bbox.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro document intake CP-N2-C: preproceso, OCR con confidence, schema, cross-field y golden — sin inferir fraude. Cada demo imprime exactamente el resultado que ves en `output`.",
+    intro: "Te muestro el document intake CP-N2-C en ocho demos cortos: preproceso, orientación, confidence, KV, schema, cross-field, golden y gate hostil — sin inferir fraude. Cada demo imprime exactamente el resultado que ves en `output`; puedes copiar y correr en tu intérprete local.",
     steps: [
       {
         demoId: "S24-T1-A-DEMO",
         subtopicId: "S24-T1-A",
         environment: "local",
-        description: "DPI/deskew/crop/contraste sobre meta sintética.",
+        description: "Eleva DPI a ≥200 y marca deskew si el sesgo de la meta sintética supera 0.5°.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -366,13 +374,13 @@ print(out["dpi"], out["deskew"])
 `,
           output: `200 True`,
         },
-        why: "Elevar DPI y corregir sesgo antes del motor suele mejorar más la lectura que cambiar de modelo.",
+        why: "Elevar DPI y corregir sesgo *antes* del motor suele mejorar más la lectura de RUC que cambiar de modelo OCR; el flag deskew queda auditable en el run.",
       },
       {
         demoId: "S24-T1-B-DEMO",
         subtopicId: "S24-T1-B",
         environment: "local",
-        description: "Corregir orientación por score máximo.",
+        description: "Elige la rotación de mayor score (0/90/180/270) antes de llamar al OCR.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -383,13 +391,13 @@ print(best_orientation({0: 0.2, 180: 0.75, 90: 0.05}))
 `,
           output: `180`,
         },
-        why: "Si la página está al revés, el layout se rompe y el OCR puede devolver basura con confidence engañosamente alta.",
+        why: "Si la página está al revés, el layout se rompe y el OCR puede devolver basura con confidence engañosamente alta; orientar primero evita cola cara de basura.",
       },
       {
         demoId: "S24-T2-A-DEMO",
         subtopicId: "S24-T2-A",
         environment: "local",
-        description: "OCR con confidence y filtro de bajos.",
+        description: "Filtra tokens bajo umbral de confidence (0.85) sin promediar con tokens fuertes.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -400,13 +408,13 @@ print(low_confidence([{"t": "RUC", "c": 0.9}, {"t": "20X", "c": 0.55}]))
 `,
           output: `[{'t': '20X', 'c': 0.55}]`,
         },
-        why: "Un campo crítico con baja confidence se abstiene y va a cola — no se inventan dígitos ni se promedia para ocultarlo.",
+        why: "Un campo crítico con baja confidence se abstiene y va a cola — no se inventan dígitos ni se promedia con “FACTURA 0.99” para ocultar el dígito débil.",
       },
       {
         demoId: "S24-T2-B-DEMO",
         subtopicId: "S24-T2-B",
         environment: "local",
-        description: "Extraer KV desde líneas con dos puntos.",
+        description: "Parsea pares clave–valor desde líneas “Clave: valor” con strip en ambos lados.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -421,13 +429,13 @@ print(parse_kv(["RUC: 20123456789", "Total: 10"]))
 `,
           output: `{'RUC': '20123456789', 'Total': '10'}`,
         },
-        why: "El par clave–valor es la unidad mínima de evidencia textual antes de normalizar al schema.",
+        why: "El par clave–valor es la unidad mínima de evidencia textual antes de normalizar al schema; sin strip, el valor lleva espacio y rompe el grader y el golden.",
       },
       {
         demoId: "S24-T3-A-DEMO",
         subtopicId: "S24-T3-A",
         environment: "local",
-        description: "Normalizar RUC a 11 dígitos.",
+        description: "Normaliza RUC a solo dígitos y valida longitud 11 (sin rellenar ceros).",
         code: {
           language: 'python',
           title: "demo.py",
@@ -442,13 +450,13 @@ print(d, ok)
 `,
           output: `20123456789 True`,
         },
-        why: "Un schema canónico (solo dígitos, longitud fija) evita basura en validación y en el golden set.",
+        why: "Un schema canónico (solo dígitos, longitud fija) evita basura en validación y en el golden set; si len≠11 devuelves fallo, no un RUC inventado.",
       },
       {
         demoId: "S24-T3-B-DEMO",
         subtopicId: "S24-T3-B",
         environment: "local",
-        description: "Validación total vs suma de líneas.",
+        description: "Compara total vs suma de líneas: ok si cuadra, needs_review si no (sin label de fraude).",
         code: {
           language: 'python',
           title: "demo.py",
@@ -459,13 +467,13 @@ print(cross_field(150.0, [100.0, 50.0]))
 `,
           output: `ok`,
         },
-        why: "Cross-field manda a revisión cuando no cuadra; nunca emite un label de fraude por inconsistencia contable.",
+        why: "Cross-field manda a revisión cuando no cuadra; nunca emite un label de fraude por inconsistencia contable — el producto es la cola, no la acusación.",
       },
       {
         demoId: "S24-T4-A-DEMO",
         subtopicId: "S24-T4-A",
         environment: "local",
-        description: "Exactitud por campo en golden sintético.",
+        description: "Calcula exactitud por campo (pred==true) sobre un mini golden sintético.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -476,13 +484,13 @@ print(field_accuracy([{"p": "A", "t": "A"}, {"p": "B", "t": "A"}]))
 `,
           output: `0.5`,
         },
-        why: "Accuracy por campo crítico (RUC, total) detecta fallos que un accuracy global disimula.",
+        why: "Accuracy por campo crítico (RUC, total) detecta fallos que un accuracy global o una coverage_auto alta disimulan.",
       },
       {
         demoId: "S24-T4-B-DEMO",
         subtopicId: "S24-T4-B",
         environment: "local",
-        description: "Gate de mime/tamaño para archivos hostiles.",
+        description: "Acepta solo PDF bajo tope de bytes; rechaza hostiles antes del motor OCR.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -494,19 +502,19 @@ print(accept_doc({"mime": "application/pdf", "n": 100}))
 `,
           output: `ok`,
         },
-        why: "Allowlist de mime y tope de tamaño protegen al worker OCR antes de gastar CPU en binarios hostiles.",
+        why: "Allowlist de mime y tope de tamaño protegen al worker OCR antes de gastar CPU en zip o binarios enormes; el gate va *antes* del motor.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios (guiado → independiente → transferencia) de preproceso, orientación, OCR/KV, schema, validación, golden y hostiles. Los de transferencia componen funciones del intake; no te quedes en un solo print.",
+    intro: "24 ejercicios en tres capas por subtema: **guiado** (arregla un defecto obvio), **independiente** (aplicas el contrato sin plantilla larga) y **transferencia** (compones funciones del intake real). Cubre preproceso, orientación, OCR/KV, schema PE, validación, golden y hostiles. En transferencia no te quedes en un solo print: arma el mini-módulo que luego reutilizarás en el You Do.",
     steps: [
       {
         id: "S24-T1-A-E1",
         subtopicId: "S24-T1-A",
         kind: "guided",
         instruction:
-          "Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo metadata. Pass: 200.",
+          "Preproceso de intake (solo metadata): un escaneo sintético llega con dpi=96. El piso de calidad del lab es 200 DPI efectivos. Eleva con max(dpi, 200) e imprime el entero resultante. No inventes tipografía: upscaling de metadata no crea detalle óptico real. Pass: 200.",
         hint: "max()",
         hints: [
           "El piso de calidad del lab es 200 DPI efectivos",
@@ -515,14 +523,17 @@ print(accept_doc({"mime": "application/pdf", "n": 100}))
         ],
         edgeCases: ["upscaling no crea detalle real"],
         tests: "salida coincide con solution output",
-        feedback: "Debes imprimir 200: max(96, 200) eleva el escaneo sintético al piso de OCR.",
+        feedback: "Debes imprimir 200: max(96, 200) eleva el escaneo sintético al piso de OCR. Dejar 96 envía tipografía pequeña rota al motor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-024 · DPI mínimo 200
-# DEFECT: no eleva dpi
-dpi=96
-print(dpi)
+          code: `# CASO-LIM-024 · DPI mínimo 200 para OCR legible
+# DEFECT: deja el escaneo en 96 dpi (tipografía pequeña se rompe)
+# Completa: eleva al piso de OCR (dpi >= 200) y reporta el valor final.
+dpi = 96
+# Completa: dpi = max(dpi, 200)
+print("dpi_final", dpi)
+assert dpi >= 200, "eleva dpi al mínimo de OCR"
 `,
         },
         solutionCode: {
@@ -538,7 +549,7 @@ print(max(dpi, 200))`,
         subtopicId: "S24-T1-A",
         kind: "independent",
         instruction:
-          "Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Flag de deskew: la meta sintética trae skew=1.2 grados. Marca deskew_applied = abs(skew) >= 0.5 (umbral didáctico del lab) e imprime el booleano. Sesgo negativo también cuenta: usa valor absoluto. Pass: True.",
         hint: "abs",
         hints: [
           "Usa valor absoluto: sesgo -1.2 también cuenta",
@@ -547,7 +558,7 @@ print(max(dpi, 200))`,
         ],
         edgeCases: ["umbral empírico"],
         tests: "salida coincide con solution output",
-        feedback: "Con skew=1.2, abs(skew) >= 0.5 es True — el starter tenía el operador invertido.",
+        feedback: "Con skew=1.2, abs(skew) >= 0.5 es True — el starter tenía el operador invertido (< en vez de >=).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -608,7 +619,7 @@ print(dpi, deskew, crop)`,
         subtopicId: "S24-T1-B",
         kind: "guided",
         instruction:
-          "Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Orientación pre-OCR: scores s={0: 0.1, 90: 0.8}. Elige la rotación (key) de mayor score con max(s, key=s.get) e imprime el entero de grados — no el score. El starter elige min a propósito: corrige el defecto. Pass: 90.",
         hint: "max key=",
         hints: [
           "max(s, key=s.get) devuelve la key del mayor score",
@@ -617,7 +628,7 @@ print(dpi, deskew, crop)`,
         ],
         edgeCases: ["empates"],
         tests: "salida coincide con solution output",
-        feedback: "El score máximo está en 90°; min() era el defecto del starter.",
+        feedback: "El score máximo está en 90°; min() era el defecto del starter y enviaría la peor rotación al motor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -640,16 +651,16 @@ print(max(s, key=s.get))`,
         subtopicId: "S24-T1-B",
         kind: "independent",
         instruction:
-          "Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Auditoría de ruido (contrato, no filtro real): flags=[0, 1, 1, 0] donde 1 = píxel marcado como ruido. Cuenta cuántos flags están en 1 (sum) e imprime ese entero. No uses len(flags): eso cuenta todos los píxeles, no el ruido. Pass: 2.",
         hint: "sum",
         hints: [
           "sum(flags) cuenta los 1 (ruido marcado)",
           "len(flags) cuenta todos los píxeles, no el ruido",
-          "Aquí solo auditas el flag; denoise real usaría filtros",
+          "Aquí solo auditas el flag; denoise real usaría filtros (mediana/morfología)",
         ],
         edgeCases: ["modelo real de denoise"],
         tests: "salida coincide con solution output",
-        feedback: "Hay dos flags en 1 → sum=2. len() cuenta longitud, no ruido.",
+        feedback: "Hay dos flags en 1 → sum=2. len() cuenta longitud (4), no ruido — confunde al runbook de preflight.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -708,16 +719,16 @@ print(best, score, action)`,
         subtopicId: "S24-T2-A",
         kind: "guided",
         instruction:
-          "Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Filtro de confidence por token: toks = [{'text':'A','conf':0.9}, {'text':'B','conf':0.5}]. Quédate solo textos con conf >= 0.85 (umbral de auto-accept del lab) e imprime la lista de text. El starter usa 0.5 a propósito: corrige el umbral. No mutes conf. Pass: ['A'].",
         hint: "list comp",
         hints: [
           "Umbral de auto-accept del lab: conf >= 0.85",
           "List comprehension sobre t['text']",
-          "0.5 es demasiado bajo y deja pasar basura",
+          "0.5 es demasiado bajo y deja pasar basura a auto",
         ],
         edgeCases: ["umbral por campo"],
         tests: "salida coincide con solution output",
-        feedback: "Solo 'A' pasa el umbral 0.85; B con 0.5 se filtra.",
+        feedback: "Solo 'A' pasa el umbral 0.85; B con 0.5 se filtra. Umbral 0.5 en el starter deja pasar basura al auto-accept.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -827,7 +838,7 @@ print(m, status, weak)`,
         subtopicId: "S24-T2-B",
         kind: "guided",
         instruction:
-          "KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Parse KV de factura: s='Total: 12.5'. Separa clave y valor con split(':', 1), aplica strip a ambos lados e imprime 'Total 12.5' (sin dos puntos). El espacio tras ':' es el defecto típico del starter. Pass: Total 12.5.",
         hint: "split once",
         hints: [
           "split(':', 1) corta solo en el primer dos puntos",
@@ -836,7 +847,7 @@ print(m, status, weak)`,
         ],
         edgeCases: ["múltiples dos puntos"],
         tests: "salida coincide con solution output",
-        feedback: "Sin strip, el valor puede llevar espacio inicial y fallar el grader.",
+        feedback: "Sin strip, el valor lleva espacio inicial (' 12.5') y falla normalización/golden.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -861,7 +872,7 @@ print(k.strip(), v.strip())`,
         subtopicId: "S24-T2-B",
         kind: "independent",
         instruction:
-          "Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Filas de datos en tabla sintética: t=[['H1','H2'],['a','b']]. La fila 0 es header; imprime el número de filas de datos (len(t)-1). Contar el header como ítem infla sumas vs total en validación. Pass: 1.",
         hint: "len-1",
         hints: [
           "Fila 0 es header; datos = len(t) - 1",
@@ -870,7 +881,7 @@ print(k.strip(), v.strip())`,
         ],
         edgeCases: ["tablas irregulares"],
         tests: "salida coincide con solution output",
-        feedback: "len(t) incluye header; el contrato pide solo filas de datos.",
+        feedback: "len(t) incluye header (2); el contrato pide solo filas de datos (1) para no inflar sumas vs total.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -932,7 +943,7 @@ print(sorted(fields, key=lambda t: t[0]))`,
         subtopicId: "S24-T3-A",
         kind: "guided",
         instruction:
-          "Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Limpieza de RUC parcial: s='20-123' llega con guiones del OCR. Deja solo dígitos con re.sub(r'\\D', '', s) e imprime el string limpio. Aquí no validas longitud 11 (eso va en el schema completo); solo limpias. Pass: 20123.",
         hint: "re.sub",
         hints: [
           "re.sub(r'\\D', '', s) elimina no-dígitos",
@@ -941,7 +952,7 @@ print(sorted(fields, key=lambda t: t[0]))`,
         ],
         edgeCases: ["vacío tras norm"],
         tests: "salida coincide con solution output",
-        feedback: "20-123 → 20123 tras quitar no-dígitos. El guion no es dígito.",
+        feedback: "20-123 → 20123 tras quitar no-dígitos. El guion no es dígito; dejarlo rompe el schema.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -966,7 +977,7 @@ print(re.sub(r'\\D', '', s))`,
         subtopicId: "S24-T3-A",
         kind: "independent",
         instruction:
-          "Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY (formato PE). Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Fecha de boleta PE: '15/01/2026' (día/mes/año) → ISO '2026-01-15' con datetime.strptime y date().isoformat(). Usa '%d/%m/%Y' (day-first). El starter usa formato US '%m/%d/%Y' a propósito: con día 15 falla o invierte. Pass: 2026-01-15.",
         hint: "strptime %d/%m/%Y",
         hints: [
           "Boletas PE: día/mes/año → '%d/%m/%Y'",
@@ -975,7 +986,7 @@ print(re.sub(r'\\D', '', s))`,
         ],
         edgeCases: ["formatos mixtos"],
         tests: "salida coincide con solution output",
-        feedback: "15/01/2026 con dayfirst es 2026-01-15. %m/%d/%Y falla o invierte el día.",
+        feedback: "15/01/2026 con day-first es 2026-01-15. %m/%d/%Y falla (mes 15 inválido) o invierte el día.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1047,7 +1058,7 @@ print(norm_ruc(raw["ruc"]), norm_total(raw["total"]))`,
         subtopicId: "S24-T3-B",
         kind: "guided",
         instruction:
-          "Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Cross-field guiado (números chicos): total=10.0, lines=[4.0, 5.0]. Si abs(sum(lines)-total) > 0.01 imprime needs_review; si no, auto. Tolerancia 0.01 cubre redondeo de moneda. Nunca imprimas 'fraud'. Pass: needs_review.",
         hint: "abs(sum-total)",
         hints: [
           "4.0+5.0=9.0 ≠ 10.0 → mismatch",
@@ -1056,7 +1067,7 @@ print(norm_ruc(raw["ruc"]), norm_total(raw["total"]))`,
         ],
         edgeCases: ["redondeo moneda"],
         tests: "salida coincide con solution output",
-        feedback: "Suma 9 vs total 10 supera 0.01 → needs_review. Siempre 'auto' era el defecto.",
+        feedback: "Suma 9 vs total 10 supera 0.01 → needs_review. Siempre 'auto' era el defecto del starter (anti-patrón).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1079,7 +1090,7 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
         subtopicId: "S24-T3-B",
         kind: "independent",
         instruction:
-          "Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Acumular reasons para HITL: ruc=None, reasons=[]. Si ruc is None, haz append de 'ruc_missing' e imprime la lista. No lances excepción: el revisor necesita la traza en reasons[], no un crash del batch. Pass: ['ruc_missing'].",
         hint: "append",
         hints: [
           "Acumula reasons; no lances excepción",
@@ -1088,7 +1099,7 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
         ],
         edgeCases: ["múltiples reasons"],
         tests: "salida coincide con solution output",
-        feedback: "RUC ausente debe dejar traza en reasons[] para el revisor humano.",
+        feedback: "RUC ausente debe dejar traza en reasons[] para el revisor humano; lista vacía oculta el fallo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1166,7 +1177,7 @@ review_not_fraud`,
         subtopicId: "S24-T4-A",
         kind: "guided",
         instruction:
-          "Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Accuracy global sobre golden: correct=3 aciertos, n=4 campos. Imprime correct/n como float (0.75). El starter calcula la tasa de error (n-correct)/n a propósito — no la copies. Pass: 0.75.",
         hint: "división float",
         hints: [
           "accuracy = correct / n (no error rate)",
@@ -1175,7 +1186,7 @@ review_not_fraud`,
         ],
         edgeCases: ["n=0"],
         tests: "salida coincide con solution output",
-        feedback: "correct/n = 0.75. El starter calculaba la tasa de error (1 - acc).",
+        feedback: "correct/n = 0.75. El starter calculaba la tasa de error (1 - acc) — métrica distinta.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1198,7 +1209,7 @@ print(correct / n)`,
         subtopicId: "S24-T4-A",
         kind: "independent",
         instruction:
-          "Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Accuracy por campo RUC: rows=[{'ruc_pred':'1','ruc_true':'1'}, {'ruc_pred':'2','ruc_true':'1'}]. Fracción de filas con ruc_pred==ruc_true. Mide el golden — no hardcodees 1.0. Pass: 0.5.",
         hint: "sum generator",
         hints: [
           "Compara ruc_pred == ruc_true por fila",
@@ -1207,7 +1218,7 @@ print(correct / n)`,
         ],
         edgeCases: ["campos missing"],
         tests: "salida coincide con solution output",
-        feedback: "Una de dos filas acierta el RUC → field accuracy 0.5.",
+        feedback: "Una de dos filas acierta el RUC → field accuracy 0.5. Hardcodear 1.0 miente al dashboard de CP-N2-C.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1272,7 +1283,7 @@ print(acc_ruc, coverage_auto)`,
         subtopicId: "S24-T4-B",
         kind: "guided",
         instruction:
-          "Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed (si no está permitido, rechaza). Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Gate de mime (fail-closed): mime='application/zip' no está en la allowlist {pdf, png, jpeg} del intake de facturas. Imprime reject. No confíes en la extensión del nombre de archivo. El starter invierte las ramas a propósito. Pass: reject.",
         hint: "set membership",
         hints: [
           "zip no está en la allowlist del intake de facturas",
@@ -1281,7 +1292,7 @@ print(acc_ruc, coverage_auto)`,
         ],
         edgeCases: ["doble extensión"],
         tests: "salida coincide con solution output",
-        feedback: "application/zip se rechaza en el gate de admisión antes del motor OCR.",
+        feedback: "application/zip se rechaza en el gate de admisión *antes* del motor OCR. Aceptar zip abre hostiles al worker.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1306,7 +1317,7 @@ print('reject' if mime not in allowed else 'ok')`,
         subtopicId: "S24-T4-B",
         kind: "independent",
         instruction:
-          "Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+          "Gate de tamaño pre-OCR: n=6_000_000 bytes supera el tope didáctico 5_000_000. Imprime reject para mitigar DoS al worker. El starter invierte ok/reject a propósito. Pass: reject.",
         hint: "n > 5_000_000 → reject",
         hints: [
           "Tope didáctico del lab: 5_000_000 bytes",
@@ -1315,7 +1326,7 @@ print('reject' if mime not in allowed else 'ok')`,
         ],
         edgeCases: ["streaming"],
         tests: "salida coincide con solution output",
-        feedback: "6e6 > 5e6 → reject. Invertir el umbral abre la puerta a zip-bomb / DoS.",
+        feedback: "6e6 > 5e6 → reject. Invertir el umbral abre la puerta a zip-bomb / DoS al worker OCR.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1393,20 +1404,21 @@ human_rescan`,
   youDo: {
     title: "Intake OCR sintético (document intake CP-N2-C)",
     context:
-      "Procesa al menos 3 “documentos” sintéticos (dicts de tokens o meta de imagen): preproceso meta → extracción KV → normalización a schema → validación cross-field → métricas por campo y cola de revisión. Sin PII real; sin label de fraude. Criterio de aceptación: un script o notebook que, al correr, imprima status por doc, reasons[] cuando aplique, y acc_ruc / acc_total / coverage_auto sobre un mini golden.",
+      "Cierra el arco S23→S24: el artefacto descargado (meta de imagen + tokens OCR simulados) entra al **document intake** de CP-N2-C. Procesa al menos 3 “documentos” sintéticos: preproceso meta → extracción KV → normalización a schema (RUC 11, montos PE con coma decimal, fecha ISO) → validación cross-field → métricas por campo y cola de revisión. Sin PII real; sin label de fraude. Criterio de aceptación: un script o notebook que, al correr, imprima status y reasons[] por doc, más acc_ruc / acc_total / coverage_auto sobre un mini golden (≥2 filas).",
     objectives: [
-      "Pipeline preproceso → OCR simulado → schema (campos ruc, total, fecha)",
+      "Pipeline preproceso → OCR simulado → schema (campos ruc, total, fecha) con schema_version",
       "Abstener campos low-conf (umbral por campo crítico, p. ej. RUC < 0.85 → review)",
-      "Golden de al menos 2 docs con accuracy por campo (ruc y total)",
-      "Gate de archivos hostiles (mime allowlist + size cap) antes del motor",
+      "Golden de al menos 2 docs con accuracy por campo (ruc y total) y coverage_auto",
+      "Gate de archivos hostiles (mime allowlist + size cap) antes del motor; ocr_fail → human_rescan",
     ],
     requirements: [
-      "Datos 100% sintéticos (facturas demo, IDs fake)",
-      "bbox o evidencia por campo crítico en el dict de salida",
+      "Datos 100% sintéticos (facturas demo, IDs fake); no PDFs reales de clientes",
+      "bbox o evidencia por campo crítico (del valor, no solo del label) en el dict de salida",
       "needs_review ≠ fraude (política explícita en log o comentario de módulo)",
+      "norm_total PE-aware: \"150,00\" → 150.0 (no 15000.0)",
       "es-PE en labels de UI/log",
       "Funciones puras testeables: al menos preprocess, parse_kv, norm_*, validate, field_acc",
-      "README breve: cómo correr, fixtures usados, métricas obtenidas",
+      "README breve: cómo correr, fixtures usados, métricas obtenidas (acc_ruc, acc_total, coverage_auto)",
     ],
     starterCode: `"""Document intake CP-N2-C — scaffold sintético.
 Completa preprocess, parse_kv, norm_*, validate y field_acc.
@@ -1482,44 +1494,39 @@ print("gate", gate_file({"mime": "image/png", "n_bytes": 12_000}))
   selfCheck: {
     questions: [
       {
-        question: "¿Qué haces si confidence de RUC es 0.6?",
+        question: "¿Qué haces si confidence de RUC es 0.6 (umbral lab 0.85)?",
         options: ["Aceptar igual", "Inventar dígitos", "Etiquetar fraude", "Abstener y encolar revisión"],
         correctIndex: 3,
         explanation:
-          "Abstención bajo umbral es control de calidad: el campo crítico va a cola, no se inventan dígitos.",
+          "Abstención bajo umbral es control de calidad: el campo crítico va a cola HITL. No se inventan dígitos ni se etiqueta fraude por score bajo.",
       },
       {
-        question: "Un mismatch total vs líneas implica:",
+        question: "Un mismatch total vs suma de líneas en la validación cross-field implica:",
         options: ["Fraude probado", "Cola de revisión / corrección", "Borrar el doc", "Subir DPI"],
         correctIndex: 1,
         explanation:
-          "Validación ≠ acusación de fraude. Solo encola reasons[] para humanos.",
+          "Validación ≠ acusación de fraude. Solo acumula reasons[] (p. ej. total_mismatch) y status=needs_review para humanos.",
       },
       {
-        question: "¿Por qué medir accuracy por campo?",
+        question: "¿Por qué medir accuracy por campo (p. ej. acc_ruc) y no solo un accuracy global?",
         options: ["Es más corto", "OCR no tiene global", "Los campos críticos pueden fallar aunque el global se vea bien", "Solo para imágenes"],
         correctIndex: 2,
         explanation:
-          "Campos caros (RUC, total) necesitan SLO propio; un accuracy global los disimula.",
+          "Campos caros (RUC, total) necesitan SLO propio; un accuracy global o una coverage_auto alta los disimula.",
       },
       {
-        question: "Archivo application/zip en intake de facturas:",
+        question: "Un archivo application/zip llega al intake de facturas. ¿Qué hace el gate de admisión?",
         options: ["Gate reject/review por mime no permitido", "Siempre OK", "OCR directo", "Enviar por email"],
         correctIndex: 0,
         explanation:
-          "Allowlist de mime y tamaño: zip no es documento de factura del lab.",
+          "Allowlist de mime (pdf/png/jpeg) y tope de tamaño: zip no es documento de factura del lab; se rechaza antes del motor.",
       },
       {
         question: "Si los scores de orientación dan lo mejor en 180° con score 0.7, ¿cuándo corres OCR?",
-        options: [
-          "Antes de rotar, para ganar tiempo",
-          "Después de corregir orientación",
-          "Solo si conf media > 0.9",
-          "Nunca; se etiqueta fraude",
-        ],
-        correctIndex: 1,
+        options: ["Antes de rotar, para ganar tiempo", "Solo si conf media > 0.9", "Nunca; se etiqueta fraude", "Después de corregir orientación"],
+        correctIndex: 3,
         explanation:
-          "Orientación incorrecta rompe layout y puede dar confidence alta en basura; corrige antes del motor.",
+          "Orientación incorrecta rompe layout y puede dar confidence alta en basura; corrige rotación y *después* llama al motor. Score 0.7 ≥ 0.5 → auto de orientación, no de fraude.",
       },
     ],
   },
@@ -1559,11 +1566,13 @@ print("gate", gate_file({"mime": "image/png", "n_bytes": 12_000}))
     books: [
       {
         label: "Document Image Analysis (survey / DPI literature)",
-        note: "deskew, layout y preproceso — scholar.google.com/scholar?q=document+image+analysis+OCR+deskew+survey",
+        url: "https://scholar.google.com/scholar?q=document+image+analysis+OCR+deskew+survey",
+        note: "Surveys de deskew, layout y preproceso antes de OCR",
       },
       {
         label: "Practical MLOps (data quality chapters)",
-        note: "golden sets y métricas en producción — oreilly.com/library/view/practical-mlops/9781098103002/",
+        url: "https://www.oreilly.com/library/view/practical-mlops/9781098103002/",
+        note: "Golden sets, data quality y métricas en producción",
       },
     ],
     courses: [

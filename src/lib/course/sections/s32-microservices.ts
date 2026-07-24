@@ -15,7 +15,7 @@ export const section32: CourseSection = {
   jobRelevance:
     "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido **no** son etiqueta de fraude ni de parentesco.",
   learningOutcomes: [
-    { text: "Diseñar un feature catalog (numéricas/categóricas/texto) y validar que las keys del row ⊆ catálogo antes del fit" },
+    { text: "Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys" },
     { text: "Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False" },
     { text: "Construir features relacionales (shared_address, degree, min path) sin usar label de decisión como input" },
     { text: "Calcular conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo" },
@@ -28,9 +28,9 @@ export const section32: CourseSection = {
     {
       heading: "Tabla de features versionada sin leakage",
       paragraphs: [
-        "Imagina un modelo offline con AUC excelente que se derrumba al desplegarse: las features de train usaron el timestamp del outcome o la mediana del set completo. Eso es **leakage** — filtrar al entrenamiento información que no existiría en el momento de la decisión. Aquí construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en la Red Andina ficticia. El gate es **train ≡ serve**: la misma transformación en entrenamiento e inferencia, sin leakage temporal ni de label.",
-        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético (continuación del grafo de evidencia de S31); salida: feature set id `fs-vN` con hash de schema listo para el baseline de S33.",
-        "Orden de la sección: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Features de contacto o shared address **no** son etiqueta de fraude ni parentesco: son señales para el modelo o la cola humana, no veredictos.",
+        "Imagina un modelo offline con AUC excelente que se derrumba al desplegarse: las features de train usaron el timestamp del outcome o la mediana del set completo. Eso es **leakage** — filtrar al entrenamiento información que no existiría en el momento de la decisión. En un workbench de investigación relacional el daño es doble: métricas optimistas y colas humanas que confían en scores contaminados. Aquí construyes la **tabla de features versionada** del workbench **CP-N3-B** con filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`) en la Red Andina ficticia. El gate es **train ≡ serve**: la misma transformación en entrenamiento e inferencia, sin leakage temporal ni de label.",
+        "Historia mínima del fallo (antes de la solución): un notebook cuenta eventos con `ts <= t` e incluye el instante de decisión; el AUC sube; en serve, con la ventana correcta, el score colapsa. Otro fallo: la mediana de amount se calcula sobre train+test y el z-score “conoce” el futuro. Esta sección te da el camino inverso — catálogo, ventana half-open, stats congeladas, split sin overlap y `fs-vN` — para que el baseline de S33 no herede un espejismo.",
+        "Producto incremental: **catálogo** + transformers **fit/transform idénticos** en train e inferencia, **sin futuro** ni labels de decisión como feature. Entrada: eventos y grafo sintético (continuación del grafo de evidencia de S31: shared address, degree, path); salida: feature set id `fs-vN` con hash de schema listo para el baseline de S33. Orden: **T1 tipos** → **T2 relacionales/grafo** → **T3 pipelines** → **T4 validación/leakage**. Features de contacto o shared address **no** son etiqueta de fraude ni parentesco: son señales para el modelo o la cola humana, no veredictos.",
       ],
       callout: {
         type: "info",
@@ -165,22 +165,25 @@ path 99`,
       subtopicId: "S32-T2-B",
       paragraphs: [
         "Ventanas **half-open** `[t−w, t)` cuentan eventos **sin** incluir el instante de decisión `t`. Incluir `ts==t` o **futuro** es **leakage temporal clásico**: el modelo “ve” el outcome o el mismo evento de decisión. Documenta la política en el feature catalog para que train y serve no diverjan.",
-        "Contrato: entrada lista `ts`, `t`, `w` (y opcionalmente canal); salida count en ventana y freq por canal. Error: `ts >= t` dentro del count. Criterio: política half-open **documentada** y testeada con un caso que incluya `ts==t`.",
-        "Aplicación a `CASO-LIM-032`: eventos `[1, 2, 3, 5]` con `t=5`, `w=3` → solo `2` y `3` entran (`1` queda fuera de `[2, 5)`); **excluye** `ts==5`. Frecuencia app/web se calcula solo sobre ese subconjunto.",
+        "Contrato: entrada lista `ts`, `t`, `w` (y opcionalmente canal); salida count en ventana y freq por canal. Error: `ts >= t` dentro del count. Criterio: política half-open **documentada** y testeada con un caso que incluya `ts==t`. Compara siempre el conteo **cerrado** (mal) vs **half-open** (bien) en el mismo fixture: si el score offline solo sube con el cerrado, sospecha leakage.",
+        "Aplicación a `CASO-LIM-032`: eventos `[1, 2, 3, 5]` con `t=5`, `w=3` → half-open cuenta `2` y `3` (`count=2`); el cerrado mal contaría también `5` (`count=3`). Frecuencia app/web se calcula solo sobre el subconjunto half-open.",
       ],
       code: {
         language: 'python',
         title: "window.py",
-        code: `def window_count(events, t, w):
-    return sum(1 for ts in events if t - w <= ts < t)
+        code: `def window_count(events, t, w, closed=False):
+    if closed:
+        return sum(1 for ts in events if t - w <= ts <= t)  # mal: incluye t
+    return sum(1 for ts in events if t - w <= ts < t)  # bien: half-open
 
 events, t, w = [1, 2, 3, 5], 5, 3
 count = window_count(events, t, w)
+bad = window_count(events, t, w, closed=True)
 includes_t = any(ts == t for ts in events if t - w <= ts < t)
-print("count", count)
+print("count", count, "closed_bad", bad)
 print("includes_t", includes_t)
 print("policy", "half_open")`,
-        output: `count 2
+        output: `count 2 closed_bad 3
 includes_t False
 policy half_open`,
       },
@@ -195,9 +198,9 @@ policy half_open`,
       heading: "Transformers custom y cadena fit→transform",
       subtopicId: "S32-T3-A",
       paragraphs: [
-        "Un **transformer** tiene `fit` (aprende estado) y `transform` (aplica). Encadenar fill luego scale exige `fitted=True`; **transform antes de fit debe fallar** de forma explícita — no silent default en serve. En sklearn esto se formaliza con `Pipeline` y `ColumnTransformer`; aquí modelamos la misma idea en Python puro para ver el contrato sin magia.",
-        "Contrato: entrada serie categórica (o batch multi-columna) y steps; salida moda fit, transform `None→moda`, flag `not_fitted`. Para columnas heterogéneas, un **router por tipo** aplica imputer/scale a numéricas y mode-imputer a categóricas — el análogo conceptual de ColumnTransformer. Criterio: **secuencia determinista train≡serve**.",
-        "Aplicación a `CASO-LIM-032`: moda de canal `app`; cadena numérica fill0 luego *2 sobre montos; `not_fitted` levanta error si transform se llama antes de fit.",
+        "Un **transformer** tiene `fit` (aprende estado) y `transform` (aplica). Encadenar fill luego scale exige `fitted=True`; **transform antes de fit debe fallar** de forma explícita — no silent default en serve. En sklearn el mismo contrato se formaliza con `Pipeline` (pasos en serie) y `ColumnTransformer` (pasos por columnas); aquí lo modelamos en Python puro para ver el contrato sin magia de librería y sin riesgo de APIs no instaladas en el workbench.",
+        "Contrato: entrada serie categórica (o batch multi-columna) y steps; salida moda fit, transform `None→moda`, y error si `not_fitted`. Para columnas heterogéneas, un **router por tipo** (análogo de ColumnTransformer) aplica imputer/scale a numéricas y mode-imputer a categóricas. Un **MiniPipeline** encadena steps con un solo `fit` y un solo `transform` — la idea de sklearn Pipeline en pocas líneas. Criterio: **secuencia determinista train≡serve**.",
+        "Aplicación a `CASO-LIM-032`: moda de canal `app`; cadena numérica fill0 luego *2 sobre montos; `not_fitted` levanta error si transform se llama antes de fit. Cuando migres a sklearn en el stack de producción, reutilizas el mismo orden mental: fit solo en train, transform en serve con estado congelado.",
       ],
       code: {
         language: 'python',
@@ -213,6 +216,20 @@ policy half_open`,
             raise RuntimeError("not fitted")
         return [self.mode if x is None else x for x in xs]
 
+class MiniPipeline:
+    """Analogía de sklearn.Pipeline: fit en orden, transform en orden."""
+    def __init__(self, steps):
+        self.steps = steps  # lista de (nombre, transformer)
+    def fit(self, xs):
+        for _, t in self.steps:
+            t.fit(xs)
+            xs = t.transform(xs)
+        return self
+    def transform(self, xs):
+        for _, t in self.steps:
+            xs = t.transform(xs)
+        return xs
+
 def column_router(batch, numeric_cols, cat_cols, num_state, cat_imputer):
     out = {}
     for c in numeric_cols:
@@ -224,6 +241,8 @@ def column_router(batch, numeric_cols, cat_cols, num_state, cat_imputer):
 
 imp = ModeImputer().fit(["app", "app", "web"])
 print(imp.transform([None, "web"]))
+pipe = MiniPipeline([("impute", ModeImputer())])
+print("pipe", pipe.fit(["app", "app", "web"]).transform([None, "web"]))
 routed = column_router(
     {"amount": [None, 3], "canal": [None, "web"]},
     ["amount"], ["canal"],
@@ -233,6 +252,7 @@ routed = column_router(
 print("amount", routed["amount"], "canal", routed["canal"])
 print("fitted", True)`,
         output: `['app', 'web']
+pipe ['app', 'web']
 amount [0, 6] canal ['app', 'web']
 fitted True`,
       },
@@ -431,30 +451,33 @@ path 99`,
         demoId: "S32-T2-B-DEMO",
         subtopicId: "S32-T2-B",
         environment: "local-python",
-        description: "Cuenta eventos en ventana half-open [t-w,t) y verifica que t no entra en el conteo.",
+        description: "Cuenta eventos en ventana half-open [t-w,t), contrasta con el conteo cerrado (mal) e incluye_t=False.",
         code: {
           language: 'python',
           title: "w_demo.py",
-          code: `def count_window(events, t, w):
+          code: `def count_window(events, t, w, closed=False):
+    if closed:
+        return sum(1 for ts in events if t - w <= ts <= t)
     return sum(1 for ts in events if t - w <= ts < t)
 
 events, t, w = [1, 2, 3, 5], 5, 3
 count = count_window(events, t, w)
+bad = count_window(events, t, w, closed=True)
 includes_t = any(ts == t for ts in events if t - w <= ts < t)
-print("count", count)
+print("count", count, "closed_bad", bad)
 print("includes_t", includes_t)
-print("ok", count == 2 and includes_t is False)`,
-          output: `count 2
+print("ok", count == 2 and includes_t is False and bad == 3)`,
+          output: `count 2 closed_bad 3
 includes_t False
 ok True`,
         },
-        why: "La política half-open elimina leakage temporal al construir frecuencias de canal.",
+        why: "La política half-open elimina leakage temporal; el conteo cerrado infla features y métricas offline.",
       },
       {
         demoId: "S32-T3-A-DEMO",
         subtopicId: "S32-T3-A",
         environment: "local-python",
-        description: "Fit de moda, transform de None y fallo explícito si se transforma sin fit.",
+        description: "Fit de moda, transform de None, fallo si no hay fit, y router numérico/categórico (análogo ColumnTransformer).",
         code: {
           language: 'python',
           title: "tf_demo.py",
@@ -469,18 +492,33 @@ ok True`,
             raise RuntimeError("not fitted")
         return [self.mode if x is None else x for x in xs]
 
+def column_router(batch, num_cols, cat_cols, num_state, cat_imputer):
+    out = {}
+    for c in num_cols:
+        f, s = num_state["fill"], num_state["scale"]
+        out[c] = [(f if v is None else v) * s for v in batch[c]]
+    for c in cat_cols:
+        out[c] = cat_imputer.transform(batch[c])
+    return out
+
 imp = ModeImputer().fit(["app", "app", "web"])
 print(imp.transform([None, "web"]))
 print("fitted", imp.mode is not None)
 try:
     ModeImputer().transform([None])
 except RuntimeError as e:
-    print("before_fit", str(e))`,
+    print("before_fit", str(e))
+routed = column_router(
+    {"amount": [None, 3], "canal": [None, "web"]},
+    ["amount"], ["canal"], {"fill": 0, "scale": 2}, imp,
+)
+print("routed", routed["amount"], routed["canal"])`,
           output: `['app', 'web']
 fitted True
-before_fit not fitted`,
+before_fit not fitted
+routed [0, 6] ['app', 'web']`,
         },
-        why: "fit/transform ordenado es el contrato mínimo de un transformer reutilizable.",
+        why: "fit/transform ordenado + router por tipo es el contrato de un pipeline heterogéneo reutilizable.",
       },
       {
         demoId: "S32-T3-B-DEMO",
@@ -1319,30 +1357,41 @@ assert meets is True
         id: "S32-T3-A-E2",
         subtopicId: "S32-T3-A",
         kind: "independent",
-        instruction: "S32-T3-A-E2 · `assess` con fitted, mode, transform_before_fit. Válido: fitted True, mode no None, transform_before_fit False. Adverso: transform_before_fit True. Sin fitted → `MISSING:fitted`.",
-        hint: "Missing primero; PASS exige los tres campos del contrato.",
+        instruction: "S32-T3-A-E2 · `assess` recibe `train_xs` y `serve_xs`: haz fit de moda en train y transform en serve. Válido: train con moda aprendible y serve transformable. Adverso: `try_before_fit=True` (intentar transform sin fit). Sin train_xs → `MISSING:train_xs`. No confíes en un flag `fitted` prebakeado.",
+        hint: "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
         hints: [
-          "Missing primero; PASS exige los tres campos del contrato.",
-          "Adverso: fitted False o transform_before_fit True.",
+          "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
+          "mode = max(set(train_xs), key=train_xs.count); serve rellena None con mode.",
         ],
-        edgeCases: ["falta fitted", "fixture adverso: transform_before_fit=True", "CASO-LIM-032-3A es sintético"],
-        tests: "Salida: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted`.",
-        feedback: "S32-T3-A-E2: el state fitted es evidencia; sin él no hay transform legítimo en serve.",
+        edgeCases: ["falta train_xs", "fixture adverso: try_before_fit=True (transform sin fit)", "CASO-LIM-032-3A es sintético"],
+        tests: "Salida: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:train_xs`.",
+        feedback: "S32-T3-A-E2: el state fitted se demuestra con fit real sobre train_xs; un flag no es evidencia.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e2.py",
-          code: `# CASO-LIM-032 · assess transformer fit
-# DEFECT: PASS si transform_before_fit
+          code: `# CASO-LIM-032 · assess transformer fit from series
+# DEFECT: PASS si try_before_fit; no hace fit real
 def assess(record: dict) -> str:
-    required = {"case_id", "fitted", "mode", "transform_before_fit"}
+    required = {"case_id", "train_xs", "serve_xs", "try_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["transform_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
+    # DEFECT: confía en el flag adverso al revés
+    return "PASS" if record["try_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
-invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
-incomplete = {k: v for k, v in valid.items() if k != "fitted"}
+valid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": False,
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": True,
+}
+incomplete = {k: v for k, v in valid.items() if k != "train_xs"}
 print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
         },
@@ -1350,49 +1399,76 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
           language: 'python',
           title: "s32-t3-a-e2.py",
           code: `def assess(record: dict) -> str:
-    required = {"case_id", "fitted", "mode", "transform_before_fit"}
+    required = {"case_id", "train_xs", "serve_xs", "try_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    ok = record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None
+    if record["try_before_fit"] is True:
+        return "REJECT_TRANSFORM_BEFORE_FIT"
+    train_xs = record["train_xs"]
+    if not train_xs:
+        return "REJECT_TRANSFORM_BEFORE_FIT"
+    mode = max(set(train_xs), key=train_xs.count)
+    out = [mode if x is None else x for x in record["serve_xs"]]
+    ok = mode is not None and len(out) == len(record["serve_xs"])
     return "PASS" if ok else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
-invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
-incomplete = {k: v for k, v in valid.items() if k != "fitted"}
+valid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": False,
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": True,
+}
+incomplete = {k: v for k, v in valid.items() if k != "train_xs"}
 print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
-          output: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted` ,
+          output: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:train_xs` ,
         },
       },
       {
         id: "S32-T3-A-E3",
         subtopicId: "S32-T3-A",
         kind: "transfer",
-        instruction: "S32-T3-A-E3 · Fail-closed de transformers: fit completo (fitted True, mode set, transform_before_fit False) → `CONTINUE`; transform sin fit → `REJECT_TRANSFORM_BEFORE_FIT`; sin fitted → `REQUEST_FIT_STATE`.",
-        hint: "Sin fitted → REQUEST_FIT_STATE.",
+        instruction: "S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `try_before_fit` o train vacío → `REJECT_TRANSFORM_BEFORE_FIT`; sin train_xs → `REQUEST_FIT_STATE`. No inventes mode='app' sin fit.",
+        hint: "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
         hints: [
-          "Sin fitted → REQUEST_FIT_STATE.",
-          "CONTINUE solo con fitted True, mode set, transform_before_fit False.",
+          "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
+          "CONTINUE solo si mode aprendido y len(transform(serve_xs)) == len(serve_xs).",
         ],
-        edgeCases: ["falta fitted", "fixture adverso: transform_before_fit=True", "CASO-LIM-032-3A es sintético"],
+        edgeCases: ["falta train_xs", "fixture adverso: try_before_fit=True", "CASO-LIM-032-3A es sintético"],
         tests: "Salida: `CONTINUE REJECT_TRANSFORM_BEFORE_FIT REQUEST_FIT_STATE`.",
-        feedback: "S32-T3-A-E3: pedir el state de fit evita silent defaults en serve.",
+        feedback: "S32-T3-A-E3: pedir el state de fit evita silent defaults en serve; el CONTINUE se gana fitteando, no leyendo un flag.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e3.py",
           code: `# CASO-LIM-032 · decide REQUEST_FIT_STATE
-# DEFECT: missing→CONTINUE; pred invertido
+# DEFECT: missing→CONTINUE; no hace fit; pred invertido
 def decide(record: dict) -> str:
-    required = {"case_id", "fitted", "mode", "transform_before_fit"}
+    required = {"case_id", "train_xs", "serve_xs", "try_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["transform_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
+    return "CONTINUE" if record["try_before_fit"] is True else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
-invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
-uncertain = {k: v for k, v in valid.items() if k != "fitted"}
+valid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": False,
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": True,
+}
+uncertain = {k: v for k, v in valid.items() if k != "train_xs"}
 print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
         },
@@ -1400,16 +1476,31 @@ print(*[decide(r) for r in (valid, invalid, uncertain)])
           language: 'python',
           title: "s32-t3-a-e3.py",
           code: `def decide(record: dict) -> str:
-    required = {"case_id", "fitted", "mode", "transform_before_fit"}
+    required = {"case_id", "train_xs", "serve_xs", "try_before_fit"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_FIT_STATE"
-    ok = record["fitted"] is True and record["transform_before_fit"] is False and record["mode"] is not None
+    if record["try_before_fit"] is True or not record["train_xs"]:
+        return "REJECT_TRANSFORM_BEFORE_FIT"
+    train_xs = record["train_xs"]
+    mode = max(set(train_xs), key=train_xs.count)
+    out = [mode if x is None else x for x in record["serve_xs"]]
+    ok = mode is not None and len(out) == len(record["serve_xs"])
     return "CONTINUE" if ok else "REJECT_TRANSFORM_BEFORE_FIT"
 
-valid = {"case_id": "CASO-LIM-032-3A", "fitted": True, "mode": "app", "transform_before_fit": False}
-invalid = {"case_id": "CASO-LIM-032-3A", "fitted": False, "mode": None, "transform_before_fit": True}
-uncertain = {k: v for k, v in valid.items() if k != "fitted"}
+valid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": False,
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3A",
+    "train_xs": ["app", "app", "web"],
+    "serve_xs": [None, "web"],
+    "try_before_fit": True,
+}
+uncertain = {k: v for k, v in valid.items() if k != "train_xs"}
 results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE"]
@@ -1465,31 +1556,42 @@ assert meets is True
         id: "S32-T3-B-E2",
         subtopicId: "S32-T3-B",
         kind: "independent",
-        instruction: "S32-T3-B-E2 · `assess` round-trip del state: serializa a JSON, recarga y valida que `version` empiece con `fs-v` y que la mediana se pueda aplicar. Válido: fs-v1; adverso: version vacía; sin version → `MISSING:version`.",
-        hint: "json.loads(json.dumps(state)); startswith('fs-v').",
+        instruction: "S32-T3-B-E2 · `assess` hace round-trip JSON del `state`, aplica mediana al `serve_batch` y exige version `fs-v*`. Válido: fs-v1 y batch con None rellenados. Adverso: version vacía. Sin version → `MISSING:version`. No apruebes solo con un flag versioned.",
+        hint: "loaded = json.loads(json.dumps(state)); serve = [median if x is None else x for x in batch].",
         hints: [
-          "json.loads(json.dumps(state)); startswith('fs-v').",
-          "Version vacía o versioned False → REJECT_UNVERSIONED.",
+          "loaded = json.loads(json.dumps(state)); serve = [median if x is None else x for x in batch].",
+          "PASS si ver.startswith('fs-v') y serve resultante no tiene None.",
         ],
-        edgeCases: ["falta version", "fixture adverso: version '' y versioned False", "CASO-LIM-032-3B es sintético"],
+        edgeCases: ["falta version", "fixture adverso: version '' (no se puede promover state)", "CASO-LIM-032-3B es sintético"],
         tests: "Salida: `PASS REJECT_UNVERSIONED MISSING:version`.",
-        feedback: "S32-T3-B-E2: fs-vN es el id que S33 consumirá; sin él no hay promote.",
+        feedback: "S32-T3-B-E2: fs-vN es el id que S33 consumirá; el round-trip + apply mediana demuestran train≡serve.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e2.py",
           code: `# CASO-LIM-032 · assess fit/transform persist
-# DEFECT: PASS sin version válida; no hace round-trip JSON
+# DEFECT: PASS sin version válida; no aplica median al batch
 import json
 
 def assess(record: dict) -> str:
-    required = {"case_id", "state", "version", "versioned"}
+    required = {"case_id", "state", "version", "serve_batch"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["versioned"] is False or not record["version"] else "REJECT_UNVERSIONED"
+    # DEFECT: no round-trip ni apply
+    return "PASS" if not record["version"] else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": "fs-v1"}, "version": "fs-v1", "versioned": True}
-invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": ""}, "version": "", "versioned": False}
+valid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": "fs-v1"},
+    "version": "fs-v1",
+    "serve_batch": [None, 4],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": ""},
+    "version": "",
+    "serve_batch": [None, 4],
+}
 incomplete = {k: v for k, v in valid.items() if k != "version"}
 print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
@@ -1500,17 +1602,31 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
           code: `import json
 
 def assess(record: dict) -> str:
-    required = {"case_id", "state", "version", "versioned"}
+    required = {"case_id", "state", "version", "serve_batch"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     loaded = json.loads(json.dumps(record["state"]))
     ver = str(record["version"] or loaded.get("version") or "")
-    ok = record["versioned"] is True and ver.startswith("fs-v") and "median" in loaded
+    if not ver.startswith("fs-v") or "median" not in loaded:
+        return "REJECT_UNVERSIONED"
+    m = loaded["median"]
+    serve = [m if x is None else x for x in record["serve_batch"]]
+    ok = None not in serve and serve == [2, 4]
     return "PASS" if ok else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": "fs-v1"}, "version": "fs-v1", "versioned": True}
-invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2, "version": ""}, "version": "", "versioned": False}
+valid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": "fs-v1"},
+    "version": "fs-v1",
+    "serve_batch": [None, 4],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": ""},
+    "version": "",
+    "serve_batch": [None, 4],
+}
 incomplete = {k: v for k, v in valid.items() if k != "version"}
 print(*(assess(r) for r in (valid, invalid, incomplete)))
 ` ,
@@ -1521,29 +1637,41 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T3-B-E3",
         subtopicId: "S32-T3-B",
         kind: "transfer",
-        instruction: "S32-T3-B-E3 · Fail-closed de persistencia: state versionado fs-v* → `CONTINUE`; version vacía/no versioned → `REJECT_UNVERSIONED`; sin version → `REQUEST_STATE_JSON`.",
-        hint: "Sin version → REQUEST_STATE_JSON.",
+        instruction: "S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`; version vacía o serve con None sin apply → `REJECT_UNVERSIONED`; sin version → `REQUEST_STATE_JSON`.",
+        hint: "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
         hints: [
-          "Sin version → REQUEST_STATE_JSON.",
-          "CONTINUE solo con fs-v* y versioned True.",
+          "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
+          "CONTINUE solo si ver.startswith('fs-v') y serve resultante == [2, 4] en el fixture.",
         ],
-        edgeCases: ["falta version", "fixture adverso: versioned False", "CASO-LIM-032-3B es sintético"],
+        edgeCases: ["falta version", "fixture adverso: version vacía o state sin median aplicable", "CASO-LIM-032-3B es sintético"],
         tests: "Salida: `CONTINUE REJECT_UNVERSIONED REQUEST_STATE_JSON`.",
-        feedback: "S32-T3-B-E3: REQUEST_STATE_JSON es el camino fail-closed cuando falta el artefacto de fit.",
+        feedback: "S32-T3-B-E3: REQUEST_STATE_JSON es fail-closed cuando falta el artefacto; el CONTINUE se gana aplicando el state, no con un flag versioned.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
           code: `# CASO-LIM-032 · decide REQUEST_STATE_JSON
-# DEFECT: missing→CONTINUE
+# DEFECT: missing→CONTINUE; no aplica median
+import json
+
 def decide(record: dict) -> str:
-    required = {"case_id", "state", "version", "versioned"}
+    required = {"case_id", "state", "version", "serve_batch"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if record["versioned"] is False or not record["version"] else "REJECT_UNVERSIONED"
+    return "CONTINUE" if not record["version"] else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "fs-v1", "versioned": True}
-invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "", "versioned": False}
+valid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": "fs-v1"},
+    "version": "fs-v1",
+    "serve_batch": [None, 4],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": ""},
+    "version": "",
+    "serve_batch": [None, 4],
+}
 uncertain = {k: v for k, v in valid.items() if k != "version"}
 print(*[decide(r) for r in (valid, invalid, uncertain)])
 ` ,
@@ -1551,16 +1679,34 @@ print(*[decide(r) for r in (valid, invalid, uncertain)])
         solutionCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "state", "version", "versioned"}
+          code: `import json
+
+def decide(record: dict) -> str:
+    required = {"case_id", "state", "version", "serve_batch"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_STATE_JSON"
-    ok = record["versioned"] is True and str(record["version"]).startswith("fs-v")
+    loaded = json.loads(json.dumps(record["state"]))
+    ver = str(record["version"] or "")
+    if not ver.startswith("fs-v") or "median" not in loaded:
+        return "REJECT_UNVERSIONED"
+    m = loaded["median"]
+    serve = [m if x is None else x for x in record["serve_batch"]]
+    ok = None not in serve and len(serve) == len(record["serve_batch"])
     return "CONTINUE" if ok else "REJECT_UNVERSIONED"
 
-valid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "fs-v1", "versioned": True}
-invalid = {"case_id": "CASO-LIM-032-3B", "state": {"median": 2}, "version": "", "versioned": False}
+valid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": "fs-v1"},
+    "version": "fs-v1",
+    "serve_batch": [None, 4],
+}
+invalid = {
+    "case_id": "CASO-LIM-032-3B",
+    "state": {"median": 2, "version": ""},
+    "version": "",
+    "serve_batch": [None, 4],
+}
 uncertain = {k: v for k, v in valid.items() if k != "version"}
 results = [decide(r) for r in (valid, invalid, uncertain)]
 print(*results)
@@ -2005,22 +2151,25 @@ assert results == ["CONTINUE", "REJECT_LEAKAGE", "REQUEST_FEATURE_SET_ID"]
   youDo: {
     title: "Feature table versionada sin leakage (CP-N3-B)",
     context:
-      "Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split sin overlap y scan de leakage. Artefacto de entrada para el baseline S33.",
+      "Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split sin overlap y scan de leakage. El artefacto `fs-vN` (JSON con medianas, vocab y schema hash) es el **contrato de entrada del baseline S33**: sin él no se entrena.",
     objectives: [
-      "Catalog dtypes y keys validadas (row ⊆ catálogo)",
-      "Missing indicator + mediana de train + apply en serve",
-      "Graph feats (shared/degree/path) + window half-open [t−w, t)",
-      "fs-vN, leakage scan, skew check y split con overlap 0",
+      "Catalog dtypes y keys validadas (row ⊆ catálogo); reportar unknown_keys",
+      "Missing indicator + mediana de train + apply en serve (silent_fill=False)",
+      "Graph feats (shared/degree/path default 99) + window half-open [t−w, t) con count documentado",
+      "fs-vN, leakage scan, skew check y split con overlap 0 + informe n_train/n_test/overlap",
     ],
     requirements: [
       "Train≡serve: mismo código y state en train e inferencia",
       "Sin future ts ni label/decision como feature",
       "Solo PII sintético; feature_set id fs-vN documentado",
       "Informe de split: n_train, n_test, overlap",
+      "Acceptance checks del starter en verde (version, n_events E1, overlap 0, leaky vacío)",
     ],
     starterCode: `# features CP-N3-B — CASO-LIM-032 / run_id=cpn3b-feat
 # Entrega: catálogo, state versionado, ventana half-open, split sin overlap, scan de leakage.
 # Handoff S33: el baseline debe citar feature_set id (fs-vN) y el informe de split.
+# Contrato JSON esperado (mínimo):
+#   {"version": "fs-vN", "median_amount": float, "schema": {...}, "split": {"n_train", "n_test", "overlap"}}
 events = [
     {"entity": "E1", "ts": 1, "canal": "app", "amount": 10.0},
     {"entity": "E1", "ts": 2, "canal": "app", "amount": 12.0},
@@ -2031,6 +2180,7 @@ decision_t = 5
 window_w = 3
 catalog = {"numeric": ["amount_3t", "n_events_3t"], "categorical": ["canal_mode"], "text": []}
 state = {"version": "fs-v1", "median_amount": None}  # fit solo con train (ts < decision_t)
+feature_names = ["amount_3t", "n_events_3t", "canal_mode"]  # sin label_*
 
 
 def window_count(entity_events, t, w):
@@ -2039,12 +2189,12 @@ def window_count(entity_events, t, w):
 
 
 def fit_median(train_amounts):
-    """Mediana de train; None si lista vacía."""
+    """Mediana de train; None si lista vacía. Ordena y toma el centro."""
     raise NotImplementedError("stats solo de train")
 
 
 def time_group_split(rows, cut_ts):
-    """Devuelve (train, test, overlap_count) con overlap de entity = 0 en el happy path."""
+    """Devuelve (train, test, overlap_count). Happy path: overlap de entity = 0."""
     raise NotImplementedError("time + entity isolation")
 
 
@@ -2054,15 +2204,27 @@ def leak_scan(names):
 
 
 def skew_alert(train_mean, serve_mean, tol=0.5):
+    """True si |serve_mean - train_mean| > tol."""
     raise NotImplementedError("|serve-train| > tol")
 
 
 if __name__ == "__main__":
-    # Checklist mínima: implementa las funciones, imprime version + n_events de E1 + overlap
-    print(state["version"])
+    e1 = [e for e in events if e["entity"] == "E1"]
+    n_e1 = window_count(e1, decision_t, window_w)  # esperado: 2 (ts 1 y 2)
+    train_amts = [e["amount"] for e in events if e["ts"] < decision_t]
+    state["median_amount"] = fit_median(train_amts)
+    rows = [{"ts": e["ts"], "entity": e["entity"]} for e in events]
+    tr, te, ov = time_group_split(rows, decision_t)
+    leaky = leak_scan(feature_names)
+    print("version", state["version"])
+    print("n_events_E1", n_e1)
+    print("overlap", ov)
+    print("leaky", leaky)
+    # Acceptance (descomenta asserts cuando implementes):
+    # assert n_e1 == 2 and ov == 0 and leaky == [] and state["median_amount"] is not None
 `,
     portfolioNote:
-      "Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33.",
+      "Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33. Incluye schema hash o lista de columnas congelada.",
     rubric: [
       { criterion: "Train≡serve, sin leakage temporal/de label y feature set versionado", weight: "25%" },
       { criterion: "Correctitud técnica: ventanas half-open, stats de train, split con overlap 0", weight: "20%" },
@@ -2105,49 +2267,29 @@ if __name__ == "__main__":
       },
       {
         question: "Al estandarizar amount, μ y σ deben calcularse…",
-        options: [
-          "sobre train+test juntos para más datos",
-          "solo sobre train y reutilizarse en serve",
-          "solo sobre test para validar",
-          "de nuevo en cada fila de serve",
-        ],
-        correctIndex: 1,
+        options: ["sobre train+test juntos para más datos", "solo sobre test para validar", "de nuevo en cada fila de serve", "solo sobre train y reutilizarse en serve"],
+        correctIndex: 3,
         explanation:
           "Estadísticas de escalado/encoding se aprenden en fit (train) y se congelan; re-fit en test/serve es leakage o skew.",
       },
       {
         question: "Si en serve aparece una key que no está en el feature catalog:",
-        options: [
-          "se ignora en silencio",
-          "se agrega al catálogo al vuelo",
-          "se rechaza (REJECT_UNKNOWN_FEATURE) o se pide REQUEST_CATALOG",
-          "solo afecta a features de texto",
-        ],
-        correctIndex: 2,
+        options: ["se ignora en silencio", "se rechaza (REJECT_UNKNOWN_FEATURE) o se pide REQUEST_CATALOG", "se agrega al catálogo al vuelo", "solo afecta a features de texto"],
+        correctIndex: 1,
         explanation:
           "Train≡serve exige keys ⊆ catálogo; una feature inventada en serve rompe el contrato.",
       },
       {
         question: "Un missing indicator junto al fill con mediana de train sirve para:",
-        options: [
-          "ocultar la ausencia al modelo",
-          "preservar la señal de ausencia y evitar silent fill",
-          "reestimar la mediana en cada fila de serve",
-          "reemplazar el z-score",
-        ],
-        correctIndex: 1,
+        options: ["ocultar la ausencia al modelo", "reestimar la mediana en cada fila de serve", "preservar la señal de ausencia y evitar silent fill", "reemplazar el z-score"],
+        correctIndex: 2,
         explanation:
           "El indicator (1 si era None) viaja con el valor relleno; rellenar sin él es silent fill.",
       },
       {
         question: "Skew train–serve se detecta midiendo, por ejemplo:",
-        options: [
-          "solo el AUC offline",
-          "|mean_serve − mean_train| > tol sobre la misma feature",
-          "el número de líneas del notebook",
-          "si el grafo tiene degree > 0",
-        ],
-        correctIndex: 1,
+        options: ["|mean_serve − mean_train| > tol sobre la misma feature", "solo el AUC offline", "el número de líneas del notebook", "si el grafo tiene degree > 0"],
+        correctIndex: 0,
         explanation:
           "Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.",
       },

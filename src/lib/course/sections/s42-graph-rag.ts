@@ -5,14 +5,14 @@ export const section42: CourseSection = {
   index: 42,
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
-  tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redactados",
+  tagline: "Threat model y pruebas de permisos: un usuario no lee el caso de otro ni recupera datos redactados",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **schemas, seguridad y privacidad de servicios** convierten la API de S41 en un control plane fail-closed: validación estricta, authz deny-by-default y minimización de datos. La práctica entrega allow/deny auditable y vistas pseudonimizadas; se promueve solo cuando un actor no lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.",
+    "En equipos de plataforma y producto (fintech, healthtech, retail y gobierno digital en el Perú), la API versionada de S41 no basta: hace falta un **control plane fail-closed**. **Schemas estrictos** rechazan campos extra antes de tocar negocio; **authn ≠ authz** con RBAC y resource binding evita que un analista de Cusco lea el ticket de otro tenant; **scopes** deny-by-default cierran rutas no declaradas; **SSRF/path** y secretos fuera del repo evitan abusos de red y filtraciones; **minimización, redacción y purga** cierran el ciclo de privacidad. El artefacto de esta sección es threat model + matriz de permisos con evidencia allow/deny auditable. Solo se promociona cuando se demuestra **CP-N4-A**: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.",
   learningOutcomes: [
     { text: "Definir un schema de borde estricto (tipos + rechazo de campos extra) y exportar fixtures válidos/inválidos" },
     { text: "Evolucionar contratos con cambios aditivos y discriminated unions exhaustivas sin romper lectores previos" },
@@ -27,10 +27,10 @@ export const section42: CourseSection = {
     {
       heading: "Ruta de S42: Schemas, seguridad y privacidad de servicios",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URLs o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redacción:** campo sensible no reaparece en logs, respuestas ni backups activos.",
-        "Esta sección endurece el control plane de S41 (HTTP versionado) con **schemas, authz y privacidad**. Modelamos con **stdlib** (dicts, sets) contratos al estilo Pydantic/JSON Schema y controles OWASP sin levantar un cluster. El caso `CASO-CUS-042` (soporte sintético en Cusco) no usa credenciales reales, PII ni red externa.",
-        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redacción y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo.",
-        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Primero la forma del payload (como en S41), luego el permiso sobre el recurso, después el abuso de entrada y al final el ciclo de privacidad. Cada subtema tiene un contrato local medible; el gate global CP-N4-A solo se aprueba cuando no hay lectura cross-tenant y la redacción se sostiene.",
+        "**Diccionario de la sección** (léelo antes de T1). **Schema estricto:** forma + tipos + rechazo de campos extra. **Authn/authz:** quién eres vs qué puedes hacer. **RBAC/scopes:** roles y permisos deny-by-default. **SSRF/path traversal:** abuso de URLs o rutas del servidor. **Minimización/retención:** solo el dato necesario, solo el tiempo necesario. **Pseudonimización:** identificadores derivados sin reidentificación fácil. **Redacción:** campo sensible no reaparece en logs, respuestas ni backups activos. **Missing ≠ breach:** falta de evidencia se enruta a revisión humana; no se inventa un allow ni se confunde con un ataque demostrado.",
+        "Esta sección **endurece el control plane de S41** (HTTP versionado). Imagina la misma petición JSON que ya sabes versionar: ahora le exigimos schema estricto, binding al dueño del caso, scope de servicio y controles de URL/path antes de tocar almacenamiento. Modelamos con **stdlib** (dicts, sets) los contratos al estilo Pydantic/JSON Schema y los controles OWASP **sin** levantar un cluster ni llamar red real. El caso `CASO-CUS-042` (mesa de soporte sintética en Cusco) no usa credenciales reales, PII ni servicios externos.",
+        "Producto incremental: threat model + matriz de permisos. Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable, redacción y purga de derivados. Error de promoción: campo extra aceptado, lectura cross-tenant, path/URL no permitidos o retención vencida sin bloqueo. El demo del mapa reproduce esa historia de un solo request: schema OK no basta si el actor no es el dueño.",
+        "Orden: T1 schemas/evolución → T2 authn/authz y scopes → T3 injection/SSRF/secretos → T4 minimización, auditoría y borrado. Primero la forma del payload (como en S41), luego el permiso sobre el recurso, después el abuso de entrada y al final el ciclo de privacidad. Cada subtema tiene un **contrato local medible**; el gate global **CP-N4-A** solo se aprueba cuando no hay lectura cross-tenant y la redacción se sostiene. S43 tomará este control plane ya endurecido hacia plataforma gobernada.",
       ],
       code: {
         language: 'python',
@@ -68,22 +68,31 @@ s41_request DENY_CROSS_TENANT`,
       },
       callout: {
         type: "info",
-        title: "Gate de promoción",
-        content: "CP-N4-A · control plane seguro y privado: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia, no se promociona.",
+        title: "Gate de promoción CP-N4-A",
+        content: "Control plane seguro y privado: (1) un actor nunca lee el caso de otro tenant, (2) un campo redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia o la rama es incertidumbre (missing), no se promociona: fail-closed y revisión humana.",
       },
     },
     {
       heading: "Pydantic y JSON Schema",
       subtopicId: "S42-T1-A",
       paragraphs: [
-        "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP. Un schema de borde **estricto** modela `extra=forbid` / `additionalProperties: false`: solo las claves en un conjunto *allowed* pasan. Eso **no sustituye** invariantes de negocio (p. ej. `status ∈ {open, closed}`); la forma es el primer fail-closed y la autorización viene después.",
-        "Contrato local de schema. Entrada: `payload` dict, conjuntos `required` y `allowed`. Salida: `True` solo si `required ⊆ keys(payload) ⊆ allowed` y la regla de negocio del campo `status` se cumple. Error: aceptar cualquier clave no listada o un `status` fuera del vocabulario. Criterio medible: el fixture con `note_interna` o `status=\"maybe\"` devuelve `False` antes de tocar authz.",
-        "En `CASO-CUS-042-1A` (ticket de soporte sintético en Cusco), el borde acepta `{\"case_id\",\"status\"}` y rechaza un cuerpo con `extra` o `note_interna`. El lab usa stdlib como modelo de Pydantic/JSON Schema: no hay cluster ni PII; la evidencia son fixtures válidos/inválidos ejecutables.",
+        "Pydantic y JSON Schema describen forma, tipos y restricciones del borde HTTP. Un schema de borde **estricto** modela `extra=forbid` / `additionalProperties: false`: solo las claves en un conjunto *allowed* pasan. Si el cliente manda `note_interna` o un flag de debug no declarado, el borde debe rechazar **antes** de authz, de logs enriquecidos o de persistencia. Eso **no sustituye** invariantes de negocio (p. ej. `status ∈ {open, closed}`): la forma es el primer fail-closed; la autorización y el dominio vienen después.",
+        "Contrato local de schema. Entrada: `payload` dict, conjuntos `required` y `allowed`. Salida: `True` solo si `required ⊆ keys(payload) ⊆ allowed` y la regla de negocio del campo `status` se cumple. Error: aceptar cualquier clave no listada o un `status` fuera del vocabulario. Criterio medible: el fixture con `note_interna` o `status=\"maybe\"` devuelve `False` antes de tocar authz. En producción Pydantic exportaría JSON Schema y fallaría con un error tipado; aquí **modelamos** ese contrato con predicados stdlib legibles.",
+        "En `CASO-CUS-042-1A` (ticket de soporte sintético en Cusco), el borde acepta solo `{\"case_id\",\"status\"}` y rechaza un cuerpo con `extra` o `note_interna`. Un status basura tampoco pasa: no es un 200 «con warning». El lab no usa cluster ni PII; la evidencia son fixtures válidos/inválidos ejecutables que un revisor puede volver a correr.",
       ],
       code: {
         language: 'python',
         title: "pydantic_jsonschema.py",
-        code: `def validate_case(payload: dict, required: set, allowed: set) -> bool:
+        code: `def export_schema(required: set, allowed: set) -> dict:
+    """Modelo didáctico de JSON Schema (additionalProperties: false)."""
+    return {
+        "type": "object",
+        "required": sorted(required),
+        "properties": {k: {"type": "string"} for k in sorted(allowed)},
+        "additionalProperties": False,
+    }
+
+def validate_case(payload: dict, required: set, allowed: set) -> bool:
     if not required.issubset(payload):
         return False
     if not set(payload).issubset(allowed):
@@ -91,10 +100,12 @@ s41_request DENY_CROSS_TENANT`,
     return payload.get("status") in {"open", "closed"}
 
 required = allowed = {"case_id", "status"}
+print("schema", export_schema(required, allowed)["additionalProperties"])
 print(validate_case({"case_id": "C1", "status": "open"}, required, allowed))
 print(validate_case({"case_id": "C1", "status": "open", "note": 1}, required, allowed))
 print(validate_case({"case_id": "C1", "status": "maybe"}, required, allowed))`,
-        output: `True
+        output: `schema False
+True
 False
 False`,
       },
@@ -109,9 +120,9 @@ False`,
       heading: "Evolución, discriminated unions y validación de negocio",
       subtopicId: "S42-T1-B",
       paragraphs: [
-        "La evolución segura prefiere campos opcionales **aditivos** y discriminated unions **exhaustivas**. Renombrar o reinterpretar un campo obligatorio rompe lectores previos: exige versión o migración explícita, no un silent cast.",
-        "Contrato local de evolución. Entrada: tipo de `change`, bandera `old_reader_passes` y conjuntos `union_tags` / `handled_tags`. Salida: evolución segura solo si el cambio es aditivo, el lector v1 sigue pasando y cada tag de la unión está manejado. Error: `rename_required` o un tag nuevo sin rama. Criterio: ante incompleto → `MIGRATE_CONSUMERS`; ante rupture → `VERSION_SCHEMA`.",
-        "En `CASO-CUS-042-1B`, el canal de notificaciones de Cusco añade `currency` opcional sin tocar `amount`. El lector v1 ignora lo opcional y sigue leyendo montos; si aparece `type=push` sin handler, el despliegue se bloquea hasta migrar consumidores.",
+        "La evolución segura prefiere campos opcionales **aditivos** y discriminated unions **exhaustivas** (cada `type` conocido tiene rama). Renombrar o reinterpretar un campo obligatorio rompe lectores previos: el worker de ayer esperaba `amount` y mañana recibe otra semántica bajo el mismo nombre. Eso exige **versión o migración explícita**, no un silent cast en el borde. El costo de un `add_optional` bien hecho es bajo; el de un rename silencioso es un incidente de integración.",
+        "Contrato local de evolución. Entrada: tipo de `change`, bandera `old_reader_passes` y conjuntos `union_tags` / `handled_tags`. Salida: evolución segura solo si el cambio es aditivo, el lector v1 sigue pasando y cada tag de la unión está manejado. Error: `rename_required` o un tag nuevo sin rama. Criterio: ante incompleto → `MIGRATE_CONSUMERS` (missing ≠ breach); ante rupture demostrada → `VERSION_SCHEMA`.",
+        "En `CASO-CUS-042-1B`, el canal de notificaciones de Cusco añade `currency` opcional sin tocar `amount`. El lector v1 ignora lo opcional y sigue leyendo montos; si aparece `type=push` sin handler, el despliegue se bloquea hasta migrar consumidores. No se «promueve igual» esperando que el tag desconocido se ignore en producción.",
       ],
       code: {
         language: 'python',
@@ -150,9 +161,9 @@ unknown unknown_event`,
       heading: "Authn/authz y RBAC",
       subtopicId: "S42-T2-A",
       paragraphs: [
-        "Authentication identifica al actor; authorization decide una **acción sobre un recurso**. RBAC arranca con roles mínimos y exige *resource binding*: el token no basta si el caso pertenece a otro tenant.",
-        "Contrato local de lectura de caso. Entrada: `actor`, `owner` del caso, `role` y permiso `case:read`. Salida de lab (camino analista): `allow` solo si está autenticado, `actor == owner` y tiene `case:read`. El rol `admin` es un override explícito documentado, no un atajo silencioso. Error: tratar identidad (authn) como permiso cross-tenant. Criterio: `can_read(u1, u2, analyst)` es False antes de abrir el control plane.",
-        "En `CASO-CUS-042-2A` (mesa de soporte sintética en Cusco), el analista `user-a` abre su ticket y recibe vista mínima; el mismo actor sobre el ticket de `user-b` recibe `DENY_CROSS_TENANT` con audit. La identidad correcta no basta: falta binding al recurso.",
+        "Authentication identifica al actor; authorization decide una **acción sobre un recurso**. Un JWT o cookie válida responde «quién eres», no «puedes leer el caso de otro tenant». RBAC arranca con roles mínimos y exige *resource binding*: el permiso se evalúa contra el **dueño del caso**, no solo contra el rol del token. Confundir authn con authz es el error clásico que convierte un analista legítimo en un lector cross-tenant.",
+        "Contrato local de lectura de caso. Entrada: `actor`, `owner` del caso, `role` y permiso `case:read`. Salida de lab (camino analista): `allow` solo si está autenticado, `actor == owner` y tiene `case:read`. El rol `admin` es un override **explícito** con scope `case:admin`, no un atajo silencioso. Error: tratar identidad (authn) como permiso cross-tenant. Criterio medible: `can_read(u1, u2, analyst)` es False antes de abrir el control plane.",
+        "En `CASO-CUS-042-2A` (mesa de soporte sintética en Cusco), el analista `user-a` abre su ticket y recibe vista mínima; el mismo actor sobre el ticket de `user-b` recibe `DENY_CROSS_TENANT` con audit. La identidad correcta no basta: falta binding al recurso. Si faltan roles en el token, la rama es `VERIFY_RESOURCE_OWNER` (incertidumbre), no un allow optimista.",
       ],
       code: {
         language: 'python',
@@ -181,9 +192,9 @@ admin_override True`,
       heading: "Scopes, service identities y deny-by-default",
       subtopicId: "S42-T2-B",
       paragraphs: [
-        "Un scope nombra una capacidad estrecha (`report:prepare`, no `*`). Cada microservicio tiene **identidad propia** (`svc-reporter`); un principal genérico `shared-admin` es olor de privilegio excesivo. Deny-by-default: si la ruta no está declarada o el scope no está granted, se deniega.",
-        "Contrato local de scopes. Entrada: `requested_scope`, `granted_scopes`, `service_id`, `route_declared`. Salida: `PASS` solo si el scope está granted, el `service_id` es de servicio (`svc-…`) y la ruta está en catálogo. Error: pedir `prod:write` con grant de solo lectura o ruta no registrada. Criterio: matriz con al menos una denegación explícita en evidencia.",
-        "En `CASO-CUS-042-2B`, el worker de reportes de Cusco solo tiene `report:prepare` sobre `/reports/prepare`. Un intento de `prod:write` sobre una ruta no declarada cae en `DENY_SCOPE`; si falta el flag de ruta, se deriva a `REQUEST_NARROW_GRANT` (missing ≠ breach).",
+        "Un scope nombra una capacidad estrecha (`report:prepare`, no `*`). Cada microservicio tiene **identidad propia** (`svc-reporter`); un principal genérico `shared-admin` es olor de privilegio excesivo y falla auditorías de least privilege. Deny-by-default: si la ruta no está en el catálogo o el scope no está granted, se deniega **sin** buscar un rol «de confianza» en el header. Tres puertas a la vez: scope + identidad de servicio + ruta declarada.",
+        "Contrato local de scopes. Entrada: `requested_scope`, `granted_scopes`, `service_id`, `route_declared`. Salida: `PASS` solo si el scope está granted, el `service_id` es de servicio (`svc-…`) y la ruta está en catálogo. Error: pedir `prod:write` con grant de solo lectura, o un principal que no es `svc-…`. Criterio: matriz con al menos una denegación explícita en evidencia de lab.",
+        "En `CASO-CUS-042-2B`, el worker de reportes de Cusco solo tiene `report:prepare` sobre `/reports/prepare`. Un intento de `prod:write` con `shared-admin` cae en `DENY_SCOPE`. Si falta el flag de ruta en el registro, se deriva a `REQUEST_NARROW_GRANT` (missing ≠ breach: no inventes un catálogo completo para «arreglar» el promote).",
       ],
       code: {
         language: 'python',
@@ -210,12 +221,12 @@ False`,
       },
     },
     {
-      heading: "Input limits, injection y SSRF/path traversal",
+      heading: "Límites de input, injection y SSRF/path traversal",
       subtopicId: "S42-T3-A",
       paragraphs: [
-        "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts** y **confinamiento de ruta**. Una URL o un path del usuario nunca se convierte directamente en socket o filesystem sin esas tres puertas.",
-        "Contrato local anti-abuso. Entrada: tamaño del body, host de la URL, path resuelto y raíz permitida. Salida: aceptar solo si `bytes ≤ max`, `host ∈ allowlist` y el path queda bajo `root/`. Error: metadata IP `169.254.169.254`, path `/etc/passwd` o `..` de traversal. Criterio: el caso adverso debe fallar por contenido, no por un print precomputado.",
-        "En `CASO-CUS-042-3A`, el adjunto de un ticket de Cusco se guarda bajo `/safe/reports/`. Un body de 9999 bytes, host de metadata cloud o path `/etc/passwd` produce `REJECT_UNTRUSTED_INPUT`. Si falta la raíz de confinamiento, se abre `SECURITY_REVIEW` (no se asume breach).",
+        "Antes de procesar un upload o un fetch, aplica **límite de bytes**, **allowlist de hosts** y **confinamiento de ruta**. Una URL o un path del usuario **nunca** se convierte directamente en socket o filesystem: el clásico SSRF a `169.254.169.254` (metadata cloud) y el path `../etc/passwd` son adversarios reales, no teoría abstracta. Las tres puertas son **conjuntas**: fallar una basta para rechazar.",
+        "Contrato local anti-abuso. Entrada: tamaño del body, host de la URL, path resuelto y raíz permitida. Salida: aceptar solo si `bytes ≤ max`, `host ∈ allowlist` y el path queda bajo `root/`. Error: metadata IP, path `/etc/passwd` o `..` de traversal. Criterio: el caso adverso debe **fallar por contenido** (host o path calculados), no por una etiqueta impresa a mano.",
+        "En `CASO-CUS-042-3A`, el adjunto de un ticket de Cusco se guarda bajo `/safe/reports/`. Un body de 9999 bytes, host de metadata cloud o path `/etc/passwd` produce `REJECT_UNTRUSTED_INPUT`. Si falta la raíz de confinamiento en el registro, se abre `SECURITY_REVIEW` (no se asume breach ni se inventa un root por defecto).",
       ],
       code: {
         language: 'python',
@@ -256,9 +267,9 @@ ssrf_block False`,
       heading: "Secretos, cifrado y dependency risk",
       subtopicId: "S42-T3-B",
       paragraphs: [
-        "Los secretos entran por runtime (env/vault), **nunca** por repo ni logs. El cifrado en reposo necesita gestión de claves; las dependencias se fijan por versión y se revisan por CVE y provenance.",
-        "Contrato local de secretos y deps. Entrada: flags de secreto en repo/log, rotación ensayada, pin de dependencias y conteo de CVE críticas. Salida: `PASS` solo si no hay secreto en artefacto, la rotación se probó, hay pin y `critical_cves == 0`. Error: API key en `.env` commiteado o paquete sin pin con CVE abierta. Criterio: evidencia de scan + ensayo de rotación, no solo política en un wiki.",
-        "En `CASO-CUS-042-3B`, el pipeline de Cusco falla el promote si `secret_in_repo` o deps sin pin. Un hallazgo real dispara `ROTATE_AND_BLOCK`; si falta el inventario de CVE, se deriva a `ASSESS_DEPENDENCY_RISK` sin inventar un cero.",
+        "Los secretos entran por runtime (env/vault), **nunca** por repo ni logs. Un `.env` commiteado o un token en un traceback de CI es un incidente, no un «atajo de demo». El cifrado en reposo necesita gestión de claves; las dependencias se **fijan por versión** y se revisan por CVE y provenance. Un promote limpio de secretos con deps sin pin y CVE críticas abiertas sigue siendo inseguro.",
+        "Contrato local de secretos y deps. Entrada: flags de secreto en repo/log, rotación ensayada, pin de dependencias y conteo de CVE críticas. Salida: `PASS` solo si no hay secreto en artefacto, la rotación se probó, hay pin y `critical_cves == 0`. Error: API key en artefacto o paquete sin pin con CVE abierta. Criterio: evidencia de scan + ensayo de rotación, no solo política en un wiki.",
+        "En `CASO-CUS-042-3B`, el pipeline de Cusco falla el promote si hay secreto en repo o deps sin pin. Un hallazgo real dispara `ROTATE_AND_BLOCK`; si falta el inventario de CVE, se deriva a `ASSESS_DEPENDENCY_RISK` **sin inventar un cero** (missing ≠ «cero riesgos»).",
       ],
       code: {
         language: 'python',
@@ -291,9 +302,9 @@ block_unpinned False`,
       heading: "Minimización, purpose y retención",
       subtopicId: "S42-T4-A",
       paragraphs: [
-        "Privacidad exige el **mínimo de campos** para un propósito declarado y una **retención finita**. «Podría servir después» no es finalidad: o se documenta el propósito o no se recolecta el campo.",
+        "Privacidad exige el **mínimo de campos** para un propósito declarado y una **retención finita**. «Podría servir después» no es finalidad: o se documenta el propósito o no se recolecta el campo. Un tablero de estado no necesita `full_name` ni email; arrastrarlos «por si acaso» crea superficie de filtración y complica el borrado posterior.",
         "Contrato local de minimización. Entrada: conjuntos `collected`/`needed`, `purpose`, `retention_days` y techo `max_retention_days`. Salida: inventario aprobado solo si `collected ⊆ needed`, el purpose es el del caso de uso y la retención no excede el techo. Error: recolectar `full_name` para un status-report o retener 3650 días. Criterio: inventario propósito-campo-retención revisable por el dueño de privacidad.",
-        "En `CASO-CUS-042-4A`, el tablero de estado de Cusco solo necesita `case_id` y `region` por 30 días. Si el payload arrastra `full_name` o purpose `maybe-useful`, se emite `MINIMIZE_AND_EXPIRE`. Sin techo de retención → `PRIVACY_OWNER_REVIEW`.",
+        "En `CASO-CUS-042-4A`, el tablero de estado de Cusco solo necesita `case_id` y `region` por 30 días. Si el payload arrastra `full_name` o purpose `maybe-useful`, se emite `MINIMIZE_AND_EXPIRE`. Sin techo de retención declarado → `PRIVACY_OWNER_REVIEW` (no inventes 30 días por defecto para forzar un PASS).",
       ],
       code: {
         language: 'python',
@@ -322,9 +333,9 @@ over False`,
       heading: "Audit, deletion, pseudonymization y acceso",
       subtopicId: "S42-T4-B",
       paragraphs: [
-        "El audit registra quién/qué/cuándo **sin copiar PII**. El borrado debe cubrir primarios y **derivados** (cachés, índices, exports). La pseudonimización separa la llave de reidentificación; el acceso a la llave queda revisable.",
+        "El audit registra quién/qué/cuándo **sin copiar PII**. Soft-delete de la fila primaria **no basta**: cachés, índices de búsqueda y exports CSV suelen sobrevivir y reintroducen el dato. La pseudonimización separa la llave de reidentificación; el acceso a esa llave queda revisable. El gate de redacción de CP-N4-A se demuestra aquí: el campo sensible no reaparece.",
         "Contrato local de ciclo de vida. Entrada: campos de audit, conjunto PII, flags de borrado primario/derivado y `key_separate`. Salida: `PASS` solo si audit ∩ PII = ∅, ambos borrados y la llave está separada. Error: email en el log de audit o un export CSV que sobrevive al soft-delete. Criterio: prueba de no-reaparición del campo redactado en logs, respuestas y backups activos.",
-        "En `CASO-CUS-042-4B`, al cerrar un ticket de Cusco se purgan la fila, el snapshot de búsqueda y el export. El audit solo guarda `actor_id`, `action`, `at` y un `case_token` pseudónimo. Si reaparece `email` en audit o un derivado vivo → `PURGE_DERIVATIVES`.",
+        "En `CASO-CUS-042-4B`, al cerrar un ticket de Cusco se purgan la fila, el snapshot de búsqueda y el export. El audit solo guarda `actor_id`, `action`, `at` y un `case_token` pseudónimo. Si reaparece `email` en audit o un derivado vivo → `PURGE_DERIVATIVES`. Sin `key_separate` declarado → `VERIFY_DELETION_SCOPE` (alcance de borrado no confirmado).",
       ],
       code: {
         language: 'python',
@@ -353,7 +364,7 @@ leak False`,
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S42 (Schemas, seguridad y privacidad de servicios) alineadas a CP-N4-A. Cada una calcula el control en un caso local de Cusco sintético — no imprime la etiqueta sin derivarla.",
+    intro: "Te muestro 8 demos de S42 alineadas a CP-N4-A, en el orden del control plane: forma del payload → evolución → lectura de caso → scopes de servicio → SSRF/path → secretos/deps → minimización → purga. Cada demo **calcula** el control sobre `CASO-CUS-042` (Cusco sintético): no imprime una etiqueta de seguridad sin derivarla de los datos.",
     steps: [
       {
         demoId: "S42-T1-A-DEMO",
@@ -570,7 +581,7 @@ must_purge_derived True`,
     ],
   },
   weDo: {
-    intro: "S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre CASO-CUS-042. Cada E1 repara el cuerpo de una función de decisión de seguridad (schema, evolución, can_read, allow/scopes, trusted/SSRF-path, promote_ok, inventory_ok, purge_ok). E2 separa valid/adversarial/missing (missing ≠ breach) y E3 cierra fail-closed con códigos de acción. Entrena el control, no el «flip» de un booleano precomputado.",
+    intro: "S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre `CASO-CUS-042`. **E1** repara el cuerpo de una función de decisión (schema, evolución, `can_read`, scopes, SSRF/path, promote, inventario, purga). **E2** separa válido / adverso real / missing (missing ≠ breach). **E3** cierra fail-closed con códigos de acción (`CONTINUE` / DENY|REJECT / rama humana). Entrena el **control**, no el flip de un booleano precomputado: el adverso falla por contenido (extra key, cross-tenant, 169.254…, `/etc/passwd`, over-collection, audit∩PII).",
     steps: [
       {
         id: "S42-T1-A-E1",
@@ -677,7 +688,7 @@ print(*results)
         id: "S42-T1-A-E3",
         subtopicId: "S42-T1-A",
         kind: "transfer",
-        instruction: "S42-T1-A-E3 · Fail-closed sobre tres payloads: válido → `CONTINUE`, extra no permitido → `REJECT_SCHEMA`, sin `status` → `REVIEW_BUSINESS_INVARIANT`. El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas sin inventar evidencia.",
+        instruction: "S42-T1-A-E3 · Fail-closed sobre tres payloads: válido → `CONTINUE`, extra no permitido → `REJECT_SCHEMA`, sin `status` → `REVIEW_BUSINESS_INVARIANT`. El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas sin inventar evidencia. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
         hints: [
           "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
@@ -782,7 +793,7 @@ assert meets_contract is True` ,
         id: "S42-T1-B-E2",
         subtopicId: "S42-T1-B",
         kind: "independent",
-        instruction: "S42-T1-B-E2 · Tres rutas de evolución: aditiva exhaustiva → `PASS`; rename + tag huérfano → `VERSION_SCHEMA`; sin `handled_tags` → `MISSING:handled_tags`. El starter invierte el criterio de compatibilidad.",
+        instruction: "S42-T1-B-E2 · Tres rutas de evolución: aditiva exhaustiva → `PASS`; rename + tag huérfano → `VERSION_SCHEMA`; sin `handled_tags` → `MISSING:handled_tags`. El starter invierte el criterio de compatibilidad. Salida: imprime el valor de meets_contract.",
         hint: "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
         hints: [
           "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
@@ -842,13 +853,13 @@ print(*results)
         id: "S42-T1-B-E3",
         subtopicId: "S42-T1-B",
         kind: "transfer",
-        instruction: "S42-T1-B-E3 · Fail-closed de evolución: aditiva → `CONTINUE`, rupture → `VERSION_SCHEMA`, sin `handled_tags` → `MIGRATE_CONSUMERS`. El starter trata missing como CONTINUE y acepta rename.",
+        instruction: "S42-T1-B-E3 · Transfer: el canal de notificaciones de Cusco decide si puede desplegar un cambio de schema. Aditiva + lector v1 OK + tags exhaustivos → `CONTINUE`; rename/`push` sin handler → `VERSION_SCHEMA`; sin mapa `handled_tags` → `MIGRATE_CONSUMERS` (no inventes handlers). El starter trata missing y rename como CONTINUE. Salida: imprime el valor de meets_contract.",
         hint: "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
         hints: [
           "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
           "Missing no es breach: no lo enrutes a CONTINUE ni a VERSION_SCHEMA.",
         ],
-        edgeCases: ["falta handled_tags", "rename_required", "CASO-CUS-042-1B es sintético"],
+        edgeCases: ["falta handled_tags", "rename_required", "tag push sin handler", "CASO-CUS-042-1B es sintético"],
         tests: "Produce `CONTINUE VERSION_SCHEMA MIGRATE_CONSUMERS` en ese orden.",
         feedback: "S42-T1-B-E3: MIGRATE_CONSUMERS es la rama humana cuando no hay mapa de handlers; VERSION_SCHEMA es la rupture demostrada.",
         starterCode: {
@@ -948,7 +959,7 @@ assert meets_contract is True` ,
         id: "S42-T2-A-E2",
         subtopicId: "S42-T2-A",
         kind: "independent",
-        instruction: "S42-T2-A-E2 · Tres rutas de lectura: mismo tenant + `case:read` → `PASS`; actor sobre caso ajeno → `DENY_CROSS_TENANT`; sin scopes en el registro → `MISSING:roles`. El starter abre cross-tenant y no exige el scope.",
+        instruction: "S42-T2-A-E2 · Tres rutas de lectura: mismo tenant + `case:read` → `PASS`; actor sobre caso ajeno → `DENY_CROSS_TENANT`; sin scopes en el registro → `MISSING:roles`. El starter abre cross-tenant y no exige el scope. Salida: imprime el valor de meets_contract.",
         hint: "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
         hints: [
           "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
@@ -1008,7 +1019,7 @@ print(*results)
         id: "S42-T2-A-E3",
         subtopicId: "S42-T2-A",
         kind: "transfer",
-        instruction: "S42-T2-A-E3 · Fail-closed de lectura: mismo tenant → `CONTINUE`, cross-tenant → `DENY_CROSS_TENANT`, sin `roles` → `VERIFY_RESOURCE_OWNER`. El starter trata missing como CONTINUE y abre el cross-tenant.",
+        instruction: "S42-T2-A-E3 · Transfer: la mesa de soporte de Cusco enruta tres lecturas de ticket. `user-a` sobre su caso con `case:read` → `CONTINUE`; `user-a` sobre el caso de `user-b` → `DENY_CROSS_TENANT` (authn OK, authz falla); sin `roles` en el token → `VERIFY_RESOURCE_OWNER`. El starter trata missing y cross-tenant como CONTINUE. Salida: imprime el valor de meets_contract.",
         hint: "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
         hints: [
           "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
@@ -1116,7 +1127,7 @@ assert meets_contract is True` ,
         id: "S42-T2-B-E2",
         subtopicId: "S42-T2-B",
         kind: "independent",
-        instruction: "S42-T2-B-E2 · Tres filas de la matriz de scopes: (1) `svc-reporter` + `report:prepare` + ruta OK → `PASS`; (2) `prod:write` con grant de report y `shared-admin` → `DENY_SCOPE`; (3) sin `route_declared` → `MISSING:route_declared`. El starter invierte el allow y trata el adverso como PASS.",
+        instruction: "S42-T2-B-E2 · Tres filas de la matriz de scopes: (1) `svc-reporter` + `report:prepare` + ruta OK → `PASS`; (2) `prod:write` con grant de report y `shared-admin` → `DENY_SCOPE`; (3) sin `route_declared` → `MISSING:route_declared`. El starter invierte el allow y trata el adverso como PASS. Salida: imprime el valor de meets_contract.",
         hint: "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
         hints: [
           "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
@@ -1188,7 +1199,7 @@ print(*results)
         id: "S42-T2-B-E3",
         subtopicId: "S42-T2-B",
         kind: "transfer",
-        instruction: "S42-T2-B-E3 · Fail-closed de scopes: grant estrecho → `CONTINUE`, prod:write/shared-admin → `DENY_SCOPE`, sin ruta en catálogo → `REQUEST_NARROW_GRANT`. El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas.",
+        instruction: "S42-T2-B-E3 · Fail-closed de scopes: grant estrecho → `CONTINUE`, prod:write/shared-admin → `DENY_SCOPE`, sin ruta en catálogo → `REQUEST_NARROW_GRANT`. El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
         hints: [
           "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
@@ -1313,7 +1324,7 @@ assert meets_contract is True` ,
         id: "S42-T3-A-E2",
         subtopicId: "S42-T3-A",
         kind: "independent",
-        instruction: "S42-T3-A-E2 · Tres rutas: upload confinado (PASS), adverso con oversize + host 169.254.169.254 + `/etc/passwd` (REJECT_UNTRUSTED_INPUT), sin `root` (MISSING:root). El starter invierte el predicado y no usa la allowlist: corrige la decisión de dominio.",
+        instruction: "S42-T3-A-E2 · Tres rutas: upload confinado (PASS), adverso con oversize + host 169.254.169.254 + `/etc/passwd` (REJECT_UNTRUSTED_INPUT), sin `root` (MISSING:root). El starter invierte el predicado y no usa la allowlist: corrige la decisión de dominio. Salida: imprime el valor de meets_contract.",
         hint: "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
         hints: [
           "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
@@ -1397,7 +1408,7 @@ print(*results)
         id: "S42-T3-A-E3",
         subtopicId: "S42-T3-A",
         kind: "transfer",
-        instruction: "S42-T3-A-E3 · Fail-closed: confinado → `CONTINUE`, adverso (oversize/SSRF/path) → `REJECT_UNTRUSTED_INPUT`, sin `root` → `SECURITY_REVIEW`. Missing no es breach; el starter lo trata como CONTINUE y tiene el predicado invertido.",
+        instruction: "S42-T3-A-E3 · Transfer: el worker de adjuntos de Cusco decide si guarda un archivo. Cuerpo ≤max, host en allowlist y path bajo `/safe/reports/` → `CONTINUE`; oversize + host `169.254.169.254` + path `/etc/passwd` → `REJECT_UNTRUSTED_INPUT`; sin `root` en el registro → `SECURITY_REVIEW` (no inventes root). El starter trata missing como CONTINUE y tiene el predicado invertido. Salida: imprime el valor de meets_contract.",
         hint: "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
         hints: [
           "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
@@ -1540,7 +1551,7 @@ assert meets_contract is True` ,
         id: "S42-T3-B-E2",
         subtopicId: "S42-T3-B",
         kind: "independent",
-        instruction: "S42-T3-B-E2 · Tres rutas de promote: limpio → `PASS`; secreto en repo + unpinned + 2 CVE → `ROTATE_AND_BLOCK`; sin campo `critical_cves` → `MISSING:critical_cves`. El starter invierte el criterio y no exige rotación ni CVE==0.",
+        instruction: "S42-T3-B-E2 · Tres rutas de promote: limpio → `PASS`; secreto en repo + unpinned + 2 CVE → `ROTATE_AND_BLOCK`; sin campo `critical_cves` → `MISSING:critical_cves`. El starter invierte el criterio y no exige rotación ni CVE==0. Salida: imprime el valor de meets_contract.",
         hint: "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
         hints: [
           "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
@@ -1632,7 +1643,7 @@ print(*results)
         id: "S42-T3-B-E3",
         subtopicId: "S42-T3-B",
         kind: "transfer",
-        instruction: "S42-T3-B-E3 · Fail-closed de promote: limpio → `CONTINUE`, secreto/CVE → `ROTATE_AND_BLOCK`, sin inventario CVE → `ASSESS_DEPENDENCY_RISK`. El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas.",
+        instruction: "S42-T3-B-E3 · Fail-closed de promote: limpio → `CONTINUE`, secreto/CVE → `ROTATE_AND_BLOCK`, sin inventario CVE → `ASSESS_DEPENDENCY_RISK`. El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
         hints: [
           "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
@@ -1773,7 +1784,7 @@ assert meets_contract is True` ,
         id: "S42-T4-A-E2",
         subtopicId: "S42-T4-A",
         kind: "independent",
-        instruction: "S42-T4-A-E2 · Tres inventarios: mínimo 30d → `PASS`; full_name + maybe-useful + 3650d → `MINIMIZE_AND_EXPIRE`; sin techo `max_retention_days` → `MISSING:max_retention_days`. El starter invierte el criterio de minimización.",
+        instruction: "S42-T4-A-E2 · Tres inventarios: mínimo 30d → `PASS`; full_name + maybe-useful + 3650d → `MINIMIZE_AND_EXPIRE`; sin techo `max_retention_days` → `MISSING:max_retention_days`. El starter invierte el criterio de minimización. Salida: imprime el valor de meets_contract.",
         hint: "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
           "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
@@ -1851,7 +1862,7 @@ print(*results)
         id: "S42-T4-A-E3",
         subtopicId: "S42-T4-A",
         kind: "transfer",
-        instruction: "S42-T4-A-E3 · Fail-closed de privacidad: inventario mínimo → `CONTINUE`, over-collection → `MINIMIZE_AND_EXPIRE`, sin techo de retención → `PRIVACY_OWNER_REVIEW`. El starter trata missing como CONTINUE y acepta el adverso.",
+        instruction: "S42-T4-A-E3 · Fail-closed de privacidad: inventario mínimo → `CONTINUE`, over-collection → `MINIMIZE_AND_EXPIRE`, sin techo de retención → `PRIVACY_OWNER_REVIEW`. El starter trata missing como CONTINUE y acepta el adverso. Salida: imprime el valor de meets_contract.",
         hint: "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
           "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
@@ -1986,7 +1997,7 @@ assert meets_contract is True` ,
         id: "S42-T4-B-E2",
         subtopicId: "S42-T4-B",
         kind: "independent",
-        instruction: "S42-T4-B-E2 · Tres cierres: purga completa → `PASS`; email en audit + derivado vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `MISSING:key_separate`. El starter invierte el criterio de purga.",
+        instruction: "S42-T4-B-E2 · Tres cierres: purga completa → `PASS`; email en audit + derivado vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `MISSING:key_separate`. El starter invierte el criterio de purga. Salida: imprime el valor de meets_contract.",
         hint: "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
         hints: [
           "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
@@ -2064,7 +2075,7 @@ print(*results)
         id: "S42-T4-B-E3",
         subtopicId: "S42-T4-B",
         kind: "transfer",
-        instruction: "S42-T4-B-E3 · Fail-closed de borrado: purga completa → `CONTINUE`, leak/derivado vivo → `PURGE_DERIVATIVES`, sin `key_separate` → `VERIFY_DELETION_SCOPE`. El starter trata missing como CONTINUE y aprueba el adverso.",
+        instruction: "S42-T4-B-E3 · Fail-closed de borrado: purga completa → `CONTINUE`, leak/derivado vivo → `PURGE_DERIVATIVES`, sin `key_separate` → `VERIFY_DELETION_SCOPE`. El starter trata missing como CONTINUE y aprueba el adverso. Salida: imprime el valor de meets_contract.",
         hint: "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
         hints: [
           "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
@@ -2142,18 +2153,18 @@ assert results == ["CONTINUE", "PURGE_DERIVATIVES", "VERIFY_DELETION_SCOPE"]` ,
   },
   youDo: {
     title: "Schemas, seguridad y privacidad de servicios",
-    context: "Threat model y matriz de permisos del control plane para soporte sintético en Cusco (`CASO-CUS-042`). Entrada: schemas estrictos, identidad de servicio, scope, propósito y retención. Salida: allow/deny auditable y vista pseudonimizada mínima. El gate se bloquea ante campo extra, lectura cross-tenant, path/URL no permitidos o retención vencida.",
+    context: "Eres el dueño del control plane de soporte sintético en Cusco (`CASO-CUS-042`). La misma petición HTTP que versionaste en S41 debe atravesar schema estricto, resource binding, allowlist de hosts, confinamiento de path y una vista redactada sin email. Entrada: payload, actor, owner, scopes, host y path. Salida: allow/deny auditable + evidencia de purga. El gate **CP-N4-A** se bloquea ante campo extra, lectura cross-tenant, URL/path no permitidos o reaparición de un campo redactado.",
     objectives: [
-      "Implementar un mini `policy_engine` stdlib que encadene schema → authz → SSRF/path → redacción.",
-      "Demostrar CP-N4-A: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs ni respuestas.",
-      "Cubrir tres rutas automatizadas: normal (CONTINUE), breach (DENY/REJECT) e incertidumbre (HUMAN_PRIVACY_REVIEW).",
-      "Empaquetar evidencia reproducible sin PII real, secretos ni servicios externos obligatorios.",
+      "Implementar un mini `policy_engine` stdlib que encadene schema → SSRF host → path confinement → authz resource binding.",
+      "Demostrar CP-N4-A: un actor nunca lee el caso de otro y un campo redactado no reaparece en la vista de respuesta.",
+      "Cubrir rutas normal (CONTINUE), breach (REJECT/DENY) e incertidumbre de purga (derivado vivo) con salidas exactas.",
+      "Empaquetar evidencia reproducible sin PII real, secretos ni red externa obligatoria.",
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos `CASO-CUS-042-*`.",
       "Incluye validación de borde (required ⊆ keys ⊆ allowed) y fixtures inválidos con campo extra.",
       "Incluye matriz RBAC/scopes deny-by-default con al menos un DENY_CROSS_TENANT.",
-      "Incluye rechazo de host no allowlisted (p. ej. 169.254.169.254) y path fuera de root.",
+      "Incluye rechazo de host no allowlisted (p. ej. 169.254.169.254) y path fuera de root o con `..`.",
       "Incluye flujo de redacción, purga de derivados y audit sin PII.",
       "Automatiza caso normal, breach y uncertain con salidas exactas documentadas.",
       "Incluye comandos locales reproducibles, deps fijadas y salida esperada.",
@@ -2171,12 +2182,26 @@ def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
-def policy_engine(req: dict, actor: str, owner: str, scopes: set, host: str, allow_hosts: set) -> str:
-    """Cadena fail-closed: schema → SSRF host → authz resource binding."""
+def policy_engine(
+    req: dict,
+    actor: str,
+    owner: str,
+    scopes: set,
+    host: str,
+    allow_hosts: set,
+    user_path: str = "a.txt",
+    root: str = "/safe/reports",
+) -> str:
+    """Cadena fail-closed: schema → SSRF host → path → authz resource binding."""
     allowed = {"case_id", "status"}
     if not {"case_id", "status"}.issubset(req) or set(req) - allowed:
         return "REJECT_SCHEMA"
     if host not in allow_hosts:
+        return "REJECT_UNTRUSTED_INPUT"
+    if ".." in user_path.split("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    joined = f"{root.rstrip('/')}/{user_path.lstrip('/')}"
+    if not joined.startswith(root.rstrip("/") + "/") and joined != root.rstrip("/"):
         return "REJECT_UNTRUSTED_INPUT"
     if "cases:read" not in scopes or actor != owner:
         return "DENY_CROSS_TENANT"
@@ -2185,9 +2210,17 @@ def policy_engine(req: dict, actor: str, owner: str, scopes: set, host: str, all
 def redact_view(record: dict, allow: set) -> dict:
     return {k: v for k, v in record.items() if k in allow}
 
-# Evidencia calculada (no flips manuales): cada artefacto debe pasar su assert
+def purge_ok(primary: dict, derived: dict, case_id: str, audit: set, pii: set) -> bool:
+    return (
+        case_id not in primary
+        and case_id not in derived
+        and audit.isdisjoint(pii)
+    )
+
+# Evidencia calculada (no flips manuales)
 schema_ok = policy_engine(
-    {"case_id": CASE_ID, "status": "open", "note": 1}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"}
+    {"case_id": CASE_ID, "status": "open", "note": 1},
+    "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"},
 ) == "REJECT_SCHEMA"
 authz_ok = (
     policy_engine({"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"})
@@ -2198,13 +2231,21 @@ authz_ok = (
 ssrf_ok = policy_engine(
     {"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "169.254.169.254", {"docs.local"}
 ) == "REJECT_UNTRUSTED_INPUT"
+path_ok = policy_engine(
+    {"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"},
+    user_path="../etc/passwd",
+) == "REJECT_UNTRUSTED_INPUT"
 view = redact_view({"case_id": CASE_ID, "email": "x@example.pe", "region": "CUS"}, {"case_id", "region"})
-privacy_ok = "email" not in view and view.get("region") == "CUS"
+privacy_ok = (
+    "email" not in view
+    and view.get("region") == "CUS"
+    and purge_ok({}, {}, "C1", {"actor_id", "action", "case_token"}, {"email", "full_name"})
+)
 
 evidence = {
     "json_schemas_compatibles_y_casos_invalidos": schema_ok,
     "matriz_rbac_scopes_deny_by_default": authz_ok,
-    "controles_contra_injection_ssrf_path_traversal": ssrf_ok,
+    "controles_contra_injection_ssrf_path_traversal": ssrf_ok and path_ok,
     "flujo_de_acceso_redaccion_borrado_y_auditoria": privacy_ok,
 }
 
@@ -2214,12 +2255,16 @@ print("missing", ",".join(missing))
 print("deny_cross", policy_engine(
     {"case_id": CASE_ID, "status": "open"}, "u1", "u2", {"cases:read"}, "docs.local", {"docs.local"}
 ))
+print("path_block", policy_engine(
+    {"case_id": CASE_ID, "status": "open"}, "u1", "u1", {"cases:read"}, "docs.local", {"docs.local"},
+    user_path="../etc/passwd",
+))
 assert status == "READY"
 assert not missing
 `,
-    portfolioNote: "Evidencia de CP-N4-A: el starter ya calcula READY desde asserts del policy_engine (extra→REJECT, cross-tenant→DENY, SSRF→REJECT, email no reaparece). Amplía con path confinement, purga de derivados, rollback y riesgo residual en tu repo — no basta un checklist de booleans a mano.",
+    portfolioNote: "Evidencia de CP-N4-A: el starter calcula READY desde asserts reales (extra→REJECT_SCHEMA, cross-tenant→DENY, SSRF y path→REJECT, email no reaparece, purga limpia). En tu repo amplía con matriz de scopes por `svc-*`, rotación de secretos, rollback documentado y riesgo residual — no entregues un checklist de booleans a mano.",
     rubric: [
-      { criterion: "Correctitud del contrato y gate", weight: "25%" },
+      { criterion: "Correctitud del contrato y gate CP-N4-A", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
       { criterion: "Seguridad, privacidad y least privilege", weight: "15%" },
       { criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" },
@@ -2231,7 +2276,7 @@ assert not missing
     questions: [
       {
         question: "¿Qué evidencia permite aprobar schema estricto en CASO-CUS-042?",
-        options: ["un print sin assert ni versión", "fixtures válidos/inválidos con rechazo de campos extra", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
+        options: ["un print sin assert ni versión", "fixtures válidos/inválidos con rechazo de campos extra (modelo de extra=forbid)", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
         correctIndex: 1,
         explanation: "Se exige forma estricta comprobable: válidos pasan y extras/status basura fallan; evidencia decorativa o PII no cuenta.",
       },
@@ -2243,15 +2288,15 @@ assert not missing
       },
       {
         question: "¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?",
-        options: ["un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos", "el archivo S42 existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva"],
+        options: ["un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos", "el archivo de la sección existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva"],
         correctIndex: 0,
         explanation: "El gate es conductual y medible: no cross-tenant + redacción sostenida.",
       },
       {
-        question: "¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?",
-        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "inferir fraude o parentesco desde señales de entidad"],
+        question: "El canal de notificaciones añade un campo opcional `currency` sin tocar `amount`, y el lector v1 sigue pasando. ¿Qué tipo de evolución es?",
+        options: ["rename_required silencioso (aceptable sin versión)", "rupture que obliga VERSION_SCHEMA siempre", "evolución aditiva segura si la unión de tags sigue exhaustiva", "permiso para omitir handled_tags en el deploy"],
         correctIndex: 2,
-        explanation: "Los casos son sintéticos de soporte en Cusco; ninguna señal del lab prueba fraude, parentesco ni intención.",
+        explanation: "Cambios aditivos opcionales preservan lectores previos; rename o tags sin handler exigen VERSION_SCHEMA o MIGRATE_CONSUMERS.",
       },
       {
         question: "Una URL de adjunto apunta a `http://169.254.169.254/` (metadata cloud). ¿Qué control fail-closed aplica en S42-T3-A?",

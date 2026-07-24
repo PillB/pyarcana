@@ -28,9 +28,9 @@ export const section40: CourseSection = {
       heading: "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
-        "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39. Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real.",
+        "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39 (triage y controles). Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real. Lo que aprendas aquí (ports, evolución aditiva) alimenta S41 (APIs) y deja la orquestación de agentes para más adelante.",
         "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
-        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 con un defecto de dominio. **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM (eso se trata más adelante). Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 (E1 a menudo ensambla el artefacto: context map, C4+ADR, entity/VO, consumer contract; E2/E3 refuerzan fail-closed). **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
       ],
       code: {
         language: 'python',
@@ -56,8 +56,7 @@ pii_allowed False`,
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content:
-          "CP-N4-A: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia. Si falta evidencia, no se promociona.",
+        content: "Nota de orientación: S40-T1-A: caso sintético con asserts locales; si falta, no promociones.",
       },
     },
     {
@@ -95,7 +94,7 @@ owner platform`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Evidencia mínima de S40-T1-A: escenario QA completo con umbral y dueño. Si falta, responde `REJECT_QA_SCENARIO`; si no alcanza para decidir, `REQUEST_QA_OWNER`.",
+          "Antes de promover S40-T1-B, verifica el contrato ejecutable y el riesgo residual.",
       },
     },
     {
@@ -129,16 +128,16 @@ residual_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S40-T1-B, audita tabla de decisión y riesgo residual aceptado (score = costo, menor es mejor; residual ≤ 2). Un breach activa `REOPEN_TRADEOFF` y una ausencia activa `ESCALATE_RESIDUAL_RISK`.",
+          "La revisión de S40-T2-A exige salida esperada y fail-closed ante breach.",
       },
     },
     {
       heading: "Cohesión, acoplamiento y capas",
       subtopicId: "S40-T2-A",
       paragraphs: [
-        "Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web.",
+        "Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web. Si mañana cambias Postgres por un almacén de documentos, el lenguaje de triage no debería reescribirse.",
         "Contrato de capas S40-T2-A. Entrada: lista de capas y aristas de dependencia. Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro). Error local: `REDRAW_BOUNDARY`. Si falta el grafo: `REVIEW_LAYER_OWNER`.",
-        "En `CASO-LIM-040`, la UI de intake de Red Andina no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier.",
+        "En `CASO-LIM-040`, la UI de intake de Red Andina (formularios sintéticos de Lima) no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier — un salto de capa es un bug de arquitectura, no un atajo de sprint.",
       ],
       code: {
         language: 'python',
@@ -165,7 +164,7 @@ domain_pure True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S40-T2-A exige grafo sin `presentation→infrastructure` ni `domain→infrastructure`; no conviertas `REDRAW_BOUNDARY` ni `REVIEW_LAYER_OWNER` en éxito silencioso.",
+          "Contrato S40-T2-B: fixture S40-T2-B; si falta evidencia, no promociones.",
       },
     },
     {
@@ -203,7 +202,7 @@ port_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S40-T2-B: demuestra test del dominio con adapter en memoria y `implements_port`. Falla cerrada con `INVERT_DEPENDENCY` y deriva incertidumbre mediante `DEFINE_PORT_CONTRACT`.",
+          "Para S40-T3-A: fixture S40-T3-A; si falta evidencia, no promociones.",
       },
     },
     {
@@ -233,7 +232,7 @@ acl True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S40-T3-A, el artefacto comprobable es glosario ubicuo y context map revisado (términos disjuntos + traducciones). Sin él corresponde `SPLIT_CONTEXTS` o, si faltan datos, `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
+          "Promoción de S40-T3-B solo con evidencia reproducible y dueño asignado.",
       },
     },
     {
@@ -253,30 +252,37 @@ acl True`,
 def same_money(a: dict, b: dict) -> bool:
     return a["amount"] == b["amount"] and a["currency"] == b["currency"]
 
+def merge_scores(a: float, b: float, w: float = 0.5) -> float:
+    # servicio de dominio: sin estado propio; no muta entidades
+    return round(w * a + (1 - w) * b, 3)
+
 case_a, case_b = "CASE-001", "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
 print("entity_same", same_entity(case_a, case_b))
 print("vo_equal", same_money(vo_a, vo_b))
+print("merged", merge_scores(0.8, 0.6))
 print("vo_frozen", True)`,
         output: `entity_same True
 vo_equal True
+merged 0.7
 vo_frozen True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S40-T3-B: prueba invariantes de entity/VO (identidad vs igualdad por valor) y registra por separado `REJECT_DOMAIN_MODEL` (breach) y `CLARIFY_INVARIANT` (missing).",
+          "El dueño de S40-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
       },
     },
     {
       heading: "Diagramas C4, flujo y ADRs",
       subtopicId: "S40-T4-A",
       paragraphs: [
-        "**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**.",
+        "**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**. Un diagrama sin ADR es una foto; un ADR sin rollback es una promesa sin freno de mano.",
         "Contrato documental S40-T4-A. Entrada: niveles C4 presentes y campos del ADR. Salida mínima: `{context, container}` en C4 y `{decision, alternatives, consequences, rollback}` con `status=accepted`. Si el ADR está incompleto o en draft sin campos: `RETURN_ADR_TO_DRAFT`. Si falta el status: `REQUEST_ARCH_REVIEW`.",
-        "En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async, qué alternativa se descartó y cómo revertir.",
+        "En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async (picos de intake en Lima), qué alternativa se descartó (sync HTTP) y cómo revertir (`feature_flag_off`).",
+        "**Rúbrica de calidad de un ADR** (úsa la en You Do, no solo «campos presentes»): (1) **contexto** con estímulo real del negocio; (2) **≥2 alternatives** evaluadas, no un monólogo; (3) **consequences** con ganancia y costo residual; (4) **rollback** operable en ≤1 release; (5) **status** `accepted` solo cuando un dueño contactable firma. Un archivo vacío con títulos no pasa CP-N4-A.",
       ],
       code: {
         language: 'python',
@@ -297,9 +303,9 @@ status accepted`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato local + rúbrica ADR",
         content:
-          "El dueño de S40-T4-A acepta solo C4 (context+container) enlazado a ADR accepted con alternatives/consequences/rollback; violación → `RETURN_ADR_TO_DRAFT`; registro incompleto → `REQUEST_ARCH_REVIEW`.",
+          "Cierre de S40-T4-B: documenta residual risk y límites del lab stdlib.",
       },
     },
     {
@@ -479,27 +485,34 @@ no_leak True`,
         demoId: "S40-T3-B-DEMO",
         subtopicId: "S40-T3-B",
         environment: "local-python",
-        description: "Demo: identidad de entity vs igualdad de VO Money (PEN) e invariante frozen",
+        description: "Demo: entity identity + VO Money (PEN) + servicio de fusión sin estado",
         code: {
           language: 'python',
           title: "demo_entities_vo_services.py",
           code: `def same_entity(a: str, b: str) -> bool:
-    return a == b
+    return a == b  # identidad estable
 
 def same_vo(a: dict, b: dict) -> bool:
-    return a == b  # igualdad por valor
+    return a == b  # igualdad por valor (amount+currency)
+
+def merge_scores(a: float, b: float, w: float = 0.5) -> float:
+    return round(w * a + (1 - w) * b, 3)  # servicio sin estado
 
 entity = "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
 print("entity", entity, "same", same_entity(entity, "CASE-001"))
 print("vo_equal", same_vo(vo_a, vo_b))
-print("vo_frozen", True)`,
+print("merged", merge_scores(0.8, 0.6))
+print("vo_frozen", True)
+print("service_stateless", True)`,
           output: `entity CASE-001 same True
 vo_equal True
-vo_frozen True`,
+merged 0.7
+vo_frozen True
+service_stateless True`,
         },
-        why: "Contrasta identidad (`CASE-001` == `CASE-001`) con igualdad por valor del VO Money en PEN. El flag `vo_frozen` modela inmutabilidad: no mutes el monto in-place; crea otro VO. El servicio de dominio (stateless) se evalúa aparte en We Do.",
+        why: "Contrasta identidad de entity (`CASE-001`) con igualdad por valor del VO Money en PEN, y calcula un servicio de fusión de scores sin guardar sesión. `vo_frozen` prohíbe mutar el monto in-place; el servicio se prueba aparte del ciclo de vida de la entity.",
       },
       {
         demoId: "S40-T4-A-DEMO",
@@ -553,7 +566,7 @@ retire_on 2026-12-01`,
     ],
   },
   weDo: {
-    intro: "S40 · Laboratorio dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Los fixtures son sintéticos y reutilizan el vocabulario intake→ER→triage→reporting.",
+    intro: "S40 · Laboratorio del dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un defecto y, en varios subtemas, ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, mini C4+ADR, consumer contract). E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Fixtures sintéticos con vocabulario intake→ER→triage→reporting.",
     steps: [
       {
         id: "S40-T1-A-E1",
@@ -1008,32 +1021,57 @@ assert results == ["CONTINUE", "REDRAW_BOUNDARY", "REVIEW_LAYER_OWNER"]` ,
         id: "S40-T2-B-E1",
         subtopicId: "S40-T2-B",
         kind: "guided",
-        instruction: "S40-T2-B-E1 · Modela el contrato hexagonal sobre `CASO-LIM-040-2B`. La entrada es el dict del starter; debe pasar si `implements_port` es True, el dominio no importa infra (`domain_imports` vacío) y hay al menos 3 contract tests. Reemplaza la expresión booleana defectuosa. Salida exacta: `S40-T2-B PASS`; el adverso en E2 activa `INVERT_DEPENDENCY`.",
+        instruction: "S40-T2-B-E1 · **Oficio hexagonal (DIP)**: el starter modela el port `CaseRepository` y el adapter `MemoryCaseRepository` de Red Andina. El dominio solo debe depender del port (`implements_port=True`, `domain_imports=[]`, ≥3 contract tests). Corrige el DEFECT que exige adapter==port e imports de infra. Salida exacta: `S40-T2-B PASS`; el adverso en E2 (sqlalchemy en dominio) activa `INVERT_DEPENDENCY`.",
         hint: "Usa el flag explícito `implements_port` — no inventes reglas por sufijo del nombre del adapter.",
         hints: [
           "Predicado: implements_port is True and not domain_imports and contract_tests >= 3.",
           "El DEFECT del starter exige adapter==port e imports no vacíos: invierte esa lógica y lee el flag.",
         ],
         edgeCases: ["falta contract_tests", "fixture adverso: implements_port False o domain_imports con sqlalchemy", "CASO-LIM-040-2B es sintético"],
-        tests: "El fixture `CASO-LIM-040-2B` satisface un predicado de dominio real; imprime `S40-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T2-B-E1: el flag implements_port modela DIP; domain_imports con sqlalchemy es inversión; sin contract_tests no hay DEFINE_PORT_CONTRACT en E1 pero sí en E2/E3.",
+        tests: "El fixture hexagonal de `CASO-LIM-040-2B` demuestra DIP con adapter en memoria; imprime `S40-T2-B PASS`.",
+        feedback: "S40-T2-B-E1: evidencia de DIP = implements_port + domain_imports vacío + contract_tests≥3. El nombre del adapter no es la regla; imports de sqlalchemy en dominio sí son breach.",
         starterCode: {
           language: 'python',
           title: "s40-t2-b-e1.py",
-          code: `# CASO-LIM-040 · ports and adapters
-# DEFECT: inversión de dependencias rota
+          code: `# CASO-LIM-040 · oficio ports/adapters (DIP)
+# DEFECT: exige adapter==port e imports de infra (rompe DIP)
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
-# DEFECT: exige adapter==port e imports no vacíos (rompe DIP)
+port = "CaseRepository"
+adapter = "MemoryCaseRepository"
+implements_port = True  # MemoryCaseRepo cumple el Protocol
+domain_imports: list[str] = []  # dominio no importa sqlalchemy/fastapi
+contract_tests = 3
+record = {
+    "case_id": "CASO-LIM-040-2B",
+    "port": port,
+    "adapter": adapter,
+    "implements_port": implements_port,
+    "domain_imports": domain_imports,
+    "contract_tests": contract_tests,
+}
+# DEFECT: confunde igualdad de nombres con DIP
 meets_contract = record["adapter"] == record["port"] and bool(record["domain_imports"])
 status = "PASS" if meets_contract else "INVERT_DEPENDENCY"
 print("S40-T2-B", status)
+print("dep", "domain<-adapters" if record["implements_port"] and not record["domain_imports"] else "domain->infra")
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s40-t2-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-2B", **{"port":"CaseRepository","adapter":"MemoryCaseRepository","implements_port":True,"domain_imports":[],"contract_tests":3}}
+          code: `port = "CaseRepository"
+adapter = "MemoryCaseRepository"
+implements_port = True
+domain_imports: list[str] = []
+contract_tests = 3
+record = {
+    "case_id": "CASO-LIM-040-2B",
+    "port": port,
+    "adapter": adapter,
+    "implements_port": implements_port,
+    "domain_imports": domain_imports,
+    "contract_tests": contract_tests,
+}
 meets_contract = (
     record.get("implements_port") is True
     and not record["domain_imports"]
@@ -1041,8 +1079,10 @@ meets_contract = (
 )
 status = "PASS" if meets_contract else "INVERT_DEPENDENCY"
 print("S40-T2-B", status)
+print("dep", "domain<-adapters" if meets_contract else "domain->infra")
 assert meets_contract is True` ,
-          output: `S40-T2-B PASS` ,
+          output: `S40-T2-B PASS
+dep domain<-adapters` ,
         },
       },
       {
@@ -1108,7 +1148,7 @@ print(*results)
         id: "S40-T2-B-E3",
         subtopicId: "S40-T2-B",
         kind: "transfer",
-        instruction: "S40-T2-B-E3 · Recupera fallo cerrado hexagonal: `CASO-LIM-040-2B` → CONTINUE, adverso → `INVERT_DEPENDENCY`, sin `contract_tests` → `DEFINE_PORT_CONTRACT`. Corrige la rama missing y el predicado invertido sin rellenar evidencia.",
+        instruction: "S40-T2-B-E3 · Recupera fallo cerrado hexagonal: `CASO-LIM-040-2B` → CONTINUE, adverso → `INVERT_DEPENDENCY`, sin `contract_tests` → `DEFINE_PORT_CONTRACT`. Corrige la rama missing y el predicado invertido sin rellenar evidencia. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
@@ -1328,37 +1368,80 @@ assert results == ["CONTINUE", "SPLIT_CONTEXTS", "WORKSHOP_UBIQUITOUS_LANGUAGE"]
         id: "S40-T3-B-E1",
         subtopicId: "S40-T3-B",
         kind: "guided",
-        instruction: "S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación debe demostrar identidad estable, VO en PEN e invariantes inmutables. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_DOMAIN_MODEL` en E2.",
-        hint: "Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.",
+        instruction: "S40-T3-B-E1 · **Oficio táctico entity/VO/servicio** (calcula, no solo flags): el starter trae dos referencias al caso `CASE-001`, dos VOs Money 150 PEN y un servicio `merge_scores`. Corrige el DEFECT: el contrato pasa solo si (1) `same_entity` por identidad, (2) `same_money` por valor, (3) `vo_frozen` y (4) el servicio devuelve 0.7 sin mutar entidades. Salida exacta: `S40-T3-B PASS`. En E2 el adverso (USD / id vacío) activa `REJECT_DOMAIN_MODEL`.",
+        hint: "No compares `currency` con `entity_id`. Identidad = ids iguales; VO = amount+currency; servicio = media ponderada sin estado.",
         hints: [
-          "Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva invariantes de entity/VO probadas; revisa dirección de comparación, conjuntos y negaciones.",
+          "same_entity(entity_a, entity_b) y same_money(vo_a, vo_b); currency debe ser PEN.",
+          "merge_scores(0.8, 0.6) → 0.7; service_stateless y vo_frozen deben ser True.",
         ],
         edgeCases: ["falta service_stateless", "fixture adverso: currency ≠ PEN, vo_frozen False o entity_id sin prefijo CASE-", "CASO-LIM-040-3B es sintético"],
-        tests: "El fixture `CASO-LIM-040-3B` satisface un predicado de dominio real; imprime `S40-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T3-B-E1: entity_id CASE-… + VO PEN + vo_frozen + service_stateless. El DEFECT confunde moneda con id de entidad — no compares currency con entity_id.",
+        tests: "El modelo táctico de `CASO-LIM-040-3B` prueba identidad, VO PEN y servicio sin estado; imprime `S40-T3-B PASS`.",
+        feedback: "S40-T3-B-E1: el artefacto es el contraste identidad vs valor + servicio stateless. DEFECT mezclaba currency con entity_id — eso rompe el modelo táctico.",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e1.py",
-          code: `# CASO-LIM-040 · entity vs value object
-# DEFECT: VO/Entity mezclados
+          code: `# CASO-LIM-040 · oficio entity / VO / servicio de dominio
+# DEFECT: confunde moneda del VO con id de la entity
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-3B", **{"entity_id":"CASE-001","vo":{"amount":150,"currency":"PEN"},"vo_frozen":True,"service_stateless":True}}
-# DEFECT: VO no se identifica con entity_id; igualdad por valor de campos
-meets_contract = record["vo"]["currency"] == record["entity_id"]
+entity_a = "CASE-001"
+entity_b = "CASE-001"
+vo_a = {"amount": 150, "currency": "PEN"}
+vo_b = {"amount": 150, "currency": "PEN"}
+vo_frozen = True
+service_stateless = True
+
+def same_entity(a: str, b: str) -> bool:
+    return a == b
+
+def same_money(a: dict, b: dict) -> bool:
+    return a["amount"] == b["amount"] and a["currency"] == b["currency"]
+
+def merge_scores(x: float, y: float, w: float = 0.5) -> float:
+    return round(w * x + (1 - w) * y, 3)
+
+merged = merge_scores(0.8, 0.6)
+# DEFECT: trata currency como si fuera entity_id
+meets_contract = vo_a["currency"] == entity_a
 status = "PASS" if meets_contract else "REJECT_DOMAIN_MODEL"
 print("S40-T3-B", status)
+print("entity_same", same_entity(entity_a, entity_b), "vo_equal", same_money(vo_a, vo_b), "merged", merged)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s40-t3-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-3B", **{"entity_id":"CASE-001","vo":{"amount":150,"currency":"PEN"},"vo_frozen":True,"service_stateless":True}}
-meets_contract = record["entity_id"].startswith("CASE-") and record["vo"]["currency"] == "PEN" and record["vo_frozen"] and record["service_stateless"]
+          code: `entity_a = "CASE-001"
+entity_b = "CASE-001"
+vo_a = {"amount": 150, "currency": "PEN"}
+vo_b = {"amount": 150, "currency": "PEN"}
+vo_frozen = True
+service_stateless = True
+
+def same_entity(a: str, b: str) -> bool:
+    return a == b
+
+def same_money(a: dict, b: dict) -> bool:
+    return a["amount"] == b["amount"] and a["currency"] == b["currency"]
+
+def merge_scores(x: float, y: float, w: float = 0.5) -> float:
+    return round(w * x + (1 - w) * y, 3)
+
+merged = merge_scores(0.8, 0.6)
+meets_contract = (
+    entity_a.startswith("CASE-")
+    and same_entity(entity_a, entity_b)
+    and same_money(vo_a, vo_b)
+    and vo_a["currency"] == "PEN"
+    and vo_frozen
+    and service_stateless
+    and merged == 0.7
+)
 status = "PASS" if meets_contract else "REJECT_DOMAIN_MODEL"
 print("S40-T3-B", status)
+print("entity_same", same_entity(entity_a, entity_b), "vo_equal", same_money(vo_a, vo_b), "merged", merged)
 assert meets_contract is True` ,
-          output: `S40-T3-B PASS` ,
+          output: `S40-T3-B PASS
+entity_same True vo_equal True merged 0.7` ,
         },
       },
       {
@@ -1647,37 +1730,64 @@ assert results == ["CONTINUE", "RETURN_ADR_TO_DRAFT", "REQUEST_ARCH_REVIEW"]` ,
         id: "S40-T4-B-E1",
         subtopicId: "S40-T4-B",
         kind: "guided",
-        instruction: "S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operación debe demostrar campos v1 preservados y deuda con owner/fecha. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_BREAKING_CHANGE` en E2.",
-        hint: "Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.",
+        instruction: "S40-T4-B-E1 · **Oficio de evolución aditiva** (consumer contract + deuda): el starter trae payload v1 `{case_id, status}` y v1.1 con `priority`, más deuda del job async de intake Red Andina. Corrige el DEFECT: el contrato pasa solo si (1) `v1_fields ⊆ v11_fields`, (2) el consumidor antiguo sigue leyendo `case_id:status` y (3) la deuda tiene `debt_owner` + `retire_on`. Salida exacta: `S40-T4-B PASS`. En E2 borrar un campo de v1 activa `BLOCK_BREAKING_CHANGE`.",
+        hint: "Subconjunto correcto: v1 ⊆ v11 (no al revés). Imprime la vista del consumidor y la deuda.",
         hints: [
-          "Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva consumer contract de versión previa en verde; revisa dirección de comparación, conjuntos y negaciones.",
+          "additive_ok = v1_fields <= v11_fields; debt_owner truthy y retire_on no vacío.",
+          "consumer_view usa solo case_id y status — debe funcionar igual en v1.1.",
         ],
         edgeCases: ["falta retire_on", "fixture adverso: se eliminan campos de v1 o residual sin dueño/fecha", "CASO-LIM-040-4B es sintético"],
-        tests: "El fixture `CASO-LIM-040-4B` satisface un predicado de dominio real; imprime `S40-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S40-T4-B-E1: consumer contract en verde exige v1_fields ⊆ v11_fields + debt_owner + retire_on. El DEFECT usa subconjunto invertido — no pidas v11 ⊂ v1.",
+        tests: "La evolución aditiva de `CASO-LIM-040-4B` conserva el consumer contract y documenta deuda; imprime `S40-T4-B PASS`.",
+        feedback: "S40-T4-B-E1: el artefacto es v1⊆v1.1 + vista del consumidor + deuda fechada. DEFECT invertía el subconjunto (pedía v11 ⊂ v1).",
         starterCode: {
           language: 'python',
           title: "s40-t4-b-e1.py",
-          code: `# CASO-LIM-040 · API v1 to v1.1 fields
-# DEFECT: breaking change no bloqueado
+          code: `# CASO-LIM-040 · oficio consumer contract + deuda técnica
+# DEFECT: exige v11 ⊂ v1 (rompe evolución aditiva)
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
-record = {"case_id": "CASO-LIM-040-4B", **{"v1_fields":{"case_id","status"},"v11_fields":{"case_id","status","priority"},"debt_owner":"platform","retire_on":"2026-12-01"}}
-# DEFECT: evolución aditiva no reduce campos de v1
-meets_contract = record["v11_fields"] < record["v1_fields"]
+v1_fields = {"case_id", "status"}
+v11_fields = {"case_id", "status", "priority"}
+v1 = {"case_id": "CASE-1", "status": "open"}
+v11 = {**v1, "priority": "normal"}
+debt = {"owner": "platform", "retire_on": "2026-12-01", "event": "case.created"}
+
+def consumer_view(payload: dict) -> str:
+    return f"{payload['case_id']}:{payload['status']}"
+
+# DEFECT: subconjunto invertido (breaking disfrazado de PASS)
+meets_contract = v11_fields < v1_fields
 status = "PASS" if meets_contract else "BLOCK_BREAKING_CHANGE"
 print("S40-T4-B", status)
+print("v1_view", consumer_view(v1), "v11_view", consumer_view(v11))
+print("debt", debt["owner"], debt["retire_on"])
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s40-t4-b-e1.py",
-          code: `record = {"case_id": "CASO-LIM-040-4B", **{"v1_fields":{"case_id","status"},"v11_fields":{"case_id","status","priority"},"debt_owner":"platform","retire_on":"2026-12-01"}}
-meets_contract = record["v1_fields"] <= record["v11_fields"] and bool(record["debt_owner"]) and record["retire_on"] >= "2026-12-01"
+          code: `v1_fields = {"case_id", "status"}
+v11_fields = {"case_id", "status", "priority"}
+v1 = {"case_id": "CASE-1", "status": "open"}
+v11 = {**v1, "priority": "normal"}
+debt = {"owner": "platform", "retire_on": "2026-12-01", "event": "case.created"}
+
+def consumer_view(payload: dict) -> str:
+    return f"{payload['case_id']}:{payload['status']}"
+
+meets_contract = (
+    v1_fields <= v11_fields
+    and consumer_view(v1) == consumer_view(v11)
+    and bool(debt["owner"])
+    and bool(debt["retire_on"])
+)
 status = "PASS" if meets_contract else "BLOCK_BREAKING_CHANGE"
 print("S40-T4-B", status)
+print("v1_view", consumer_view(v1), "v11_view", consumer_view(v11))
+print("debt", debt["owner"], debt["retire_on"])
 assert meets_contract is True` ,
-          output: `S40-T4-B PASS` ,
+          output: `S40-T4-B PASS
+v1_view CASE-1:open v11_view CASE-1:open
+debt platform 2026-12-01` ,
         },
       },
       {
@@ -1845,18 +1955,20 @@ c4 = {
     "container": ["api", "worker", "db", "object_store"],
 }
 
-# Dos ADRs con decision / alternatives / consequences / rollback / status
+# Dos ADRs (rúbrica: contexto de negocio, ≥2 alternatives, residual, rollback operable)
 adrs = [
     {
         "id": "ADR-001",
+        "context": None,  # p. ej. picos de intake en Lima sintético
         "decision": None,  # p. ej. async_queue_for_intake_peaks
-        "alternatives": [],
-        "consequences": [],
-        "rollback": None,
-        "status": "draft",
+        "alternatives": [],  # ≥2 opciones evaluadas
+        "consequences": [],  # ganancia + costo residual
+        "rollback": None,  # operable en ≤1 release
+        "status": "draft",  # accepted solo con dueño que firma
     },
     {
         "id": "ADR-002",
+        "context": None,
         "decision": None,
         "alternatives": [],
         "consequences": [],
@@ -1900,7 +2012,7 @@ print("missing", ",".join(missing))
 print("adr_gate", adrs_accepted(adrs))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-A · mapa de arquitectura gobernado: completa las plantillas QA, context map, C4 y dos ADRs (decision/alternatives/consequences/rollback/status=accepted) del starter; luego marca evidence en True solo con artefactos reales. El checklist inicia en BLOCKED por diseño — no cambies asserts para forzar READY.",
+    portfolioNote: "Evidencia de CP-N4-A · mapa de arquitectura gobernado: completa las plantillas QA, context map, C4 y dos ADRs del starter. Rúbrica ADR: contexto de negocio, ≥2 alternatives, consequences con residual, rollback operable, status accepted firmado por dueño — no archivos vacíos con títulos. Marca evidence en True solo con artefactos reales. El checklist inicia en BLOCKED por diseño — no cambies asserts para forzar READY.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1944,34 +2056,19 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "En C4 para CASO-LIM-040, ¿qué pertenece al nivel container y no al context?",
-        options: [
-          "la persona «analista de triage» y el sistema «banco partner»",
-          "api, worker, db y object_store dentro de la plataforma Red Andina",
-          "una línea de código de la clase Money VO",
-          "el logo del producto en Figma",
-        ],
+        options: ["la persona «analista de triage» y el sistema «banco partner»", "api, worker, db y object_store dentro de la plataforma Red Andina", "una línea de código de la clase Money VO", "el logo del producto en Figma"],
         correctIndex: 1,
         explanation: "Context muestra personas y sistemas externos; container descompone la aplicación en api/worker/db/object_store.",
       },
       {
         question: "¿Qué campos mínimos hacen aceptable un ADR de evolución de API en S40-T4?",
-        options: [
-          "solo el título del ADR",
-          "decision + alternatives + consequences + rollback con status accepted",
-          "un screenshot sin decisión",
-          "la versión de Node aunque el stack sea Python",
-        ],
-        correctIndex: 1,
+        options: ["solo el título del ADR", "un screenshot sin decisión", "decision + alternatives + consequences + rollback con status accepted", "la versión de Node aunque el stack sea Python"],
+        correctIndex: 2,
         explanation: "Un ADR accepted requiere decisión, alternativas, consecuencias y señal de reversión (rollback), no solo un título o imagen.",
       },
       {
         question: "En evolución de APIs (S40-T4-B), ¿cuándo el consumer contract de la versión previa permanece en verde?",
-        options: [
-          "cuando v1_fields ⊆ v11_fields (cambio aditivo) y la deuda tiene dueño y retire_on",
-          "cuando se eliminan campos de v1 para «limpiar» el schema",
-          "cuando el README promete compatibilidad sin pruebas",
-          "cuando se cambia el significado de case.created sin versionar el evento",
-        ],
+        options: ["cuando v1_fields ⊆ v11_fields (cambio aditivo) y la deuda tiene dueño y retire_on", "cuando se eliminan campos de v1 para «limpiar» el schema", "cuando el README promete compatibilidad sin pruebas", "cuando se cambia el significado de case.created sin versionar el evento"],
         correctIndex: 0,
         explanation: "Compatibilidad aditiva conserva los campos de v1 en v1.1; borrar o redefinir sin versión es breaking. La deuda técnica exige dueño y fecha de retiro.",
       },

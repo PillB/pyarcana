@@ -12,7 +12,7 @@ export const section37: CourseSection = {
   icon: "Timer",
   accentColor: "bg-gradient-to-br from-purple-400 to-indigo-900",
   jobRelevance:
-    "Escala el triage midiendo **antes/después** con el mismo dataset sintético. En data eng y ML ops de la región, un speedup sin same_result o sin budget en CI es regresión disfrazada. Optimizar no justifica saltarse privacidad ni tests. Caso CASO-LIM-037.",
+    "Escala el triage midiendo **antes/después** con el mismo dataset sintético. En data eng y ML ops de la región (matching, features, batch de entidad), un speedup sin **same_result** o sin **budget** en CI light es regresión disfrazada: el PR «se siente» más rápido y en n grande el wall se duplica. Optimizar no justifica saltarse privacidad ni tests. Caso CASO-LIM-037.",
   learningOutcomes: [
     { text: "Profilear wall y CPU (perf_counter / process_time) y anotar memoria con n explícito" },
     { text: "Benchmarkear con warmup, mediana y una nota de variabilidad (rango o IQR simple)" },
@@ -64,44 +64,47 @@ skip_privacy_or_tests False`,
       heading: "Wall, CPU y profiling de memoria",
       subtopicId: "S37-T1-A",
       paragraphs: [
-        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o el SO; cuando ambos crecen, el path es compute-bound. La memoria pico limita si el job cabe en el worker: en stdlib, `tracemalloc` (ver recursos) muestrea alocaciones; en el lab reportamos un bound o un proxy (tamaño de estructuras) junto a n.",
-        "Mecanismo: envuelve el path caliente, anota n del fixture, verifica el resultado funcional en el mismo run y solo entonces publicas ms. Un número sin n no sirve para decidir. El profile apunta al matching/grafo o features que dominan el batch sintético — no a un tramo frío del import.",
-        "Aplicación a `CASO-LIM-037-T1A`: sumamos un rango sintético como proxy de trabajo, medimos wall y CPU, y confirmamos result True. En el path real del triage se sustituye por el scorer; la disciplina de medir wall+CPU+n se mantiene. Sin PII ni datasets productivos en el laboratorio del curso.",
+        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o el SO; cuando ambos crecen, el path es compute-bound. La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones en stdlib; `cProfile` (ver recursos) localiza la función caliente cuando el wall ya te dijo *dónde* mirar a grueso.",
+        "Mecanismo: envuelve el path caliente, anota n del fixture, verifica el resultado funcional en el mismo run y solo entonces publicas ms. Un número sin n no sirve para decidir. El profile apunta al matching/grafo o features que dominan el batch sintético — no a un tramo frío del import. Orden profesional: medir wall+CPU con n → (si hace falta) cProfile del hot path → (si hay riesgo de OOM) tracemalloc o un bound de bytes.",
+        "Aplicación a `CASO-LIM-037-T1A`: sumamos un rango sintético como proxy de trabajo, medimos wall y CPU, y usamos `tracemalloc` para un pico de alocaciones del work. En el path real del triage se sustituye por el scorer; la disciplina wall+CPU+n+memoria se mantiene. Sin PII ni datasets productivos en el laboratorio del curso.",
       ],
       code: {
         language: 'python',
-        title: "wall_cpu.py",
+        title: "wall_cpu_mem.py",
         code: `import time
+import tracemalloc
 
-def profile_wall_cpu(n: int):
+def profile_wall_cpu_mem(n: int):
     t0 = time.perf_counter()
     s = sum(range(n))
     wall = time.perf_counter() - t0
     t1 = time.process_time()
     sum(range(n))
     cpu = time.process_time() - t1
-    # proxy de bound de memoria (int64 ≈ 8 B); en prod usa tracemalloc (recursos)
-    mem_proxy_bytes = n * 8
-    return round(wall * 1000, 3), round(cpu * 1000, 3), s > 0, n, mem_proxy_bytes
+    tracemalloc.start()
+    _ = [i for i in range(min(n, 50_000))]  # alocación acotada didáctica
+    _current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return round(wall * 1000, 3), round(cpu * 1000, 3), s > 0, n, peak
 
-wall_ms, cpu_ms, ok, n, mem_proxy = profile_wall_cpu(100_000)
-# ms exactos varían por máquina; el contrato didáctico es n + result + ms >= 0
+wall_ms, cpu_ms, ok, n, peak = profile_wall_cpu_mem(100_000)
+# ms y peak exactos varían por máquina; el contrato didáctico es n + result + >= 0
 print("wall_ms_ok", wall_ms >= 0)
 print("cpu_ms_ok", cpu_ms >= 0)
 print("result", ok)
 print("n", n)
-print("mem_proxy_ok", mem_proxy > 0)`,
+print("peak_ok", peak >= 0)`,
         output: `wall_ms_ok True
 cpu_ms_ok True
 result True
 n 100000
-mem_proxy_ok True`,
+peak_ok True`,
       },
       callout: {
         type: "tip",
-        title: "perf_counter, process_time y memoria",
+        title: "perf_counter, process_time y tracemalloc",
         content:
-          "perf_counter: reloj monotónico de alta resolución (wall). process_time: CPU del proceso. Siempre reporta n junto al ms. El mem_proxy (n×bytes) es un bound didáctico; para picos reales usa tracemalloc (ver recursos).",
+          "perf_counter: wall monotónico. process_time: CPU del proceso. tracemalloc: pico de alocaciones del tramo medido. Siempre reporta n. cProfile (recursos) entra cuando ya sabes qué path es caro y necesitas la función exacta.",
       },
     },
     {
@@ -217,30 +220,38 @@ ok True`,
       subtopicId: "S37-T3-A",
       paragraphs: [
         "Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria: un int32 ocupa la mitad que un int64 por elemento si el dominio cabe. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columnas usadas (id, amount) en lugar del registro ancho que arrastra blobs innecesarios.",
-        "Mecanismo: declara un bound de memoria; elige size de chunk como tradeoff entre overhead de bucle y pico de RAM; proyecta columnas antes de features. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job documenta chunk_sizes y col_subset medibles sobre el fixture sintético.",
-        "Aplicación a `CASO-LIM-037-T3A`: range(10) en chunks de 3 → [3,3,3,1]; subset de columnas ['id','amount']. Didáctica con listas y array.array; el mismo criterio aplica a formatos columnares cuando el stack del curso ya los introdujo.",
+        "Mecanismo: mide bytes por elemento (`array.itemsize` o el dtype del stack); declara un bound de memoria; elige size de chunk como tradeoff entre overhead de bucle y pico de RAM; proyecta columnas antes de features. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job documenta chunk_sizes, col_subset y un bound de bytes medible sobre el fixture sintético.",
+        "Aplicación a `CASO-LIM-037-T3A`: range(10) en chunks de 3 → [3,3,3,1]; subset ['id','amount']; int32 vs int64 con itemsize. Didáctica con listas y `array.array`; el mismo criterio aplica a formatos columnares cuando el stack del curso ya los introdujo.",
       ],
       code: {
         language: 'python',
-        title: "chunks.py",
-        code: `def chunks(xs, size):
+        title: "chunks_dtype.py",
+        code: `import array
+
+def chunks(xs, size):
     for i in range(0, len(xs), size):
         yield xs[i:i + size]
 
 data = list(range(10))
 sizes = [len(c) for c in chunks(data, 3)]
+i32, i64 = array.array("i").itemsize, array.array("q").itemsize
+bound_bytes = len(data) * i32  # bound si usamos int32
 print("chunk_sizes", sizes)
 print("col_subset", ["id", "amount"])
+print("itemsize_i32", i32)
+print("bound_ok", bound_bytes < len(data) * i64)
 print("ok", sizes == [3, 3, 3, 1])`,
         output: `chunk_sizes [3, 3, 3, 1]
 col_subset ['id', 'amount']
+itemsize_i32 4
+bound_ok True
 ok True`,
       },
       callout: {
         type: "tip",
-        title: "Chunk size",
+        title: "Chunk size y bound",
         content:
-          "Tradeoff overhead vs memoria. Demasiado pequeño: overhead; demasiado grande: OOM. Mide el pico.",
+          "Tradeoff overhead vs memoria. Demasiado pequeño: overhead; demasiado grande: OOM. Mide itemsize y el pico; no adivines el dtype.",
       },
     },
     {
@@ -310,7 +321,7 @@ measured_ms 12`,
       heading: "Costo total, claridad y no microoptimización",
       subtopicId: "S37-T4-B",
       paragraphs: [
-        "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después con mismo resultado, dataset y límites — no un leaderboard de microbenchmarks del autor.",
+        "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después con mismo resultado, dataset y límites — no un leaderboard de microbenchmarks desconectados del path de producción.",
         "Mecanismo: speedup = before_ms / after_ms (ratio, no resta). pair_factor = before_pairs // after_pairs dice «cuántas veces menos pares»; no lo confundas con reduction = 1 − after/before de T2-A (fracción eliminada). micro_only=False cuando el ganador fue blocking/algo. El PR explica el tradeoff en español profesional.",
         "Aplicación a `CASO-LIM-037-T4B`: before 100ms/1e6 pares → after 20ms/5e4 pares: speedup 5×, pair_factor 20× (y reduction 0.95 si lo reportas como fracción). El equipo prefiere ese cambio al rewrite opaco de un 2%. Datos sintéticos del path N3 de Red Andina ficticia.",
       ],
@@ -348,39 +359,46 @@ micro_only False`,
         demoId: "S37-T1-A-DEMO",
         subtopicId: "S37-T1-A",
         environment: "local-python",
-        description: "Demo: wall y CPU del trabajo sintético con n.",
+        description: "Demo: wall, CPU y pico de memoria del trabajo sintético con n.",
         code: {
           language: 'python',
           title: "s37_t1_a_demo.py",
           code: `import time
+import tracemalloc
 
-def wall_cpu_ms(n: int):
+def wall_cpu_mem(n: int):
     t0 = time.perf_counter()
     result = sum(range(n))
     wall = (time.perf_counter() - t0) * 1000
     t1 = time.process_time()
     sum(range(n))
     cpu = (time.process_time() - t1) * 1000
-    return round(wall, 3), round(cpu, 3), result
+    tracemalloc.start()
+    _ = list(range(min(n, 20_000)))
+    _cur, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return round(wall, 3), round(cpu, 3), result, peak
 
 n = 10_000
-wall_ms, cpu_ms, result = wall_cpu_ms(n)
+wall_ms, cpu_ms, result, peak = wall_cpu_mem(n)
 print("wall_ms_ok", wall_ms >= 0)
 print("cpu_ms_ok", cpu_ms >= 0)
+print("peak_ok", peak >= 0)
 print("n", n)
 print("ok", result >= 0)`,
           output: `wall_ms_ok True
 cpu_ms_ok True
+peak_ok True
 n 10000
 ok True`,
         },
-        why: "Deriva wall y CPU del work real con n; los ms exactos varían por máquina, por eso el demo reporta predicados estables (ms >= 0).",
+        why: "Deriva wall, CPU y pico de alocaciones del work real con n; los valores exactos varían por máquina, por eso el demo reporta predicados estables (>= 0).",
       },
       {
         demoId: "S37-T1-B-DEMO",
         subtopicId: "S37-T1-B",
         environment: "local-python",
-        description: "Demo: warmup real + mediana de 5 runs.",
+        description: "Demo: warmup real + mediana y spread de 5 runs.",
         code: {
           language: 'python',
           title: "s37_t1_b_demo.py",
@@ -396,14 +414,17 @@ for _ in range(5):
     work()
     times.append(time.perf_counter() - t0)
 med = statistics.median(times)
+spread = max(times) - min(times)
 print("median_ms_ok", round(med * 1000, 3) >= 0)
+print("spread_ms_ok", round(spread * 1000, 3) >= 0)
 print("warmup", True)
 print("n_runs", 5)`,
           output: `median_ms_ok True
+spread_ms_ok True
 warmup True
 n_runs 5`,
         },
-        why: "Higiene de bench real: una corrida de warmup, N runs, mediana — no mediana de enteros inventados.",
+        why: "Higiene de bench real: warmup, N runs, mediana y nota de variabilidad (spread) — no mediana de enteros inventados.",
       },
       {
         demoId: "S37-T2-A-DEMO",
@@ -722,19 +743,23 @@ n 1`,
         id: "S37-T1-B-E1",
         subtopicId: "S37-T1-B",
         kind: "guided",
-        instruction: "S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean y warmup False (defect). Fixture de bench sintético CASO-LIM-037-1B.",
-        hint: "median es robusta a un outlier de run.",
-        hints: ["median es robusta a un outlier de run.", "n_runs y warmup van en el reporte."],
+        instruction: "S37-T1-B-E1 · Bench real: warmup de work(), 3 runs con perf_counter; imprime (median_ms >= 0) como True, n_runs 3, warmup True. Starter usa statistics.mean de una lista inventada y warmup False (defect). Fixture CASO-LIM-037-1B. (Los ms exactos varían por máquina; el grader usa el predicado estable.)",
+        hint: "median de los tiempos medidos, no mean de enteros inventados.",
+        hints: ["Descarta cold start con un work() previo.", "statistics.median(times) sobre los 3 runs post-warmup."],
         edgeCases: ["un solo run", "sintético"],
         tests: "Salida alinea con solution output de S37-T1-B-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "S37-T1-B-E1: mediana + warmup es higiene mínima de bench.",
+        feedback: "S37-T1-B-E1: mediana + warmup sobre tiempos reales es higiene mínima de bench.",
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e1.py",
-          code: `# CASO-LIM-037 · mediana de runs
-import statistics
-vals = [5, 1, 4]
-# DEFECT: imprime la media, no la mediana; y olvida warmup
+          code: `# CASO-LIM-037 · mediana de runs reales
+# DEFECT: mean de enteros inventados; sin warmup ni medición
+import time, statistics
+
+def work():
+    return sum(i * i for i in range(2000))
+
+vals = [5, 1, 4]  # DEFECT: no son tiempos medidos
 print(statistics.mean(vals))
 print("n_runs", 3)
 print("warmup", False)
@@ -743,14 +768,23 @@ print("warmup", False)
         solutionCode: {
           language: 'python',
           title: "s37-t1-b-e1.py",
-          code: `import statistics
-vals = [5, 1, 4]
-med = statistics.median(vals)
-print(med)
-print("n_runs", len(vals))
+          code: `import time, statistics
+
+def work():
+    return sum(i * i for i in range(2000))
+
+work()  # warmup
+times = []
+for _ in range(3):
+    t0 = time.perf_counter()
+    work()
+    times.append(time.perf_counter() - t0)
+med_ms = round(statistics.median(times) * 1000, 3)
+print(med_ms >= 0)  # predicado estable (ms exactos varían por máquina)
+print("n_runs", len(times))
 print("warmup", True)
 `,
-          output: `4
+          output: `True
 n_runs 3
 warmup True`,
         },
@@ -924,9 +958,9 @@ blocking True`,
         id: "S37-T2-A-E3",
         subtopicId: "S37-T2-A",
         kind: "transfer",
-        instruction: "S37-T2-A-E3 · Prioriza algoritmo: con all_pairs=4950, blocked=450 y micro_pairs=4900 (shaving 1%), elige prefer 'blocking' si blocked < micro_pairs. Imprime prefer, ok True, micro False. Starter prefiere 'microopt' y micro True (defect).",
+        instruction: "S37-T2-A-E3 · Prioriza algoritmo: con all_pairs=4950, blocked=450 y micro_pairs=4900 (shaving 1%), elige prefer 'blocking' si blocked < micro_pairs. Imprime prefer, ok (blocked < all_pairs), micro False. Starter fija prefer='microopt' y micro=True sin comparar (defect).",
         hint: "Bajar pares O(n²) domina micro-optimizar.",
-        hints: ["Compara blocked vs micro_pairs numéricamente.", "prefer = 'blocking' si blocked es menor."],
+        hints: ["Compara blocked vs micro_pairs numéricamente.", "prefer = 'blocking' si blocked es menor; micro = (prefer == 'microopt')."],
         edgeCases: ["teatro de 1%", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-A-E3; predicado de dominio sobre fixture sintético.",
         feedback: "S37-T2-A-E3: blocking primero se decide con números, no con lemas.",
@@ -936,10 +970,10 @@ blocking True`,
           code: `# CASO-LIM-037 · preferir blocking a microopt
 # DEFECT: prefiere microoptimización sin comparar pares
 all_pairs, blocked, micro_pairs = 4950, 450, 4900
-prefer = "microopt"  # DEFECT
+prefer = "microopt"  # DEFECT: no usa blocked < micro_pairs
 micro = True
 print("prefer", prefer)
-print("ok", True)
+print("ok", blocked < all_pairs)
 print("micro", micro)
 `,
         },
@@ -950,7 +984,7 @@ print("micro", micro)
 prefer = "blocking" if blocked < micro_pairs else "microopt"
 micro = prefer == "microopt"
 print("prefer", prefer)
-print("ok", blocked < all_pairs)
+print("ok", blocked < all_pairs and prefer == "blocking")
 print("micro", micro)
 `,
           output: `prefer blocking
@@ -1452,22 +1486,22 @@ micro_only False`,
         id: "S37-T4-B-E2",
         subtopicId: "S37-T4-B",
         kind: "independent",
-        instruction: "S37-T4-B-E2 · Claridad sobre shaving 2%: con algo_gain=0.80 y micro_gain=0.02, prefiere 'clarity' si micro_gain < 0.05 y algo_gain > micro_gain; imprime prefer, ok True, shave '2pct_no'. Starter prefer 'micro_shave' y shave '2pct_yes' (defect).",
+        instruction: "S37-T4-B-E2 · Claridad sobre shaving 2%: con algo_gain=0.80 y micro_gain=0.02, prefiere 'clarity' si micro_gain < 0.05 y algo_gain > micro_gain; imprime prefer, ok (algo_gain > micro_gain), shave '2pct_no'. Starter fija prefer='micro_shave' y shave='2pct_yes' sin aplicar la regla (defect).",
         hint: "Costo total incluye bugs y review.",
-        hints: ["Compara algo_gain vs micro_gain.", "2% opaco suele ser pérdida neta."],
+        hints: ["Compara algo_gain vs micro_gain con la regla del umbral 0.05.", "2% opaco suele ser pérdida neta frente a un gain algorítmico medido."],
         edgeCases: ["heroics sin medición", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-B-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "S37-T4-B-E2: claridad es performance de equipo medida con gains.",
+        feedback: "S37-T4-B-E2: claridad es performance de equipo medida con gains, no un lema.",
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e2.py",
           code: `# CASO-LIM-037 · claridad > shave 2%
-# DEFECT: prefiere micro-shave
+# DEFECT: prefiere micro-shave sin aplicar la regla de gains
 algo_gain, micro_gain = 0.80, 0.02
-prefer = "micro_shave"  # DEFECT
+prefer = "micro_shave"  # DEFECT: ignora algo_gain > micro_gain y umbral 0.05
 shave = "2pct_yes"
 print("prefer", prefer)
-print("ok", True)
+print("ok", algo_gain > micro_gain)
 print("shave", shave)
 `,
         },
@@ -1478,7 +1512,7 @@ print("shave", shave)
 prefer = "clarity" if micro_gain < 0.05 and algo_gain > micro_gain else "micro_shave"
 shave = "2pct_no" if prefer == "clarity" else "2pct_yes"
 print("prefer", prefer)
-print("ok", algo_gain > micro_gain)
+print("ok", algo_gain > micro_gain and prefer == "clarity")
 print("shave", shave)
 `,
           output: `prefer clarity
@@ -1570,27 +1604,40 @@ def same_result(before_val, after_val) -> bool:
 
 if __name__ == "__main__":
     n = 200
+    blocks = 10
     # Proxies de trabajo: before ~ más trabajo; after ~ path reducido
     before_ms = bench(lambda: sum(range(n * n // 4))) * 1000
     after_ms = bench(lambda: sum(range(n))) * 1000
     before = {"ms": before_ms, "pairs": all_pairs(n), "result": all_pairs(n)}
     after = {
         "ms": after_ms,
-        "pairs": blocked_pairs(n, 10),
+        "pairs": blocked_pairs(n, blocks),
         "result": all_pairs(n),  # same_result: misma semántica de conteo de referencia
     }
     budget_ms = 50.0
-    # Completa el entregable del gate de escala:
-    # 1) assert same_result(before["result"], after["result"])
-    # 2) budget_pass = after["ms"] <= budget_ms
-    # 3) report con before_ms, after_ms, pairs_before/after, dataset, hardware,
-    #    budget_ms, budget_pass, same_result — y publícalo
-    print("before", {k: (round(v, 3) if k == "ms" else v) for k, v in before.items()})
-    print("after", {k: (round(v, 3) if k == "ms" else v) for k, v in after.items()})
-    # print("report_keys", ...)  # arma el dict report y publícalo
+    ok_same = same_result(before["result"], after["result"])
+    budget_pass = after["ms"] <= budget_ms
+    reduction = round(1 - after["pairs"] / before["pairs"], 3)
+    # Completa el reporte del gate de escala (rellena dataset/hardware reales de tu lab):
+    report = {
+        "before_ms": round(before["ms"], 3),
+        "after_ms": round(after["ms"], 3),
+        "pairs_before": before["pairs"],
+        "pairs_after": after["pairs"],
+        "reduction": reduction,
+        "same_result": ok_same,
+        "budget_ms": budget_ms,
+        "budget_pass": budget_pass,
+        "dataset": "CASO-LIM-037-synth",  # anota el fixture exacto
+        "hardware": "laptop-lab",  # reemplaza por tu máquina real (p. ej. M2-16GB)
+    }
+    assert ok_same, "same_result falló: no publiques speedup con semántica distinta"
+    print("report", report)
+    print("report_keys", sorted(report.keys()))
+    print("gate_ok", ok_same and "dataset" in report and "hardware" in report)
 `,
     portfolioNote:
-      "Escala CP-N3-C: adjunta evidencia before/after reproducible (dataset, hardware, límites).",
+      "Escala CP-N3-C: adjunta el dict report (before/after ms, pares, reduction, same_result, budget, dataset, hardware) y una nota breve del tradeoff en español profesional.",
     rubric: [
       { criterion: "Alineación al gate de escala de la sección (same_result + before/after + budget)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -1605,58 +1652,33 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Warmup sirve para:",
-        options: [
-          "Estabilizar benches descartando cold start",
-          "Reemplazar la mediana por un solo run frío",
-          "Eliminar la necesidad de reportar n",
-          "Sustituir same_result en el gate de escala",
-        ],
+        options: ["Estabilizar benches descartando cold start", "Reemplazar la mediana por un solo run frío", "Eliminar la necesidad de reportar n", "Sustituir same_result en el gate de escala"],
         correctIndex: 0,
         explanation: "La primera corrida incluye cold start; warmup la descarta para reportar el estado estacionario del algoritmo.",
       },
       {
         question: "Blocking reduce:",
-        options: [
-          "La necesidad de medir recall de pares útiles",
-          "Solo el tamaño del log de auditoría",
-          "Pares candidatos O(n²) (con tradeoff de recall)",
-          "La obligación de anotar hardware en el reporte",
-        ],
+        options: ["La necesidad de medir recall de pares útiles", "Solo el tamaño del log de auditoría", "Pares candidatos O(n²) (con tradeoff de recall)", "La obligación de anotar hardware en el reporte"],
         correctIndex: 2,
         explanation: "Particionar por clave reduce el número de pares que entran al scorer caro; el recall sigue siendo gate (S30).",
       },
       {
         question: "Performance budget en CI:",
-        options: [
-          "Es opcional si el PR «se siente» más rápido",
-          "Solo se mide en prod un año después",
-          "Reemplaza tests funcionales de matching",
-          "Falla si se rompe el límite acordado sobre el fixture",
-        ],
+        options: ["Es opcional si el PR «se siente» más rápido", "Solo se mide en prod un año después", "Reemplaza tests funcionales de matching", "Falla si se rompe el límite acordado sobre el fixture"],
         correctIndex: 3,
         explanation: "El test de regresión de performance debe poder poner rojo el PR cuando se viola el budget.",
       },
       {
         question: "Microoptimizar 2% sin medición:",
-        options: [
-          "Best practice si el código queda más opaco",
-          "Teatro; prioriza claridad y cambios algorítmicos medidos",
-          "Obligatorio antes de todo blocking",
-          "Invalida la mediana del bench",
-        ],
+        options: ["Best practice si el código queda más opaco", "Teatro; prioriza claridad y cambios algorítmicos medidos", "Obligatorio antes de todo blocking", "Invalida la mediana del bench"],
         correctIndex: 1,
         explanation: "El costo total incluye bugs y review; sin medición el 2% es ruido y a menudo pérdida neta.",
       },
       {
         question: "Un wall_ms sin n en el reporte:",
-        options: [
-          "No es comparable entre cambios de dataset",
-          "Es suficiente para el gate de escala",
-          "Reemplaza same_result",
-          "Hace innecesario el warmup",
-        ],
+        options: ["No es comparable entre cambios de dataset", "Es suficiente para el gate de escala si publicas hardware", "Reemplaza same_result cuando el budget pasa", "Hace innecesario el warmup si usas mediana"],
         correctIndex: 0,
-        explanation: "Sin el tamaño del input no puedes comparar benches ni validar que el fixture no cambió en silencio.",
+        explanation: "Sin el tamaño del input no puedes comparar benches ni validar que el fixture no cambió en silencio. Hardware ayuda, pero no sustituye n.",
       },
     ],
   },

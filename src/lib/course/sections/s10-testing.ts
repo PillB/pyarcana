@@ -6,7 +6,7 @@ export const section10: CourseSection = {
   title: 'Testing Your Python Code',
   shortTitle: 'Testing',
   tagline: 'pytest, fixtures, coverage y CI con GitHub Actions — el diferenciador senior',
-  estimatedHours: 6,
+  estimatedHours: 18,
   level: 'Avanzado',
   icon: 'ShieldCheck',
   accentColor: 'bg-gradient-to-br from-cyan-500 to-blue-600',

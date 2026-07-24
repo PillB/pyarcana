@@ -12,7 +12,7 @@ export const section44: CourseSection = {
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **CI/CD y seguridad de la cadena de suministro** convierten el servicio contenedorizado (S43) en un artefacto verificable: digest, SBOM, provenance y gates de promoción. Se promociona solo cuando el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging. En el lab usamos contratos al estilo GitHub Actions/SLSA modelados en Python (stdlib), sin registry remoto obligatorio.",
+    "En equipos de plataforma y producto en Perú y LatAm, **CI/CD y seguridad de la cadena de suministro** es lo que separa un deploy “que funcionó anoche” de un release **defendible ante auditoría**. El servicio contenedorizado de S43 solo vale en producción si el pipeline entrega un artefacto verificable (digest, SBOM, provenance), exige aprobación independiente y demuestra rollback en staging dentro del RTO. Cuando un lead de ops en Piura (caso sintético `CASO-PIU-044`) pregunta “¿podemos promover?”, la respuesta correcta no es “el README dice OK”: es “mismo digest testeado, attestation válida, canary bajo umbral o rollback ensayado”. En el lab modelamos contratos al estilo GitHub Actions/SLSA con **stdlib** (dicts y predicados), sin registry remoto obligatorio ni secretos reales.",
   learningOutcomes: [
     { text: "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo" },
     { text: "Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build" },
@@ -28,9 +28,9 @@ export const section44: CourseSection = {
       heading: "Ruta de S44: CI/CD y seguridad de la cadena de suministro",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **CI matrix:** combinaciones soportadas de runtime/OS. **Least privilege:** permisos mínimos del workflow. **Pinning:** deps y actions por digest/SHA inmutable. **SBOM:** inventario de componentes del artefacto. **Provenance/attestation:** quién construyó qué y con qué inputs (SLSA). **Canary/blue-green:** promoción gradual. **Rollback:** volver a digest previo verificado. **Branch protection:** review + checks obligatorios antes de merge.",
-        "Esta sección lleva el servicio contenedorizado de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Modelamos contratos al estilo GitHub Actions/SLSA con dicts de **stdlib** (sin registry remoto obligatorio). El caso `CASO-PIU-044` es un repositorio sintético de operaciones en Piura: sin secretos reales ni PII.",
-        "Producto incremental: pipeline con supply-chain gates. Entrada: commit revisado, dependencias fijadas, workflow con least privilege. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promote/rollback. El gate bloquea si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente.",
-        "Orden de aprendizaje: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Primero observas el contrato en demos locales; luego reparas predicados fallidos (E1–E3); al final armas el pipeline de portafolio con evidencia de promote/rollback. Stack didáctico: **stdlib** (dicts) modelando contratos GHA/SLSA sin registry remoto.",
+        "Esta sección lleva el servicio contenedorizado de S43 a una **cadena de suministro verificable**: CI con lint/types/tests, permisos mínimos, SBOM/provenance y promoción con rollback. Modelamos contratos al estilo GitHub Actions/SLSA con dicts de **stdlib** (sin registry remoto obligatorio). El caso `CASO-PIU-044` es un repositorio sintético de operaciones en Piura: sin secretos reales ni PII. Lo que sigue en S45 (cloud/colas) asume que ya sabes **no promover un digest huérfano** de evidencia.",
+        "Producto incremental: un pipeline con supply-chain gates que un auditor podría re-ejecutar. Entrada: commit revisado, dependencias fijadas (lockfile), workflow con least privilege. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promote/rollback. El gate **bloquea** si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente — y no convierte incertidumbre en éxito silencioso.",
+        "Orden de aprendizaje: T1 matrices de check → T2 permisos/secretos y SBOM → T3 environments/canary/rollback → T4 branch protection y fallos auditables. Primero observas el contrato en demos locales (I Do); luego reparas predicados fallidos y clasificas valid/invalid/missing (We Do E1–E3); al final armas el pipeline de portafolio con evidencia de promote/rollback (You Do / CP-N4-B). Stack didáctico: **stdlib** modelando la superficie real de GHA/SLSA sin pedir cuenta de registry.",
       ],
       code: {
         language: 'python',
@@ -55,7 +55,7 @@ unpinned_vuln_dep_ok False`,
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "CP-N4-B · cadena de suministro verificable: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging. Si falta evidencia, no se promociona.",
+        content: "Nota de orientación: S44-T1-A: caso sintético con asserts locales; si falta, no promociones.",
       },
     },
     {
@@ -95,7 +95,7 @@ permissions {'contents': 'read'}`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Evidencia mínima de S44-T1-A: lint/types/tests y matriz soportada en verde. Si falta, responde `FAIL_CI_GATE`; si no alcanza para decidir, `REVIEW_MATRIX`.",
+          "Antes de promover S44-T1-B, verifica el contrato ejecutable y el riesgo residual.",
       },
     },
     {
@@ -109,27 +109,33 @@ permissions {'contents': 'read'}`,
       code: {
         language: 'python',
         title: "caches_artifacts_conditions.py",
-        code: `def publish_if(success: bool, artifacts: list) -> dict:
-    """Cache acelera; solo se publican artifacts si el job tuvo éxito."""
+        code: `def cache_key(lock_hash: str) -> str:
+    """Clave ligada al lockfile: la cache no es fuente de verdad."""
+    return f"lock-{lock_hash[:8]}"
+
+def publish_if(success: bool, digest: str, retention_days: int) -> dict:
+    """Solo publica artifact verificable si el job tuvo éxito."""
+    ok = success and digest.startswith("sha256:") and retention_days >= 7
     return {
-        "cache": {"pip": True},
-        "artifacts": artifacts if success else [],
+        "cache_key": cache_key("abcdef12deadbeef"),
+        "artifacts": [{"name": "wheel", "digest": digest}] if ok else [],
         "if": "on_success" if success else "skip",
+        "publishable": ok,
     }
 
-r = publish_if(True, ["wheel", "sbom"])
-print("cache", r["cache"])
+r = publish_if(True, "sha256:def", 14)
+print("cache_key", r["cache_key"])
 print("artifacts", r["artifacts"])
-print("if", r["if"])`,
-        output: `cache {'pip': True}
-artifacts ['wheel', 'sbom']
-if on_success`,
+print("publishable", r["publishable"])`,
+        output: `cache_key lock-abcdef12
+artifacts [{'name': 'wheel', 'digest': 'sha256:def'}]
+publishable True`,
       },
       callout: {
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S44-T1-B, audita cache miss conserva resultado y artifact es verificable. Un breach activa `DISCARD_PIPELINE_RESULT` y una ausencia activa `INSPECT_WORKFLOW_CONDITION`.",
+          "La revisión de S44-T2-A exige salida esperada y fail-closed ante breach.",
       },
     },
     {
@@ -138,7 +144,7 @@ if on_success`,
       paragraphs: [
         "El token del workflow es un **atacante en potencia** si tiene write amplio. Least privilege empieza en `permissions:` (p. ej. `contents: read`) y solo eleva en jobs que publican. Las **actions** de terceros se pinnan por **SHA completo de commit** (40 hex), no por tag flotante `v4` ni stub corto: el tag se puede mover; el SHA no. **Secret scanning** (gitleaks u equivalente) bloquea si hay hits en el diff o en logs. Lee el esqueleto YAML de abajo: es la superficie real de GitHub Actions modelada aquí con stdlib.",
         "Contrato de endurecimiento del workflow. Entrada: mapa de permisos del token, referencia de action, conteo de secret hits y flag de dependency review. Salida: valores de permiso ⊆ {read, none}, action pinned por SHA de 40 hex, `secret_hits == 0` y review de deps. Breach (write amplio, pin ausente, secreto en logs) → `REVOKE_AND_ROTATE`. Incertidumbre: falta `dependency_review` → `SECURITY_APPROVAL`.",
-        "En `CASO-PIU-044-2A` el workflow de Piura usa `contents: read` y `actions/checkout@` + SHA de 40 caracteres. Si un job de release necesita write, se declara solo en ese job — no a nivel de workflow. Un `secret_hits > 0` obliga a rotar credenciales antes de reintentar el pipeline.",
+        "En `CASO-PIU-044-2A` el workflow de Piura usa `contents: read` y `actions/checkout@` + SHA de 40 hex (p. ej. `b4ffde65…`). Si un job de release necesita write, se declara solo en ese job — no a nivel de workflow. Un tag `@v4` o un stub corto no cuenta como pin. Un `secret_hits > 0` obliga a rotar credenciales antes de reintentar el pipeline; no se “limpia el log” a mano para pasar el scan.",
       ],
       code: {
         language: 'python',
@@ -184,7 +190,7 @@ secret_scan True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S44-T2-A conserva permisos mínimos y acciones pinned por SHA completo (en el YAML real, no solo en un flag booleano); no conviertas `REVOKE_AND_ROTATE` ni `SECURITY_APPROVAL` en éxito silencioso.",
+          "Contrato S44-T2-B: fixture S44-T2-B; si falta evidencia, no promociones.",
       },
     },
     {
@@ -193,7 +199,7 @@ secret_scan True`,
       paragraphs: [
         "El **SBOM** (SPDX/CycloneDX) enumera componentes y versiones del artefacto. La **provenance** (estilo SLSA) enlaza fuente → build → subject digest: quién construyó qué, con qué inputs. Una **attestation** firmada permite verificar esa cadena; no “garantiza calidad” por sí sola, pero sí impide promover un binario huérfano de evidencia. Publicar sin attestation o con SBOM de otro build rompe la cadena de suministro.",
         "Contrato de integridad. Entrada: digest del artefacto y digests referenciados por SBOM/provenance, más flag de attestation válida. Salida: `provenance_ok` solo si artifact, SBOM y subject de provenance son el **mismo** digest y la attestation es válida. Error: digests divergentes o attestation inválida → `REJECT_ATTESTATION`. Incertidumbre: falta `attestation_valid` → `REBUILD_PROVENANCE`.",
-        "En `CASO-PIU-044-2B` el build de Piura genera un SBOM con 3 paquetes sintéticos y provenance GHA apuntando a `sha256:aaa`. Si el wheel promovido lleva otro digest, el gate rechaza aunque el README diga “OK”. Evidencia SLSA-style: medible, no magia de seguridad.",
+        "En `CASO-PIU-044-2B` el build de Piura genera un SBOM con 3 paquetes sintéticos y provenance GHA apuntando a `sha256:aaa`. Si el wheel promovido lleva otro digest, el gate rechaza aunque el README diga “OK”. Anti-patrón frecuente: copiar el SBOM del build anterior “porque casi es el mismo” — rompe la cadena. Evidencia SLSA-style: digests iguales y medibles, no confianza por narrativa.",
       ],
       code: {
         language: 'python',
@@ -217,16 +223,16 @@ prov_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S44-T2-B: demuestra SBOM y provenance coinciden con digest. Falla cerrada con `REJECT_ATTESTATION` y deriva incertidumbre mediante `REBUILD_PROVENANCE`.",
+          "Para S44-T3-A: fixture S44-T3-A; si falta evidencia, no promociones.",
       },
     },
     {
       heading: "environments y approvals",
       subtopicId: "S44-T3-A",
       paragraphs: [
-        "Los **environments** (dev → staging → prod) separan secretos, políticas y aprobadores. Producción no se alimenta de un rebuild improvisado: se mueve el **mismo digest** que pasó tests en staging. La **aprobación** es independiente del autor del PR; sin `approved_by` no hay promote. Rebuild al promover es anti-patrón: rompe la cadena de evidencia (lo testeado deja de ser lo desplegado).",
-        "Contrato de promoción. Entrada: environment origen/destino, aprobador, digest testeado y digest promovido. Salida: promote solo si `source=staging`, `target=production`, hay aprobador y `tested_digest == promoted_digest`. Breach (sin aprobación o digests distintos) → `DENY_PROMOTION`. Incertidumbre: falta `promoted_digest` → `REQUEST_RELEASE_APPROVAL`.",
-        "En `CASO-PIU-044-3A` staging aprobó `sha256:abc`. Production solo se mueve si `approved_by` está presente y el digest promovido es exactamente ese. Un rebuild “para estar seguros” con digest nuevo sin re-tests es `DENY_PROMOTION`.",
+        "Los **environments** (dev → staging → prod) separan secretos, políticas y aprobadores. Producción no se alimenta de un rebuild improvisado: se mueve el **mismo digest** que pasó tests en staging. La **aprobación** es independiente del autor del PR; sin `approved_by` no hay promote. Rebuild al promover es el anti-patrón clásico de supply chain: lo que se testeó deja de ser lo desplegado y la provenance queda huérfana.",
+        "Contrato de promoción. Entrada: environment origen/destino, aprobador, digest testeado y digest promovido. Salida: promote solo si `source=staging`, `target=production`, hay aprobador y `tested_digest == promoted_digest` (mismo subject). Breach (sin aprobación, digests distintos o promote desde `dev`) → `DENY_PROMOTION`. Incertidumbre: falta `promoted_digest` → `REQUEST_RELEASE_APPROVAL` (revisión humana, no inventar digest).",
+        "En `CASO-PIU-044-3A` staging del servicio de jobs de Piura aprobó `sha256:abc`. Production solo se mueve si `approved_by` (p. ej. `release-owner`) está presente y el digest promovido es exactamente ese. Un rebuild “para estar seguros” que produce `sha256:new` sin re-tests ni nueva attestation es `DENY_PROMOTION`: no hay atajo de confianza.",
       ],
       code: {
         language: 'python',
@@ -250,10 +256,10 @@ prod_approvers ['lead']
 same_digest True`,
       },
       callout: {
-        type: "tip",
-        title: "Contrato local",
+        type: "warning",
+        title: "Anti-patrón: rebuild al promover",
         content:
-          "Para S44-T3-A, el artefacto comprobable es promoción sin rebuild y con aprobación. Sin él corresponde `DENY_PROMOTION` o, si faltan datos, `REQUEST_RELEASE_APPROVAL`.",
+          "Promoción de S44-T3-B solo con evidencia reproducible y dueño asignado.",
       },
     },
     {
@@ -285,16 +291,16 @@ rollback`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S44-T3-B: el lab PASS exige canary sano + rollback ensayado dentro del RTO. La demo de teoría muestra canary fallido → `rollback`. Breach → `ROLLBACK_RELEASE`; datos incompletos → `PAUSE_CANARY`.",
+          "El dueño de S44-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
       },
     },
     {
       heading: "branch/review policy y release notes",
       subtopicId: "S44-T4-A",
       paragraphs: [
-        "La **branch protection** de `main` exige reviews y checks verdes antes del merge: es el primer control humano+automatizado de la cadena. Las **release notes** no son marketing; son un contrato operativo para quien despliega de madrugada: qué cambió, riesgo, pasos de migración y cómo revertir. Un tag de release sin notes completas deja al on-call sin mapa.",
-        "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, checks activos y notes ⊇ {change, risk, migration, rollback}. Breach → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta `release_notes` → `COMPLETE_RELEASE_NOTES`.",
-        "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 reviews y checks de CI. Las notes del release del API de jobs listan cambio, riesgo, migración y rollback. Merge directo a `main` sin protección o notes solo con “change” se bloquean.",
+        "La **branch protection** de `main` exige reviews y checks verdes antes del merge: es el primer control humano+automatizado de la cadena de suministro (antes incluso del publish). Las **release notes** no son marketing; son un contrato operativo para quien despliega de madrugada: qué cambió, riesgo residual, pasos de migración y cómo revertir. Un tag de release sin notes completas deja al on-call sin mapa y convierte el rollback en improvisación.",
+        "Contrato de release trazable. Entrada: branch protegida, número de reviews requeridas, checks obligatorios y conjunto de campos en release notes. Salida: `protected_branch`, `required_reviews ≥ 1`, checks activos y notes ⊇ {change, risk, migration, rollback}. Breach (merge sin protección o notes incompletas) → `BLOCK_UNREVIEWED_RELEASE`. Incertidumbre: falta el mapa `release_notes` → `COMPLETE_RELEASE_NOTES`.",
+        "En `CASO-PIU-044-4A` el equipo de Piura protege `main` con 2 reviews y checks de CI. Las notes del release del API de jobs listan cambio, riesgo, migración y rollback con lenguaje operable (“revertir al digest previo en ≤120 s”). Merge directo a `main` sin protección, o notes solo con el campo `change`, se bloquean: no hay release “rápido” sin trazabilidad.",
       ],
       code: {
         language: 'python',
@@ -317,16 +323,16 @@ branch main_protected`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El dueño de S44-T4-A acepta solo release trazable a review y changelog; una violación produce `BLOCK_UNREVIEWED_RELEASE` y un registro incompleto produce `COMPLETE_RELEASE_NOTES`.",
+          "Cierre de S44-T4-B: documenta residual risk y límites del lab stdlib.",
       },
     },
     {
       heading: "failure handling y evidencia auditable",
       subtopicId: "S44-T4-B",
       paragraphs: [
-        "Cuando un check crítico falla, el pipeline **bloquea** el release: no usa `continue-on-error` como aprobación silenciosa. La evidencia se conserva: logs **redactados** (sin secretos), artifact del job, clasificación del fallo, **dueño** del incidente y decisión registrada. Un fallo sin dueño ni evidencia es un incidente que se olvida hasta el siguiente outage.",
-        "Contrato de fallo cerrado. Entrada: flag de fallo crítico, si el pipeline quedó bloqueado, logs redactados, owner y retención de evidencia. Salida: ante crítico, `pipeline_blocked` y evidencia auditable. Breach (crítico sin bloqueo o sin evidencia) → `STOP_SILENT_FAILURE`. Incertidumbre: falta `evidence_retained` → `ASSIGN_INCIDENT_OWNER`.",
-        "En `CASO-PIU-044-4B` un test de integración crítico en el servicio de Piura falla: el workflow marca `block_release`, retiene log+artifact, asigna owner `release` y no reabre el tag. Inventar evidencia o borrar el trace para “reducir ruido” viola el contrato de auditabilidad.",
+        "Cuando un check crítico falla, el pipeline **bloquea** el release: no usa `continue-on-error` como aprobación silenciosa ni “amarillo que se ignora”. La evidencia se conserva: logs **redactados** (sin secretos ni tokens), artifact del job, clasificación del fallo, **dueño** del incidente y decisión registrada. Un fallo sin dueño ni evidencia es un incidente que se olvida hasta el siguiente outage — y rompe la promesa de CP-N4-B.",
+        "Contrato de fallo cerrado. Entrada: flag de fallo crítico, si el pipeline quedó bloqueado, logs redactados, owner y retención de evidencia. Salida: ante crítico, `pipeline_blocked` y evidencia auditable completa. Breach (crítico sin bloqueo, logs sin redactar o sin owner/evidencia) → `STOP_SILENT_FAILURE`. Incertidumbre: falta `evidence_retained` → `ASSIGN_INCIDENT_OWNER` (no reintentar a ciegas).",
+        "En `CASO-PIU-044-4B` un test de integración crítico del servicio de jobs de Piura falla a las 02:10: el workflow marca `block_release`, retiene log+artifact, asigna owner `release` y no reabre el tag de release. Inventar evidencia, borrar el trace “para reducir ruido” o re-lanzar con `continue-on-error: true` viola el contrato de auditabilidad.",
       ],
       code: {
         language: 'python',
@@ -464,17 +470,25 @@ spdx True`,
     i = order.index(current)
     return order[min(i + 1, len(order) - 1)]
 
-def promote_ok(tested: str, promoted: str, approved_by: str) -> bool:
-    return bool(approved_by) and tested == promoted
+def promote_ok(source: str, target: str, tested: str, promoted: str, approved_by: str) -> bool:
+    return (
+        source == "staging"
+        and target == "prod"
+        and bool(approved_by)
+        and tested == promoted
+        and tested.startswith("sha256:")
+    )
 
-print("env", "staging")
-print("needs_approval", next_env("staging") == "prod")
-print("same_digest", promote_ok("sha256:abc", "sha256:abc", "lead"))`,
-          output: `env staging
-needs_approval True
-same_digest True`,
+# Camino sano: mismo digest + aprobación
+print("next", next_env("staging"))
+print("ok", promote_ok("staging", "prod", "sha256:abc", "sha256:abc", "lead"))
+# Anti-patrón: rebuild al promover (digest distinto)
+print("rebuild_denied", promote_ok("staging", "prod", "sha256:abc", "sha256:new", "lead"))`,
+          output: `next prod
+ok True
+rebuild_denied False`,
         },
-        why: "Staging→prod exige aprobación y el mismo digest testeado: sin rebuild en promote.",
+        why: "Staging→prod exige aprobación y el mismo digest testeado; rebuild en promote se niega explícitamente.",
       },
       {
         demoId: "S44-T3-B-DEMO",
@@ -566,7 +580,6 @@ audit_trail True`,
           title: "s44-t1-a-e1.py",
           code: `# CASO-PIU-044 · CI lint/types/tests matrix
 # DEFECT: PASS con OR débil (lint|types|tests) en vez de AND
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-1A", **{"lint":True,"types":True,"tests":True,"matrix":{"3.11","3.12"},"supported":{"3.11","3.12"}}}
 # DEFECT: lint/types/tests deben pasar todos, no OR parcial
 meets_contract = record["lint"] or record["types"] or record["tests"]
@@ -603,7 +616,6 @@ assert meets_contract is True` ,
           title: "s44-t1-a-e2.py",
           code: `# CASO-PIU-044 · assess FAIL_CI_GATE
 # DEFECT: PASS si solo uno de lint/types/tests
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "lint", "types", "tests", "matrix", "supported"}
     missing = sorted(required - record.keys())
@@ -657,7 +669,6 @@ print(*results)
           title: "s44-t1-a-e3.py",
           code: `# CASO-PIU-044 · decide FAIL_CI_GATE
 # DEFECT: missing→CONTINUE; pred OR invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "lint", "types", "tests", "matrix", "supported"}
     missing = sorted(required - record.keys())
@@ -711,7 +722,6 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
           title: "s44-t1-b-e1.py",
           code: `# CASO-PIU-044 · cache keys + artifact conditions
 # DEFECT: PASS si cache_miss no pasa o conditions incompletas
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-1B", **{"cache_key":"lock-abc","cache_miss_passes":True,"artifact_digest":"sha256:def","retention_days":14,"conditions_cover_tags":True}}
 # DEFECT: cache miss no debe marcar pass; conditions deben cubrir tags
 meets_contract = not record["cache_miss_passes"] or not record["conditions_cover_tags"]
@@ -748,7 +758,6 @@ assert meets_contract is True` ,
           title: "s44-t1-b-e2.py",
           code: `# CASO-PIU-044 · assess DISCARD_PIPELINE_RESULT
 # DEFECT: PASS sin cache_miss_passes o tags
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "cache_key", "cache_miss_passes", "artifact_digest", "retention_days", "conditions_cover_tags"}
     missing = sorted(required - record.keys())
@@ -802,7 +811,6 @@ print(*results)
           title: "s44-t1-b-e3.py",
           code: `# CASO-PIU-044 · decide DISCARD_PIPELINE_RESULT
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "cache_key", "cache_miss_passes", "artifact_digest", "retention_days", "conditions_cover_tags"}
     missing = sorted(required - record.keys())
@@ -842,23 +850,29 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         id: "S44-T2-A-E1",
         subtopicId: "S44-T2-A",
         kind: "guided",
-        instruction: "S44-T2-A-E1 · Filtra el contrato de `permisos mínimos, pinning y secret scanning` sobre `CASO-PIU-044-2A`. La entrada es el dict completo del starter; la operación debe demostrar token mínimo, acciones pinned, cero secretos y dependency review. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REVOKE_AND_ROTATE` en E2.",
-        hint: "Relaciona los campos `token_permissions`, `actions_pinned`, `secret_hits`, `dependency_review` con la regla explicada en S44-T2-A.",
+        instruction: "S44-T2-A-E1 · Endurece el workflow de `CASO-PIU-044-2A`: permisos mínimos, **pin por SHA completo de 40 hex** en `action_ref`, cero secret hits y dependency review. Reemplaza el predicado defectuoso (hoy aprueba write o secretos); no mutes los datos ni el assert. Salida exacta: `S44-T2-A PASS`. El fixture adverso de E2 activará `REVOKE_AND_ROTATE`.",
+        hint: "Valida permisos ⊆ {read,none}, `action_ref` con SHA de 40 hex tras `@`, secret_hits==0 y dependency_review.",
         hints: [
-          "Relaciona los campos `token_permissions`, `actions_pinned`, `secret_hits`, `dependency_review` con la regla explicada en S44-T2-A.",
-          "El predicado correcto debe ser verdadero porque el fixture conserva permisos mínimos y acciones pinned; revisa dirección de comparación, conjuntos y negaciones.",
+          "Extrae el ref después de `@` en `action_ref` y comprueba len==40 y hex.",
+          "El fixture válido usa `actions/checkout@` + SHA real; un tag `@v4` o stub corto no cuenta como pinned.",
         ],
-        edgeCases: ["falta dependency_review", "fixture adverso: token mínimo, acciones pinned, cero secretos y dependency review", "CASO-PIU-044-2A es sintético"],
-        tests: "El fixture `CASO-PIU-044-2A` satisface un predicado de dominio real; imprime `S44-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S44-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REVOKE_AND_ROTATE y por qué faltar dependency_review exige SECURITY_APPROVAL.",
+        edgeCases: ["falta dependency_review", "action_ref con tag flotante o write amplio", "CASO-PIU-044-2A es sintético"],
+        tests: "El fixture `CASO-PIU-044-2A` con SHA de 40 hex y least privilege imprime `S44-T2-A PASS`.",
+        feedback: "S44-T2-A-E1: el pin real es el SHA inmutable, no un booleano; write o secret_hits>0 activan REVOKE_AND_ROTATE; sin dependency_review → SECURITY_APPROVAL.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e1.py",
-          code: `# CASO-PIU-044 · least privilege GHA tokens
-# DEFECT: PASS si permissions write o secret_hits>0
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
-record = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-# DEFECT: least-privilege: sin write amplio ni secretos en log
+          code: `# CASO-PIU-044 · least privilege + full SHA pin
+# DEFECT: PASS si permissions write o secret_hits>0 (ignora pin real)
+PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
+record = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+# DEFECT: no valida SHA ni least privilege real
 meets_contract = "write" in record["token_permissions"].values() or record["secret_hits"] > 0
 status = "PASS" if meets_contract else "REVOKE_AND_ROTATE"
 print("S44-T2-A", status)
@@ -867,8 +881,25 @@ print("S44-T2-A", status)
         solutionCode: {
           language: 'python',
           title: "s44-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-meets_contract = set(record["token_permissions"].values()) <= {"read","none"} and record["actions_pinned"] and record["secret_hits"] == 0 and record["dependency_review"]
+          code: `PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
+record = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+
+def full_sha_pin(action_ref: str) -> bool:
+    ref = action_ref.split("@")[-1] if "@" in action_ref else ""
+    return len(ref) == 40 and all(c in "0123456789abcdef" for c in ref.lower())
+
+meets_contract = (
+    set(record["token_permissions"].values()) <= {"read", "none"}
+    and full_sha_pin(record["action_ref"])
+    and record["secret_hits"] == 0
+    and record["dependency_review"]
+)
 status = "PASS" if meets_contract else "REVOKE_AND_ROTATE"
 print("S44-T2-A", status)
 assert meets_contract is True` ,
@@ -879,30 +910,42 @@ assert meets_contract is True` ,
         id: "S44-T2-A-E2",
         subtopicId: "S44-T2-A",
         kind: "independent",
-        instruction: "S44-T2-A-E2 · Clasifica tres rutas de `permisos mínimos, pinning y secret scanning`: fixture válido, fixture adverso y registro sin `dependency_review`. Entrada: dict con case_id, token_permissions, actions_pinned, secret_hits, dependency_review. Salidas exactas: `PASS`, `REVOKE_AND_ROTATE`, `MISSING:dependency_review`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
-        hint: "Primero se calcula `missing`; ningún acceso a dependency_review debe ocurrir antes de esa rama.",
+        instruction: "S44-T2-A-E2 · Clasifica tres rutas de endurecimiento: fixture con pin SHA completo y least privilege (`PASS`), adverso con write/`@v4`/secret hit (`REVOKE_AND_ROTATE`), y registro sin `dependency_review` (`MISSING:dependency_review`). Entrada: case_id, token_permissions, action_ref, secret_hits, dependency_review. Conserva la rama missing antes del dominio. Salida: imprime el valor de meets_contract.",
+        hint: "Primero `missing`; luego least privilege + full_sha_pin(action_ref) + secret_hits==0 + dependency_review.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a dependency_review debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S44-T2-A: token mínimo, acciones pinned, cero secretos y dependency review. El fixture adverso debe fallar por contenido, no por schema.",
+          "El inválido usa `@v4` (tag flotante) y write: debe fallar por contenido, no por schema.",
+          "No uses un booleano `actions_pinned`; el pin se **calcula** del string action_ref.",
         ],
-        edgeCases: ["falta dependency_review", "fixture adverso: token mínimo, acciones pinned, cero secretos y dependency review", "CASO-PIU-044-2A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `dependency_review` ausente y produce exactamente `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.",
-        feedback: "S44-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REVOKE_AND_ROTATE y por qué faltar dependency_review exige SECURITY_APPROVAL.",
+        edgeCases: ["falta dependency_review", "tag @v4 no es pin", "CASO-PIU-044-2A es sintético"],
+        tests: "Salidas exactas: `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.",
+        feedback: "S44-T2-A-E2: diferencia schema (missing) de breach (write, tag flotante, secret); pin = 40 hex.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e2.py",
           code: `# CASO-PIU-044 · assess REVOKE_AND_ROTATE
-# DEFECT: PASS con write token o secret en logs
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: PASS con write o secret; no valida SHA de action_ref
+PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
 def assess(record: dict) -> str:
-    required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
+    required = {"case_id", "token_permissions", "action_ref", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if "write" in record["token_permissions"].values() or record["secret_hits"] > 0 else "REVOKE_AND_ROTATE"
 
-valid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-invalid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"write","packages":"write"},"actions_pinned":False,"secret_hits":1,"dependency_review":False}}
+valid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+invalid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "write", "packages": "write"},
+    "action_ref": "actions/checkout@v4",
+    "secret_hits": 1,
+    "dependency_review": False,
+}
 incomplete = {**valid}
 incomplete.pop("dependency_review")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -912,15 +955,39 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s44-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
+          code: `PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
+
+def full_sha_pin(action_ref: str) -> bool:
+    ref = action_ref.split("@")[-1] if "@" in action_ref else ""
+    return len(ref) == 40 and all(c in "0123456789abcdef" for c in ref.lower())
+
+def assess(record: dict) -> str:
+    required = {"case_id", "token_permissions", "action_ref", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if set(record["token_permissions"].values()) <= {"read","none"} and record["actions_pinned"] and record["secret_hits"] == 0 and record["dependency_review"] else "REVOKE_AND_ROTATE"
+    ok = (
+        set(record["token_permissions"].values()) <= {"read", "none"}
+        and full_sha_pin(record["action_ref"])
+        and record["secret_hits"] == 0
+        and record["dependency_review"]
+    )
+    return "PASS" if ok else "REVOKE_AND_ROTATE"
 
-valid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-invalid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"write","packages":"write"},"actions_pinned":False,"secret_hits":1,"dependency_review":False}}
+valid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+invalid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "write", "packages": "write"},
+    "action_ref": "actions/checkout@v4",
+    "secret_hits": 1,
+    "dependency_review": False,
+}
 incomplete = {**valid}
 incomplete.pop("dependency_review")
 results = (assess(valid), assess(invalid), assess(incomplete))
@@ -933,30 +1000,42 @@ print(*results)
         id: "S44-T2-A-E3",
         subtopicId: "S44-T2-A",
         kind: "transfer",
-        instruction: "S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures distintos. `CASO-PIU-044-2A` debe continuar, el adverso debe devolver `REVOKE_AND_ROTATE` y la ausencia de `dependency_review` debe devolver `SECURITY_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el contenido.",
+        instruction: "S44-T2-A-E3 · Decide fail-closed: válido → `CONTINUE`, adverso (write/`@v4`/secret) → `REVOKE_AND_ROTATE`, sin `dependency_review` → `SECURITY_APPROVAL`. No conviertas missing en CONTINUE ni apruebes tag flotante. Salida: imprime el valor de meets_contract.",
+        hint: "Una ausencia no es breach: enrútala a `SECURITY_APPROVAL` antes de evaluar contenido.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró token mínimo, acciones pinned, cero secretos y dependency review; solo ese caso devuelve `CONTINUE`.",
+          "Reutiliza full_sha_pin sobre action_ref; solo least privilege + pin + cero secrets + review devuelve CONTINUE.",
+          "El adverso con `@v4` demuestra por qué el tag no es pin inmutable.",
         ],
-        edgeCases: ["falta dependency_review", "fixture adverso: token mínimo, acciones pinned, cero secretos y dependency review", "CASO-PIU-044-2A es sintético"],
-        tests: "Fixtures `CASO-PIU-044-2A`, adverso y sin `dependency_review` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REVOKE_AND_ROTATE y por qué faltar dependency_review exige SECURITY_APPROVAL.",
+        edgeCases: ["falta dependency_review", "tag @v4 no es pin", "CASO-PIU-044-2A es sintético"],
+        tests: "Salidas exactas: `CONTINUE REVOKE_AND_ROTATE SECURITY_APPROVAL`.",
+        feedback: "S44-T2-A-E3: uncertainty ≠ breach; pin SHA es medible; write o secret obligan a rotar.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e3.py",
           code: `# CASO-PIU-044 · decide REVOKE_AND_ROTATE
-# DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
+# DEFECT: missing→CONTINUE; pred invertido (no valida SHA)
+PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
 def decide(record: dict) -> str:
-    required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
+    required = {"case_id", "token_permissions", "action_ref", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if "write" in record["token_permissions"].values() or record["secret_hits"] > 0 else "REVOKE_AND_ROTATE"
 
-valid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-invalid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"write","packages":"write"},"actions_pinned":False,"secret_hits":1,"dependency_review":False}}
+valid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+invalid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "write", "packages": "write"},
+    "action_ref": "actions/checkout@v4",
+    "secret_hits": 1,
+    "dependency_review": False,
+}
 uncertain = {**valid}
 uncertain.pop("dependency_review")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -966,15 +1045,39 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s44-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "token_permissions", "actions_pinned", "secret_hits", "dependency_review"}
+          code: `PIN = "b4ffde65f46336ab88eb53be808477a3936bae11"
+
+def full_sha_pin(action_ref: str) -> bool:
+    ref = action_ref.split("@")[-1] if "@" in action_ref else ""
+    return len(ref) == 40 and all(c in "0123456789abcdef" for c in ref.lower())
+
+def decide(record: dict) -> str:
+    required = {"case_id", "token_permissions", "action_ref", "secret_hits", "dependency_review"}
     missing = sorted(required - record.keys())
     if missing:
         return "SECURITY_APPROVAL"
-    return "CONTINUE" if set(record["token_permissions"].values()) <= {"read","none"} and record["actions_pinned"] and record["secret_hits"] == 0 and record["dependency_review"] else "REVOKE_AND_ROTATE"
+    ok = (
+        set(record["token_permissions"].values()) <= {"read", "none"}
+        and full_sha_pin(record["action_ref"])
+        and record["secret_hits"] == 0
+        and record["dependency_review"]
+    )
+    return "CONTINUE" if ok else "REVOKE_AND_ROTATE"
 
-valid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"read"},"actions_pinned":True,"secret_hits":0,"dependency_review":True}}
-invalid = {"case_id": "CASO-PIU-044-2A", **{"token_permissions":{"contents":"write","packages":"write"},"actions_pinned":False,"secret_hits":1,"dependency_review":False}}
+valid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "read"},
+    "action_ref": f"actions/checkout@{PIN}",
+    "secret_hits": 0,
+    "dependency_review": True,
+}
+invalid = {
+    "case_id": "CASO-PIU-044-2A",
+    "token_permissions": {"contents": "write", "packages": "write"},
+    "action_ref": "actions/checkout@v4",
+    "secret_hits": 1,
+    "dependency_review": False,
+}
 uncertain = {**valid}
 uncertain.pop("dependency_review")
 results = [decide(item) for item in (valid, invalid, uncertain)]
@@ -1001,7 +1104,6 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
           title: "s44-t2-b-e1.py",
           code: `# CASO-PIU-044 · SBOM/provenance digest match
 # DEFECT: PASS si digests no coinciden entre sí
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-2B", **{"artifact_digest":"sha256:aaa","sbom_digest":"sha256:aaa","provenance_subject":"sha256:aaa","attestation_valid":True}}
 # DEFECT: digests de artifact/SBOM/provenance deben alinearse
 meets_contract = len({record["artifact_digest"],record["sbom_digest"],record["provenance_subject"]}) > 1
@@ -1038,7 +1140,6 @@ assert meets_contract is True` ,
           title: "s44-t2-b-e2.py",
           code: `# CASO-PIU-044 · assess REJECT_ATTESTATION
 # DEFECT: PASS con digests divergentes
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "artifact_digest", "sbom_digest", "provenance_subject", "attestation_valid"}
     missing = sorted(required - record.keys())
@@ -1092,7 +1193,6 @@ print(*results)
           title: "s44-t2-b-e3.py",
           code: `# CASO-PIU-044 · decide REJECT_ATTESTATION
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "artifact_digest", "sbom_digest", "provenance_subject", "attestation_valid"}
     missing = sorted(required - record.keys())
@@ -1146,7 +1246,6 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
           title: "s44-t3-a-e1.py",
           code: `# CASO-PIU-044 · env promotion approvals
 # DEFECT: PASS sin approved_by o digests distintos
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-3A", **{"source_env":"staging","target_env":"production","approved_by":"release-owner","tested_digest":"sha256:abc","promoted_digest":"sha256:abc"}}
 # DEFECT: promoción exige aprobación y mismo digest testeado
 meets_contract = not record["approved_by"] or record["tested_digest"] != record["promoted_digest"]
@@ -1183,7 +1282,6 @@ assert meets_contract is True` ,
           title: "s44-t3-a-e2.py",
           code: `# CASO-PIU-044 · assess DENY_PROMOTION
 # DEFECT: PASS sin approval o digest mismatch
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "source_env", "target_env", "approved_by", "tested_digest", "promoted_digest"}
     missing = sorted(required - record.keys())
@@ -1237,7 +1335,6 @@ print(*results)
           title: "s44-t3-a-e3.py",
           code: `# CASO-PIU-044 · decide DENY_PROMOTION
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "source_env", "target_env", "approved_by", "tested_digest", "promoted_digest"}
     missing = sorted(required - record.keys())
@@ -1291,7 +1388,6 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
           title: "s44-t3-b-e1.py",
           code: `# CASO-PIU-044 · canary error + rollback
 # DEFECT: PASS si error_rate>max o rollback no tested
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-3B", **{"migration_compatible":True,"canary_error_rate":0.004,"max_error_rate":0.01,"rollback_tested":True,"rollback_seconds":75,"rto_seconds":120}}
 # DEFECT: canary sobre umbral o rollback no probado bloquea
 meets_contract = record["canary_error_rate"] > record["max_error_rate"] or not record["rollback_tested"]
@@ -1328,7 +1424,6 @@ assert meets_contract is True` ,
           title: "s44-t3-b-e2.py",
           code: `# CASO-PIU-044 · assess ROLLBACK_RELEASE
 # DEFECT: PASS con canary roto o sin rollback
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "migration_compatible", "canary_error_rate", "max_error_rate", "rollback_tested", "rollback_seconds", "rto_seconds"}
     missing = sorted(required - record.keys())
@@ -1382,7 +1477,6 @@ print(*results)
           title: "s44-t3-b-e3.py",
           code: `# CASO-PIU-044 · decide ROLLBACK_RELEASE
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "migration_compatible", "canary_error_rate", "max_error_rate", "rollback_tested", "rollback_seconds", "rto_seconds"}
     missing = sorted(required - record.keys())
@@ -1436,7 +1530,6 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
           title: "s44-t4-a-e1.py",
           code: `# CASO-PIU-044 · branch protection + reviews
 # DEFECT: PASS sin protected_branch o reviews==0
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-4A", **{"protected_branch":True,"required_reviews":2,"required_checks":True,"release_notes":{"change","risk","migration","rollback"}}}
 # DEFECT: branch protection con reviews requeridas
 meets_contract = not record["protected_branch"] or record["required_reviews"] == 0
@@ -1473,7 +1566,6 @@ assert meets_contract is True` ,
           title: "s44-t4-a-e2.py",
           code: `# CASO-PIU-044 · assess BLOCK_UNREVIEWED_RELEASE
 # DEFECT: PASS sin protección o sin reviews
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "protected_branch", "required_reviews", "required_checks", "release_notes"}
     missing = sorted(required - record.keys())
@@ -1527,7 +1619,6 @@ print(*results)
           title: "s44-t4-a-e3.py",
           code: `# CASO-PIU-044 · decide BLOCK_UNREVIEWED_RELEASE
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "protected_branch", "required_reviews", "required_checks", "release_notes"}
     missing = sorted(required - record.keys())
@@ -1581,7 +1672,6 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
           title: "s44-t4-b-e1.py",
           code: `# CASO-PIU-044 · critical failure blocks pipeline
 # DEFECT: PASS si critical_failure y pipeline no blocked
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 record = {"case_id": "CASO-PIU-044-4B", **{"critical_failure":True,"pipeline_blocked":True,"logs_redacted":True,"owner":"release","evidence_retained":True}}
 # DEFECT: fallo crítico debe bloquear el pipeline
 meets_contract = record["critical_failure"] and not record["pipeline_blocked"]
@@ -1618,7 +1708,6 @@ assert meets_contract is True` ,
           title: "s44-t4-b-e2.py",
           code: `# CASO-PIU-044 · assess STOP_SILENT_FAILURE
 # DEFECT: PASS con fallo crítico sin bloqueo
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def assess(record: dict) -> str:
     required = {"case_id", "critical_failure", "pipeline_blocked", "logs_redacted", "owner", "evidence_retained"}
     missing = sorted(required - record.keys())
@@ -1672,7 +1761,6 @@ print(*results)
           title: "s44-t4-b-e3.py",
           code: `# CASO-PIU-044 · decide STOP_SILENT_FAILURE
 # DEFECT: missing→CONTINUE; pred invertido
-# Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "critical_failure", "pipeline_blocked", "logs_redacted", "owner", "evidence_retained"}
     missing = sorted(required - record.keys())
@@ -1730,45 +1818,76 @@ assert results == ["CONTINUE", "STOP_SILENT_FAILURE", "ASSIGN_INCIDENT_OWNER"]` 
       "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
     starterCode: `CASE_ID = "CASO-PIU-044"
-REQUIRED = [
-    "matriz_lint_types_tests_con_artifacts",
-    "workflow_con_pinning_y_permisos_minimos",
-    "sbom_provenance_ligados_al_digest",
-    "canary_de_prueba_y_rollback_auditado",
-]
-# Rutas a artefactos reales del portfolio (rellena cuando existan)
+# Mini-layout de portfolio (crea estos paths reales en tu repo de evidencia)
 ARTIFACTS = {
     "workflow": ".github/workflows/ci-supply-chain.yml",
     "sbom": "dist/sbom.spdx.json",
+    "provenance": "dist/provenance.json",
     "canary_log": "ops/canary-rollback.md",
 }
-evidence = {
-    "matriz_lint_types_tests_con_artifacts": False,
-    "workflow_con_pinning_y_permisos_minimos": False,
-    "sbom_provenance_ligados_al_digest": False,
-    "canary_de_prueba_y_rollback_auditado": False,
-}
 
-def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
-    missing = [name for name in REQUIRED if bundle.get(name) is not True]
+def full_sha_pin(action_ref: str) -> bool:
+    ref = action_ref.split("@")[-1] if "@" in action_ref else ""
+    return len(ref) == 40 and all(c in "0123456789abcdef" for c in ref.lower())
+
+def ci_matrix_ok(results: dict, matrix: set, supported: set) -> bool:
+    return all(results.get(k) for k in ("lint", "types", "tests")) and matrix == supported
+
+def supply_chain_ok(artifact: str, sbom: str, subject: str, attestation_valid: bool) -> bool:
+    return attestation_valid and bool(artifact) and len({artifact, sbom, subject}) == 1
+
+def promote_ok(tested: str, promoted: str, approved_by: str) -> bool:
+    return bool(approved_by) and tested == promoted and tested.startswith("sha256:")
+
+def canary_ok(error_rate: float, max_rate: float, rollback_s: int, rto: int) -> bool:
+    return error_rate <= max_rate and rollback_s <= rto
+
+def portfolio_ready(flags: dict[str, bool]) -> tuple[str, list[str]]:
+    required = [
+        "matriz_lint_types_tests_con_artifacts",
+        "workflow_con_pinning_y_permisos_minimos",
+        "sbom_provenance_ligados_al_digest",
+        "canary_de_prueba_y_rollback_auditado",
+    ]
+    missing = [k for k in required if flags.get(k) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
 def gate_case(kind: str) -> str:
-    # normal | breach | uncertain — no marques PASS sin evidencia de archivo
+    # normal | breach | uncertain — no inventes PASS sin evidencia de archivo
     if kind == "normal":
         return "CONTINUE"
     if kind == "breach":
         return "REJECT_ATTESTATION"  # o FAIL_CI_GATE / ROLLBACK_RELEASE según el fallo
     return "REQUEST_RELEASE_APPROVAL"
 
-status, missing = readiness(evidence)
+# --- Lab sintético (sustituye por lecturas de ARTIFACTS en el portfolio) ---
+pin_ok = full_sha_pin(
+    "actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11"
+)
+ci_ok = ci_matrix_ok(
+    {"lint": True, "types": True, "tests": True},
+    {"3.11", "3.12"},
+    {"3.11", "3.12"},
+)
+sc_ok = supply_chain_ok("sha256:aaa", "sha256:aaa", "sha256:aaa", True)
+promo_ok = promote_ok("sha256:aaa", "sha256:aaa", "release-owner")
+can_ok = canary_ok(0.004, 0.01, 75, 120)
+
+# Arranca BLOCKED hasta que enlaces artefactos reales (no fuerces True sin archivo)
+evidence = {
+    "matriz_lint_types_tests_con_artifacts": False,
+    "workflow_con_pinning_y_permisos_minimos": False,
+    "sbom_provenance_ligados_al_digest": False,
+    "canary_de_prueba_y_rollback_auditado": False,
+}
+status, missing = portfolio_ready(evidence)
 print(CASE_ID, status)
 print("missing", ",".join(missing))
+print("lab_gates", pin_ok and ci_ok and sc_ok and promo_ok and can_ok)
 print("normal", gate_case("normal"))
 print("breach", gate_case("breach"))
 print("uncertain", gate_case("uncertain"))
 assert status in {"READY", "BLOCKED"}
-# Extiende: no marques True en evidence sin workflow/SBOM/canary firmados.
 `,
     portfolioNote: "Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo.",
     rubric: [
@@ -1783,19 +1902,14 @@ assert status in {"READY", "BLOCKED"}
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `lint/types/tests y matrices` en CASO-PIU-044?",
-        options: ["un print sin assert ni versión", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico", "lint/types/tests y matriz soportada en verde"],
+        question: "En S44, ¿qué cuenta como pin profesional de una action de GitHub?",
+        options: ["usar el tag flotante `@v4` porque “siempre es la última”", "un stub de 7 caracteres después de `@`", "dejar el tag y confiar en branch protection", "el SHA completo de commit (40 hex) inmutable en `uses:`"],
         correctIndex: 3,
-        explanation: "La teoría exige lint/types/tests y matriz soportada en verde; evidencia decorativa o PII no satisface el contrato.",
+        explanation: "El pin inmutable es el SHA completo de 40 hex; los tags se pueden mover y no cierran el control de supply chain.",
       },
       {
         question: "Si un test crítico falla o falta attestation, ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: [
-          "continuar y ocultar el warning",
-          "bloquear el release (p. ej. FAIL_CI_GATE / REJECT_ATTESTATION) y conservar evidencia",
-          "inventar evidencia faltante",
-          "borrar el trace para reducir ruido",
-        ],
+        options: ["continuar y ocultar el warning", "bloquear el release (p. ej. FAIL_CI_GATE / REJECT_ATTESTATION) y conservar evidencia", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
         correctIndex: 1,
         explanation: "S44 falla cerrado con códigos de breach por subtema y retiene logs/artifacts; la incertidumbre va a revisión humana, no a éxito silencioso.",
       },
@@ -1807,12 +1921,7 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso y la cadena de suministro?",
-        options: [
-          "mantenerlo sintético, sin secretos reales ni registry obligatorio, y sujeto a gates fail-closed",
-          "reemplazarlo por credenciales de producción para que el workflow “sea real”",
-          "subir tokens al repositorio para facilitar la demo de secret scanning",
-          "omitir SBOM y provenance si el README del release dice OK",
-        ],
+        options: ["mantenerlo sintético, sin secretos reales ni registry obligatorio, y sujeto a gates fail-closed", "reemplazarlo por credenciales de producción para que el workflow “sea real”", "subir tokens al repositorio para facilitar la demo de secret scanning", "omitir SBOM y provenance si el README del release dice OK"],
         correctIndex: 0,
         explanation: "El lab es sintético a propósito: practicas gates (pin, SBOM, aprobación, rollback) sin PII ni secretos reales; omitir evidencia de supply chain no aprueba el gate.",
       },

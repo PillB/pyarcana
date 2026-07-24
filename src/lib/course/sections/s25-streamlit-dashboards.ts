@@ -12,7 +12,7 @@ export const section25: CourseSection = {
   icon: "Sparkles",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En el AI assist de CP-N2-C unificas un endpoint HTTP local o un `transformers.pipeline` bajo el mismo contrato de salida, validas JSON y evalúas con golden sets. El score del modelo es señal para revisión humana, nunca veredicto de fraude. En un desk de riesgos o operaciones (p. ej. Lima) esto se traduce en borradores anclados a evidencia que un analista aprueba antes del informe o del correo.",
+    "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR de S24 y necesita un **AI assist** que clasifique o redacte borradores sin inventar ni auto-etiquetar fraude. En CP-N2-C unificas un endpoint HTTP local o un `transformers.pipeline` bajo el mismo contrato de salida, validas JSON y evalúas con golden sets. El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
   learningOutcomes: [
     { text: "Elegir regla vs modelo especializado vs LLM con justificación auditable" },
     { text: "Leer model cards, licencias y decidir despliegue local o cloud" },
@@ -27,9 +27,9 @@ export const section25: CourseSection = {
     {
       heading: "IA asistida evaluada para CP-N2-C",
       paragraphs: [
-        "En S24 extrajiste campos de documentos (OCR / Document AI) con evidencia y abstención. Aquí esos campos y textos entran como **contexto no confiable**: decides el stack (regla, modelo especializado o LLM), llamas un adapter HTTP o Hugging Face con **contrato único**, y solo publicas JSON anclado a evidencia tras schema + eval. El AI assist de CP-N2-C produce **borradores**; el humano aprueba antes del informe o correo — nunca auto-envío ni auto-etiqueta de fraude.",
-        "Mapa de la sección: **T1 Selección** (qué stack y con qué gobernanza) → **T2 Inferencia** (adapter, batch, cache, costo, fallback) → **T3 Prompting** (estructura + tools controlados) → **T4 Evals y seguridad** (golden, field F1, injection, minimización). Fixture de lab: `CASO-LIM-025` (run_id=`cpn2c-ai`), datos sintéticos sin PII real.",
-        "Promoción del assist: sin evidencia, sin schema válido o sin métricas vs baseline, la salida se descarta o va a `human_review` (fail-closed). El score del modelo es señal de prioridad, no veredicto legal ni de parentesco.",
+        "En S24 extrajiste campos de documentos (OCR / Document AI) con evidencia y abstención. El VP de riesgos del desk sintético Lima no puede “pegar” ese texto crudo a un chatbot y confiar: esos campos entran aquí como **contexto no confiable**. Decides el stack (regla, modelo especializado o LLM), llamas un adapter HTTP o Hugging Face con **contrato único**, y solo publicas JSON anclado a evidencia tras schema + eval. El AI assist de CP-N2-C produce **borradores**; el humano aprueba antes del informe o correo — nunca auto-envío ni auto-etiqueta de fraude.",
+        "Mapa de la sección: **T1 Selección** (qué stack y con qué gobernanza) → **T2 Inferencia** (adapter, batch, cache, costo, fallback y circuit breaker) → **T3 Prompting** (estructura, schema y tools controlados) → **T4 Evals y seguridad** (golden, field F1, injection, minimización). Fixture de lab: `CASO-LIM-025` (run_id=`cpn2c-ai`), datos sintéticos sin PII real. Cada subtema aporta un mecanismo nuevo; la ética de sección vive en el callout global (no se reimprime en cada párrafo).",
+        "Promoción del assist: sin evidencia, sin schema válido o sin métricas vs baseline, la salida se descarta o va a `human_review` (fail-closed). El score del modelo es señal de prioridad, no veredicto legal ni de parentesco. En S26 el VP orquestará Excel→…→modelo/IA→informe→correo usando este mismo contrato.",
       ],
       callout: {
         type: "info",
@@ -209,8 +209,8 @@ failures 3 {'fallback': 'rules_or_human', 'circuit': 'open'}`,
       subtopicId: "S25-T3-A",
       paragraphs: [
         "Un prompt útil tiene cinco piezas: **Objetivo**, **Contexto** (datos sintéticos o campos OCR), **Restricciones** (no inventar, no elevar órdenes del documento), **Ejemplos** few-shot y **Schema JSON** de salida. Sin schema, la narrativa libre no entra al informe del VP. El AI assist solo propone; el humano aprueba antes del correo.",
-        "Pide **solo** campos necesarios. Prohíbe inventar números no presentes en el contexto (hallazgo sin `n`/`mediana` → `schema_fail`). Valida con `json.loads` + keys required; si falla, descarta aunque el texto “se vea bien”. La generación con schema (constrained decoding / structured outputs) reduce ambigüedad; el grader del curso exige validación explícita en código.",
-        "El documento OCR es contexto, no system prompt. En T4 verás injection: aquí aseguras que el contrato de salida ya esté listo para el golden (exact match y field F1 por campo).",
+        "Pide **solo** campos necesarios. Prohíbe inventar números no presentes en el contexto (hallazgo sin `n`/`mediana` → `schema_fail`). Valida con `json.loads` + keys required; si falla, descarta aunque el texto “se vea bien”. La generación con schema (**constrained decoding** / structured outputs del proveedor) reduce ambigüedad frente al free-text; aun así el grader del curso exige **validación explícita en código**: no confíes solo en que el modelo “respetó” el schema.",
+        "El documento OCR es contexto, no system prompt. En T4 verás injection: aquí aseguras que el contrato de salida ya esté listo para el golden (exact match y field F1 por campo). Prompts largos y tools (T3-B) multiplican tokens: diseña el schema junto con la ops de cache/costo de T2-B.",
       ],
       code: {
         language: 'python',
@@ -364,7 +364,7 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
     },
   ],
   iDo: {
-    intro: "Te muestro el AI assist de CP-N2-C paso a paso: selección de stack completa, model card y hosting, mock HF con contrato, cache/fallback, JSON schema, tools con stop, golden con field F1 y request segura — siempre sin fraude automático.",
+    intro: "Te muestro el AI assist de CP-N2-C como lo armaría un analista del desk Lima: primero el árbol de stack, luego model card y hosting, mock HF con contrato estable, cache + circuit breaker, JSON con schema, tools con stop en denegación, golden con field F1 y request segura. Cada demo calcula la salida (no la hardcodea); el path nunca auto-etiqueta fraude.",
     steps: [
       {
         demoId: "S25-T1-A-DEMO",
@@ -391,7 +391,7 @@ print(choose_stack({"deterministic": False, "needs_language": True, "has_schema_
 specialized_model
 llm_structured`,
         },
-        why: "El I Do modela el mismo árbol que la teoría; reglas primero cuando bastan.",
+        why: "Decisión profesional: si el ticket es determinista, no pagas un LLM; el árbol deja rastro auditable del stack elegido.",
       },
       {
         demoId: "S25-T1-B-DEMO",
@@ -410,7 +410,7 @@ print(hosting_policy({"license": "apache-2.0", "not_for": ["fraud adjudication"]
 `,
           output: `{'host': 'local', 'blocks_fraud': True, 'license': 'apache-2.0'}`,
         },
-        why: "Licencia + not_for guían deploy y usos prohibidos.",
+        why: "Antes de llamar al modelo lees la card: licencia y not_for deciden host y usos bloqueados (p. ej. fraude).",
       },
       {
         demoId: "S25-T2-A-DEMO",
@@ -430,7 +430,7 @@ print(pipe("Hola mundo"))
           output: `{'model': 'demo-cls', 'label': 'billing', 'score': 0.9}
 {'model': 'demo-cls', 'label': 'other', 'score': 0.6}`,
         },
-        why: "Mismo contrato que el mock de teoría; listo para contract tests.",
+        why: "Mock y endpoint real deben devolver la misma forma (model/label/score) para que el contract test no mienta.",
       },
       {
         demoId: "S25-T2-B-DEMO",
@@ -499,7 +499,7 @@ print("json_schema", ok)
           output: `{"hallazgo": "x", "n": 1, "mediana": 2.0, "limite": "web"}
 json_schema True`,
         },
-        why: "JSON validado o se descarta; el print refleja el gate real.",
+        why: "Sin schema válido no hay promote: el assist falla cerrado aunque el texto “se vea bien”.",
       },
       {
         demoId: "S25-T3-B-DEMO",
@@ -586,7 +586,7 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
     ],
   },
   weDo: {
-    intro: "24 ejercicios: corrige el bug del starter y haz que la salida coincida exactamente con la solución. Datos sintéticos del lab (`CASO-LIM-025`); no etiquetes fraude ni parentesco.",
+    intro: "24 ejercicios en tres capas por subtema (guiado → independiente → transferencia): corriges el bug del starter hasta que la salida coincida exactamente con la solución. Datos sintéticos del lab (`CASO-LIM-025`); no etiquetes fraude ni parentesco. Cada E3 te acerca al contrato del You Do (adapter, schema, golden, request segura).",
     steps: [
       {
         id: "S25-T1-A-E1",
@@ -650,13 +650,13 @@ print(choose_stack(ticket))`,
         subtopicId: "S25-T1-A",
         kind: "independent",
         instruction:
-          "S25-T1-A-E2 · Elige `specialized_model` si `fixed` y `n_train >= 500`. El starter usa umbral 1000 y falla con n=800. Corrige el umbral e imprime specialized_model. Salida exacta: specialized_model.",
-        hint: "Umbral de la teoría: n_train >= 500",
+          "S25-T1-A-E2 · Ticket con label set fijo y n_train=800 (no determinista). Implementa `choose_stack` con la rama specialized: si `label_set_fixed` y `n_train >= 500` → `specialized_model` (el starter usa umbral 1000 y cae a `other`). Imprime el stack del ticket. Salida exacta: specialized_model.",
+        hint: "Umbral de la teoría: n_train >= 500 cuando el label set es fijo",
         hints: [
-          "fixed and n >= 500 (no 1000)",
-          "Con fixed=True y n=800 debe pasar specialized_model",
+          "if task.get('label_set_fixed') and task.get('n_train', 0) >= 500: return 'specialized_model'",
+          "Con n=800 el umbral 1000 del starter es demasiado alto; no inventes otra rama",
         ],
-        edgeCases: ["datos insuficientes"],
+        edgeCases: ["n_train=499 con fixed → no specialized", "datos insuficientes documentados en metadata"],
         tests: "salida coincide con solution output",
         feedback: "Con n=800 el umbral correcto es 500 (teoría T1-A), no 1000.",
         starterCode: {
@@ -664,15 +664,25 @@ print(choose_stack(ticket))`,
           title: "exercise.py",
           code: `# CASO-LIM-025 · specialized model si fixed y n>=500
 # Bug: umbral n>=1000
-fixed, n = True, 800
-print('specialized_model' if fixed and n>=1000 else 'other')
+def choose_stack(task):
+    if task.get('label_set_fixed') and task.get('n_train', 0) >= 1000:
+        return 'specialized_model'
+    return 'other'
+
+ticket = {'deterministic': False, 'label_set_fixed': True, 'n_train': 800}
+print(choose_stack(ticket))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `fixed, n = True, 800
-print('specialized_model' if fixed and n>=500 else 'other')`,
+          code: `def choose_stack(task):
+    if task.get('label_set_fixed') and task.get('n_train', 0) >= 500:
+        return 'specialized_model'
+    return 'other'
+
+ticket = {'deterministic': False, 'label_set_fixed': True, 'n_train': 800}
+print(choose_stack(ticket))`,
           output: `specialized_model`,
         },
       },
@@ -681,32 +691,42 @@ print('specialized_model' if fixed and n>=500 else 'other')`,
         subtopicId: "S25-T1-A",
         kind: "transfer",
         instruction:
-          "S25-T1-A-E3 · Política del assist con LLM: `policy_for(stack)` debe devolver `no_auto_fraud` si stack es `llm_structured` (y también en los otros stacks del lab). El starter devuelve `auto_fraud` para LLM. Corrige e imprime el resultado de policy_for('llm_structured'). Salida exacta: no_auto_fraud.",
-        hint: "Ningún stack del lab auto-etiqueta fraude",
+          "S25-T1-A-E3 · Metadata de run del assist: `run_meta(stack)` debe devolver un dict con `stack`, `auto_fraud=False` y `policy='no_auto_fraud'` para **cualquier** stack (incluido `llm_structured`). El starter pone auto_fraud=True cuando el stack es LLM. Imprime el dict de `run_meta('llm_structured')`. Salida exacta: {'stack': 'llm_structured', 'auto_fraud': False, 'policy': 'no_auto_fraud'}.",
+        hint: "Ningún stack del lab auto-etiqueta fraude; el dict fija la política en metadata",
         hints: [
-          "return 'no_auto_fraud' para cualquier stack del lab (incluido llm_structured)",
-          "Score o LLM ≠ veredicto de fraude; la función fija la política en metadata",
+          "return {'stack': stack, 'auto_fraud': False, 'policy': 'no_auto_fraud'}",
+          "Score o LLM ≠ veredicto: auto_fraud siempre False en el path del assist",
         ],
-        edgeCases: ["HITL obligatorio"],
+        edgeCases: ["HITL obligatorio aunque stack sea rules", "metadata se audita junto al golden en T4"],
         tests: "salida coincide con solution output",
-        feedback: "llm_structured también es no_auto_fraud: el modelo emite señales, no veredictos.",
+        feedback: "llm_structured también lleva auto_fraud=False y policy no_auto_fraud: el modelo emite señales, no veredictos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · no auto fraude
-# Bug: LLM se auto-etiqueta fraude
-def policy_for(stack):
-    return 'auto_fraud' if stack == 'llm_structured' else 'no_auto_fraud'
-print(policy_for('llm_structured'))
+          code: `# CASO-LIM-025 · metadata sin auto fraude
+# Bug: LLM se auto-etiqueta fraude en metadata
+def run_meta(stack):
+    return {
+        'stack': stack,
+        'auto_fraud': stack == 'llm_structured',
+        'policy': 'auto_fraud' if stack == 'llm_structured' else 'no_auto_fraud',
+    }
+
+print(run_meta('llm_structured'))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def policy_for(stack):
-    return 'no_auto_fraud'
-print(policy_for('llm_structured'))`,
-          output: `no_auto_fraud`,
+          code: `def run_meta(stack):
+    return {
+        'stack': stack,
+        'auto_fraud': False,
+        'policy': 'no_auto_fraud',
+    }
+
+print(run_meta('llm_structured'))`,
+          output: `{'stack': 'llm_structured', 'auto_fraud': False, 'policy': 'no_auto_fraud'}`,
         },
       },
       {
@@ -714,29 +734,33 @@ print(policy_for('llm_structured'))`,
         subtopicId: "S25-T1-B",
         kind: "guided",
         instruction:
-          "S25-T1-B-E1 · Licencia `mit`. Si la licencia está en {mit, apache-2.0} imprime `reuse_ok`; si no, `review`. El starter invierte la lógica. Salida exacta: reuse_ok.",
+          "S25-T1-B-E1 · Implementa `license_reuse(lic)`: si la licencia está en {mit, apache-2.0} devuelve `reuse_ok`; si no, `review`. Con lic='mit' el starter invierte la lógica. Imprime el resultado. Salida exacta: reuse_ok.",
         hint: "reuse_ok cuando lic ∈ {mit, apache-2.0}",
         hints: [
-          "print('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')",
-          "MIT es reutilizable en el lab",
+          "return 'reuse_ok' if lic in {'mit','apache-2.0'} else 'review'",
+          "MIT es reutilizable en el lab; la decisión se registra junto a la model card",
         ],
-        edgeCases: ["licencias copyleft"],
+        edgeCases: ["licencias copyleft → review", "licencia permisiva no anula not_for"],
         tests: "salida coincide con solution output",
         feedback: "Si salió review, el set de permisivas está invertido: mit/apache-2.0 son reuse_ok.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-025 · licencia reutilizable
-# Bug: bloquea mit
-lic='mit'
-print('review' if lic in {'mit','apache-2.0'} else 'reuse_ok')
+# Bug: bloquea mit (lógica invertida)
+def license_reuse(lic):
+    return 'review' if lic in {'mit', 'apache-2.0'} else 'reuse_ok'
+
+print(license_reuse('mit'))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `lic='mit'
-print('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')`,
+          code: `def license_reuse(lic):
+    return 'reuse_ok' if lic in {'mit', 'apache-2.0'} else 'review'
+
+print(license_reuse('mit'))`,
           output: `reuse_ok`,
         },
       },
@@ -745,29 +769,33 @@ print('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')`,
         subtopicId: "S25-T1-B",
         kind: "independent",
         instruction:
-          "S25-T1-B-E2 · Con `has_pii=True` el deploy debe ser `local_or_private_vpc` (no cloud). Corrige el ternario del starter. Salida exacta: local_or_private_vpc.",
-        hint: "PII viva → local o VPC privada",
+          "S25-T1-B-E2 · Implementa `deploy_choice(has_pii)`: con PII viva (`True`) debe devolver `local_or_private_vpc`; si no, `cloud_ok`. El starter envía a cloud cuando hay PII. Imprime el resultado con has_pii=True. Salida exacta: local_or_private_vpc.",
+        hint: "PII viva → local o VPC privada (nunca endpoint público en el curso)",
         hints: [
-          "print('local_or_private_vpc' if has_pii else 'cloud_ok')",
-          "Nunca envíes PII real a endpoints públicos en este curso",
+          "return 'local_or_private_vpc' if has_pii else 'cloud_ok'",
+          "Sintéticos sin PII pueden ir a cloud_ok si la licencia e intended use lo permiten",
         ],
-        edgeCases: ["sintéticos sin PII"],
+        edgeCases: ["sintéticos sin PII", "DPA y minimización aún obligatorios en cloud"],
         tests: "salida coincide con solution output",
-        feedback: "PII viva fuerza local/VPC: el ternario del starter elige cloud_ok al revés.",
+        feedback: "PII viva fuerza local/VPC: el starter elige cloud_ok al revés.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-025 · PII → local
 # Bug: cloud con PII
-has_pii=True
-print('cloud_ok' if has_pii else 'local_or_private_vpc')
+def deploy_choice(has_pii):
+    return 'cloud_ok' if has_pii else 'local_or_private_vpc'
+
+print(deploy_choice(True))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `has_pii=True
-print('local_or_private_vpc' if has_pii else 'cloud_ok')`,
+          code: `def deploy_choice(has_pii):
+    return 'local_or_private_vpc' if has_pii else 'cloud_ok'
+
+print(deploy_choice(True))`,
           output: `local_or_private_vpc`,
         },
       },
@@ -776,30 +804,47 @@ print('local_or_private_vpc' if has_pii else 'cloud_ok')`,
         subtopicId: "S25-T1-B",
         kind: "transfer",
         instruction:
-          "S25-T1-B-E3 · Model card: `not_for` incluye 'fraud adjudication'. Imprime True si ese uso está bloqueado (membership en la lista). El starter imprime False a ciegas. Salida exacta: True.",
-        hint: "Usa el operador in sobre la lista not_for",
+          "S25-T1-B-E3 · A partir de la model card (licencia apache-2.0, not_for con fraud adjudication), implementa `card_gate(card)` que devuelva un dict con `reuse_ok` (licencia en {mit, apache-2.0}) y `blocks_fraud` (membership de 'fraud adjudication' en not_for). El starter fija ambos en False. Imprime el dict. Salida exacta: {'reuse_ok': True, 'blocks_fraud': True}.",
+        hint: "reuse_ok por licencia; blocks_fraud por membership en not_for",
         hints: [
-          "print('fraud adjudication' in not_for)",
-          "not_for de la card bloquea usos sensibles aunque la licencia sea abierta",
+          "reuse_ok = card['license'] in {'mit', 'apache-2.0'}",
+          "blocks_fraud = 'fraud adjudication' in card.get('not_for', [])",
         ],
-        edgeCases: ["intended use"],
+        edgeCases: ["intended use distinto de not_for", "licencia permisiva no anula not_for"],
         tests: "salida coincide con solution output",
-        feedback: "No hardcodes False: consulta membership real en not_for.",
+        feedback: "No hardcodes False: consulta licencia y not_for reales de la card.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · card not_for
-# Bug: no detecta fraud adjudication
-not_for=['fraud adjudication','biometric id']
-print(False)
+          code: `# CASO-LIM-025 · card_gate licencia + not_for
+# Bug: ignora card y devuelve False/False
+card = {
+    'license': 'apache-2.0',
+    'not_for': ['fraud adjudication', 'biometric id'],
+}
+
+def card_gate(card):
+    return {'reuse_ok': False, 'blocks_fraud': False}
+
+print(card_gate(card))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `not_for=['fraud adjudication','biometric id']
-print('fraud adjudication' in not_for)`,
-          output: `True`,
+          code: `card = {
+    'license': 'apache-2.0',
+    'not_for': ['fraud adjudication', 'biometric id'],
+}
+
+def card_gate(card):
+    return {
+        'reuse_ok': card['license'] in {'mit', 'apache-2.0'},
+        'blocks_fraud': 'fraud adjudication' in card.get('not_for', []),
+    }
+
+print(card_gate(card))`,
+          output: `{'reuse_ok': True, 'blocks_fraud': True}`,
         },
       },
       {
@@ -871,30 +916,39 @@ print({'model': model_id, 'label': label})`,
         subtopicId: "S25-T2-A",
         kind: "transfer",
         instruction:
-          "S25-T2-A-E3 · Batch de dos textos sintéticos: ['factura','hola']. Con list comprehension, devuelve labels billing/other con la misma regla keyword. Salida exacta: ['billing', 'other'].",
-        hint: "List comp con la misma regla que el mock",
+          "S25-T2-A-E3 · Mock de batch estilo HF: implementa `mock_pipeline(texts, model_id='demo-cls')` que por cada texto devuelva `{model, label, score}` (billing/0.9 si contiene 'factura' case-insensitive; other/0.6 si no). Textos: ['Factura X','hola']. El starter devuelve solo labels. Imprime la lista de dicts. Salida exacta: [{'model': 'demo-cls', 'label': 'billing', 'score': 0.9}, {'model': 'demo-cls', 'label': 'other', 'score': 0.6}].",
+        hint: "Misma forma que el mock de teoría: lista de dicts con model, label y score",
         hints: [
-          "['billing' if 'factura' in t else 'other' for t in texts]",
-          "Orden estable: misma secuencia que el input",
+          "label = 'billing' if 'factura' in t.lower() else 'other'",
+          "score = 0.9 si billing else 0.6; append {'model': model_id, 'label': label, 'score': score}",
         ],
-        edgeCases: ["orden estable"],
+        edgeCases: ["orden estable = orden del input", "case-insensitive en Factura", "contract test exige model en cada item"],
         tests: "salida coincide con solution output",
-        feedback: "Aplica la regla por elemento: factura→billing, hola→other, sin colapsar a un solo label.",
+        feedback: "No colapses a una lista de strings: el contract test del lab exige model/label/score por item.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · batch labels
-# Bug: todo other
-texts=['factura','hola']
-print(['other' for t in texts])
+          code: `# CASO-LIM-025 · batch mock HF completo
+# Bug: solo labels, sin model/score
+def mock_pipeline(texts, model_id='demo-cls'):
+    return ['other' for t in texts]
+
+print(mock_pipeline(['Factura X', 'hola']))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `texts=['factura','hola']
-print(['billing' if 'factura' in t else 'other' for t in texts])`,
-          output: `['billing', 'other']`,
+          code: `def mock_pipeline(texts, model_id='demo-cls'):
+    out = []
+    for t in texts:
+        label = 'billing' if 'factura' in t.lower() else 'other'
+        score = 0.9 if label == 'billing' else 0.6
+        out.append({'model': model_id, 'label': label, 'score': score})
+    return out
+
+print(mock_pipeline(['Factura X', 'hola']))`,
+          output: `[{'model': 'demo-cls', 'label': 'billing', 'score': 0.9}, {'model': 'demo-cls', 'label': 'other', 'score': 0.6}]`,
         },
       },
       {
@@ -940,29 +994,33 @@ print(get('a'), get('a'))`,
         subtopicId: "S25-T2-B",
         kind: "independent",
         instruction:
-          "S25-T2-B-E2 · Costo didáctico: 0.002 * tokens / 1000 con tokens=500. El starter olvida dividir por 1000. Imprime el float resultante. Salida exacta: 0.001.",
-        hint: "Fórmula: 0.002 * tokens / 1000",
+          "S25-T2-B-E2 · Estima costo de un batch: `estimate_cost(n_tokens, cost_per_1k=0.002)` devuelve `cost_per_1k * n_tokens / 1000`. Con n_tokens=500 el starter olvida dividir por 1000. Imprime el float. Salida exacta: 0.001.",
+        hint: "Fórmula por mil tokens: cost_per_1k * n_tokens / 1000",
         hints: [
-          "print(0.002 * tokens / 1000)",
-          "Sin /1000 el costo se infla mil veces",
+          "return cost_per_1k * n_tokens / 1000",
+          "Sin /1000 el costo se infla mil veces y el desk subestima la factura cloud",
         ],
-        edgeCases: ["redondeo billing"],
+        edgeCases: ["batch de varios textos suma tokens antes de estimar", "redondeo de billing en prod"],
         tests: "salida coincide con solution output",
         feedback: "0.002*500=1.0 sin /1000; el costo por 1k tokens exige dividir.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · costo tokens
-# Bug: formula 0.002*tokens sin /1000
-tokens=500
-print(0.002 * tokens)
+          code: `# CASO-LIM-025 · costo por 1k tokens
+# Bug: formula sin /1000
+def estimate_cost(n_tokens, cost_per_1k=0.002):
+    return cost_per_1k * n_tokens
+
+print(estimate_cost(500))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tokens=500
-print(0.002 * tokens / 1000)`,
+          code: `def estimate_cost(n_tokens, cost_per_1k=0.002):
+    return cost_per_1k * n_tokens / 1000
+
+print(estimate_cost(500))`,
           output: `0.001`,
         },
       },
@@ -1011,21 +1069,22 @@ except TimeoutError:
         subtopicId: "S25-T3-A",
         kind: "guided",
         instruction:
-          "S25-T3-A-E1 · El modelo devuelve el string crudo `raw='{\"hallazgo\":\"x\",\"n\":1,\"mediana\":2.0,\"limite\":\"web\"}'`. Parsea con `json.loads` e imprime el entero `n`. El starter imprime el string sin parsear. Salida exacta: 1.",
-        hint: "obj = json.loads(raw); print(obj['n'])",
+          "S25-T3-A-E1 · El modelo devuelve el string crudo `raw` con hallazgo/n/mediana/limite. Parsea con `json.loads`, comprueba que REQUIRED={'hallazgo','n','mediana','limite'} ⊆ keys del objeto e imprime en una línea el entero `n` y el booleano de schema. El starter imprime el string sin parsear. Salida exacta: 1 True.",
+        hint: "obj = json.loads(raw); print(obj['n'], REQUIRED.issubset(obj))",
         hints: [
           "Sin loads no hay contrato: el grader y el schema operan sobre dicts",
-          "La key n debe ser int en el fixture (no string)",
+          "REQUIRED.issubset(obj) o REQUIRED <= set(obj); n debe ser int del JSON",
         ],
-        edgeCases: ["JSON inválido → no publiques", "n ausente → schema_fail en el siguiente lab"],
+        edgeCases: ["JSON inválido → no publiques", "n ausente → schema False en la misma línea"],
         tests: "salida coincide con solution output",
-        feedback: "Si ves comillas o el JSON completo, aún no hiciste loads + acceso a 'n'.",
+        feedback: "Si ves el JSON completo o un solo número sin True, falta loads + issubset en el mismo print.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · parse JSON n
-# Bug: imprime string raw
+          code: `# CASO-LIM-025 · parse JSON + schema flag
+# Bug: imprime string raw sin loads ni subset
 import json
+REQUIRED = {'hallazgo', 'n', 'mediana', 'limite'}
 raw = '{"hallazgo":"x","n":1,"mediana":2.0,"limite":"web"}'
 print(raw)
 `,
@@ -1034,9 +1093,11 @@ print(raw)
           language: 'python',
           title: "exercise.py",
           code: `import json
+REQUIRED = {'hallazgo', 'n', 'mediana', 'limite'}
 raw = '{"hallazgo":"x","n":1,"mediana":2.0,"limite":"web"}'
-print(json.loads(raw)['n'])`,
-          output: `1`,
+obj = json.loads(raw)
+print(obj['n'], REQUIRED.issubset(obj))`,
+          output: `1 True`,
         },
       },
       {
@@ -1508,12 +1569,27 @@ def build_safe_request(doc_text):
         "requires_human_approval": True,
     }
 
+def choose_stack(task):
+    # Completa con el árbol de T1-A (rules / specialized_model / llm_structured / human)
+    raise NotImplementedError("choose_stack")
+
+def mock_or_http(text, model="demo-cls"):
+    # Completa: cache por cache_key; TimeoutError → {"status": "human_review"}
+    # Fixture localhost o mock en proceso con SCHEMA_KEYS
+    raise NotImplementedError("mock_or_http")
+
+def eval_golden(rows):
+    # rows: lista de {"pred": dict, "gold": dict}
+    # Devuelve {"schema_rate", "exact", "field_f1"} como en teoría T4-A
+    raise NotImplementedError("eval_golden")
+
 # Pasos del estudiante:
 # 1) Fixture localhost (o mock en proceso) que devuelve JSON sintético con SCHEMA_KEYS
-# 2) Cache por cache_key + TimeoutError → {"status": "human_review"} / rules_or_human
-# 3) validate_output + exact/schema_rate/field_f1 sobre GOLDEN (3 filas)
-# 4) Toda acción externa usa build_safe_request; nunca auto_fraud_label
-# 5) Documenta stack elegido (rules/specialized/llm) y límites del fixture
+# 2) choose_stack documentado en metadata del run
+# 3) mock_or_http: cache + timeout → human_review / rules_or_human
+# 4) eval_golden sobre GOLDEN (3 filas): exact, schema_rate, field_f1
+# 5) Toda acción externa usa build_safe_request; auto_fraud_label=False siempre
+# 6) README es-PE: límites del fixture, baseline y por qué no se auto-etiqueta fraude
 `,
     portfolioNote:
       "Componente AI assist de CP-N2-C con eval (exact/schema/F1) y controles de seguridad; listo para orquestación en S26.",
@@ -1530,63 +1606,38 @@ def build_safe_request(doc_text):
     questions: [
       {
         question: "¿Cuándo preferir reglas a un LLM en el AI assist?",
-        options: [
-          "Cuando el problema es determinista y la auditabilidad importa",
-          "Siempre preferir LLM por flexibilidad",
-          "Nunca usar reglas en producción",
-          "Solo cuando el endpoint cloud esté más barato",
-        ],
+        options: ["Cuando el problema es determinista y la auditabilidad importa", "Siempre preferir LLM por flexibilidad", "Nunca usar reglas en producción", "Solo cuando el endpoint cloud esté más barato"],
         correctIndex: 0,
         explanation:
           "Las reglas son baratas, deterministas y fáciles de auditar; el LLM se reserva para lenguaje con schema y revisión.",
       },
       {
         question: "Una salida del generador sin JSON válido (schema_fail) debe…",
-        options: [
-          "Publicarse igual si el texto “se ve bien”",
-          "Convertirse automáticamente en etiqueta de fraude",
-          "Descartarse o ir a human_review (fail-closed)",
-          "Cachearse como éxito para no pagar de nuevo",
-        ],
+        options: ["Publicarse igual si el texto “se ve bien”", "Convertirse automáticamente en etiqueta de fraude", "Descartarse o ir a human_review (fail-closed)", "Cachearse como éxito para no pagar de nuevo"],
         correctIndex: 2,
         explanation:
           "El schema es un gate: sin validación no hay promote ni envío.",
       },
       {
         question: "¿Cómo se mitiga prompt injection desde un PDF OCR?",
-        options: [
-          "Confiando en el documento porque pasó OCR",
-          "Desactivando logs para ocultar el ataque",
-          "Elevando el texto OCR al rol system",
-          "Tratando el texto como untrusted, sin tools por defecto y sin elevarlo a system",
-        ],
+        options: ["Confiando en el documento porque pasó OCR", "Desactivando logs para ocultar el ataque", "Elevando el texto OCR al rol system", "Tratando el texto como untrusted, sin tools por defecto y sin elevarlo a system"],
         correctIndex: 3,
         explanation:
           "OCR y emails son untrusted: se delimitan como datos; el control real es privilegio mínimo + HITL.",
       },
       {
         question: "El AI assist de este curso puede etiquetar fraude de forma autónoma…",
-        options: [
-          "Si el score del modelo supera 0.99",
-          "Nunca; solo aporta evidencia y borradores para un humano",
-          "Si un manager lo autoriza por chat",
-          "Si la model card del hub lo sugiere",
-        ],
+        options: ["Si el score del modelo supera 0.99", "Nunca; solo aporta evidencia y borradores para un humano", "Si un manager lo autoriza por chat", "Si la model card del hub lo sugiere"],
         correctIndex: 1,
         explanation:
           "Política del roadmap: score y matching son señales, no veredicto de fraude o parentesco.",
       },
       {
         question: "Un score alto del modelo sobre un caso sintético implica…",
-        options: [
-          "Prioridad de revisión o señal auxiliar, no veredicto legal",
-          "Fraude probado automáticamente",
-          "Que puedes borrar el golden set",
-          "Que debes habilitar el tool shell",
-        ],
+        options: ["Prioridad de revisión o señal auxiliar, no veredicto legal", "Fraude probado automáticamente y listo para el informe", "Que el schema y el golden set dejan de ser obligatorios", "Que puedes omitir human_review y activar tools de shell"],
         correctIndex: 0,
         explanation:
-          "Score ≠ fraude; la evaluación y el human_review protegen a las personas detrás de los registros.",
+          "Score ≠ fraude; schema, golden y human_review siguen siendo gates aunque el score sea alto.",
       },
     ],
   },

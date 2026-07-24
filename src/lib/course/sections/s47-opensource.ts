@@ -29,8 +29,8 @@ export const section47: CourseSection = {
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Experiment run:** params + metrics + seed + artefactos + dataset version. **Lineage:** data/code/env que produjo el run. **Model registry stage:** None → Staging → Production (con approve). **Model card:** límites, intended use y riesgos. **Feature consistency:** mismas firmas train/serve. **Shadow/canary:** tráfico gradual sin sustituir todo. **Fallback:** modelo o regla previa si p95/errores fallan. **Retirement:** retirar versión con audit, no borrar evidencia.",
         "Esta sección cierra el puente desde lineage de datos (S46) hacia **lineage de modelos y serving**: experiment tracking, model registry, feature store parity y rollout con SLO. Los demos usan **stdlib** al estilo MLflow/registry (sin cluster GPU ni servicios externos). El caso `CASO-TAC-047` (priorización sintética de atención en Tacna) no entrena en GPU ni sube modelos reales.",
-        "Producto incremental: run comparable + promote controlado. Entrada: dataset versionado, métricas, card mínima y feature versions. Salida: candidate vs baseline, stage en registry y canary/rollback. Error de promoción: métrica no reproducible, `stage=production` sin approve, leakage train/serve o p95 fuera de SLO sin fallback.",
-        "Orden: T1 runs/métricas → T2 registry/cards → T3 features online/batch → T4 traffic y rollback. Teoría medible, demos con helpers y laboratorio con un defecto de promoción por ejercicio. Stack didáctico: **stdlib** que modela contratos al estilo MLflow/registry sin cluster GPU ni servicios externos obligatorios.",
+        "Producto incremental (una versión del ranker sintético en Tacna recorre toda la sección): **T1** deja un run comparable y un candidato que gana en holdout → **T2** lo registra con firma, card y approve en Staging → **T3** exige paridad batch/online y p95 con fallback → **T4** abre canary al 5% y, si rompe, rollback a last-good con audit. Error de promoción en cualquier tramo: métrica no reproducible, `stage=production` sin approve, leakage train/serve o p95 fuera de SLO sin fallback.",
+        "Orden de lectura y lab: T1 runs/métricas → T2 registry/cards → T3 features online/batch → T4 traffic y rollback. Teoría medible, demos con helpers y laboratorio con un defecto de promoción por ejercicio. Stack didáctico: **stdlib** que modela contratos al estilo MLflow/registry sin cluster GPU ni servicios externos obligatorios.",
       ],
       code: {
         language: 'python',
@@ -93,29 +93,29 @@ missing_seed False`,
       paragraphs: [
         "Habiendo fijado el rerun, el siguiente riesgo es **comparar manzanas con naranjas**. Un run solo es comparable si fija tres anclas de lineage: versión de datos, commit de código y entorno bloqueado (lockfile/imagen). Además, la **definición de métrica** y el **split** (holdout, no el train) deben ser idénticos entre baseline y candidato; si no, un F1=0.90 en train no es evidencia de promote.",
         "Contrato de comparación. Entrada: `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline`. Salida: `PASS` solo si el lineage está completo y `candidate > baseline` bajo la misma métrica/split. Error local: lineage incompleto o candidato que no supera baseline → `INVALIDATE_COMPARISON`. Si falta `baseline` → `RESTORE_LINEAGE`.",
-        "En `CASO-TAC-047-1B` el holdout `holdout-v1` y la métrica `f1-v2` están fijados: el candidato 0.82 supera al baseline 0.78 con lineage `ds-v3` / `git:abc` / `lock:def`. Un run con `code=latest` y `split=train` se invalida aunque el score sea 0.90.",
+        "En `CASO-TAC-047-1B` (priorización sintética en Tacna) el holdout `holdout-v1` y la métrica `f1-v2` están fijados: el candidato 0.82 supera al baseline 0.78 con lineage `ds-v3` / `git:abc` / `lock:def`. Un run con `code=latest` y `split=train` se invalida aunque el score sea 0.90: no entra a la tabla de comparación honesta ni al registry.",
       ],
       code: {
         language: 'python',
         title: "data_code_env_lineage_compare.py",
-        code: `def lineage(data: str, code: str, env: str) -> dict:
-    return {"data": data, "code": code, "env": env}
+        code: `def comparable(run: dict, baseline: float) -> bool:
+    lineage = all(run[k] for k in ("data", "code", "env", "split", "metric"))
+    versioned = run["code"] != "latest" and run["split"] != "train" and run["metric"] != "unknown"
+    return lineage and versioned and run["score"] > baseline
 
-lin = lineage("ds-v3", "git:abc", "locked")
-candidate, baseline = 0.82, 0.78
-split, metric_def = "holdout-v1", "f1-v2"
-comparable = (
-    all(lin.values())
-    and split != "train"
-    and metric_def != "unknown"
-    and candidate > baseline
-)
-print("lineage", lin)
-print("comparable", comparable)
-print("delta_f1", round(candidate - baseline, 2))`,
-        output: `lineage {'data': 'ds-v3', 'code': 'git:abc', 'env': 'locked'}
-comparable True
-delta_f1 0.04`,
+baseline = 0.78
+runs = [
+    {"id": "r-ok", "data": "ds-v3", "code": "git:abc", "env": "lock", "split": "holdout-v1", "metric": "f1-v2", "score": 0.82},
+    {"id": "r-train", "data": "ds-v3", "code": "git:abc", "env": "lock", "split": "train", "metric": "f1-v2", "score": 0.90},
+    {"id": "r-latest", "data": "ds-v3", "code": "latest", "env": "lock", "split": "holdout-v1", "metric": "f1-v2", "score": 0.85},
+]
+for r in runs:
+    ok = comparable(r, baseline)
+    delta = round(r["score"] - baseline, 2) if ok else None
+    print(r["id"], "ok", ok, "delta", delta)`,
+        output: `r-ok ok True delta 0.04
+r-train ok False delta None
+r-latest ok False delta None`,
       },
       callout: {
         type: "tip",
@@ -128,19 +128,25 @@ delta_f1 0.04`,
       heading: "S47-T2-A · Firmas de I/O, stages del registry y approvals",
       subtopicId: "S47-T2-A",
       paragraphs: [
-        "Con un candidato que ya ganó en holdout, el **registry** exige otra capa de gobernanza. Una firma fija nombres y tipos de entrada/salida; los stages (None → Staging → Production) son estados gobernados, no etiquetas cosméticas. La aprobación es **independiente del digest**: un hash correcto sin `approved=True` no autoriza Production.",
-        "Contrato de promoción. Entrada: `input_signature`, `output_signature`, `stage`, `approved`. Salida: `PASS` solo si la firma coincide con el contrato del servicio, el stage es `staging` y hay aprobación explícita. Error local: firma rota, stage ilegal o promote a production sin approve → `DENY_MODEL_PROMOTION`. Si falta `approved` → `REQUEST_MODEL_APPROVAL`.",
-        "En `CASO-TAC-047-2A` el ranker de priorización en Tacna declara firma `age:int`, `region:str` → `priority:float`, stage `staging` y `approved=True`. Un fixture con firma rota y `stage=production` sin approve se deniega (`DENY_MODEL_PROMOTION`) aunque el digest del artefacto exista.",
+        "Con un candidato que ya ganó en holdout, el **registry** exige otra capa de gobernanza. Una firma fija nombres y tipos de entrada/salida (el **contrato del servicio**, no un dict inventado por el run); los stages (None → Staging → Production) son estados gobernados, no etiquetas cosméticas. La aprobación es **independiente del digest**: un hash correcto sin `approved=True` no autoriza Production.",
+        "Contrato de promoción. Entrada: `input_signature`, `output_signature`, `stage`, `approved` y el contrato de servicio `SERVICE_SIG`. Salida: `PASS` solo si la firma del modelo **coincide** con `SERVICE_SIG`, el stage es `staging` y hay aprobación explícita. Error local: firma rota, stage ilegal o promote a production sin approve → `DENY_MODEL_PROMOTION`. Si falta `approved` → `REQUEST_MODEL_APPROVAL`.",
+        "En `CASO-TAC-047-2A` el ranker de priorización en Tacna declara firma `age:int`, `region:str` → `priority:float`, stage `staging` y `approved=True`. Un fixture con firma rota y `stage=production` sin approve se deniega (`DENY_MODEL_PROMOTION`) aunque el digest del artefacto exista: la igualdad es contra el contrato del servicio, no contra «lo que el run diga».",
       ],
       code: {
         language: 'python',
         title: "signatures_stages_approvals.py",
-        code: `def can_promote(stage: str, approved: bool, sig_ok: bool) -> bool:
+        code: `SERVICE_SIG = {
+    "input": {"age": "int", "region": "str"},
+    "output": {"priority": "float"},
+}
+
+def can_promote(stage: str, approved: bool, inp: dict, out: dict) -> bool:
+    sig_ok = inp == SERVICE_SIG["input"] and out == SERVICE_SIG["output"]
     return stage == "staging" and approved and sig_ok
 
-print("ok", can_promote("staging", True, True))
-print("prod_no_approve", can_promote("production", False, True))
-print("bad_sig", can_promote("staging", True, False))`,
+print("ok", can_promote("staging", True, {"age": "int", "region": "str"}, {"priority": "float"}))
+print("prod_no_approve", can_promote("production", False, {"age": "int", "region": "str"}, {"priority": "float"}))
+print("bad_sig", can_promote("staging", True, {"age": "str"}, {}))`,
         output: `ok True
 prod_no_approve False
 bad_sig False`,
@@ -243,21 +249,28 @@ no_fallback False`,
       subtopicId: "S47-T4-A",
       paragraphs: [
         "El modelo ya sirve con SLO; ahora el tráfico se abre con cuidado. **Shadow** observa sin decidir; **canary** recibe un presupuesto de tráfico (p. ej. ≤ 10%) y los monitoring hooks comparan calidad, drift y errores antes de promover. Un mode `full` al 100% sin hooks no es canary: es un deploy a ciegas.",
-        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
-        "En `CASO-TAC-047-4A` el equipo abre canary al 5% del tráfico de priorización en Tacna: error 0.4% bajo el techo y hooks de calidad/drift activos → puede continuar. Un mode `full` al 100% con caída de calidad −0.2 y hooks apagados se detiene de inmediato (`STOP_CANARY`).",
+        "Contrato de canary. Entrada: `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks`. Salida: `PASS` solo si mode es shadow/canary, tráfico ≤ 10%, calidad dentro de presupuesto (`quality_delta ≥ −max_quality_drop`) y hooks activos. Error local: over-traffic, calidad caída o hooks off → `STOP_CANARY`. Si falta `hooks` → `COLLECT_MORE_SHADOW_EVIDENCE`.",
+        "En `CASO-TAC-047-4A` el equipo abre canary al 5% del tráfico de priorización en Tacna: error 0.4% bajo el techo, `quality_delta` dentro del presupuesto y hooks de calidad/drift activos → puede continuar. Un mode `full` al 100% con caída de calidad −0.2 y hooks apagados se detiene de inmediato (`STOP_CANARY`).",
       ],
       code: {
         language: 'python',
         title: "shadow_canary_monitoring.py",
-        code: `def canary_ok(mode: str, traffic_pct: float, error_rate: float, max_err: float, hooks: bool) -> bool:
-    return mode in {"shadow", "canary"} and traffic_pct <= 10 and error_rate <= max_err and hooks
+        code: `def canary_ok(mode: str, traffic_pct: float, quality_delta: float, max_drop: float, error_rate: float, max_err: float, hooks: bool) -> bool:
+    quality_ok = quality_delta >= -max_drop
+    return (
+        mode in {"shadow", "canary"}
+        and traffic_pct <= 10
+        and quality_ok
+        and error_rate <= max_err
+        and hooks
+    )
 
-print("ok", canary_ok("canary", 5, 0.004, 0.01, True))
-print("over", canary_ok("full", 100, 0.1, 0.01, False))
-print("no_hooks", canary_ok("canary", 5, 0.004, 0.01, False))`,
+print("ok", canary_ok("canary", 5, -0.01, 0.05, 0.004, 0.01, True))
+print("over", canary_ok("full", 100, -0.2, 0.05, 0.1, 0.01, False))
+print("quality_drop", canary_ok("canary", 5, -0.2, 0.05, 0.004, 0.01, True))`,
         output: `ok True
 over False
-no_hooks False`,
+quality_drop False`,
       },
       callout: {
         type: "tip",
@@ -272,7 +285,7 @@ no_hooks False`,
       paragraphs: [
         "Si el canary falla — o si una versión envejeció — el camino CF-4 exige **rollback al last-known-good** con features compatibles y **retirement** auditado: se bloquea uso nuevo, se conserva evidencia y se registra quién retiró qué. Borrar el trace para «reducir ruido» destruye el gate de auditoría.",
         "Contrato de restauración. Entrada: `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry`. Salida: `PASS` solo si hay last-good distinto del current, features compatibles, rollback ensayado, retiro registrado y audit entry. Error local: incompatibilidad o rollback no probado → `ROLLBACK_TO_LAST_GOOD`. Si falta `audit_entry` → `REVIEW_RETIREMENT`.",
-        "En `CASO-TAC-047-4B` se restaura de `1.2.0` a `1.1.0` con features compatibles, rollback probado, `1.0.0` retirado y audit entry. Un path con `compatible_features=False` y retired vacío fuerza rollback y revisión humana.",
+        "En `CASO-TAC-047-4B` el equipo de priorización en Tacna restaura de `1.2.0` a `1.1.0` (last-known-good) con features compatibles, rollback ensayado en staging, `1.0.0` retirado y `audit_entry` firmado. Un path con `compatible_features=False`, rollback no probado o retired vacío fuerza `ROLLBACK_TO_LAST_GOOD` y, si falta audit, `REVIEW_RETIREMENT` — nunca se borra el trace para «limpiar» el tablero.",
       ],
       code: {
         language: 'python',
@@ -348,21 +361,24 @@ delta 0.04`,
         demoId: "S47-T2-A-DEMO",
         subtopicId: "S47-T2-A",
         environment: "local-python",
-        description: "Demo: firma + staging + approved antes de promover",
+        description: "Demo: firma vs SERVICE_SIG + staging + approved",
         code: {
           language: 'python',
           title: "demo_signatures_stages_approvals.py",
-          code: `def can_promote(stage: str, approved: bool, has_sig: bool) -> bool:
-    return stage == "staging" and approved and has_sig
+          code: `SERVICE_SIG = {"input": {"age": "int", "region": "str"}, "output": {"priority": "float"}}
 
-print("staging_ok", can_promote("staging", True, True))
-print("prod_no_approve", can_promote("production", False, True))
-print("missing_sig", can_promote("staging", True, False))`,
+def can_promote(stage: str, approved: bool, inp: dict, out: dict) -> bool:
+    sig_ok = inp == SERVICE_SIG["input"] and out == SERVICE_SIG["output"]
+    return stage == "staging" and approved and sig_ok
+
+print("staging_ok", can_promote("staging", True, {"age": "int", "region": "str"}, {"priority": "float"}))
+print("prod_no_approve", can_promote("production", False, {"age": "int", "region": "str"}, {"priority": "float"}))
+print("bad_sig", can_promote("staging", True, {"age": "str"}, {}))`,
           output: `staging_ok True
 prod_no_approve False
-missing_sig False`,
+bad_sig False`,
         },
-        why: "Separa el digest del gate de gobernanza: production sin approved y firma ausente deniegan promote aunque el artefacto exista.",
+        why: "Separa el digest del gate de gobernanza: la firma se compara con el contrato del servicio (SERVICE_SIG); production sin approved o firma rota deniegan promote.",
       },
       {
         demoId: "S47-T2-B-DEMO",
@@ -430,22 +446,28 @@ no_fb False`,
         demoId: "S47-T4-A-DEMO",
         subtopicId: "S47-T4-A",
         environment: "local-python",
-        description: "Demo: canary ≤10% con error budget y hooks",
+        description: "Demo: canary ≤10% con quality_delta, error budget y hooks",
         code: {
           language: 'python',
           title: "demo_shadow_canary_monitoring.py",
-          code: `def canary_ok(mode: str, traffic: float, err: float, max_err: float, hooks: bool) -> str:
-    ok = mode in {"shadow", "canary"} and traffic <= 10 and err <= max_err and hooks
+          code: `def canary_ok(mode: str, traffic: float, q_delta: float, max_drop: float, err: float, max_err: float, hooks: bool) -> str:
+    ok = (
+        mode in {"shadow", "canary"}
+        and traffic <= 10
+        and q_delta >= -max_drop
+        and err <= max_err
+        and hooks
+    )
     return "gates_green" if ok else "stop"
 
-print("ok", canary_ok("canary", 5, 0.004, 0.01, True))
-print("over", canary_ok("full", 100, 0.1, 0.01, False))
-print("no_hooks", canary_ok("canary", 5, 0.004, 0.01, False))`,
+print("ok", canary_ok("canary", 5, -0.01, 0.05, 0.004, 0.01, True))
+print("over", canary_ok("full", 100, -0.2, 0.05, 0.1, 0.01, False))
+print("quality_drop", canary_ok("canary", 5, -0.2, 0.05, 0.004, 0.01, True))`,
           output: `ok gates_green
 over stop
-no_hooks stop`,
+quality_drop stop`,
         },
-        why: "Modela el presupuesto de tráfico y los hooks: mode full al 100% o hooks apagados detienen el canary aunque el digest sea válido.",
+        why: "Modela presupuesto de tráfico, caída de calidad y hooks: mode full al 100%, quality_delta fuera de presupuesto o hooks apagados detienen el canary aunque el digest sea válido.",
       },
       {
         demoId: "S47-T4-B-DEMO",
@@ -477,7 +499,7 @@ no_audit False`,
         subtopicId: "S47-T1-A",
         kind: "guided",
         instruction: "S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/parámetros. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `MARK_RUN_NONREPRODUCIBLE` en E2.",
-        hint: "Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.",
+        hint: "El starter usa `>` en lugar de `≤`: invierte la dirección del comparador de tolerancia y exige seed presente + params no vacíos.",
         hints: [
           "Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva rerun dentro de tolerancia declarada; revisa dirección de comparación, conjuntos y negaciones.",
@@ -622,7 +644,7 @@ assert results == ["CONTINUE", "MARK_RUN_NONREPRODUCIBLE", "INVESTIGATE_RANDOMNE
         subtopicId: "S47-T1-B",
         kind: "guided",
         instruction: "S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data/code/env/split/métrica versionados y candidato mejor. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `INVALIDATE_COMPARISON` en E2.",
-        hint: "Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.",
+        hint: "El DEFECT niega el data o exige candidate ≤ baseline: invierte a lineage completo + versionado (no latest/train/unknown) + candidate > baseline.",
         hints: [
           "Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva lineage completo y comparación homogénea; revisa dirección de comparación, conjuntos y negaciones.",
@@ -773,7 +795,7 @@ assert results == ["CONTINUE", "INVALIDATE_COMPARISON", "RESTORE_LINEAGE"]` ,
         subtopicId: "S47-T2-A",
         kind: "guided",
         instruction: "S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_MODEL_PROMOTION` en E2.",
-        hint: "Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.",
+        hint: "El DEFECT aprueba cuando falta approved o stage=production: exige firma igual al contrato del servicio, stage=staging y approved=True.",
         hints: [
           "Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva firma compatible y aprobación trazada; revisa dirección de comparación, conjuntos y negaciones.",
@@ -797,8 +819,14 @@ print("S47-T2-A", status)
         solutionCode: {
           language: 'python',
           title: "s47-t2-a-e1.py",
-          code: `record = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
-meets_contract = record["input_signature"] == {"age":"int","region":"str"} and record["output_signature"] == {"priority":"float"} and record["stage"] == "staging" and record["approved"]
+          code: `SERVICE_SIG = {"input": {"age": "int", "region": "str"}, "output": {"priority": "float"}}
+record = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
+meets_contract = (
+    record["input_signature"] == SERVICE_SIG["input"]
+    and record["output_signature"] == SERVICE_SIG["output"]
+    and record["stage"] == "staging"
+    and record["approved"]
+)
 status = "PASS" if meets_contract else "DENY_MODEL_PROMOTION"
 print("S47-T2-A", status)
 assert meets_contract is True` ,
@@ -842,12 +870,15 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s47-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `SERVICE_SIG = {"input": {"age": "int", "region": "str"}, "output": {"priority": "float"}}
+
+def assess(record: dict) -> str:
     required = {"case_id", "input_signature", "output_signature", "stage", "approved"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["input_signature"] == {"age":"int","region":"str"} and record["output_signature"] == {"priority":"float"} and record["stage"] == "staging" and record["approved"] else "DENY_MODEL_PROMOTION"
+    sig_ok = record["input_signature"] == SERVICE_SIG["input"] and record["output_signature"] == SERVICE_SIG["output"]
+    return "PASS" if sig_ok and record["stage"] == "staging" and record["approved"] else "DENY_MODEL_PROMOTION"
 
 valid = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
 invalid = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"str"},"output_signature":{},"stage":"production","approved":False}}
@@ -896,12 +927,15 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s47-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `SERVICE_SIG = {"input": {"age": "int", "region": "str"}, "output": {"priority": "float"}}
+
+def decide(record: dict) -> str:
     required = {"case_id", "input_signature", "output_signature", "stage", "approved"}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_MODEL_APPROVAL"
-    return "CONTINUE" if record["input_signature"] == {"age":"int","region":"str"} and record["output_signature"] == {"priority":"float"} and record["stage"] == "staging" and record["approved"] else "DENY_MODEL_PROMOTION"
+    sig_ok = record["input_signature"] == SERVICE_SIG["input"] and record["output_signature"] == SERVICE_SIG["output"]
+    return "CONTINUE" if sig_ok and record["stage"] == "staging" and record["approved"] else "DENY_MODEL_PROMOTION"
 
 valid = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"int","region":"str"},"output_signature":{"priority":"float"},"stage":"staging","approved":True}}
 invalid = {"case_id": "CASO-TAC-047-2A", **{"input_signature":{"age":"str"},"output_signature":{},"stage":"production","approved":False}}
@@ -918,7 +952,7 @@ assert results == ["CONTINUE", "DENY_MODEL_PROMOTION", "REQUEST_MODEL_APPROVAL"]
         subtopicId: "S47-T2-B",
         kind: "guided",
         instruction: "S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de features y card completa. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_MODEL_ARTIFACT` en E2.",
-        hint: "Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.",
+        hint: "El DEFECT aprueba con skew o card incompleta: exige digest sha256:, train_fv==serve_fv y card ⊇ {use,limits,metrics,risks}.",
         hints: [
           "Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva digest/card/compatibilidad verificados; revisa dirección de comparación, conjuntos y negaciones.",
@@ -1063,7 +1097,7 @@ assert results == ["CONTINUE", "REJECT_MODEL_ARTIFACT", "COMPLETE_MODEL_CARD"]` 
         subtopicId: "S47-T3-A",
         kind: "guided",
         instruction: "S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin leakage y contract tests. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DISABLE_INCONSISTENT_SERVING` en E2.",
-        hint: "Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.",
+        hint: "El DEFECT aprueba skew o leakage: exige batch==online, leakage=False y contract_tests ≥ 3.",
         hints: [
           "Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva paridad de features en fixtures; revisa dirección de comparación, conjuntos y negaciones.",
@@ -1208,7 +1242,7 @@ assert results == ["CONTINUE", "DISABLE_INCONSISTENT_SERVING", "TRACE_FEATURE_PI
         subtopicId: "S47-T3-B",
         kind: "guided",
         instruction: "S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fallback probado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ACTIVATE_SAFE_FALLBACK` en E2.",
-        hint: "Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.",
+        hint: "El DEFECT aprueba p95 alto o fallback none: exige p95≤slo, batch 1–64, fallback tipado (p. ej. rules-*) y fallback_tested=True.",
         hints: [
           "Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva SLO de latencia y fallback probado; revisa dirección de comparación, conjuntos y negaciones.",
@@ -1353,7 +1387,7 @@ assert results == ["CONTINUE", "ACTIVATE_SAFE_FALLBACK", "TUNE_BATCH_OR_CAPACITY
         subtopicId: "S47-T4-A",
         kind: "guided",
         instruction: "S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error gates y hooks. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_CANARY` en E2.",
-        hint: "Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.",
+        hint: "El DEFECT aprueba mode full o over-traffic: exige mode shadow/canary, traffic≤10%, quality_delta ≥ −max_drop, error≤max y hooks=True.",
         hints: [
           "Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva canary con criterio promote/stop; revisa dirección de comparación, conjuntos y negaciones.",
@@ -1498,7 +1532,7 @@ assert results == ["CONTINUE", "STOP_CANARY", "COLLECT_MORE_SHADOW_EVIDENCE"]` ,
         subtopicId: "S47-T4-B",
         kind: "guided",
         instruction: "S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback y retiro auditado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_TO_LAST_GOOD` en E2.",
-        hint: "Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.",
+        hint: "El DEFECT ignora last-good o retired: exige current≠last_good, features compatibles, rollback_tested, retired no vacío y audit_entry.",
         hints: [
           "Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.",
           "El predicado correcto debe ser verdadero porque el fixture conserva restauración y retirement auditados; revisa dirección de comparación, conjuntos y negaciones.",
@@ -1748,8 +1782,8 @@ print("uncertain_action", uncertain_action)
       },
       {
         question: "¿Cuándo se deshabilita el serving por feature consistency?",
-        options: ["cuando batch y online emiten el mismo vector y leakage=False", "cuando online diverge del batch o hay leakage sin contract tests", "cuando el F1 de laboratorio es 0.99", "cuando el digest del modelo empieza con sha256:"],
-        correctIndex: 1,
+        options: ["cuando online diverge del batch o hay leakage sin contract tests", "cuando batch y online emiten el mismo vector y leakage=False", "cuando el F1 de laboratorio es 0.99", "cuando el digest del modelo empieza con sha256:"],
+        correctIndex: 0,
         explanation: "Training-serving skew o leakage activan DISABLE_INCONSISTENT_SERVING; un F1 alto en lab no salva features inconsistentes.",
       },
       {
@@ -1757,6 +1791,12 @@ print("uncertain_action", uncertain_action)
         options: ["promoverse porque el modelo ya está en Staging", "detenerse con STOP_CANARY y recolectar más evidencia si faltan hooks", "ignorar el error budget si el digest es correcto", "pasar a Production sin shadow previo"],
         correctIndex: 1,
         explanation: "Canary exige presupuesto de tráfico (p. ej. ≤10%) y hooks activos; over-traffic o hooks off detienen el rollout.",
+      },
+      {
+        question: "¿Qué falta en un artefacto con digest `latest`, features-v3 en train y features-v2 en serving, y card solo con `use`?",
+        options: ["nada: basta con que el F1 de laboratorio sea alto", "borrar el baseline para forzar promote", "subir PII real al model card para parecer serio", "digest versionado (sha256), paridad de features y card completa (use/limits/metrics/risks)"],
+        correctIndex: 3,
+        explanation: "REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD: digest latest, skew train/serve y card incompleta bloquean el artefacto antes del canary.",
       },
     ],
   },

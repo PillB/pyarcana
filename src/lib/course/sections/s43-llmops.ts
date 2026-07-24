@@ -213,20 +213,38 @@ sigterm {'graceful': True, 'grace_seconds': 30}`,
       heading: "API/worker/DB/cache",
       subtopicId: "S43-T3-A",
       paragraphs: [
-        "Con probes y shutdown claros (T2-B), Compose declara el **stack local** de la plataforma: servicios `api`, `worker`, `db`, `cache`, redes (`front`/`back`) y healthchecks por servicio. Ejemplo de forma (YAML conceptual): `services: api/worker dependen de db+cache sanos`. **`depends_on` no reemplaza retries de aplicación**: la API debe reintentar conexión a DB con backoff; un simple «arranqué después» no basta si DB reinicia a mitad de tráfico.",
-        "Contrato de stack. Entrada: conjunto de servicios, conjunto healthy, flag de retries de app y redes segmentadas. Salida: stack sano desde entorno limpio (un comando). Error: servicios declarados pero no healthy, sin retries a DB, o red única sin segmentación. Criterio: healthy == services y redes front/back presentes.",
-        "En `CASO-TRU-043-T3A` los cuatro servicios de Trujillo están healthy con retries y redes front/back. Breach → `STOP_UNHEALTHY_STACK`; falta de networks → `WAIT_FOR_DEPENDENCY`.",
+        "Con probes y shutdown claros (T2-B), Compose declara el **stack local** de la plataforma: servicios `api`, `worker`, `db`, `cache`, redes (`front`/`back`) y healthchecks por servicio. El fragmento de abajo muestra la forma mínima: cuatro servicios y redes segmentadas. **`depends_on` no reemplaza retries de aplicación**: la API debe reintentar conexión a DB con backoff (`DB_MAX_ATTEMPTS` o equivalente); un simple «arranqué después» no basta si DB reinicia a mitad de tráfico.",
+        "Contrato de stack. Entrada: texto Compose (servicios + redes) o modelo equivalente, conjunto healthy y flag de retries de app. Salida: stack sano desde entorno limpio (un comando). Error: servicios declarados pero no healthy, sin retries a DB, o red única sin segmentación. Criterio: healthy == services, redes front/back presentes y token de retries en la API.",
+        "En `CASO-TRU-043-T3A` los cuatro servicios de Trujillo están healthy con retries y redes front/back. Breach → `STOP_UNHEALTHY_STACK`; falta de networks o de artefacto Compose → `WAIT_FOR_DEPENDENCY`.",
       ],
       code: {
         language: 'python',
         title: "api_worker_db_cache.py",
-        code: `REQUIRED = {"api", "worker", "db", "cache"}
+        code: `MINI_COMPOSE = """
+services:
+  api:
+    networks: [front, back]
+    depends_on: [db, cache]
+    # retries de app (no solo depends_on):
+    environment: { DB_MAX_ATTEMPTS: "5" }
+  worker:
+    networks: [back]
+  db:
+    networks: [back]
+  cache:
+    networks: [back]
+networks:
+  front: {}
+  back: {}
+"""
+REQUIRED = {"api", "worker", "db", "cache"}
 NETS = {"front", "back"}
 
 def stack_ok(services: set, healthy: set, retries: bool, networks: set) -> dict:
     full = REQUIRED <= services and healthy == services
     ok = full and retries and NETS <= networks
-    return {"services": sorted(services), "stack_healthy": ok, "retries": retries}
+    has_yaml = all(f"{n}:" in MINI_COMPOSE for n in REQUIRED) and "front:" in MINI_COMPOSE
+    return {"services": sorted(services), "stack_healthy": ok, "retries": retries, "compose_shape": has_yaml}
 
 s = stack_ok(
     {"api", "worker", "db", "cache"},
@@ -236,10 +254,10 @@ s = stack_ok(
 )
 print("services", s["services"])
 print("stack_healthy", s["stack_healthy"])
-print("retries", s["retries"])`,
+print("compose_shape", s["compose_shape"])`,
         output: `services ['api', 'cache', 'db', 'worker']
 stack_healthy True
-retries True`,
+compose_shape True`,
       },
       callout: {
         type: "tip",
@@ -493,7 +511,7 @@ print("retries", r["retries"])`,
 stack_healthy True
 retries True`,
         },
-        why: "Valida el conjunto Compose (servicios, healthy, retries, redes); evidencia de stack sano, no solo lista de deps.",
+        why: "Valida el conjunto Compose (servicios, healthy, retries, redes front/back); misma forma que el mini-compose de la teoría T3-A.",
       },
       {
         demoId: "S43-T3-B-DEMO",
@@ -580,7 +598,7 @@ scan ci_gate`,
     ],
   },
   weDo: {
-    intro: "S43 · Laboratorio Governed Python Service Platform reproducible: 24 retos. E1 repara el predicado de dominio, E2 separa válido/adverso/missing y E3 decide CONTINUE | breach | incertidumbre. Un defecto ops intencional por ejercicio; fixtures `CASO-TRU-043`.",
+    intro: "S43 · Laboratorio Governed Python Service Platform reproducible: 24 retos. E1 repara el predicado de dominio, E2 separa válido/adverso/missing y E3 audita un artefacto de texto (Dockerfile, Compose, log de probes, runbook, scan) con CONTINUE | breach | incertidumbre. Un defecto ops intencional por ejercicio; fixtures `CASO-TRU-043`.",
     steps: [
       {
         id: "S43-T1-A-E1",
@@ -677,7 +695,7 @@ print(*results)
         id: "S43-T1-A-E3",
         subtopicId: "S43-T1-A",
         kind: "transfer",
-        instruction: "S43-T1-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-Dockerfile (stdlib, sin daemon). Orden correcto: `COPY requirements` (lock/deps) **antes** de `COPY src`. Tres entradas: Dockerfile bueno → `CONTINUE`, Dockerfile con source antes de deps → `REORDER_DOCKERFILE`, `None` (sin artefacto) → `INSPECT_CACHE_INVALIDATION`. El starter trata ausencia como CONTINUE y aprueba el orden invertido: corrige ambas ramas.",
+        instruction: "S43-T1-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-Dockerfile (stdlib, sin daemon). Orden correcto: `COPY requirements` (lock/deps) **antes** de `COPY src`. Tres entradas: Dockerfile bueno → `CONTINUE`, Dockerfile con source antes de deps → `REORDER_DOCKERFILE`, `None` (sin artefacto) → `INSPECT_CACHE_INVALIDATION`. El starter trata ausencia como CONTINUE y aprueba el orden invertido: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
         hints: [
           "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
@@ -843,7 +861,7 @@ print(*results)
         id: "S43-T1-B-E3",
         subtopicId: "S43-T1-B",
         kind: "transfer",
-        instruction: "S43-T1-B-E3 · Transferencia de artefacto: parsea un mini-Dockerfile y un presupuesto de runtime. Criterio non-root: base con digest (`@sha256:`), `USER` con UID ≥1000, sin `USER 0`/`root`. Tres entradas: fragmento bueno + max_mb → `CONTINUE`, root/`latest` → `REBUILD_NONROOT`, `max_mb is None` → `SELECT_PATCHABLE_BASE`. Corrige missing→CONTINUE y el predicado invertido.",
+        instruction: "S43-T1-B-E3 · Transferencia de artefacto: parsea un mini-Dockerfile y un presupuesto de runtime. Criterio non-root: base con digest (`@sha256:`), `USER` con UID ≥1000, sin `USER 0`/`root`. Tres entradas: fragmento bueno + max_mb → `CONTINUE`, root/`latest` → `REBUILD_NONROOT`, `max_mb is None` → `SELECT_PATCHABLE_BASE`. Corrige missing→CONTINUE y el predicado invertido. Salida: imprime el valor de meets_contract.",
         hint: "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
         hints: [
           "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
@@ -1017,7 +1035,7 @@ print(*results)
         id: "S43-T2-A-E3",
         subtopicId: "S43-T2-A",
         kind: "transfer",
-        instruction: "S43-T2-A-E3 · Transferencia de artefacto: inspecciona **historial de capas** (strings de `docker history` sintético) y clasificación de volumes. Sin `SECRET=`/`PASSWORD=` en capas; `db` durable y `cache` efímero. Tres entradas: capas limpias + mounts correctos → `CONTINUE`, capa con secret o DB en efímero → `REMOVE_BAKED_SECRET`, `ephemeral is None` → `CLASSIFY_VOLUME`. El starter trata ausencia como CONTINUE y aprueba capas con secret: corrige ambas ramas.",
+        instruction: "S43-T2-A-E3 · Transferencia de artefacto: inspecciona **historial de capas** (strings de `docker history` sintético) y clasificación de volumes. Sin `SECRET=`/`PASSWORD=` en capas; `db` durable y `cache` efímero. Tres entradas: capas limpias + mounts correctos → `CONTINUE`, capa con secret o DB en efímero → `REMOVE_BAKED_SECRET`, `ephemeral is None` → `CLASSIFY_VOLUME`. El starter trata ausencia como CONTINUE y aprueba capas con secret: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
         hints: [
           "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
@@ -1177,51 +1195,82 @@ print(*results)
         id: "S43-T2-B-E3",
         subtopicId: "S43-T2-B",
         kind: "transfer",
-        instruction: "S43-T2-B-E3 · Transferencia de probes/señales: decide como runbook de readiness real + drain SIGTERM (red privada, readiness DB, grace ≥20). Válido → `CONTINUE`, readiness falsa / sin drain / red pública → `DRAIN_AND_ISOLATE`, sin `grace_seconds` → `DIAGNOSE_HEALTH_SIGNAL`. Corrige missing→CONTINUE y el predicado invertido.",
-        hint: "Una ausencia no equivale a breach: enrútala a `DIAGNOSE_HEALTH_SIGNAL` antes de evaluar el contenido.",
+        instruction: "S43-T2-B-E3 · Transferencia de artefacto: audita un **log de probes/señales** (texto sintético, stdlib). Criterio: `network=private`, readiness con `db_ok=true` y 200 (nunca 200 si `db_ok=false`), `/healthz` presente, y SIGTERM con `drained=true` y `grace_seconds` ≥ 20. Tres entradas: log bueno → `CONTINUE`, log con readiness falsa / red pública / sin drain → `DRAIN_AND_ISOLATE`, `None` → `DIAGNOSE_HEALTH_SIGNAL`. El starter trata ausencia como CONTINUE y aprueba el log adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        hint: "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `DIAGNOSE_HEALTH_SIGNAL` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró network privada, health semántico y drain de SIGTERM; solo ese caso devuelve `CONTINUE`.",
+          "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
+          "Busca `db_ok=false` junto a status 200 en /readyz (falso positivo de readiness); exige network=private, drained=true y grace_seconds numérico ≥ 20.",
         ],
-        edgeCases: ["falta grace_seconds → DIAGNOSE_HEALTH_SIGNAL", "adverso: readiness falsa / sin drain SIGTERM / red pública → DRAIN_AND_ISOLATE", "CASO-TRU-043-2B es sintético"],
-        tests: "Fixtures `CASO-TRU-043-2B`, adverso y sin `grace_seconds` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S43-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DRAIN_AND_ISOLATE y por qué faltar grace_seconds exige DIAGNOSE_HEALTH_SIGNAL.",
+        edgeCases: ["log None/vacío → DIAGNOSE_HEALTH_SIGNAL", "adverso: readiness 200 con db caída / sin drain / red pública → DRAIN_AND_ISOLATE", "CASO-TRU-043-2B es sintético"],
+        tests: "Log bueno, log adverso y ausencia prueban CONTINUE / DRAIN_AND_ISOLATE / DIAGNOSE_HEALTH_SIGNAL.",
+        feedback: "S43-T2-B-E3: explica qué línea del log (network, /readyz o SIGTERM) activó DRAIN_AND_ISOLATE y por qué la ausencia exige DIAGNOSE_HEALTH_SIGNAL sin rellenar el log.",
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e3.py",
-          code: `# CASO-TRU-043 · decide DRAIN_AND_ISOLATE
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-TRU-043 · audit probe/SIGTERM log text
+# DEFECT: None→CONTINUE; log adverso se aprueba
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
-def decide(record: dict) -> str:
-    required = {"case_id", "private_network", "readiness_db", "liveness_loop", "sigterm_drains", "grace_seconds"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if not record["readiness_db"] or not record["sigterm_drains"] else "DRAIN_AND_ISOLATE"
+GOOD_LOG = """
+network=private
+GET /readyz db_ok=true status=200
+GET /healthz live=true status=200
+signal=SIGTERM open_requests=0 grace_seconds=30 drained=true
+"""
+BAD_LOG = """
+network=public
+GET /readyz db_ok=false status=200
+GET /healthz live=true status=200
+signal=SIGTERM open_requests=12 grace_seconds=0 drained=false
+"""
 
-valid = {"case_id": "CASO-TRU-043-2B", **{"private_network":True,"readiness_db":True,"liveness_loop":True,"sigterm_drains":True,"grace_seconds":30}}
-invalid = {"case_id": "CASO-TRU-043-2B", **{"private_network":False,"readiness_db":False,"liveness_loop":True,"sigterm_drains":False,"grace_seconds":0}}
-uncertain = {**valid}
-uncertain.pop("grace_seconds")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def decide(probe_log: str | None) -> str:
+    if probe_log is None or not str(probe_log).strip():
+        return "CONTINUE"
+    # DEFECT: aprueba readiness falsa o red pública
+    false_ready = "db_ok=false" in probe_log and "status=200" in probe_log
+    return "CONTINUE" if false_ready or "network=public" in probe_log else "DRAIN_AND_ISOLATE"
+
+results = [decide(item) for item in (GOOD_LOG, BAD_LOG, None)]
 print(*results)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s43-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "private_network", "readiness_db", "liveness_loop", "sigterm_drains", "grace_seconds"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "DIAGNOSE_HEALTH_SIGNAL"
-    return "CONTINUE" if record["private_network"] and record["readiness_db"] and record["liveness_loop"] and record["sigterm_drains"] and record["grace_seconds"] >= 20 else "DRAIN_AND_ISOLATE"
+          code: `GOOD_LOG = """
+network=private
+GET /readyz db_ok=true status=200
+GET /healthz live=true status=200
+signal=SIGTERM open_requests=0 grace_seconds=30 drained=true
+"""
+BAD_LOG = """
+network=public
+GET /readyz db_ok=false status=200
+GET /healthz live=true status=200
+signal=SIGTERM open_requests=12 grace_seconds=0 drained=false
+"""
 
-valid = {"case_id": "CASO-TRU-043-2B", **{"private_network":True,"readiness_db":True,"liveness_loop":True,"sigterm_drains":True,"grace_seconds":30}}
-invalid = {"case_id": "CASO-TRU-043-2B", **{"private_network":False,"readiness_db":False,"liveness_loop":True,"sigterm_drains":False,"grace_seconds":0}}
-uncertain = {**valid}
-uncertain.pop("grace_seconds")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def _grace_seconds(log: str) -> int:
+    for part in log.split():
+        if part.startswith("grace_seconds="):
+            try:
+                return int(part.split("=", 1)[1])
+            except ValueError:
+                return 0
+    return 0
+
+def decide(probe_log: str | None) -> str:
+    if probe_log is None or not str(probe_log).strip():
+        return "DIAGNOSE_HEALTH_SIGNAL"
+    private = "network=private" in probe_log
+    false_ready = "db_ok=false" in probe_log and "/readyz" in probe_log and "status=200" in probe_log
+    ready_ok = "db_ok=true" in probe_log and "/readyz" in probe_log and not false_ready
+    live_ok = "/healthz" in probe_log
+    drained = "drained=true" in probe_log and _grace_seconds(probe_log) >= 20
+    ok = private and ready_ok and live_ok and drained
+    return "CONTINUE" if ok else "DRAIN_AND_ISOLATE"
+
+results = [decide(item) for item in (GOOD_LOG, BAD_LOG, None)]
 print(*results)
 assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
           output: `CONTINUE DRAIN_AND_ISOLATE DIAGNOSE_HEALTH_SIGNAL` ,
@@ -1322,7 +1371,7 @@ print(*results)
         id: "S43-T3-A-E3",
         subtopicId: "S43-T3-A",
         kind: "transfer",
-        instruction: "S43-T3-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-`compose.yaml` (stdlib). Debe declarar `api`, `worker`, `db`, `cache`, redes `front` y `back`, y la API con retries a DB. Tres entradas: YAML bueno → `CONTINUE`, YAML sin redes/sin worker → `STOP_UNHEALTHY_STACK`, `None` → `WAIT_FOR_DEPENDENCY`. El starter trata ausencia como CONTINUE y aprueba el YAML incompleto: corrige ambas ramas.",
+        instruction: "S43-T3-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-`compose.yaml` (stdlib). Debe declarar `api`, `worker`, `db`, `cache`, redes `front` y `back`, y la API con retries a DB. Tres entradas: YAML bueno → `CONTINUE`, YAML sin redes/sin worker → `STOP_UNHEALTHY_STACK`, `None` → `WAIT_FOR_DEPENDENCY`. El starter trata ausencia como CONTINUE y aprueba el YAML incompleto: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
         hints: [
           "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
@@ -1506,51 +1555,74 @@ print(*results)
         id: "S43-T3-B-E3",
         subtopicId: "S43-T3-B",
         kind: "transfer",
-        instruction: "S43-T3-B-E3 · Transferencia de migración: decide expand/contract como job de release (expand compatible, efímero recreable, restore drill). Válido → `CONTINUE`, contract sin compat / sin restore → `ROLL_BACK_MIGRATION`, sin `backup_restored` → `RUN_RESTORE_DRILL`. Corrige missing→CONTINUE y el predicado invertido.",
-        hint: "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
+        instruction: "S43-T3-B-E3 · Transferencia de artefacto: audita un **runbook de migración** (texto sintético). Criterio: `strategy: expand`, `old_code_compatible: yes`, `backup_restore_drill: PASS`, y efímeros sin montar `db` como efímero. Tres entradas: runbook bueno → `CONTINUE`, contract sin compat / restore SKIPPED / db efímero → `ROLL_BACK_MIGRATION`, `None` → `RUN_RESTORE_DRILL`. El starter trata ausencia como CONTINUE y aprueba el runbook adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        hint: "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró expand compatible, efímero recreable y restore aprobado; solo ese caso devuelve `CONTINUE`.",
+          "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
+          "Exige strategy expand, old_code_compatible yes, backup_restore_drill PASS; rechaza ephemeral: db o contract sin compat.",
         ],
-        edgeCases: ["falta backup_restored → RUN_RESTORE_DRILL", "adverso: contract sin compat / sin restore / efímero mal clasificado → ROLL_BACK_MIGRATION", "CASO-TRU-043-3B es sintético"],
-        tests: "Fixtures `CASO-TRU-043-3B`, adverso y sin `backup_restored` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S43-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLL_BACK_MIGRATION y por qué faltar backup_restored exige RUN_RESTORE_DRILL.",
+        edgeCases: ["runbook None/vacío → RUN_RESTORE_DRILL", "adverso: contract sin compat / restore SKIPPED / db efímero → ROLL_BACK_MIGRATION", "CASO-TRU-043-3B es sintético"],
+        tests: "Runbook bueno, runbook adverso y ausencia prueban CONTINUE / ROLL_BACK_MIGRATION / RUN_RESTORE_DRILL.",
+        feedback: "S43-T3-B-E3: explica qué línea del runbook (strategy, compat o restore) activó ROLL_BACK_MIGRATION y por qué la ausencia exige RUN_RESTORE_DRILL sin rellenar el archivo.",
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e3.py",
-          code: `# CASO-TRU-043 · decide ROLL_BACK_MIGRATION
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-TRU-043 · audit migration runbook text
+# DEFECT: None→CONTINUE; runbook adverso se aprueba
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
-def decide(record: dict) -> str:
-    required = {"case_id", "migration", "old_code_compatible", "ephemeral_reset", "backup_restored"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["migration"] == "contract" and not record["old_code_compatible"] else "ROLL_BACK_MIGRATION"
+GOOD_RB = """
+strategy: expand
+old_code_compatible: yes
+ephemeral: tmp,cache
+backup_restore_drill: PASS
+migrate_before_api: true
+"""
+BAD_RB = """
+strategy: contract
+old_code_compatible: no
+ephemeral: db
+backup_restore_drill: SKIPPED
+"""
 
-valid = {"case_id": "CASO-TRU-043-3B", **{"migration":"expand","old_code_compatible":True,"ephemeral_reset":True,"backup_restored":True}}
-invalid = {"case_id": "CASO-TRU-043-3B", **{"migration":"contract","old_code_compatible":False,"ephemeral_reset":False,"backup_restored":False}}
-uncertain = {**valid}
-uncertain.pop("backup_restored")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def decide(runbook: str | None) -> str:
+    if runbook is None or not str(runbook).strip():
+        return "CONTINUE"
+    # DEFECT: aprueba contract sin compat o restore SKIPPED
+    bad = "strategy: contract" in runbook or "backup_restore_drill: SKIPPED" in runbook
+    return "CONTINUE" if bad else "ROLL_BACK_MIGRATION"
+
+results = [decide(item) for item in (GOOD_RB, BAD_RB, None)]
 print(*results)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s43-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "migration", "old_code_compatible", "ephemeral_reset", "backup_restored"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "RUN_RESTORE_DRILL"
-    return "CONTINUE" if record["migration"] == "expand" and record["old_code_compatible"] and record["ephemeral_reset"] and record["backup_restored"] else "ROLL_BACK_MIGRATION"
+          code: `GOOD_RB = """
+strategy: expand
+old_code_compatible: yes
+ephemeral: tmp,cache
+backup_restore_drill: PASS
+migrate_before_api: true
+"""
+BAD_RB = """
+strategy: contract
+old_code_compatible: no
+ephemeral: db
+backup_restore_drill: SKIPPED
+"""
 
-valid = {"case_id": "CASO-TRU-043-3B", **{"migration":"expand","old_code_compatible":True,"ephemeral_reset":True,"backup_restored":True}}
-invalid = {"case_id": "CASO-TRU-043-3B", **{"migration":"contract","old_code_compatible":False,"ephemeral_reset":False,"backup_restored":False}}
-uncertain = {**valid}
-uncertain.pop("backup_restored")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def decide(runbook: str | None) -> str:
+    if runbook is None or not str(runbook).strip():
+        return "RUN_RESTORE_DRILL"
+    expand = "strategy: expand" in runbook
+    compat = "old_code_compatible: yes" in runbook
+    restore = "backup_restore_drill: PASS" in runbook
+    db_not_ephemeral = "ephemeral: db" not in runbook
+    ok = expand and compat and restore and db_not_ephemeral
+    return "CONTINUE" if ok else "ROLL_BACK_MIGRATION"
+
+results = [decide(item) for item in (GOOD_RB, BAD_RB, None)]
 print(*results)
 assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
           output: `CONTINUE ROLL_BACK_MIGRATION RUN_RESTORE_DRILL` ,
@@ -1651,7 +1723,7 @@ print(*results)
         id: "S43-T4-A-E3",
         subtopicId: "S43-T4-A",
         kind: "transfer",
-        instruction: "S43-T4-A-E3 · Transferencia de artefacto: audita un **Dockerfile multi-stage** (texto) y un `lock_hash`. Criterio: stages `AS builder` y `AS runtime`, `COPY --from=builder`, lock con prefijo `sha256:`, y **sin** `gcc`/`g++` en el stage runtime. Tres entradas: bueno + lock pinned → `CONTINUE`, runtime con compiler o lock `latest` → `BLOCK_UNPINNED_BUILD`, `lock_hash is None` → `REGENERATE_LOCK`. El starter trata lock ausente como CONTINUE y aprueba el Dockerfile malo: corrige ambas ramas.",
+        instruction: "S43-T4-A-E3 · Transferencia de artefacto: audita un **Dockerfile multi-stage** (texto) y un `lock_hash`. Criterio: stages `AS builder` y `AS runtime`, `COPY --from=builder`, lock con prefijo `sha256:`, y **sin** `gcc`/`g++` en el stage runtime. Tres entradas: bueno + lock pinned → `CONTINUE`, runtime con compiler o lock `latest` → `BLOCK_UNPINNED_BUILD`, `lock_hash is None` → `REGENERATE_LOCK`. El starter trata lock ausente como CONTINUE y aprueba el Dockerfile malo: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
         hints: [
           "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
@@ -1827,51 +1899,88 @@ print(*results)
         id: "S43-T4-B-E3",
         subtopicId: "S43-T4-B",
         kind: "transfer",
-        instruction: "S43-T4-B-E3 · Transferencia de gate CI: decide cuarentena de imagen (0 CVE críticos, 0 < mem ≤ 512, 0 < cpu ≤ 1.0, sin debug shell, logs redactados). Válido → `CONTINUE`, adverso (CVE/límites 0/shell) → `QUARANTINE_IMAGE`, sin `logs_redacted` → `TRIAGE_SCAN_FINDING`. Límites en 0 no son «sin tope válido»: fallan el contrato.",
-        hint: "Una ausencia no equivale a breach: enrútala a `TRIAGE_SCAN_FINDING` antes de evaluar el contenido.",
+        instruction: "S43-T4-B-E3 · Transferencia de artefacto: audita un **reporte de scan + límites** (texto sintético tipo CI). Criterio: `CRITICAL: 0`, `0 < memory_limit_mb ≤ 512`, `0 < cpu_limit ≤ 1.0`, `debug_shell: false`, `logs_redacted: true`. Tres entradas: reporte bueno → `CONTINUE`, CVE>0 / límites 0 / shell root / logs crudos → `QUARANTINE_IMAGE`, `None` → `TRIAGE_SCAN_FINDING`. El starter trata ausencia como CONTINUE y aprueba el reporte adverso: corrige ambas ramas. Límites en 0 no son «sin tope válido». Salida: imprime el valor de meets_contract.",
+        hint: "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `TRIAGE_SCAN_FINDING` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró scan limpio, límites definidos y debugging sin shell root; solo ese caso devuelve `CONTINUE`.",
+          "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
+          "Parsea CRITICAL, memory_limit_mb y cpu_limit como números; exige CRITICAL==0, límites estrictamente positivos en rango, debug_shell false y logs_redacted true.",
         ],
-        edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
-        tests: "Fixtures `CASO-TRU-043-4B`, adverso y sin `logs_redacted` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S43-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
+        edgeCases: ["reporte None/vacío → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
+        tests: "Reporte bueno, reporte adverso y ausencia prueban CONTINUE / QUARANTINE_IMAGE / TRIAGE_SCAN_FINDING.",
+        feedback: "S43-T4-B-E3: explica qué línea del reporte (CRITICAL, límites o debug_shell) activó QUARANTINE_IMAGE y por qué la ausencia exige TRIAGE_SCAN_FINDING sin rellenar el scan.",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e3.py",
-          code: `# CASO-TRU-043 · decide QUARANTINE_IMAGE
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-TRU-043 · audit scan report + resource limits text
+# DEFECT: None→CONTINUE; reporte adverso se aprueba
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
-def decide(record: dict) -> str:
-    required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["critical_cves"] > 0 or record["debug_shell"] or not record["logs_redacted"] else "QUARANTINE_IMAGE"
+GOOD_SCAN = """
+CRITICAL: 0
+memory_limit_mb: 512
+cpu_limit: 1.0
+debug_shell: false
+logs_redacted: true
+"""
+BAD_SCAN = """
+CRITICAL: 3
+memory_limit_mb: 0
+cpu_limit: 0
+debug_shell: true
+logs_redacted: false
+"""
 
-valid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
-invalid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":3,"memory_limit_mb":0,"cpu_limit":0.0,"debug_shell":True,"logs_redacted":False}}
-uncertain = {**valid}
-uncertain.pop("logs_redacted")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def decide(scan_report: str | None) -> str:
+    if scan_report is None or not str(scan_report).strip():
+        return "CONTINUE"
+    # DEFECT: aprueba CRITICAL>0 o debug_shell true
+    bad = "CRITICAL: 3" in scan_report or "debug_shell: true" in scan_report
+    return "CONTINUE" if bad else "QUARANTINE_IMAGE"
+
+results = [decide(item) for item in (GOOD_SCAN, BAD_SCAN, None)]
 print(*results)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s43-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "TRIAGE_SCAN_FINDING"
-    return "CONTINUE" if record["critical_cves"] == 0 and 0 < record["memory_limit_mb"] <= 512 and 0 < record["cpu_limit"] <= 1.0 and not record["debug_shell"] and record["logs_redacted"] else "QUARANTINE_IMAGE"
+          code: `GOOD_SCAN = """
+CRITICAL: 0
+memory_limit_mb: 512
+cpu_limit: 1.0
+debug_shell: false
+logs_redacted: true
+"""
+BAD_SCAN = """
+CRITICAL: 3
+memory_limit_mb: 0
+cpu_limit: 0
+debug_shell: true
+logs_redacted: false
+"""
 
-valid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
-invalid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":3,"memory_limit_mb":0,"cpu_limit":0.0,"debug_shell":True,"logs_redacted":False}}
-uncertain = {**valid}
-uncertain.pop("logs_redacted")
-results = [decide(item) for item in (valid, invalid, uncertain)]
+def _field(report: str, key: str) -> str | None:
+    for line in report.splitlines():
+        line = line.strip()
+        if line.startswith(key + ":"):
+            return line.split(":", 1)[1].strip()
+    return None
+
+def decide(scan_report: str | None) -> str:
+    if scan_report is None or not str(scan_report).strip():
+        return "TRIAGE_SCAN_FINDING"
+    try:
+        critical = int(_field(scan_report, "CRITICAL") or "-1")
+        mem = int(_field(scan_report, "memory_limit_mb") or "0")
+        cpu = float(_field(scan_report, "cpu_limit") or "0")
+    except ValueError:
+        return "TRIAGE_SCAN_FINDING"
+    debug_shell = (_field(scan_report, "debug_shell") or "true") == "true"
+    logs_redacted = (_field(scan_report, "logs_redacted") or "false") == "true"
+    limits_ok = 0 < mem <= 512 and 0 < cpu <= 1.0
+    ok = critical == 0 and limits_ok and not debug_shell and logs_redacted
+    return "CONTINUE" if ok else "QUARANTINE_IMAGE"
+
+results = [decide(item) for item in (GOOD_SCAN, BAD_SCAN, None)]
 print(*results)
 assert results == ["CONTINUE", "QUARANTINE_IMAGE", "TRIAGE_SCAN_FINDING"]` ,
           output: `CONTINUE QUARANTINE_IMAGE TRIAGE_SCAN_FINDING` ,
@@ -1971,8 +2080,8 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "¿Qué tratamiento de secretos en la imagen de `CASO-TRU-043` respeta el alcance del curso?",
-        options: ["hornear la API key en una capa ENV del Dockerfile", "subir `.env` con secretos al repositorio público", "inyectar secretos solo en runtime y verificar que la imagen no los contiene", "imprimir secretos en logs de health para depurar más rápido"],
-        correctIndex: 2,
+        options: ["hornear la API key en una capa ENV del Dockerfile", "subir `.env` con secretos al repositorio público", "imprimir secretos en logs de health para depurar más rápido", "inyectar secretos solo en runtime y verificar que la imagen no los contiene"],
+        correctIndex: 3,
         explanation: "Los secretos se inyectan en runtime; la imagen e inspección no deben contener valores secretos horneados.",
       },
       {

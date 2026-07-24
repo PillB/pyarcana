@@ -29,9 +29,9 @@ export const section39: CourseSection = {
       heading: "Cierre CP-N3-C + regresión N3 + CF-3",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos del nivel 3 revisado por un evaluador externo. **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
-        "**S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
-        "Contrato de promoción (conceptual). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de **CF-3**. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: auto-declarar promoción sin revisión externa. Criterio: dejas evidencia reproducible; la decisión de cierre del nivel la registra un revisor, no tu script.",
-        "Orden pedagógico de esta sección: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y postmortem). El caso sintético `CASO-LIM-039` modela una cola de revisión para una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude.",
+        "En operaciones de riesgo de una fintech o banco en Lima, el día a día no es reentrenar el ranker: es **triage de casos** con evidencia citables, cola humana y auditoría. **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
+        "Qué entregas aquí (contrato de promoción, conceptual). Entrada: CP-N3-A, CP-N3-B y **CP-N3-C**, más smoke de regresión S27–S39 y el expediente **CF-3**. Salida de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: auto-declarar promoción sin revisión externa. Criterio: dejas evidencia reproducible; la decisión de cierre del nivel la registra un revisor, no tu script.",
+        "Orden pedagógico: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y postmortem). El caso sintético `CASO-LIM-039` modela una cola de onboarding digital en una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude. Si el mapa se siente denso, avanza T1→T4 en ese orden; el You Do ensambla todo al final.",
       ],
       code: {
         language: 'python',
@@ -347,9 +347,9 @@ self_declared_promotion False`,
       heading: "Model/data/system cards, métricas de valor y postmortem",
       subtopicId: "S39-T4-B",
       paragraphs: [
-        "El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owners, rollback). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
-        "Cards y postmortem cierran el aprendizaje del sistema, no la cacería de culpables. Entrada: métricas de valor, plantillas de cards y de postmortem. Salida: tres cards publicables + postmortem blameless (timeline, root_cause, actions). Error: card vacía, solo AUC offline o postmortem con nombres de personas como causa. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
-        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para revisión CF-3 — sin auto-declarar promoción.",
+        "El cierre de nivel exige **cards** legibles: **model card** (intended use, label_space, límites, no auto-fraude, oversight y métricas por slice), **data card** (fuentes sintéticas, ventanas, minimización de PII, gaps conocidos) y **system card** (modos ops, owners, rollback, demo paths). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
+        "Cards y postmortem cierran el aprendizaje del sistema, no la cacería de culpables. Una card útil nombra owner de monitoreo y lo que no mide el score; un postmortem blameless separa timeline, root_cause de proceso y actions (p. ej. rollback vs recalibrar). Entrada: métricas de valor + plantillas. Salida: tres cards publicables + postmortem con acciones. Error: card de una línea, solo AUC offline, o root_cause con nombres de personas. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
+        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola limeña de laboratorio. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración — sin culpar al on-call. Con cards, métricas de valor y notas de regresión, el expediente queda listo para revisión CF-3; tú no auto-declaras la promoción.",
       ],
       code: {
         language: 'python',
@@ -1150,7 +1150,7 @@ print(assess(valid), assess(invalid), assess(incomplete))
           language: 'python',
           title: "s39-t2-a-e3.py",
           code: `def decide(packet: dict):
-    # DEFECTO: siempre continúa
+    # DEFECTO: siempre continúa con layers=1; debe validar packet mínimo
     return "CONTINUE", 1
 
 ok = {
@@ -1162,7 +1162,7 @@ ok = {
 }
 score_only = {"case_id": "CASO-LIM-039-T2A", "score": 0.99}
 no_unc = {k: v for k, v in ok.items() if k != "uncertainty"}
-# Tres rutas visibles: corrige decide() para happy/adverso/missing
+# Tres rutas visibles: OK / score-only / sin uncertainty
 print(*decide(ok), decide(score_only)[0], decide(no_unc)[0])
 `,
         },
@@ -1327,7 +1327,7 @@ print(assess(auto_q), assess(override), assess(appeal))
           language: 'python',
           title: "s39-t2-b-e3.py",
           code: `def decide(event: dict):
-    # DEFECTO: siempre loguea
+    # DEFECTO: siempre loguea; debe exigir audit_entry y feedback_id
     return "LOGGED", True
 
 happy = {
@@ -1340,6 +1340,7 @@ happy = {
 }
 no_audit = {**happy, "audit_entry": False}
 no_fb_id = {**happy, "feedback_id": None}
+# Tres rutas visibles: happy / sin audit / sin feedback_id
 print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
 `,
         },
@@ -1525,7 +1526,7 @@ print(assess(valid), assess(invalid), assess(incomplete))
           language: 'python',
           title: "s39-t3-a-e3.py",
           code: `def decide(payload: dict):
-    # DEFECTO
+    # DEFECTO: ignora slices y devuelve auc; debe validar fp_rate por slice
     return "CONTINUE", "auc"
 
 happy = {
@@ -1535,6 +1536,7 @@ happy = {
 }
 empty = {**happy, "slices": []}
 high_fp = {**happy, "slices": [{"name": "canal_app", "fp_rate": 0.4}]}
+# Tres rutas visibles: OK / slices vacíos / fp_rate alto
 print(*decide(happy), decide(empty)[0], decide(high_fp)[0])
 `,
         },
@@ -1682,7 +1684,7 @@ print(mode(False, False), mode(True, False), mode(False, True))
           language: 'python',
           title: "s39-t3-b-e3.py",
           code: `def decide(ops: dict):
-    # DEFECTO
+    # DEFECTO: siempre STAY; debe ROLLBACK en incident y MONITOR en drift
     return "STAY", "current_model"
 
 happy = {
@@ -1694,6 +1696,7 @@ happy = {
 }
 missing = {**happy, "prev_model_id": None}
 drift_only = {"incident": False, "drift_high": True}
+# Tres rutas visibles: incident con prev / sin prev / solo drift
 print(*decide(happy), decide(missing)[0], *decide(drift_only))
 `,
         },
@@ -1868,12 +1871,13 @@ print(assess(valid), assess(invalid), assess(incomplete))
 # DEFECTO: decide CONTINUE sin validar paths
 # Contrato: corrige el defecto del predicado; la salida debe coincidir con el enunciado
 def decide(paths: list):
-    # DEFECTO
+    # DEFECTO: acepta cualquier lista; debe exigir happy+override+ood_abstain
     return "CONTINUE", len(paths)
 
 full = ["happy", "override", "ood_abstain"]
 happy_only = ["happy"]
 partial = ["happy", "override"]
+# Tres rutas visibles: completo / solo happy / sin ood_abstain
 print(*decide(full), decide(happy_only)[0], decide(partial)[0])
 `,
         },
@@ -2011,7 +2015,7 @@ print(assess(valid), assess(invalid), assess(incomplete))
           language: 'python',
           title: "s39-t4-b-e3.py",
           code: `def decide(pm: dict):
-    # DEFECTO
+    # DEFECTO: siempre CONTINUE; debe separar blame / root_cause / actions
     return "CONTINUE", True
 
 happy = {
@@ -2023,6 +2027,7 @@ happy = {
 blameful = {**happy, "blameless": False}
 no_rc = {**happy, "root_cause": ""}
 no_actions = {**happy, "actions": []}
+# Cuatro rutas visibles: OK / blameful / sin root_cause / sin actions
 print(*decide(happy), decide(blameful)[0], decide(no_rc)[0], decide(no_actions)[0])
 `,
         },
@@ -2140,23 +2145,27 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
         (out / "model-card.md").write_text(
             "# Model card\\n"
             "Intended use: priorizar cola de revisión (label_space=needs_review).\\n"
-            "Limitations: score ≠ fraude/parentesco; no auto-fraud.\\n"
-            "Human oversight: override + audit obligatorios.\\n"
-            "Monitoring: override_rate, precision@k, drift de score.\\n",
+            "Out of scope: declarar fraude, parentesco o culpabilidad.\\n"
+            "Limitations: score ≠ probabilidad de fraude; umbral thr=0.70 de validación (S34).\\n"
+            "Human oversight: override + audit + apelación con segundo revisor.\\n"
+            "Metrics by slice: override_rate y false-queue por canal sintético.\\n"
+            "Monitoring owner: ml-risk; alertas de drift de score y calibración.\\n",
             encoding="utf-8",
         )
         (out / "data-card.md").write_text(
             "# Data card\\n"
             "Sources: fixtures sintéticos CASO-LIM-039 (sin PII real).\\n"
-            "Windows: batch de laboratorio; no training labels de cola.\\n"
-            "Minimización: solo shared_signal + graph_path en packet.\\n",
+            "Windows: batch de laboratorio; no reutilizar labels de cola como features.\\n"
+            "Minimización: solo shared_signal + graph_path en packet.\\n"
+            "Known gaps: cobertura de canales sintéticos incompleta; OOD → abstener.\\n",
             encoding="utf-8",
         )
         (out / "system-card.md").write_text(
             "# System card\\n"
-            "Modes: normal | abstain_more | human_only.\\n"
-            "Owners: ml-risk (ranker), data-quality (ER).\\n"
-            "Rollback: prev_model versionado; force_failure → human_only.\\n",
+            "Modes: normal | abstain_more | human_only (incident > drift).\\n"
+            "Owners: ml-risk (ranker), data-quality (ER), investigations (graph).\\n"
+            "Rollback: prev_model versionado; force_failure → human_only.\\n"
+            "Acceptance demo paths: happy, override, ood_abstain.\\n",
             encoding="utf-8",
         )
         status = "ready_for_human_acceptance"
@@ -2206,12 +2215,7 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
       },
       {
         question: "Sobre regresión S27–S39 y CF-3 en tu entrega de S39:",
-        options: [
-          "Documentas smoke y expediente; la promoción la confirma un revisor externo",
-          "Tu script marca promoción automáticamente si el e2e imprime OK",
-          "Borras el checklist al exportar el bundle",
-          "Solo aplican a la sección 01",
-        ],
+        options: ["Documentas smoke y expediente; la promoción la confirma un revisor externo", "Tu script marca promoción automáticamente si el e2e imprime OK", "Borras el checklist al exportar el bundle", "Solo aplican a la sección 01"],
         correctIndex: 0,
         explanation:
           "Dejas smoke de regresión y el expediente CF-3 listos. La confirmación de promoción es una revisión externa sobre esa evidencia, no un auto-PASS del script.",

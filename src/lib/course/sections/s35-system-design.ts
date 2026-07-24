@@ -5,7 +5,7 @@ export const section35: CourseSection = {
   index: 35,
   title: "Explicabilidad, equidad e incertidumbre",
   shortTitle: "Explicabilidad y equidad",
-  tagline: "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+  tagline: "Ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
   estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
@@ -28,8 +28,8 @@ export const section35: CourseSection = {
       heading: "Inicio CP-N3-C: ficha de caso responsable",
       paragraphs: [
         "Esta sección **inicia CP-N3-C** y parte de S34: reutilizas métricas, umbrales y baselines ya presentados en el workbench. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta **sin** credenciales, servicios externos ni PII real: es el laboratorio donde la ficha de caso se vuelve producto, no un diagrama abstracto.",
-        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`). Taxonomía mínima: **global** (importancia del modelo en todo el batch) vs **local** (contribución al score de *este* caso); **equidad** (slices y proxies) vs **incertidumbre** (banda y OOD); **gobernanza** (card + override).",
-        "Orden de la sección: **T1 explicación** (global y local) → **T2 equidad/slices y proxies** → **T3 incertidumbre y abstención OOD** → **T4 model card, contestabilidad y override**. El producto es la ficha auditable; explicar **no** es acusar.",
+        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`). Taxonomía que usarás en T1–T4: **global** (importancia del modelo en todo el batch) vs **local** (contribución al score de *este* caso); **equidad** (slices y proxies) vs **incertidumbre** (banda y OOD); **gobernanza** (card + override). Pregunta guía de la semana: ¿qué capa del caso estoy mirando y qué **no** puedo afirmar desde ella?",
+        "Orden de la sección: **T1 explicación** (global y local) → **T2 equidad/slices y proxies** → **T3 incertidumbre y abstención OOD** → **T4 model card, contestabilidad y override**. Cada bloque cierra con un puente al siguiente: el mapa global no basta sin explicación del caso; la explicación del caso no basta sin slices; los slices no bastan sin banda/OOD; la incertidumbre no basta sin card y audit. El producto es la ficha auditable; explicar **no** es acusar.",
         "Glosario mínimo de la ficha: **evidencia** = hechos del caso; **modelo** = score y contribuciones (no veredicto); **incertidumbre** = banda/OOD; **humano** = decisión con `by` auditable. Códigos de política: `REJECT_*` = incumplimiento del contrato; `REQUEST_*` = falta dato para decidir; `CONTINUE`/`PASS` = contrato satisfecho en el lab. No memorices la lista entera: cada subtema introduce el código que usa."
       ],
       callout: {
@@ -43,9 +43,9 @@ export const section35: CourseSection = {
       heading: "Coeficientes e importancia por permutación",
       subtopicId: "S35-T1-A",
       paragraphs: [
-        "Los **coeficientes** de un modelo lineal y la **importancia por permutación** miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature (en sklearn real: `permutation_importance` re-evalúa la métrica tras shuffle; aquí trabajas con **drops ya medidos** para enfocarte en el contrato de la ficha). Son mapas **globales del modelo**, **no** veredictos sobre una persona real ni prueba de fraude. Pregunta crítica: ¿cómo podría un modelo sesgado «inventar» importancia alta en un proxy (p. ej. `district_code`)? Por eso el ranking se documenta con `means_fraud=False` y se cruza después con slices (T2).",
-        "Contrato: entrada dict de drops por feature y nombre de métrica de cola; salida ranking `top_feature` con drop numérico, métrica usada y flag `means_fraud=False`. Error: afirmar causalidad legal o fraude a partir del drop. Criterio: **misma métrica** de negocio en baseline y en permutación (p. ej. `precision_at_k`).",
-        "Aplicación a `CASO-LIM-035`: `shared_phone` cae más que `amount_7d` en precision@k sintético; documentas sensibilidad sobre datos ficticios y **nunca** emites label de fraude/parentesco. Por eso en T1-B pasas de mapa global a explicación **local** del caso en cola."
+        "Los **coeficientes** de un modelo lineal y la **importancia por permutación** miden sensibilidad: cuánto cae una métrica de negocio al barajar una feature (en sklearn real: `permutation_importance` re-evalúa la métrica tras shuffle; aquí trabajas con **drops ya medidos** para enfocarte en el contrato de la ficha). Son mapas **globales del modelo**, **no** veredictos sobre una persona real ni prueba de fraude. Pregunta crítica (Molnar / FairML): ¿cómo podría un modelo sesgado «inventar» importancia alta en un proxy (p. ej. `district_code`) si ese proxy correlaciona con un grupo y el train lo recompensa? Por eso el ranking se documenta con `means_fraud=False` y se cruza después con slices (T2).",
+        "Contrato: entrada dict de drops por feature y nombre de métrica de cola; salida ranking `top_feature` con drop numérico, métrica usada y flag `means_fraud=False`. Error: afirmar causalidad legal o fraude a partir del drop. Criterio: **misma métrica** de negocio en baseline y en permutación (p. ej. `precision_at_k`). Comparación rápida: coeficientes asumen modelo lineal; permutación aplica a cajas negras pero **depende** de la métrica y de colinealidad — no es «la verdad» de la feature.",
+        "Aplicación a `CASO-LIM-035`: `shared_phone` cae más que `amount_7d` en precision@k sintético; documentas sensibilidad sobre datos ficticios y **nunca** emites label de fraude/parentesco. El mapa global orienta la cola; **no** decide el caso individual. Por eso en T1-B pasas de mapa global a explicación **local** del caso en cola."
       ],
       code: {
         language: 'python',
@@ -78,9 +78,9 @@ print(report)`,
       heading: "Explicación local, correlación y límites",
       subtopicId: "S35-T1-B",
       paragraphs: [
-        "Después del mapa global, la **explicación local** asigna contribución de features al score de **este** caso (p. ej. valor × peso; en literatura SHAP/LIME son familias distintas — aquí el mecanismo mínimo es aditivo y stdlib). **Correlación ≠ causalidad**: la contribución no es causa del comportamiento humano ni prueba legal.",
-        "Contrato: entrada pares (valor, peso) por feature; salida contribuciones, suma y plantilla de **4 capas** (evidencia|modelo|incertidumbre|humano). Error: omitir límites o declarar `causal=True`. Criterio: cada capa tiene flag explícito y el modelo no se confunde con la decisión humana.",
-        "Aplicación a `CASO-LIM-035`: `shared_phone` aporta 0.9 al score de cola; la ficha marca `causal=False` y deja la decisión al analista con **override auditable**. Con la explicación local en la mano, T2 pregunta si la cola daña de forma desigual por cohorte."
+        "Después del mapa global, la **explicación local** asigna contribución de features al score de **este** caso (p. ej. valor × peso). En literatura, **SHAP** (valores de Shapley / aditividad con baseline) y **LIME** (modelo local lineal) son familias distintas con trade-offs de costo y estabilidad; aquí el mecanismo mínimo es aditivo stdlib para practicar la ficha, no para certificar un método de auditoría externa. **Correlación ≠ causalidad**: la contribución no es causa del comportamiento humano ni prueba legal.",
+        "Contrato: entrada pares (valor, peso) por feature; salida contribuciones, suma y plantilla de **4 capas** (evidencia|modelo|incertidumbre|humano). Error: omitir límites o declarar `causal=True`. Criterio: cada capa tiene flag explícito y el modelo no se confunde con la decisión humana. Si solo miras el top local, es fácil «acusar» al feature dominante: por eso `causal=False` es obligatorio en la capa modelo.",
+        "Aplicación a `CASO-LIM-035`: `shared_phone` aporta 0.9 al score de cola; la ficha marca `causal=False` y deja la decisión al analista con **override auditable**. Con la explicación local en la mano, T2 pregunta si la cola daña de forma desigual por cohorte (métrica + n, no solo el feature del caso)."
       ],
       code: {
         language: 'python',
@@ -107,9 +107,9 @@ causal False`,
       heading: "Cohortes y métricas por slice",
       subtopicId: "S35-T2-A",
       paragraphs: [
-        "Cortar por **región, canal o tipo de enlace** revela si la cola de revisión daña de forma desigual. En fairness group-aware se miran gaps (p. ej. TPR o precision por grupo); aquí el contrato mínimo exige **métrica + n** por slice antes de cualquier claim. Compara precision/recall o tasa de queue reportando siempre el **tamaño muestral n** del slice.",
-        "Contrato: entrada dict `slice→{n, precision}`; salida flag `low_n` si `n<30` y comparación documentada. Error: afirmar inequidad con n=3 o **esconder n**. Criterio: n visible junto a cada métrica; `low_n` **no** prueba inequidad por sí solo.",
-        "Aplicación a `CASO-LIM-035`: LIM n=100 precision=0.6 (`ok_n`) vs AQP n=8 precision=0.9 (`low_n`). **No** se afirma paridad de fraude; solo daño diferencial **potencial** en revisión. Si el claim es fuerte con n bajo → `REJECT_LOW_N_CLAIM`; si falta n → `REQUEST_SLICE_N`."
+        "Cortar por **región, canal o tipo de enlace** revela si la cola de revisión daña de forma desigual. En fairness group-aware se miran gaps de grupo: p. ej. **TPR gap** (diferencia de true positive rate entre grupos) o **precision@slice**. Aquí el contrato mínimo del lab exige **métrica + n** por slice antes de cualquier claim — sin n no hay equity reportable. Compara precision/recall o tasa de queue reportando siempre el **tamaño muestral n** del slice.",
+        "Contrato: entrada dict `slice→{n, precision}`; salida flag `low_n` si `n<30` y comparación documentada. Error: afirmar inequidad con n=3 o **esconder n**. Criterio: n visible junto a cada métrica; `low_n` **no** prueba inequidad por sí solo (tampoco «paridad a favor» del slice chico).",
+        "Aplicación a `CASO-LIM-035`: LIM n=100 precision=0.6 (`ok_n`) vs AQP n=8 precision=0.9 (`low_n`). **No** se afirma paridad de fraude ni se grita inequidad con n=8; solo se documenta daño diferencial **potencial** en revisión. Si el claim es fuerte con n bajo → `REJECT_LOW_N_CLAIM`; si falta n → `REQUEST_SLICE_N`. Con n a la vista, T2-B pregunta qué **proxies** pueden empujar ese daño."
       ],
       code: {
         language: 'python',
@@ -167,9 +167,9 @@ means_fraud False`,
       heading: "Calibración e intervalos (conformal a alto nivel)",
       subtopicId: "S35-T3-A",
       paragraphs: [
-        "Un **score puntual engaña**; comunicar un **intervalo** deja claro qué tan estable es la señal de cola. En producción, la **predicción conformal** (p. ej. MAPIE) usa un set de calibración y busca **cobertura** empírica (que el verdadero valor caiga en la banda con frecuencia prometida). Aquí practicas el contrato con banda simétrica `p±q` etiquetada `level=\"toy\"`: el mecanismo real queda en recursos; el hábito de **no publicar solo el punto** es el gate de la ficha.",
-        "Contrato: entrada `p` y `q` de incertidumbre; salida `(lo, hi)` y label de nivel. Error: publicar solo `p` **sin** ancho (`q==0` o `level=point`). Criterio: todo score de ficha lleva banda o flag de no-cobertura. Brier y bandas son **complementarios**, no rivales.",
-        "Aplicación a `CASO-LIM-035`: `p=0.6` con `q=0.1` produce `[0.5, 0.7]` nivel toy; el analista ve incertidumbre **antes** de override. Si el caso además sale del soporte de train, T3-B fuerza abstención."
+        "Un **score puntual engaña**; comunicar un **intervalo** deja claro qué tan estable es la señal de cola. En producción, la **predicción conformal** (p. ej. MAPIE) usa un **set de calibración** y busca **cobertura** empírica: que el valor verdadero caiga en la banda con la frecuencia prometida (p. ej. 90 %). El lab **no** implementa calibración ni coverage guarantee: practicas el contrato con banda simétrica `p±q` etiquetada `level=\"toy\"`. El hábito de **no publicar solo el punto** es el gate de la ficha; el algoritmo conformal queda en recursos.",
+        "Contrato: entrada `p` y `q` de incertidumbre; salida `(lo, hi)` y label de nivel. Error: publicar solo `p` **sin** ancho (`q==0` o `level=point`). Criterio: todo score de ficha lleva banda o flag de no-cobertura. Brier y bandas son **complementarios**, no rivales: calibración del score y ancho de intervalo responden preguntas distintas.",
+        "Aplicación a `CASO-LIM-035`: `p=0.6` con `q=0.1` produce `[0.5, 0.7]` nivel toy; el analista ve incertidumbre **antes** de override. Si el caso además sale del soporte de train, la banda *dentro* del dominio no basta: T3-B fuerza abstención por OOD."
       ],
       code: {
         language: 'python',
@@ -202,9 +202,9 @@ point_only False`,
       heading: "Out-of-distribution y abstención",
       subtopicId: "S35-T3-B",
       paragraphs: [
-        "Aunque la banda esté bien comunicada, si un caso se sale del soporte visto en train (**canal nuevo**, z-score extremo), la política correcta es **abstener y escalar**, no forzar `pred=1` ni inventar fraude. La banda describe incertidumbre *dentro* del dominio; OOD es **cambio de dominio**.",
-        "Contrato: entrada vector z y política OOD; salida `ood` bool y action `abstain|score`. Error: **auto-label en OOD** (`action=auto_fraud`). Criterio: fail-closed hacia humano con razón explícita en `uncertainty`.",
-        "Aplicación a `CASO-LIM-035`: `z=[1,2,3.5]` dispara ood; `action=abstain` y la ficha registra `uncertainty.reason=ood` **sin** label de fraude (`auto_fraud=False`). Con incertidumbre gobernada, T4 documenta usos permitidos y el rastro del override."
+        "Aunque la banda esté bien comunicada, si un caso se sale del soporte visto en train (**canal nuevo**, z-score extremo), la política correcta es **abstener y escalar**, no forzar `pred=1` ni inventar fraude. La banda describe incertidumbre *dentro* del dominio; OOD es **cambio de dominio** — otra capa de la ficha, otro verbo de política.",
+        "Contrato: entrada vector z y política OOD; salida `ood` bool y action `abstain|score`. Error: **auto-label en OOD** (`action=auto_fraud`). Criterio: fail-closed hacia humano con razón explícita en `uncertainty.reason` (p. ej. `ood`).",
+        "Aplicación a `CASO-LIM-035`: `z=[1,2,3.5]` dispara ood; `action=abstain` y la ficha registra `uncertainty.reason=ood` **sin** label de fraude (`auto_fraud=False`). Con incertidumbre gobernada, T4 documenta usos permitidos (model card) y el rastro del override — sin card y audit, la abstención no cierra el caso."
       ],
       code: {
         language: 'python',
@@ -231,9 +231,9 @@ auto_fraud False`,
       heading: "Model card y contestabilidad",
       subtopicId: "S35-T4-A",
       paragraphs: [
-        "La **model card** (Mitchell et al.) documenta uso permitido, `out_of_scope`, métricas y dueño. **Contestabilidad** exige canal para que un humano impugne el ranking **sin** borrar el audit trail. Tras T1–T3, la card es el contrato de producto que dice qué *no* puede hacer el score.",
-        "Contrato: entrada keys mínimas de card; salida card válida con `out_of_scope` que incluye `fraud_label`. Error: card vacía, `use=fraud_label` o `contestability=False`. Criterio: `contestability=True` y scope explícito en ficha.",
-        "Aplicación a `CASO-LIM-035`: `use=queue_rank`, `out_of_scope=fraud_label`, `owner=risk_ops`; el caso puede **apelar** sin reescribir score histórico. T4-B cierra el ciclo: override y retiro con rastro reconstruible."
+        "La **model card** (Mitchell et al.) documenta, como mínimo, **uso permitido**, **out_of_scope**, métricas de evaluación y **dueño**. **Contestabilidad** exige un canal para que un humano impugne el ranking **sin** borrar el audit trail. Tras T1–T3, la card es el contrato de producto que dice qué *no* puede hacer el score (p. ej. convertirse en `fraud_label` automático).",
+        "Contrato: entrada keys mínimas de card; salida card válida con `out_of_scope` que incluye `fraud_label`. Error: card vacía, `use=fraud_label` o `contestability=False`. Criterio: `contestability=True` y scope explícito en ficha. Sin card, la ficha de caso flota: no hay límite de producto escrito.",
+        "Aplicación a `CASO-LIM-035`: `use=queue_rank`, `out_of_scope` incluye `fraud_label`, `owner=risk_ops`; el caso puede **apelar** sin reescribir score histórico. T4-B cierra el ciclo: override y retiro con rastro reconstruible (`case`, `human`, `by`)."
       ],
       code: {
         language: 'python',
@@ -479,7 +479,7 @@ ok True`,
     ],
   },
   weDo: {
-    intro: "S35 · Laboratorio ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed. Hay ocho slots de caso (1A…4B) reutilizados en E1–E3; los fixtures adversos mutan el mismo case_id — no son 24 escenarios de negocio distintos, sino 24 predicados de política sobre el mismo hilo sintético.",
+    intro: "S35 · Laboratorio ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio (ranking, contrib, flag n, proxy, banda, OOD, card, audit); E2 separa valid/invalid/missing; E3 entrena fail-closed y, en T1-B / T3-B / T4-A, **transferencia real**: construir ficha, capa uncertainty o model card desde campos crudos. Hay ocho slots de caso (1A…4B) reutilizados en E1–E3; los fixtures adversos mutan el mismo case_id — no son 24 escenarios de negocio distintos, sino 24 predicados de política sobre el mismo hilo sintético.",
     steps: [
       {
         id: "S35-T1-A-E1",
@@ -817,13 +817,13 @@ print(*results)
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 NEED = {"evidence", "model", "uncertainty", "human"}
 
-def build_ficha(raw: dict) -> dict | None:
+def build_ficha(raw):
     if "evidence" not in raw:
         return None
     # DEFECT: solo copia model, no arma 4 capas
     return {"model": {"contrib": raw.get("contrib", {}), "causal": raw.get("causal", True)}}
 
-def decide(raw: dict) -> str:
+def decide(raw):
     ficha = build_ficha(raw)
     if ficha is None:
         return "CONTINUE"
@@ -848,7 +848,7 @@ print(*results)
           title: "s35-t1-b-e3.py",
           code: `NEED = {"evidence", "model", "uncertainty", "human"}
 
-def build_ficha(raw: dict) -> dict | None:
+def build_ficha(raw):
     if "evidence" not in raw:
         return None
     return {
@@ -858,7 +858,7 @@ def build_ficha(raw: dict) -> dict | None:
         "human": {"decision": raw.get("decision"), "by": raw.get("by")},
     }
 
-def decide(raw: dict) -> str:
+def decide(raw):
     ficha = build_ficha(raw)
     if ficha is None or not NEED.issubset(ficha.keys()):
         return "REQUEST_LAYER_FIELDS"
@@ -1505,32 +1505,41 @@ print(*results)
         id: "S35-T3-B-E3",
         subtopicId: "S35-T3-B",
         kind: "transfer",
-        instruction: "S35-T3-B-E3 · Contrasta fallo cerrado para `Out-of-distribution y abstención` con tres fixtures distintos. `CASO-LIM-035-3B` debe continuar, el adverso debe devolver `REJECT_AUTO_LABEL` y la ausencia de `action` debe devolver `REQUEST_OOD_POLICY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.",
+        instruction: "S35-T3-B-E3 · Transferencia: a partir de campos crudos (`zs`, `threshold`, `proposed_action`) **construye** la capa `uncertainty` y decide. `build_uncertainty` debe devolver `{ood, action, reason}` con `ood = max(|z|) > thr`; si ood y proposed_action no es abstain → `REJECT_AUTO_LABEL`; si falta `zs` → `REQUEST_OOD_POLICY`; si ood y action=abstain → `CONTINUE`. No fuerces label de fraude ni rellenes zs inventados.",
+        hint: "Primero monta uncertainty desde zs/threshold/proposed_action; después evalúa ood y action — no inviertas el orden.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró OOD detectado con action abstain y sin auto-label; solo ese caso devuelve `CONTINUE`.",
+          "Primero monta uncertainty desde zs/threshold/proposed_action; después evalúa ood y action — no inviertas el orden.",
+          "ood = max(abs(z) for z in zs) > thr. reason='ood' si ood else None. CONTINUE solo si ood y action=='abstain'. Adverso con auto_fraud → REJECT_AUTO_LABEL.",
         ],
         edgeCases: ["falta action", "fixture adverso: OOD con action=auto_fraud", "CASO-LIM-035-3B es sintético"],
-        tests: "Fixtures `CASO-LIM-035-3B`, adverso y sin `action` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_AUTO_LABEL y por qué faltar action exige REQUEST_OOD_POLICY.",
+        tests: "Tres entradas crudas: OOD+abstain → CONTINUE; OOD+auto_fraud → REJECT_AUTO_LABEL; sin zs → REQUEST_OOD_POLICY.",
+        feedback: "S35-T3-B-E3: la transferencia ensambla uncertainty desde z-scores crudos y aplica fail-closed; no basta flip de PASS/REJECT sobre un record ya armado.",
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e3.py",
-          code: `# CASO-LIM-035 · decide REJECT_AUTO_LABEL
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-LIM-035 · transfer: build uncertainty layer then gate OOD
+# DEFECT: build ignora ood; decide siempre CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
-def decide(record: dict) -> str:
-    required = {"case_id", 'zs', 'threshold', 'action'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["action"] == "auto_fraud" else "REJECT_AUTO_LABEL"
+def build_uncertainty(raw):
+    if "zs" not in raw:
+        return None
+    # DEFECT: no calcula ood ni fija action de política
+    return {"ood": False, "action": raw.get("proposed_action"), "reason": None}
 
-valid = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}
-invalid = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}
-uncertain = {**valid}
-uncertain.pop("action")
+def decide(raw):
+    unc = build_uncertainty(raw)
+    if unc is None:
+        return "CONTINUE"
+    return "CONTINUE"
+
+valid = {
+    "case_id": "CASO-LIM-035-3B",
+    "zs": [1.0, 2.0, 3.5],
+    "threshold": 3.0,
+    "proposed_action": "abstain",
+}
+invalid = {**valid, "proposed_action": "auto_fraud"}
+uncertain = {k: v for k, v in valid.items() if k != "zs"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1538,17 +1547,36 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s35-t3-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'zs', 'threshold', 'action'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "REQUEST_OOD_POLICY"
-    return "CONTINUE" if max(abs(z) for z in record["zs"]) > record["threshold"] and record["action"] == "abstain" else "REJECT_AUTO_LABEL"
+          code: `def build_uncertainty(raw):
+    if "zs" not in raw:
+        return None
+    thr = raw.get("threshold", 3.0)
+    ood = max(abs(z) for z in raw["zs"]) > thr
+    action = raw.get("proposed_action")
+    return {
+        "ood": ood,
+        "action": action,
+        "reason": "ood" if ood else None,
+    }
 
-valid = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}
-invalid = {"case_id": "CASO-LIM-035-3B", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}
-uncertain = {**valid}
-uncertain.pop("action")
+def decide(raw):
+    unc = build_uncertainty(raw)
+    if unc is None:
+        return "REQUEST_OOD_POLICY"
+    if unc["ood"] and unc["action"] != "abstain":
+        return "REJECT_AUTO_LABEL"
+    if unc["ood"] and unc["action"] == "abstain":
+        return "CONTINUE"
+    return "REQUEST_OOD_POLICY"
+
+valid = {
+    "case_id": "CASO-LIM-035-3B",
+    "zs": [1.0, 2.0, 3.5],
+    "threshold": 3.0,
+    "proposed_action": "abstain",
+}
+invalid = {**valid, "proposed_action": "auto_fraud"}
+uncertain = {k: v for k, v in valid.items() if k != "zs"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_AUTO_LABEL", "REQUEST_OOD_POLICY"]
@@ -1675,32 +1703,42 @@ print(*results)
         id: "S35-T4-A-E3",
         subtopicId: "S35-T4-A",
         kind: "transfer",
-        instruction: "S35-T4-A-E3 · Contrasta fallo cerrado para `Model card y contestabilidad` con tres fixtures distintos. `CASO-LIM-035-4A` debe continuar, el adverso debe devolver `REJECT_SCOPE_BREACH` y la ausencia de `out_of_scope` debe devolver `REQUEST_CARD_KEYS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.",
+        instruction: "S35-T4-A-E3 · Transferencia: a partir de campos crudos (`use`, `prohibited`, `owner`, `contestability`) **construye** la model card y decide. `build_card` debe devolver un dict con `use`, `out_of_scope` (lista desde prohibited), `owner` y `contestability`. `decide` devuelve `CONTINUE` solo si `use==queue_rank`, `fraud_label` ∈ out_of_scope y contestability es True; adverso (use=fraud_label) → `REJECT_SCOPE_BREACH`; sin `prohibited` → `REQUEST_CARD_KEYS`. No inventes out_of_scope vacío como válido.",
+        hint: "Primero arma la card con out_of_scope = list(prohibited); después valida scope y contestability.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró card con use queue_rank, out_of_scope fraud_label y contestability; solo ese caso devuelve `CONTINUE`.",
+          "Primero arma la card con out_of_scope = list(prohibited); después valida scope y contestability.",
+          "card_ok mental: use queue_rank, fraud_label en out_of_scope, contestability True. Falta prohibited → REQUEST_CARD_KEYS antes de mirar use.",
         ],
         edgeCases: ["falta out_of_scope", "fixture adverso: use=fraud_label y contestability=False", "CASO-LIM-035-4A es sintético"],
-        tests: "Fixtures `CASO-LIM-035-4A`, adverso y sin `out_of_scope` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCOPE_BREACH y por qué faltar out_of_scope exige REQUEST_CARD_KEYS.",
+        tests: "Tres entradas crudas: card válida → CONTINUE; use=fraud_label → REJECT_SCOPE_BREACH; sin prohibited → REQUEST_CARD_KEYS.",
+        feedback: "S35-T4-A-E3: la transferencia construye la card desde keys crudas (estilo Mitchell mínimo) y luego aplica el gate de scope — no solo flip de booleano.",
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e3.py",
-          code: `# CASO-LIM-035 · decide REJECT_SCOPE_BREACH
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-LIM-035 · transfer: build model card then gate scope
+# DEFECT: build omite out_of_scope; decide siempre CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
-def decide(record: dict) -> str:
-    required = {"case_id", 'use', 'out_of_scope', 'contestability'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["use"] == "fraud_label" else "REJECT_SCOPE_BREACH"
+def build_card(raw):
+    if "prohibited" not in raw:
+        return None
+    # DEFECT: no copia prohibited a out_of_scope
+    return {"use": raw.get("use"), "owner": raw.get("owner"), "contestability": raw.get("contestability")}
 
-valid = {"case_id": "CASO-LIM-035-4A", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}
-invalid = {"case_id": "CASO-LIM-035-4A", **{'use': 'fraud_label', 'out_of_scope': [], 'contestability': False}}
-uncertain = {**valid}
-uncertain.pop("out_of_scope")
+def decide(raw):
+    card = build_card(raw)
+    if card is None:
+        return "CONTINUE"
+    return "CONTINUE"
+
+valid = {
+    "case_id": "CASO-LIM-035-4A",
+    "use": "queue_rank",
+    "prohibited": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
+}
+invalid = {**valid, "use": "fraud_label", "contestability": False, "prohibited": []}
+uncertain = {k: v for k, v in valid.items() if k != "prohibited"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1708,17 +1746,36 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s35-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'use', 'out_of_scope', 'contestability'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "REQUEST_CARD_KEYS"
-    return "CONTINUE" if record["use"] == "queue_rank" and "fraud_label" in record["out_of_scope"] and record["contestability"] is True else "REJECT_SCOPE_BREACH"
+          code: `def build_card(raw):
+    if "prohibited" not in raw:
+        return None
+    return {
+        "use": raw.get("use"),
+        "out_of_scope": list(raw["prohibited"]),
+        "owner": raw.get("owner"),
+        "contestability": raw.get("contestability"),
+    }
 
-valid = {"case_id": "CASO-LIM-035-4A", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}
-invalid = {"case_id": "CASO-LIM-035-4A", **{'use': 'fraud_label', 'out_of_scope': [], 'contestability': False}}
-uncertain = {**valid}
-uncertain.pop("out_of_scope")
+def decide(raw):
+    card = build_card(raw)
+    if card is None:
+        return "REQUEST_CARD_KEYS"
+    ok = (
+        card.get("use") == "queue_rank"
+        and "fraud_label" in card.get("out_of_scope", [])
+        and card.get("contestability") is True
+    )
+    return "CONTINUE" if ok else "REJECT_SCOPE_BREACH"
+
+valid = {
+    "case_id": "CASO-LIM-035-4A",
+    "use": "queue_rank",
+    "prohibited": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
+}
+invalid = {**valid, "use": "fraud_label", "contestability": False, "prohibited": []}
+uncertain = {k: v for k, v in valid.items() if k != "prohibited"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_SCOPE_BREACH", "REQUEST_CARD_KEYS"]
@@ -1898,17 +1955,17 @@ assert results == ["CONTINUE", "REJECT_SILENT_OVERRIDE", "REQUEST_AUDIT_FIELDS"]
   youDo: {
     title: "Ficha de caso: evidencia | modelo | incertidumbre | humano (CP-N3-C inicio)",
     context:
-      "Arma la plantilla de ficha de caso con explicación local, slices, abstención OOD y model card sobre CASO-LIM-035. Sin PII real ni auto-etiqueta de fraude.",
+      "Como analista de riesgo operativo en la cola sintética de Red Andina (Lima), arma la plantilla de ficha de caso con explicación local, banda de incertidumbre, abstención OOD y model card sobre CASO-LIM-035. Sin PII real ni auto-etiqueta de fraude: el portfolio debe llegar a `portfolio_ready True` reparando los tres `fill_*`.",
     objectives: [
-      "Importancia y explicación local con límites causal=False",
-      "Slices con n y proxies high-risk documentados",
-      "Incertidumbre/intervalo y abstención OOD",
-      "Model card out_of_scope + override audit (case, human, by; ts recomendado)",
+      "Calcular contrib local value×weight y dejar means_fraud=False y causal=False",
+      "Publicar banda p±q (no solo el punto) y, si OOD, action=abstain con reason=ood",
+      "Completar model card (use=queue_rank, out_of_scope con fraud_label, contestability=True)",
+      "Registrar decisión humana con by no vacío (ts ISO recomendado en portfolio extendido)",
     ],
     requirements: [
-      "4 capas en ficha (evidence|model|uncertainty|human)",
-      "Sin acusación de fraude ni parentesco",
-      "es-PE sintético; fail-closed ante OOD o missing audit",
+      "4 capas en ficha (evidence|model|uncertainty|human) más card",
+      "Sin acusación de fraude ni parentesco; ethics_ok + uncertainty_ok + governance_ok",
+      "es-PE sintético; fail-closed ante OOD o missing audit; portfolio_ready True",
     ],
     starterCode: `# ficha de caso CP-N3-C — CASO-LIM-035
 # DEFECT: fill_* incompletos o con flags éticos invertidos. Corrige sin inventar fraude.
@@ -1994,72 +2051,42 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Las cuatro capas de la ficha de caso son:",
-        options: [
-          "Solo el score puntual del modelo",
-          "Solo importancia global (permutación) sin decisión humana",
-          "Evidencia, modelo, incertidumbre y decisión humana",
-          "Solo la interfaz de la cola de revisión",
-        ],
+        options: ["Solo el score puntual del modelo", "Solo importancia global (permutación) sin decisión humana", "Evidencia, modelo, incertidumbre y decisión humana", "Solo la interfaz de la cola de revisión"],
         correctIndex: 2,
         explanation:
           "Las cuatro capas evitan confundir evidencia observada con score del modelo, incertidumbre y decisión humana auditable.",
       },
       {
         question: "La importancia por permutación, con la misma métrica de negocio, mide:",
-        options: [
-          "Sensibilidad del modelo al barajar una feature (drop de métrica)",
-          "La causa legal del comportamiento de una persona en el caso",
-          "Que el top_feature implica etiqueta de fraude",
-          "Paridad perfecta entre regiones sin reportar n",
-        ],
+        options: ["Sensibilidad del modelo al barajar una feature (drop de métrica)", "La causa legal del comportamiento de una persona en el caso", "Que el top_feature implica etiqueta de fraude", "Paridad perfecta entre regiones sin reportar n"],
         correctIndex: 0,
         explanation:
           "La caída de métrica al permutar mide sensibilidad del modelo; no prueba causa, fraude ni parentesco.",
       },
       {
         question: "Ante un caso OOD (z extremo o canal nuevo), la política correcta es:",
-        options: [
-          "Forzar pred=1 para no perder recall de fraude",
-          "Abstener, escalar a humano y registrar reason=ood",
-          "Borrar el audit trail del score previo",
-          "Publicar solo el score puntual sin banda ni flag",
-        ],
+        options: ["Forzar pred=1 para no perder recall de fraude", "Abstener, escalar a humano y registrar reason=ood", "Borrar el audit trail del score previo", "Publicar solo el score puntual sin banda ni flag"],
         correctIndex: 1,
         explanation:
           "Fuera de distribución la política fail-closed es abstener y escalar a humano, sin auto-label.",
       },
       {
         question: "En la model card, out_of_scope debe incluir sobre todo:",
-        options: [
-          "Nada: la card solo lista accuracy global",
-          "El email personal del owner como único campo",
-          "Métricas de slice sin n ni low_n",
-          "Usos prohibidos (p. ej. fraud_label) y límites de producto",
-        ],
+        options: ["Nada: la card solo lista accuracy global", "El email personal del owner como único campo", "Métricas de slice sin n ni low_n", "Usos prohibidos (p. ej. fraud_label) y límites de producto"],
         correctIndex: 3,
         explanation:
           "out_of_scope documenta usos prohibidos (p. ej. fraud_label) para contestabilidad y límites de producto.",
       },
       {
         question: "Un slice AQP con n=8 y precision=0.9 frente a LIM n=100 precision=0.6 implica:",
-        options: [
-          "Paridad de fraude demostrada a favor de AQP",
-          "low_n en AQP: no afirmar inequidad ni paridad sin más evidencia",
-          "Que district_code puede auto-etiquetarse como fraude",
-          "Que se puede omitir n en el reporte de equity",
-        ],
-        correctIndex: 1,
+        options: ["Paridad de fraude demostrada a favor de AQP", "Que district_code puede auto-etiquetarse como fraude", "low_n en AQP: no afirmar inequidad ni paridad sin más evidencia", "Que se puede omitir n en el reporte de equity"],
+        correctIndex: 2,
         explanation:
           "low_n no prueba inequidad ni paridad; reportar n y evitar claims fuertes con muestra chica es el contrato de slices.",
       },
       {
         question: "En la ficha de caso, una explicación local correcta:",
-        options: [
-          "Separa evidencia, modelo, incertidumbre y humano, con causal=False",
-          "Convierte la mayor contribución local en prueba de fraude",
-          "Omite el campo by si el analista hace override_skip",
-          "Fuerza pred=1 cuando el vector z es OOD para no perder recall",
-        ],
+        options: ["Separa evidencia, modelo, incertidumbre y humano, con causal=False", "Convierte la mayor contribución local en prueba de fraude", "Omite el campo by si el analista hace override_skip", "Fuerza pred=1 cuando el vector z es OOD para no perder recall"],
         correctIndex: 0,
         explanation:
           "Explicar no es acusar: causal=False, OOD abstain y audit de override (by) son obligatorios en la ficha.",
@@ -2076,12 +2103,12 @@ if __name__ == "__main__":
       {
         label: "sklearn inspection",
         url: "https://scikit-learn.org/stable/inspection.html",
-        note: "Permutation importance",
+        note: "API real de permutation_importance (shuffle + re-score)",
       },
       {
         label: "Interpretable ML book (Molnar) online",
         url: "https://christophm.github.io/interpretable-ml-book/",
-        note: "Límites de explicación",
+        note: "Taxonomía global/local, SHAP/LIME y límites",
       },
       {
         label: "Google Model Cards",
@@ -2096,12 +2123,12 @@ if __name__ == "__main__":
       {
         label: "Fairness and Machine Learning (book site)",
         url: "https://fairmlbook.org/",
-        note: "Slices, proxies y daño",
+        note: "Group fairness, proxies y TPR/precision gaps",
       },
       {
         label: "Conformal prediction (mapie docs)",
         url: "https://mapie.readthedocs.io/",
-        note: "Intervalos de cobertura",
+        note: "Calibración + cobertura (más allá de la banda toy del lab)",
       },
     ],
     books: [

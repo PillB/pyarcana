@@ -14,37 +14,38 @@ export const section30: CourseSection = {
   jobRelevance:
     "Cierras **CP-N3-A** con un **motor de entity resolution testeable**: comparadores, blocking con recall medido, pesos/umbrales y métricas de precisión/recall. Los scores solo priorizan la cola de revisión clerical; nunca etiquetan fraude, parentesco ni colusión. En equipos de datos (bancos, telecom, retail en Perú y LatAm) este motor une contactos sintéticos duplicados antes de alimentar grafos de evidencia (S31) y almacenes SQL (S29).",
   learningOutcomes: [
-    { text: "Implementar comparadores exact, edit, token y fecha que devuelven score en [0,1] con explicación por campo" },
-    { text: "Tratar missingness (vacío ≠ desacuerdo) y bajar el peso de valores frecuentes en acuerdos" },
-    { text: "Diseñar reglas de blocking y medir candidate recall sobre gold sintético" },
-    { text: "Estimar costo de pares por bloque y filtrar pares imposibles antes del scorer" },
-    { text: "Calcular score ponderado y aplicar umbrales auto_match / review / non_match de forma conservadora" },
-    { text: "Operar cola clerical y consistencia de cluster con Union-Find" },
-    { text: "Partir pares por entidad sin leakage de identidad entre train y test" },
-    { text: "Reportar precisión/recall/F1 pairwise, una métrica de cluster simplificada y error slices" },
+    { text: "Implementar comparadores exact, edit, token y fecha que devuelven score en [0,1] y registrar el aporte por campo" },
+    { text: "Clasificar ausencia de campo como missing (vacío ≠ desacuerdo) y bajar el peso de valores frecuentes en acuerdos" },
+    { text: "Diseñar claves de blocking y medir candidate recall sobre un gold sintético etiquetado" },
+    { text: "Estimar el costo de pares por bloque y filtrar pares imposibles antes del scorer (filter_before_score)" },
+    { text: "Calcular score ponderado didáctico y aplicar umbrales auto_match / review / non_match de forma conservadora" },
+    { text: "Construir ítems de cola clerical y mantener consistencia de cluster con Union-Find" },
+    { text: "Partir pares por entidad sin leakage de identidad entre train y test de umbrales" },
+    { text: "Reportar precisión/recall/F1 pairwise, pair completeness de cluster y error slices accionables" },
   ],
   theory: [
     {
       heading: "Cierre CP-N3-A: motor de entity resolution testeable",
       paragraphs: [
-        "**S30 cierra CP-N3-A.** Entregas un motor **testeable**: benchmark etiquetado sintético, **blocking con recall medido**, comparadores explicables y cola de revisión clerical. Un score de matching **solo prioriza** revisión humana; no es veredicto de fraude ni de parentesco.",
-        "ER responde solo **¿misma entidad?** — **no** parentesco, colusión ni fraude. Contrato de esta sección: pares sintéticos del caso `CASO-LIM-030` (contactos Lima `@example.pe`) → decisión `auto_match` | `review` | `non_match` con explicación por campo. Falta gold o blocking sin recall medido = error de diseño, no “métrica opcional”.",
-        "Orden: **T1 Comparadores** → **T2 Blocking y costo** → **T3 Matching** (pesos, umbrales, review, clusters) → **T4 Evaluación** (split por entidad, P/R, slices). Integra contratos de S27–S29 (tests, propiedades, almacén SQL de pares/decisiones). La fusión de entidades usa Union-Find; la evidencia debe ser exportable. En S31 esos nodos de entidad alimentan el grafo de evidencia.",
+        "**Antes de T1, tres ideas base** (no memorices el resto aún). **Entity resolution (ER)** responde solo *¿dos registros apuntan a la misma entidad del mundo real?* Un **score de matching** no es veredicto de fraude ni de parentesco: solo **prioriza** la cola de revisión clerical. **Blocking** es la regla que reduce el espacio de pares antes del scorer; sin **candidate recall** medido sobre gold sintético, no sabes si el motor “pierde” matches reales.",
+        "**S30 cierra CP-N3-A.** Entregas un motor **testeable**: benchmark etiquetado sintético (`CASO-LIM-030`, contactos Lima `@example.pe`), comparadores explicables, blocking con recall medido, umbrales `auto_match` | `review` | `non_match` y métricas honestas. Contrato de salida: decisión + explicación por campo. Falta gold o blocking sin recall = error de diseño, no “métrica opcional”.",
+        "Hilo S29 → S30 → S31: el almacén SQL de pares/decisiones (S29) alimenta este motor; la fusión de entidades usa **Union-Find**; en S31 esos nodos de entidad alimentan el grafo de evidencia. Integra tests (S27) y propiedades (S28) en la suite del portfolio.",
+        "Orden pedagógico: **T1 Comparadores** (exact/edit/token/fecha → missing y frecuencia) → **T2 Blocking y costo** (claves, candidate recall, pares imposibles) → **T3 Matching** (pesos didácticos, umbrales, cola clerical, clusters) → **T4 Evaluación** (split por entidad, P/R/F1, pair completeness, error slices). Ritmo sugerido (~18 h): sesiones 1–3 en T1; 4–6 en T2; 7–10 en T3; 11–14 en T4 + You Do; 15–18 pulen tests, README y demos del portfolio.",
       ],
       callout: {
         type: "info",
         title: "Criterio de cierre CP-N3-A",
         content:
-          "La promoción exige un motor ER ejecutable y evidencia de sus métricas, errores y casos enviados a revisión. Ética de la sección (una sola vez): scores priorizan humanos; nunca auto-etiquetan fraude.",
+          "La promoción exige un motor ER ejecutable y evidencia de sus métricas, errores y casos enviados a revisión. Ética de la sección (una sola vez, aquí): scores priorizan humanos; nunca auto-etiquetan fraude ni parentesco.",
       },
     },
     {
       heading: "exact, edit/token y fecha",
       subtopicId: "S30-T1-A",
       paragraphs: [
-        "**Exact**: igualdad **después** de normalizar (`casefold` + colapsar espacios). **Edit** (Levenshtein normalizado): typos y diferencias de acentos leves. **Token**: Jaccard u overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Ningún comparador “prueba” fraude: solo aporta evidencia de identidad.",
-        "Cada comparador devuelve un score en **[0,1]** o un nivel ordinal (`agree` / `disagree` / `missing`) listo para un modelo tipo **Fellegi–Sunter didáctico** (simplificación: promedio ponderado de similitudes; el FS completo usa log₂(m/u) y prior λ — ver recursos). Mezclar escalas sin normalizar invalida los umbrales de auto_match/review.",
-        "Para auditoría clerical guarda **campo + función + aporte**. Sin vector de aportes, un 0.91 opaco no se puede cuestionar. En `CASO-LIM-030`, email exacto y nombre con tokens reordenados son el primer humo de un match candidato.",
+        "Tras el mapa de la sección, el primer ladrillo del motor son los **comparadores**. **Exact**: igualdad **después** de normalizar (`casefold` + colapsar espacios). **Edit** (Levenshtein normalizado): typos y diferencias de acentos leves. **Token**: Jaccard u overlap de palabras (orden “Ana López” / “López Ana”). **Fecha**: distancia en días con tolerancia. Cada uno aporta evidencia de identidad, no un veredicto de riesgo.",
+        "Cada comparador devuelve un score en **[0,1]** o un nivel ordinal (`agree` / `disagree` / `missing`) listo para un modelo tipo **Fellegi–Sunter didáctico**: aquí usamos promedio ponderado de similitudes. El FS completo usa log₂(m/u) y prior λ (ver recursos de Linacre/Splink); no digas “sé FS” solo por promediar pesos. Mezclar escalas sin normalizar invalida los umbrales de `auto_match` / `review`.",
+        "Para auditoría clerical guarda **campo + función + aporte**. Sin vector de aportes, un 0.91 opaco no se puede cuestionar. En `CASO-LIM-030`, email exacto y nombre con tokens reordenados son el primer humo de un match candidato. Cuando un campo falta, T1-B te enseña a no tratarlo como desacuerdo.",
       ],
       code: {
         language: 'python',
@@ -103,12 +104,12 @@ date 0.5`,
       },
     },
     {
-      heading: "missingness informativa y frecuencia",
+      heading: "ausencia de campo (missingness) y frecuencia",
       subtopicId: "S30-T1-B",
       paragraphs: [
-        "**Ausencia de campo (missingness)**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa el estado `missing` en la comparación (no lo trates como `disagree`). Si penalizas missing como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no trae el campo.",
-        "La ausencia puede ser **informativa**: ciertas fuentes nunca publican teléfono. Modela el patrón por fuente (`source_system`), no asumas MCAR (aleatorio completo) sin evidencia. En el scorer, un `missing` suele contribuir 0 al peso de ese campo en lugar de empujar hacia non_match.",
-        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto — intuición de u-probability alta en FS. Aquí usamos `base/frecuencia` como **heurística didáctica**, no como estimación m/u completa. En contactos Lima sintéticos, un acuerdo en “María” pesa menos que en un apellido raro.",
+        "Los comparadores de T1-A asumen que ambos lados tienen valor. **Ausencia de campo (missingness)**: un vacío no es desacuerdo fuerte ni acuerdo. Usa el estado `missing` en la comparación (no lo trates como `disagree`). Si penalizas missing como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no trae el campo.",
+        "La ausencia puede ser **informativa**: ciertas fuentes nunca publican teléfono. Modela el patrón por fuente (`source_system`); no asumas **MCAR** (missing completely at random: aleatorio completo) sin evidencia. En el scorer, un `missing` suele contribuir 0 al peso de ese campo en lugar de empujar hacia `non_match`.",
+        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto — intuición de *u-probability* alta en Fellegi–Sunter. Aquí usamos `base/frecuencia` como **heurística didáctica**, no como estimación m/u completa. En contactos Lima sintéticos, un acuerdo en “María” pesa menos que en un apellido raro. Con comparadores y missing listos, T2 ataca el problema de escala: no puedes comparar all-pairs.",
       ],
       code: {
         language: 'python',
@@ -141,12 +142,12 @@ w_rare 0.5`,
       },
     },
     {
-      heading: "reglas y candidate recall",
+      heading: "reglas de blocking y candidate recall",
       subtopicId: "S30-T2-A",
       paragraphs: [
-        "**Blocking** reduce el espacio de pares: solo comparas registros que comparten una clave (apellido normalizado + prefijo de ciudad, local-part de email, últimos dígitos de teléfono, etc.). Sin blocking, all-pairs es O(n²) e inviable a escala.",
-        "**Candidate recall**: de los pares verdaderamente match en el gold sintético, ¿qué fracción pasó el blocking? Si el recall de candidatos es bajo, el scorer nunca ve el match — y ninguna métrica posterior lo salva. Mide con etiquetas sintéticas **antes** de “optimizar” CPU.",
-        "Reglas en **unión (OR)** suben candidate recall; **intersección (AND)** reduce candidatos pero puede matar recall de gold matches. En el demo de abajo el recall es **0.0 a propósito**: `López` y `lopez` generan claves distintas sin plegado de acentos. Primero normaliza (casefold + fold de tildes); luego mide.",
+        "Con T1 listo, el cuello de botella es la escala. **Blocking** (bloqueo de candidatos) reduce el espacio de pares: solo comparas registros que comparten una clave (apellido normalizado + prefijo de ciudad, local-part de email, últimos dígitos de teléfono, etc.). Sin blocking, all-pairs es O(n²) e inviable a escala.",
+        "**Candidate recall** (recall de candidatos): de los pares verdaderamente match en el **gold** sintético (conjunto etiquetado de referencia), ¿qué fracción pasó el blocking? Si ese recall es bajo, el scorer nunca ve el match — y ninguna métrica posterior lo salva. Mide con etiquetas sintéticas **antes** de “optimizar” CPU.",
+        "Reglas en **unión (OR)** suben candidate recall; **intersección (AND)** reduce candidatos pero puede matar recall de gold matches. En el demo de abajo el recall es **0.0 a propósito**: `López` y `lopez` generan claves distintas sin plegado de acentos. Primero normaliza (`casefold` + fold de tildes); luego mide. T2-B completa el cuadro con costo y pares imposibles.",
       ],
       code: {
         language: 'python',
@@ -191,9 +192,9 @@ n_cand 0`,
       heading: "combinaciones, costo y pares imposibles",
       subtopicId: "S30-T2-B",
       paragraphs: [
-        "El **costo** de comparación es O(suma n_b·(n_b−1)/2) por bloque. Una clave débil (solo ciudad “Lima”) mete decenas de miles de registros en un bloque y explota CPU/memoria. Monitorea tamaño máximo de bloque como SLO de diseño y redefine la clave antes de escalar el batch nocturno.",
-        "**Pares imposibles**: reglas de exclusión (tipo persona vs organización, fechas de nacimiento incompatibles en el fixture sintético) evitan gastar scorer en lo incomparable. El filtro corre **antes** del scorer pesado: política `filter_before_score`, no un post-filtro cosmético.",
-        "Pipeline sano: blocking → filtro de imposibles → scorer → umbrales. Si inviertes el orden, pagas similitudes caras (edit distance, token sets) que nunca debieron calcularse. En `CASO-LIM-030`, person vs org se descarta sin invocar edit distance ni saturar la cola clerical.",
+        "Candidate recall alto no basta si el bloque es monstruoso. El **costo** de comparación es O(suma n_b·(n_b−1)/2) por bloque. Una clave débil (solo ciudad “Lima”) mete decenas de miles de registros en un bloque y explota CPU/memoria. Monitorea el tamaño máximo de bloque como **SLO** de diseño y redefine la clave antes de escalar el batch nocturno.",
+        "**Pares imposibles**: reglas de exclusión (tipo persona vs organización, fechas de nacimiento incompatibles en el fixture sintético) evitan gastar scorer en lo incomparable. El filtro corre **antes** del scorer pesado: política `filter_before_score` (filtrar antes de puntuar), no un post-filtro cosmético.",
+        "Pipeline sano: blocking → filtro de imposibles → scorer → umbrales. Si inviertes el orden, pagas similitudes caras (distancia de edición, conjuntos de tokens) que nunca debieron calcularse. En `CASO-LIM-030`, person vs org se descarta sin invocar edit distance ni saturar la cola clerical. Con candidatos viables, T3 define cómo puntuar y decidir.",
       ],
       code: {
         language: 'python',
@@ -225,9 +226,9 @@ policy filter_before_score`,
       heading: "pesos, probabilidad didáctica y umbrales",
       subtopicId: "S30-T3-A",
       paragraphs: [
-        "Modelo **didáctico** de esta sección: `score = suma(sim·peso) / suma(pesos)` sobre similitudes en [0,1]. El modelo Fellegi–Sunter completo usa prior λ y pesos log₂(m/u) por acuerdo/desacuerdo; aquí priorizamos intuición operativa y umbrales duales. No digas “sé FS” solo por haber promediado pesos.",
-        "**Umbrales**: `auto_match` si score ≥ t_high; `non_match` si score ≤ t_low; en medio → **review** (cola clerical). Nunca `auto_fraud`. t_high alto reduce falsos positivos que molestan a operaciones; el resto va a humanos con explicación por campo.",
-        "Estima pesos con frecuencias o a mano **documentado**; valida en gold sintético (T4) sin leakage de entidad. Un score 0.875 con phone en 0.0 debe aterrizar en review, no en auto_match ciego.",
+        "Los candidatos de T2 llegan al **scorer**. Modelo **didáctico** de esta sección: `score = suma(sim·peso) / suma(pesos)` sobre similitudes en [0,1]. El modelo Fellegi–Sunter completo usa prior λ y pesos log₂(m/u) por acuerdo/desacuerdo; aquí priorizamos intuición operativa y umbrales duales. Etiqueta honesta: *simplificación didáctica*, no “FS en producción”.",
+        "**Umbrales duales**: `auto_match` si score ≥ `t_high`; `non_match` si score ≤ `t_low`; en medio → **review** (revisión clerical / cola humana). Nunca `auto_fraud`. Un `t_high` alto reduce falsos positivos que molestan a operaciones; la banda gris va a humanos con explicación por campo.",
+        "Estima pesos con frecuencias o a mano **documentado**; valida en gold sintético (T4) sin leakage de entidad. Un score 0.875 con phone en 0.0 debe aterrizar en `review`, no en `auto_match` ciego. T3-B cierra el loop operativo: cola clerical y clusters transitivos.",
       ],
       code: {
         language: 'python',
@@ -262,12 +263,12 @@ explain {'name': 0.95, 'email': 1.0, 'phone': 0.0}`,
       },
     },
     {
-      heading: "entrenamiento, clerical review y consistencia de cluster",
+      heading: "calibración, cola clerical y consistencia de cluster",
       subtopicId: "S30-T3-B",
       paragraphs: [
-        "**Estimación**: ajusta pesos o umbrales con pares etiquetados **sintéticos** (sin PII real). El “entrenamiento” aquí es calibración supervisada de un scorer interpretable, no un black-box que invente labels de riesgo o parentesco.",
-        "**Clerical review**: cada ítem de cola lleva score, explicación por campo y acciones `match` / `non_match` / `uncertain` más actor y timestamp. El espacio de labels de ER **no incluye** `fraud`: eso es otra tarea del path de investigación y se filtra en el borde del sistema.",
-        "**Consistencia de cluster**: si A=B y B=C entonces A=C en la misma entidad. Resuelve uniones con Union-Find y revisa contradicciones (A=B, B≠C, A=C) antes de exportar nodos a S31. En el demo, un approve clerical de e3–e4 cierra el cluster e1…e4 de forma transitiva.",
+        "Decidir un par no termina el trabajo: hay que **calibrar** y **fusionar** con honestidad. **Calibración**: ajusta pesos o umbrales con pares etiquetados **sintéticos** (sin PII real). Aquí “entrenamiento” significa calibración supervisada de un scorer interpretable, no un black-box que invente labels de riesgo o parentesco.",
+        "**Cola clerical (clerical review)**: cada ítem lleva score, explicación por campo y acciones `match` / `non_match` / `uncertain`, más actor y timestamp. El espacio de labels de ER **no incluye** `fraud`: eso es otra tarea del path de investigación y se filtra en el borde del sistema.",
+        "**Consistencia de cluster**: si A=B y B=C entonces A=C en la misma entidad. Resuelve uniones con **Union-Find** y revisa contradicciones (A=B, B≠C, A=C) antes de exportar nodos a S31. En el demo, un approve clerical de e3–e4 cierra el cluster e1…e4 de forma transitiva. T4 mide si ese motor generaliza sin leakage.",
       ],
       code: {
         language: 'python',
@@ -312,9 +313,9 @@ label_space ['match', 'non_match', 'uncertain']`,
       heading: "pares etiquetados y splits por entidad",
       subtopicId: "S30-T4-A",
       paragraphs: [
-        "El **benchmark etiquetado** tiene pares match/non-match **sintéticos**. Nunca uses el mismo par (ni la misma entidad) en train y test de umbrales sin control: eso es **leakage de identidad** e infla métricas del motor de forma engañosa.",
+        "Sin evaluación honesta, el motor de T3 es teatro. El **benchmark etiquetado** tiene pares match/non-match **sintéticos**. Nunca uses el mismo par (ni la misma entidad) en train y test de umbrales sin control: eso es **leakage de identidad** (fuga de identidad) e infla métricas del motor de forma engañosa.",
         "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test. Un split aleatorio de pares con entidades compartidas es el error clásico que “mejora” el F1 en el notebook y falla cuando llegan contactos nuevos en producción.",
-        "Documenta tamaños de split y prevalencia de matches (suele ser baja: pocos matches reales entre muchos non-matches). En `CASO-LIM-030`, reporta match rate del gold junto al candidate recall del blocking y a P/R en el hold-out de entidades.",
+        "Documenta tamaños de split y **prevalencia** (base rate) de matches — suele ser baja: pocos matches reales entre muchos non-matches. En `CASO-LIM-030`, reporta match rate del gold junto al candidate recall del blocking y a P/R en el hold-out de entidades. T4-B convierte predicciones y clusters en métricas y slices de error.",
       ],
       code: {
         language: 'python',
@@ -359,9 +360,9 @@ entity_overlap 0`,
       heading: "precisión/recall, métricas de cluster y error slices",
       subtopicId: "S30-T4-B",
       paragraphs: [
-        "**Pairwise**: precisión, recall y F1 sobre pares predichos vs gold. Un F1 pairwise alto puede esconder clusters partidos o fusionados de más. Por eso reportas también una vista de **cluster**.",
-        "**Cluster (simplificado didáctico)**: *pair completeness* ≈ fracción de pares gold del mismo cluster que el sistema unió; *pair quality* ≈ precisión de las uniones predichas a nivel de pares del cluster. No implementamos toda la literatura de clustering metrics: implementas pairwise completo + un indicador de completitud de cluster sobre el Union-Find.",
-        "**Error slices**: corta errores por fuente, apellido frecuente, missing phone, ciudad. Encuentra fallas sistemáticas sin convertir un error de matching en acusación de fraude. El índice de error del demo es la semilla de un slice (`missing_phone`, `common_last_name`, …).",
+        "Con el split de T4-A, mide lo que el motor predice. **Pairwise** (par a par): precisión, recall y F1 sobre pares predichos vs gold. Un F1 pairwise alto puede esconder clusters partidos o fusionados de más. Por eso reportas también una vista de **cluster**.",
+        "**Cluster (simplificado didáctico)**: *pair completeness* ≈ fracción de pares gold del mismo cluster que el sistema unió; *pair quality* ≈ precisión de las uniones predichas a nivel de pares del cluster. No implementamos toda la literatura de clustering metrics: en el portfolio llevas pairwise completo + un indicador de completitud de cluster sobre el Union-Find.",
+        "**Error slices** (rebanadas de error): corta fallos por fuente, apellido frecuente, teléfono ausente, ciudad. Encuentra fallas sistemáticas sin convertir un error de matching en acusación de fraude. El índice de error del demo es la semilla de un slice (`missing_phone`, `common_last_name`, …). Con T1–T4 cerrados, el You Do ensambla el motor CP-N3-A completo.",
       ],
       code: {
         language: 'python',
@@ -410,13 +411,13 @@ pair_completeness 0.5`,
     },
   ],
   iDo: {
-    intro: "Te muestro el cierre de CP-N3-A: comparadores, blocking con recall, pesos y umbrales, review/clusters y métricas pairwise con split por entidad — sin inferir fraude.",
+    intro: "Te demuestro el cierre de CP-N3-A en ocho demos alineadas a T1–T4: comparadores con normalización, missing/frecuencia, blocking con candidate recall calculado, costo e imposibles, score+umbrales, Union-Find con approve clerical, split por entidad y métricas con índices de error. Corre cada demo; la salida debe coincidir con lo declarado. Ningún score infiere fraude.",
     steps: [
       {
         demoId: "S30-T1-A-DEMO",
         subtopicId: "S30-T1-A",
         environment: "local-python",
-        description: "Compara exact (post-normalización), token Jaccard y deja listo el hábito de casefold.",
+        description: "Exact post-normalización (email con distinta capitalización) y Jaccard de tokens con orden invertido (“Ana Lopez” / “Lopez Ana”).",
         code: {
           language: 'python',
           title: "cmp_demo.py",
@@ -429,18 +430,20 @@ def jac(a, b):
     ta, tb = set(a.casefold().split()), set(b.casefold().split())
     return len(ta & tb) / len(ta | tb) if ta | tb else 1.0
 
-print(exact("A@example.pe", "a@example.pe"), round(jac("Ana Lopez", "Lopez Ana"), 2))
-print("comparators", "exact+token")`,
-          output: `1.0 1.0
-comparators exact+token`,
+e = exact("A@example.pe", "a@example.pe")
+j = round(jac("Ana Lopez", "Lopez Ana"), 2)
+print("exact", e)
+print("token_jaccard", j)`,
+          output: `exact 1.0
+token_jaccard 1.0`,
         },
-        why: "Comparadores base del motor ER con normalización explícita.",
+        why: "El motor ER arranca con igualdad post-normalización y solapamiento de tokens; sin casefold pierdes matches triviales de email.",
       },
       {
         demoId: "S30-T1-B-DEMO",
         subtopicId: "S30-T1-B",
         environment: "local-python",
-        description: "Clasifica missing vs agree y baja peso por frecuencia de 'maría'.",
+        description: "Clasifica missing vs agree y baja el peso de acuerdo cuando el valor es frecuente (“María” vs “Zoe”).",
         code: {
           language: 'python',
           title: "miss_demo.py",
@@ -454,13 +457,13 @@ w = lambda v: 1 / freq.get(v.casefold(), 1)
 print(cmp("", "x"), cmp("Ana", "ana"), round(w("María"), 3), round(w("Zoe"), 3))`,
           output: `missing agree 0.025 1.0`,
         },
-        why: "Missing y frecuencia calibran acuerdos sin tratar vacío como desacuerdo.",
+        why: "Vacío → missing (no disagree). Valores comunes aportan menos evidencia de identidad que un nombre raro.",
       },
       {
         demoId: "S30-T2-A-DEMO",
         subtopicId: "S30-T2-A",
         environment: "local-python",
-        description: "Blocking por apellido|ciudad y candidate recall sobre gold sintético.",
+        description: "Blocking por apellido|ciudad: construye candidatos desde buckets y mide candidate recall contra gold sintético.",
         code: {
           language: 'python',
           title: "block_demo.py",
@@ -485,13 +488,13 @@ print("ncand", len(candidates))`,
           output: `recall 1.0
 ncand 1`,
         },
-        why: "Candidate recall se calcula sobre gold, no se imprime a mano.",
+        why: "Candidate recall se calcula: intersección gold∩candidates / |gold|. No se imprime a mano un 1.0 inventado.",
       },
       {
         demoId: "S30-T2-B-DEMO",
         subtopicId: "S30-T2-B",
         environment: "local-python",
-        description: "Costo de bloques y filtro de pares imposibles person/org.",
+        description: "Costo de pares en bloques [5, 20] y filtro impossible person vs org antes del scorer.",
         code: {
           language: 'python',
           title: "cost_demo.py",
@@ -506,13 +509,13 @@ print("impossible", impossible({"type": "person"}, {"type": "org"}))`,
           output: `cost 200
 impossible True`,
         },
-        why: "Control de costo y exclusión de pares imposibles antes del scorer.",
+        why: "C(5,2)+C(20,2)=10+190=200. person≠org → saltar scorer (filter_before_score).",
       },
       {
         demoId: "S30-T3-A-DEMO",
         subtopicId: "S30-T3-A",
         environment: "local-python",
-        description: "Score ponderado y decisión auto/review/non con umbrales.",
+        description: "Score ponderado name/email y decide() con umbrales duales → auto_match.",
         code: {
           language: 'python',
           title: "thresh_demo.py",
@@ -532,13 +535,13 @@ s = weighted_score(sims, w)
 print(round(s, 3), decide(s))`,
           output: `0.94 auto_match`,
         },
-        why: "Umbrales duales separan auto_match de la cola humana.",
+        why: "0.9·0.6 + 1.0·0.4 = 0.94 ≥ t_high → auto_match. La banda gris iría a review con explicación.",
       },
       {
         demoId: "S30-T3-B-DEMO",
         subtopicId: "S30-T3-B",
         environment: "local-python",
-        description: "Union-Find cluster tras auto-match y un clerical approve.",
+        description: "Union-Find: auto-matches e1–e2–e3 más un approve clerical e3–e4 cierran el cluster.",
         code: {
           language: 'python',
           title: "cluster_demo.py",
@@ -559,13 +562,13 @@ union("e3", "e4")  # clerical approve
 print(find("e1") == find("e4"), "review_applied")`,
           output: `True review_applied`,
         },
-        why: "Clusters transitivos + efecto de un approve clerical.",
+        why: "La transitividad del cluster es el corazón de la fusión de entidades exportable a S31.",
       },
       {
         demoId: "S30-T4-A-DEMO",
         subtopicId: "S30-T4-A",
         environment: "local-python",
-        description: "Split por entidad: train solo con {e1,e2,e3}.",
+        description: "Split por entidad: train solo con {e1,e2,e3}; el par e4–e5 cae en test.",
         code: {
           language: 'python',
           title: "split_demo.py",
@@ -580,13 +583,13 @@ tr, te = entity_split(pairs, train_e)
 print("train", tr, "test", te)`,
           output: `train 2 test 1`,
         },
-        why: "Evita leakage de identidad en evaluación de umbrales.",
+        why: "Sin split por entidad, la misma identidad “entrena y examina” el umbral: leakage de identidad.",
       },
       {
         demoId: "S30-T4-B-DEMO",
         subtopicId: "S30-T4-B",
         environment: "local-python",
-        description: "Precision/recall pairwise e índices de error para slices.",
+        description: "Precisión/recall pairwise, índices de error (semilla de slices) y pair completeness de cluster.",
         code: {
           language: 'python',
           title: "metrics_demo.py",
@@ -599,16 +602,29 @@ print("train", tr, "test", te)`,
     errors = [i for i, (t, p) in enumerate(zip(yt, yp)) if t != p]
     return round(prec, 2), round(rec, 2), errors
 
+def pair_completeness(gold_pairs, same_cluster):
+    if not gold_pairs:
+        return 0.0
+    return sum(1 for a, b in gold_pairs if same_cluster(a, b)) / len(gold_pairs)
+
 p, r, err = pr_metrics([1, 1, 0, 0], [1, 0, 0, 0])
-print(p, r, err)`,
-          output: `1.0 0.5 [1]`,
+# cluster partido: e1-e2 juntos; gold también quiere e1-e3
+clusters = {"e1": "c0", "e2": "c0", "e3": "c1"}
+pc = pair_completeness(
+    [("e1", "e2"), ("e1", "e3")],
+    lambda a, b: clusters[a] == clusters[b],
+)
+print(p, r, err)
+print("pair_completeness", pc)`,
+          output: `1.0 0.5 [1]
+pair_completeness 0.5`,
         },
-        why: "Métricas honestas más índices de error para construir slices.",
+        why: "Precisión 1.0 y recall 0.5 con error en índice 1; pair completeness 0.5 muestra el cluster partido — ambas vistas van al README.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios de comparadores, missing/frecuencia, blocking, costo, matching, review y evaluación. Cada starter tiene un error deliberado; corrígelo hasta que la salida coincida con la esperada. Solo datos sintéticos; no etiquetes fraude ni parentesco.",
+    intro: "Practicamos las mismas habilidades de las demos I Do, con soporte decreciente (guiada → independiente → transferencia). Cada starter tiene un error deliberado; corrígelo hasta que la salida coincida con la esperada. Solo datos sintéticos de `CASO-LIM-030`; no etiquetes fraude ni parentesco.",
     steps: [
       {
         id: "S30-T1-A-E1",
@@ -726,29 +742,35 @@ print(date_sim(date(2026, 1, 1), date(2026, 1, 3)))`,
         subtopicId: "S30-T1-B",
         kind: "guided",
         instruction:
-          "S30-T1-B-E1 · Missingness: si `a` o `b` están vacíos, imprime `missing`; si no, `cmp`. El starter invierte las etiquetas (trata el vacío como `cmp`). Caso sintético `CASO-LIM-030` con a='', b='x'. Una sola línea de salida.",
-        hint: "not a or not b → missing",
+          "S30-T1-B-E1 · Ausencia de campo (missingness): si `a` o `b` están vacíos, imprime `missing`; si no, `agree` o `disagree` según igualdad casefold. El starter invierte la rama del vacío (trata el vacío como `agree`). Caso sintético `CASO-LIM-030` con a='', b='x'. Una sola línea de salida.",
+        hint: "not a or not b → missing; si no, agree/disagree",
         hints: [
           "Vacío se detecta con not a / not b",
-          "No trates missing como cmp",
+          "No trates missing como agree ni disagree",
         ],
-        edgeCases: ["None en el motor real"],
+        edgeCases: ["None en el motor real se trata como vacío"],
         tests: "salida coincide con solution output",
-        feedback: "Missing es un estado de comparación, no un desacuerdo disfrazado.",
+        feedback: "Missing es un estado de comparación, no un desacuerdo ni un acuerdo disfrazado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-030 · missing si vacío
-# Error: etiquetas invertidas
+# Error: etiquetas invertidas en la rama del vacío
 a, b = "", "x"
-print("cmp" if (not a or not b) else "missing")
+if not a or not b:
+    print("agree")  # debería ser missing
+else:
+    print("agree" if a.casefold() == b.casefold() else "disagree")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `a, b = "", "x"
-print("missing" if (not a or not b) else "cmp")`,
+if not a or not b:
+    print("missing")
+else:
+    print("agree" if a.casefold() == b.casefold() else "disagree")`,
           output: `missing`,
         },
       },
@@ -1112,30 +1134,36 @@ print(
         subtopicId: "S30-T3-A",
         kind: "transfer",
         instruction:
-          "S30-T3-A-E3 · Transferencia explicabilidad: a partir de sims name=0.9 y email=1.0, imprime el dict de explicación completo `{'name': 0.9, 'email': 1.0}`. El starter omite email. Caso `CASO-LIM-030`.",
-        hint: "incluye todos los campos scorados",
+          "S30-T3-A-E3 · Transferencia explicabilidad clerical: con `sims` y `weights`, construye un ítem de cola con `score` (ponderado normalizado, redondeado a 3 decimales), `decision` (`decide` con t_high=0.9, t_low=0.5) y `explain` (copia de sims). Imprime el dict completo. El starter omite email en explain y no normaliza el score. Caso `CASO-LIM-030`.",
+        hint: "score = sum(sim*w)/sum(w); explain = dict(sims)",
         hints: [
-          "El revisor necesita ver cada aporte",
-          "Dict literal con ambas claves",
+          "Incluye name y email en explain",
+          "0.875 cae en review (banda gris)",
+          "round(score, 3) en el dict",
         ],
-        edgeCases: ["UI clerical lee este dict"],
+        edgeCases: ["UI clerical lee explain campo a campo"],
         tests: "salida coincide con solution output",
-        feedback: "Sin explicación por campo, el review no es accionable.",
+        feedback: "Sin explicación por campo y decisión explícita, la cola clerical no es accionable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · explain por campo
-# Error: omite email
-sims = {"name": 0.9, "email": 1.0}
-print({"name": sims["name"]})
+          code: `# CASO-LIM-030 · ítem clerical con explain
+# Error: omite email y no normaliza score
+sims = {"name": 0.95, "email": 1.0, "phone": 0.0}
+weights = {"name": 0.5, "email": 0.4, "phone": 0.1}
+score = sum(sims[k] * weights[k] for k in weights)  # falta / sum(weights)
+print({"score": score, "decision": "auto_match", "explain": {"name": sims["name"]}})
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sims = {"name": 0.9, "email": 1.0}
-print({"name": sims["name"], "email": sims["email"]})`,
-          output: `{'name': 0.9, 'email': 1.0}`,
+          code: `sims = {"name": 0.95, "email": 1.0, "phone": 0.0}
+weights = {"name": 0.5, "email": 0.4, "phone": 0.1}
+score = sum(sims[k] * weights[k] for k in weights) / sum(weights.values())
+decision = "auto_match" if score >= 0.9 else ("non_match" if score <= 0.5 else "review")
+print({"score": round(score, 3), "decision": decision, "explain": dict(sims)})`,
+          output: `{'score': 0.875, 'decision': 'review', 'explain': {'name': 0.95, 'email': 1.0, 'phone': 0.0}}`,
         },
       },
       {
@@ -1195,28 +1223,37 @@ print(find(1) == find(3))`,
         subtopicId: "S30-T3-B",
         kind: "independent",
         instruction:
-          "S30-T3-B-E2 · Espacio de labels de la cola clerical: imprime `['match', 'non_match', 'uncertain']`. El starter incluye `fraud` (prohibido en ER). Caso `CASO-LIM-030`.",
-        hint: "sin fraud",
+          "S30-T3-B-E2 · Ítem de cola clerical: dado un par, score y explain, construye el dict con claves `pair`, `score`, `explain`, `actions` donde `actions` es el label_space permitido `['match', 'non_match', 'uncertain']` (sin `fraud`). El starter incluye `fraud` en actions. Caso `CASO-LIM-030`.",
+        hint: "actions sin fraud; conserva pair/score/explain",
         hints: [
           "ER no emite label de fraude",
           "uncertain cubre duda humana",
+          "Imprime el dict completo del ítem",
         ],
-        edgeCases: ["actor + timestamp en el ítem real"],
+        edgeCases: ["actor + timestamp en el ítem real de producción"],
         tests: "salida coincide con solution output",
-        feedback: "El label_space define el contrato ético del motor.",
+        feedback: "El label_space del ítem define el contrato ético del motor en la cola.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · label_space clerical
-# Error: incluye fraud
-print(["match", "non_match", "fraud"])
+          code: `# CASO-LIM-030 · ítem de cola clerical
+# Error: actions incluye fraud
+pair = ("e3", "e4")
+score = 0.72
+explain = {"name": 0.8, "email": 0.5}
+actions = ["match", "non_match", "fraud"]
+print({"pair": pair, "score": score, "explain": explain, "actions": actions})
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(["match", "non_match", "uncertain"])`,
-          output: `['match', 'non_match', 'uncertain']`,
+          code: `pair = ("e3", "e4")
+score = 0.72
+explain = {"name": 0.8, "email": 0.5}
+actions = ["match", "non_match", "uncertain"]
+print({"pair": pair, "score": score, "explain": explain, "actions": actions})`,
+          output: `{'pair': ('e3', 'e4'), 'score': 0.72, 'explain': {'name': 0.8, 'email': 0.5}, 'actions': ['match', 'non_match', 'uncertain']}`,
         },
       },
       {
@@ -1573,123 +1610,91 @@ def error_slices(rows: list) -> list:
 # 2) candidate_recall con gold y buckets
 # 3) decide banda gris → review
 
+# Fixture mínimo sintético (expande en tu repo; sin PII real)
+FIXTURE = [
+    {"id": "r1", "name": "Ana López", "city": "Lima", "email": "ana@example.pe", "type": "person"},
+    {"id": "r2", "name": "ANA Lopez", "city": "Lima", "email": "ana@example.pe", "type": "person"},
+    {"id": "r3", "name": "Acme SAC", "city": "Lima", "email": "info@example.pe", "type": "org"},
+]
+
 if __name__ == "__main__":
-    print(decide(0.95), block_key({"name": "Ana López", "city": "Lima"}))
+    print(decide(0.95), block_key(FIXTURE[0]))
+    print("fold_demo", block_key(FIXTURE[0]) == block_key(FIXTURE[1]))
 `,
     portfolioNote:
-      "Cierre CP-N3-A: documenta en el README del repo el candidate recall, P/R (y pair completeness si aplica) en el split por entidad, umbrales elegidos y un ejemplo de ítem de cola clerical con explicación por campo. Solo datos sintéticos.",
+      "Cierre CP-N3-A: en el README del repo documenta (1) candidate recall del blocking, (2) P/R/F1 y pair completeness en el split por entidad, (3) umbrales `t_high`/`t_low` elegidos y por qué, (4) un ejemplo de ítem de cola clerical con explicación por campo. Solo datos sintéticos; límites del fixture `CASO-LIM-030` explícitos.",
     rubric: [
-      { criterion: "Motor completo: comparadores, blocking medido, umbrales, review y métricas", weight: "25%" },
+      { criterion: "Motor completo: comparadores, blocking medido, umbrales, cola clerical y métricas", weight: "25%" },
       { criterion: "Correctitud técnica y demos ejecutables en el entorno declarado", weight: "20%" },
       { criterion: "Privacidad: sin PII real, sin secretos, sin inferencia de fraude/parentesco", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados (mín. 3 tests importables)", weight: "15%" },
-      { criterion: "Código legible y límites del fixture claros", weight: "10%" },
-      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Pruebas o casos de borde documentados (mín. 3 tests importables al estilo S27)", weight: "15%" },
+      { criterion: "Código legible y límites del fixture claros en README", weight: "10%" },
+      { criterion: "Documentación en español profesional (métricas y umbrales legibles)", weight: "10%" },
       { criterion: "Candidate recall + P/R reportados y split por entidad sin leakage", weight: "recomendado" },
-      { criterion: "ER solo misma entidad (sin fraude/relación)", weight: "ético" },
+      { criterion: "ER solo misma entidad (sin fraude/relación/colusión automática)", weight: "ético" },
     ],
   },
   selfCheck: {
     questions: [
       {
         question: "El motor ER de CP-N3-A debe decidir:",
-        options: [
-          "Fraude automático",
-          "Si dos registros son la misma entidad",
-          "Parentescos",
-          "Riesgo crediticio",
-        ],
+        options: ["Fraude automático", "Si dos registros son la misma entidad", "Parentescos", "Riesgo crediticio"],
         correctIndex: 1,
         explanation:
           "Entity resolution solo decide si dos registros apuntan a la misma entidad del mundo real. Parentesco, colusión o fraude son tareas distintas (más adelante en el path de investigación).",
       },
       {
         question: "Candidate recall de blocking mide:",
-        options: [
-          "Solo CPU",
-          "Precisión del scorer final únicamente",
-          "Tamaño del disco",
-          "Fracción de verdaderos matches que sobreviven al blocking",
-        ],
+        options: ["Solo CPU", "Precisión del scorer final únicamente", "Tamaño del disco", "Fracción de verdaderos matches que sobreviven al blocking"],
         correctIndex: 3,
         explanation:
           "De los pares gold que son match, ¿cuántos quedaron como candidatos tras el blocking? Si el recall de candidatos es bajo, el scorer nunca ve el match.",
       },
       {
         question: "Un campo vacío en la comparación de un par debe tratarse como:",
-        options: [
-          "disagree fuerte (empuja a non_match)",
-          "estado `missing` (ni agree ni disagree)",
-          "agree exacto por defecto",
-          "auto_match si el otro campo está lleno",
-        ],
-        correctIndex: 1,
+        options: ["estado `missing` (ni agree ni disagree)", "disagree fuerte (empuja a non_match)", "agree exacto por defecto", "auto_match si el otro campo está lleno"],
+        correctIndex: 0,
         explanation:
           "Missing ≠ disagree. Si penalizas el vacío como desacuerdo, inflas non-matches espurios cuando una fuente simplemente no publica el campo. En el scorer, missing suele aportar 0 al peso de ese campo.",
       },
       {
         question: "Reglas de blocking en unión (OR) vs intersección (AND):",
-        options: [
-          "OR baja candidate recall; AND siempre lo sube",
-          "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches",
-          "OR y AND producen el mismo conjunto de candidatos",
-          "AND es obligatorio antes de medir candidate recall",
-        ],
-        correctIndex: 1,
+        options: ["OR baja candidate recall; AND siempre lo sube", "OR y AND producen el mismo conjunto de candidatos", "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches", "AND es obligatorio antes de medir candidate recall"],
+        correctIndex: 2,
         explanation:
           "OR (unión de claves) deja pasar más pares verdaderos match al scorer. AND (intersección) recorta candidatos y CPU, pero si es demasiado estricta el gold match nunca llega al scorer. Siempre mide candidate recall con gold sintético.",
       },
       {
         question: "Scores entre t_low y t_high van a:",
-        options: ["clerical review", "auto_match", "non_match", "borrado"],
-        correctIndex: 0,
+        options: ["auto_match", "clerical review", "non_match", "borrado"],
+        correctIndex: 1,
         explanation:
           "La banda gris se envía a revisión humana con explicación por campo. auto_match exige score ≥ t_high; non_match exige score ≤ t_low. Nunca auto_fraud.",
       },
       {
         question: "Split por entidad evita:",
-        options: [
-          "Usar sqlite",
-          "Blocking",
-          "Leakage de identidad entre train y test",
-          "Review",
-        ],
-        correctIndex: 2,
+        options: ["Usar sqlite", "Blocking", "Review", "Leakage de identidad entre train y test"],
+        correctIndex: 3,
         explanation:
           "Si la misma entidad aparece en train y test, las métricas se inflan. El split debe respetar conjuntos de entidades disjuntos (o controlados).",
       },
       {
         question: "Un score alto de match en ER sintético implica…",
-        options: [
-          "fraude o parentesco probado automáticamente",
-          "prioridad de revisión / enlace de entidad candidato, no veredicto legal",
-          "bloquear el schema_migrations",
-          "omitir blocking y comparar all-pairs siempre",
-        ],
-        correctIndex: 1,
+        options: ["prioridad de revisión / enlace de entidad candidato, no veredicto legal", "fraude o parentesco probado automáticamente", "bloquear el schema_migrations", "omitir blocking y comparar all-pairs siempre"],
+        correctIndex: 0,
         explanation:
           "ER propone misma entidad con evidencia; el espacio de labels es match / non_match / uncertain. Nunca emite fraud automático ni sustituye investigación.",
       },
       {
         question: "Los pares imposibles (p. ej. person vs org) deben filtrarse:",
-        options: [
-          "Después del scorer, solo para maquillar métricas",
-          "Antes del scorer (filter_before_score), para no gastar CPU en lo incomparable",
-          "Solo en la cola clerical, nunca en el pipeline batch",
-          "Nunca: todo par debe recibir un score de similitud",
-        ],
-        correctIndex: 1,
+        options: ["Después del scorer, solo para maquillar métricas", "Solo en la cola clerical, nunca en el pipeline batch", "Antes del scorer (filter_before_score), para no gastar CPU en lo incomparable", "Nunca: todo par debe recibir un score de similitud"],
+        correctIndex: 2,
         explanation:
           "El filtro de imposibles corre antes del scorer pesado. Si inviertes el orden, pagas edit distance y token sets en pares que la política ya descartaría. En el portfolio documenta la política `filter_before_score`.",
       },
       {
         question: "Pair completeness de cluster (vista simplificada) mide:",
-        options: [
-          "Solo la precisión pairwise del scorer",
-          "La fracción de pares gold match que el sistema mantiene en el mismo cluster",
-          "El tamaño máximo de bloque de blocking",
-          "El número de ítems en la cola clerical",
-        ],
+        options: ["Solo la precisión pairwise del scorer", "La fracción de pares gold match que el sistema mantiene en el mismo cluster", "El tamaño máximo de bloque de blocking", "El número de ítems en la cola clerical"],
         correctIndex: 1,
         explanation:
           "Un F1 pairwise alto puede esconder clusters partidos. Pair completeness pregunta: de los pares gold que deberían estar juntos, ¿cuántos quedaron unidos tras Union-Find? Reporta pairwise y cluster en el README.",

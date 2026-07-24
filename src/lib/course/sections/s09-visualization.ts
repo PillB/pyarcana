@@ -95,9 +95,9 @@ cause: ParseError no parseable: 'abc'`,
       heading: "Fronteras de recuperación y cleanup",
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible); **finally** siempre (cleanup de handles). El `with` hace lo mismo de forma idiomática vía context managers: no dejes archivos abiertos en el crash path del intake.",
-        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs **propagar** (fatal: config inválida). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción.",
-        "Config rota → **fail-fast** (abortar antes de multiplicar basura). Fila de datos inválida → **cuarentena** y continúa el lote, como el manifest de S08. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README, no un gusto de estilo del autor del script.",
+        "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible, p. ej. «lote legible»); **finally** siempre (cleanup de handles y contadores). El `with` hace lo mismo de forma idiomática vía context managers: no dejes un `StringIO`/archivo abierto en el crash path del intake CASO-LIM-009.",
+        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
+        "Config rota → **fail-fast** (abortar antes de multiplicar basura en el lote). Fila de datos inválida → **cuarentena** y continúa, como el **manifest de S08** con conteos reconciliados. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README del pipeline, no un gusto de estilo del autor del script.",
       ],
       code: {
         language: 'python',
@@ -370,9 +370,9 @@ abort: config: delimiter requerido`,
       heading: "Idempotencia, retries y cuarentena",
       subtopicId: "S09-T4-B",
       paragraphs: [
-        "**Retry solo errores transitorios** (`TimeoutError`, HTTP 503, red). Un `ValueError` de datos **no** se reintenta: va a **cuarentena**. Reintentar un monto inválido no lo hace válido y solo gasta cuota del proveedor y ruido en los logs de ERROR del job de intake.",
-        "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` — el mismo espíritu del manifest de S08, ahora a nivel de re-ingesta tras un retry o un redeploy nocturno.",
-        "Backoff simple (sleep creciente) reduce el **thundering herd** (muchos workers reintentando a la vez y saturando el proveedor). Tras `max_attempts` → cuarentena o fail-fast según la política del README. **Nunca** retries infinitos en prod: un bucle eterno es un incidente disfrazado de resiliencia.",
+        "**Retry solo errores transitorios** (`TimeoutError`, HTTP 503, red). Un `ValueError` de datos **no** se reintenta: va a **cuarentena** con `error_class=data`. Reintentar un monto inválido no lo hace válido: solo gasta cuota del proveedor, multiplica logs ERROR y confunde al on-call del intake CASO-LIM-009 a las 02:10.",
+        "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` más un hash del payload — el mismo espíritu del **manifest de S08**, ahora a nivel de re-ingesta tras un retry, un redeploy nocturno o un reprocess parcial del lote cuarentenado.",
+        "Backoff simple (sleep creciente: 0.1s, 0.2s, 0.4s…) reduce el **thundering herd**: muchos workers reintentando a la vez y saturando el mismo proveedor. Tras `max_attempts` → cuarentena de la unidad o fail-fast del job según la política del README. **Nunca** retries infinitos en prod: un bucle eterno es un incidente disfrazado de «resiliencia».",
       ],
       code: {
         language: 'python',
@@ -416,7 +416,7 @@ no-retry: dato malo`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema). Orden T1→T4. Pipeline de familiaridad con excepciones, logs y cuarentena. Datos sintéticos; local-python.",
+    intro: "Ocho demos I Do (uno por subtema), en orden T1→T4. Partes del job de intake CASO-LIM-009: validar filas, leer tracebacks, loguear sin PII y decidir fail-fast vs cuarentena/retry. Datos sintéticos; entorno local-python. Observa el código completo antes de los We Do.",
     steps: [
       {
         demoId: "S09-T1-A-DEMO",
@@ -750,7 +750,7 @@ print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
         ],
         edgeCases: ["No uses Exception genérico para todos", "FileNotFoundError es subclase de OSError"],
         tests: "Contrato exacto: 5 líneas `… -> Tipo` en el orden del starter (ValueError, TypeError, KeyError, FileNotFoundError, ValidationError); exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Tipo incorrecto ≠ valor ilegal: TypeError y ValueError no son intercambiables; la regla de negocio usa ValidationError de dominio.",
         starterCode: {
           language: 'python',
           title: "map_exceptions.py",
@@ -802,7 +802,7 @@ regla de negocio: monto < 0 -> ValidationError`,
         ],
         edgeCases: ["'' vacío", "None", "NaN", "Infinity"],
         tests: "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; no se permite float().",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Si usaste float(), rehazlo con Decimal + quantize(0.01): el mensaje debe incluir el raw y rechazar no finitos.",
         starterCode: {
           language: 'python',
           title: "parse_monto.py",
@@ -860,7 +860,7 @@ abc ERR monto no numérico: 'abc'
         ],
         edgeCases: ["PermissionError también es OSError"],
         tests: "Contrato exacto: stdout muestra DataLoadError + mensaje y OSError como __cause__; exit 0; no dejes raise sin `from e`.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Sin `from e`, `__cause__` queda None y el postmortem pierde el I/O original (FileNotFoundError/OSError).",
         starterCode: {
           language: 'python',
           title: "data_load_chain.py",
@@ -918,7 +918,7 @@ OSError no such file: data/clientes.csv`,
         ],
         edgeCases: ["finally corre antes de propagar"],
         tests: "Contrato exacto: primera línea `ok {'closed': True}`; segunda tras capturar: `err {'closed': True}`; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El finally corre antes de propagar: closed debe ser True también en el camino de RuntimeError.",
         starterCode: {
           language: 'python',
           title: "finally_close.py",
@@ -974,7 +974,7 @@ err {'closed': True}`,
         ],
         edgeCases: ["recover no significa ignorar: cuarentena o retry"],
         tests: "Contrato exacto: 6 líneas `…: fail-fast|recover` en el orden del starter; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Config/secretos → fail-fast; fila/parse/timeout de un record → recover (cuarentena o retry), no silenciar.",
         starterCode: {
           language: 'python',
           title: "classify_errors.py",
@@ -1026,7 +1026,7 @@ timeout leyendo un record remoto: recover`,
         ],
         edgeCases: ["Exception aún es amplio; preferir tipos de dominio en prod"],
         tests: "Contrato exacto: bad traga ambos; good_v → quarantine; good_r re-lanza RuntimeError capturado como raised; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "good_handler solo captura ValueError; RuntimeError de config debe propagar, no tragarse como swallowed.",
         starterCode: {
           language: 'python',
           title: "refactor_bare_except.py",
@@ -1096,7 +1096,7 @@ good_r raised config`,
         ],
         edgeCases: ["most recent call last: el último frame es el más profundo"],
         tests: "Contrato exacto: frame1 main; frame2 run; frame3 normalize; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "most recent call last: main → run → normalize; el frame útil del bug de email suele ser el más profundo de tu código.",
         starterCode: {
           language: 'python',
           title: "annotate_frames.py",
@@ -1151,7 +1151,7 @@ frame3 normalize`,
         ],
         edgeCases: ["En prod real usa logging + correlation_id"],
         tests: "Contrato exacto: línea `break locals id= C009` y `raised 'email'`; exit 0; sin volcar PII.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Locals de debug solo con id (y flags); nunca el row completo con email/teléfono sintético en claro.",
         starterCode: {
           language: 'python',
           title: "simulate_breakpoint.py",
@@ -1201,7 +1201,7 @@ raised 'email'`,
         ],
         edgeCases: ["No culpes a cli.py si el bug está en normalize"],
         tests: "Contrato exacto: una línea `causa_raiz=normalize falta clave email`; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "No culpes a cli.py: la KeyError nace en normalize al pedir la clave email.",
         starterCode: {
           language: 'python',
           title: "root_from_tb.py",
@@ -1246,7 +1246,7 @@ print(f"causa_raiz=normalize falta clave {key}")`,
         ],
         edgeCases: ["Puede haber varios fallos; el mínimo del primer fallo basta para el test"],
         tests: "Contrato exacto: `minimal= 123` y línea `dni inválido: '123'`; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El primer fallo basta como minimal repro: re-ejecuta solo esa entrada, no todo el fixture.",
         starterCode: {
           language: 'python',
           title: "crop_fixture.py",
@@ -1346,7 +1346,7 @@ plus_symbol_expected False`,
         ],
         edgeCases: ["title() capitaliza De/La incorrectamente para nombres latam"],
         tests: "Contrato exacto: líneas RED, pass, GREEN en ese orden; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "title() capitaliza De/La: el assert rojo documenta el bug; good_title preserva partículas latam.",
         starterCode: {
           language: 'python',
           title: "regression_test.py",
@@ -1410,7 +1410,7 @@ GREEN`,
         ],
         edgeCases: ["WARNING no es ERROR si el job continúa"],
         tests: "Contrato exacto: 6 líneas `…: DEBUG|INFO|WARNING|ERROR` en el orden del starter; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Fila opcional rara = WARNING (job sigue); parse/config ilegible = ERROR; loop interno = DEBUG, no INFO.",
         starterCode: {
           language: 'python',
           title: "assign_levels.py",
@@ -1462,7 +1462,7 @@ lote terminado con conteos: INFO`,
         ],
         edgeCases: ["Limpiar handlers en demos evita duplicados"],
         tests: "Contrato exacto: una línea `INFO stage=ingest event=start`; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Logger de módulo + StreamHandler a buffer + propagate=False: no uses print como bitácora de progreso.",
         starterCode: {
           language: 'python',
           title: "module_logger.py",
@@ -1503,7 +1503,7 @@ print(buf.getvalue().strip())`,
         ],
         edgeCases: ["No mezclar progress en el stream de datos"],
         tests: "Contrato exacto: `RESULT=3` y línea LOGS con event=start y event=done; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Stdout de datos limpio (RESULT=…); progreso del job en el logger — preview del contrato CLI de S10.",
         starterCode: {
           language: 'python',
           title: "prints_to_logs.py",
@@ -1563,7 +1563,7 @@ LOGS: event=start op=inc | event=done op=inc |`,
         ],
         edgeCases: ["email sin @", "teléfono corto"],
         tests: "Contrato exacto: `c***@ejemplo.pe` y `***7666`; exit 0; sin PII completa en stdout.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Máscara estable: primer char + ***@dominio; teléfono *** + últimos 4 dígitos (nunca el raw).",
         starterCode: {
           language: 'python',
           title: "mask_helpers.py",
@@ -1613,7 +1613,7 @@ print(mask_phone("+51 988 777 666"))`,
         ],
         edgeCases: ["En apps reales: contextvars opcional; aquí explícito es más claro"],
         tests: "Contrato exacto: tres líneas con correlation_id=corr-42 (cli, service, repo id=C001); exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El mismo corr-42 debe aparecer en cli, service y repo: argumento explícito, no variable global oculta.",
         starterCode: {
           language: 'python',
           title: "correlation_layers.py",
@@ -1726,7 +1726,7 @@ SAFE error en a***@ejemplo.pe tel=***1222`,
         ],
         edgeCases: ["Un 400 del API por payload malo puede ser data; 503 es provider"],
         tests: "Contrato exacto: 8 líneas `…: data|config|provider` en el orden del starter (incluye ROOT_PATH); sin flechas `->`; exit 0.",
-        feedback: "Compara tu salida con la solución: 8 líneas data|config|provider alineadas al starter completo.",
+        feedback: "Ocho casos, ocho clases: data (fila), config (arranque/env/schema), provider (S3/HTTP 503). ROOT_PATH vacía es config.",
         starterCode: {
           language: 'python',
           title: "taxonomy.py",
@@ -1784,7 +1784,7 @@ variable de entorno ROOT_PATH vacía: config`,
         ],
         edgeCases: ["id=0 podría ser válido en otros dominios; aquí truthiness simple"],
         tests: "Contrato exacto: dict con 2 ok, 1 quarantined reason data:missing_id, in=3; assert de reconcile; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Fila sin id no se descarta en silencio: va a quarantined con reason y el reconcile in==ok+q debe cuadrar.",
         starterCode: {
           language: 'python',
           title: "process_batch.py",
@@ -1822,41 +1822,66 @@ assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
         subtopicId: "S09-T4-A",
         kind: "transfer",
         instruction:
-          "Escribe una política operativa en 3 líneas `POLICY:...`: cuándo abortar por config crítica, por umbral de cuarentena y por provider caído tras retries. Texto claro para operadores (no solo dev).",
-        hint: "Cubre config, umbral de cuarentena y provider total down.",
+          "Implementa `should_abort(metrics)` que decida abortar el job CASO-LIM-009 según tres reglas operativas: config crítica ausente, ratio `quarantined/in > 0.5`, o `provider_exhausted=True`. Imprime para cada caso del starter `case=… abort=True|False reason=…`. Una sola fila data no basta para abortar.",
+        hint: "Evalúa en orden: config → umbral de cuarentena → provider agotado; si nada aplica, abort=False reason=ok.",
         hints: [
-          "Cubre config, umbral de cuarentena y provider total down.",
-          "No abortes por una sola fila data; sí por config o provider agotado.",
+          "Evalúa en orden: config crítica → ratio quarantined/in > 0.5 → provider_exhausted.",
+          "No abortes solo porque quarantined==1 si el ratio ≤ 0.5; documenta reason=ok.",
         ],
-        edgeCases: ["El umbral 50% es ejemplo; documenta el de tu org"],
-        tests: "Contrato exacto: 3 líneas POLICY: (config, umbral quarantined/in, provider tras retries); exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["El umbral 0.5 es de lab; en tu org se documenta en el README", "in=0 evita división: trata ratio como 0"],
+        tests: "Contrato exacto: 4 líneas `case=… abort=… reason=…` (config→True, ratio alto→True, provider→True, una fila data→False reason=ok); exit 0.",
+        feedback: "La política de abort debe ser una función testeable: el on-call no adivina; el README y el código dicen lo mismo.",
         starterCode: {
           language: 'python',
           title: "abort_policy.py",
-          code: `# CASO-LIM-009 · abort policies
-# A corregir: abort por 1 fila data
-rules = [
-    "POLICY: abortar si falta 1 fila email",
-    "POLICY: nunca abortar por config",
+          code: `# CASO-LIM-009 · abort policies (función, no solo texto)
+# A corregir: aborta por cualquier quarantined>=1
+
+def should_abort(metrics: dict) -> tuple[bool, str]:
+    # metrics: in, quarantined, config_ok, provider_exhausted
+    if metrics.get("quarantined", 0) >= 1:
+        return True, "data"
+    return False, "ok"
+
+casos = [
+    ("config", {"in": 10, "quarantined": 0, "config_ok": False, "provider_exhausted": False}),
+    ("ratio_alto", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": False}),
+    ("provider", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": True}),
+    ("una_fila_data", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": False}),
 ]
-for r in rules:
-    print(r)
-print('ok', True)`,
+for name, m in casos:
+    abort, reason = should_abort(m)
+    print(f"case={name} abort={abort} reason={reason}")
+print("ok", True)`,
         },
         solutionCode: {
           language: 'python',
           title: "abort_policy.py",
-          code: `rules = [
-    "POLICY: abortar si falta config crítica (schema, delimiter, paths)",
-    "POLICY: abortar si quarantined/in > 0.5 en el lote",
-    "POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data",
+          code: `def should_abort(metrics: dict) -> tuple[bool, str]:
+    if not metrics.get("config_ok", True):
+        return True, "config"
+    total = metrics.get("in") or 0
+    q = metrics.get("quarantined") or 0
+    ratio = (q / total) if total else 0.0
+    if ratio > 0.5:
+        return True, "quarantine_ratio"
+    if metrics.get("provider_exhausted"):
+        return True, "provider"
+    return False, "ok"
+
+casos = [
+    ("config", {"in": 10, "quarantined": 0, "config_ok": False, "provider_exhausted": False}),
+    ("ratio_alto", {"in": 10, "quarantined": 6, "config_ok": True, "provider_exhausted": False}),
+    ("provider", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": True}),
+    ("una_fila_data", {"in": 10, "quarantined": 1, "config_ok": True, "provider_exhausted": False}),
 ]
-for r in rules:
-    print(r)`,
-          output: `POLICY: abortar si falta config crítica (schema, delimiter, paths)
-POLICY: abortar si quarantined/in > 0.5 en el lote
-POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data`,
+for name, m in casos:
+    abort, reason = should_abort(m)
+    print(f"case={name} abort={abort} reason={reason}")`,
+          output: `case=config abort=True reason=config
+case=ratio_alto abort=True reason=quarantine_ratio
+case=provider abort=True reason=provider
+case=una_fila_data abort=False reason=ok`,
         },
       },
       {
@@ -1872,7 +1897,7 @@ POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data
         ],
         edgeCases: ["429 rate limit a veces yes con backoff"],
         tests: "Contrato exacto: TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Solo transitorios de red (Timeout/Connection) merecen yes; datos y permisos no se arreglan reintentando.",
         starterCode: {
           language: 'python',
           title: "retry_table.py",
@@ -1921,7 +1946,7 @@ PermissionError: no`,
         ],
         edgeCases: ["max_attempts=1 no reintenta"],
         tests: "Contrato exacto: `done calls 3` (o equivalente con done y 3 intentos); exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "retry_call debe reintentar TimeoutError hasta max_attempts; el flaky del lab llega a done en el 3.er intento.",
         starterCode: {
           language: 'python',
           title: "retry_call.py",
@@ -1981,7 +2006,7 @@ print(retry_call(flaky), "calls", n["c"])`,
         ],
         edgeCases: ["Misma clave + mismo payload = skip; misma clave + payload distinto = conflicto"],
         tests: "Contrato exacto: una línea `idem_key=banco_a:C001:v3:` + 12 hex del payload; exit 0.",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "La clave une source + record_id + version + hash del payload: re-ingestar sin duplicar side-effects (eco S08).",
         starterCode: {
           language: 'python',
           title: "idempotency_key.py",
@@ -2158,61 +2183,36 @@ if __name__ == "__main__":
       },
       {
         question: "¿Por qué es dañino un `except:` bare (sin tipo)?",
-        options: [
-          "Traga también KeyboardInterrupt/SystemExit y esconde corrupción",
-          "Es más rápido que ValueError",
-          "Obliga a usar Decimal",
-          "Solo funciona en Windows",
-        ],
-        correctIndex: 0,
+        options: ["Es más rápido que ValueError", "Obliga a usar Decimal", "Solo funciona en Windows", "Traga también KeyboardInterrupt/SystemExit y esconde corrupción"],
+        correctIndex: 3,
         explanation:
           "Bare except captura casi todo, incluso señales de interrupción, y oculta la causa real del fallo.",
       },
       {
         question: "¿Cuándo corre el bloque `finally`?",
-        options: [
-          "Solo si hubo excepción",
-          "Solo en el camino feliz",
-          "Siempre: con éxito, con except y al re-raise",
-          "Solo si usas `with`",
-        ],
-        correctIndex: 2,
+        options: ["Solo si hubo excepción", "Siempre: con éxito, con except y al re-raise", "Solo en el camino feliz", "Solo si usas `with`"],
+        correctIndex: 1,
         explanation:
           "finally garantiza cleanup (cierre de handles, contadores) en todos los caminos de salida del try.",
       },
       {
         question: "¿Para qué sirve propagar un `correlation_id` por capas?",
-        options: [
-          "Unir logs del mismo job/lote en el postmortem",
-          "Cifrar el email del cliente",
-          "Reemplazar el traceback",
-          "Marcar fraude automáticamente",
-        ],
+        options: ["Unir logs del mismo job/lote en el postmortem", "Cifrar el email del cliente", "Reemplazar el traceback", "Marcar fraude automáticamente"],
         correctIndex: 0,
         explanation:
           "El correlation_id enlaza CLI → service → repo sin necesidad de PII completa en cada línea de log.",
       },
       {
         question: "¿Cuándo preferirías CRITICAL frente a ERROR en el job de intake?",
-        options: [
-          "Cuando una sola fila tiene monto inválido y va a cuarentena",
-          "Cuando el proceso o el lote entero está en peligro (config rota, recurso crítico caído)",
-          "Siempre que uses log.exception",
-          "Solo en DEBUG local",
-        ],
-        correctIndex: 1,
+        options: ["Cuando una sola fila tiene monto inválido y va a cuarentena", "Siempre que uses log.exception", "Cuando el proceso o el lote entero está en peligro (config rota, recurso crítico caído)", "Solo en DEBUG local"],
+        correctIndex: 2,
         explanation:
           "ERROR cubre fallos de unidad recuperables o cuarentenables; CRITICAL señala que el job/proceso no puede continuar de forma segura.",
       },
       {
         question: "¿Qué ventaja dan los campos estructurados (`stage=… record_id=…`) frente a un `print(\"ok\")`?",
-        options: [
-          "Permiten filtrar y correlacionar eventos en agregadores y postmortems",
-          "Cifran automáticamente la PII del row",
-          "Reemplazan la necesidad de tests de regresión",
-          "Convierten todo ValueError en TimeoutError",
-        ],
-        correctIndex: 0,
+        options: ["Cifran automáticamente la PII del row", "Reemplazan la necesidad de tests de regresión", "Convierten todo ValueError en TimeoutError", "Permiten filtrar y correlacionar eventos en agregadores y postmortems"],
+        correctIndex: 3,
         explanation:
           "Campos estables (stage, record_id, correlation_id, error_class) hacen el log consultable; un print suelto no tiene nivel ni correlación.",
       },

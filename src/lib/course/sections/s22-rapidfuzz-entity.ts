@@ -13,25 +13,25 @@ export const section22: CourseSection = {
   icon: "Mail",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes sintéticos en Lima), el peaje más caro no es “enviar el correo”: es **enviarlo mal** — destinatario incorrecto, HTML inseguro, o un reintento que duplica el mensaje. Un pipeline profesional separa **borrador → aprobación humana → envío**. S22 inicia **CP-N2-C** a partir del paquete de informe de S21: MIME multiparte, scopes OAuth mínimos, resolución de destinatarios y cola de aprobación con audit. Coincidir emails o nombres es evidencia de **entrega correcta**, **no** prueba de fraude ni parentesco. En S23 el canal web se conecta; aquí el producto es un `.eml`/draft de sandbox fail-closed.",
+    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes sintéticos en Lima o Arequipa), el peaje más caro no es “enviar el correo”: es **enviarlo mal** — destinatario incorrecto, HTML inseguro, un reintento que duplica el mensaje, o un bot con scopes de más. Un pipeline profesional separa **borrador → aprobación humana → envío** y deja evidencia (quién aprobó, con qué draft, bajo qué key). S22 inicia **CP-N2-C** a partir del paquete de informe de S21 (DOCX/PDF/dashboard ya reconciliado): MIME multiparte, scopes OAuth mínimos, resolución de destinatarios y cola de aprobación con audit. Coincidir emails o nombres es evidencia de **entrega correcta**, **no** prueba de fraude ni parentesco. En S23 el canal web se conecta; aquí el producto es un `.eml`/draft de sandbox fail-closed que un revisor de turno puede inspeccionar antes de cualquier acción de envío (simulada).",
   learningOutcomes: [
-    { text: "Construir mensajes MIME con encoding y attachments" },
-    { text: "Sanitizar templates HTML de correo" },
-    { text: "Configurar OAuth/service account con scopes mínimos" },
-    { text: "Crear drafts vía adaptadores con expiración" },
-    { text: "Resolver y verificar destinatarios" },
-    { text: "Aplicar privacidad y mínima divulgación en listas" },
-    { text: "Implementar cola de aprobación y máquina de estados" },
-    { text: "Garantizar idempotencia, audit log y reintentos seguros" },
+    { text: "Construir mensajes MIME multiparte (plain+HTML+adjunto) con UTF-8 y serializarlos a `.eml`/string" },
+    { text: "Sanitizar templates HTML con escape y allowlist de host real (sin substring)" },
+    { text: "Diseñar OAuth/service account con scopes mínimos orientados a draft" },
+    { text: "Crear drafts vía adaptadores con expiración y store de sandbox" },
+    { text: "Resolver y verificar destinatarios sintéticos (dominio allowlisted, match ≠ fraude)" },
+    { text: "Aplicar privacidad y mínima divulgación en listas (dedupe, externos a BCC)" },
+    { text: "Implementar cola de aprobación con máquina de estados canónica (pending_review / needs_edit)" },
+    { text: "Garantizar idempotencia (sha256[:16]), audit log con actor y reintentos sin duplicar" },
   ],
   theory: [
     {
       heading: "Email con aprobación humana e inicio CP-N2-C",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **MIME:** mensaje multiparte (text/html + adjuntos). **Draft sandbox:** borrador local o API de prueba — **no envío real**. **Scopes mínimos:** permisos OAuth justos. **Resolución de destinatario:** mapear id → email verificado. **Cola de aprobación:** revisión humana obligatoria. **Máquina de estados:** `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. **Idempotency key:** evita duplicar drafts al reintentar (sha256 hex de 16 caracteres). **Fail-closed:** sin aprobación humana no hay envío. **Matching ≠ fraude:** coincidir contactos no prueba parentesco ni culpa.",
-        "Aquí **inicias CP-N2-C**: el canal de **notificación con aprobación humana** que toma el paquete de reporte ya reconciliado (S21: DOCX/PDF/dashboard) y prepara un **borrador** seguro. Enfocamos MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación e idempotencia. El entity resolution probabilístico profundo llega más adelante en el roadmap; aquí el matching de contactos solo sirve para **entrega correcta**. En S23 conectarás un adaptador web (browser RPA); en esta sección el canal es `.eml` o draft de sandbox.",
-        "Hilo operativo (Lima / operaciones sintéticas): borrador `run_id=cpn2c-01` / `CASO-LIM-022`, contactos fake `@example.pe`, revisor humano en la mesa de control. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
-        "Orden: **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (máquina de estados de aprobación, audit log, reintento sin duplicar). Fail-closed sin aprobación humana.",
+        "**Diccionario de la sección** (léelo antes de T1; cada término se desempaca en T1–T4). **MIME:** mensaje multiparte (text/html + adjuntos). **Draft sandbox:** borrador local o API de prueba — **no envío real**. **Scopes mínimos:** permisos OAuth justos para lo que el producto hace (aquí: drafts). **Resolución de destinatario:** mapear id de negocio → email verificado. **Cola de aprobación:** revisión humana obligatoria antes de cualquier envío (simulado). **Máquina de estados:** `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. **Idempotency key:** evita duplicar drafts al reintentar (`sha256` hex de **16** caracteres). **Fail-closed:** sin transición válida ni aprobación humana no hay envío. **Matching ≠ fraude:** coincidir contactos no prueba parentesco ni culpa.",
+        "Aquí **inicias CP-N2-C**: el canal de **notificación con aprobación humana** que toma el paquete de reporte ya reconciliado (S21: DOCX/PDF/dashboard) y prepara un **borrador** seguro. Enfocamos MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación e idempotencia. El entity resolution probabilístico profundo llega más adelante en el roadmap; aquí el matching de contactos solo sirve para **entrega correcta**. En S23 conectarás un adaptador web (browser RPA); en esta sección el canal es `.eml` o draft de sandbox — el mismo contrato de gates, otro transporte.",
+        "Hilo operativo (Lima / operaciones sintéticas): el paquete del run `cpn2c-01` ya salió de Reporting Factory (S21). La mesa de control necesita avisar a `revisora@example.pe` sin spamear ni exponer listas. Caso de laboratorio `CASO-LIM-022`: contactos fake `@example.pe`, revisor humano de turno, SLA de respuesta en cola. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
+        "Orden de aprendizaje (divulgación progresiva): **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (máquina de estados de aprobación, audit log, reintento sin duplicar). Si te trabas, vuelve al diccionario y al contrato del intro: **draft-only**, **human_approval**, **synthetic_recipients**, **idempotent_retry**.",
       ],
       code: {
         language: 'python',
@@ -54,9 +54,9 @@ auto_send_ok False`,
       },
       callout: {
         type: "info",
-        title: "Límite operativo",
+        title: "Límite operativo (gates)",
         content:
-          "Solo se crean `.eml` locales o drafts de sandbox con datos sintéticos; ninguna ruta de la lección envía correo.",
+          "Solo se crean `.eml` locales o drafts de sandbox con datos sintéticos (`@example.pe`). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
       },
     },
     {
@@ -100,7 +100,7 @@ has_attachment True`,
         type: "tip",
         title: "Siempre text + HTML",
         content:
-          "Incluye plain text: muchos clientes y filtros anti-spam lo exigen.",
+          "Incluye plain text además de HTML: muchos clientes y filtros anti-spam lo exigen. El adjunto de meta del run (`run_id`, no secretos) ayuda a la revisor a auditar el `.eml` sin abrir un portal.",
       },
     },
     {
@@ -237,8 +237,8 @@ bytes 184`,
       subtopicId: "S22-T3-A",
       paragraphs: [
         "Antes de poner un `To:` en el borrador, el pipeline **resuelve** y **verifica** al destinatario. Resolución: mapear un id de negocio (`C001`) a un email desde un directorio sintético. Verificación: formato básico, dominio allowlisted (`example.pe`) y estado activo. Los estados del contacto van de `unresolved` → `candidate` → `verified` | `rejected`. Sin `verified`, fail-closed: no se encola aprobación para envío (aunque en el curso solo simules).",
-        "Contrato ético y técnico: si usas un score de similaridad de nombres o emails, **siempre** acompáñalo de la nota **`match_no_es_fraude`**. Un score alto (p. ej. 0.86–0.92 en demos y self-check) **no** autoriza claims de identidad legal, parentesco ni colusión; solo prioriza la revisión de **entrega correcta**. Matching de contactos ≠ investigación de fraude.",
-        "Caso: `ana@example.pe` pasa formato y dominio; `bad` se rechaza; `C001` queda `verified` en el directorio de laboratorio; `C002` con dominio no allowlisted queda `rejected`. Si el id no existe, el estado es `unresolved` y la mesa de control decide a mano. Al comparar dos strings de email, el ejercicio imprime el score sintético **y** la nota anti-claim — nunca `fraude_probable`.",
+        "Contrato ético y técnico: si usas un score de similaridad de nombres o emails, **siempre** acompáñalo de la nota **`match_no_es_fraude`**. En el ejercicio de transferencia calculas un prefijo común que da **0.86**; el self-check usa **0.92** solo como número de un MCQ ético — en ambos casos un score “alto” **no** autoriza claims de identidad legal, parentesco ni colusión; solo prioriza la revisión de **entrega correcta**. Matching de contactos ≠ investigación de fraude.",
+        "Caso: `ana@example.pe` pasa formato y dominio; `bad` se rechaza; `C001` queda `verified` en el directorio de laboratorio; `C002` con dominio no allowlisted queda `rejected`. Si el id no existe, el estado es `unresolved` y la mesa de control decide a mano. Al comparar dos strings de email, el ejercicio imprime el score sintético **0.86** y la nota anti-claim — nunca `fraude_probable`.",
       ],
       code: {
         language: 'python',
@@ -428,7 +428,7 @@ audit_events ['create', 'retry_hit', 'create']`,
     },
   ],
   iDo: {
-    intro: "Te muestro el inicio de CP-N2-C a partir del paquete de S21: MIME seguro, scopes, drafts con expiración, destinatarios verificados y cola de aprobación — sin envío real ni inferencia de fraude. En cada demo, fíjate en la **decisión**: por qué draft y no send; por qué parsear el host y no un substring; por qué fail-closed ante una transición inválida.",
+    intro: "Te muestro el inicio de CP-N2-C a partir del paquete de S21: MIME seguro, scopes, drafts con expiración, destinatarios verificados y cola de aprobación — sin envío real ni inferencia de fraude. En cada demo, fíjate en la **decisión** (no solo en el print): por qué draft y no send; por qué parsear el host y no un substring; por qué denegar `mail.full`; por qué un externo va a BCC; por qué fail-closed ante una transición inválida; por qué la key de 16 hex evita spam al reintentar.",
     steps: [
       {
         demoId: "S22-T1-A-DEMO",
@@ -493,7 +493,7 @@ n_headers_subj 1`,
 s22_ido_2()`,
           output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] https://example.pe/ok [blocked]`,
         },
-        why: "Escapamos HTML y validamos el host real: un substring 'example.pe' en la URL sería un bypass de phishing.",
+        why: "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — bypass de phishing que el curso rechaza como solución.",
       },
       {
         demoId: "S22-T2-A-DEMO",
@@ -616,7 +616,7 @@ s22_ido_6()`,
         demoId: "S22-T4-A-DEMO",
         subtopicId: "S22-T4-A",
         environment: "local/sandbox proveedor",
-        description: "Modelar cola de aprobación con estados canónicos (pending_review).",
+        description: "Modelar cola de aprobación con estados canónicos (pending_review) y actor en el audit.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -630,16 +630,21 @@ s22_ido_6()`,
         },
         "needs_edit": {"submit": "pending_review"},
     }
-    state, trail = "draft", []
-    for act in ("submit", "approve"):
+    state, log = "draft", []
+    for act, actor in (("submit", "analyst"), ("approve", "rev1")):
+        prev = state
         state = sm[state][act]
-        trail.append(state)
-    print("final", state, "trail", trail)
+        log.append({"from": prev, "to": state, "action": act, "actor": actor})
+    print("final", state)
+    print("trail", [e["to"] for e in log])
+    print("last_actor", log[-1]["actor"])
 
 s22_ido_7()`,
-          output: `final approved trail ['pending_review', 'approved']`,
+          output: `final approved
+trail ['pending_review', 'approved']
+last_actor rev1`,
         },
-        why: "Decisión: solo `submit` mueve draft→pending_review; `approve` desde draft no existe en la tabla — fail-closed protege al destinatario.",
+        why: "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
       },
       {
         demoId: "S22-T4-B-DEMO",
@@ -672,7 +677,7 @@ s22_ido_8()`,
     ],
   },
   weDo: {
-    intro: "Practica en 24 ejercicios (guiado → independiente → transferencia) MIME, sanitización, OAuth scopes, drafts, resolución, privacidad de listas, máquina de estados e idempotencia. Cada starter de CASO-LIM-022 trae un error deliberado que debes corregir; la salida debe coincidir con el bloque solución.",
+    intro: "Practica en 24 ejercicios con liberación gradual (guiado → independiente → transferencia): MIME, sanitización, OAuth scopes, drafts, resolución, privacidad de listas, máquina de estados e idempotencia. Cada starter de CASO-LIM-022 trae un error deliberado — no un “placeholder vacío”. Lee el contrato de salida (líneas exactas) antes de editar; cuando pases, la consola debe coincidir con el bloque solución. En transferencia (E3) el problema se presenta en un escenario un poco más amplio: no es solo “cambiar un print”.",
     steps: [
       {
         id: "S22-T1-A-E1",
@@ -1012,23 +1017,24 @@ valid`,
         subtopicId: "S22-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Registra un borrador sintético en un store (id `d001`, status `draft`, subject del run) e imprime el **status** del registro — no la clave del dict (CASO-LIM-022). El starter imprime la key. Salida esperada:\ndraft",
+          "E1 (guiado) — Registra un borrador sintético en un store (id `d001`, status `draft`, subject del run de CP-N2-C) e imprime el **status de workflow** del registro — no la clave del dict (CASO-LIM-022). El starter confunde id del store con estado del draft. Salida esperada (dos líneas):\ndraft\nInforme sintético CP-N2-C",
         hint: "dict assignment",
         hints: [
           "store['d001'] = {'status': 'draft', 'subject': '...'}",
-          "print store['d001']['status'] — no list(store.keys())",
+          "print status y subject del valor — no list(store.keys())",
         ],
-        edgeCases: ["id colisiones; status es el campo de workflow, no el id"],
+        edgeCases: ["id colisiones; status es el campo de workflow, no el id del dict"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El id (d001) identifica el registro; el status (draft) es lo que lee la cola de aprobación.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-022 · crear draft en store
-# A corregir: imprime la key del store, no el status de workflow
-# Contrato: status == draft
+# A corregir: imprime la key del store, no status/subject del workflow
+# Contrato: dos líneas — status draft + subject del run
 store = {}
 store['d001'] = {'status': 'draft', 'subject': 'Informe sintético CP-N2-C'}
+print(list(store.keys())[0])
 print(list(store.keys())[0])
 `,
         },
@@ -1037,8 +1043,10 @@ print(list(store.keys())[0])
           title: "exercise.py",
           code: `store = {}
 store['d001'] = {'status': 'draft', 'subject': 'Informe sintético CP-N2-C'}
-print(store['d001']['status'])`,
-          output: `draft`,
+print(store['d001']['status'])
+print(store['d001']['subject'])`,
+          output: `draft
+Informe sintético CP-N2-C`,
         },
       },
       {
@@ -1503,30 +1511,34 @@ print([e for e in log if e['action'] == 'approve'])`,
         subtopicId: "S22-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Calcula la idempotency key de producción del curso: `sha256(b'run|to|v1').hexdigest()[:16]` (mismo contrato que el You Do) (CASO-LIM-022). El starter corta en 6 caracteres. Salida esperada:\n0da400d6c9b3f756",
-        hint: "hashlib.sha256",
+          "E1 (guiado) — Construye la idempotency key del curso a partir de `run_id`, `to` y `body_ver`: une con `|`, codifica a bytes, `sha256` y toma **16** hex (mismo contrato que el You Do y la teoría) (CASO-LIM-022). El starter usa un separador incorrecto y corta en 6 caracteres. Salida esperada:\n0da400d6c9b3f756",
+        hint: "f'{run}|{to}|{ver}'.encode() + sha256[:16]",
         hints: [
-          "hashlib.sha256",
-          "hexdigest()[:16] — no [:6] ni [:8]",
+          "raw = f'{run_id}|{to}|{body_ver}'.encode()",
+          "hashlib.sha256(raw).hexdigest()[:16] — no [:6] ni [:8]; separador es |",
         ],
-        edgeCases: ["encoding utf-8 de strings"],
+        edgeCases: ["encoding utf-8; cambiar body_ver debe cambiar la key"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "La key firma el triple (run, destinatario, versión del cuerpo): 16 hex es el contrato único de S22.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-022 · idempotency key sha256[:16]
-# A corregir: slice demasiado corto [:6]
-# Contrato: 16 hex chars
+          code: `# CASO-LIM-022 · idempotency key sha256[:16] desde run|to|v1
+# A corregir: separador '-' y slice [:6]
+# Contrato: 16 hex chars del payload run|to|v1
 import hashlib
-print(hashlib.sha256(b'run|to|v1').hexdigest()[:6])
+run_id, to, body_ver = 'run', 'to', 'v1'
+raw = f'{run_id}-{to}-{body_ver}'.encode()
+print(hashlib.sha256(raw).hexdigest()[:6])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import hashlib
-print(hashlib.sha256(b'run|to|v1').hexdigest()[:16])`,
+run_id, to, body_ver = 'run', 'to', 'v1'
+raw = f'{run_id}|{to}|{body_ver}'.encode()
+print(hashlib.sha256(raw).hexdigest()[:16])`,
           output: `0da400d6c9b3f756`,
         },
       },
@@ -1535,27 +1547,29 @@ print(hashlib.sha256(b'run|to|v1').hexdigest()[:16])`,
         subtopicId: "S22-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Haz `create(key)` idempotente: la segunda llamada con la misma key reutiliza el draft_id (CASO-LIM-022). El starter siempre pisa el store. Salida esperada:\nTrue",
-        hint: "cache dict",
+          "E2 (independiente) — Haz `create(key)` idempotente: la segunda llamada con la misma key reutiliza el **mismo** draft_id; solo la primera lo crea (CASO-LIM-022). El starter siempre pisa el store y genera un id nuevo. Salida esperada (dos líneas):\nTrue\n1",
+        hint: "if key in store: return store[key]",
         hints: [
-          "cache dict",
-          "if key in store: return store[key]",
+          "cache dict: if key in store → devolver el id guardado",
+          "solo al crear: store[key] = 'd' + str(len(store)+1)",
         ],
-        edgeCases: ["race conditions"],
+        edgeCases: ["race conditions fuera de alcance de lab; en prod usa store atómico"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "Misma key → mismo draft_id y un solo registro en el store; eso evita spam al reintentar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-022 · create idempotente por key
-# A corregir: siempre crea d-nuevo (ignora cache)
-# Contrato: create('k') == create('k')
+# A corregir: siempre crea id nuevo (ignora cache)
+# Contrato: create('k') == create('k') y len(store) == 1
 store = {}
 
 def create(key):
     store[key] = 'd' + str(len(store) + 1)
     return store[key]
-print(create('k') == create('k'))
+a, b = create('k'), create('k')
+print(a == b)
+print(len(store))
 `,
         },
         solutionCode: {
@@ -1566,10 +1580,13 @@ print(create('k') == create('k'))
 def create(key):
     if key in store:
         return store[key]
-    store[key] = 'd1'
+    store[key] = 'd' + str(len(store) + 1)
     return store[key]
-print(create('k') == create('k'))`,
-          output: `True`,
+a, b = create('k'), create('k')
+print(a == b)
+print(len(store))`,
+          output: `True
+1`,
         },
       },
       {
@@ -1577,28 +1594,31 @@ print(create('k') == create('k'))`,
         subtopicId: "S22-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Dos intentos con la misma key deben auditar `create` y luego `retry_hit` (CASO-LIM-022). El starter solo registra `create`. Salida esperada:\n['create', 'retry_hit']",
-        hint: "lista de event names",
+          "E3 (transferencia) — Mini `create_once(key)` con audit: el primer intento registra `create` y guarda el draft; el segundo con la **misma** key registra `retry_hit` y reutiliza el id (CASO-LIM-022). El starter solo appendea `create`. Imprime la lista de eventos y si ambos ids son iguales. Salida esperada (dos líneas):\n['create', 'retry_hit']\nTrue",
+        hint: "si key ya en store → retry_hit",
         hints: [
-          "si key ya en store → retry_hit",
-          "si no → create y guardar",
+          "si key ya en store → audit retry_hit y devolver store[key]",
+          "si no → guardar draft, audit create",
         ],
-        edgeCases: ["incluir timestamps en prod"],
+        edgeCases: ["en prod añade timestamp y actor al evento; no borres el audit al reintentar"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback: "El reintento es un evento de auditoría, no un segundo draft: evidencia de cumplimiento en la mesa de control.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-022 · audit create + retry_hit
-# A corregir: siempre append create (sin retry_hit)
-# Contrato: ['create', 'retry_hit']
+          code: `# CASO-LIM-022 · audit create + retry_hit (transfer)
+# A corregir: siempre append create; no reutiliza id
+# Contrato: eventos ['create','retry_hit'] y same_id True
 audit = []
 store = {}
 key = 'k1'
+ids = []
 for _ in range(2):
     store[key] = 'd1'
     audit.append('create')
+    ids.append(store[key])
 print(audit)
+print(ids[0] == ids[1])
 `,
         },
         solutionCode: {
@@ -1607,14 +1627,19 @@ print(audit)
           code: `audit = []
 store = {}
 key = 'k1'
+ids = []
 for _ in range(2):
     if key in store:
         audit.append('retry_hit')
+        ids.append(store[key])
     else:
         store[key] = 'd1'
         audit.append('create')
-print(audit)`,
-          output: `['create', 'retry_hit']`,
+        ids.append(store[key])
+print(audit)
+print(ids[0] == ids[1])`,
+          output: `['create', 'retry_hit']
+True`,
         },
       },
     ],
@@ -1622,20 +1647,21 @@ print(audit)`,
   youDo: {
     title: "Borrador .eml con aprobación (inicio CP-N2-C)",
     context:
-      "Parte del paquete de informe de S21 (métricas ya reconciliadas). Construye el mini pipeline de notificación: mensaje MIME → destinatario verificado → draft con idempotency key de 16 hex → estado `pending_review` con audit. No envíes correo real. Matching de contactos no implica fraude. En S23 conectarás un adaptador web; aquí el canal es `.eml`/sandbox.",
+      "La mesa de control acaba de aprobar el paquete de informe de S21 (métricas reconciliadas en DOCX/PDF/dashboard). Tu trabajo: construir el **mini pipeline de notificación** de inicio de CP-N2-C — mensaje MIME → destinatario verificado → draft con idempotency key de 16 hex → estado `pending_review` con audit (actor). No envíes correo real. Matching de contactos no implica fraude. En S23 conectarás un adaptador web (browser RPA); aquí el canal es `.eml`/sandbox fail-closed. Entrega algo que un revisor humano pueda inspeccionar y firmar en el audit.",
     objectives: [
-      "Generar un .eml/string MIME con text+HTML y adjunto meta",
-      "Resolver/verificar al menos un destinatario allowlisted",
-      "Crear draft con expiración y clave de idempotencia (sha256[:16])",
-      "Dejar estado pending_review con audit log (actor + transición)",
+      "Generar un string MIME multiparte (plain+HTML+adjunto meta del run) listo para `.eml`",
+      "Verificar al menos un destinatario con dominio allowlisted (`example.pe`)",
+      "Crear draft en store con `expires_at` e idempotency key `sha256(...).hexdigest()[:16]`",
+      "Ejecutar `submit` hasta `pending_review` con audit log (acción + actor)",
     ],
     requirements: [
-      "Sin PII real ni secretos",
-      "Ningún envío SMTP real",
-      "Destinatario requiere verificación",
-      "No inferir fraude desde matching",
-      "es-PE en textos de usuario",
-      "Máquina de estados con pending_review (no atajos pending)",
+      "Sin PII real ni secretos en cuerpo ni adjuntos",
+      "Ningún envío SMTP real ni scope de send como happy path",
+      "Destinatario requiere verificación antes de crear draft",
+      "No inferir fraude ni parentesco desde matching de contactos",
+      "Textos de usuario en español profesional (es-PE)",
+      "Máquina de estados canónica: `pending_review` / `needs_edit` (no atajos `pending`)",
+      "Aceptación impresa: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1",
     ],
     starterCode: `from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -1717,28 +1743,28 @@ print("audit_n", len(audit))
         options: ["Usar mail.full", "Solo drafts/.eml en sandbox y aprobación humana", "CC a todos", "Desactivar UTF-8"],
         correctIndex: 1,
         explanation:
-          "El incremento exige borradores sandbox y confirmación de destinatario, no envío automático.",
+          "El contrato de la sección es draft-only: escribes `.eml` o drafts de sandbox y pasas por cola humana. Ningún happy path de S22 llama SMTP real ni asume envío automático.",
       },
       {
         question: "Un score alto de similitud entre dos emails implica:",
         options: ["Fraude demostrado", "Parentesco", "Envío automático", "Solo evidencia débil de contacto a revisar; no prueba de fraude"],
         correctIndex: 3,
         explanation:
-          "Matching no es inferencia de fraude ni parentesco.",
+          "Matching prioriza revisión de **entrega correcta**. No es prueba de fraude, parentesco ni identidad legal; por eso el pipeline anota `match_no_es_fraude` y exige verificación + HITL.",
       },
       {
         question: "Least privilege en OAuth de correo significa:",
         options: ["Solo los scopes mínimos (p. ej. draft) necesarios", "Pedir todos los scopes", "Compartir el refresh token en Slack", "Usar la cuenta personal del CEO"],
         correctIndex: 0,
         explanation:
-          "Scopes mínimos reducen el blast radius.",
+          "Si el producto solo crea borradores, pide scopes de draft (no `mail.full` ni send innecesario). Menos privilegios = menor impacto si el token se filtra.",
       },
       {
         question: "La idempotency key al reintentar create_draft debe:",
         options: ["Crear siempre un draft nuevo", "Borrar el audit log", "Reutilizar el mismo draft_id si la key existe", "Enviar el correo"],
         correctIndex: 2,
         explanation:
-          "Reintento seguro no duplica.",
+          "Misma key (`sha256(run|to|body_ver)[:16]`) → mismo draft_id y evento `retry_hit` en el audit. Así un doble clic o un reintento de red no spamea al destinatario.",
       },
       {
         question:
@@ -1746,7 +1772,7 @@ print("audit_n", len(audit))
         options: ["Declarar fraude o parentesco y bloquear al cliente automáticamente", "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica", "Enviar el correo sin aprobación porque el score supera 0.9", "Publicar el DNI del contacto en el cuerpo para “confirmar identidad”"],
         correctIndex: 1,
         explanation:
-          "Matching apoya entrega correcta; no prueba fraude ni identidad legal. Aprobación humana e idempotencia siguen siendo obligatorias antes de cualquier envío (simulado).",
+          "Un 0.92 (como el 0.86 del ejercicio de prefijo) solo ordena prioridad de revisión de entrega. No autoriza claims de fraude, envío sin aprobación ni PII en el cuerpo. Draft + pending_review siguen siendo obligatorios.",
       },
     ],
   },

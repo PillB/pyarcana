@@ -7,7 +7,7 @@ export const section10: CourseSection = {
   title: "Módulos, packaging y CLI profesional",
   shortTitle: "Módulos & CLI",
   tagline: "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
-  estimatedHours: 19,
+  estimatedHours: 18,
   level: "Intermedio",
   phase: 0,
   icon: "Package",
@@ -352,7 +352,7 @@ config: falta input_path para ingest`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema). Orden T1→T4. familiarity_core: módulos, packaging, CLI y config. local-python; datos sintéticos.",
+    intro: "Ocho demos I Do (uno por subtema, orden T1→T4). Cada demo muestra el mecanismo que luego practicarás en We Do: módulos y API, layout/src + SemVer, argparse con exit codes, stdio limpio y config por precedencia. Solo stdlib; datos sintéticos.",
     steps: [
       {
         demoId: "S10-T1-A-DEMO",
@@ -417,7 +417,7 @@ print(report([ingest_row({"name": " Luis "})]))`,
         demoId: "S10-T2-A-DEMO",
         subtopicId: "S10-T2-A",
         environment: "local-python",
-        description: "Modelo mínimo de layout src + metadatos instalables.",
+        description: "Layout src + claves del pyproject mínimo que harán `pip install -e .` usable.",
         code: {
           language: 'python',
           title: "src_layout.py",
@@ -433,8 +433,14 @@ print(report([ingest_row({"name": " Luis "})]))`,
     ]
     for p in layout:
         print(PurePosixPath(p))
-    meta = {"name": "familiarity-core", "version": "0.1.0"}
-    print("editable_install", f"pip install -e .  # {meta}")
+    # mismas claves que el fragmento TOML de la teoría
+    meta = {
+        "name": "familiarity-core",
+        "version": "0.1.0",
+        "requires-python": ">=3.11",
+    }
+    print("pyproject.project", meta)
+    print("editable_install", "pip install -e .")
 
 s10_ido_3()`,
           output: `src/familiarity_core/__init__.py
@@ -442,9 +448,10 @@ src/familiarity_core/normalize.py
 src/familiarity_core/cli.py
 pyproject.toml
 README.md
-editable_install pip install -e .  # {'name': 'familiarity-core', 'version': '0.1.0'}`,
+pyproject.project {'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}
+editable_install pip install -e .`,
         },
-        why: "El layout src + pyproject es el contrato de packaging del curso.",
+        why: "El layout src + metadatos de pyproject es el contrato de packaging: instalas editable y el import refleja al toque.",
       },
       {
         demoId: "S10-T2-B-DEMO",
@@ -1067,20 +1074,20 @@ cause: se ejecuta un script que tapa el paquete en sys.path`,
         subtopicId: "S10-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T2-B — Implementa `classify_change(descripcion)`: renombrar/eliminar API → major; añadir feature → minor; corregir typo → patch. Salida esperada exacta:\nrenombrar normalize a clean_name (API pública): major\nañadir flag --format a report: minor\ncorregir typo en help: patch\neliminar subcomando compare: major",
-        hint: "Busca palabras clave: renombrar/eliminar → major; añadir → minor; typo/corregir → patch.",
+          "E1 (guiado) · S10-T2-B — Implementa `bump_from_description(version, descripcion)` (`CASO-LIM-010`): clasifica el cambio (renombrar/eliminar → major; añadir → minor; typo/corregir → patch) y **calcula** la versión nueva con `bump`. Base fija `1.0.0`. Salida esperada exacta:\nrenombrar normalize a clean_name (API pública): major -> 2.0.0\nañadir flag --format a report: minor -> 1.1.0\ncorregir typo en help: patch -> 1.0.1\neliminar subcomando compare: major -> 2.0.0",
+        hint: "Primero classify (orden: renombrar/eliminar → añadir → typo), luego bump numérico; no inventes el string de versión a mano.",
         hints: [
-          "Usa .casefold() y comprueba renombrar/eliminar antes que añadir.",
-          "Imprime f'{cambio}: {classify_change(cambio)}'.",
+          "classify_change: renombrar/eliminar → major; añadir/agregar → minor; typo/corregir → patch.",
+          "bump('1.0.0','major')→'2.0.0'; minor→'1.1.0'; patch→'1.0.1'. Imprime f'{cambio}: {kind} -> {new}'.",
         ],
-        edgeCases: ["Deprecar primero reduce dolor del major"],
+        edgeCases: ["Deprecar un minor antes del major reduce el dolor del breaking"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si renombrar sale patch, la función no está tratando el breaking change como major.",
+        feedback: "Si renombrar queda en 1.0.1 o 'patch', classify invierte el breaking; si major imprime 1.1.0, bump no resetea minor/patch a 0.",
         starterCode: {
           language: 'python',
-          title: "semver_classify.py",
-          code: `# CASO-LIM-010 · semver levels
-# DEFECT: classify_change invierte major/minor/patch; quita print('ok', True)
+          title: "semver_bump_from_desc.py",
+          code: `# CASO-LIM-010 · classify + bump (no solo etiquetas)
+# DEFECT: classify invierte niveles; bump major no resetea; quita print('ok', True)
 def classify_change(descripcion: str) -> str:
     d = descripcion.casefold()
     if "renombrar" in d or "eliminar" in d:
@@ -1091,18 +1098,34 @@ def classify_change(descripcion: str) -> str:
         return "minor"
     return "patch"
 
+def bump(version: str, level: str) -> str:
+    maj, minor, patch = map(int, version.split("."))
+    if level == "major":
+        return f"{maj+1}.{minor}.{patch}"  # no resetea
+    if level == "minor":
+        return f"{maj}.{minor+1}.0"
+    if level == "patch":
+        return f"{maj}.{minor}.{patch+1}"
+    raise ValueError(level)
+
+def bump_from_description(version: str, descripcion: str) -> tuple[str, str]:
+    level = classify_change(descripcion)
+    return level, bump(version, level)
+
+BASE = "1.0.0"
 for cambio in [
     "renombrar normalize a clean_name (API pública)",
     "añadir flag --format a report",
     "corregir typo en help",
     "eliminar subcomando compare",
 ]:
-    print(f"{cambio}: {classify_change(cambio)}")
+    kind, new = bump_from_description(BASE, cambio)
+    print(f"{cambio}: {kind} -> {new}")
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "semver_classify.py",
+          title: "semver_bump_from_desc.py",
           code: `def classify_change(descripcion: str) -> str:
     d = descripcion.casefold()
     if "renombrar" in d or "eliminar" in d:
@@ -1113,17 +1136,33 @@ print('ok', True)`,
         return "patch"
     return "patch"
 
+def bump(version: str, level: str) -> str:
+    maj, minor, patch = map(int, version.split("."))
+    if level == "major":
+        return f"{maj+1}.0.0"
+    if level == "minor":
+        return f"{maj}.{minor+1}.0"
+    if level == "patch":
+        return f"{maj}.{minor}.{patch+1}"
+    raise ValueError(level)
+
+def bump_from_description(version: str, descripcion: str) -> tuple[str, str]:
+    level = classify_change(descripcion)
+    return level, bump(version, level)
+
+BASE = "1.0.0"
 for cambio in [
     "renombrar normalize a clean_name (API pública)",
     "añadir flag --format a report",
     "corregir typo en help",
     "eliminar subcomando compare",
 ]:
-    print(f"{cambio}: {classify_change(cambio)}")`,
-          output: `renombrar normalize a clean_name (API pública): major
-añadir flag --format a report: minor
-corregir typo en help: patch
-eliminar subcomando compare: major`,
+    kind, new = bump_from_description(BASE, cambio)
+    print(f"{cambio}: {kind} -> {new}")`,
+          output: `renombrar normalize a clean_name (API pública): major -> 2.0.0
+añadir flag --format a report: minor -> 1.1.0
+corregir typo en help: patch -> 1.0.1
+eliminar subcomando compare: major -> 2.0.0`,
         },
       },
       {
@@ -1174,57 +1213,55 @@ print(build_deps([], ["pytest"], ">=3.11"))`,
         subtopicId: "S10-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T2-B — Implementa `policy_for(cambio)` hacia entidades futuras (p. ej. `ClientRecord` en S11): renombrar → MAJOR, campo opcional → MINOR, CLI estable entre S10/S11. Salida esperada exacta:\nPOLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG",
-        hint: "Clasifica por palabras clave del cambio (renombrar / opcional / CLI).",
+          "E3 (transferencia) · S10-T2-B — Implementa `policy_for(kind)` con kinds estructurados hacia entidades de dominio futuras (p. ej. `ClientRecord` en S11): `rename_entity` → MAJOR + migración; `optional_field` → MINOR; `keep_cli_stable` → no romper CLI sin bump/CHANGELOG. El label solo se imprime. Salida esperada exacta:\nPOLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG",
+        hint: "Despacha por kind exacto (rename_entity / optional_field / keep_cli_stable), no por substring del label.",
         hints: [
-          "Devuelve la línea POLICY completa (no solo MAJOR/MINOR).",
-          "Orden de evaluación: renombrar → opcional/default → cli/s11.",
+          "if kind == 'rename_entity': …; no uses 'renombrar' del label para decidir.",
+          "raise ValueError si el kind no está tipificado (fail-closed de política).",
         ],
-        edgeCases: ["Frozen entities pueden forzar major si cambia equality"],
+        edgeCases: ["Si equality de una entidad frozen cambia, también es major aunque el nombre no cambie"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si renombrar sale MINOR, la política no protege a consumidores de la entidad de dominio.",
+        feedback: "Si rename_entity devuelve MINOR, las ramas están invertidas; si confías en el label en vez del kind, el despacho no es robusto.",
         starterCode: {
           language: 'python',
           title: "compat_policy.py",
-          code: `# CASO-LIM-010 · API change policy
-# DEFECT: renombrar es MINOR; opcional es MAJOR; CLI sin bump; quita print('ok', True)
-def policy_for(cambio: str) -> str:
-    c = cambio.casefold()
-    if "renombrar" in c:
-        return "POLICY: renombrar ClientRecord es MINOR; no documentar"
-    if "opcional" in c or "default" in c:
-        return "POLICY: añadir campo opcional con default es MAJOR"
-    if "cli" in c or "s11" in c:
-        return "POLICY: S11 puede romper CLI de S10 sin bump"
-    raise ValueError(cambio)
+          code: `# CASO-LIM-010 · API change policy (kinds estructurados)
+# DEFECT: ramas invertidas / incompletas; quita print('ok', True)
+def policy_for(kind: str) -> str:
+    if kind == "optional_field":
+        return "POLICY: renombrar ClientRecord es MAJOR; documentar migración"
+    if kind == "rename_entity":
+        return "POLICY: añadir campo opcional con default es MINOR"
+    return "POLICY: S11 puede romper CLI de S10 sin bump"
 
-for cambio in [
-    "renombrar ClientRecord",
-    "añadir campo opcional con default",
-    "S11 y CLI de S10",
-]:
-    print(policy_for(cambio))
+scenarios = [
+    ("renombrar ClientRecord", "rename_entity"),
+    ("añadir campo opcional con default", "optional_field"),
+    ("S11 y CLI de S10", "keep_cli_stable"),
+]
+for _label, kind in scenarios:
+    print(policy_for(kind))
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "compat_policy.py",
-          code: `def policy_for(cambio: str) -> str:
-    c = cambio.casefold()
-    if "renombrar" in c:
+          code: `def policy_for(kind: str) -> str:
+    if kind == "rename_entity":
         return "POLICY: renombrar ClientRecord es MAJOR; documentar migración"
-    if "opcional" in c or "default" in c:
+    if kind == "optional_field":
         return "POLICY: añadir campo opcional con default es MINOR"
-    if "cli" in c or "s11" in c:
+    if kind == "keep_cli_stable":
         return "POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG"
-    raise ValueError(f"cambio no tipificado: {cambio}")
+    raise ValueError(f"kind no tipificado: {kind}")
 
-for cambio in [
-    "renombrar ClientRecord",
-    "añadir campo opcional con default",
-    "S11 y CLI de S10",
-]:
-    print(policy_for(cambio))`,
+scenarios = [
+    ("renombrar ClientRecord", "rename_entity"),
+    ("añadir campo opcional con default", "optional_field"),
+    ("S11 y CLI de S10", "keep_cli_stable"),
+]
+for _label, kind in scenarios:
+    print(policy_for(kind))`,
           output: `POLICY: renombrar ClientRecord es MAJOR; documentar migración
 POLICY: añadir campo opcional con default es MINOR
 POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG`,
@@ -1548,45 +1585,70 @@ stderr_only empezando | fin |`,
         subtopicId: "S10-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T4-A — Implementa `rank_layers(names)` con el mapa canónico PREC (defaults=1 … flags=4): asigna rank y **ordena** por rank ascendente (no confíes en el orden de entrada). Salida esperada exacta:\n1:defaults\n2:file\n3:env\n4:flags",
-        hint: "PREC fijo; ranked = [(PREC[n], n) for n in names]; sort por el rank.",
+          "E1 (guiado) · S10-T4-A — Implementa `resolve_with_trace(layers)` (`CASO-LIM-010`): aplica capas en orden canónico (defaults → file → env → flags), ignora `None`, imprime cada aplicación y el ganador final. Entrada desordenada a propósito. Salida esperada exacta:\napply defaults -> INFO\napply file -> WARNING\napply env -> DEBUG\napply flags -> ERROR\nwinner=ERROR source=flags",
+        hint: "Ordena por PREC (defaults=1 … flags=4); recorre y solo aplica valores no-None; actualiza winner/source en cada apply.",
         hints: [
-          "Corrige PREC: defaults=1, file=2, env=3, flags=4 (flags gana).",
-          "Tras mapear, ordena por el entero del rank antes de imprimir.",
+          "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers, key=PREC.get).",
+          "Si val is None: no imprimas apply; si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
         ],
-        edgeCases: ["Documenta si algún flag es global vs por subcomando"],
+        edgeCases: ["Un flag None significa 'no pasado' y no debe pisar env"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si ves 1:flags o el orden sigue el de entrada, PREC está invertido o falta el sort por rank.",
+        feedback: "Si winner=INFO o el primer apply es flags, el orden de capas está invertido; si aparece apply env -> None, no estás filtrando None.",
         starterCode: {
           language: 'python',
-          title: "precedence_table.py",
-          code: `# CASO-LIM-010 · config layers order
-# DEFECT: PREC invertido; no ordena por rank; quita print('ok', True)
+          title: "precedence_trace.py",
+          code: `# CASO-LIM-010 · apply layers + winner (no solo ranks)
+# DEFECT: orden invertido; no ignora None; quita print('ok', True)
 PREC = {"defaults": 4, "file": 3, "env": 2, "flags": 1}
 
-def rank_layers(names: list[str]) -> list[tuple[int, str]]:
-    return [(PREC[n], n) for n in names]
+def resolve_with_trace(layers: dict) -> None:
+    ordered = sorted(layers.keys(), key=lambda n: PREC[n])
+    winner = None
+    source = None
+    for name in ordered:
+        val = layers[name]
+        print(f"apply {name} -> {val}")
+        winner = val
+        source = name
+    print(f"winner={winner} source={source}")
 
-for rank, name in rank_layers(["env", "flags", "defaults", "file"]):
-    print(f"{rank}:{name}")
+resolve_with_trace({
+    "env": "DEBUG",
+    "flags": "ERROR",
+    "defaults": "INFO",
+    "file": "WARNING",
+})
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
-          title: "precedence_table.py",
+          title: "precedence_trace.py",
           code: `PREC = {"defaults": 1, "file": 2, "env": 3, "flags": 4}
 
-def rank_layers(names: list[str]) -> list[tuple[int, str]]:
-    ranked = [(PREC[n], n) for n in names]
-    ranked.sort(key=lambda t: t[0])
-    return ranked
+def resolve_with_trace(layers: dict) -> None:
+    ordered = sorted(layers.keys(), key=lambda n: PREC[n])
+    winner = None
+    source = None
+    for name in ordered:
+        val = layers[name]
+        if val is None:
+            continue
+        winner = val
+        source = name
+        print(f"apply {name} -> {val}")
+    print(f"winner={winner} source={source}")
 
-for rank, name in rank_layers(["env", "flags", "defaults", "file"]):
-    print(f"{rank}:{name}")`,
-          output: `1:defaults
-2:file
-3:env
-4:flags`,
+resolve_with_trace({
+    "env": "DEBUG",
+    "flags": "ERROR",
+    "defaults": "INFO",
+    "file": "WARNING",
+})`,
+          output: `apply defaults -> INFO
+apply file -> WARNING
+apply env -> DEBUG
+apply flags -> ERROR
+winner=ERROR source=flags`,
         },
       },
       {
@@ -2091,42 +2153,42 @@ print("created", len(FILES), "files in", root)`,
         options: ["Acelerar el interpreter", "Ejecutar el CLI/demo solo al correr el módulo, no al importar", "Definir __all__", "Instalar dependencias"],
         correctIndex: 1,
         explanation:
-          "Evita side-effects al importar el paquete.",
+          "Al importar, `__name__` es el nombre del módulo: la guarda evita que el CLI corra como side-effect. Solo al ejecutar el archivo (o `python -m …`) vale `'__main__'` y arranca el entrypoint.",
       },
       {
         question: "¿Cuál es la precedencia correcta de configuración?",
         options: ["defaults > flags > env > file", "env > flags > file > defaults", "file > flags > env > defaults", "flags > env > file > defaults"],
         correctIndex: 3,
         explanation:
-          "Flags CLI ganan; defaults son la base.",
+          "Canónica en ops: flags CLI > variables de entorno > archivo > defaults. Un flag None significa “no pasado” y no debe pisar env.",
       },
       {
         question: "Exit code 2 en CLI argparse suele significar…",
         options: ["Error de uso/parseo de argumentos", "Éxito", "Timeout de red", "Fraude detectado"],
         correctIndex: 0,
         explanation:
-          "Convención: 2 usage; 1 runtime; 0 ok.",
+          "Convención Unix/Python: 0 = éxito, 1 = error de runtime/negocio, 2 = uso inválido (argv mal formado). CI y scripts dependen de distinguirlos.",
       },
       {
         question: "¿Dónde van los logs de progreso?",
         options: ["stdout con el JSON", "en el nombre del archivo", "stderr", "en __all__"],
         correctIndex: 2,
         explanation:
-          "stderr deja stdout limpio para pipes.",
+          "stdout = datos (JSON/CSV) para pipes; stderr = progreso y diagnóstico. Un `print('ok')` extra en stdout rompe al consumidor del pipe.",
       },
       {
         question: "Añadir un subcomando nuevo compatible es típicamente…",
         options: ["major", "minor", "borrar el repo", "patch obligatorio siempre"],
         correctIndex: 1,
         explanation:
-          "Feature compatible → minor en semver.",
+          "SemVer: feature compatible → minor; rename/eliminar API pública → major; fix sin cambio de contrato → patch. Documenta en CHANGELOG.",
       },
       {
         question: "¿Qué no debe ir al git del paquete?",
         options: ["README.md", "pyproject.toml", "src/.../__init__.py", ".env con API_TOKEN"],
         correctIndex: 3,
         explanation:
-          "Secretos fuera del repo; usa .env.example sin valores reales.",
+          "Secretos fuera del repo. Commitea `.env.example` vacío de secretos; valida tokens solo donde el adaptador remoto los necesite, nunca en logs.",
       },
     ],
   },

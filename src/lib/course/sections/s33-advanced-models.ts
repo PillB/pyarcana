@@ -12,7 +12,7 @@ export const section33: CourseSection = {
   icon: "LineChart",
   accentColor: "bg-gradient-to-br from-purple-500 to-indigo-800",
   jobRelevance:
-    "Un workbench serio **no reemplaza** reglas claras por un modelo opaco sin baseline. En equipos de datos en LatAm (banca, fintech, ops de riesgo), primero se documenta un **baseline** (dummy o regla) y costos de FP/FN de cola; solo entonces se prueba si un modelo supervisado mejora la **prioridad de revisión**. Predicción de cola ≠ etiqueta de fraude ni de parentesco. Capstone de referencia: workbench CP-N3-B con datos sintéticos.",
+    "En banca, fintech y ops de riesgo en LatAm (p. ej. mesas de revisión de alertas en Lima o Arequipa), un workbench serio **no reemplaza** reglas claras por un modelo opaco sin baseline. Primero se documenta un **baseline** (dummy majority o regla simple) y los costos de FP/FN de cola; solo entonces se prueba si un modelo supervisado mejora la **prioridad de revisión**. Si el modelo no gana al dummy, el experimento se **loguea igual** y no se promociona complejidad inútil. Predicción de cola ≠ etiqueta de fraude ni de parentesco. Capstone de referencia: workbench CP-N3-B con datos sintéticos.",
   learningOutcomes: [
     { text: "Definir unidad de scoring, target observable y horizonte temporal" },
     { text: "Fijar baseline de regla y dummy majority con costo FP/FN" },
@@ -27,15 +27,16 @@ export const section33: CourseSection = {
     {
       heading: "Por qué baselines antes de modelos opacos",
       paragraphs: [
-        "Google *Rules of ML* lo resume así: lanza primero con **heurística o baseline**, mide el valor, y solo después sube la complejidad. En muchos equipos se desplegó un modelo opaco que **no** superaba a “siempre la clase mayoritaria”: meses de ingeniería, cero valor en cola. Esta sección no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista** (dummy majority o regla simple) antes de cualquier modelo en el workbench de Red Andina (CP-N3-B).",
-        "Producto incremental: comparación **honesta** dummy/regla vs lineal/árbol sobre el target sintético `needs_review_7d`. Entrada: features de S32 ya sin leakage (p. ej. `shared_phone`, `amount_z`); salida: métricas y la bandera `beats_dummy` — **sin** label de fraude ni parentesco. Un experimento que **no** supera al dummy sigue siendo un run válido: se registra y se documenta.",
+        "**Diccionario de la sección** (léelo antes de modelar). **Baseline:** ancla mínima — dummy majority (“siempre la clase más frecuente”) o regla simple (`x >= thr`). **Target:** lo que intentas priorizar (aquí `needs_review_7d`), **nunca** un veredicto de fraude. **Horizonte:** ventana temporal del target (p. ej. 7 días). **beats_dummy:** si accuracy (u otra métrica) del modelo supera al dummy; puede ser **False** y el run sigue válido. **Group CV:** validación cruzada que no mezcla la misma entidad entre train y valid. **L2 (al cuadrado):** penalización Σw² que frena coeficientes enormes. **Stump:** árbol de profundidad 1. **Seed:** semilla que hace reproducible el experimento.",
+        "Google *Rules of ML* lo resume así: lanza primero con **heurística o baseline**, mide el valor, y solo después sube la complejidad. En muchos equipos se desplegó un modelo opaco que **no** superaba a “siempre la clase mayoritaria”: meses de ingeniería, cero valor en cola. Esta sección no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista** antes de cualquier modelo en el workbench de Red Andina (CP-N3-B).",
+        "Producto incremental: comparación **honesta** sobre el target sintético `needs_review_7d`. Entrada: features de S32 ya sin leakage (p. ej. `shared_phone`, `amount_z`). **Espina numérica del lab** (misma y=[1,1,0] o fixtures del demo): dummy majority ≈0.667 · regla simple y stump se calculan · logística con L2 reportada · `beats_dummy` True o False según métrica. Un experimento que **no** supera al dummy se registra y documenta — no se borra.",
         "Orden de la sección: **T1 framing y baseline** → **T2 lineales regularizados** → **T3 stumps y control de overfit** → **T4 tracking y group CV**. Usamos Python estándar (sigmoid, stump, seed) antes de APIs pesadas; en recursos quedan sklearn y Rules of ML. Predicción de prioridad de revisión ≠ veredicto de culpa."
       ],
       callout: {
         type: "info",
-        title: "Gate baseline",
+        title: "Gate baseline (qué hacer ya)",
         content:
-          "Sin baseline documentado no se promociona modelo. Target ≠ fraude. Datos sintéticos only. Un run con beats_dummy=False se loguea igual.",
+          "Sin baseline documentado no se promociona modelo. Target needs_review_* con horizonte explícito (no fraud). Datos sintéticos only. Un run con beats_dummy=False se loguea igual. Anota prevalencia antes del fit.",
       },
     },
     {
@@ -79,8 +80,8 @@ prevalence 0.25`,
       subtopicId: "S33-T1-B",
       paragraphs: [
         "El **dummy majority** (predecir siempre la clase más frecuente) y una **regla simple** (p. ej. `x >= thr` sobre un score de S32) anclan el valor mínimo del workbench. El costo `fp * c_fp + fn * c_fn` traduce errores a **impacto de cola**, no a moral de fraude: un FN caro significa un caso que debió revisarse y no se priorizó a tiempo.",
-        "Necesitas `y`, las predicciones (dummy o regla) y los costos unitarios. De ahí salen accuracy del dummy, costo total y `has_baseline`. El error grave es **entrenar sin baseline documentado**. Calcula `beats_dummy` **después** de fijar dummy, regla y costo; si el modelo pierde, el run **sigue siendo válido** — solo no se promociona.",
-        "En `CASO-LIM-033`: con `y=[1,1,0]` el dummy predice 1 y acierta 2/3 (acc≈0.667). El costo del propio dummy se deriva de comparar `y` vs predicciones (1 FP con c_fp=1 → costo 1). Documenta también la regla `x >= thr` y el dummy en el log **antes** del modelo lineal o del stump."
+        "Necesitas `y`, las predicciones (dummy o regla) y los costos unitarios. De ahí salen accuracy del dummy, accuracy de la regla, costo total y `has_baseline`. El error grave es **entrenar sin baseline documentado**. Calcula `beats_dummy` **después** de fijar dummy, regla y costo; si el modelo pierde, el run **sigue siendo válido** — solo no se promociona.",
+        "En `CASO-LIM-033`: con `y=[1,1,0]` el dummy predice 1 y acierta 2/3 (acc≈0.667); su costo se deriva de y vs predicciones (1 FP con c_fp=1 → costo 1). La regla `x >= 1` sobre `x=[1,1,0]` produce pred `[1,1,0]` y accuracy **1.0**: a veces la heurística ya gana al dummy. Documenta **ambos** anclajes en el log **antes** del modelo lineal o del stump."
       ],
       code: {
         language: 'python',
@@ -100,21 +101,29 @@ prevalence 0.25`,
 def rule_preds(x, thr=1.0):
     return [int(v >= thr) for v in x]
 
-acc, cost, has_baseline = dummy_and_cost([1, 1, 0])
+def rule_acc(y, x, thr=1.0):
+    pred = rule_preds(x, thr)
+    return round(sum(a == b for a, b in zip(y, pred)) / len(y), 3), pred
+
+y, x = [1, 1, 0], [1.0, 1.0, 0.0]
+acc, cost, has_baseline = dummy_and_cost(y)
+r_acc, r_pred = rule_acc(y, x, 1.0)
 print("dummy_acc", acc)
 print("cost", cost)
 print("has_baseline", has_baseline)
-print("rule", rule_preds([1.0, 1.0, 0.0], 1.0))`,
+print("rule", r_pred)
+print("rule_acc", r_acc)`,
         output: `dummy_acc 0.667
 cost 1
 has_baseline True
-rule [1, 1, 0]`,
+rule [1, 1, 0]
+rule_acc 1.0`,
       },
       callout: {
         type: "tip",
         title: "Qué escribir ahora",
         content:
-          "Calcula majority con max(set(y), key=y.count), deriva el costo de y vs pred, y guarda has_baseline=True. Sin baseline → REJECT_NO_BASELINE; sin costo → REQUEST_COST.",
+          "Calcula majority con max(set(y), key=y.count), deriva el costo de y vs pred, y la accuracy de la regla x>=thr. Sin baseline → REJECT_NO_BASELINE; sin costo → REQUEST_COST.",
       },
     },
     {
@@ -161,7 +170,7 @@ l2_sq 5`,
       paragraphs: [
         "Comparar magnitudes `|coef|` solo tiene sentido si las features están **escaladas** (z-score de S32: p. ej. `amount_z`). El **signo** indica dirección de asociación *en el modelo*, **no** causalidad social ni fraude probado: un `shared_phone` alto no “prueba” colusión entre entidades.",
         "Trabajas con un diccionario de coeficientes y un `scale_flag`. Ordenas por `|w|` y reportas el signo del top. Si las features **no** están escaladas, no compares magnitudes como si fueran importancia relativa. Antes de rankear para el informe: `scale_flag=True` y `causal=False`.",
-        "Puente desde S32: reutiliza columnas como `shared_phone` y `amount_z` ya limpias de leakage (sin target futuro ni IDs crudos). En `CASO-LIM-033`, `shared_phone=0.8` (positivo) ordena arriba si está scaled; se imprime el ranking con `causal=False` para no sobre-interpretar el score de cola."
+        "Puente desde S32: reutiliza columnas como `shared_phone` y `amount_z` ya limpias de leakage (sin target futuro ni IDs crudos en el feature set). Si en S32 exportaste una tabla con esas columnas z-score, aquí solo las **rankeas por |coef|** cuando `scaled=True`. En `CASO-LIM-033`, `shared_phone=0.8` (positivo) ordena arriba; se imprime el ranking con `causal=False` para no sobre-interpretar el score de cola como parentesco o fraude."
       ],
       code: {
         language: 'python',
@@ -172,7 +181,7 @@ l2_sq 5`,
     sign = "pos" if coefs[top] > 0 else "neg"
     return ranked, sign
 
-# features S32 escaladas: shared_phone, amount_z
+# features S32 escaladas (sin leakage): shared_phone, amount_z
 ranked, sign = rank_coefs({"shared_phone": 0.8, "amount_z": -0.2})
 print(ranked)
 print("sign_shared_phone", sign)
@@ -194,9 +203,9 @@ scaled True`,
       heading: "Stumps, voto y ensambles controlados",
       subtopicId: "S33-T3-A",
       paragraphs: [
-        "Un **stump** es un árbol de profundidad 1: una sola pregunta del tipo `x >= thr`. Varios stumps con **voto mayoritario** ilustran la idea de ensamble sin APIs pesadas. Random Forest y boosting son *familias* de ensambles (bagging vs. reponderar residuos); aquí solo practicamos stump + vote y el control de profundidad. Profundidad **ilimitada** overfittea el dataset sintético y miente frente al dummy.",
-        "Recibes una lista `X`, el umbral del stump y una lista de votos de predictores débiles. Sales con las predicciones del stump y el majority vote. `depth_unlimited=True` sin validación es breach de control. Antes de declarar victoria del ensamble, compara su accuracy **contra el dummy** de T1-B.",
-        "En `CASO-LIM-033`: thr=0.3 sobre `[0.1, 0.4]` produce `[0, 1]`; el voto de tres predictores débiles `[1,0,1]` da majority 1. Documenta `depth_unlimited=False` en el log del experimento."
+        "Un **stump** es un árbol de profundidad 1: una sola pregunta del tipo `x >= thr`. Varios stumps con **voto mayoritario** ilustran la idea de ensamble sin APIs pesadas. **Random Forest** (bagging de árboles) y **boosting** (reponderar residuos o errores) son *familias* más ricas; aquí solo practicamos stump + vote y el control de profundidad — suficiente para el workbench y para no inventar APIs no enseñadas. Profundidad **ilimitada** overfittea el dataset sintético y miente frente al dummy.",
+        "Recibes una lista `X`, el umbral del stump y una lista de votos de predictores débiles. Sales con las predicciones del stump y el majority vote. `depth_unlimited=True` sin validación es breach de control. Antes de declarar victoria del ensamble, compara su accuracy **contra el dummy** de T1-B (y, si aplica, contra la regla).",
+        "En `CASO-LIM-033`: thr=0.3 sobre `[0.1, 0.4]` produce `[0, 1]`; el voto de tres predictores débiles `[1,0,1]` da majority 1. Documenta `depth_unlimited=False` en el log del experimento. Si más adelante lees RF/GB en sklearn, verás la misma idea de “muchos débiles bien controlados” — con bagging o boosting, no con un solo árbol profundo."
       ],
       code: {
         language: 'python',
@@ -363,7 +372,7 @@ prevalence 0.25`,
         demoId: "S33-T1-B-DEMO",
         subtopicId: "S33-T1-B",
         environment: "local-python",
-        description: "Dummy majority con accuracy y costo derivados de y vs predicciones.",
+        description: "Dummy majority + regla simple: accuracy y costo derivados; dual baseline antes del ML.",
         code: {
           language: 'python',
           title: "base_demo.py",
@@ -379,15 +388,25 @@ prevalence 0.25`,
             cost += c_fn
     return acc, cost
 
-acc, cost = dummy_acc_and_cost([1, 1, 0])
+def rule_acc(y, x, thr=1.0):
+    pred = [int(v >= thr) for v in x]
+    return round(sum(a == b for a, b in zip(y, pred)) / len(y), 3), pred
+
+y, x = [1, 1, 0], [1.0, 1.0, 0.0]
+acc, cost = dummy_acc_and_cost(y)
+r_acc, r_pred = rule_acc(y, x, 1.0)
 print("dummy_acc", acc)
 print("cost", cost)
-print("has_baseline", True)`,
+print("has_baseline", True)
+print("rule", r_pred)
+print("rule_acc", r_acc)`,
           output: `dummy_acc 0.667
 cost 1
-has_baseline True`,
+has_baseline True
+rule [1, 1, 0]
+rule_acc 1.0`,
         },
-        why: "Sin baseline y costo calculados, el ML no demuestra valor incremental en el workbench.",
+        why: "Sin dual baseline (dummy + regla) y costo calculados, el ML no demuestra valor incremental en el workbench.",
       },
       {
         demoId: "S33-T2-A-DEMO",
@@ -546,7 +565,7 @@ random_leak_ok False`,
     ],
   },
   weDo: {
-    intro: "Practicamos baselines responsables del workbench CP-N3-B con el caso sintético CASO-LIM-033. En cada tema: primero reparas un cálculo o contrato defectuoso, luego modelas rutas válido/adverso/faltante, y al final aplicas fallo cerrado (continuar / rechazar / pedir evidencia).",
+    intro: "Practicamos baselines responsables del workbench CP-N3-B con el caso sintético CASO-LIM-033. En cada tema reparas un cálculo defectuoso (prevalencia, dummy+costo, sigmoid/L2, stump, gap, beats, n_groups), luego enrutas fixtures válidos/adversos/faltantes, y cierras con fallo cerrado: continuar, rechazar o pedir evidencia — sin inventar valores por defecto.",
     steps: [
       {
         id: "S33-T1-A-E1",
@@ -766,21 +785,28 @@ assert meets_contract is True
         id: "S33-T1-B-E2",
         subtopicId: "S33-T1-B",
         kind: "independent",
-        instruction: "S33-T1-B-E2 · Tres rutas de baseline: válido (has_baseline True, cost y dummy_acc presentes), adverso (has_baseline False) y sin campo `cost`. Salidas: `PASS`, `REJECT_NO_BASELINE`, `MISSING:cost`.",
-        hint: "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
+        instruction: "S33-T1-B-E2 · Construye el fixture válido **calculando** dummy_acc y cost sobre `y=[1,1,0]` (no hardcodes mágicos). Luego enruta: válido → `PASS`, adverso (`has_baseline=False`) → `REJECT_NO_BASELINE`, sin `cost` → `MISSING:cost`. El starter deja cost=None en el válido y da PASS al adverso (DEFECT).",
+        hint: "Primero missing; luego has_baseline True, cost is not None y dummy_acc >= 0. Deriva dummy_acc/cost como en E1.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.",
-          "PASS solo si has_baseline is True, cost is not None y dummy_acc >= 0.",
+          "maj = max(...); dummy = [maj]*n; acc y cost desde y vs dummy (c_fp=1, c_fn=5).",
+          "Con y=[1,1,0] esperas dummy_acc≈0.667 y cost=1 en el fixture válido.",
         ],
         edgeCases: ["falta cost", "fixture adverso: has_baseline=False o sin dummy", "CASO-LIM-033-1B es sintético"],
-        tests: "Produce exactamente `PASS REJECT_NO_BASELINE MISSING:cost`.",
-        feedback: "S33-T1-B-E2: sin baseline documentado no se promociona modelo; falta cost pide REQUEST en E3.",
+        tests: "Produce exactamente `PASS REJECT_NO_BASELINE MISSING:cost` con cost/acc derivados en el válido.",
+        feedback: "S33-T1-B-E2: el contrato se alimenta de números calculados, no de un dict pre-rellenado a mano.",
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e2.py",
-          code: `# CASO-LIM-033 · assess baseline (REJECT_NO_BASELINE)
-# DEFECT: da PASS cuando has_baseline es False
-# TAREA: missing de cost primero; PASS solo con baseline + cost + dummy_acc
+          code: `# CASO-LIM-033 · assess baseline con fields calculados
+# DEFECT: cost/acc no derivados; da PASS cuando has_baseline es False
+# TAREA: deriva dummy_acc+cost; missing de cost primero; PASS solo con baseline real
+y = [1, 1, 0]
+c_fp, c_fn = 1, 5
+maj = max(set(y), key=y.count)
+dummy = [maj] * len(y)
+dummy_acc = round(sum(a == b for a, b in zip(y, dummy)) / len(y), 3)
+cost = None  # DEFECT: deriva FP/FN como en E1
+
 def assess(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
@@ -788,10 +814,9 @@ def assess(record: dict) -> str:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["has_baseline"] is False else "REJECT_NO_BASELINE"
 
-valid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 1, 'has_baseline': True}}
-invalid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}
-incomplete = {**valid}
-incomplete.pop("cost")
+valid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": dummy_acc, "cost": cost, "has_baseline": True}
+invalid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": 0.0, "cost": 0, "has_baseline": False}
+incomplete = {k: v for k, v in valid.items() if k != "cost"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -799,19 +824,32 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `y = [1, 1, 0]
+c_fp, c_fn = 1, 5
+maj = max(set(y), key=y.count)
+dummy = [maj] * len(y)
+dummy_acc = round(sum(a == b for a, b in zip(y, dummy)) / len(y), 3)
+cost = 0
+for yt, yp in zip(y, dummy):
+    if yp == 1 and yt == 0:
+        cost += c_fp
+    if yp == 0 and yt == 1:
+        cost += c_fn
+
+def assess(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["has_baseline"] is True and record["cost"] is not None and record["dummy_acc"] >= 0 else "REJECT_NO_BASELINE"
 
-valid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 1, 'has_baseline': True}}
-invalid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}
-incomplete = {**valid}
-incomplete.pop("cost")
+valid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": dummy_acc, "cost": cost, "has_baseline": True}
+invalid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": 0.0, "cost": 0, "has_baseline": False}
+incomplete = {k: v for k, v in valid.items() if k != "cost"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+assert results == ("PASS", "REJECT_NO_BASELINE", "MISSING:cost")
+assert valid["dummy_acc"] == 0.667 and valid["cost"] == 1
 ` ,
           output: `PASS REJECT_NO_BASELINE MISSING:cost` ,
         },
@@ -930,21 +968,30 @@ assert meets_contract is True
         id: "S33-T2-A-E2",
         subtopicId: "S33-T2-A",
         kind: "independent",
-        instruction: "S33-T2-A-E2 · Tres rutas de logística regularizada: válido (p en [0,1], pred binaria, l2>0), adverso (l2=0) y sin campo `p`. Salidas: `PASS`, `REJECT_UNREGULARIZED`, `MISSING:p`.",
-        hint: "Primero `missing`; luego exige l2 > 0, p en [0,1] y pred en (0, 1).",
+        instruction: "S33-T2-A-E2 · **Calcula** p=sigmoid(0), pred con thr=0.6 sobre x=0.2, y l2_sq([1,2]) para el fixture válido. Enruta: válido → `PASS`, adverso (l2=0) → `REJECT_UNREGULARIZED`, sin `p` → `MISSING:p`. El starter hardcodea l2=0 en el válido y da PASS al adverso (DEFECT).",
+        hint: "Primero missing; luego l2 > 0, p en [0,1], pred en {0,1}. p=0.5, pred=0, l2=5 en el caso del lab.",
         hints: [
-          "Primero `missing`; luego exige l2 > 0, p en [0,1] y pred en (0, 1).",
+          "p = round(sigmoid(0), 3); pred = int(sigmoid(1*0.2+0) >= 0.6); l2 = sum(v*v for v in [1,2]).",
           "El adverso con l2=0 falla por contenido, no por schema.",
         ],
         edgeCases: ["falta p", "fixture adverso: l2_sq==0 (sin regularizar)", "CASO-LIM-033-2A es sintético"],
-        tests: "Produce `PASS REJECT_UNREGULARIZED MISSING:p`.",
-        feedback: "S33-T2-A-E2: L2==0 con modelo “listo” es breach de regularización en este lab.",
+        tests: "Produce `PASS REJECT_UNREGULARIZED MISSING:p` con p/pred/l2 derivados en el válido.",
+        feedback: "S33-T2-A-E2: el gate de regularización se alimenta de p, pred y L2² calculados, no inventados.",
         starterCode: {
           language: 'python',
           title: "s33-t2-a-e2.py",
-          code: `# CASO-LIM-033 · assess logística (REJECT_UNREGULARIZED)
-# DEFECT: da PASS cuando l2==0
-# TAREA: missing de p primero; PASS solo con l2>0, p en [0,1], pred binaria
+          code: `# CASO-LIM-033 · assess logística con p/pred/L2 calculados
+# DEFECT: l2 del válido=0; da PASS cuando l2==0
+# TAREA: deriva p, pred(thr=0.6), l2_sq; missing de p primero
+import math
+
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+p = round(sigmoid(0), 3)
+pred = int(sigmoid(1.0 * 0.2 + 0.0) >= 0.6)
+l2 = 0.0  # DEFECT: debe ser Σw² de [1,2] == 5
+
 def assess(record: dict) -> str:
     required = {"case_id", 'p', 'pred', 'l2'}
     missing = sorted(required - record.keys())
@@ -952,10 +999,9 @@ def assess(record: dict) -> str:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["l2"] == 0 else "REJECT_UNREGULARIZED"
 
-valid = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}
-invalid = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}
-incomplete = {**valid}
-incomplete.pop("p")
+valid = {"case_id": "CASO-LIM-033-2A", "p": p, "pred": pred, "l2": l2}
+invalid = {"case_id": "CASO-LIM-033-2A", "p": 0.5, "pred": 0, "l2": 0.0}
+incomplete = {k: v for k, v in valid.items() if k != "p"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -963,19 +1009,29 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `import math
+
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+p = round(sigmoid(0), 3)
+pred = int(sigmoid(1.0 * 0.2 + 0.0) >= 0.6)
+l2 = float(sum(v * v for v in [1, 2]))
+
+def assess(record: dict) -> str:
     required = {"case_id", 'p', 'pred', 'l2'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["l2"] > 0 and 0 <= record["p"] <= 1 and record["pred"] in (0, 1) else "REJECT_UNREGULARIZED"
 
-valid = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}
-invalid = {"case_id": "CASO-LIM-033-2A", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}
-incomplete = {**valid}
-incomplete.pop("p")
+valid = {"case_id": "CASO-LIM-033-2A", "p": p, "pred": pred, "l2": l2}
+invalid = {"case_id": "CASO-LIM-033-2A", "p": 0.5, "pred": 0, "l2": 0.0}
+incomplete = {k: v for k, v in valid.items() if k != "p"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+assert results == ("PASS", "REJECT_UNREGULARIZED", "MISSING:p")
+assert valid["p"] == 0.5 and valid["pred"] == 0 and valid["l2"] == 5.0
 ` ,
           output: `PASS REJECT_UNREGULARIZED MISSING:p` ,
         },
@@ -1298,21 +1354,30 @@ print(*results)
         id: "S33-T3-A-E3",
         subtopicId: "S33-T3-A",
         kind: "transfer",
-        instruction: "S33-T3-A-E3 · Fallo cerrado: stump controlado → `CONTINUE`, depth libre → `REJECT_DEPTH_UNLIMITED`, sin stump → `REQUEST_STUMP`.",
-        hint: "Missing → REQUEST_STUMP; depth_unlimited True → REJECT.",
+        instruction: "S33-T3-A-E3 · **Transferencia:** genera `stump_preds` con thr=0.3 sobre `[0.1,0.4]` y majority de `[1,0,1]`; decide CONTINUE si depth controlada y preds no vacías. Adverso: depth_unlimited True → `REJECT_DEPTH_UNLIMITED`. Sin stump_preds → `REQUEST_STUMP`. El starter invierte thr y depth (DEFECT).",
+        hint: "Calcula preds y maj; missing → REQUEST_STUMP; depth True → REJECT; ok → CONTINUE.",
         hints: [
-          "Missing → REQUEST_STUMP; depth_unlimited True → REJECT.",
+          "stump_preds: int(x >= 0.3); majority: sum >= (len+1)//2.",
           "CONTINUE solo con depth_unlimited False y lista de preds no vacía.",
         ],
         edgeCases: ["falta stump_preds", "fixture adverso: depth_unlimited=True", "CASO-LIM-033-3A es sintético"],
-        tests: "Produce `CONTINUE REJECT_DEPTH_UNLIMITED REQUEST_STUMP`.",
-        feedback: "S33-T3-A-E3: se pide el stump antes de aceptar un ensamble opaco.",
+        tests: "Produce `CONTINUE REJECT_DEPTH_UNLIMITED REQUEST_STUMP` con preds calculados.",
+        feedback: "S33-T3-A-E3: se pide el stump calculado antes de aceptar un ensamble opaco o depth libre.",
         starterCode: {
           language: 'python',
           title: "s33-t3-a-e3.py",
-          code: `# CASO-LIM-033 · decide stump (REQUEST_STUMP / REJECT_DEPTH_UNLIMITED)
-# DEFECT: missing→CONTINUE; pred invertido sobre depth
-# TAREA: sin stump → REQUEST_STUMP; depth libre → REJECT; controlado → CONTINUE
+          code: `# CASO-LIM-033 · decide stump con preds calculados
+# DEFECT: thr invertido; missing→CONTINUE; pred invertido sobre depth
+# TAREA: thr=0.3, maj de [1,0,1]; sin stump → REQUEST; depth libre → REJECT
+def stump_preds(X, thr):
+    return [int(x < thr) for x in X]  # DEFECT
+
+def majority_vote(votes):
+    return int(sum(votes) >= (len(votes) + 1) // 2)
+
+preds = stump_preds([0.1, 0.4], 0.3)
+maj = majority_vote([1, 0, 1])
+
 def decide(record: dict) -> str:
     required = {"case_id", 'stump_preds', 'majority', 'depth_unlimited'}
     missing = sorted(required - record.keys())
@@ -1320,10 +1385,9 @@ def decide(record: dict) -> str:
         return "CONTINUE"
     return "CONTINUE" if record["depth_unlimited"] is True else "REJECT_DEPTH_UNLIMITED"
 
-valid = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}
-invalid = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}
-uncertain = {**valid}
-uncertain.pop("stump_preds")
+valid = {"case_id": "CASO-LIM-033-3A", "stump_preds": preds, "majority": maj, "depth_unlimited": False}
+invalid = {"case_id": "CASO-LIM-033-3A", "stump_preds": preds, "majority": maj, "depth_unlimited": True}
+uncertain = {k: v for k, v in valid.items() if k != "stump_preds"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1331,20 +1395,29 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t3-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `def stump_preds(X, thr):
+    return [int(x >= thr) for x in X]
+
+def majority_vote(votes):
+    return int(sum(votes) >= (len(votes) + 1) // 2)
+
+preds = stump_preds([0.1, 0.4], 0.3)
+maj = majority_vote([1, 0, 1])
+
+def decide(record: dict) -> str:
     required = {"case_id", 'stump_preds', 'majority', 'depth_unlimited'}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_STUMP"
     return "CONTINUE" if record["depth_unlimited"] is False and len(record["stump_preds"]) >= 1 else "REJECT_DEPTH_UNLIMITED"
 
-valid = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}
-invalid = {"case_id": "CASO-LIM-033-3A", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}
-uncertain = {**valid}
-uncertain.pop("stump_preds")
+valid = {"case_id": "CASO-LIM-033-3A", "stump_preds": preds, "majority": maj, "depth_unlimited": False}
+invalid = {"case_id": "CASO-LIM-033-3A", "stump_preds": preds, "majority": maj, "depth_unlimited": True}
+uncertain = {k: v for k, v in valid.items() if k != "stump_preds"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_DEPTH_UNLIMITED", "REQUEST_STUMP"]
+assert preds == [0, 1] and maj == 1
 ` ,
           output: `CONTINUE REJECT_DEPTH_UNLIMITED REQUEST_STUMP` ,
         },
@@ -1601,39 +1674,46 @@ print(*results)
         id: "S33-T4-A-E3",
         subtopicId: "S33-T4-A",
         kind: "transfer",
-        instruction: "S33-T4-A-E3 · Fallo cerrado: run logueado (aunque beats_dummy=False) → `CONTINUE`, run mal logueado → `REJECT_UNLOGGED_RUN`, sin metrics → `REQUEST_METRICS`.",
-        hint: "Missing metrics → REQUEST_METRICS; no castigues beats_dummy False.",
+        instruction: "S33-T4-A-E3 · **Transferencia:** decide sobre **dos** runs logueados (victoria acc=0.7 y derrota acc=0.5 vs dummy 0.667), un run mal logueado y uno sin metrics. Salidas exactas en orden: `CONTINUE CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS`. El starter exige beats True y trata missing como CONTINUE (DEFECT).",
+        hint: "Calcula beats = acc > 0.667 en cada run; decide no castiga beats False. Missing metrics → REQUEST_METRICS.",
         hints: [
-          "Missing metrics → REQUEST_METRICS; no castigues beats_dummy False.",
-          "CONTINUE si metrics no vacías, beats_dummy en el dict y run_id truthy.",
+          "Ambos runs con metrics+run_id+beats_dummy (True o False) → CONTINUE.",
+          "metrics {} o run_id '' → REJECT_UNLOGGED_RUN; clave metrics ausente → REQUEST_METRICS.",
         ],
         edgeCases: ["falta metrics", "fixture adverso: metrics vacías o run_id vacío", "CASO-LIM-033-4A es sintético"],
-        tests: "Produce `CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS`.",
-        feedback: "S33-T4-A-E3: tracking responsable documenta derrotas ante el dummy; no las oculta.",
+        tests: "Produce `CONTINUE CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS`.",
+        feedback: "S33-T4-A-E3: tracking responsable documenta victorias y derrotas ante el dummy; no oculta ninguna.",
         starterCode: {
           language: 'python',
           title: "s33-t4-a-e3.py",
-          code: `# CASO-LIM-033 · decide tracking (REQUEST_METRICS / REJECT_UNLOGGED_RUN)
-# DEFECT: missing→CONTINUE; pred invertido; no exijas beats True
-# TAREA: sin metrics → REQUEST_METRICS; log vacío → REJECT; log completo → CONTINUE
+          code: `# CASO-LIM-033 · decide tracking dual win/lose
+# DEFECT: exige beats True; missing→CONTINUE
+# TAREA: win y lose logueados → CONTINUE; vacío → REJECT; sin metrics → REQUEST
+dummy_acc = 0.667
+
 def decide(record: dict) -> str:
     required = {"case_id", 'metrics', 'beats_dummy', 'run_id'}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
-    return "CONTINUE" if not record["metrics"] else "REJECT_UNLOGGED_RUN"
+    # DEFECT: exige victoria
+    ok = bool(record["metrics"]) and record.get("beats_dummy") is True and bool(record["run_id"])
+    return "CONTINUE" if ok else "REJECT_UNLOGGED_RUN"
 
-valid = {"case_id": "CASO-LIM-033-4A", **{'metrics': {'accuracy': 0.5, 'f1': 0.4}, 'beats_dummy': False, 'run_id': 'run-1'}}
-invalid = {"case_id": "CASO-LIM-033-4A", **{'metrics': {}, 'beats_dummy': False, 'run_id': ''}}
-uncertain = {k: v for k, v in valid.items() if k != "metrics"}
-results = [decide(item) for item in (valid, invalid, uncertain)]
+win = {"case_id": "CASO-LIM-033-4A", "metrics": {"accuracy": 0.7}, "beats_dummy": 0.7 > dummy_acc, "run_id": "run-win"}
+lose = {"case_id": "CASO-LIM-033-4A", "metrics": {"accuracy": 0.5}, "beats_dummy": 0.5 > dummy_acc, "run_id": "run-lose"}
+invalid = {"case_id": "CASO-LIM-033-4A", "metrics": {}, "beats_dummy": False, "run_id": ""}
+uncertain = {"case_id": "CASO-LIM-033-4A", "beats_dummy": False, "run_id": "run-x"}
+results = [decide(item) for item in (win, lose, invalid, uncertain)]
 print(*results)
 ` ,
         },
         solutionCode: {
           language: 'python',
           title: "s33-t4-a-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `dummy_acc = 0.667
+
+def decide(record: dict) -> str:
     required = {"case_id", 'metrics', 'beats_dummy', 'run_id'}
     missing = sorted(required - record.keys())
     if missing:
@@ -1641,38 +1721,42 @@ print(*results)
     ok = bool(record["metrics"]) and "beats_dummy" in record and bool(record["run_id"])
     return "CONTINUE" if ok else "REJECT_UNLOGGED_RUN"
 
-valid = {"case_id": "CASO-LIM-033-4A", **{'metrics': {'accuracy': 0.5, 'f1': 0.4}, 'beats_dummy': False, 'run_id': 'run-1'}}
-invalid = {"case_id": "CASO-LIM-033-4A", **{'metrics': {}, 'beats_dummy': False, 'run_id': ''}}
-uncertain = {k: v for k, v in valid.items() if k != "metrics"}
-results = [decide(item) for item in (valid, invalid, uncertain)]
+win = {"case_id": "CASO-LIM-033-4A", "metrics": {"accuracy": 0.7}, "beats_dummy": 0.7 > dummy_acc, "run_id": "run-win"}
+lose = {"case_id": "CASO-LIM-033-4A", "metrics": {"accuracy": 0.5}, "beats_dummy": 0.5 > dummy_acc, "run_id": "run-lose"}
+invalid = {"case_id": "CASO-LIM-033-4A", "metrics": {}, "beats_dummy": False, "run_id": ""}
+uncertain = {"case_id": "CASO-LIM-033-4A", "beats_dummy": False, "run_id": "run-x"}
+results = [decide(item) for item in (win, lose, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REJECT_UNLOGGED_RUN", "REQUEST_METRICS"]
+assert results == ["CONTINUE", "CONTINUE", "REJECT_UNLOGGED_RUN", "REQUEST_METRICS"]
+assert win["beats_dummy"] is True and lose["beats_dummy"] is False
 ` ,
-          output: `CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS` ,
+          output: `CONTINUE CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS` ,
         },
       },
       {
         id: "S33-T4-B-E1",
         subtopicId: "S33-T4-B",
         kind: "guided",
-        instruction: "S33-T4-B-E1 · **Calcula** `n_groups` sobre entities `['e1','e1','e2','e3']`. El starter usa `len(entities)` (4) en vez de `len(set(entities))` (3). Corrige y obtén PASS. Salida: `S33-T4-B PASS`.",
-        hint: "n_groups = len(set(entities)); debe ser 3.",
+        instruction: "S33-T4-B-E1 · **Calcula** `n_groups` y `mean_fold`. Entities `['e1','e1','e2','e3']` → n_groups=3 (no 4). Folds `[0.6, 0.7, 0.65]` → mean con `round(..., 3)` = 0.65. El starter usa `len(entities)` y `round(..., 2)` (DEFECT). Salida: `S33-T4-B PASS`.",
+        hint: "n_groups = len(set(entities)); mean = round(sum(folds)/len(folds), 3).",
         hints: [
-          "n_groups = len(set(entities)); debe ser 3.",
-          "e1 se repite: no cuentes filas, cuenta entidades únicas.",
+          "n_groups = len(set(entities)); debe ser 3 (e1 se repite).",
+          "mean_fold con 3 decimales: 0.65 exacto (no round a 2).",
         ],
         edgeCases: ["falta entities", "fixture adverso: random_split=True (leak entre folds)", "CASO-LIM-033-4B es sintético"],
-        tests: "Tras corregir a set, n_groups==3 e imprime `S33-T4-B PASS`.",
-        feedback: "S33-T4-B-E1: group CV se define sobre entidades, no sobre filas.",
+        tests: "n_groups==3 y mean==0.65 e imprime `S33-T4-B PASS`.",
+        feedback: "S33-T4-B-E1: group CV se define sobre entidades únicas; la media de folds usa el mismo redondeo que theory/iDo.",
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e1.py",
-          code: `# CASO-LIM-033 · n_groups por entidad
-# DEFECT: cuenta filas (len) en vez de entidades únicas (set)
-# TAREA: n_groups = len(set(entities)) == 3; PASS
+          code: `# CASO-LIM-033 · n_groups + mean_fold
+# DEFECT: cuenta filas (len); round a 2 decimales
+# TAREA: n_groups==3 y mean==0.65; PASS
 entities = ["e1", "e1", "e2", "e3"]
+folds = [0.6, 0.7, 0.65]
 n_groups = len(entities)  # DEFECT
-meets_contract = n_groups == 3
+mean = round(sum(folds) / len(folds), 2)  # DEFECT: debe ser 3
+meets_contract = n_groups == 3 and mean == 0.65
 status = "PASS" if meets_contract else "REJECT_RANDOM_LEAK"
 print("S33-T4-B", status)
 ` ,
@@ -1681,8 +1765,10 @@ print("S33-T4-B", status)
           language: 'python',
           title: "s33-t4-b-e1.py",
           code: `entities = ["e1", "e1", "e2", "e3"]
+folds = [0.6, 0.7, 0.65]
 n_groups = len(set(entities))
-meets_contract = n_groups == 3
+mean = round(sum(folds) / len(folds), 3)
+meets_contract = n_groups == 3 and mean == 0.65
 status = "PASS" if meets_contract else "REJECT_RANDOM_LEAK"
 print("S33-T4-B", status)
 assert meets_contract is True
@@ -1818,15 +1904,18 @@ assert results == ["CONTINUE", "REJECT_RANDOM_LEAK", "REQUEST_GROUP_IDS"]
       "beats_dummy calculado (puede ser False) y logueado",
     ],
     starterCode: `# baselines CP-N3-B — CASO-LIM-033 (sintético only)
-# Completa el pipeline: framing → dummy+costo → modelo → run log → group CV.
+# Pipeline: framing → dummy+costo → stump → run log → group CV.
+# Defecto intencional: thr del stump = 0.9 (casi nunca prioriza).
+# Tarea: elige thr sensato (p. ej. 0.3), recalcula accuracy y beats_dummy,
+# y deja el run log completo aunque pierdas al dummy.
 import math
 
 y = [1, 1, 0, 0]
-x = [0.1, 0.4, 0.2, 0.05]  # score sintético al estilo S32 (shared_phone/amount_z → score)
+x = [0.1, 0.4, 0.2, 0.05]  # score sintético al estilo S32
 entities = ["e1", "e1", "e2", "e3"]
+fold_scores = [0.6, 0.7, 0.65]
 seed = 42
 c_fp, c_fn = 1, 5
-dummy_acc_doc = None  # fíjalo tras calcular el dummy
 
 def frame_task(unit, target, horizon):
     return {
@@ -1851,19 +1940,33 @@ def dummy_acc_and_cost(labels, c_fp=1, c_fn=5):
 def stump_preds(X, thr):
     return [int(v >= thr) for v in X]
 
-def sigmoid(z):
-    return 1 / (1 + math.exp(-z))
+def accuracy(y_true, y_pred):
+    return round(sum(a == b for a, b in zip(y_true, y_pred)) / len(y_true), 3)
 
-# 1) frame = frame_task("entity_pair", "needs_review_7d", 7)  # fraud_name debe ser False
-# 2) dummy_acc_doc, cost, has_baseline = dummy_acc_and_cost(y, c_fp, c_fn)
-# 3) Elige stump (thr) o logística (w,b,thr) + L2; fija depth_unlimited=False / seed
-# 4) metrics = {"accuracy": ..., "f1": ...}; beats = metrics["accuracy"] > dummy_acc_doc
-# 5) run = {"run_id": "run-1", "params": {"seed": seed}, "metrics": metrics, "beats_dummy": beats}
-# 6) n_groups = len(set(entities)); mean_fold = round(sum(folds)/len(folds), 3)
+def mean_fold(folds):
+    return round(sum(folds) / len(folds), 3)
+
 if __name__ == "__main__":
     frame = frame_task("entity_pair", "needs_review_7d", 7)
+    assert frame["fraud_name"] is False and frame["horizon"] == 7
+
+    dummy_acc, cost, has_baseline = dummy_acc_and_cost(y, c_fp, c_fn)
+    thr = 0.9  # DEFECT: umbral demasiado alto — cámbialo (p. ej. 0.3)
+    preds = stump_preds(x, thr)
+    model_acc = accuracy(y, preds)
+    beats = model_acc > dummy_acc
+    run = {
+        "run_id": "run-caso-lim-033",
+        "params": {"seed": seed, "thr": thr, "depth_unlimited": False},
+        "metrics": {"accuracy": model_acc},
+        "beats_dummy": beats,
+    }
+    n_groups = len(set(entities))
     print("frame", frame)
-    print("next: dummy+cost → modelo → run log → n_groups")
+    print("dummy_acc", dummy_acc, "cost", cost, "has_baseline", has_baseline)
+    print("model_acc", model_acc, "beats_dummy", beats)
+    print("run_keys", sorted(run.keys()))
+    print("n_groups", n_groups, "mean_fold", mean_fold(fold_scores))
 `,
     portfolioNote:
       "Primero baseline; el portafolio debe incluir run log (params/metrics/beats_dummy) y group CV por entidad. Un beats_dummy=False bien documentado es válido.",
@@ -1884,40 +1987,35 @@ if __name__ == "__main__":
         options: ["Ser needs_review con horizonte", "Llamarse is_fraud", "Omitir unidad", "Ignorar prevalencia"],
         correctIndex: 0,
         explanation:
-          "needs_review con horizonte y unidad cierra el problema sin auto-etiqueta de fraude.",
+          "needs_review_* con horizonte y unidad cierra el problema de cola sin auto-etiqueta de fraude. is_fraud es breach de producto; sin prevalencia el dummy engaña.",
       },
       {
         question: "Antes del modelo ML conviene:",
         options: ["Solo deep learning", "Borrar features", "Dummy/regla y costos", "Cambiar el thr a 0"],
         correctIndex: 2,
         explanation:
-          "Baseline y costos demuestran si el ML agrega valor real a la cola.",
+          "Rules of ML: baseline (dummy o regla) y costos FP/FN demuestran si el ML agrega valor real a la cola antes de subir complejidad.",
       },
       {
         question: "Comparar coeficientes exige:",
         options: ["Features sin escala", "SHAP obligatorio", "Depth ilimitada", "Features scaled y causal=False"],
         correctIndex: 3,
         explanation:
-          "Sin scaling los |coef| no son comparables; el signo no es causa.",
+          "Sin scaling (p. ej. amount_z de S32) los |coef| no son comparables; el signo no prueba causa social ni fraude. SHAP se reserva a S35.",
       },
       {
         question: "Group CV por entidad evita:",
         options: ["Usar métricas", "Leakage de la misma entidad entre folds", "Registrar runs", "Fijar seed"],
         correctIndex: 1,
         explanation:
-          "Si la misma entidad cae en train y valid, las métricas se inflan.",
+          "Si la misma entidad cae en train y valid, el modelo “recuerda” al par y las métricas se inflan. random_split=True con entidades repetidas es breach.",
       },
       {
         question: "Un run con beats_dummy=False y metrics completas es…",
-        options: [
-          "Inválido: solo se loguean victorias",
-          "Válido si está bien logueado: la comparación honesta incluye derrotas",
-          "Obligatorio rechazarlo con REJECT_UNLOGGED_RUN",
-          "Señale de usar target fraud",
-        ],
-        correctIndex: 1,
+        options: ["Válido si está bien logueado: la comparación honesta incluye derrotas", "Inválido: solo se loguean victorias", "Obligatorio rechazarlo con REJECT_UNLOGGED_RUN", "Señal de usar target fraud"],
+        correctIndex: 0,
         explanation:
-          "Tracking responsable registra también cuando el modelo no supera al dummy; no se exige beats_dummy=True para validar el log.",
+          "Tracking responsable registra también cuando el modelo no supera al dummy; no se exige beats_dummy=True para validar el log. REJECT_UNLOGGED_RUN es para metrics vacías o run_id vacío.",
       }
     ],
   },

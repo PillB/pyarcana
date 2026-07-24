@@ -28,9 +28,9 @@ export const section49: CourseSection = {
       heading: "Ruta de S49: Agentes, herramientas y context engineering",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Workflow vs agente:** pasos conocidos vs decisiones acotadas con evaluator. **Planner/worker/evaluator:** descomponer, ejecutar, verificar. **Tool de responsabilidad única:** un efecto bien tipado. **Idempotencia de tool:** misma key ⇒ un solo side effect. **Context mínimo / JIT retrieval:** solo lo necesario, justo a tiempo. **Checkpoint / LKG:** last-known-good para recovery. **Budget:** `max_steps`, `max_tokens` y `max_cost_pen` (costo sintético en el lab). **Sandbox + human approval:** sin red/prod/riesgo sin aprobación explícita. **Códigos de acción** (laboratorio): p. ej. `KEEP_DETERMINISTIC_WORKFLOW`, `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, `COMPACT_AND_CHECKPOINT`, `STOP_BUDGET_EXHAUSTED`, `REQUEST_HUMAN_APPROVAL` — respuesta fail-closed, no éxito silencioso.",
-        "Esta sección extiende RAG (S48) con **agentes y tools**: planes acotados, scopes, context windows y costos. Demos stdlib (contadores, sets, dicts de estado) sin frameworks de agentes reales. El caso `CASO-AYA-049` (Ayacucho sintético) no ejecuta tools de red abiertas ni PII. En S50 conectarás estas puertas a evals y red team del gate CP-N4-C.",
-        "Producto incremental: propuesta de plan + tool calls auditables. Entrada: goal, tools con scope, max_steps/cost y evaluator. Salida: plan ≤ límites, effects=1 por tool idempotente, network closed sin approval. Error de promoción: éxito sin known_steps, side_effect multi-responsabilidad o replay de effects.",
-        "Orden: T1 baseline vs agente → T2 tools/scope → T3 context/checkpoint → T4 cost/network/approval. En la demostración verás helpers mínimos; en el laboratorio corregirás contratos fallidos (modo agente mal acotado) hasta fallar cerrado. Esta sección no es solo «contratos de tablas»: es **uso gobernado de tools por un agente**. Stack didáctico: **stdlib** sin frameworks de agentes ni red abierta.",
+        "Esta sección extiende el RAG con evidencia de S48 hacia **agentes y tools**: el retrieval ya no basta; hace falta decidir *si* conviene un agente, *qué* tools puede invocar, *cuánto* contexto y presupuesto consume, y *cuándo* parar o pedir aprobación. Stack didáctico: demos en **stdlib** (contadores, sets, dicts de estado) sin frameworks de agentes ni red abierta. El caso sintético `CASO-AYA-049` (entidad ficticia en Ayacucho) no trae PII real ni tools de red abiertas. En S50 conectarás estas puertas a evals y red team del gate CP-N4-C.",
+        "Hilo conductor (trayectoria feliz): (1) mides baseline vs agente y eliges **workflow** o **agent** con ADR; (2) el planner descompone ≤ `max_steps` y el evaluator cierra el loop; (3) cada tool tiene schema estrecho, scope en allowlist e **idempotency key**; (4) el contexto se arma con **JIT** y checkpoint; (5) si se agota el budget o falta approval, el run emite un código de stop — no inventa éxito. Producto incremental: propuesta de plan + tool calls auditables. Fallos de promoción típicos: «éxito» sin `known_steps`, god-tool multi-efecto, replay de side effects o `network=open` sin humano.",
+        "Orden pedagógico: **T1** modo y routing → **T2** tools (SRP, schema, permisos, idempotencia) → **T3** context engineering (JIT, compaction, LKG) → **T4** stops, budgets, sandbox y HITL. En la demostración verás micro-mecanismos ejecutables; en el laboratorio repararás funciones de dominio y enrutarás valid/adverso/incierto hasta fallar cerrado. Esta sección no es solo «contratos de tablas»: es **uso gobernado de tools por un agente**. Ritmo sugerido (~20 h): sesiones 1–2 en T1; 3–5 en T2; 6–8 en T3; 9–10 en T4 + portfolio y self-check.",
       ],
       code: {
         language: 'python',
@@ -55,16 +55,16 @@ prod_side_effect_without_approval_ok False`,
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "CP-N4-C · agente acotado con aprobación humana: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible. Si falta evidencia, no se promociona.",
+        content: "Nota de orientación: S49-T1-A: caso sintético con asserts locales; si falta, no promociones.",
       },
     },
     {
       heading: "Workflow vs agente",
       subtopicId: "S49-T1-A",
       paragraphs: [
-        "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects.",
-        "Regla medible: si `known_steps` y el baseline determinista obtiene éxito ≥ al agente en el holdout local, el ADR elige **workflow**. Solo si el agente gana con plan acotado (`max_steps`/`max_cost`) y evaluator, documentas **agent** y dejas el side effect detrás de aprobación humana. Entrada del subtema: objetivo, métricas baseline/agente y flags de incertidumbre. Salida: ADR con decisión y razón. Error: tool no permitida, argumento inválido, presupuesto agotado o estado incierto → stop.",
-        "En `CASO-AYA-049` (entidad ficticia en Ayacucho), preparar un reporte con plantilla fija es workflow; reordenar fuentes desconocidas con tools de lectura puede ser agente — pero solo tras baseline. Evidencia: ADR. Sin PII real ni prueba de fraude/parentesco.",
+        "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects (envíos, writes, costos) que un pipeline fijo no habría tomado.",
+        "Mecanismo de decisión: anota en el ADR `known_steps`, `branch_count`, si la tool choice es cierta, y las tasas `baseline_success` vs `agent_success` en un holdout local. Si los pasos son conocidos, hay pocas ramas y el baseline iguala o supera al agente, eliges **workflow**. Solo si el agente gana con plan acotado (`max_steps`/`max_cost`) y evaluator documentas **agent**, y dejas todo side effect detrás de aprobación humana. Entrada: objetivo + métricas. Salida: ADR con decisión y razón. Error o incertidumbre (falta `agent_success`, tool no permitida, presupuesto agotado) → stop o re-baseline, nunca promoción silenciosa.",
+        "En `CASO-AYA-049` (entidad ficticia en Ayacucho), preparar un reporte con plantilla fija y tres pasos conocidos es **workflow**. Reordenar fuentes desconocidas con tools de lectura *puede* ser **agent**, pero solo después de medir baseline. Evidencia mínima: ADR firmado en el repo del lab. Sin PII real ni inferencia de fraude o parentesco.",
       ],
       code: {
         language: 'python',
@@ -85,16 +85,16 @@ agent`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Evidencia mínima de S49-T1-A: ADR workflow/agente con baseline. Si falta, responde `KEEP_DETERMINISTIC_WORKFLOW`; si no alcanza para decidir, `RUN_AGENT_BASELINE`.",
+          "Antes de promover S49-T1-B, verifica el contrato ejecutable y el riesgo residual.",
       },
     },
     {
       heading: "Routing, planner/worker y evaluator–optimizer",
       subtopicId: "S49-T1-B",
       paragraphs: [
-        "El **router** elige la ruta (p. ej. caso vs reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón evaluator–optimizer cierra el loop: si el evaluator falla, se replanifica — pero solo hasta un `max_steps` explícito.",
-        "Regla medible: `route` ∈ rutas permitidas, `plan_steps` ≤ `max_steps`, `worker_outputs` = `plan_steps` y `evaluator_pass` True. Si el plan crece sin cota o el evaluator queda en False sin replan, el run termina con `STOP_AGENT_LOOP`. Entrada: goal + cota de iteraciones. Salida: trayectoria con roles y contador de loops. Error: loop abierto o plan sobre presupuesto → stop.",
-        "En `CASO-AYA-049`, la ruta `report` con 3 pasos planificados, 3 outputs de worker y evaluator en True es válida; una ruta `unknown` con 12 pasos y evaluator False se detiene. Evidencia: traza de roles. Sin PII ni inferencia de fraude.",
+        "El **router** elige la ruta (p. ej. caso vs reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón **evaluator–optimizer** cierra el loop: si el evaluator falla, se replanifica o se reintenta el worker — pero solo hasta un `max_steps` (o `max_iters`) explícito. Sin cota, el «agente» se convierte en un while infinito con costo y riesgo crecientes.",
+        "Mecanismo de cota: exige `route` ∈ {`case`, `report`}, `plan_steps` ≤ `max_steps`, `worker_outputs == plan_steps` y `evaluator_pass` True. Si el plan crece sin techo, la ruta es desconocida o el evaluator queda en False tras agotar reintentos, el run termina con `STOP_AGENT_LOOP`. Entrada: goal + cota de iteraciones. Salida: trayectoria con roles (`router`→`planner`→`worker`→`evaluator`) y contador de loops. Error: loop abierto o plan sobre presupuesto → stop con razón, no «casi listo».",
+        "En `CASO-AYA-049`, la ruta `report` con 3 pasos planificados, 3 outputs de worker y evaluator True es el happy path. Una ruta `unknown` con 12 pasos y evaluator False se detiene. Evidencia: traza de roles serializable (lista de dicts). Sin PII ni inferencia de fraude.",
       ],
       code: {
         language: 'python',
@@ -118,16 +118,16 @@ STOP_AGENT_LOOP`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S49-T1-B, audita trayectoria con roles y máximo de iteraciones. Un breach activa `STOP_AGENT_LOOP` y una ausencia activa `REPLAN_WITH_BOUNDS`.",
+          "La revisión de S49-T2-A exige salida esperada y fail-closed ante breach.",
       },
     },
     {
       heading: "Funciones de responsabilidad única",
       subtopicId: "S49-T2-A",
       paragraphs: [
-        "Una tool hace **una sola cosa observable**, usa schema estrecho y devuelve error tipado. La descripción en el prompt no concede autoridad: si el humano no podría elegir la tool con certeza, el agente tampoco debería. Las «god tools» (`do_everything`) mezclan lectura, escritura y red y rompen least privilege.",
-        "Regla medible: `responsibilities == 1`, `schema_fields` mínimo (p. ej. solo `case_id`), `side_effect` declarado y `typed_errors` True. Si la tool acumula varios efectos o acepta `raw` sin tipar, responde `DISABLE_OVERBROAD_TOOL` o `SPLIT_TOOL_CONTRACT`. Entrada: catálogo de tools. Salida: contratos válidos/inválidos. Error: tool multi-duty sin descomponer → no se promociona.",
-        "En `CASO-AYA-049`, `get_case_status` (1 responsabilidad, schema `{case_id}`, sin side effect) pasa; `do_everything` con 6 responsabilidades y schema `{raw}` se deshabilita. Evidencia: tabla de tools. Sin secretos ni PII real.",
+        "Una tool hace **una sola cosa observable**, usa schema estrecho y devuelve error tipado. La descripción en el prompt **no** concede autoridad: si un humano no podría elegir la tool con certeza mirando el catálogo, el agente tampoco debería. Las «god tools» (`do_everything`) mezclan lectura, escritura y red: rompen least privilege y hacen imposible auditar *qué* side effect ocurrió.",
+        "Mecanismo de contrato: `responsibilities == 1`, `schema_fields` mínimo (p. ej. solo `case_id`), `side_effect` declarado y `typed_errors` True. Si la tool acumula varios efectos o acepta `raw` sin tipar, responde `DISABLE_OVERBROAD_TOOL` o `SPLIT_TOOL_CONTRACT` (divide en tools SRP). Entrada: catálogo. Salida: allowlist de tools válidas vs deshabilitadas. Error: multi-duty sin descomponer → no se promociona el agente que la invoca.",
+        "En `CASO-AYA-049`, `get_case_status` (1 responsabilidad, schema `{case_id}`, sin side effect) pasa; `do_everything` con 6 responsabilidades y schema `{raw}` se deshabilita. Evidencia: tabla de tools en el ADR o en el registry del portfolio. Sin secretos ni PII real en argumentos de demo.",
       ],
       code: {
         language: 'python',
@@ -150,16 +150,16 @@ do_everything False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S49-T2-A conserva tool contract con casos válidos/inválidos; no conviertas `DISABLE_OVERBROAD_TOOL` ni `SPLIT_TOOL_CONTRACT` en éxito silencioso.",
+          "Contrato S49-T2-B: fixture S49-T2-B; si falta evidencia, no promociones.",
       },
     },
     {
       heading: "Schema, permisos, idempotencia y errores",
       subtopicId: "S49-T2-B",
       paragraphs: [
-        "El **schema** valida argumentos antes de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** garantiza que un retry no duplique side effects; los errores se clasifican en `retryable` vs `terminal` **sin** volcar secretos al log.",
-        "Regla medible: `schema_valid`, `scope` ∈ `granted`, key no vacía, `effects == 1` tras N intentos y `error_kind` ∈ {retryable, terminal}. Si el scope es `prod:write` sin grant o hay effects duplicados, `DENY_TOOL_CALL`. Entrada: call + store de keys. Salida: resultado o denegación tipada. Error: secret dump como kind o effects>1 → stop.",
-        "En `CASO-AYA-049`, dos llamadas a `report:prepare` con la misma key deben devolver el mismo efecto (replay seguro); `prod:write` fuera del grant se niega. Evidencia: store de idempotencia. Sin secretos reales en la salida.",
+        "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** garantiza que un retry no duplique side effects; los errores se clasifican en `retryable` vs `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",
+        "Mecanismo de llamada: `schema_valid`, `scope` ∈ `granted`, key no vacía, `effects == 1` tras N intentos y `error_kind` ∈ {retryable, terminal}. Si el scope es `prod:write` sin grant, o hay effects duplicados, o el kind es un dump de secreto, responde `DENY_TOOL_CALL`. Entrada: call + store de keys. Salida: resultado o denegación tipada. El store se consulta *antes* de aplicar el efecto.",
+        "En `CASO-AYA-049`, dos llamadas a `report:prepare` con la misma key devuelven el mismo efecto (replay seguro: `attempts` puede ser 2, `effects` sigue en 1). `prod:write` fuera del grant se niega. Evidencia: store de idempotencia serializable. Sin secretos reales en la salida del lab.",
       ],
       code: {
         language: 'python',
@@ -186,16 +186,16 @@ print(call_tool("prod:write", granted, "k2", store))`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S49-T2-B: demuestra replay y denegación de tool probados. Falla cerrada con `DENY_TOOL_CALL` y deriva incertidumbre mediante `CLASSIFY_TOOL_ERROR`.",
+          "Para S49-T3-A: fixture S49-T3-A; si falta evidencia, no promociones.",
       },
     },
     {
       heading: "Contexto mínimo, retrieval JIT y checkpoints",
       subtopicId: "S49-T3-A",
       paragraphs: [
-        "El **contexto es un presupuesto de atención** finito: volcar todo el historial y todos los docs al prompt sube costo, latencia y riesgo de fuga. Prefiere **retrieval just-in-time** (solo lo necesario para el paso actual) y **checkpoints** después de efectos durables para reanudar sin re-ejecutar side effects.",
-        "Regla medible: `context_tokens` ≤ `max_context_tokens`, `retrieved_just_in_time` True, `checkpoint_after_effect` True y `provenance` True. Si el contexto desborda o falta checkpoint post-efecto, `COMPACT_AND_CHECKPOINT`; si falta provenance, `RETRIEVE_MINIMUM_CONTEXT`. Entrada: facts + tope de tokens. Salida: contexto compacto + id de checkpoint. Error: overflow sin compactar → stop.",
-        "En `CASO-AYA-049`, recuperar solo el estado del caso C1 (≈1200 tokens bajo un max de 2000) y checkpoint tras preparar el borrador es el happy path; 9000 tokens sin JIT ni checkpoint activa compactación. Evidencia: reanudación desde checkpoint. Sin PII real.",
+        "El **contexto es un presupuesto de atención** finito: volcar todo el historial y todos los docs al prompt sube costo, latencia y riesgo de fuga de datos. Prefiere **retrieval just-in-time (JIT)** — solo lo necesario para el *paso actual* — y **checkpoints** después de efectos durables para reanudar sin re-ejecutar side effects. Context engineering no es «más tokens»: es *elegir* qué entra y qué se archiva.",
+        "Mecanismo de contexto: `context_tokens` ≤ `max_context_tokens`, `retrieved_just_in_time` True, `checkpoint_after_effect` True y `provenance` True (sabes de dónde salió cada hecho). Si el contexto desborda o falta checkpoint post-efecto, `COMPACT_AND_CHECKPOINT`; si falta provenance, `RETRIEVE_MINIMUM_CONTEXT`. Entrada: pool de facts + tope. Salida: contexto compacto + id de checkpoint. Error: overflow sin compactar → stop, no «el modelo ya se las arreglará».",
+        "En `CASO-AYA-049`, recuperar solo el estado del caso C1 (≈1200 tokens bajo un max de 2000) y checkpoint tras preparar el borrador es el happy path; 9000 tokens sin JIT ni checkpoint activan compactación. Evidencia: reanudación desde checkpoint con los mismos hechos críticos. Sin PII real en el pool de demo.",
       ],
       code: {
         language: 'python',
@@ -220,16 +220,16 @@ print(jit_context(pool, "C1", 100))`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S49-T3-A, el artefacto comprobable es reanudación desde checkpoint consistente. Sin él corresponde `COMPACT_AND_CHECKPOINT` o, si faltan datos, `RETRIEVE_MINIMUM_CONTEXT`.",
+          "Promoción de S49-T3-B solo con evidencia reproducible y dueño asignado.",
       },
     },
     {
       heading: "Memoria, compaction y last-known-good",
       subtopicId: "S49-T3-B",
       paragraphs: [
-        "La **memoria** del agente tiene propósito y retención acotada (días, no «para siempre»). **Compaction** resume el historial pero **conserva hechos y decisiones críticas** con provenance. **Last-known-good (LKG)** es el último checkpoint seguro al que puedes volver sin re-ejecutar side effects.",
-        "Regla medible: el conjunto de hechos post-compaction debe contener al menos las restricciones críticas pre-compaction (`facts_before` ⊆ `facts_after` en el lab), retención ≤ política (p. ej. 7 días) y `last_known_good` con prefijo `cp-`. Si se pierde `no_prod_write` o el LKG está vacío, `RESTORE_LAST_KNOWN_GOOD` / `REVIEW_COMPACTION_LOSS`. Entrada: memoria + política. Salida: memoria compacta + LKG. Error: drop de restricción crítica → no continuar.",
-        "En `CASO-AYA-049`, compactar el log puede borrar pasos ruidosos, pero `case_id`, `budget` y `no_prod_write` deben sobrevivir y el LKG apunta a `cp-7`. Evidencia: diff de facts. Sin PII ni secretos en la memoria de demo.",
+        "La **memoria** del agente tiene propósito y retención acotada (días, no «para siempre»). **Compaction** resume el historial pero **debe conservar hechos y decisiones críticas** con provenance. **Last-known-good (LKG)** es el último checkpoint seguro al que puedes volver sin re-ejecutar side effects. Compactar borrando `no_prod_write` es peor que no compactar: pierdes la restricción que evitaba un write en producción.",
+        "Mecanismo de compactación: el conjunto de hechos post-compaction debe conservar las restricciones críticas (`facts_before` ⊆ `facts_after` en el lab), retención ≤ política (p. ej. 7 días) y `last_known_good` con prefijo `cp-`. Si se pierde `budget`/`no_prod_write` o el LKG está vacío, `RESTORE_LAST_KNOWN_GOOD` o `REVIEW_COMPACTION_LOSS`. Entrada: memoria + política. Salida: memoria compacta + LKG. Error: drop de restricción crítica → no continuar el run.",
+        "En `CASO-AYA-049`, compactar el log puede borrar pasos ruidosos (`paso_ruidoso`, `log_largo`), pero `case_id`, `budget` y `no_prod_write` deben sobrevivir y el LKG apunta a `cp-7`. Evidencia: diff de sets de facts antes/después. Sin PII ni secretos en la memoria de demo.",
       ],
       code: {
         language: 'python',
@@ -253,16 +253,16 @@ print(compact(before, {"budget", "no_prod_write", "paso_ruidoso"}, "cp-7"))`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S49-T3-B: prueba que la compaction no pierde restricciones críticas y registra por separado `RESTORE_LAST_KNOWN_GOOD` (breach) y `REVIEW_COMPACTION_LOSS` (missing).",
+          "El dueño de S49-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
       },
     },
     {
       heading: "Stopping conditions y budgets",
       subtopicId: "S49-T4-A",
       paragraphs: [
-        "Las **stopping conditions** incluyen meta alcanzada, máximo de pasos, tokens y costo. El lab usa `cost_pen` / `max_cost_pen` como **penalización de costo sintética** (no es moneda real): te obliga a comparar consumo vs techo. Agotar presupuesto produce estado explícito (`STOP_BUDGET_EXHAUSTED`), no un loop infinito ni un «éxito inventado».",
-        "Regla medible: `goal_met` y `steps` ≤ `max_steps` y `tokens` ≤ `max_tokens` y `cost_pen` ≤ `max_cost_pen`. Si falta `max_cost_pen`, pide `ASK_FOR_SCOPE_REDUCTION` en lugar de seguir a ciegas. Entrada: contadores del run. Salida: continue o stop con razón. Error: steps/cost sobre techo → stop con razón, no retry ciego.",
-        "En `CASO-AYA-049`, 4 pasos / 3200 tokens / 0.04 de costo bajo techos 6 / 5000 / 0.06 con meta cumplida es PASS; 20 pasos y 0.4 de costo se detienen. Evidencia: razón de parada en el log. Sin PII.",
+        "Las **stopping conditions** incluyen meta alcanzada, máximo de pasos, tokens y costo. El lab usa `cost_pen` / `max_cost_pen` como **penalización de costo sintética** (no es moneda real): te obliga a comparar consumo vs techo en cada iteración. Agotar presupuesto produce estado explícito (`STOP_BUDGET_EXHAUSTED`), no un loop infinito ni un «éxito inventado» porque el modelo «estaba cerca».",
+        "Mecanismo de budget: exige `goal_met` y `steps` ≤ `max_steps` y `tokens` ≤ `max_tokens` y `cost_pen` ≤ `max_cost_pen`. Si falta `max_cost_pen` en la config, pide `ASK_FOR_SCOPE_REDUCTION` en lugar de seguir a ciegas. Entrada: contadores del run. Salida: continue o stop con razón legible en el log. Error: steps/cost sobre techo → stop con razón, no retry ciego ni elevar el techo sin humano.",
+        "En `CASO-AYA-049`, 4 pasos / 3200 tokens / 0.04 de costo bajo techos 6 / 5000 / 0.06 con meta cumplida es PASS; 20 pasos y 0.4 de costo se detienen. Evidencia: string de parada en el log (`GOAL_MET` o `STOP_BUDGET_EXHAUSTED`). Sin PII.",
       ],
       code: {
         language: 'python',
@@ -287,16 +287,16 @@ STOP_BUDGET_EXHAUSTED steps=2 cost=0.04`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para promover S49-T4-A, el run debe terminar con razón explícita (meta o presupuesto). Una violación produce `STOP_BUDGET_EXHAUSTED`; un registro incompleto produce `ASK_FOR_SCOPE_REDUCTION`.",
+          "Cierre de S49-T4-B: documenta residual risk y límites del lab stdlib.",
       },
     },
     {
       heading: "Sandbox, human approval y recuperación",
       subtopicId: "S49-T4-B",
       paragraphs: [
-        "El **sandbox** limita filesystem y red (`network=none`, `filesystem=workspace-read` en el lab). Acciones sensibles (enviar, mutar prod, riesgo) exigen **aprobación humana contextual**. La **recuperación** reanuda desde checkpoint y **nunca** re-ejecuta side effects ya aplicados (`replayed_effects` debe quedar en 0).",
-        "Regla medible: red cerrada, FS de workspace, si `approval_required` entonces `approval_present`, checkpoint `cp-*` y `replayed_effects == 0`. Breach → `SANDBOX_AND_STOP`; evidencia incompleta de replay → `REQUEST_HUMAN_APPROVAL`. Entrada: política de sandbox + flags de approval. Salida: allow/deny + ruta de recovery. Error: `prod_send` sin human_ok → needs_human, no envío silencioso.",
-        "En `CASO-AYA-049`, el agente prepara propuesta y checkpoint; `search_docs` corre en sandbox; `prod_send` sin aprobación se detiene. Recovery = `resume_checkpoint`, no re-efectos. Sin PII ni red abierta en el happy path.",
+        "El **sandbox** limita filesystem y red (`network=none`, `filesystem=workspace-read` en el lab). Acciones sensibles (enviar, mutar prod, riesgo alto) exigen **aprobación humana contextual** — no un checkbox genérico en el README. La **recuperación** reanuda desde checkpoint y **nunca** re-ejecuta side effects ya aplicados (`replayed_effects` debe quedar en 0). Un recovery que «vuelve a enviar el correo» no es recovery: es un incidente.",
+        "Mecanismo de gate: red cerrada, FS de workspace, si `approval_required` entonces `approval_present`, checkpoint `cp-*` y `replayed_effects == 0`. Breach (red abierta, re-efectos, FS root-write) → `SANDBOX_AND_STOP`. Evidencia incompleta de replay o acción prod sin humano → `REQUEST_HUMAN_APPROVAL`. Entrada: política de sandbox + flags. Salida: allow/deny + ruta de recovery. Error: `prod_send` sin `human_ok` → needs_human, no envío silencioso.",
+        "En `CASO-AYA-049`, el agente prepara la propuesta y un checkpoint; `search_docs` corre en sandbox; `prod_send` sin aprobación se detiene. Recovery = `resume_checkpoint`, no re-efectos. Sin PII ni red abierta en el happy path. Este cierre es el que S50 evaluará con red team y suites de gate.",
       ],
       code: {
         language: 'python',
@@ -533,7 +533,7 @@ SANDBOX_AND_STOP`,
     ],
   },
   weDo: {
-    intro: "S49 · Laboratorio de agentes y tools en tres capas: 24 retos sobre ocho fixtures sintéticos (`CASO-AYA-049-1A`…`4B`). **E1** repara una **función de dominio** (elegir modo, loop acotado, audit SRP, call con idempotencia, JIT, compaction/LKG, budget o gate de sandbox). **E2** separa valid/adverso/missing. **E3** enruta CONTINUE/breach/incertidumbre. Así pasas de construir el micro-mecanismo a la puerta fail-closed que no deja promover un agente mal acotado. El portfolio integra registry, budgets, checkpoints y approval sobre estos mismos contratos.",
+    intro: "S49 · Laboratorio de agentes y tools en tres capas sobre ocho fixtures sintéticos (`CASO-AYA-049-1A`…`4B`). **E1** repara una **función de dominio** con defecto deliberado: `workflow_preferred`, `bounded_loop_ok`, `is_srp_tool`, `tool_call_ok`, `context_ok`, `compaction_ok`, `budget_ok`, `sandbox_ok`. **E2** reutiliza esa función en una tabla de tres filas (válido / adverso situacional / missing) y emite códigos de acción (`KEEP_DETERMINISTIC_WORKFLOW`, `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, …). **E3** enruta `CONTINUE` / breach / incertidumbre sin inventar evidencia. Gradual release: construyes el mecanismo → lo calificas → lo operas fail-closed. El portfolio une registry, budgets, checkpoints y approval humano.",
     steps: [
       {
         id: "S49-T1-A-E1",
@@ -589,11 +589,11 @@ assert meets_contract is True` ,
         id: "S49-T1-A-E2",
         subtopicId: "S49-T1-A",
         kind: "independent",
-        instruction: "S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps, branch_count, tool_choice_uncertain, baseline_success, agent_success. Salidas exactas: `PASS`, `KEEP_DETERMINISTIC_WORKFLOW`, `MISSING:agent_success`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T1-A-E2 · Construye la tabla ADR de `workflow vs agente` con tres filas: (1) plantilla fija de reporte donde baseline 0.96 ≥ agente 0.9, (2) path abierto con ramas altas donde el agente gana sin justificación de workflow, (3) fila sin métrica `agent_success`. Reutiliza `workflow_preferred` del E1 dentro de `assess`. Salidas exactas: `PASS`, `KEEP_DETERMINISTIC_WORKFLOW`, `MISSING:agent_success`.",
         hint: "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T1-A: workflow preferido cuando pasos conocidos y baseline gana. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si el registro está completo, llama `workflow_preferred(record)` y mapea True→PASS / False→KEEP_DETERMINISTIC_WORKFLOW.",
         ],
         edgeCases: ["falta agent_success", "adverso: known_steps=False o agent_success>baseline", "CASO-AYA-049-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `agent_success` ausente y produce exactamente `PASS KEEP_DETERMINISTIC_WORKFLOW MISSING:agent_success`.",
@@ -602,14 +602,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t1-a-e2.py",
           code: `# CASO-AYA-049 · assess KEEP_DETERMINISTIC_WORKFLOW
-# DEFECT: PASS cuando workflow determinista basta
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: workflow_preferred / assess promueven agente cuando baseline basta
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def workflow_preferred(record: dict) -> bool:
+    # DEFECT: invierte la regla ADR
+    return not record["known_steps"] or record["agent_success"] > record["baseline_success"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "known_steps", "branch_count", "tool_choice_uncertain", "baseline_success", "agent_success"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if not record["known_steps"] or record["agent_success"] > record["baseline_success"] else "KEEP_DETERMINISTIC_WORKFLOW"
+    return "PASS" if workflow_preferred(record) else "KEEP_DETERMINISTIC_WORKFLOW"
 
 valid = {"case_id": "CASO-AYA-049-1A", **{"known_steps":True,"branch_count":2,"tool_choice_uncertain":False,"baseline_success":0.96,"agent_success":0.9}}
 invalid = {"case_id": "CASO-AYA-049-1A", **{"known_steps":False,"branch_count":20,"tool_choice_uncertain":True,"baseline_success":0.4,"agent_success":0.8}}
@@ -622,12 +626,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def workflow_preferred(record: dict) -> bool:
+    return (
+        record["known_steps"]
+        and record["branch_count"] <= 3
+        and not record["tool_choice_uncertain"]
+        and record["baseline_success"] >= record["agent_success"]
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "known_steps", "branch_count", "tool_choice_uncertain", "baseline_success", "agent_success"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["known_steps"] and record["branch_count"] <= 3 and not record["tool_choice_uncertain"] and record["baseline_success"] >= record["agent_success"] else "KEEP_DETERMINISTIC_WORKFLOW"
+    return "PASS" if workflow_preferred(record) else "KEEP_DETERMINISTIC_WORKFLOW"
 
 valid = {"case_id": "CASO-AYA-049-1A", **{"known_steps":True,"branch_count":2,"tool_choice_uncertain":False,"baseline_success":0.96,"agent_success":0.9}}
 invalid = {"case_id": "CASO-AYA-049-1A", **{"known_steps":False,"branch_count":20,"tool_choice_uncertain":True,"baseline_success":0.4,"agent_success":0.8}}
@@ -643,11 +655,11 @@ print(*results)
         id: "S49-T1-A-E3",
         subtopicId: "S49-T1-A",
         kind: "transfer",
-        instruction: "S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETERMINISTIC_WORKFLOW` y la ausencia de `agent_success` debe devolver `RUN_AGENT_BASELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T1-A-E3 · Opera el gate de promoción: con `CASO-AYA-049-1A` completo y baseline ganador emite `CONTINUE`; con path abierto (known_steps=False, muchas ramas) emite `KEEP_DETERMINISTIC_WORKFLOW` (no promociones agentic); sin `agent_success` emite `RUN_AGENT_BASELINE`. No trates missing como breach ni inventes la métrica. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró workflow preferido cuando pasos conocidos y baseline gana; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza la regla ADR de E1 (workflow cuando pasos conocidos y baseline gana); solo ese caso devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta agent_success", "adverso: known_steps=False o agent_success>baseline", "CASO-AYA-049-1A es sintético"],
         tests: "Fixtures `CASO-AYA-049-1A`, adverso y sin `agent_success` prueban continue/breach/uncertainty en ese orden.",
@@ -747,11 +759,11 @@ assert meets_contract is True` ,
         id: "S49-T1-B-E2",
         subtopicId: "S49-T1-B",
         kind: "independent",
-        instruction: "S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: dict con case_id, route, plan_steps, max_steps, worker_outputs, evaluator_pass. Salidas exactas: `PASS`, `STOP_AGENT_LOOP`, `MISSING:evaluator_pass`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T1-B-E2 · Audita tres trayectorias del loop planner/worker/evaluator: (1) ruta `report` con plan 3≤5, outputs=3 y eval True, (2) ruta `unknown` con plan 12 y eval False, (3) traza sin `evaluator_pass`. Reutiliza `bounded_loop_ok` dentro de `assess`. Salidas exactas: `PASS`, `STOP_AGENT_LOOP`, `MISSING:evaluator_pass`.",
         hint: "Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T1-B: ruta válida, plan acotado, outputs completos y evaluación. El fixture adverso debe fallar por contenido, no por schema.",
+          "Si el registro está completo, `PASS` solo cuando `bounded_loop_ok(record)` es True; si no, `STOP_AGENT_LOOP`.",
         ],
         edgeCases: ["falta evaluator_pass", "adverso: route inválida, plan_steps>max o evaluator_pass=False", "CASO-AYA-049-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `evaluator_pass` ausente y produce exactamente `PASS STOP_AGENT_LOOP MISSING:evaluator_pass`.",
@@ -760,14 +772,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t1-b-e2.py",
           code: `# CASO-AYA-049 · assess STOP_AGENT_LOOP
-# DEFECT: PASS con loop sin cota o evaluator fail
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: bounded_loop_ok / assess aceptan plan sobre max o eval fallida
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def bounded_loop_ok(record: dict) -> bool:
+    # DEFECT: aprueba loops rotos
+    return record["plan_steps"] > record["max_steps"] or not record["evaluator_pass"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "route", "plan_steps", "max_steps", "worker_outputs", "evaluator_pass"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["plan_steps"] > record["max_steps"] or not record["evaluator_pass"] else "STOP_AGENT_LOOP"
+    return "PASS" if bounded_loop_ok(record) else "STOP_AGENT_LOOP"
 
 valid = {"case_id": "CASO-AYA-049-1B", **{"route":"report","plan_steps":3,"max_steps":5,"worker_outputs":3,"evaluator_pass":True}}
 invalid = {"case_id": "CASO-AYA-049-1B", **{"route":"unknown","plan_steps":12,"max_steps":5,"worker_outputs":2,"evaluator_pass":False}}
@@ -780,12 +796,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t1-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def bounded_loop_ok(record: dict) -> bool:
+    return (
+        record["route"] in {"case", "report"}
+        and record["plan_steps"] <= record["max_steps"]
+        and record["worker_outputs"] == record["plan_steps"]
+        and record["evaluator_pass"]
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "route", "plan_steps", "max_steps", "worker_outputs", "evaluator_pass"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["route"] in {"case","report"} and record["plan_steps"] <= record["max_steps"] and record["worker_outputs"] == record["plan_steps"] and record["evaluator_pass"] else "STOP_AGENT_LOOP"
+    return "PASS" if bounded_loop_ok(record) else "STOP_AGENT_LOOP"
 
 valid = {"case_id": "CASO-AYA-049-1B", **{"route":"report","plan_steps":3,"max_steps":5,"worker_outputs":3,"evaluator_pass":True}}
 invalid = {"case_id": "CASO-AYA-049-1B", **{"route":"unknown","plan_steps":12,"max_steps":5,"worker_outputs":2,"evaluator_pass":False}}
@@ -801,11 +825,11 @@ print(*results)
         id: "S49-T1-B-E3",
         subtopicId: "S49-T1-B",
         kind: "transfer",
-        instruction: "S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adverso debe devolver `STOP_AGENT_LOOP` y la ausencia de `evaluator_pass` debe devolver `REPLAN_WITH_BOUNDS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T1-B-E3 · Cierra el loop evaluator–optimizer en producción sintética: trayectoria acotada y eval True → `CONTINUE`; plan o ruta inválidos → `STOP_AGENT_LOOP`; sin bandera de evaluator → `REPLAN_WITH_BOUNDS` (no asumas pass). Corrige el starter que trata missing como CONTINUE y acepta loops rotos. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró ruta válida, plan acotado, outputs completos y evaluación; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza bounded_loop_ok (ruta, plan≤max, outputs=plan, eval True); solo ese caso devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta evaluator_pass", "adverso: route inválida, plan_steps>max o evaluator_pass=False", "CASO-AYA-049-1B es sintético"],
         tests: "Fixtures `CASO-AYA-049-1B`, adverso y sin `evaluator_pass` prueban continue/breach/uncertainty en ese orden.",
@@ -905,11 +929,11 @@ assert meets_contract is True` ,
         id: "S49-T2-A-E2",
         subtopicId: "S49-T2-A",
         kind: "independent",
-        instruction: "S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con case_id, tool, responsibilities, schema_fields, side_effect, typed_errors. Salidas exactas: `PASS`, `DISABLE_OVERBROAD_TOOL`, `MISSING:typed_errors`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T2-A-E2 · Revisa el catálogo de tools del agente de reportes: (1) `get_case_status` SRP, (2) god-tool `do_everything` multi-duty, (3) tool sin flag `typed_errors`. Implementa o reutiliza `is_srp_tool` y clasifica. Salidas exactas: `PASS`, `DISABLE_OVERBROAD_TOOL`, `MISSING:typed_errors`.",
         hint: "Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T2-A: una responsabilidad, schema estrecho y error tipado. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si is_srp_tool: responsibilities==1, schema {case_id}, sin side_effect y typed_errors True.",
         ],
         edgeCases: ["falta typed_errors", "adverso: responsibilities>1, schema amplio o side_effect no acotado", "CASO-AYA-049-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `typed_errors` ausente y produce exactamente `PASS DISABLE_OVERBROAD_TOOL MISSING:typed_errors`.",
@@ -918,14 +942,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t2-a-e2.py",
           code: `# CASO-AYA-049 · assess DISABLE_OVERBROAD_TOOL
-# DEFECT: PASS con tool multi-duty o side effect
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: is_srp_tool / assess aprueban multi-duty o side effect
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def is_srp_tool(record: dict) -> bool:
+    # DEFECT: acepta tools multi-responsabilidad
+    return record["responsibilities"] > 1 or record["side_effect"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "tool", "responsibilities", "schema_fields", "side_effect", "typed_errors"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["responsibilities"] > 1 or record["side_effect"] else "DISABLE_OVERBROAD_TOOL"
+    return "PASS" if is_srp_tool(record) else "DISABLE_OVERBROAD_TOOL"
 
 valid = {"case_id": "CASO-AYA-049-2A", **{"tool":"get_case_status","responsibilities":1,"schema_fields":{"case_id"},"side_effect":False,"typed_errors":True}}
 invalid = {"case_id": "CASO-AYA-049-2A", **{"tool":"do_everything","responsibilities":6,"schema_fields":{"raw"},"side_effect":True,"typed_errors":False}}
@@ -938,12 +966,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t2-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def is_srp_tool(record: dict) -> bool:
+    return (
+        record["responsibilities"] == 1
+        and record["schema_fields"] == {"case_id"}
+        and not record["side_effect"]
+        and record["typed_errors"]
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "tool", "responsibilities", "schema_fields", "side_effect", "typed_errors"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["responsibilities"] == 1 and record["schema_fields"] == {"case_id"} and not record["side_effect"] and record["typed_errors"] else "DISABLE_OVERBROAD_TOOL"
+    return "PASS" if is_srp_tool(record) else "DISABLE_OVERBROAD_TOOL"
 
 valid = {"case_id": "CASO-AYA-049-2A", **{"tool":"get_case_status","responsibilities":1,"schema_fields":{"case_id"},"side_effect":False,"typed_errors":True}}
 invalid = {"case_id": "CASO-AYA-049-2A", **{"tool":"do_everything","responsibilities":6,"schema_fields":{"raw"},"side_effect":True,"typed_errors":False}}
@@ -959,11 +995,11 @@ print(*results)
         id: "S49-T2-A-E3",
         subtopicId: "S49-T2-A",
         kind: "transfer",
-        instruction: "S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe devolver `DISABLE_OVERBROAD_TOOL` y la ausencia de `typed_errors` debe devolver `SPLIT_TOOL_CONTRACT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T2-A-E3 · Decide si el registry se promociona al agente: tool SRP válida → `CONTINUE`; god-tool o multi-side-effect → `DISABLE_OVERBROAD_TOOL`; contrato incompleto sin `typed_errors` → `SPLIT_TOOL_CONTRACT` (no promociones con schema ambiguo). Corrige missing→CONTINUE y el predicado invertido del starter. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró una responsabilidad, schema estrecho y error tipado; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza is_srp_tool; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta typed_errors", "adverso: responsibilities>1, schema amplio o side_effect no acotado", "CASO-AYA-049-2A es sintético"],
         tests: "Fixtures `CASO-AYA-049-2A`, adverso y sin `typed_errors` prueban continue/breach/uncertainty en ese orden.",
@@ -1064,11 +1100,11 @@ assert meets_contract is True` ,
         id: "S49-T2-B-E2",
         subtopicId: "S49-T2-B",
         kind: "independent",
-        instruction: "S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con case_id, schema_valid, scope, granted, idempotency_key, attempts, effects, error_kind. Salidas exactas: `PASS`, `DENY_TOOL_CALL`, `MISSING:error_kind`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T2-B-E2 · Simula el log de tool calls: (1) `report:prepare` con key y effects=1 tras retry, (2) `prod:write` fuera de grant con effects=2 y kind basura, (3) call sin `error_kind`. Reutiliza `tool_call_ok` dentro de `assess`. Salidas exactas: `PASS`, `DENY_TOOL_CALL`, `MISSING:error_kind`.",
         hint: "Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T2-B: schema/scope válidos y retry con un solo efecto. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si tool_call_ok: schema, scope granted, key no vacía, effects==1 y error_kind tipado.",
         ],
         edgeCases: ["falta error_kind", "adverso: scope no granted, effects>1 o schema inválido", "CASO-AYA-049-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `error_kind` ausente y produce exactamente `PASS DENY_TOOL_CALL MISSING:error_kind`.",
@@ -1077,14 +1113,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t2-b-e2.py",
           code: `# CASO-AYA-049 · assess DENY_TOOL_CALL
-# DEFECT: PASS sin permiso o no idempotente
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: tool_call_ok / assess aprueban scope prohibido o multi-efecto
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def tool_call_ok(record: dict) -> bool:
+    # DEFECT: aprueba llamadas fuera de grant o no idempotentes
+    return record["scope"] not in record["granted"] or record["effects"] > 1
+
 def assess(record: dict) -> str:
     required = {"case_id", "schema_valid", "scope", "granted", "idempotency_key", "attempts", "effects", "error_kind"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["scope"] not in record["granted"] or record["effects"] > 1 else "DENY_TOOL_CALL"
+    return "PASS" if tool_call_ok(record) else "DENY_TOOL_CALL"
 
 valid = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":True,"scope":"report:prepare","granted":{"report:prepare"},"idempotency_key":"tool-1","attempts":2,"effects":1,"error_kind":"retryable"}}
 invalid = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":False,"scope":"prod:write","granted":{"report:prepare"},"idempotency_key":"","attempts":2,"effects":2,"error_kind":"secret dump"}}
@@ -1097,12 +1137,21 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def tool_call_ok(record: dict) -> bool:
+    return (
+        record["schema_valid"]
+        and record["scope"] in record["granted"]
+        and bool(record["idempotency_key"])
+        and record["effects"] == 1
+        and record["error_kind"] in {"retryable", "terminal"}
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "schema_valid", "scope", "granted", "idempotency_key", "attempts", "effects", "error_kind"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["schema_valid"] and record["scope"] in record["granted"] and bool(record["idempotency_key"]) and record["effects"] == 1 and record["error_kind"] in {"retryable","terminal"} else "DENY_TOOL_CALL"
+    return "PASS" if tool_call_ok(record) else "DENY_TOOL_CALL"
 
 valid = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":True,"scope":"report:prepare","granted":{"report:prepare"},"idempotency_key":"tool-1","attempts":2,"effects":1,"error_kind":"retryable"}}
 invalid = {"case_id": "CASO-AYA-049-2B", **{"schema_valid":False,"scope":"prod:write","granted":{"report:prepare"},"idempotency_key":"","attempts":2,"effects":2,"error_kind":"secret dump"}}
@@ -1118,11 +1167,11 @@ print(*results)
         id: "S49-T2-B-E3",
         subtopicId: "S49-T2-B",
         kind: "transfer",
-        instruction: "S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso debe devolver `DENY_TOOL_CALL` y la ausencia de `error_kind` debe devolver `CLASSIFY_TOOL_ERROR`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T2-B-E3 · Enruta la política de tool-use fail-closed: call con schema/scope/idempotencia correctos → `CONTINUE`; scope no granted o multi-efecto → `DENY_TOOL_CALL`; sin `error_kind` tipado → `CLASSIFY_TOOL_ERROR` (no ejecutes a ciegas). Corrige missing→CONTINUE y el predicado del starter. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró schema/scope válidos y retry con un solo efecto; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza tool_call_ok; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta error_kind", "adverso: scope no granted, effects>1 o schema inválido", "CASO-AYA-049-2B es sintético"],
         tests: "Fixtures `CASO-AYA-049-2B`, adverso y sin `error_kind` prueban continue/breach/uncertainty en ese orden.",
@@ -1222,11 +1271,11 @@ assert meets_contract is True` ,
         id: "S49-T3-A-E2",
         subtopicId: "S49-T3-A",
         kind: "independent",
-        instruction: "S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict con case_id, context_tokens, max_context_tokens, retrieved_just_in_time, checkpoint_after_effect, provenance. Salidas exactas: `PASS`, `COMPACT_AND_CHECKPOINT`, `MISSING:provenance`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T3-A-E2 · Mide el attention budget de tres packs de contexto: (1) 1200≤2000 tokens con JIT+checkpoint+provenance, (2) 9000 tokens sin JIT ni checkpoint, (3) pack sin `provenance`. Reutiliza `context_ok` dentro de `assess`. Salidas exactas: `PASS`, `COMPACT_AND_CHECKPOINT`, `MISSING:provenance`.",
         hint: "Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T3-A: contexto bajo presupuesto, JIT, provenance y checkpoint. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si context_ok: tokens≤max, JIT, checkpoint_after_effect y provenance True.",
         ],
         edgeCases: ["falta provenance", "adverso: tokens>max, sin JIT o sin checkpoint post-efecto", "CASO-AYA-049-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `provenance` ausente y produce exactamente `PASS COMPACT_AND_CHECKPOINT MISSING:provenance`.",
@@ -1235,14 +1284,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t3-a-e2.py",
           code: `# CASO-AYA-049 · assess COMPACT_AND_CHECKPOINT
-# DEFECT: PASS con contexto excesivo o sin checkpoint
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: context_ok / assess aprueban overflow o falta de checkpoint
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def context_ok(record: dict) -> bool:
+    # DEFECT: aprueba desborde de tokens o falta de checkpoint
+    return record["context_tokens"] > record["max_context_tokens"] or not record["checkpoint_after_effect"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "context_tokens", "max_context_tokens", "retrieved_just_in_time", "checkpoint_after_effect", "provenance"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["context_tokens"] > record["max_context_tokens"] or not record["checkpoint_after_effect"] else "COMPACT_AND_CHECKPOINT"
+    return "PASS" if context_ok(record) else "COMPACT_AND_CHECKPOINT"
 
 valid = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":1200,"max_context_tokens":2000,"retrieved_just_in_time":True,"checkpoint_after_effect":True,"provenance":True}}
 invalid = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":9000,"max_context_tokens":2000,"retrieved_just_in_time":False,"checkpoint_after_effect":False,"provenance":False}}
@@ -1255,12 +1308,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t3-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def context_ok(record: dict) -> bool:
+    return (
+        record["context_tokens"] <= record["max_context_tokens"]
+        and record["retrieved_just_in_time"]
+        and record["checkpoint_after_effect"]
+        and record["provenance"]
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "context_tokens", "max_context_tokens", "retrieved_just_in_time", "checkpoint_after_effect", "provenance"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["context_tokens"] <= record["max_context_tokens"] and record["retrieved_just_in_time"] and record["checkpoint_after_effect"] and record["provenance"] else "COMPACT_AND_CHECKPOINT"
+    return "PASS" if context_ok(record) else "COMPACT_AND_CHECKPOINT"
 
 valid = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":1200,"max_context_tokens":2000,"retrieved_just_in_time":True,"checkpoint_after_effect":True,"provenance":True}}
 invalid = {"case_id": "CASO-AYA-049-3A", **{"context_tokens":9000,"max_context_tokens":2000,"retrieved_just_in_time":False,"checkpoint_after_effect":False,"provenance":False}}
@@ -1276,11 +1337,11 @@ print(*results)
         id: "S49-T3-A-E3",
         subtopicId: "S49-T3-A",
         kind: "transfer",
-        instruction: "S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adverso debe devolver `COMPACT_AND_CHECKPOINT` y la ausencia de `provenance` debe devolver `RETRIEVE_MINIMUM_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T3-A-E3 · Decide si el paso del agente puede correr con el contexto actual: bajo techo + JIT + checkpoint → `CONTINUE`; overflow o sin checkpoint → `COMPACT_AND_CHECKPOINT`; sin provenance → `RETRIEVE_MINIMUM_CONTEXT` (no ejecutes con hechos huérfanos). Corrige missing→CONTINUE y el predicado invertido. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró contexto bajo presupuesto, JIT, provenance y checkpoint; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza context_ok; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta provenance", "adverso: tokens>max, sin JIT o sin checkpoint post-efecto", "CASO-AYA-049-3A es sintético"],
         tests: "Fixtures `CASO-AYA-049-3A`, adverso y sin `provenance` prueban continue/breach/uncertainty en ese orden.",
@@ -1379,11 +1440,11 @@ assert meets_contract is True` ,
         id: "S49-T3-B-E2",
         subtopicId: "S49-T3-B",
         kind: "independent",
-        instruction: "S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con case_id, facts_before, facts_after, memory_retention_days, last_known_good. Salidas exactas: `PASS`, `RESTORE_LAST_KNOWN_GOOD`, `MISSING:last_known_good`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T3-B-E2 · Diff de memoria post-compaction: (1) facts críticos conservados + LKG `cp-7`, (2) drop de `budget`/`no_prod_write` con retención 365 y LKG vacío, (3) registro sin `last_known_good`. Reutiliza `compaction_ok` dentro de `assess`. Salidas exactas: `PASS`, `RESTORE_LAST_KNOWN_GOOD`, `MISSING:last_known_good`.",
         hint: "Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T3-B: compaction conserva restricciones, retención y LKG. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si compaction_ok: facts_before ⊆ facts_after, retención ≤7 y LKG con prefijo cp-.",
         ],
         edgeCases: ["falta last_known_good", "adverso: pérdida de facts críticos o LKG vacío", "CASO-AYA-049-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `last_known_good` ausente y produce exactamente `PASS RESTORE_LAST_KNOWN_GOOD MISSING:last_known_good`.",
@@ -1392,14 +1453,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t3-b-e2.py",
           code: `# CASO-AYA-049 · assess RESTORE_LAST_KNOWN_GOOD
-# DEFECT: PASS con pérdida de facts o sin LKG
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: compaction_ok / assess aprueban drop de facts o LKG vacío
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def compaction_ok(record: dict) -> bool:
+    # DEFECT: aprueba pérdida de restricciones o LKG vacío
+    return not record["facts_before"] <= record["facts_after"] or not record["last_known_good"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "facts_before", "facts_after", "memory_retention_days", "last_known_good"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if not record["facts_before"] <= record["facts_after"] or not record["last_known_good"] else "RESTORE_LAST_KNOWN_GOOD"
+    return "PASS" if compaction_ok(record) else "RESTORE_LAST_KNOWN_GOOD"
 
 valid = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id","budget","no_prod_write"},"memory_retention_days":7,"last_known_good":"cp-7"}}
 invalid = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id"},"memory_retention_days":365,"last_known_good":""}}
@@ -1412,12 +1477,19 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t3-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def compaction_ok(record: dict) -> bool:
+    return (
+        record["facts_before"] <= record["facts_after"]
+        and record["memory_retention_days"] <= 7
+        and record["last_known_good"].startswith("cp-")
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "facts_before", "facts_after", "memory_retention_days", "last_known_good"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["facts_before"] <= record["facts_after"] and record["memory_retention_days"] <= 7 and record["last_known_good"].startswith("cp-") else "RESTORE_LAST_KNOWN_GOOD"
+    return "PASS" if compaction_ok(record) else "RESTORE_LAST_KNOWN_GOOD"
 
 valid = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id","budget","no_prod_write"},"memory_retention_days":7,"last_known_good":"cp-7"}}
 invalid = {"case_id": "CASO-AYA-049-3B", **{"facts_before":{"case_id","budget","no_prod_write"},"facts_after":{"case_id"},"memory_retention_days":365,"last_known_good":""}}
@@ -1433,11 +1505,11 @@ print(*results)
         id: "S49-T3-B-E3",
         subtopicId: "S49-T3-B",
         kind: "transfer",
-        instruction: "S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso debe devolver `RESTORE_LAST_KNOWN_GOOD` y la ausencia de `last_known_good` debe devolver `REVIEW_COMPACTION_LOSS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T3-B-E3 · Protege recovery: compactación segura con LKG → `CONTINUE`; pérdida de restricciones críticas o LKG vacío → `RESTORE_LAST_KNOWN_GOOD`; sin campo LKG → `REVIEW_COMPACTION_LOSS` (revisión humana del diff de facts). No continúes si no puedes nombrar el checkpoint de rollback. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró compaction conserva restricciones, retención y LKG; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza compaction_ok; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta last_known_good", "adverso: pérdida de facts críticos o LKG vacío", "CASO-AYA-049-3B es sintético"],
         tests: "Fixtures `CASO-AYA-049-3B`, adverso y sin `last_known_good` prueban continue/breach/uncertainty en ese orden.",
@@ -1537,11 +1609,11 @@ assert meets_contract is True` ,
         id: "S49-T4-A-E2",
         subtopicId: "S49-T4-A",
         kind: "independent",
-        instruction: "S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, goal_met, steps, max_steps, tokens, max_tokens, cost_pen, max_cost_pen. Salidas exactas: `PASS`, `STOP_BUDGET_EXHAUSTED`, `MISSING:max_cost_pen`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T4-A-E2 · Ledger de presupuesto sintético: (1) meta cumplida con steps/tokens/cost_pen bajo techo, (2) 20 pasos y cost_pen 0.4 sobre max, (3) run sin `max_cost_pen` configurado. Reutiliza `budget_ok` dentro de `assess`. Salidas exactas: `PASS`, `STOP_BUDGET_EXHAUSTED`, `MISSING:max_cost_pen`.",
         hint: "Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T4-A: meta lograda dentro de pasos, tokens y costo. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si budget_ok: goal_met y contadores steps/tokens/cost_pen ≤ sus máximos.",
         ],
         edgeCases: ["falta max_cost_pen", "adverso: steps/tokens/cost sobre max o goal_met=False", "CASO-AYA-049-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `max_cost_pen` ausente y produce exactamente `PASS STOP_BUDGET_EXHAUSTED MISSING:max_cost_pen`.",
@@ -1550,14 +1622,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t4-a-e2.py",
           code: `# CASO-AYA-049 · assess STOP_BUDGET_EXHAUSTED
-# DEFECT: PASS con budgets agotados
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: budget_ok / assess aprueban steps/cost sobre techo
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def budget_ok(record: dict) -> bool:
+    # DEFECT: aprueba agotamiento de presupuesto
+    return record["steps"] > record["max_steps"] or record["cost_pen"] > record["max_cost_pen"]
+
 def assess(record: dict) -> str:
     required = {"case_id", "goal_met", "steps", "max_steps", "tokens", "max_tokens", "cost_pen", "max_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["steps"] > record["max_steps"] or record["cost_pen"] > record["max_cost_pen"] else "STOP_BUDGET_EXHAUSTED"
+    return "PASS" if budget_ok(record) else "STOP_BUDGET_EXHAUSTED"
 
 valid = {"case_id": "CASO-AYA-049-4A", **{"goal_met":True,"steps":4,"max_steps":6,"tokens":3200,"max_tokens":5000,"cost_pen":0.04,"max_cost_pen":0.06}}
 invalid = {"case_id": "CASO-AYA-049-4A", **{"goal_met":False,"steps":20,"max_steps":6,"tokens":20000,"max_tokens":5000,"cost_pen":0.4,"max_cost_pen":0.06}}
@@ -1570,12 +1646,20 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t4-a-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def budget_ok(record: dict) -> bool:
+    return (
+        record["goal_met"]
+        and record["steps"] <= record["max_steps"]
+        and record["tokens"] <= record["max_tokens"]
+        and record["cost_pen"] <= record["max_cost_pen"]
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "goal_met", "steps", "max_steps", "tokens", "max_tokens", "cost_pen", "max_cost_pen"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["goal_met"] and record["steps"] <= record["max_steps"] and record["tokens"] <= record["max_tokens"] and record["cost_pen"] <= record["max_cost_pen"] else "STOP_BUDGET_EXHAUSTED"
+    return "PASS" if budget_ok(record) else "STOP_BUDGET_EXHAUSTED"
 
 valid = {"case_id": "CASO-AYA-049-4A", **{"goal_met":True,"steps":4,"max_steps":6,"tokens":3200,"max_tokens":5000,"cost_pen":0.04,"max_cost_pen":0.06}}
 invalid = {"case_id": "CASO-AYA-049-4A", **{"goal_met":False,"steps":20,"max_steps":6,"tokens":20000,"max_tokens":5000,"cost_pen":0.4,"max_cost_pen":0.06}}
@@ -1591,11 +1675,11 @@ print(*results)
         id: "S49-T4-A-E3",
         subtopicId: "S49-T4-A",
         kind: "transfer",
-        instruction: "S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `STOP_BUDGET_EXHAUSTED` y la ausencia de `max_cost_pen` debe devolver `ASK_FOR_SCOPE_REDUCTION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T4-A-E3 · Aplica stopping conditions operativas: meta dentro de budgets → `CONTINUE`; steps/tokens/cost sobre techo → `STOP_BUDGET_EXHAUSTED` (con razón en el log de tu portfolio); sin `max_cost_pen` en config → `ASK_FOR_SCOPE_REDUCTION` (reduce scope, no inventes techo). Corrige missing→CONTINUE. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró meta lograda dentro de pasos, tokens y costo; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza budget_ok; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta max_cost_pen", "adverso: steps/tokens/cost sobre max o goal_met=False", "CASO-AYA-049-4A es sintético"],
         tests: "Fixtures `CASO-AYA-049-4A`, adverso y sin `max_cost_pen` prueban continue/breach/uncertainty en ese orden.",
@@ -1696,11 +1780,11 @@ assert meets_contract is True` ,
         id: "S49-T4-B-E2",
         subtopicId: "S49-T4-B",
         kind: "independent",
-        instruction: "S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict con case_id, network, filesystem, sensitive_action, approval_required, approval_present, checkpoint, replayed_effects. Salidas exactas: `PASS`, `SANDBOX_AND_STOP`, `MISSING:replayed_effects`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S49-T4-B-E2 · Matriz de política sandbox+HITL: (1) network none + FS workspace-read + approval + cp-9 + replay 0, (2) network open + root-write + sin approval + replay 2, (3) sin contador `replayed_effects`. Reutiliza `sandbox_ok` dentro de `assess`. Salidas exactas: `PASS`, `SANDBOX_AND_STOP`, `MISSING:replayed_effects`.",
         hint: "Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S49-T4-B: sandbox mínimo, aprobación y reanudación sin repetir efectos. El fixture adverso debe fallar por contenido, no por schema.",
+          "PASS solo si sandbox_ok: red none, FS workspace-read, approval si aplica, cp-* y replayed_effects==0.",
         ],
         edgeCases: ["falta replayed_effects", "adverso: network open, sin approval o replayed_effects>0", "CASO-AYA-049-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `replayed_effects` ausente y produce exactamente `PASS SANDBOX_AND_STOP MISSING:replayed_effects`.",
@@ -1709,14 +1793,18 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t4-b-e2.py",
           code: `# CASO-AYA-049 · assess SANDBOX_AND_STOP
-# DEFECT: PASS con red abierta, sin HITL o re-efectos
-# Contrato: corrige el DEFECT; salida alineada al assert del ejercicio
+# DEFECT: sandbox_ok / assess aprueban red abierta, sin HITL o re-efectos
+# Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
+def sandbox_ok(record: dict) -> bool:
+    # DEFECT: aprueba network open, falta de approval o replay
+    return record["network"] == "open" or not record["approval_present"] or record["replayed_effects"] > 0
+
 def assess(record: dict) -> str:
     required = {"case_id", "network", "filesystem", "sensitive_action", "approval_required", "approval_present", "checkpoint", "replayed_effects"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["network"] == "open" or not record["approval_present"] or record["replayed_effects"] > 0 else "SANDBOX_AND_STOP"
+    return "PASS" if sandbox_ok(record) else "SANDBOX_AND_STOP"
 
 valid = {"case_id": "CASO-AYA-049-4B", **{"network":"none","filesystem":"workspace-read","sensitive_action":"prepare-draft","approval_required":True,"approval_present":True,"checkpoint":"cp-9","replayed_effects":0}}
 invalid = {"case_id": "CASO-AYA-049-4B", **{"network":"open","filesystem":"root-write","sensitive_action":"prod-write","approval_required":True,"approval_present":False,"checkpoint":"","replayed_effects":2}}
@@ -1729,12 +1817,21 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s49-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
+          code: `def sandbox_ok(record: dict) -> bool:
+    return (
+        record["network"] == "none"
+        and record["filesystem"] == "workspace-read"
+        and (not record["approval_required"] or record["approval_present"])
+        and record["checkpoint"].startswith("cp-")
+        and record["replayed_effects"] == 0
+    )
+
+def assess(record: dict) -> str:
     required = {"case_id", "network", "filesystem", "sensitive_action", "approval_required", "approval_present", "checkpoint", "replayed_effects"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["network"] == "none" and record["filesystem"] == "workspace-read" and (not record["approval_required"] or record["approval_present"]) and record["checkpoint"].startswith("cp-") and record["replayed_effects"] == 0 else "SANDBOX_AND_STOP"
+    return "PASS" if sandbox_ok(record) else "SANDBOX_AND_STOP"
 
 valid = {"case_id": "CASO-AYA-049-4B", **{"network":"none","filesystem":"workspace-read","sensitive_action":"prepare-draft","approval_required":True,"approval_present":True,"checkpoint":"cp-9","replayed_effects":0}}
 invalid = {"case_id": "CASO-AYA-049-4B", **{"network":"open","filesystem":"root-write","sensitive_action":"prod-write","approval_required":True,"approval_present":False,"checkpoint":"","replayed_effects":2}}
@@ -1750,11 +1847,11 @@ print(*results)
         id: "S49-T4-B-E3",
         subtopicId: "S49-T4-B",
         kind: "transfer",
-        instruction: "S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso debe devolver `SANDBOX_AND_STOP` y la ausencia de `replayed_effects` debe devolver `REQUEST_HUMAN_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S49-T4-B-E3 · Cierra CP-N4-C en el lab: sandbox + approval + recovery limpio → `CONTINUE`; red abierta, re-efectos o FS inseguro → `SANDBOX_AND_STOP`; sin evidencia de `replayed_effects` → `REQUEST_HUMAN_APPROVAL` (no reanudes a ciegas). Corrige missing→CONTINUE y el predicado invertido del starter. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró sandbox mínimo, aprobación y reanudación sin repetir efectos; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza sandbox_ok; solo True devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta replayed_effects", "adverso: network open, sin approval o replayed_effects>0", "CASO-AYA-049-4B es sintético"],
         tests: "Fixtures `CASO-AYA-049-4B`, adverso y sin `replayed_effects` prueban continue/breach/uncertainty en ese orden.",
@@ -1804,22 +1901,24 @@ assert results == ["CONTINUE", "SANDBOX_AND_STOP", "REQUEST_HUMAN_APPROVAL"]` ,
   },
   youDo: {
     title: "Agentes, herramientas y context engineering",
-    context: "Workflow de herramientas seguro y recuperable. Trabaja sobre un workflow sintético de preparación de reportes para una entidad ficticia en Ayacucho. Entrada: objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto. Salida: propuesta trazable y checkpoint; nunca un cambio de producción. El run se detiene (fail-closed) si la tool no está permitida, el argumento es inválido, el presupuesto se agota o el estado es incierto.",
+    context: "Construye un **mini-lab de agente acotado** (stdlib) para preparación de reportes de una entidad ficticia en Ayacucho (`CASO-AYA-049`). Entrada: goal, catálogo de tools con scope, budgets (`max_steps` / `max_cost_pen`) y política de sandbox. Salida: propuesta trazable + checkpoint; **nunca** un cambio de producción ni red abierta. El run se detiene (fail-closed) si la tool no está permitida, el argumento es inválido, el presupuesto se agota, falta aprobación o el estado es incierto. Integra lo aprendido en T1–T4: ADR workflow/agente, loop evaluator acotado, registry SRP+idempotencia, JIT/checkpoint y gate HITL.",
     objectives: [
-      "Convertir objetivo acotado, contexto mínimo, tools tipadas, permisos y presupuesto en propuesta trazable y checkpoint; nunca un cambio de producción.",
-      "Demostrar el gate: cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible.",
-      "Probar el fallo cerrado: si la tool no está permitida, el argumento es inválido, el presupuesto se agota o el estado es incierto, el run se detiene.",
+      "Documentar ADR workflow vs agente con baseline local y razón explícita.",
+      "Implementar un loop planner/worker/evaluator con `max_steps` y stop por eval o presupuesto.",
+      "Exponer un registry de tools con schema, least privilege, idempotency store y errores tipados.",
+      "Demostrar context JIT + checkpoint y recovery sin re-efectos; side effects sensibles con approval humano.",
+      "Automatizar tres escenarios: normal (PASS), breach (`STOP_AGENT` / `SANDBOX_AND_STOP`) e incierto (`REQUEST_HUMAN_APPROVAL`).",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-AYA-049`.",
-      "Incluye decisión workflow versus agente.",
-      "Incluye router/planner/worker/evaluator acotados.",
-      "Incluye tools con schema, idempotencia y least privilege.",
-      "Incluye checkpoints, budgets, stopping conditions y aprobación.",
-      "Automatiza un caso normal, uno de breach (`STOP_AGENT`) y uno incierto (`HUMAN_APPROVAL`).",
-      "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
-      "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
+      "Incluye decisión workflow versus agente con métricas baseline/agent en el ADR o README del lab.",
+      "Incluye router/planner/worker/evaluator acotados con traza de roles serializable.",
+      "Incluye tools con schema, idempotencia y least privilege (al menos una tool de lectura y una con side_effect).",
+      "Incluye checkpoints, budgets, stopping conditions y aprobación humana para side effects.",
+      "Automatiza un caso normal, uno de breach (`STOP_AGENT` o código de acción equivalente) y uno incierto (`HUMAN_APPROVAL` / `REQUEST_HUMAN_APPROVAL`).",
+      "Incluye comandos locales reproducibles, dependencias fijadas (stdlib) y salida esperada en el README.",
+      "Registra riesgo residual, responsable, criterio de rollback (LKG) y limitaciones conocidas.",
     ],
     starterCode: `CASE_ID = "CASO-AYA-049"
 TOOLS = {
@@ -1828,7 +1927,9 @@ TOOLS = {
 }
 GRANTED = {"case:read", "report:prepare"}
 BUDGET = {"max_steps": 6, "max_cost_pen": 0.06}
+CRITICAL_FACTS = {"case_id", "budget", "no_prod_write"}
 idempotency_store: dict[str, dict] = {}
+checkpoints: list[str] = []
 
 REQUIRED = [
     "decision_workflow_versus_agente",
@@ -1836,12 +1937,7 @@ REQUIRED = [
     "tools_con_schema_idempotencia_y_least_privilege",
     "checkpoints_budgets_stopping_conditions_y_aprobacion",
 ]
-evidence = {
-    "decision_workflow_versus_agente": False,
-    "router_planner_worker_evaluator_acotados": False,
-    "tools_con_schema_idempotencia_y_least_privilege": False,
-    "checkpoints_budgets_stopping_conditions_y_aprobacion": False,
-}
+evidence = {name: False for name in REQUIRED}
 
 def decide_mode(known_steps: bool, baseline: float, agent: float) -> str:
     if known_steps and baseline >= agent:
@@ -1859,29 +1955,36 @@ def call_tool(name: str, key: str, human_ok: bool = False) -> dict:
         return idempotency_store[key]
     result = {"ok": True, "name": name, "effect": 1 if tool["side_effect"] else 0}
     idempotency_store[key] = result
+    if tool["side_effect"]:
+        checkpoints.append(f"cp-after-{name}")
     return result
 
 def within_budget(steps: int, cost_pen: float) -> bool:
     return steps <= BUDGET["max_steps"] and cost_pen <= BUDGET["max_cost_pen"]
 
+def compact_ok(facts_after: set) -> bool:
+    return CRITICAL_FACTS <= facts_after
+
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
-# Smoke de mecanismos (stdlib); el portfolio READY exige evidencia real en evidence.
+# Smoke de mecanismos (stdlib). READY exige evidencia real en evidence + artefactos del repo.
 print("mode_hint", decide_mode(True, 0.96, 0.90))
 print("read", call_tool("get_case", "get_case:C1"))
 print("prep_no_approval", call_tool("prepare_report", "prep:C1", human_ok=False))
 print("prep_ok", call_tool("prepare_report", "prep:C1", human_ok=True))
 print("prep_replay", call_tool("prepare_report", "prep:C1", human_ok=True))
 print("budget_ok", within_budget(4, 0.04), "budget_over", within_budget(20, 0.4))
+print("compact", compact_ok(CRITICAL_FACTS | {"ruido"} - {"ruido"}))
+print("checkpoints", checkpoints)
 
 status, missing = readiness(evidence)
 print(CASE_ID, status)
 print("missing", ",".join(missing))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-C · agente acotado con aprobación humana: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+    portfolioNote: "Evidencia de CP-N4-C · agente acotado con aprobación humana: muestra ADR con baseline, traza de roles, log de tool calls (incl. replay idempotente), checkpoint/LKG, razón de stop y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto (tests, README, logs), no cambiando asserts a True a mano.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1925,24 +2028,14 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "¿Qué práctica reduce el «attention budget» sin perder una restricción crítica?",
-        options: [
-          "volcar todo el historial y todos los docs al prompt",
-          "compactar conservando hechos/decisiones con provenance y LKG",
-          "borrar el checkpoint para ahorrar tokens",
-          "re-ejecutar side effects en cada recovery",
-        ],
-        correctIndex: 1,
+        options: ["volcar todo el historial y todos los docs al prompt", "borrar el checkpoint para ahorrar tokens", "compactar conservando hechos/decisiones con provenance y LKG", "re-ejecutar side effects en cada recovery"],
+        correctIndex: 2,
         explanation: "Compaction + LKG es el contrato de S49-T3: menos tokens, sin perder restricciones ni re-efectos.",
       },
       {
         question: "Si `steps > max_steps` o `cost_pen > max_cost_pen`, el agente debe…",
-        options: [
-          "continuar hasta cumplir el goal a cualquier costo",
-          "detenerse con razón de presupuesto y no inventar éxito",
-          "abrir network=open automáticamente",
-          "duplicar effects para compensar",
-        ],
-        correctIndex: 1,
+        options: ["continuar hasta cumplir el goal a cualquier costo", "abrir network=open automáticamente", "duplicar effects para compensar", "detenerse con razón de presupuesto y no inventar éxito"],
+        correctIndex: 3,
         explanation: "Stopping conditions y budgets terminan el run con estado explícito (STOP_BUDGET_EXHAUSTED).",
       },
     ],

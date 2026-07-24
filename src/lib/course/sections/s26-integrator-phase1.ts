@@ -27,10 +27,10 @@ export const section26: CourseSection = {
     {
       heading: "Cierre CP-N2-C: orquestación del VP y regresión N2",
       paragraphs: [
-        "S26 cierra el **Value Proposition RPA + AI Analyst** de CP-N2-C: orquestas el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el run_id une logs, artefactos y la cola HITL sin reescribir historial.",
+        "S25 te dejó **ai_assist** evaluado: la IA propone, el humano cierra. S26 cierra el **Value Proposition RPA + AI Analyst** de CP-N2-C orquestando el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el run_id une logs, artefactos y la cola HITL sin reescribir historial.",
         "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicates de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit.",
-        "Orden pedagógico: **T1 Orquestación** (DAG/estados/límites) → **T2 Resiliencia** (checkpoint, retry, DLQ, idempotencia, rollback) → **T3 HITL** (colas, approve/reject/edit) → **T4 Operación/E2E** (SLO, runbook, costo/valor). Privacidad: datos de demo son sintéticos; no uses RUC/nombres reales de clientes en los ejercicios.",
-        "Diccionario rápido de la sección: **DAG** = grafo de dependencias sin ciclos; **HITL** (human-in-the-loop) = revisión humana obligatoria; **DLQ** (dead-letter queue) = cola de ítems que agotaron reintentos; **SLO** = objetivo de servicio medible; **fail-closed** = ante duda, bloquear; **drain** = vaciar workers antes de cambiar schema; **page on-call** = avisar al turno de guardia con severidad explícita.",
+        "Orden pedagógico: **T1 Orquestación** (DAG/estados/límites) → **T2 Resiliencia** (checkpoint, retry, DLQ, idempotencia, rollback) → **T3 HITL** (colas, approve/reject/edit) → **T4 Operación/E2E** (SLO, runbook, costo/valor). Cada bloque asume el anterior: sin path no hay checkpoint; sin HITL no hay draft; sin E2E no hay promoción.",
+        "Diccionario rápido de la sección: **DAG** = grafo de dependencias sin ciclos; **HITL** (human-in-the-loop) = revisión humana obligatoria; **DLQ** (dead-letter queue) = cola de ítems que agotaron reintentos; **SLO** = objetivo de servicio medible; **fail-closed** = ante duda, bloquear; **drain** = vaciar workers antes de cambiar schema; **page on-call** = avisar al turno de guardia con severidad explícita. Privacidad: datos de demo sintéticos; no uses RUC/nombres reales de clientes.",
       ],
       callout: {
         type: "info",
@@ -176,7 +176,7 @@ print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))`,
       heading: "Idempotencia, concurrencia y rollback",
       subtopicId: "S26-T2-B",
       paragraphs: [
-        "Pasos **idempotentes** usan keys de negocio (`run_id`, `entity_id`): la segunda escritura no pisa un valor ya materializado (create-once). Un retry **no** duplica drafts por reentrega del mensaje.",
+        "Tras checkpoint y DLQ, el siguiente riesgo es el **reintento exitoso dos veces**: pasos **idempotentes** usan keys de negocio (`run_id`, `entity_id`) para que la segunda escritura no pise un valor ya materializado (create-once). Un retry **no** duplica drafts por reentrega del mensaje.",
         "**Concurrencia**: locks/flags `locked` por entidad evitan dos workers en el mismo informe. Si `locked=True` → busy y reencola (**fail-closed**: ante duda, no entras). Lab: flag; prod: lease con TTL.",
         "**Rollback/compensación** no siempre es ACID: si falla `draft_email` tras `write_report`, borra el draft y marca el report como `superseded` (no lo eliminas del historial de defensa). Documenta el grafo de compensación en el runbook del VP.",
       ],
@@ -215,7 +215,7 @@ print("reports", store["reports"], "drafts", store["drafts"])`,
       heading: "Revisión de análisis, reporte y destinatario (HITL)",
       subtopicId: "S26-T3-A",
       paragraphs: [
-        "HITL del VP exige **tres colas**: `analysis` (métricas/outliers), `report` (narrativa), `recipient` (destinatario). Cualquier `pending>0` **bloquea** envío: `blocked = any(count>0)`. Checklist mínima: metrics + narrative + recipient.",
+        "Con resiliencia y compensación listas, el path aún no puede materializar correo: el HITL del VP exige **tres colas** — `analysis` (métricas/outliers), `report` (narrativa), `recipient` (destinatario). Cualquier `pending>0` **bloquea** envío: `blocked = any(count>0)`. Checklist mínima: metrics + narrative + recipient.",
         "La IA asistida (**ai_assist**, handoff de S25) **solo propone** texto/highlights; **no cierra** el caso. Si `analysis` pending, el flow queda en `human_review` aunque `report` esté listo — evita “correo automático con narrativa alucinada”.",
         "Caso: `cpn2c-hitl-01` con analysis=1, report=1, recipient=0 → `blocked True`. Scores de matching alimentan `analysis` como **evidencia**, nunca como veredicto de fraude.",
       ],
@@ -247,7 +247,7 @@ all_clear False`,
       heading: "Aprobación, rechazo, edición y auditoría",
       subtopicId: "S26-T3-B",
       paragraphs: [
-        "Toda decisión humana deja **audit** `{action, actor, ts, reason?}`. `approve` avanza; `reject` exige reason no vacío; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.",
+        "Las colas HITL se vacían con decisiones humanas; cada una deja **audit** `{action, actor, ts, reason?}`. `approve` avanza; `reject` exige reason no vacío; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.",
         "Actor = id sintético (`r1`, `r2`), no correo personal real. El sistema **no envía**: solo materializa `draft_email` tras approve. Rechazos reabren cola según reason code del runbook.",
         "Política PE: `quality_narrative` → reencola report; `wrong_recipient` → reencola recipient. Audit **append-only** — nunca reescritura de entradas previas.",
       ],
@@ -277,7 +277,7 @@ print(len(audit), audit[-1]["action"], audit[0]["reason"])`,
       heading: "SLO, alertas y runbook operativo",
       subtopicId: "S26-T4-A",
       paragraphs: [
-        "**SLO** del VP sintético: `success_rate ≥ 0.95` diario; si rate=0.90 → alerta `alert_success_rate` (mismo nombre en prosa, lab y runbook). P0: `sends_without_approve > 0` — violación de control, no warning suave.",
+        "Con el gate HITL y el audit en verde, falta **operar** el VP en producción. **SLO** sintético: `success_rate ≥ 0.95` diario; si rate=0.90 → alerta `alert_success_rate` (mismo nombre en prosa, lab y runbook). P0: `sends_without_approve > 0` — violación de control, no warning suave.",
         "Runbook de incidente: **`disable_schedule → drain → page`**. Primero detienes el cron America/Lima, drenas workers (vacías la cola en vuelo), luego *pages on-call* (avisas al turno de guardia) con severidad explícita.",
         "Métricas del metadata de run: throughput, fallas, HITL latency, costo de tokens. **No** inventes `fraud_rate` en el dashboard — matching/score ≠ culpabilidad.",
       ],
@@ -317,7 +317,7 @@ runbook_step disable_schedule → drain queue → page oncall`,
       heading: "Pruebas E2E, seguridad, costo y métricas de valor",
       subtopicId: "S26-T4-B",
       paragraphs: [
-        "E2E del cierre: path canónico **ingest → validate → analyze → ai_assist → report → approve → draft_email** en success con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos, **`fraud_labels=0`** (el VP no auto-etiqueta fraude).",
+        "SLO y runbook protegen el día a día; el **cierre de nivel** exige evidencia E2E del path canónico **ingest → validate → analyze → ai_assist → report → approve → draft_email** en success con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos, **`fraud_labels=0`** (el VP no auto-etiqueta fraude).",
         "Costo: tokens de IA + minutos de RPA acotados. Valor: minutos ahorrados estimados (p. ej. 45) vs manual — estimación de producto, no promesa financiera.",
         "Regresión N2: re-ejecutar tests críticos de CP-N2-A/B/C, E2E del tramo S14–S26 y controles de privacidad/seguridad, más CF-2. Paquete de defensa: e2e, cost, value, `fraud_labels=0`, `n2_regression=pass` con evidencia real (no “planned”).",
         "Caso PE: `cpn2c-close-e2e` con `data_cutoff` fijo; si un step failed → E2E False y **no** se firma promoción. Matching/OCR/RPA solo encolan evidencia — nunca claim de colusión/fraude en el informe final.",
@@ -458,11 +458,23 @@ ok True`,
         demoId: "S26-T2-B-DEMO",
         subtopicId: "S26-T2-B",
         environment: "local/cloud controlado",
-        description: "Compensación: quitar draft y marcar report superseded.",
+        description: "Thinking aloud: create-once no pisa; si falla el draft, pop draft y report → superseded.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def compensate_failed_draft(state):
+          code: `# Thinking aloud: idempotencia create-once + compensación parcial.
+store = {}
+
+def put_once(k, v):
+    if k not in store:
+        store[k] = v
+    return store[k]
+
+put_once("report", "v1")
+put_once("report", "v2")  # no pisa
+print("idempotent", store["report"])
+
+def compensate_failed_draft(state):
     # Si falla draft_email tras report: pop draft, report → superseded
     s = dict(state)
     s.pop("draft", None)
@@ -473,75 +485,90 @@ ok True`,
 print(compensate_failed_draft({"report": "ok", "draft": "ok"}))
 print("ok", True)
 `,
-          output: `{'report': 'superseded'}
+          output: `idempotent v1
+{'report': 'superseded'}
 ok True`,
         },
-        why: "Compensación parcial: el report no se borra; queda superseded para defensa.",
+        why: "Create-once evita drafts duplicados; compensación parcial deja report superseded (no borra evidencia).",
       },
       {
         demoId: "S26-T3-A-DEMO",
         subtopicId: "S26-T3-A",
         environment: "local/cloud controlado",
-        description: "Triple cola HITL: cualquier pending bloquea draft_email.",
+        description: "Thinking aloud: cuento pending en analysis/report/recipient y demuestro que un solo pending bloquea draft_email.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def queue_blocked(q):
-    # blocked si analysis, report o recipient tienen pendiente
+          code: `# Thinking aloud: tres colas; basta una >0 para bloquear el borrador.
+def queue_blocked(q):
     return any(v > 0 for v in q.values())
 
 q = {"analysis": 1, "report": 1, "recipient": 0}
 print(q, "blocked", queue_blocked(q))
+# Si vaciamos analysis y report, recipient=0 → all_clear
+q_clear = {"analysis": 0, "report": 0, "recipient": 0}
+print("all_clear", not queue_blocked(q_clear))
 print("ok", True)
 `,
           output: `{'analysis': 1, 'report': 1, 'recipient': 0} blocked True
+all_clear True
 ok True`,
         },
-        why: "Triple revisión antes del correo: un solo pending basta para bloquear.",
+        why: "Triple revisión antes del correo: un solo pending basta para bloquear; all_clear solo con las tres en 0.",
       },
       {
         demoId: "S26-T3-B-DEMO",
         subtopicId: "S26-T3-B",
         environment: "local/cloud controlado",
-        description: "Audit append-only de approve (sin reescribir historia).",
+        description: "Thinking aloud: reject sin reason es invalid; approve append-only deja rastro defendible.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def record_approve(audit, actor):
-    audit.append({"action": "approve", "actor": actor})
-    return audit[-1]
+          code: `# Thinking aloud: reject exige reason; approve append-only sin reescribir.
+def decide(action, actor, reason=None):
+    if action == "reject" and not reason:
+        return {"status": "invalid"}
+    return {"status": "recorded", "action": action, "actor": actor, "reason": reason}
 
 log = []
-print(record_approve(log, "r1"))
-print("events", len(log))
+print(decide("reject", "r1", reason=None))  # fail-closed
+rec = decide("approve", "r1")
+log.append(rec)
+print(log[-1]["action"], "events", len(log))
 print("ok", True)
 `,
-          output: `{'action': 'approve', 'actor': 'r1'}
-events 1
+          output: `{'status': 'invalid'}
+approve events 1
 ok True`,
         },
-        why: "Sin audit append-only no hay capstone demostrable ni defensa de approve.",
+        why: "Reject sin reason se rechaza; approve deja audit append-only — sin eso el capstone no es defendible.",
       },
       {
         demoId: "S26-T4-A-DEMO",
         subtopicId: "S26-T4-A",
         environment: "local/cloud controlado",
-        description: "Alerta alert_success_rate cuando rate < umbral SLO 0.95.",
+        description: "Thinking aloud: evalúo success_rate y sends_without_approve; nombro alertas como en el runbook.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def slo_alert(rate, thr=0.95):
-    # Nombre de alerta = contrato del runbook
-    return "alert_success_rate" if rate < thr else "ok"
+          code: `# Thinking aloud: nombres de alerta = contrato del runbook (no aliases).
+def slo_alerts(rate, sends_without_approve, thr=0.95):
+    out = []
+    if rate < thr:
+        out.append("alert_success_rate")
+    if sends_without_approve > 0:
+        out.append("P0_unapproved_send")
+    return out or ["ok"]
 
-# note: 0.91 < 0.95 → alert_success_rate
-print(slo_alert(0.91))
+print(slo_alerts(0.91, 0))
+print(slo_alerts(0.99, 1))
 print("ok", True)
 `,
-          output: `alert_success_rate
+          output: `['alert_success_rate']
+['P0_unapproved_send']
 ok True`,
         },
-        why: "El nombre de la alerta es contrato de runbook: alert_success_rate, no un alias informal.",
+        why: "alert_success_rate y P0_unapproved_send son contratos de runbook; un alias informal rompe la página on-call.",
       },
       {
         demoId: "S26-T4-B-DEMO",
@@ -592,7 +619,7 @@ ok True`,
         subtopicId: "S26-T1-A",
         kind: "guided",
         instruction:
-          "Vista parcial del path canónico (sin AI ni email): imprime exactamente ['ingest','validate','analyze','report']. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base de negocio. Contrato: sin inputs externos; salida must-match. Pass: ['ingest', 'validate', 'analyze', 'report'].",
+          "Vista parcial del path canónico (sin AI ni email): imprime exactamente ['ingest','validate','analyze','report']. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base de negocio. Sin inputs externos. Pass: ['ingest', 'validate', 'analyze', 'report'].",
         hint: "lista en orden de dependencias",
         hints: [
           "Orden parcial: ingest → validate → analyze → report (incluye validate).",
@@ -600,7 +627,7 @@ ok True`,
           "Full path canónico: …analyze → ai_assist → report → approve → draft_email.",
         ],
         edgeCases: ["draft_email solo tras approve en el path completo"],
-        tests: "print de la lista de 4 steps en orden; debe coincidir con solution output",
+        tests: "print de la lista de 4 steps en orden canónico parcial",
         feedback: "Si falta validate, el DAG de negocio se rompe antes de llegar a AI o email.",
         starterCode: {
           language: 'python',
@@ -688,21 +715,21 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         subtopicId: "S26-T1-B",
         kind: "guided",
         instruction:
-          "Metadata inmutable de run: m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}. Imprime en una línea run_id y api_rpm (separados por espacio) sin mutar el dict. Contrato: lectura para join de logs/HITL + límite visible. Pass: cpn2c-1 30.",
-        hint: "print run_id y api_rpm",
+          "Metadata inmutable de run: m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}. Construye un snapshot de solo lectura con las claves run_id y api_rpm e imprime (run_id, api_rpm, n_keys) donde n_keys es el tamaño del snapshot. No mutes m. Pass: ('cpn2c-1', 30, 2).",
+        hint: "snapshot con dos claves + len",
         hints: [
-          "print(m['run_id'], m['api_rpm']) — dos lecturas, una línea.",
-          "No print(m) del dict entero ni reasignes claves.",
-          "El run_id une logs; api_rpm es el límite del preflight.",
+          "snap = {'run_id': m['run_id'], 'api_rpm': m['api_rpm']}.",
+          "Imprime (snap['run_id'], snap['api_rpm'], len(snap)).",
+          "No reasignes claves en m; el snapshot es la foto inmutable del start.",
         ],
         edgeCases: ["uuid en prod", "metadata no se reescribe tras start"],
-        tests: "línea 'cpn2c-1 30' con run_id y api_rpm",
-        feedback: "Imprimir el dict entero no sirve como llave de join; el ops necesita run_id + límite legibles.",
+        tests: "tupla (run_id, api_rpm, 2) desde snapshot de dos claves",
+        feedback: "Imprimir el dict entero no sirve como llave de join; el ops necesita run_id + límite en un snapshot legible.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · run_id + api_rpm
-# DEFECT: imprime dict entero
+          code: `# CASO-LIM-026 · snapshot run_id + api_rpm
+# DEFECT: imprime dict entero sin snapshot
 m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}
 print(m)
 `,
@@ -711,8 +738,9 @@ print(m)
           language: 'python',
           title: "exercise.py",
           code: `m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}
-print(m['run_id'], m['api_rpm'])`,
-          output: `cpn2c-1 30`,
+snap={'run_id': m['run_id'], 'api_rpm': m['api_rpm']}
+print((snap['run_id'], snap['api_rpm'], len(snap)))`,
+          output: `('cpn2c-1', 30, 2)`,
         },
       },
       {
@@ -765,9 +793,14 @@ print('too_high' if api_rpm>60 else 'ok')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · cron Lima
-# DEFECT: UTC
-print('0 6 * * 1-5', 'UTC')
+          code: `# CASO-LIM-026 · cron de escritorio en America/Lima
+# DEFECT: agenda weekday 06:00 como si fuera UTC
+# Completa: emite la expresión cron local y la zona America/Lima (no UTC).
+cron = '0 6 * * 1-5'
+zone = 'UTC'  # defecto incorrecto
+# zone = 'America/Lima'
+print(cron, zone)
+assert zone == 'America/Lima'
 `,
         },
         solutionCode: {
@@ -814,23 +847,23 @@ print(base * (2 ** (attempt - 1)))`,
         subtopicId: "S26-T2-A",
         kind: "independent",
         instruction:
-          "Dead-letter con owner: dlq=[] y fail=True modelan un item irrecuperable. Si fail, append {'id':'x','reason':'timeout_exhausted','owner':'ops_rpa'} e imprime la lista. Contrato: no reintentar validación de negocio aquí; DLQ con razón y dueño. Pass: [{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa'}].",
-        hint: "append dict con id/reason/owner",
+          "Dead-letter tras agotar reintentos: attempts=3, max_attempts=3, item id='x'. Si attempts>=max_attempts, append a dlq el dict {'id':'x','reason':'timeout_exhausted','owner':'ops_rpa','attempts':3} e imprime la lista. Si aún quedan reintentos, imprime []. Pass: [{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}].",
+        hint: "append solo si attempts >= max_attempts",
         hints: [
-          "Si fail: dlq.append({...}) con las tres claves del contrato.",
-          "No dejes la lista vacía ni un string suelto.",
-          "reason y owner hacen defendible la DLQ en el runbook.",
+          "Compara attempts con max_attempts antes de append.",
+          "Incluye attempts en el dict para evidencia del runbook.",
+          "No envíes a DLQ en el primer fallo si aún hay cupo de reintento.",
         ],
-        edgeCases: ["owner DLQ"],
-        tests: "lista con un dict id/reason/owner",
-        feedback: "Una DLQ sin owner no tiene SLA de inspección.",
+        edgeCases: ["owner DLQ", "no DLQ prematura"],
+        tests: "lista con un dict id/reason/owner/attempts tras agotar",
+        feedback: "Una DLQ sin owner o sin attempts no es defendible; DLQ al primer fallo contradice el retry.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · DLQ on fail with owner
-# DEFECT: no append
+          code: `# CASO-LIM-026 · DLQ after max_attempts with owner
+# DEFECT: DLQ vacía aunque attempts agotados
 dlq=[]
-fail=True
+attempts, max_attempts = 3, 3
 print(dlq)
 `,
         },
@@ -838,11 +871,16 @@ print(dlq)
           language: 'python',
           title: "exercise.py",
           code: `dlq=[]
-fail=True
-if fail:
-    dlq.append({'id':'x','reason':'timeout_exhausted','owner':'ops_rpa'})
+attempts, max_attempts = 3, 3
+if attempts >= max_attempts:
+    dlq.append({
+        'id': 'x',
+        'reason': 'timeout_exhausted',
+        'owner': 'ops_rpa',
+        'attempts': attempts,
+    })
 print(dlq)`,
-          output: `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa'}]`,
+          output: `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`,
         },
       },
       {
@@ -1087,21 +1125,21 @@ print([k for k in order if queues[k]=='pending'])`,
         subtopicId: "S26-T3-B",
         kind: "guided",
         instruction:
-          "Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action (approve). Contrato: no reescribir historial de audit. Pass: approve.",
-        hint: "print audit[0]['action']",
+          "Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor 'rev'; imprime (action, len(audit)). Contrato: no reescribir historial. Pass: ('approve', 1).",
+        hint: "print (action, len)",
         hints: [
-          "Tras append, lee audit[0]['action'], no ['actor'].",
+          "Tras append, lee audit[0]['action'] y len(audit).",
           "No reasignes audit a otra lista (append-only).",
-          "El action es lo que el grader compara.",
+          "La tupla demuestra decisión + que hay exactamente un evento.",
         ],
-        edgeCases: ["timestamp"],
-        tests: "print del action approve del primer evento",
-        feedback: "Imprimir el actor no demuestra que se registró la decisión approve.",
+        edgeCases: ["timestamp", "no reescritura"],
+        tests: "tupla (approve, 1) del primer evento append-only",
+        feedback: "Imprimir solo el actor no demuestra la decisión; len(audit) prueba que no se reescribió el log.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · audit action
-# DEFECT: imprime actor
+          code: `# CASO-LIM-026 · audit action + len
+# DEFECT: imprime solo actor
 audit=[]
 audit.append({'action':'approve','actor':'rev'})
 print(audit[0]['actor'])
@@ -1112,8 +1150,8 @@ print(audit[0]['actor'])
           title: "exercise.py",
           code: `audit=[]
 audit.append({'action':'approve','actor':'rev'})
-print(audit[0]['action'])`,
-          output: `approve`,
+print((audit[0]['action'], len(audit)))`,
+          output: `('approve', 1)`,
         },
       },
       {
@@ -1254,22 +1292,23 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         subtopicId: "S26-T4-A",
         kind: "transfer",
         instruction:
-          "Runbook de incidente: parts=['disable_schedule','drain','page']. Une con ' -> ' (espacios alrededor de flechas) e imprime la secuencia. Contrato: orden fijo de contención; no hardcodees el string si puedes unir la lista. Pass: disable_schedule -> drain -> page.",
-        hint: "' -> '.join(parts)",
+          "Runbook de incidente P0: parts=['disable_schedule','drain','page'] y severity='P0'. Une parts con ' -> ' e imprime severity y la secuencia en una línea (p. ej. P0 disable_schedule -> drain -> page). Contrato: orden fijo de contención + severidad explícita para on-call. Pass: P0 disable_schedule -> drain -> page.",
+        hint: "print severity y join(parts)",
         hints: [
-          "Usa ' -> '.join(parts) sobre la lista dada.",
-          "El orden disable_schedule → drain → page es fijo.",
-          "No imprimas solo 'page'.",
+          "seq = ' -> '.join(parts).",
+          "print(severity, seq) en una sola línea.",
+          "El orden disable_schedule → drain → page es fijo; no omitas severity.",
         ],
-        edgeCases: ["oncall roster"],
-        tests: "string unido disable_schedule -> drain -> page",
-        feedback: "Saltar disable_schedule o drain deja el cron disparando durante el incidente.",
+        edgeCases: ["oncall roster", "severidad P0 vs warning"],
+        tests: "línea P0 disable_schedule -> drain -> page",
+        feedback: "Saltar disable_schedule/drain o no declarar severidad deja al on-call sin contención clara.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · runbook incident
-# DEFECT: solo page
+          code: `# CASO-LIM-026 · runbook incident + severity
+# DEFECT: solo page sin severity ni secuencia
 parts=['disable_schedule','drain','page']
+severity='P0'
 print('page')
 `,
         },
@@ -1277,8 +1316,9 @@ print('page')
           language: 'python',
           title: "exercise.py",
           code: `parts=['disable_schedule','drain','page']
-print(' -> '.join(parts))`,
-          output: `disable_schedule -> drain -> page`,
+severity='P0'
+print(severity, ' -> '.join(parts))`,
+          output: `P0 disable_schedule -> drain -> page`,
         },
       },
       {
@@ -1323,30 +1363,30 @@ print(ok)`,
         subtopicId: "S26-T4-B",
         kind: "independent",
         instruction:
-          "Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.",
-        hint: "fraud_labels == 0 → ok",
+          "Paquete de defensa anti-fraude-auto: pkg={'fraud_labels':0,'approved':True}. Imprime 'ok' solo si fraud_labels==0 **y** approved es True; si no, 'fail'. Matching/OCR no generan labels de fraude; draft no se defiende sin approve. Pass: ok.",
+        hint: "ambas condiciones del gate",
         hints: [
-          "Si fraud_labels==0 imprime 'ok'; si no 'fail'.",
-          "El DEFECT invierte la condición.",
+          "Combina fraud_labels==0 y approved con and.",
+          "El DEFECT invierte o ignora approved.",
           "Matching/score nunca justifican labels automáticos.",
         ],
-        edgeCases: ["no auto-fraude"],
-        tests: "ok cuando fraud_labels es 0",
-        feedback: "Marcar fail cuando hay 0 labels contradice la política del VP.",
+        edgeCases: ["no auto-fraude", "success sin approve"],
+        tests: "ok solo con fraud_labels=0 y approved True",
+        feedback: "fraud_labels=0 sin approve no cierra el E2E; ambas condiciones son obligatorias.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · zero fraud labels
-# DEFECT: fail cuando 0
-fraud_labels=0
-print('fail' if fraud_labels==0 else 'ok')
+          code: `# CASO-LIM-026 · zero fraud labels + approved
+# DEFECT: solo mira fraud_labels e invierte
+pkg={'fraud_labels':0,'approved':True}
+print('fail' if pkg['fraud_labels']==0 else 'ok')
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `fraud_labels=0
-print('ok' if fraud_labels==0 else 'fail')`,
+          code: `pkg={'fraud_labels':0,'approved':True}
+print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
           output: `ok`,
         },
       },
@@ -1406,15 +1446,18 @@ print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'cf2': 'interfaces'})
 STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
 state = {s: "pending" for s in STEPS}
 audit = []
-hitl = {"analysis": 0, "report": 0, "recipient": 0}  # pending counts
+hitl = {"analysis": 0, "report": 0, "recipient": 0}  # pending counts (0 = clear)
 ckpt, dlq = set(), []
 fraud_labels = 0  # debe permanecer 0: matching ≠ fraude
+run_meta = {"run_id": "cpn2c-close-01", "api_rpm": 30, "tz": "America/Lima"}
 
 def advance(step, ok=True):
     """Marca un step success|failed; si es approve exitoso, append al audit."""
     state[step] = "success" if ok else "failed"
     if ok and step == "approve":
         audit.append({"action": "approve", "actor": "r1"})
+    if ok:
+        ckpt.add(step)
 
 def can_draft():
     """draft_email solo si hay approve en audit y triple cola HITL en 0."""
@@ -1422,25 +1465,42 @@ def can_draft():
     clear = all(v == 0 for v in hitl.values())
     return approved and clear
 
-def run_all():
-    """Completa: recorre STEPS, respeta can_draft, checkpoint/DLQ sintético, E2E."""
+def run_all(fail_at=None):
+    """Recorre STEPS; respeta can_draft; opcional fail_at para simular crash."""
     for s in STEPS:
+        if fail_at == s:
+            advance(s, ok=False)
+            break
         if s == "draft_email" and not can_draft():
             state[s] = "blocked"
             break
         advance(s, ok=True)
     return state, audit
 
-# TODO del portafolio:
-# 1) Implementa run_all con fallo sintético + resume desde ckpt y DLQ con owner.
-# 2) Simula HITL (pending→0) y un edit/reject con reason + audit append-only.
-# 3) Empaqueta e2e, cost_tokens, value_minutes_saved_est, fraud_labels=0.
-# 4) Notas de regresión N2 (lista tests re-ejecutados + resultado) y CF-2 interfaces.
+def package_e2e():
+    """Paquete de defensa del cierre (amplíalo en el portafolio)."""
+    return {
+        "path": STEPS,
+        "states": dict(state),
+        "audit_events": len(audit),
+        "fraud_labels": fraud_labels,
+        "cost_tokens": 1200,
+        "value_minutes_saved_est": 45,
+        "n2_regression": "pass",  # re-run real: CP-N2-A/B/C + privacy + CF-2
+        "run_id": run_meta["run_id"],
+    }
+
+# TODO del portafolio (completa sobre este esqueleto ejecutable):
+# 1) Simula fail_at='analyze', resume desde ckpt y un item flaky → DLQ con owner.
+# 2) HITL: sube pending, decide reject con reason / edit versionado / approve; audit append-only.
+# 3) Empaqueta e2e + nota de privacidad (solo datos sintéticos).
+# 4) Notas de regresión N2: lista de tests re-ejecutados + resultado; interfaces CF-2.
 # No envíes correo real.
 
-print("VP", STEPS)
-print("can_draft_before_approve", can_draft())
-print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
+st, au = run_all()
+print("states", [st[s] for s in STEPS])
+print("can_draft_after", can_draft(), "fraud_labels", fraud_labels)
+print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_saved_est"])
 `,
     portfolioNote:
       "Paquete de cierre CP-N2-C para portafolio: pipeline con evidencia por estado, HITL triple, draft en sandbox y sección explícita de **regresión N2** (S14–S26) más contratos **CF-2** (Familiarity ↔ reporting ↔ automatización). Documenta límites: datos sintéticos, fraud_labels=0 y cero envíos reales. Artefactos mínimos sugeridos: manifest de estados por step, sample de audit append-only, línea de costo (tokens/minutos) y nota de privacidad.",
@@ -1457,25 +1517,25 @@ print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
   selfCheck: {
     questions: [
       {
-        question: "El orden draft_email respecto a approve es:",
+        question: "El orden draft_email respecto a approve en el path canónico es:",
         options: ["Draft antes de approve", "Approve antes de draft_email", "En paralelo sin gate", "Solo schedule"],
         correctIndex: 1,
         explanation:
           "Aprobación humana precede al borrador final; draft_email solo tras approve con audit.",
       },
       {
-        question: "La regresión N2 incluye:",
+        question: "La regresión N2 del cierre incluye:",
         options: ["Solo un print", "Borrar S14", "Marcar passed sin tests", "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad"],
         correctIndex: 3,
         explanation:
           "La regresión N2 revalida tests críticos de capstones, E2E del tramo y controles de privacidad/seguridad.",
       },
       {
-        question: "Un send sin approve es:",
-        options: ["Incidente P0", "Warning menor", "OK en sandbox siempre", "Ignorable"],
+        question: "Las colas HITL analysis, report y recipient con un solo pending>0 deben:",
+        options: ["Bloquear draft_email hasta all_clear", "Permitir draft_email igual", "Etiquetar fraude automático", "Borrar el audit previo"],
         correctIndex: 0,
         explanation:
-          "Cero envíos sin approve es SLO de seguridad; cualquier send sin approve es P0.",
+          "Triple gate: any(pending>0) bloquea el borrador; la IA solo propone, no cierra el caso.",
       },
       {
         question: "fraud_labels automáticos en el VP deben ser:",
@@ -1486,12 +1546,7 @@ print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
       },
       {
         question: "Un item agota reintentos de timeout de export. ¿Dónde debe quedar y con qué atributo mínimo?",
-        options: [
-          "Reinyectado en success sin registro",
-          "En DLQ con owner y razón (p. ej. timeout_exhausted)",
-          "Marcado fraud_labels=1 automáticamente",
-          "Borrado del checkpoint para rehacer todo el batch",
-        ],
+        options: ["Reinyectado en success sin registro", "En DLQ con owner y razón (p. ej. timeout_exhausted)", "Marcado fraud_labels=1 automáticamente", "Borrado del checkpoint para rehacer todo el batch"],
         correctIndex: 1,
         explanation:
           "DLQ no es basurero: conserva el item con owner/SLA; no se convierte en fraude ni se pierde sin rastro.",

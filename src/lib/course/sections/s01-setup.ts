@@ -7,7 +7,7 @@ export const section01: CourseSection = {
   shortTitle: 'Entorno reproducible',
   tagline:
     'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1 · Ritmo sugerido: 3–4 h núcleo, 6–8 h GitHub/Ruff, resto para pulir CP-N1-A',
-  estimatedHours: 19,
+  estimatedHours: 18,
   level: 'Principiante',
   phase: 0,
   icon: 'Wrench',
@@ -37,7 +37,7 @@ export const section01: CourseSection = {
     {
       heading: 'Por qué el setup importa más de lo que crees',
       paragraphs: [
-        '**Diccionario de la sección** (léelo antes de seguir; el resto profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.',
+        '**Diccionario del día 1** (léelo antes de seguir; el resto profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.',
         'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `python -m pip install -r requirements.txt` (instala los paquetes listados atados al mismo intérprete) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
         'En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y **entornos virtuales** con el módulo `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` (más rápido), pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos.',
         'La regla de oro: **un proyecto = un entorno virtual = un requirements.txt**. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las **dependencias** (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar. Caso sintético de laboratorio: `CASO-LIM-001` (setup reproducible sin secretos en el repo).',
@@ -64,27 +64,27 @@ secrets_in_repo_ok False`,
       },
       callout: {
         type: 'tip',
-        title: 'Diccionario + ritmo sugerido (19 h totales)',
+        title: 'Diccionario del día 1 + ritmo sugerido (19 h totales)',
         content:
-          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. **Ritmo:** 3–4 h núcleo (Python + venv + pip + git local), 6–8 h GitHub/PR/Ruff/ignore, el resto para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. No hace falta terminar el portafolio en un solo día.',
+          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. **Ritmo:** 3–4 h núcleo (Python + venv + pip + git local), 6–8 h GitHub/PR/Ruff/ignore, el resto para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. No hace falta terminar el portafolio en un solo día: el núcleo de 3–4 h ya te deja con intérprete, venv y un commit limpio.',
       },
     },
     {
       heading: 'El intérprete Python y el REPL',
       subtopicId: 'S01-T1-A',
       paragraphs: [
-        'Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse `python` o `python3`. La primera habilidad profesional no es escribir un algoritmo: es **verificar qué intérprete estás usando**. En Windows a veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener `python3` como comando principal. Por eso siempre empiezas con `python --version` (o `python3 --version`) y anotas la respuesta. Para este curso apuntamos a **Python 3.12 o superior**.',
+        'Con el diccionario en mente, pasamos al primer objeto real del día: el **intérprete**. Cuando instalas Python, lo que realmente instalas es un programa que lee tu código y lo ejecuta. En la terminal suele llamarse `python` o `python3`. La primera habilidad profesional no es escribir un algoritmo: es **verificar qué intérprete estás usando**. En Windows a veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener `python3` como comando principal. Por eso siempre empiezas con `python --version` (o `python3 --version`) y anotas la respuesta. Para este curso apuntamos a **Python 3.12 o superior** (3.10+ aceptable si lo documentas).',
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice "ábrelo en el intérprete y mira el tipo", te está pidiendo el REPL. Cuando dice "corre el entrypoint", te está pidiendo un archivo. Confundir ambos genera la sensación de que "a mí me funciona" en la laptop y falla en el servidor.',
         'Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == "__main__":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f"Hola {nombre}")` — la `f` delante de las comillas permite `{expresiones}` dentro.',
-        '**Anotaciones de tipo opcionales (pistas):** `def main() -> None:` dice “esta función no devuelve un valor útil”. `-> None` y `: str` en parámetros son **anotaciones** (type hints): documentan el contrato y ayudan a Ruff/editores; en S01 Python **no** las exige en runtime. Si el starter trae `-> None`, puedes dejarlo o copiarlo; no cambia la lógica del script.',
+        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` (“esta función no devuelve un valor útil”). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en runtime. Los demos y starters de esta sección usan `def main():` sin anotaciones para no mezclar el setup con la teoría de tipos (eso viene en S02+). Si más adelante las copias, no cambian la lógica del script.',
       ],
       code: {
         language: 'python',
         title: 'hello_sys.py — primer script con entrypoint',
         code: `import sys
 
-def main() -> None:
+def main():
     nombre = "Estudiante"
     version = sys.version.split()[0]
     print(f"Hola {nombre}")
@@ -108,9 +108,9 @@ if __name__ == "__main__":
       heading: 'El intérprete en la terminal (comandos de verificación)',
       subtopicId: 'S01-T1-A',
       paragraphs: [
-        'Además del script, verifica el intérprete **desde la shell** antes de crear venvs o instalar paquetes. El orden del día 1 es corto y repetible: (1) `python3 --version` (o `python --version` si ese es el que responde), (2) entrar al REPL con el mismo comando sin argumentos, probar una expresión y salir con `quit()`, (3) atar pip al mismo binario con `python3 -m pip --version`. Anota la versión exacta que ves (ej. 3.12.3): es el ancla de todo lo que sigue.',
+        'Además del script `hello_sys.py`, verifica el intérprete **desde la shell** antes de crear venvs o instalar paquetes. El orden del día 1 es corto y repetible: (1) `python3 --version` (o `python --version` si ese es el que responde), (2) entrar al REPL con el mismo comando sin argumentos, probar una expresión y salir con `quit()`, (3) atar pip al mismo binario con `python3 -m pip --version`. Anota la versión exacta que ves (ej. 3.12.3): es el ancla de todo lo que sigue.',
         'Si `python` falla y `python3` funciona, usa **`python3` de forma consistente** en esta sección (o configura el alias/PATH). En Windows, al instalar desde python.org, marca "Add python.exe to PATH"; el launcher `py --version` también sirve para diagnosticar. Nunca instales paquetes "a ciegas" sin saber qué `python` los va a recibir: el prefijo `python3 -m pip` evita el pip huérfano que apunta a otro intérprete.',
-        'Los comandos de abajo son **copy-paste real** de terminal (bash/zsh o PowerShell con `python`/`py`). La salida de ejemplo usa Python 3.12.x — tu número de parche puede variar si es 3.12+; 3.10+ es aceptable si lo documentas en el README del proyecto. Cuando el REPL muestre `>>>`, escribes la expresión y Enter; `quit()` te devuelve al prompt de la shell, no cierra la ventana.',
+        'Los comandos de abajo son **copy-paste real** de terminal (bash/zsh o PowerShell con `python`/`py`). La salida de ejemplo usa Python 3.12.x — tu número de parche puede variar si es 3.12+; 3.10+ es aceptable si lo documentas en el README del proyecto. Cuando el REPL muestre `>>>`, escribes la expresión y Enter; `quit()` te devuelve al prompt de la shell, no cierra la ventana. Repite estos tres pasos en cada máquina nueva (laptop de casa, de la oficina, VM de lab).',
       ],
       code: {
         language: 'bash',
@@ -153,7 +153,7 @@ pip 24.0 from ... (python 3.12)`,
         title: 'check_arg.py — argv, len y exit codes',
         code: `import sys
 
-def main() -> None:
+def main():
     # sys.argv[0] = script; usuario desde [1]
     if len(sys.argv) != 2:
         print("uso: python check_arg.py <arg>", file=sys.stderr)
@@ -172,7 +172,7 @@ executable: /ruta/a/python`,
       heading: 'cwd, PATH y códigos de salida en la shell',
       subtopicId: 'S01-T1-B',
       paragraphs: [
-        'Desde la shell, confirma el **cwd** (dónde estás), prueba un comando que no existe (exit 127 en bash) y lee códigos 0/1 con los mismos números que usa `sys.exit`. En bash/zsh: `echo $?`. En PowerShell: `echo $LASTEXITCODE` (no confundas con `$?`, que en PowerShell es booleano).',
+        'Ya viste `sys.exit` desde un script. Ahora confirma el mismo contrato **desde la shell**: el cwd (dónde estás), un comando que no existe (exit 127 en bash) y los códigos 0/1 con los mismos números. En bash/zsh: `echo $?`. En PowerShell: `echo $LASTEXITCODE` (no confundas con `$?`, que en PowerShell es booleano).',
         'El **PATH** es la lista de carpetas donde el sistema busca ejecutables (`python`, `git`, `code`). No es la carpeta de tu proyecto: puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese binario no está en el PATH. Al revés: Python en el PATH y un `FileNotFoundError` al abrir un script casi siempre es **cwd incorrecto** o ruta mal escrita. Diagnostica en este orden: (1) ¿el ejecutable responde (`python3 --version`)? (2) ¿`pwd` / `Get-Location` es la carpeta del repo? (3) ¿el proceso salió con 0?',
         'Los bloques de abajo son la misma lección en **comandos reales**: `pwd` ancla el cwd; un one-liner con `sys.exit(0)` y otro con `sys.exit(1)` te dejan ver el contrato 0/no-cero; un comando inexistente suele devolver **127** en bash/zsh (en PowerShell el número puede diferir — anota el de tu shell). Cuando un pipeline o un colega diga “el job falló”, el primer dato útil es ese entero, no solo el color del mensaje en pantalla.',
       ],
@@ -422,7 +422,7 @@ select = ["E", "F", "I"]
       paragraphs: [
         '**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`, y a menudo `data/raw/` o dumps grandes si tu política es no versionar datos pesados. Incluye **ambos** nombres de entorno (`.venv/` y `venv/`) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo **ya** está trackeado, agregarlo al ignore no lo saca del historial: necesitas `git rm --cached archivo` y un commit.',
         '**.env** guarda secretos y variables locales (API keys, contraseñas). **Nunca** va al repo. **`.env.example`** sí: lista las *claves* con valores vacíos o ficticios para que un colega sepa qué copiar a su `.env` privado. Ejemplo: `DATABASE_URL=` y `API_TOKEN=` sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo.',
-        '**README.md** es el onboarding del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Client Intake & Data Quality), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no commitear `.env`, datos sintéticos). Para S01 agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario de datos no se puede auditar ni reutilizar en S02–S04.',
+        '**README.md** es el onboarding del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Client Intake & Data Quality — capstone de Nivel 1 que se cierra en S04), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no commitear `.env`, datos sintéticos). En S01 **no** construyes el validador de intake: solo dejas estructura y smoke. Agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario no se puede auditar ni reutilizar en S02–S04.',
       ],
       code: {
         language: 'bash',
@@ -510,26 +510,7 @@ fallo controlado
         },
         why: 'El código de salida es el contrato entre tu script y todo lo que lo invoca (shell, CI, orquestadores). 0 = sigamos; no-cero = detente o reintenta. Separar cwd (dónde estoy) de PATH (qué ejecutables existen) evita el clásico "en mi máquina funciona" cuando solo cambió la carpeta o el PATH del job.',
       },
-      {
-        demoId: 'S01-SETUP-PROJECT-DEMO',
-        environment: 'local-python',
-        description: 'Verificar instalación de Python y crear carpeta del proyecto',
-        code: {
-          language: 'bash',
-          title: 'Terminal — versión + carpeta del proyecto',
-          code: `python3 --version
-# Python 3.12.3
-
-mkdir -p ~/proyectos/python-ds-journey
-cd ~/proyectos/python-ds-journey
-pwd
-`,
-          output: `Python 3.12.3
-.../proyectos/python-ds-journey`,
-        },
-        why: 'Siempre empezamos verificando que Python responde antes de crear carpetas o venvs. En Windows, el PATH es el problema #1 — si te dice "python no se reconoce como comando", reinstala desde python.org marcando "Add python.exe to PATH" (o prueba `py --version`). En macOS/Linux, si `python` falla, usa `python3` de forma consistente.',
-      },
-      {
+            {
         demoId: 'S01-T2-A-DEMO',
         subtopicId: 'S01-T2-A',
         environment: 'local-python',
@@ -627,16 +608,24 @@ git push -u origin feat/hello-env
           title: 'Terminal + pyproject.toml',
           code: `# pyproject.toml ya tiene [tool.ruff] select = ["E","F","I"]
 python -m pip install ruff
-# hello_lint.py con: import sys  (sin usar)
+
+# Contenido inicial de hello_lint.py (import sin usar a propósito):
+# import sys
+# def main():
+#     print("hola")
+# if __name__ == "__main__":
+#     main()
+
 python -m ruff check hello_lint.py
 # hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
-# → borra el import y repite:
+# → borra la línea "import sys" y repite:
 python -m ruff check hello_lint.py
+# All checks passed!
 `,
           output: `hello_lint.py:1:8: F401 [*] \`sys\` imported but unused
 All checks passed!`,
         },
-        why: 'Ruff atrapa basura barata (imports muertos, errores F/E) antes del review. La config en pyproject.toml es el contrato del repo, no solo del editor.',
+        why: 'Ruff atrapa basura barata (imports muertos, errores F/E) antes del review. La config en pyproject.toml es el contrato del repo, no solo del editor. Ves el hallazgo, corriges y re-corres hasta exit 0 — el mismo ciclo que CI usará en el PR.',
       },
       {
         demoId: 'S01-T4-B-DEMO',
@@ -658,32 +647,11 @@ A  README.md
         },
         why: '.env se ignora; .env.example se versiona sin secretos. El README cierra el circuito: un clon limpio debe poder instalar y correr el smoke sin adivinar.',
       },
-      {
-        demoId: 'S01-SETUP-REMOTE-DEMO',
-        environment: 'local-python',
-        description: 'Crear repo remoto en GitHub y subir main (cierre del setup)',
-        code: {
-          language: 'bash',
-          title: 'Terminal — remote + push main',
-          code: `# Opción A — GitHub CLI:
-# gh repo create python-ds-journey --private --source=. --remote=origin --push
-
-# Opción B — remoto manual:
-git remote add origin https://github.com/TU_USUARIO/python-ds-journey.git
-git branch -M main
-git push -u origin main
-`,
-          output: `To https://github.com/TU_USUARIO/python-ds-journey.git
- * [new branch]      main -> main
-branch 'main' set up to track 'origin/main'`,
-        },
-        why: 'GitHub es tu portafolio público. El remote conecta tu historial local con el equipo y con reclutadores; el trabajo diario de calidad sigue siendo rama + PR + ignore de secretos.',
-      },
-    ],
+          ],
   },
   weDo: {
     intro:
-      'Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa T1–T4 (24 ejercicios con id S01-T*-E*). Usa las dos pistas si te trabas; solo entonces revisa la solución. Al final, el You Do cierra el **esqueleto CP-N1-A**.',
+      'Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa T1–T4 (24 ejercicios con id S01-T*-E*). Los demos del I Do ya te mostraron comandos reales: aquí rellenas blanks, diagnosticas y transferes a escenarios de equipo. Usa las dos pistas si te trabas; solo entonces revisa la solución. Al final, el You Do cierra el **esqueleto CP-N1-A** (sin validador aún — solo repo clonable).',
     steps: [
       {
         id: 'S01-T1-A-E1',
@@ -768,7 +736,7 @@ branch 'main' set up to track 'origin/main'`,
 # Éxito: python hello_sys.py → exit 0 con nombre y versión 3.x
 import sys
 
-def main() -> None:
+def main():
     nombre = "____"  # usa un nombre sintético, no datos reales de terceros
     version = sys.____.split()[0]
     print(f"Hola, soy {nombre}")
@@ -783,7 +751,7 @@ if ____ == "____":
           title: 'hello_sys.py',
           code: `import sys
 
-def main() -> None:
+def main():
     nombre = "Maria Quispe"
     version = sys.version.split()[0]
     print(f"Hola, soy {nombre}")
@@ -947,7 +915,7 @@ codigo_fail=1`,
 # Éxito: un arg → OK:… exit 0; sin arg o >1 → uso en stderr exit 1
 import sys
 
-def main() -> None:
+def main():
     # sys.argv: [script, arg1, arg2, ...]
     args = sys.argv[1:]
     if ____(args) != ____:
@@ -964,7 +932,7 @@ if __name__ == "__main__":
           title: 'check_arg.py',
           code: `import sys
 
-def main() -> None:
+def main():
     args = sys.argv[1:]
     if len(args) != 1:
         print("Uso: python check_arg.py <un_valor>", file=sys.stderr)
@@ -1789,7 +1757,7 @@ import sys
 import os
 from datetime import datetime
 
-def main() -> None:
+def main():
     print("hola")
     print(datetime.now().date())
 
@@ -1802,7 +1770,7 @@ if __name__ == "__main__":
           title: 'hello_lint.py',
           code: `from datetime import datetime
 
-def main() -> None:
+def main():
     print("hola")
     print(datetime.now().date())
 
@@ -2068,10 +2036,10 @@ LOG_LEVEL=INFO
 # │   └── hello_env.py
 # └── section_01/          # opcional: notas de la sección
 #
-# scripts/hello_env.py — smoke del entorno
+# scripts/hello_env.py — smoke del entorno (sin type hints; S01 no los exige)
 import sys
 
-def main() -> None:
+def main():
     print(f"Python {sys.version.split()[0]}")
     print("CP-N1-A skeleton OK")
 
@@ -2079,7 +2047,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      'Este repositorio es la base de tu portafolio de Nivel 1. Cuando llegues al gate de S04 (CP-N1-A completo), el revisor valorará que el esqueleto de S01 ya era clonable, sin secretos y con datos sintéticos. Cada sección suma evidencia; no reinicies el repo desde cero sin necesidad.',
+      'Este repositorio es la base de tu portafolio de Nivel 1. Cuando llegues al gate de S04 (CP-N1-A completo), el revisor valorará que el esqueleto de S01 ya era clonable, sin secretos y con datos sintéticos. Cada sección suma evidencia; no reinicies el repo desde cero sin necesidad. En S01 basta el smoke y la higiene del repo — el validador de intake llega después.',
     rubric: [
       { criterion: 'Correctness — clone + venv + install -r + hello_env exit 0', weight: '30%' },
       { criterion: 'Robustness — README sirve en Windows y Unix (comandos de activate)', weight: '15%' },
@@ -2113,12 +2081,7 @@ if __name__ == "__main__":
       },
       {
         question: '¿Qué comando te permite replicar el entorno de otro desarrollador?',
-        options: [
-          'pip install pandas numpy',
-          'python -m pip install -r requirements.txt',
-          'python -m venv venv',
-          'git clone https://github.com/usuario/repo.git',
-        ],
+        options: ['pip install pandas numpy', 'python -m pip install -r requirements.txt', 'python -m venv venv', 'git clone https://github.com/usuario/repo.git'],
         correctIndex: 1,
         explanation:
           '`python -m pip install -r requirements.txt` ata el instalador al mismo intérprete y lee versiones pinneadas del snapshot. `git clone` solo trae código; `python -m venv` crea el entorno vacío sin paquetes de terceros. Evita un `pip` suelto que pueda apuntar a otro Python.',
@@ -2253,11 +2216,11 @@ if __name__ == "__main__":
     books: [
       {
         label: 'Python 101 (2nd ed.) — Michael Driscoll',
-        note: 'Capítulos de instalación y setup del entorno. Referencia: https://python101.pythonlibrary.org/',
+        note: 'Capítulos de instalación y setup del entorno. ISBN-13: 978-0996062879 · https://python101.pythonlibrary.org/',
       },
       {
         label: 'Python Basics / Real Python',
-        note: 'Base de entorno profesional y convenciones. Referencia: https://realpython.com/products/python-basics-book/',
+        note: 'Base de entorno profesional y convenciones. https://realpython.com/products/python-basics-book/ · también: https://realpython.com/python-virtual-environments-a-primer/',
       },
     ],
     courses: [

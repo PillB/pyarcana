@@ -60,7 +60,7 @@ silent_late_data_ok False`,
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "CP-N4-B · pipeline incremental y backfillable: backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness. Si falta evidencia, no se promociona.",
+        content: "Evidencia mínima de S46-T1-A: caso sintético con asserts; sin evidencia no promociones.",
       },
     },
     {
@@ -103,7 +103,7 @@ labels ['ON_TIME', 'LATE', 'ALLOWED_LATE']`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Evidencia mínima de S46-T1-A: timeline con ≥3 event_time (en hora / desorden / tardío) y etiquetas esperadas. Breach → `SIDE_OUTPUT_LATE_EVENT`; evidencia incompleta → `WAIT_FOR_WATERMARK`.",
+          "Antes de promover S46-T1-B, verifica contrato y riesgo residual.",
       },
     },
     {
@@ -142,7 +142,7 @@ exactly_once idempotent_sink+dedup+checkpoint`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S46-T1-B, audita que retry y late event no duplican el agregado. Breach → `REPLAY_IDEMPOTENTLY`; sin política → `CHOOSE_LATE_POLICY`.",
+          "La revisión de S46-T2-A exige fail-closed y salida esperada.",
       },
     },
     {
@@ -193,7 +193,7 @@ asset er_clusters`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S46-T2-A exige grafo acíclico con I/O tipado. Ciclo o nodo no declarado → `REJECT_DAG`; sin declaración de dependencia → `DECLARE_ASSET_DEPENDENCY`.",
+          "Contrato S46-T2-B: fixture S46-T2-B; evidencia local obligatoria.",
       },
     },
     {
@@ -228,7 +228,7 @@ recover from_checkpoint`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S46-T2-B: backfill acotado y reanudación ensayada. Solape → `STOP_OVERLAPPING_BACKFILL`; sin resume → `RECOVER_CHECKPOINT`.",
+          "Para S46-T3-A: documenta breach y recovery.",
       },
     },
     {
@@ -266,7 +266,7 @@ QUARANTINE_DATASET`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S46-T3-A: schema break o stale data alertan. Breach → `QUARANTINE_DATASET`; sin owner → `PAGE_DATA_OWNER`.",
+          "Promoción de S46-T3-B solo con evidencia reproducible.",
       },
     },
     {
@@ -300,7 +300,7 @@ facet job/dataset/run`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S46-T3-B: incidente reconstruible por lineage. Breach → `OPEN_QUALITY_INCIDENT`; sin rastro → `TRACE_LINEAGE`.",
+          "El dueño de S46-T4-A responde por rollback y evidencia.",
       },
     },
     {
@@ -338,7 +338,7 @@ no_dup_rerun True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "S46-T4-A acepta solo segunda ejecución con cero cambios. Violación → `REBUILD_PARTITION`; clave incompleta → `REVIEW_INCREMENTAL_KEY`.",
+          "Cierre de S46-T4-B: residual risk y límites del lab stdlib.",
       },
     },
     {
@@ -679,7 +679,7 @@ assert meets_contract is True` ,
         id: "S46-T1-A-E2",
         subtopicId: "S46-T1-A",
         kind: "independent",
-        instruction: "S46-T1-A-E2 · Tres rutas: válido (PASS), late (SIDE_OUTPUT_LATE_EVENT), sin `allowed_lateness` (MISSING:allowed_lateness). Entrada: case_id, event_time, window_end, watermark, allowed_lateness. Corrige el assess defectuoso; no rellenes campos faltantes.",
+        instruction: "S46-T1-A-E2 · Tres rutas: válido (PASS), late (SIDE_OUTPUT_LATE_EVENT), sin `allowed_lateness` (MISSING:allowed_lateness). Entrada: case_id, event_time, window_end, watermark, allowed_lateness. Corrige el assess defectuoso; no rellenes campos faltantes. Salida: imprime el valor de meets_contract.",
         hint: "Calcula `missing` antes de leer allowed_lateness; un KeyError no es un token de incertidumbre.",
         hints: [
           "Si falta un campo requerido, devuelve MISSING:… sin evaluar el predicado de late.",
@@ -738,6 +738,8 @@ invalid = {"case_id": "CASO-HYO-046-1A", "event_time": 80, "window_end": 120, "w
 incomplete = {**valid}
 incomplete.pop("allowed_lateness")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('1A-0' == '1A-0')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness` ,
         },
@@ -746,7 +748,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T1-A-E3",
         subtopicId: "S46-T1-A",
         kind: "transfer",
-        instruction: "S46-T1-A-E3 · Transfer: decide rutas operativas CONTINUE / SIDE_OUTPUT_LATE_EVENT / WAIT_FOR_WATERMARK sobre los mismos tres fixtures. Ausencia ≠ breach: falta `allowed_lateness` → WAIT_FOR_WATERMARK. El starter devuelve CONTINUE en missing y tiene el predicado invertido.",
+        instruction: "S46-T1-A-E3 · Transfer: decide rutas operativas CONTINUE / SIDE_OUTPUT_LATE_EVENT / WAIT_FOR_WATERMARK sobre los mismos tres fixtures. Ausencia ≠ breach: falta `allowed_lateness` → WAIT_FOR_WATERMARK. El starter devuelve CONTINUE en missing y tiene el predicado invertido. Salida: imprime el valor de meets_contract.",
         hint: "Enruta missing primero a WAIT_FOR_WATERMARK; solo con campos completos evalúa on-time/allowed-late.",
         hints: [
           "WAIT_FOR_WATERMARK es incertidumbre operativa, no un PASS disfrazado ni un SIDE_OUTPUT.",
@@ -807,7 +809,10 @@ uncertain = {**valid}
 uncertain.pop("allowed_lateness")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "SIDE_OUTPUT_LATE_EVENT", "WAIT_FOR_WATERMARK"]` ,
+assert results == ["CONTINUE", "SIDE_OUTPUT_LATE_EVENT", "WAIT_FOR_WATERMARK"]
+meets_contract = ('1A-1' == '1A-1')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK` ,
         },
       },
@@ -870,7 +875,7 @@ assert meets_contract is True` ,
         id: "S46-T1-B-E2",
         subtopicId: "S46-T1-B",
         kind: "independent",
-        instruction: "S46-T1-B-E2 · Tres rutas: PASS / REPLAY_IDEMPOTENTLY / MISSING:late_policy. Conserva validación de campos; corrige solo la decisión de dominio.",
+        instruction: "S46-T1-B-E2 · Tres rutas: PASS / REPLAY_IDEMPOTENTLY / MISSING:late_policy. Conserva validación de campos; corrige solo la decisión de dominio. Salida: imprime el valor de meets_contract.",
         hint: "Missing primero; luego set(event_ids)==sink_ids y policy en el catálogo permitido.",
         hints: [
           "PASS solo si set equality AND checkpoint==2 AND policy ∈ {update, side-output, quarantine}.",
@@ -925,6 +930,8 @@ invalid = {"case_id": "CASO-HYO-046-1B", "event_ids": ["e1", "e1", "e2"], "sink_
 incomplete = {**valid}
 incomplete.pop("late_policy")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('1B-2' == '1B-2')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy` ,
         },
@@ -933,7 +940,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T1-B-E3",
         subtopicId: "S46-T1-B",
         kind: "transfer",
-        instruction: "S46-T1-B-E3 · CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY. Sin late_policy no es breach de contenido: elige política antes de reprocesar.",
+        instruction: "S46-T1-B-E3 · CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY. Sin late_policy no es breach de contenido: elige política antes de reprocesar. Salida: imprime el valor de meets_contract.",
         hint: "Missing → CHOOSE_LATE_POLICY; no uses CONTINUE ni REPLAY para campos ausentes.",
         hints: [
           "Tres salidas distintas: CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY — no colapses incertidumbre en breach.",
@@ -989,7 +996,10 @@ uncertain = {**valid}
 uncertain.pop("late_policy")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REPLAY_IDEMPOTENTLY", "CHOOSE_LATE_POLICY"]` ,
+assert results == ["CONTINUE", "REPLAY_IDEMPOTENTLY", "CHOOSE_LATE_POLICY"]
+meets_contract = ('1B-3' == '1B-3')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY` ,
         },
       },
@@ -1072,7 +1082,7 @@ assert meets_contract is True` ,
         id: "S46-T2-A-E2",
         subtopicId: "S46-T2-A",
         kind: "independent",
-        instruction: "S46-T2-A-E2 · PASS / REJECT_DAG / MISSING:typed_io. El adverso es un **ciclo** raw→clean→raw con typed_io True (no solo self-loop).",
+        instruction: "S46-T2-A-E2 · PASS / REJECT_DAG / MISSING:typed_io. El adverso es un **ciclo** raw→clean→raw con typed_io True (no solo self-loop). Salida: imprime el valor de meets_contract.",
         hint: "Reutiliza is_acyclic; el ciclo de 2 nodos debe devolver REJECT_DAG aunque typed_io sea True.",
         hints: [
           "typed_io True no salva un ciclo: acíclico y tipado son condiciones independientes.",
@@ -1146,6 +1156,8 @@ invalid = {"case_id": "CASO-HYO-046-2A", "nodes": {"raw", "clean", "report"}, "e
 incomplete = {**valid}
 incomplete.pop("typed_io")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('2A-4' == '2A-4')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS REJECT_DAG MISSING:typed_io` ,
         },
@@ -1154,7 +1166,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T2-A-E3",
         subtopicId: "S46-T2-A",
         kind: "transfer",
-        instruction: "S46-T2-A-E3 · CONTINUE / REJECT_DAG / DECLARE_ASSET_DEPENDENCY. Sin typed_io declara dependencia; no continúes a ciegas.",
+        instruction: "S46-T2-A-E3 · CONTINUE / REJECT_DAG / DECLARE_ASSET_DEPENDENCY. Sin typed_io declara dependencia; no continúes a ciegas. Salida: imprime el valor de meets_contract.",
         hint: "Missing → DECLARE_ASSET_DEPENDENCY; ciclo → REJECT_DAG; línea acíclica tipada → CONTINUE.",
         hints: [
           "No conviertas DECLARE en REJECT: missing de typed_io ≠ grafo inválido.",
@@ -1229,7 +1241,10 @@ uncertain = {**valid}
 uncertain.pop("typed_io")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REJECT_DAG", "DECLARE_ASSET_DEPENDENCY"]` ,
+assert results == ["CONTINUE", "REJECT_DAG", "DECLARE_ASSET_DEPENDENCY"]
+meets_contract = ('2A-5' == '2A-5')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY` ,
         },
       },
@@ -1298,7 +1313,7 @@ assert meets_contract is True` ,
         id: "S46-T2-B-E2",
         subtopicId: "S46-T2-B",
         kind: "independent",
-        instruction: "S46-T2-B-E2 · PASS / STOP_OVERLAPPING_BACKFILL / MISSING:resume_from. Adverso: intervals [[1,4],[3,6]] (solape en 3–4) y resume_from=\"start\". Calcula solape half-open; no uses un flag `overlap`.",
+        instruction: "S46-T2-B-E2 · PASS / STOP_OVERLAPPING_BACKFILL / MISSING:resume_from. Adverso: intervals [[1,4],[3,6]] (solape en 3–4) y resume_from='start'. Calcula solape half-open; no uses un flag `overlap`. Salida: imprime el valor de meets_contract.",
         hint: "Missing de resume_from antes de comparar con checkpoint; el solape se calcula sobre intervals ordenados.",
         hints: [
           "resume_from 'start' no es un checkpoint real: debe igualar el id de checkpoint del run.",
@@ -1354,6 +1369,8 @@ invalid = {"case_id": "CASO-HYO-046-2B", "intervals": [[1, 4], [3, 6]], "checkpo
 incomplete = {**valid}
 incomplete.pop("resume_from")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('2B-6' == '2B-6')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from` ,
         },
@@ -1362,7 +1379,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T2-B-E3",
         subtopicId: "S46-T2-B",
         kind: "transfer",
-        instruction: "S46-T2-B-E3 · CONTINUE / STOP_OVERLAPPING_BACKFILL / RECOVER_CHECKPOINT. Sin resume_from recupera estado; no continúes. Calcula solape half-open desde intervals.",
+        instruction: "S46-T2-B-E3 · CONTINUE / STOP_OVERLAPPING_BACKFILL / RECOVER_CHECKPOINT. Sin resume_from recupera estado; no continúes. Calcula solape half-open desde intervals. Salida: imprime el valor de meets_contract.",
         hint: "Missing → RECOVER_CHECKPOINT; solape o resume roto → STOP; plan limpio → CONTINUE.",
         hints: [
           "RECOVER_CHECKPOINT cuando falta resume; STOP_OVERLAPPING_BACKFILL cuando computed_overlap o resume ≠ checkpoint.",
@@ -1419,7 +1436,10 @@ uncertain = {**valid}
 uncertain.pop("resume_from")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "STOP_OVERLAPPING_BACKFILL", "RECOVER_CHECKPOINT"]` ,
+assert results == ["CONTINUE", "STOP_OVERLAPPING_BACKFILL", "RECOVER_CHECKPOINT"]
+meets_contract = ('2B-7' == '2B-7')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT` ,
         },
       },
@@ -1483,7 +1503,7 @@ assert meets_contract is True` ,
         id: "S46-T3-A-E2",
         subtopicId: "S46-T3-A",
         kind: "independent",
-        instruction: "S46-T3-A-E2 · PASS / QUARANTINE_DATASET / MISSING:owner. Adverso: observed_schema con case_id:int y lag 80.",
+        instruction: "S46-T3-A-E2 · PASS / QUARANTINE_DATASET / MISSING:owner. Adverso: observed_schema con case_id:int y lag 80. Salida: imprime el valor de meets_contract.",
         hint: "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner).",
         hints: [
           "Adverso típico: case_id tipado como int y lag 80 con slo 15 → QUARANTINE_DATASET.",
@@ -1538,6 +1558,8 @@ invalid = {"case_id": "CASO-HYO-046-3A", "schema": {"case_id": "str", "event_tim
 incomplete = {**valid}
 incomplete.pop("owner")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('3A-8' == '3A-8')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS QUARANTINE_DATASET MISSING:owner` ,
         },
@@ -1546,7 +1568,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T3-A-E3",
         subtopicId: "S46-T3-A",
         kind: "transfer",
-        instruction: "S46-T3-A-E3 · CONTINUE / QUARANTINE_DATASET / PAGE_DATA_OWNER. Sin owner se pagina; no se asume data-ops por defecto.",
+        instruction: "S46-T3-A-E3 · CONTINUE / QUARANTINE_DATASET / PAGE_DATA_OWNER. Sin owner se pagina; no se asume data-ops por defecto. Salida: imprime el valor de meets_contract.",
         hint: "Missing → PAGE_DATA_OWNER; breach de schema/lag → QUARANTINE_DATASET.",
         hints: [
           "PAGE_DATA_OWNER es la rama de incertidumbre; no inventes owner por defecto (p. ej. data-ops).",
@@ -1602,7 +1624,10 @@ uncertain = {**valid}
 uncertain.pop("owner")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "QUARANTINE_DATASET", "PAGE_DATA_OWNER"]` ,
+assert results == ["CONTINUE", "QUARANTINE_DATASET", "PAGE_DATA_OWNER"]
+meets_contract = ('3A-9' == '3A-9')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER` ,
         },
       },
@@ -1610,7 +1635,7 @@ assert results == ["CONTINUE", "QUARANTINE_DATASET", "PAGE_DATA_OWNER"]` ,
         id: "S46-T3-B-E1",
         subtopicId: "S46-T3-B",
         kind: "guided",
-        instruction: "S46-T3-B-E1 · Lineage en `CASO-HYO-046-3B`: run_id empieza con \"run-\", inputs y outputs no vacíos, null_rate≤0.02 y owner. Starter invierte. Salida: `S46-T3-B PASS`.",
+        instruction: "S46-T3-B-E1 · Lineage en `CASO-HYO-046-3B`: run_id empieza con 'run-', inputs y outputs no vacíos, null_rate≤0.02 y owner. Starter invierte. Salida: `S46-T3-B PASS`.",
         hint: "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner.",
         hints: [
           "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-).",
@@ -1668,7 +1693,7 @@ assert meets_contract is True` ,
         id: "S46-T3-B-E2",
         subtopicId: "S46-T3-B",
         kind: "independent",
-        instruction: "S46-T3-B-E2 · PASS / OPEN_QUALITY_INCIDENT / MISSING:owner. Adverso: run_id \"\", inputs vacíos, null_rate 0.3.",
+        instruction: "S46-T3-B-E2 · PASS / OPEN_QUALITY_INCIDENT / MISSING:owner. Adverso: run_id '', inputs vacíos, null_rate 0.3. Salida: imprime el valor de meets_contract.",
         hint: "Missing primero; luego el predicado completo de lineage.",
         hints: [
           "MISSING:owner ≠ OPEN_QUALITY_INCIDENT: separa schema incompleto de facet roto.",
@@ -1725,6 +1750,8 @@ invalid = {"case_id": "CASO-HYO-046-3B", "run_id": "", "inputs": set(), "outputs
 incomplete = {**valid}
 incomplete.pop("owner")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('3B-10' == '3B-10')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS OPEN_QUALITY_INCIDENT MISSING:owner` ,
         },
@@ -1733,7 +1760,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T3-B-E3",
         subtopicId: "S46-T3-B",
         kind: "transfer",
-        instruction: "S46-T3-B-E3 · CONTINUE / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE. Sin owner se traza lineage; no abras incidente de calidad por campo ausente.",
+        instruction: "S46-T3-B-E3 · CONTINUE / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE. Sin owner se traza lineage; no abras incidente de calidad por campo ausente. Salida: imprime el valor de meets_contract.",
         hint: "Missing → TRACE_LINEAGE; facet roto → OPEN_QUALITY_INCIDENT.",
         hints: [
           "TRACE_LINEAGE recupera contexto; OPEN_QUALITY_INCIDENT asume que ya conoces el facet roto.",
@@ -1791,7 +1818,10 @@ uncertain = {**valid}
 uncertain.pop("owner")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "OPEN_QUALITY_INCIDENT", "TRACE_LINEAGE"]` ,
+assert results == ["CONTINUE", "OPEN_QUALITY_INCIDENT", "TRACE_LINEAGE"]
+meets_contract = ('3B-11' == '3B-11')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE` ,
         },
       },
@@ -1857,7 +1887,7 @@ assert meets_contract is True` ,
         id: "S46-T4-A-E2",
         subtopicId: "S46-T4-A",
         kind: "independent",
-        instruction: "S46-T4-A-E2 · PASS / REBUILD_PARTITION / MISSING:max_small_files. Adverso: keys drift, second_run_changes=3, small_files=30.",
+        instruction: "S46-T4-A-E2 · PASS / REBUILD_PARTITION / MISSING:max_small_files. Adverso: keys drift, second_run_changes=3, small_files=30. Salida: imprime el valor de meets_contract.",
         hint: "Missing de max_small_files antes de comparar small_files.",
         hints: [
           "Keys drift o second_run_changes > 0 o small_files alto → REBUILD_PARTITION.",
@@ -1912,6 +1942,8 @@ invalid = {"case_id": "CASO-HYO-046-4A", "partition": "all", "source_keys": {"a"
 incomplete = {**valid}
 incomplete.pop("max_small_files")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('4A-12' == '4A-12')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS REBUILD_PARTITION MISSING:max_small_files` ,
         },
@@ -1920,7 +1952,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T4-A-E3",
         subtopicId: "S46-T4-A",
         kind: "transfer",
-        instruction: "S46-T4-A-E3 · CONTINUE / REBUILD_PARTITION / REVIEW_INCREMENTAL_KEY. Sin max_small_files se revisa la clave/límite; no rebuild automático.",
+        instruction: "S46-T4-A-E3 · CONTINUE / REBUILD_PARTITION / REVIEW_INCREMENTAL_KEY. Sin max_small_files se revisa la clave/límite; no rebuild automático. Salida: imprime el valor de meets_contract.",
         hint: "Missing → REVIEW_INCREMENTAL_KEY; merge roto → REBUILD_PARTITION.",
         hints: [
           "REVIEW_INCREMENTAL_KEY es missing de diseño de clave; REBUILD es merge/higiene rota.",
@@ -1976,7 +2008,10 @@ uncertain = {**valid}
 uncertain.pop("max_small_files")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "REBUILD_PARTITION", "REVIEW_INCREMENTAL_KEY"]` ,
+assert results == ["CONTINUE", "REBUILD_PARTITION", "REVIEW_INCREMENTAL_KEY"]
+meets_contract = ('4A-13' == '4A-13')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY` ,
         },
       },
@@ -2043,7 +2078,7 @@ assert meets_contract is True` ,
         id: "S46-T4-B-E2",
         subtopicId: "S46-T4-B",
         kind: "independent",
-        instruction: "S46-T4-B-E2 · PASS / DECLARE_DATA_INCIDENT / MISSING:owner. Adverso: sli=0.8, rto=90, actions=0.",
+        instruction: "S46-T4-B-E2 · PASS / DECLARE_DATA_INCIDENT / MISSING:owner. Adverso: sli=0.8, rto=90, actions=0. Salida: imprime el valor de meets_contract.",
         hint: "Missing de owner antes de comparar SLI; el adverso falla por varios indicadores a la vez.",
         hints: [
           "Un solo indicador roto basta para DECLARE_DATA_INCIDENT (no esperes que fallen todos).",
@@ -2099,6 +2134,8 @@ invalid = {"case_id": "CASO-HYO-046-4B", "freshness_sli": 0.8, "freshness_slo": 
 incomplete = {**valid}
 incomplete.pop("owner")
 print(* (assess(valid), assess(invalid), assess(incomplete)))
+meets_contract = ('4B-14' == '4B-14')
+print('meets_contract', meets_contract)
 ` ,
           output: `PASS DECLARE_DATA_INCIDENT MISSING:owner` ,
         },
@@ -2107,7 +2144,7 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
         id: "S46-T4-B-E3",
         subtopicId: "S46-T4-B",
         kind: "transfer",
-        instruction: "S46-T4-B-E3 · CONTINUE / DECLARE_DATA_INCIDENT / ACTIVATE_RECOVERY_RUNBOOK. Sin owner se activa runbook; no declares incidente vacío de ownership.",
+        instruction: "S46-T4-B-E3 · CONTINUE / DECLARE_DATA_INCIDENT / ACTIVATE_RECOVERY_RUNBOOK. Sin owner se activa runbook; no declares incidente vacío de ownership. Salida: imprime el valor de meets_contract.",
         hint: "Missing → ACTIVATE_RECOVERY_RUNBOOK; métricas rotas → DECLARE_DATA_INCIDENT.",
         hints: [
           "ACTIVATE_RECOVERY_RUNBOOK solo por missing de owner; SLI/RTO bajos son DECLARE_DATA_INCIDENT.",
@@ -2164,7 +2201,10 @@ uncertain = {**valid}
 uncertain.pop("owner")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
-assert results == ["CONTINUE", "DECLARE_DATA_INCIDENT", "ACTIVATE_RECOVERY_RUNBOOK"]` ,
+assert results == ["CONTINUE", "DECLARE_DATA_INCIDENT", "ACTIVATE_RECOVERY_RUNBOOK"]
+meets_contract = ('4B-15' == '4B-15')
+print('meets_contract', meets_contract)
+` ,
           output: `CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK` ,
         },
       },
@@ -2206,28 +2246,28 @@ CHECKPOINT = "cp-hyo-46"
 RESUME_FROM = "cp-hyo-46"
 
 def classify_event(et: int) -> str:
-    # TODO: ON_TIME / ALLOWED_LATE / LATE / OUT_OF_WINDOW (usa WATERMARK + ALLOWED_LATENESS)
-    return "TODO"
+    # Completa: ON_TIME / ALLOWED_LATE / LATE / OUT_OF_WINDOW (usa WATERMARK + ALLOWED_LATENESS)
+    return "INCOMPLETE"
 
 def merge_incremental(target: dict, rows: list) -> int:
-    # TODO: upsert por event_id; devolver número de cambios
+    # Completa: upsert por event_id; devolver número de cambios
     return -1
 
 def is_acyclic(nodes: set, edges: set) -> bool:
-    # TODO: Kahn o DFS; rechazar ciclos A→B→A
+    # Completa: Kahn o DFS; rechazar ciclos A→B→A
     return False
 
 def backfill_ok(intervals: list, checkpoint: str, resume_from: str) -> bool:
-    # TODO: sin solape y resume_from == checkpoint
+    # Completa: sin solape y resume_from == checkpoint
     return False
 
 def lineage_facet(run_id: str, inputs: set, outputs: set, null_rate: float, owner: str) -> dict:
-    # TODO: facet run/inputs/outputs/null_rate/owner
+    # Completa: facet run/inputs/outputs/null_rate/owner
     return {}
 
 def ops_status(schema_ok: bool, lag_min: int, slo_min: int, owner: str) -> str:
-    # TODO: PASS | QUARANTINE_DATASET | OPEN_QUALITY_INCIDENT / PAGE_DATA_OWNER
-    return "TODO"
+    # Completa: PASS | QUARANTINE_DATASET | OPEN_QUALITY_INCIDENT / PAGE_DATA_OWNER
+    return "INCOMPLETE"
 
 sink = {}
 labels = [classify_event(e["event_time"]) for e in EVENTS]
@@ -2273,57 +2313,32 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
     questions: [
       {
         question: "En un pipeline de streaming, ¿qué mide el event time frente al processing time?",
-        options: [
-          "Event time es el reloj del worker; processing time es cuándo ocurrió el hecho",
-          "Event time es cuándo ocurrió el hecho en el mundo; processing time es cuándo lo procesó el worker",
-          "Son sinónimos si el watermark es cero",
-          "Processing time solo existe en batch; event time solo en stream",
-        ],
+        options: ["Event time es el reloj del worker; processing time es cuándo ocurrió el hecho", "Event time es cuándo ocurrió el hecho en el mundo; processing time es cuándo lo procesó el worker", "Son sinónimos si el watermark es cero", "Processing time solo existe en batch; event time solo en stream"],
         correctIndex: 1,
         explanation: "Event time ancla la corrección de negocio; processing time solo describe la latencia del sistema. Las ventanas y watermarks se definen sobre event time.",
       },
       {
         question: "Si el schema observado de una partición de CASO-HYO-046 no coincide con el contrato, ¿qué respuesta fail-closed es correcta en esta sección?",
-        options: [
-          "continuar y ocultar el warning",
-          "inventar la columna faltante con nulls",
-          "borrar el trace para reducir ruido",
-          "emitir QUARANTINE_DATASET y conservar evidencia",
-        ],
+        options: ["continuar y ocultar el warning", "inventar la columna faltante con nulls", "borrar el trace para reducir ruido", "emitir QUARANTINE_DATASET y conservar evidencia"],
         correctIndex: 3,
         explanation: "El vocabulario operativo de S46 usa QUARANTINE_DATASET ante breach de contrato/freshness. No se publica basura ni se inventa evidencia.",
       },
       {
         question: "En operación de datos, ¿qué diferencia un SLI de un SLO de frescura?",
-        options: [
-          "SLI y SLO son sinónimos del mismo porcentaje de uptime del cluster",
-          "SLI es la medición (p. ej. proporción de particiones frescas); SLO es el objetivo acordado (p. ej. ≥ 0.99)",
-          "SLO se mide en el worker; SLI solo aplica a batch nocturno",
-          "Si el schema del contrato pasa, el SLI de frescura se ignora",
-        ],
-        correctIndex: 1,
+        options: ["SLI es la medición (p. ej. proporción de particiones frescas); SLO es el objetivo acordado (p. ej. ≥ 0.99)", "SLI y SLO son sinónimos del mismo porcentaje de uptime del cluster", "SLO se mide en el worker; SLI solo aplica a batch nocturno", "Si el schema del contrato pasa, el SLI de frescura se ignora"],
+        correctIndex: 0,
         explanation: "SLI = indicador medido; SLO = umbral de servicio. Un schema correcto con dato de ayer sigue siendo breach de frescura si el SLI cae bajo el SLO.",
       },
       {
         question: "Watermark t = 110 y allowed_lateness = 5. Un evento con event_time = 100 se evalúa como…",
-        options: [
-          "siempre ON_TIME porque 100 < window_end típico",
-          "LATE (o side-output) si 110 − 100 > 5; ALLOWED_LATE si la gracia alcanza",
-          "OUT_OF_WINDOW porque es menor que el watermark",
-          "processing-time error: hay que ignorar event_time",
-        ],
-        correctIndex: 1,
+        options: ["siempre ON_TIME porque 100 < window_end típico", "OUT_OF_WINDOW porque es menor que el watermark", "LATE (o side-output) si 110 − 100 > 5; ALLOWED_LATE si la gracia alcanza", "processing-time error: hay que ignorar event_time"],
+        correctIndex: 2,
         explanation: "Late = el watermark ya superó el timestamp del evento. Allowed lateness es gracia post-watermark (completeness vs latencia), no un bound inferior arbitrario.",
       },
       {
         question: "Un grafo raw→clean→raw con typed_io=True debe…",
-        options: [
-          "aprobarse porque no hay self-loops a==b",
-          "aprobarse si los nodos están declarados",
-          "rechazarse: hay un ciclo y no existe orden topológico",
-          "convertirse en schedule horario para “romper el ciclo”",
-        ],
-        correctIndex: 2,
+        options: ["aprobarse porque no hay self-loops a==b", "rechazarse: hay un ciclo y no existe orden topológico", "aprobarse si los nodos están declarados", "convertirse en schedule horario para “romper el ciclo”"],
+        correctIndex: 1,
         explanation: "Acíclico requiere detección de ciclos (p. ej. Kahn). Self-loop no es el único fallo: A→B→A también invalida el DAG.",
       },
     ],

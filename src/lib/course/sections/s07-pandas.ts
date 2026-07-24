@@ -6,7 +6,7 @@ export const section07: CourseSection = {
   title: 'Pandas: Data Cleaning & EDA',
   shortTitle: 'Pandas & EDA',
   tagline: 'Tu herramienta principal diaria — groupby, merge, limpieza y EDA profesional',
-  estimatedHours: 12,
+  estimatedHours: 20,
   level: 'Intermedio',
   icon: 'Table2',
   accentColor: 'bg-gradient-to-br from-green-500 to-emerald-600',
