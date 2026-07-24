@@ -77,7 +77,7 @@ secrets_in_repo_ok False`,
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice "ábrelo en el intérprete y mira el tipo", te está pidiendo el REPL. Cuando dice "corre el entrypoint", te está pidiendo un archivo. Confundir ambos genera la sensación de que "a mí me funciona" en la laptop y falla en el servidor.',
         'Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == "__main__":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f"Hola {nombre}")` — la `f` delante de las comillas permite `{expresiones}` dentro.',
-        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` (“esta función no devuelve un valor útil”). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en runtime. Los demos y starters de esta sección usan `def main():` sin anotaciones para no mezclar el setup con la teoría de tipos (eso viene en S02+). Si más adelante las copias, no cambian la lógica del script.',
+        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` (“esta función no devuelve un valor útil”). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en runtime. Algunos demos las muestran solo como lectura (p. ej. `check_arg.py`); los ejercicios guiados pueden usar `def main():` sin anotaciones. Si las copias o las omites, la lógica del script no cambia.',
       ],
       code: {
         language: 'python',
@@ -153,7 +153,7 @@ pip 24.0 from ... (python 3.12)`,
         title: 'check_arg.py — argv, len y exit codes',
         code: `import sys
 
-def main():
+def main() -> None:
     # sys.argv[0] = script; usuario desde [1]
     if len(sys.argv) != 2:
         print("uso: python check_arg.py <arg>", file=sys.stderr)
