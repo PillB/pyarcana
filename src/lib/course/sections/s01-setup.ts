@@ -153,7 +153,7 @@ pip 24.0 from ... (python 3.12)`,
         title: 'check_arg.py — argv, len y exit codes',
         code: `import sys
 
-def main():
+def main() -> None:
     # sys.argv[0] = script; usuario desde [1]
     if len(sys.argv) != 2:
         print("uso: python check_arg.py <arg>", file=sys.stderr)
