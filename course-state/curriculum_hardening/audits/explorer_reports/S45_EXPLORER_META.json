@@ -1,0 +1,9 @@
+{
+  "section": 45,
+  "id": "iac",
+  "file": "src/lib/course/sections/s45-iac.ts",
+  "score_1_to_10": 5.8,
+  "issue_count": 24,
+  "meta_leak_count": 4,
+  "status": "complete"
+}

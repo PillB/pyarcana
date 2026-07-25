@@ -304,27 +304,47 @@ ephemeral ['tmp', 'cache']`,
       heading: "Locks y multi-stage builds",
       subtopicId: "S43-T4-A",
       paragraphs: [
-        "Con migraciones seguras (T3-B), fijas **qué** se instala y **dónde** se compila. Un lock con hash (`sha256:…`) congela la resolución de deps; sin lock, el build de mañana no es el de hoy. **Multi-stage**: stage `builder` tiene compilers/SDK; stage `runtime` solo copia artefactos y deps de ejecución — sin toolchain. El `COPY --from=builder` es el puente; el runtime no debe incluir `gcc` ni wheels de build.",
-        "Contrato de lock y stages. Entrada: `lock_hash`, stages presentes, flag `compiler_in_runtime`, deps de runtime locked. Salida: lock verificado e imagen runtime reducida. Error: lock `latest`/flotante, solo stage runtime sin builder, o compiler en la imagen final. Criterio: `lock_hash` con prefijo `sha256:` y runtime sin toolchain.",
+        "Con migraciones seguras (T3-B), fijas **qué** se instala y **dónde** se compila. Un lock con hash (`sha256:…`) congela la resolución de deps; sin lock, el build de mañana no es el de hoy. **Multi-stage**: stage `builder` tiene compilers/SDK; stage `runtime` solo copia artefactos y deps de ejecución — sin toolchain. El `COPY --from=builder` es el puente; el runtime no debe incluir `gcc` ni wheels de build. El fragmento de abajo muestra builder → runtime con pin de base y `USER` non-root en la imagen final.",
+        "Contrato de lock y stages. Entrada: texto multi-stage (o modelo), `lock_hash`, flag `compiler_in_runtime`, deps de runtime locked. Salida: lock verificado e imagen runtime reducida (sin toolchain). Error: lock `latest`/flotante, solo stage runtime sin builder, o `gcc`/`g++` en la imagen final. Criterio: `lock_hash` con prefijo `sha256:`, stages builder+runtime, `COPY --from=builder` y runtime sin compiler.",
         "En `CASO-TRU-043-T4A` el build de Trujillo usa builder+runtime, lock hasheado y runtime sin compiler. Breach → `BLOCK_UNPINNED_BUILD`; falta de lock de runtime → `REGENERATE_LOCK`.",
       ],
       code: {
         language: 'python',
         title: "locks_multistage.py",
-        code: `def multistage_plan(lock_hash: str, stages: set, compiler_in_runtime: bool, runtime_locked: bool) -> dict:
+        code: `MINI_MULTI = """
+FROM python:3.12-slim@sha256:demo AS builder
+WORKDIR /build
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir -r requirements.txt -w /wheels
+FROM python:3.12-slim@sha256:demo AS runtime
+WORKDIR /app
+COPY --from=builder /wheels /wheels
+RUN pip install --no-cache-dir /wheels/*
+COPY src/ ./src/
+USER 10001
+CMD ["python", "-m", "app"]
+"""
+
+def multistage_plan(dockerfile: str, lock_hash: str) -> dict:
     pinned = lock_hash.startswith("sha256:")
-    ok = pinned and {"builder", "runtime"} <= stages and not compiler_in_runtime and runtime_locked
+    has_builder = "AS builder" in dockerfile
+    has_runtime = "AS runtime" in dockerfile
+    has_copy = "COPY --from=builder" in dockerfile
+    runtime_part = dockerfile.split("AS runtime", 1)[-1] if has_runtime else dockerfile
+    compiler_in_runtime = "gcc" in runtime_part or "g++" in runtime_part
+    ok = pinned and has_builder and has_runtime and has_copy and not compiler_in_runtime
     return {
-        "multistage": sorted(stages),
+        "multistage": has_builder and has_runtime,
         "lock": "pinned" if pinned else "floating",
+        "runtime_slim": not compiler_in_runtime,
         "reproducible": ok,
     }
 
-p = multistage_plan("sha256:abc", {"builder", "runtime"}, False, True)
+p = multistage_plan(MINI_MULTI, "sha256:abc")
 print("multistage", p["multistage"])
 print("lock", p["lock"])
 print("reproducible", p["reproducible"])`,
-        output: `multistage ['builder', 'runtime']
+        output: `multistage True
 lock pinned
 reproducible True`,
       },
@@ -548,17 +568,29 @@ ok True`,
         code: {
           language: 'python',
           title: "demo_locks_multistage.py",
-          code: `def stages(lock_hash: str, stage_set: set, compiler_in_runtime: bool) -> dict:
+          code: `MINI_MULTI = """
+FROM python:3.12-slim@sha256:demo AS builder
+RUN pip wheel -r requirements.txt -w /wheels
+FROM python:3.12-slim@sha256:demo AS runtime
+COPY --from=builder /wheels /wheels
+USER 10001
+"""
+
+def stages(dockerfile: str, lock_hash: str) -> dict:
     pinned = lock_hash.startswith("sha256:")
-    runtime_slim = "runtime" in stage_set and not compiler_in_runtime
+    has_builder = "AS builder" in dockerfile
+    has_runtime = "AS runtime" in dockerfile
+    has_copy = "COPY --from=builder" in dockerfile
+    runtime_part = dockerfile.split("AS runtime", 1)[-1] if has_runtime else dockerfile
+    compiler_in_runtime = "gcc" in runtime_part or "g++" in runtime_part
     return {
-        "builder_has_compilers": "builder" in stage_set,
-        "runtime_slim": runtime_slim,
+        "builder_has_compilers": has_builder,
+        "runtime_slim": has_runtime and not compiler_in_runtime,
         "lock": "pinned" if pinned else "floating",
-        "ok": pinned and runtime_slim and "builder" in stage_set,
+        "ok": pinned and has_builder and has_runtime and has_copy and not compiler_in_runtime,
     }
 
-s = stages("sha256:abc", {"builder", "runtime"}, False)
+s = stages(MINI_MULTI, "sha256:abc")
 print("builder_has_compilers", s["builder_has_compilers"])
 print("runtime_slim", s["runtime_slim"])
 print("lock", s["lock"])`,
@@ -566,7 +598,7 @@ print("lock", s["lock"])`,
 runtime_slim True
 lock pinned`,
         },
-        why: "Comprueba lock hasheado, presencia de builder/runtime y ausencia de compiler en runtime; evidencia de imagen reducida reproducible.",
+        why: "Parsea un multi-stage real (builder/runtime, COPY --from) y un lock hasheado; evidencia de imagen reducida reproducible, no solo un set de nombres de stage.",
       },
       {
         demoId: "S43-T4-B-DEMO",
@@ -723,7 +755,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 USER 10001
 """
 
-def decide(dockerfile: str | None) -> str:
+def decide(dockerfile):
     if dockerfile is None or not str(dockerfile).strip():
         return "CONTINUE"
     req = dockerfile.find("COPY requirements")
@@ -752,7 +784,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 USER 10001
 """
 
-def decide(dockerfile: str | None) -> str:
+def decide(dockerfile):
     if dockerfile is None or not str(dockerfile).strip():
         return "INSPECT_CACHE_INVALIDATION"
     req = dockerfile.find("COPY requirements")
@@ -883,7 +915,7 @@ BAD_DF = """FROM python:3.12-slim:latest
 USER 0
 """
 
-def decide(dockerfile: str, runtime_mb: int, max_mb: int | None) -> str:
+def decide(dockerfile, runtime_mb, max_mb):
     if max_mb is None:
         return "CONTINUE"
     # DEFECT: aprueba root / latest
@@ -909,7 +941,7 @@ BAD_DF = """FROM python:3.12-slim:latest
 USER 0
 """
 
-def _user_uid(dockerfile: str) -> int | None:
+def _user_uid(dockerfile):
     for line in dockerfile.splitlines():
         s = line.strip()
         if s.startswith("USER "):
@@ -920,7 +952,7 @@ def _user_uid(dockerfile: str) -> int | None:
                 return 0
     return None
 
-def decide(dockerfile: str, runtime_mb: int, max_mb: int | None) -> str:
+def decide(dockerfile, runtime_mb, max_mb):
     if max_mb is None:
         return "SELECT_PATCHABLE_BASE"
     uid = _user_uid(dockerfile)
@@ -1055,7 +1087,7 @@ BAD_LAYERS = ["ENV SECRET=sk-demo", "CMD=api"]
 DURABLE = {"db"}
 EPHEMERAL = {"cache"}
 
-def decide(layers: list, durable: set, ephemeral: set | None) -> str:
+def decide(layers, durable, ephemeral):
     if ephemeral is None:
         return "CONTINUE"
     # DEFECT: aprueba aunque haya SECRET= o db en ephemeral
@@ -1078,7 +1110,7 @@ BAD_LAYERS = ["ENV SECRET=sk-demo", "CMD=api"]
 DURABLE = {"db"}
 EPHEMERAL = {"cache"}
 
-def decide(layers: list, durable: set, ephemeral: set | None) -> str:
+def decide(layers, durable, ephemeral):
     if ephemeral is None:
         return "CLASSIFY_VOLUME"
     baked = any("SECRET=" in layer or "PASSWORD=" in layer for layer in layers)
@@ -1223,7 +1255,7 @@ GET /healthz live=true status=200
 signal=SIGTERM open_requests=12 grace_seconds=0 drained=false
 """
 
-def decide(probe_log: str | None) -> str:
+def decide(probe_log):
     if probe_log is None or not str(probe_log).strip():
         return "CONTINUE"
     # DEFECT: aprueba readiness falsa o red pública
@@ -1250,7 +1282,7 @@ GET /healthz live=true status=200
 signal=SIGTERM open_requests=12 grace_seconds=0 drained=false
 """
 
-def _grace_seconds(log: str) -> int:
+def _grace_seconds(log):
     for part in log.split():
         if part.startswith("grace_seconds="):
             try:
@@ -1259,7 +1291,7 @@ def _grace_seconds(log: str) -> int:
                 return 0
     return 0
 
-def decide(probe_log: str | None) -> str:
+def decide(probe_log):
     if probe_log is None or not str(probe_log).strip():
         return "DIAGNOSE_HEALTH_SIGNAL"
     private = "network=private" in probe_log
@@ -1371,31 +1403,34 @@ print(*results)
         id: "S43-T3-A-E3",
         subtopicId: "S43-T3-A",
         kind: "transfer",
-        instruction: "S43-T3-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-`compose.yaml` (stdlib). Debe declarar `api`, `worker`, `db`, `cache`, redes `front` y `back`, y la API con retries a DB. Tres entradas: YAML bueno → `CONTINUE`, YAML sin redes/sin worker → `STOP_UNHEALTHY_STACK`, `None` → `WAIT_FOR_DEPENDENCY`. El starter trata ausencia como CONTINUE y aprueba el YAML incompleto: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        instruction: "S43-T3-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-`compose.yaml` (stdlib). Debe declarar `api`, `worker`, `db`, `cache`, redes `front` y `back`, y **retries de aplicación** en la API (`DB_MAX_ATTEMPTS` o equivalente — no basta un `depends_on` solo). Tres entradas: YAML bueno → `CONTINUE`, YAML sin redes/sin worker/sin retries de app → `STOP_UNHEALTHY_STACK`, `None` → `WAIT_FOR_DEPENDENCY`. El starter trata ausencia como CONTINUE y aprueba el YAML incompleto: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
         hints: [
           "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
-          "Busca en el texto las claves de servicio y las redes `front`/`back`; exige también un token de retries (p. ej. `max_attempts` o `retries`).",
+          "Exige los cuatro servicios, redes front/back y un token de retries de **aplicación** (`DB_MAX_ATTEMPTS` o `retries`). Un restart_policy del orquestador no sustituye reintentos de la app a DB.",
         ],
-        edgeCases: ["compose None/vacío → WAIT_FOR_DEPENDENCY", "adverso: falta worker o redes front/back o retries → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
+        edgeCases: ["compose None/vacío → WAIT_FOR_DEPENDENCY", "adverso: falta worker o redes front/back o DB_MAX_ATTEMPTS → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
         tests: "Buen compose, compose incompleto y ausencia prueban CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.",
-        feedback: "S43-T3-A-E3: explica qué token del YAML falló (servicio, red o retries), por qué STOP_UNHEALTHY_STACK y por qué la ausencia exige WAIT_FOR_DEPENDENCY sin rellenar el archivo.",
+        feedback: "S43-T3-A-E3: explica qué faltó (servicio, red o DB_MAX_ATTEMPTS), por qué STOP_UNHEALTHY_STACK y por qué la ausencia exige WAIT_FOR_DEPENDENCY sin rellenar el compose.",
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e3.py",
-          code: `# CASO-TRU-043 · audit compose.yaml text (stack)
+          code: `# CASO-TRU-043 · audit compose.yaml text (stack + app retries)
 # DEFECT: None→CONTINUE; YAML incompleto se aprueba
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
 GOOD_COMPOSE = """
 services:
   api:
-    restart: on-failure
-    deploy:
-      restart_policy:
-        max_attempts: 5
-  worker: {}
-  db: {}
-  cache: {}
+    networks: [front, back]
+    depends_on: [db, cache]
+    environment:
+      DB_MAX_ATTEMPTS: "5"
+  worker:
+    networks: [back]
+  db:
+    networks: [back]
+  cache:
+    networks: [back]
 networks:
   front: {}
   back: {}
@@ -1408,10 +1443,10 @@ networks:
   default: {}
 """
 
-def decide(compose: str | None) -> str:
+def decide(compose):
     if compose is None or not str(compose).strip():
         return "CONTINUE"
-    # DEFECT: aprueba aunque falten worker, redes o retries
+    # DEFECT: aprueba aunque falten worker, redes o retries de app
     has_api = "api:" in compose
     return "CONTINUE" if has_api else "STOP_UNHEALTHY_STACK"
 
@@ -1425,13 +1460,16 @@ print(*results)
           code: `GOOD_COMPOSE = """
 services:
   api:
-    restart: on-failure
-    deploy:
-      restart_policy:
-        max_attempts: 5
-  worker: {}
-  db: {}
-  cache: {}
+    networks: [front, back]
+    depends_on: [db, cache]
+    environment:
+      DB_MAX_ATTEMPTS: "5"
+  worker:
+    networks: [back]
+  db:
+    networks: [back]
+  cache:
+    networks: [back]
 networks:
   front: {}
   back: {}
@@ -1444,14 +1482,15 @@ networks:
   default: {}
 """
 
-def decide(compose: str | None) -> str:
+def decide(compose):
     if compose is None or not str(compose).strip():
         return "WAIT_FOR_DEPENDENCY"
     text = compose
     required_svcs = all(f"{name}:" in text for name in ("api", "worker", "db", "cache"))
     nets = "front:" in text and "back:" in text
-    retries = "max_attempts" in text or "retries" in text
-    ok = required_svcs and nets and retries
+    # Retries de aplicación (no solo depends_on ni restart_policy del orquestador)
+    app_retries = "DB_MAX_ATTEMPTS" in text or "retries" in text.lower()
+    ok = required_svcs and nets and app_retries
     return "CONTINUE" if ok else "STOP_UNHEALTHY_STACK"
 
 results = [decide(item) for item in (GOOD_COMPOSE, BAD_COMPOSE, None)]
@@ -1584,7 +1623,7 @@ ephemeral: db
 backup_restore_drill: SKIPPED
 """
 
-def decide(runbook: str | None) -> str:
+def decide(runbook):
     if runbook is None or not str(runbook).strip():
         return "CONTINUE"
     # DEFECT: aprueba contract sin compat o restore SKIPPED
@@ -1612,7 +1651,7 @@ ephemeral: db
 backup_restore_drill: SKIPPED
 """
 
-def decide(runbook: str | None) -> str:
+def decide(runbook):
     if runbook is None or not str(runbook).strip():
         return "RUN_RESTORE_DRILL"
     expand = "strategy: expand" in runbook
@@ -1751,7 +1790,7 @@ RUN apt-get install -y gcc g++
 CMD ["python", "-m", "app"]
 """
 
-def decide(dockerfile: str, lock_hash: str | None) -> str:
+def decide(dockerfile, lock_hash):
     if lock_hash is None:
         return "CONTINUE"
     # DEFECT: aprueba runtime con toolchain o sin builder
@@ -1782,7 +1821,7 @@ RUN apt-get install -y gcc g++
 CMD ["python", "-m", "app"]
 """
 
-def decide(dockerfile: str, lock_hash: str | None) -> str:
+def decide(dockerfile, lock_hash):
     if lock_hash is None:
         return "REGENERATE_LOCK"
     pinned = lock_hash.startswith("sha256:")
@@ -1808,11 +1847,11 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         id: "S43-T4-B-E1",
         subtopicId: "S43-T4-B",
         kind: "guided",
-        instruction: "S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, límites definidos y debugging sin shell root. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_IMAGE` en E2.",
+        instruction: "S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, **límites estrictamente positivos** (0 < mem ≤ 512, 0 < cpu ≤ 1.0) y debugging sin shell root. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_IMAGE` en E2.",
         hint: "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
         hints: [
           "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
-          "El predicado correcto debe ser verdadero porque el fixture no tiene CVE críticos, límites > 0 y sin shell de debug; revisa dirección de comparación, conjuntos y negaciones.",
+          "El predicado correcto exige CVE==0, límites > 0 en rango, sin debug shell y logs redactados. Un límite 0 no es «sin tope válido».",
         ],
         edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "El fixture `CASO-TRU-043-4B` satisface un predicado de dominio real; imprime `S43-T4-B PASS` y el assert booleano pasa.",
@@ -1820,12 +1859,18 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e1.py",
-          code: `# CASO-TRU-043 · CVE scan + debug shell + logs
-# DEFECT: PASS si critical_cves>0 o debug_shell o logs sin redact
+          code: `# CASO-TRU-043 · CVE scan + debug shell + logs + límites > 0
+# DEFECT: PASS si CVE>0, límite 0, debug shell o logs sin redact
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
 record = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
-# DEFECT: CVE críticos, shell de debug o logs con PII → quarantine
-meets_contract = record["critical_cves"] > 0 or record["debug_shell"] or not record["logs_redacted"]
+# DEFECT: invierte el gate (aprueba estados que deben quarantine)
+meets_contract = (
+    record["critical_cves"] > 0
+    or record["memory_limit_mb"] == 0
+    or record["cpu_limit"] == 0
+    or record["debug_shell"]
+    or not record["logs_redacted"]
+)
 status = "PASS" if meets_contract else "QUARANTINE_IMAGE"
 print("S43-T4-B", status)
 ` ,
@@ -1845,27 +1890,35 @@ assert meets_contract is True` ,
         id: "S43-T4-B-E2",
         subtopicId: "S43-T4-B",
         kind: "independent",
-        instruction: "S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con case_id, critical_cves, memory_limit_mb, cpu_limit, debug_shell, logs_redacted. Salidas exactas: `PASS`, `QUARANTINE_IMAGE`, `MISSING:logs_redacted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con case_id, critical_cves, memory_limit_mb, cpu_limit, debug_shell, logs_redacted. Salidas exactas: `PASS`, `QUARANTINE_IMAGE`, `MISSING:logs_redacted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos. Recuerda: límites en 0 no son válidos.",
         hint: "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S43-T4-B: scan limpio, límites definidos y debugging sin shell root. El fixture adverso debe fallar por contenido, no por schema.",
+          "Después aplica la regla de S43-T4-B: 0 CVE críticos, 0 < mem ≤ 512, 0 < cpu ≤ 1.0, sin debug shell y logs redactados. El fixture adverso (incl. límites 0) debe fallar por contenido.",
         ],
         edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `logs_redacted` ausente y produce exactamente `PASS QUARANTINE_IMAGE MISSING:logs_redacted`.",
-        feedback: "S43-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
+        feedback: "S43-T4-B-E2: explica qué campo cambió la decisión (CVE, límite 0, shell o logs), por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e2.py",
           code: `# CASO-TRU-043 · assess QUARANTINE_IMAGE
-# DEFECT: PASS con CVEs/debug shell/logs crudos
+# DEFECT: PASS con CVEs, límites 0, debug shell o logs crudos
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
 def assess(record: dict) -> str:
     required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["critical_cves"] > 0 or record["debug_shell"] or not record["logs_redacted"] else "QUARANTINE_IMAGE"
+    # DEFECT: aprueba estados que deben quarantine (incl. límites 0)
+    bad_ok = (
+        record["critical_cves"] > 0
+        or record["memory_limit_mb"] == 0
+        or record["cpu_limit"] == 0
+        or record["debug_shell"]
+        or not record["logs_redacted"]
+    )
+    return "PASS" if bad_ok else "QUARANTINE_IMAGE"
 
 valid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":0,"memory_limit_mb":512,"cpu_limit":1.0,"debug_shell":False,"logs_redacted":True}}
 invalid = {"case_id": "CASO-TRU-043-4B", **{"critical_cves":3,"memory_limit_mb":0,"cpu_limit":0.0,"debug_shell":True,"logs_redacted":False}}
@@ -1929,7 +1982,7 @@ debug_shell: true
 logs_redacted: false
 """
 
-def decide(scan_report: str | None) -> str:
+def decide(scan_report):
     if scan_report is None or not str(scan_report).strip():
         return "CONTINUE"
     # DEFECT: aprueba CRITICAL>0 o debug_shell true
@@ -1958,14 +2011,14 @@ debug_shell: true
 logs_redacted: false
 """
 
-def _field(report: str, key: str) -> str | None:
+def _field(report, key):
     for line in report.splitlines():
         line = line.strip()
         if line.startswith(key + ":"):
             return line.split(":", 1)[1].strip()
     return None
 
-def decide(scan_report: str | None) -> str:
+def decide(scan_report):
     if scan_report is None or not str(scan_report).strip():
         return "TRIAGE_SCAN_FINDING"
     try:
@@ -2027,11 +2080,11 @@ evidence = {
     "runbook_de_migracion_senales_limites_y_recuperacion": False,
 }
 
-def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
+def readiness(bundle):
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
-def gate_case(kind: str) -> str:
+def gate_case(kind):
     # normal | breach | uncertain — no marques PASS sin evidencia de archivo
     if kind == "normal":
         return "CONTINUE"

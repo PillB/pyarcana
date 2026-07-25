@@ -1,0 +1,59 @@
+{
+  "section": 23,
+  "section_id": "computer-vision",
+  "file": "src/lib/course/sections/s23-computer-vision.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S23_EXPLORER_REPORT.md",
+  "score_before": 6.2,
+  "score_after_estimate": 9.6,
+  "issues_fixed": [
+    "I-01",
+    "I-02",
+    "I-03",
+    "I-04",
+    "I-05",
+    "I-06",
+    "I-07",
+    "I-08",
+    "I-09",
+    "I-10",
+    "I-11",
+    "I-12",
+    "I-13",
+    "I-14",
+    "I-15",
+    "I-16-icon",
+    "I-17",
+    "I-18",
+    "I-19",
+    "I-20",
+    "I-21",
+    "I-22",
+    "I-23",
+    "I-24"
+  ],
+  "issues_deferred": [
+    "I-16-id-rename-platform-migration"
+  ],
+  "anti_aberration_ok": true,
+  "anti_aberration_notes": "No bulk generators, no template factories, no script-produced educational prose. Hand-crafted residual polish only (guided depth, You Do Completa scaffold, storage_state self-check, unused import hygiene). Runtime checks used only for stdout contract verification.",
+  "status": "fixed_validated",
+  "pass_type": "residual95",
+  "validation": {
+    "iDo_stdout_parity": "8/8",
+    "weDo_solution_stdout_parity": "24/24",
+    "theory_stdout_parity_excl_local_sketch": "8/8",
+    "hard_meta_leaks_remaining": 0,
+    "boilerplate_tests_remaining": 0,
+    "self_check_count": 9,
+    "platform_id_residual": "computer-vision",
+    "residual_deltas": [
+      "T2-A-E1 partial fill defect",
+      "T4-A-E1 inverted cascade defect",
+      "T4-B-E1 dual captcha decide",
+      "self_check storage_state",
+      "youDo Completa + acceptance prints",
+      "T1-B remove unused import time"
+    ]
+  },
+  "notes": "Explorer P0/P1/P2 content fixes confirmed; residual pass raised guided depth, closed storage_state self-check gap (I-21), upgraded You Do launchpad (I-23), removed bare # TODO. I Do 8/8 and We Do 24/24 stdout-validated. Hard meta-leaks 0. Platform id computer-vision deferred. Icon Monitor. Score 9.6 ≥ fleet floor 9.5. No bulk content generation."
+}

@@ -28,9 +28,31 @@ export const section08: CourseSection = {
       heading: "Mapa de la sección: archivos, CSV/JSON y gate CP-N1-B",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1; no memorices el resto aún). **Path:** ruta con `pathlib.Path` (cross-platform). **Dialect:** delimitador y reglas del CSV (`,` vs `;`). **Cuarentena:** filas o archivos que fallan el contrato, guardados con **motivo** (`reason`) y **raw** intacto. **JSONL:** un objeto JSON por línea (append-friendly). **Provenance:** rastro del input (`path`, `sha256`, `bytes`). **Manifest:** JSON de la corrida con conteos por fuente. **Reconcile:** `n_in == n_clean + n_quarantine` por fuente y en totales. **Fail-closed:** si no cuadra, exit ≠ 0 — no publiques clean a medias. **stdlib only:** pathlib, csv, json, hashlib, shutil, Decimal; el análisis tabular con **pandas** llega en el bloque de datos intermedio.",
-        "**De dónde venías y a dónde vas.** En **S07** fijaste texto y Unicode (tildes, encodings, mojibake). Aquí esos bytes **viven en disco**: si `read_text(encoding='utf-8')` falla, cuarentenás el archivo o reintentás con un encoding **documentado**. Integra normalizadores (S05–S07) y el modelo en memoria (S06). En S08 cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación — todo en **stdlib**, sin librerías externas de datos. Entorno **local-python**: sintéticos en `data/`; salidas en `out/`. Si el schema no cuadra, cuarentena con motivo — nunca rellenes en silencio.",
+        "**De dónde venías y a dónde vas.** En **S07** fijaste texto y Unicode (tildes, encodings, mojibake). Aquí esos bytes **viven en disco**: si `read_text(encoding='utf-8')` falla, mandas el archivo a **cuarentena** o reintentas con un encoding **documentado**. Integra normalizadores (S05–S07) y el modelo en memoria (S06). En S08 cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación — todo en **stdlib**, sin librerías externas de datos. Entorno **local-python**: sintéticos en `data/`; salidas en `out/`. Si el schema no cuadra, cuarentena con motivo — nunca rellenes en silencio.",
         "**Orden y ritmo (~18 h).** **T1 Archivos** (Path/UTF-8 → atomic/newlines) → **T2 CSV** (dialect/cast → cuarentena) → **T3 JSON** (array/JSONL → schema/nulls) → **T4 Provenance** (hash/backup → manifest/reconcile) → You Do CP-N1-B. En cada subtema: teoría, un I Do y tres We Do (E1 guiado → E2 independiente → E3 transferencia). Laboratorio sintético Perú: clientes `C00x` y montos PEN ficticios. Nunca PII real ni inferencia automática de parentesco o fraude.",
       ],
+      code: {
+        language: 'python',
+        title: "s08_gate_contract.py",
+        code: `def s08_gate_contract():
+    return {
+        "gate": "CP-N1-B",
+        "stack": ["pathlib", "csv", "json", "hashlib", "Decimal"],
+        "artifacts": ["clean", "quarantine", "manifest"],
+        "reconcile": "n_in == n_clean + n_quarantine",
+        "real_pii_ok": False,
+    }
+
+c = s08_gate_contract()
+print("gate", c["gate"])
+print("artifacts", ",".join(c["artifacts"]))
+print("reconcile", c["reconcile"])
+print("real_pii_ok", c["real_pii_ok"])`,
+        output: `gate CP-N1-B
+artifacts clean,quarantine,manifest
+reconcile n_in == n_clean + n_quarantine
+real_pii_ok False`,
+      },
       callout: {
         type: "info",
         title: "Gate CP-N1-B — qué cuenta como cierre",
@@ -44,7 +66,7 @@ export const section08: CourseSection = {
       paragraphs: [
         "`pathlib.Path` unifica rutas en Windows, macOS y Linux: `Path('data') / 'clients.csv'` evita armar strings con `\\` o `/` a mano. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes; `with path.open(...) as f` da control fino de modo y cierra el handle aunque falle el cuerpo. En CP-N1-B el *porqué* es operativo: **rastro auditable** de cada input y salidas predecibles para el manifest — no “abrir un archivo por curiosidad”.",
         "Modos: `r` lectura, `w` trunca, `a` append, `x` crea exclusivo (falla si ya existe). **Siempre** declara `encoding='utf-8'` en texto: en Windows el locale del SO **no** es un contrato portable. `errors=` (`strict` por defecto, `replace`, `ignore`) es una decisión **documentada** en el README del pipeline, no un default mágico. En este gate usas solo pathlib/csv/json/hashlib/shutil/Decimal — sin librerías externas de datos.",
-        "`path.exists()` / `is_file()` evitan abrir a ciegas y ayudan a mensajes de error claros. No asumas el cwd del IDE: ancla rutas al proyecto con `Path(__file__).resolve().parent` o paths relativos **documentados** (`data/`, `out/`). Si `read_text(encoding='utf-8')` lanza `UnicodeDecodeError`, el contrato del gate es fail-closed: cuarentená el **archivo** (o reintentá con un encoding explícito acordado), no “arreglás” tildes a ojo.",
+        "`path.exists()` / `is_file()` evitan abrir a ciegas y ayudan a mensajes de error claros. No asumas el cwd del IDE: ancla rutas al proyecto con `Path(__file__).resolve().parent` o paths relativos **documentados** (`data/`, `out/`). Si `read_text(encoding='utf-8')` lanza `UnicodeDecodeError`, el contrato del gate es fail-closed: manda el **archivo** a cuarentena (o reintenta con un encoding explícito acordado), no “arregles” tildes a ojo.",
       ],
       code: {
         language: 'python',
@@ -65,15 +87,15 @@ print(demo_path_write())`,
         type: "tip",
         title: "UTF-8 explícito",
         content:
-          "En Windows el default de texto no siempre es UTF-8. Para intake del gate: encoding='utf-8' siempre; si el export trae BOM de Excel, usá 'utf-8-sig' de forma documentada.",
+          "En Windows el default de texto no siempre es UTF-8. Para intake del gate: encoding='utf-8' siempre; si el export trae BOM de Excel, usa 'utf-8-sig' de forma documentada.",
       },
     },
     {
       heading: "Newlines y escritura atómica",
       subtopicId: "S08-T1-B",
       paragraphs: [
-        "CSV en Python: abrí con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline preferí `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al re-leer el clean.",
-        "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribís el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad.",
+        "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al re-leer el clean.",
+        "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribes el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad.",
         "Detectar `\\r\\n` en **bytes** de input documenta provenance (origen Windows vs Unix) en el manifest o en logs. Eso **no** “arregla” el archivo ni reescribe el crudo: solo registra un hecho útil para depurar exports raros. El You Do reutilizará el mismo `write_atomic` para clean, quarantine y manifest.",
       ],
       code: {
@@ -108,9 +130,9 @@ tiene CRLF True`,
       heading: "Dialectos, headers y tipos",
       subtopicId: "S08-T2-A",
       paragraphs: [
-        "`csv.DictReader` / `DictWriter` trabajan con headers: cada fila sale como dict. **Declará `fieldnames`** al escribir; no confíes en el orden “que se ve” en Excel. El cast de tipos (`int`, `Decimal`) es **explícito**: un fallo va a cuarentena con `{raw, reason}` — nunca un `0` mágico sin traza. El contrato monetario de S02 continúa: `Decimal` desde texto, cuantizado a `0.01`, serializado como **string** (`\"10.50\"`), **nunca** `float` (el binario del float rompe cuadraturas y tests).",
+        "`csv.DictReader` / `DictWriter` trabajan con headers: cada fila sale como dict. **Declara `fieldnames`** al escribir; no confíes en el orden “que se ve” en Excel. El cast de tipos (`int`, `Decimal`) es **explícito**: un fallo va a cuarentena con `{raw, reason}` — nunca un `0` mágico sin traza. El contrato monetario de S02 continúa: `Decimal` desde texto, cuantizado a `0.01`, serializado como **string** (`\"10.50\"`), **nunca** `float` (el binario del float rompe cuadraturas y tests).",
         "Fechas pueden quedarse como **string ISO** (`YYYY-MM-DD`) en N1-B: no hace falta `datetime` todavía si el contrato lo documenta. Lo crítico es el **contrato de columnas** (nombres, tipos, required) versionado en el manifest o en el README del pipeline. Si falta una columna requerida o el cast falla, la fila **no** entra a clean.",
-        "Dialectos reales en Latam: `delimiter=';'` es común en exports Excel en español; la coma es el default anglosajón. El BOM de Excel “CSV UTF-8” se quita abriendo con `encoding='utf-8-sig'`. **No** asumas el dialecto: inspeccioná las primeras líneas o el contrato de la fuente y dejá delimiter/encoding **explícitos** en el código de ingesta.",
+        "Dialectos reales en Latam: `delimiter=';'` es común en exports Excel en español; la coma es el default anglosajón. El BOM de Excel “CSV UTF-8” se quita abriendo con `encoding='utf-8-sig'`. **No** asumas el dialecto: inspecciona las primeras líneas o el contrato de la fuente y deja delimiter/encoding **explícitos** en el código de ingesta.",
       ],
       code: {
         language: 'python',
@@ -150,7 +172,7 @@ utf-8-sig quita BOM: id`,
       heading: "Filas irregulares y cuarentena",
       subtopicId: "S08-T2-B",
       paragraphs: [
-        "Filas con **más o menos columnas** que el header son irregulares (export cortado, comas de más, fila basura al final). **No** las “arreglés” en silencio ni trunques a medias: mándalas a cuarentena con **motivo** estable (`reason: \"col_count\"`) y conservá el **raw** (lista o string de la fila). Silenciar irregular desalinea columnas y corrompe métricas del gate.",
+        "Filas con **más o menos columnas** que el header son irregulares (export cortado, comas de más, fila basura al final). **No** las “arregles” en silencio ni trunques a medias: mándalas a cuarentena con **motivo** estable (`reason: \"col_count\"`) y conserva el **raw** (lista o string de la fila). Silenciar irregular desalinea columnas y corrompe métricas del gate.",
         "El vocabulario de `reason` debe ser **estable** (`col_count`, `cast_monto`, `schema`) porque alimenta el contador del **manifest** y cualquier dashboard de calidad. No inventes frases largas distintas en cada script: el E3 de contadores y el You Do dependen de un enum corto. Contrato: entrada → transformación documentada → salida medible.",
         "Clean escribe solo filas que pasaron schema + casts + normalización (S05–S07). **Invariante del gate:** cada fila de entrada termina en clean o en quarantine — nunca “desaparece”. Si `n_in` no cuadra con `n_clean + n_quarantine` para esa fuente, el pipeline falla en T4; la cuarentena honesta de T2 es lo que hace posible ese check.",
       ],
@@ -185,9 +207,9 @@ print(quarantine_irregular(text))`,
       heading: "Objetos/arrays y serialización JSON",
       subtopicId: "S08-T3-A",
       paragraphs: [
-        "`json.loads` / `dumps` trabajan con strings; `load` / `dump` con archivos. Objects JSON → `dict`; arrays → `list`. **JSONL** (un objeto por línea, terminado en `\\n`) es útil para streams de transacciones: podés append una línea sin reescribir el archivo entero. El demo I Do de T3-A escribe **ambos** formatos. JSON **no** tiene tipo Decimal: serializamos montos como strings (`\"10.00\"`) y al leerlos reconstruimos `Decimal` — **nunca** float.",
+        "`json.loads` / `dumps` trabajan con strings; `load` / `dump` con archivos. Objects JSON → `dict`; arrays → `list`. **JSONL** (un objeto por línea, terminado en `\\n`) es útil para streams de transacciones: puedes hacer append de una línea sin reescribir el archivo entero. El demo I Do de T3-A escribe **ambos** formatos. JSON **no** tiene tipo Decimal: serializamos montos como strings (`\"10.00\"`) y al leerlos reconstruimos `Decimal` — **nunca** float.",
         "`ensure_ascii=False` preserva tildes legibles (`José`, `Ñahui`) en logs y en clean; con el default `True` verías `\\u00e9` y el review se vuelve ilegible. `sort_keys=True` ayuda al **determinismo** en manifests (eco de S06): dos corridas con los mismos datos producen el mismo JSON de control.",
-        "`datetime` y `Decimal` no son serializables por defecto. Convertí fechas a `isoformat()` (o str ISO) y montos a string **antes** de `dumps`. Si olvidás el paso, capturá `TypeError` y mandá la fila a cuarentena o normalizá el campo — no uses `default=str` como escape silencioso en producción del gate.",
+        "`datetime` y `Decimal` no son serializables por defecto. Convierte fechas a `isoformat()` (o str ISO) y montos a string **antes** de `dumps`. Si olvidas el paso, captura `TypeError` y manda la fila a cuarentena o normaliza el campo — no uses `default=str` como escape silencioso en producción del gate.",
       ],
       code: {
         language: 'python',
@@ -237,16 +259,16 @@ print(obj)`,
         type: "warning",
         title: "null ≠ missing siempre",
         content:
-          "Documentá en el contrato si null borra el valor o significa unknown. En Python: 'email' in obj distingue clave presente (aunque sea None) de clave ausente.",
+          "Documenta en el contrato si null borra el valor o significa unknown. En Python: 'email' in obj distingue clave presente (aunque sea None) de clave ausente.",
       },
     },
     {
       heading: "Backups, hashes y provenance",
       subtopicId: "S08-T4-A",
       paragraphs: [
-        "`hashlib.sha256` del **contenido del input crudo** fija un fingerprint en el manifest. Si el CSV cambia un solo byte (una coma, un BOM, un `\\r`), el hash cambia: detectás reprocesos, re-ingestas y “¿corrimos sobre el archivo de ayer?”. Hasheá el archivo de **entrada**, **no** el clean: el clean es un producto; el crudo es la evidencia.",
-        "Backup: copiá a `input.bak` o a `backups/` con `shutil.copy2` **antes** de cualquier transformación o escritura de salida. No mutes el original in place ni “normalices” el crudo sobre sí mismo: el gate exige provenance del input intacto para rehacer la corrida.",
-        "Provenance mínima por fuente: `{path, sha256, bytes}` (y opcionalmente `received_at` ISO). Con el fixture de laboratorio `id\\nC1\\n` el tamaño es **6** bytes y el digest es fijo (`b776a3a3…`); si cambiás el fixture, **recalculá** el hash en demos y tests — no copies un hex de memoria.",
+        "`hashlib.sha256` del **contenido del input crudo** fija un fingerprint en el manifest. Si el CSV cambia un solo byte (una coma, un BOM, un `\\r`), el hash cambia: detectas reprocesos, re-ingestas y “¿corrimos sobre el archivo de ayer?”. Hashea el archivo de **entrada**, **no** el clean: el clean es un producto; el crudo es la evidencia.",
+        "Backup: copia a `input.bak` o a `backups/` con `shutil.copy2` **antes** de cualquier transformación o escritura de salida. No mutes el original in place ni “normalices” el crudo sobre sí mismo: el gate exige provenance del input intacto para rehacer la corrida.",
+        "Provenance mínima por fuente: `{path, sha256, bytes}` (y opcionalmente `received_at` ISO). Con el fixture de laboratorio `id\\nC1\\n` el tamaño es **6** bytes y el digest es fijo (`b776a3a3…`); si cambias el fixture, **recalcula** el hash en demos y tests — no copies un hex de memoria.",
       ],
       code: {
         language: 'python',
@@ -320,8 +342,8 @@ print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))`,
       heading: "Cierre y puente a S09 (excepciones y logs)",
       paragraphs: [
         "En S08 cerraste el **contrato de ingesta local**: Path + UTF-8, escritura atómica, CSV con dialecto/cast, cuarentena con `reason`, JSON/JSONL, schema/nulls, hash del crudo y manifest reconciliado por fuente. El You Do es la evidencia de **CP-N1-B** — no un ejercicio decorativo al final.",
-        "En **S09** profundizás **excepciones y logging**: cómo registrar `UnicodeDecodeError`, fallos de cast y reconcile **sin silenciar**, y cómo un log estructurado complementa (no reemplaza) el manifest. Llevá contigo el vocabulario fail-closed: cuarentena con motivo, no relleno mágico, exit ≠ 0 cuando los conteos no cierran.",
-        "Checklist mental antes del You Do (si fallás una, volvé al We Do de ese tema): ¿tmp es `name + \".tmp\"`? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
+        "En **S09** profundizas **excepciones y logging**: cómo registrar `UnicodeDecodeError`, fallos de cast y reconcile **sin silenciar**, y cómo un log estructurado complementa (no reemplaza) el manifest. Lleva contigo el vocabulario fail-closed: cuarentena con motivo, no relleno mágico, exit ≠ 0 cuando los conteos no cierran.",
+        "Checklist mental antes del You Do (si fallas una, vuelve al We Do de ese tema): ¿tmp es `name + \".tmp\"`? ¿montos son string Decimal cuantizado? ¿cada fila de entrada está en clean o quarantine? ¿el sha256 es del **input** crudo? ¿cada fuente reconcilia sola (no solo el total)? ¿el run falla si alguna fuente no cuadra?",
       ],
       callout: {
         type: "info",
@@ -464,7 +486,7 @@ rows = [{"id": "T1", "monto": "10.00"}, {"id": "T2", "monto": "5.00"}]
 print(write_json_and_jsonl(rows))`,
           output: `([{'id': 'T1', 'monto': '10.00'}, {'id': 'T2', 'monto': '5.00'}], ['{"id": "T1", "monto": "10.00"}', '{"id": "T2", "monto": "5.00"}'])`,
         },
-        why: "Array JSON para batch pequeño y relectura completa; JSONL (una línea = un objeto) para append y streaming de txs. Ambos salen del mismo list de dicts — elegís el formato por el caso de uso.",
+        why: "Array JSON para batch pequeño y relectura completa; JSONL (una línea = un objeto) para append y streaming de txs. Ambos salen del mismo list de dicts — eliges el formato por el caso de uso.",
       },
       {
         demoId: "S08-T3-B-DEMO",
@@ -719,7 +741,7 @@ False`,
         subtopicId: "S08-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Implementá `write_atomic(path, text)` con temp en el mismo dir: `tmp = path.with_name(path.name + '.tmp')` + `os.replace`. Escribí `'ok\\n'` y imprimí el contenido final. Pass: línea `ok`. Solo stdlib.",
+          "E2 (independiente) — Implementa `write_atomic(path, text)` con temp en el mismo dir: `tmp = path.with_name(path.name + '.tmp')` + `os.replace`. Escribe `'ok\\n'` e imprime el contenido final. Pass: línea `ok`. Solo stdlib.",
         hint: "tmp + os.replace",
         hints: [
           "tmp = path.with_name(path.name + '.tmp')",
@@ -768,7 +790,7 @@ print(p.read_text(encoding='utf-8'), end='')`,
         subtopicId: "S08-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Simulá fallo mid-write: escribí dest parcial `'PARCIAL'`, imprimí `mid …`; luego atomic replace a `'COMPLETO'` e imprimí `final …`. Pass: `mid PARCIAL` y `final COMPLETO`.",
+          "E3 (transferencia) — Simula fallo mid-write: escribe dest parcial `'PARCIAL'`, imprime `mid …`; luego atomic replace a `'COMPLETO'` e imprime `final …`. Pass: `mid PARCIAL` y `final COMPLETO`.",
         hint: "Primero write no atómico parcial; luego tmp + os.replace",
         hints: [
           "Primero write no atómico parcial; luego write_atomic",
@@ -847,7 +869,7 @@ for row in csv.DictReader(io.StringIO(raw)):
         subtopicId: "S08-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Escribí CSV con `DictWriter` (fieldnames `id,nombre`): `writeheader` + una fila, relee y imprimí `len(rows)` y `rows[0]`. Pass: `1` y el dict de Ana. Solo stdlib.",
+          "E2 (independiente) — Escribe CSV con `DictWriter` (fieldnames `id,nombre`): `writeheader` + una fila, relee e imprime `len(rows)` y `rows[0]`. Pass: `1` y el dict de Ana. Solo stdlib.",
         hint: "writeheader + writerow",
         hints: [
           "writeheader + writerow",
@@ -892,7 +914,7 @@ print(rows[0])`,
         subtopicId: "S08-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a `0.01`; si `InvalidOperation` → `reject … motivo=cast_monto`. Procesá `['10', 'x', '3.5']`. Pass: `ok 10.00` / `reject x motivo=cast_monto` / `ok 3.50`. Sin `float()`.",
+          "E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a `0.01`; si `InvalidOperation` → `reject … motivo=cast_monto`. Procesa `['10', 'x', '3.5']`. Pass: `ok 10.00` / `reject x motivo=cast_monto` / `ok 3.50`. Sin `float()`.",
         hint: "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
         hints: [
           "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
@@ -937,7 +959,7 @@ ok 3.50`,
         subtopicId: "S08-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Detectá fila irregular: `header` len 2, `row = ['C1','Ana','x']` → `len(row) != len(header)` es True. Imprimí el booleano. Pass: `True`.",
+          "E1 (guiado) — Detecta fila irregular: `header` len 2, `row = ['C1','Ana','x']` → `len(row) != len(header)` es True. Imprime el booleano. Pass: `True`.",
         hint: "len(row) != len(header)",
         hints: [
           "len(row) != len(header)",
@@ -971,7 +993,7 @@ print(irregular)`,
         subtopicId: "S08-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Escribí una fila de cuarentena `{raw, reason}` a CSV en temp (`newline=''`, fieldnames `raw,reason`), relee e imprimí `reason`. Pass: `col_count`. Solo stdlib.",
+          "E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp (`newline=''`, fieldnames `raw,reason`), relee e imprime `reason`. Pass: `col_count`. Solo stdlib.",
         hint: "DictWriter fieldnames raw,reason",
         hints: [
           "DictWriter fieldnames raw,reason",
@@ -1013,7 +1035,7 @@ print(rows[0]['reason'])`,
         subtopicId: "S08-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Dada `reasons = ['col_count', 'cast_monto', 'col_count', 'schema']`, imprimí contador sorted: `reason count` por línea. Pass: `cast_monto 1`, `col_count 2`, `schema 1`.",
+          "E3 (transferencia) — Dada `reasons = ['col_count', 'cast_monto', 'col_count', 'schema']`, imprime contador sorted: `reason count` por línea. Pass: `cast_monto 1`, `col_count 2`, `schema 1`.",
         hint: "collections.Counter o dict",
         hints: [
           "collections.Counter o dict",
@@ -1049,7 +1071,7 @@ schema 1`,
         subtopicId: "S08-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Parseá el string JSON crudo con id C001 usando `json.loads` (sin slices manuales del texto) e imprimí `obj['id']`. Pass: `C001`. Solo stdlib.",
+          "E1 (guiado) — Parsea el string JSON crudo con id C001 usando `json.loads` (sin slices manuales del texto) e imprime `obj['id']`. Pass: `C001`. Solo stdlib.",
         hint: "json.loads",
         hints: [
           "json.loads",
@@ -1081,7 +1103,7 @@ print(obj['id'])`,
         subtopicId: "S08-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `json.dumps({'nombre': 'José'}, ensure_ascii=False)` e imprimí el string (José legible, no `\\u`). Pass: `{\"nombre\": \"José\"}`. Solo stdlib.",
+          "E2 (independiente) — Serializa un dict con tilde: `json.dumps({'nombre': 'José'}, ensure_ascii=False)` e imprime el string con José legible (sin escapes `\\u00e9`). Pass: `{\"nombre\": \"José\"}`. Solo stdlib; útil para logs y clean en Latam.",
         hint: "ensure_ascii=False",
         hints: [
           "ensure_ascii=False",
@@ -1113,7 +1135,7 @@ print(s)`,
         subtopicId: "S08-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Intentá `json.dumps` de un dict con `datetime`; capturá `TypeError` e imprimí el nombre de la excepción; luego serializá con `.isoformat()`. Pass: `TypeError` y `{\"ts\": \"2026-01-15T10:00:00\"}`.",
+          "E3 (transferencia) — Intenta `json.dumps` de un dict con `datetime`; captura `TypeError` e imprime el nombre de la excepción; luego serializa con `.isoformat()`. Pass: `TypeError` y `{\"ts\": \"2026-01-15T10:00:00\"}`.",
         hint: "datetime no serializable",
         hints: [
           "datetime no serializable",
@@ -1153,7 +1175,7 @@ print(json.dumps(fixed))`,
         subtopicId: "S08-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Implementá `validate_schema(obj, required)`: con `obj={'id':'C1'}` y `required=['id','email']` devolvés `(False, ['email'])` porque falta la clave. Imprimí el tuple. Solo stdlib.",
+          "E1 (guiado) — Implementa `validate_schema(obj, required)`: con `obj={'id':'C1'}` y `required=['id','email']` devuelves `(False, ['email'])` porque falta la clave. Imprime el tuple. Solo stdlib.",
         hint: "list comprehension missing",
         hints: [
           "list comprehension missing",
@@ -1186,7 +1208,7 @@ print(validate_schema({'id': 'C1'}, ['id', 'email']))`,
         subtopicId: "S08-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Null explícito: `obj = {'id':'C1','email': None}`. Imprimí `'email' in obj` y `obj['email']`. Pass: `True` luego `None` (clave presente con valor nulo ≠ clave ausente).",
+          "E2 (independiente) — Null explícito: `obj = {'id':'C1','email': None}`. Imprime `'email' in obj` y `obj['email']`. Pass: `True` luego `None` (clave presente con valor nulo ≠ clave ausente).",
         hint: "'email' in obj",
         hints: [
           "'email' in obj",
@@ -1219,7 +1241,7 @@ None`,
         subtopicId: "S08-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Añadí campo opcional `segment` con default `'standard'` vía `setdefault` sin pisar si ya existe. Dos objs: sin segment y con `vip`. Pass: `{'id': 'C1', 'segment': 'standard'}` y `{'id': 'C2', 'segment': 'vip'}`.",
+          "E3 (transferencia) — Añade campo opcional `segment` con default `'standard'` vía `setdefault` sin pisar si ya existe. Dos objs: sin segment y con `vip`. Pass: `{'id': 'C1', 'segment': 'standard'}` y `{'id': 'C2', 'segment': 'vip'}`.",
         hint: "setdefault",
         hints: [
           "setdefault",
@@ -1258,7 +1280,7 @@ print(b)`,
         subtopicId: "S08-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Escribí `b'abc'` a un temp file, calculá `sha256` hex e imprimí los primeros 8 chars y `len(dig)` (64). Pass: `ba7816bf 64`. Solo stdlib.",
+          "E1 (guiado) — Escribe `b'abc'` a un temp file, calcula `sha256` hex e imprime los primeros 8 chars y `len(dig)` (64). Pass: `ba7816bf 64`. Solo stdlib.",
         hint: "hashlib.sha256(path.read_bytes()).hexdigest()",
         hints: [
           "hashlib.sha256(path.read_bytes()).hexdigest()",
@@ -1298,7 +1320,7 @@ print(dig[:8], len(dig))`,
         subtopicId: "S08-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — En un temp dir escribí `in.csv` con `'a\\n'`, copiá a `in.csv.bak` con `shutil.copy2`, y imprimí si `bak.read_bytes() == src.read_bytes()`. Pass: `True`. Solo stdlib.",
+          "E2 (independiente) — En un temp dir escribe `in.csv` con `'a\\n'`, copia a `in.csv.bak` con `shutil.copy2`, e imprime si `bak.read_bytes() == src.read_bytes()`. Pass: `True`. Solo stdlib.",
         hint: "shutil.copy2",
         hints: [
           "shutil.copy2",
@@ -1339,7 +1361,7 @@ print(bak.read_bytes() == src.read_bytes())`,
         subtopicId: "S08-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Armá dict de provenance `{path, sha256, bytes}` para un temp `clients.csv` con contenido `id\\nC1\\n` (path solo name). Imprimí el dict. Pass: path `clients.csv`, sha256 `b776a3a3…`, `bytes` 6.",
+          "E3 (transferencia) — Arma dict de provenance `{path, sha256, bytes}` para un temp `clients.csv` con contenido `id\\nC1\\n` (path solo name). Imprime el dict. Pass: path `clients.csv`, sha256 `b776a3a3…`, `bytes` 6.",
         hint: "stat().st_size",
         hints: [
           "stat().st_size",
@@ -1383,7 +1405,7 @@ print(prov)`,
         subtopicId: "S08-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Construí un manifest con `run_id` y `sources` (clients.csv + transactions.json): cada fuente con name, sha256, n_in, n_clean, n_quarantine y `reconcile_ok` derivado. Totales con `sum`; no hardcodees. Pass: totales `5 4 1`, ambas fuentes True, manifest True.",
+          "E1 (guiado) — Construye un manifest con `run_id` y `sources` (clients.csv + transactions.json): cada fuente con name, sha256, n_in, n_clean, n_quarantine y `reconcile_ok` derivado. Totales con `sum`; no hardcodees. Pass: totales `5 4 1`, ambas fuentes True, manifest True.",
         hint: "Calcula reconcile_ok por fuente antes de sumar",
         hints: [
           "Calcula reconcile_ok por fuente antes de sumar",
@@ -1435,7 +1457,7 @@ True`,
         subtopicId: "S08-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Implementá `reconcile_sources(sources)`: exige `n_in == n_clean + n_quarantine` **por cada fuente** y que los totales derivados cuadren. Probalo con un caso good y un `compensated_bad` (agregado 10==9+1 pero fuentes rotas). Pass: `True` luego `False`.",
+          "E2 (independiente) — Implementa `reconcile_sources(sources)`: exige `n_in == n_clean + n_quarantine` **por cada fuente** y que los totales derivados cuadren. Pruébalo con un caso good y un `compensated_bad` (agregado 10==9+1 pero fuentes rotas). Pass: `True` luego `False`.",
         hint: "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
         hints: [
           "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
@@ -1488,7 +1510,7 @@ False`,
         subtopicId: "S08-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia · **mini-ensamblaje pre–You Do**) — Implementá `run(sources)` como el núcleo de salida del ETL: publica solo si **todas** las fuentes cumplen `n_in == n_clean + n_quarantine`. Caso good (clients.csv 4=2+2) → `OK` / `exit_code 0`. Caso compensated_bad (clients y transactions rotos) → `ERROR sources=clients.csv,transactions.json` / `exit_code 1`. Fail-closed: no digas OK si alguna fuente no cuadra. Este es el mismo contrato que `run()` del You Do.",
+          "E3 (transferencia · **mini-ensamblaje pre–You Do**) — Implementa `run(sources)` como el núcleo de salida del ETL: publica solo si **todas** las fuentes cumplen `n_in == n_clean + n_quarantine`. Caso good (clients.csv 4=2+2) → `OK` / `exit_code 0`. Caso compensated_bad (clients y transactions rotos) → `ERROR sources=clients.csv,transactions.json` / `exit_code 1`. Fail-closed: no digas OK si alguna fuente no cuadra. Este es el mismo contrato que `run()` del You Do.",
         hint: "Recolectá nombres de fuentes rotas; si la lista no está vacía, ERROR + exit 1",
         hints: [
           "broken = [s['name'] for s in sources if s['n_in'] != s['n_clean'] + s['n_quarantine']]",
@@ -1541,7 +1563,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblás** en un ETL **local-python**. **Receta de ensamblaje (orden sugerido):** (1) `sha256_file` + backup del crudo (T4-A); (2) `load_clients_csv` con dialecto, Decimal y cuarentena `{raw, reason}` (T2); (3) `load_transactions_json` con `validate_schema` + Decimal (T3); (4) `write_atomic` de clean y quarantine (T1-B); (5) `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B); (6) `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B). Rutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**. **Receta de ensamblaje (orden sugerido):** (1) `sha256_file` + backup del crudo (T4-A); (2) `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2); (3) `load_transactions_json` con `validate_schema` + Decimal (T3); (4) `write_atomic` de clean y quarantine (T1-B); (5) `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B); (6) `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B). Rutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1558,6 +1580,7 @@ exit_code 1`,
       "Los totales del manifest se derivan de sources; una compensación entre fuentes nunca oculta un error",
       "Montos entran como texto, se convierten con Decimal y se serializan como texto decimal",
       "write_atomic usa tmp = path.with_name(path.name + '.tmp') + os.replace",
+      "Al abrir CSV en disco: encoding utf-8 (o utf-8-sig si hay BOM) y newline=''",
       "Empaquetado CLI diferido a S10",
     ],
     starterCode: `"""etl_cp_n1_b.py — Client/Transaction ETL Pipeline (cierre CP-N1-B / S08)
@@ -1713,6 +1736,13 @@ if __name__ == "__main__":
         correctIndex: 1,
         explanation:
           "Reconciliación por fuente evita errores compensados entre CSV y JSON.",
+      },
+      {
+        question: "Al abrir un CSV en disco con el módulo csv, ¿por qué usas newline=''?",
+        options: ["Para forzar encoding latin-1", "Para desactivar DictReader", "Para que el módulo csv controle los terminadores y evite CR dobles en Windows", "Para comprimir el archivo al vuelo"],
+        correctIndex: 2,
+        explanation:
+          "newline='' deja el control de líneas al módulo csv; sin eso, Windows puede romper el dialecto al re-leer el clean.",
       },
     ],
   },

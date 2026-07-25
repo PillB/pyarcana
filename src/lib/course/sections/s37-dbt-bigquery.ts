@@ -64,47 +64,78 @@ skip_privacy_or_tests False`,
       heading: "Wall, CPU y profiling de memoria",
       subtopicId: "S37-T1-A",
       paragraphs: [
-        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o el SO; cuando ambos crecen, el path es compute-bound. La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones en stdlib; `cProfile` (ver recursos) localiza la función caliente cuando el wall ya te dijo *dónde* mirar a grueso.",
-        "Mecanismo: envuelve el path caliente, anota n del fixture, verifica el resultado funcional en el mismo run y solo entonces publicas ms. Un número sin n no sirve para decidir. El profile apunta al matching/grafo o features que dominan el batch sintético — no a un tramo frío del import. Orden profesional: medir wall+CPU con n → (si hace falta) cProfile del hot path → (si hay riesgo de OOM) tracemalloc o un bound de bytes.",
-        "Aplicación a `CASO-LIM-037-T1A`: sumamos un rango sintético como proxy de trabajo, medimos wall y CPU, y usamos `tracemalloc` para un pico de alocaciones del work. En el path real del triage se sustituye por el scorer; la disciplina wall+CPU+n+memoria se mantiene. Sin PII ni datasets productivos en el laboratorio del curso.",
+        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o el SO; cuando ambos crecen, el path es compute-bound. La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones en stdlib. Cuando el wall ya te dijo *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path) sin adivinar.",
+        "Mecanismo: envuelve el path caliente, anota n del fixture, verifica el resultado funcional en el mismo run y solo entonces publicas ms. Un número sin n no sirve para decidir. Orden profesional: (1) wall+CPU con n, (2) si el wall no basta, `cProfile` del pipeline para ver qué función domina, (3) si hay riesgo de OOM, `tracemalloc` o un bound de bytes. El profile apunta al matching/grafo o features del batch sintético — no a un tramo frío del import.",
+        "Aplicación a `CASO-LIM-037-T1A`: un pipeline sintético con `cheap` y `expensive`; medimos wall/CPU, un pico de alocaciones con `tracemalloc` y, con `cProfile`, comprobamos que `expensive` es la función caliente. En el path real del triage se sustituye por el scorer; la disciplina wall+CPU+n+memoria+hot_fn se mantiene. Sin PII ni datasets productivos en el laboratorio del curso.",
       ],
       code: {
         language: 'python',
-        title: "wall_cpu_mem.py",
+        title: "wall_cpu_mem_cprofile.py",
         code: `import time
 import tracemalloc
+import cProfile
+
+def expensive(n: int) -> int:
+    return sum(i * i for i in range(n))
+
+def cheap(n: int) -> int:
+    return n
+
+def path(n: int) -> int:
+    cheap(n)
+    return expensive(n)
 
 def profile_wall_cpu_mem(n: int):
     t0 = time.perf_counter()
-    s = sum(range(n))
+    s = path(n)
     wall = time.perf_counter() - t0
     t1 = time.process_time()
-    sum(range(n))
+    path(n)
     cpu = time.process_time() - t1
     tracemalloc.start()
-    _ = [i for i in range(min(n, 50_000))]  # alocación acotada didáctica
+    _ = [i for i in range(min(n, 20_000))]  # alocación acotada didáctica
     _current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
-    return round(wall * 1000, 3), round(cpu * 1000, 3), s > 0, n, peak
+    return round(wall * 1000, 3), round(cpu * 1000, 3), s >= 0, n, peak
 
-wall_ms, cpu_ms, ok, n, peak = profile_wall_cpu_mem(100_000)
-# ms y peak exactos varían por máquina; el contrato didáctico es n + result + >= 0
+def hot_function(n: int) -> str:
+    """cProfile: nombra la función con más tiempo total en el pipeline."""
+    pr = cProfile.Profile()
+    pr.enable()
+    path(n)
+    pr.disable()
+    times = {}
+    for e in pr.getstats():
+        code = e.code
+        if hasattr(code, "co_name"):
+            name = code.co_name
+            times[name] = times.get(name, 0.0) + e.totaltime
+    return "expensive" if times.get("expensive", 0.0) >= times.get("cheap", 0.0) else "cheap"
+
+n = 20_000
+wall_ms, cpu_ms, ok, n, peak = profile_wall_cpu_mem(n)
+hot = hot_function(n)
+# ms y peak exactos varían por máquina; predicados estables + hot_fn
 print("wall_ms_ok", wall_ms >= 0)
 print("cpu_ms_ok", cpu_ms >= 0)
 print("result", ok)
 print("n", n)
-print("peak_ok", peak >= 0)`,
+print("peak_ok", peak >= 0)
+print("hot_fn", hot)
+print("hot_ok", hot == "expensive")`,
         output: `wall_ms_ok True
 cpu_ms_ok True
 result True
-n 100000
-peak_ok True`,
+n 20000
+peak_ok True
+hot_fn expensive
+hot_ok True`,
       },
       callout: {
         type: "tip",
-        title: "perf_counter, process_time y tracemalloc",
+        title: "Orden: wall → cProfile → tracemalloc",
         content:
-          "perf_counter: wall monotónico. process_time: CPU del proceso. tracemalloc: pico de alocaciones del tramo medido. Siempre reporta n. cProfile (recursos) entra cuando ya sabes qué path es caro y necesitas la función exacta.",
+          "perf_counter (wall) y process_time (CPU) primero, siempre con n. cProfile nombra la función caliente del pipeline. tracemalloc acota el pico de alocaciones. No empieces por micro-shaving de un loop que ni siquiera es el hot path.",
       },
     },
     {
@@ -359,40 +390,66 @@ micro_only False`,
         demoId: "S37-T1-A-DEMO",
         subtopicId: "S37-T1-A",
         environment: "local-python",
-        description: "Demo: wall, CPU y pico de memoria del trabajo sintético con n.",
+        description: "Demo: wall, CPU, pico de memoria y hot path (cProfile) del trabajo sintético con n.",
         code: {
           language: 'python',
           title: "s37_t1_a_demo.py",
           code: `import time
 import tracemalloc
+import cProfile
+
+def expensive(n: int) -> int:
+    return sum(i * i for i in range(n))
+
+def cheap(n: int) -> int:
+    return n
+
+def path(n: int) -> int:
+    cheap(n)
+    return expensive(n)
 
 def wall_cpu_mem(n: int):
     t0 = time.perf_counter()
-    result = sum(range(n))
+    result = path(n)
     wall = (time.perf_counter() - t0) * 1000
     t1 = time.process_time()
-    sum(range(n))
+    path(n)
     cpu = (time.process_time() - t1) * 1000
     tracemalloc.start()
-    _ = list(range(min(n, 20_000)))
+    _ = list(range(min(n, 10_000)))
     _cur, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     return round(wall, 3), round(cpu, 3), result, peak
 
+def hot_fn(n: int) -> str:
+    pr = cProfile.Profile()
+    pr.enable()
+    path(n)
+    pr.disable()
+    times = {}
+    for e in pr.getstats():
+        code = e.code
+        if hasattr(code, "co_name"):
+            times[code.co_name] = times.get(code.co_name, 0.0) + e.totaltime
+    return "expensive" if times.get("expensive", 0.0) >= times.get("cheap", 0.0) else "cheap"
+
 n = 10_000
 wall_ms, cpu_ms, result, peak = wall_cpu_mem(n)
+hot = hot_fn(n)
 print("wall_ms_ok", wall_ms >= 0)
 print("cpu_ms_ok", cpu_ms >= 0)
 print("peak_ok", peak >= 0)
 print("n", n)
-print("ok", result >= 0)`,
+print("hot_fn", hot)
+print("ok", result >= 0 and hot == "expensive")`,
           output: `wall_ms_ok True
 cpu_ms_ok True
 peak_ok True
 n 10000
+hot_fn expensive
 ok True`,
         },
-        why: "Deriva wall, CPU y pico de alocaciones del work real con n; los valores exactos varían por máquina, por eso el demo reporta predicados estables (>= 0).",
+        why: "Deriva wall, CPU, pico de alocaciones y la función caliente (cProfile) del work real con n; los ms exactos varían por máquina, por eso el demo reporta predicados estables.",
       },
       {
         demoId: "S37-T1-B-DEMO",
@@ -483,11 +540,13 @@ ok True`,
         demoId: "S37-T3-A-DEMO",
         subtopicId: "S37-T3-A",
         environment: "local-python",
-        description: "Demo: tamaños de chunk y subset columnar.",
+        description: "Demo: tamaños de chunk, subset columnar y bound de memoria por itemsize.",
         code: {
           language: 'python',
           title: "s37_t3_a_demo.py",
-          code: `def chunk_sizes(n: int, size: int):
+          code: `import array
+
+def chunk_sizes(n: int, size: int):
     return [size] * (n // size) + ([n % size] if n % size else [])
 
 def project(row, cols):
@@ -496,14 +555,20 @@ def project(row, cols):
 sizes = chunk_sizes(10, 3)
 row = {"id": 1, "amount": 10, "blob": "xx", "notes": "n/a"}
 subset = project(row, ["id", "amount"])
+i32 = array.array("i").itemsize
+i64 = array.array("q").itemsize
+bound_i32 = 10 * i32
+bound_i64 = 10 * i64
 print("chunk_sizes", sizes)
 print("col_subset", list(subset.keys()))
-print("ok", sizes == [3, 3, 3, 1] and "blob" not in subset)`,
+print("bound_i32", bound_i32)
+print("ok", sizes == [3, 3, 3, 1] and "blob" not in subset and bound_i32 < bound_i64)`,
           output: `chunk_sizes [3, 3, 3, 1]
 col_subset ['id', 'amount']
+bound_i32 40
 ok True`,
         },
-        why: "Chunking acota memoria; el subset columnar evita cargar blobs innecesarios.",
+        why: "Chunking acota el pico; el subset columnar evita blobs; el bound por itemsize justifica dtype angosto con bytes, no con intuición.",
       },
       {
         demoId: "S37-T3-B-DEMO",
@@ -639,18 +704,23 @@ ok True`,
         id: "S37-T1-A-E2",
         subtopicId: "S37-T1-A",
         kind: "independent",
-        instruction: "S37-T1-A-E2 · Mide wall y CPU del work sintético (perf_counter + process_time) con n=5000; imprime wall_ok True, cpu_ok True, n 5000. Starter mide solo wall y reporta n 0 (defect). Contrato wall+CPU del triage sintético CASO-LIM-037.",
-        hint: "Wall=reloj; CPU=process_time del proceso.",
-        hints: ["Mide wall con perf_counter y CPU con process_time.", "Reporta n del fixture junto a los predicados ms>=0."],
+        instruction: "S37-T1-A-E2 · Mide wall, CPU y pico de memoria del work sintético (perf_counter + process_time + tracemalloc) con n=5000; imprime wall_ok True, cpu_ok True, peak_ok True, n 5000. Starter mide solo wall, fuerza cpu_ok/peak_ok en False y reporta n 0 (defect). Contrato wall+CPU+memoria del triage sintético CASO-LIM-037.",
+        hint: "Wall=reloj; CPU=process_time; peak=tracemalloc del tramo medido.",
+        hints: [
+          "Mide wall con perf_counter y CPU con process_time.",
+          "Envuelve una alocación con tracemalloc.start/stop y lee get_traced_memory()[1] como peak.",
+          "Reporta n del fixture junto a los predicados >= 0.",
+        ],
         edgeCases: ["solo wall", "sintético"],
         tests: "Salida alinea con solution output de S37-T1-A-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "S37-T1-A-E2: wall y CPU juntos evitan optimizar la métrica equivocada.",
+        feedback: "S37-T1-A-E2: wall, CPU y peak juntos evitan optimizar la métrica equivocada o ignorar OOM.",
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e2.py",
-          code: `# CASO-LIM-037 · wall + CPU con n
-# DEFECT: no mide CPU y reporta n=0
+          code: `# CASO-LIM-037 · wall + CPU + peak con n
+# DEFECT: no mide CPU ni peak; reporta n=0
 import time
+import tracemalloc
 n = 5000
 
 def work(n: int) -> int:
@@ -659,9 +729,10 @@ def work(n: int) -> int:
 t0 = time.perf_counter()
 result = work(n)
 wall_ms = (time.perf_counter() - t0) * 1000
-# DEFECT: falta process_time
+# DEFECT: falta process_time y tracemalloc
 print("wall_ok", wall_ms >= 0)
 print("cpu_ok", False)
+print("peak_ok", False)
 print("n", 0)
 `,
         },
@@ -669,6 +740,7 @@ print("n", 0)
           language: 'python',
           title: "s37-t1-a-e2.py",
           code: `import time
+import tracemalloc
 n = 5000
 
 def work(n: int) -> int:
@@ -680,12 +752,18 @@ wall_ms = (time.perf_counter() - t0) * 1000
 t1 = time.process_time()
 work(n)
 cpu_ms = (time.process_time() - t1) * 1000
+tracemalloc.start()
+_ = list(range(min(n, 10_000)))
+_cur, peak = tracemalloc.get_traced_memory()
+tracemalloc.stop()
 print("wall_ok", wall_ms >= 0 and result >= 0)
 print("cpu_ok", cpu_ms >= 0)
+print("peak_ok", peak >= 0)
 print("n", n)
 `,
           output: `wall_ok True
 cpu_ok True
+peak_ok True
 n 5000`,
         },
       },
@@ -1687,7 +1765,7 @@ if __name__ == "__main__":
       { label: "Python time.perf_counter", url: "https://docs.python.org/3/library/time.html#time.perf_counter", note: "Wall clock monotónico" },
       { label: "Python time.process_time", url: "https://docs.python.org/3/library/time.html#time.process_time", note: "CPU del proceso" },
       { label: "Python timeit", url: "https://docs.python.org/3/library/timeit.html", note: "Microbenchmarks" },
-      { label: "Python profilers (cProfile)", url: "https://docs.python.org/3/library/profile.html", note: "Hot path" },
+      { label: "Python profilers (cProfile)", url: "https://docs.python.org/3/library/profile.html", note: "Nombra la función caliente tras medir wall" },
       { label: "Python tracemalloc", url: "https://docs.python.org/3/library/tracemalloc.html", note: "Memoria" },
       { label: "collections.defaultdict", url: "https://docs.python.org/3/library/collections.html#collections.defaultdict", note: "Índice invertido" },
       { label: "Big-O cheat sheet", url: "https://www.bigocheatsheet.com/", note: "Complejidad" },

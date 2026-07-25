@@ -203,7 +203,7 @@ scaled True`,
       heading: "Stumps, voto y ensambles controlados",
       subtopicId: "S33-T3-A",
       paragraphs: [
-        "Un **stump** es un árbol de profundidad 1: una sola pregunta del tipo `x >= thr`. Varios stumps con **voto mayoritario** ilustran la idea de ensamble sin APIs pesadas. **Random Forest** (bagging de árboles) y **boosting** (reponderar residuos o errores) son *familias* más ricas; aquí solo practicamos stump + vote y el control de profundidad — suficiente para el workbench y para no inventar APIs no enseñadas. Profundidad **ilimitada** overfittea el dataset sintético y miente frente al dummy.",
+        "Un **stump** es un árbol de profundidad 1: una sola pregunta del tipo `x >= thr`. Varios stumps con **voto mayoritario** ilustran la idea de ensamble sin APIs pesadas. **Random Forest** (bagging de árboles) y **boosting** (reponderar residuos o errores) son *familias* más ricas; aquí solo practicamos stump + vote y el control de profundidad — suficiente para el workbench y para no inventar APIs no enseñadas. Profundidad **ilimitada** sobreajusta el dataset sintético y miente frente al dummy.",
         "Recibes una lista `X`, el umbral del stump y una lista de votos de predictores débiles. Sales con las predicciones del stump y el majority vote. `depth_unlimited=True` sin validación es breach de control. Antes de declarar victoria del ensamble, compara su accuracy **contra el dummy** de T1-B (y, si aplica, contra la regla).",
         "En `CASO-LIM-033`: thr=0.3 sobre `[0.1, 0.4]` produce `[0, 1]`; el voto de tres predictores débiles `[1,0,1]` da majority 1. Documenta `depth_unlimited=False` en el log del experimento. Si más adelante lees RF/GB en sklearn, verás la misma idea de “muchos débiles bien controlados” — con bagging o boosting, no con un solo árbol profundo."
       ],
@@ -395,9 +395,10 @@ def rule_acc(y, x, thr=1.0):
 y, x = [1, 1, 0], [1.0, 1.0, 0.0]
 acc, cost = dummy_acc_and_cost(y)
 r_acc, r_pred = rule_acc(y, x, 1.0)
+has_baseline = True  # documentado tras dummy + regla
 print("dummy_acc", acc)
 print("cost", cost)
-print("has_baseline", True)
+print("has_baseline", has_baseline)
 print("rule", r_pred)
 print("rule_acc", r_acc)`,
           output: `dummy_acc 0.667
@@ -624,32 +625,36 @@ assert meets_contract is True
         id: "S33-T1-A-E2",
         subtopicId: "S33-T1-A",
         kind: "independent",
-        instruction: "S33-T1-A-E2 · Modela tres rutas de framing: fixture válido (needs_review_7d), adverso (`is_fraud`) y registro sin `horizon`. Salidas exactas: `PASS`, `REJECT_FRAUD_TARGET`, `MISSING:horizon`. Primero valida campos faltantes; después el contenido del target.",
-        hint: "Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.",
+        instruction: "S33-T1-A-E2 · Construye el fixture válido **calculando** prevalencia de `y=[0,1,0,0]` (debe ser 0.25) y `fraud_name` del target `needs_review_7d`. Luego enruta: válido → `PASS`, adverso (`is_fraud`) → `REJECT_FRAUD_TARGET`, sin `horizon` → `MISSING:horizon`. El starter hardcodea prevalencia y da PASS al adverso (DEFECT).",
+        hint: "prevalence = round(sum(y)/len(y), 3); fraud_name = \"fraud\" in target.lower(); missing antes de mirar contenido.",
         hints: [
-          "Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.",
-          "Después aplica: target sin fraud, horizon > 0 y unit truthy. El adverso falla por contenido, no por schema.",
+          "Con y=[0,1,0,0] prevalencia=0.25; el válido lleva unit, target limpio, horizon=7 y prevalence calculada.",
+          "Primero missing de horizon; después target sin fraud + horizon > 0 + unit truthy.",
         ],
         edgeCases: ["falta horizon", "fixture adverso: target is_fraud (nombre prohibido)", "CASO-LIM-033-1A es sintético"],
-        tests: "La tabla cubre válido/adverso/campo `horizon` ausente y produce exactamente `PASS REJECT_FRAUD_TARGET MISSING:horizon`.",
-        feedback: "S33-T1-A-E2: ausencia ≠ breach; missing va a MISSING:horizon y el nombre fraud a REJECT_FRAUD_TARGET.",
+        tests: "Produce `PASS REJECT_FRAUD_TARGET MISSING:horizon` con prevalence==0.25 en el válido.",
+        feedback: "S33-T1-A-E2: el framing válido se alimenta de prevalencia calculada; is_fraud es breach de producto, no de schema.",
         starterCode: {
           language: 'python',
           title: "s33-t1-a-e2.py",
-          code: `# CASO-LIM-033 · assess framing (REJECT_FRAUD_TARGET)
-# DEFECT: da PASS cuando el target contiene "fraud"
-# TAREA: missing primero; luego needs_review sin fraud + horizon>0
+          code: `# CASO-LIM-033 · assess framing con prevalencia calculada
+# DEFECT: prevalence inventada; da PASS cuando target contiene "fraud"
+# TAREA: deriva prevalence; missing primero; PASS solo framing limpio
+y = [0, 1, 0, 0]
+unit, target, horizon = "entity_pair", "needs_review_7d", 7
+prevalence = 0.0  # DEFECT: debe ser round(sum(y)/len(y), 3) → 0.25
+fraud_name = "fraud" in target.lower()
+
 def assess(record: dict) -> str:
-    required = {"case_id", 'unit', 'target', 'horizon'}
+    required = {"case_id", 'unit', 'target', 'horizon', 'prevalence'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if "fraud" in record["target"] else "REJECT_FRAUD_TARGET"
 
-valid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
-invalid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}
-incomplete = {**valid}
-incomplete.pop("horizon")
+valid = {"case_id": "CASO-LIM-033-1A", "unit": unit, "target": target, "horizon": horizon, "prevalence": prevalence}
+invalid = {"case_id": "CASO-LIM-033-1A", "unit": unit, "target": "is_fraud", "horizon": 7, "prevalence": 0.25}
+incomplete = {k: v for k, v in valid.items() if k != "horizon"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -657,19 +662,31 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t1-a-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", 'unit', 'target', 'horizon'}
+          code: `y = [0, 1, 0, 0]
+unit, target, horizon = "entity_pair", "needs_review_7d", 7
+prevalence = round(sum(y) / len(y), 3)
+fraud_name = "fraud" in target.lower()
+
+def assess(record: dict) -> str:
+    required = {"case_id", 'unit', 'target', 'horizon', 'prevalence'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if "fraud" not in record["target"] and record["horizon"] > 0 and bool(record["unit"]) else "REJECT_FRAUD_TARGET"
+    ok = (
+        "fraud" not in record["target"]
+        and record["horizon"] > 0
+        and bool(record["unit"])
+        and record["prevalence"] == 0.25
+    )
+    return "PASS" if ok else "REJECT_FRAUD_TARGET"
 
-valid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
-invalid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}
-incomplete = {**valid}
-incomplete.pop("horizon")
+valid = {"case_id": "CASO-LIM-033-1A", "unit": unit, "target": target, "horizon": horizon, "prevalence": prevalence}
+invalid = {"case_id": "CASO-LIM-033-1A", "unit": unit, "target": "is_fraud", "horizon": 7, "prevalence": 0.25}
+incomplete = {k: v for k, v in valid.items() if k != "horizon"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+assert results == ("PASS", "REJECT_FRAUD_TARGET", "MISSING:horizon")
+assert valid["prevalence"] == 0.25 and fraud_name is False
 ` ,
           output: `PASS REJECT_FRAUD_TARGET MISSING:horizon` ,
         },
@@ -678,32 +695,34 @@ print(*results)
         id: "S33-T1-A-E3",
         subtopicId: "S33-T1-A",
         kind: "transfer",
-        instruction: "S33-T1-A-E3 · Fallo cerrado para framing: `CASO-LIM-033-1A` → `CONTINUE`, adverso `is_fraud` → `REJECT_FRAUD_TARGET`, sin `horizon` → `REQUEST_HORIZON`. El starter trata missing como CONTINUE y tiene el predicado invertido: corrige ambas ramas.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.",
+        instruction: "S33-T1-A-E3 · **Transferencia de framing:** calcula prevalencia de `y=[0,1,0,0]` y cierra rutas: framing limpio → `CONTINUE`, `is_fraud` → `REJECT_FRAUD_TARGET`, sin `horizon` → `REQUEST_HORIZON`. El starter inventa prevalence y trata missing como CONTINUE (DEFECT).",
+        hint: "prevalence = round(sum(y)/len(y), 3); missing → REQUEST_HORIZON antes de mirar fraud.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla de needs_review + horizon + unit; solo ese caso devuelve `CONTINUE`.",
+          "Una ausencia no es breach: enrútala a REQUEST_HORIZON. is_fraud cierra con REJECT_FRAUD_TARGET.",
+          "CONTINUE solo con target limpio, horizon > 0, unit truthy y prevalence==0.25 calculada.",
         ],
         edgeCases: ["falta horizon", "fixture adverso: target is_fraud (nombre prohibido)", "CASO-LIM-033-1A es sintético"],
-        tests: "Fixtures `CASO-LIM-033-1A`, adverso y sin `horizon` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S33-T1-A-E3: CONTINUE solo con framing limpio; REQUEST_* pide evidencia; REJECT_* cierra el breach.",
+        tests: "Produce `CONTINUE REJECT_FRAUD_TARGET REQUEST_HORIZON` con prevalence calculada en el válido.",
+        feedback: "S33-T1-A-E3: CONTINUE solo con framing limpio y prevalencia miradas; REQUEST_* pide evidencia; REJECT_* cierra el breach.",
         starterCode: {
           language: 'python',
           title: "s33-t1-a-e3.py",
-          code: `# CASO-LIM-033 · decide framing (REQUEST_HORIZON / REJECT_FRAUD_TARGET)
-# DEFECT: missing→CONTINUE; pred invertido sobre fraud
+          code: `# CASO-LIM-033 · decide framing con prevalencia calculada
+# DEFECT: prevalence inventada; missing→CONTINUE; pred invertido
 # TAREA: sin horizon → REQUEST_HORIZON; is_fraud → REJECT; limpio → CONTINUE
+y = [0, 1, 0, 0]
+prevalence = 1.0  # DEFECT: debe ser 0.25
+
 def decide(record: dict) -> str:
-    required = {"case_id", 'unit', 'target', 'horizon'}
+    required = {"case_id", 'unit', 'target', 'horizon', 'prevalence'}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if "fraud" in record["target"] else "REJECT_FRAUD_TARGET"
 
-valid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
-invalid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}
-uncertain = {**valid}
-uncertain.pop("horizon")
+valid = {"case_id": "CASO-LIM-033-1A", "unit": "entity_pair", "target": "needs_review_7d", "horizon": 7, "prevalence": prevalence}
+invalid = {"case_id": "CASO-LIM-033-1A", "unit": "entity_pair", "target": "is_fraud", "horizon": 7, "prevalence": 0.25}
+uncertain = {k: v for k, v in valid.items() if k != "horizon"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -711,20 +730,29 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t1-a-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'unit', 'target', 'horizon'}
+          code: `y = [0, 1, 0, 0]
+prevalence = round(sum(y) / len(y), 3)
+
+def decide(record: dict) -> str:
+    required = {"case_id", 'unit', 'target', 'horizon', 'prevalence'}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_HORIZON"
-    return "CONTINUE" if "fraud" not in record["target"] and record["horizon"] > 0 and bool(record["unit"]) else "REJECT_FRAUD_TARGET"
+    ok = (
+        "fraud" not in record["target"]
+        and record["horizon"] > 0
+        and bool(record["unit"])
+        and record["prevalence"] == 0.25
+    )
+    return "CONTINUE" if ok else "REJECT_FRAUD_TARGET"
 
-valid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}
-invalid = {"case_id": "CASO-LIM-033-1A", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}
-uncertain = {**valid}
-uncertain.pop("horizon")
+valid = {"case_id": "CASO-LIM-033-1A", "unit": "entity_pair", "target": "needs_review_7d", "horizon": 7, "prevalence": prevalence}
+invalid = {"case_id": "CASO-LIM-033-1A", "unit": "entity_pair", "target": "is_fraud", "horizon": 7, "prevalence": 0.25}
+uncertain = {k: v for k, v in valid.items() if k != "horizon"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_FRAUD_TARGET", "REQUEST_HORIZON"]
+assert valid["prevalence"] == 0.25
 ` ,
           output: `CONTINUE REJECT_FRAUD_TARGET REQUEST_HORIZON` ,
         },
@@ -733,28 +761,31 @@ assert results == ["CONTINUE", "REJECT_FRAUD_TARGET", "REQUEST_HORIZON"]
         id: "S33-T1-B-E1",
         subtopicId: "S33-T1-B",
         kind: "guided",
-        instruction: "S33-T1-B-E1 · **Calcula** dummy majority y **costo** sobre `y=[1,1,0]` con c_fp=1, c_fn=5. El starter usa `min` (minoría) y deja `cost=0` hardcodeado (DEFECT). Corrige: majority con `max`, deriva costo de y vs predicciones dummy, espera `dummy_acc==0.667` y `cost==1` (un FP). Salida: `S33-T1-B PASS`.",
-        hint: "maj = max(set(y), key=y.count); dummy = [maj]*len(y); suma c_fp/c_fn al comparar y vs dummy.",
+        instruction: "S33-T1-B-E1 · **Calcula el dual baseline** sobre `y=[1,1,0]` y `x=[1.0,1.0,0.0]`: (1) dummy majority con c_fp=1, c_fn=5 → `dummy_acc==0.667` y `cost==1` (un FP); (2) regla `x>=1` → `rule_acc==1.0`. El starter usa `min` (minoría), deja `cost=0` hardcodeado y no calcula la regla (DEFECT). Corrige ambos anclajes. Salida: `S33-T1-B PASS`.",
+        hint: "maj = max(set(y), key=y.count); dummy = [maj]*len(y); costo desde y vs dummy; rule_pred = [int(v>=1) for v in x].",
         hints: [
-          "maj = max(set(y), key=y.count); dummy = [maj]*len(y); suma c_fp/c_fn al comparar y vs dummy.",
-          "Con y=[1,1,0] majority es 1 → dummy [1,1,1]: un FP en la tercera fila → cost=1; acc=2/3≈0.667.",
+          "maj = max(...); dummy = [maj]*n; suma c_fp/c_fn al comparar y vs dummy → cost=1, acc≈0.667.",
+          "Regla: pred [1,1,0] sobre x=[1,1,0] → rule_acc=1.0. Documenta dummy **y** regla antes del ML.",
         ],
         edgeCases: ["falta cost", "fixture adverso: has_baseline=False o sin dummy", "CASO-LIM-033-1B es sintético"],
-        tests: "Tras max + costo derivado, dummy_acc==0.667 y cost==1 e imprime `S33-T1-B PASS`.",
-        feedback: "S33-T1-B-E1: baseline y costo se calculan de y vs pred; min y cost=0 mentían el ancla del workbench.",
+        tests: "dummy_acc==0.667, cost==1 y rule_acc==1.0 e imprime `S33-T1-B PASS`.",
+        feedback: "S33-T1-B-E1: dual baseline (dummy+regla) y costo se calculan de y vs pred; a veces la regla ya gana al dummy.",
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e1.py",
-          code: `# CASO-LIM-033 · baseline dummy + costo de cola
-# DEFECT: majority con min; cost hardcodeado en 0
-# TAREA: max + costo desde y vs dummy; acc==0.667 y cost==1
+          code: `# CASO-LIM-033 · dual baseline: dummy+costo + regla x>=thr
+# DEFECT: majority con min; cost=0 hardcode; rule_acc no calculado
+# TAREA: max + costo desde y vs dummy; rule_acc de x>=1; PASS
 y = [1, 1, 0]
+x = [1.0, 1.0, 0.0]
 c_fp, c_fn = 1, 5
 maj = min(set(y), key=y.count)  # DEFECT: minoría
 dummy = [maj] * len(y)
 dummy_acc = round(sum(a == b for a, b in zip(y, dummy)) / len(y), 3)
 cost = 0  # DEFECT: debe derivarse de FP/FN
-meets_contract = dummy_acc == 0.667 and cost == 1
+rule_pred = [int(v < 1.0) for v in x]  # DEFECT: umbral invertido
+rule_acc = round(sum(a == b for a, b in zip(y, rule_pred)) / len(y), 3)
+meets_contract = dummy_acc == 0.667 and cost == 1 and rule_acc == 1.0
 status = "PASS" if meets_contract else "REJECT_NO_BASELINE"
 print("S33-T1-B", status)
 ` ,
@@ -763,6 +794,7 @@ print("S33-T1-B", status)
           language: 'python',
           title: "s33-t1-b-e1.py",
           code: `y = [1, 1, 0]
+x = [1.0, 1.0, 0.0]
 c_fp, c_fn = 1, 5
 maj = max(set(y), key=y.count)
 dummy = [maj] * len(y)
@@ -773,7 +805,9 @@ for yt, yp in zip(y, dummy):
         cost += c_fp
     if yp == 0 and yt == 1:
         cost += c_fn
-meets_contract = dummy_acc == 0.667 and cost == 1
+rule_pred = [int(v >= 1.0) for v in x]
+rule_acc = round(sum(a == b for a, b in zip(y, rule_pred)) / len(y), 3)
+meets_contract = dummy_acc == 0.667 and cost == 1 and rule_acc == 1.0
 status = "PASS" if meets_contract else "REJECT_NO_BASELINE"
 print("S33-T1-B", status)
 assert meets_contract is True
@@ -858,21 +892,28 @@ assert valid["dummy_acc"] == 0.667 and valid["cost"] == 1
         id: "S33-T1-B-E3",
         subtopicId: "S33-T1-B",
         kind: "transfer",
-        instruction: "S33-T1-B-E3 · Fallo cerrado: válido → `CONTINUE`, sin baseline → `REJECT_NO_BASELINE`, sin `cost` → `REQUEST_COST`. Corrige missing→CONTINUE y el predicado invertido del starter.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.",
+        instruction: "S33-T1-B-E3 · **Transferencia:** deriva dummy_acc y cost sobre `y=[1,1,0]` (c_fp=1, c_fn=5) para el fixture válido; luego decide CONTINUE / REJECT_NO_BASELINE / REQUEST_COST. El starter hardcodea cost y trata missing como CONTINUE (DEFECT).",
+        hint: "Deriva acc/cost como en E1; missing de cost → REQUEST_COST; has_baseline False → REJECT.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.",
+          "Con y=[1,1,0] dummy majority → acc≈0.667 y cost=1. No inventes el costo en el válido.",
           "CONTINUE solo con has_baseline True, cost no nulo y dummy_acc >= 0.",
         ],
         edgeCases: ["falta cost", "fixture adverso: has_baseline=False o sin dummy", "CASO-LIM-033-1B es sintético"],
-        tests: "Produce `CONTINUE REJECT_NO_BASELINE REQUEST_COST`.",
-        feedback: "S33-T1-B-E3: el costo de cola se pide; no se inventa un c_fn por defecto en silencio.",
+        tests: "Produce `CONTINUE REJECT_NO_BASELINE REQUEST_COST` con cost/acc derivados en el válido.",
+        feedback: "S33-T1-B-E3: el costo de cola se calcula o se pide; no se inventa un c_fn por defecto en silencio.",
         starterCode: {
           language: 'python',
           title: "s33-t1-b-e3.py",
-          code: `# CASO-LIM-033 · decide baseline (REQUEST_COST / REJECT_NO_BASELINE)
-# DEFECT: missing→CONTINUE; pred invertido
-# TAREA: sin cost → REQUEST_COST; sin baseline → REJECT; ok → CONTINUE
+          code: `# CASO-LIM-033 · decide baseline con cost calculado
+# DEFECT: cost hardcode; missing→CONTINUE; pred invertido
+# TAREA: deriva dummy_acc+cost; sin cost → REQUEST; sin baseline → REJECT
+y = [1, 1, 0]
+c_fp, c_fn = 1, 5
+maj = max(set(y), key=y.count)
+dummy = [maj] * len(y)
+dummy_acc = round(sum(a == b for a, b in zip(y, dummy)) / len(y), 3)
+cost = 99  # DEFECT: debe derivarse de FP/FN (esperado 1)
+
 def decide(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
@@ -880,10 +921,9 @@ def decide(record: dict) -> str:
         return "CONTINUE"
     return "CONTINUE" if record["has_baseline"] is False else "REJECT_NO_BASELINE"
 
-valid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 1, 'has_baseline': True}}
-invalid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}
-uncertain = {**valid}
-uncertain.pop("cost")
+valid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": dummy_acc, "cost": cost, "has_baseline": True}
+invalid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": 0.0, "cost": None, "has_baseline": False}
+uncertain = {k: v for k, v in valid.items() if k != "cost"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -891,20 +931,32 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t1-b-e3.py",
-          code: `def decide(record: dict) -> str:
+          code: `y = [1, 1, 0]
+c_fp, c_fn = 1, 5
+maj = max(set(y), key=y.count)
+dummy = [maj] * len(y)
+dummy_acc = round(sum(a == b for a, b in zip(y, dummy)) / len(y), 3)
+cost = 0
+for yt, yp in zip(y, dummy):
+    if yp == 1 and yt == 0:
+        cost += c_fp
+    if yp == 0 and yt == 1:
+        cost += c_fn
+
+def decide(record: dict) -> str:
     required = {"case_id", 'dummy_acc', 'cost', 'has_baseline'}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_COST"
     return "CONTINUE" if record["has_baseline"] is True and record["cost"] is not None and record["dummy_acc"] >= 0 else "REJECT_NO_BASELINE"
 
-valid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.667, 'cost': 1, 'has_baseline': True}}
-invalid = {"case_id": "CASO-LIM-033-1B", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}
-uncertain = {**valid}
-uncertain.pop("cost")
+valid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": dummy_acc, "cost": cost, "has_baseline": True}
+invalid = {"case_id": "CASO-LIM-033-1B", "dummy_acc": 0.0, "cost": None, "has_baseline": False}
+uncertain = {k: v for k, v in valid.items() if k != "cost"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_NO_BASELINE", "REQUEST_COST"]
+assert valid["dummy_acc"] == 0.667 and valid["cost"] == 1
 ` ,
           output: `CONTINUE REJECT_NO_BASELINE REQUEST_COST` ,
         },
@@ -1138,32 +1190,36 @@ assert meets_contract is True
         id: "S33-T2-B-E2",
         subtopicId: "S33-T2-B",
         kind: "independent",
-        instruction: "S33-T2-B-E2 · Tres rutas: válido (scaled True, causal False), adverso (scaled False y/o causal True), sin campo `scaled`. Salidas: `PASS`, `REJECT_UNSCALED_COEF`, `MISSING:scaled`.",
-        hint: "Primero missing; luego scaled True y causal False.",
+        instruction: "S33-T2-B-E2 · **Calcula** el top por `|coef|` sobre `shared_phone=0.8` y `amount_z=-0.2` (top debe ser `shared_phone`) y arma el fixture válido con `scaled=True`, `causal=False`. Enruta: válido → `PASS`, adverso (scaled False o causal True) → `REJECT_UNSCALED_COEF`, sin `scaled` → `MISSING:scaled`. El starter rankea al revés y da PASS al adverso (DEFECT).",
+        hint: "ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True); top = ranked[0].",
         hints: [
-          "Primero missing; luego scaled True y causal False.",
-          "El adverso falla por flags de interpretación, no por schema.",
+          "top debe ser shared_phone; el válido lleva top, scaled True y causal False.",
+          "Primero missing de scaled; el adverso falla por flags de interpretación, no por schema.",
         ],
         edgeCases: ["falta scaled", "fixture adverso: scaled=False o causal=True", "CASO-LIM-033-2B es sintético"],
-        tests: "Produce `PASS REJECT_UNSCALED_COEF MISSING:scaled`.",
-        feedback: "S33-T2-B-E2: coefs de features S32 solo se rankean si vienen escalados.",
+        tests: "Produce `PASS REJECT_UNSCALED_COEF MISSING:scaled` con top==shared_phone calculado.",
+        feedback: "S33-T2-B-E2: el ranking de features S32 solo se acepta escalado y sin claim causal.",
         starterCode: {
           language: 'python',
           title: "s33-t2-b-e2.py",
-          code: `# CASO-LIM-033 · assess coeficientes (REJECT_UNSCALED_COEF)
-# DEFECT: da PASS cuando scaled=False o causal=True
-# TAREA: missing de scaled primero; PASS solo scaled=True y causal=False
+          code: `# CASO-LIM-033 · assess coefs con top calculado (REJECT_UNSCALED_COEF)
+# DEFECT: ranking ascendente; da PASS cuando scaled=False o causal=True
+# TAREA: top=shared_phone; missing de scaled primero; PASS solo scaled+!causal
+coefs = {"shared_phone": 0.8, "amount_z": -0.2}
+ranked = sorted(coefs, key=lambda k: abs(coefs[k]))  # DEFECT: falta reverse=True
+top = ranked[0]
+scaled, causal = True, False
+
 def assess(record: dict) -> str:
-    required = {"case_id", 'coefs', 'scaled', 'causal'}
+    required = {"case_id", 'coefs', 'top', 'scaled', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["scaled"] is False or record["causal"] is True else "REJECT_UNSCALED_COEF"
 
-valid = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}
-invalid = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}
-incomplete = {**valid}
-incomplete.pop("scaled")
+valid = {"case_id": "CASO-LIM-033-2B", "coefs": coefs, "top": top, "scaled": scaled, "causal": causal}
+invalid = {"case_id": "CASO-LIM-033-2B", "coefs": coefs, "top": top, "scaled": False, "causal": True}
+incomplete = {k: v for k, v in valid.items() if k != "scaled"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -1171,19 +1227,30 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t2-b-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", 'coefs', 'scaled', 'causal'}
+          code: `coefs = {"shared_phone": 0.8, "amount_z": -0.2}
+ranked = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)
+top = ranked[0]
+scaled, causal = True, False
+
+def assess(record: dict) -> str:
+    required = {"case_id", 'coefs', 'top', 'scaled', 'causal'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["scaled"] is True and record["causal"] is False else "REJECT_UNSCALED_COEF"
+    ok = (
+        record["scaled"] is True
+        and record["causal"] is False
+        and record["top"] == "shared_phone"
+    )
+    return "PASS" if ok else "REJECT_UNSCALED_COEF"
 
-valid = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}
-invalid = {"case_id": "CASO-LIM-033-2B", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}
-incomplete = {**valid}
-incomplete.pop("scaled")
+valid = {"case_id": "CASO-LIM-033-2B", "coefs": coefs, "top": top, "scaled": scaled, "causal": causal}
+invalid = {"case_id": "CASO-LIM-033-2B", "coefs": coefs, "top": top, "scaled": False, "causal": True}
+incomplete = {k: v for k, v in valid.items() if k != "scaled"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+assert results == ("PASS", "REJECT_UNSCALED_COEF", "MISSING:scaled")
+assert top == "shared_phone"
 ` ,
           output: `PASS REJECT_UNSCALED_COEF MISSING:scaled` ,
         },
@@ -1308,7 +1375,7 @@ assert meets_contract is True
         ],
         edgeCases: ["falta stump_preds", "fixture adverso: depth_unlimited=True", "CASO-LIM-033-3A es sintético"],
         tests: "Produce `PASS REJECT_DEPTH_UNLIMITED MISSING:stump_preds`.",
-        feedback: "S33-T3-A-E2: profundidad ilimitada overfittea y se rechaza en este lab.",
+        feedback: "S33-T3-A-E2: profundidad ilimitada sobreajusta y se rechaza en este lab.",
         starterCode: {
           language: 'python',
           title: "s33-t3-a-e2.py",
@@ -1780,32 +1847,36 @@ assert meets_contract is True
         id: "S33-T4-B-E2",
         subtopicId: "S33-T4-B",
         kind: "independent",
-        instruction: "S33-T4-B-E2 · Tres rutas de group CV: válido (random_split False y ≥2 entidades únicas), adverso (random_split True), sin `entities`. Salidas: `PASS`, `REJECT_RANDOM_LEAK`, `MISSING:entities`.",
-        hint: "PASS si random_split is False and len(set(entities)) >= 2.",
+        instruction: "S33-T4-B-E2 · **Calcula** `n_groups` y `mean_fold` sobre entities `['e1','e1','e2','e3']` y folds `[0.6,0.7,0.65]` (n_groups=3, mean=0.65 con 3 decimales). Enruta: válido (random_split False + ≥2 grupos) → `PASS`, adverso (random_split True) → `REJECT_RANDOM_LEAK`, sin `entities` → `MISSING:entities`. El starter usa `len(entities)` y da PASS al random split (DEFECT).",
+        hint: "n_groups = len(set(entities)); mean = round(sum(folds)/len(folds), 3); PASS si random_split False y n_groups >= 2.",
         hints: [
-          "PASS si random_split is False and len(set(entities)) >= 2.",
-          "Primero missing de entities.",
+          "e1 se repite: n_groups es 3, no 4. mean con round(..., 3) es 0.65.",
+          "Primero missing de entities; el adverso falla por random_split True.",
         ],
         edgeCases: ["falta entities", "fixture adverso: random_split=True (leak entre folds)", "CASO-LIM-033-4B es sintético"],
-        tests: "Produce `PASS REJECT_RANDOM_LEAK MISSING:entities`.",
-        feedback: "S33-T4-B-E2: random split con la misma entidad en train y valid infla métricas.",
+        tests: "Produce `PASS REJECT_RANDOM_LEAK MISSING:entities` con n_groups==3 y mean==0.65 en el válido.",
+        feedback: "S33-T4-B-E2: group CV se alimenta de entidades únicas y media de folds calculadas; random split infla métricas.",
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e2.py",
-          code: `# CASO-LIM-033 · assess group CV (REJECT_RANDOM_LEAK)
-# DEFECT: da PASS cuando random_split es True
-# TAREA: missing de entities primero; PASS solo con group split y ≥2 entidades
+          code: `# CASO-LIM-033 · assess group CV con n_groups/mean calculados
+# DEFECT: n_groups=len(entities); da PASS cuando random_split es True
+# TAREA: n_groups=len(set(...)); mean round 3; missing entities primero
+entities = ["e1", "e1", "e2", "e3"]
+folds = [0.6, 0.7, 0.65]
+n_groups = len(entities)  # DEFECT: debe ser len(set(entities)) → 3
+mean = round(sum(folds) / len(folds), 2)  # DEFECT: 3 decimales → 0.65
+
 def assess(record: dict) -> str:
-    required = {"case_id", 'fold_scores', 'entities', 'random_split'}
+    required = {"case_id", 'fold_scores', 'entities', 'n_groups', 'mean', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["random_split"] is True else "REJECT_RANDOM_LEAK"
 
-valid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
-invalid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}
-incomplete = {**valid}
-incomplete.pop("entities")
+valid = {"case_id": "CASO-LIM-033-4B", "fold_scores": folds, "entities": entities, "n_groups": n_groups, "mean": mean, "random_split": False}
+invalid = {"case_id": "CASO-LIM-033-4B", "fold_scores": folds, "entities": ["e1", "e1"], "n_groups": 1, "mean": mean, "random_split": True}
+incomplete = {k: v for k, v in valid.items() if k != "entities"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
 ` ,
@@ -1813,19 +1884,31 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t4-b-e2.py",
-          code: `def assess(record: dict) -> str:
-    required = {"case_id", 'fold_scores', 'entities', 'random_split'}
+          code: `entities = ["e1", "e1", "e2", "e3"]
+folds = [0.6, 0.7, 0.65]
+n_groups = len(set(entities))
+mean = round(sum(folds) / len(folds), 3)
+
+def assess(record: dict) -> str:
+    required = {"case_id", 'fold_scores', 'entities', 'n_groups', 'mean', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if record["random_split"] is False and len(set(record["entities"])) >= 2 else "REJECT_RANDOM_LEAK"
+    ok = (
+        record["random_split"] is False
+        and record["n_groups"] >= 2
+        and record["n_groups"] == len(set(record["entities"]))
+        and record["mean"] == 0.65
+    )
+    return "PASS" if ok else "REJECT_RANDOM_LEAK"
 
-valid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
-invalid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}
-incomplete = {**valid}
-incomplete.pop("entities")
+valid = {"case_id": "CASO-LIM-033-4B", "fold_scores": folds, "entities": entities, "n_groups": n_groups, "mean": mean, "random_split": False}
+invalid = {"case_id": "CASO-LIM-033-4B", "fold_scores": folds, "entities": ["e1", "e1"], "n_groups": 1, "mean": mean, "random_split": True}
+incomplete = {k: v for k, v in valid.items() if k != "entities"}
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
+assert results == ("PASS", "REJECT_RANDOM_LEAK", "MISSING:entities")
+assert valid["n_groups"] == 3 and valid["mean"] == 0.65
 ` ,
           output: `PASS REJECT_RANDOM_LEAK MISSING:entities` ,
         },
@@ -1834,32 +1917,34 @@ print(*results)
         id: "S33-T4-B-E3",
         subtopicId: "S33-T4-B",
         kind: "transfer",
-        instruction: "S33-T4-B-E3 · Fallo cerrado: group CV ok → `CONTINUE`, random leak → `REJECT_RANDOM_LEAK`, sin entities → `REQUEST_GROUP_IDS`.",
-        hint: "Missing → REQUEST_GROUP_IDS; random_split True → REJECT_RANDOM_LEAK.",
+        instruction: "S33-T4-B-E3 · **Transferencia:** calcula `n_groups` de `['e1','e1','e2','e3']` (debe ser 3) y decide: group CV ok → `CONTINUE`, random leak → `REJECT_RANDOM_LEAK`, sin entities → `REQUEST_GROUP_IDS`. El starter cuenta filas y trata missing como CONTINUE (DEFECT).",
+        hint: "n_groups = len(set(entities)); missing → REQUEST_GROUP_IDS; random_split True → REJECT.",
         hints: [
-          "Missing → REQUEST_GROUP_IDS; random_split True → REJECT_RANDOM_LEAK.",
-          "CONTINUE solo con random_split False y ≥2 entidades únicas.",
+          "CONTINUE solo con random_split False y n_groups >= 2 (calculado, no inventado).",
+          "Sin entities no hay CV confiable por entidad: se pide la lista.",
         ],
         edgeCases: ["falta entities", "fixture adverso: random_split=True (leak entre folds)", "CASO-LIM-033-4B es sintético"],
-        tests: "Produce `CONTINUE REJECT_RANDOM_LEAK REQUEST_GROUP_IDS`.",
-        feedback: "S33-T4-B-E3: sin group ids no hay CV confiable por entidad; se pide la lista.",
+        tests: "Produce `CONTINUE REJECT_RANDOM_LEAK REQUEST_GROUP_IDS` con n_groups==3 en el válido.",
+        feedback: "S33-T4-B-E3: n_groups se calcula de entidades únicas; sin group ids se pide evidencia, no se inventa el split.",
         starterCode: {
           language: 'python',
           title: "s33-t4-b-e3.py",
-          code: `# CASO-LIM-033 · decide group CV (REQUEST_GROUP_IDS / REJECT_RANDOM_LEAK)
-# DEFECT: missing→CONTINUE; pred invertido sobre random_split
-# TAREA: sin entities → REQUEST_GROUP_IDS; random leak → REJECT; ok → CONTINUE
+          code: `# CASO-LIM-033 · decide group CV con n_groups calculado
+# DEFECT: n_groups=len(entities); missing→CONTINUE; pred invertido
+# TAREA: n_groups=len(set(...)); sin entities → REQUEST; random leak → REJECT
+entities = ["e1", "e1", "e2", "e3"]
+n_groups = len(entities)  # DEFECT: debe ser 3
+
 def decide(record: dict) -> str:
-    required = {"case_id", 'fold_scores', 'entities', 'random_split'}
+    required = {"case_id", 'fold_scores', 'entities', 'n_groups', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
         return "CONTINUE"
     return "CONTINUE" if record["random_split"] is True else "REJECT_RANDOM_LEAK"
 
-valid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
-invalid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}
-uncertain = {**valid}
-uncertain.pop("entities")
+valid = {"case_id": "CASO-LIM-033-4B", "fold_scores": [0.6, 0.7, 0.65], "entities": entities, "n_groups": n_groups, "random_split": False}
+invalid = {"case_id": "CASO-LIM-033-4B", "fold_scores": [0.6, 0.7], "entities": ["e1", "e1"], "n_groups": 1, "random_split": True}
+uncertain = {k: v for k, v in valid.items() if k != "entities"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1867,20 +1952,28 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s33-t4-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'fold_scores', 'entities', 'random_split'}
+          code: `entities = ["e1", "e1", "e2", "e3"]
+n_groups = len(set(entities))
+
+def decide(record: dict) -> str:
+    required = {"case_id", 'fold_scores', 'entities', 'n_groups', 'random_split'}
     missing = sorted(required - record.keys())
     if missing:
         return "REQUEST_GROUP_IDS"
-    return "CONTINUE" if record["random_split"] is False and len(set(record["entities"])) >= 2 else "REJECT_RANDOM_LEAK"
+    ok = (
+        record["random_split"] is False
+        and record["n_groups"] >= 2
+        and record["n_groups"] == len(set(record["entities"]))
+    )
+    return "CONTINUE" if ok else "REJECT_RANDOM_LEAK"
 
-valid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}
-invalid = {"case_id": "CASO-LIM-033-4B", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}
-uncertain = {**valid}
-uncertain.pop("entities")
+valid = {"case_id": "CASO-LIM-033-4B", "fold_scores": [0.6, 0.7, 0.65], "entities": entities, "n_groups": n_groups, "random_split": False}
+invalid = {"case_id": "CASO-LIM-033-4B", "fold_scores": [0.6, 0.7], "entities": ["e1", "e1"], "n_groups": 1, "random_split": True}
+uncertain = {k: v for k, v in valid.items() if k != "entities"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_RANDOM_LEAK", "REQUEST_GROUP_IDS"]
+assert valid["n_groups"] == 3
 ` ,
           output: `CONTINUE REJECT_RANDOM_LEAK REQUEST_GROUP_IDS` ,
         },

@@ -1,0 +1,9 @@
+{
+  "section": 50,
+  "id": "tech-leadership",
+  "file": "src/lib/course/sections/s50-tech-leadership.ts",
+  "score_1_to_10": 5.6,
+  "issue_count": 18,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

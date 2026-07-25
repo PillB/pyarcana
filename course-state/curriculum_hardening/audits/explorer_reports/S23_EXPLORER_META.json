@@ -1,0 +1,9 @@
+{
+  "section": 23,
+  "id": "computer-vision",
+  "file": "src/lib/course/sections/s23-computer-vision.ts",
+  "score_1_to_10": 6.2,
+  "issue_count": 24,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

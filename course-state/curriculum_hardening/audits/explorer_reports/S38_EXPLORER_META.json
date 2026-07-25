@@ -1,0 +1,9 @@
+{
+  "section": 38,
+  "id": "performance-extreme",
+  "file": "src/lib/course/sections/s38-performance-extreme.ts",
+  "score_1_to_10": 7.0,
+  "issue_count": 22,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

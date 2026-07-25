@@ -1,0 +1,9 @@
+{
+  "section": 20,
+  "id": "rag",
+  "file": "src/lib/course/sections/s20-rag.ts",
+  "score_1_to_10": 5.8,
+  "issue_count": 20,
+  "meta_leak_count": 10,
+  "status": "complete"
+}

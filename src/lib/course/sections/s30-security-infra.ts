@@ -21,7 +21,7 @@ export const section30: CourseSection = {
     { text: "Calcular score ponderado didáctico y aplicar umbrales auto_match / review / non_match de forma conservadora" },
     { text: "Construir ítems de cola clerical y mantener consistencia de cluster con Union-Find" },
     { text: "Partir pares por entidad sin leakage de identidad entre train y test de umbrales" },
-    { text: "Reportar precisión/recall/F1 pairwise, pair completeness de cluster y error slices accionables" },
+    { text: "Reportar precisión/recall/F1 pairwise, pair completeness y pair quality de cluster, y error slices accionables" },
   ],
   theory: [
     {
@@ -361,7 +361,7 @@ entity_overlap 0`,
       subtopicId: "S30-T4-B",
       paragraphs: [
         "Con el split de T4-A, mide lo que el motor predice. **Pairwise** (par a par): precisión, recall y F1 sobre pares predichos vs gold. Un F1 pairwise alto puede esconder clusters partidos o fusionados de más. Por eso reportas también una vista de **cluster**.",
-        "**Cluster (simplificado didáctico)**: *pair completeness* ≈ fracción de pares gold del mismo cluster que el sistema unió; *pair quality* ≈ precisión de las uniones predichas a nivel de pares del cluster. No implementamos toda la literatura de clustering metrics: en el portfolio llevas pairwise completo + un indicador de completitud de cluster sobre el Union-Find.",
+        "**Cluster (simplificado didáctico)**: *pair completeness* ≈ fracción de pares gold match que el sistema mantiene en el mismo cluster (recall de uniones); *pair quality* ≈ fracción de pares predichos como co-cluster que son match en el gold (precisión de uniones). En el demo calculas ambas sobre Union-Find sintético; no es toda la literatura de clustering metrics, pero ya no es solo un nombre en el párrafo.",
         "**Error slices** (rebanadas de error): corta fallos por fuente, apellido frecuente, teléfono ausente, ciudad. Encuentra fallas sistemáticas sin convertir un error de matching en acusación de fraude. El índice de error del demo es la semilla de un slice (`missing_phone`, `common_last_name`, …). Con T1–T4 cerrados, el You Do ensambla el motor CP-N3-A completo.",
       ],
       code: {
@@ -377,11 +377,22 @@ entity_overlap 0`,
     return prec, rec, f1
 
 def pair_completeness(gold_pairs, predicted_same):
-    # fracción de pares gold (match) que el cluster predicho mantiene unidos
+    # recall de uniones: gold match que el cluster predicho mantiene unidos
     if not gold_pairs:
         return 0.0
     ok = sum(1 for a, b in gold_pairs if predicted_same(a, b))
     return ok / len(gold_pairs)
+
+def pair_quality(pred_pairs, gold_set, predicted_same):
+    # precisión de uniones: co-cluster predicho que es match en gold
+    if not pred_pairs:
+        return 0.0
+    ok = sum(
+        1
+        for a, b in pred_pairs
+        if predicted_same(a, b) and frozenset((a, b)) in gold_set
+    )
+    return ok / len(pred_pairs)
 
 y_true = [1, 1, 0, 0, 1]
 y_pred = [1, 0, 0, 1, 1]
@@ -389,24 +400,31 @@ p, r, f = prf(y_true, y_pred)
 errors = [i for i, (t, pr) in enumerate(zip(y_true, y_pred)) if t != pr]
 # cluster sintético: e1-e2 unidos; gold match e1-e3 partido
 gold_pairs = [("e1", "e2"), ("e1", "e3")]
+gold_set = {frozenset(p) for p in gold_pairs}
 clusters = {"e1": "c0", "e2": "c0", "e3": "c1"}
-pc = pair_completeness(gold_pairs, lambda a, b: clusters[a] == clusters[b])
+same = lambda a, b: clusters[a] == clusters[b]
+# pares que el sistema predijo como co-cluster (aquí solo e1-e2)
+pred_pairs = [("e1", "e2")]
+pc = pair_completeness(gold_pairs, same)
+pq = pair_quality(pred_pairs, gold_set, same)
 print("precision", round(p, 3))
 print("recall", round(r, 3))
 print("f1", round(f, 3))
 print("error_idx", errors)
-print("pair_completeness", pc)`,
+print("pair_completeness", pc)
+print("pair_quality", pq)`,
         output: `precision 0.667
 recall 0.667
 f1 0.667
 error_idx [1, 3]
-pair_completeness 0.5`,
+pair_completeness 0.5
+pair_quality 1.0`,
       },
       callout: {
         type: "tip",
         title: "Pairwise vs cluster",
         content:
-          "Un cluster partido en dos castiga recall pairwise y pair completeness; reporta ambas vistas en el README del portfolio.",
+          "Un cluster partido castiga recall pairwise y pair completeness; un cluster sobrefundido castiga pair quality. Reporta pairwise + ambas vistas de cluster en el README.",
       },
     },
   ],
@@ -589,7 +607,7 @@ print("train", tr, "test", te)`,
         demoId: "S30-T4-B-DEMO",
         subtopicId: "S30-T4-B",
         environment: "local-python",
-        description: "Precisión/recall pairwise, índices de error (semilla de slices) y pair completeness de cluster.",
+        description: "Precisión/recall pairwise, índices de error (semilla de slices), pair completeness y pair quality de cluster.",
         code: {
           language: 'python',
           title: "metrics_demo.py",
@@ -607,19 +625,31 @@ def pair_completeness(gold_pairs, same_cluster):
         return 0.0
     return sum(1 for a, b in gold_pairs if same_cluster(a, b)) / len(gold_pairs)
 
+def pair_quality(pred_pairs, gold_set, same_cluster):
+    if not pred_pairs:
+        return 0.0
+    return sum(
+        1
+        for a, b in pred_pairs
+        if same_cluster(a, b) and frozenset((a, b)) in gold_set
+    ) / len(pred_pairs)
+
 p, r, err = pr_metrics([1, 1, 0, 0], [1, 0, 0, 0])
 # cluster partido: e1-e2 juntos; gold también quiere e1-e3
 clusters = {"e1": "c0", "e2": "c0", "e3": "c1"}
-pc = pair_completeness(
-    [("e1", "e2"), ("e1", "e3")],
-    lambda a, b: clusters[a] == clusters[b],
-)
+same = lambda a, b: clusters[a] == clusters[b]
+gold = [("e1", "e2"), ("e1", "e3")]
+gold_set = {frozenset(x) for x in gold}
+pc = pair_completeness(gold, same)
+pq = pair_quality([("e1", "e2")], gold_set, same)
 print(p, r, err)
-print("pair_completeness", pc)`,
+print("pair_completeness", pc)
+print("pair_quality", pq)`,
           output: `1.0 0.5 [1]
-pair_completeness 0.5`,
+pair_completeness 0.5
+pair_quality 1.0`,
         },
-        why: "Precisión 1.0 y recall 0.5 con error en índice 1; pair completeness 0.5 muestra el cluster partido — ambas vistas van al README.",
+        why: "Precisión 1.0 y recall 0.5 con error en índice 1; pair completeness 0.5 muestra el cluster partido y pair quality 1.0 confirma que la única unión predicha sí es gold — ambas vistas van al README.",
       },
     ],
   },
@@ -868,30 +898,42 @@ print(
         subtopicId: "S30-T2-A",
         kind: "guided",
         instruction:
-          "S30-T2-A-E1 · Blocking: construye la clave `last|city` para last='lopez' y city='lima'. El starter concatena sin separador `|`. Caso `CASO-LIM-030`. Salida esperada: una línea `lopez|lima` (en el motor real normalizas antes de armar la clave).",
-        hint: "f'{last}|{city}'",
+          "S30-T2-A-E1 · Blocking con normalización: para last=`López` y city=`Lima`, construye la clave `fold(last)|fold(city)[:3]` donde `fold` aplica `casefold` y pliega tildes (á→a, …). El starter solo hace `casefold` y deja la tilde (`lópez|lim`). Caso `CASO-LIM-030`. Salida esperada: una línea `lopez|lim` (misma lección de la theory T2-A: sin plegado, el gold match cae en buckets distintos).",
+        hint: "casefold + replace de tildes; luego f'{fold(last)}|{fold(city)[:3]}'",
         hints: [
           "El pipe separa componentes de la clave",
-          "Normaliza en el motor real antes de armar la clave",
+          "Sin plegar acentos, López y Lopez no comparten bloque",
+          "Prefijo de ciudad: tres caracteres ya plegados",
         ],
-        edgeCases: ["casefold + fold de acentos"],
+        edgeCases: ["Ñ→n en un fold más completo del portfolio", "doble espacio en el nombre"],
         tests: "salida coincide con solution output",
-        feedback: "La clave de blocking debe ser estable y legible para depurar buckets.",
+        feedback: "La clave de blocking debe ser estable tras casefold + fold de acentos; si no, el candidate recall del gold se derrumba a 0.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · block key last|city
-# Error: falta el separador |
-last, city = "lopez", "lima"
-print(f"{last}{city}")
+          code: `# CASO-LIM-030 · block key con fold de acentos
+# Error: casefold sin plegar tildes → clave inestable
+last, city = "López", "Lima"
+
+def fold(s):
+    return s.casefold()  # falta pliegue á→a, é→e, …
+
+print(f"{fold(last)}|{fold(city)[:3]}")
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `last, city = "lopez", "lima"
-print(f"{last}|{city}")`,
-          output: `lopez|lima`,
+          code: `last, city = "López", "Lima"
+
+def fold(s):
+    s = s.casefold()
+    for a, b in (("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u")):
+        s = s.replace(a, b)
+    return s
+
+print(f"{fold(last)}|{fold(city)[:3]}")`,
+          output: `lopez|lim`,
         },
       },
       {
@@ -932,30 +974,31 @@ print(len(gold & candidates) / len(gold))`,
         subtopicId: "S30-T2-A",
         kind: "transfer",
         instruction:
-          "S30-T2-A-E3 · Transferencia: en un bloque de n=4 registros, el número de pares candidatos es C(4,2)=n*(n-1)//2. El starter usa n*n (incluye auto-pares). Imprime 6. Caso `CASO-LIM-030`.",
-        hint: "n * (n - 1) // 2",
+          "S30-T2-A-E3 · Transferencia multi-bloque: dados tamaños de bloque `[2, 4, 3]`, imprime el total de pares candidatos `sum(n*(n-1)//2 for n in sizes)` (=1+6+3 → 10). El starter suma los tamaños (`sum(sizes)=9`) y no cuenta pares. Caso `CASO-LIM-030`. En el motor real este total es el costo de scorer antes de filtros de imposibles.",
+        hint: "sum(n * (n - 1) // 2 for n in sizes)",
         hints: [
-          "No cuentes el par (i,i)",
-          "Suma esto por cada bloque en el motor real",
+          "Cada bloque aporta C(n,2)=n*(n-1)//2, no n",
+          "No cuentes el par (i,i) ni pares entre bloques distintos",
+          "Con sizes=[2,4,3] → 1 + 6 + 3 = 10",
         ],
-        edgeCases: ["múltiples bloques se suman"],
+        edgeCases: ["bloque de tamaño 0 o 1 → 0 pares", "un bloque monstruoso domina el costo"],
         tests: "salida coincide con solution output",
-        feedback: "El costo all-pairs del bloque es la base del SLO de blocking.",
+        feedback: "El costo all-pairs global es la suma de C(n,2) por bloque: base del SLO de blocking antes de filter_before_score.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · pares en un bloque
-# Error: n*n incluye auto-pares
-n = 4
-print(n * n)
+          code: `# CASO-LIM-030 · pares candidatos multi-bloque
+# Error: suma tamaños en vez de C(n,2) por bloque
+sizes = [2, 4, 3]
+print(sum(sizes))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `n = 4
-print(n * (n - 1) // 2)`,
-          output: `6`,
+          code: `sizes = [2, 4, 3]
+print(sum(n * (n - 1) // 2 for n in sizes))`,
+          output: `10`,
         },
       },
       {
@@ -1392,28 +1435,34 @@ print(["train" if {a, b} <= train_e else "test" for a, b in pairs])`,
         subtopicId: "S30-T4-B",
         kind: "guided",
         instruction:
-          "S30-T4-B-E1 · Precisión pairwise: con tp=2, fp=1 imprime `round(tp/(tp+fp), 2)` → `0.67`. El starter ignora fp y divide solo por tp. Caso `CASO-LIM-030`. La precisión castiga falsos positivos de auto_match.",
-        hint: "tp / (tp + fp)",
+          "S30-T4-B-E1 · Precisión pairwise desde vectores: con `y_true=[1,1,0,0]` y `y_pred=[1,1,1,0]`, cuenta tp (t=1 y p=1) y fp (t=0 y p=1) e imprime `round(tp/(tp+fp), 2)` → `0.67`. El starter solo suma predicciones positivas y no distingue fp. Caso `CASO-LIM-030`. La precisión castiga falsos positivos de auto_match.",
+        hint: "tp = sum(t==1 and p==1); fp = sum(t==0 and p==1)",
         hints: [
-          "round(..., 2)",
-          "fp en el denominador",
+          "Recorre zip(y_true, y_pred)",
+          "round(tp / (tp + fp), 2)",
+          "Aquí tp=2, fp=1 → 0.67",
         ],
         edgeCases: ["tp+fp=0 → 0.0 en el motor real"],
         tests: "salida coincide con solution output",
-        feedback: "Precisión castiga falsos positivos de auto_match.",
+        feedback: "Precisión se deriva de tp/fp sobre pares, no de un conteo mágico de predicciones.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-030 · precision
-# Error: ignora fp
-tp, fp = 2, 1
-print(round(tp / tp, 2))
+          code: `# CASO-LIM-030 · precision desde vectores
+# Error: no distingue tp de fp
+y_true = [1, 1, 0, 0]
+y_pred = [1, 1, 1, 0]
+pred_pos = sum(y_pred)  # 3 — no es precisión
+print(round(pred_pos / pred_pos, 2))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `tp, fp = 2, 1
+          code: `y_true = [1, 1, 0, 0]
+y_pred = [1, 1, 1, 0]
+tp = sum(t == 1 and p == 1 for t, p in zip(y_true, y_pred))
+fp = sum(t == 0 and p == 1 for t, p in zip(y_true, y_pred))
 print(round(tp / (tp + fp), 2))`,
           output: `0.67`,
         },
@@ -1502,11 +1551,11 @@ print([s for s, n in c.items() if n == top])`,
     context:
       "Implementa el motor ER sintético de cierre de **CP-N3-A**: comparadores explicables, blocking con candidate recall medido, scorer con umbrales auto_match/review/non_match, cola clerical, clusters (Union-Find) y evaluación pairwise con split por entidad y error slices. Solo benchmark sintético (`CASO-LIM-030`). ER responde «¿misma entidad?»; no infiere relación ni riesgo/fraude.",
     objectives: [
-      "Comparadores exact/edit/token/fecha + missing/frecuencia",
-      "Blocking medido (candidate recall) y control de costo/imposibles",
-      "Pesos didácticos, thresholds, review y consistencia de cluster",
-      "Gold sintético, split por entidad, P/R/F1, pair completeness y slices",
-      "Suite ejecutable alineada a contratos de tests (S27), propiedades (S28) y almacén SQL (S29)",
+      "Implementar comparadores exact, edit, token y fecha con scores en [0,1], más estados missing/agree/disagree y pesos por frecuencia.",
+      "Diseñar claves de blocking, medir candidate recall sobre gold sintético y acotar costo con filtro de pares imposibles (filter_before_score).",
+      "Calcular score ponderado didáctico, aplicar umbrales auto_match/review/non_match y mantener clusters consistentes con Union-Find más cola clerical explicable.",
+      "Evaluar con gold sintético, split por entidad sin leakage, P/R/F1 pairwise, pair completeness/quality de cluster y error slices accionables.",
+      "Entregar suite ejecutable alineada a tests (S27), propiedades (S28) y al almacén SQL de pares/decisiones (S29).",
     ],
     requirements: [
       "Datos sintéticos etiquetados; sin PII real",
@@ -1622,7 +1671,7 @@ if __name__ == "__main__":
     print("fold_demo", block_key(FIXTURE[0]) == block_key(FIXTURE[1]))
 `,
     portfolioNote:
-      "Cierre CP-N3-A: en el README del repo documenta (1) candidate recall del blocking, (2) P/R/F1 y pair completeness en el split por entidad, (3) umbrales `t_high`/`t_low` elegidos y por qué, (4) un ejemplo de ítem de cola clerical con explicación por campo. Solo datos sintéticos; límites del fixture `CASO-LIM-030` explícitos.",
+      "Cierre CP-N3-A: en el README del repo documenta (1) candidate recall del blocking, (2) P/R/F1, pair completeness y pair quality en el split por entidad, (3) umbrales `t_high`/`t_low` elegidos y por qué, (4) un ejemplo de ítem de cola clerical con explicación por campo. Solo datos sintéticos; límites del fixture `CASO-LIM-030` explícitos.",
     rubric: [
       { criterion: "Motor completo: comparadores, blocking medido, umbrales, cola clerical y métricas", weight: "25%" },
       { criterion: "Correctitud técnica y demos ejecutables en el entorno declarado", weight: "20%" },

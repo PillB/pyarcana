@@ -247,7 +247,7 @@ code 2`,
       paragraphs: [
         "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` **no** contamina el archivo. Un `print('ok')` extra rompe el pipe de quien parsea JSON.",
         "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`. Fail-closed si el schema de entrada no cuadra.",
-        "No mezcles `print` de debug en stdout. Progress y logs (S09) van a **stderr**. Si un operador hace `familiarity report --manifest m.json > out.json`, cualquier `print('ok')` extra rompe el JSON del pipe.",
+        "Soporta **`-`** como path de entrada para pipes (`cat data.json | familiarity normalize -`). En el lab, si capturas stderr a un `StringIO`, no uses `print` para el progreso: escribe en el stream. En CLI real: `print(..., file=sys.stderr)`.",
       ],
       code: {
         language: 'python',
@@ -1385,21 +1385,21 @@ validación de config falla al arrancar: 1`,
         subtopicId: "S10-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T3-A — Implementa `format_help(cmd, note, width=48)` y genera 2 ejemplos de operador + 1 línea de códigos de salida. Salida esperada exacta:\nHELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field name            # limpia espacios y mayúsculas\nHELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config",
-        hint: "Alinea el `#` con espacios hasta width; la tercera línea no usa format_help.",
+          "E3 (transferencia) · S10-T3-A — Implementa `format_help(cmd, note, width=52)` y genera 2 ejemplos de operador + 1 línea de códigos de salida. El `#` de las notas debe alinearse en la columna 52. Salida esperada exacta:\nHELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field name            # limpia espacios y mayúsculas\nHELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config",
+        hint: "Alinea el `#` con espacios hasta width=52; la tercera línea no usa format_help.",
         hints: [
-          "left = f'HELP: {cmd}'; pad = max(1, width - len(left)); luego ' # ' + note.",
-          "No uses jerga de frameworks: comandos concretos que un operador pueda copiar.",
+          "left = f'HELP: {cmd}'; pad = max(1, width - len(left)); luego espacios + '# ' + note.",
+          "Con width=52, el ingest (left más largo) deja 2 espacios antes del #; normalize deja 12.",
         ],
         edgeCases: ["Ejemplos concretos > descripciones abstractas"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si el `#` no alinea o falta el ejemplo de normalize, format_help aún no construye el ancho del contrato.",
+        feedback: "Si el `#` no alinea (p. ej. un solo espacio tras el csv) o falta el ejemplo de normalize, revisa width=52 y el pad = max(1, width - len(left)).",
         starterCode: {
           language: 'python',
           title: "operator_help.py",
           code: `# CASO-LIM-010 · help examples
 # DEFECT: format_help ignora note/width; sin códigos de salida; quita print('ok', True)
-def format_help(cmd: str, note: str, width: int = 48) -> str:
+def format_help(cmd: str, note: str, width: int = 52) -> str:
     return f"HELP: {cmd}"
 
 examples = [
@@ -1414,7 +1414,7 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "operator_help.py",
-          code: `def format_help(cmd: str, note: str, width: int = 48) -> str:
+          code: `def format_help(cmd: str, note: str, width: int = 52) -> str:
     left = f"HELP: {cmd}"
     pad = max(1, width - len(left))
     return f"{left}{' ' * pad}# {note}"
@@ -1585,19 +1585,19 @@ stderr_only empezando | fin |`,
         subtopicId: "S10-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T4-A — Implementa `resolve_with_trace(layers)` (`CASO-LIM-010`): aplica capas en orden canónico (defaults → file → env → flags), ignora `None`, imprime cada aplicación y el ganador final. Entrada desordenada a propósito. Salida esperada exacta:\napply defaults -> INFO\napply file -> WARNING\napply env -> DEBUG\napply flags -> ERROR\nwinner=ERROR source=flags",
+          "E1 (guiado) · S10-T4-A — Implementa `resolve_with_trace(layers)` (`CASO-LIM-010`): aplica capas en orden canónico (defaults → file → env → flags), **ignora `None`** (no pases, no imprimas), imprime cada aplicación y el ganador final. Entrada desordenada; `file` llega como `None` a propósito. Salida esperada exacta:\napply defaults -> INFO\napply env -> DEBUG\napply flags -> ERROR\nwinner=ERROR source=flags",
         hint: "Ordena por PREC (defaults=1 … flags=4); recorre y solo aplica valores no-None; actualiza winner/source en cada apply.",
         hints: [
-          "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers, key=PREC.get).",
-          "Si val is None: no imprimas apply; si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
+          "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers.keys(), key=PREC.get).",
+          "Si val is None: continue (sin print); si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
         ],
-        edgeCases: ["Un flag None significa 'no pasado' y no debe pisar env"],
+        edgeCases: ["Un flag None significa 'no pasado' y no debe pisar env; aquí file=None simula capa ausente"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si winner=INFO o el primer apply es flags, el orden de capas está invertido; si aparece apply env -> None, no estás filtrando None.",
+        feedback: "Si aparece `apply file -> None` o winner=INFO, no filtras None o el orden PREC está invertido (flags debe ser el más alto).",
         starterCode: {
           language: 'python',
           title: "precedence_trace.py",
-          code: `# CASO-LIM-010 · apply layers + winner (no solo ranks)
+          code: `# CASO-LIM-010 · apply layers + winner (None = capa ausente)
 # DEFECT: orden invertido; no ignora None; quita print('ok', True)
 PREC = {"defaults": 4, "file": 3, "env": 2, "flags": 1}
 
@@ -1607,7 +1607,7 @@ def resolve_with_trace(layers: dict) -> None:
     source = None
     for name in ordered:
         val = layers[name]
-        print(f"apply {name} -> {val}")
+        print(f"apply {name} -> {val}")  # DEFECT: imprime None y no filtra
         winner = val
         source = name
     print(f"winner={winner} source={source}")
@@ -1616,7 +1616,7 @@ resolve_with_trace({
     "env": "DEBUG",
     "flags": "ERROR",
     "defaults": "INFO",
-    "file": "WARNING",
+    "file": None,  # capa ausente: no debe aparecer en apply
 })
 print('ok', True)`,
         },
@@ -1642,10 +1642,9 @@ resolve_with_trace({
     "env": "DEBUG",
     "flags": "ERROR",
     "defaults": "INFO",
-    "file": "WARNING",
+    "file": None,
 })`,
           output: `apply defaults -> INFO
-apply file -> WARNING
 apply env -> DEBUG
 apply flags -> ERROR
 winner=ERROR source=flags`,
@@ -1707,37 +1706,41 @@ print(merge(
         subtopicId: "S10-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T4-A — Conflicto env=DEBUG vs flag=INFO: resuelve con una función y explica por qué. Salida esperada exacta:\nresult=INFO\nrazón=el flag CLI tiene mayor precedencia que la variable de entorno",
-        hint: "Una línea result= y una razón.",
+          "E3 (transferencia) · S10-T4-A — Implementa `resolve_with_reason(env, flag)` (`CASO-LIM-010`): devuelve `(valor, razón)`. Si `flag is not None` gana el flag; si no, gana env. Imprime ambos conflictos. Salida esperada exacta:\nresult=INFO razón=flag gana a env (flag no es None)\nresult=DEBUG razón=sin flag; gana env",
+        hint: "Una sola función; el segundo caso usa flag=None.",
         hints: [
-          "Si flag no es None, gana el flag; si no, gana env.",
-          "Imprime result= y razón= en español claro.",
+          "if flag is not None: return flag, 'flag gana a env (flag no es None)'.",
+          "else: return env, 'sin flag; gana env'. Imprime: f'result={val} razón={why}'.",
         ],
-        edgeCases: ["Si el flag no se pasó (None), gana env"],
+        edgeCases: ["Si el flag no se pasó (None), gana env — no inventes un default INFO aquí"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si result=DEBUG, resolve aún prioriza env; el flag no-None debe ganar y la razón debe decirlo en español.",
+        feedback: "Si el primer result=DEBUG, priorizaste env sobre un flag no-None. Si el segundo no es DEBUG, no trataste flag=None como ausente.",
         starterCode: {
           language: 'python',
           title: "conflict_case.py",
-          code: `# CASO-LIM-010 · CLI vs env precedence
-# DEFECT: dice env gana; no resuelve con función; quita print('ok', True)
-def resolve(env, flag):
-    return env
+          code: `# CASO-LIM-010 · CLI vs env con razón derivada
+# DEFECT: env siempre gana; no distingue flag=None; quita print('ok', True)
+def resolve_with_reason(env, flag):
+    return env, "env siempre gana"
 
-print(f"result={resolve('DEBUG', 'INFO')}")
-print("razón=la variable de entorno tiene mayor precedencia que el flag CLI")
+for env, flag in [("DEBUG", "INFO"), ("DEBUG", None)]:
+    val, why = resolve_with_reason(env, flag)
+    print(f"result={val} razón={why}")
 print('ok', True)`,
         },
         solutionCode: {
           language: 'python',
           title: "conflict_case.py",
-          code: `def resolve(env, flag):
-    return flag if flag is not None else env
+          code: `def resolve_with_reason(env, flag):
+    if flag is not None:
+        return flag, "flag gana a env (flag no es None)"
+    return env, "sin flag; gana env"
 
-print(f"result={resolve('DEBUG', 'INFO')}")
-print("razón=el flag CLI tiene mayor precedencia que la variable de entorno")`,
-          output: `result=INFO
-razón=el flag CLI tiene mayor precedencia que la variable de entorno`,
+for env, flag in [("DEBUG", "INFO"), ("DEBUG", None)]:
+    val, why = resolve_with_reason(env, flag)
+    print(f"result={val} razón={why}")`,
+          output: `result=INFO razón=flag gana a env (flag no es None)
+result=DEBUG razón=sin flag; gana env`,
         },
       },
       {

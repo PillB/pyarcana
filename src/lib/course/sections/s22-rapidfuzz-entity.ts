@@ -227,9 +227,9 @@ bytes 184`,
       },
       callout: {
         type: "tip",
-        title: "Adapter pattern",
+        title: "Patrón adaptador",
         content:
-          "El dominio llama create_draft; el adaptador decide Gmail API vs archivo .eml local.",
+          "El dominio llama `create_draft`; el adaptador decide Gmail API vs archivo `.eml` local. Así el workflow de aprobación no se acopla al SDK del proveedor.",
       },
     },
     {
@@ -517,7 +517,7 @@ s22_ido_3()`,
 denied ['mail.send', 'mail.full']
 least_ok True`,
         },
-        why: "Si el producto solo crea drafts, denegar mail.send y mail.full reduce el impacto de un token filtrado.",
+        why: "Decisión: si el producto solo crea drafts, denegar `mail.send` y `mail.full` reduce el impacto de un token filtrado. Least privilege es diseño, no un flag opcional.",
       },
       {
         demoId: "S22-T2-B-DEMO",
@@ -550,7 +550,7 @@ s22_ido_4()`,
           output: `id D1 expired False
 n 1`,
         },
-        why: "La expiración fuerza regenerar y reaprobar contenido viejo: no se promueve un draft caducado.",
+        why: "Decisión: la expiración fuerza regenerar y reaprobar contenido viejo (cifras del informe de S21 pueden haber cambiado). Un draft caducado no se promueve a envío.",
       },
       {
         demoId: "S22-T3-A-DEMO",
@@ -581,7 +581,7 @@ u2 rejected
 u9 unresolved
 disclaimer: verificación de entrega, no de fraude`,
         },
-        why: "Solo contactos verificados entran al To del draft; el matching no prueba fraude ni parentesco.",
+        why: "Decisión: solo contactos verificados entran al To del draft. Matching de nombres o emails no prueba fraude ni parentesco — solo prioriza revisión de entrega correcta.",
       },
       {
         demoId: "S22-T3-B-DEMO",
@@ -692,7 +692,8 @@ s22_ido_8()`,
         ],
         edgeCases: ["charset None en algunos builds — usa utf-8 explícito"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "text/plain + utf-8 es el cuerpo mínimo legible en español peruano. Si dejas html o ascii, el revisor ve mojibake o un tipo incorrecto en el .eml.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -721,29 +722,32 @@ utf-8`,
         subtopicId: "S22-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Arma un `MIMEMultipart('mixed')` con un adjunto y `Content-Disposition` que declare el filename `a.txt` (CASO-LIM-022). El starter adjunta el binario pero omite el header de disposición. Imprime si `a.txt` aparece en el mensaje serializado. Salida esperada:\nTrue",
+          "E2 (independiente) — Arma un `MIMEMultipart('mixed')` con un adjunto y declara el nombre con `Content-Disposition: attachment; filename=\"a.txt\"` (CASO-LIM-022). El starter adjunta bytes sin ningún nombre de archivo. Comprueba si el serializado contiene `filename=\"a.txt\"` (no basta el parámetro `Name` del Content-Type: los clientes de correo leen la disposición). Salida esperada:\nTrue",
         hint: "MIMEMultipart + attach",
         hints: [
-          "MIMEMultipart + attach",
-          "Content-Disposition filename",
+          "MIMEApplication(b'x', Name='a.txt') y luego Content-Disposition",
+          "att['Content-Disposition'] = 'attachment; filename=\"a.txt\"'",
         ],
-        edgeCases: ["Name vs filename header"],
+        edgeCases: [
+          "Name= en Content-Type no sustituye a Content-Disposition filename para clientes de correo",
+        ],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El revisor de la mesa abre el .eml y espera un adjunto con nombre legible. Content-Disposition con filename es lo que ven los clientes; el Name del Content-Type no basta como contrato de entrega.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-022 · MIMEMultipart mixed + adjunto
-# A corregir: adjunto sin Content-Disposition filename
-# Contrato: 'a.txt' debe aparecer en as_string()
+          code: `# CASO-LIM-022 · MIMEMultipart mixed + adjunto con filename
+# A corregir: adjunto sin Name ni Content-Disposition filename
+# Contrato: filename="a.txt" debe aparecer en as_string()
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 msg = MIMEMultipart('mixed')
 msg['Subject'] = 'Test'
-att = MIMEApplication(b'x', Name='a.txt')
-# falta Content-Disposition con filename
+att = MIMEApplication(b'x')
+# falta Name y Content-Disposition con filename="a.txt"
 msg.attach(att)
-print('a.txt' in msg.as_string())
+print('filename="a.txt"' in msg.as_string())
 `,
         },
         solutionCode: {
@@ -756,7 +760,7 @@ msg['Subject'] = 'Test'
 att = MIMEApplication(b'x', Name='a.txt')
 att['Content-Disposition'] = 'attachment; filename="a.txt"'
 msg.attach(att)
-print('a.txt' in msg.as_string())`,
+print('filename="a.txt"' in msg.as_string())`,
           output: `True`,
         },
       },
@@ -773,7 +777,8 @@ print('a.txt' in msg.as_string())`,
         ],
         edgeCases: ["orden plain antes de html recomendado"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Un árbol mixed → alternative → plain+html produce 4 Content-Type (raíz, alt, plain, html). Contarlos es la prueba rápida de que el anidado quedó bien.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -815,7 +820,8 @@ print(msg.as_string().count('Content-Type:'))`,
         ],
         edgeCases: ["quote=True por defecto en atributos"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Sin escape, un fragmento de usuario se convierte en markup activo dentro del correo. html.escape es el primer control obligatorio antes del template.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -848,7 +854,8 @@ print(html.escape('<script>x</script>'))`,
         ],
         edgeCases: ["doble escape si el template ya escapa"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El nombre del destinatario llega del directorio o de un OCR: trátarlo como no confiable. Escapa primero, saluda después.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -882,7 +889,8 @@ print('Hola ' + html.escape(name))`,
         ],
         edgeCases: ["subdominios maliciosos example.pe.evil.test — el host real no es example.pe"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Parsea el host real (`urlparse.hostname`). Un substring `'example.pe' in url` aceptaría example.pe.evil.test — el curso lo trata como bypass, no como solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -920,7 +928,8 @@ https://evil.test blocked`,
         ],
         edgeCases: ["mail.send no siempre necesario"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Least privilege: la lista granted debe ser la intersección con allowed. mail.full en un bot de drafts es un hallazgo de diseño, no un detalle menor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -954,7 +963,8 @@ print([s for s in requested if s in allowed])`,
         ],
         edgeCases: ["scopes custom del proveedor"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "isdisjoint True significa que granted no toca scopes peligrosos. Invertir la lógica te da un falso 'seguro' cuando hay intersección.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -988,7 +998,8 @@ print(bad.isdisjoint(granted))`,
         ],
         edgeCases: ["fromisoformat con Z en 3.11+"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Token o draft caducado → refresh; vigente → valid. Comparar al revés deja pasar credenciales expiradas a la cola de envío (simulada).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1062,7 +1073,8 @@ Informe sintético CP-N2-C`,
         ],
         edgeCases: ["clock skew"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "usable solo si now < expires_at. Un draft caducado no se promueve: regenera y vuelve a la cola humana con cifras frescas del informe.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1098,7 +1110,8 @@ print(now < expires_at)`,
         ],
         edgeCases: ["draft caducado no se promueve; thread-safety fuera de alcance"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Ids secuenciales (d001, d002) + expires_at en el store: el adaptador es el único dueño del ciclo de vida del draft; el workflow solo pregunta is_usable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1152,7 +1165,8 @@ usable True`,
         ],
         edgeCases: ["no valida DNS real"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Formato básico primero: sin @ y dominio no hay To: que verificar. Luego vendrá dominio allowlisted y estado del directorio.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1189,7 +1203,8 @@ bad False`,
         ],
         edgeCases: ["subdominios"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Resolver el id no basta: el dominio debe estar en la allowlist de laboratorio (@example.pe). Sin eso, fail-closed y no creas draft.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1223,7 +1238,8 @@ print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
         ],
         edgeCases: ["score alto ≠ identidad legal"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Un score 0.86 solo prioriza revisión de entrega. Etiquetarlo como fraude_probable es un error ético y de producto: matching ≠ investigación de fraude.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1267,7 +1283,8 @@ print(round(score, 2), 'match_no_es_fraude')`,
         ],
         edgeCases: ["case folding opcional"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "dict.fromkeys preserva la primera aparición; set no garantiza orden. En una lista de To/CC el orden es parte del contrato de higiene.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1299,7 +1316,8 @@ print(list(dict.fromkeys(xs)))`,
         ],
         edgeCases: ["múltiples dominios externos"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Externos en CC exponen la lista de trabajo del caso. Forzar BCC (o envíos individuales) es mínima divulgación operativa.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1337,7 +1355,8 @@ print(rows[0]['role'])`,
         ],
         edgeCases: ["BCC no es cifrado"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Tras la política, solo to+cc cuentan como visibles. Si el externo sigue en cc, el conteo miente y la privacidad se rompe.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1379,7 +1398,8 @@ print(len(vis), vis)`,
         ],
         edgeCases: ["KeyError si acción inválida"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "submit es la única puerta de draft a pending_review. Saltar a approved en el código es el anti-patrón que la mesa de control no puede auditar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1415,7 +1435,8 @@ print(state)`,
         ],
         edgeCases: ["no silencies errores de auditoría en prod"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Fail-closed: approve desde draft no existe en la tabla → invalid. Nunca inventes un 'ok' cuando falta la transición.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1457,7 +1478,8 @@ print(nxt if nxt else 'invalid')`,
         ],
         edgeCases: ["approve desde draft debe ser invalid; audit inmutable en prod"],
         tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con el bloque de solución del ejercicio.",
+        feedback:
+          "El audit del approve debe llevar from/to/action/actor. Sin actor no hay accountability en la mesa de control; sin TRANSITIONS no hay fail-closed.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1679,7 +1701,7 @@ allow = {"example.pe"}
 # 4) submit → pending_review con audit log (actor)
 # Sin SMTP real. Match ≠ fraude.
 # Aceptación (imprime evidencia al final):
-#   verified True | key_len 16 | draft_id d… | state pending_review | audit_events ≥1 con actor
+#   verified True | key_len 16 | draft_id d… | state pending_review | audit_n ≥ 1
 
 def domain_ok(email: str) -> bool:
     return "@" in email and email.split("@")[1] in allow
@@ -1705,25 +1727,48 @@ def apply(state: str, action: str, actor: str, log: list) -> str:
     log.append({"from": state, "to": nxt, "action": action, "actor": actor})
     return nxt
 
-# --- Completa el pipeline ---
-# A) msg = MIMEMultipart("mixed") + alt plain/html + adjunto meta (run_id)
-# B) assert domain_ok(to); si no, fail-closed (no crees draft)
-# C) store = {}; key = idem_key(...); create draft una sola vez (status draft, expires_at)
-# D) state = "draft"; state = apply(state, "submit", "analyst", audit)
-# E) prints de aceptación abajo (ajusta variables reales)
-
+# --- Esqueleto del pipeline (completa lo marcado) ---
 verified = domain_ok(to)
+if not verified:
+    raise SystemExit("fail-closed: destinatario no verificado")
+
+# A) Completa el árbol MIME: mixed + alternative (plain+html) + adjunto meta del run
+msg = MIMEMultipart("mixed")
+msg["Subject"] = f"Notificación run {run_id}"
+msg["From"] = "noreply@example.pe"
+msg["To"] = to
+alt = MIMEMultipart("alternative")
+alt.attach(MIMEText(f"Run {run_id} listo para revisión (texto).", "plain", "utf-8"))
+# Completa: adjunta también HTML seguro (sin secretos) a alt
+msg.attach(alt)
+# Completa: adjunto meta (p. ej. run_id=... en MIMEApplication + Content-Disposition)
+
+# B–C) Draft store + key de 16 hex (idempotente)
 key = idem_key(run_id, to, 1)
-draft_id = None  # p. ej. "d001" tras create_draft
-state = "draft"  # debe quedar pending_review tras submit
+store = {}
+draft_id = None
+if key not in store:
+    draft_id = "d001"
+    store[key] = {
+        "draft_id": draft_id,
+        "status": "draft",
+        "expires_at": datetime.now(timezone.utc) + timedelta(hours=24),
+        # Completa: guarda msg.as_string() o un .eml de sandbox (sin SMTP)
+    }
+else:
+    draft_id = store[key]["draft_id"]
+
+# D) Cola humana: draft → pending_review con actor en audit
 audit: list = []
-# Completa aquí: MIME (mixed+alt+meta), store de draft, apply(submit), y ajusta las variables de aceptación.
+state = "draft"
+# Completa: state = apply(state, "submit", "analyst", audit)
 
 print("verified", verified)
 print("key_len", len(key))
 print("draft_id", draft_id)
 print("state", state)
 print("audit_n", len(audit))
+# Al terminar: verified True, key_len 16, draft_id d001, state pending_review, audit_n ≥ 1
 `,
     portfolioNote:
       "Entregable inicio CP-N2-C: borrador sandbox (.eml o string MIME) + audit de aprobación; listo para web adapter (S23). Aceptación mínima: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1 con actor en el evento de submit.",

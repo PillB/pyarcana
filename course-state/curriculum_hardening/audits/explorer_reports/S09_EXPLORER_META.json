@@ -1,0 +1,20 @@
+{
+  "section": 9,
+  "id": "visualization",
+  "file": "src/lib/course/sections/s09-visualization.ts",
+  "title": "Excepciones, debugging y logging seguro",
+  "score_1_to_10": 7.3,
+  "issue_count": 22,
+  "meta_leak_count": 9,
+  "status": "complete",
+  "live_url": "https://pillb.github.io/pyarcana/#visualization",
+  "capstone": "CP-N1-C_start",
+  "priority_fixes": [
+    "structured_log_code_output_mismatch",
+    "purge_v3_platform_id_meta_leaks",
+    "t4a_e1_seven_vs_eight",
+    "youdo_starter_overcomplete",
+    "t3b_e3_bytecode_overreach"
+  ],
+  "generated_at": "2026-07-24"
+}

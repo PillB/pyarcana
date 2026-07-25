@@ -1,0 +1,9 @@
+{
+  "section": 18,
+  "id": "data-engineering",
+  "file": "s18-data-engineering.ts",
+  "score_1_to_10": 7.0,
+  "issue_count": 22,
+  "meta_leak_count": 9,
+  "status": "complete"
+}

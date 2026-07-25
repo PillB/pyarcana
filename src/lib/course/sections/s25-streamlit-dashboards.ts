@@ -245,7 +245,7 @@ print(obj)`,
       paragraphs: [
         "Modos de **thinking** (razonamiento extendido) y **tools** (function calling) aumentan costo, latencia y superficie de ataque. No los actives por moda: cada tool es un privilegio (lectura de red, FS, shell). El AI assist sigue siendo borrador con aprobación humana.",
         "Patrón de **checkpoints** auditables: `plan → tool → validar → narrar`. Si un tool no está en allowlist, **stop** (`tool_denied`) — no shell libre en el sandbox del curso. El log del checkpoint es evidencia de qué se intentó y dónde se cortó.",
-        "Allowlist didáctica: `calc_sum`, `lookup_metric`. Un paso `shell_rm` se deniega y detiene el plan. Este control genérico (thinking / tools / checkpoints) es el que evalúas en el banco de examen; no dependes de un producto de marca concreto.",
+        "Allowlist didáctica: `calc_sum`, `lookup_metric`. Un paso `shell_rm` se deniega y detiene el plan. El banco de examen evalúa este patrón genérico — **thinking / tools / checkpoints con allowlist y stop** — no la superficie de un producto o marca concreta de modelo.",
       ],
       code: {
         language: 'python',
@@ -275,7 +275,7 @@ print(run_checkpointed([
         type: "danger",
         title: "Tools = privilegios",
         content:
-          "Un tool de red o filesystem sin sandbox es un incidente esperando ocurrir.",
+          "Un tool de red o filesystem sin sandbox es un incidente esperando ocurrir. Checkpoint: plan → tool → validar → narrar; deny = stop.",
       },
     },
     {
@@ -852,30 +852,33 @@ print(card_gate(card))`,
         subtopicId: "S25-T2-A",
         kind: "guided",
         instruction:
-          "S25-T2-A-E1 · Mock de label: si 'factura' aparece en el texto en minúsculas → billing, si no → other. El starter no hace .lower() y falla con 'Factura X'. Salida exacta: billing.",
-        hint: "Normaliza con t.lower() antes del in",
+          "S25-T2-A-E1 · Primer item del mock HF: con t='Factura X' y model='demo', devuelve un dict `{model, label}` donde label es `billing` si 'factura' aparece en t en minúsculas (si no, `other`). El starter es case-sensitive y omite `model`. Salida exacta: {'model': 'demo', 'label': 'billing'}.",
+        hint: "Normaliza con t.lower(); incluye siempre la clave model del contrato",
         hints: [
-          "print('billing' if 'factura' in t.lower() else 'other')",
-          "El mock de teoría es case-insensitive",
+          "label = 'billing' if 'factura' in t.lower() else 'other'",
+          "print({'model': model, 'label': label}) — el contract test del lab exige model",
         ],
-        edgeCases: ["i18n"],
+        edgeCases: ["case-insensitive en Factura", "label solo no basta para el adapter"],
         tests: "salida coincide con solution output",
-        feedback: "Sin .lower(), 'Factura' no contiene el substring 'factura'.",
+        feedback: "Sin .lower() no matcheas 'Factura'; sin clave model el contract test del mock falla.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · label billing
-# Bug: case sensitive factura
-t='Factura X'
+          code: `# CASO-LIM-025 · primer item mock HF
+# Bug: case sensitive y sin clave model
+t = 'Factura X'
+model = 'demo'
 print('billing' if 'factura' in t else 'other')
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `t='Factura X'
-print('billing' if 'factura' in t.lower() else 'other')`,
-          output: `billing`,
+          code: `t = 'Factura X'
+model = 'demo'
+label = 'billing' if 'factura' in t.lower() else 'other'
+print({'model': model, 'label': label})`,
+          output: `{'model': 'demo', 'label': 'billing'}`,
         },
       },
       {
@@ -1105,29 +1108,34 @@ print(obj['n'], REQUIRED.issubset(obj))`,
         subtopicId: "S25-T3-A",
         kind: "independent",
         instruction:
-          "S25-T3-A-E2 · Valida que las keys required {'h','n'} estén en obj. El starter usa issuperset invertido. Imprime True si req es subconjunto de las keys de obj. Salida exacta: True.",
-        hint: "req.issubset(obj) o REQUIRED <= set(obj)",
+          "S25-T3-A-E2 · El modelo devuelve `raw` (string JSON). Parsea con `json.loads` y comprueba que REQUIRED={'h','n'} ⊆ keys del objeto (keys extra están permitidas). El starter usa issuperset sobre el string y falla. Imprime el booleano. Salida exacta: True.",
+        hint: "Primero loads; luego REQUIRED.issubset(obj) o REQUIRED <= set(obj)",
         hints: [
-          "print(req.issubset(obj)) con obj dict y req set",
-          "Keys extra en obj están permitidas; faltantes fallan",
+          "obj = json.loads(raw); print(REQUIRED.issubset(obj))",
+          "Keys extra en obj están permitidas; faltantes fallan — nunca issuperset al revés",
         ],
-        edgeCases: ["extra keys ok"],
+        edgeCases: ["JSON con keys extra ok", "sin loads no hay contrato de dict"],
         tests: "salida coincide con solution output",
-        feedback: "Usa issubset (required ⊆ keys), no issuperset: el sentido del subset se invirtió.",
+        feedback: "Parsea el string a dict y usa issubset (required ⊆ keys), no issuperset ni validación sobre el string crudo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · required keys subset
-# Bug: issuperset invertido
-obj={'h':'x','n':2}; req={'h','n'}
-print(req.issuperset(obj))
+          code: `# CASO-LIM-025 · loads + required ⊆ keys
+# Bug: issuperset y sin parsear
+import json
+REQUIRED = {'h', 'n'}
+raw = '{"h":"x","n":2,"extra":1}'
+print(REQUIRED.issuperset(raw))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `obj={'h':'x','n':2}; req={'h','n'}
-print(req.issubset(obj))`,
+          code: `import json
+REQUIRED = {'h', 'n'}
+raw = '{"h":"x","n":2,"extra":1}'
+obj = json.loads(raw)
+print(REQUIRED.issubset(obj))`,
           output: `True`,
         },
       },
@@ -1174,30 +1182,40 @@ print('ok' if REQUIRED.issubset(obj) else 'schema_fail')`,
         subtopicId: "S25-T3-B",
         kind: "guided",
         instruction:
-          "S25-T3-B-E1 · Allowlist didáctica allow={'calc_sum','lookup_metric'}; name='shell_rm'. Imprime deny si el tool no está permitido, ok si sí. El starter invierte la lógica. Salida exacta: deny.",
-        hint: "deny si name not in allow",
+          "S25-T3-B-E1 · Allowlist didáctica allow={'calc_sum','lookup_metric'}; name='shell_rm'. Implementa `gate(name)`: si el tool no está en allow, devuelve `{'status': 'deny', 'name': name}`; si sí, `{'status': 'ok', 'name': name}`. El starter invierte el sentido y omite el dict. Imprime el resultado de gate('shell_rm'). Salida exacta: {'status': 'deny', 'name': 'shell_rm'}.",
+        hint: "Default deny: name not in allow → status deny (con name en el dict de auditoría)",
         hints: [
-          "print('deny' if name not in allow else 'ok')",
-          "Default deny: shell_rm no está en la allowlist del assist",
+          "if name not in allow: return {'status': 'deny', 'name': name}",
+          "El log de checkpoint necesita el name denegado para auditar el stop",
         ],
-        edgeCases: ["default deny", "calc_sum sí estaría ok"],
+        edgeCases: ["default deny", "calc_sum devolvería status ok con el mismo shape"],
         tests: "salida coincide con solution output",
-        feedback: "shell_rm no está en allow: default deny, no ok.",
+        feedback: "shell_rm no está en allow: status deny y name en el dict — no un string suelto ni ok invertido.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · tool allowlist
-# Bug: allow shell_rm por inversión
-allow={'calc_sum','lookup_metric'}; name='shell_rm'
-print('ok' if name not in allow else 'deny')
+          code: `# CASO-LIM-025 · tool allowlist con dict de auditoría
+# Bug: invierte deny/ok y no registra name
+allow = {'calc_sum', 'lookup_metric'}
+
+def gate(name):
+    return 'ok' if name not in allow else 'deny'
+
+print(gate('shell_rm'))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `allow={'calc_sum','lookup_metric'}; name='shell_rm'
-print('deny' if name not in allow else 'ok')`,
-          output: `deny`,
+          code: `allow = {'calc_sum', 'lookup_metric'}
+
+def gate(name):
+    if name not in allow:
+        return {'status': 'deny', 'name': name}
+    return {'status': 'ok', 'name': name}
+
+print(gate('shell_rm'))`,
+          output: `{'status': 'deny', 'name': 'shell_rm'}`,
         },
       },
       {
@@ -1450,29 +1468,39 @@ print(request['max_output_chars'], request['requires_human_approval'])`,
         subtopicId: "S25-T4-B",
         kind: "independent",
         instruction:
-          "S25-T4-B-E2 · Minimiza payload p={'ruc':'1','total':2,'api_key':'S'} a solo keys ruc y total (nunca envíes api_key al modelo). Imprime el dict minimizado. Salida exacta: {'ruc': '1', 'total': 2}.",
-        hint: "Dict comprehension sobre ('ruc','total')",
+          "S25-T4-B-E2 · Implementa `minimize(payload, allow_keys)` que devuelve solo las keys permitidas presentes en el payload (nunca reenvíes secretos). Con p={'ruc':'1','total':2,'api_key':'S'} y allow=('ruc','total'), el starter reimprime p entero. Imprime el dict minimizado. Salida exacta: {'ruc': '1', 'total': 2}.",
+        hint: "Comprehension sobre allow_keys; si k in payload, copia el valor",
         hints: [
-          "print({k:p[k] for k in ('ruc','total') if k in p})",
-          "Minimización = control de exfiltración de secretos",
+          "return {k: payload[k] for k in allow_keys if k in payload}",
+          "Minimización = control de exfiltración: api_key no debe llegar al modelo",
         ],
-        edgeCases: ["nunca envíes api_key al LLM"],
+        edgeCases: ["key permitida ausente se omite", "nunca envíes api_key al LLM"],
         tests: "salida coincide con solution output",
-        feedback: "api_key no debe aparecer: filtra por allowlist de keys, no reimprimes p entero.",
+        feedback: "api_key no debe aparecer: filtra por allowlist de keys en minimize(), no reimprimes p entero.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · redaction api_key
-# Bug: incluye api_key
-p={'ruc':'1','total':2,'api_key':'S'}
-print(p)
+          code: `# CASO-LIM-025 · minimize sin secretos
+# Bug: reimprime payload completo (incluye api_key)
+p = {'ruc': '1', 'total': 2, 'api_key': 'S'}
+allow = ('ruc', 'total')
+
+def minimize(payload, allow_keys):
+    return payload
+
+print(minimize(p, allow))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `p={'ruc':'1','total':2,'api_key':'S'}
-print({k:p[k] for k in ('ruc','total') if k in p})`,
+          code: `p = {'ruc': '1', 'total': 2, 'api_key': 'S'}
+allow = ('ruc', 'total')
+
+def minimize(payload, allow_keys):
+    return {k: payload[k] for k in allow_keys if k in payload}
+
+print(minimize(p, allow))`,
           output: `{'ruc': '1', 'total': 2}`,
         },
       },
@@ -1569,6 +1597,14 @@ def build_safe_request(doc_text):
         "requires_human_approval": True,
     }
 
+def injection_signal(doc_text):
+    """Telemetría (no control real). El control real es tools=[] + HITL + minimize."""
+    import re
+    return bool(re.search(r"(?i)ignore (all|previous) instructions|system prompt", doc_text))
+
+def minimize_payload(payload, allow_keys):
+    return {k: payload[k] for k in allow_keys if k in payload}
+
 def choose_stack(task):
     # Completa con el árbol de T1-A (rules / specialized_model / llm_structured / human)
     raise NotImplementedError("choose_stack")
@@ -1576,6 +1612,7 @@ def choose_stack(task):
 def mock_or_http(text, model="demo-cls"):
     # Completa: cache por cache_key; TimeoutError → {"status": "human_review"}
     # Fixture localhost o mock en proceso con SCHEMA_KEYS
+    # Si injection_signal(text): no inventes éxito — devuelve hallazgo human_review
     raise NotImplementedError("mock_or_http")
 
 def eval_golden(rows):
@@ -1585,11 +1622,11 @@ def eval_golden(rows):
 
 # Pasos del estudiante:
 # 1) Fixture localhost (o mock en proceso) que devuelve JSON sintético con SCHEMA_KEYS
-# 2) choose_stack documentado en metadata del run
-# 3) mock_or_http: cache + timeout → human_review / rules_or_human
+# 2) choose_stack documentado en metadata del run (auto_fraud_label=False siempre)
+# 3) mock_or_http: cache + timeout → human_review / rules_or_human; usa injection_signal
 # 4) eval_golden sobre GOLDEN (3 filas): exact, schema_rate, field_f1
-# 5) Toda acción externa usa build_safe_request; auto_fraud_label=False siempre
-# 6) README es-PE: límites del fixture, baseline y por qué no se auto-etiqueta fraude
+# 5) Acciones externas: build_safe_request + minimize_payload (nunca api_key al modelo)
+# 6) README es-PE: límites del fixture, baseline y por qué score ≠ fraude
 `,
     portfolioNote:
       "Componente AI assist de CP-N2-C con eval (exact/schema/F1) y controles de seguridad; listo para orquestación en S26.",
@@ -1633,11 +1670,11 @@ def eval_golden(rows):
           "Política del roadmap: score y matching son señales, no veredicto de fraude o parentesco.",
       },
       {
-        question: "Un score alto del modelo sobre un caso sintético implica…",
-        options: ["Prioridad de revisión o señal auxiliar, no veredicto legal", "Fraude probado automáticamente y listo para el informe", "Que el schema y el golden set dejan de ser obligatorios", "Que puedes omitir human_review y activar tools de shell"],
+        question: "Tras N timeouts seguidos al endpoint del assist, la ops correcta es…",
+        options: ["Abrir el circuit breaker, enrutar a fallback (rules_or_human) y dejar de martillar el servicio", "Reintentar el LLM sin límite hasta obtener un JSON que “se vea bien”", "Publicar un JSON inventado de éxito para no bloquear el VP", "Desactivar el golden set y el schema hasta que el endpoint responda"],
         correctIndex: 0,
         explanation:
-          "Score ≠ fraude; schema, golden y human_review siguen siendo gates aunque el score sea alto.",
+          "El circuit breaker (contador de fallas + open) evita cascadas de costo/latencia; el fallback no inventa éxito ni saltarse eval.",
       },
     ],
   },
@@ -1682,10 +1719,12 @@ def eval_golden(rows):
     books: [
       {
         label: "Mitchell et al. — Model Cards for Model Reporting (2019)",
+        url: "https://arxiv.org/abs/1810.03993",
         note: "Intended use, bias, limitations y plantilla de model card",
       },
       {
         label: "Chip Huyen — AI Engineering (conceptos de evaluación y serving)",
+        url: "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
         note: "Structured output, evals y operación de sistemas con LLM",
       },
     ],

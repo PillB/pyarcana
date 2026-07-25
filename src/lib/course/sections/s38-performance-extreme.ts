@@ -768,26 +768,26 @@ ok True`,
         id: "S38-T1-B-E1",
         subtopicId: "S38-T1-B",
         kind: "guided",
-        instruction: "S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact True. El starter usa str() del dict (defect: tamaño distinto / no portable). Usa json.dumps(...).encode() como en teoría. Fixture local sin PII.",
-        hint: "json.dumps produce el blob estable; mide len(...encode()).",
+        instruction: "S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json.dumps(...).encode('utf-8'). Imprime el tamaño en bytes (8), ok True solo si el blob decodificado es exactamente '{\"x\": 2}' (comillas dobles JSON), y format 'json'. El starter usa str(payload).encode() (defect: comillas simples de repr Python — no es el contrato de IPC aunque a veces el len coincida). Fixture local sin PII.",
+        hint: "json.dumps produce el blob estable entre procesos; str(dict) usa comillas simples.",
         hints: [
-          "json.dumps produce el blob estable; mide len(...encode()).",
-          "str(dict) no es el contrato de IPC.",
+          "blob = json.dumps(payload).encode('utf-8'); mide len(blob).",
+          "ok = blob.decode() == '{\"x\": 2}' (exige JSON real, no str()).",
         ],
         edgeCases: ["payload grande", "PII en blob", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E1.",
-        feedback: "S38-T1-B-E1: el costo de IPC se mide sobre el blob real que cruzará procesos.",
+        feedback: "S38-T1-B-E1: el costo de IPC se mide sobre el blob JSON real que cruzará procesos, no sobre str().",
         starterCode: {
           language: 'python',
           title: "s38-t1-b-e1.py",
-          code: `# CASO-LIM-038 · json size metric
-# DEFECTO: usa len(str) en vez de json.dumps encode
+          code: `# CASO-LIM-038 · métrica de serialización IPC
 import json
 payload = {"x": 2}
-# defect: wrong serialization metric
-print(len(str(payload)))  # DEFECTO: usa json.dumps(payload).encode()
-print("ok", True)
-print("compact", True)
+# DEFECTO: str(dict) no es el contrato de IPC (comillas simples)
+blob = str(payload).encode("utf-8")
+print(len(blob))
+print("ok", blob.decode() == '{"x": 2}')
+print("format", "str")
 `,
         },
         solutionCode: {
@@ -795,13 +795,14 @@ print("compact", True)
           title: "s38-t1-b-e1.py",
           code: `import json
 payload = {"x": 2}
-print(len(json.dumps(payload).encode()))
-print("ok", True)
-print("compact", True)
+blob = json.dumps(payload).encode("utf-8")
+print(len(blob))
+print("ok", blob.decode() == '{"x": 2}')
+print("format", "json")
 `,
           output: `8
 ok True
-compact True`,
+format json`,
         },
       },
       {
@@ -874,7 +875,7 @@ compact = {"case_id": "c1", "score": 0.2}
 # DEFECTO: prefiere full_record sin medir bytes ni riesgo de PII
 prefer = "full_record"
 print(prefer)
-print("ok", True)
+print("ok", prefer == "compact_payload")
 print("bytes", 0)
 `,
         },
@@ -891,7 +892,7 @@ compact = {"case_id": "c1", "score": 0.2}
 cb, fb = payload_bytes(compact), payload_bytes(full)
 prefer = "compact_payload" if cb < fb else "full_record"
 print(prefer)
-print("ok", prefer == "compact_payload")
+print("ok", prefer == "compact_payload" and cb < fb)
 print("bytes", cb)
 `,
           output: `compact_payload
@@ -929,7 +930,7 @@ b = TokenBucket(3)  # DEFECTO: rate del fixture es 2
 allows = [b.allow() for _ in range(3)]
 print(sum(1 for a in allows if a))
 print("third", allows[2])
-print("ok", True)
+print("ok", sum(1 for a in allows if a) == 2 and allows[2] is False)
 `,
         },
         solutionCode: {
@@ -947,7 +948,7 @@ b = TokenBucket(2)
 allows = [b.allow() for _ in range(3)]
 print(sum(1 for a in allows if a))
 print("third", allows[2])
-print("ok", True)
+print("ok", sum(1 for a in allows if a) == 2 and allows[2] is False)
 `,
           output: `2
 third False
@@ -1022,9 +1023,10 @@ class TokenBucket:
             return True
         return False
 b = TokenBucket(99)  # DEFECTO: sin límite real → flood
+first, second = b.allow(), b.allow()
 print("flood")
-print("ok", True)
-print("ban_risk", False)
+print("ok", first is True and second is False)
+print("ban_risk", False)  # DEFECTO: no documenta riesgo de ban del proveedor
 `,
         },
         solutionCode: {
@@ -1040,6 +1042,7 @@ print("ban_risk", False)
         return False
 b = TokenBucket(1)
 first, second = b.allow(), b.allow()
+# second False = rate limit activo; ban_risk True documenta por qué limitamos
 print("provider")
 print("ok", first is True and second is False)
 print("ban_risk", True)
@@ -1249,8 +1252,8 @@ ok True`,
         id: "S38-T3-A-E2",
         subtopicId: "S38-T3-A",
         kind: "independent",
-        instruction: "S38-T3-A-E2 · Tres pilares de observabilidad (o11y): a partir del dict de señales del caso (logs/metrics/traces activos), construye la lista ordenada de pilares activos e imprime ['logs','metrics','traces'], ok True, n 3. Starter solo activa logs (defect: omite metrics/traces). Deriva la lista desde el dict; no hardcodees ciego si puedes filtrar.",
-        hint: "pillars = [k for k in ('logs','metrics','traces') if signals[k]].",
+        instruction: "S38-T3-A-E2 · Tres pilares de observabilidad (o11y): implementa active_pillars(signals) que devuelva, en orden fijo, solo las claves True entre logs/metrics/traces. Con los tres activos imprime ['logs','metrics','traces'], ok True y n 3. Starter solo activa logs y deja la función incompleta (defect: omite metrics/traces). No hardcodees la lista de tres si puedes filtrar el dict.",
+        hint: "return [k for k in ('logs','metrics','traces') if signals.get(k)].",
         hints: [
           "Logs eventos, metrics agregados, traces spans — los tres deben estar True.",
           "Un solo pilar no basta para diagnosticar cola + latencia + caso.",
@@ -1262,21 +1265,29 @@ ok True`,
           language: 'python',
           title: "s38-t3-a-e2.py",
           code: `# CASO-LIM-038 · tres pilares de observabilidad
-# DEFECTO: solo logs (omiso metrics/traces)
+ORDER = ("logs", "metrics", "traces")
+
+def active_pillars(signals: dict) -> list:
+    # DEFECTO: solo considera logs
+    return [k for k in ORDER if k == "logs" and signals.get(k)]
+
 signals = {"logs": True, "metrics": False, "traces": False}
-order = ("logs", "metrics", "traces")
-pillars = [k for k in order if signals[k]]
+pillars = active_pillars(signals)
 print(pillars)
-print("ok", len(pillars) == 3)
+print("ok", pillars == ["logs", "metrics", "traces"])
 print("n", len(pillars))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "s38-t3-a-e2.py",
-          code: `signals = {"logs": True, "metrics": True, "traces": True}
-order = ("logs", "metrics", "traces")
-pillars = [k for k in order if signals[k]]
+          code: `ORDER = ("logs", "metrics", "traces")
+
+def active_pillars(signals: dict) -> list:
+    return [k for k in ORDER if signals.get(k)]
+
+signals = {"logs": True, "metrics": True, "traces": True}
+pillars = active_pillars(signals)
 print(pillars)
 print("ok", pillars == ["logs", "metrics", "traces"])
 print("n", len(pillars))
@@ -1290,7 +1301,7 @@ n 3`,
         id: "S38-T3-A-E3",
         subtopicId: "S38-T3-A",
         kind: "transfer",
-        instruction: "S38-T3-A-E3 · pii_raw debe ser False y el email sintético debe redactarse (an***). Imprime False, ok True, redact True. Starter imprime True y no redacta (defect: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.",
+        instruction: "S38-T3-A-E3 · pii_raw debe ser False y el email sintético debe redactarse (an***). Imprime False, ok True (solo si redact(email)=='an***' y pii_raw es False), y redact True. Starter imprime True y no enmascara (defect: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.",
         hint: "Nunca pii_raw True en logs de operación.",
         hints: [
           "Nunca pii_raw True en logs de operación.",
@@ -1308,9 +1319,10 @@ def redact(s: str) -> str:
 
 email = "ana@example.pe"
 pii_raw = True  # DEFECTO: permite PII cruda
+masked = redact(email)
 print(pii_raw)
-print("ok", redact(email) == "an***")
-print("redact", False)
+print("ok", masked == "an***" and pii_raw is False)
+print("redact", masked == "an***")
 `,
         },
         solutionCode: {
@@ -1321,9 +1333,10 @@ print("redact", False)
 
 email = "ana@example.pe"
 pii_raw = False
+masked = redact(email)
 print(pii_raw)
-print("ok", redact(email) == "an***")
-print("redact", True)
+print("ok", masked == "an***" and pii_raw is False)
+print("redact", masked == "an***")
 `,
           output: `False
 ok True
@@ -1334,11 +1347,11 @@ redact True`,
         id: "S38-T3-B-E1",
         subtopicId: "S38-T3-B",
         kind: "guided",
-        instruction: "S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii False. Starter imprime el número completo (defect). No uses PII real.",
+        instruction: "S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True solo si el valor impreso es '90****01', y pii False. Starter imprime el número completo (defect). No uses PII real.",
         hint: "Conserva prefijo/sufijo mínimo; enmascara el medio.",
         hints: [
-          "Conserva prefijo/sufijo mínimo; enmascara el medio.",
-          "Nunca loguees el teléfono completo.",
+          "redacted = phone[:2] + '****' + phone[-2:]",
+          "ok = redacted == '90****01'; pii False siempre en logs de operación.",
         ],
         edgeCases: ["email en claro", "sintético example.pe"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E1.",
@@ -1346,13 +1359,13 @@ redact True`,
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e1.py",
-          code: `# CASO-LIM-038 · PII redaction logs
-# DEFECTO: imprime teléfono crudo
+          code: `# CASO-LIM-038 · redacción de PII en logs
 phone = "90000001"
-# defect: raw phone in log
-print(phone)  # DEFECTO: redactar a 90****01
-print("ok", True)
-print("pii", False)
+# DEFECTO: imprime teléfono crudo en el log
+redacted = phone
+print(redacted)
+print("ok", redacted == "90****01")
+print("pii", redacted == phone)
 `,
         },
         solutionCode: {
@@ -1361,7 +1374,7 @@ print("pii", False)
           code: `phone = "90000001"
 redacted = phone[:2] + "****" + phone[-2:]
 print(redacted)
-print("ok", True)
+print("ok", redacted == "90****01")
 print("pii", False)
 `,
           output: `90****01
@@ -1570,9 +1583,10 @@ dup False`,
 NEXT = {"features": "score", "score": "notify", "notify": "done"}
 state = {"last_done": "features", "status": "done"}
 # DEFECTO: hardcode intake en vez de NEXT[last_done]
-print("intake")
-print("ok", True)
-print("checkpoint", True)
+resume = "intake"
+print(resume)
+print("ok", resume == "score")
+print("checkpoint", state["status"] == "done")
 `,
         },
         solutionCode: {
@@ -1583,7 +1597,7 @@ state = {"last_done": "features", "status": "done"}
 resume = NEXT[state["last_done"]]
 print(resume)
 print("ok", resume == "score")
-print("checkpoint", True)
+print("checkpoint", state["status"] == "done")
 `,
           output: `score
 ok True
@@ -1610,8 +1624,9 @@ checkpoint True`,
 # DEFECTO: base*attempt lineal en vez de 2**attempt
 def backoff(attempt, base=0.1):
     return base * attempt  # DEFECTO: exponencial base * 2**attempt
-print(backoff(3))
-print("ok", True)
+wait = backoff(3)
+print(wait)
+print("ok", wait == 0.8)
 print("attempt", 3)
 `,
         },
@@ -1620,8 +1635,9 @@ print("attempt", 3)
           title: "s38-t4-b-e1.py",
           code: `def backoff(attempt, base=0.1):
     return base * (2 ** attempt)
-print(backoff(3))
-print("ok", True)
+wait = backoff(3)
+print(wait)
+print("ok", wait == 0.8)
 print("attempt", 3)
 `,
           output: `0.8
@@ -1648,8 +1664,9 @@ attempt 3`,
           code: `# CASO-LIM-038 · poison message a DLQ
 def route(kind: str) -> str:
     return "retry_forever"  # DEFECTO: veneno no debe reintentarse a ciegas
-print(route("poison"))
-print("ok", True)
+dest = route("poison")
+print(dest)
+print("ok", dest == "dlq")
 print("replay", "uncontrolled")
 `,
         },
@@ -1661,8 +1678,9 @@ print("replay", "uncontrolled")
         return "dlq"
     return "retry"
 
-print(route("poison"))
-print("ok", route("poison") == "dlq")
+dest = route("poison")
+print(dest)
+print("ok", dest == "dlq")
 print("replay", "controlled")
 `,
           output: `dlq
@@ -1744,14 +1762,15 @@ def redact(s: str) -> str:
     return s[:2] + "***" if len(s) > 2 else "***"
 
 def measure_bound(wall_ms: float, cpu_ms: float) -> str:
-    # TODO del portafolio: wall>>cpu → io; cpu denso → cpu; si no mixed
+    # Portafolio: wall >> cpu → "io"; cpu denso (≥80% wall) → "cpu"; si no "mixed"
     raise NotImplementedError("elige bound a partir de wall_ms/cpu_ms")
 
 def pick(bound: str) -> str:
+    # Portafolio: io→async_or_threads, cpu→processes, mixed→batch_then_io
     raise NotImplementedError("mapea io/cpu/mixed a modelo de concurrencia")
 
 def fetch_policy(latency_ms: float, timeout_s: float) -> dict:
-    # TODO: status timeout|ok, on_fail retry_or_dlq, seconds
+    # Portafolio: status timeout|ok, on_fail retry_or_dlq, seconds=timeout_s
     raise NotImplementedError("timeout mock del proveedor")
 
 def checkpoint(state: dict, step: str) -> dict:
@@ -1772,7 +1791,7 @@ def route(kind: str, attempt: int = 0, max_attempts: int = 3) -> str:
     return "retry"
 
 def runbook() -> dict:
-    # TODO: symptoms + actions (restart_worker, replay_batch, escalate_provider)
+    # Portafolio: symptoms + actions (restart_worker, replay_batch, escalate_provider)
     raise NotImplementedError("runbook de on-call")
 
 if __name__ == "__main__":

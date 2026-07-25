@@ -1,0 +1,9 @@
+{
+  "section": 14,
+  "id": "security",
+  "file": "src/lib/course/sections/s14-security.ts",
+  "score_1_to_10": 7.2,
+  "issue_count": 22,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

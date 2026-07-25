@@ -519,12 +519,15 @@ accuracy_enough False`,
 
 def reliability_bin(ps, ys, lo, hi):
     pair = [(p, y) for p, y in zip(ps, ys) if lo <= p < hi]
+    if not pair:
+        return None
     mean_p = sum(p for p, _ in pair) / len(pair)
     freq = sum(y for _, y in pair) / len(pair)
     return mean_p, freq
 
 ps, ys = [0.1, 0.2, 0.8, 0.9], [0, 0, 0, 1]
-mean_p, freq = reliability_bin(ps, ys, 0.7, 1.0)
+bin_out = reliability_bin(ps, ys, 0.7, 1.0)
+mean_p, freq = bin_out
 print("brier", round(brier_mean(ps, ys), 3))
 print("bin", (round(mean_p, 2), freq))
 print("calibrated", False)`,
@@ -624,33 +627,34 @@ force_label False`,
         subtopicId: "S34-T1-A",
         kind: "guided",
         instruction:
-          "S34-T1-A-E1 · Sobre `CASO-LIM-034-1A`, calcula TP/FP/FN a partir de `y=[1,0]` y `pred=[1,1]`, luego precision, recall y **F1**. El starter usa `f1 = p + r` (suma, no media armónica): corrige la fórmula. Imprime `S34-T1-A PASS` solo si `|f1 − 2/3| < 1e-9`; si no, `REJECT_ACCURACY_ONLY`. No cambies y/pred.",
-        hint: "F1 = 2·P·R / (P+R) cuando P+R > 0; con P=0.5 y R=1.0 debe dar 2/3.",
+          "S34-T1-A-E1 · Sobre `CASO-LIM-034-1A`, calcula la matriz **completa** TP/FP/FN/**TN** a partir de `y=[1,0,0]` y `pred=[1,1,0]`, luego precision, recall y **F1**. El starter usa `f1 = p + r` (suma, no media armónica) y deja `tn = 0` sin contar: corrige la fórmula y cuenta TN (debe ser 1). Imprime `S34-T1-A PASS` solo si `|f1 − 2/3| < 1e-9` y `tn == 1`; si no, `REJECT_ACCURACY_ONLY`. No cambies y/pred.",
+        hint: "F1 = 2·P·R / (P+R); con P=0.5 y R=1.0 da 2/3. TN = pares (y=0, pred=0) — aquí hay uno.",
         hints: [
           "F1 = 2·P·R / (P+R) cuando P+R > 0; con P=0.5 y R=1.0 debe dar 2/3.",
-          "Primero cuenta TP/FP/FN con zip; luego P y R; al final la media armónica — no la suma.",
+          "Cuenta TN con zip: y==0 y pred==0. En este mini-caso tn=1 (el tercer caso es verdadero negativo).",
         ],
         edgeCases: [
-          "falta tp o divisiones por cero en P/R",
+          "falta tn o divisiones por cero en P/R",
           "fixture adverso: accuracy_only=True o counts todos en cero",
           "CASO-LIM-034-1A es sintético",
         ],
-        tests: "Con y/pred del starter, F1 correcto → `S34-T1-A PASS` y assert True.",
+        tests: "Con y/pred del starter, F1=2/3 y tn=1 → `S34-T1-A PASS` y assert True.",
         feedback:
-          "S34-T1-A-E1: ¿qué fórmula usaste para F1 y por qué la suma p+r no es una media armónica? Anota P, R y F1 obtenidos.",
+          "S34-T1-A-E1: anota TP/FP/FN/TN, P, R y F1. ¿Por qué la suma p+r no es media armónica, y qué aporta TN=1 frente a un dashboard que solo mira accuracy?",
         starterCode: {
           language: "python",
           title: "s34-t1-a-e1.py",
-          code: `# CASO-LIM-034-1A · F1 (media armónica)
-# DEFECT: f1 = p + r (suma, no armónica)
-y, pred = [1, 0], [1, 1]
+          code: `# CASO-LIM-034-1A · confusión completa + F1 (media armónica)
+# DEFECT: f1 = p + r (suma, no armónica) y tn hardcodeado en 0
+y, pred = [1, 0, 0], [1, 1, 0]
 tp = sum(a == 1 and b == 1 for a, b in zip(y, pred))
 fp = sum(a == 0 and b == 1 for a, b in zip(y, pred))
 fn = sum(a == 1 and b == 0 for a, b in zip(y, pred))
+tn = 0  # DEFECT: debe contar pares (0, 0); aquí tn=1
 p = tp / (tp + fp) if (tp + fp) else 0.0
 r = tp / (tp + fn) if (tp + fn) else 0.0
 f1 = p + r  # DEFECT
-ok = abs(f1 - 2 / 3) < 1e-9
+ok = abs(f1 - 2 / 3) < 1e-9 and tn == 1
 status = "PASS" if ok else "REJECT_ACCURACY_ONLY"
 print("S34-T1-A", status)
 `,
@@ -658,17 +662,19 @@ print("S34-T1-A", status)
         solutionCode: {
           language: "python",
           title: "s34-t1-a-e1.py",
-          code: `y, pred = [1, 0], [1, 1]
+          code: `y, pred = [1, 0, 0], [1, 1, 0]
 tp = sum(a == 1 and b == 1 for a, b in zip(y, pred))
 fp = sum(a == 0 and b == 1 for a, b in zip(y, pred))
 fn = sum(a == 1 and b == 0 for a, b in zip(y, pred))
+tn = sum(a == 0 and b == 0 for a, b in zip(y, pred))
 p = tp / (tp + fp) if (tp + fp) else 0.0
 r = tp / (tp + fn) if (tp + fn) else 0.0
 f1 = 2 * p * r / (p + r) if (p + r) else 0.0
-ok = abs(f1 - 2 / 3) < 1e-9
+ok = abs(f1 - 2 / 3) < 1e-9 and tn == 1
 status = "PASS" if ok else "REJECT_ACCURACY_ONLY"
 print("S34-T1-A", status)
 assert ok is True
+assert (tp, fp, fn, tn) == (1, 1, 0, 1)
 `,
           output: `S34-T1-A PASS`,
         },
@@ -870,11 +876,11 @@ assert ok is True
         subtopicId: "S34-T1-B",
         kind: "independent",
         instruction:
-          "S34-T1-B-E2 · Tres rutas: válido (load ≤ capacity y precision_at_k en [0,1]), adverso (load > capacity), sin `capacity` → `MISSING:capacity`. Salidas: `PASS`, `REJECT_QUEUE_OVERLOAD`, `MISSING:capacity`.",
+          "S34-T1-B-E2 · Tres rutas en la cola sintética de Red Andina (Lima): válido (load ≤ capacity y precision_at_k en [0,1], con region/queue de contexto), adverso (load > capacity), sin `capacity` → `MISSING:capacity`. Salidas: `PASS`, `REJECT_QUEUE_OVERLOAD`, `MISSING:capacity`. region/queue no son gates.",
         hint: "Missing primero; luego load <= capacity y 0 <= precision_at_k <= 1.",
         hints: [
           "Missing primero; luego load <= capacity y 0 <= precision_at_k <= 1.",
-          "El adverso tiene load=50, capacity=10.",
+          "El adverso tiene load=50, capacity=10. region/queue son contexto del turno, no predicados.",
         ],
         edgeCases: [
           "falta capacity",
@@ -883,7 +889,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity`.",
         feedback:
-          "S34-T1-B-E2: ¿qué haría el workbench si ignorara capacity y solo maximizara recall@k? Conecta overload con costo humano de cola.",
+          "S34-T1-B-E2: ¿qué haría el workbench si ignorara capacity y solo maximizara recall@k en la cola-revision-manana de Lima? Conecta overload con costo humano de cola; region/queue son contexto, no predicados.",
         starterCode: {
           language: "python",
           title: "s34-t1-b-e2.py",
@@ -896,7 +902,14 @@ def assess(record: dict) -> str:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["load"] > record["capacity"] else "REJECT_QUEUE_OVERLOAD"
 
-valid = {"case_id": "CASO-LIM-034-1B", "precision_at_k": 0.667, "load": 8, "capacity": 10}
+valid = {
+    "case_id": "CASO-LIM-034-1B",
+    "precision_at_k": 0.667,
+    "load": 8,
+    "capacity": 10,
+    "region": "Lima-sintetica",
+    "queue": "cola-revision-manana",
+}
 invalid = {"case_id": "CASO-LIM-034-1B", "precision_at_k": 0.667, "load": 50, "capacity": 10}
 incomplete = {**valid}
 incomplete.pop("capacity")
@@ -914,7 +927,14 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
     ok = record["load"] <= record["capacity"] and 0 <= record["precision_at_k"] <= 1
     return "PASS" if ok else "REJECT_QUEUE_OVERLOAD"
 
-valid = {"case_id": "CASO-LIM-034-1B", "precision_at_k": 0.667, "load": 8, "capacity": 10}
+valid = {
+    "case_id": "CASO-LIM-034-1B",
+    "precision_at_k": 0.667,
+    "load": 8,
+    "capacity": 10,
+    "region": "Lima-sintetica",
+    "queue": "cola-revision-manana",
+}
 invalid = {"case_id": "CASO-LIM-034-1B", "precision_at_k": 0.667, "load": 50, "capacity": 10}
 incomplete = {**valid}
 incomplete.pop("capacity")
@@ -1225,7 +1245,7 @@ assert abs(all_neg_acc - 0.975) < 1e-12
         ],
         tests: "Salida: `PASS REJECT_PREVALENCE_BLIND MISSING:prevalence`.",
         feedback:
-          "S34-T2-B-E2: ¿por qué comparar precision entre Q1 y Q2 sin reportar prevalencia puede hacer que un modelo peor «gane» el dashboard?",
+          "S34-T2-B-E2: ¿por qué comparar precision entre Q1 y Q2 (p. ej. period 2024-Q3-sintetico en Lima) sin reportar prevalencia puede hacer que un modelo peor «gane» el dashboard?",
         starterCode: {
           language: "python",
           title: "s34-t2-b-e2.py",
@@ -1238,7 +1258,14 @@ def assess(record: dict) -> str:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["accuracy_enough"] is True else "REJECT_PREVALENCE_BLIND"
 
-valid = {"case_id": "CASO-LIM-034-2B", "prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": False}
+valid = {
+    "case_id": "CASO-LIM-034-2B",
+    "prevalence": 0.025,
+    "all_neg_acc": 0.975,
+    "accuracy_enough": False,
+    "period": "2024-Q3-sintetico",
+    "region": "Lima-sintetica",
+}
 invalid = {"case_id": "CASO-LIM-034-2B", "prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": True}
 incomplete = {**valid}
 incomplete.pop("prevalence")
@@ -1256,7 +1283,14 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
     ok = record["accuracy_enough"] is False and 0 < record["prevalence"] < 0.5
     return "PASS" if ok else "REJECT_PREVALENCE_BLIND"
 
-valid = {"case_id": "CASO-LIM-034-2B", "prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": False}
+valid = {
+    "case_id": "CASO-LIM-034-2B",
+    "prevalence": 0.025,
+    "all_neg_acc": 0.975,
+    "accuracy_enough": False,
+    "period": "2024-Q3-sintetico",
+    "region": "Lima-sintetica",
+}
 invalid = {"case_id": "CASO-LIM-034-2B", "prevalence": 0.025, "all_neg_acc": 0.975, "accuracy_enough": True}
 incomplete = {**valid}
 incomplete.pop("prevalence")
@@ -1752,7 +1786,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_FIXED_THR MISSING:cost`.",
         feedback:
-          "S34-T4-A-E2: ¿por qué versionar thr-v1 vs thr-v2 importa cuando el headcount de analistas cambia de 10 a 6?",
+          "S34-T4-A-E2: ¿por qué versionar thr-v1 vs thr-v2 importa cuando el headcount del team cola-relaciones en Lima cambia de 10 a 6 analistas?",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e2.py",
@@ -1765,7 +1799,15 @@ def assess(record: dict) -> str:
         return "MISSING:" + ",".join(missing)
     return "PASS" if record["thr_id"] == "default" else "REJECT_FIXED_THR"
 
-valid = {"case_id": "CASO-LIM-034-4A", "thr": 0.6, "n_review": 2, "thr_id": "thr-v1", "cost": 16}
+valid = {
+    "case_id": "CASO-LIM-034-4A",
+    "thr": 0.6,
+    "n_review": 2,
+    "thr_id": "thr-v1",
+    "cost": 16,
+    "team": "cola-relaciones",
+    "region": "Lima-sintetica",
+}
 invalid = {"case_id": "CASO-LIM-034-4A", "thr": 0.5, "n_review": 2, "thr_id": "default", "cost": None}
 incomplete = {**valid}
 incomplete.pop("cost")
@@ -1783,7 +1825,15 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
     ok = record["thr_id"].startswith("thr-v") and record["cost"] is not None and record["n_review"] >= 1
     return "PASS" if ok else "REJECT_FIXED_THR"
 
-valid = {"case_id": "CASO-LIM-034-4A", "thr": 0.6, "n_review": 2, "thr_id": "thr-v1", "cost": 16}
+valid = {
+    "case_id": "CASO-LIM-034-4A",
+    "thr": 0.6,
+    "n_review": 2,
+    "thr_id": "thr-v1",
+    "cost": 16,
+    "team": "cola-relaciones",
+    "region": "Lima-sintetica",
+}
 invalid = {"case_id": "CASO-LIM-034-4A", "thr": 0.5, "n_review": 2, "thr_id": "default", "cost": None}
 incomplete = {**valid}
 incomplete.pop("cost")

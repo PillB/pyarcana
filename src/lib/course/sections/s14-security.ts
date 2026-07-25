@@ -27,15 +27,16 @@ export const section14: CourseSection = {
     {
       heading: "Mapa de la sección: NumPy para un tablero de calidad",
       paragraphs: [
-        "**Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **máscara** (filtro booleano), **ufunc** (operación elemento a elemento), **broadcast** (alinear shapes), **view vs copy** (compartir o no la memoria), **NaN/inf** (ausencia o no-finito — no son ceros de negocio). Tras el dashboard de evidencia de S13 (reglas y scores por caso, sin NumPy), aquí calculas **métricas vectorizadas** sobre lotes sintéticos: pasas de juicios por reglas a **vectores numéricos** para el tablero de calidad del nivel 2 (inicio de **CP-N2-A**).",
+        "**Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **máscara** (filtro booleano), **ufunc** (operación elemento a elemento), **broadcast** (alinear shapes), **view vs copy** (compartir o no la memoria), **NaN/inf** (ausencia o no-finito — no son ceros de negocio). No memorices la API entera el primer día: cada término vuelve en su subtema con demo y práctica.",
+        "**Puente desde S13:** el dashboard de evidencia de S13 trabaja reglas y scores **por caso**, con listas y dicts de Python y **sin NumPy**. Aquí abres el nivel 2 (**CP-N2-A**): pasas de juicios por reglas a **vectores numéricos** sobre lotes sintéticos. En S15 (pandas) cargarás tablas; en S14 el contrato es el array homogéneo que alimentará esas métricas.",
         "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos sintéticos latam (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
-        "Orden: **T1 Arrays** → **T2 Operaciones** → **T3 Semántica** → **T4 Rendimiento**. Criterio de entrega del incremento: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
+        "Orden: **T1 Arrays** (dtype/shape → máscaras) → **T2 Operaciones** (ufuncs/reducciones → broadcast) → **T3 Semántica** (views/copies → NaN/inf) → **T4 Rendimiento** (vectorizar → memoria y `allclose`). Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do + self-check. Criterio de entrega del incremento: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
       ],
       callout: {
         type: "info",
         title: "Límite de esta sección",
         content:
-          "Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta el error; no lo ocultes.",
+          "Solo NumPy sobre datos sintéticos. No uses pandas (S15), sklearn ni PII real. Si el contrato dtype/shape falla, reporta el error; no lo ocultes. No es un curso de deep learning ni de seguridad de modelos: el foco es el tablero de calidad vectorizado.",
       },
     },
     {
@@ -985,11 +986,11 @@ print(out.shape, out.tolist())`,
         subtopicId: "S14-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del starter (shapes compatibles).",
-        hint: "try/except ValueError.",
+          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del starter (hoy suma shapes compatibles `(2, 3)+(2, 3)` y no captura el error).",
+        hint: "try/except ValueError con shapes (2,3) y (2,4).",
         hints: [
-          "try/except ValueError.",
-          "No uses shapes compatibles.",
+          "Cambia el segundo array a shape (2, 4).",
+          "try/except ValueError → print('incompatible').",
         ],
         edgeCases: ["no capturar excepción", "shapes que sí broadcastan"],
         tests: "salida coincide con solution output",
@@ -998,7 +999,7 @@ print(out.shape, out.tolist())`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · incompatible broadcast
-# Bug a corregir: no captura ValueError
+# Bug a corregir: shapes compatibles (2,3)+(2,3) y sin try/except
 import numpy as np
 print(np.ones((2, 3)) + np.ones((2, 3)))
 print('ok', True)`,
@@ -1397,7 +1398,8 @@ print(a.nbytes, a.nbytes == 8000)`,
 import numpy as np
 a = np.array([1.0, 2.0])
 b = np.array([1.0 + 1e-9, 2.0])
-print(a == b)  # comparación exacta: incorrecta para floats
+# Exacta elemento a elemento: no es el booleano de equivalencia con tolerancia
+print(bool((a == b).all()))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1483,21 +1485,22 @@ def completeness(flags: np.ndarray) -> np.ndarray:
 
     Contrato: flags.dtype numérico o booleano; ndim == 2.
     """
-    # Bug a corregir: implementar media por campo
+    # Implementa: media por campo (axis=0)
     raise NotImplementedError
 
 
 def uniqueness_rate(ids: np.ndarray) -> float:
     """Proporción de ids únicos: np.unique(ids).size / ids.size."""
-    # Bug a corregir: no uses len(ids)/len(ids)
+    # Implementa: np.unique — no uses len(ids)/len(ids)
     raise NotImplementedError
 
 
 def in_range_rate(scores: np.ndarray, lo: float = 0.0, hi: float = 1.0) -> float:
     """Fracción de scores finitos dentro de [lo, hi] inclusive.
 
-    NaN e inf no cuentan como “en rango”.
+    NaN e inf no cuentan como “en rango”. Denominador = scores.size.
     """
+    # Implementa: isfinite y máscara de rango; cuenta / size
     raise NotImplementedError
 
 
@@ -1506,6 +1509,7 @@ def pairwise_diff(scores: np.ndarray) -> np.ndarray:
 
     Usa broadcast (newaxis); diagonal debe ser 0.0.
     """
+    # Implementa: scores[:, None] - scores[None, :]
     raise NotImplementedError
 
 
@@ -1515,6 +1519,7 @@ def bench_weighted_mean(X: np.ndarray, w: np.ndarray) -> dict:
     Devuelve dict con claves: allclose (bool), ratio_loop_over_vec (float),
     t_loop (float), t_vec (float). Mismo input/dtype; no imprimas en el loop.
     """
+    # Implementa: loop, X @ w, allclose, tiempos con time.perf_counter
     raise NotImplementedError
 
 
@@ -1532,6 +1537,11 @@ def _run_tests() -> None:
     r = in_range_rate(scores, 0.0, 1.0)
     # 4 finitos en [0,1] de 5 elementos → 0.8
     assert abs(r - 0.8) < 1e-9
+
+    # inf no es “en rango”; 2 finitos en rango de 4 elementos → 0.5
+    scores_inf = np.array([0.5, np.inf, 0.2, -np.inf], dtype=np.float64)
+    r_inf = in_range_rate(scores_inf, 0.0, 1.0)
+    assert abs(r_inf - 0.5) < 1e-9
 
     s = np.array([0.9, 0.4, 0.85], dtype=np.float64)
     D = pairwise_diff(s)
@@ -1648,6 +1658,13 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "writeable=False protege entradas de solo lectura; la asignación lanza ValueError. Es una defensa útil cuando pasas arrays crudos a funciones de normalización.",
+      },
+      {
+        question: "La tasa de unicidad de ids sintéticos se calcula de forma idiomática como:",
+        options: ["np.unique(ids).size / ids.size", "len(ids) / len(ids) (siempre 1.0)", "ids.mean()", "np.sum(ids) / ids.size"],
+        correctIndex: 0,
+        explanation:
+          "np.unique devuelve los valores distintos; la tasa es n_únicos / n. len(ids)/len(ids) es un truco que siempre da 1.0 y no detecta duplicados (p. ej. dos C001).",
       },
     ],
   },

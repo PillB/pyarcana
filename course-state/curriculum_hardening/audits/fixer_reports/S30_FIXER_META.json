@@ -1,0 +1,73 @@
+{
+  "section": 30,
+  "section_id": "security-infra",
+  "file": "src/lib/course/sections/s30-security-infra.ts",
+  "score_before": 4.2,
+  "score_after_estimate": 9.6,
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S30_EXPLORER_REPORT.md",
+  "anti_aberration_ok": true,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-21",
+    "ISSUE-22",
+    "ISSUE-23",
+    "ISSUE-24",
+    "ISSUE-25"
+  ],
+  "issues_deferred": [
+    "ISSUE-20"
+  ],
+  "issues_partial": [],
+  "status": "fixed_validated",
+  "notes": "Residual/min-9.5 Fixer pass for S30 against Explorer only. Re-verified all P0/P1 (I Do fidelity, meta purge, product surfaces). Residual lifts: ISSUE-25 pair_quality in theory+I Do; ISSUE-13 deeper T2-A-E1 (accent fold key), T2-A-E3 (multi-block pairs), T4-B-E1 (vector precision); ISSUE-24 You Do objectives as full sentences. 40 code+output pairs OK. You Do __main__ OK. ISSUE-20 deferred (id/hash). Hand-crafted only; no bulk generation.",
+  "meta_leak_families_closed": 11,
+  "meta_leak_families_deferred": 0,
+  "edited_paths": [
+    "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s30-security-infra.ts"
+  ],
+  "verified_product_paths": [
+    "/Users/pabloillescas/Projects/PyArcana/src/components/course/SectionView.tsx",
+    "/Users/pabloillescas/Projects/PyArcana/src/components/course/PdfReport.tsx"
+  ],
+  "fidelity_checks": {
+    "code_output_pairs_ok": 40,
+    "ido_demos_ok": 8,
+    "wedo_solutions_ok": 24,
+    "youdo_starter_main_ok": true,
+    "sectionview_playground_ok": true,
+    "pdf_label_ok": true
+  },
+  "pedagogy_signals": {
+    "self_check_count": 9,
+    "ethics_paste_count": 1,
+    "contrato_operativo_boilerplate": 0,
+    "pair_quality_implemented": true,
+    "we_do_count": 24,
+    "i_do_count": 8
+  },
+  "residual_lifts_this_pass": [
+    "issue_25_pair_quality_theory_ido",
+    "issue_13_t2a_e1_accent_fold_key",
+    "issue_13_t2a_e3_multi_block_pairs",
+    "issue_13_t4b_e1_vector_precision",
+    "issue_24_youdo_objectives_full_sentences"
+  ]
+}

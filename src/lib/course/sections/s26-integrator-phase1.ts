@@ -335,15 +335,16 @@ runbook_step disable_schedule → drain queue → page oncall`,
     evidence["cost_tokens"] = 1200
     evidence["value_minutes_saved_est"] = 45
     evidence["fraud_labels"] = 0  # debe ser 0: no auto-fraude
+    evidence["n2_regression"] = "pass"  # re-run real, no "planned"
     return evidence
 
 ev = e2e_vp()
 print("draft_email", ev["draft_email"], "audit", ev["audit_events"])
 print("cost_tokens", ev["cost_tokens"], "fraud_labels", ev["fraud_labels"])
-print("n2_regression_note", "re-run CP-N2-A/B/C critical + privacy checks")`,
+print("n2_regression", ev["n2_regression"], "value_min", ev["value_minutes_saved_est"])`,
         output: `draft_email success audit 3
 cost_tokens 1200 fraud_labels 0
-n2_regression_note re-run CP-N2-A/B/C critical + privacy checks`,
+n2_regression pass value_min 45`,
       },
       callout: {
         type: "info",
@@ -574,7 +575,7 @@ ok True`,
         demoId: "S26-T4-B-DEMO",
         subtopicId: "S26-T4-B",
         environment: "local/cloud controlado",
-        description: "Mini-runner E2E: estados nodo a nodo, gate approve→draft, regresión pass.",
+        description: "Mini-runner E2E: estados nodo a nodo, fallo en analyze, gate approve→draft, regresión pass.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -584,6 +585,7 @@ ok True`,
 ]
 
 def run_vp(fail_at=None):
+    # Thinking aloud: un solo lifecycle une path, fallo, gate HITL y draft.
     state = {s: "pending" for s in STEPS}
     audit = []
     for s in STEPS:
@@ -598,16 +600,21 @@ def run_vp(fail_at=None):
             audit.append({"action": "approve", "actor": "r1"})
     return state, audit
 
+# Camino feliz: 7 success + approve en audit
 st, au = run_vp()
 print([st[s] for s in STEPS])
 print("audit", len(au), "fraud_labels", 0, "n2_regression", "pass")
+# Camino con crash: analyze falla; report sigue pending (no se avanza)
+st_fail, _ = run_vp(fail_at="analyze")
+print("fail_at_analyze", st_fail["analyze"], "report", st_fail["report"])
 print("ok", True)
 `,
           output: `['success', 'success', 'success', 'success', 'success', 'success', 'success']
 audit 1 fraud_labels 0 n2_regression pass
+fail_at_analyze failed report pending
 ok True`,
         },
-        why: "Un solo run lifecycle une path, gate HITL, fraud_labels=0 y regresión N2 con evidencia pass.",
+        why: "Un solo run lifecycle une path, crash observable, gate HITL, fraud_labels=0 y regresión N2 con evidencia pass (no planned).",
       },
     ],
   },
@@ -619,28 +626,42 @@ ok True`,
         subtopicId: "S26-T1-A",
         kind: "guided",
         instruction:
-          "Vista parcial del path canónico (sin AI ni email): imprime exactamente ['ingest','validate','analyze','report']. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base de negocio. Sin inputs externos. Pass: ['ingest', 'validate', 'analyze', 'report'].",
-        hint: "lista en orden de dependencias",
+          "Vista parcial del path (sin AI ni email): a partir de partial_edges=[('ingest','validate'),('validate','analyze'),('analyze','report')], deriva el orden lineal empezando en 'ingest' y recorriendo cada arista a→b. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base. Pass: ['ingest', 'validate', 'analyze', 'report'].",
+        hint: "parte de first=edges[0][0] y append b si a==último",
         hints: [
-          "Orden parcial: ingest → validate → analyze → report (incluye validate).",
-          "No omitas validate: es dependencia de analyze.",
+          "order = [partial_edges[0][0]]; luego for a,b in partial_edges: si a==order[-1], append b.",
+          "No omitas validate: el DEFECT salta de ingest a analyze.",
           "Full path canónico: …analyze → ai_assist → report → approve → draft_email.",
         ],
-        edgeCases: ["draft_email solo tras approve en el path completo"],
-        tests: "print de la lista de 4 steps en orden canónico parcial",
-        feedback: "Si falta validate, el DAG de negocio se rompe antes de llegar a AI o email.",
+        edgeCases: ["draft_email solo tras approve en el path completo", "vista parcial declarada ≠ full path"],
+        tests: "orden derivado de partial_edges (4 steps) sin hardcodear la lista a ciegas",
+        feedback: "Si falta validate, el DAG de negocio se rompe antes de llegar a AI o email; derivar de edges evita inventar el orden.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · path canónico parcial (sin AI/email)
-# DEFECT: omite validate
-print(['ingest','analyze','report'])
+          code: `# CASO-LIM-026 · path parcial derivado de edges (sin AI/email)
+partial_edges = [
+    ("ingest", "validate"),
+    ("validate", "analyze"),
+    ("analyze", "report"),
+]
+# DEFECT: salta validate y hardcodea sin recorrer edges
+print(["ingest", "analyze", "report"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(['ingest','validate','analyze','report'])`,
+          code: `partial_edges = [
+    ("ingest", "validate"),
+    ("validate", "analyze"),
+    ("analyze", "report"),
+]
+order = [partial_edges[0][0]]
+for a, b in partial_edges:
+    if a == order[-1]:
+        order.append(b)
+print(order)`,
           output: `['ingest', 'validate', 'analyze', 'report']`,
         },
       },
@@ -780,34 +801,36 @@ print('too_high' if api_rpm>60 else 'ok')`,
         subtopicId: "S26-T1-B",
         kind: "transfer",
         instruction:
-          "Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin librería cron. Pass exacto: 0 6 * * 1-5 America/Lima.",
-        hint: "cron + America/Lima",
+          "Schedule del escritorio PE: arma schedule={'cron':'0 6 * * 1-5','tz':'America/Lima'} y un preflight que imprime 'ready' solo si tz=='America/Lima' y el cron empieza por '0 6'; si no, 'blocked'. Luego imprime en una línea cron y tz. Contrato: no uses UTC. Pass exacto en dos líneas: ready / 0 6 * * 1-5 America/Lima.",
+        hint: "preflight tz + prefijo de cron; luego print cron tz",
         hints: [
-          "La expresión es 0 6 * * 1-5 (L–V a las 06:00).",
-          "La zona debe ser America/Lima, no UTC.",
-          "print(cron, tz) en una línea con espacio.",
+          "Condición ready: schedule['tz']=='America/Lima' y schedule['cron'].startswith('0 6').",
+          "El DEFECT pone tz='UTC' → debe quedar America/Lima.",
+          "Segunda línea: print(schedule['cron'], schedule['tz']).",
         ],
-        edgeCases: ["DST"],
-        tests: "línea exacta 0 6 * * 1-5 America/Lima",
-        feedback: "UTC desplaza el batch fuera del horario operativo de Lima.",
+        edgeCases: ["DST", "enable schedule solo si ready"],
+        tests: "línea ready y línea 0 6 * * 1-5 America/Lima",
+        feedback: "UTC o un cron sin 06:00 local desplaza el batch fuera del horario operativo de Lima.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · cron de escritorio en America/Lima
-# DEFECT: agenda weekday 06:00 como si fuera UTC
-# Completa: emite la expresión cron local y la zona America/Lima (no UTC).
-cron = '0 6 * * 1-5'
-zone = 'UTC'  # defecto incorrecto
-# zone = 'America/Lima'
-print(cron, zone)
-assert zone == 'America/Lima'
+          code: `# CASO-LIM-026 · cron de escritorio en America/Lima + preflight
+schedule = {"cron": "0 6 * * 1-5", "tz": "UTC"}  # DEFECT: tz UTC
+# schedule["tz"] = "America/Lima"
+ready = schedule["tz"] == "America/Lima" and schedule["cron"].startswith("0 6")
+print("ready" if ready else "blocked")
+print(schedule["cron"], schedule["tz"])
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('0 6 * * 1-5', 'America/Lima')`,
-          output: `0 6 * * 1-5 America/Lima`,
+          code: `schedule = {"cron": "0 6 * * 1-5", "tz": "America/Lima"}
+ready = schedule["tz"] == "America/Lima" and schedule["cron"].startswith("0 6")
+print("ready" if ready else "blocked")
+print(schedule["cron"], schedule["tz"])`,
+          output: `ready
+0 6 * * 1-5 America/Lima`,
         },
       },
       {
@@ -996,31 +1019,31 @@ print(state)`,
         subtopicId: "S26-T2-B",
         kind: "transfer",
         instruction:
-          "Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en busy-loop en el lab. Pass: busy.",
-        hint: "busy si locked",
+          "Lock optimista de concurrencia: entity={'id':'report-1','locked':True}. Si locked, imprime ('busy', entity['id']) y no entres; si no, ('enter', entity['id']). Contrato: fail-closed (ante duda, no entras); sin busy-loop en el lab. Pass: ('busy', 'report-1').",
+        hint: "busy + id si locked; enter + id si libre",
         hints: [
-          "Si locked es True → 'busy'; si no → 'enter'.",
+          "Lee entity['locked'] y entity['id'].",
+          "Si locked → ('busy', id); si no → ('enter', id).",
           "El DEFECT invierte la condición: no lo copies.",
-          "Fail-closed: ante lock, no entras.",
         ],
-        edgeCases: ["ttl del lock"],
-        tests: "busy cuando locked=True",
-        feedback: "Entrar con locked=True permite dos workers sobre el mismo informe.",
+        edgeCases: ["ttl del lock", "reencolar cuando busy"],
+        tests: "tupla (busy, report-1) cuando locked=True",
+        feedback: "Entrar con locked=True permite dos workers sobre el mismo informe; el id en la tupla deja evidencia para el runbook.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · lock busy
+          code: `# CASO-LIM-026 · lock busy + entity id
+entity = {"id": "report-1", "locked": True}
 # DEFECT: enter aunque locked
-locked=True
-print('enter' if locked else 'busy')
+print(("enter", entity["id"]) if entity["locked"] else ("busy", entity["id"]))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `locked=True
-print('busy' if locked else 'enter')`,
-          output: `busy`,
+          code: `entity = {"id": "report-1", "locked": True}
+print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
+          output: `('busy', 'report-1')`,
         },
       },
       {
@@ -1395,28 +1418,49 @@ print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
         subtopicId: "S26-T4-B",
         kind: "transfer",
         instruction:
-          "Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-automation (ver solución). Contrato: evidencia de defensa, no envío real. Pass debe coincidir el dict de solution output.",
-        hint: "tres claves del paquete de defensa",
+          "Paquete de defensa del cierre: implementa defense_package(n2_status, value_min, cf2_note) que devuelve dict con claves n2_regression, value_minutes_saved_est y cf2. Llama con n2_status='CP-N2-A/B/C critical+privacy', value_min=45, cf2_note='interfaces Familiarity-reporting-automation' e imprime el dict. Contrato: las tres claves son obligatorias (sin value no hay métrica de valor). Pass debe coincidir el dict de solution output.",
+        hint: "def que arma las tres claves; no omitas value_min",
         hints: [
-          "Incluye n2_regression, value_minutes_saved_est y cf2.",
-          "No omitas value_minutes_saved_est=45.",
-          "cf2 documenta interfaces Familiarity-reporting-automation.",
+          "return {'n2_regression': n2_status, 'value_minutes_saved_est': value_min, 'cf2': cf2_note}.",
+          "El DEFECT omite value_minutes_saved_est: restáuralo.",
+          "cf2 documenta interfaces Familiarity-reporting-automation (no un string vacío).",
         ],
-        edgeCases: ["gate ≥80% no crítica; 0 fallas críticas"],
-        tests: "dict completo de regresión N2 + valor + CF-2",
-        feedback: "Sin value estimate o CF-2 el paquete de cierre no es defendible.",
+        edgeCases: ["gate ≥80% no crítica; 0 fallas críticas", "evidencia real ≠ 'planned'"],
+        tests: "dict completo vía función (n2_regression + value + CF-2)",
+        feedback: "Sin value estimate o CF-2 el paquete de cierre no es defendible; hardcodear solo dos claves es print-theater.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-026 · cf2 package keys
-# DEFECT: omite value estimate
-print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'cf2': 'interfaces'})
+          code: `# CASO-LIM-026 · defense package (regresión N2 + valor + CF-2)
+def defense_package(n2_status, value_min, cf2_note):
+    # DEFECT: omite value_minutes_saved_est
+    return {
+        "n2_regression": n2_status,
+        "cf2": cf2_note,
+    }
+
+print(defense_package(
+    "CP-N2-A/B/C critical+privacy",
+    45,
+    "interfaces Familiarity-reporting-automation",
+))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})`,
+          code: `def defense_package(n2_status, value_min, cf2_note):
+    return {
+        "n2_regression": n2_status,
+        "value_minutes_saved_est": value_min,
+        "cf2": cf2_note,
+    }
+
+print(defense_package(
+    "CP-N2-A/B/C critical+privacy",
+    45,
+    "interfaces Familiarity-reporting-automation",
+))`,
           output: `{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'}`,
         },
       },
@@ -1490,7 +1534,7 @@ def package_e2e():
         "run_id": run_meta["run_id"],
     }
 
-# TODO del portafolio (completa sobre este esqueleto ejecutable):
+# Completa en el portafolio (sobre este esqueleto ejecutable):
 # 1) Simula fail_at='analyze', resume desde ckpt y un item flaky → DLQ con owner.
 # 2) HITL: sube pending, decide reject con reason / edit versionado / approve; audit append-only.
 # 3) Empaqueta e2e + nota de privacidad (solo datos sintéticos).

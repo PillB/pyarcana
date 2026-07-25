@@ -182,8 +182,8 @@ KeyError: 'email'`,
       heading: "Reproducción mínima, hipótesis y causa raíz",
       subtopicId: "S09-T2-B",
       paragraphs: [
-        "**Minimal repro**: reduce un lote de 200 filas sintéticas a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el postmortem sin arrastrar PII real ni ruido de otras columnas del CSV de intake. En CASO-LIM-009, un fallo de apellidos no exige el archivo completo: basta la cadena mínima que rompe el parser.",
-        "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar una hipótesis es progreso: no te cases con la primera intuición del on-call a las 02:00. Anota cada hipótesis en la bitácora del incidente para que el siguiente turno no repita el mismo camino ciego.",
+        "**Minimal repro**: reduce un lote sintético a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el postmortem sin arrastrar PII real ni ruido de otras columnas del CSV de intake. En CASO-LIM-009, un fallo de apellidos no exige el archivo completo: basta `SoloNombre` (o la cadena mínima) que rompe el parser.",
+        "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Ojo: un nombre con 3 tokens puede **no lanzar** y aun así truncar mal el segundo apellido — ese bug silencioso no aparece en el `except`; el minimal repro del ValueError es el de 1 token. Descartar una hipótesis es progreso: anótala en la bitácora del incidente.",
         "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo en el siguiente PR. 5-whys ligero: no pares en el síntoma («KeyError email») — pregunta si el schema del lote de S08 realmente exige esa clave en todas las filas o si el productor omitió un campo opcional sin documentarlo.",
       ],
       code: {
@@ -193,25 +193,26 @@ KeyError: 'email'`,
     parts = nombre.split()
     if len(parts) < 2:
         raise ValueError("faltan apellidos")
-    # bug: asume exactamente 2 tokens
+    # bug silencioso: con 3+ tokens descarta el resto (no lanza)
     return parts[0], parts[1]
 
-# lote "grande" sintético
-lote = [f"Cliente{i} Perez" for i in range(5)] + ["Maria Lopez Garcia"]
+# lote sintético: casi todos "Nombre Apellido"; uno con 1 token falla
+lote = [f"Cliente{i} Perez" for i in range(5)] + ["Maria Lopez Garcia", "SoloNombre"]
 bad = []
 for n in lote:
     try:
         split_apellidos(n)
     except ValueError as e:
         bad.append((n, type(e).__name__))
-# minimal: la fila con 3 tokens no falla aquí; el bug real es 1 token
+# minimal repro = la entrada más corta que dispara el ValueError
 print("bad in lote:", bad)
+minimal = min((n for n, _ in bad), key=len)
 try:
-    print(split_apellidos("SoloNombre"))
+    split_apellidos(minimal)
 except ValueError as e:
-    print("minimal repro:", e)`,
-        output: `bad in lote: []
-minimal repro: faltan apellidos`,
+    print("minimal repro:", minimal, "->", e)`,
+        output: `bad in lote: [('SoloNombre', 'ValueError')]
+minimal repro: SoloNombre -> faltan apellidos`,
       },
       callout: {
         type: "info",
@@ -267,7 +268,7 @@ ERROR stage=normalize record_id=C003 event=parse_fail field=monto`,
       heading: "Correlation IDs y redacción de PII",
       subtopicId: "S09-T3-B",
       paragraphs: [
-        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) como argumento explícito para unir logs del mismo job o lote. Sin él, el postmortem de las 02:10 es arqueología: no sabes si el WARNING de la fila C014 y el ERROR del provider pertenecen a la misma corrida de intake.",
+        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) como argumento explícito para unir logs del mismo job o lote. Sin él, el postmortem de las 02:10 es arqueología: no sabes si el WARNING de la fila C014 y el ERROR del provider pertenecen a la misma corrida de intake. En el **manifest de S08**, cada fila en cuarentena gana poder operativo si lleva el mismo `correlation_id` que el job que la rechazó.",
         "**Nunca** loguees email, teléfono o dirección **completos**. Usa máscaras estables: `a***@ejemplo.pe`, `***4567`, dirección reducida a ciudad o `***`. Un ERROR con el row completo es un incidente de cumplimiento (y de confianza del cliente), no un «log detallado» útil. En CASO-LIM-009, con `corr-9c2e` y email enmascarado el canal de ops actúa en minutos sin filtrar PII a Slack.",
         "Helpers `mask_email` / `mask_phone` / `mask_address` deben ser el **único** camino hacia los logs; un audit de código falla si alguien hace `log.info(row)` o formatea f-strings con el email crudo. Redacta **antes** del format string. En el `except`, combina redacción con `log.exception(...)` para forensics (stack + correlation_id) sin exponer datos personales.",
       ],
@@ -290,8 +291,11 @@ def mask_phone(phone: str) -> str:
         return "***"
     return "***" + digits[-4:]
 
-def parse_monto(raw: str) -> float:
-    return float(raw)  # demo: fuerza ValueError con texto
+def parse_campo_requerido(raw: str) -> str:
+    # demo de ERROR path: no uses float para montos (ver Decimal en T1-A)
+    if raw.strip().upper() in {"N/A", "NA", ""}:
+        raise ValueError(f"valor vacío o N/A: {raw!r}")
+    return raw.strip()
 
 buf = io.StringIO()
 log = logging.getLogger("pipeline.pii")
@@ -305,7 +309,7 @@ log.propagate = False
 corr = "job-7f3a"
 email = "ana.rojas@ejemplo.pe"
 try:
-    parse_monto("N/A")
+    parse_campo_requerido("N/A")
 except ValueError:
     log.exception(
         "correlation_id=%s stage=validate error_class=data email=%s",
@@ -2036,7 +2040,7 @@ print("idem_key=" + key)`,
   youDo: {
     title: "Bitácora auditable del pipeline (inicio CP-N1-C)",
     context:
-      "Inicias **CP-N1-C**: una bitácora de pipeline que clasifica fallos (data|config|provider), emite logs estructurados con correlation_id y **nunca** registra PII completa. Usa solo datos sintéticos; sin claims de fraude ni parentesco.",
+      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas — en un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco.",
     objectives: [
       "Clasificar fallos en data | config | provider",
       "Emitir logs estructurados con correlation_id",

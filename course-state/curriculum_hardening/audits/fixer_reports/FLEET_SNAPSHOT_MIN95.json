@@ -1,0 +1,483 @@
+{
+  "timestamp": "2026-07-24T17:34:49",
+  "wave": "min95",
+  "count": 52,
+  "anti_aberration_ok": 52,
+  "explorer_bound": 52,
+  "avg_after": 9.557692307692315,
+  "min_after": 9.5,
+  "max_after": 9.6,
+  "ge_9_5": 52,
+  "below_9_5": [],
+  "goal_met": true,
+  "rows": [
+    {
+      "n": 1,
+      "score_before": 6.8,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:26:09"
+    },
+    {
+      "n": 2,
+      "score_before": 7.2,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:01"
+    },
+    {
+      "n": 3,
+      "score_before": 7.5,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:35"
+    },
+    {
+      "n": 4,
+      "score_before": 6.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:29:55"
+    },
+    {
+      "n": 5,
+      "score_before": 7.8,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:17"
+    },
+    {
+      "n": 6,
+      "score_before": 7.6,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:29:44"
+    },
+    {
+      "n": 7,
+      "score_before": 6.4,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:18"
+    },
+    {
+      "n": 8,
+      "score_before": 5.5,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:46"
+    },
+    {
+      "n": 9,
+      "score_before": 7.3,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:06"
+    },
+    {
+      "n": 10,
+      "score_before": 7.0,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:02"
+    },
+    {
+      "n": 11,
+      "score_before": 6.4,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:41"
+    },
+    {
+      "n": 12,
+      "score_before": 6.4,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:03"
+    },
+    {
+      "n": 13,
+      "score_before": 7.3,
+      "score_after": 9.55,
+      "status": "fixed_validated_gold",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:47"
+    },
+    {
+      "n": 14,
+      "score_before": 7.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:21"
+    },
+    {
+      "n": 15,
+      "score_before": 6.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:41"
+    },
+    {
+      "n": 16,
+      "score_before": 6.5,
+      "score_after": 9.5,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:37"
+    },
+    {
+      "n": 17,
+      "score_before": 6.7,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:41"
+    },
+    {
+      "n": 18,
+      "score_before": 7.0,
+      "score_after": 9.55,
+      "status": "fixed_validated_min95",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:21"
+    },
+    {
+      "n": 19,
+      "score_before": 6.4,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:02"
+    },
+    {
+      "n": 20,
+      "score_before": null,
+      "score_after": 9.6,
+      "status": null,
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:36"
+    },
+    {
+      "n": 21,
+      "score_before": 6.0,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:20"
+    },
+    {
+      "n": 22,
+      "score_before": 7.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:25"
+    },
+    {
+      "n": 23,
+      "score_before": 6.2,
+      "score_after": 9.5,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:33:27"
+    },
+    {
+      "n": 24,
+      "score_before": 6.8,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:33:39"
+    },
+    {
+      "n": 25,
+      "score_before": 5.8,
+      "score_after": 9.5,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:31"
+    },
+    {
+      "n": 26,
+      "score_before": 6.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:00"
+    },
+    {
+      "n": 27,
+      "score_before": 4.8,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:15"
+    },
+    {
+      "n": 28,
+      "score_before": 3.8,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:10"
+    },
+    {
+      "n": 29,
+      "score_before": 4.6,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:12"
+    },
+    {
+      "n": 30,
+      "score_before": 4.2,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:27"
+    },
+    {
+      "n": 31,
+      "score_before": 5.5,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:29:14"
+    },
+    {
+      "n": 32,
+      "score_before": 5.0,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:33"
+    },
+    {
+      "n": 33,
+      "score_before": 5.5,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:11"
+    },
+    {
+      "n": 34,
+      "score_before": 4.6,
+      "score_after": 9.5,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:34:05"
+    },
+    {
+      "n": 35,
+      "score_before": 7.3,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:56"
+    },
+    {
+      "n": 36,
+      "score_before": 6.6,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:33:23"
+    },
+    {
+      "n": 37,
+      "score_before": 6.0,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:29:39"
+    },
+    {
+      "n": 38,
+      "score_before": 7.0,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:49"
+    },
+    {
+      "n": 39,
+      "score_before": 7.9,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:29:31"
+    },
+    {
+      "n": 40,
+      "score_before": 6.4,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:02"
+    },
+    {
+      "n": 41,
+      "score_before": 5.0,
+      "score_after": 9.6,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:54"
+    },
+    {
+      "n": 42,
+      "score_before": 6.0,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:36"
+    },
+    {
+      "n": 43,
+      "score_before": 6.7,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:31"
+    },
+    {
+      "n": 44,
+      "score_before": 5.5,
+      "score_after": 9.5,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:59"
+    },
+    {
+      "n": 45,
+      "score_before": 5.8,
+      "score_after": 9.6,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:33:19"
+    },
+    {
+      "n": 46,
+      "score_before": 4.8,
+      "score_after": 9.55,
+      "status": "fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:33:14"
+    },
+    {
+      "n": 47,
+      "score_before": 5.7,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:03"
+    },
+    {
+      "n": 48,
+      "score_before": 5.8,
+      "score_after": 9.55,
+      "status": "complete",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:31:39"
+    },
+    {
+      "n": 49,
+      "score_before": 5.8,
+      "score_after": 9.55,
+      "status": "fixed_gold",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:34:04"
+    },
+    {
+      "n": 50,
+      "score_before": 5.6,
+      "score_after": 9.55,
+      "status": "section_ts_fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:10"
+    },
+    {
+      "n": 51,
+      "score_before": 6.1,
+      "score_after": 9.55,
+      "status": "section_ts_fixed_validated",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:32:25"
+    },
+    {
+      "n": 52,
+      "score_before": 6.2,
+      "score_after": 9.55,
+      "status": "fixer_complete_min95",
+      "anti_ab": true,
+      "explorer_bound": true,
+      "mtime": "2026-07-24T17:30:21"
+    }
+  ]
+}

@@ -75,7 +75,7 @@ const SECTION_NAMES: Record<string, string> = {
   "system-design": '35. SysDesign',
   "ai-apis-advanced": '36. AI APIs',
   "dbt-bigquery": '37. dbt/BQ',
-  "performance-extreme": '38. Perf+',
+  "performance-extreme": '38. Concurrencia',
   "integrator-phase2": '39. Capstone P2',
   "agentic-architecture": '40. Agentic',
   "llm-finetuning": '41. FineTune',

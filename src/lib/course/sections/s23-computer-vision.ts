@@ -115,9 +115,7 @@ prefer_role_over_css True`,
       code: {
         language: 'python',
         title: "autowait.py",
-        code: `import time
-
-class FakeClock:
+        code: `class FakeClock:
     def __init__(self):
         self.t = 0
     def advance(self, ms):
@@ -835,23 +833,23 @@ fail`,
         subtopicId: "S23-T2-A",
         kind: "guided",
         instruction:
-          "CASO-LIM-023 · Fill de formulario. form={}; asigna usuario='ana' y periodo='2026-01'; imprime form. Mutar el dict con ambos campos (no hardcodear el print del resultado). Salida esperada: {'usuario': 'ana', 'periodo': '2026-01'}",
-        hint: "Asigna form['usuario'] y form['periodo'] antes del print.",
+          "CASO-LIM-023 · Fill de formulario. form={}; asigna usuario='ana' y periodo='2026-01'; imprime form. El reporte sintético exige **ambos** campos: sin periodo el export del portal demo falla en S24 (OCR sin fecha). Mutar el dict campo a campo (no hardcodear el print). Salida esperada: {'usuario': 'ana', 'periodo': '2026-01'}",
+        hint: "Asigna form['usuario'] y form['periodo'] antes del print; no dejes periodo comentado.",
         hints: [
           "fill en Playwright escribe en cada control; aquí el análogo es mutar el dict campo a campo.",
-          "Si solo asignas usuario y omites periodo, el contrato del reporte falla.",
-          "No hardcodees el dict en el print: asigna ambos campos y luego imprime form.",
+          "El starter solo rellena usuario: el periodo del reporte sigue vacío — completa ambos.",
+          "No hardcodees el dict en el print: asigna los dos campos y luego imprime form.",
         ],
-        edgeCases: ["campos vacíos", "periodo mal formateado"],
+        edgeCases: ["campos vacíos", "periodo mal formateado", "periodo omitido rompe el export"],
         tests: "Stdout exacto: dict con usuario='ana' y periodo='2026-01' (orden de inserción de Python 3.7+).",
-        feedback: "El form impreso debe incluir usuario='ana' y periodo='2026-01' tras el fill.",
+        feedback: "El form impreso debe incluir usuario='ana' y periodo='2026-01'. Un solo campo no basta para el export.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-023 · fill form (usuario + periodo)
-# Arregla: no asigna los campos del reporte
+# Arregla: solo rellena usuario; falta periodo del reporte
 form = {}
-# form['usuario'] = 'ana'
+form['usuario'] = 'ana'
 # form['periodo'] = '2026-01'
 print(form)
 `,
@@ -1284,23 +1282,30 @@ print(steps[i + 1])`,
         subtopicId: "S23-T4-A",
         kind: "guided",
         instruction:
-          "CASO-LIM-023 · API-first. caps={'api': True, 'export': True, 'rpa': True}. Elige el mejor canal (api > export > rpa) e imprime solo ese string. Si api está disponible, gana aunque export y rpa también existan. Salida esperada: api",
-        hint: "Evalúa caps.get('api') primero; no mires rpa antes que api.",
+          "CASO-LIM-023 · API-first. caps={'api': True, 'export': True, 'rpa': True}. Elige el mejor canal con cascada **api > export > rpa** e imprime solo ese string. Si api está disponible, gana aunque export y rpa también existan. El starter evalúa rpa primero (anti-patrón). Salida esperada: api",
+        hint: "Invierte el orden de los if: caps.get('api') debe ir primero.",
         hints: [
           "Si hay API, el adapter no debe caer a RPA ni a export por costumbre.",
-          "El starter elige rpa a propósito aunque api=True.",
+          "El starter pregunta rpa antes que api: por eso imprime rpa aunque api=True.",
           "El valor de negocio es el dato verificado, no el click automatizado.",
         ],
         edgeCases: ["feature flags", "api cae a mitad de corrida"],
-        tests: "Stdout exacto: `api`. No rpa aunque rpa=True.",
-        feedback: "Con api=True la elección correcta es api, no rpa ni export.",
+        tests: "Stdout exacto: `api`. No rpa aunque rpa=True. Cascada api > export > rpa.",
+        feedback: "Con api=True la cascada correcta imprime api. Evaluar rpa primero es el defecto a corregir.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-023 · api first (jerarquía)
-# Arregla: elige rpa aunque api=True
+# Arregla: evalúa rpa antes que api (orden invertido)
 caps = {'api': True, 'export': True, 'rpa': True}
-print('rpa')
+if caps.get('rpa'):
+    print('rpa')
+elif caps.get('export'):
+    print('export')
+elif caps.get('api'):
+    print('api')
+else:
+    print('human')
 `,
         },
         solutionCode: {
@@ -1409,31 +1414,37 @@ print(decide({'api': False, 'export': True, 'rpa_allowed': True}))`,
         subtopicId: "S23-T4-B",
         kind: "guided",
         instruction:
-          "CASO-LIM-023 · CAPTCHA en portal demo. captcha=True → imprime 'human_handoff' (sin bypass ni granja). Handoff humano obligatorio. Salida esperada: human_handoff",
-        hint: "print('human_handoff' if captcha else 'continue')",
+          "CASO-LIM-023 · CAPTCHA en portal demo. Implementa decide(captcha): True → 'human_handoff'; False → 'continue'. Prueba captcha=True y captcha=False; imprime dos líneas. Sin bypass ni granja. Salida esperada:\nhuman_handoff\ncontinue",
+        hint: "return 'human_handoff' if captcha else 'continue' — invoca decide dos veces.",
         hints: [
           "CAPTCHA es stop condition ética: no se reintenta ni se resuelve con bots.",
-          "El starter invierte la ternaria a propósito.",
+          "El starter invierte la ternaria y además solo prueba un caso: corrige ambos.",
           "El handoff debe incluir evidencia (url/step/screenshot) en el You Do.",
         ],
-        edgeCases: ["no resolver captcha en bot"],
-        tests: "Stdout exacto: `human_handoff`. Nunca continue con captcha=True.",
-        feedback: "Con captcha=True la única salida válida es human_handoff.",
+        edgeCases: ["no resolver captcha en bot", "False debe permitir continue"],
+        tests: "Stdout exacto (2 líneas): human_handoff luego continue.",
+        feedback: "captcha=True → human_handoff; captcha=False → continue. Nunca continue con captcha activo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-023 · captcha → handoff
-# Arregla: continue con captcha
-captcha=True
-print('continue' if captcha else 'human_handoff')
+          code: `# CASO-LIM-023 · captcha → handoff (ambos casos)
+# Arregla: ternaria invertida y solo un caso
+def decide(captcha):
+    return 'continue' if captcha else 'human_handoff'
+
+print(decide(True))
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `captcha=True
-print('human_handoff' if captcha else 'continue')`,
-          output: `human_handoff`,
+          code: `def decide(captcha):
+    return 'human_handoff' if captcha else 'continue'
+
+print(decide(True))
+print(decide(False))`,
+          output: `human_handoff
+continue`,
         },
       },
       {
@@ -1522,6 +1533,7 @@ print(sorted(payload.keys()), payload['step'])`,
     ],
     starterCode: `# Simulación de robot — mapeable a Playwright real (get_by_role, expect_download, tracing)
 # Completa el flujo: login PO → export por rol → hash → evidencia → handoff/retry
+# Credenciales del sandbox: solo demo / sandbox (nunca secretos reales de bancos o SUNAT)
 import hashlib
 
 DOM = [
@@ -1537,7 +1549,7 @@ def by_role(role, name):
 
 class LoginPage:
     def submit(self, ctx, user, password):
-        # TODO: autenticar solo con demo/sandbox; mutar ctx['auth']
+        # Completa: autenticar solo con demo/sandbox; mutar ctx['auth'] a True/False
         pass
 
 def verify_download(blob: bytes) -> str:
@@ -1567,18 +1579,23 @@ def next_step(last_ok_step: str | None) -> str:
     i = STEPS.index(last_ok_step)
     return STEPS[i + 1] if i + 1 < len(STEPS) else "done"
 
-# --- Tu implementación de corrida feliz + falla forzada ---
+# --- Corrida de aceptación (completa login; el resto ya modela el contrato) ---
 ctx = {}
-# LoginPage().submit(ctx, "demo", "sandbox")
+LoginPage().submit(ctx, "demo", "sandbox")
 blob = b"synthetic-report-xlsx"
 sha = verify_download(blob)
+print("auth", ctx.get("auth"))
 print("export_btn", by_role("button", "Exportar")["id"])
+print("download_link", by_role("link", "Descargar reporte")["id"])
 print("sha", sha)
 print("blocker_captcha", on_blocker({"captcha": True}))
+print("blocker_tos", on_blocker({"tos": True}))
 print("retry_timeout", should_retry("timeout"))
+print("retry_captcha", should_retry("captcha"))
 print("evidence_fail", evidence("export", False, "TimeoutError"))
+print("evidence_ok", evidence("export", True))
 print("resume_after_login", next_step("login"))
-# Documenta en runbook: last_ok_step, política captcha/ToS, por qué no API
+# Runbook es-PE: last_ok_step, política captcha/ToS, por qué no hubo API/export, puente a OCR (S24)
 `,
     portfolioNote:
       "Evidencia del adaptador web CP-N2-C: traces de éxito y falla forzada + download verificado + política de handoff + runbook es-PE con last_ok_step. Listo para alimentar OCR en S24.",
@@ -1648,6 +1665,13 @@ print("resume_after_login", next_step("login"))
         correctIndex: 3,
         explanation:
           "La reanudación por checkpoint salta al siguiente paso tras last_ok_step; rehacer login/form puede doble-submittear el portal.",
+      },
+      {
+        question: "¿Para qué se reutiliza storage_state (cookies/localStorage) entre corridas del adapter?",
+        options: ["Para hardcodear la contraseña en el código del robot", "Para bypassear CAPTCHA guardando el token del captcha", "Para reusar la sesión autenticada y no re-loguear en cada caso (menos flakes y menos tiempo de suite)", "Para reemplazar locators por CSS nth-child"],
+        correctIndex: 2,
+        explanation:
+          "storage_state serializa la sesión: login una vez, reuso en tests de negocio. Nunca sustituye handoff ni viola ToS.",
       },
     ],
   },

@@ -1,0 +1,22 @@
+{
+  "section": 3,
+  "id": "data-structures",
+  "file": "src/lib/course/sections/s03-data-structures.ts",
+  "title": "Decisiones y reglas de validación",
+  "score_1_to_10": 7.5,
+  "issue_count": 21,
+  "meta_leak_count": 6,
+  "p0_count": 3,
+  "p1_count": 5,
+  "status": "complete",
+  "live_url": "https://pillb.github.io/pyarcana/#data-structures",
+  "report_path": "course-state/curriculum_hardening/audits/explorer_reports/S03_EXPLORER_REPORT.md",
+  "verdict": "Strong workplace pedagogy and gold structure; blocked from gold by code/output desync (3 demos) and learner-facing V3/legacy meta-text. Ready for Fixer.",
+  "top_blockers": [
+    "ISSUE-01 theory T1-A code≠output",
+    "ISSUE-02 I Do S03-T1-A-DEMO code≠output",
+    "ISSUE-03 I Do S03-T3-B-DEMO code≠output",
+    "ISSUE-04/05/06 meta-leaks (V3, gate V3, Sales Log Parser legacy)",
+    "ISSUE-07 You Do NotImplementedError shells"
+  ]
+}

@@ -117,24 +117,25 @@ False`,
       ],
       code: {
         language: 'python',
-        title: 'convertir_campo.py',
-        code: `def convertir_edad(campo: str, valor: str):
-    """Intenta int(strip). Mensaje accionable si falla."""
+        title: 'safe_int_contrato.py',
+        code: `def safe_int(campo: str, valor: str):
+    """Contrato unificado S02: vacío / OK / ValueError."""
+    texto = valor.strip()
+    if texto == "":
+        return False, None, f"ERROR en '{campo}': valor vacío"
     try:
-        n = int(valor.strip())
-        print(f"OK {campo}={n}")
-        return n
+        return True, int(texto), None
     except ValueError:
-        print(f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
-        return None
+        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
 
-convertir_edad("edad", " 19 ")
-convertir_edad("edad", "abc")
+for v in [" 19 ", "abc", "  "]:
+    print(repr(v), "→", safe_int("edad", v))
 
 print(isinstance(19, int))       # True
 print(isinstance("19", int))     # False`,
-        output: `OK edad=19
-ERROR en 'edad': no se pudo convertir 'abc' a int
+        output: `' 19 ' → (True, 19, None)
+'abc' → (False, None, "ERROR en 'edad': no se pudo convertir 'abc' a int")
+'  ' → (False, None, "ERROR en 'edad': valor vacío")
 True
 False`,
       },
@@ -423,29 +424,30 @@ type('42')= str
         demoId: 'S02-T1-B-DEMO',
         subtopicId: 'S02-T1-B',
         environment: 'browser-pyodide',
-        description: 'Convertir campos de texto a número con mensaje de error por campo',
+        description: 'safe_int unificado: vacío, OK y ValueError con mensaje por campo',
         code: {
           language: 'python',
-          title: 'S02-T1-B-DEMO — convertir_con_error',
-          code: `def convertir_edad(campo: str, valor: str):
+          title: 'S02-T1-B-DEMO — safe_int_contrato',
+          code: `def safe_int(campo: str, valor: str):
+    texto = valor.strip()
+    if texto == "":
+        return False, None, f"ERROR en '{campo}': valor vacío"
     try:
-        n = int(valor.strip())
-        print(f"OK {campo}={n}")
-        return n
+        return True, int(texto), None
     except ValueError:
-        print(f"ERROR en '{campo}': no se pudo convertir {valor!r} a int")
-        return None
+        return False, None, f"ERROR en '{campo}': no se pudo convertir {valor!r} a int"
 
-convertir_edad("edad", " 19 ")
-convertir_edad("edad", "abc")
+for v in [" 19 ", "abc", "  "]:
+    print(repr(v), "→", safe_int("edad", v))
 print("isinstance(19, int) →", isinstance(19, int))
 print("isinstance('19', int) →", isinstance("19", int))`,
-          output: `OK edad=19
-ERROR en 'edad': no se pudo convertir 'abc' a int
+          output: `' 19 ' → (True, 19, None)
+'abc' → (False, None, "ERROR en 'edad': no se pudo convertir 'abc' a int")
+'  ' → (False, None, "ERROR en 'edad': valor vacío")
 isinstance(19, int) → True
 isinstance('19', int) → False`,
         },
-        why: 'strip + int cubre el caso feliz con espacios. El caso "abc" no debe tumbar el notebook sin contexto: el mensaje nombra el campo y muestra el valor recibido. isinstance separa “ya es int” de “sigue siendo texto”.',
+        why: 'El contrato de tres ramas (vacío / OK / basura) es el mismo que usarás en el pipeline de dos campos, en el DEMO T4-B y en el You Do. isinstance separa “ya es int” de “sigue siendo texto”; el mensaje siempre nombra el campo y el valor recibido.',
       },
       {
         demoId: 'S02-T2-A-DEMO',
@@ -1635,7 +1637,8 @@ print(mensaje)`,
           language: 'python',
           title: 'reporte_cliente.py',
           code: `# CASO-LIM-002 · T4-A-E2
-# Completa el reporte multi-línea con f-strings y monto a 2 decimales.
+# Construye el reporte multi-línea: cada print debe ser un f-string completo.
+# Incluye las 4 etiquetas y monto con :.2f (salida: S/ 99.50).
 from decimal import Decimal
 
 nombres = "Ana"
@@ -1643,10 +1646,10 @@ apellido_paterno = "Ramos"
 contacto = "999000111"
 monto = Decimal("99.5")
 print("Resumen cliente")
-print(f"nombres: {____}")
-print(f"apellido_paterno: {____}")
-print(f"contacto: {____}")
-print(f"monto: S/ {____:.2f}")`,
+print(____)  # f-string: nombres
+print(____)  # f-string: apellido_paterno
+print(____)  # f-string: contacto
+print(____)  # f-string: monto S/ con :.2f`,
         },
         solutionCode: {
           language: 'python',

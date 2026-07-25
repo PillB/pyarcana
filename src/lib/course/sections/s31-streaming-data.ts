@@ -778,25 +778,34 @@ n 2`,
         subtopicId: "S31-T1-A",
         kind: "transfer",
         instruction:
-          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los `etype` únicos ordenados. Usa el schema canónico cuando puedas (`transfer`, `shared_phone`). Fixture `CASO-LIM-031`.",
+          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los `etype` únicos ordenados. Usa el schema canónico (`transfer` dirigida, `shared_phone` no dirigida). Esta clasificación es el filtro que el revisor aplica al path. Fixture `CASO-LIM-031`.",
         hint: "sets para etypes; sorted(set(...)).",
         hints: [
-          "Cuenta directed=True y directed=False por separado.",
+          "Cuenta directed=True y directed=False por separado (no mezcles convenciones en el mismo etype).",
           "etypes = sorted({e['etype'] for e in edges}).",
         ],
-        edgeCases: ["etype repetido colapsa en set"],
+        edgeCases: ["etype repetido colapsa en set", "misma etype no debe mezclar directed True/False en producción"],
         tests: "salida: directed 2 / undirected 1 / etypes ['shared_phone', 'transfer']",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · directed vs undirected counts
-# TODO: conteos directed/undirected + etypes únicos
+          code: `# CASO-LIM-031 · directed vs undirected counts (schema canónico)
+# TODO: implementa counts(edges) → (n_dir, n_undir, etypes_sorted)
 edges = [
     {'directed': True, 'etype': 'transfer'},
     {'directed': False, 'etype': 'shared_phone'},
     {'directed': True, 'etype': 'transfer'},
 ]
+
+def counts(edges):
+    n_dir = 0
+    n_undir = 0
+    etypes = set()
+    # completar bucle
+    return n_dir, n_undir, sorted(etypes)
+
+n_dir, n_undir, etypes = counts(edges)
 # print directed, undirected, etypes
 `,
         },
@@ -808,9 +817,17 @@ edges = [
     {'directed': False, 'etype': 'shared_phone'},
     {'directed': True, 'etype': 'transfer'},
 ]
-print("directed", sum(1 for e in edges if e["directed"]))
-print("undirected", sum(1 for e in edges if not e["directed"]))
-print("etypes", sorted({e["etype"] for e in edges}))`,
+
+def counts(edges):
+    n_dir = sum(1 for e in edges if e["directed"])
+    n_undir = sum(1 for e in edges if not e["directed"])
+    etypes = sorted({e["etype"] for e in edges})
+    return n_dir, n_undir, etypes
+
+n_dir, n_undir, etypes = counts(edges)
+print("directed", n_dir)
+print("undirected", n_undir)
+print("etypes", etypes)`,
           output: `directed 2
 undirected 1
 etypes ['shared_phone', 'transfer']`,
@@ -1417,29 +1434,50 @@ guilt False`,
         subtopicId: "S31-T3-B",
         kind: "independent",
         instruction:
-          "S31-T3-B-E2 · Dado un ranking de grado, elige el hub top y clasifícalo como `infra` o `person` por prefijo de id (`INF-` vs `PER-`); imprime kind, disclaimer y hub. Fixture `CASO-LIM-031`.",
-        hint: "hub = max(deg, key=deg.get); startswith('INF-'); disclaimer fijo 'centrality_not_guilt'.",
+          "S31-T3-B-E2 · Desde aristas no dirigidas del fixture, calcula el grado de cada nodo, elige el hub de mayor grado y clasifícalo como `infra` o `person` por prefijo de id (`INF-` vs `PER-`). Imprime kind, disclaimer `centrality_not_guilt` y hub. Un hub de pagos no implica culpa de las personas conectadas. Fixture `CASO-LIM-031`.",
+        hint: "Acumula deg desde ambos extremos; hub = max(deg, key=deg.get); startswith('INF-').",
         hints: [
-          "kind = 'infra' if hub.startswith('INF-') else 'person'.",
-          "Un hub de infraestructura no implica culpa de personas conectadas.",
+          "for u, v in edges: deg[u] += 1; deg[v] += 1.",
+          "kind = 'infra' if hub.startswith('INF-') else 'person'. Un hub de infraestructura no implica culpa.",
         ],
-        edgeCases: [],
+        edgeCases: ["grado se calcula desde aristas, no desde un ranking pre-horneado"],
         tests: "salida: kind infra / disclaimer centrality_not_guilt / hub INF-PAY",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · hub infra vs person
-# TODO: elige el hub de mayor grado y clasifícalo por prefijo
-deg = {'INF-PAY': 5, 'PER-01': 2, 'PER-02': 1}
-hub = None  # completar: nodo de mayor degree
+          code: `# CASO-LIM-031 · hub infra vs person (degree desde aristas)
+# TODO: calcula grado, elige hub y clasifica por prefijo INF-/PER-
+from collections import defaultdict
+edges = [
+    ('INF-PAY', 'PER-01'),
+    ('INF-PAY', 'PER-02'),
+    ('INF-PAY', 'PER-03'),
+    ('INF-PAY', 'PER-04'),
+    ('INF-PAY', 'PER-05'),
+    ('PER-01', 'PER-02'),
+]
+deg = defaultdict(int)
+hub = None  # completar tras acumular deg
 kind = None  # completar: 'infra' o 'person'
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `deg = {'INF-PAY': 5, 'PER-01': 2, 'PER-02': 1}
+          code: `from collections import defaultdict
+edges = [
+    ('INF-PAY', 'PER-01'),
+    ('INF-PAY', 'PER-02'),
+    ('INF-PAY', 'PER-03'),
+    ('INF-PAY', 'PER-04'),
+    ('INF-PAY', 'PER-05'),
+    ('PER-01', 'PER-02'),
+]
+deg = defaultdict(int)
+for u, v in edges:
+    deg[u] += 1
+    deg[v] += 1
 hub = max(deg, key=deg.get)
 kind = "infra" if hub.startswith("INF-") else "person"
 print("kind", kind)
@@ -1615,19 +1653,19 @@ prov True`,
         subtopicId: "S31-T4-A",
         kind: "transfer",
         instruction:
-          "S31-T4-A-E3 · Idempotencia: construir el grafo dos veces desde las mismas edges produce la misma lista sorted. Imprime equal, edges y idempotent. Fixture `CASO-LIM-031`.",
+          "S31-T4-A-E3 · Idempotencia del builder: construir el grafo dos veces desde las mismas filas debe producir la misma lista de aristas ordenada (reproducible para auditoría y re-ejecución del workbench). Implementa `build` determinista e imprime `equal`, la lista `edges` y `idempotent`. Fixture `CASO-LIM-031`.",
         hint: "función build → sorted(set(...)); compara dos builds.",
         hints: [
-          "build debe ser determinista (sort + set).",
-          "equal = build(raw) == build(list(raw)).",
+          "build debe ser determinista (sort + set de tuples normalizados).",
+          "equal = build(raw) == build(list(raw)); sin eso el revisor no confía en re-runs.",
         ],
-        edgeCases: [],
+        edgeCases: ["orden de entrada no debe cambiar el grafo canónico"],
         tests: "salida: equal True / edges [('a', 'b'), ('b', 'c')] / idempotent True",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · build idempotence
+          code: `# CASO-LIM-031 · build idempotence (reproducible para auditoría)
 # TODO: build determinista y comparación equal
 raw = [('a', 'b'), ('b', 'c')]
 

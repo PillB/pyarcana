@@ -1475,15 +1475,25 @@ print(hashlib.sha1(blob).hexdigest()[:8])`,
       "ingest_*: read_csv desde StringIO + aplicar schema; float con to_numeric(errors='coerce'); fecha con to_datetime o parse_dates",
       "coercion_report: cuenta NaN nuevos tras coerce (al menos score en clientes y monto en transacciones deben reportar fallos del fixture)",
       "reconcile: {rows: int, columns: list, missing_columns: list} — missing_columns vacío si el schema cuadra",
-      "export_with_manifest: serializa to_csv(index=False), hashea esos bytes, devuelve dict con source/rows/columns/sha1",
-      "if __name__ == '__main__' ejecuta **ambos** hilos (clientes y transacciones) y imprime report/reconcile/manifest",
+      "export_with_manifest: serializa to_csv(index=False), hashea esos bytes, devuelve dict con source/rows/columns/sha1 (o content_sha1)",
+      "Suite de asserts en _run_tests() que demuestre correctitud de ambos hilos (no solo prints)",
+      "main() + if __name__ == '__main__' reproducible: primero _run_tests(), luego imprime report/reconcile/manifest de clientes y transacciones",
       "README corto en español: qué falló, por qué no inventaste defaults, dependencias (openpyxl solo si exportas Excel)",
       "Límite honesto: sin joins profundos ni quality gates avanzados — solo ingesta tipada + provenance",
     ],
-    starterCode: `import pandas as pd
-from io import StringIO
+    starterCode: `"""ingest_cp_n2a.py — incremento CP-N2-A (S15)
+Ingesta tipada de clientes y transacciones sintéticas (Perú).
+Implementa las cuatro funciones y haz pasar _run_tests().
+Solo pandas + stdlib. Sin PII real.
+"""
+
+from __future__ import annotations
+
 import hashlib
 import json
+from io import StringIO
+
+import pandas as pd
 
 CLIENTES = """cliente_id,region,score
 C001,Lima,0.9
@@ -1505,14 +1515,10 @@ SCHEMA_TX = {
     "fecha": "datetime64",
 }
 
-# Aceptación esperada (orientativa, no hardcodees el print):
-# - CLIENTES: 3 filas; score tiene ≥1 coerción (NA → NaN); missing_columns == []
-# - TRANSACCIONES: 3 filas; monto tiene ≥1 coerción (N/A); fecha en datetime
-# - manifest: keys source, rows, columns, sha1 (o content_sha1); sha1 del to_csv(index=False)
-
 
 def ingest_clientes(text: str) -> tuple[pd.DataFrame, dict]:
     """Lee CSV, aplica SCHEMA_CLIENTES, devuelve (df, coercion_report).
+
     Fail-closed: KeyError si falta columna del schema.
     """
     raise NotImplementedError
@@ -1520,6 +1526,7 @@ def ingest_clientes(text: str) -> tuple[pd.DataFrame, dict]:
 
 def ingest_transacciones(text: str) -> tuple[pd.DataFrame, dict]:
     """Lee CSV de TX (parse_dates o to_datetime en fecha), aplica SCHEMA_TX.
+
     Devuelve (df, coercion_report) con fallos de monto (y fecha si aplica).
     """
     raise NotImplementedError
@@ -1532,33 +1539,74 @@ def reconcile(df: pd.DataFrame, expected_cols: list[str]) -> dict:
 
 def export_with_manifest(df: pd.DataFrame, source: str) -> dict:
     """CSV index=False + manifest con rows/columns/sha1/source.
+
     Hashea el payload de to_csv, no el repr del DataFrame.
     """
     raise NotImplementedError
 
 
-if __name__ == "__main__":
-    # Hilo clientes (obligatorio): schema → coerciones → reconcile → export/manifest
+def _run_tests() -> None:
+    """Aceptación orientativa: no hardcodees prints; demuestra el contrato."""
+    df, report = ingest_clientes(CLIENTES)
+    assert len(df) == 3
+    assert report.get("score", 0) >= 1
+    rec = reconcile(df, list(SCHEMA_CLIENTES))
+    assert rec["rows"] == 3
+    assert rec["missing_columns"] == []
+    man = export_with_manifest(df, "synthetic_clientes_v1")
+    assert man["rows"] == 3
+    assert man.get("source") == "synthetic_clientes_v1"
+    assert "sha1" in man or "content_sha1" in man
+    sha = man.get("sha1") or man.get("content_sha1")
+    assert isinstance(sha, str) and len(sha) >= 8
+
+    # Fail-closed: columna del schema ausente
+    try:
+        bad_csv = "cliente_id,region" + chr(10) + "C001,Lima" + chr(10)
+        ingest_clientes(bad_csv)
+        raise AssertionError("debía fallar por score ausente")
+    except KeyError:
+        pass
+
+    tx, tx_report = ingest_transacciones(TRANSACCIONES)
+    assert len(tx) == 3
+    assert tx_report.get("monto", 0) >= 1
+    assert "datetime" in str(tx["fecha"].dtype)
+    tx_rec = reconcile(tx, list(SCHEMA_TX))
+    assert tx_rec["rows"] == 3
+    assert tx_rec["missing_columns"] == []
+    tx_man = export_with_manifest(tx, "synthetic_tx_v1")
+    assert tx_man["rows"] == 3
+    assert "sha1" in tx_man or "content_sha1" in tx_man
+
+    print("tests OK")
+
+
+def main() -> None:
+    _run_tests()
     df, report = ingest_clientes(CLIENTES)
     print(df.head())
     print("coercion_report", report)
     print("reconcile", reconcile(df, list(SCHEMA_CLIENTES)))
     print("manifest", export_with_manifest(df, "synthetic_clientes_v1"))
 
-    # Hilo transacciones (portfolio CP-N2-A): mismo contrato + fechas
     tx, tx_report = ingest_transacciones(TRANSACCIONES)
     print("tx_head", tx.head())
     print("tx_coercion_report", tx_report)
     print("tx_reconcile", reconcile(tx, list(SCHEMA_TX)))
     print("tx_manifest", export_with_manifest(tx, "synthetic_tx_v1"))
+
+
+if __name__ == "__main__":
+    main()
 `,
     portfolioNote:
-      "Entrega: script reproducible + (opcional) CSV/Excel con index=False + JSON de coercion_report y manifest para **clientes y transacciones**. En el README explica en español profesional qué columnas fallaron, cómo contaste las coerciones y por qué no inventaste defaults. Si exportas Excel, declara `openpyxl`. Este artefacto es la base del dataset de CP-N2-A: un revisor debe poder re-ejecutar `__main__` y ver filas, reportes y hash sin adivinar tu entorno.",
+      "Entrega: script reproducible que pase `_run_tests()` + (opcional) CSV/Excel con index=False + JSON de coercion_report y manifest para **clientes y transacciones**. En el README explica en español profesional qué columnas fallaron, cómo contaste las coerciones y por qué no inventaste defaults. Si exportas Excel, declara `openpyxl`. Este artefacto es la base del dataset de CP-N2-A: un revisor debe poder re-ejecutar `python ingest_cp_n2a.py` y ver `tests OK`, filas, reportes y hash sin adivinar tu entorno.",
     rubric: [
       { criterion: "Schema tipado + reporte de coerciones y reconciliación de filas/columnas (ambos hilos)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado (pandas; openpyxl solo si usas Excel)", weight: "20%" },
       { criterion: "Privacidad / sin PII real / sin secretos / score ≠ culpa", weight: "20%" },
-      { criterion: "Casos de borde documentados (NA, N/A, columna faltante, index=False, hash del CSV)", weight: "15%" },
+      { criterion: "Pruebas (_run_tests) y casos de borde (NA, N/A, columna faltante, index=False, hash del CSV)", weight: "15%" },
       { criterion: "Código legible y límites claros (sin joins profundos ni quality gate avanzado)", weight: "10%" },
       { criterion: "Documentación en español profesional + manifest con provenance/hash", weight: "10%" },
     ],

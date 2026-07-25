@@ -1,0 +1,9 @@
+{
+  "section": 5,
+  "id": "oop",
+  "file": "src/lib/course/sections/s05-oop.ts",
+  "score_1_to_10": 7.8,
+  "issue_count": 15,
+  "meta_leak_count": 5,
+  "status": "complete"
+}

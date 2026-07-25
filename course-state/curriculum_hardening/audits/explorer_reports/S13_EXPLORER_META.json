@@ -1,0 +1,9 @@
+{
+  "section": 13,
+  "id": "rpa-automation",
+  "file": "src/lib/course/sections/s13-rpa-automation.ts",
+  "score_1_to_10": 7.3,
+  "issue_count": 24,
+  "meta_leak_count": 11,
+  "status": "complete"
+}

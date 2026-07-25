@@ -1,0 +1,53 @@
+{
+  "section": 32,
+  "section_id": "microservices",
+  "file": "src/lib/course/sections/s32-microservices.ts",
+  "score_before": 5.0,
+  "score_after_estimate": 9.65,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18"
+  ],
+  "issues_deferred": [
+    "live_sklearn_Pipeline_execution_in_browser",
+    "legacy_platform_hash_microservices_product_rename",
+    "shared_S31_S32_graph_fixture_asset"
+  ],
+  "anti_aberration_ok": true,
+  "status": "fixed_validated",
+  "this_pass_focus": [
+    "residual_thin_theory_T2A_T3B_T4A_T4B",
+    "residual_selfCheck_8_to_10",
+    "residual_GRR_connective_tissue_iDo_weDo",
+    "residual_S31_bridge_and_S33_youDo_graph_feats",
+    "revalidate_explorer_registry_P0_P1_P2"
+  ],
+  "runtime_validation": {
+    "theory_and_ido_and_wedo_code_output_pairs": "40/40",
+    "demos": 8,
+    "exercises": 24,
+    "self_check": 10,
+    "student_facing_meta_leaks": 0,
+    "thin_instructions_under_150": 0,
+    "thin_theory_paragraphs_under_200": 0,
+    "theory_avg_paragraph_chars": 378
+  },
+  "notes": "Residual95 Explorer-only pass against S32_EXPLORER_REPORT.md. Revalidated full registry (meta M1–M5 gone, compute_then_gate We Do, T1-B z on filled, MiniPipeline+router, adversarial edgeCases). Residual polish: theory depth T2-A/T3-B/T4-A/T4-B (0 thin paras), selfCheck 10 MCQ, GRR intros, S31 mini-fixture bridge, You Do graph_feats stub. Oracles 40/40. Platform id microservices kept silent to students. No bulk content generation. score_after_estimate 9.65 ≥ fleet floor 9.5.",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S32_EXPLORER_REPORT.md"
+}

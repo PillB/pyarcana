@@ -632,7 +632,7 @@ assert meets_contract is True` ,
         id: "S42-T1-A-E2",
         subtopicId: "S42-T1-A",
         kind: "independent",
-        instruction: "S42-T1-A-E2 · Tres rutas de schema: payload válido, payload con campo extra (breach) y registro sin `status` (missing). Salidas exactas: `PASS`, `REJECT_SCHEMA`, `MISSING:status`. Missing se evalúa antes del contenido; el adverso falla por clave no permitida, no por un flag inventado.",
+        instruction: "S42-T1-A-E2 · Tres rutas de schema en el ticket de Cusco: payload válido (`case_id`+`status=open`) → `PASS`; cuerpo con `note_interna` extra → `REJECT_SCHEMA`; registro sin `status` → `MISSING:status`. Missing se evalúa antes del contenido; el adverso falla por clave no permitida, no por un flag inventado. Salida: imprime los tres resultados.",
         hint: "Si falta `status`, devuelve MISSING:status sin mirar extras.",
         hints: [
           "Si falta `status`, devuelve MISSING:status sin mirar extras.",
@@ -688,7 +688,7 @@ print(*results)
         id: "S42-T1-A-E3",
         subtopicId: "S42-T1-A",
         kind: "transfer",
-        instruction: "S42-T1-A-E3 · Fail-closed sobre tres payloads: válido → `CONTINUE`, extra no permitido → `REJECT_SCHEMA`, sin `status` → `REVIEW_BUSINESS_INVARIANT`. El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas sin inventar evidencia. Salida: imprime el valor de meets_contract.",
+        instruction: "S42-T1-A-E3 · Transfer: el borde HTTP de la mesa de soporte de Cusco decide si deja pasar un ticket. Payload limpio (`case_id`+`status` válidos) → `CONTINUE`; cuerpo con `note_interna` no declarada → `REJECT_SCHEMA`; sin `status` en el registro → `REVIEW_BUSINESS_INVARIANT` (no inventes el campo). El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
         hints: [
           "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
@@ -696,7 +696,7 @@ print(*results)
         ],
         edgeCases: ["falta status", "campo extra adversarial", "CASO-CUS-042-1A es sintético"],
         tests: "Fixtures válido, con extra y sin status prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S42-T1-A-E3: explica por qué REVIEW_BUSINESS_INVARIANT preserva auditabilidad cuando falta status y por qué el extra no se convierte en CONTINUE.",
+        feedback: "S42-T1-A-E3: el revisor de borde ve un ticket incompleto como REVIEW (humano), no como ataque; el extra es breach demostrable y no se convierte en CONTINUE.",
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e3.py",
@@ -1199,7 +1199,7 @@ print(*results)
         id: "S42-T2-B-E3",
         subtopicId: "S42-T2-B",
         kind: "transfer",
-        instruction: "S42-T2-B-E3 · Fail-closed de scopes: grant estrecho → `CONTINUE`, prod:write/shared-admin → `DENY_SCOPE`, sin ruta en catálogo → `REQUEST_NARROW_GRANT`. El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        instruction: "S42-T2-B-E3 · Transfer: el worker `svc-reporter` de reportes en Cusco pide entrar a producción. Grant estrecho `report:prepare` + ruta en catálogo → `CONTINUE`; intento `prod:write` con principal `shared-admin` → `DENY_SCOPE`; sin `route_declared` en el registro → `REQUEST_NARROW_GRANT` (no inventes el catálogo). El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
         hints: [
           "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
@@ -1207,7 +1207,7 @@ print(*results)
         ],
         edgeCases: ["falta route_declared", "prod:write no granted", "CASO-CUS-042-2B es sintético"],
         tests: "Produce `CONTINUE DENY_SCOPE REQUEST_NARROW_GRANT` en ese orden.",
-        feedback: "S42-T2-B-E3: el transfer cierra la matriz — allow real, denegación explícita y grant estrecho pendiente cuando falta la ruta.",
+        feedback: "S42-T2-B-E3: least privilege en Cusco — CONTINUE solo con identidad svc + scope + ruta; shared-admin no es atajo; catálogo incompleto es REQUEST, no inventar allow.",
         starterCode: {
           language: 'python',
           title: "s42-t2-b-e3.py",
@@ -1643,7 +1643,7 @@ print(*results)
         id: "S42-T3-B-E3",
         subtopicId: "S42-T3-B",
         kind: "transfer",
-        instruction: "S42-T3-B-E3 · Fail-closed de promote: limpio → `CONTINUE`, secreto/CVE → `ROTATE_AND_BLOCK`, sin inventario CVE → `ASSESS_DEPENDENCY_RISK`. El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        instruction: "S42-T3-B-E3 · Transfer: el pipeline de CI de la mesa de Cusco decide un promote a staging. Scan limpio (sin secreto, deps pinneadas, 0 CVE críticas) → `CONTINUE`; API key en repo o CVE abiertas → `ROTATE_AND_BLOCK`; sin campo `critical_cves` en el informe → `ASSESS_DEPENDENCY_RISK` (no inventes un cero). El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
         hint: "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
         hints: [
           "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
@@ -1651,7 +1651,7 @@ print(*results)
         ],
         edgeCases: ["falta critical_cves", "secret_in_repo + CVE abiertas", "CASO-CUS-042-3B es sintético"],
         tests: "Produce `CONTINUE ROTATE_AND_BLOCK ASSESS_DEPENDENCY_RISK` en ese orden.",
-        feedback: "S42-T3-B-E3: rotar y bloquear es la respuesta a un hallazgo; ASSESS es la respuesta a no tener inventario — no las mezcles.",
+        feedback: "S42-T3-B-E3: el release manager de Cusco rota y bloquea ante hallazgo demostrable; sin inventario CVE no se inventa un promote limpio — ASSESS, no CONTINUE.",
         starterCode: {
           language: 'python',
           title: "s42-t3-b-e3.py",
@@ -1862,7 +1862,7 @@ print(*results)
         id: "S42-T4-A-E3",
         subtopicId: "S42-T4-A",
         kind: "transfer",
-        instruction: "S42-T4-A-E3 · Fail-closed de privacidad: inventario mínimo → `CONTINUE`, over-collection → `MINIMIZE_AND_EXPIRE`, sin techo de retención → `PRIVACY_OWNER_REVIEW`. El starter trata missing como CONTINUE y acepta el adverso. Salida: imprime el valor de meets_contract.",
+        instruction: "S42-T4-A-E3 · Transfer: el tablero de estado de Cusco (solo `case_id`+`region`, purpose `status-report`, 30 días) pide publicar un dataset. Inventario mínimo y retención ≤ techo → `CONTINUE`; arrastre de `full_name` o purpose `maybe-useful` o 3650 días → `MINIMIZE_AND_EXPIRE`; sin `max_retention_days` declarado → `PRIVACY_OWNER_REVIEW` (no inventes 30). El starter trata missing como CONTINUE y acepta el adverso. Salida: imprime el valor de meets_contract.",
         hint: "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
           "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
@@ -1870,7 +1870,7 @@ print(*results)
         ],
         edgeCases: ["falta max_retention_days", "full_name + purpose basura", "CASO-CUS-042-4A es sintético"],
         tests: "Produce `CONTINUE MINIMIZE_AND_EXPIRE PRIVACY_OWNER_REVIEW` en ese orden.",
-        feedback: "S42-T4-A-E3: el transfer separa violación demostrable (MINIMIZE) de política incompleta (OWNER_REVIEW).",
+        feedback: "S42-T4-A-E3: over-collection en el tablero de Cusco es MINIMIZE demostrable; sin techo de retención el dueño de privacidad revisa — no se asume 30 días por defecto.",
         starterCode: {
           language: 'python',
           title: "s42-t4-a-e3.py",
@@ -2075,7 +2075,7 @@ print(*results)
         id: "S42-T4-B-E3",
         subtopicId: "S42-T4-B",
         kind: "transfer",
-        instruction: "S42-T4-B-E3 · Fail-closed de borrado: purga completa → `CONTINUE`, leak/derivado vivo → `PURGE_DERIVATIVES`, sin `key_separate` → `VERIFY_DELETION_SCOPE`. El starter trata missing como CONTINUE y aprueba el adverso. Salida: imprime el valor de meets_contract.",
+        instruction: "S42-T4-B-E3 · Transfer: al cerrar un ticket de Cusco hay que purgar fila, snapshot de búsqueda y export. Audit sin PII + primario y derivados borrados + llave separada → `CONTINUE`; email en audit o export vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `VERIFY_DELETION_SCOPE` (alcance de reidentificación no confirmado). El starter trata missing como CONTINUE y aprueba el adverso. Salida: imprime el valor de meets_contract.",
         hint: "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
         hints: [
           "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
@@ -2083,7 +2083,7 @@ print(*results)
         ],
         edgeCases: ["falta key_separate", "email en audit + export vivo", "CASO-CUS-042-4B es sintético"],
         tests: "Produce `CONTINUE PURGE_DERIVATIVES VERIFY_DELETION_SCOPE` en ese orden.",
-        feedback: "S42-T4-B-E3: cierra el ciclo de vida — CONTINUE solo con evidencia de no-reaparición; el resto es purga o verificación humana.",
+        feedback: "S42-T4-B-E3: soft-delete de la fila no cierra CP-N4-A en Cusco — hace falta purga de derivados y prueba de no-reaparición; sin key_separate el alcance queda en VERIFY humana.",
         starterCode: {
           language: 'python',
           title: "s42-t4-b-e3.py",

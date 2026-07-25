@@ -51,19 +51,24 @@ export const section21: CourseSection = {
  language: 'python',
  title: "jinja_basic.py",
  code: `def s21_th_1():
-    from jinja2 import Template
+    from jinja2 import Environment, Template, select_autoescape
 
     tmpl = Template("Región {{ region }}: mediana {{ median }} PEN (n={{ n }})")
     print(tmpl.render(region="Lima", median=28.0, n=40))
+    # HTML del dashboard/email: autoescape evita inyección de markup en el context
+    env = Environment(autoescape=select_autoescape(enabled_extensions=("html",)))
+    html_t = env.from_string("KPI: {{ label }}")
+    print(html_t.render(label="<b>28</b>"))
 
 s21_th_1()`,
- output: `Región Lima: mediana 28.0 PEN (n=40)`,
+ output: `Región Lima: mediana 28.0 PEN (n=40)
+KPI: &lt;b&gt;28&lt;/b&gt;`,
  },
  callout: {
  type: "tip",
  title: "Context dict único y autoescape",
  content:
- "Pasa un context versionado (run_id, metricas, limites) a todas las plantillas del factory. En HTML, confía en autoescape: un valor `\"<b>x</b>\"` se renderiza escapado (`&lt;b&gt;…`), no como markup. Nunca uses `mark_safe` sobre input de usuario sin sanitizar; en este lab de texto plano no hace falta desactivar el escape.",
+ "Pasa un context versionado (run_id, metricas, limites) a todas las plantillas del factory. En HTML, activa autoescape en el Environment: el demo de arriba convierte `<b>28</b>` en entidades (`&lt;b&gt;…`), no en markup. Nunca uses `mark_safe` sobre input de usuario sin sanitizar. En este lab de texto plano (Markdown/DOCX) no hace falta desactivar el escape; cuando empaquetes HTML del dashboard, deja autoescape encendido.",
  },
  },
  {
@@ -597,15 +602,15 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  subtopicId: "S21-T1-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: función reutilizable `render_kpi(ctx)`. Implementa una función que reciba un dict con region, median y n, y devuelva el string `{{ region }}: {{ median }} PEN (n={{ n }})` renderizado. Prueba con Cusco, 22.5 y n=32 (muestra distinta de Lima a propósito). Imprime el resultado.",
- hint: "Template dentro de la función o reutilizado; usa **ctx en render.",
+ "E3 (transferencia) — Concepto: función reutilizable `render_kpi(ctx)`. Implementa una función que reciba un dict con region, median y n, y devuelva el string `{{ region }}: {{ median }} PEN (n={{ n }})` renderizado. Prueba con Cusco, mediana 22.5 y n=18 (muestra regional distinta de Lima n=40: no es un fallo de paridad entre artefactos, sino otro context). Imprime el resultado.",
+ hint: "Template dentro de la función o reutilizado; pasa el dict completo al render.",
  hints: [
- "Template dentro de la función o reutilizado; usa **ctx en render.",
- "No olvides n en la plantilla.",
+ "Template dentro de la función o reutilizado; pasa el dict completo al render.",
+ "Incluye n en la plantilla: sin n el KPI no es auditable.",
  ],
  edgeCases: ["key error"],
- tests: "el print es Cusco: 22.5 PEN (n=32)",
- feedback: "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI.",
+ tests: "el print es Cusco: 22.5 PEN (n=18)",
+ feedback: "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -615,7 +620,7 @@ from jinja2 import Template
 
 def render_kpi(ctx):
  return Template("{{ region }}: {{ median }} PEN").render(**ctx)
-print(render_kpi({"region": "Cusco", "median": 22.5, "n": 32}))`,
+print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
  },
  solutionCode: {
  language: 'python',
@@ -624,8 +629,8 @@ print(render_kpi({"region": "Cusco", "median": 22.5, "n": 32}))`,
 
 def render_kpi(ctx):
  return Template("{{ region }}: {{ median }} PEN (n={{ n }})").render(**ctx)
-print(render_kpi({"region": "Cusco", "median": 22.5, "n": 32}))`,
- output: `Cusco: 22.5 PEN (n=32)`,
+print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
+ output: `Cusco: 22.5 PEN (n=18)`,
  },
  },
  {
@@ -1036,27 +1041,35 @@ print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
  subtopicId: "S21-T3-A",
  kind: "guided",
  instruction:
- "E1 (guiado) — Concepto: hallazgo H→evidencia (y hallazgo ≠ decisión). Construye un dict con id H1, evidencia Tabla1 y decision=None. Imprime id, evidencia y un booleano que confirme que decision es None (una sola línea, espacios entre valores).",
- hint: "Incluye decision: None; print id, evidencia y (decision is None).",
+ "E1 (guiado) — Concepto: hallazgo H→evidencia (y hallazgo ≠ decisión). Completa el dict del starter: id H1, claim con el contraste Lima/Cusco, evidencia Tabla1 y decision=None (no una recomendación de negocio). Imprime, en una línea y separados por espacio: id, evidencia y un booleano que confirme que decision es None.",
+ hint: "El hallazgo lleva id, claim, evidencia y decision; la decisión de negocio se deja en None hasta revisión humana.",
  hints: [
- "Dict con id, evidencia y decision.",
- "print(h['id'], h['evidencia'], h['decision'] is None).",
+ "Completa las claves faltantes del dict (id, claim, evidencia, decision).",
+ "Imprime id, evidencia y si decision es None — no imprimas el claim en la línea de control.",
  ],
  edgeCases: ["id duplicado", "decision con texto de acción"],
  tests: "print H1 Tabla1 True",
- feedback: "Sin id de evidencia el hallazgo no es auditable; decision=None recuerda que hallazgo ≠ decisión de negocio.",
+ feedback: "Sin id de evidencia el hallazgo no es auditable; decision=None recuerda que hallazgo ≠ decisión de negocio. Un claim sin Tabla1 es eslogan.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — hallazgo H→evidencia
-# TODO: imprime id, evidencia y (decision is None)
-h = {"id": "H1", "evidencia": "Tabla1", "decision": None}
-print(h["evidencia"])`,
+# TODO: completa id, evidencia Tabla1 y decision=None; no dejes una decisión de negocio
+h = {
+ "claim": "Lima > Cusco en mediana",
+ "decision": "subir precios",
+}
+print(h.get("id"), h.get("evidencia"))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `h = {"id": "H1", "evidencia": "Tabla1", "decision": None}
+ code: `h = {
+ "id": "H1",
+ "claim": "Lima > Cusco en mediana",
+ "evidencia": "Tabla1",
+ "decision": None,
+}
 print(h["id"], h["evidencia"], h["decision"] is None)`,
  output: `H1 Tabla1 True`,
  },
@@ -1166,27 +1179,27 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  subtopicId: "S21-T3-B",
  kind: "independent",
  instruction:
- "E2 (independiente) — Concepto: caption con campo Fuente visible. Construye un caption de figura que incluya la palabra Fuente (más n). Imprime True si \"Fuente\" aparece en el caption.",
- hint: "Incluye un segmento | Fuente: … en el string.",
+ "E2 (independiente) — Concepto: caption con campo Fuente visible. Construye un caption de figura CASO-LIM-021 que declare Fuente y el n de Lima (n=40). Imprime True si \"Fuente\" aparece en el caption.",
+ hint: "Incluye un segmento | Fuente: … y el n de la muestra Lima.",
  hints: [
- "Incluye un segmento | Fuente: … en el string.",
- "Verifica con el operador in.",
+ "El pie debe nombrar la Fuente de forma legible (no solo n).",
+ "Verifica con el operador in sobre la palabra Fuente.",
  ],
  edgeCases: ["fuente minúscula"],
  tests: "print True cuando el caption declara Fuente",
- feedback: "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory.",
+ feedback: "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (ancla Lima del lab), no un n inventado.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — caption con Fuente
-# TODO: el caption debe declarar Fuente de forma visible
-cap = "Fig1 | n=10"
+# TODO: el caption debe declarar Fuente de forma visible (y n=40)
+cap = "Fig1 | n=40"
 print("Fuente" in cap)`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `cap = "Fig1 | Fuente: sintético | n=10"
+ code: `cap = "Fig1 | Fuente: sintético | n=40"
 print("Fuente" in cap)`,
  output: `True`,
  },
@@ -1328,26 +1341,25 @@ False`,
  subtopicId: "S21-T4-B",
  kind: "guided",
  instruction:
- "E1 (guiado) — Concepto: manifiesto de provenance. Construye un dict con run_id, data_sha1_8 y approval.status. Imprime run_id y el status de aprobación en una línea (espacio entre ambos).",
- hint: "Incluye run_id, huella corta y approval anidado.",
+ "E1 (guiado) — Concepto: manifiesto de provenance. Completa el dict del starter con run_id=\"cpn2b-01\", data_sha1_8=\"385fcd67\" y approval.status=\"pending_review\" (nunca approved desde el factory). Imprime run_id y el status de aprobación en una línea (espacio entre ambos).",
+ hint: "El manifiesto une identidad de corrida, huella corta de lab y cola de aprobación; no marques approved en código.",
  hints: [
- "Incluye run_id, huella corta y approval anidado.",
- "print(prov['run_id'], prov['approval']['status']).",
+ "Rellena run_id, data_sha1_8 y el status anidado bajo approval.",
+ "Lee run_id y status desde el dict al imprimir — no un string suelto \"approved\".",
  ],
  edgeCases: ["typo status"],
  tests: "print cpn2b-01 pending_review",
- feedback: "No hardcodees «approved»: el cierre de contenido deja pending_review hasta revisión humana (S22).",
+ feedback: "No hardcodees «approved»: el cierre de contenido deja pending_review hasta revisión humana (S22). Un manifiesto sin run_id no es provenance.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# Lab CASO-LIM-021 — manifiesto de provenance
-# TODO: imprime run_id y status (no hardcodees approved)
+# TODO: completa run_id, huella corta y approval.status=pending_review
 prov = {
- "run_id": "cpn2b-01",
- "data_sha1_8": "385fcd67",
- "approval": {"status": "pending_review"},
+ "artifacts": ["informe.docx", "informe.pdf"],
+ "approval": {"status": "approved"},
 }
-print("approved")`,
+print(prov["approval"]["status"])`,
  },
  solutionCode: {
  language: 'python',
@@ -1355,6 +1367,7 @@ print("approved")`,
  code: `prov = {
  "run_id": "cpn2b-01",
  "data_sha1_8": "385fcd67",
+ "artifacts": ["informe.docx", "informe.pdf"],
  "approval": {"status": "pending_review"},
 }
 print(prov["run_id"], prov["approval"]["status"])`,

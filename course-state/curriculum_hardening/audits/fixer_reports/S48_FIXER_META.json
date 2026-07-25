@@ -1,0 +1,91 @@
+{
+  "section": 48,
+  "section_id": "ai-governance",
+  "file": "src/lib/course/sections/s48-ai-governance.ts",
+  "title": "Aplicaciones LLM y RAG con evidencia",
+  "score_before": 5.8,
+  "score_after_estimate": 9.6,
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S48_EXPLORER_REPORT.md",
+  "anti_aberration_ok": true,
+  "meta_leak_count_after": 0,
+  "status": "complete",
+  "gate_id": "CP-N4-C-RAG",
+  "case_id": "CASO-PUN-048",
+  "issues_fixed": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22"
+  ],
+  "issues_deferred": [
+    "17"
+  ],
+  "deferred_notes": {
+    "17": "Legacy platform id/filename ai-governance kept silent; optional non-user rename later"
+  },
+  "self_check_count": 8,
+  "we_do_count": 24,
+  "i_do_count": 8,
+  "product_delta_this_pass": [
+    "title_spanish_primary",
+    "map_CP_N4_C_RAG_gate_callout",
+    "map_accumulating_pipeline_narrative",
+    "theory_callouts_local_success_criteria",
+    "T4B_theory_multi_gate_route",
+    "E2_E3_helper_reuse_all_subtopics",
+    "meets_contract_real_asserts",
+    "youDo_HOLDOUT_recall_at_k",
+    "selfCheck_tombstone_mcq"
+  ],
+  "verified_preexisting_explorer_diffs": [
+    "meta_leak_strip",
+    "local_contracts",
+    "semantic_chunking",
+    "mechanism_iDo",
+    "SMART_outcomes",
+    "youDo_scaffold_base",
+    "CASO_PUN_comments",
+    "CP_N4_C_RAG_gate",
+    "soft_hyphen_spanglish_cleared"
+  ],
+  "notes": "Explorer-only authority. Hand-crafted residual polish to clear ≥9.5 fleet bar. Closed title Spanglish, map gate, callouts, T4-B multi-gate theory, HOLDOUT You Do, tombstone MCQ, full E2/E3 helper reuse. No bulk content generation. Oracle smoke on T1-A-E2, T1-B-E2, T2-B-E2, T3-A hybrid, T4-B route/E3 OK.",
+  "graph_memory": {
+    "gate": "CP-N4-C-RAG",
+    "edges": [
+      "S47_serving->S48_rag",
+      "S48_rag->S49_agents",
+      "S48_rag->S50_evals"
+    ],
+    "debt_cleared": [
+      "meta_leak_legacy_v3",
+      "boilerplate_contract_stem",
+      "weDo_monoculture",
+      "iDo_thin",
+      "chunking_theory_code_mismatch",
+      "caso_lim_residue",
+      "hybrid_without_recall",
+      "map_without_story",
+      "youDo_boolean_only",
+      "selfCheck_tombstone_gap",
+      "title_spanglish",
+      "dummy_meets_contract_asserts"
+    ]
+  }
+}

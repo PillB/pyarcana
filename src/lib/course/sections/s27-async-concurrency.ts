@@ -1187,18 +1187,14 @@ except ValueError as e:
           title: "exercise.py",
           code: `# CASO-LIM-027 · validación mínima de email
 # DEFECT: marca ok aunque falte '@'
-# Completa: solo ok si hay exactamente un '@' y partes no vacías.
 s = 'sin-arroba'
-ok = True  # defecto incorrecto
-# ok = s.count('@') == 1 and all(p for p in s.split('@'))
-print('ok' if ok else 'reject')
-assert not ok
+print('ok')  # debería ser 'invalid' si falta '@'
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `s='sin-arroba'
+          code: `s = 'sin-arroba'
 print('ok' if '@' in s else 'invalid')`,
           output: `invalid`,
         },
@@ -1316,19 +1312,15 @@ print('non' not in hit)`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-027 · coverage percent
-# DEFECT: imprime k/n en fracción (0.666) en vez de porcentaje
-# Completa: reporta round(100 * k / n) con denominador n > 0.
+# DEFECT: imprime k/n en fracción (≈0.666) en vez de porcentaje entero
 k, n = 2, 3
-pct = k / n  # defecto incorrecto
-# pct = round(100 * k / n)
-print(pct)
-assert pct == 67 or pct == 66.67 or int(pct) == 67
+print(k / n)  # debería ser int(100 * k / n) → 66
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `k,n=2,3
+          code: `k, n = 2, 3
 print(int(100 * k / n))`,
           output: `66`,
         },
@@ -1550,10 +1542,10 @@ if __name__ == "__main__":
       },
       {
         question: "¿Cuál es el scope por defecto de una fixture de pytest y por qué importa en datos mutables?",
-        options: ["session: reutiliza estado entre todos los tests (ideal para mutar listas)", "package: solo existe en unittest, no en pytest", "function: se recrea por test y reduce contaminación entre casos", "module: es el único scope que aísla copias profundas automáticamente"],
+        options: ["session: reutiliza estado entre todos los tests (ideal para mutar listas)", "package: es el default de pytest y aísla mutables sin necesidad de deepcopy", "function: se recrea por test y reduce contaminación entre casos", "module: es el único scope que aísla copias profundas automáticamente"],
         correctIndex: 2,
         explanation:
-          "El default es function-scope: cada test recibe un setup fresco. Mutar un fixture session/module sin cuidado produce flakes de orden.",
+          "El default es function-scope: cada test recibe un setup fresco. Mutar un fixture session/module/package sin cuidado produce flakes de orden; deepcopy no es mágico del scope.",
       },
     ],
   },

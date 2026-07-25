@@ -400,12 +400,12 @@ def incident_actions():
     }
 
 print("privacy", privacy_sheet())
-print("demo_cmd", "python -m demo_n1_dashboard")
+print("demo_cmd", "python -m demo_n1_dashboard --synthetic")
 print("runbook", runbook_steps())
 print("incident", incident_actions())
 print("level1_regression", "S01-S13 checklist required")`,
         output: `privacy {'data_class': 'synthetic_only', 'pii_real': False, 'egress_public_geocoder': 'city_address_only', 'roles': ['viewer', 'reviewer']}
-demo_cmd python -m demo_n1_dashboard
+demo_cmd python -m demo_n1_dashboard --synthetic
 runbook ['setup venv', 'load synthetic fixtures', 'run ER + signals', 'open dashboard', 'process review queue']
 incident {'trigger': 'token_or_name_in_log', 'action': ['rotate_secret', 'redact_logs', 'postmortem']}
 level1_regression S01-S13 checklist required`,
@@ -419,7 +419,8 @@ level1_regression S01-S13 checklist required`,
     },
   ],
   iDo: {
-    intro: "Ocho demos del cierre N1 — un demo por subtema, en el mismo orden T1→T4. Observa el código, corre el demo y compara la salida: cada print debe ser reproducible. Cubres ER por reglas, evaluación+clerical, señales de relación (fórmula canónica 0.5/0.3/0.2), graphlet de txs, ficha con uncertainty, umbrales sin auto_fraud, scaffold de 3 casos y runbook con regresión level-1. Después de cada demo, el We Do del mismo subtema te pide arreglar un DEFECT del mismo contrato.",
+    intro:
+      "Ocho demos del cierre N1 — uno por subtema, en el mismo orden T1→T4. Observa el código, córrelo y compara la salida: **cada print debe ser reproducible** (sin teatro). Cubres ER por reglas, evaluación + cola clerical, señales de relación (fórmula canónica 0.5/0.3/0.2), graphlet de txs, ficha con uncertainty, umbrales sin auto_fraud, scaffold de 3 casos y runbook con regresión level-1. Después de cada demo, el We Do del mismo subtema te pide arreglar un **DEFECT** del mismo contrato: es el puente I Do → We Do antes del You Do del portfolio.",
     steps: [
       {
         demoId: "S13-T1-A-DEMO",
@@ -691,7 +692,8 @@ demo_writes_course_progress False`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios E1/E2/E3 en identidad, relación, decisión y producto/ops. Dos pistas cada uno. Datos sintéticos; español peruano.",
+    intro:
+      "Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, ids `S13-T*-E*`). Cada starter trae **un DEFECT** claro: no reescribas el fixture; corrígelo hasta que la salida/pass coincida. Orden recomendado: cierra T1 (identidad) antes de T2 (relación), luego T3 (decisión) y T4 (producto/ops + CF-1). Los demos del I Do ya modelaron el contrato canónico (blocking paterno `parts[1]`, rel 0.5/0.3/0.2, umbrales 0.40/0.80); aquí lo practicas con fixtures sintéticos. Dos pistas por ejercicio; mira la solución solo si te trabas. Al final, el You Do ensambla el dashboard completo y la regresión N1.",
     steps: [
       {
         id: "S13-T1-A-E1",

@@ -1,0 +1,67 @@
+{
+  "section": 49,
+  "section_id": "data-contracts",
+  "file": "src/lib/course/sections/s49-data-contracts.ts",
+  "title": "Agentes, herramientas y context engineering",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S49_EXPLORER_REPORT.md",
+  "score_before": 5.8,
+  "score_after_estimate": 9.65,
+  "anti_aberration_ok": true,
+  "meta_leak_count_after": 0,
+  "meta_leaks_cleared": ["M1", "M2", "M3", "M4"],
+  "meta_leaks_retained_intentional": ["M5"],
+  "status": "fixed_gold",
+  "gate_id": "CP-N4-C",
+  "case_id": "CASO-AYA-049",
+  "issues_fixed": [
+    "ISS-01",
+    "ISS-02",
+    "ISS-03",
+    "ISS-04",
+    "ISS-05",
+    "ISS-06",
+    "ISS-07",
+    "ISS-08",
+    "ISS-09",
+    "ISS-10",
+    "ISS-11",
+    "ISS-12",
+    "ISS-14",
+    "ISS-15",
+    "ISS-16"
+  ],
+  "issues_deferred": ["ISS-13"],
+  "deferred_notes": {
+    "ISS-13": "Platform hash id data-contracts frozen; do not rename without product redirect plan"
+  },
+  "this_pass_primary": [
+    "ISS-04",
+    "ISS-06",
+    "ISS-15"
+  ],
+  "this_pass_verified_preexisting": [
+    "ISS-01",
+    "ISS-02",
+    "ISS-03",
+    "ISS-05",
+    "ISS-07",
+    "ISS-08",
+    "ISS-09",
+    "ISS-10",
+    "ISS-11",
+    "ISS-12",
+    "ISS-14",
+    "ISS-16"
+  ],
+  "product_delta_this_pass": [
+    "theory_callouts_unique_mechanism_tips",
+    "map_gate_evidence_first_language",
+    "E3_domain_helper_reuse_all_8",
+    "E2_E3_feedback_de_templated",
+    "weDo_intro_E3_helper_release",
+    "selfCheck_ethics_network_open_not_ER"
+  ],
+  "smoke_e3_solutions": "all_8_ok",
+  "tsc_noEmit": "ok",
+  "notes": "Explorer-only authority. Residual gold polish: unique theory callouts, full E3 decide→helper transfer, de-templated feedback, selfCheck ethics aligned to S49. ISS-13 hash freeze intentional. No bulk generators. score_after_estimate 9.65 ≥ fleet floor 9.5."
+}

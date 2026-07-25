@@ -105,7 +105,7 @@ None`,
       paragraphs: [
         "Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico P1 en pipelines). Usa `None` y crea la lista **dentro** de la función en cada llamada.",
         "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sitios de llamada largos (orquestadores, tests) y evitan invertir argumentos silenciosamente — un swap `nombre, email` es un incidente de calidad de datos.",
-        "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con **keyword-only** documenta la política regional sin confundir posiciones. El `*` fuerza `country=` en la llamada; no puedes pasar el país como segundo posicional por error.",
+        "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con **keyword-only** documenta la política regional sin confundir posiciones. El `*` fuerza `country=` en la llamada; no puedes pasar el país como segundo posicional por error. En un ETL de fintech en Perú, ese flag explícito evita que un junior invierta `raw` y `country` y “normalice” un teléfono con el código de país equivocado.",
       ],
       code: {
         language: 'python',
@@ -187,7 +187,7 @@ err: email inválido para normalizar`,
       paragraphs: [
         "Los **type hints** (`def f(x: str) -> str`) **no** convierten en runtime (salvo checkers externos como mypy). Son documentación verificable y contrato para humanos. En S05 usamos hints **graduales**: anota lo público de los normalizadores; no atasques con genéricos avanzados ni Protocol todavía.",
         "Un **error de dominio** no es un bug de Python: es un valor de negocio inválido (email sin `@`, edad 200). Opciones: `raise ValueError`, devolver `(ok, value, error)`, o un dict de resultado. **Sé consistente** en el módulo: no mezcles raise y tuplas en el mismo archivo sin documentar por qué.",
-        "`Optional[str]` / `str | None` documenta ausencia legítima. **No** uses hints falsos (`-> str` si puedes devolver `None` por olvido de return). Un hint que miente es peor que no anotar: el revisor y el typechecker confían en él.",
+        "`Optional[str]` / `str | None` documenta ausencia legítima (campo opcional del intake, no un bug). **No** uses hints falsos (`-> str` si puedes devolver `None` por olvido de return). Un hint que miente es peor que no anotar: el revisor y el typechecker confían en él, y un junior copiará la mentira en el siguiente normalizador del pipeline.",
       ],
       code: {
         language: 'python',
@@ -651,31 +651,31 @@ Quispe`,
         subtopicId: "S05-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — CASO-LIM-005. Función `saluda(nombre)` que **retorne** el string `Hola {nombre}`; en el caller imprime el return. Si olvidas return, `print(saluda(...))` muestra None: arréglalo. Pasa: línea exacta `Hola Ana`.",
+          "E3 (transferencia) — CASO-LIM-005. En el borde del intake a veces etiquetas un campo ya normalizado. Escribe `etiqueta_campo(campo, valor)` que **retorne** `f'{campo}: {valor}'` (no imprima dentro). El caller hace `print(...)`. Si olvidas return, verás `None`. Con `campo='nombre'` y `valor='Ana'` pasa: línea exacta `nombre: Ana`.",
         hint: "Si ves None, falta return.",
         hints: [
           "Si ves None, falta return.",
-          "return f'Hola {nombre}'",
+          "return f'{campo}: {valor}' — el print va solo en el caller.",
         ],
-        edgeCases: ["None implícito"],
-        tests: "exact line Hola Ana",
-        feedback: "El bug None es el más común al migrar de scripts a funciones.",
+        edgeCases: ["None implícito", "etiqueta de campo de intake"],
+        tests: "exact line nombre: Ana",
+        feedback: "El bug None es el más común al migrar de scripts a funciones puras del pipeline.",
         starterCode: {
           language: 'python',
           title: "return_none.py",
-          code: `# CASO-LIM-005 · None implícito
-# DEFECT: saluda solo hace print; no return → print(saluda) es None
-def saluda(nombre):
-    print(f'Hola {nombre}')
-print(saluda('Ana'))`,
+          code: `# CASO-LIM-005 · None implícito (etiqueta de campo de intake)
+# DEFECT: imprime dentro y no retorna → print(etiqueta_campo(...)) es None
+def etiqueta_campo(campo, valor):
+    print(f'{campo}: {valor}')
+print(etiqueta_campo('nombre', 'Ana'))`,
         },
         solutionCode: {
           language: 'python',
           title: "return_none.py",
-          code: `def saluda(nombre):
-    return f'Hola {nombre}'
-print(saluda('Ana'))`,
-          output: `Hola Ana`,
+          code: `def etiqueta_campo(campo, valor):
+    return f'{campo}: {valor}'
+print(etiqueta_campo('nombre', 'Ana'))`,
+          output: `nombre: Ana`,
         },
       },
       {
@@ -1090,7 +1090,7 @@ print(normalize_nombre('  ana  maría '))`,
           "norm_e: strip+lower y raise si falta @ (mismo contrato del gate).",
         ],
         edgeCases: ["dict orquestado", "email con @"],
-        tests: "Luis + l@e.com",
+        tests: "exact dict {'nombre': 'Luis', 'email': 'l@e.com'}",
         feedback: "El orquestador no reimplementa reglas.",
         starterCode: {
           language: 'python',
@@ -1136,7 +1136,7 @@ print(normalize_contact('  luis ', '  L@E.COM '))`,
           "Salida dict con 3 claves; no dejes reglas en el monstruo",
         ],
         edgeCases: ["descomposición"],
-        tests: "3 keys normalizadas",
+        tests: "exact dict {'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}",
         feedback: "Si el monstruo vuelve, el PR se rechaza en code review.",
         starterCode: {
           language: 'python',
@@ -1331,39 +1331,41 @@ out 1`,
         subtopicId: "S05-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — CASO-LIM-005. `make_multiplier(k)` es una factory (mismo patrón que `make_phone_normalizer`): devuelve una función que multiplica por `k` del enclosing scope. Crea `m3` y `m10`; imprime `m3(4)` y `m10(4)` en una línea. Pasa: `12 40`.",
-        hint: "def inner(n): return n*k; return inner",
+          "E2 (independiente) — CASO-LIM-005. Factory de teléfonos (mismo patrón que el I Do de LEGB): `make_phone_prefix(prefix)` devuelve una función que antepone `prefix` a los dígitos de `raw`. Crea `pe` con `'+51'` y `cl` con `'+56'`; imprime `pe('999')` y `cl('999')` en una línea. Pasa: exacto `+51999 +56999`.",
+        hint: "def norm(raw): return prefix + ''.join(...isdigit()); return norm",
         hints: [
-          "def inner(n): return n*k; return inner",
-          "print(m3(4), m10(4))",
+          "La interna cierra `prefix` del enclosing scope (closure).",
+          "print(pe('999'), cl('999')) → +51999 +56999",
         ],
-        edgeCases: ["closure"],
-        tests: "exact line 12 40",
-        feedback: "Factories por closure evitan clases prematuras.",
+        edgeCases: ["closure", "prefijo regional PE/CL sintético"],
+        tests: "exact line +51999 +56999",
+        feedback: "Factories por closure evitan clases prematuras y fijan la política regional.",
         starterCode: {
           language: 'python',
-          title: "closure_mul.py",
-          code: `# CASO-LIM-005 · closure multiplier
-# DEFECT: inner ignora k del enclosing; multiplica por 1
-def make_multiplier(k):
-    def inner(n):
-        return n * 1
-    return inner
-m3 = make_multiplier(3)
-m10 = make_multiplier(10)
-print(m3(4), m10(4))`,
+          title: "closure_phone.py",
+          code: `# CASO-LIM-005 · closure factory de prefijo telefónico
+# DEFECT: inner ignora prefix del enclosing; no antepone nada
+def make_phone_prefix(prefix):
+    def norm(raw):
+        d = ''.join(c for c in raw if c.isdigit())
+        return d  # falta prefix
+    return norm
+pe = make_phone_prefix('+51')
+cl = make_phone_prefix('+56')
+print(pe('999'), cl('999'))`,
         },
         solutionCode: {
           language: 'python',
-          title: "closure_mul.py",
-          code: `def make_multiplier(k):
-    def inner(n):
-        return n * k
-    return inner
-m3 = make_multiplier(3)
-m10 = make_multiplier(10)
-print(m3(4), m10(4))`,
-          output: `12 40`,
+          title: "closure_phone.py",
+          code: `def make_phone_prefix(prefix):
+    def norm(raw):
+        d = ''.join(c for c in raw if c.isdigit())
+        return prefix + d
+    return norm
+pe = make_phone_prefix('+51')
+cl = make_phone_prefix('+56')
+print(pe('999'), cl('999'))`,
+          output: `+51999 +56999`,
         },
       },
       {
@@ -1458,14 +1460,14 @@ print('OK')`,
         subtopicId: "S05-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — CASO-LIM-005. Refactoriza `normalize_dir` a dos pasos (`strip_collapse` + `upper`) **sin** cambiar la política upper. Los asserts de `AV 1` e idempotencia deben seguir verdes. Pasa: línea final `JR 2`.",
-        hint: "Corre asserts antes y después mentalmente",
+          "E2 (independiente) — CASO-LIM-005. Refactoriza `normalize_dir` a dos pasos (`strip_collapse` + `upper`) **sin** cambiar la política upper. Mantén verdes los asserts de `AV 1` e idempotencia **antes y después** del refactor. Pasa: línea final exacta `JR 2`.",
+        hint: "Extrae strip_collapse; normalize_dir solo llama y aplica .upper()",
         hints: [
-          "Corre asserts antes y después mentalmente",
-          "Misma salida",
+          "No cambies upper por lower: eso rompe el assert 'AV 1'.",
+          "Tras extraer el helper, re-ejecuta ambos asserts y luego print de ' jr 2 '.",
         ],
-        edgeCases: ["refactor preserva conducta"],
-        tests: "AV 1 / JR 2",
+        edgeCases: ["refactor preserva conducta", "política upper del gate"],
+        tests: "assert AV 1 + idempotencia verdes; exact line JR 2",
         feedback: "Verde-refactor-verde es el hábito profesional.",
         starterCode: {
           language: 'python',
@@ -1509,7 +1511,7 @@ print(normalize_dir(' jr 2 '))`,
           "Expected con title: '  a  b ' → 'A B'; 'X' → 'X'",
         ],
         edgeCases: ["tabla de casos", "title-case"],
-        tests: "PASS lines + all PASS",
+        tests: "PASS   a  b  → A B / PASS X → X / all PASS",
         feedback: "Tabla de casos = contrato ejecutable del normalizador.",
         starterCode: {
           language: 'python',

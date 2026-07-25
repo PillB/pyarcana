@@ -1,0 +1,61 @@
+{
+  "section": 46,
+  "section_id": "gpu-computing",
+  "file": "src/lib/course/sections/s46-gpu-computing.ts",
+  "edited_path": "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s46-gpu-computing.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S46_EXPLORER_REPORT.md",
+  "score_before": 4.8,
+  "score_after_estimate": 9.6,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ISSUE-21",
+    "ISSUE-22",
+    "ISSUE-23",
+    "ISSUE-24"
+  ],
+  "issues_deferred": [
+    "platform_hash_id_gpu-computing_routing_freeze"
+  ],
+  "anti_aberration_ok": true,
+  "status": "fixed_validated",
+  "meta_leak_families_closed": 7,
+  "validation": {
+    "theory_code_ok": 9,
+    "ido_code_ok": 8,
+    "solution_code_ok": 24,
+    "code_output_pairs_ok": 41,
+    "code_failures": 0,
+    "caso_lim_count": 0,
+    "legacy_v3_meta_count": 0,
+    "wrong_token_count": 0,
+    "hint_eq_hints0_count": 0,
+    "e3_multi_step_transfer": 8,
+    "t1a_timeline_paragraph": true
+  },
+  "this_pass_focus": [
+    "ISSUE-10_E3_true_transfer_all_8_verified_in_source",
+    "ISSUE-24_T1A_multi_event_timeline_prose",
+    "weDo_intro_transfer_honesty",
+    "oracle_41_of_41"
+  ],
+  "notes": "Explorer-guided S46 residual min-9.5 pass. Authority: S46_EXPLORER_REPORT.md only. Prior P0/P1 gold-lift preserved; prior report overstated Issue 10 (E3s were still invert-boolean in source). This pass hand-crafted 8 multi-step E3 transfers and T1-A multi-event timeline paragraph. 41/41 code oracles green. anti_aberration_ok. Hash gpu-computing deferred (routing freeze)."
+}

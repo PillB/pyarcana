@@ -1,0 +1,9 @@
+{
+  "section": 10,
+  "id": "sklearn",
+  "file": "s10-sklearn.ts",
+  "score_1_to_10": 7.0,
+  "issue_count": 23,
+  "meta_leak_count": 9,
+  "status": "complete"
+}

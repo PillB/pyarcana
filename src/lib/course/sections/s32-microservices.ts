@@ -44,7 +44,7 @@ export const section32: CourseSection = {
       paragraphs: [
         "**Leakage:** usar en el entrenamiento información que no existiría en el momento de la decisión (futuro, label, o identidad vista en test). **Train≡serve:** el código y el estado (mediana, vocabulario, μ/σ) que transforman filas en train son los mismos que en inferencia. Si solo el notebook de train conoce un fill o un vocab, hay skew silencioso.",
         "**Ventana half-open [t−w, t):** cuenta eventos con timestamp ≥ t−w y **estrictamente < t**; no incluye el instante de decisión. **Feature set `fs-vN`:** identificador versionado del catálogo + transformers fit; un cambio de vocab o schema sube N. **Skew train–serve:** divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea (p. ej. |mean_serve − mean_train| > tol).",
-        "**Fail-closed en features:** si falta catálogo, estado fit o ventana documentada, no inventes valores: devuelve `REQUEST_*`. Si detectas futuro, label-as-feature u overlap de entidades, devuelve `REJECT_*`. El vocabulario de gates es entrevista-relevante y se reutiliza en MLOps posteriores.",
+        "**Fail-closed en features:** si falta catálogo, estado fit o ventana documentada, no inventes valores: devuelve `REQUEST_*` (pedir el prerequisito). Si detectas futuro, label-as-feature, silent fill u overlap de entidades, devuelve `REJECT_*` (incumplimiento demostrado). Ausencia ≠ incumplimiento. El vocabulario de gates es entrevista-relevante y se reutiliza en MLOps posteriores.",
       ],
       callout: {
         type: "tip",
@@ -126,9 +126,9 @@ silent_fill False`,
       heading: "Contacto compartido, distancia y features de grafo",
       subtopicId: "S32-T2-A",
       paragraphs: [
-        "Features **relacionales** (`shared_address`, degree, min path) resumen evidencia del grafo de S31. **No** conviertas el score de matching ni la centralidad en label de parentesco o fraude: son inputs para el modelo o la cola, no veredictos. Un path ausente se codifica con default alto (p. ej. 99), no con inventar aristas.",
-        "Contrato: entrada dos entidades (attrs), vecinos y tabla de paths; salida shared binario, degree y pathlen (default 99 si missing). Error: usar **label de decisión** o post-outcome como feature. Criterio: solo topología y atributos **observados en t**.",
-        "Aplicación a `CASO-LIM-032`: `shared_address=1` entre dos direcciones iguales; degree de E1 sobre vecinos sintéticos; min path E1–E9 missing → 99 en grafo Lima–Arequipa ficticio.",
+        "Features **relacionales** (`shared_address`, degree, min path) resumen evidencia del grafo de S31. **No** conviertas el score de matching ni la centralidad en label de parentesco o fraude: son inputs para el modelo o la cola, no veredictos. Un path ausente se codifica con default alto (p. ej. 99), no con inventar aristas. El mini-fixture de vecinos y paths que usas aquí es la misma forma conceptual del grafo de evidencia de S31 (contacto compartido, aristas sintéticas), empaquetado como columnas de feature — no como veredicto.",
+        "Contrato: entrada dos entidades (attrs), vecinos y tabla de paths; salida shared binario, degree y pathlen (default 99 si missing). Error: usar **label de decisión** o post-outcome como feature (p. ej. `label_fraud` o `decision_final`). Criterio: solo topología y atributos **observados en t**. Si falta el grafo, pide `REQUEST_GRAPH_FEAT` en lugar de inventar `degree=0`.",
+        "Aplicación a `CASO-LIM-032` (Red Andina sintético): `shared_address=1` cuando dos entidades comparten `Av1`; degree de E1 = 2 vecinos (`E2`, `E3`); min path E1–E9 ausente en la tabla → 99. En Lima–Arequipa ficticio eso alimenta el score o la cola humana, **nunca** un veredicto de parentesco o fraude.",
       ],
       code: {
         language: 'python',
@@ -140,6 +140,7 @@ silent_fill False`,
     path = paths.get(key, 99)
     return shared, degree, path
 
+# mini-fixture alineado al grafo de evidencia S31 (sintético, sin PII real)
 shared, degree, path = graph_feats(
     {"addr": "Av1"},
     {"addr": "Av1"},
@@ -267,9 +268,9 @@ fitted True`,
       heading: "Fit, transform y persistencia del estado",
       subtopicId: "S32-T3-B",
       paragraphs: [
-        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab cambia, **version bump** del feature set (`fs-vN`). Aplicar la mediana de train al batch de serve evita **skew silencioso**. En producción, joblib/pickle cumplen el mismo rol; aquí usamos JSON para inspeccionar el contrato a ojo.",
-        "Contrato: entrada state dict; salida round-trip JSON y version. Error: servir **sin version**. Criterio: `fs-vN` en artefactos y hash de schema. Un serve sin `version` es `REJECT_UNVERSIONED`.",
-        "Aplicación a `CASO-LIM-032`: state `median=2` round-trip; vocab change → `fs-v2`; apply median al serve batch sintético `[None, 4]` → `[2, 4]`. Este artefacto es el contrato de entrada del baseline S33.",
+        "El **estado** (mediana, vocab, μ/σ) se serializa a JSON y se **reutiliza en serve**. Si el vocab o el schema cambian, hay **version bump** del feature set (`fs-v1` → `fs-v2`). Aplicar la mediana de train al batch de serve evita **skew silencioso**: reestimar en inferencia es otra forma de leakage. En producción, joblib/pickle cumplen el mismo rol que este JSON; aquí lo inspeccionas a ojo para ver el contrato sin binarios opacos.",
+        "Contrato: entrada state dict con `median` y `version`; salida round-trip JSON idéntico y apply de mediana al batch de serve. Error: servir **sin version** o con version vacía. Criterio: `fs-vN` en artefactos, schema congelado y misma función de apply en train e inferencia. Un serve sin `version` es `REJECT_UNVERSIONED`; sin JSON de state es `REQUEST_STATE_JSON`.",
+        "Aplicación a `CASO-LIM-032`: state `median=2`, `version=fs-v1` sobrevive al round-trip; al batch de serve `[None, 4]` se aplica → `[2, 4]`. Si mañana el vocab de `canal` crece, subes a `fs-v2` y el baseline S33 debe citar el id nuevo — no reutilizar el viejo en silencio. Este artefacto JSON es el **contrato de entrada** del baseline de S33.",
       ],
       code: {
         language: 'python',
@@ -302,9 +303,9 @@ serve [2, 4]`,
       heading: "Split por entidad, grupo y tiempo",
       subtopicId: "S32-T4-A",
       paragraphs: [
-        "**Split temporal** (`train ts < cutoff`) y **group split por entity** evitan overlap. Si una entidad aparece en train y test, hay **leakage de identidad**: el modelo memoriza la entidad, no el patrón. En investigación relacional esto infla métricas de forma peligrosa.",
-        "Contrato: entrada rows con `ts` y `entity`; salida train/test sets y `overlap` count. Error: `overlap > 0` en el gate. Criterio: group sizes reportados en el informe de split (`n_train`, `n_test`, `overlap`).",
-        "Aplicación a `CASO-LIM-032`: train `ts < '2026-02-01'`; test el resto; **overlap entidades = 0**. Si e1 aparece en ambos lados, `REJECT_ENTITY_OVERLAP`.",
+        "**Split temporal** (`train ts < cutoff`) y **group split por entity** evitan overlap. Si una entidad aparece en train y test, hay **leakage de identidad**: el modelo memoriza la entidad, no el patrón generalizable. En un workbench de investigación relacional eso infla AUC offline y genera colas que confían en scores irreales.",
+        "Contrato: entrada rows con `ts` y `entity`; salida particiones train/test y `overlap` count (cardinalidad de la intersección de entidades). Error: `overlap > 0` en el gate de promote. Criterio: informe de split con `n_train`, `n_test` y `overlap` explícitos — no basta un print de “ok” sin números.",
+        "Aplicación a `CASO-LIM-032`: cutoff `'2026-02-01'`; e1 solo en train (enero) y e2 solo en test (febrero) → **overlap entidades = 0**. Si e1 aparece en ambos lados, el gate es `REJECT_ENTITY_OVERLAP` y no se entrena el baseline S33 hasta corregir el split.",
       ],
       code: {
         language: 'python',
@@ -338,9 +339,9 @@ ok True`,
       heading: "Leakage, skew train–serve y versionado",
       subtopicId: "S32-T4-B",
       paragraphs: [
-        "Nombres con `label` o `decision` en features son **red flags** de leakage. Si `serve_mean` se desvía **> tol** de `train_mean`, hay **train–serve skew**. El feature set id `fs-vN` **congela** el contrato promovido hacia S33. Promover con leakage es fallo de gate, no un “warning opcional”.",
-        "Contrato: entrada feature names, means, version; salida leak flags, skew alert, fs id. Error: **promover con leakage**. Criterio: scan de nombres + skew check en CI antes del baseline.",
-        "Aplicación a `CASO-LIM-032`: flag `label_decision` en el scan; skew si `|serve − train| > 0.5`; id promovido `fs-v2` solo si leaky vacío y skew False.",
+        "Nombres con `label` o `decision` en el catálogo de features son **red flags** de leakage: el modelo estaría entrenando con la respuesta. Si `serve_mean` se desvía **> tol** de `train_mean` sobre la misma feature, hay **train–serve skew** (lógica o distribución distinta entre notebook e inferencia). El feature set id `fs-vN` **congela** el contrato promovido hacia S33. Promover con leakage o skew es fallo de gate, no un “warning opcional”.",
+        "Contrato: entrada lista de nombres, medias train/serve, tolerancia y version; salida lista leaky, booleano skew y fs id. Error: **promover** cuando leaky no está vacío, skew es True o falta el id. Criterio: scan de nombres + medición de skew en CI **antes** del baseline; el id promovido debe empezar por `fs-v`.",
+        "Aplicación a `CASO-LIM-032`: el scan marca `label_decision`; skew alerta si `|0.8 − 0.0| > 0.5`. Solo con leaky vacío, skew False y `feature_set` tipo `fs-v2` se imprime el promote limpio que S33 puede citar. Si falta el id → `REQUEST_FEATURE_SET_ID`.",
       ],
       code: {
         language: 'python',
@@ -367,7 +368,7 @@ feature_set fs-v2`,
     }
   ],
   iDo: {
-    intro: "S32 · Te muestro catálogo, missing/scale, grafo, ventanas, transformers y anti-leakage sobre run_id=cpn3b-feat. Cada demo **calcula** el concepto a partir de datos sintéticos.",
+    intro: "S32 · **Yo hago**: te muestro catálogo, missing/scale, grafo (puente S31), ventanas half-open, transformers fit→transform y anti-leakage sobre `run_id=cpn3b-feat`. Cada demo **calcula** el concepto a partir de datos sintéticos — no flags prebakeados. Luego en We Do reparas el mismo kernel; en You Do empaquetas el `fs-vN` para S33.",
     steps: [
       {
         demoId: "S32-T1-A-DEMO",
@@ -393,7 +394,7 @@ print("catalog_ok", ok)`,
 note_len 4
 catalog_ok True`,
         },
-        why: "El catálogo es la fuente de verdad de dtypes y evita features desconocidas en serve.",
+        why: "El catálogo es la fuente de verdad de dtypes: sin él, serve inventa columnas y rompe train≡serve.",
       },
       {
         demoId: "S32-T1-B-DEMO",
@@ -417,7 +418,7 @@ print(z)`,
 [1.0, 2.0, 3.0]
 [0.5, 1.0, 1.5]`,
         },
-        why: "Indicator + stats de train preservan ausencia y evitan silent fill con datos de test.",
+        why: "Indicator + μ/σ de train preservan la señal de ausencia y bloquean silent fill con stats de test.",
       },
       {
         demoId: "S32-T2-A-DEMO",
@@ -445,7 +446,7 @@ print("path", path)`,
 degree 2
 path 99`,
         },
-        why: "Features de grafo resumen evidencia relacional sin convertir matching en fraude.",
+        why: "Features de grafo (herencia S31) resumen evidencia relacional sin convertir matching en fraude ni parentesco.",
       },
       {
         demoId: "S32-T2-B-DEMO",
@@ -471,7 +472,7 @@ print("ok", count == 2 and includes_t is False and bad == 3)`,
 includes_t False
 ok True`,
         },
-        why: "La política half-open elimina leakage temporal; el conteo cerrado infla features y métricas offline.",
+        why: "Half-open elimina leakage temporal; el conteo cerrado infla features y el AUC offline (la historia del fallo del intro).",
       },
       {
         demoId: "S32-T3-A-DEMO",
@@ -518,7 +519,7 @@ fitted True
 before_fit not fitted
 routed [0, 6] ['app', 'web']`,
         },
-        why: "fit/transform ordenado + router por tipo es el contrato de un pipeline heterogéneo reutilizable.",
+        why: "fit→transform ordenado + router por tipo es el contrato de un pipeline heterogéneo (idea de sklearn sin runtime extra).",
       },
       {
         demoId: "S32-T3-B-DEMO",
@@ -540,7 +541,7 @@ print("serve", serve)`,
 version fs-v1
 serve [2, 4]`,
         },
-        why: "Persistir estado versionado evita train–serve skew silencioso en el workbench.",
+        why: "Persistir estado versionado (`fs-vN`) evita skew silencioso y es el artefacto que S33 debe citar.",
       },
       {
         demoId: "S32-T4-A-DEMO",
@@ -565,7 +566,7 @@ print("ok", len(overlap) == 0)`,
 overlap 0
 ok True`,
         },
-        why: "Split por tiempo y grupo es la defensa principal contra leakage de identidad.",
+        why: "Split por tiempo + entity isolation es la defensa principal contra leakage de identidad antes del baseline.",
       },
       {
         demoId: "S32-T4-B-DEMO",
@@ -590,12 +591,12 @@ print("feature_set", "fs-v2")`,
 skew True
 feature_set fs-v2`,
         },
-        why: "El gate de leakage y versionado cierra el pipeline antes de entrenar el baseline S33.",
+        why: "Scan de nombres + skew + `fs-vN` cierran el promote: sin gate limpio no se entrena el baseline S33.",
       }
     ],
   },
   weDo: {
-    intro: "S32 · Laboratorio features sin leakage (CP-N3-B): 24 retos. E1 repara un defecto de cálculo, E2 valida/adverso/missing, E3 fail-closed. Construyes la feature o el gate a partir de datos sintéticos — no solo flags precomputados.",
+    intro: "S32 · **Hacemos juntos** (E1) → **tú validas** (E2) → **transfieres fail-closed** (E3): 24 retos sobre CP-N3-B. Cada lab **recalcula** catálogo, escala, grafo, ventana, fit/persist o split desde datos sintéticos — no inviertes un booleano precomputado. Si falta un prerequisito, `REQUEST_*`; si hay leakage, `REJECT_*`.",
     steps: [
       {
         id: "S32-T1-A-E1",
@@ -2155,8 +2156,8 @@ assert results == ["CONTINUE", "REJECT_LEAKAGE", "REQUEST_FEATURE_SET_ID"]
     objectives: [
       "Catalog dtypes y keys validadas (row ⊆ catálogo); reportar unknown_keys",
       "Missing indicator + mediana de train + apply en serve (silent_fill=False)",
-      "Graph feats (shared/degree/path default 99) + window half-open [t−w, t) con count documentado",
-      "fs-vN, leakage scan, skew check y split con overlap 0 + informe n_train/n_test/overlap",
+      "Graph feats (shared/degree/path default 99, puente S31) + window half-open [t−w, t) con count documentado",
+      "fs-vN versionado, leakage scan, skew check y split con overlap 0 + informe n_train/n_test/overlap para S33",
     ],
     requirements: [
       "Train≡serve: mismo código y state en train e inferencia",
@@ -2184,13 +2185,18 @@ feature_names = ["amount_3t", "n_events_3t", "canal_mode"]  # sin label_*
 
 
 def window_count(entity_events, t, w):
-    """Cuenta eventos con ts en [t-w, t)."""
+    """Cuenta eventos con ts en [t-w, t). No incluir ts == t."""
     raise NotImplementedError("half-open [t-w, t)")
 
 
 def fit_median(train_amounts):
     """Mediana de train; None si lista vacía. Ordena y toma el centro."""
     raise NotImplementedError("stats solo de train")
+
+
+def graph_feats(a_addr, b_addr, neighbors, paths, src="E1", dst="E9"):
+    """shared, degree, path (default 99). No uses labels de decisión."""
+    raise NotImplementedError("topologia S31 → features; path missing = 99")
 
 
 def time_group_split(rows, cut_ts):
@@ -2213,6 +2219,8 @@ if __name__ == "__main__":
     n_e1 = window_count(e1, decision_t, window_w)  # esperado: 2 (ts 1 y 2)
     train_amts = [e["amount"] for e in events if e["ts"] < decision_t]
     state["median_amount"] = fit_median(train_amts)
+    # opcional: shared/degree/path desde mini-grafo (no son labels de fraude)
+    # shared, degree, path = graph_feats("Av1", "Av1", {"E1": ["E2"]}, {"E1-E2": 1})
     rows = [{"ts": e["ts"], "entity": e["entity"]} for e in events]
     tr, te, ov = time_group_split(rows, decision_t)
     leaky = leak_scan(feature_names)
@@ -2222,6 +2230,7 @@ if __name__ == "__main__":
     print("leaky", leaky)
     # Acceptance (descomenta asserts cuando implementes):
     # assert n_e1 == 2 and ov == 0 and leaky == [] and state["median_amount"] is not None
+    # assert str(state["version"]).startswith("fs-v")
 `,
     portfolioNote:
       "Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33. Incluye schema hash o lista de columnas congelada.",
@@ -2292,6 +2301,20 @@ if __name__ == "__main__":
         correctIndex: 0,
         explanation:
           "Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.",
+      },
+      {
+        question: "Si el vocabulario de una categórica crece y cambias el schema del feature set, debes…",
+        options: ["reutilizar fs-v1 en silencio para no romper S33", "borrar la version del state para forzar re-fit en serve", "mezclar train y test al recalcular la mediana", "subir el version bump (p. ej. fs-v1 → fs-v2) y citar el nuevo id"],
+        correctIndex: 3,
+        explanation:
+          "Cambio de vocab/schema invalida el contrato congelado: version bump y el baseline S33 debe citar el fs-vN nuevo.",
+      },
+      {
+        question: "Falta el JSON de state fit en serve. La respuesta fail-closed correcta es…",
+        options: ["rellenar con 0 y continuar", "REQUEST_STATE_JSON (pedir el artefacto; no inventar defaults)", "REJECT_LEAKAGE inmediato", "promover fs-vN vacío"],
+        correctIndex: 1,
+        explanation:
+          "Ausencia de prerequisito → REQUEST_*; incumplimiento detectado (futuro, label, overlap) → REJECT_*. No silent defaults.",
       },
     ],
   },

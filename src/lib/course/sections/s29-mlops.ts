@@ -177,7 +177,7 @@ overwrite False`,
       paragraphs: [
         "Una **CTE** (`WITH nombre AS (… )`) nombra un paso intermedio: candidatos filtrados, scores ordenados. Las **window functions** (`ROW_NUMBER() OVER (ORDER BY score DESC)` o `PARTITION BY block_key ORDER BY score DESC`) asignan rango **sin colapsar filas** como haría un `GROUP BY`. `PARTITION BY` reinicia el contador por cubeta de blocking: “top-1 por bloque”.",
         "Un **anti-join** responde “pares sin decisión” o “entidades sin par”: `NOT EXISTS (SELECT 1 FROM decisions d WHERE d.pair_id = p.id)` o `LEFT JOIN … WHERE d.pair_id IS NULL`. `NOT IN` con NULLs en el subconjunto es una trampa clásica; prefiere `NOT EXISTS`.",
-        "En la cola de review del ER, combinas ranking + anti-join: “top scores que aún no tienen label humano”. El lab lista `p2` y `p3` (tienen score, no tienen decisión), deja fuera a `p1`, e imprime el top-1 por `block_key` con `PARTITION BY`.",
+        "En la cola de review del ER, combinas ranking + anti-join: “top scores que aún no tienen label humano”. El lab lista `p2` y `p3` (tienen score, no tienen decisión), deja fuera a `p1`, e imprime el top-1 por `block_key` con `PARTITION BY`. En We Do practicarás anti-join (E1), `ROW_NUMBER` global (E2) y top-1 particionado por bloque (E3) — el mismo patrón del mini-lab, con un DEFECT cada vez.",
       ],
       code: {
         language: 'python',
@@ -1185,29 +1185,44 @@ print(c.execute(q).fetchone()[0])
         subtopicId: "S29-T2-A",
         kind: "transfer",
         instruction:
-          "S29-T2-A-E3 · CTE llamada `ranked`: con pairs p1/p2 scores 0.4/0.8, lista ids de la CTE ordenados por score DESC. Salida: `['p2', 'p1']`.",
-        hint: "WITH ranked AS (...)",
+          "S29-T2-A-E3 · Transferencia window: con pairs y `block_key`, usa `ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)` y devuelve los ids con rn=1 (top-1 por bloque), ordenados por id. Datos: p1/0.9/A, p2/0.4/A, p3/0.7/B, p4/0.5/B. Salida: `['p1', 'p3']`.",
+        hint: "PARTITION BY reinicia el ranking por bloque",
         hints: [
-          "WITH ranked AS (SELECT id, score FROM pairs)",
-          "ORDER BY score DESC en el SELECT final",
+          "ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)",
+          "WHERE rn = 1 y ORDER BY id en el SELECT externo",
         ],
-        edgeCases: ["nombre de CTE legible en el plan"],
+        edgeCases: [
+          "Sin PARTITION BY el top-1 global deja un solo id",
+          "Empates de score: ROW_NUMBER no empata; documenta política en prod",
+        ],
         tests: "salida coincide con solution output",
         feedback:
-          "La CTE `ranked` nombra el paso intermedio; el SELECT final ordena por score DESC. Sin orden, el listado no es la cola priorizada.",
+          "PARTITION BY block_key reinicia ROW_NUMBER en cada cubeta de blocking: top-1 por bloque (p1 en A, p3 en B). Un ORDER BY global sin partición no modela la cola de review por bloque.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-029 · CTE ranked
-# DEFECT: SELECT directo sin ORDER BY de score
+          code: `# CASO-LIM-029 · top-1 por block_key (PARTITION BY)
+# DEFECT: ranking global sin PARTITION BY → solo un ganador
 import sqlite3
 c = sqlite3.connect(':memory:')
-c.execute('create table pairs(id text, score real)')
+c.execute('create table pairs(id text, score real, block_key text)')
 c.executemany(
-    'insert into pairs values (?,?)',
-    [('p1', 0.4), ('p2', 0.8)],
+    'insert into pairs values (?,?,?)',
+    [
+        ('p1', 0.9, 'A'),
+        ('p2', 0.4, 'A'),
+        ('p3', 0.7, 'B'),
+        ('p4', 0.5, 'B'),
+    ],
 )
-print([r[0] for r in c.execute('select id from pairs')])
+q = '''
+select id from (
+  select id, row_number() over (order by score desc) as rn
+  from pairs
+) where rn = 1
+order by id
+'''
+print([r[0] for r in c.execute(q)])
 `,
         },
         solutionCode: {
@@ -1215,20 +1230,28 @@ print([r[0] for r in c.execute('select id from pairs')])
           title: "exercise.py",
           code: `import sqlite3
 c = sqlite3.connect(':memory:')
-c.execute('create table pairs(id text, score real)')
+c.execute('create table pairs(id text, score real, block_key text)')
 c.executemany(
-    'insert into pairs values (?,?)',
-    [('p1', 0.4), ('p2', 0.8)],
+    'insert into pairs values (?,?,?)',
+    [
+        ('p1', 0.9, 'A'),
+        ('p2', 0.4, 'A'),
+        ('p3', 0.7, 'B'),
+        ('p4', 0.5, 'B'),
+    ],
 )
 q = '''
-with ranked as (
-  select id, score from pairs
-)
-select id from ranked order by score desc
+select id from (
+  select id, row_number() over (
+    partition by block_key order by score desc
+  ) as rn
+  from pairs
+) where rn = 1
+order by id
 '''
 print([r[0] for r in c.execute(q)])
 `,
-          output: `['p2', 'p1']`,
+          output: `['p1', 'p3']`,
         },
       },
       {
@@ -1615,32 +1638,35 @@ print(c.execute("select status from jobs where id='er_block'").fetchone()[0])
         subtopicId: "S29-T3-B",
         kind: "transfer",
         instruction:
-          "S29-T3-B-E3 · Par duplicado: UNIQUE(entity_a, entity_b). Segundo insert del mismo par debe capturar IntegrityError e imprimir `retry`. Salida: `retry`.",
-        hint: "try/except IntegrityError",
+          "S29-T3-B-E3 · Orden canónico + reintento: tabla con `CHECK(entity_a < entity_b)` y `UNIQUE(entity_a, entity_b)`. Inserta (`e1`,`e2`); luego intenta el espejo (`e2`,`e1`). Captura `IntegrityError` e imprime `order_rejected`. Salida: `order_rejected`.",
+        hint: "CHECK(entity_a < entity_b) rechaza el par invertido",
         hints: [
-          "create table con unique(entity_a, entity_b)",
-          "print('retry') en except",
+          "create table con check(entity_a < entity_b) y unique(entity_a, entity_b)",
+          "segundo insert ('e2','e1') → except IntegrityError → print order_rejected",
         ],
-        edgeCases: ["orden canónico A<B evita el espejo e2,e1"],
+        edgeCases: [
+          "Sin CHECK el espejo (e2,e1) convive con (e1,e2) y duplica el candidato",
+          "UNIQUE solo no basta si el orden de extremos está invertido",
+        ],
         tests: "salida coincide con solution output",
         feedback:
-          "UNIQUE(entity_a, entity_b) fuerza el conflicto del par duplicado. La política de worker es capturar IntegrityError e imprimir `retry`.",
+          "CHECK(entity_a < entity_b) rechaza el espejo (e2,e1). UNIQUE evita el duplicado en el mismo orden. El worker captura IntegrityError y reporta `order_rejected` (o `retry` en el flujo de reintento).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-029 · conflict → retry
-# DEFECT: no hay UNIQUE; el segundo insert “pasa” e imprime ok
+          code: `# CASO-LIM-029 · orden canónico A<B + UNIQUE
+# DEFECT: sin CHECK; el espejo (e2,e1) se inserta y imprime ok
 import sqlite3
 c = sqlite3.connect(':memory:')
 c.execute(
-    'create table pairs(entity_a text, entity_b text)'
+    'create table pairs(entity_a text, entity_b text, unique(entity_a, entity_b))'
 )
 c.execute("insert into pairs values ('e1','e2')")
 try:
-    c.execute("insert into pairs values ('e1','e2')")
+    c.execute("insert into pairs values ('e2','e1')")
     print('ok')
 except sqlite3.IntegrityError:
-    print('retry')
+    print('order_rejected')
 `,
         },
         solutionCode: {
@@ -1649,16 +1675,20 @@ except sqlite3.IntegrityError:
           code: `import sqlite3
 c = sqlite3.connect(':memory:')
 c.execute(
-    'create table pairs(entity_a text, entity_b text, unique(entity_a, entity_b))'
+    '''create table pairs(
+         entity_a text, entity_b text,
+         unique(entity_a, entity_b),
+         check(entity_a < entity_b)
+       )'''
 )
 c.execute("insert into pairs values ('e1','e2')")
 try:
-    c.execute("insert into pairs values ('e1','e2')")
+    c.execute("insert into pairs values ('e2','e1')")
     print('ok')
 except sqlite3.IntegrityError:
-    print('retry')
+    print('order_rejected')
 `,
-          output: `retry`,
+          output: `order_rejected`,
         },
       },
       {
@@ -1770,17 +1800,17 @@ print(row[0])
         subtopicId: "S29-T4-A",
         kind: "transfer",
         instruction:
-          "S29-T4-A-E3 · Política de migración: con `has_backup=False` **no** ejecutes `DROP TABLE pairs`. Comprueba que la tabla sigue con 1 fila y imprime `no_drop_without_backup`. Salida exacta esa cadena.",
-        hint: "guard + COUNT antes de cualquier DROP",
+          "S29-T4-A-E3 · Política de migración: con `has_backup=False` **no** ejecutes `DROP TABLE pairs`. Lee `COUNT(*)` de pairs (debe seguir en 1) e imprime dos líneas: el count y la política `no_drop_without_backup`. Salida:\n`1`\n`no_drop_without_backup`",
+        hint: "guard + COUNT; no DROP si no hay backup",
         hints: [
-          "if not has_backup: no dropear; print la política",
-          "opcional: assert count==1 para probar que la tabla vive",
+          "if not has_backup: n = COUNT(*); print(n); print('no_drop_without_backup')",
           "else: drop + print drop_ok",
+          "el starter dropea y pierde la evidencia: corrige el DEFECT",
         ],
         edgeCases: ["prod safety; schema_migrations no reemplaza backup"],
         tests: "salida coincide con solution output",
         feedback:
-          "Con has_backup=False no hay DROP: la fila de evidencia sigue y se imprime `no_drop_without_backup`. Schema governance antes de prod.",
+          "Con has_backup=False no hay DROP: COUNT(*) sigue en 1 y se imprime la política. La evidencia del almacén ER no se borra por “agilidad” de migración.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1792,7 +1822,7 @@ c = sqlite3.connect(':memory:')
 c.execute('create table pairs(id text)')
 c.execute("insert into pairs values ('p1')")
 c.execute('drop table pairs')
-# la tabla ya no existe; el lab exige conservar evidencia
+# la tabla ya no existe; el lab exige conservar evidencia y reportar count+política
 print('drop_ok')
 `,
         },
@@ -1806,13 +1836,14 @@ c.execute('create table pairs(id text)')
 c.execute("insert into pairs values ('p1')")
 if not has_backup:
     n = c.execute('select count(*) from pairs').fetchone()[0]
-    assert n == 1  # evidencia intacta
+    print(n)
     print('no_drop_without_backup')
 else:
     c.execute('drop table pairs')
     print('drop_ok')
 `,
-          output: `no_drop_without_backup`,
+          output: `1
+no_drop_without_backup`,
         },
       },
       {
@@ -2144,6 +2175,14 @@ if __name__ == "__main__":
         correctIndex: 3,
         explanation:
           "NULL = NULL es desconocido (no TRUE). IS NULL / IS NOT NULL es el predicado correcto; COUNT(col) ignora NULL mientras COUNT(*) cuenta la fila.",
+      },
+      {
+        question:
+          "Si `EXPLAIN QUERY PLAN` muestra SCAN sobre pairs al filtrar por block_key, la lectura correcta es…",
+        options: ["Ya hay índice mágico aunque no lo creaste", "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX", "SCAN significa que el resultado es siempre vacío", "Debes imprimir la palabra INDEX sin mirar el plan"],
+        correctIndex: 1,
+        explanation:
+          "SCAN = recorrido completo. Tras CREATE INDEX en la columna de filtro, vuelve a pedir el plan: si aparece INDEX/SEARCH, el índice está ayudando a esa consulta concreta.",
       },
     ],
   },

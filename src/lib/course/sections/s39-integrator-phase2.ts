@@ -29,7 +29,7 @@ export const section39: CourseSection = {
       heading: "Cierre CP-N3-C + regresión N3 + CF-3",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Responsible ML Case Triage:** flujo intake→ER→grafo→features→score→cola humana. **Evidence packet:** hechos + path + features + incertidumbre (no un número suelto). **Abstención / human_only:** modos que priorizan control humano. **Model/data/system card:** límites y ownership publicados. **CF-3:** gate de contratos del nivel 3 revisado por un evaluador externo. **auto_fraud=False:** el score prioriza revisión; nunca declara fraude ni parentesco.",
-        "En operaciones de riesgo de una fintech o banco en Lima, el día a día no es reentrenar el ranker: es **triage de casos** con evidencia citables, cola humana y auditoría. **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
+        "En operaciones de riesgo de una fintech o banco en Lima, el día a día no es reentrenar el ranker: es **triage de casos** con evidencia citable, cola humana y auditoría. **S39 cierra el nivel 3** con el sistema demoable **Responsible ML Case Triage**. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
         "Qué entregas aquí (contrato de promoción, conceptual). Entrada: CP-N3-A, CP-N3-B y **CP-N3-C**, más smoke de regresión S27–S39 y el expediente **CF-3**. Salida de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: auto-declarar promoción sin revisión externa. Criterio: dejas evidencia reproducible; la decisión de cierre del nivel la registra un revisor, no tu script.",
         "Orden pedagógico: **T1 Arquitectura del flujo** (pipeline y ownership) → **T2 Workbench del revisor** (packet, decisión y apelación) → **T3 Riesgo y ops** (privacidad, fairness, drift y human_only) → **T4 Producto y cierre** (aceptación, demo, cards, valor y postmortem). El caso sintético `CASO-LIM-039` modela una cola de onboarding digital en una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude. Si el mapa se siente denso, avanza T1→T4 en ese orden; el You Do ensambla todo al final.",
       ],
@@ -137,9 +137,9 @@ compat semver`,
       heading: "Cola, evidence packet y explicación",
       subtopicId: "S39-T2-A",
       paragraphs: [
-        "La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo». **Calibración** aquí significa que el umbral se eligió para una tasa de cola sostenible (S34), no que el score sea probabilidad de fraude.",
+        "La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo». **Calibración** aquí significa que el umbral se eligió en validación (S34) para una tasa de cola sostenible y una confiabilidad razonable del ranking — no que el score sea probabilidad de fraude ni veredicto legal.",
         "El packet mínimo no es un dump del modelo: es el set de hechos que un revisor puede citar. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcional model_contrib. Salida: packet auditable + capas de explicación (S35) + bucket de prioridad por umbrales. Error: score solo o path omitido cuando el modelo usó señales relacionales. Éxito: el revisor reconstruye por qué el caso llegó a cola sin magia del modelo.",
-        "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. Con thr_hi=0.75 y thr_lo=0.40 el bucket es `queue_now`; un score 0.55 iría a `queue_batch` y 0.20 a `skip`. La UI didáctica puede ser un dict en CLI: lo importante es la estructura. El revisor decide; el modelo solo prioriza.",
+        "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. Con thr_hi=0.75 y thr_lo=0.40 el bucket es `queue_now`; 0.55 iría a `queue_batch` y 0.20 a `skip`. En un batch sintético de cinco scores, thr_hi=0.75 deja dos casos en cola inmediata: si la capacidad del turno es 3, el umbral es viable; si fuera 1, habría que subir thr o batchar más. La UI didáctica puede ser un dict en CLI: lo importante es la estructura. El revisor decide; el modelo solo prioriza.",
       ],
       code: {
         language: 'python',
@@ -156,6 +156,11 @@ def priority_bucket(score: float, thr_hi: float, thr_lo: float) -> str:
         return "queue_batch"
     return "skip"
 
+def queue_load(scores: list, thr_hi: float, capacity: int) -> dict:
+    # Micro-check de calibración operativa: tasa de cola vs capacidad del turno
+    n_now = sum(1 for s in scores if s >= thr_hi)
+    return {"n_queue_now": n_now, "within_capacity": n_now <= capacity}
+
 packet = {
     "case_id": "CASO-LIM-039-T2A",
     "score": 0.81,
@@ -164,20 +169,24 @@ packet = {
     "uncertainty": "in_distribution",
     "model_contrib": {"shared_phone": 0.4},
 }
+batch_scores = [0.81, 0.55, 0.20, 0.92, 0.40]
 layers = sum([
     bool(packet.get("case_id")),
     "score" in packet,
     bool(packet.get("evidence")),
     bool(packet.get("graph_path")),
 ])
+load = queue_load(batch_scores, 0.75, capacity=3)
 print(packet["case_id"], packet["score"])
 print("path", packet["graph_path"])
 print("layers", layers if packet_ok(packet) else 0)
-print("bucket", priority_bucket(packet["score"], 0.75, 0.40))`,
+print("bucket", priority_bucket(packet["score"], 0.75, 0.40))
+print("load", load)`,
         output: `CASO-LIM-039-T2A 0.81
 path ['E1', 'ph:900', 'E2']
 layers 4
-bucket queue_now`,
+bucket queue_now
+load {'n_queue_now': 2, 'within_capacity': True}`,
       },
       callout: {
         type: "tip",
@@ -349,7 +358,7 @@ self_declared_promotion False`,
       paragraphs: [
         "El cierre de nivel exige **cards** legibles: **model card** (intended use, label_space, límites, no auto-fraude, oversight y métricas por slice), **data card** (fuentes sintéticas, ventanas, minimización de PII, gaps conocidos) y **system card** (modos ops, owners, rollback, demo paths). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
         "Cards y postmortem cierran el aprendizaje del sistema, no la cacería de culpables. Una card útil nombra owner de monitoreo y lo que no mide el score; un postmortem blameless separa timeline, root_cause de proceso y actions (p. ej. rollback vs recalibrar). Entrada: métricas de valor + plantillas. Salida: tres cards publicables + postmortem con acciones. Error: card de una línea, solo AUC offline, o root_cause con nombres de personas. Éxito: un stakeholder no-ML entiende el score y cuándo interviene un humano.",
-        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola limeña de laboratorio. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración — sin culpar al on-call. Con cards, métricas de valor y notas de regresión, el expediente queda listo para revisión CF-3; tú no auto-declaras la promoción.",
+        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola limeña de laboratorio; por slice sintético, canal_app muestra false_queue≈0.08 y canal_web≈0.11. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración — sin culpar al on-call. Con cards, métricas de valor y notas de regresión, el expediente queda listo para revisión CF-3; tú no auto-declaras la promoción.",
       ],
       code: {
         language: 'python',
@@ -454,7 +463,7 @@ owner_required True`,
         demoId: "S39-T2-A-DEMO",
         subtopicId: "S39-T2-A",
         environment: "local-python",
-        description: "Evidence packet: claves mínimas, capas contadas y bucket de prioridad por umbrales calibrados.",
+        description: "Evidence packet: claves mínimas, capas contadas, bucket por umbrales calibrados y carga de cola vs capacidad.",
         code: {
           language: 'python',
           title: "pkt_demo.py",
@@ -468,19 +477,26 @@ def priority_bucket(score: float, thr_hi: float, thr_lo: float) -> str:
         return "queue_batch"
     return "skip"
 
+def queue_load(scores: list, thr_hi: float, capacity: int) -> dict:
+    n_now = sum(1 for s in scores if s >= thr_hi)
+    return {"n_queue_now": n_now, "within_capacity": n_now <= capacity}
+
 keys = packet_keys(["case_id", "score", "evidence", "graph_path"])
 layers = len(keys)
 score_alone_ok = keys == ["score"]
+load = queue_load([0.81, 0.55, 0.20, 0.92, 0.40], 0.75, capacity=3)
 print(keys)
 print("layers", layers)
 print("score_alone_ok", score_alone_ok)
-print("bucket", priority_bucket(0.81, 0.75, 0.40))`,
+print("bucket", priority_bucket(0.81, 0.75, 0.40))
+print("load", load)`,
           output: `['case_id', 'evidence', 'graph_path', 'score']
 layers 4
 score_alone_ok False
-bucket queue_now`,
+bucket queue_now
+load {'n_queue_now': 2, 'within_capacity': True}`,
         },
-        why: "El revisor necesita path y evidencia; el score solo no constituye workbench. El umbral calibrado ordena capacidad de cola.",
+        why: "El revisor necesita path y evidencia; el score solo no constituye workbench. El umbral calibrado (S34) ordena capacidad de cola sin convertir el score en fraude.",
       },
       {
         demoId: "S39-T2-B-DEMO",
@@ -2148,7 +2164,9 @@ def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
             "Out of scope: declarar fraude, parentesco o culpabilidad.\\n"
             "Limitations: score ≠ probabilidad de fraude; umbral thr=0.70 de validación (S34).\\n"
             "Human oversight: override + audit + apelación con segundo revisor.\\n"
-            "Metrics by slice: override_rate y false-queue por canal sintético.\\n"
+            "Metrics by slice (sintético): canal_app false_queue=0.08 override=0.10; "
+            "canal_web false_queue=0.11 override=0.14.\\n"
+            "Operational value: precision_at_k≈0.55; median_review_s≈90.\\n"
             "Monitoring owner: ml-risk; alertas de drift de score y calibración.\\n",
             encoding="utf-8",
         )

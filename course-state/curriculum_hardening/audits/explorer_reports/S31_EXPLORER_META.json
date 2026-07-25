@@ -1,0 +1,9 @@
+{
+  "section": 31,
+  "id": "streaming-data",
+  "file": "src/lib/course/sections/s31-streaming-data.ts",
+  "score_1_to_10": 5.5,
+  "issue_count": 17,
+  "meta_leak_count": 9,
+  "status": "complete"
+}

@@ -1,0 +1,9 @@
+{
+  "section": 29,
+  "id": "mlops",
+  "file": "src/lib/course/sections/s29-mlops.ts",
+  "score_1_to_10": 4.6,
+  "issue_count": 24,
+  "meta_leak_count": 3,
+  "status": "complete"
+}

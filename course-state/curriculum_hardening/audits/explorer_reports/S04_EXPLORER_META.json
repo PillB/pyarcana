@@ -1,0 +1,9 @@
+{
+  "section": 4,
+  "id": "functions-modules",
+  "file": "src/lib/course/sections/s04-functions-modules.ts",
+  "score_1_to_10": 6.2,
+  "issue_count": 24,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

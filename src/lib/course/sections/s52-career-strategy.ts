@@ -239,7 +239,7 @@ print(resilience(0.7, 0.995, 72, 4, 120, 15, False))`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S52-T3-B: prueba RPO/RTO y restauración demostrados y registra por separado `NO_GO_RESILIENCE` (breach) y `RUN_DISASTER_EXERCISE` (missing).",
+          "Promoción de S52-T3-B: **RPO** (Recovery Point Objective: cuánto dato puedes perder, en horas de backup) y **RTO** (Recovery Time Objective: cuánto tiempo de restore, en minutos) deben medirse con reloj. Registra `NO_GO_RESILIENCE` (breach) y `RUN_DISASTER_EXERCISE` (missing) por separado — un tabletop sin números no cuenta.",
       },
     },
     {
@@ -312,7 +312,7 @@ cp_final independent_of_cpn4c`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S52-T4-B: conserva evidence bundle de **8** artefactos verificables; breach → `BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`; ausencia de independencia CP-N4-C → `SCHEDULE_TECHNICAL_DEFENSE`.",
+          "Cierre de S52-T4-B: evidence bundle de **8** artefactos (C4 architecture, README, ADR, system_card, model_card, LICENSE, demo_video, defense_notes). Breach → `BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`; sin independencia de CP-N4-C → `SCHEDULE_TECHNICAL_DEFENSE`. Este paquete es el que un revisor externo ejecuta en la defensa.",
       },
     },
   ],
@@ -529,7 +529,7 @@ BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
         ],
         edgeCases: ["falta baseline_frozen", "fixture adverso: solo ops, jobs=0, métricas vacías, baseline no frozen", "CASO-PER-052-1A es sintético"],
         tests: "El fixture `CASO-PER-052-1A` satisface un predicado de dominio real; imprime `S52-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_CF1 y por qué faltar baseline_frozen exige INTERVIEW_STAKEHOLDER.",
+        feedback: "S52-T1-A-E1: el predicado exige ops+relationship+privacy, jobs≥3, ttr+review_precision y baseline_frozen. Sin delta ni baseline, el portfolio defiende un producto fantasma (REOPEN_CF1). Falta de baseline_frozen en schema → INTERVIEW_STAKEHOLDER antes de seguir a no-go.",
         starterCode: {
           language: 'python',
           title: "s52-t1-a-e1.py",
@@ -673,7 +673,7 @@ assert results == ["CONTINUE", "REOPEN_CF1", "INTERVIEW_STAKEHOLDER"]` ,
         ],
         edgeCases: ["falta residual_risk_accepted", "fixture adverso: sin constraints ni no-go, risks_with_owner=0, residual no aceptado", "CASO-PER-052-1B es sintético"],
         tests: "El fixture `CASO-PER-052-1B` satisface un predicado de dominio real; imprime `S52-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DECLARE_NO_GO y por qué faltar residual_risk_accepted exige INDEPENDENT_RISK_REVIEW.",
+        feedback: "S52-T1-B-E1: constraints synthetic-only+human-review, risks_with_owner≥1, no-go real-pii+auto-risk-decision y residual aceptado. Violación → DECLARE_NO_GO (no se «gestiona con disclaimer»). Schema sin residual_risk_accepted → INDEPENDENT_RISK_REVIEW. ER/score nunca prueba fraude.",
         starterCode: {
           language: 'python',
           title: "s52-t1-b-e1.py",
@@ -1098,7 +1098,7 @@ assert results == ["CONTINUE", "BLOCK_AUTOMATED_RISK_DECISION", "REQUEST_HUMAN_R
         id: "S52-T3-A-E1",
         subtopicId: "S52-T3-A",
         kind: "guided",
-        instruction: "S52-T3-A-E1 · Verifica el contrato de `tests/evals/red team y performance` sobre `CASO-PER-052-3A`. La entrada es el dict completo del starter; la operación debe demostrar seis capas de verificación y cero P0/P1. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_FINAL_ON_P0_P1` en E2.",
+        instruction: "S52-T3-A-E1 · Verifica el contrato de tests, evals, red team y performance sobre `CASO-PER-052-3A`. La entrada es el dict completo del starter; la operación debe demostrar seis capas de verificación y cero P0/P1. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_FINAL_ON_P0_P1` en E2. En el ensamblaje real (youDo) cada P0/P1 cerrado deja un regression test permanente en la suite S1–S52.",
         hint: "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
         hints: [
           "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
@@ -1106,7 +1106,7 @@ assert results == ["CONTINUE", "BLOCK_AUTOMATED_RISK_DECISION", "REQUEST_HUMAN_R
         ],
         edgeCases: ["falta open_p1", "fixture adverso: open_p0≥1 o capas red_team/contract en False", "CASO-PER-052-3A es sintético"],
         tests: "El fixture `CASO-PER-052-3A` satisface un predicado de dominio real; imprime `S52-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_FINAL_ON_P0_P1 y por qué faltar open_p1 exige FIX_AND_RERUN_REGRESSION.",
+        feedback: "S52-T3-A-E1: las seis capas (unit, contract, integration, evals, red_team, performance) deben estar en True y open_p0=open_p1=0. Un open_p0≥1 o red_team en False fuerza BLOCK_FINAL_ON_P0_P1; schema sin open_p1 → FIX_AND_RERUN_REGRESSION. Demo bonita no compensa CP-N4-C ni P0 abiertos.",
         starterCode: {
           language: 'python',
           title: "s52-t3-a-e1.py",
@@ -1386,7 +1386,7 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         id: "S52-T4-A-E1",
         subtopicId: "S52-T4-A",
         kind: "guided",
-        instruction: "S52-T4-A-E1 · Audita el contrato de `demo y narrativa de CV` sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs baseline sintético y narrativa atribuible. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` en E2.",
+        instruction: "S52-T4-A-E1 · Audita el contrato de demo y narrativa de CV sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs baseline sintético y narrativa atribuible (contribución personal). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` en E2. En youDo el mismo claim alimenta el guion de defensa oral ≤10 min.",
         hint: "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
         hints: [
           "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
@@ -1394,7 +1394,7 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "El fixture `CASO-PER-052-4A` satisface un predicado de dominio real; imprime `S52-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNSUPPORTED_PORTFOLIO_CLAIM y por qué faltar personal_contribution exige RECORD_PERSONAL_CONTRIBUTION.",
+        feedback: "S52-T4-A-E1: claim válido exige result_ttr < baseline_ttr, benchmark sintético, demo≤10 min, claims sourced y personal_contribution. Teatro de video sin números → REJECT_UNSUPPORTED_PORTFOLIO_CLAIM; schema sin contribución personal → RECORD_PERSONAL_CONTRIBUTION.",
         starterCode: {
           language: 'python',
           title: "s52-t4-a-e1.py",
@@ -1538,7 +1538,7 @@ assert results == ["CONTINUE", "REJECT_UNSUPPORTED_PORTFOLIO_CLAIM", "RECORD_PER
         ],
         edgeCases: ["falta cpn4c_independent", "fixture adverso: solo README, sin comando reproducible ni trade-offs defendidos", "CASO-PER-052-4B es sintético"],
         tests: "El fixture `CASO-PER-052-4B` satisface un predicado de dominio real; imprime `S52-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_INCOMPLETE_EVIDENCE_BUNDLE y por qué faltar cpn4c_independent exige SCHEDULE_TECHNICAL_DEFENSE.",
+        feedback: "S52-T4-B-E1: el bundle de graduación son **8** artefactos (architecture, README, ADR, system_card, model_card, LICENSE, video, defense) + comando reproducible + trade-offs + cpn4c_independent. Un monorepo solo con README se bloquea; sin independencia de CP-N4-C → SCHEDULE_TECHNICAL_DEFENSE.",
         starterCode: {
           language: 'python',
           title: "s52-t4-b-e1.py",
@@ -1772,6 +1772,17 @@ def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
         missing.append("contexts_not_fully_wired")
     if not hitl_chain_ok:
         missing.append("hitl_chain_incomplete")
+    if not events_declared:
+        missing.append("events_not_declared")
+    # DR medido (no tabletop verbal): RPO/RTO y restore con números
+    if any(drill.get(k) is None for k in ("availability", "slo", "backup_age_h", "rpo_h", "rollback_min", "rto_min")):
+        missing.append("drill_metrics_incomplete")
+    elif not (
+        drill["availability"] >= drill["slo"]
+        and drill["backup_age_h"] <= drill["rpo_h"]
+        and drill["rollback_min"] <= drill["rto_min"]
+    ):
+        missing.append("drill_slo_rpo_rto_breach")
     if not drill.get("restore_verified"):
         missing.append("disaster_restore_not_verified")
     if not personal_contribution.strip():
@@ -1796,7 +1807,7 @@ print("contexts_wired_n", len(contexts_wired), "/", len(CONTEXTS_6))
 print("milestones_done", sum(milestones.values()), "/", len(milestones))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-FINAL · plataforma integral defendible: baseline TTR (u otra métrica), decisión, pruebas, resultado medido, RPO/RTO, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; READY exige hitos 80 h, 6 contexts cableados (con relationship), HITL, restore verificado, paths de los 8 artefactos, guion de defensa, regresión S1–S52, mejora vs baseline y contribución personal — no voltear booleans. weDo entrenó los códigos de acción; este youDo es el ensamblaje real del producto de CV.",
+    portfolioNote: "Evidencia de CP-FINAL · plataforma integral defendible: baseline TTR (u otra métrica), decisión, pruebas, resultado medido, RPO/RTO numéricos, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; READY exige hitos 80 h, 6 contexts cableados (con relationship), eventos declarados, HITL, drill con reloj (availability/SLO/RPO/RTO + restore), paths de los 8 artefactos, guion de defensa, regresión S1–S52, mejora vs baseline y contribución personal — no voltear booleans. weDo entrenó los códigos de acción; este youDo es el ensamblaje real del producto de CV.",
     rubric: [
       { criterion: "Correctitud del contrato y gate (52/52 + 12/12 + CP-FINAL + regresión; sin compensar CP-N4-C)", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación fail-closed", weight: "20%" },
@@ -1881,9 +1892,9 @@ assert status in {"READY", "BLOCKED"}
         note: "RPO/RTO medidos y drills (T3-B)",
       },
       {
-        label: "learning_roadmap_52_V3 (repo)",
+        label: "PyArcana — repositorio del curso (CP-FINAL)",
         url: "https://github.com/PillB/pyarcana",
-        note: "CP-FINAL y regresión total S1–S52",
+        note: "Código, demos y regresión S1–S52 del capstone final",
       },
     ],
     books: [

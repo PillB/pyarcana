@@ -165,9 +165,9 @@ print(ClientRecord("C002", "DNI-2", "Sin mail").masked_email)`,
       heading: "Igualdad, hash y mutabilidad consciente",
       subtopicId: "S11-T2-B",
       paragraphs: [
-        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts de resolución.",
-        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del `__eq__`. Usa `field(compare=False)` para etiquetas visibles (`display_name`) que no deben romper la igualdad. Fail-closed: `entity_id` vacío → `ValueError`.",
-        "Value objects (`RelationshipEvidence`) suelen ser frozen; agregados (`CaseFile` con listas) pueden ser mutables con cuidado y métodos `add`. Caso sintético: set `{E1, E1_relabel, E2}` tiene tamaño 2 si la igualdad es por `entity_id`."
+        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse o reemitirse y no debe fusionar entidades por accidente en el set de resolución. **`frozen=True`** habilita hash seguro para sets y dicts de matching local.",
+        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas un campo que entra en `__eq__`/`__hash__`. Usa `field(compare=False)` para etiquetas visibles (`display_name`) que se pueden corregir sin romper la igualdad. Fail-closed: `entity_id` vacío o solo espacios → `ValueError` al construir.",
+        "Value objects (`RelationshipEvidence`) suelen ser frozen; agregados (`CaseFile` con listas de evidencias) pueden ser mutables con métodos `add` controlados. Caso sintético PE: set `{E1, E1_relabel, E2}` tiene tamaño **2** si la igualdad es solo por `entity_id` — el relabel de Ana no inventa una tercera entidad."
       ],
       code: {
         language: 'python',
@@ -204,10 +204,10 @@ E1 in set True`,
       heading: "Composición antes que herencia",
       subtopicId: "S11-T3-A",
       paragraphs: [
-        "**has-a** (composición) modela mejor el caso: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`. No fuerces `Client(Person(BaseEntity))` solo para reutilizar un campo de nombre.",
-        "Una evidencia usa un **par canónico** (`left_id < right_id`), ids distintos y `signal_score` finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén. Fail-closed si el par no es canónico o el score es NaN/out-of-range.",
-        "Herencia solo si hay **subtipo real** (is-a). Mixins con cautela: complejidad invisible en MRO. Prefiere funciones puras o colaboración entre objetos. Caso sintético: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
-        "La composición mantiene el dominio auditable: puedes serializar el grafo de evidencias sin arrastrar jerarquías frágiles. Documenta en README que `signal_score` es **dato de matching**, no parentesco legal."
+        "Tras fijar identidad frozen en T2-B, el diseño pasa a **cómo se agrupan** los objetos. **has-a** (composición) modela el caso de familiaridad: `CaseFile` tiene una `ResolvedEntity` y una lista de `RelationshipEvidence`. No fuerces `Client(Person(BaseEntity))` solo para reutilizar un campo de nombre.",
+        "Una evidencia usa un **par canónico** (`left_id < right_id`), ids distintos y `signal_score` finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación en el almacén de matching. Fail-closed si el par no es canónico o el score es NaN/out-of-range — no “clamps” silenciosos.",
+        "Herencia solo si hay **subtipo real** (is-a). Mixins con cautela: complejidad invisible en el MRO. Prefiere funciones puras o colaboración entre objetos tipados. Caso sintético PE: `CaseFile.add(RelationshipEvidence(\"E1\",\"E2\",0.42))` sin método `is_family()`.",
+        "La composición mantiene el dominio auditable: puedes serializar el grafo de evidencias sin arrastrar jerarquías frágiles. Documenta en el README del gate que `signal_score` es **dato de matching**, no parentesco legal ni veredicto de fraude."
       ],
       code: {
         language: 'python',
@@ -255,9 +255,9 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       heading: "Protocolos y polimorfismo con propósito",
       subtopicId: "S11-T3-B",
       paragraphs: [
-        "`typing.Protocol` describe un **puerto** (`EntityStore` con `get`/`save`) sin forzar herencia. Duck typing estructural: cualquier objeto con esos métodos cumple el contrato en chequeo estático y, con `@runtime_checkable`, en `isinstance`.",
-        "Útil para **fakes en tests** y para no acoplar dominio a SQLite/HTTP. Evita ABC pesados si Protocol basta. Fail-closed en el adaptador real si la DB no responde — el dominio no captura eso; el borde sí.",
-        "No introduzcas Protocol “por si acaso” con una sola implementación y sin tests — YAGNI. Caso sintético: `FakeStore` en memoria para T4 tests; el adapter SQL llega en S12 sin reescribir `ClientService`."
+        "`typing.Protocol` describe un **puerto** (`EntityStore` con `get`/`save`) sin forzar una jerarquía de herencia. Es duck typing estructural: cualquier objeto con esos métodos cumple el contrato en chequeo estático y, con `@runtime_checkable`, también en `isinstance` en runtime.",
+        "Sirve para **fakes en tests del dominio** y para no acoplar el núcleo a SQLite, HTTP o un ORM. Evita ABC pesados si el Protocol basta. Fail-closed en el **adaptador real** si la DB no responde: el dominio no captura excepciones de I/O; el borde de infraestructura sí.",
+        "No introduzcas Protocol “por si acaso” con una sola implementación y sin fakes de test — YAGNI. Caso sintético PE: `FakeStore` en memoria para los tests de T4; el adapter SQL/HTTP llega en **S12** sin reescribir `ClientService` ni las invariantes del dominio."
       ],
       code: {
         language: 'python',
@@ -391,7 +391,7 @@ print(test_no_fraud_api())`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema). Orden T1→T4. Modelo de dominio de familiaridad sin veredictos de fraude/parentesco. local-python.",
+    intro: "Ocho demos I Do (uno por subtema), en orden **T1→T4**. Cada demo modela un fragmento del núcleo CP-N1-C de familiaridad en **local-python**: dataclass → invariantes → properties → frozen → composición → Protocol → service → tests éticos. Sin veredictos de fraude ni parentesco.",
     steps: [
       {
         demoId: "S11-T1-A-DEMO",
@@ -701,7 +701,7 @@ pass`,
     ],
   },
   weDo: {
-    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Cada starter trae un defecto deliberado (default mutable, float money, herencia forzada, etc.). Tests del dominio; sin red/DB. Datos sintéticos PE.",
+    intro: "Andamiaje **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Cada starter trae **un defecto deliberado** (default mutable, float money, herencia forzada, Protocol mal nombrado, etc.) para que lo localices y corrijas. Solo tests de dominio; sin red/DB. Datos sintéticos PE (`C00x`, `@ejemplo.pe`).",
     steps: [
       {
         id: "S11-T1-A-E1",
@@ -1119,20 +1119,20 @@ print(PersonName("Ana", "Pérez").full_name)`,
         subtopicId: "S11-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — En `Transaction` con `day_created: int` (demo sin datetime), implementa `age_days_since(day: int)` como consulta pura: `day - day_created`. Caso sintético T1 creado día 10, consulta día 25. Salida/pass: `15`. Solo stdlib.",
-        hint: "Retorna day - day_created.",
+          "E2 (independiente) — En `Transaction` con `day_created: int` (demo sin `datetime`), implementa `age_days_since(day: int)` como **consulta pura**: devuelve `day - day_created` si `day >= day_created`; si no, lanza `ValueError('día anterior a creación')`. Caso sintético T1 creado día 10: consulta día 25 → `15`; consulta día 5 → reject. Solo stdlib.",
+        hint: "Si day < day_created: raise ValueError; si no, return day - day_created.",
         hints: [
-          "Retorna day - day_created.",
-          "Prueba con números sintéticos.",
+          "Si day < day_created: raise ValueError; si no, return day - day_created.",
+          "No mutes day_created; no llames red ni disco.",
         ],
-        edgeCases: ["En prod usa date/datetime; aquí simplificamos"],
-        tests: "Una línea: `15`. Consulta pura: day - day_created (no inviertas el orden).",
-        feedback: "Métodos de consulta no mutan ni llaman red; solo calculan.",
+        edgeCases: ["En prod usa date/datetime; aquí simplificamos a int de demo", "día anterior a creación es fail-closed"],
+        tests: "Dos líneas: `15` y `reject día anterior a creación`. Consulta pura: no inviertas la resta.",
+        feedback: "Métodos de consulta no mutan ni llaman red; validan el argumento y calculan. El orden de la resta importa.",
         starterCode: {
           language: 'python',
           title: "age_days.py",
           code: `# CASO-LIM-011 · age_days_since
-# DEFECT: day_created - day invertido
+# DEFECT: day_created - day invertido; no valida día anterior
 from dataclasses import dataclass
 
 @dataclass
@@ -1143,7 +1143,9 @@ class Transaction:
     def age_days_since(self, day: int) -> int:
         return self.day_created - day
 
-print(Transaction("T1", 10).age_days_since(25))
+t = Transaction("T1", 10)
+print(t.age_days_since(25))
+print(t.age_days_since(5))
 `,
         },
         solutionCode: {
@@ -1157,10 +1159,18 @@ class Transaction:
     day_created: int
 
     def age_days_since(self, day: int) -> int:
+        if day < self.day_created:
+            raise ValueError("día anterior a creación")
         return day - self.day_created
 
-print(Transaction("T1", 10).age_days_since(25))`,
-          output: `15`,
+t = Transaction("T1", 10)
+print(t.age_days_since(25))
+try:
+    t.age_days_since(5)
+except ValueError as e:
+    print("reject", e)`,
+          output: `15
+reject día anterior a creación`,
         },
       },
       {

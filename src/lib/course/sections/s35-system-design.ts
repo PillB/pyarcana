@@ -479,7 +479,7 @@ ok True`,
     ],
   },
   weDo: {
-    intro: "S35 · Laboratorio ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio (ranking, contrib, flag n, proxy, banda, OOD, card, audit); E2 separa valid/invalid/missing; E3 entrena fail-closed y, en T1-B / T3-B / T4-A, **transferencia real**: construir ficha, capa uncertainty o model card desde campos crudos. Hay ocho slots de caso (1A…4B) reutilizados en E1–E3; los fixtures adversos mutan el mismo case_id — no son 24 escenarios de negocio distintos, sino 24 predicados de política sobre el mismo hilo sintético.",
+    intro: "S35 · Laboratorio ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales. E1 repara una operación de dominio (ranking, contrib, flag n, proxy, banda, OOD, card, audit); E2 separa valid/invalid/missing; E3 entrena fail-closed y, en T1-B / T2-A / T2-B / T3-B / T4-A, **transferencia real**: construir ficha, reporte de slice, proxy audit, capa uncertainty o model card desde campos crudos. Hay ocho slots de caso (1A…4B) reutilizados en E1–E3; los fixtures adversos mutan el mismo case_id — no son 24 escenarios de negocio distintos, sino 24 predicados de política sobre el mismo hilo sintético.",
     steps: [
       {
         id: "S35-T1-A-E1",
@@ -996,32 +996,50 @@ print(*results)
         id: "S35-T2-A-E3",
         subtopicId: "S35-T2-A",
         kind: "transfer",
-        instruction: "S35-T2-A-E3 · Contrasta fallo cerrado para `Cohortes y métricas por slice` con tres fixtures distintos. `CASO-LIM-035-2A` debe continuar, el adverso debe devolver `REJECT_LOW_N_CLAIM` y la ausencia de `slice_n` debe devolver `REQUEST_SLICE_N`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.",
+        instruction: "S35-T2-A-E3 · Transferencia: a partir de campos crudos (`region`, `n`, `precision`, `min_n`, `claim`) **construye** un reporte de slice y decide. `build_slice_report` debe devolver `{region, n, precision, flag, claim}` con `flag=low_n` si `n < min_n` else `ok_n`. `decide` → `CONTINUE` solo si flag es `ok_n` y precision ∈ [0,1]; adverso (n bajo + `claim=parity`) → `REJECT_LOW_N_CLAIM`; sin `n` → `REQUEST_SLICE_N`. No inventes n ni afirmes paridad con muestra chica.",
+        hint: "Primero monta el reporte con flag desde n/min_n; después evalúa claim y precision — no inviertas el orden.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró n suficiente junto a precision de slice; solo ese caso devuelve `CONTINUE`.",
+          "Primero monta el reporte con flag desde n/min_n; después evalúa claim y precision — no inviertas el orden.",
+          "flag = 'low_n' si n < min_n else 'ok_n'. CONTINUE solo con ok_n y precision en [0,1]. claim=parity con low_n → REJECT_LOW_N_CLAIM. Sin n → REQUEST_SLICE_N.",
         ],
         edgeCases: ["falta slice_n", "fixture adverso: slice_n < min_n con claim de precisión alta", "CASO-LIM-035-2A es sintético"],
-        tests: "Fixtures `CASO-LIM-035-2A`, adverso y sin `slice_n` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LOW_N_CLAIM y por qué faltar slice_n exige REQUEST_SLICE_N.",
+        tests: "Tres entradas crudas: LIM n=100 → CONTINUE; AQP n=5 claim=parity → REJECT_LOW_N_CLAIM; sin n → REQUEST_SLICE_N.",
+        feedback: "S35-T2-A-E3: la transferencia ensambla el reporte de equity (n + flag + claim) desde campos crudos; no basta flip de PASS/REJECT sobre un record ya armado.",
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e3.py",
-          code: `# CASO-LIM-035 · decide REJECT_LOW_N_CLAIM
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-LIM-035 · transfer: build slice report then gate low_n
+# DEFECT: build omite flag; decide siempre CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
-def decide(record: dict) -> str:
-    required = {"case_id", 'slice_n', 'precision', 'min_n'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["slice_n"] < record["min_n"] else "REJECT_LOW_N_CLAIM"
+def build_slice_report(raw):
+    if "n" not in raw:
+        return None
+    # DEFECT: no calcula flag ni retiene claim
+    return {"region": raw.get("region"), "n": raw["n"], "precision": raw.get("precision")}
 
-valid = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}
-invalid = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}
-uncertain = {**valid}
-uncertain.pop("slice_n")
+def decide(raw):
+    rep = build_slice_report(raw)
+    if rep is None:
+        return "CONTINUE"
+    return "CONTINUE"
+
+valid = {
+    "case_id": "CASO-LIM-035-2A",
+    "region": "LIM",
+    "n": 100,
+    "precision": 0.6,
+    "min_n": 30,
+    "claim": "report_only",
+}
+invalid = {
+    "case_id": "CASO-LIM-035-2A",
+    "region": "AQP",
+    "n": 5,
+    "precision": 0.95,
+    "min_n": 30,
+    "claim": "parity",
+}
+uncertain = {k: v for k, v in valid.items() if k != "n"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1029,17 +1047,49 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s35-t2-a-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'slice_n', 'precision', 'min_n'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "REQUEST_SLICE_N"
-    return "CONTINUE" if record["slice_n"] >= record["min_n"] and 0 <= record["precision"] <= 1 else "REJECT_LOW_N_CLAIM"
+          code: `def build_slice_report(raw):
+    if "n" not in raw:
+        return None
+    min_n = raw.get("min_n", 30)
+    n = raw["n"]
+    return {
+        "region": raw.get("region"),
+        "n": n,
+        "precision": raw.get("precision"),
+        "flag": "low_n" if n < min_n else "ok_n",
+        "claim": raw.get("claim"),
+    }
 
-valid = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}
-invalid = {"case_id": "CASO-LIM-035-2A", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}
-uncertain = {**valid}
-uncertain.pop("slice_n")
+def decide(raw):
+    rep = build_slice_report(raw)
+    if rep is None:
+        return "REQUEST_SLICE_N"
+    prec = rep.get("precision")
+    if prec is None or not (0 <= prec <= 1):
+        return "REJECT_LOW_N_CLAIM"
+    if rep["flag"] == "low_n" and rep.get("claim") == "parity":
+        return "REJECT_LOW_N_CLAIM"
+    if rep["flag"] == "ok_n":
+        return "CONTINUE"
+    return "REJECT_LOW_N_CLAIM"
+
+valid = {
+    "case_id": "CASO-LIM-035-2A",
+    "region": "LIM",
+    "n": 100,
+    "precision": 0.6,
+    "min_n": 30,
+    "claim": "report_only",
+}
+invalid = {
+    "case_id": "CASO-LIM-035-2A",
+    "region": "AQP",
+    "n": 5,
+    "precision": 0.95,
+    "min_n": 30,
+    "claim": "parity",
+}
+uncertain = {k: v for k, v in valid.items() if k != "n"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_LOW_N_CLAIM", "REQUEST_SLICE_N"]
@@ -1169,32 +1219,44 @@ print(*results)
         id: "S35-T2-B-E3",
         subtopicId: "S35-T2-B",
         kind: "transfer",
-        instruction: "S35-T2-B-E3 · Contrasta fallo cerrado para `Proxies, tamaño muestral y daño diferencial` con tres fixtures distintos. `CASO-LIM-035-2B` debe continuar, el adverso debe devolver `REJECT_PROXY_FEATURE` y la ausencia de `action` debe devolver `REQUEST_PROXY_AUDIT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
-        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.",
+        instruction: "S35-T2-B-E3 · Transferencia: a partir de campos crudos (`features` con risk tags y `proposed_action`) **construye** el audit de proxies y decide. `build_proxy_audit` debe devolver `{high_risk, action, means_fraud}` con `high_risk = [k for k,v in features.items() if v==\"high\"]`. `decide` → `CONTINUE` si hay high-risk y action ∈ {review, mitigate, drop} y means_fraud is False; adverso (`action=auto_label`) → `REJECT_PROXY_FEATURE`; sin `features` → `REQUEST_PROXY_AUDIT`. No conviertas proxy en label de fraude.",
+        hint: "Primero lista high_risk desde features; después evalúa action y means_fraud — no inviertas el orden.",
         hints: [
-          "Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró proxy high con acción de mitigación o review; solo ese caso devuelve `CONTINUE`.",
+          "Primero lista high_risk desde features; después evalúa action y means_fraud — no inviertas el orden.",
+          "high_risk = [k for k, v in features.items() if v == 'high']. auto_label o means_fraud=True → REJECT_PROXY_FEATURE. Sin features → REQUEST_PROXY_AUDIT.",
         ],
         edgeCases: ["falta action", "fixture adverso: action=auto_label sobre proxy high", "CASO-LIM-035-2B es sintético"],
-        tests: "Fixtures `CASO-LIM-035-2B`, adverso y sin `action` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_PROXY_FEATURE y por qué faltar action exige REQUEST_PROXY_AUDIT.",
+        tests: "Tres entradas crudas: district_code high + review → CONTINUE; auto_label → REJECT_PROXY_FEATURE; sin features → REQUEST_PROXY_AUDIT.",
+        feedback: "S35-T2-B-E3: la transferencia construye la lista high-risk y la acción de mitigación desde tags crudos; no basta flip de booleano sobre un record ya armado.",
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e3.py",
-          code: `# CASO-LIM-035 · decide REJECT_PROXY_FEATURE
-# DEFECT: missing→CONTINUE; pred invertido
+          code: `# CASO-LIM-035 · transfer: build proxy audit then gate auto_label
+# DEFECT: build omite high_risk; decide siempre CONTINUE
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
-def decide(record: dict) -> str:
-    required = {"case_id", 'feature', 'risk', 'action'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "CONTINUE"
-    return "CONTINUE" if record["action"] == "auto_label" else "REJECT_PROXY_FEATURE"
+def build_proxy_audit(raw):
+    if "features" not in raw:
+        return None
+    # DEFECT: no lista high-risk ni fija means_fraud=False
+    return {"action": raw.get("proposed_action"), "means_fraud": True}
 
-valid = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}
-invalid = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}
-uncertain = {**valid}
-uncertain.pop("action")
+def decide(raw):
+    audit = build_proxy_audit(raw)
+    if audit is None:
+        return "CONTINUE"
+    return "CONTINUE"
+
+valid = {
+    "case_id": "CASO-LIM-035-2B",
+    "features": {"shared_phone": "med", "district_code": "high", "amount_7d": "low"},
+    "proposed_action": "review",
+}
+invalid = {
+    "case_id": "CASO-LIM-035-2B",
+    "features": {"district_code": "high"},
+    "proposed_action": "auto_label",
+}
+uncertain = {k: v for k, v in valid.items() if k != "features"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 ` ,
@@ -1202,17 +1264,37 @@ print(*results)
         solutionCode: {
           language: 'python',
           title: "s35-t2-b-e3.py",
-          code: `def decide(record: dict) -> str:
-    required = {"case_id", 'feature', 'risk', 'action'}
-    missing = sorted(required - record.keys())
-    if missing:
-        return "REQUEST_PROXY_AUDIT"
-    return "CONTINUE" if record["risk"] == "high" and record["action"] in {"review", "mitigate", "drop"} else "REJECT_PROXY_FEATURE"
+          code: `def build_proxy_audit(raw):
+    if "features" not in raw:
+        return None
+    feats = raw["features"]
+    return {
+        "high_risk": [k for k, v in feats.items() if v == "high"],
+        "action": raw.get("proposed_action"),
+        "means_fraud": False,
+    }
 
-valid = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}
-invalid = {"case_id": "CASO-LIM-035-2B", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}
-uncertain = {**valid}
-uncertain.pop("action")
+def decide(raw):
+    audit = build_proxy_audit(raw)
+    if audit is None:
+        return "REQUEST_PROXY_AUDIT"
+    if audit.get("means_fraud") is True or audit.get("action") == "auto_label":
+        return "REJECT_PROXY_FEATURE"
+    if audit.get("high_risk") and audit.get("action") in {"review", "mitigate", "drop"}:
+        return "CONTINUE"
+    return "REJECT_PROXY_FEATURE"
+
+valid = {
+    "case_id": "CASO-LIM-035-2B",
+    "features": {"shared_phone": "med", "district_code": "high", "amount_7d": "low"},
+    "proposed_action": "review",
+}
+invalid = {
+    "case_id": "CASO-LIM-035-2B",
+    "features": {"district_code": "high"},
+    "proposed_action": "auto_label",
+}
+uncertain = {k: v for k, v in valid.items() if k != "features"}
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_PROXY_FEATURE", "REQUEST_PROXY_AUDIT"]

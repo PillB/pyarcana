@@ -429,7 +429,7 @@ print(parse_kv(["RUC: 20123456789", "Total: 10"]))
 `,
           output: `{'RUC': '20123456789', 'Total': '10'}`,
         },
-        why: "El par clave–valor es la unidad mínima de evidencia textual antes de normalizar al schema; sin strip, el valor lleva espacio y rompe el grader y el golden.",
+        why: "El par clave–valor es la unidad mínima de evidencia textual antes de normalizar al schema; sin strip, el valor lleva espacio y rompe la comparación con el golden y la validación.",
       },
       {
         demoId: "S24-T3-A-DEMO",
@@ -522,18 +522,15 @@ print(accept_doc({"mime": "application/pdf", "n": 100}))
           "Upscaling no inventa tipografía: solo metadata",
         ],
         edgeCases: ["upscaling no crea detalle real"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `200` (entero). No dejes 96 ni imprimas etiquetas extra.",
         feedback: "Debes imprimir 200: max(96, 200) eleva el escaneo sintético al piso de OCR. Dejar 96 envía tipografía pequeña rota al motor.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-024 · DPI mínimo 200 para OCR legible
 # DEFECT: deja el escaneo en 96 dpi (tipografía pequeña se rompe)
-# Completa: eleva al piso de OCR (dpi >= 200) y reporta el valor final.
 dpi = 96
-# Completa: dpi = max(dpi, 200)
-print("dpi_final", dpi)
-assert dpi >= 200, "eleva dpi al mínimo de OCR"
+print(dpi)
 `,
         },
         solutionCode: {
@@ -557,7 +554,7 @@ print(max(dpi, 200))`,
           "El umbral 0.5° es didáctico del lab, no una norma ISO",
         ],
         edgeCases: ["umbral empírico"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `True`. Con skew=1.2 debe marcar deskew (no False por operador invertido).",
         feedback: "Con skew=1.2, abs(skew) >= 0.5 es True — el starter tenía el operador invertido (< en vez de >=).",
         starterCode: {
           language: 'python',
@@ -589,7 +586,7 @@ print(abs(skew) >= 0.5)`,
           "crop: (int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)) con m=0.05",
         ],
         edgeCases: ["no inventar píxeles; solo metadata"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `200 True (50, 50, 950, 950)`. dpi, deskew_applied y crop_box con m=0.05.",
         feedback: "El pipeline de preproceso une DPI, deskew y crop en un solo contrato auditable. Faltar el flag o el crop rompe el intake.",
         starterCode: {
           language: 'python',
@@ -627,7 +624,7 @@ print(dpi, deskew, crop)`,
           "Imprime el entero de grados (90), no el score",
         ],
         edgeCases: ["empates"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `90` (grados de rotación, no el score). No uses min().",
         feedback: "El score máximo está en 90°; min() era el defecto del starter y enviaría la peor rotación al motor.",
         starterCode: {
           language: 'python',
@@ -659,7 +656,7 @@ print(max(s, key=s.get))`,
           "Aquí solo auditas el flag; denoise real usaría filtros (mediana/morfología)",
         ],
         edgeCases: ["modelo real de denoise"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `2` (conteo de flags=1). No imprimas len(flags)=4.",
         feedback: "Hay dos flags en 1 → sum=2. len() cuenta longitud (4), no ruido — confunde al runbook de preflight.",
         starterCode: {
           language: 'python',
@@ -691,7 +688,7 @@ print(sum(flags))`,
           "Con 0.7 en 180° el lab acepta auto — aún así corrige rotación antes del OCR",
         ],
         edgeCases: ["página en blanco / empates"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `180 0.7 auto`. Tres valores: rotación, score y action (no ocr_now).",
         feedback: "El preflight elige 180° con score 0.7 → auto. Forzar OCR sin rotar o invertir el umbral rompe el layout.",
         starterCode: {
           language: 'python',
@@ -727,7 +724,7 @@ print(best, score, action)`,
           "0.5 es demasiado bajo y deja pasar basura a auto",
         ],
         edgeCases: ["umbral por campo"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `['A']`. Solo tokens con conf>=0.85; umbral 0.5 del starter es incorrecto.",
         feedback: "Solo 'A' pasa el umbral 0.85; B con 0.5 se filtra. Umbral 0.5 en el starter deja pasar basura al auto-accept.",
         starterCode: {
           language: 'python',
@@ -759,7 +756,7 @@ print([t['text'] for t in toks if t['conf']>=0.85])`,
           "Imprime solo los text en ese orden, no el dict completo",
         ],
         edgeCases: ["multi-columna real necesita col id; aquí una columna sintética"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `['FACTURA', 'RUC', '20123456789']` ordenado por (y0, x0). No el orden de llegada.",
         feedback: "Sin ordenar por bbox mezclas cabecera y valor; FACTURA (y=10) va antes que RUC/valor (y=50).",
         starterCode: {
           language: 'python',
@@ -800,7 +797,7 @@ print([t["text"] for t in ordered])`,
           "Orden de impresión: m, status, weak",
         ],
         edgeCases: ["no promedies a ciegas"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `0.75 review ['total']`. min conf + status + lista weak; no promedies.",
         feedback: "Si imprimiste 'auto' o weak vacío con min=0.75, estás ocultando el campo total débil.",
         starterCode: {
           language: 'python',
@@ -846,7 +843,7 @@ print(m, status, weak)`,
           "print(k, v) con strip imprime 'Total 12.5'",
         ],
         edgeCases: ["múltiples dos puntos"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `Total 12.5` (sin dos puntos ni espacio residual en el valor).",
         feedback: "Sin strip, el valor lleva espacio inicial (' 12.5') y falla normalización/golden.",
         starterCode: {
           language: 'python',
@@ -880,7 +877,7 @@ print(k.strip(), v.strip())`,
           "Con una sola fila de datos el resultado es 1",
         ],
         edgeCases: ["tablas irregulares"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `1` (filas de datos = len-1). No cuentes el header.",
         feedback: "len(t) incluye header (2); el contrato pide solo filas de datos (1) para no inflar sumas vs total.",
         starterCode: {
           language: 'python',
@@ -909,10 +906,10 @@ print(len(t)-1)`,
         hints: [
           "Guarda bbox del valor, no solo del label 'RUC'",
           "Tras parsear k,v con split(':',1), field = (k, v, bboxes[k])",
-          "sorted por name para salida estable del grader",
+          "sorted por name para salida estable y comparable",
         ],
         edgeCases: ["coords en px página; label sin bbox → no inventes"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: lista ordenada de (name, value, bbox) con RUC y Total; bbox del valor incluido.",
         feedback: "Evidencia = valor + bbox del valor. Sin bbox el revisor no resalta; omitir Total o desordenar falla el contrato.",
         starterCode: {
           language: 'python',
@@ -951,7 +948,7 @@ print(sorted(fields, key=lambda t: t[0]))`,
           "No imprimas el string crudo con guiones",
         ],
         edgeCases: ["vacío tras norm"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `20123` (solo dígitos). Sin guiones ni validación de longitud 11 aquí.",
         feedback: "20-123 → 20123 tras quitar no-dígitos. El guion no es dígito; dejarlo rompe el schema.",
         starterCode: {
           language: 'python',
@@ -985,7 +982,7 @@ print(re.sub(r'\\D', '', s))`,
           "date().isoformat() produce YYYY-MM-DD",
         ],
         edgeCases: ["formatos mixtos"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `2026-01-15`. Formato PE day-first `%d/%m/%Y`, no US.",
         feedback: "15/01/2026 con day-first es 2026-01-15. %m/%d/%Y falla (mes 15 inválido) o invierte el día.",
         starterCode: {
           language: 'python',
@@ -1017,7 +1014,7 @@ print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())`,
           "\"150,00\" es ciento cincuenta, no quince mil — no uses replace(',', '') a ciegas",
         ],
         edgeCases: ["None en RUC corto; coma decimal PE"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `20123456789 150.0`. RUC 11 dígitos y total PE (no 15000.0).",
         feedback: "Borrar comas de '150,00' produce 15000.0 — error de dominio. RUC con puntos se limpia a 11 dígitos.",
         starterCode: {
           language: 'python',
@@ -1066,7 +1063,7 @@ print(norm_ruc(raw["ruc"]), norm_total(raw["total"]))`,
           "needs_review, no 'fraud'",
         ],
         edgeCases: ["redondeo moneda"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `needs_review`. 4+5≠10; nunca imprimas fraud.",
         feedback: "Suma 9 vs total 10 supera 0.01 → needs_review. Siempre 'auto' era el defecto del starter (anti-patrón).",
         starterCode: {
           language: 'python',
@@ -1098,7 +1095,7 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
           "Varias rules pueden empujar a la misma lista",
         ],
         edgeCases: ["múltiples reasons"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `['ruc_missing']`. Acumula en lista; no lances excepción ni dejes [].",
         feedback: "RUC ausente debe dejar traza en reasons[] para el revisor humano; lista vacía oculta el fallo.",
         starterCode: {
           language: 'python',
@@ -1134,7 +1131,7 @@ print(reasons)`,
           "Tras los dos validate, imprime review_not_fraud (política de producto)",
         ],
         edgeCases: ["varias reasons; no raise"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto (3 líneas): ('auto', []) luego needs_review con 3 reasons; luego review_not_fraud.",
         feedback: "d1 cuadra → auto; d2 acumula mismatch + ruc_missing + ruc_low_conf → needs_review. Etiquetar fraud es el anti-patrón prohibido.",
         starterCode: {
           language: 'python',
@@ -1185,7 +1182,7 @@ review_not_fraud`,
           "n-correct/n es la tasa de error, no accuracy",
         ],
         edgeCases: ["n=0"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `0.75` (accuracy = correct/n). No la tasa de error (n-correct)/n.",
         feedback: "correct/n = 0.75. El starter calculaba la tasa de error (1 - acc) — métrica distinta.",
         starterCode: {
           language: 'python',
@@ -1217,7 +1214,7 @@ print(correct / n)`,
           "No hardcodees 1.0: mide el golden",
         ],
         edgeCases: ["campos missing"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `0.5` (1 de 2 filas con ruc_pred==ruc_true). No hardcodees 1.0.",
         feedback: "Una de dos filas acierta el RUC → field accuracy 0.5. Hardcodear 1.0 miente al dashboard de CP-N2-C.",
         starterCode: {
           language: 'python',
@@ -1249,7 +1246,7 @@ print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))`,
           "Subir cobertura bajando umbral sin medir error de campo es anti-patrón",
         ],
         edgeCases: ["abstention es métrica de producto separada"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `0.5 0.7` (acc_ruc y coverage_auto). No uses review rate ni hardcodees acc.",
         feedback: "Accuracy de campo (0.5) y cobertura HITL (0.7) son métricas distintas; confundirlas oculta fallos de RUC.",
         starterCode: {
           language: 'python',
@@ -1291,7 +1288,7 @@ print(acc_ruc, coverage_auto)`,
           "No confíes en la extensión del nombre de archivo",
         ],
         edgeCases: ["doble extensión"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `reject`. zip no está en allowlist pdf/png/jpeg.",
         feedback: "application/zip se rechaza en el gate de admisión *antes* del motor OCR. Aceptar zip abre hostiles al worker.",
         starterCode: {
           language: 'python',
@@ -1325,7 +1322,7 @@ print('reject' if mime not in allowed else 'ok')`,
           "El starter invierte ok/reject",
         ],
         edgeCases: ["streaming"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto: `reject`. 6_000_000 supera el tope 5_000_000; no invertas el umbral.",
         feedback: "6e6 > 5e6 → reject. Invertir el umbral abre la puerta a zip-bomb / DoS al worker OCR.",
         starterCode: {
           language: 'python',
@@ -1357,7 +1354,7 @@ print('reject' if n > 5_000_000 else 'ok')`,
           "Orden: zip, pdf grande, pdf ocr_fail",
         ],
         edgeCases: ["no LLM sin evidencia; fail-closed en mime"],
-        tests: "salida coincide con solution output",
+        tests: "Stdout exacto (3 líneas): `reject` / `reject` / `human_rescan`. Mime, size, luego fallback OCR.",
         feedback: "Hostiles se rechazan en admisión; ocr_fail cae a human_rescan. continue en fail quema CPU.",
         starterCode: {
           language: 'python',
@@ -1444,27 +1441,27 @@ golden = [
 ]
 
 def preprocess(meta):
-    # TODO: dpi >= 200, deskew_applied, skew_deg -> 0.0
+    # Completa: dpi >= 200, deskew_applied si |skew|>=0.5, skew_deg -> 0.0
     return meta
 
 def parse_kv(toks):
-    # TODO: "Clave: valor" -> dict; conserva bbox del valor si puedes
+    # Completa: "Clave: valor" -> dict; conserva bbox del valor si puedes
     return {}
 
 def norm_ruc(s):
-    # TODO: solo dígitos; len == 11 o None
+    # Completa: solo dígitos; len == 11 o None (sin pad de ceros)
     return s
 
 def norm_total(s):
-    # TODO: montos PE ("150,00" -> 150.0); no borrar comas a ciegas
+    # Completa: montos PE ("150,00" -> 150.0); no borrar comas a ciegas
     return float(s) if s else None
 
 def validate(doc):
-    # TODO: reasons total_mismatch / ruc_missing / ruc_low_conf; status auto|needs_review
+    # Completa: reasons total_mismatch / ruc_missing / ruc_low_conf; status auto|needs_review
     return "needs_review", ["not_implemented"]
 
 def field_acc(rows, field):
-    # TODO: correct/n sobre {field}_pred == {field}_true
+    # Completa: correct/n sobre {field}_pred == {field}_true
     return 0.0
 
 # Gate hostil (ejemplo): zip o size > 5e6 -> reject antes del motor

@@ -29,13 +29,13 @@ export const section07: CourseSection = {
       paragraphs: [
         "En esta sección dominas **texto latinoamericano**: normalización Unicode, nombres con dos apellidos, métodos `str` antes que regex, y matching con evidencia **sin afirmar parentesco**. Scraping, SQL y APIs públicas se abordan más adelante (p. ej. archivos/ETL en S08 y servicios en S12).",
         "El incremento **CP-N1-B** es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Solo datos sintéticos peruanos/latam; sin PII real. Si el schema no cuadra o falta evidencia, **no completes campos en silencio** (fail-closed: mejor dejar el caso en revisión que inventar datos).",
-        "Orden: **T1 Unicode** → **T2 str y contacto** → **T3 regex** → **T4 similitud y FP/FN**. Casos sintéticos: José/Quispe, emails/teléfonos ficticios, Lima/Arequipa.",
+        "Orden pedagógico: **T1 Unicode** (formas y casefold) → **T2 str y contacto** (sin overvalidation) → **T3 regex** (fullmatch y límites) → **T4 similitud y FP/FN** (score como evidencia). Casos sintéticos recurrentes: José/Quispe, emails y teléfonos ficticios, Lima/Arequipa. Cada bloque I Do modela, We Do practica y el You Do integra el contrato `raw` / `normalized` / `transforms`.",
       ],
       callout: {
         type: "info",
         title: "Alcance de S07",
         content:
-          "El foco es normalización de texto latam y evidencia de matching. No implementes scraping, clientes HTTP ni SQL aquí; esos caminos llegan en secciones posteriores.",
+          "El foco es normalización de texto latam y evidencia de matching. No implementes scraping, clientes HTTP ni SQL aquí; esos caminos llegan en secciones posteriores (archivos/ETL en S08, servicios en S12).",
       },
     },
     {
@@ -104,7 +104,7 @@ apellidos: Quispe Huamán`,
         type: "warning",
         title: "Sin convención universal",
         content:
-          "Cualquier split de apellidos es heurística. Documenta límites; no afirmes identidad legal.",
+          "Cualquier split de apellidos es heurística. Documenta límites en `transforms`, marca `review` si faltan tokens y no afirmes identidad legal ni parentesco.",
       },
     },
     {
@@ -179,7 +179,7 @@ print(normalize_phone_pe("+51 999-000-111"))`,
       paragraphs: [
         "Regex entra cuando el patrón es **regular de verdad**: DNI sintético de 8 dígitos, códigos de región (`LIM`), prefijos fijos. Usa `re` con **grupos** `(...)` y anchors. Si `str.startswith` / `replace` / `isdigit` bastan, **no** escribas regex: ya lo practicaste en T2.",
         "`re.fullmatch` exige que **toda** la cadena cumpla el patrón. `re.search` encuentra un substring en medio. Confundirlos produce **falsos positivos** en validación (un DNI embebido en texto tipo «DNI 12345678 PE» “pasa” con search). Validar un código completo → `fullmatch`; extraer de un log → `search` / `finditer`.",
-        "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos (`m.group('dni')` en vez de índices mágicos). Caso sintético de 8 dígitos: **nunca** PII real ni claims de identidad legal a partir de un match.",
+        "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos (`m.group('dni')` en vez de índices mágicos). Úsalos en códigos y logs, no para “parsear identidad”. Caso sintético de 8 dígitos: **nunca** PII real ni claims legales a partir de un match. Nombres con partículas (`María del Carmen`) se modelan mejor con tokenización `str` (T1-B) que con un solo `\\w+`.",
       ],
       code: {
         language: 'python',
@@ -210,7 +210,7 @@ full mid: False`,
       paragraphs: [
         "`re.compile` reutiliza el patrón en loops: deja clara la intención y evita reescribir el mismo raw string en cada iteración. `findall` / `finditer` extraen múltiples matches de un log sintético — herramientas de **extracción**, no de overvalidation de email (eso quedó en T2).",
         "Límite duro de este subtema: **catastrophic backtracking** con cuantificadores anidados ambiguos (p. ej. `(a+)+b` sobre strings hostiles de `a`s). Prefiere patrones **aburridos y simples**, o vuelve a `str.find` / `split`. No ejecutes patrones peligrosos “para ver qué pasa” en producción.",
-        "Si el patrón crece sin control (email + teléfono + DNI + dirección en una sola expresión), un parser por pasos con `str` y regex pequeñas suele ser más testeable. La elegancia de una sola mega-regex es un bug de producto disfrazado.",
+        "Si el patrón crece sin control (email + teléfono + DNI + dirección en una sola expresión), un parser por pasos con `str` y regex pequeñas suele ser más testeable y más fácil de explicar en code review. La elegancia de una sola mega-regex es un bug de producto disfrazado: un fallo opaco en el medio no dice *qué* campo rompió el contrato.",
       ],
       code: {
         language: 'python',
@@ -240,8 +240,8 @@ span (29, 38) 988777666`,
       subtopicId: "S07-T4-A",
       paragraphs: [
         "Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse de espacios). Si tras el mismo pipeline que usaste en T1 las cadenas no son iguales, recién entonces **similitud por tokens** (Jaccard) como señal débil para revisión humana — no como auto-fusión.",
-        "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Tokeniza **después** de NFC (así “José” y “José” no se desdoblan en tokens distintos). Un score medio (p. ej. 0.67 entre `Juan Perez` y `Juan P Perez`) cae en **review**, no en merge automático.",
-        "Nunca digas “es la misma persona” ni “parentesco” por un score. Empaqueta evidencia (`raw_a`, `raw_b`, `score`, `decision`, `reason`) y deja la decisión sensible al humano que conoce el contexto del negocio.",
+        "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Tokeniza **después** de NFC (así “José” y “José” no se desdoblan en tokens distintos) y, si hace falta, colapsa puntuación trivial (puntos de abreviatura). Un score medio (p. ej. 0.67 entre `Juan Perez` y `Juan P Perez`) cae en **review**, no en merge automático ni en fusión de cuentas.",
+        "Nunca digas “es la misma persona” ni “parentesco” por un score. Empaqueta evidencia (`raw_a`, `raw_b`, `score`, `decision`, `reason`) y deja la decisión sensible al humano que conoce el contexto del negocio (fraude, KYC, CRM). El pipeline sugiere; no sentencia.",
       ],
       code: {
         language: 'python',
@@ -306,7 +306,7 @@ nota: sin claims de parentesco ni identidad legal`,
         type: "info",
         title: "Evidencia > etiqueta",
         content:
-          "Guarda raw y score. El humano decide merges sensibles.",
+          "Guarda `raw`, `score` y `reason`. El humano decide merges sensibles; el sistema no etiqueta parentesco ni fraude.",
       },
     },
     {
@@ -551,7 +551,7 @@ evidencia se conserva; no se afirma parentesco`,
     ],
   },
   weDo: {
-    intro: "Andamiaje gradual (We Do): por cada subtema, **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, 2 hints c/u). Completa el defecto del starter, ejecuta y compara con la salida esperada. Prioriza `str` antes que regex; validación de contacto modesta; **sin** claims de parentesco ni identidad legal.",
+    intro: "Andamiaje gradual (We Do): por cada subtema, **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, 2 hints c/u). Corrige el defecto marcado en el código, ejecuta y compara con la **salida esperada** de la instrucción. Prioriza `str` antes que regex; validación de contacto modesta; **sin** claims de parentesco ni identidad legal.",
     steps: [
       {
         id: "S07-T1-A-E1",
@@ -570,7 +570,7 @@ evidencia se conserva; no se afirma parentesco`,
         starterCode: {
           language: 'python',
           title: "nfc_names.py",
-          code: `# CASO-LIM-007 · NFC normalize
+          code: `# TAREA: normaliza cada nombre a NFC e imprime con repr
 # DEFECT: imprime raw sin NFC
 import unicodedata
 names = ['José', 'Jose\u0301', '']
@@ -639,7 +639,7 @@ print(match)`,
         starterCode: {
           language: 'python',
           title: "diag_nfd.py",
-          code: `# CASO-LIM-007 · NFC equality
+          code: `# TAREA: diagnostica igualdad cruda vs NFC
 # DEFECT: solo raw == ; no NFC
 import unicodedata
 a = 'José'
@@ -680,7 +680,7 @@ causa: formas Unicode distintas (compuesta vs combining mark)`,
         starterCode: {
           language: 'python',
           title: "split_apellidos.py",
-          code: `# CASO-LIM-007 · parse given + apellidos
+          code: `# TAREA: given + dos apellidos (últimos dos tokens)
 # DEFECT: first token only as given
 raw = 'Ana María Quispe Huamán'
 toks = raw.split()
@@ -720,7 +720,7 @@ Quispe Huamán`,
         starterCode: {
           language: 'python',
           title: "particles.py",
-          code: `# CASO-LIM-007 · del Carmen particles
+          code: `# TAREA: preserva partículas en given (del Carmen)
 # DEFECT: given = first only
 raw = 'María del Carmen Quispe Ríos'
 toks = raw.split()
@@ -760,7 +760,7 @@ Quispe Ríos`,
         starterCode: {
           language: 'python',
           title: "review_short.py",
-          code: `# CASO-LIM-007 · parse_nombre review
+          code: `# TAREA: status review si faltan tokens de apellido
 # DEFECT: siempre ok sin review
 def parse_nombre(raw):
     toks = raw.split()
@@ -812,7 +812,7 @@ for s in ['Madonna', 'Luis Quispe Huamán']:
         starterCode: {
           language: 'python',
           title: "split_csvlike.py",
-          code: `# CASO-LIM-007 · CSV split strip
+          code: `# TAREA: split CSV-like y strip por campo
 # DEFECT: split sin strip
 line = 'C001, Ana , Lima'
 fields = line.split(',')
@@ -833,7 +833,7 @@ print(fields)`,
         subtopicId: "S07-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Une los tokens `['Jr.', 'Unión', '450']` con espacio e imprime; luego únelos con `'-'`. Salida esperada: `Jr. Unión 450` y `Jr.-Unión-450`.",
+          "E2 (independiente) — Con `join`, une los tokens `['Jr.', 'Unión', '450']` con espacio e imprime la dirección; luego únelos con `'-'` (mismo orden). Salida esperada: `Jr. Unión 450` y `Jr.-Unión-450`.",
         hint: "' '.join(tokens)",
         hints: [
           "' '.join(tokens)",
@@ -845,7 +845,7 @@ print(fields)`,
         starterCode: {
           language: 'python',
           title: "join_stable.py",
-          code: `# CASO-LIM-007 · join variants
+          code: `# TAREA: join con espacio y con guion
 # DEFECT: solo join con espacio
 toks = ['Jr.', 'Unión', '450']
 print(' '.join(toks))
@@ -878,7 +878,7 @@ Jr.-Unión-450`,
         starterCode: {
           language: 'python',
           title: "replace_phone.py",
-          code: `# CASO-LIM-007 · digits only phone
+          code: `# TAREA: normaliza a solo dígitos (sin regex)
 # DEFECT: solo replace . no -
 raw = '999.000-111'
 clean = raw.replace('.', '')
@@ -914,7 +914,7 @@ print(''.join(c for c in raw if c.isdigit()))`,
         starterCode: {
           language: 'python',
           title: "email_lower.py",
-          code: `# CASO-LIM-007 · normalize_email
+          code: `# TAREA: normalize_email modesto (un @, sin espacios)
 # DEFECT: no valida @ ni espacios
 def normalize_email(raw):
     return raw.strip().lower()
@@ -966,7 +966,7 @@ review_error email requiere un @ y cero espacios`,
         starterCode: {
           language: 'python',
           title: "phone_digits.py",
-          code: `# CASO-LIM-007 · phone digits
+          code: `# TAREA: teléfono a solo dígitos (conserva 51)
 # DEFECT: deja + y paréntesis
 raw = '(+51) 999-000-111'
 digits = ''.join(c for c in raw if c.isdigit() or c in '+()')
@@ -999,7 +999,7 @@ print(digits)`,
         starterCode: {
           language: 'python',
           title: "reject_overfit.py",
-          code: `# CASO-LIM-007 · overfit regex
+          code: `# TAREA: muestra overvalidation de email con +
 # DEFECT: cree que fullmatch estricto es la política
 import re
 email = 'user+tag@example.com'
@@ -1039,7 +1039,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         starterCode: {
           language: 'python',
           title: "fullmatch_region.py",
-          code: `# CASO-LIM-007 · fullmatch region code
+          code: `# TAREA: fullmatch de código de región de 3 letras
 # DEFECT: search no fullmatch; Lima pasa
 import re
 pat = r'[A-Z]{3}'
@@ -1075,7 +1075,7 @@ False`,
         starterCode: {
           language: 'python',
           title: "groups_name.py",
-          code: `# CASO-LIM-007 · named groups
+          code: `# TAREA: groupdict con nom y ap
 # DEFECT: groups posicionales mal
 import re
 pat = re.compile(r'^(\w+) (\w+)$')
@@ -1110,7 +1110,7 @@ print(m.groupdict() if m else None)`,
         starterCode: {
           language: 'python',
           title: "search_vs_full.py",
-          code: `# CASO-LIM-007 · search vs fullmatch
+          code: `# TAREA: contrasta search vs fullmatch en DNI
 # DEFECT: confunde usos
 import re
 text = 'DNI 12345678'
@@ -1149,7 +1149,7 @@ usar search para extraer; fullmatch para validar campo exacto`,
         starterCode: {
           language: 'python',
           title: "compile_reuse.py",
-          code: `# CASO-LIM-007 · findall phones
+          code: `# TAREA: compile + findall de teléfonos 9xxxxxxxx
 # DEFECT: patrón \d{9} sin ancla 9
 import re
 pat = re.compile(r'\b\d{9}\b')
@@ -1173,7 +1173,7 @@ no match 123 → []`,
         subtopicId: "S07-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Con `findall` y el patrón `[A-Z]{3}-\\d{2}`, extrae los códigos del log `'ok LIM-01 y CUS-02 fin'`. Salida esperada: `['LIM-01', 'CUS-02']`.",
+          "E2 (independiente) — Con `findall` y el patrón `[A-Z]{3}-\\d{2}`, extrae todos los códigos del log sintético `'ok LIM-01 y CUS-02 fin'`. Imprime la lista. Salida esperada: `['LIM-01', 'CUS-02']`.",
         hint: "re.findall(pat, log)",
         hints: [
           "re.findall(pat, log)",
@@ -1185,7 +1185,7 @@ no match 123 → []`,
         starterCode: {
           language: 'python',
           title: "findall_codes.py",
-          code: `# CASO-LIM-007 · findall codes
+          code: `# TAREA: findall de códigos LIM-01 / CUS-02
 # DEFECT: lower case codes
 import re
 log = 'ok LIM-01 y CUS-02 fin'
@@ -1220,7 +1220,7 @@ print(codes)`,
         starterCode: {
           language: 'python',
           title: "backtracking_note.py",
-          code: `# CASO-LIM-007 · catastrophic backtracking
+          code: `# TAREA: explica riesgo de backtracking (sin ejecutar hostiles)
 # DEFECT: recomienda (a+)+b en prod
 print('patrón recomendado: (a+)+b sobre strings largos de a\'s')
 print('riesgo: ninguno en Python')
@@ -1258,7 +1258,7 @@ preferir a+b o validación por pasos`,
         starterCode: {
           language: 'python',
           title: "exact_norm.py",
-          code: `# CASO-LIM-007 · norm NFC collapse casefold
+          code: `# TAREA: exact match con NFC + collapse + casefold
 # DEFECT: solo lower strip; sin NFC ni collapse
 def norm(s):
     return s.strip().lower()
@@ -1293,7 +1293,7 @@ print(norm('  Juan  PEREZ ') == norm('juan perez'))`,
         starterCode: {
           language: 'python',
           title: "jaccard_impl.py",
-          code: `# CASO-LIM-007 · token jaccard
+          code: `# TAREA: Jaccard de tokens con NFC previo
 # DEFECT: intersection/min len; sin NFC
 def token_jaccard(a, b):
     A, B = set(a.casefold().split()), set(b.casefold().split())
@@ -1328,7 +1328,7 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         subtopicId: "S07-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Si score ∈ [0.4, 1.0) → `review`; si 1.0 → `exact`; si <0.4 → `no_match`. Con score 0.67 imprime: `review Juan Perez Juan P Perez 0.67`.",
+          "E3 (transferencia) — Aplica umbrales de decisión: score ∈ [0.4, 1.0) → `review`; 1.0 → `exact`; <0.4 → `no_match`. Con score `0.67` y el par `Juan Perez` / `Juan P Perez`, imprime una línea: `review Juan Perez Juan P Perez 0.67`.",
         hint: "Umbrales explícitos",
         hints: [
           "Umbrales explícitos",
@@ -1340,7 +1340,7 @@ print(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))`,
         starterCode: {
           language: 'python',
           title: "score_review.py",
-          code: `# CASO-LIM-007 · decision thresholds
+          code: `# TAREA: umbrales exact / review / no_match
 # DEFECT: score 0.67 → exact
 a, b, score = 'Juan Perez', 'Juan P Perez', 0.67
 if score >= 0.5:
@@ -1371,7 +1371,7 @@ print(decision, a, b, score)`,
         subtopicId: "S07-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. Con los dos casos del starter, imprime una etiqueta por línea. Salida esperada: `FP` luego `FN`.",
+          "E1 (guiado) — Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. Casos: (1) pred match / truth no → `FP`; (2) pred no / truth match → `FN`. Imprime una etiqueta por línea. Salida esperada: `FP` luego `FN`.",
         hint: "Tabla de confusión 2x2 simplificada",
         hints: [
           "Tabla de confusión 2x2 simplificada",
@@ -1383,7 +1383,7 @@ print(decision, a, b, score)`,
         starterCode: {
           language: 'python',
           title: "classify_fpfn.py",
-          code: `# CASO-LIM-007 · FP/FN tags
+          code: `# TAREA: etiqueta FP y FN en dos casos sintéticos
 # DEFECT: tags invertidos
 cases = [
     {'pred': 'match', 'truth': 'no'},
@@ -1435,7 +1435,7 @@ FN`,
         starterCode: {
           language: 'python',
           title: "pack_evidence.py",
-          code: `# CASO-LIM-007 · evidence packet
+          code: `# TAREA: empaqueta evidencia raw/score/decision/reason
 # DEFECT: decision=match y sin reason
 evidence = {
     'raw_a': 'Juan Perez',
@@ -1477,7 +1477,7 @@ print(evidence)`,
         starterCode: {
           language: 'python',
           title: "no_parentesco.py",
-          code: `# CASO-LIM-007 · no kinship claims
+          code: `# TAREA: explica por qué no hay claims de parentesco
 # DEFECT: afirma parentesco e identidad legal
 print('Afirmamos parentesco: score alto prueba familia.')
 print('Afirmamos identidad legal: score textual basta para RENIEC.')
@@ -1592,14 +1592,14 @@ if __name__ == "__main__":
         options: ["Marcar review y conservar raw", "Inventar apellido2 vacío en silencio", "Rechazar y borrar el registro", "Asumir formato first/last US"],
         correctIndex: 0,
         explanation:
-          "Sin datos suficientes → review; no inventar demografía.",
+          "Sin datos suficientes para dos apellidos → `status=review` y conserva `raw`; no inventes demografía en silencio.",
       },
       {
         question: "¿Cuándo preferir str.replace/split sobre regex?",
         options: ["Nunca", "Cuando la transformación es literal/simple", "Solo en emails", "Solo si el string es ASCII"],
         correctIndex: 1,
         explanation:
-          "str methods son más legibles y evitan overfit/backtracking.",
+          "Si la transformación es literal o simple, `str` es más legible, testeable y evita overfit o backtracking de regex.",
       },
       {
         question: "En un parse de nombres latam, las partículas (`de`, `del`, `de la`)…",
@@ -1613,7 +1613,7 @@ if __name__ == "__main__":
         options: ["Fusionar identidades automáticamente", "Afirmar parentesco", "Ir a review con evidencia (raw, score)", "Borrar ambos registros"],
         correctIndex: 2,
         explanation:
-          "Score medio → review; sin claims de identidad/parentesco.",
+          "Un score medio (p. ej. 0.67) va a **review** con evidencia (`raw`, score); no fusiona identidades ni afirma parentesco.",
       },
       {
         question: "¿Qué hace `re.fullmatch(r'\\d{8}', 'DNI 12345678')` frente a `search`?",
@@ -1634,7 +1634,7 @@ if __name__ == "__main__":
         options: ["Usarlo siempre por elegancia", "Confiar en que Python optimiza todo", "Solo importa en JavaScript", "Preferir patrones simples, str methods o timeouts; evitar catastrophic backtracking"],
         correctIndex: 3,
         explanation:
-          "Regex aburridas y límites claros son feature de producto.",
+          "Patrones aburridos y límites claros son feature de producto: evitan hangs por catastrophic backtracking y son más fáciles de auditar.",
       },
       {
         question: "¿Para qué sirve `re.compile` en un loop de extracción sobre logs?",

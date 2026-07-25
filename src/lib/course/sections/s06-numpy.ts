@@ -224,7 +224,7 @@ n_conflicts: 1`,
       heading: "Estructuras anidadas y recorridos",
       subtopicId: "S06-T3-A",
       paragraphs: [
-        "Hasta aquí modelaste filas planas e índices. El modelo **CP-N1-B** anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:` — bucles anidados **legibles** sobre el grafo en memoria. No hace falta una clase formal aún: un `list[dict]` bien documentado es un almacén suficiente para el gate de memoria.",
+        "Hasta aquí modelaste filas planas e índices. El modelo **CP-N1-B** anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:` — bucles anidados **legibles** sobre el grafo en memoria. No hace falta una clase formal aún: un `list[dict]` bien documentado es un almacén suficiente para la **entrega de modelo en memoria** del portafolio.",
         "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08: una fila por tx, no un JSON anidado opaco. **Contar** contactos por cliente (`len(c['contacts'])`) valida integridad del almacén en RAM antes de exportar.",
         "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a **review** — no asumas que todo dict llegó bien formado del lote sintético. Un string `'oops'` donde debía haber lista de txs es basura silenciosa si solo haces `if c.get('txs'):`.",
       ],
@@ -351,7 +351,7 @@ top monto: Ana 50`,
       paragraphs: [
         "Cierra el modelo eligiendo estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple. **No** uses dict “porque sí” si el orden de llegada importa y no indexas. Justificar la elección es parte del rubric del You Do.",
         "Complejidad (solo ahora, con las cuatro estructuras en la mano): membership en list **O(n)**; en set/dict **O(1)** promedio. No hagas `if x in big_list` dentro de un loop de n si puedes **preindexar** con un set o dict. n búsquedas sobre list cuestan ~n×n chequeos conceptuales; sobre set, ~n. Eso es deuda de rendimiento en el almacén en RAM.",
-        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids/clients produce el mismo string en cada corrida. Reproducibilidad es parte del gate CP-N1-B — demos y diffs de README deben ser estables. Próximo paso natural: en S08 ese JSON/list[dict] se conecta a archivos CSV/JSON y cuarentena; aquí cierras el shape en memoria.",
+        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids/clients produce el mismo string en cada corrida. La reproducibilidad es un **criterio de entrega** de CP-N1-B: demos y diffs de README deben ser estables. Próximo paso natural: en S08 ese JSON/list[dict] se conecta a archivos CSV/JSON y cuarentena; aquí cierras el shape en memoria.",
       ],
       code: {
         language: 'python',
@@ -1110,19 +1110,19 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         subtopicId: "S06-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.",
+          "E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin borrar la traza de choques. Política: **payload idéntico** no es conflicto; solo si el mismo `id` llega con datos **distintos**. El fixture trae C001 idéntico y C001 con `v` distinto.",
         hint: "seen dict; si key existe y row!=prev → conflict",
         hints: [
           "seen dict; si key existe y row!=prev → conflict",
-          "unique guarda primera ocurrencia.",
+          "unique guarda primera ocurrencia; idénticos no van a conflicts.",
         ],
-        edgeCases: ["conflictos sin borrar traza"],
-        tests: "1 conflict C001",
-        feedback: "Patrón del You Do S06: unique + conflicts.",
+        edgeCases: ["conflicto vs duplicado idéntico"],
+        tests: "1 conflict C001 (v distinto); idéntico no cuenta",
+        feedback: "Patrón del You Do S06: unique + conflicts; idéntico ≠ choque de calidad.",
         starterCode: {
           language: 'python',
           title: "dedup_report.py",
-          code: `# Dedup que reporta conflictos de payload.
+          code: `# Dedup que reporta conflictos de payload (idéntico ≠ conflicto).
 def dedup_report(rows, key='id'):
     seen = set()
     unique = []
@@ -1134,8 +1134,9 @@ def dedup_report(rows, key='id'):
     return {'unique': unique, 'conflicts': []}
 rows = [
     {'id': 'C001', 'v': 1},
+    {'id': 'C001', 'v': 1},  # idéntico: no es conflicto
     {'id': 'C002', 'v': 2},
-    {'id': 'C001', 'v': 9},
+    {'id': 'C001', 'v': 9},  # distinto: sí es conflicto
 ]
 print(dedup_report(rows))
 print('ok', True)`,
@@ -1157,8 +1158,9 @@ print('ok', True)`,
     return {'unique': unique, 'conflicts': conflicts}
 rows = [
     {'id': 'C001', 'v': 1},
+    {'id': 'C001', 'v': 1},  # idéntico: no es conflicto
     {'id': 'C002', 'v': 2},
-    {'id': 'C001', 'v': 9},
+    {'id': 'C001', 'v': 9},  # distinto: sí es conflicto
 ]
 print(dedup_report(rows))`,
           output: `{'unique': [{'id': 'C001', 'v': 1}, {'id': 'C002', 'v': 2}], 'conflicts': [{'key': 'C001', 'kept': {'id': 'C001', 'v': 1}, 'other': {'id': 'C001', 'v': 9}}]}`,
@@ -1637,7 +1639,7 @@ print(s)`,
 ids_list = ['C001', 'C002', 'C003', 'C004', 'C005']
 needle = 'C003'
 print('in list', needle in ids_list)
-# TODO: ids_set, in set, n, costo_conceptual_list (n*n), costo_conceptual_set (n)
+# Completa: ids_set, in set, n = len(...), costos n*n y n
 print('ok', True)`,
         },
         solutionCode: {
