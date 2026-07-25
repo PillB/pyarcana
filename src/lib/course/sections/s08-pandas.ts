@@ -12,7 +12,7 @@ export const section08: CourseSection = {
   icon: "FileStack",
   accentColor: "bg-gradient-to-br from-green-500 to-emerald-600",
   jobRelevance:
-    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos: es **abrir un CSV de clientes y un JSON de transacciones**, no romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). Un groupby de demo impresiona menos en entrevista junior que un pipeline fail-closed con reconcile por fuente. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
+    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). Un groupby de demo impresiona menos en entrevista junior que un pipeline fail-closed con reconcile por fuente. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
   learningOutcomes: [
     { text: "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito" },
     { text: "Manejar newlines y escritura atómica (temp + replace)" },
@@ -27,7 +27,7 @@ export const section08: CourseSection = {
     {
       heading: "Mapa de la sección: archivos, CSV/JSON y gate CP-N1-B",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; no memorices el resto aún). **Path:** ruta con `pathlib.Path` (cross-platform). **Dialect:** delimitador y reglas del CSV (`,` vs `;`). **Cuarentena:** filas o archivos que fallan el contrato, guardados con **motivo** (`reason`) y **raw** intacto. **JSONL:** un objeto JSON por línea (append-friendly). **Provenance:** rastro del input (`path`, `sha256`, `bytes`). **Manifest:** JSON de la corrida con conteos por fuente. **Reconcile:** `n_in == n_clean + n_quarantine` por fuente y en totales. **Fail-closed:** si no cuadra, exit ≠ 0 — no publiques clean a medias. **stdlib only:** pathlib, csv, json, hashlib, shutil, Decimal; el análisis tabular con **pandas** llega en el bloque de datos intermedio.",
+        "**Diccionario de la sección** (léelo antes de T1; no memorices el resto aún). **Path:** ruta con `pathlib.Path` (cross-platform). **Dialect:** delimitador y reglas del CSV (`,` vs. `;`). **Cuarentena:** filas o archivos que fallan el contrato, guardados con **motivo** (`reason`) y **raw** intacto. **JSONL:** un objeto JSON por línea (append-friendly). **Provenance:** rastro del input (`path`, `sha256`, `bytes`). **Manifest:** JSON de la corrida con conteos por fuente. **Reconcile:** `n_in == n_clean + n_quarantine` por fuente y en totales. **Fail-closed:** si no cuadra, exit ≠ 0 — no publiques clean a medias. **stdlib only:** pathlib, csv, json, hashlib, shutil, Decimal; el análisis tabular con **pandas** llega en el bloque de datos intermedio.",
         "**De dónde venías y a dónde vas.** En **S07** fijaste texto y Unicode (tildes, encodings, mojibake). Aquí esos bytes **viven en disco**: si `read_text(encoding='utf-8')` falla, mandas el archivo a **cuarentena** o reintentas con un encoding **documentado**. Integra normalizadores (S05–S07) y el modelo en memoria (S06). En S08 cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación — todo en **stdlib**, sin librerías externas de datos. Entorno **local-python**: sintéticos en `data/`; salidas en `out/`. Si el schema no cuadra, cuarentena con motivo — nunca rellenes en silencio.",
         "**Orden y ritmo (~18 h).** **T1 Archivos** (Path/UTF-8 → atomic/newlines) → **T2 CSV** (dialect/cast → cuarentena) → **T3 JSON** (array/JSONL → schema/nulls) → **T4 Provenance** (hash/backup → manifest/reconcile) → You Do CP-N1-B. En cada subtema: teoría, un I Do y tres We Do (E1 guiado → E2 independiente → E3 transferencia). Laboratorio sintético Perú: clientes `C00x` y montos PEN ficticios. Nunca PII real ni inferencia automática de parentesco o fraude.",
       ],
@@ -57,7 +57,7 @@ real_pii_ok False`,
         type: "info",
         title: "Gate CP-N1-B — qué cuenta como cierre",
         content:
-          "Al finalizar S08 demuestras un ETL local reproducible: clean + quarantine + manifest reconciliado por fuente, con hash del crudo y exit ≠ 0 si no cuadra. El CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+          "Al finalizar esta sección demuestras un ETL local reproducible: clean + quarantine + manifest reconciliado por fuente, con hash del crudo y exit ≠ 0 si no cuadra. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
       },
     },
     {
@@ -94,9 +94,9 @@ print(demo_path_write())`,
       heading: "Newlines y escritura atómica",
       subtopicId: "S08-T1-B",
       paragraphs: [
-        "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al re-leer el clean.",
+        "CSV en Python: abre con `newline=''` para que el módulo `csv` controle terminadores y no pelee con la traducción de newlines del runtime. En salidas del pipeline prefiere `\\n` (LF) aunque el input haya venido de Excel en Windows. Sin `newline=''`, Windows puede insertar CR dobles y el dialecto se rompe al releer el clean.",
         "**Escritura atómica** (contrato único del curso, no hay otro): `tmp = path.with_name(path.name + \".tmp\")` — p. ej. `clean.csv` → `clean.csv.tmp` en el **mismo** directorio que el destino — escribes el contenido completo al tmp y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, el consumidor del clean no ve un archivo truncado a la mitad.",
-        "Detectar `\\r\\n` en **bytes** de input documenta provenance (origen Windows vs Unix) en el manifest o en logs. Eso **no** “arregla” el archivo ni reescribe el crudo: solo registra un hecho útil para depurar exports raros. El You Do reutilizará el mismo `write_atomic` para clean, quarantine y manifest.",
+        "Detectar `\\r\\n` en **bytes** de input documenta provenance (origen Windows vs. Unix) en el manifest o en logs. Eso **no** “arregla” el archivo ni reescribe el crudo: solo registra un hecho útil para depurar exports raros. El You Do reutilizará el mismo `write_atomic` para clean, quarantine y manifest.",
       ],
       code: {
         language: 'python',
@@ -235,9 +235,9 @@ print(dump_rows(data))`,
       heading: "Schema, nulls y evolución compatible",
       subtopicId: "S08-T3-B",
       paragraphs: [
-        "Validá **required keys** antes de normalizar o castear montos. `null` JSON se convierte en `None` en Python. Distinguí **null explícito** de **clave ausente** cuando la política lo pide (eco S03: missing ≠ empty): `'email' in obj` es `True` aunque el valor sea `None`; si la clave no vino en el JSON, la membresía es `False`. Esa diferencia decide si “borrar email” o “email desconocido”.",
-        "Evolución compatible: añadir un campo opcional con **default** (`setdefault('segment', 'standard')`) no rompe productores viejos que aún no envían `segment`. Quitar un required o renombrar una clave **sí** es breaking: versioná el schema en el manifest del run (`schema_version`) o en el contrato de la fuente.",
-        "`validate_schema(obj, required)` devuelve `(ok, missing)` para decidir clean vs cuarentena. Si falta `id` o un email requerido, la fila no pasa: fail-closed, **sin inventar** valores “para que el dashboard no se vea vacío”. El You Do aplica el mismo patrón a transacciones (`id`, `client_id`, `monto`).",
+        "**Valida** las **required keys** antes de normalizar o castear montos. `null` en JSON se convierte en `None` en Python. **Distingue** **null explícito** de **clave ausente** cuando la política lo pide (eco de S03: missing ≠ empty): `'email' in obj` es `True` aunque el valor sea `None`; si la clave no vino en el JSON, la membresía es `False`. Esa diferencia decide si “borrar email” o “email desconocido”.",
+        "Evolución compatible: añadir un campo opcional con **default** (`setdefault('segment', 'standard')`) no rompe productores viejos que aún no envían `segment`. Quitar un required o renombrar una clave **sí** es breaking: versiona el schema en el manifest del run (`schema_version`) o en el contrato de la fuente.",
+        "`validate_schema(obj, required)` devuelve `(ok, missing)` para decidir clean vs. cuarentena. Si falta `id` o un email requerido, la fila no pasa: fail-closed, **sin inventar** valores “para que el dashboard no se vea vacío”. El You Do aplica el mismo patrón a transacciones (`id`, `client_id`, `monto`).",
       ],
       code: {
         language: 'python',
@@ -354,7 +354,7 @@ print(json.dumps(build_manifest(sources), ensure_ascii=False, sort_keys=True))`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (T1→T4) en **local-python** (filesystem/temp). Cada una modela una pieza del ETL del gate CP-N1-B: leé el código, anticipá la salida, luego contrastá. Datos sintéticos únicamente — sin PII real.",
+    intro: "Ocho demos I Do (T1→T4) en **local-python** (filesystem/temp). Cada una modela una pieza del ETL del gate CP-N1-B: **lee** el código, **anticipa** la salida, luego **contrasta**. Datos sintéticos únicamente — sin PII real.",
     steps: [
       {
         demoId: "S08-T1-A-DEMO",
@@ -404,7 +404,7 @@ print("tmp gone", not (td / "clean.csv.tmp").exists())`,
 C001,Ana
 tmp gone True`,
         },
-        why: "os.replace hace el swap atómico del artefacto de salida. Contrato único del curso: tmp = dest.with_name(dest.name + '.tmp') en el mismo directorio; al terminar no queda basura .tmp.",
+        why: "os.replace hace el swap atómico del artefacto de salida. Contrato único del curso: tmp = dest.with_name(dest.name + '.tmp') en el mismo directorio; al terminar no queda basura `.tmp`.",
       },
       {
         demoId: "S08-T2-A-DEMO",
@@ -434,7 +434,7 @@ print(load_csv_monto(raw))`,
         demoId: "S08-T2-B-DEMO",
         subtopicId: "S08-T2-B",
         environment: "local-python",
-        description: "Separar good.csv vs quarantine.csv",
+        description: "Separar good.csv vs. quarantine.csv",
         code: {
           language: 'python',
           title: "S08-T2-B-DEMO — quar",
@@ -517,7 +517,7 @@ print(obj)`,
         demoId: "S08-T4-A-DEMO",
         subtopicId: "S08-T4-A",
         environment: "local-python",
-        description: "sha256 de input CSV + backup .bak",
+        description: "sha256 de input CSV + backup `.bak`",
         code: {
           language: 'python',
           title: "S08-T4-A-DEMO — hash",
@@ -536,7 +536,7 @@ def hash_and_backup(content="id\\nC1\\n"):
 print(hash_and_backup())`,
           output: `('b776a3a39268', True)`,
         },
-        why: "Hash + backup del crudo son la provenance mínima del gate: el manifest debe poder decir “corrimos sobre este bytes exactos”.",
+        why: "Hash + backup del crudo son la provenance mínima del gate: el manifest debe poder decir “corrimos sobre estos bytes exactos”.",
       },
       {
         demoId: "S08-T4-B-DEMO",
@@ -578,7 +578,7 @@ print(write_manifest(sources))`,
     ],
   },
   weDo: {
-    intro: "Andamiaje E1→E2→E3 × 8 (24 ejercicios). Solo stdlib (pathlib, csv, json, hashlib, shutil, Decimal). Fail-closed en reconcile. **Mapa puente al You Do (ensamblaje):** T1-A → `Path`/`read_text` · T1-B → `write_atomic` · T2-A → cast `Decimal` + dialecto · T2-B → split clean/quarantine + `reason` · T3-A → JSON/JSONL · T3-B → `validate_schema` · T4-A → `sha256` + backup · T4-B → manifest + `run` fail-closed. Al terminar T4 deberías reutilizar cada pieza **sin mirar la solución**; el proyecto CP-N1-B solo las conecta en un `run(data_dir, out_dir)`. El E3 de T4-B es el mini-ensamblaje de salida (publicar solo si reconcilia).",
+    intro: "Andamiaje E1→E2→E3 × 8 (24 ejercicios). Solo stdlib (pathlib, csv, json, hashlib, shutil, Decimal). Fail-closed en reconcile.\n\n**Mapa puente al You Do (ensamblaje):**\n- T1-A → `Path` / `read_text`\n- T1-B → `write_atomic`\n- T2-A → cast `Decimal` + dialecto\n- T2-B → split clean/quarantine + `reason`\n- T3-A → JSON/JSONL\n- T3-B → `validate_schema`\n- T4-A → `sha256` + backup\n- T4-B → manifest + `run` fail-closed\n\nAl terminar T4 deberías reutilizar cada pieza **sin mirar la solución**; el proyecto CP-N1-B solo las conecta en un `run(data_dir, out_dir)`. El E3 de T4-B es el mini-ensamblaje de salida (publicar solo si reconcilia).",
     steps: [
       {
         id: "S08-T1-A-E1",
@@ -597,8 +597,7 @@ print(write_manifest(sources))`,
         starterCode: {
           language: 'python',
           title: "path_exists.py",
-          code: `# CASO-LIM-008 · Path write/read
-# DEFECT: no escribe; exists siempre False
+          code: `# DEFECT: no escribe; exists siempre False
 from pathlib import Path
 import tempfile
 td = Path(tempfile.mkdtemp())
@@ -634,8 +633,7 @@ print(p.exists())`,
         starterCode: {
           language: 'python',
           title: "with_lines.py",
-          code: `# CASO-LIM-008 · open lines
-# DEFECT: no escribe ni lee líneas
+          code: `# DEFECT: no escribe ni lee líneas
 from pathlib import Path
 import tempfile
 td = Path(tempfile.mkdtemp())
@@ -663,7 +661,7 @@ print(lines)`,
         subtopicId: "S08-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Escribe bytes no válidos en UTF-8 (`write_bytes`), intenta `read_text(encoding='utf-8')`, captura `UnicodeDecodeError`, imprime el nombre de la excepción y una acción (cuarentenar o reintentar con encoding documentado). Pass: primera línea `UnicodeDecodeError`.",
+          "E3 (transferencia) — Escribe bytes no válidos en UTF-8 con `write_bytes`. Intenta `read_text(encoding='utf-8')`, captura `UnicodeDecodeError` e imprime el nombre de la excepción y una acción (cuarentenar o reintentar con encoding documentado). Pass: primera línea `UnicodeDecodeError`.",
         hint: "path.write_bytes(b'\\xff\\xfe\\xfa'); try/except UnicodeDecodeError",
         hints: [
           "path.write_bytes(b'\\xff\\xfe\\xfa') — bytes inválidos en utf-8",
@@ -675,8 +673,7 @@ print(lines)`,
         starterCode: {
           language: 'python',
           title: "diag_decode.py",
-          code: `# CASO-LIM-008 · UnicodeDecodeError
-# DEFECT: traga bytes como latin-1 sin cuarentena (siempre "funciona")
+          code: `# DEFECT: traga bytes como latin-1 sin cuarentena (siempre "funciona")
 from pathlib import Path
 import tempfile
 td = Path(tempfile.mkdtemp())
@@ -718,8 +715,7 @@ acción: cuarentenar archivo o reintentar con encoding documentado`,
         starterCode: {
           language: 'python',
           title: "detect_crlf.py",
-          code: `# CASO-LIM-008 · CRLF vs LF
-# DEFECT: busca solo \\n (True en ambos) en vez de \\r\\n
+          code: `# DEFECT: busca solo \\n (True en ambos) en vez de \\r\\n
 win = b'a\\r\\nb\\r\\n'
 unix = b'a\\nb\\n'
 print(b'\\n' in win)
@@ -753,8 +749,7 @@ False`,
         starterCode: {
           language: 'python',
           title: "atomic_impl.py",
-          code: `# CASO-LIM-008 · write_atomic
-# DEFECT: write directo sin tmp/replace
+          code: `# DEFECT: write directo sin tmp/replace
 from pathlib import Path
 import os, tempfile
 
@@ -790,7 +785,7 @@ print(p.read_text(encoding='utf-8'), end='')`,
         subtopicId: "S08-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Simula fallo mid-write: escribe dest parcial `'PARCIAL'`, imprime `mid …`; luego atomic replace a `'COMPLETO'` e imprime `final …`. Pass: `mid PARCIAL` y `final COMPLETO`.",
+          "E3 (transferencia) — Simula fallo mid-write: escribe el literal `'PARCIAL'` en dest, imprime `mid …`; luego atomic replace a `'COMPLETO'` e imprime `final …`. Pass: `mid PARCIAL` y `final COMPLETO`.",
         hint: "Primero write no atómico parcial; luego tmp + os.replace",
         hints: [
           "Primero write no atómico parcial; luego write_atomic",
@@ -802,8 +797,7 @@ print(p.read_text(encoding='utf-8'), end='')`,
         starterCode: {
           language: 'python',
           title: "midwrite.py",
-          code: `# CASO-LIM-008 · partial mid-write
-# DEFECT: segundo write directo (no atómico) en vez de tmp+replace
+          code: `# DEFECT: segundo write directo (no atómico) en vez de tmp+replace
 from pathlib import Path
 import os, tempfile
 td = Path(tempfile.mkdtemp())
@@ -835,7 +829,7 @@ final COMPLETO`,
         subtopicId: "S08-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Con `csv.DictReader` sobre un StringIO cuyo header es `id,nombre` e imprime cada fila como dict. Pass: `{'id': 'C001', 'nombre': 'Ana'}`. Solo stdlib.",
+          "E1 (guiado) — Con `csv.DictReader` sobre un StringIO cuyo header es `id, nombre` e imprime cada fila como dict. Pass: `{'id': 'C001', 'nombre': 'Ana'}`. Solo stdlib.",
         hint: "csv.DictReader",
         hints: [
           "csv.DictReader",
@@ -847,8 +841,7 @@ final COMPLETO`,
         starterCode: {
           language: 'python',
           title: "dictreader.py",
-          code: `# CASO-LIM-008 · DictReader
-# DEFECT: split manual rompe comas en campos
+          code: `# DEFECT: split manual rompe comas en campos
 import csv, io
 raw = 'id,nombre\\nC001,Ana\\n'
 for line in raw.strip().split('\\n')[1:]:
@@ -869,7 +862,7 @@ for row in csv.DictReader(io.StringIO(raw)):
         subtopicId: "S08-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Escribe CSV con `DictWriter` (fieldnames `id,nombre`): `writeheader` + una fila, relee e imprime `len(rows)` y `rows[0]`. Pass: `1` y el dict de Ana. Solo stdlib.",
+          "E2 (independiente) — Escribe CSV con `DictWriter` (fieldnames `id, nombre`): `writeheader` + una fila, relee e imprime `len(rows)` y `rows[0]`. Pass: `1` y el dict de Ana. Solo stdlib.",
         hint: "writeheader + writerow",
         hints: [
           "writeheader + writerow",
@@ -881,8 +874,7 @@ for row in csv.DictReader(io.StringIO(raw)):
         starterCode: {
           language: 'python',
           title: "dictwriter.py",
-          code: `# CASO-LIM-008 · DictWriter roundtrip
-# DEFECT: no writeheader; n=0
+          code: `# DEFECT: no writeheader; n=0
 import csv, io
 buf = io.StringIO()
 w = csv.DictWriter(buf, fieldnames=['id', 'nombre'])
@@ -926,8 +918,7 @@ print(rows[0])`,
         starterCode: {
           language: 'python',
           title: "cast_reject.py",
-          code: `# CASO-LIM-008 · Decimal cast
-# DEFECT: float() traga y no rechaza 'x' con motivo cast_monto
+          code: `# DEFECT: float() traga y no rechaza 'x' con motivo cast_monto
 from decimal import Decimal, InvalidOperation
 
 vals = ['10', 'x', '3.5']
@@ -971,8 +962,7 @@ ok 3.50`,
         starterCode: {
           language: 'python',
           title: "irregular.py",
-          code: `# CASO-LIM-008 · irregular columns
-# DEFECT: no detecta col_count mismatch
+          code: `# DEFECT: no detecta col_count mismatch
 header = ['id', 'nombre']
 row = ['C1', 'Ana', 'x']
 irregular = False
@@ -993,10 +983,10 @@ print(irregular)`,
         subtopicId: "S08-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp (`newline=''`, fieldnames `raw,reason`), relee e imprime `reason`. Pass: `col_count`. Solo stdlib.",
-        hint: "DictWriter fieldnames raw,reason",
+          "E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp (`newline=''`, fieldnames `raw, reason`), relee e imprime `reason`. Pass: `col_count`. Solo stdlib.",
+        hint: "DictWriter fieldnames `raw, reason`",
         hints: [
-          "DictWriter fieldnames raw,reason",
+          "DictWriter fieldnames `raw, reason`",
           "newline=''",
         ],
         edgeCases: ["escribir cuarentena"],
@@ -1005,8 +995,7 @@ print(irregular)`,
         starterCode: {
           language: 'python',
           title: "write_quar.py",
-          code: `# CASO-LIM-008 · quarantine CSV
-# DEFECT: no escribe quarantine
+          code: `# DEFECT: no escribe quarantine
 from pathlib import Path
 import csv, tempfile
 td = Path(tempfile.mkdtemp())
@@ -1047,8 +1036,7 @@ print(rows[0]['reason'])`,
         starterCode: {
           language: 'python',
           title: "reason_summary.py",
-          code: `# CASO-LIM-008 · Counter reasons
-# DEFECT: no imprime counts
+          code: `# DEFECT: no imprime counts
 from collections import Counter
 reasons = ['col_count', 'cast_monto', 'col_count', 'schema']
 for k, v in sorted(Counter(reasons).items()):
@@ -1083,8 +1071,7 @@ schema 1`,
         starterCode: {
           language: 'python',
           title: "loads_fix.py",
-          code: `# CASO-LIM-008 · json.loads
-# DEFECT: slice manual; no usa loads
+          code: `# DEFECT: slice manual; no usa loads
 import json
 raw = '{"id":"C001"}'
 print(raw[7:11])`,
@@ -1115,8 +1102,7 @@ print(obj['id'])`,
         starterCode: {
           language: 'python',
           title: "dumps_utf8.py",
-          code: `# CASO-LIM-008 · ensure_ascii
-# DEFECT: ensure_ascii=True escapea José
+          code: `# DEFECT: ensure_ascii=True escapea José
 import json
 s = json.dumps({'nombre': 'José'}, ensure_ascii=True)
 print(s)`,
@@ -1147,8 +1133,7 @@ print(s)`,
         starterCode: {
           language: 'python',
           title: "json_datetime.py",
-          code: `# CASO-LIM-008 · datetime JSON
-# DEFECT: default=str oculta TypeError; no usa isoformat explícito
+          code: `# DEFECT: default=str oculta TypeError; no usa isoformat explícito
 import json
 from datetime import datetime
 obj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}
@@ -1187,8 +1172,7 @@ print(json.dumps(fixed))`,
         starterCode: {
           language: 'python',
           title: "schema_required.py",
-          code: `# CASO-LIM-008 · validate_schema
-# DEFECT: siempre True
+          code: `# DEFECT: siempre True
 def validate_schema(obj, required):
     return True, []
 print(validate_schema({'id': 'C1'}, ['id', 'email']))`,
@@ -1220,8 +1204,7 @@ print(validate_schema({'id': 'C1'}, ['id', 'email']))`,
         starterCode: {
           language: 'python',
           title: "null_explicit.py",
-          code: `# CASO-LIM-008 · None vs missing
-# DEFECT: confunde 'email' in obj con truthiness
+          code: `# DEFECT: confunde 'email' in obj con truthiness
 obj = {'id': 'C1', 'email': None}
 print(bool(obj.get('email')))
 print(obj.get('email'))`,
@@ -1253,8 +1236,7 @@ None`,
         starterCode: {
           language: 'python',
           title: "default_field.py",
-          code: `# CASO-LIM-008 · setdefault
-# DEFECT: assignment pisa vip
+          code: `# DEFECT: assignment pisa vip
 a = {'id': 'C1'}
 b = {'id': 'C2', 'segment': 'vip'}
 a['segment'] = 'standard'
@@ -1292,8 +1274,7 @@ print(b)`,
         starterCode: {
           language: 'python',
           title: "hash_file.py",
-          code: `# CASO-LIM-008 · sha256
-# DEFECT: usa hash() builtin; len no es 64
+          code: `# DEFECT: usa hash() builtin; len no es 64
 from pathlib import Path
 import hashlib, tempfile
 td = Path(tempfile.mkdtemp())
@@ -1332,8 +1313,7 @@ print(dig[:8], len(dig))`,
         starterCode: {
           language: 'python',
           title: "backup_copy.py",
-          code: `# CASO-LIM-008 · copy2 backup
-# DEFECT: no copia; solo chequea exists
+          code: `# DEFECT: no copia; solo chequea exists
 from pathlib import Path
 import shutil, tempfile
 td = Path(tempfile.mkdtemp())
@@ -1373,8 +1353,7 @@ print(bak.read_bytes() == src.read_bytes())`,
         starterCode: {
           language: 'python',
           title: "provenance_dict.py",
-          code: `# CASO-LIM-008 · provenance dict
-# DEFECT: omite sha256 y bytes
+          code: `# DEFECT: omite sha256 y bytes
 from pathlib import Path
 import hashlib, tempfile
 td = Path(tempfile.mkdtemp())
@@ -1417,8 +1396,7 @@ print(prov)`,
         starterCode: {
           language: 'python',
           title: "manifest_min.py",
-          code: `# CASO-LIM-008 · per-source reconcile flag
-# DEFECT: always reconcile_ok True; no totales derivados
+          code: `# DEFECT: always reconcile_ok True; no totales derivados
 sources = [
     {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
     {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
@@ -1457,7 +1435,7 @@ True`,
         subtopicId: "S08-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Implementa `reconcile_sources(sources)`: exige `n_in == n_clean + n_quarantine` **por cada fuente** y que los totales derivados cuadren. Pruébalo con un caso good y un `compensated_bad` (agregado 10==9+1 pero fuentes rotas). Pass: `True` luego `False`.",
+          "E2 (independiente) — Implementa `reconcile_sources(sources)`: exige `n_in == n_clean + n_quarantine` **por cada fuente** y que los totales derivados cuadren. Pruébalo con un caso good y un `compensated_bad` (agregado 10==9+1, pero fuentes rotas). Pass: `True` luego `False`.",
         hint: "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
         hints: [
           "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
@@ -1469,8 +1447,7 @@ True`,
         starterCode: {
           language: 'python',
           title: "reconcile.py",
-          code: `# CASO-LIM-008 · reconcile_sources
-# DEFECT: siempre True; no valida por fuente
+          code: `# DEFECT: siempre True; no valida por fuente
 def reconcile_sources(sources):
     n_in = sum(s['n_in'] for s in sources)
     n_clean = sum(s['n_clean'] for s in sources)
@@ -1510,20 +1487,19 @@ False`,
         subtopicId: "S08-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia · **mini-ensamblaje pre–You Do**) — Implementa `run(sources)` como el núcleo de salida del ETL: publica solo si **todas** las fuentes cumplen `n_in == n_clean + n_quarantine`. Caso good (clients.csv 4=2+2) → `OK` / `exit_code 0`. Caso compensated_bad (clients y transactions rotos) → `ERROR sources=clients.csv,transactions.json` / `exit_code 1`. Fail-closed: no digas OK si alguna fuente no cuadra. Este es el mismo contrato que `run()` del You Do.",
-        hint: "Recolectá nombres de fuentes rotas; si la lista no está vacía, ERROR + exit 1",
+          "E3 (transferencia · **mini-ensamblaje pre–You Do**) — Implementa `run(sources)` como el núcleo de salida del ETL: publica solo si **todas** las fuentes cumplen `n_in == n_clean + n_quarantine`. Caso good (clients.csv 4=2+2) → `OK` / `exit_code 0`. Caso compensated_bad (clients y transactions rotos) → `ERROR sources=clients.csv, transactions.json` / `exit_code 1`. Fail-closed: no digas OK si alguna fuente no cuadra. Este es el mismo contrato que `run()` del You Do.",
+        hint: "Recolecta nombres de fuentes rotas; si la lista no está vacía, ERROR + exit 1.",
         hints: [
           "broken = [s['name'] for s in sources if s['n_in'] != s['n_clean'] + s['n_quarantine']]",
-          "Reportá todas las fuentes rotas unidas por coma; no publiques OK parcial.",
+          "Reporta todas las fuentes rotas unidas por coma; no publiques OK parcial.",
         ],
         edgeCases: ["fail closed", "compensated multi-source", "bridge You Do"],
-        tests: "good OK/0; bad ERROR sources=clients.csv,transactions.json/1",
+        tests: "good OK/0; bad ERROR sources=clients.csv, transactions.json/1",
         feedback: "Fail-closed protege consumidores del clean. En el You Do, este if es el último paso de run() antes de SystemExit.",
         starterCode: {
           language: 'python',
           title: "fail_reconcile.py",
-          code: `# CASO-LIM-008 · run exit_code (puente You Do)
-# DEFECT: siempre OK aunque n_in no cuadre por fuente
+          code: `# DEFECT: siempre OK aunque n_in no cuadre por fuente
 def run(sources):
     print('OK')
     print('exit_code', 0)
@@ -1563,7 +1539,7 @@ exit_code 1`,
   youDo: {
     title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**. **Receta de ensamblaje (orden sugerido):** (1) `sha256_file` + backup del crudo (T4-A); (2) `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2); (3) `load_transactions_json` con `validate_schema` + Decimal (T3); (4) `write_atomic` de clean y quarantine (T1-B); (5) `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B); (6) `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B). Rutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. CLI instalable llega en S10. Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
+      "Cierras el gate **CP-N1-B**. Los We Do de T1–T4 te dieron las piezas; aquí las **ensamblas** en un ETL **local-python**.\n\n**Receta de ensamblaje (orden sugerido):**\n\n1. `sha256_file` + backup del crudo (T4-A)\n2. `load_clients_csv` con dialecto, Decimal, `newline=''` y cuarentena `{raw, reason}` (T2)\n3. `load_transactions_json` con `validate_schema` + Decimal (T3)\n4. `write_atomic` de clean y quarantine (T1-B)\n5. `build_manifest` con totales derivados y `reconcile_ok` por fuente (T4-B)\n6. `run` retorna 0 solo si todo reconcilia — si no, exit 1 (E3 de T4-B)\n\nRutas: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json`. El CLI instalable llega en S10 (Módulos & CLI). Solo datos sintéticos; sin PII real ni claims de fraude o parentesco.",
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo estable",
@@ -1655,7 +1631,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "Adjunta: (1) manifest de demo con reconcile_ok por fuente, (2) al menos 1 fila de cuarentena con reason estable, (3) hashes de ambos inputs crudos, (4) un test o corrida de reconciliación fallida (exit 1). Esa carpeta es la evidencia del gate CP-N1-B ante un revisor o entrevista junior de data engineering.",
+      "Adjunta:\n\n1. Un manifest de demo con `reconcile_ok` por fuente\n2. Al menos 1 fila de cuarentena con `reason` estable\n3. Los hashes de ambos inputs crudos\n4. Un test o corrida de reconciliación fallida (exit 1)\n\nEsa carpeta es la evidencia del gate CP-N1-B ante un revisor o entrevista junior de data engineering.",
     rubric: [
       { criterion: "Ingesta CSV+JSON correcta", weight: "20%" },
       { criterion: "Validación + cuarentena", weight: "20%" },
@@ -1717,14 +1693,14 @@ if __name__ == "__main__":
           "JSONL: una línea = un json.dumps(row). Útil para streams de transacciones.",
       },
       {
-        question: "Para montos en CSV/JSON del gate, ¿qué contrato usás?",
+        question: "Para montos en CSV/JSON del gate, ¿qué contrato usas?",
         options: ["Decimal desde texto, quantize 0.01, serializar como string", "float y redondeo con round()", "int de céntimos sin validar", "None silencioso si el cast falla"],
         correctIndex: 0,
         explanation:
           "Continúa el contrato de S02: Decimal, nunca float; fallos de cast → cuarentena.",
       },
       {
-        question: "`null` JSON con clave presente vs clave ausente…",
+        question: "`null` JSON con clave presente vs. clave ausente…",
         options: ["Son siempre lo mismo en Python", "null borra la clave automáticamente", "pathlib los unifica", "null → None con clave presente; clave ausente no aparece en el dict"],
         correctIndex: 3,
         explanation:
@@ -1742,7 +1718,7 @@ if __name__ == "__main__":
         options: ["Para forzar encoding latin-1", "Para desactivar DictReader", "Para que el módulo csv controle los terminadores y evite CR dobles en Windows", "Para comprimir el archivo al vuelo"],
         correctIndex: 2,
         explanation:
-          "newline='' deja el control de líneas al módulo csv; sin eso, Windows puede romper el dialecto al re-leer el clean.",
+          "newline='' deja el control de líneas al módulo csv; sin eso, Windows puede romper el dialecto al releer el clean.",
       },
     ],
   },

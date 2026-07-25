@@ -5,16 +5,16 @@ export const section19: CourseSection = {
  index: 19,
  title: "Visualización y comunicación accesible",
  shortTitle: "Viz accesible",
- tagline: "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+ tagline: "Cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a la evidencia y versión no visual equivalente.",
  estimatedHours: 19,
  level: "Competente",
  phase: 1,
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-teal-500 to-cyan-700",
  jobRelevance:
- "En equipos de analytics y reporting en Perú (banca, retail, e-commerce, gobierno), una **visualización accesible y honesta** es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza “Lima lidera el Perú” desde una muestra web no es “bonito”: es un riesgo de reporting. Aquí construyes el incremento **CP-N2-B (dashboard)**: charts con ejes honestos, figuras Matplotlib exportables, tooltips/filtros modelados como especificación de datos y alternativas no visuales con los mismos números — listo para el factory Excel (S20) y los reportes (S21).",
+ "En equipos de analítica y reportes en Perú (banca, retail, e-commerce, gobierno), una **visualización accesible y honesta** es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza “Lima lidera el Perú” desde una muestra web no es “bonito”: es un riesgo de reporte. Aquí construyes el incremento **CP-N2-B (dashboard)**: charts con ejes honestos, figuras Matplotlib exportables, tooltips y filtros modelados como especificación de datos, y alternativas no visuales con los mismos números. Queda listo para la factoría Excel (S20) y los reportes (S21).",
  learningOutcomes: [
- { text: "Elegir el tipo de chart (bar/line/scatter) según la pregunta analítica y la audiencia (ejecutivo vs analista), documentando la decisión en un brief de diseño" },
+ { text: "Elegir el tipo de chart (bar/line/scatter) según la pregunta analítica y la audiencia (ejecutivo vs. analista), documentando la decisión en un brief de diseño" },
  { text: "Diseñar ejes y encodings honestos: baseline 0 en barras de magnitudes absolutas, unidades visibles y rechazo de dual-axis engañoso sin justificación" },
  { text: "Producir figuras Matplotlib (backend Agg) con contrato visual verificable: ylim, ylabel, n de barras y cierre de figura" },
  { text: "Componer multi-panel, anotar valores clave y exportar PNG versionado con metadata (fmt, dpi, panels)" },
@@ -27,10 +27,10 @@ export const section19: CourseSection = {
  {
  heading: "Mapa de la sección: visualización y comunicación accesible",
  paragraphs: [
- "**Antes de T1, el diccionario de la sección** (vuelve en cada subtema). *Pregunta analítica:* qué decisión habilita el gráfico. *Audiencia:* ejecutivo (pocas categorías, una idea) vs analista (más detalle). *Encoding:* canal visual (posición, longitud, color, forma). *Baseline:* origen del eje; en barras de magnitudes absolutas debe ser 0. *Alt text:* equivalente no visual con hallazgo y n. *Paridad:* los mismos números en chart, tabla y caption. *Sobreclaim:* lenguaje que excede la evidencia de la muestra. Si el mapa se siente denso, avanza T1→T4 en orden: primero eliges el chart, luego lo dibujas, luego lo haces accesible e íntegro.",
+ "**Antes de T1, el diccionario de la sección** (vuelve en cada subtema). *Pregunta analítica:* qué decisión habilita el gráfico. *Audiencia:* ejecutivo (pocas categorías, una idea) vs. analista (más detalle). *Encoding:* canal visual (posición, longitud, color, forma). *Baseline:* origen del eje; en barras de magnitudes absolutas debe ser 0. *Alt text:* equivalente no visual con hallazgo y n. *Paridad:* los mismos números en chart, tabla y caption. *Sobreclaim:* lenguaje que excede la evidencia de la muestra. Si el mapa se siente denso, avanza T1→T4 en orden: primero eliges el chart, luego lo dibujas, luego lo haces accesible e íntegro.",
  "Desde el EDA de S18 llegas con medianas, n e incertidumbre por región (Lima / Cusco / Arequipa, PEN, datos sintéticos del lab **CASO-LIM-019**). Aquí **traduces el hallazgo a figura**: el mismo “mediana por región, n, limitación web” se empaqueta como chart + caption + alt + tabla hermana. **Hallazgo ≠ decisión:** el dashboard muestra evidencia con marco muestral, no un veredicto de negocio disfrazado de color o de título sensacionalista.",
- "Orden pedagógico (~19 h): **T1 Intención** (pregunta, audiencia, chart choice y ejes honestos) → **T2 Estático** (Matplotlib, composición multi-panel, export versionado) → **T3 Interactivo y a11y** (modelo de filtros/tooltips, estado serializable, tabla alternativa, sampling honesto) → **T4 Integridad** (unidades, fuente, contraste, alt text, no sobreclaim). En cada subtema: teoría → demo I Do → tres We Do (guiado / independiente / transferencia) → al final You Do del portfolio y self-check.",
- "El hilo conductor es el **dashboard ejecutivo CP-N2-B**: cuatro gráficos estáticos (medianas, volumen, tendencia, scatter n–mediana) más una vista interactiva lógica, todos con conclusión limitada a la evidencia y versión no visual equivalente. Progressive disclosure: no introducimos ORMs ni SQL nuevos; el foco es comunicación visual honesta que alimenta el factory Excel (S20) y reportes DOCX/PDF (S21). Solo datos sintéticos; nunca PII real.",
+ "Orden pedagógico (~19 h). **T1 Intención:** pregunta, audiencia, *chart choice* y ejes honestos. **T2 Estático:** Matplotlib, composición multi-panel y export versionado. **T3 Interactivo y a11y:** modelo de filtros y tooltips, estado serializable, tabla alternativa y *sampling* honesto. **T4 Integridad:** unidades, fuente, contraste, alt text y no sobreclaim. En cada subtema: teoría → demo I Do → tres We Do (guiado / independiente / transferencia) → al final You Do del portfolio y self-check.",
+ "El hilo conductor es el **dashboard ejecutivo CP-N2-B**: cuatro gráficos estáticos (medianas, volumen, tendencia, scatter n–mediana) más una vista interactiva lógica, todos con conclusión limitada a la evidencia y versión no visual equivalente. El foco es comunicación visual honesta que alimenta la factoría Excel (S20) y los reportes DOCX/PDF (S21). Solo datos sintéticos; nunca PII real.",
  ],
  code: {
  language: 'python',
@@ -67,14 +67,14 @@ real_pii_ok False`,
  type: "info",
  title: "Fuera de alcance en S19",
  content:
- "No profundizamos en ORMs ni modelado SQL aquí. El foco es chart choice, ejes honestos, export reproducible y accesibilidad (a11y) para el dashboard CP-N2-B. Solo datos sintéticos; nunca PII real.",
+ "No profundizamos en reportes DOCX/PDF aquí (ese es el foco de S21) ni en dashboards con librerías interactivas obligatorias (Plotly/Streamlit). El foco es *chart choice*, ejes honestos, export reproducible y accesibilidad (a11y) para el dashboard CP-N2-B. Solo datos sintéticos; nunca PII real.",
  },
  },
  {
  heading: "Pregunta, audiencia y elección de gráfico",
  subtopicId: "S19-T1-A",
  paragraphs: [
- "La **elección de gráfico** (*chart choice*) responde a la pregunta, no a la librería de moda. Comparar totales o medianas entre pocas regiones → barras; tendencia temporal → línea; relación entre dos cuantitativas → scatter. Documenta en metadata: `pregunta`, `chart_type`, `audiencia` (ejecutivo vs analista). Un pie 3D casi nunca es la respuesta correcta para un comité.",
+ "La **elección de gráfico** (*chart choice*) responde a la pregunta, no a la librería de moda. Comparar totales o medianas entre pocas regiones → barras; tendencia temporal → línea; relación entre dos cuantitativas → scatter. Documenta en metadata: `pregunta`, `chart_type`, `audiencia` (ejecutivo vs. analista). Un pie 3D casi nunca es la respuesta correcta para un comité.",
  "Contrato operativo: **una idea principal por figura**. Si hay dos preguntas, dos charts. El dict de especificación (`pregunta`, `audiencia`, `chart`) viaja con el PNG hacia el informe S21 para no perder el “por qué este gráfico”. Ordena categorías con intención (alfabético, por magnitud o por prioridad de negocio) y prefiere barras horizontales cuando las etiquetas de región son largas.",
  "Caso sintético Perú (continuación de S18): “totales/medianas por región para comité” → bar; “tendencia de tickets web semanal” → line. La función `elige_chart(pregunta)` es un gate didáctico con reglas legibles (`\"tendencia\"` → line, resto comparación → bar), no un clasificador ML: testeable en We Do y reutilizable en el portfolio.",
  ],
@@ -108,7 +108,7 @@ ok True`,
  paragraphs: [
  "Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita; recortar el eje infla diferencias y engaña al comité. Jerarquía de encodings: posición > longitud > color > forma. El **dual-axis** (dos escalas Y distintas) confunde con frecuencia: si lo usas, declara el riesgo y prefiere paneles separados.",
  "Contrato: `ylim` bottom=0 en barras de PEN; etiqueta de unidades en el eje; escala log solo con leyenda explícita y justificación de órdenes de magnitud. Si usas color, no es el único canal para categorías críticas: añade etiqueta, patrón (hatch) o posición. El *baseline* es un encoding: mentir en el origen es mentir en la longitud percibida.",
- "Caso: valores 50 vs 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. Calcula el factor de inflación visual `(altura_truco / altura_honesta)` antes de exportar al dashboard de CP-N2-B: si el factor es grande, el gráfico no pasa el gate de integridad.",
+ "Caso: valores 50 vs. 45 con baseline=40 parecen una brecha enorme; con baseline=0 la diferencia es honesta. Calcula el factor de inflación visual `(altura_truco / altura_honesta)` antes de exportar al dashboard de CP-N2-B: si el factor es grande, el gráfico no pasa el gate de integridad.",
  ],
  code: {
  language: 'python',
@@ -138,8 +138,8 @@ recomendacion baseline_0_en_barras`,
  heading: "Matplotlib para figuras estáticas",
  subtopicId: "S19-T2-A",
  paragraphs: [
- "Matplotlib construye la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el slice está filtrado. **Seaborn** es opcional (estilo con `sns.set_theme` sobre los mismos axes); no es un path obligatorio ni sustituye el contrato visual: ylim, ylabel y conteo de barras se leen en los axes de Matplotlib, no en la “belleza” del tema.",
- "Contrato de export: `bbox_inches='tight'`, dpi documentado (p. ej. 120), nombre versionado. En local guardas PNG/SVG según audiencia (slides vs impresión); en demos del curso a menudo validamos metadata y, cuando corresponde, un `savefig` real a buffer. Tests no miran “se ve bien en mi monitor”: miran `get_ylim()[0]==0`, `get_ylabel()` y conteo de barras — un contrato reproducible en CI con backend `Agg`.",
+ "Matplotlib construye la figura estática del portfolio. Siempre: título, etiquetas de ejes con unidades, leyenda si hay series múltiples, y n en el pie o título cuando el *slice* está filtrado. **Seaborn** es opcional (estilo con `sns.set_theme` sobre los mismos *axes*); no es un camino obligatorio ni sustituye el contrato visual. Las claves del contrato — `ylim`, `ylabel` y conteo de barras — se leen en los *axes* de Matplotlib, no en la “belleza” del tema.",
+ "Contrato de export: `bbox_inches='tight'`, dpi documentado (p. ej. 120), nombre versionado. En local guardas PNG/SVG según audiencia (diapositivas vs. impresión); en demos del curso a menudo validamos metadata y, cuando corresponde, un `savefig` real a buffer. Tests no miran “se ve bien en mi monitor”: miran `get_ylim()[0]==0`, `get_ylabel()` y conteo de barras — un contrato reproducible en CI con backend `Agg`.",
  "Caso: bar de regiones con `ylabel='PEN'` y `ylim(0, …)`. Ordena barras por valor si la pregunta es “quién lidera”; orden alfabético si la pregunta es “catálogo de regiones”; barras horizontales si las etiquetas son largas. Añade hatch o etiqueta de valor cuando el color no puede ser el único canal. Cierra siempre con `plt.close(fig)` en scripts y CI.",
  ],
  code: {
@@ -178,7 +178,7 @@ s19_th_3()`,
  heading: "Composición, anotaciones y exportación",
  subtopicId: "S19-T2-B",
  paragraphs: [
- "Multi-panel (`subplots`) alinea comparaciones (volumen vs mediana). Anota valores clave con `bar_label` o `annotate` sin saturar: una anotación por insight, no un sticker en cada barra si ya hay tabla hermana. Export: PNG para slides, SVG/PDF para impresión; nombre `fig_cpn2b_v{version}.png`.",
+ "Multi-panel (`subplots`) alinea comparaciones (volumen vs. mediana). Anota valores clave con `bar_label` o `annotate` sin saturar: una anotación por *insight*, no un sticker en cada barra si ya hay tabla hermana. Export: PNG para diapositivas, SVG/PDF para impresión; nombre `fig_cpn2b_v{version}.png`.",
  "Contrato de reproducibilidad: seed de datos + función `build_figure(df)` sin estado global sucio. Misma entrada → mismos títulos de paneles y mismos n en captions. Exporta de verdad con `fig.savefig(..., dpi=…, bbox_inches='tight')` (archivo o buffer); el dict de export (`fmt`, `dpi`, `panels`, `name`) versiona el binario hacia S20/S21 — no sustituye el PNG.",
  "Caso sintético: 1×2 subplots con títulos “Vol” y “Med”; `savefig` a PNG 120 dpi y meta `{fmt:'png', dpi:120, panels:2}`. El dashboard empaqueta estas figuras con la tabla de paridad (mismos números). Faceting (un panel por región) es preferible a dual-axis cuando escalas no son comparables.",
  ],
@@ -218,26 +218,26 @@ s19_th_4()`,
  paragraphs: [
  "Modelamos la **vista interactiva** como especificación de datos: campos filtrables, plantilla de tooltip y viewport. No hace falta instalar Plotly (ni Streamlit) para diseñar el contrato: si el modelo es claro, migrar a una librería interactiva es mecánico. Los tooltips deben mostrar **unidades y n**, no solo el valor “bonito”. Un filtro sin recálculo de conclusión es un defecto de producto, no un detalle cosmético.",
  "Contrato: al filtrar por región, el texto de conclusión del viewport se **recalcula**; no reutilices el párrafo global de “Lima lidera” si el filtro es Cusco. Serializa el state (JSON) para auditoría del dashboard. El lookup por región es O(n) sobre filas sintéticas: suficiente para el lab; en producción agregarías índice o pre-agregación. La spec mínima es `{filtro, tooltip_template, unidad, campos_visibles}`.",
- "Caso sintético: row `{region:'Lima', median:28, n:40}` → tooltip `Lima: 28 PEN (n=40)`. Paridad chart↔tabla: si la barra dice 28, la fila de tabla dice 28 a la misma precisión publicada; si no, el gate de integridad falla antes del export y el portfolio no avanza a S20/S21.",
+ "Caso sintético: *row* `{region:'Lima', median:28, n:40}` → *tooltip* `Lima: 28 PEN (n=40)`. **Paridad chart↔tabla:** si la barra dice 28, la fila de la tabla dice 28 a la misma precisión publicada. Si no, el *gate* de integridad falla antes del *export* y el portfolio no avanza a S20/S21.",
  ],
  code: {
  language: 'python',
  title: "interactive_spec.py",
  code: `def s19_th_5():
     rows = [
-     {"region": "Sucursal-Norte", "monto": 28.0, "n": 40},
+     {"region": "Lima", "monto": 28.0, "n": 40},
      {"region": "Cusco", "monto": 22.5, "n": 32},
      {"region": "Arequipa", "monto": 24.0, "n": 28}
     ]
-    filtro = "Sucursal-Sur"
+    filtro = "Lima"
     vista = [r for r in rows if r["region"] == filtro]
     tooltip = {**vista[0], "unidad": "PEN", "nota": "sintético"}
     print("filtro", filtro)
     print("tooltip", tooltip)
 
 s19_th_5()`,
- output: `filtro Sucursal-Centro
-tooltip {'region': 'Oficina-Este', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sintético'}`,
+ output: `filtro Lima
+tooltip {'region': 'Lima', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'nota': 'sintético'}`,
  },
  callout: {
  type: "info",
@@ -252,7 +252,7 @@ tooltip {'region': 'Oficina-Este', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'not
  paragraphs: [
  "El **estado** del dashboard (filtros activos) debe ser serializable (`json.dumps`). Evita recalcular todo el universo en cada hover; limita puntos en scatter (sample o aggregate) y documenta si hay sampling. Ejemplo de honestidad de performance: “viewport muestra sample 5 000 de 50 000 filas” — nunca ocultes el sesgo muestral del viewport ni lo presentes como censo. Declarar solo `sample_n` sin `universe_n` es un defecto de transparencia.",
  "Contrato a11y: alternativa accesible = tabla ordenable + resumen textual con **los mismos números** que el chart. Sin tabla hermana, el gráfico no entra solo al portfolio ejecutivo. El alt text no es “imagen de barras”: es el hallazgo principal + n + unidad + marco (sintético / canal web). Un lector de pantalla debe poder reconstruir la idea del chart sin verlo.",
- "Caso: `filtro_region=Oficina-Oeste` → state JSON compacto con `sample_n` y `universe_n` cuando aplique; `alt_text` une `region=v PEN` con `; `. La paridad se verifica con igualdad de valores a la precisión publicada (mismo redondeo en chart y tabla). Si redondeas a 1 decimal en el gráfico, la tabla no puede mostrar 3 “más precisos” sin documentarlo.",
+ "Caso: `filtro_region=Lima` → estado JSON compacto con `sample_n` y `universe_n` cuando aplique; `alt_text` une cada par `region=v PEN` con el separador `;`. La paridad se verifica con igualdad de valores a la precisión publicada (mismo redondeo en chart y tabla). Si redondeas a 1 decimal en el gráfico, la tabla no puede mostrar 3 “más precisos” sin documentarlo.",
  ],
  code: {
  language: 'python',
@@ -260,13 +260,13 @@ tooltip {'region': 'Oficina-Este', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'not
  code: `def s19_th_6():
     # Estado serializable + honestidad de sampling del viewport
     state = {
-        "filtro_region": "Cliente-A",
+        "filtro_region": "Lima",
         "metric": "median",
         "sample_n": 5000,
         "universe_n": 50000,
     }
     chart_value = 28.0
-    alt_table = [{"region": "Cliente-B", "ticket_mediano_pen": 28.0, "n": 40}]
+    alt_table = [{"region": "Lima", "ticket_mediano_pen": 28.0, "n": 40}]
     alt_text = f"En {alt_table[0]['region']}, ticket mediano {alt_table[0]['ticket_mediano_pen']} PEN (n={alt_table[0]['n']})."
     sampling_note = (
         f"viewport sample {state['sample_n']} de {state['universe_n']}; no es censo"
@@ -277,8 +277,8 @@ tooltip {'region': 'Oficina-Este', 'monto': 28.0, 'n': 40, 'unidad': 'PEN', 'not
     print(sampling_note)
 
 s19_th_6()`,
- output: `{'filtro_region': 'Sucursal-Norte', 'metric': 'median', 'sample_n': 5000, 'universe_n': 50000}
-En Sucursal-Sur, ticket mediano 28.0 PEN (n=40).
+ output: `{'filtro_region': 'Lima', 'metric': 'median', 'sample_n': 5000, 'universe_n': 50000}
+En Lima, ticket mediano 28.0 PEN (n=40).
 match True
 viewport sample 5000 de 50000; no es censo`,
  },
@@ -293,9 +293,9 @@ viewport sample 5000 de 50000; no es censo`,
  heading: "Unidades, fuente y limitaciones",
  subtopicId: "S19-T4-A",
  paragraphs: [
- "Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: `Fuente: … | Corte: … | n=… | Limitación: …`. Sin fuente, el gráfico **no entra** al portfolio de CP-N2-B: un número huérfano no se puede auditar ni re-renderizar con confianza en el factory de reportes.",
- "Contrato de caption: dict con claves `unidad`, `fuente`, `limitacion` (y n cuando aplique). Función `pie(cap)` une con ` | ` para el footer estable entre dashboard e informe. El orden de claves es parte del contrato si serializas para tests; no inventes un pie distinto por slide. Caption y alt se complementan: el pie es trazabilidad, el alt es el hallazgo legible en no visual.",
- "Caso sintético: unidad PEN, fuente `sintetico`, limitación “solo canal web; n bajo en Cusco”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. “28” sin PEN o sin % es un defecto de reporting, no un detalle cosmético: el comité no puede comparar ni escalar la métrica sin unidad.",
+ "Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Pie de figura: `Fuente: … | Corte: … | n=… | Limitación: …`. Sin fuente, el gráfico **no entra** al portfolio de CP-N2-B: un número huérfano no se puede auditar ni re-renderizar con confianza en la factoría de reportes.",
+ "Contrato de caption: dict con claves `unidad`, `fuente`, `limitacion` (y n cuando aplique). Función `pie(cap)` une con ` | ` para el footer estable entre dashboard e informe. El orden de claves es parte del contrato si serializas para tests; no inventes un pie distinto por diapositiva. Caption y alt se complementan: el pie es trazabilidad, el alt es el hallazgo legible en no visual.",
+ "Caso sintético: unidad PEN, fuente `sintetico`, limitación “solo canal web; n bajo en Cusco”. El mismo pie viaja a S21 para que el DOCX no invente otra fuente. “28” sin PEN o sin % es un defecto de reporte, no un detalle cosmético: el comité no puede comparar ni escalar la métrica sin unidad.",
  ],
  code: {
  language: 'python',
@@ -317,7 +317,7 @@ s19_th_7()`,
  type: "warning",
  title: "Unidad omitida",
  content:
- "“28” sin PEN o sin % es un defecto de reporting.",
+ "“28” sin PEN o sin % es un defecto de reporte.",
  },
  },
  {
@@ -325,19 +325,19 @@ s19_th_7()`,
  subtopicId: "S19-T4-B",
  paragraphs: [
  "Contraste suficiente texto/fondo; no uses **solo color** para categorías críticas — añade patrón (`hatch` en Matplotlib: `'//'`, `'\\\\'`, `'..'`), etiqueta de valor o posición. Paletas amigables con daltonismo (p. ej. evitar rojo/verde exclusivos; preferir azul/naranja o viridis) reducen riesgo; el canal de posición sigue siendo el más robusto. **Alt text** describe el hallazgo principal y n, no “imagen de barras”.",
- "Contrato de claims: “Sucursal-Centro lidera en la **muestra** web” es permitido; “Oficina-Este es la mejor región del Perú” sin marco poblacional es **RECHAZADO**. `classify_claim` es el gate didáctico del We Do: si el texto generaliza a la población sin “muestra”, falla. En el portfolio, el color y el contraste no redimen un sobreclaim en el título.",
- "Caso: alt `Oficina-Oeste 28 PEN n=40` debe contener `n=`; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes del reporting factory (S20/S21): si dos regiones se distinguen solo por tono, añade hatch o etiqueta antes de exportar.",
+ "Contrato de claims: “Lima lidera en la **muestra** web” es permitido; “Lima es la mejor región del Perú” sin marco poblacional es **RECHAZADO**. `classify_claim` es el gate didáctico del We Do: si el texto generaliza a la población sin “muestra”, falla. En el portfolio, el color y el contraste no redimen un sobreclaim en el título.",
+ "Caso: alt `Lima 28 PEN n=40` debe contener `n=`; claim con “del Perú” sin “muestra” → RECHAZADO. Cierra el loop ético del dashboard antes de la factoría de reportes (S20/S21): si dos regiones se distinguen solo por tono, añade hatch o etiqueta antes de exportar.",
  ],
  code: {
  language: 'python',
  title: "alt_claim.py",
  code: `def s19_th_8():
     alt = (
-     "Barras del ticket mediano sintético: Cliente-A 28 PEN (n=40), "
+     "Barras del ticket mediano sintético: Lima 28 PEN (n=40), "
      "Arequipa 24 (n=28), Cusco 22.5 (n=32). Eje Y desde 0."
     )
-    claim_ok = "En la muestra web sintética, Cliente-B muestra el ticket mediano más alto."
-    claim_bad = "Sucursal-Norte es la región más rentable del Perú."
+    claim_ok = "En la muestra web sintética, Lima muestra el ticket mediano más alto."
+    claim_bad = "Lima es la región más rentable del Perú."
     print("alt_len", len(alt))
     print("usa_claim_ok", True)
     print("evita", claim_bad[:20] + "...")
@@ -345,7 +345,7 @@ s19_th_7()`,
 s19_th_8()`,
  output: `alt_len 110
 usa_claim_ok True
-evita Sucursal-Sur es la región má...`,
+evita Lima es la región má...`,
  },
  callout: {
  type: "danger",
@@ -356,7 +356,7 @@ evita Sucursal-Sur es la región má...`,
  }
  ],
  iDo: {
- intro: "Te muestro, paso a paso, cómo diseñar charts honestos, exportables y con alternativa accesible para el dashboard CP-N2-B: de la elección de chart al PNG real, del tooltip con n a la paridad chart↔tabla y al rechazo de sobreclaim.",
+ intro: "Te muestro, paso a paso, cómo diseñar charts honestos, exportables y con alternativa accesible para el dashboard CP-N2-B. Parte de la elección de *chart* y llega al PNG real; del *tooltip* con n a la paridad chart↔tabla y al rechazo de *sobreclaim*.",
  steps: [
  {
  demoId: "S19-T1-A-DEMO",
@@ -421,7 +421,7 @@ factor_inflacion 10.0`,
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    reg = ["Sucursal-Centro", "Arequipa", "Oficina-Este"]
+    reg = ["Lima", "Arequipa", "Cusco"]
     val = [28.0, 24.0, 22.5]
     # Patrones distintos: no depender solo del color para categorías
     hatches = ["//", "\\\\", ".."]
@@ -459,10 +459,10 @@ hatches ['//', '\\\\', '..']`,
     import matplotlib.pyplot as plt
 
     fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3))
-    ax0.bar(["Oficina-Oeste", "Cliente-A"], [40, 32])
+    ax0.bar(["Lima", "Cusco"], [40, 32])
     ax0.set_title("n por región")
     ax0.set_ylim(0, 50)
-    ax1.barh(["Cliente-B", "Sucursal-Norte"], [28, 22.5])
+    ax1.barh(["Lima", "Cusco"], [28, 22.5])
     ax1.set_title("mediana PEN")
     ax1.set_xlim(0, 35)
     buf = io.BytesIO()
@@ -495,8 +495,8 @@ png_bytes_ok True`,
  title: "demo_tooltip.py",
  code: `def s19_ido_5():
     data = [
-        {"region": "Sucursal-Sur", "median": 28.0, "n": 40},
-        {"region": "Sucursal-Centro", "median": 22.5, "n": 32},
+        {"region": "Lima", "median": 28.0, "n": 40},
+        {"region": "Cusco", "median": 22.5, "n": 32},
     ]
     def view(region):
         row = next(r for r in data if r["region"] == region)
@@ -505,12 +505,12 @@ png_bytes_ok True`,
             "filtro": region,
             "unidad": "PEN",
         }
-    print(view("Oficina-Este"))
-    print(view("Oficina-Oeste")["tooltip"])
+    print(view("Lima"))
+    print(view("Cusco")["tooltip"])
 
 s19_ido_5()`,
- output: `{'tooltip': 'Cliente-A: 28.0 PEN (n=40)', 'filtro': 'Cliente-B', 'unidad': 'PEN'}
-Sucursal-Norte: 22.5 PEN (n=32)`,
+ output: `{'tooltip': 'Lima: 28.0 PEN (n=40)', 'filtro': 'Lima', 'unidad': 'PEN'}
+Cusco: 22.5 PEN (n=32)`,
  },
  why: "Tooltip con unidad y n evita lecturas superficiales.",
  },
@@ -523,7 +523,7 @@ Sucursal-Norte: 22.5 PEN (n=32)`,
  language: 'python',
  title: "demo_a11y.py",
  code: `def s19_ido_6():
-    chart = {"Sucursal-Sur": 28.0, "Sucursal-Centro": 22.5}
+    chart = {"Lima": 28.0, "Cusco": 22.5}
     table = [{"region": k, "ticket_mediano_pen": v} for k, v in chart.items()]
     text = "; ".join(f"{r['region']}={r['ticket_mediano_pen']} PEN" for r in table)
     print(table)
@@ -531,8 +531,8 @@ Sucursal-Norte: 22.5 PEN (n=32)`,
     print("parity", all(chart[r["region"]] == r["ticket_mediano_pen"] for r in table))
 
 s19_ido_6()`,
- output: `[{'region': 'Oficina-Este', 'ticket_mediano_pen': 28.0}, {'region': 'Oficina-Oeste', 'ticket_mediano_pen': 22.5}]
-Cliente-A=28.0 PEN; Cliente-B=22.5 PEN
+ output: `[{'region': 'Lima', 'ticket_mediano_pen': 28.0}, {'region': 'Cusco', 'ticket_mediano_pen': 22.5}]
+Lima=28.0 PEN; Cusco=22.5 PEN
 parity True`,
  },
  why: "La versión no visual es requisito del gate de dashboard accesible.",
@@ -551,12 +551,12 @@ parity True`,
      "unidad": "PEN",
      "fuente": "sintético CP-N2-B",
      "corte": "2024-06-30",
-     "limitacion": "canal web; n bajo en Sucursal-Norte",
+     "limitacion": "canal web; n bajo en Cusco",
     }
     print("pie", f"Unidad: {cap['unidad']} | Fuente: {cap['fuente']} | Corte: {cap['corte']} | Límite: {cap['limitacion']}")
 
 s19_ido_7()`,
- output: `pie Unidad: PEN | Fuente: sintético CP-N2-B | Corte: 2024-06-30 | Límite: canal web; n bajo en Sucursal-Sur`,
+ output: `pie Unidad: PEN | Fuente: sintético CP-N2-B | Corte: 2024-06-30 | Límite: canal web; n bajo en Cusco`,
  },
  why: "Caption completo es parte del entregable, no un extra.",
  },
@@ -569,18 +569,18 @@ s19_ido_7()`,
  language: 'python',
  title: "demo_claims.py",
  code: `def s19_ido_8():
-    alt = "Barras: Sucursal-Centro 28 PEN, Arequipa 24, Oficina-Este 22.5; muestra web sintética n=100."
+    alt = "Barras: Lima 28 PEN, Arequipa 24, Cusco 22.5; muestra web sintética n=100."
     claims = [
-     ("Oficina-Oeste lidera el ticket mediano en la muestra web", True),
-     ("Cliente-A es la mejor región del Perú", False),
+     ("Lima lidera el ticket mediano en la muestra web", True),
+     ("Lima es la mejor región del Perú", False),
     ]
     for c, ok in claims:
      print(c[:40], "=>", "PERMITIDO" if ok else "RECHAZADO")
     print("alt_words", len(alt.split()))
 
 s19_ido_8()`,
- output: `Cliente-B lidera el ticket mediano en la mues => PERMITIDO
-Sucursal-Norte es la mejor región del Perú => RECHAZADO
+ output: `Lima lidera el ticket mediano en la mues => PERMITIDO
+Lima es la mejor región del Perú => RECHAZADO
 alt_words 12`,
  },
  why: "Contraste de claims entrena el lenguaje del dashboard.",
@@ -693,7 +693,7 @@ bar`,
  subtopicId: "S19-T1-B",
  kind: "guided",
  instruction:
- "E1 (guiado) — Valores 50 y 45 con eje recortado en 40 vs baseline 0. Calcula el factor de inflación visual (altura relativa del truco ÷ altura relativa honesta) y muestra `factor` redondeado a 2 decimales. El starter tiene el denominador honesto mal planteado.",
+ "E1 (guiado) — Valores 50 y 45 con eje recortado en 40 vs. baseline 0. Calcula el factor de inflación visual (altura relativa del truco ÷ altura relativa honesta) y muestra `factor` redondeado a 2 decimales. El starter tiene el denominador honesto mal planteado.",
  hint: "Altura truco = (50-45)/(50-40); altura honesta = (50-45)/50.",
  hints: [
  "Con baseline 0 el span es el valor máximo (50), no la diferencia entre barras.",
@@ -707,7 +707,7 @@ bar`,
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-019 · truncated axis factor
-# Bug a corregir: hon en denominador wrong
+# Bug a corregir: denominador honesto incorrecto
 truco = (50 - 45) / (50 - 40)
 hon = (50 - 45) / (50 - 45)
 print("factor", round(truco / hon, 2))`,
@@ -735,7 +735,7 @@ print("factor", round(truco / hon, 2))`,
  edgeCases: ["líneas de índice pueden no empezar en 0 (ok_con_nota)"],
  tests: "salida coincide con solution output",
  feedback:
- "ylim_bottom=0 es el default ético en barras de PEN absolutas. Truncar sin nota es defecto; una línea de índice puede no partir de 0 si lo documentas.",
+ "ylim_bottom=0 es el valor por defecto ético en barras de PEN absolutas. Truncar sin nota es defecto; una línea de índice puede no partir de 0 si lo documentas.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -770,7 +770,7 @@ print(gate_baseline(40, "bar_absolute"))`,
  edgeCases: ["color-only sin segundo canal"],
  tests: "salida coincide con solution output",
  feedback:
- "Dual-axis mezcla dos escalas Y y suele engañar al comité. Prefiere paneles separados o un solo encoding de posición.",
+ "Dual-axis mezcla dos escalas Y; suele engañar al comité. Prefiere paneles separados o un solo encoding de posición.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -835,10 +835,10 @@ plt.close(fig)`,
  subtopicId: "S19-T2-A",
  kind: "independent",
  instruction:
- "E2 (independiente) — Dibuja dos barras (Sucursal-Sur=28, Sucursal-Centro=22.5) con backend Agg, etiqueta el eje Y como `Ticket mediano (PEN)`, fija ylim desde 0 y imprime un dict `{\"ylabel\": …, \"ylim0\": float(...)}`. El starter omite ylabel y deja el ylim por defecto: corrígelo y cierra la figura.",
+ "E2 (independiente) — Dibuja dos barras (Lima=28, Cusco=22.5) con backend Agg, etiqueta el eje Y como `Ticket mediano (PEN)`, fija ylim desde 0 e imprime un dict `{\"ylabel\": …, \"ylim0\": float(...)}`. El starter omite ylabel y deja el ylim por defecto: corrígelo y cierra la figura.",
  hint: "set_ylabel + set_ylim(0, …) + float(get_ylim()[0]).",
  hints: [
- "La unidad va en el eje (PEN dentro del ylabel), no solo en el título del slide.",
+ "La unidad va en el eje (PEN dentro del ylabel), no solo en el título de la diapositiva.",
  "Convierte ylim0 a float nativo para salida estable.",
  ],
  edgeCases: ["ylabel vacío o solo espacios"],
@@ -854,7 +854,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots()
-ax.bar(["Oficina-Este", "Oficina-Oeste"], [28.0, 22.5])
+ax.bar(["Lima", "Cusco"], [28.0, 22.5])
 print({"ylabel": ax.get_ylabel(), "ylim0": float(ax.get_ylim()[0])})
 plt.close(fig)`,
  },
@@ -865,7 +865,7 @@ plt.close(fig)`,
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots()
-ax.bar(["Cliente-A", "Cliente-B"], [28.0, 22.5])
+ax.bar(["Lima", "Cusco"], [28.0, 22.5])
 ax.set_ylabel("Ticket mediano (PEN)")
 ax.set_ylim(0, 35)
 print({"ylabel": ax.get_ylabel(), "ylim0": float(ax.get_ylim()[0])})
@@ -878,7 +878,7 @@ plt.close(fig)`,
  subtopicId: "S19-T2-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Implementa `meta_bar(labels, values)` que dibuja barras regionales, fija ylim desde 0 hasta max(values)*1.2, y devuelve un dict con `n_bars` y `ylim0` como **float** de Python (no tipo numpy). Imprime el meta para Sucursal-Norte/Sucursal-Sur y valores 28/22.5 (mismo contrato visual del portfolio: baseline 0 y conteo de categorías).",
+ "E3 (transferencia) — Implementa `meta_bar(labels, values)` que dibuja barras regionales, fija ylim desde 0 hasta max(values)*1.2, y devuelve un dict con `n_bars` y `ylim0` como **float** de Python (no tipo numpy). Imprime el meta para Lima/Cusco y valores 28/22.5 (mismo contrato visual del portfolio: baseline 0 y conteo de categorías).",
  hint: "Usa float(ax.get_ylim()[0]) para salida estable.",
  hints: [
  "Cuenta barras con len(values).",
@@ -903,7 +903,7 @@ def meta_bar(labels, values):
  out = {"n_bars": len(values), "ylim0": ax.get_ylim()[0]}
  plt.close(fig)
  return out
-print(meta_bar(["Sucursal-Centro", "Oficina-Este"], [28.0, 22.5]))`,
+print(meta_bar(["Lima", "Cusco"], [28.0, 22.5]))`,
  },
  solutionCode: {
  language: 'python',
@@ -919,7 +919,7 @@ def meta_bar(labels, values):
  out = {"n_bars": len(values), "ylim0": float(ax.get_ylim()[0])}
  plt.close(fig)
  return out
-print(meta_bar(["Oficina-Oeste", "Cliente-A"], [28.0, 22.5]))`,
+print(meta_bar(["Lima", "Cusco"], [28.0, 22.5]))`,
  output: `{'n_bars': 2, 'ylim0': 0.0}`,
  },
  },
@@ -948,8 +948,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, 2)
-axes[0].bar(["Cliente-B"], [40])
-axes[1].bar(["Sucursal-Norte"], [28])
+axes[0].bar(["Lima"], [40])
+axes[1].bar(["Cusco"], [28])
 export = {"fmt": "png", "dpi": 120, "panels": 1, "png_ok": False}
 print(export)
 plt.close(fig)`,
@@ -962,8 +962,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, 2)
-axes[0].bar(["Sucursal-Sur"], [40])
-axes[1].bar(["Sucursal-Centro"], [28])
+axes[0].bar(["Lima"], [40])
+axes[1].bar(["Cusco"], [28])
 buf = io.BytesIO()
 fig.savefig(buf, format="png", dpi=120, bbox_inches="tight")
 export = {
@@ -991,7 +991,7 @@ plt.close(fig)`,
  edgeCases: ["version como string no numérica"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin versión en el filename, el factory no distingue re-renders. Un solo nombre sobrescribe el histórico del portfolio.",
+ "Sin versión en el filename, la factoría no distingue re-renders. Un solo nombre sobrescribe el histórico del portfolio.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1022,7 +1022,7 @@ print(f"fig_cpn2b_v{version}.png")`,
  edgeCases: ["orientación 2×1"],
  tests: "salida coincide con solution output",
  feedback:
- "Cada panel necesita título propio para que el comité lea Vol vs Med sin ambigüedad. suptitle es opcional; get_title del axes no lo hereda.",
+ "Cada panel necesita título propio para que el comité lea Vol vs. Med sin ambigüedad. suptitle es opcional; get_title del axes no lo hereda.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1055,29 +1055,29 @@ plt.close(fig)`,
  subtopicId: "S19-T3-A",
  kind: "guided",
  instruction:
- "E1 (guiado) — Dada una lista de filas con región y mediana, recupera la mediana de **Oficina-Este** (no de Oficina-Oeste). El starter consulta la región equivocada: corrige el filtro e imprime el valor numérico.",
- hint: "next(...) o list comprehension filtrando region == \"Cliente-A\".",
+ "E1 (guiado) — Dada una lista de filas con región y mediana, recupera la mediana de **Lima** (no de Cusco). El starter consulta la región equivocada: corrige el filtro e imprime el valor numérico.",
+ hint: "next(...) o list comprehension filtrando region == \"Lima\".",
  hints: [
- "Compara r[\"region\"] con la cadena Cliente-B.",
+ "Compara r[\"region\"] con la cadena Lima.",
  "Imprime solo el campo median de la fila filtrada.",
  ],
  edgeCases: ["sin match → StopIteration"],
  tests: "salida coincide con solution output",
  feedback:
- "El viewport filtrado debe recalcular el valor mostrado. Mostrar Sucursal-Norte cuando el filtro es Sucursal-Sur rompe la paridad con el tooltip.",
+ "El viewport filtrado debe recalcular el valor mostrado. Mostrar Cusco cuando el filtro es Lima rompe la paridad con el tooltip.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-019 · lookup median
-# Bug a corregir: toma Sucursal-Centro
-rows = [{"region": "Oficina-Este", "median": 28}, {"region": "Oficina-Oeste", "median": 22}]
-print(next(r for r in rows if r["region"] == "Cliente-A")["median"])`,
+# Bug a corregir: filtra Cusco en lugar de Lima
+rows = [{"region": "Lima", "median": 28}, {"region": "Cusco", "median": 22}]
+print(next(r for r in rows if r["region"] == "Cusco")["median"])`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `rows = [{"region": "Cliente-B", "median": 28}, {"region": "Sucursal-Norte", "median": 22}]
-print(next(r for r in rows if r["region"] == "Sucursal-Sur")["median"])`,
+ code: `rows = [{"region": "Lima", "median": 28}, {"region": "Cusco", "median": 22}]
+print(next(r for r in rows if r["region"] == "Lima")["median"])`,
  output: `28`,
  },
  },
@@ -1086,7 +1086,7 @@ print(next(r for r in rows if r["region"] == "Sucursal-Sur")["median"])`,
  subtopicId: "S19-T3-A",
  kind: "independent",
  instruction:
- "E2 (independiente) — El tooltip de Sucursal-Centro debe incluir valor, unidad PEN y tamaño muestral n=40 para no vender el KPI como censo. El starter omite n: corrige el formato a `Oficina-Este: 28 PEN (n=40)`.",
+ "E2 (independiente) — El tooltip de Lima debe incluir valor, unidad PEN y tamaño muestral n=40 para no vender el KPI como censo. El starter omite n: corrige el formato a `Lima: 28 PEN (n=40)`.",
  hint: "Incluye (n=…) en el f-string.",
  hints: [
  "Unidad PEN va después del valor.",
@@ -1101,13 +1101,13 @@ print(next(r for r in rows if r["region"] == "Sucursal-Sur")["median"])`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · accessible tooltip
 # Bug a corregir: sin n=
-print(f"Oficina-Oeste: {28} PEN")`,
+print(f"Lima: {28} PEN")`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `print(f"Cliente-A: {28} PEN (n={40})")`,
- output: `Cliente-B: 28 PEN (n=40)`,
+ code: `print(f"Lima: {28} PEN (n={40})")`,
+ output: `Lima: 28 PEN (n=40)`,
  },
  },
  {
@@ -1115,16 +1115,16 @@ print(f"Oficina-Oeste: {28} PEN")`,
  subtopicId: "S19-T3-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Escribe `tooltip(row)` que devuelva `\"{region}: {median} PEN (n={n})\"` para cualquier fila. Prueba con Sucursal-Norte 22.5 y n=32. El starter omite n en el template.",
+ "E3 (transferencia) — Escribe `tooltip(row)` que devuelva `\"{region}: {median} PEN (n={n})\"` para cualquier fila. Prueba con Cusco 22.5 y n=32. El starter omite n en la plantilla.",
  hint: "Función pura: solo usa claves del dict row.",
  hints: [
- "Incluye la unidad PEN de forma fija en el template.",
- "n sale de row['n'], no hardcodees solo el valor de Sucursal-Sur si generalizas.",
+ "Incluye la unidad PEN de forma fija en la plantilla.",
+ "n sale de row['n']; no hardcodees solo el valor de una región si generalizas.",
  ],
  edgeCases: ["keys faltantes → KeyError"],
  tests: "salida coincide con solution output",
  feedback:
- "El template reutilizable evita tooltips distintos por región. Si falta n en el string, el gate de a11y falla.",
+ "La plantilla reutilizable evita tooltips distintos por región. Si falta n en el string, el gate de a11y falla.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1132,15 +1132,15 @@ print(f"Oficina-Oeste: {28} PEN")`,
 # Bug a corregir: omite n
 def tooltip(row):
  return f"{row['region']}: {row['median']} PEN"
-print(tooltip({"region": "Sucursal-Centro", "median": 22.5, "n": 32}))`,
+print(tooltip({"region": "Cusco", "median": 22.5, "n": 32}))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `def tooltip(row):
  return f"{row['region']}: {row['median']} PEN (n={row['n']})"
-print(tooltip({"region": "Oficina-Este", "median": 22.5, "n": 32}))`,
- output: `Oficina-Oeste: 22.5 PEN (n=32)`,
+print(tooltip({"region": "Cusco", "median": 22.5, "n": 32}))`,
+ output: `Cusco: 22.5 PEN (n=32)`,
  },
  },
  {
@@ -1148,8 +1148,8 @@ print(tooltip({"region": "Oficina-Este", "median": 22.5, "n": 32}))`,
  subtopicId: "S19-T3-B",
  kind: "guided",
  instruction:
- "E1 (guiado) — Paridad chart↔tabla con KPI sintético: el ticket mediano de Cliente-A en el chart (28.0 PEN) debe igualar el de la fila de tabla. El starter dejó la tabla en 27.5 (redondeo “de slide”): alinea a la precisión publicada e imprime el booleano de igualdad.",
- hint: "chart['Cliente-B'] == table[0]['ticket_mediano_pen'].",
+ "E1 (guiado) — Paridad chart↔tabla con KPI sintético: el ticket mediano de Lima en el chart (28.0 PEN) debe igualar el de la fila de tabla. El starter dejó la tabla en 27.5 (redondeo “de diapositiva”): alinea a la precisión publicada e imprime el booleano de igualdad.",
+ hint: "chart['Lima'] == table[0]['ticket_mediano_pen'].",
  hints: [
  "La precisión publicada es un decimal: 28.0, no 27.5 ni 28.",
  "Corrige la tabla (o el chart) para que coincidan exactamente.",
@@ -1162,17 +1162,17 @@ print(tooltip({"region": "Oficina-Este", "median": 22.5, "n": 32}))`,
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-019 · chart-table parity (Lima)
-# Bug a corregir: tabla 27.5 vs chart 28.0
-chart = {"Sucursal-Norte": 28.0, "Sucursal-Sur": 22.5}
-table = [{"region": "Sucursal-Centro", "ticket_mediano_pen": 27.5}]
-print(chart["Oficina-Este"] == table[0]["ticket_mediano_pen"])`,
+# Bug a corregir: tabla 27.5 vs. chart 28.0
+chart = {"Lima": 28.0, "Cusco": 22.5}
+table = [{"region": "Lima", "ticket_mediano_pen": 27.5}]
+print(chart["Lima"] == table[0]["ticket_mediano_pen"])`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `chart = {"Oficina-Oeste": 28.0, "Cliente-A": 22.5}
-table = [{"region": "Cliente-B", "ticket_mediano_pen": 28.0}]
-print(chart["Sucursal-Norte"] == table[0]["ticket_mediano_pen"])`,
+ code: `chart = {"Lima": 28.0, "Cusco": 22.5}
+table = [{"region": "Lima", "ticket_mediano_pen": 28.0}]
+print(chart["Lima"] == table[0]["ticket_mediano_pen"])`,
  output: `True`,
  },
  },
@@ -1181,7 +1181,7 @@ print(chart["Sucursal-Norte"] == table[0]["ticket_mediano_pen"])`,
  subtopicId: "S19-T3-B",
  kind: "independent",
  instruction:
- "E2 (independiente) — El estado del viewport debe ser JSON serializable **y** declarar honestidad de sampling: filtro Sucursal-Sur, `sample_n=5000`, `universe_n=50000`. Serializa con `json.dumps(..., ensure_ascii=False)`. El starter omite el universo y usa ensure_ascii=True: corrígelo.",
+ "E2 (independiente) — El estado del viewport debe ser JSON serializable **y** declarar honestidad de sampling: filtro Lima, `sample_n=5000`, `universe_n=50000`. Serializa con `json.dumps(..., ensure_ascii=False)`. El starter omite el universo y usa ensure_ascii=True: corrígelo.",
  hint: "Incluye sample_n y universe_n; ensure_ascii=False.",
  hints: [
  "Sin universe_n el lector cree que 5000 es el censo.",
@@ -1197,16 +1197,16 @@ print(chart["Sucursal-Norte"] == table[0]["ticket_mediano_pen"])`,
  code: `# CASO-LIM-019 · filter json + sampling
 # Bug a corregir: sin universe_n; ensure_ascii=True
 import json
-state = {"filtro_region": "Sucursal-Centro", "sample_n": 5000}
+state = {"filtro_region": "Lima", "sample_n": 5000}
 print(json.dumps(state, ensure_ascii=True))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import json
-state = {"filtro_region": "Oficina-Este", "sample_n": 5000, "universe_n": 50000}
+state = {"filtro_region": "Lima", "sample_n": 5000, "universe_n": 50000}
 print(json.dumps(state, ensure_ascii=False))`,
- output: `{"filtro_region": "Oficina-Oeste", "sample_n": 5000, "universe_n": 50000}`,
+ output: `{"filtro_region": "Lima", "sample_n": 5000, "universe_n": 50000}`,
  },
  },
  {
@@ -1214,7 +1214,7 @@ print(json.dumps(state, ensure_ascii=False))`,
  subtopicId: "S19-T3-B",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Genera alt text desde una tabla: une cada fila como `region=v PEN` con separador `\"; \"`. El starter omite la unidad PEN: corrígelo para Cliente-A=28 y Cliente-B=22.",
+ "E3 (transferencia) — Genera alt text desde una tabla: une cada fila como `region=v PEN` con separador `\"; \"`. El starter omite la unidad PEN: corrígelo para Lima=28 y Cusco=22.",
  hint: "join con f-string que incluya PEN.",
  hints: [
  "Recorre cada r en table.",
@@ -1229,15 +1229,15 @@ print(json.dumps(state, ensure_ascii=False))`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · table alt text
 # Bug a corregir: join sin unidades
-table = [{"region": "Sucursal-Norte", "v": 28}, {"region": "Sucursal-Sur", "v": 22}]
+table = [{"region": "Lima", "v": 28}, {"region": "Cusco", "v": 22}]
 print("; ".join(f"{r['region']}={r['v']}" for r in table))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `table = [{"region": "Sucursal-Centro", "v": 28}, {"region": "Oficina-Este", "v": 22}]
+ code: `table = [{"region": "Lima", "v": 28}, {"region": "Cusco", "v": 22}]
 print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
- output: `Oficina-Oeste=28 PEN; Cliente-A=22 PEN`,
+ output: `Lima=28 PEN; Cusco=22 PEN`,
  },
  },
  {
@@ -1260,12 +1260,7 @@ print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · pie caption
 # Bug a corregir: omite fuente
-print("unidad=PEN")
-# Completa el DEFECT con la condición del enunciado y un assert de aceptación.
-result = None  # calcula el valor correcto
-print(result)
-assert result is not None
-`,
+print("unidad=PEN")`,
  },
  solutionCode: {
  language: 'python',
@@ -1343,7 +1338,7 @@ print(pie({"unidad": "PEN", "n": 10}))`,
  subtopicId: "S19-T4-B",
  kind: "guided",
  instruction:
- "E1 (guiado) — Clasifica el claim “Cliente-B es la mejor del Perú”: si menciona “del Perú” y no menciona “muestra”, imprime RECHAZADO; si no, OK. El starter aprueba todo: implementa la regla.",
+ "E1 (guiado) — Clasifica el claim “Lima es la mejor del Perú”: si menciona “del Perú” y no menciona “muestra”, imprime RECHAZADO; si no, OK. El starter aprueba todo: implementa la regla.",
  hint: "Chequea substrings \"del Perú\" y \"muestra\".",
  hints: [
  "Sobreclaim típico: generaliza al país sin marco muestral.",
@@ -1358,13 +1353,13 @@ print(pie({"unidad": "PEN", "n": 10}))`,
  title: "exercise.py",
  code: `# CASO-LIM-019 · overclaim
 # Bug a corregir: aprueba claim sin muestra
-claim = "Sucursal-Norte es la mejor del Perú"
+claim = "Lima es la mejor del Perú"
 print("OK")`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `claim = "Sucursal-Sur es la mejor del Perú"
+ code: `claim = "Lima es la mejor del Perú"
 print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK")`,
  output: `RECHAZADO`,
  },
@@ -1380,7 +1375,7 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
  "Primero arregla el string alt para que contenga n=.",
  "Luego define hatch='//' (u otro patrón Matplotlib) y verifica hatch is not None.",
  ],
- edgeCases: ["hatch vacío '' cuenta como falsy — usa un patrón real"],
+ edgeCases: ["hatch vacío '' cuenta como falsy — usa un patrón real."],
  tests: "salida coincide con solution output",
  feedback:
  "Alt sin n= es incompleto. Hatch (o etiqueta/posición) evita que el daltonismo pierda la categoría: color solo no basta (WCAG 1.4.1).",
@@ -1389,7 +1384,7 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
  title: "exercise.py",
  code: `# CASO-LIM-019 · alt n= + hatch no-color
 # Bug a corregir: alt sin n; hatch=None (solo color)
-alt = "Sucursal-Centro 28 PEN"
+alt = "Lima 28 PEN"
 hatch = None
 print("n=" in alt)
 print(hatch is not None)`,
@@ -1397,7 +1392,7 @@ print(hatch is not None)`,
  solutionCode: {
  language: 'python',
  title: "exercise.py",
- code: `alt = "Oficina-Este 28 PEN n=40"
+ code: `alt = "Lima 28 PEN n=40"
 hatch = "//"
 print("n=" in alt)
 print(hatch is not None)`,
@@ -1446,7 +1441,7 @@ RECHAZADO`,
  youDo: {
  title: "Dashboard accesible CP-N2-B",
  context:
- "Construye el incremento dashboard de **CP-N2-B**: al menos cuatro gráficos estáticos y una vista interactiva lógica, cada uno con conclusión limitada a evidencia y alternativa no visual. Continúa el hilo de S18 (medianas, n e incertidumbre por región sintéticas Oficina-Oeste/Cliente-A/Arequipa en PEN). El starter trae datos y un esqueleto de funciones: completa cada builder, exporta PNG reales y escribe alt/tabla con paridad.",
+ "Construye el incremento *dashboard* de **CP-N2-B**: al menos cuatro gráficos estáticos y una vista interactiva lógica, cada uno con conclusión limitada a la evidencia y alternativa no visual. Continúa el hilo de S18 (medianas, n e incertidumbre por **regiones sintéticas** Lima/Cusco/Arequipa en PEN). El starter trae datos y un esqueleto de funciones: completa cada builder, exporta PNG reales y escribe alt y tabla con paridad.",
  objectives: [
  "Elegir charts por pregunta/audiencia y documentar el brief",
  "Ejes honestos (baseline 0 en barras) y unidades visibles en el ylabel",
@@ -1463,7 +1458,7 @@ RECHAZADO`,
  "Categorías críticas: no solo color — hatch, etiqueta o posición como canal extra",
  "Si el viewport usa sample, declara sample_n y universe_n (no vender sample como censo)",
  "es-PE en títulos y conclusiones; claims acotados a la muestra",
- "Una spec de vista interactiva (filtro + tooltip template), sin librería obligatoria",
+ "Una spec de vista interactiva (filtro + plantilla de tooltip), sin librería obligatoria",
  "Export real: savefig (PNG) con dpi documentado y nombre versionado (fig_cpn2b_v*.png)",
  "Checklist de aceptación: 4 PNG + vista_logica.json + tabla_paridad + alt_*.txt; plt.close en cada builder",
  ],
@@ -1474,7 +1469,7 @@ Entrega mínima:
   2) fig_bar_volumen.png — n por región (baseline 0)
   3) fig_line_tendencia.png — serie semanal sintética
   4) fig_scatter_n_vs_median.png — relación n–mediana (sin claim causal)
-  5) vista_logica.json — filtro activo + tooltip template + sample si aplica
+  5) vista_logica.json — filtro activo + plantilla de tooltip + sample si aplica
   6) tabla_paridad.csv + alt_*.txt por figura
 
 Checklist rápido antes de entregar:
@@ -1491,7 +1486,7 @@ import pandas as pd
 import json
 
 df = pd.DataFrame({
-    "region": ["Cliente-B", "Arequipa", "Sucursal-Norte"],
+    "region": ["Lima", "Arequipa", "Cusco"],
     "median_pen": [28.0, 24.0, 22.5],
     "n": [40, 28, 32],
 })
@@ -1531,7 +1526,7 @@ def build_line_tendencia(tendencia):
     return fig, ax
 
 def build_scatter_n_median(df):
-    """Scatter n vs mediana; documenta que n no implica causalidad."""
+    """Scatter n vs. mediana; documenta que n no implica causalidad."""
     fig, ax = plt.subplots(figsize=(6, 3.5))
     # TODO: ax.scatter; etiquetas de región; sin claim causal en el título
     return fig, ax
@@ -1543,7 +1538,7 @@ def caption(meta: dict) -> str:
 
 def alt_text(df, hallazgo: str) -> str:
     """Hallazgo principal + n por región; sin sobreclaim nacional."""
-    # Ejemplo de forma: "En la muestra web, Sucursal-Sur lidera (28 PEN, n=40); ..."
+    # Ejemplo de forma: "En la muestra web, Lima lidera (28 PEN, n=40); ..."
     # TODO: combina hallazgo + filas de df con n=
     raise NotImplementedError
 
@@ -1573,7 +1568,7 @@ print("paridad", tabla_paridad(df).to_dict(orient="records"))
 plt.close(fig)
 `,
  portfolioNote:
- "Dashboard del factory CP-N2-B; se integra con Excel (S20) y reportes (S21). Entrega figuras versionadas + specs JSON + alts/tabla de paridad. Completa los builders pendientes y documenta limitaciones (canal web, n regional).",
+ "Dashboard de la factoría CP-N2-B; se integra con Excel (S20) y reportes (S21). Entrega figuras versionadas + specs JSON + alts/tabla de paridad. Completa los builders pendientes y documenta limitaciones (canal web, n regional).",
  rubric: [
  { criterion: "Charts honestos (baseline 0 en barras, unidades visibles) + alt/tabla con paridad numérica", weight: "25%" },
  { criterion: "Cuatro figuras estáticas + una spec de vista interactiva (filtro/tooltip)", weight: "20%" },
@@ -1600,22 +1595,22 @@ plt.close(fig)
  "Paridad numérica: tabla o texto con los mismos valores y unidades que el chart. Agrandar la imagen no sustituye un equivalente no visual.",
  },
  {
- question: "“Sucursal-Centro es la mejor región del Perú” a partir de una muestra web es:",
+ question: "“Lima es la mejor región del Perú” a partir de una muestra web es:",
  options: ["Un claim permitido", "Sobreclaim / generalización indebida", "Un alt text correcto", "Una unidad"],
  correctIndex: 1,
  explanation:
- "El lenguaje no debe exceder la cobertura de la muestra. Formulación permitida: “en la muestra web sintética, Oficina-Este muestra el ticket mediano más alto”.",
+ "El lenguaje no debe exceder la cobertura de la muestra. Formulación permitida: “en la muestra web sintética, Lima muestra el ticket mediano más alto”.",
  },
  {
  question: "El caption de un gráfico de portfolio debe incluir:",
- options: ["Solo el color favorito", "La contraseña del BI", "Nada", "Unidad, fuente y limitaciones"],
+ options: ["Solo el color favorito", "La contraseña del sistema BI", "Nada", "Unidad, fuente y limitaciones"],
  correctIndex: 3,
  explanation:
  "Trazabilidad y honestidad metodológica: unidad, fuente, corte y limitación viajan con la figura hacia S20/S21.",
  },
  {
  question: "Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP-N2-B?",
- options: ["Aceptarlo si los colores tienen buen contraste", "Convertirlo automáticamente a dual-axis para “ganar espacio”", "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita", "Eliminar las etiquetas de ejes para que se vea más limpio en el slide"],
+ options: ["Aceptarlo si los colores tienen buen contraste", "Convertirlo automáticamente a dual-axis para “ganar espacio”", "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita", "Eliminar las etiquetas de ejes para que se vea más limpio en la diapositiva"],
  correctIndex: 2,
  explanation:
  "Recortar el baseline de barras de magnitudes absolutas infla diferencias percibidas. El gate pide ylim 0 o justificación documentada; contraste o dual-axis no corrigen el encoding deshonesto.",

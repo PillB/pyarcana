@@ -12,30 +12,30 @@ export const section25: CourseSection = {
   icon: "Sparkles",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR de S24 y necesita un **AI assist** que clasifique o redacte borradores sin inventar ni auto-etiquetar fraude. En CP-N2-C unificas un endpoint HTTP local o un `transformers.pipeline` bajo el mismo contrato de salida, validas JSON y evalúas con golden sets. El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
+    "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR de S24 y necesita un **asistente de IA** que clasifique o redacte borradores sin inventar ni autoetiquetar fraude. En CP-N2-C unificas un endpoint HTTP local o un `transformers.pipeline` bajo el mismo contrato de salida, validas JSON y evalúas con golden sets. El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
   learningOutcomes: [
-    { text: "Elegir regla vs modelo especializado vs LLM con justificación auditable" },
+    { text: "Elegir regla vs. modelo especializado vs. LLM con justificación auditable" },
     { text: "Leer model cards, licencias y decidir despliegue local o cloud" },
     { text: "Implementar un adapter mock de pipeline/endpoint con contrato estable" },
-    { text: "Operar batching, timeout, cache, costo y fallback (con circuit breaker simple)" },
+    { text: "Operar batching, timeout, caché, costo y fallback (con circuit breaker simple)" },
     { text: "Diseñar prompts con objetivo, contexto, restricciones, ejemplos y schema JSON" },
     { text: "Controlar thinking, tools y checkpoints con allowlist y stop en denegación" },
-    { text: "Evaluar con golden set: exact match, field F1 y schema rate + human review" },
-    { text: "Mitigar injection, exfiltración y sesgo minimizando payload y privilegios" },
+    { text: "Evaluar con golden set: exact match, tasa de acierto por campo y schema rate + revisión humana" },
+    { text: "Mitigar injection y exfiltración minimizando payload y privilegios; documentar límites de sesgo en la model card" },
   ],
   theory: [
     {
       heading: "IA asistida evaluada para CP-N2-C",
       paragraphs: [
-        "En S24 extrajiste campos de documentos (OCR / Document AI) con evidencia y abstención. El VP de riesgos del desk sintético Lima no puede “pegar” ese texto crudo a un chatbot y confiar: esos campos entran aquí como **contexto no confiable**. Decides el stack (regla, modelo especializado o LLM), llamas un adapter HTTP o Hugging Face con **contrato único**, y solo publicas JSON anclado a evidencia tras schema + eval. El AI assist de CP-N2-C produce **borradores**; el humano aprueba antes del informe o correo — nunca auto-envío ni auto-etiqueta de fraude.",
-        "Mapa de la sección: **T1 Selección** (qué stack y con qué gobernanza) → **T2 Inferencia** (adapter, batch, cache, costo, fallback y circuit breaker) → **T3 Prompting** (estructura, schema y tools controlados) → **T4 Evals y seguridad** (golden, field F1, injection, minimización). Fixture de lab: `CASO-LIM-025` (run_id=`cpn2c-ai`), datos sintéticos sin PII real. Cada subtema aporta un mecanismo nuevo; la ética de sección vive en el callout global (no se reimprime en cada párrafo).",
-        "Promoción del assist: sin evidencia, sin schema válido o sin métricas vs baseline, la salida se descarta o va a `human_review` (fail-closed). El score del modelo es señal de prioridad, no veredicto legal ni de parentesco. En S26 el VP orquestará Excel→…→modelo/IA→informe→correo usando este mismo contrato.",
+        "En S24 extrajiste campos de documentos (OCR / Document AI) con evidencia y abstención. El VP de riesgos del desk sintético Lima no puede “pegar” ese texto crudo a un chatbot y confiar: esos campos entran aquí como **contexto no confiable**. Decides el stack (regla, modelo especializado o LLM), llamas un adapter HTTP o Hugging Face, y solo publicas JSON anclado a evidencia tras validación + eval. El **asistente de IA** de CP-N2-C produce **borradores**; el humano aprueba antes del informe o correo — nunca autoenvío ni autoetiqueta de fraude.",
+        "Mapa de la sección: **T1 Selección** (qué stack y con qué gobernanza) → **T2 Inferencia** (adapter, batch, caché, costo, fallback y circuit breaker) → **T3 Prompting** (estructura, schema y tools controlados) → **T4 Evals y seguridad** (golden, acierto por campo, injection, minimización). Fixture de lab: `CASO-LIM-025` (run_id=`cpn2c-ai`), datos sintéticos sin PII real. Cada subtema aporta un mecanismo nuevo; la ética de sección vive en el callout global (no se reimprime en cada párrafo).",
+        "Dos contratos de salida conviven y no se mezclan: el **clasificador** devuelve `{model, label, score}`; el **borrador narrativo** del informe usa `{hallazgo, n, mediana, evidence_ids, model}`. El adapter del proyecto los monta o traduce de forma explícita. Promoción: sin evidencia, sin keys/tipos requeridos o sin métricas vs. baseline, la salida se descarta o va a `human_review` (fail-closed). El score es señal de prioridad, no veredicto legal ni de parentesco. En S26 el VP orquestará Excel→…→modelo/IA→informe→correo sobre este diseño.",
       ],
       callout: {
         type: "info",
         title: "Ética de sección (vale para todos los subtemas)",
         content:
-          "Sin PII real a endpoints públicos. `schema_fail` o indicios de injection → `human_review`. Score ≠ fraude. Fixture `CASO-LIM-025`. Mismo contract test para mock HTTP y mock HF.",
+          "Sin PII real a endpoints públicos. `schema_fail` o indicios de injection → `human_review`. Score ≠ fraude. Fixture `CASO-LIM-025`. Mismo test de contrato para mock HTTP y mock HF dentro de cada forma de salida.",
       },
     },
     {
@@ -78,7 +78,7 @@ llm_structured`,
       paragraphs: [
         "Antes de desplegar, lee la **model card**: uso previsto (*intended use*), limitaciones, sesgos y datos de entrenamiento. Revisa la **licencia** (MIT/Apache suelen permitir reuso comercial; otras piden revisión legal). *not_for* en la card no es decoración: si lista adjudicación de fraude o biometría, ese uso queda bloqueado en tu política aunque la licencia sea permisiva.",
         "**Local** (o VPC privada) cuando hay PII/sintéticos sensibles, datos de cliente o necesitas costo predecible. **Cloud** solo con DPA, minimización de campos y modelo permitido por licencia e intended use. El **mismo contract test** (schema + golden) debe pasar en ambos despliegues; el adapter no cambia el contrato de salida.",
-        "Registra en metadata del run: `deploy_choice`, licencia, hash o versión de la model card y `model_id`. En el lab, el desk Lima mockea HF o endpoint local; la decisión se audita junto con el golden, sin auto-veredicto.",
+        "Registra en metadata del run: `deploy_choice`, licencia, hash o versión de la model card y `model_id`. En el lab, el desk Lima mockea HF o endpoint local; la decisión se audita junto con el golden, sin autoveredicto.",
       ],
       code: {
         language: 'python',
@@ -92,7 +92,7 @@ llm_structured`,
 }
 
 def deploy_choice(card, has_pii_live):
-    # not_for lo aplica el caller (blocked_use); aquí solo hosting
+    # not_for lo aplica el caller (blocked_use); aquí solo despliegue
     if has_pii_live:
         return "local_or_private_vpc"
     if card["license"] in {"apache-2.0", "mit"}:
@@ -117,9 +117,9 @@ blocked_use True`,
       heading: "S25-T2-A · Pipelines y endpoints de Hugging Face con contrato mock",
       subtopicId: "S25-T2-A",
       paragraphs: [
-        "En producción la forma típica es `from transformers import pipeline` → `clf = pipeline('text-classification', model=model_id)` → `clf(texts)` devuelve lista de `{label, score}`. Un Inference Endpoint HTTP es el **mismo contrato de salida** que tu adapter local. En el curso **mockeamos** el pipeline para correr sin bajar pesos: el mock devuelve `{model, label, score}` (añadimos `model` nosotros) idéntico al adapter real para que los contract tests no mientan. La clave del artefacto en el contrato del lab es **`model`**; no inventes un segundo nombre en el grader.",
-        "Forma estable: input texto (o batch de textos) → lista o dict con `label`, `score` y `model`. Loguea `model` + versión en cada run. Si el payload no valida schema o hay indicios de injection, no “arregles” en silencio: fail-closed a `human_review`. El score **no** es veredicto de fraude.",
-        "Timeouts, reintentos y costo se resuelven en T2-B. Aquí te enfocas en que mock HF y HTTP local sean intercambiables bajo el mismo test. Desk Lima: mock HF con keyword rule didáctica sobre tickets sintéticos.",
+        "En producción la forma típica es `from transformers import pipeline` → `clf = pipeline('text-classification', model=model_id)` → `clf(texts)` devuelve lista de `{label, score}`. Un Inference Endpoint HTTP debe devolver el **mismo contrato de salida del clasificador** que tu adapter local. En el curso **mockeamos** el pipeline para correr sin bajar pesos: el mock devuelve `{model, label, score}` (añadimos `model` nosotros) idéntico al adapter real para que el test de contrato no mienta. La clave del artefacto en este contrato es **`model`**; no uses un segundo nombre en el dict de salida.",
+        "Forma estable del clasificador: texto (o batch) → lista o dict con `label`, `score` y `model`. Loguea `model` + versión en cada run. Si el payload no cumple keys/tipos esperados o hay indicios de injection, no “arregles” en silencio: fail-closed a `human_review`. El score **no** es veredicto de fraude. El borrador narrativo del You Do usa otro schema (`hallazgo`, `evidence_ids`, …): no confundas ambas formas.",
+        "Timeouts, reintentos y costo se resuelven en T2-B. Aquí te enfocas en que mock HF y HTTP local sean intercambiables bajo el mismo test de clasificador. Desk Lima: mock HF con regla por palabra clave sobre tickets sintéticos.",
       ],
       code: {
         language: 'python',
@@ -153,9 +153,9 @@ print(mock_pipeline(["Factura enero", "Hola mundo"]))`,
       heading: "S25-T2-B · Batching, timeout, cache, costo, fallback y circuit breaker",
       subtopicId: "S25-T2-B",
       paragraphs: [
-        "**Batch** reduce overhead de red; **timeout** evita colgar el flow del VP; **cache** por hash de `input+model` evita re-facturar el mismo ticket. Estima **costo** (tokens o requests) por run y por día. Si el endpoint cae, el fallback es regla determinista o `human_review` — nunca inventes un JSON de “éxito” falso.",
+        "**Batch** reduce la sobrecarga de red; **timeout** evita colgar el flujo del VP; la **caché** por hash de `input+model` evita refacturar el mismo ticket. Estima **costo** (tokens o requests) por run y por día. Si el endpoint cae, el fallback es regla determinista o `human_review` — nunca inventes un JSON de “éxito” falso.",
         "**Circuit breaker simple:** tras N fallas consecutivas (p. ej. 3 timeouts), abre el circuito: deja de llamar al endpoint, enruta a fallback y alerta. Un solo `try/except TimeoutError` es el primer ladrillo; el contador de fallas evita martillar un servicio caído.",
-        "Prompts largos y tools activos (T3) multiplican tokens: la ops de inferencia y el diseño del prompt se planifican juntos. En el lab, si `fail=True` → `fallback rules_or_human`; schema y golden siguen siendo gate de promote.",
+        "Prompts largos y tools activos (T3) multiplican tokens: la operación de inferencia y el diseño del prompt se planifican juntos. En el lab, si `fail=True` → `fallback rules_or_human`; schema y golden siguen siendo gate de promote.",
       ],
       code: {
         language: 'python',
@@ -201,16 +201,16 @@ failures 3 {'fallback': 'rules_or_human', 'circuit': 'open'}`,
         type: "warning",
         title: "Costo oculto",
         content:
-          "Reprocesar sin cache multiplica la factura cloud; un circuit abierto sin alerta es un blackout silencioso.",
+          "Reprocesar sin caché multiplica la factura en la nube; un circuito abierto sin alerta es un apagón silencioso.",
       },
     },
     {
       heading: "S25-T3-A · Prompt con objetivo, contexto, restricciones, ejemplos y schema",
       subtopicId: "S25-T3-A",
       paragraphs: [
-        "Un prompt útil tiene cinco piezas: **Objetivo**, **Contexto** (datos sintéticos o campos OCR), **Restricciones** (no inventar, no elevar órdenes del documento), **Ejemplos** few-shot y **Schema JSON** de salida. Sin schema, la narrativa libre no entra al informe del VP. El AI assist solo propone; el humano aprueba antes del correo.",
-        "Pide **solo** campos necesarios. Prohíbe inventar números no presentes en el contexto (hallazgo sin `n`/`mediana` → `schema_fail`). Valida con `json.loads` + keys required; si falla, descarta aunque el texto “se vea bien”. La generación con schema (**constrained decoding** / structured outputs del proveedor) reduce ambigüedad frente al free-text; aun así el grader del curso exige **validación explícita en código**: no confíes solo en que el modelo “respetó” el schema.",
-        "El documento OCR es contexto, no system prompt. En T4 verás injection: aquí aseguras que el contrato de salida ya esté listo para el golden (exact match y field F1 por campo). Prompts largos y tools (T3-B) multiplican tokens: diseña el schema junto con la ops de cache/costo de T2-B.",
+        "Un prompt útil tiene cinco piezas: **Objetivo**, **Contexto** (datos sintéticos o campos OCR), **Restricciones** (no inventar, no elevar órdenes del documento), **Ejemplos** few-shot y **Schema JSON** de salida. Sin schema, la narrativa libre no entra al informe del VP. El asistente de IA solo propone; el humano aprueba antes del correo.",
+        "Pide **solo** campos necesarios. Prohíbe inventar números no presentes en el contexto (hallazgo sin `n`/`mediana` → `schema_fail`). En el lab validas con `json.loads` + **keys requeridas** (y, si puedes, tipos básicos): eso es un **gate mínimo**, no un motor JSON Schema completo con `type`/`enum`/`additionalProperties`. La generación con schema del proveedor (**constrained decoding** / structured outputs) reduce ambigüedad frente al texto libre; aun así exige **validación explícita en código**: no confíes solo en que el modelo “respetó” el schema.",
+        "El documento OCR es contexto, no system prompt. Cuando el informe cite evidencia de S24, incluye `evidence_ids` (ids sintéticos de campos/cajas) en el JSON narrativo; no inventes ids que no existan en el fixture. En T4 verás injection: aquí dejas listo el contrato de salida para el golden (exact match y tasa de acierto por campo). Prompts largos y tools (T3-B) multiplican tokens: diseña el schema junto con la operación de caché y costo de T2-B.",
       ],
       code: {
         language: 'python',
@@ -243,9 +243,9 @@ print(obj)`,
       heading: "S25-T3-B · Thinking, tools y checkpoints controlados",
       subtopicId: "S25-T3-B",
       paragraphs: [
-        "Modos de **thinking** (razonamiento extendido) y **tools** (function calling) aumentan costo, latencia y superficie de ataque. No los actives por moda: cada tool es un privilegio (lectura de red, FS, shell). El AI assist sigue siendo borrador con aprobación humana.",
-        "Patrón de **checkpoints** auditables: `plan → tool → validar → narrar`. Si un tool no está en allowlist, **stop** (`tool_denied`) — no shell libre en el sandbox del curso. El log del checkpoint es evidencia de qué se intentó y dónde se cortó.",
-        "Allowlist didáctica: `calc_sum`, `lookup_metric`. Un paso `shell_rm` se deniega y detiene el plan. El banco de examen evalúa este patrón genérico — **thinking / tools / checkpoints con allowlist y stop** — no la superficie de un producto o marca concreta de modelo.",
+        "Modos de **thinking** (razonamiento extendido) y **tools** (function calling) aumentan costo, latencia y superficie de ataque. No los actives por moda: cada tool es un privilegio (lectura de red, FS, shell). El asistente de IA sigue siendo borrador con aprobación humana.",
+        "Patrón de **checkpoints** auditables: `plan → tool → validar → narrar`. Si un tool no está en la lista de permitidos (allowlist), **stop** (`tool_denied`) — no shell libre en el sandbox del curso. El log del checkpoint es evidencia de qué se intentó y dónde se cortó.",
+        "Allowlist didáctica: `calc_sum`, `lookup_metric`. Un paso `shell_rm` se deniega y detiene el plan. Evalúas el patrón genérico — **thinking / tools / checkpoints con allowlist y stop** — no la superficie de un producto o marca concreta de modelo.",
       ],
       code: {
         language: 'python',
@@ -279,12 +279,12 @@ print(run_checkpointed([
       },
     },
     {
-      heading: "S25-T4-A · Golden set, schema, field F1 y revisión humana",
+      heading: "S25-T4-A · Golden set, schema, acierto por campo y revisión humana",
       subtopicId: "S25-T4-A",
       paragraphs: [
-        "Evalúa el asistente contra un **golden set** (input → JSON esperado). Métricas mínimas: **exact match** (pred == gold), **schema rate** (keys required presentes) y **field F1** a nivel de campo: por cada clave, match exacto cuenta 1 (micro/macro simple en el lab: promedio de aciertos por campo). Sin eval vs baseline, el “demo que suena bien” no se promociona.",
-        "Salidas borderline o con `schema_fail` → **human review** obligatoria antes del informe. Injection detectada o tools no permitidos → fail-closed a cola HITL. Fixture `CASO-LIM-025` sin PII real.",
-        "Baseline profesional: **reglas** o el modelo anterior; el LLM debe ganar en utilidad sin perder anclaje (campos citados, evidence_ids). El score del clasificador no se convierte en label de fraude en el promote.",
+        "Evalúa el asistente contra un **golden set** (input → JSON esperado). Métricas mínimas: **exact match** (pred == gold), **schema rate** (keys requeridas presentes; en el lab, gate de presencia, no motor JSON Schema completo) y **tasa de acierto por campo** (`field_match_rate`): por cada clave en la unión pred∪gold, 1 si `pred[k]==gold[k]`, 0 si no; promedias. **No es F1 estadístico** (no calcula precisión/recall por clase); es un proxy de lab para ver qué campos fallan. Sin eval vs. baseline, el “demo que suena bien” no se promociona.",
+        "Salidas borderline o con `schema_fail` → **revisión humana** obligatoria antes del informe. Injection detectada o tools no permitidos → fail-closed a cola HITL (human-in-the-loop). Fixture `CASO-LIM-025` sin PII real.",
+        "Baseline profesional: **reglas** o el modelo anterior; el LLM debe ganar en utilidad sin perder anclaje (campos citados, `evidence_ids` que existan en el fixture OCR). El score del clasificador no se convierte en etiqueta de fraude en el promote.",
       ],
       code: {
         language: 'python',
@@ -292,7 +292,8 @@ print(run_checkpointed([
         code: `def schema_ok(obj, required):
     return all(k in obj for k in required)
 
-def field_f1(pred, gold):
+def field_match_rate(pred, gold):
+    """Tasa de acierto por campo (exact match por key). No es F1 estadístico."""
     keys = set(gold) | set(pred)
     if not keys:
         return 1.0
@@ -302,30 +303,34 @@ def field_f1(pred, gold):
 def eval_rows(rows, required):
     schema_pass = sum(1 for r in rows if schema_ok(r["pred"], required))
     exact = sum(1 for r in rows if r["pred"] == r["gold"])
-    f1 = sum(field_f1(r["pred"], r["gold"]) for r in rows) / len(rows)
-    return {"schema_rate": schema_pass / len(rows), "exact": exact / len(rows), "field_f1": f1}
+    match = sum(field_match_rate(r["pred"], r["gold"]) for r in rows) / len(rows)
+    return {
+        "schema_rate": schema_pass / len(rows),
+        "exact": exact / len(rows),
+        "field_match_rate": match,
+    }
 
 rows = [
     {"pred": {"h": "a", "n": 1}, "gold": {"h": "a", "n": 1}},
     {"pred": {"h": "b"}, "gold": {"h": "a", "n": 1}},
 ]
 print(eval_rows(rows, ["h", "n"]))`,
-        output: `{'schema_rate': 0.5, 'exact': 0.5, 'field_f1': 0.5}`,
+        output: `{'schema_rate': 0.5, 'exact': 0.5, 'field_match_rate': 0.5}`,
       },
       callout: {
         type: "info",
-        title: "Human review",
+        title: "Revisión humana",
         content:
-          "Gate CP-N2-C: no se acepta salida sin evidencia ni eval vs baseline.",
+          "Gate CP-N2-C: no se acepta salida sin evidencia ni eval vs. baseline.",
       },
     },
     {
       heading: "S25-T4-B · Injection, exfiltración, sesgo y minimización de datos",
       subtopicId: "S25-T4-B",
       paragraphs: [
-        "**Prompt injection:** el documento no confiable (OCR de S24, email sintético) puede intentar dar órdenes (“ignore previous instructions”). Delimítalo como **datos**, separa system/user, deshabilita tools por defecto y **nunca** eleves su texto al rol system. El AI assist solo borra; el humano aprueba acciones externas.",
+        "**Prompt injection:** el documento no confiable (OCR de S24, email sintético) puede intentar dar órdenes (“ignore previous instructions”). Delimítalo como **datos**, separa system/user, deshabilita tools por defecto y **nunca** eleves su texto al rol system. El asistente de IA **solo propone borradores**; el humano aprueba acciones externas.",
         "Un regex de detección es **telemetría**, no control real: encoding e instrucciones indirectas lo evaden. Controles que sí importan: privilegio mínimo (`allowed_tools=[]`), allowlists, `requires_human_approval=True`, límites de salida y logs. **Exfiltración:** cero secretos (`api_key`) en el contexto del modelo. **Minimiza** a las keys necesarias (`ruc`, `total`, …).",
-        "Matching o scoring **no** es veredicto de fraude. Política explícita en el path del assist: `auto_fraud_label=False`. El desk sintético mide golden y seguridad sin auto-etiquetar culpa.",
+        "Matching o scoring **no** es veredicto de fraude. Política explícita en el path del assist: `auto_fraud_label=False`. El desk sintético mide golden y seguridad sin autoetiquetar culpa. Sobre **sesgo**: en este lab no calculas disparidad por segmento; documentas limitaciones de la model card y abstienes (o envías a HITL) cuando el fixture o el intended use no cubren el caso.",
       ],
       code: {
         language: 'python',
@@ -364,7 +369,7 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
     },
   ],
   iDo: {
-    intro: "Te muestro el AI assist de CP-N2-C como lo armaría un analista del desk Lima: primero el árbol de stack, luego model card y hosting, mock HF con contrato estable, cache + circuit breaker, JSON con schema, tools con stop en denegación, golden con field F1 y request segura. Cada demo calcula la salida (no la hardcodea); el path nunca auto-etiqueta fraude.",
+    intro: "Te muestro el asistente de IA de CP-N2-C como lo armaría un analista del desk Lima. Orden de las demos: (1) árbol de stack, (2) model card y despliegue, (3) mock HF con contrato estable, (4) caché + circuit breaker, (5) JSON con schema, (6) tools con stop en denegación, (7) golden con acierto por campo, (8) request segura. Cada demo calcula la salida (no la hardcodea); el path nunca autoetiqueta fraude.",
     steps: [
       {
         demoId: "S25-T1-A-DEMO",
@@ -397,7 +402,7 @@ llm_structured`,
         demoId: "S25-T1-B-DEMO",
         subtopicId: "S25-T1-B",
         environment: "local/cloud aprobado",
-        description: "Política de hosting a partir de model card: host, bloqueo de fraude y licencia.",
+        description: "Política de despliegue a partir de model card: host, bloqueo de fraude y licencia.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -410,7 +415,7 @@ print(hosting_policy({"license": "apache-2.0", "not_for": ["fraud adjudication"]
 `,
           output: `{'host': 'local', 'blocks_fraud': True, 'license': 'apache-2.0'}`,
         },
-        why: "Antes de llamar al modelo lees la card: licencia y not_for deciden host y usos bloqueados (p. ej. fraude).",
+        why: "Antes de llamar al modelo lees la card: licencia y not_for deciden el host y los usos bloqueados (p. ej. fraude).",
       },
       {
         demoId: "S25-T2-A-DEMO",
@@ -473,7 +478,7 @@ print(call_endpoint(fail=True))
 fallback rules_or_human failures 3
 circuit_open`,
         },
-        why: "Ops reales del assist: cache, contador de fallas y circuito abierto (no reintentar a ciegas).",
+        why: "Operación real del assist: caché, contador de fallas y circuito abierto (no reintentar a ciegas).",
       },
       {
         demoId: "S25-T3-A-DEMO",
@@ -530,11 +535,11 @@ print(run_plan(["think", "calc_sum", "shell_rm"]))
         demoId: "S25-T4-A-DEMO",
         subtopicId: "S25-T4-A",
         environment: "local/cloud aprobado",
-        description: "Eval exact, schema_ok y field F1 macro simple sobre filas sintéticas.",
+        description: "Eval exact, schema_ok y field_match_rate (acierto por campo) sobre filas sintéticas.",
         code: {
           language: 'python',
           title: "demo.py",
-          code: `def field_f1(pred, gold):
+          code: `def field_match_rate(pred, gold):
     keys = set(gold) | set(pred)
     if not keys:
         return 1.0
@@ -544,15 +549,19 @@ print(run_plan(["think", "calc_sum", "shell_rm"]))
 def eval_row(pred, gold, required):
     schema_ok = all(k in pred for k in required)
     exact = pred == gold
-    return {"exact": exact, "schema_ok": schema_ok, "field_f1": field_f1(pred, gold)}
+    return {
+        "exact": exact,
+        "schema_ok": schema_ok,
+        "field_match_rate": field_match_rate(pred, gold),
+    }
 
 print(eval_row({"a": 1}, {"a": 1}, ["a"]))
 print(eval_row({"a": 1, "b": 0}, {"a": 2, "b": 0}, ["a", "b"]))
 `,
-          output: `{'exact': True, 'schema_ok': True, 'field_f1': 1.0}
-{'exact': False, 'schema_ok': True, 'field_f1': 0.5}`,
+          output: `{'exact': True, 'schema_ok': True, 'field_match_rate': 1.0}
+{'exact': False, 'schema_ok': True, 'field_match_rate': 0.5}`,
         },
-        why: "Promote del assist exige exact, schema y field F1 — no solo 'se ve bien'.",
+        why: "Promote del assist exige exact, schema y acierto por campo — no solo 'se ve bien'.",
       },
       {
         demoId: "S25-T4-B-DEMO",
@@ -692,10 +701,10 @@ print(choose_stack(ticket))`,
         kind: "transfer",
         instruction:
           "S25-T1-A-E3 · Metadata de run del assist: `run_meta(stack)` debe devolver un dict con `stack`, `auto_fraud=False` y `policy='no_auto_fraud'` para **cualquier** stack (incluido `llm_structured`). El starter pone auto_fraud=True cuando el stack es LLM. Imprime el dict de `run_meta('llm_structured')`. Salida exacta: {'stack': 'llm_structured', 'auto_fraud': False, 'policy': 'no_auto_fraud'}.",
-        hint: "Ningún stack del lab auto-etiqueta fraude; el dict fija la política en metadata",
+        hint: "Ningún stack del lab autoetiqueta fraude; el dict fija la política en metadata.",
         hints: [
           "return {'stack': stack, 'auto_fraud': False, 'policy': 'no_auto_fraud'}",
-          "Score o LLM ≠ veredicto: auto_fraud siempre False en el path del assist",
+          "Score o LLM ≠ veredicto: auto_fraud siempre False en el path del assist.",
         ],
         edgeCases: ["HITL obligatorio aunque stack sea rules", "metadata se audita junto al golden en T4"],
         tests: "salida coincide con solution output",
@@ -703,8 +712,8 @@ print(choose_stack(ticket))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · metadata sin auto fraude
-# Bug: LLM se auto-etiqueta fraude en metadata
+          code: `# CASO-LIM-025 · metadata sin autofraude
+# Bug: LLM se autoetiqueta fraude en metadata
 def run_meta(stack):
     return {
         'stack': stack,
@@ -860,7 +869,7 @@ print(card_gate(card))`,
         ],
         edgeCases: ["case-insensitive en Factura", "label solo no basta para el adapter"],
         tests: "salida coincide con solution output",
-        feedback: "Sin .lower() no matcheas 'Factura'; sin clave model el contract test del mock falla.",
+        feedback: "Sin `.lower()` no detectas 'Factura'; sin clave `model` el test de contrato del mock falla.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -960,7 +969,7 @@ print(mock_pipeline(['Factura X', 'hola']))`,
         kind: "guided",
         instruction:
           "S25-T2-B-E1 · Cache miss luego hit: implementa get(x) que devuelve (valor, cached). Primera llamada a get('a') → ('ok', False); segunda → ('ok', True). Imprime ambas en una línea como en el I Do. Salida exacta: ('ok', False) ('ok', True).",
-        hint: "Escribe en cache en el miss; en el hit devuelve True",
+        hint: "En el fallo de caché (miss) escribes el valor; en el acierto (hit) devuelves True.",
         hints: [
           "if x in cache: return cache[x], True; si no, guarda 'ok' y return 'ok', False",
           "print(get('a'), get('a'))",
@@ -1040,7 +1049,7 @@ print(estimate_cost(500))`,
         ],
         edgeCases: ["circuit breaker tras N fallas", "primer timeout aún es rules"],
         tests: "salida coincide con solution output",
-        feedback: "Cuenta la falla (failures+=1) antes de decidir circuit_open vs rules.",
+        feedback: "Cuenta la falla (failures+=1) antes de decidir circuit_open vs. rules.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1075,7 +1084,7 @@ except TimeoutError:
           "S25-T3-A-E1 · El modelo devuelve el string crudo `raw` con hallazgo/n/mediana/limite. Parsea con `json.loads`, comprueba que REQUIRED={'hallazgo','n','mediana','limite'} ⊆ keys del objeto e imprime en una línea el entero `n` y el booleano de schema. El starter imprime el string sin parsear. Salida exacta: 1 True.",
         hint: "obj = json.loads(raw); print(obj['n'], REQUIRED.issubset(obj))",
         hints: [
-          "Sin loads no hay contrato: el grader y el schema operan sobre dicts",
+          "Sin loads no hay contrato: el schema y las métricas operan sobre dicts.",
           "REQUIRED.issubset(obj) o REQUIRED <= set(obj); n debe ser int del JSON",
         ],
         edgeCases: ["JSON inválido → no publiques", "n ausente → schema False en la misma línea"],
@@ -1340,19 +1349,19 @@ print({'exact': exact, 'schema_ok': schema_ok})`,
         subtopicId: "S25-T4-A",
         kind: "independent",
         instruction:
-          "S25-T4-A-E2 · Field F1 macro simple: pred={'h':'a','n':1}, gold={'h':'a','n':2}. Por cada key en la unión de keys, 1 si pred[k]==gold[k] else 0; imprime el promedio (float). Un campo coincide y otro no → 0.5. Salida exacta: 0.5.",
-        hint: "hits / len(set(pred)|set(gold))",
+          "S25-T4-A-E2 · Tasa de acierto por campo (`field_match_rate`, no F1 estadístico): pred={'h':'a','n':1}, gold={'h':'a','n':2}. Por cada key en la unión de keys, 1 si pred[k]==gold[k] else 0; imprime el promedio (float). Un campo coincide y otro no → 0.5. Salida exacta: 0.5.",
+        hint: "hits / len(set(pred)|set(gold)).",
         hints: [
           "keys = set(pred) | set(gold); hits = sum(1 for k in keys if pred.get(k)==gold.get(k))",
-          "print(hits / len(keys)) → 0.5 con estos fixtures",
+          "print(hits / len(keys)) → 0.5 con estos fixtures.",
         ],
         edgeCases: ["keys solo en pred o solo en gold"],
         tests: "salida coincide con solution output",
-        feedback: "h coincide y n no: promedio 0.5, no 1.0 ni exact match global.",
+        feedback: "h coincide y n no: promedio 0.5, no 1.0 ni exact match global. Esto no es F1 de precisión/recall.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-025 · field F1 macro simple
+          code: `# CASO-LIM-025 · field_match_rate (acierto por campo)
 # Bug: imprime 1.0 sin calcular por campo
 pred={'h':'a','n':1}
 gold={'h':'a','n':2}
@@ -1513,7 +1522,7 @@ print(minimize(p, allow))`,
         hint: "Ninguna rama retorna fraud; score alto ≠ veredicto",
         hints: [
           "if not schema_ok: return 'human_review'; return 'signal_only'",
-          "Aunque score sea 0.99, el path del assist es señal + HITL, no auto-fraude",
+          "Aunque score sea 0.99, el path del assist es señal + HITL, no autofraude.",
         ],
         edgeCases: ["schema_fail con score alto", "score bajo no implica inocencia legal"],
         tests: "salida coincide con solution output",
@@ -1546,13 +1555,13 @@ print(decision(0.99, True))`,
     ],
   },
   youDo: {
-    title: "Asistente JSON evaluado (AI assist CP-N2-C)",
+    title: "Asistente JSON evaluado (asistente de IA · CP-N2-C)",
     context:
-      "Tras S24 (campos OCR como contexto untrusted), implementa el AI assist de CP-N2-C: adapter HTTP local (fixture) u opcionalmente mock de pipeline, con schema, cache/timeout, golden eval (exact + schema + field F1) e injection-by-design. Ninguna salida sin evidencia; ningún label de fraude autónomo.",
+      "Tras S24 (campos OCR como contexto no confiable), implementa el asistente de IA de CP-N2-C: adapter HTTP local (fixture) u opcionalmente mock de pipeline. Distingue el contrato del clasificador (`model`/`label`/`score`) del borrador narrativo (`hallazgo`/`n`/`mediana`/`evidence_ids`/`model`). Incluye validación de keys, caché/timeout, golden (exact + schema_rate + field_match_rate) e injection-by-design. Ninguna salida sin evidencia; ninguna etiqueta de fraude autónoma.",
     objectives: [
       "Decisión rule/specialized/LLM documentada en metadata del run",
-      "Inferencia con cache por hash(input+model), timeout y fallback a rules_or_human",
-      "JSON schema + métricas golden (exact, schema_rate, field_f1) sobre ≥3 filas sintéticas",
+      "Inferencia con caché por hash(input+model), timeout y fallback a rules_or_human",
+      "Validación de keys + métricas golden (exact, schema_rate, field_match_rate) sobre ≥3 filas sintéticas",
       "Request con allowed_tools=[], contenido delimitado, minimización y requires_human_approval=True",
     ],
     requirements: [
@@ -1583,7 +1592,8 @@ def call_local_endpoint(url, payload, timeout=2.0):
 def validate_output(value):
     return isinstance(value, dict) and SCHEMA_KEYS <= set(value.keys())
 
-def field_f1(pred, gold):
+def field_match_rate(pred, gold):
+    """Tasa de acierto por campo (exact match por key). No es F1 estadístico."""
     keys = set(gold) | set(pred)
     if not keys:
         return 1.0
@@ -1617,64 +1627,64 @@ def mock_or_http(text, model="demo-cls"):
 
 def eval_golden(rows):
     # rows: lista de {"pred": dict, "gold": dict}
-    # Devuelve {"schema_rate", "exact", "field_f1"} como en teoría T4-A
+    # Devuelve {"schema_rate", "exact", "field_match_rate"} como en teoría T4-A
     raise NotImplementedError("eval_golden")
 
 # Pasos del estudiante:
 # 1) Fixture localhost (o mock en proceso) que devuelve JSON sintético con SCHEMA_KEYS
 # 2) choose_stack documentado en metadata del run (auto_fraud_label=False siempre)
 # 3) mock_or_http: cache + timeout → human_review / rules_or_human; usa injection_signal
-# 4) eval_golden sobre GOLDEN (3 filas): exact, schema_rate, field_f1
+# 4) eval_golden sobre GOLDEN (3 filas): exact, schema_rate, field_match_rate
 # 5) Acciones externas: build_safe_request + minimize_payload (nunca api_key al modelo)
-# 6) README es-PE: límites del fixture, baseline y por qué score ≠ fraude
+# 6) README es-PE: límites del fixture, baseline y por qué score no es fraude
 `,
     portfolioNote:
-      "Componente AI assist de CP-N2-C con eval (exact/schema/F1) y controles de seguridad; listo para orquestación en S26.",
+      "Componente de asistente de IA de CP-N2-C con eval (exact/schema/field_match_rate) y controles de seguridad; listo para orquestación en S26.",
     rubric: [
-      { criterion: "Contrato único HTTP/mock HF: JSON con hallazgo, n, mediana, evidence_ids y model", weight: "25%" },
-      { criterion: "Cache, timeout/fallback y métricas golden (exact, schema_rate, field_f1) correctas", weight: "20%" },
+      { criterion: "Contrato narrativo HTTP/mock: JSON con hallazgo, n, mediana, evidence_ids y model (distinto del clasificador label/score)", weight: "25%" },
+      { criterion: "Caché, timeout/fallback y métricas golden (exact, schema_rate, field_match_rate) correctas", weight: "20%" },
       { criterion: "Privacidad: sin PII real, sin secretos en contexto, sin inferencia autónoma de fraude", weight: "20%" },
       { criterion: "Injection-by-design: tools vacíos, untrusted_document, aprobación humana y tests de borde", weight: "15%" },
-      { criterion: "Código legible, metadata de stack/deploy y límites del fixture claros", weight: "10%" },
+      { criterion: "Código legible, metadata de stack/despliegue y límites del fixture claros", weight: "10%" },
       { criterion: "Documentación en español profesional (es-PE)", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: "¿Cuándo preferir reglas a un LLM en el AI assist?",
-        options: ["Cuando el problema es determinista y la auditabilidad importa", "Siempre preferir LLM por flexibilidad", "Nunca usar reglas en producción", "Solo cuando el endpoint cloud esté más barato"],
+        question: "¿Cuándo preferir reglas a un LLM en el asistente de IA?",
+        options: ["Cuando el problema es determinista y la auditabilidad importa", "Siempre preferir LLM por flexibilidad", "Nunca usar reglas en producción", "Solo cuando el endpoint en la nube esté más barato"],
         correctIndex: 0,
         explanation:
           "Las reglas son baratas, deterministas y fáciles de auditar; el LLM se reserva para lenguaje con schema y revisión.",
       },
       {
-        question: "Una salida del generador sin JSON válido (schema_fail) debe…",
-        options: ["Publicarse igual si el texto “se ve bien”", "Convertirse automáticamente en etiqueta de fraude", "Descartarse o ir a human_review (fail-closed)", "Cachearse como éxito para no pagar de nuevo"],
+        question: "¿Qué debe ocurrir con una salida del generador sin JSON válido (schema_fail)?",
+        options: ["Publicarse igual si el texto “se vea bien”", "Convertirse automáticamente en etiqueta de fraude", "Descartarse o ir a human_review (fail-closed)", "Cachearse como éxito para no pagar de nuevo"],
         correctIndex: 2,
         explanation:
           "El schema es un gate: sin validación no hay promote ni envío.",
       },
       {
-        question: "¿Cómo se mitiga prompt injection desde un PDF OCR?",
-        options: ["Confiando en el documento porque pasó OCR", "Desactivando logs para ocultar el ataque", "Elevando el texto OCR al rol system", "Tratando el texto como untrusted, sin tools por defecto y sin elevarlo a system"],
+        question: "¿Cómo se mitiga prompt injection desde un documento procesado con OCR?",
+        options: ["Confiando en el documento porque pasó OCR", "Desactivando logs para ocultar el ataque", "Elevando el texto OCR al rol system", "Tratando el texto como no confiable, sin tools por defecto y sin elevarlo a system"],
         correctIndex: 3,
         explanation:
-          "OCR y emails son untrusted: se delimitan como datos; el control real es privilegio mínimo + HITL.",
+          "OCR y emails son no confiables: se delimitan como datos; el control real es privilegio mínimo + HITL.",
       },
       {
-        question: "El AI assist de este curso puede etiquetar fraude de forma autónoma…",
-        options: ["Si el score del modelo supera 0.99", "Nunca; solo aporta evidencia y borradores para un humano", "Si un manager lo autoriza por chat", "Si la model card del hub lo sugiere"],
+        question: "¿Puede el asistente de IA de este curso etiquetar fraude de forma autónoma?",
+        options: ["Sí, si el score del modelo supera 0.99", "Nunca; solo aporta evidencia y borradores para un humano", "Sí, si un manager lo autoriza por chat", "Sí, si la model card del hub lo sugiere"],
         correctIndex: 1,
         explanation:
           "Política del roadmap: score y matching son señales, no veredicto de fraude o parentesco.",
       },
       {
-        question: "Tras N timeouts seguidos al endpoint del assist, la ops correcta es…",
+        question: "Tras N timeouts seguidos al endpoint del assist, ¿cuál es la operación correcta?",
         options: ["Abrir el circuit breaker, enrutar a fallback (rules_or_human) y dejar de martillar el servicio", "Reintentar el LLM sin límite hasta obtener un JSON que “se vea bien”", "Publicar un JSON inventado de éxito para no bloquear el VP", "Desactivar el golden set y el schema hasta que el endpoint responda"],
         correctIndex: 0,
         explanation:
-          "El circuit breaker (contador de fallas + open) evita cascadas de costo/latencia; el fallback no inventa éxito ni saltarse eval.",
+          "El circuit breaker (contador de fallas + open) evita cascadas de costo y latencia; el fallback no inventa éxito ni omite la evaluación.",
       },
     ],
   },

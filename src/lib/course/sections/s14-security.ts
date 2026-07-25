@@ -27,10 +27,10 @@ export const section14: CourseSection = {
     {
       heading: "Mapa de la sección: NumPy para un tablero de calidad",
       paragraphs: [
-        "**Diccionario rápido:** **ndarray** (bloque homogéneo), **dtype** (tipo de cada elemento), **shape** (dimensiones), **máscara** (filtro booleano), **ufunc** (operación elemento a elemento), **broadcast** (alinear shapes), **view vs copy** (compartir o no la memoria), **NaN/inf** (ausencia o no-finito — no son ceros de negocio). No memorices la API entera el primer día: cada término vuelve en su subtema con demo y práctica.",
+        "**Diccionario rápido** (léelo antes de T1; vuelve cuando un término te detenga):\n\n- **ndarray** — bloque homogéneo de datos.\n- **dtype** — tipo de cada elemento.\n- **shape** — tupla de dimensiones.\n- **máscara** — filtro booleano del mismo shape.\n- **ufunc** — operación elemento a elemento.\n- **broadcast** — alineación automática de shapes.\n- **view vs. copy** — compartir o no la memoria subyacente.\n- **NaN/inf** — ausencia o no-finito; **no son ceros de negocio**.\n\nNo memorices la API entera el primer día: cada término vuelve en su subtema con demo y práctica.",
         "**Puente desde S13:** el dashboard de evidencia de S13 trabaja reglas y scores **por caso**, con listas y dicts de Python y **sin NumPy**. Aquí abres el nivel 2 (**CP-N2-A**): pasas de juicios por reglas a **vectores numéricos** sobre lotes sintéticos. En S15 (pandas) cargarás tablas; en S14 el contrato es el array homogéneo que alimentará esas métricas.",
-        "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) en NumPy. Solo datos sintéticos latam (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
-        "Orden: **T1 Arrays** (dtype/shape → máscaras) → **T2 Operaciones** (ufuncs/reducciones → broadcast) → **T3 Semántica** (views/copies → NaN/inf) → **T4 Rendimiento** (vectorizar → memoria y `allclose`). Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do + self-check. Criterio de entrega del incremento: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
+        "El hilo conductor es un **tablero de calidad** en NumPy: completitud, unicidad, rangos y señales por pares. Solo datos sintéticos LatAm (Lima/Arequipa/Cusco, ids `C00x`). Si el shape o dtype no cumple el contrato de la función, **aserta y falla de forma segura** (fail-closed) — no “arregles” en silencio. Stack: NumPy ndarray/ufunc/broadcast; **sin** pandas (S15) ni sklearn.",
+        "Orden pedagógico:\n\n- **T1 Arrays** — dtype/shape → máscaras.\n- **T2 Operaciones** — ufuncs/reducciones → broadcast.\n- **T3 Semántica** — views/copies → NaN/inf.\n- **T4 Rendimiento** — vectorizar → memoria y `allclose`.\n\nRitmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + **Tú haces** + self-check. Criterio de entrega: métricas vectorizadas equivalentes al baseline en loop dentro de tolerancia (`allclose`). Nunca PII real ni scores tratados como culpa.",
       ],
       callout: {
         type: "info",
@@ -106,7 +106,7 @@ linspace [0.0, 0.25, 0.5, 0.75, 1.0]`,
       heading: "Ufuncs y reducciones",
       subtopicId: "S14-T2-A",
       paragraphs: [
-        "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` Python por celda. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes y son el corazón de las métricas de calidad del tablero: convierten una matriz de flags en un vector de completitud por campo.",
+        "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en código compilado, sin un `for` Python por celda. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan uno o más ejes. Son el corazón de las métricas del tablero: convierten una matriz de flags en un vector de completitud por campo.",
         "`axis=0` agrega por columna (campo); `axis=1` por fila (cliente). `keepdims=True` preserva dimensiones para rebroadcast (restar la media por fila sin pelear shapes). Elige el eje por el significado de negocio — “¿agrego clientes o campos?” — no por costumbre de copiar un notebook.",
         "Métricas del tablero: `mean(flags, axis=0)` = completitud por campo; `mean` por fila = completitud del cliente; `std(scores)` = dispersión. **Unicidad** de ids sintéticos: `n_unique / n = np.unique(ids).size / ids.size` (un duplicado en `C00x` baja la tasa; no uses `len(ids)/len(ids)`). Caso sintético: matriz 3×3 de presencia → completitud por campo ~[1.0, 0.67, 0.67] y global ~0.78; unicidad de `['C001','C002','C001']` → 2/3.",
       ],
@@ -208,9 +208,9 @@ vista_base_is_raw True`,
       },
       callout: {
         type: "danger",
-        title: "Side effects por view",
+        title: "Efectos colaterales por view",
         content:
-          "Si pasas un slice a una función que escribe, puede corromper el array padre. Copia o marca writeable=False.",
+          "Si pasas un slice a una función que escribe, puede corromper el array padre. Copia o marca `writeable=False`.",
       },
     },
     {
@@ -253,9 +253,9 @@ eps 2.220446049250313e-16`,
       heading: "Vectorización frente a loops",
       subtopicId: "S14-T4-A",
       paragraphs: [
-        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs, `@`). Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud — el número exacto **depende de tu máquina**, por eso el demo reporta `ratio_gt_1` y no un SLA fijo.",
-        "Benchmark **honesto**: mismo input, mismo dtype, `time.perf_counter` (no `time.time`), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta.",
-        "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en el memo del portfolio. Caso sintético: `n=50_000` producto punto loop vs `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.",
+        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado (`dot`, ufuncs, `@`). Para N grande (decenas de miles de clientes sintéticos del tablero), el ratio suele ser de órdenes de magnitud. El número exacto **depende de tu máquina**; por eso el demo reporta `ratio_gt_1` y no un SLA fijo.",
+        "Benchmark **honesto**: mismo input, mismo dtype, `time.perf_counter` (no `time.time`), reporta `ratio_loop_over_vec` y verifica **equivalencia numérica** (`allclose` o `abs(s_loop - s_vec) < 1e-6`). No midas N=10, no imprimas dentro del loop y no omitas el check de igualdad: un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En producción conviene repetir mediciones y reportar la mediana; aquí un solo par de tiempos basta para enseñar el contrato.",
+        "A veces un loop claro gana en N pequeño o con lógica irregular (early-exit, ramas por cliente). Documenta el umbral de N en la **nota del portfolio**. Caso sintético: `n=50_000` producto punto loop vs. `np.dot` con `equal True` y `ratio_gt_1 True` en una laptop típica — en el portfolio CP-N2-A repites el patrón con `X @ w`.",
       ],
       code: {
         language: 'python',
@@ -296,7 +296,7 @@ ratio_gt_1 True`,
       heading: "Memoria, medición y tests con tolerancia",
       subtopicId: "S14-T4-B",
       paragraphs: [
-        "`nbytes` y `itemsize * size` estiman la memoria del array en bytes (p. ej. 1000 float64 → 8000). En el tablero de calidad, una matriz de señales por pares es O(n²): con n=500 y float64 ya son ~2 MB; con n=50_000 sin cuidado agotas RAM. Evita `.copy()` innecesarios y documenta un **presupuesto** (`pair.nbytes <= budget`) en el memo del portfolio.",
+        "`nbytes` y `itemsize * size` estiman la memoria del array en bytes (p. ej. 1000 float64 → 8000). En el tablero de calidad, una matriz de señales por pares es O(n²): con n=500 y float64 ya son ~2 MB; con n=50_000 sin cuidado agotas RAM. Evita `.copy()` innecesarios y documenta un **presupuesto** (`pair.nbytes <= budget`) en la nota del portfolio.",
         "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia relativa y absoluta. `np.testing.assert_allclose` lanza `AssertionError` con un mensaje útil — es el oráculo de tests del incremento CP-N2-A. `rtol` escala con la magnitud del valor; `atol` cubre diferencias cercanas a cero (scores en [0, 1] suelen priorizar un `atol` razonable).",
         "El baseline en loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**; sin ese check, un ratio de tiempo no demuestra corrección. Caso sintético: `base` vs `base + 1e-9` pasa `allclose` con `atol=1e-8`; `base + 0.1` debe disparar `AssertionError` en el assert estricto y reportarse como fallo controlado.",
       ],
@@ -329,7 +329,7 @@ assert_fail True`,
     },
   ],
   iDo: {
-    intro: "Yo demuestro (I Do): 8 demos trabajados de punta a punta — contrato dtype/shape, máscaras, reducciones y unicidad, broadcast con señales por pares, views/copies, NaN/inf, benchmark honesto y allclose/memoria. Observa el patrón: asertar contrato → calcular → imprimir evidencia. Datos sintéticos Lima/Arequipa/Cusco; solo NumPy.",
+    intro: "Yo demuestro: 8 demos de punta a punta. Cubren contrato dtype/shape, máscaras, reducciones y unicidad, broadcast con señales por pares, views/copies, NaN/inf, benchmark honesto y allclose/memoria. Observa el patrón: asertar contrato → calcular → imprimir evidencia. Datos sintéticos Lima/Arequipa/Cusco; solo NumPy.",
     steps: [
       {
         demoId: "S14-T1-A-DEMO",
@@ -576,22 +576,22 @@ assert_ok True`,
     ],
   },
   weDo: {
-    intro: "Lo hacemos juntos (We Do): 24 micro-ejercicios (E1 guiado → E2 independiente → E3 transferencia) en los 8 subtemas. Cada starter trae un bug deliberado; corrígelo hasta igualar la salida esperada. Dos pistas por ejercicio. Solo NumPy (sin pandas ni sklearn).",
+    intro: "Lo hacemos juntos: 24 micro-ejercicios (E1 guiado → E2 independiente → E3 transferencia) en los 8 subtemas. Cada código inicial trae un bug deliberado; corrígelo hasta igualar la salida esperada. En E1 las pistas son más directas; en E2 y E3 el apoyo se reduce. Solo NumPy (sin pandas ni sklearn).",
     steps: [
       {
         id: "S14-T1-A-E1",
         subtopicId: "S14-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dtype`, `shape` y `ndim`. Salida esperada: `uint8 (3, 2) 2`. Solo NumPy; corrige el bug del starter (shape invertida).",
+          "E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dtype`, `shape` y `ndim`. Salida esperada: `uint8 (3, 2) 2`. Solo NumPy; corrige el bug del código inicial (shape invertida).",
         hint: "Usa np.array(..., dtype=np.uint8).",
         hints: [
           "Usa np.array(..., dtype=np.uint8).",
           "Imprime tres atributos: dtype, shape, ndim.",
         ],
         edgeCases: ["dtype incorrecto (int64 por defecto)", "shape transpuesta"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "dtype == uint8; shape == (3, 2); ndim == 2",
+        feedback: "Si ves (2, 3), imprimiste shape invertida. El contrato es filas×columnas = (3, 2) y dtype uint8.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -599,8 +599,7 @@ assert_ok True`,
 # Bug a corregir: imprime shape invertida y dtype wrong
 import numpy as np
 flags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)
-print(flags.dtype, flags.shape[::-1], flags.ndim)
-print('ok', True)`,
+print(flags.dtype, flags.shape[::-1], flags.ndim)`,
         },
         solutionCode: {
           language: 'python',
@@ -616,15 +615,15 @@ print(flags.dtype, flags.shape, flags.ndim)`,
         subtopicId: "S14-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lista de valores. Salida esperada: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Solo NumPy; corrige el bug del starter (`arange` en lugar de `linspace`).",
+          "E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lista de valores. Salida esperada: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Solo NumPy; corrige el bug del código inicial (`arange` en lugar de `linspace`).",
         hint: "linspace con dtype=float64.",
         hints: [
           "linspace con dtype=float64.",
           "nbytes = size * itemsize.",
         ],
         edgeCases: ["float32 por accidente", "endpoint de linspace"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "itemsize == 8; nbytes == 40; valores = linspace(0,1,5)",
+        feedback: "`arange` da enteros consecutivos, no una malla en [0, 1]. Usa `linspace` y verifica itemsize=8.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -632,8 +631,7 @@ print(flags.dtype, flags.shape, flags.ndim)`,
 # Bug a corregir: arange no linspace; no imprime itemsize
 import numpy as np
 scores = np.arange(5, dtype=np.float64)
-print(scores.tolist())
-print('ok', True)`,
+print(scores.tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -649,15 +647,15 @@ print(scores.itemsize, scores.nbytes, scores.tolist())`,
         subtopicId: "S14-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y el size. Caso inválido: `np.array([1, 2])` (1D pero no float64). Salida esperada: `ok 2` y `err expected 1d float64`. Solo NumPy; corrige el bug del starter.",
+          "E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y el size. Caso inválido: `np.array([1, 2])` (1D pero no float64). Salida esperada: `ok 2` y `err expected 1d float64`. Solo NumPy; corrige el bug del código inicial.",
         hint: "Comprueba ndim y dtype.",
         hints: [
           "Comprueba ndim y dtype.",
-          "raise ValueError con mensaje corto.",
+          "El mensaje del ValueError debe ser corto y estable.",
         ],
         edgeCases: ["aceptar int64", "no validar ndim"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "válido → 'ok' + size; inválido (int) → ValueError expected 1d float64",
+        feedback: "Valida `ndim == 1` y `dtype == float64`. Un array 1D de enteros también debe fallar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -698,15 +696,15 @@ err expected 1d float64`,
         subtopicId: "S14-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np.where`. Salida esperada: `[1, 3]`. Solo NumPy; corrige el bug del starter (umbral invertido).",
+          "E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np.where`. Salida esperada: `[1, 3]`. Solo NumPy; corrige el bug del código inicial (umbral invertido).",
         hint: "mask = score >= 0.5.",
         hints: [
           "mask = score >= 0.5.",
           "np.where(mask)[0].",
         ],
         edgeCases: ["comparación estricta >", "olvidar [0] en where"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "índices donde score >= 0.5 → [1, 3]",
+        feedback: "La máscara correcta es `score >= 0.5`. Si usas `<`, obtienes los índices del complemento.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -715,8 +713,7 @@ err expected 1d float64`,
 import numpy as np
 score = np.array([0.2, 0.8, 0.4, 0.9])
 idx = np.where(score < 0.5)[0]
-print(idx.tolist())
-print('ok', True)`,
+print(idx.tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -733,15 +730,15 @@ print(idx.tolist())`,
         subtopicId: "S14-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). Salida esperada: `['C001', 'C003']`. Solo NumPy; corrige el bug del starter (máscara invertida).",
+          "E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). Salida esperada: `['C001', 'C003']`. Solo NumPy; corrige el bug del código inicial (máscara invertida).",
         hint: "np.median(scores).",
         hints: [
           "np.median(scores).",
           "ids[scores < med].",
         ],
         edgeCases: ["usar mean en vez de median", "máscara invertida"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "ids con score < mediana; orden del array original",
+        feedback: "Calcula la mediana sobre scores y filtra con máscara. No uses un umbral fijo inventado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -751,8 +748,7 @@ import numpy as np
 ids = np.array(["C001", "C002", "C003", "C004"])
 scores = np.array([0.1, 0.9, 0.4, 0.7])
 med = np.median(scores)
-print(ids[scores > med].tolist())
-print('ok', True)`,
+print(ids[scores > med].tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -770,15 +766,15 @@ print(ids[scores < med].tolist())`,
         subtopicId: "S14-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime el resultado. Salida esperada: `[30, 10, 40, 20]`. Solo NumPy; sin loops; corrige el bug del starter.",
+          "E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime el resultado. Salida esperada: `[30, 10, 40, 20]`. Solo NumPy; sin loops; corrige el bug del código inicial.",
         hint: "a[order] con lista de índices.",
         hints: [
           "a[order] con lista de índices.",
-          "No uses un loop.",
+          "El resultado debe respetar el orden de los índices dados.",
         ],
         edgeCases: ["argsort confuso", "copia accidental del orden"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "fancy index con [2,0,3,1] → [30, 10, 40, 20]",
+        feedback: "Fancy index reordena con la lista de posiciones; no es un slice contiguo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -787,8 +783,7 @@ print(ids[scores < med].tolist())`,
 import numpy as np
 a = np.array([10, 20, 30, 40])
 order = [2, 0, 3, 1]
-print(sorted(a.tolist()))
-print('ok', True)`,
+print(sorted(a.tolist()))`,
         },
         solutionCode: {
           language: 'python',
@@ -805,15 +800,15 @@ print(a[order].tolist())`,
         subtopicId: "S14-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a 2 decimales (primero columnas, luego filas). Salida esperada: `[1.0, 0.5, 0.5]` y `[0.67, 0.67]`. Solo NumPy; corrige el bug del starter.",
+          "E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a 2 decimales (primero columnas, luego filas). Salida esperada: `[1.0, 0.5, 0.5]` y `[0.67, 0.67]`. Solo NumPy; corrige el bug del código inicial.",
         hint: "M.mean(axis=0) y axis=1.",
         hints: [
           "M.mean(axis=0) y axis=1.",
           "np.round(..., 2).tolist().",
         ],
         edgeCases: ["axis invertido", "no redondear"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "mean axis=0 y axis=1 redondeados a 2 decimales",
+        feedback: "axis=0 colapsa filas (un valor por columna); axis=1 colapsa columnas (un valor por fila).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -822,8 +817,7 @@ print(a[order].tolist())`,
 import numpy as np
 M = np.array([[1., 0., 1.], [1., 1., 0.]])
 print(M.mean(axis=1).tolist())
-print(M.mean(axis=0).tolist())
-print('ok', True)`,
+print(M.mean(axis=0).tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -841,15 +835,15 @@ print(np.round(M.mean(axis=1), 2).tolist())`,
         subtopicId: "S14-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.unique(ids).size / ids.size` e imprímela con 4 decimales. Salida esperada: `0.6`. Solo NumPy; corrige el bug del starter (usa `len` sobre el array crudo y no `unique`).",
+          "E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.unique(ids).size / ids.size` e imprímela con 4 decimales. Salida esperada: `0.6`. Solo NumPy; corrige el bug del código inicial (usa `len` sobre el array crudo y no `unique`).",
         hint: "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
         hints: [
           "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
           "Redondea con round(..., 4) o imprime el float exacto 0.6.",
         ],
         edgeCases: ["contar con set de Python en vez de np.unique", "dividir por n_unique"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "unicidad = unique.size / ids.size ≈ 0.6000",
+        feedback: "`len(ids)/len(ids)` siempre da 1.0. La tasa es `np.unique(ids).size / ids.size`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -858,8 +852,7 @@ print(np.round(M.mean(axis=1), 2).tolist())`,
 import numpy as np
 ids = np.array(["C001", "C002", "C001", "C003", "C002"])
 unicidad = len(ids) / len(ids)  # siempre 1.0 — incorrecto
-print(round(unicidad, 4))
-print('ok', True)`,
+print(round(unicidad, 4))`,
         },
         solutionCode: {
           language: 'python',
@@ -876,15 +869,15 @@ print(round(unicidad, 4))`,
         subtopicId: "S14-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar (debe ser ~0). Salida esperada: `[0.0, 0.0, 0.0]`. Solo NumPy; corrige el bug del starter (centra por columnas).",
+          "E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar (debe ser ~0). Salida esperada: `[0.0, 0.0, 0.0]`. Solo NumPy; corrige el bug del código inicial (centra por columnas).",
         hint: "row - row.mean(axis=1, keepdims=True).",
         hints: [
           "row - row.mean(axis=1, keepdims=True).",
-          "Verifica con mean axis=1 redondeado.",
+          "Tras centrar bien, la media por fila es ~0.",
         ],
         edgeCases: ["olvidar keepdims", "axis=0"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "media por fila tras centrar ≈ 0 (keepdims en axis=1)",
+        feedback: "Resta la media de cada fila con keepdims=True. Si usas axis=0, centras por columna y la media por fila no queda en 0.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -893,8 +886,7 @@ print(round(unicidad, 4))`,
 import numpy as np
 X = np.array([[1., 3.], [10., 20.], [2., 2.]])
 Xc = X - X.mean(axis=0, keepdims=True)
-print(np.round(Xc.mean(axis=0), 10).tolist())
-print('ok', True)`,
+print(np.round(Xc.mean(axis=0), 10).tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -911,15 +903,15 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
         subtopicId: "S14-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matriz. Salida esperada: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Solo NumPy; corrige el bug del starter (multiplica en vez de sumar).",
+          "E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matriz. Salida esperada: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Solo NumPy; corrige el bug del código inicial (multiplica en vez de sumar).",
         hint: "zeros + pesos (shape (3,)).",
         hints: [
           "zeros + pesos (shape (3,)).",
           "Broadcast alinea por la derecha.",
         ],
         edgeCases: ["shape (2,) incompatible", "usar loop"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "pesos (3,) sumados a cada fila de (2,3)",
+        feedback: "Broadcast alinea el vector de pesos a cada fila. No repitas el vector a mano con un loop.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -928,8 +920,7 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
 import numpy as np
 M = np.zeros((2, 3))
 w = np.array([1., 2., 3.])
-print((M * w).tolist())
-print('ok', True)`,
+print((M * w).tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -946,15 +937,15 @@ print((M + w).tolist())`,
         subtopicId: "S14-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`; imprime shape y valores del producto. Salida esperada: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Solo NumPy; no pandas (S15) ni sklearn; corrige el bug del starter (multiplicar sin reshape).",
-        hint: "a[:, None] * b[None, :] o a[:, None] * b.",
+          "E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`. Imprime shape y valores del producto. Salida esperada: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Solo NumPy (no pandas ni sklearn). Corrige el bug del código inicial: hoy multiplica sin reshape.",
+        hint: "Inserta un eje en `a` antes de multiplicar.",
         hints: [
-          "a[:, None] * b[None, :] o a[:, None] * b.",
-          "Resultado (4,3).",
+          "Inserta un eje en `a` antes de multiplicar.",
+          "El producto exterior debe tener shape (4, 3).",
         ],
         edgeCases: ["broadcast a (3,4)", "outer manual incorrecto"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "shape del producto == (4, 3); valores = a[:, None] * b",
+        feedback: "Sin `newaxis`/`None`, `a * b` no alinea (4,) con (3,). El outer es (4, 1)×(1, 3) → (4, 3).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -967,8 +958,7 @@ try:
     out = a * b
     print(out.shape, out.tolist())
 except ValueError:
-    print("fail")
-print('ok', True)`,
+    print("fail")`,
         },
         solutionCode: {
           language: 'python',
@@ -986,23 +976,22 @@ print(out.shape, out.tolist())`,
         subtopicId: "S14-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del starter (hoy suma shapes compatibles `(2, 3)+(2, 3)` y no captura el error).",
+          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del código inicial (hoy suma shapes compatibles `(2, 3)+(2, 3)` y no captura el error).",
         hint: "try/except ValueError con shapes (2,3) y (2,4).",
         hints: [
           "Cambia el segundo array a shape (2, 4).",
-          "try/except ValueError → print('incompatible').",
+          "El mensaje de error de NumPy menciona broadcast.",
         ],
         edgeCases: ["no capturar excepción", "shapes que sí broadcastan"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "ValueError de broadcast → print incompatible",
+        feedback: "Shapes (2,3)+(2,4) son incompatibles. Captura ValueError; no “arregles” sumando arrays del mismo shape.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-014 · incompatible broadcast
 # Bug a corregir: shapes compatibles (2,3)+(2,3) y sin try/except
 import numpy as np
-print(np.ones((2, 3)) + np.ones((2, 3)))
-print('ok', True)`,
+print(np.ones((2, 3)) + np.ones((2, 3)))`,
         },
         solutionCode: {
           language: 'python',
@@ -1020,15 +1009,15 @@ except ValueError:
         subtopicId: "S14-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (debe mutar). Salida esperada: `[9, 2, 3]`. Solo NumPy; corrige el bug del starter (usa `.copy()` y oculta el efecto).",
+          "E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (debe mutar). Salida esperada: `[9, 2, 3]`. Solo NumPy; corrige el bug del código inicial (usa `.copy()` y oculta el efecto).",
         hint: "raw[:2] es view.",
         hints: [
           "raw[:2] es view.",
           "Mutar vista muta raw.",
         ],
         edgeCases: ["usar copy por error", "fancy index copia"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "raw mutado a [9, 2, 3] vía view",
+        feedback: "Un slice simple es view: mutar vista[0] cambia raw. Si usas .copy(), el raw no se altera.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1038,8 +1027,7 @@ import numpy as np
 raw = np.array([1, 2, 3])
 v = raw[:2].copy()
 v[0] = 9
-print(raw.tolist())
-print('ok', True)`,
+print(raw.tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -1057,15 +1045,15 @@ print(raw.tolist())`,
         subtopicId: "S14-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida esperada: `[1, 2, 3] [9, 2]`. Solo NumPy; corrige el bug del starter (view sin copy).",
+          "E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida esperada: `[1, 2, 3] [9, 2]`. Solo NumPy; corrige el bug del código inicial (view sin copy).",
         hint: "raw[:2].copy().",
         hints: [
           "raw[:2].copy().",
           "Imprime raw y copia.",
         ],
         edgeCases: ["olvidar copy", "slice que no es view en todos backends"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "raw intacto [1, 2, 3] tras mutar la copia",
+        feedback: "Necesitas .copy() antes de mutar. Sin copia, sigues escribiendo sobre la view del original.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1075,8 +1063,7 @@ import numpy as np
 raw = np.array([1, 2, 3])
 c = raw[:2]
 c[0] = 9
-print(raw.tolist(), c.tolist())
-print('ok', True)`,
+print(raw.tolist(), c.tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -1094,15 +1081,15 @@ print(raw.tolist(), c.tolist())`,
         subtopicId: "S14-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError` imprimiendo `blocked`. Salida esperada: `blocked`. Solo NumPy; corrige el bug del starter.",
+          "E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError` imprimiendo `blocked`. Salida esperada: `blocked`. Solo NumPy; corrige el bug del código inicial.",
         hint: "a.flags.writeable = False.",
         hints: [
           "a.flags.writeable = False.",
-          "Asignar a[0] debe fallar.",
+          "La asignación sobre un array no escribible lanza ValueError.",
         ],
         edgeCases: ["no desactivar writeable", "capturar Exception genérica sin print"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "writeable=False → ValueError al asignar",
+        feedback: "Marca flags.writeable = False y captura ValueError al intentar a[0] = ….",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1111,8 +1098,7 @@ print(raw.tolist(), c.tolist())`,
 import numpy as np
 a = np.array([1.0, 2.0])
 a[0] = 3.0
-print(a.tolist())
-print('ok', True)`,
+print(a.tolist())`,
         },
         solutionCode: {
           language: 'python',
@@ -1139,8 +1125,8 @@ except ValueError:
           "Imprime int.",
         ],
         edgeCases: ["usar x == np.nan (siempre False)", "contar inf"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "isnan(...).sum() == 2",
+        feedback: "`x == np.nan` es siempre False. Usa np.isnan(x) y suma la máscara.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1148,8 +1134,7 @@ except ValueError:
 # Bug a corregir: usa sum de nan == nan (wrong)
 import numpy as np
 x = np.array([1.0, np.nan, 2.0, np.nan])
-print(int((x == np.nan).sum()))
-print('ok', True)`,
+print(int((x == np.nan).sum()))`,
         },
         solutionCode: {
           language: 'python',
@@ -1165,15 +1150,15 @@ print(int(np.isnan(x).sum()))`,
         subtopicId: "S14-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy; corrige el bug del starter (`mean` propaga nan).",
+          "E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy; corrige el bug del código inicial (`mean` propaga nan).",
         hint: "np.nanmean.",
         hints: [
           "np.nanmean.",
           "Resultado 2.0.",
         ],
         edgeCases: ["mean normal da nan", "redondeo"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "nanmean([1,nan,3]) == 2.0",
+        feedback: "np.mean propaga NaN. np.nanmean omite NaNs y promedia el resto.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1181,8 +1166,7 @@ print(int(np.isnan(x).sum()))`,
 # Bug a corregir: mean propaga nan
 import numpy as np
 x = np.array([1.0, np.nan, 3.0])
-print(float(np.mean(x)))
-print('ok', True)`,
+print(float(np.mean(x)))`,
         },
         solutionCode: {
           language: 'python',
@@ -1198,15 +1182,15 @@ print(round(float(np.nanmean(x)), 2))`,
         subtopicId: "S14-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida esperada: `3.0`. Solo NumPy; corrige el bug del starter (suma con inf).",
+          "E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida esperada: `3.0`. Solo NumPy; corrige el bug del código inicial (suma con inf).",
         hint: "np.where(np.isinf(x), np.nan, x).",
         hints: [
           "np.where(np.isinf(x), np.nan, x).",
-          "nansum ignora nan.",
+          "nansum ignora nan; inf no.",
         ],
         edgeCases: ["sum con inf da inf", "no convertir inf"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "inf→nan y nansum → 3.0",
+        feedback: "Sustituye inf por nan (np.where/isinf) y luego nansum; un sum con inf devuelve inf.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1214,8 +1198,7 @@ print(round(float(np.nanmean(x)), 2))`,
 # Bug a corregir: suma con inf
 import numpy as np
 x = np.array([1.0, np.inf, 2.0])
-print(float(np.sum(x)))
-print('ok', True)`,
+print(float(np.sum(x)))`,
         },
         solutionCode: {
           language: 'python',
@@ -1232,15 +1215,15 @@ print(float(np.nansum(y)))`,
         subtopicId: "S14-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida esperada: `True`. Solo NumPy; el starter imprime `False` sin comparar — corrígelo.",
+          "E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida esperada: `True`. Solo NumPy; el código inicial imprime `False` sin comparar — corrígelo.",
         hint: "np.arange(1000, dtype=float).",
         hints: [
           "np.arange(1000, dtype=float).",
           "Compara resultados no tiempos.",
         ],
         edgeCases: ["int overflow en loop", "comparar identidades"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "abs(loop - vec) < 1e-6 → True",
+        feedback: "Compara el resultado del loop con (a*b).sum(). Imprimir False fijo no demuestra equivalencia.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1250,8 +1233,7 @@ import numpy as np
 a = np.arange(1000, dtype=float)
 b = a.copy()
 s1 = float((a * b).sum())
-print(False)
-print('ok', True)`,
+print(False)`,
         },
         solutionCode: {
           language: 'python',
@@ -1272,15 +1254,15 @@ print(abs(s1 - s2) < 1e-6)`,
         subtopicId: "S14-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30.0`. Solo NumPy; corrige el bug del starter (suma lineal en vez de cuadrados).",
+          "E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30.0`. Solo NumPy; corrige el bug del código inicial (suma lineal en vez de cuadrados).",
         hint: "(a**2).sum() o np.dot(a,a).",
         hints: [
           "(a**2).sum() o np.dot(a,a).",
           "Resultado 0+1+4+9+16=30.",
         ],
         edgeCases: ["olvidar dtype float", "sumar a no a**2"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "suma de cuadrados de arange(5) == 30",
+        feedback: "La suma de cuadrados es (a**2).sum() o np.dot(a,a), no a.sum() (eso es solo 0+1+2+3+4=10).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1288,8 +1270,7 @@ print(abs(s1 - s2) < 1e-6)`,
 # Bug a corregir: suma lineal no cuadrados
 import numpy as np
 a = np.arange(5, dtype=float)
-print(float(a.sum()))
-print('ok', True)`,
+print(float(a.sum()))`,
         },
         solutionCode: {
           language: 'python',
@@ -1305,15 +1286,15 @@ print(float((a ** 2).sum()))`,
         subtopicId: "S14-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed` junto a si la media del resultado es `1.0`. Salida esperada: `timed True`. Solo NumPy; corrige el bug del starter (loop sin check de mean).",
+          "E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed` junto a si la media del resultado es `1.0`. Salida esperada: `timed True`. Solo NumPy; corrige el bug del código inicial (loop sin check de mean).",
         hint: "time.perf_counter antes/después.",
         hints: [
           "time.perf_counter antes/después.",
-          "No necesitas ratio; solo demostrar timing + correctness.",
+          "El booleano timed resume la verificación del resultado.",
         ],
         edgeCases: ["no crear arrays", "mean != 1"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "timed True tras (a+b).mean() == 1.0",
+        feedback: "Mide solo la operación vectorizada y verifica mean==1.0. No dejes el check en False ni midas un loop vacío.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1326,8 +1307,7 @@ b = np.ones(n)
 c = np.empty(n)
 for i in range(n):
     c[i] = a[i] + b[i]
-print("timed", float(c[0]) == 1.0)
-print('ok', True)`,
+print("timed", float(c[0]) == 1.0)`,
         },
         solutionCode: {
           language: 'python',
@@ -1348,15 +1328,15 @@ print("timed", float(c.mean()) == 1.0)`,
         subtopicId: "S14-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 True`. Solo NumPy; corrige el bug del starter (compara con 4000 como si fuera float32).",
+          "E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 True`. Solo NumPy; corrige el bug del código inicial (compara con 4000 como si fuera float32).",
         hint: "float64 = 8 bytes.",
         hints: [
           "float64 = 8 bytes.",
           "print nbytes y comparación.",
         ],
         edgeCases: ["float32", "shape 2d"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "nbytes == 8000 para 1000 float64",
+        feedback: "float64 = 8 bytes/elemento → 1000×8=8000. Comparar con 4000 es el presupuesto de float32.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1364,8 +1344,7 @@ print("timed", float(c.mean()) == 1.0)`,
 # Bug a corregir: compara nbytes con 4000 (como si fuera float32)
 import numpy as np
 a = np.zeros(1000, dtype=np.float64)
-print(a.nbytes, a.nbytes == 4000)
-print('ok', True)`,
+print(a.nbytes, a.nbytes == 4000)`,
         },
         solutionCode: {
           language: 'python',
@@ -1381,15 +1360,15 @@ print(a.nbytes, a.nbytes == 8000)`,
         subtopicId: "S14-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Salida esperada: `True`. Solo NumPy; corrige el bug del starter (la comparación exacta con `==` no sirve para floats).",
+          "E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Salida esperada: `True`. Solo NumPy; corrige el bug del código inicial (la comparación exacta con `==` no sirve para floats).",
         hint: "np.allclose(..., atol=1e-8).",
         hints: [
           "np.allclose(..., atol=1e-8).",
           "Debe ser True.",
         ],
         edgeCases: ["atol demasiado estricto", "listas sin numpy"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "allclose(..., atol=1e-8) → True",
+        feedback: "La igualdad exacta (==) falla con 1e-9 de ruido. np.allclose con atol=1e-8 devuelve True.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1399,8 +1378,7 @@ import numpy as np
 a = np.array([1.0, 2.0])
 b = np.array([1.0 + 1e-9, 2.0])
 # Exacta elemento a elemento: no es el booleano de equivalencia con tolerancia
-print(bool((a == b).all()))
-print('ok', True)`,
+print(bool((a == b).all()))`,
         },
         solutionCode: {
           language: 'python',
@@ -1415,15 +1393,15 @@ print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))`,
         subtopicId: "S14-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError` e imprime `fail`. Salida esperada: `fail`. Solo NumPy; corrige el bug del starter (hoy el assert pasa porque compara valores iguales).",
+          "E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError` e imprime `fail`. Salida esperada: `fail`. Solo NumPy; corrige el bug del código inicial (hoy el assert pasa porque compara valores iguales).",
         hint: "np.testing.assert_allclose.",
         hints: [
           "np.testing.assert_allclose.",
-          "except AssertionError.",
+          "La rama except debe ser la única que imprime fail.",
         ],
         edgeCases: ["atol que pasa el test", "no capturar"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        tests: "assert_allclose falla → print fail",
+        feedback: "Fuerza una diferencia > atol (p. ej. 0.1) y captura AssertionError. Si los arrays son idénticos, el assert no falla.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1453,7 +1431,7 @@ except AssertionError:
   youDo: {
     title: "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)",
     context:
-      "Tú lo haces (You Do). Eres analista de data quality en una fintech peruana: con arrays sintéticos de flags de completitud e ids/scores por cliente (Lima/Arequipa/Cusco, `C00x`), implementas el núcleo vectorizado del tablero de calidad — métricas, señales por pares, benchmark loop vs `@` y tests `allclose`. Sin PII real. Este incremento abre **CP-N2-A**.",
+      "Tú lo haces. Eres analista de data quality en una fintech peruana. Con arrays sintéticos de flags de completitud e ids/scores por cliente (Lima/Arequipa/Cusco, `C00x`), implementas el núcleo vectorizado del tablero de calidad: métricas, señales por pares, benchmark loop vs. `@` y tests `allclose`. Sin PII real. Este incremento abre **CP-N2-A**.",
     objectives: [
       "Implementar métricas de calidad vectorizadas (completitud por campo, unicidad de ids, tasa en rango)",
       "Calcular señales por pares con broadcasting documentado (matriz n×n)",
@@ -1484,8 +1462,9 @@ def completeness(flags: np.ndarray) -> np.ndarray:
     """flags: (n_clients, n_fields) con 0/1 → media por campo (axis=0).
 
     Contrato: flags.dtype numérico o booleano; ndim == 2.
+    Si ndim != 2, lanza ValueError (fail-closed).
     """
-    # Implementa: media por campo (axis=0)
+    # Implementa: valida ndim; media por campo (axis=0)
     raise NotImplementedError
 
 
@@ -1528,6 +1507,13 @@ def _run_tests() -> None:
     comp = completeness(flags)
     assert comp.shape == (3,)
     assert np.allclose(comp, np.array([1.0, 2 / 3, 2 / 3]))
+
+    # fail-closed: 1D no es matriz de flags
+    try:
+        completeness(np.array([1, 0, 1], dtype=float))
+        raise AssertionError("expected ValueError for 1D flags")
+    except ValueError:
+        pass
 
     ids = np.array(["C001", "C002", "C001", "C003"])
     u = uniqueness_rate(ids)
@@ -1577,14 +1563,14 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "Este incremento abre CP-N2-A (Executive Data Quality & EDA). En el README del repo: documenta shapes y dtypes de cada métrica, el rtol/atol de allclose, el presupuesto de memoria si calculas matrices n×n, y aclara que el ratio de tiempo depende de la máquina (no es un SLA). Sube solo datos sintéticos — nunca PII real.",
+      "Este incremento abre CP-N2-A (Executive Data Quality & EDA). En el README del repo documenta:\n\n- shapes y dtypes de cada métrica;\n- el `rtol`/`atol` de `allclose`;\n- el presupuesto de memoria si calculas matrices n×n;\n- que el ratio de tiempo depende de la máquina (no es un SLA).\n\nSube solo datos sintéticos — nunca PII real.",
     rubric: [
       { criterion: "Métricas vectorizadas correctas (completitud, unicidad, rangos) con shapes documentados", weight: "25%" },
       { criterion: "Señales por pares y benchmark con equivalencia allclose demostrada", weight: "20%" },
       { criterion: "Privacidad: sin PII real, sin secretos, fixtures sintéticos", weight: "20%" },
       { criterion: "Pruebas (_run_tests) y casos de borde (NaN, shapes) documentados", weight: "15%" },
       { criterion: "Código legible, contratos dtype/shape y límites claros", weight: "10%" },
-      { criterion: "Documentación en español profesional (memo de portfolio)", weight: "10%" },
+      { criterion: "Documentación en español profesional (nota de portfolio)", weight: "10%" },
     ],
   },
   selfCheck: {
@@ -1626,7 +1612,7 @@ if __name__ == "__main__":
       },
       {
         question: "¿Cuándo son compatibles dos shapes para broadcasting?",
-        options: ["Solo si son idénticos", "Si el producto de las dimensiones coincide", "Solo con keepdims=True", "Si, de derecha a izquierda, cada dimensión es igual o una es 1 (o ausente)"],
+        options: ["Solo si son idénticos", "Si el producto de las dimensiones coincide", "Solo con keepdims=True", "Sí, de derecha a izquierda: cada dimensión es igual, o una es 1, o está ausente"],
         correctIndex: 3,
         explanation:
           "El broadcasting alinea de derecha a izquierda; si no hay compatibilidad, ValueError.",

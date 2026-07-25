@@ -12,12 +12,12 @@ export const section52: CourseSection = {
   icon: "Rocket",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (fintech, retail, gobierno digital en Perú y LatAm), el cierre de carrera se juega con un **portfolio defendible**: demo reproducible, system/model cards, métricas con baseline y límites éticos — no con un CV de soft skills genérico. Esta sección integra tu **Enterprise Relationship & Operations Intelligence Platform** (caso sintético multi-región: Lima, Arequipa, Cusco, Piura) y solo promociona cuando 52/52, 12/12 capstones, CP-FINAL y regresión completa pasan **sin compensar** CP-N4-C. En una entrevista senior te pedirán el trade-off, el reloj del drill y qué aportaste tú.",
+    "En equipos de plataforma y producto (fintech, retail, gobierno digital en Perú y LATAM), el cierre de carrera se juega con un **portfolio defendible**: demo reproducible, system/model cards, métricas con baseline y límites éticos. No basta con un CV de soft skills genérico. Esta sección integra tu **Enterprise Relationship & Operations Intelligence Platform** (caso sintético multi-región: Lima, Arequipa, Cusco, Piura) y solo promociona cuando 52/52, 12/12 capstones, CP-FINAL y la regresión completa pasan **sin compensar** CP-N4-C. En una entrevista senior te pedirán el trade-off, el reloj del drill y qué aportaste tú.",
   learningOutcomes: [
     { text: "Revalidar CF-1 con matriz viva stakeholder/job/métrica y baseline sintético congelado (evidencia: change_log + fixtures)" },
-    { text: "Firmar constraints, riesgos con owner y no-go (real_pii, auto_fraud_label) con umbral y responsable" },
-    { text: "Mapear seis bounded contexts (intake, er, relationship, triage, reporting, copilot) con APIs/eventos versionados y contract tests" },
-    { text: "Ensamblar datos/modelos/RPA/RAG bajo human workflow (HITL) sin auto-etiquetar fraude ni parentesco" },
+    { text: "Firmar constraints, riesgos con responsable y no-go (real_pii, auto_fraud_label) con umbral escrito" },
+    { text: "Mapear seis bounded contexts (intake, er, relationship, triage, reporting, copilot) con API/eventos versionados y contract tests" },
+    { text: "Ensamblar datos/modelos/RPA/RAG bajo human workflow (HITL) sin autoetiquetar fraude ni parentesco" },
     { text: "Ejecutar matriz de verificación (unit/contract/integration/evals/red team/performance) con cero P0/P1 abiertos" },
     { text: "Demostrar SLO, RPO/RTO medidos, backup y disaster exercise con restore verificado" },
     { text: "Preparar demo ≤10 min (problema→baseline→decisión→métrica→límite) y narrativa de CV con contribución personal" },
@@ -27,11 +27,11 @@ export const section52: CourseSection = {
     {
       heading: "Ruta de S52 · Capstone FINAL (plataforma de relación y operaciones)",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **CP-FINAL:** capstone de integración del currículo completo. **CF-1 revalidación:** stakeholders, jobs y métricas actualizados. **No-go:** decisión de no desplegar si riesgo o evidencia faltan. **Bounded contexts:** fronteras intake, ER, relationship, triage, reporting, copilot (integradas por API/evento, no por DB compartida). **HITL:** human-in-the-loop — humano decide en riesgos sensibles. **RAG:** retrieval-augmented generation con citas. **RPO/RTO:** Recovery Point/Time Objective (cuánto dato y tiempo puedes perder). **SLO:** Service Level Objective. **ADR:** Architecture Decision Record. **C4:** modelo de arquitectura (contexto→contenedores→componentes→código). **Regresión S1–S52:** smoke de contratos y demos. **Disaster exercise:** backup/rollback probados con reloj. **System/model cards:** límites y ownership. **Demo reproducible:** un comando + fixtures sintéticos. **Defensa técnica:** trade-offs y contribución personal. **Promoción máster:** 52/52 + 12/12 + CP-FINAL + regresión sin P0/P1; **no compensa** CP-N4-C.",
-        "Esta sección es el **cierre senior-master**: integra S01–S51 y los **12 capstones** en la **Enterprise Relationship & Operations Intelligence Platform** (producto del CV, no un curso de soft skills). El caso `CASO-PER-052` (plataforma nacional sintética multi-región: Lima, Arequipa, Cusco, Piura — datos inventados) corre sin credenciales, sin PII real y sin auto-etiquetar fraude. Graduación exige 52/52 + 12/12 + CP-FINAL + regresión — **sin compensar** CP-N4-C. Aquí **carrera profesional** significa **portfolio técnico defendible** (demo, métricas, límites y contribución personal).",
-        "Producto incremental defendible. **Entrada:** artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. **Salida:** producto reproducible, demo, cards, evidencia de drill y defensa de trade-offs/contribución personal. **El gate bloquea la graduación** si hay P0/P1 abiertos, PII real, dependencia no reproducible, rollback no probado o afirmación sin evidencia. Cuando ese gate pasa en serio — con reloj, baseline y bundle de 8 — el cierre no es castigo: es **celebración legítima** de un portfolio que un revisor externo puede ejecutar y cuestionar.",
-        "Cómo se ensamblan los 12 capstones (grafo de dependencia, no basurero de repos sueltos): fundaciones de datos/ETL/entidad (ER) alimentan **intake + er + relationship**; modelos, evals y RAG alimentan **reporting + copilot** siempre bajo HITL; RPA y operación alimentan **triage** y el paquete de DR; cada CP-N* aporta un artefacto o contrato reutilizable, pero **ningún capstone parcial compensa** un CP-N4-C fallido ni un P0 abierto. El hilo narrativo de defensa es: *CF-1 delta → no-go firmado → mapa de 6 contexts → cadena HITL → matriz de 6 capas → drill RPO/RTO → demo ≤10 min → evidence bundle de 8*.",
-        "Orden de ensamblaje (no saltes etapas): **T1** revalida CF-1 y firma no-go → **T2** cablea seis contexts + HITL → **T3** congela verificación y mide DR → **T4** empaqueta demo/CV y el bundle de 8 artefactos. Plan 80 h orientativo: sem. 1–2 CF-1/no-go (~16 h); sem. 3–5 integración contexts/HITL y contract tests (~24 h); sem. 6–7 evals/red team/SLO/drill medido (~16 h); sem. 8–9 demo + evidence bundle + defensa oral (~16–24 h). iDo modela el procedimiento con fixtures; weDo entrena **alfabetización de gate** (qué código emitir ante válido/adverso/ausente); youDo es el **ensamblaje real de 80 h** — APIs, regresión S1–S52, drill y bundle. Stack: **stdlib** + artefactos del curso.",
+        "**Diccionario de la sección** (léelo antes de T1).\n\n- **CP-FINAL:** capstone de integración del currículo completo.\n- **CF-1 revalidación:** stakeholders, jobs y métricas actualizadas.\n- **No-go:** decisión de no desplegar si riesgo o evidencia faltan.\n- **Bounded contexts:** fronteras intake, ER, relationship, triage, reporting, copilot (integradas por API/evento, no por DB compartida).\n- **HITL:** human-in-the-loop — humano decide en riesgos sensibles.\n- **RAG:** retrieval-augmented generation con citas.\n- **RPO/RTO:** Recovery Point/Time Objective (cuánto dato y tiempo puedes perder).\n- **SLO:** Service Level Objective.\n- **ADR:** Architecture Decision Record.\n- **C4:** modelo de arquitectura (contexto→contenedores→componentes→código).\n- **Regresión S1–S52:** smoke de contratos y demos.\n- **Disaster exercise:** backup/rollback probados con reloj.\n- **System/model cards:** límites y ownership.\n- **Demo reproducible:** un comando + fixtures sintéticos.\n- **Defensa técnica:** trade-offs y contribución personal.\n- **Promoción máster:** 52/52 + 12/12 + CP-FINAL + regresión sin P0/P1; **no compensa** CP-N4-C.",
+        "Esta sección es el **cierre senior-master**: integra S01–S51 y los **12 capstones** en la **Enterprise Relationship & Operations Intelligence Platform** (producto del CV, no un curso de soft skills). El caso `CASO-PER-052` (plataforma nacional sintética multi-región: Lima, Arequipa, Cusco, Piura — datos inventados) corre sin credenciales, sin PII real y sin autoetiquetar fraude. La graduación exige 52/52 + 12/12 + CP-FINAL + regresión — **sin compensar** CP-N4-C. Aquí **carrera profesional** significa **portfolio técnico defendible** (demo, métricas, límites y contribución personal).",
+        "Producto incremental defendible. **Entrada:** artefactos congelados S1–S51, contratos, riesgos, no-go y benchmark. **Salida:** producto reproducible, demo, cards, evidencia de drill y defensa de trade-offs/contribución personal.\n\n**El gate bloquea la graduación** si se da alguna de estas condiciones: P0 o P1 abiertos; PII real; dependencia no reproducible; rollback no probado; afirmación sin evidencia.\n\nCuando ese gate pasa en serio — con reloj, baseline y bundle de 8 — el cierre no es castigo: es **celebración legítima** de un portfolio que un revisor externo puede ejecutar y cuestionar.",
+        "Cómo se ensamblan los 12 capstones (grafo de dependencia, no basurero de repos sueltos):\n\n- Fundaciones de datos/ETL/entidad (ER) alimentan **intake + er + relationship**.\n- Modelos, evals y RAG alimentan **reporting + copilot** siempre bajo HITL.\n- RPA y operación alimentan **triage** y el paquete de DR.\n\nCada CP-N* aporta un artefacto o contrato reutilizable, pero **ningún capstone parcial compensa** un CP-N4-C fallido ni un P0 abierto.\n\nEl hilo narrativo de defensa es: CF-1 delta → no-go firmado → mapa de 6 contexts → cadena HITL → matriz de 6 capas → drill RPO/RTO → demo ≤10 min → evidence bundle de 8.",
+        "Orden de ensamblaje (no saltes etapas): **T1** revalida CF-1 y firma no-go → **T2** cablea seis contexts + HITL → **T3** congela verificación y mide DR → **T4** empaqueta demo/CV y el bundle de 8 artefactos.\n\nPlan 80 h orientativo:\n\n- Semanas 1–2: CF-1/no-go (~16 h).\n- Semanas 3–5: integración contexts/HITL y contract tests (~24 h).\n- Semanas 6–7: evals/red team/SLO/drill medido (~16 h).\n- Semanas 8–9: demo + evidence bundle + defensa oral (~16–24 h).\n\niDo modela el procedimiento con fixtures; weDo entrena **alfabetización de gate** (qué código emitir ante válido/adverso/ausente); youDo es el **ensamblaje real de 80 h** — API, regresión S1–S52, drill y bundle. Stack: **stdlib** + artefactos del curso.",
       ],
       code: {
         language: 'python',
@@ -64,7 +64,7 @@ pii_or_secrets_ok False`,
       subtopicId: "S52-T1-A",
       paragraphs: [
         "Antes de cablear la plataforma final, **revalida CF-1**: stakeholders, jobs y success metrics pueden haber cambiado desde S01. Registra el **delta** (quién se fue, qué métrica se retiró) en un change_log. Sin matriz viva stakeholder/job/métrica + baseline sintético congelado, el portfolio defiende un producto fantasma y el gate exige `REOPEN_CF1`.",
-        "Procedimiento de revalidación: (1) lista stakeholders vivos y jobs actuales; (2) marca métricas retiradas en change_log; (3) congela baseline sintético (`baseline_frozen=True`); (4) si falta dueño o baseline, `INTERVIEW_STAKEHOLDER` / `REOPEN_CF1`. No reutilices la matriz de S01 sin delta: el producto final defiende *esta* versión. Puente a T1-B: con la matriz viva ya puedes firmar constraints y no-go.",
+        "Procedimiento de revalidación: (1) enumera los stakeholders vivos y los jobs actuales; (2) marca las métricas retiradas en change_log; (3) congela el baseline sintético (`baseline_frozen=True`); (4) si falta dueño o baseline, emite `INTERVIEW_STAKEHOLDER` o `REOPEN_CF1`. No reutilices la matriz de S01 sin delta: el producto final defiende *esta* versión. Puente a T1-B: con la matriz viva ya puedes firmar constraints y no-go.",
         "En `CASO-PER-052-1A` (ops, relationship, privacy; jobs≥3; ttr + review_precision; baseline_frozen) la matriz es válida. Un fixture solo con stakeholder `ops` y jobs=0 fuerza `REOPEN_CF1`. Datos sintéticos multi-región; ninguna métrica prueba fraude ni parentesco.",
       ],
       code: {
@@ -93,8 +93,8 @@ REOPEN_CF1`,
       heading: "Cambios, constraints, riesgos y no-go",
       subtopicId: "S52-T1-B",
       paragraphs: [
-        "Con CF-1 vivo (T1-A), fijas **constraints, riesgos y no-go** con **dueño y umbral** escritos: presupuesto, latencia, PII real, auto-etiquetado de fraude. Alcance que compromete privacidad o elimina revisión humana se **rechaza** (`DECLARE_NO_GO`), no se «gestiona con un disclaimer». Matching/ER/scores son evidencia — **nunca** prueba de fraude, parentesco o colusión.",
-        "Contrato no-go: `real_pii` y `auto_fraud_label` siempre bloqueados; `match_is_fraud` es False. Cada riesgo en el registro lleva owner; residual_risk_accepted debe ser explícito. Si falta firma o residual, `INDEPENDENT_RISK_REVIEW`. CP-FINAL no se aprueba si el no-go se viola — ethics fail-closed en toda la plataforma.",
+        "Con CF-1 vivo (T1-A), fijas **constraints, riesgos y no-go** con **dueño y umbral** escritos: presupuesto, latencia, PII real, autoetiquetado de fraude. Alcance que compromete privacidad o elimina revisión humana se **rechaza** (`DECLARE_NO_GO`), no se «gestiona con un disclaimer». Matching/ER/scores son evidencia — **nunca** prueba de fraude, parentesco o colusión.",
+        "Contrato no-go: `real_pii` y `auto_fraud_label` siempre bloqueados; `match_is_fraud` es False. Cada riesgo en el registro lleva responsable; residual_risk_accepted debe ser explícito. Si falta firma o residual, `INDEPENDENT_RISK_REVIEW`. CP-FINAL no se aprueba si el no-go se viola — ethics fail-closed en toda la plataforma.",
         "En `CASO-PER-052-1B` los constraints incluyen synthetic-only + human-review y el no-go bloquea real-pii / auto-risk-decision. Matching/ER/scores alimentan revisión humana; no son veredicto legal. Puente a T2: con no-go firmado ya puedes mapear los seis bounded contexts sin diluir límites éticos.",
       ],
       code: {
@@ -121,12 +121,12 @@ match_is_fraud False`,
       },
     },
     {
-      heading: "Bounded contexts, APIs y eventos",
+      heading: "Bounded contexts, API y eventos",
       subtopicId: "S52-T2-A",
       paragraphs: [
-        "Tras firmar no-go (T1), la plataforma se descompone en **seis bounded contexts**: intake, er, relationship, triage, reporting, copilot. Se integran por **APIs y eventos versionados**; **contratos y ownership** evitan una base compartida como acoplamiento oculto. Contract tests end-to-end fallan el release si un productor rompe el schema — no se «arregla en el consumidor» a escondidas. **Relationship** no es opcional: es el corazón del nombre de la plataforma y del caso multi-región.",
-        "Checklist de integración (ensamblaje real, no solo checklist mental): (1) dibuja el mapa de los seis contexts y el dueño de cada uno; (2) versiona OpenAPI y event schemas (`job.finished`, `case.updated` como mínimo); (3) prohíbe `shared_database` entre contexts; (4) exige ≥10 contract tests verdes que fallen si el productor cambia un campo. Flujo típico sintético: intake recibe el caso → er propone identidad → relationship actualiza grafo → triage prioriza → reporting emite métricas → copilot cita con RAG. Si falta mapa o tests, `MAP_BOUNDED_CONTEXTS` / `STOP_INTEGRATION_RELEASE`.",
-        "En `CASO-PER-052-2A` el fixture válido trae los seis contexts (incluye relationship), APIs/eventos versionados, shared_database=False y contract_tests≥10. Un monólito `all-in-one` con DB compartida fuerza `STOP_INTEGRATION_RELEASE`. Datos sintéticos multi-región; sin secretos en el repo. Puente a T2-B: con los contexts cableados, la cadena HITL (ER→triage→RPA→RAG→humano) cierra el loop de decisión sensible sin auto-fraude.",
+        "Tras firmar no-go (T1), la plataforma se descompone en **seis bounded contexts**: intake, er, relationship, triage, reporting, copilot. Se integran por **API y eventos versionados**; **contratos y ownership** evitan una base compartida como acoplamiento oculto. Los contract tests end-to-end fallan el release si un productor rompe el schema — no se «arregla en el consumidor» a escondidas. **Relationship** no es opcional: es el corazón del nombre de la plataforma y del caso multi-región.",
+        "Checklist de integración (ensamblaje real, no solo checklist mental):\n\n1. Dibuja el mapa de los seis contexts y el dueño de cada uno.\n2. Versiona OpenAPI y event schemas (`job.finished`, `case.updated` como mínimo).\n3. Prohíbe `shared_database` entre contexts.\n4. Exige ≥10 contract tests verdes que fallen si el productor cambia un campo.\n\nFlujo típico sintético: intake recibe el caso → er propone identidad → relationship actualiza grafo → triage prioriza → reporting emite métricas → copilot cita con RAG.\n\nSi falta mapa o tests, emite `MAP_BOUNDED_CONTEXTS` o `STOP_INTEGRATION_RELEASE`.",
+        "En `CASO-PER-052-2A` el fixture válido trae los seis contexts (incluye relationship), API/eventos versionados, shared_database=False y contract_tests≥10. Un monólito `all-in-one` con DB compartida fuerza `STOP_INTEGRATION_RELEASE`. Datos sintéticos multi-región; sin secretos en el repo. Puente a T2-B: con los contexts cableados, la cadena HITL (ER→triage→RPA→RAG→humano) cierra el loop de decisión sensible sin autofraude.",
       ],
       code: {
         language: 'python',
@@ -155,7 +155,7 @@ events ['job.finished', 'case.updated']`,
       subtopicId: "S52-T2-B",
       paragraphs: [
         "Con los seis contexts cableados (T2-A), **datos, modelos, RPA y RAG** apoyan un **human workflow (HITL)**, no lo sustituyen: ER **propone** identidad, triage **prioriza**, el copiloto **cita** evidencia (RAG). **Ninguna señal prueba fraude o parentesco**; `infers_fraud` permanece False. Decisión sensible sin humano en el loop es no-go de graduación.",
-        "Cadena permitida: er_proposes_match → triage_prioritizes → rpa_prepares_draft → rag_cites → **human_decides**. Si `infers_fraud` o se omite humano, `BLOCK_AUTOMATED_RISK_DECISION`. Si falta el flag de fraude explícito (incertidumbre de schema), `REQUEST_HUMAN_REVIEW`. No hay dark patterns de auto-aprobación.",
+        "Cadena permitida: er_proposes_match → triage_prioritizes → rpa_prepares_draft → rag_cites → **human_decides**. Si `infers_fraud` o se omite humano, `BLOCK_AUTOMATED_RISK_DECISION`. Si falta el flag de fraude explícito (incertidumbre de schema), `REQUEST_HUMAN_REVIEW`. No hay dark patterns de autoaprobación.",
         "En `CASO-PER-052-2B` el fixture válido propone, prioriza, prepara draft, cita y deja decidir al humano. Un fixture que infiere fraude sin HITL se bloquea. Puente a T3: el stack ya es auditable; ahora la matriz de tests debe congelarlo.",
       ],
       code: {
@@ -214,7 +214,7 @@ layers ['unit', 'contract', 'integration', 'evals', 'red_team', 'performance']`,
       heading: "SLO, backup, rollback y disaster exercise",
       subtopicId: "S52-T3-B",
       paragraphs: [
-        "Con la matriz de tests en verde (T3-A), **SLO, backup, rollback y disaster exercise** se demuestran con **reloj y evidencia**, no con promesas de runbook. Mides: availability ≥ SLO, edad del backup ≤ RPO (horas), tiempo de rollback ≤ RTO (minutos), y **restore verificado** en un drill. Un PDF de procedimientos sin ejercicio **no reduce riesgo** operativo.",
+        "Con la matriz de tests en verde (T3-A), **SLO, backup, rollback y disaster exercise** se demuestran con **reloj y evidencia**, no con promesas de runbook. Mides: availability ≥ SLO, edad del backup ≤ RPO (horas), tiempo de rollback ≤ RTO (minutos), y **restore verificado** en un drill. Un PDF de procedimientos sin ejercicio **no reduce el riesgo** operativo.",
         "Predicado medible: `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise` (restore verificado). Breach → `NO_GO_RESILIENCE`. Si falta el flag de drill → `RUN_DISASTER_EXERCISE`. Un tabletop verbal («hablamos de qué haríamos») **sin números** no cuenta para CP-FINAL.",
         "En `CASO-PER-052-3B` (avail 0.999, slo 0.995, backup 3 h ≤ RPO 4 h, rollback 8 min ≤ RTO 15 min, restore ok) pasa. Un fixture con avail 0.7 y rollback 120 min se bloquea con `NO_GO_RESILIENCE`. Puente a T4: con DR medido ya puedes narrar demo (baseline→resultado) y empaquetar el evidence bundle de 8.",
       ],
@@ -246,7 +246,7 @@ print(resilience(0.7, 0.995, 72, 4, 120, 15, False))`,
       heading: "Demo y narrativa de CV",
       subtopicId: "S52-T4-A",
       paragraphs: [
-        "Con la plataforma verificada y resiliente (T3), la **demo** narra **problema → baseline → decisión → métrica → límite** en ≤10 minutos, reproducible sin conocimiento tribal. El **CV/portfolio** distingue **contribución personal** de trabajo de equipo o plantillas del curso; inflar ownership es anti-patrón de carrera y de ética profesional. Ejemplo de viñeta defendible: «Problema: TTR de revisión 90 min en cola sintética multi-región → decisión: contract tests + blocking en triage API → resultado: 42 min (baseline congelado) → límite: HITL obligatorio, sin auto-fraude».",
+        "Con la plataforma verificada y resiliente (T3), la **demo** narra **problema → baseline → decisión → métrica → límite** en ≤10 minutos, reproducible sin conocimiento tribal. El **CV/portfolio** distingue **contribución personal** de trabajo de equipo o plantillas del curso; inflar ownership es anti-patrón de carrera y de ética profesional. Ejemplo de viñeta defendible: «Problema: TTR de revisión 90 min en cola sintética multi-región → decisión: contract tests + blocking en triage API → resultado: 42 min (baseline congelado) → límite: HITL obligatorio, sin autofraude».",
         "Contrato de honestidad: `result_ttr < baseline_ttr`, benchmark sintético, demo ≤10 min, claims con fuente, personal_contribution documentada. Si el claim no se sostiene → `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM`. Si falta contribución personal → `RECORD_PERSONAL_CONTRIBUTION`. Teatro de video sin números no aprueba — ni aunque el video sea bonito.",
         "En `CASO-PER-052-4A` (TTR 90→42 min sintético, 10 min de demo, claims sourced, contribución personal) pasa. Un claim con TTR peor y sin fuentes se rechaza. Puente a T4-B: la narrativa lista se empaqueta en el evidence bundle de 8 artefactos (C4, README, ADR, cards, LICENSE, video, defense_notes).",
       ],
@@ -317,7 +317,7 @@ cp_final independent_of_cpn4c`,
     },
   ],
   iDo: {
-    intro: "Ocho demos de **modelado de procedimiento** (no teatro de `print(True)`): cada una calcula el predicado de CP-FINAL a partir de fixtures sintéticos `CASO-PER-052` — delta CF-1, no-go, seis contexts, cadena HITL, seis capas de tests, RPO/RTO medidos, guion de demo y bundle de 8. Observa el *cómo se decide*; el weDo te pide reparar el mismo contrato cuando llega roto; el youDo ensambla la plataforma real en ~80 h.",
+    intro: "Ocho demos de **modelado de procedimiento** (no teatro de `print(True)`). Cada una calcula el predicado de CP-FINAL a partir de fixtures sintéticos `CASO-PER-052`, cubriendo: delta CF-1, no-go, seis contexts, cadena HITL, seis capas de tests, RPO/RTO medidos, guion de demo y bundle de 8. Observa el *cómo se decide*; el weDo te pide reparar el mismo contrato cuando llega roto; el youDo ensambla la plataforma real en ~80 h.",
     steps: [
       {
         demoId: "S52-T1-A-DEMO",
@@ -365,7 +365,7 @@ print("match_is_fraud", False)  # ER/score propone; no prueba fraude`,
 DECLARE_NO_GO
 match_is_fraud False`,
         },
-        why: "Calcula PASS vs DECLARE_NO_GO a partir de constraints, owners y residual; deja explícito que ER/score ≠ fraude. Prepara E1–E3 de T1-B.",
+        why: "Calcula PASS vs. DECLARE_NO_GO a partir de constraints, responsables y residual; deja explícito que ER/score ≠ fraude. Prepara E1–E3 de T1-B.",
       },
       {
         demoId: "S52-T2-A-DEMO",
@@ -412,7 +412,7 @@ print("rag_mode", "cited")`,
           output: `PASS BLOCK_AUTOMATED_RISK_DECISION
 rag_mode cited`,
         },
-        why: "Modela la cadena propose-not-decide y bloquea auto-fraude. El weDo T2-B invierte el mismo predicado.",
+        why: "Modela la cadena propose-not-decide y bloquea el autofraude. El weDo T2-B invierte el mismo predicado.",
       },
       {
         demoId: "S52-T3-A-DEMO",
@@ -457,7 +457,7 @@ print("measured", {"rpo_h": 4, "rto_min": 15})`,
 NO_GO_RESILIENCE
 measured {'rpo_h': 4, 'rto_min': 15}`,
         },
-        why: "Mide availability/SLO, edad de backup vs RPO y rollback vs RTO con restore verificado — alineado al weDo T3-B.",
+        why: "Mide availability/SLO, edad de backup vs. RPO y rollback vs. RTO con restore verificado — alineado al weDo T3-B.",
       },
       {
         demoId: "S52-T4-A-DEMO",
@@ -515,7 +515,7 @@ BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
     ],
   },
   weDo: {
-    intro: "S52 · Laboratorio CP-FINAL (24 retos en tríada E1/E2/E3). **E1** repara un predicado de dominio invertido; **E2** separa válido / adverso / missing; **E3** enruta CONTINUE / breach / incertidumbre con el código de acción del subtema. Fixtures sintéticos multi-región (`CASO-PER-052-*`). Estos drills no sustituyen el build de 80 h: entrenan **alfabetización de gate** — qué emitir cuando CF-1, no-go, contexts, HITL, P0/P1, DR o portfolio fallan. El **youDo** es el ensamblaje real: cablear 6 contexts (con relationship), regresión S1–S52, disaster drill con reloj, demo ≤10 min y evidence bundle de 8. Orden T1→T4; no marques READY si milestones, paths del bundle o contribución personal son teatro.",
+    intro: "S52 · Laboratorio CP-FINAL (24 retos en tríada E1/E2/E3).\n\n- **E1** repara un predicado de dominio invertido.\n- **E2** separa válido / adverso / missing.\n- **E3** enruta CONTINUE / breach / incertidumbre con el código de acción del subtema.\n\nFixtures sintéticos multi-región (`CASO-PER-052-*`). Estos drills no sustituyen el build de 80 h: entrenan **alfabetización de gate** — qué emitir cuando CF-1, no-go, contexts, HITL, P0/P1, DR o portfolio fallan. El **youDo** es el ensamblaje real: cablear 6 contexts (con relationship), regresión S1–S52, disaster drill con reloj, demo ≤10 min y evidence bundle de 8. Orden T1→T4; no marques READY si milestones, paths del bundle o contribución personal son teatro.",
     steps: [
       {
         id: "S52-T1-A-E1",
@@ -809,15 +809,15 @@ assert results == ["CONTINUE", "DECLARE_NO_GO", "INDEPENDENT_RISK_REVIEW"]` ,
         id: "S52-T2-A-E1",
         subtopicId: "S52-T2-A",
         kind: "guided",
-        instruction: "S52-T2-A-E1 · Filtra el contrato de `bounded contexts, APIs y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis contexts (intake, er, relationship, triage, reporting, copilot), contratos versionados y sin DB compartida. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_INTEGRATION_RELEASE` en E2.",
+        instruction: "S52-T2-A-E1 · Filtra el contrato de `bounded contexts, API y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis contexts (intake, er, relationship, triage, reporting, copilot), contratos versionados y sin DB compartida. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_INTEGRATION_RELEASE` en E2.",
         hint: "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
         hints: [
           "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva contract tests end-to-end; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, apis/eventos sin versionar, 0 tests", "CASO-PER-052-2A es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "El fixture `CASO-PER-052-2A` satisface un predicado de dominio real; imprime `S52-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T2-A-E1: nombra los seis contexts (incluye relationship), explica por qué shared_database o APIs sin versionar activan STOP_INTEGRATION_RELEASE, y por qué faltar contract_tests exige MAP_BOUNDED_CONTEXTS antes de seguir el ensamblaje.",
+        feedback: "S52-T2-A-E1: nombra los seis contexts (incluye relationship). Explica por qué shared_database o API sin versionar activan STOP_INTEGRATION_RELEASE. Faltar contract_tests exige MAP_BOUNDED_CONTEXTS antes de seguir el ensamblaje.",
         starterCode: {
           language: 'python',
           title: "s52-t2-a-e1.py",
@@ -846,13 +846,13 @@ assert meets_contract is True` ,
         id: "S52-T2-A-E2",
         subtopicId: "S52-T2-A",
         kind: "independent",
-        instruction: "S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, contexts, apis_versioned, events_versioned, shared_database, contract_tests. Salidas exactas: `PASS`, `STOP_INTEGRATION_RELEASE`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, API y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, contexts, apis_versioned, events_versioned, shared_database, contract_tests. Salidas exactas: `PASS`, `STOP_INTEGRATION_RELEASE`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
           "Después aplica la regla de S52-T2-A: seis contexts, contratos versionados y sin DB compartida. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, apis/eventos sin versionar, 0 tests", "CASO-PER-052-2A es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS STOP_INTEGRATION_RELEASE MISSING:contract_tests`.",
         feedback: "S52-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa STOP_INTEGRATION_RELEASE y por qué faltar contract_tests exige MAP_BOUNDED_CONTEXTS.",
         starterCode: {
@@ -900,13 +900,13 @@ print(*results)
         id: "S52-T2-A-E3",
         subtopicId: "S52-T2-A",
         kind: "transfer",
-        instruction: "S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar, el adverso debe devolver `STOP_INTEGRATION_RELEASE` y la ausencia de `contract_tests` debe devolver `MAP_BOUNDED_CONTEXTS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        instruction: "S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, API y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar, el adverso debe devolver `STOP_INTEGRATION_RELEASE` y la ausencia de `contract_tests` debe devolver `MAP_BOUNDED_CONTEXTS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
         hint: "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
           "Para datos completos reutiliza la regla que demostró seis contexts, contratos versionados y sin DB compartida; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, apis/eventos sin versionar, 0 tests", "CASO-PER-052-2A es sintético"],
+        edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "Fixtures `CASO-PER-052-2A`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
         feedback: "S52-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa STOP_INTEGRATION_RELEASE y por qué faltar contract_tests exige MAP_BOUNDED_CONTEXTS.",
         starterCode: {
@@ -1057,7 +1057,7 @@ print(*results)
           language: 'python',
           title: "s52-t2-b-e3.py",
           code: `# CASO-PER-052 · decide restore AI limits
-# DEFECT: missing→CONTINUE; no bloqueo de auto-fraude
+# DEFECT: missing→CONTINUE; no bloqueo de autofraude
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def decide(record: dict) -> str:
     required = {"case_id", "er_proposes_match", "triage_prioritizes", "rpa_prepares_draft", "rag_cites", "human_decides", "infers_fraud"}
@@ -1250,7 +1250,7 @@ assert results == ["CONTINUE", "BLOCK_FINAL_ON_P0_P1", "FIX_AND_RERUN_REGRESSION
         ],
         edgeCases: ["falta disaster_exercise", "fixture adverso: availability bajo SLO, backup_age>RPO, rollback>RTO, restore no verificado", "CASO-PER-052-3B es sintético"],
         tests: "El fixture `CASO-PER-052-3B` satisface un predicado de dominio real; imprime `S52-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T3-B-E1: muestra con números del fixture por qué availability/SLO, backup vs RPO y rollback vs RTO + restore pasan; contrasta con el adverso (p. ej. rollback 120 min) que fuerza NO_GO_RESILIENCE; sin flag de drill → RUN_DISASTER_EXERCISE.",
+        feedback: "S52-T3-B-E1: muestra con números del fixture por qué pasan availability/SLO, backup vs. RPO y rollback vs. RTO + restore. Contrasta con el adverso (p. ej. rollback 120 min) que fuerza `NO_GO_RESILIENCE`. Sin flag de drill, emite `RUN_DISASTER_EXERCISE`.",
         starterCode: {
           language: 'python',
           title: "s52-t3-b-e1.py",
@@ -1386,7 +1386,7 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         id: "S52-T4-A-E1",
         subtopicId: "S52-T4-A",
         kind: "guided",
-        instruction: "S52-T4-A-E1 · Audita el contrato de demo y narrativa de CV sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs baseline sintético y narrativa atribuible (contribución personal). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` en E2. En youDo el mismo claim alimenta el guion de defensa oral ≤10 min.",
+        instruction: "S52-T4-A-E1 · Audita el contrato de demo y narrativa de CV sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs. baseline sintético y narrativa atribuible (contribución personal). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` en E2. En youDo el mismo claim alimenta el guion de defensa oral ≤10 min.",
         hint: "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
         hints: [
           "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
@@ -1426,7 +1426,7 @@ assert meets_contract is True` ,
         hint: "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S52-T4-A: mejora vs baseline sintético y narrativa atribuible. El fixture adverso debe fallar por contenido, no por schema.",
+          "Después aplica la regla de S52-T4-A: mejora vs. baseline sintético y narrativa atribuible. El fixture adverso debe fallar por contenido, no por schema.",
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `personal_contribution` ausente y produce exactamente `PASS REJECT_UNSUPPORTED_PORTFOLIO_CLAIM MISSING:personal_contribution`.",
@@ -1480,7 +1480,7 @@ print(*results)
         hint: "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
-          "Para datos completos reutiliza la regla que demostró mejora vs baseline sintético y narrativa atribuible; solo ese caso devuelve `CONTINUE`.",
+          "Para datos completos reutiliza la regla que demostró mejora vs. baseline sintético y narrativa atribuible; solo ese caso devuelve `CONTINUE`.",
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "Fixtures `CASO-PER-052-4A`, adverso y sin `personal_contribution` prueban continue/breach/uncertainty en ese orden.",
@@ -1683,14 +1683,15 @@ assert results == ["CONTINUE", "BLOCK_INCOMPLETE_EVIDENCE_BUNDLE", "SCHEDULE_TEC
     ],
     requirements: [
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-PER-052` (sin PII real).",
-      "Incluye arquitectura con seis contexts (intake, er, relationship, triage, reporting, copilot) vía APIs/eventos y human workflow.",
+      "Incluye arquitectura con seis contexts (intake, er, relationship, triage, reporting, copilot) vía API/eventos y human workflow.",
       "Incluye tests/evals/red team/performance y benchmark antes/después (TTR u otra métrica con baseline congelado).",
       "Incluye SLO, backup, rollback y disaster exercise con RPO/RTO medidos y restore verificado.",
-      "Incluye los 8 artefactos: architecture (C4), README, ADR, system_card, model_card, LICENSE, demo_video, defense_notes.",
+      "Incluye los 8 artefactos del evidence bundle: architecture (C4), README, ADR, system_card, model_card, LICENSE, demo_video y defense_notes.",
       "Automatiza un caso normal (`CONTINUE`/`PASS`), uno de breach (`DECLARE_NO_GO` / `BLOCK_FINAL_ON_P0_P1` / `NO_GO_RESILIENCE` según capa) y uno incierto (`INTERVIEW_STAKEHOLDER` / `INDEPENDENT_RISK_REVIEW` / equivalente del subtema).",
       "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
       "Registra riesgo residual, responsable, criterio de rollback, limitaciones y contribución personal.",
-      "Hitos 80 h (orientativo): sem. 1–2 CF-1/no-go; sem. 3–5 contexts+HITL; sem. 6–7 verificación+DR; sem. 8–9 demo+bundle+defensa.",
+      "Hitos 80 h (orientativo): semanas 1–2 CF-1/no-go; semanas 3–5 contexts+HITL; semanas 6–7 verificación+DR; semanas 8–9 demo+bundle+defensa.",
+      "Declara el gate curricular en `curriculum_gate` (52/52, 12/12, CP-FINAL, regresión S1–S52, cero P0/P1 y cpn4c_independent) con valores reales, no teatro.",
     ],
     starterCode: `CASE_ID = "CASO-PER-052"
 # Checklist de readiness CP-FINAL — inicia BLOCKED a propósito.
@@ -1760,9 +1761,20 @@ evidence = {name: False for name in REQUIRED}
 artifact_paths: dict[str, str] = {}
 regression_cmd = "python -m pytest tests/ -q"  # ajusta a tu suite local S1–S52
 defense_notes_path = "docs/defense_notes.md"
-personal_contribution = ""  # 1–3 frases: qué hiciste tú vs plantillas del curso
+personal_contribution = ""  # 1–3 frases: qué hiciste tú vs. plantillas del curso
 baseline_ttr_min = None  # congela baseline sintético antes de claim de mejora
 result_ttr_min = None
+
+# Gate curricular del mapa (rellena con el estado real del curso; no teatro)
+curriculum_gate = {
+    "sections_complete": 0,       # debe ser 52
+    "capstones_complete": 0,      # debe ser 12
+    "cp_final_passed": False,
+    "regression_s1_s52_ok": False,
+    "open_p0": None,              # debe ser 0
+    "open_p1": None,              # debe ser 0
+    "cpn4c_independent": False,   # True = no compensar CP-N4-C
+}
 
 def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     missing = [name for name in REQUIRED if bundle.get(name) is not True]
@@ -1797,6 +1809,19 @@ def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
         missing.append("ttr_baseline_or_result_missing")
     elif result_ttr_min >= baseline_ttr_min:
         missing.append("ttr_no_improvement_vs_baseline")
+    # Gate de promoción del mapa (alineado a theory/section_contract)
+    if curriculum_gate.get("sections_complete") != 52:
+        missing.append("gate_sections_not_52")
+    if curriculum_gate.get("capstones_complete") != 12:
+        missing.append("gate_capstones_not_12")
+    if not curriculum_gate.get("cp_final_passed"):
+        missing.append("gate_cp_final_not_passed")
+    if not curriculum_gate.get("regression_s1_s52_ok"):
+        missing.append("gate_regression_s1_s52_not_ok")
+    if curriculum_gate.get("open_p0") != 0 or curriculum_gate.get("open_p1") != 0:
+        missing.append("gate_open_p0_p1")
+    if not curriculum_gate.get("cpn4c_independent"):
+        missing.append("gate_cpn4c_not_independent")
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
 status, missing = readiness(evidence)
@@ -1805,13 +1830,14 @@ print("missing", ",".join(missing))
 print("bundle_expected_n", len(BUNDLE_8))
 print("contexts_wired_n", len(contexts_wired), "/", len(CONTEXTS_6))
 print("milestones_done", sum(milestones.values()), "/", len(milestones))
+print("curriculum_gate", curriculum_gate)
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-FINAL · plataforma integral defendible: baseline TTR (u otra métrica), decisión, pruebas, resultado medido, RPO/RTO numéricos, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; READY exige hitos 80 h, 6 contexts cableados (con relationship), eventos declarados, HITL, drill con reloj (availability/SLO/RPO/RTO + restore), paths de los 8 artefactos, guion de defensa, regresión S1–S52, mejora vs baseline y contribución personal — no voltear booleans. weDo entrenó los códigos de acción; este youDo es el ensamblaje real del producto de CV.",
+    portfolioNote: "Evidencia de CP-FINAL · plataforma integral defendible: baseline TTR (u otra métrica), decisión, pruebas, resultado medido, RPO/RTO numéricos, rollback y riesgo residual.\n\nLa lista de verificación inicia en BLOCKED por diseño. READY exige:\n\n- hitos 80 h completos\n- 6 contexts cableados (incluyendo relationship)\n- eventos declarados e HITL\n- drill con reloj (availability/SLO/RPO/RTO + restore verificado)\n- paths de los 8 artefactos\n- guion de defensa\n- regresión S1–S52\n- mejora vs. baseline\n- contribución personal explícita\n- curriculum_gate en 52/52, 12/12, CP-FINAL, cero P0/P1 y cpn4c_independent\n\nNo se aprueba volteando booleans. weDo entrenó los códigos de acción; este youDo es el ensamblaje real del producto de CV.",
     rubric: [
       { criterion: "Correctitud del contrato y gate (52/52 + 12/12 + CP-FINAL + regresión; sin compensar CP-N4-C)", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación fail-closed", weight: "20%" },
-      { criterion: "Seguridad, privacidad y least privilege (sin PII real, sin auto-fraude)", weight: "15%" },
+      { criterion: "Seguridad, privacidad y least privilege (sin PII real, sin autofraude)", weight: "15%" },
       { criterion: "Reproducibilidad, lineage y evidence bundle de 8 artefactos", weight: "15%" },
       { criterion: "Operación: SLO, observabilidad, RPO/RTO y rollback probado", weight: "15%" },
       { criterion: "Comunicación de trade-offs, límites y contribución personal", weight: "10%" },
@@ -1894,7 +1920,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "PyArcana — repositorio del curso (CP-FINAL)",
         url: "https://github.com/PillB/pyarcana",
-        note: "Código, demos y regresión S1–S52 del capstone final",
+        note: "Código fuente del curso y sección s52-career-strategy (CP-FINAL); demos y regresión S1–S52",
       },
     ],
     books: [

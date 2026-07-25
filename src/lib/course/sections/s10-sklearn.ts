@@ -28,8 +28,8 @@ export const section10: CourseSection = {
     {
       heading: "Del notebook suelto al paquete instalable (mapa)",
       paragraphs: [
-        "Hasta S09 tu lógica vive en scripts y módulos sueltos. Aquí empaquetas **familiarity_core**: imports estables, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia** — la herramienta que el equipo puede `pip install -e .` y correr sin notebook.",
-        "Integra el ETL de CP-N1-B (S08) y la observabilidad de S09 (logs sin PII, exit codes). Entorno local con stdlib: argparse, pathlib y metadata de empaquetado. Fail-closed si config o schema no cuadran al arranque.",
+        "Hasta S09 tu lógica vive en scripts y módulos sueltos. Aquí empaquetas **familiarity_core**: imports estables, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**. Es la herramienta que el equipo puede instalar con `pip install -e .` y ejecutar sin notebook.",
+        "Integra el ETL de CP-N1-B (S08) y la observabilidad de S09 (logs sin PII, exit codes). Entorno local con biblioteca estándar: argparse, pathlib y metadata de empaquetado. Fail-closed si config o schema no cuadran al arranque.",
         "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**. Caso de lab: CLI local con datos sintéticos y exit codes 0/1/2 — **nunca** PII real ni claims de fraude.",
       ],
       callout: {
@@ -45,7 +45,7 @@ export const section10: CourseSection = {
       paragraphs: [
         "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script. Ejecutar `python -m familiarity_core` usa el paquete como `__main__` sin pelear con `sys.path`.",
         "`if __name__ == '__main__':` protege el CLI/demo para que **no** corra al importar. **`__all__`** documenta la API pública (y comunica intención). Fail-closed si el schema de config no cuadra al arranque.",
-        "Los **imports circulares** se rompen extrayendo un tercer módulo compartido, con lazy import o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso — no `import` dentro de cada método salvo como último recurso documentado.",
+        "Los **imports circulares** se rompen extrayendo un tercer módulo compartido, usando *lazy import* o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
       ],
       code: {
         language: 'python',
@@ -114,7 +114,7 @@ True`,
       paragraphs: [
         "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo **sin** instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
         "`pip install -e .` instala en **editable**: cambias código y el import refleja al toque. Ideal en desarrollo del CLI del gate CP-N1-B/C. Fail-closed si metadata falta (`name`, `version`).",
-        "Si ves `ModuleNotFoundError` post-install, revisa en este orden: (1) ¿`pip install -e .` en el venv activo?, (2) ¿el nombre de import coincide con la carpeta bajo `src/`?, (3) ¿un script homónimo en el cwd tapa el paquete en `sys.path`?",
+        "Si ves `ModuleNotFoundError` tras instalar, revisa en este orden: (1) ¿`pip install -e .` se ejecutó en el venv activo?; (2) ¿el nombre de import coincide con la carpeta bajo `src/`?; (3) ¿un script homónimo en el cwd tapa el paquete en `sys.path`?",
       ],
       code: {
         language: 'python',
@@ -149,7 +149,7 @@ layout src/familiarity_core/__init__.py`,
       },
       callout: {
         type: "info",
-        title: "stdlib first",
+        title: "Biblioteca estándar primero",
         content:
           "En N1 el paquete puede no depender de terceros; declara deps solo cuando existan.",
       },
@@ -158,7 +158,7 @@ layout src/familiarity_core/__init__.py`,
       heading: "Versionado y compatibilidad",
       subtopicId: "S10-T2-B",
       paragraphs: [
-        "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero **documenta igual**. Renombrar API pública de normalizers es major para consumidores del paquete.",
+        "**SemVer** simple: MAJOR.MINOR.PATCH. Un cambio *breaking* (incompatible) → major; una *feature* compatible → minor; un *fix* sin cambio de contrato → patch. En 0.x es más flexible, pero **documenta igual**. Renombrar la API pública de normalizers es *major* para los consumidores del paquete.",
         "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Fail-closed si falta metadata en pyproject.",
         "Un **CHANGELOG** real, aunque breve (Added/Changed/Fixed), evita amnesia entre sprints. Breaking de firma pública se **anuncia** con versión major y nota de migración; deprecar un símbolo un minor antes reduce el dolor del major.",
       ],
@@ -194,7 +194,7 @@ print("1.0.0 + rename API", bump("1.0.0", "major"))`,
       subtopicId: "S10-T3-A",
       paragraphs: [
         "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios y `help=` en español claro para operadores.",
-        "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI **dependen** de esto — no devuelvas siempre 0.",
+        "Exit codes: **0** = éxito; **2** = uso/CLI inválido (default de argparse); **1** = error de runtime/negocio. Los scripts y el CI **dependen** de esto: no devuelvas siempre 0.",
         "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`. Así puedes unit-testear `main([...])` sin spawn de proceso y simular usage errors (código 2) con argv inválidos.",
       ],
       code: {
@@ -283,7 +283,7 @@ stage=normalize event=done`,
       subtopicId: "S10-T4-A",
       paragraphs: [
         "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Documenta la tabla en README — sin sorpresas en ops.",
-        "Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`. Trata `None` en flags como “no pasado” para no pisar env con nulls.",
+        "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* con *nulls*.",
         "Implementa un `merge_config` **puro y testeable**: dicts por capa, reduce de menor a mayor prioridad. Casos de borde: `None` en flags significa “no pasado” (no pisa env); una clave solo en defaults sobrevive si nadie la redefine.",
       ],
       code: {
@@ -308,16 +308,16 @@ print(cfg)`,
       },
       callout: {
         type: "info",
-        title: "None vs missing",
+        title: "None vs. missing",
         content:
-          "Trata None en flags como 'no pasado' para no pisar env con nulls.",
+          "Trata None en flags como «no pasado» para no pisar env con nulls.",
       },
     },
     {
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
-        "Secretos **fuera del repo**: `.env` en `.gitignore`, **nunca** en logs (S09). El ETL local de este nivel **no inventa un API token**. Defaults seguros (log level INFO, no debug con PII).",
+        "Secretos **fuera del repo**: `.env` en `.gitignore`, **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**. Defaults seguros (log level INFO, no debug con PII).",
         "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report. Fail-closed — no proceses a ciegas.",
         "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Mensaje de error: nombra la **clave** y el **subcomando** (`config: falta input_path para ingest`); jamás imprimas el valor de un token en traceback aunque el adaptador remoto lo tenga en memoria.",
       ],
@@ -378,7 +378,7 @@ assert normalize("X") == "x"
 raise SystemExit(main(["  José Pérez "]))`,
           output: `josé pérez`,
         },
-        why: "La lógica vive en normalize; el entrypoint solo orquesta.",
+        why: "La lógica vive en `normalize`; el entrypoint solo orquesta.",
       },
       {
         demoId: "S10-T1-B-DEMO",
@@ -523,7 +523,7 @@ run normalize
 code 0
 bad_argv 2`,
         },
-        why: "Subparsers + return codes hacen la CLI operable en scripts; argv inválido debe devolver 2.",
+        why: "Los subparsers y los códigos de retorno hacen la CLI operable desde scripts; un argv inválido debe devolver 2.",
       },
       {
         demoId: "S10-T3-B-DEMO",
@@ -558,7 +558,7 @@ stage=normalize event=done`,
         demoId: "S10-T4-A-DEMO",
         subtopicId: "S10-T4-A",
         environment: "local-python",
-        description: "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+        description: "`FAMILIARITY_LOG_LEVEL` vs. `--log-level`: gana el flag.",
         code: {
           language: 'python',
           title: "log_level_prec.py",
@@ -577,7 +577,7 @@ print("default", resolve_log_level())`,
 flag gana ERROR
 default INFO`,
         },
-        why: "Precedencia flags > env > default documentada y testeable.",
+        why: "Precedencia flags > env > default documentado y testeable.",
       },
       {
         demoId: "S10-T4-B-DEMO",
@@ -606,32 +606,31 @@ print("ingest ok")`,
 abort config: falta input_path para ingest
 ingest ok`,
         },
-        why: "Validación temprana y contextual, sin exigir secretos irrelevantes al ETL local.",
+        why: "Validación temprana y contextual, sin exigir secretos irrelevantes para el ETL local.",
       },
     ],
   },
   weDo: {
-    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Usa solo stdlib y lo aprendido hasta S10; cada starter trae un defecto marcado con `# DEFECT`. Elimina líneas extra (p. ej. `ok True`); la salida debe coincidir exactamente con el contrato.",
+    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, con 2 *hints* cada uno). Usa solo la biblioteca estándar y lo aprendido hasta S10. Cada starter trae un bug marcado con el comentario `# DEFECT:` al inicio de la línea defectuosa; corrígelo y verifica con la salida esperada. Elimina las líneas extra (p. ej. `print('ok', True)`); la salida debe coincidir exactamente con el contrato.",
     steps: [
       {
         id: "S10-T1-A-E1",
         subtopicId: "S10-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T1-A — Arregla el módulo del starter (`CASO-LIM-010`): `clean` debe colapsar espacios, hacer casefold y exportarse en `__all__` (no exportes helpers con `_`). Salida esperada exacta:\n['clean']\nx",
+          "**E1 · T1 Imports** (guiado) — Arregla el módulo del starter: la función `clean` debe colapsar espacios, hacer *casefold* y exportarse en `__all__` (no exportes helpers con `_`). Salida esperada exacta:\n['clean']\nx",
         hint: "Helper privado con _ no va en __all__.",
         hints: [
           "Helper privado con _ no va en __all__.",
           "Imprime __all__ y clean('  X ').",
         ],
-        edgeCases: ["import * no es recomendado; __all__ documenta intención"],
+        edgeCases: ["import * no es recomendado; __all__ documenta intención."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si ves `_ws` en __all__ o espacios sin colapsar, el helper aún no es privado o clean no hace casefold/join.",
         starterCode: {
           language: 'python',
           title: "public_module.py",
-          code: `# CASO-LIM-010 · clean + __all__
-# DEFECT: _ws no colapsa; no exporta clean; quita print('ok', True)
+          code: `# DEFECT: _ws no colapsa; no exporta clean; quita print('ok', True)
 def _ws(s: str) -> str:
     return s.strip()
 
@@ -664,20 +663,19 @@ x`,
         subtopicId: "S10-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T1-A — Un util compartido alimenta `module_a_process` y `module_b_process` (patrón anti-ciclo: lógica común fuera de A↔B). Corrige `util_norm` (strip+casefold) y los sufijos `:a`/`:b` invertidos. Salida esperada exacta:\nhola:a\nhola:b\nok",
+          "**E2 · T1 Imports** (independiente) — Un util compartido alimenta `module_a_process` y `module_b_process` (patrón anti-ciclo: lógica común fuera de A↔B). Corrige `util_norm` (strip+casefold) y los sufijos `:a`/`:b` invertidos. Salida esperada exacta:\nhola:a\nhola:b\nok",
         hint: "La lógica compartida vive en util_norm; A y B solo orquestan.",
         hints: [
           "La lógica compartida vive en util_norm; A y B solo orquestan (evita dependencia A↔B).",
           "module_a debe terminar en :a y module_b en :b; casefold en util_norm.",
         ],
-        edgeCases: ["Lazy import dentro de función es plan B si el util compartido no basta"],
+        edgeCases: ["Lazy import dentro de función es plan B si el util compartido no basta."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
-        feedback: "Si sale hola:b primero o Hola sin casefold, los sufijos siguen invertidos o util_norm no normaliza del todo.",
+        feedback: "Si sale hola:b primero u Hola sin casefold, los sufijos siguen invertidos o util_norm no normaliza del todo.",
         starterCode: {
           language: 'python',
           title: "shared_util_modules.py",
-          code: `# CASO-LIM-010 · util compartido (anti-ciclo A↔B)
-# DEFECT: util_norm no casefold; suffixes invertidos; quita print('ok', True)
+          code: `# DEFECT: util_norm no casefold; suffixes invertidos; quita print('ok', True)
 def util_norm(s: str) -> str:
     return s.strip()
 
@@ -716,7 +714,7 @@ ok`,
         subtopicId: "S10-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T1-A — Implementa `recommend_import_style(kind)` con kinds estructurados (`CASO-LIM-010`): `same_package` → relativo/absoluto del paquete; `external_plugin` → import absoluto del paquete instalado; `run_cli` → `python -m familiarity_core`. Imprime etiqueta -> estilo. Salida esperada exacta:\nnormalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\nplugin externo usa familiarity_core -> absoluto (import familiarity_core)\nejecutar el CLI del paquete -> python -m familiarity_core",
+          "**E3 · T1 Imports** (transferencia) — Implementa `recommend_import_style(kind)` con kinds estructurados: `same_package` → relativo/absoluto del paquete; `external_plugin` → import absoluto del paquete instalado; `run_cli` → `python -m familiarity_core`. Imprime etiqueta -> estilo. Salida esperada exacta:\nnormalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\nplugin externo usa familiarity_core -> absoluto (import familiarity_core)\nejecutar el CLI del paquete -> python -m familiarity_core",
         hint: "Despacha por kind exacto (same_package / external_plugin / run_cli), no por substring del label.",
         hints: [
           "El label es solo para la UI del print; la decisión usa el kind del tuple.",
@@ -728,8 +726,7 @@ ok`,
         starterCode: {
           language: 'python',
           title: "import_style.py",
-          code: `# CASO-LIM-010 · relative vs absolute import (kinds estructurados)
-# DEFECT: ramas invertidas / incompletas; quita print('ok', True)
+          code: `# DEFECT: ramas invertidas / incompletas; quita print('ok', True)
 def recommend_import_style(kind: str) -> str:
     if kind == "external_plugin":
         return "relativo (from . import)"
@@ -775,20 +772,19 @@ ejecutar el CLI del paquete -> python -m familiarity_core`,
         subtopicId: "S10-T1-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T1-B — Separa API pública y privada: imprime `public` = nombres sin `_` y `private` = nombres con `_` a partir de la lista del starter; `compare` debe seguir normalizando. Salida esperada exacta:\npublic ['normalize', 'compare']\nprivate ['_tokenize']\nTrue",
-        hint: "Imprime lista public vs private detectada por nombre.",
+          "**E1 · T1 API** (guiado) — Separa API pública y privada: imprime `public` = nombres sin `_` y `private` = nombres con `_` a partir de la lista del starter; `compare` debe seguir normalizando. Salida esperada exacta:\npublic ['normalize', 'compare']\nprivate ['_tokenize']\nTrue",
+        hint: "Imprime lista public vs. private detectada por nombre.",
         hints: [
-          "Imprime lista public vs private detectada por nombre.",
+          "Imprime lista public vs. private detectada por nombre.",
           "Usa startswith('_') sobre la lista names del starter.",
         ],
-        edgeCases: ["Un solo _ es convención, no enforcement del runtime"],
+        edgeCases: ["Un solo _ es convención, no enforcement del runtime."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si public incluye `_tokenize` o falta la línea private, filtra con startswith('_') y no reutilices la lista cruda.",
         starterCode: {
           language: 'python',
           title: "mark_private.py",
-          code: `# CASO-LIM-010 · public vs private names
-# DEFECT: exporta _tokenize como público; quita print('ok', True)
+          code: `# DEFECT: exporta _tokenize como público; quita print('ok', True)
 def _tokenize(s):
     return s.split()
 
@@ -832,7 +828,7 @@ True`,
         subtopicId: "S10-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T1-B — Implementa la fachada: `normalize` con casefold, `compare` vía normalize, e imprime `__all__ = ['normalize', 'compare']`. Salida esperada exacta:\n['normalize', 'compare']\nTrue",
+          "**E2 · T1 API** (independiente) — Implementa la fachada: `normalize` con casefold, `compare` vía normalize, e imprime `__all__ = ['normalize', 'compare']`. Salida esperada exacta:\n['normalize', 'compare']\nTrue",
         hint: "Las implementaciones pueden ser locales.",
         hints: [
           "Las implementaciones pueden ser locales.",
@@ -844,8 +840,7 @@ True`,
         starterCode: {
           language: 'python',
           title: "facade.py",
-          code: `# CASO-LIM-010 · facade __all__
-# DEFECT: __all__ vacío; compare sin normalize; quita print('ok', True)
+          code: `# DEFECT: __all__ vacío; compare sin normalize; quita print('ok', True)
 def normalize(s: str) -> str:
     return s.strip()
 
@@ -879,7 +874,7 @@ True`,
         subtopicId: "S10-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T1-B — Implementa `major_bump(version)` y `document_breaking(...)` para un cambio de firma pública: imprime BREAKING, NEW_VERSION (major) y MIGRATION. Salida esperada exacta:\nBREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\nNEW_VERSION: 1.0.0 -> 2.0.0\nMIGRATION: usar compare(a,b) == 1.0 en vez de is True",
+          "**E3 · T1 API** (transferencia) — Implementa `major_bump(version)` y `document_breaking(...)` para un cambio de firma pública: imprime BREAKING, NEW_VERSION (major) y MIGRATION. Salida esperada exacta:\nBREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\nNEW_VERSION: 1.0.0 -> 2.0.0\nMIGRATION: usar compare(a,b) == 1.0 en vez de is True",
         hint: "major_bump('1.0.0') → '2.0.0'; no hardcodees 2.0.0 a mano si puedes calcularlo.",
         hints: [
           "major_bump: toma el MAJOR, suma 1, deja MINOR y PATCH en 0.",
@@ -891,7 +886,7 @@ True`,
         starterCode: {
           language: 'python',
           title: "breaking_change.py",
-          code: `# CASO-LIM-010 · breaking change notes
+          code: `# breaking change notes
 # DEFECT: major_bump hace patch; migración vacía; quita print('ok', True)
 def major_bump(version: str) -> str:
     maj, minor, patch = version.split(".")
@@ -938,19 +933,19 @@ MIGRATION: usar compare(a,b) == 1.0 en vez de is True`,
         subtopicId: "S10-T2-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T2-A — Implementa `complete_project(partial)` (`CASO-LIM-010`) que normaliza metadata instalable: name → `familiarity-core`, conserva `version` si existe (default `0.1.0`), y fija `requires-python` a `>=3.11`. Salida esperada exacta:\n{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}",
+          "**E1 · T2 Layout** (guiado) — Implementa `complete_project(partial)` que normaliza metadata instalable: name → `familiarity-core`, conserva `version` si existe (default `0.1.0`), y fija `requires-python` a `>=3.11`. Salida esperada exacta:\n{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}",
         hint: "Copia partial, fuerza name y requires-python; version con setdefault o default.",
         hints: [
           "No devuelvas el dict parcial tal cual: name y requires-python se corrigen siempre.",
           "version: usa partial.get('version') o '0.1.0' si falta.",
         ],
-        edgeCases: ["El nombre de distribución puede usar guiones; el import usa guion bajo"],
+        edgeCases: ["El nombre de distribución puede usar guiones; el import usa guion bajo."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si el name sigue siendo 'familiarity' o falta requires-python, complete_project no está normalizando el contrato de pyproject.",
         starterCode: {
           language: 'python',
           title: "pyproject_fields.py",
-          code: `# CASO-LIM-010 · project metadata
+          code: `# project metadata
 # DEFECT: complete_project no corrige name ni requires-python; quita print('ok', True)
 def complete_project(partial: dict) -> dict:
     return dict(partial)
@@ -977,7 +972,7 @@ print(complete_project({"name": "familiarity", "version": "0.1.0"}))`,
         subtopicId: "S10-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T2-A — Implementa `src_layout(package, modules)` que arma rutas `src/<paquete>/…` y añade `pyproject.toml` al final. Módulos: `__init__.py`, `normalize.py`, `cli.py`. Salida esperada exacta:\nsrc/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\npyproject.toml",
+          "**E2 · T2 Layout** (independiente) — Implementa `src_layout(package, modules)` que arma rutas `src/<paquete>/…` y añade `pyproject.toml` al final. Módulos: `__init__.py`, `normalize.py`, `cli.py`. Salida esperada exacta:\nsrc/familiarity_core/__init__.py\nsrc/familiarity_core/normalize.py\nsrc/familiarity_core/cli.py\npyproject.toml",
         hint: "Por cada módulo: f'src/{package}/{mod}'; luego pyproject.toml.",
         hints: [
           "No hardcodees solo dos paths: construye la lista desde package + modules.",
@@ -989,7 +984,7 @@ print(complete_project({"name": "familiarity", "version": "0.1.0"}))`,
         starterCode: {
           language: 'python',
           title: "layout_list.py",
-          code: `# CASO-LIM-010 · src layout paths
+          code: `# src layout paths
 # DEFECT: no construye rutas; omite módulos y pyproject; quita print('ok', True)
 def src_layout(package: str, modules: list[str]) -> list[str]:
     return [f"src/{package}/__init__.py", f"src/{package}/normalize.py"]
@@ -1019,19 +1014,19 @@ pyproject.toml`,
         subtopicId: "S10-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T2-A — Implementa `diagnose_mnf(facts)` que inspecciona un dict de hechos post-install (`CASO-LIM-010`): (1) `installed` falso → falta `pip install -e .`; (2) `import_name` ≠ `package_dir` → nombre de import distinto de la carpeta; (3) `shadowing_script` verdadero → script en cwd tapa el paquete. Salida esperada exacta:\ncause: paquete no instalado (falta pip install -e .)\ncause: nombre import != nombre de carpeta (familiarity_core)\ncause: se ejecuta un script que tapa el paquete en sys.path",
+          "**E3 · T2 Layout** (transferencia) — Implementa `diagnose_mnf(facts)` que inspecciona un dict de hechos tras instalar. La función devuelve la primera causa que aplique, en este orden: (1) `installed` falso → falta `pip install -e .`; (2) `import_name` ≠ `package_dir` → el nombre de import no coincide con la carpeta; (3) `shadowing_script` verdadero → un script en el cwd tapa el paquete en `sys.path`. Salida esperada exacta:\ncause: paquete no instalado (falta pip install -e .)\ncause: nombre import != nombre de carpeta (familiarity_core)\ncause: se ejecuta un script que tapa el paquete en sys.path",
         hint: "Evalúa en este orden: installed → igualdad import_name/package_dir → shadowing_script.",
         hints: [
           "No busques palabras en un string libre: lee las claves del dict facts.",
           "Imprime solo el string cause: … que devuelve diagnose_mnf.",
         ],
-        edgeCases: ["venv incorrecto es otra causa clásica; aquí el contrato fija tres hechos"],
+        edgeCases: ["venv incorrecto es otra causa clásica; aquí el contrato fija tres hechos."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si el segundo caso no detecta el mismatch, compara import_name con package_dir en vez de devolver siempre la primera causa.",
         starterCode: {
           language: 'python',
           title: "diagnose_mnf.py",
-          code: `# CASO-LIM-010 · import fail causes (hechos estructurados)
+          code: `# import fail causes (hechos estructurados)
 # DEFECT: ignora facts y devuelve siempre "no instalado"; quita print('ok', True)
 def diagnose_mnf(facts: dict) -> str:
     return "cause: paquete no instalado (falta pip install -e .)"
@@ -1074,7 +1069,7 @@ cause: se ejecuta un script que tapa el paquete en sys.path`,
         subtopicId: "S10-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T2-B — Implementa `bump_from_description(version, descripcion)` (`CASO-LIM-010`): clasifica el cambio (renombrar/eliminar → major; añadir → minor; typo/corregir → patch) y **calcula** la versión nueva con `bump`. Base fija `1.0.0`. Salida esperada exacta:\nrenombrar normalize a clean_name (API pública): major -> 2.0.0\nañadir flag --format a report: minor -> 1.1.0\ncorregir typo en help: patch -> 1.0.1\neliminar subcomando compare: major -> 2.0.0",
+          "**E1 · T2 SemVer** (guiado) — Implementa `bump_from_description(version, descripcion)`: clasifica el cambio (renombrar/eliminar → major; añadir → minor; typo/corregir → patch) y **calcula** la versión nueva con `bump`. Base fija `1.0.0`. Salida esperada exacta:\nrenombrar normalize a clean_name (API pública): major -> 2.0.0\nañadir flag --format a report: minor -> 1.1.0\ncorregir typo en help: patch -> 1.0.1\neliminar subcomando compare: major -> 2.0.0",
         hint: "Primero classify (orden: renombrar/eliminar → añadir → typo), luego bump numérico; no inventes el string de versión a mano.",
         hints: [
           "classify_change: renombrar/eliminar → major; añadir/agregar → minor; typo/corregir → patch.",
@@ -1086,7 +1081,7 @@ cause: se ejecuta un script que tapa el paquete en sys.path`,
         starterCode: {
           language: 'python',
           title: "semver_bump_from_desc.py",
-          code: `# CASO-LIM-010 · classify + bump (no solo etiquetas)
+          code: `# classify + bump (no solo etiquetas)
 # DEFECT: classify invierte niveles; bump major no resetea; quita print('ok', True)
 def classify_change(descripcion: str) -> str:
     d = descripcion.casefold()
@@ -1170,7 +1165,7 @@ eliminar subcomando compare: major -> 2.0.0`,
         subtopicId: "S10-T2-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T2-B — Implementa `build_deps(runtime, dev, requires_python)`: runtime vacío, pytest solo en optional `dev`, requires-python `>=3.11`. Salida esperada exacta:\n{'requires-python': '>=3.11', 'dependencies': [], 'optional-dependencies': {'dev': ['pytest']}}",
+          "**E2 · T2 SemVer** (independiente) — Implementa `build_deps(runtime, dev, requires_python)`: runtime vacío, pytest solo en optional `dev`, requires-python `>=3.11`. Salida esperada exacta:\n{'requires-python': '>=3.11', 'dependencies': [], 'optional-dependencies': {'dev': ['pytest']}}",
         hint: "dependencies = list(runtime); optional-dependencies = {'dev': list(dev)}.",
         hints: [
           "Para N1 stdlib: pasa runtime=[] y dev=['pytest'].",
@@ -1182,7 +1177,7 @@ eliminar subcomando compare: major -> 2.0.0`,
         starterCode: {
           language: 'python',
           title: "deps_pin.py",
-          code: `# CASO-LIM-010 · deps structure
+          code: `# deps structure
 # DEFECT: mete pytest en runtime; no arma optional-dependencies; quita print('ok', True)
 def build_deps(runtime: list[str], dev: list[str], requires_python: str) -> dict:
     return {
@@ -1213,19 +1208,19 @@ print(build_deps([], ["pytest"], ">=3.11"))`,
         subtopicId: "S10-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T2-B — Implementa `policy_for(kind)` con kinds estructurados hacia entidades de dominio futuras (p. ej. `ClientRecord` en S11): `rename_entity` → MAJOR + migración; `optional_field` → MINOR; `keep_cli_stable` → no romper CLI sin bump/CHANGELOG. El label solo se imprime. Salida esperada exacta:\nPOLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG",
+          "**E3 · T2 SemVer** (transferencia) — Implementa `policy_for(kind)` con kinds hacia entidades de dominio futuras (p. ej. `ClientRecord` en S11). `rename_entity` → MAJOR + migración; `optional_field` → MINOR; `keep_cli_stable` → no romper CLI sin bump/CHANGELOG. El label solo se imprime. Salida esperada exacta:\nPOLICY: renombrar ClientRecord es MAJOR; documentar migración\nPOLICY: añadir campo opcional con default es MINOR\nPOLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG",
         hint: "Despacha por kind exacto (rename_entity / optional_field / keep_cli_stable), no por substring del label.",
         hints: [
           "if kind == 'rename_entity': …; no uses 'renombrar' del label para decidir.",
           "raise ValueError si el kind no está tipificado (fail-closed de política).",
         ],
-        edgeCases: ["Si equality de una entidad frozen cambia, también es major aunque el nombre no cambie"],
+        edgeCases: ["Si equality de una entidad frozen cambia, también es major aunque el nombre no cambie."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si rename_entity devuelve MINOR, las ramas están invertidas; si confías en el label en vez del kind, el despacho no es robusto.",
         starterCode: {
           language: 'python',
           title: "compat_policy.py",
-          code: `# CASO-LIM-010 · API change policy (kinds estructurados)
+          code: `# API change policy (kinds estructurados)
 # DEFECT: ramas invertidas / incompletas; quita print('ok', True)
 def policy_for(kind: str) -> str:
     if kind == "optional_field":
@@ -1272,7 +1267,7 @@ POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG`,
         subtopicId: "S10-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T3-A — Añade subcomando `report` con `--format text|json` y parsea `['report', '--format', 'json']`. Salida esperada exacta:\nNamespace(cmd='report', format='json')",
+          "**E1 · T3 Subcomandos** (guiado) — Añade subcomando `report` con `--format text|json` y parsea `['report', '--format', 'json']`. Salida esperada exacta:\nNamespace(cmd='report', format='json')",
         hint: "Usa argparse subparsers.",
         hints: [
           "Usa argparse subparsers con dest='cmd' y required=True.",
@@ -1284,7 +1279,7 @@ POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG`,
         starterCode: {
           language: 'python',
           title: "report_subcmd.py",
-          code: `# CASO-LIM-010 · argparse subparsers
+          code: `# argparse subparsers
 # DEFECT: sin required subparser; sin --format; quita print('ok', True)
 import argparse
 p = argparse.ArgumentParser()
@@ -1310,19 +1305,19 @@ print(ns)`,
         subtopicId: "S10-T3-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T3-A — Implementa `run_cli(argv, runtime_ok=True)`: parsea con argparse (subcomando `normalize` requerido); captura `SystemExit` de usage → **2**; si el parse es OK pero `runtime_ok` es False → **1**; éxito → **0**. Salida esperada exacta:\nnormalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al arrancar: 1",
+          "**E2 · T3 Subcomandos** (independiente) — Implementa `run_cli(argv, runtime_ok=True)`. Parsea con argparse (subcomando `normalize` requerido); captura el `SystemExit` de usage → **2**. Si el parse es OK, pero `runtime_ok` es False → **1**; éxito → **0**. Salida esperada exacta:\nnormalize ok: 0\narchivo de input no existe: 1\nflag desconocido: 2\nsubcomando ausente: 2\nvalidación de config falla al arrancar: 1",
         hint: "try/except SystemExit alrededor de parse_args; el código de argparse en usage es 2.",
         hints: [
           "argv=[] o un flag inventado deben devolver 2 vía SystemExit.",
           "runtime_ok=False simula error de negocio/config después de un parse válido → 1.",
         ],
-        edgeCases: ["argparse usa 2 por defecto en errores de parseo; no tragues SystemExit sin devolver el code"],
+        edgeCases: ["argparse usa 2 por defecto en errores de parseo; no tragues SystemExit sin devolver el code."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si usage sale 0, no estás capturando SystemExit; si runtime sale 0, no consultaste runtime_ok tras el parse.",
         starterCode: {
           language: 'python',
           title: "exit_codes.py",
-          code: `# CASO-LIM-010 · exit codes vía argparse real
+          code: `# exit codes vía argparse real
 # DEFECT: usage y runtime devuelven 0; no propaga el code de SystemExit; ignora runtime_ok; quita print('ok', True)
 import argparse
 
@@ -1385,7 +1380,7 @@ validación de config falla al arrancar: 1`,
         subtopicId: "S10-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T3-A — Implementa `format_help(cmd, note, width=52)` y genera 2 ejemplos de operador + 1 línea de códigos de salida. El `#` de las notas debe alinearse en la columna 52. Salida esperada exacta:\nHELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field name            # limpia espacios y mayúsculas\nHELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config",
+          "**E3 · T3 Subcomandos** (transferencia) — Implementa `format_help(cmd, note, width=52)` y genera 2 ejemplos de operador + 1 línea de códigos de salida. El `#` de las notas debe alinearse en la columna 52. Salida esperada exacta:\nHELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\nHELP: familiarity normalize --field name            # limpia espacios y mayúsculas\nHELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config",
         hint: "Alinea el `#` con espacios hasta width=52; la tercera línea no usa format_help.",
         hints: [
           "left = f'HELP: {cmd}'; pad = max(1, width - len(left)); luego espacios + '# ' + note.",
@@ -1397,7 +1392,7 @@ validación de config falla al arrancar: 1`,
         starterCode: {
           language: 'python',
           title: "operator_help.py",
-          code: `# CASO-LIM-010 · help examples
+          code: `# help examples
 # DEFECT: format_help ignora note/width; sin códigos de salida; quita print('ok', True)
 def format_help(cmd: str, note: str, width: int = 52) -> str:
     return f"HELP: {cmd}"
@@ -1436,7 +1431,7 @@ HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
         subtopicId: "S10-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T3-B — `process` retorna n*2 por el valor de retorno (stdout) y escribe `event=done` en el stream de error (StringIO). Salida esperada exacta:\n6\nstderr: event=done",
+          "**E1 · T3 stdio** (guiado) — `process` retorna n*2 por el valor de retorno (stdout) y escribe `event=done` en el stream de error (StringIO). Salida esperada exacta:\n6\nstderr: event=done",
         hint: "Función process(n) retorna n*2; log event=done en err.",
         hints: [
           "Función process(n) retorna n*2; log event=done en err.",
@@ -1448,7 +1443,7 @@ HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
         starterCode: {
           language: 'python',
           title: "stdout_stderr.py",
-          code: `# CASO-LIM-010 · stderr vs return
+          code: `# stderr vs return
 # DEFECT: imprime en stdout; no usa err; quita print('ok', True)
 from io import StringIO
 
@@ -1484,7 +1479,7 @@ stderr: event=done`,
         subtopicId: "S10-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T3-B — Implementa `read_input(path_or_dash, stdin_text, file_text)`: si path es `-` usa stdin; si no, el texto de archivo. Salida esperada exacta:\ndesde stdin\ndesde file",
+          "**E2 · T3 stdio** (independiente) — Implementa `read_input(path_or_dash, stdin_text, file_text)`: si path es `-` usa stdin; si no, el texto de archivo. Salida esperada exacta:\ndesde stdin\ndesde file",
         hint: "Si path=='-', usa stdin_text.",
         hints: [
           "Si path=='-', usa stdin_text.",
@@ -1496,7 +1491,7 @@ stderr: event=done`,
         starterCode: {
           language: 'python',
           title: "stdin_or_path.py",
-          code: `# CASO-LIM-010 · stdin dash
+          code: `# stdin dash
 # DEFECT: ignora path_or_dash; quita print('ok', True)
 def read_input(path_or_dash, stdin_text="", file_text=None):
     return file_text or ""
@@ -1524,7 +1519,7 @@ desde file`,
         subtopicId: "S10-T3-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T3-B — Separa logs de progreso (stderr) del JSON limpio en stdout. Salida esperada exacta:\nBAD\nempezando\n{\"ok\": true}\nfin\nGOOD\n{\"ok\": true}\nstderr_only empezando | fin |",
+          "**E3 · T3 stdio** (transferencia) — Separa logs de progreso (stderr) del JSON limpio en stdout. Salida esperada exacta:\nBAD\nempezando\n{\"ok\": true}\nfin\nGOOD\n{\"ok\": true}\nstderr_only empezando | fin |",
         hint: "Imprime BAD y GOOD; GOOD solo JSON final.",
         hints: [
           "Imprime BAD y GOOD; GOOD solo JSON final.",
@@ -1536,7 +1531,7 @@ desde file`,
         starterCode: {
           language: 'python',
           title: "clean_stdout.py",
-          code: `# CASO-LIM-010 · JSON on stdout only
+          code: `# JSON on stdout only
 # DEFECT: good_cli mezcla logs en stdout; quita print('ok', True)
 from io import StringIO
 
@@ -1585,19 +1580,19 @@ stderr_only empezando | fin |`,
         subtopicId: "S10-T4-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T4-A — Implementa `resolve_with_trace(layers)` (`CASO-LIM-010`): aplica capas en orden canónico (defaults → file → env → flags), **ignora `None`** (no pases, no imprimas), imprime cada aplicación y el ganador final. Entrada desordenada; `file` llega como `None` a propósito. Salida esperada exacta:\napply defaults -> INFO\napply env -> DEBUG\napply flags -> ERROR\nwinner=ERROR source=flags",
+          "**E1 · T4 Precedencia** (guiado) — Implementa `resolve_with_trace(layers)`: aplica capas en orden canónico (defaults → file → env → flags), **ignora `None`** (no pases, no imprimas), imprime cada aplicación y el ganador final. Entrada desordenada; `file` llega como `None` a propósito. Salida esperada exacta:\napply defaults -> INFO\napply env -> DEBUG\napply flags -> ERROR\nwinner=ERROR source=flags",
         hint: "Ordena por PREC (defaults=1 … flags=4); recorre y solo aplica valores no-None; actualiza winner/source en cada apply.",
         hints: [
           "PREC = {defaults:1, file:2, env:3, flags:4}; sorted(layers.keys(), key=PREC.get).",
           "Si val is None: continue (sin print); si no: print(f'apply {name} -> {val}') y actualiza winner/source.",
         ],
-        edgeCases: ["Un flag None significa 'no pasado' y no debe pisar env; aquí file=None simula capa ausente"],
+        edgeCases: ["Un flag None significa «no pasado» y no debe pisar env; aquí file=None simula capa ausente."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si aparece `apply file -> None` o winner=INFO, no filtras None o el orden PREC está invertido (flags debe ser el más alto).",
         starterCode: {
           language: 'python',
           title: "precedence_trace.py",
-          code: `# CASO-LIM-010 · apply layers + winner (None = capa ausente)
+          code: `# apply layers + winner (None = capa ausente)
 # DEFECT: orden invertido; no ignora None; quita print('ok', True)
 PREC = {"defaults": 4, "file": 3, "env": 2, "flags": 1}
 
@@ -1655,7 +1650,7 @@ winner=ERROR source=flags`,
         subtopicId: "S10-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T4-A — Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando `None` en capas altas; el flag gana. Salida esperada exacta:\n{'log_level': 'ERROR', 'jobs': 1}",
+          "**E2 · T4 Precedencia** (independiente) — Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando `None` en capas altas; el flag gana. Salida esperada exacta:\n{'log_level': 'ERROR', 'jobs': 1}",
         hint: "Prueba con log_level en todas las capas.",
         hints: [
           "Aplica capas de menor a mayor prioridad: defaults → file → env → flags.",
@@ -1667,7 +1662,7 @@ winner=ERROR source=flags`,
         starterCode: {
           language: 'python',
           title: "merge_config.py",
-          code: `# CASO-LIM-010 · merge precedence
+          code: `# merge precedence
 # DEFECT: flags no pisan; defaults ganan; quita print('ok', True)
 def merge(defaults, file_cfg, env_cfg, flags):
     out = dict(flags)
@@ -1706,19 +1701,19 @@ print(merge(
         subtopicId: "S10-T4-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T4-A — Implementa `resolve_with_reason(env, flag)` (`CASO-LIM-010`): devuelve `(valor, razón)`. Si `flag is not None` gana el flag; si no, gana env. Imprime ambos conflictos. Salida esperada exacta:\nresult=INFO razón=flag gana a env (flag no es None)\nresult=DEBUG razón=sin flag; gana env",
+          "**E3 · T4 Precedencia** (transferencia) — Implementa `resolve_with_reason(env, flag)`: devuelve `(valor, razón)`. Si `flag is not None` gana el flag; si no, gana env. Imprime ambos conflictos. Salida esperada exacta:\nresult=INFO razón=flag gana a env (flag no es None)\nresult=DEBUG razón=sin flag; gana env",
         hint: "Una sola función; el segundo caso usa flag=None.",
         hints: [
           "if flag is not None: return flag, 'flag gana a env (flag no es None)'.",
           "else: return env, 'sin flag; gana env'. Imprime: f'result={val} razón={why}'.",
         ],
-        edgeCases: ["Si el flag no se pasó (None), gana env — no inventes un default INFO aquí"],
+        edgeCases: ["Si el flag no se pasó (None), gana env — no inventes un default INFO aquí."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Si el primer result=DEBUG, priorizaste env sobre un flag no-None. Si el segundo no es DEBUG, no trataste flag=None como ausente.",
         starterCode: {
           language: 'python',
           title: "conflict_case.py",
-          code: `# CASO-LIM-010 · CLI vs env con razón derivada
+          code: `# CLI vs env con razón derivada
 # DEFECT: env siempre gana; no distingue flag=None; quita print('ok', True)
 def resolve_with_reason(env, flag):
     return env, "env siempre gana"
@@ -1748,7 +1743,7 @@ result=DEBUG razón=sin flag; gana env`,
         subtopicId: "S10-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) · S10-T4-B — Implementa `should_ignore_secret(path)` y filtra la lista candidata: ignora secretos reales; **no** ignores `.env.example` ni `README.md`. Salida esperada exacta:\nignore: .env\nignore: .env.*\nignore: *.pem\nignore: credentials.json",
+          "**E1 · T4 Secretos** (guiado) — Implementa `should_ignore_secret(path)` y filtra la lista candidata. Ignora los secretos reales; **no** ignores `.env.example` ni `README.md`. Salida esperada exacta:\nignore: .env\nignore: .env.*\nignore: *.pem\nignore: credentials.json",
         hint: "`.env.example` se commitea vacío de secretos; `.env` y patrones de credenciales sí van a .gitignore.",
         hints: [
           "Devuelve False para .env.example y README.md.",
@@ -1760,7 +1755,7 @@ result=DEBUG razón=sin flag; gana env`,
         starterCode: {
           language: 'python',
           title: "gitignore_secrets.py",
-          code: `# CASO-LIM-010 · gitignore secrets
+          code: `# gitignore secrets
 # DEFECT: ignora todo o casi nada; no distingue .env.example; quita print('ok', True)
 CANDIDATES = [".env", ".env.example", ".env.*", "*.pem", "credentials.json", "README.md"]
 
@@ -1797,7 +1792,7 @@ ignore: credentials.json`,
         subtopicId: "S10-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) · S10-T4-B — Implementa `validate_config(cfg)` que exige `log_level` y `data_dir` con errores claros. Salida esperada exacta:\nok\nconfig: falta clave requerida 'data_dir'",
+          "**E2 · T4 Secretos** (independiente) — Implementa `validate_config(cfg)` que exige `log_level` y `data_dir` con errores claros. Salida esperada exacta:\nok\nconfig: falta clave requerida 'data_dir'",
         hint: "Raise RuntimeError con nombre de clave.",
         hints: [
           "Raise RuntimeError con nombre de clave.",
@@ -1809,7 +1804,7 @@ ignore: credentials.json`,
         starterCode: {
           language: 'python',
           title: "validate_cfg.py",
-          code: `# CASO-LIM-010 · validate_config
+          code: `# validate_config
 # DEFECT: no valida data_dir; quita print('ok', True)
 def validate_config(cfg: dict) -> None:
     if not cfg.get("log_level"):
@@ -1847,7 +1842,7 @@ config: falta clave requerida 'data_dir'`,
         subtopicId: "S10-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) · S10-T4-B — Implementa `harden_defaults(cfg)` que corrige defaults inseguros: DEBUG→INFO, echo_sql True→False, cualquier api_token truthy→None. Imprime old → new por clave. Salida esperada exacta:\nlog_level: 'DEBUG' -> 'INFO'\necho_sql: True -> False\napi_token: 'hardcoded' -> None",
+          "**E3 · T4 Secretos** (transferencia) — Implementa `harden_defaults(cfg)` que corrige defaults inseguros: DEBUG→INFO, echo_sql True→False, cualquier api_token truthy→None. Imprime old → new por clave. Salida esperada exacta:\nlog_level: 'DEBUG' -> 'INFO'\necho_sql: True -> False\napi_token: 'hardcoded' -> None",
         hint: "Copia cfg; aplica reglas por clave; no hardcodees un dict final sin transformar.",
         hints: [
           "out = dict(cfg); luego if out.get('log_level') == 'DEBUG': out['log_level'] = 'INFO'.",
@@ -1859,7 +1854,7 @@ config: falta clave requerida 'data_dir'`,
         starterCode: {
           language: 'python',
           title: "secure_defaults.py",
-          code: `# CASO-LIM-010 · secure defaults
+          code: `# secure defaults
 # DEFECT: harden_defaults no cambia nada; quita print('ok', True)
 def harden_defaults(cfg: dict) -> dict:
     return dict(cfg)
@@ -1897,7 +1892,7 @@ api_token: 'hardcoded' -> None`,
   youDo: {
     title: "Paquete familiarity_core + CLI profesional",
     context:
-      "Conviertes el ETL de familiaridad en **paquete instalable** con subcomandos ingest|normalize|compare|report, config por precedencia y validación temprana. Sin secretos en el repositorio; solo datos sintéticos.",
+      "Conviertes el ETL de familiaridad en un **paquete instalable** con subcomandos `ingest|normalize|compare|report`, config por precedencia y validación temprana. Sin secretos en el repositorio; solo datos sintéticos.",
     objectives: [
       "Layout src/ + pyproject.toml instalable en editable",
       "Subcomandos ingest, normalize, compare, report",
@@ -1906,13 +1901,13 @@ api_token: 'hardcoded' -> None`,
       "Ayuda --help y exit codes documentados",
     ],
     requirements: [
-      "pip install -e . funciona en entorno limpio (documentado)",
+      "pip install -e . en un venv fresco (Python ≥3.11, sin extras) y documenta el comando en el README",
       "python -m familiarity_core --help o entry point console_scripts",
       "Sin secretos en repo; datos sintéticos",
-      "Errores de uso vs runtime distinguibles por exit code",
+      "Errores de uso vs. runtime distinguibles por exit code",
       "Lógica importable sin side-effects",
       "README de precedencia de config",
-      "ingest ejecuta ETL CSV real: Decimal desde texto, clean/quarantine y manifest por fuente reconciliado",
+      "El subcomando ingest ejecuta una versión simplificada del ETL CSV del S08: parseo de Decimal desde texto, partición clean/quarantine y manifest por fuente reconciliado (reutiliza lo que ya construiste en S08)",
       "python -m unittest discover -s tests pasa en un checkout limpio",
     ],
     starterCode: `"""bootstrap_familiarity.py — crea un paquete real, instalable y testeable.
@@ -2163,7 +2158,7 @@ print("created", len(FILES), "files in", root)`,
         options: ["defaults > flags > env > file", "env > flags > file > defaults", "file > flags > env > defaults", "flags > env > file > defaults"],
         correctIndex: 3,
         explanation:
-          "Canónica en ops: flags CLI > variables de entorno > archivo > defaults. Un flag None significa “no pasado” y no debe pisar env.",
+          "Es canónica en ops: flags CLI > variables de entorno > archivo > defaults. Un flag `None` significa «no pasado» y no debe pisar *env*.",
       },
       {
         question: "Exit code 2 en CLI argparse suele significar…",
@@ -2177,7 +2172,7 @@ print("created", len(FILES), "files in", root)`,
         options: ["stdout con el JSON", "en el nombre del archivo", "stderr", "en __all__"],
         correctIndex: 2,
         explanation:
-          "stdout = datos (JSON/CSV) para pipes; stderr = progreso y diagnóstico. Un `print('ok')` extra en stdout rompe al consumidor del pipe.",
+          "La salida estándar (stdout) son los datos (JSON/CSV) para los pipes; la salida de error (stderr) es el progreso y el diagnóstico. Un `print('ok')` extra en stdout rompe al consumidor del pipe.",
       },
       {
         question: "Añadir un subcomando nuevo compatible es típicamente…",
@@ -2235,7 +2230,7 @@ print("created", len(FILES), "files in", root)`,
         note: "Referencia de instalación editable y metadata.",
       },
       {
-        label: "Click vs argparse — elegir con criterio",
+        label: "Click vs. argparse — elegir con criterio",
         url: "https://click.palletsprojects.com/en/stable/",
         note: "En el curso usamos argparse stdlib; Click es opcional después.",
       },

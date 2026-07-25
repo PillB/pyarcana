@@ -3,9 +3,9 @@ import type { CourseSection } from '../../types'
 export const section48: CourseSection = {
   id: "ai-governance",
   index: 48,
-  title: "LLM applications y RAG con evidencia",
+  title: "Aplicaciones LLM y RAG con evidencia",
   shortTitle: "RAG con evidencia",
-  tagline: "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
+  tagline: "Asistente sobre documentos autorizados, citas verificables y abstención cuando el retrieval no sostiene la respuesta.",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
@@ -14,23 +14,23 @@ export const section48: CourseSection = {
   jobRelevance:
     "En equipos de plataforma y producto, **aplicaciones LLM y RAG con evidencia** entregan respuestas citadas con ACL y groundedness, no alucinaciones operativas. Se promueve solo cuando cada afirmación material está soportada por un fragmento permitido y la inyección de instrucciones en documentos se trata como data hostil, no como instrucción del sistema. Sobre el serving de S47, este asistente es la capa de respuesta con prueba antes de que S49 exponga tools sobre él.",
   learningOutcomes: [
-    { text: "Calcular similitud (cosine/dot) y producir un ranking reproducible con versión de embedding documentada" },
-    { text: "Comparar baseline vs candidato en holdout de retrieval y rechazar regresión o reindexación sin presupuesto" },
-    { text: "Partir documentos en unidades semánticas con metadata, hash de deduplicación y provenance" },
-    { text: "Filtrar por ACL antes del ranking y demostrar que un usuario sin permiso recupera cero fragmentos" },
-    { text: "Fusionar scores lexical y vectorial (híbrido) y justificar el top-k sin violar ACL" },
-    { text: "Armar contexto mínimo donde cada afirmación material tenga cita autorizada y resoluble" },
-    { text: "Emitir salida estructurada con evidence_ids permitidos e ignorar inyección en documentos" },
-    { text: "Separar eval de retrieval y de respuesta, respetar costo y abstenerse si el soporte es insuficiente" },
+    { text: "Calcular similitud (cosine/dot) y producir un ranking reproducible con versión de embedding documentada." },
+    { text: "Comparar baseline vs. candidato en holdout de retrieval y rechazar regresión o reindexación sin presupuesto." },
+    { text: "Partir documentos en unidades semánticas con metadata, hash de deduplicación y provenance." },
+    { text: "Filtrar por ACL antes del ranking y demostrar que un usuario sin permiso recupera cero fragmentos." },
+    { text: "Fusionar scores lexical y vectorial (híbrido) y justificar el top-k sin violar ACL." },
+    { text: "Armar contexto mínimo donde cada afirmación material tenga cita autorizada y resoluble." },
+    { text: "Emitir salida estructurada con evidence_ids permitidos e ignorar inyección en documentos." },
+    { text: "Separar eval de retrieval y de respuesta, respetar costo y abstenerse si el soporte es insuficiente." },
   ],
   theory: [
     {
       heading: "Ruta de S48: aplicaciones LLM y RAG con evidencia",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Embedding:** vector con versión de modelo (p. ej. `emb-v2`). **Similitud:** solo ordena (dot de query·d1 = 0.8 > d2 = 0.1 → top d1; no prueba el claim). **Chunking:** unidades semánticas (`d1#sla`, no rebanadas de N letras). **ACL:** filtro **antes** del ranking (rol `guest` → lista vacía). **Retrieval híbrido:** lexical + vector; mide Recall@k en holdout. **Grounding:** cada claim apunta a un `evidence_id` permitido. **Abstención:** support bajo → no responder. **Prompt injection en docs:** data hostil, no instrucción. **Holdout eval:** recall de retrieval y faithfulness de respuesta se miden por separado.",
-        "Esta sección construye un **asistente RAG con evidencia** sobre el serving de S47: indexas docs autorizados, recuperas con ACL, citas y groundedness. Las demos usan **stdlib** (scores, sets) como vector store conceptual. El caso `CASO-PUN-048` (cooperativa ficticia en Puno) no llama APIs de LLM reales ni indexa PII.",
-        "Hilo conductor: un socio pregunta por el SLA y el reglamento interno. Producto incremental: respuesta estructurada con `evidence_ids`. Entrada: query, corpus con ACL, holdout de recall y política de citas. Salida: top-k permitido, claims ⊆ cited, injection ignorada. Error de promoción: recall bajo baseline, chunk borrado aún visible, o claim sin soporte. En S49 los agentes consumirán este asistente como tool acotado.",
-        "Orden: T1 retrieval y holdout → T2 chunking y ACL → T3 ranking híbrido y citas → T4 grounding, costo y abstención. Cada subtema deja un artefacto comprobable (ranking versionado, chunks deduplicados, top-k permitido, respuesta con evidence_ids o abstención). Stack didáctico: **stdlib** (scores, sets) sin APIs LLM reales ni PII.",
+        "**Diccionario de la sección** (léelo antes de T1): **Embedding** — vector con versión de modelo (p. ej. `emb-v2`). **Similitud** — solo ordena (dot de query·d1 = 0.8 > d2 = 0.1 → top d1; no prueba el claim). **Chunking** — unidades semánticas (`d1#sla`, no rebanadas de N letras). **ACL** — filtro **antes** del ranking (rol `guest` → lista vacía). **Retrieval híbrido** — lexical + vector; mide Recall@k en holdout. **Grounding** — cada claim apunta a un `evidence_id` permitido y no vacío. **Abstención** — support bajo → no responder. **Prompt injection en documentos** — data hostil, no instrucción. **Holdout eval** — recall de retrieval y faithfulness de respuesta se miden por separado.",
+        "Esta sección construye un **asistente RAG con evidencia** sobre el serving de S47: indexas documentos autorizados, recuperas con ACL, citas y groundedness. Las demos usan **stdlib** (scores, sets) como vector store conceptual. El caso `CASO-PUN-048` (cooperativa ficticia en Puno) no llama API de LLM reales ni indexa PII.",
+        "Hilo conductor: un socio pregunta por el SLA y el reglamento interno. Producto incremental: respuesta estructurada con `evidence_ids`. Entrada: query, corpus con ACL, holdout de recall y política de citas. Salida: top-k permitido, claims ⊆ cited, inyección ignorada. Error de promoción: recall bajo baseline, chunk borrado aún visible, o claim sin soporte. En S49 los agentes consumirán este asistente como tool acotado.",
+        "Orden: T1 retrieval y holdout → T2 chunking y ACL → T3 ranking híbrido y citas → T4 grounding, costo y abstención. Cada subtema deja un artefacto comprobable (ranking versionado, chunks deduplicados, top-k permitido, respuesta con evidence_ids o abstención). Stack didáctico: **stdlib** (scores, sets) sin API de LLM reales ni PII.",
       ],
       code: {
         language: 'python',
@@ -54,8 +54,8 @@ ungrounded_claim_ok False`,
       },
       callout: {
         type: "info",
-        title: "Gate de promoción",
-        content: "Nota de orientación: S48-T1-A: caso sintético con asserts; sin evidencia no promociones.",
+        title: "Gate de evidencia",
+        content: "Esta sección usa un caso sintético (`CASO-PUN-048`) con asserts automáticos: si un reclamo no está soportado por un fragmento permitido, el sistema no responde.",
       },
     },
     {
@@ -63,7 +63,7 @@ ungrounded_claim_ok False`,
       subtopicId: "S48-T1-A",
       paragraphs: [
         "Los embeddings proyectan texto a un espacio vectorial; la **similitud solo ordena candidatos** — no prueba verdad ni autoriza un claim. Versión del modelo, normalización y métrica (cosine, dot) son parte del contrato del índice: cambiar cualquiera sin re-eval rompe el holdout.",
-        "Contrato local T1-A. Entrada: query vectorizada y docs con `embedding_version`. Salida: `top_id` reproducible bajo la misma métrica (cosine/dot) y la misma versión. Error fail-closed: si falta versión o el ranking no es determinista → `REJECT_EMBEDDING_RANK` / `REVIEW_METRIC_VERSION`. No uses similitud como prueba de verdad del claim (eso es T3-B/T4).",
+        "Contrato local T1-A. Entrada: query vectorizada y documentos con `embedding_version`. Salida: `top_id` reproducible bajo la misma métrica (cosine/dot) y la misma versión. Error fail-closed: si falta versión o el ranking no es determinista → `REJECT_EMBEDDING_RANK` / `REVIEW_METRIC_VERSION`. No uses similitud como prueba de verdad del claim (eso es T3-B/T4).",
         "En `CASO-PUN-048`, un socio pregunta por el SLA de atención. Indexas tres fragmentos sintéticos de reglamento (`d1`…`d3`) con `emb-v2`. La evidencia de este subtema es solo el ranking reproducible (p. ej. top=`d1` por dot product), no la respuesta final al socio.",
       ],
       code: {
@@ -86,7 +86,7 @@ emb_dim 2`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S48-T1-B, verifica contrato y riesgo residual.",
+          "Cambiar de modelo de embedding no es cosmético: exige baseline de recall, presupuesto de reindexación y slices de error antes de aprobar la nueva versión.",
       },
     },
     {
@@ -116,29 +116,32 @@ holdout rag-holdout-v1`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S48-T2-A exige fail-closed y salida esperada.",
+          "El chunking debe ser fail-closed: si dos secciones colapsan al mismo hash o falta metadata, se re-chunkea antes de indexar.",
       },
     },
     {
       heading: "Chunking, metadata y dedup",
       subtopicId: "S48-T2-A",
       paragraphs: [
-        "El chunking productivo sigue **unidades semánticas** (secciones, cláusulas, títulos), no rebanadas ciegas de N caracteres. Cada chunk conserva `doc_id`, sección, hash y versión de fuente; dedup por hash evita evidencia duplicada y fugas entre versiones.",
+        "El chunking productivo sigue **unidades semánticas** (secciones, cláusulas, títulos), no rebanadas ciegas de N caracteres. Cada chunk conserva `doc_id`, sección, hash estable y versión de fuente; dedup por hash evita evidencia duplicada y fugas entre versiones.",
         "Contrato local T2-A. Entrada: secciones con texto y metadata. Salida: chunks con ids `doc#section`, hashes únicos y `source_version`. Breach → `DEDUP_AND_RECHUNK` si hay hashes repetidos o metadata vacía; missing de versión → `RESTORE_CHUNK_METADATA`.",
         "El reglamento sintético de la cooperativa se parte en secciones `sla`, `horario` y `limites` (no en bloques de 10 letras). Cada fragmento lleva hash y provenance `d1-v3`; si dos secciones colapsan al mismo hash, se re-chunka.",
       ],
       code: {
         language: 'python',
         title: "chunking_metadata_dedup.py",
-        code: `def chunk_by_section(sections: list) -> list:
+        code: `import hashlib
+
+def chunk_by_section(sections: list) -> list:
     """Unidad semántica = sección con metadata (no rebanar caracteres a ciegas)."""
     out = []
     for s in sections:
         text = s["text"].strip()
+        digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
         out.append({
             "id": f"{s['doc_id']}#{s['section']}",
             "text": text,
-            "hash": hex(hash(text) & 0xFFFF),
+            "hash": digest,
             "doc_id": s["doc_id"],
             "section": s["section"],
         })
@@ -158,16 +161,16 @@ unique_hashes True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S48-T2-B: fixture S48-T2-B; evidencia local obligatoria.",
+          "La ACL se aplica antes del ranking: un fragmento denegado o borrado (tombstone) nunca entra a los candidatos, sin importar su score vectorial.",
       },
     },
     {
       heading: "ACL, deletion y provenance",
       subtopicId: "S48-T2-B",
       paragraphs: [
-        "La ACL se aplica **antes** de retrieval y rerank: un fragmento no permitido nunca entra al ranking. Un delete (tombstone) invalida índice y cache; el provenance enlaza cada chunk a documento y versión.",
-        "Contrato local T2-B (doble vía). Ruta positiva: usuario con intersección ACL, documento activo y cache coherente → el chunk es recuperable. Ruta negativa: sin intersección o `deleted=True` → cero fragmentos (`FILTER_OR_DELETE_CHUNK`). Missing de invalidación de cache → `VERIFY_ACL_PROVENANCE`.",
-        "Rol `ops` ve el SLA público; rol `guest` no ve el anexo legal. Tras borrar `d2-v1`, el tombstone impide que el cache sirva el texto viejo aunque el score vectorial aún exista.",
+        "La ACL se aplica **antes** de retrieval y rerank: un fragmento no permitido nunca entra al ranking. Un delete (tombstone) invalida índice y caché; el provenance enlaza cada chunk a documento y versión.",
+        "Contrato local T2-B (doble vía). Ruta positiva: usuario con intersección ACL, documento activo y caché coherente → el chunk es recuperable. Ruta negativa: sin intersección o `deleted=True` → cero fragmentos (`FILTER_OR_DELETE_CHUNK`). Missing de invalidación de caché → `VERIFY_ACL_PROVENANCE`.",
+        "Rol `ops` ve el SLA público; rol `guest` no ve el anexo legal. Tras borrar `d2-v1`, el tombstone impide que la caché sirva el texto viejo aunque el score vectorial aún exista.",
       ],
       code: {
         language: 'python',
@@ -197,16 +200,16 @@ tombstone d3#old`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S48-T3-A: documenta breach y recovery.",
+          "La fusión híbrida combina scores lexical y vectorial con pesos calibrados, pero solo se declara mejora tras medir Recall@k contra un gold set.",
       },
     },
     {
       heading: "Lexical, vector, híbrido y reranking",
       subtopicId: "S48-T3-A",
       paragraphs: [
-        "Lexical (términos exactos, p. ej. «SLA p95») y vector (semántica) se combinan con pesos calibrados; el rerank opera solo sobre candidatos **ya filtrados por ACL**. Fusionar scores no es lo mismo que medir recall: la fórmula debe evaluarse contra un gold set.",
+        "La búsqueda lexical (términos exactos, p. ej. «SLA p95») y la vectorial (semántica) se combinan con pesos calibrados; el rerank opera solo sobre candidatos **ya filtrados por ACL**. Fusionar scores no es lo mismo que medir recall: la fórmula debe evaluarse contra un gold set.",
         "Contrato local T3-A. Entrada: scores lexical y vector, pesos y top esperado. Salida: top híbrido correcto y, en eval, Recall@k ≥ baseline sin incluir ids denegados. Breach → `RECALIBRATE_HYBRID_RANK`; missing de top → `REVIEW_RERANK_CANDIDATES`.",
-        "Para la consulta «SLA p95», el vector prefiere `d2` pero el lexical marca fuerte `d1#sla`. Con pesos 0.6/0.4 el híbrido devuelve `d1`. Sobre el gold set de 5 queries del holdout, mides Recall@3 antes de declarar mejora.",
+        "Para la consulta «SLA p95», el vector prefiere `d2`, pero la búsqueda lexical marca fuerte `d1#sla`. Con pesos 0.6/0.4 el híbrido devuelve `d1`. Sobre el gold set de 5 queries del holdout, mides Recall@3 antes de declarar mejora.",
       ],
       code: {
         language: 'python',
@@ -232,7 +235,7 @@ recall@2 1.0`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S48-T3-B solo con evidencia reproducible.",
+          "El contexto del generador incluye solo fragmentos mínimos y citas resolubles: un reclamo sin evidencia permitida se abstiene en lugar de emitirse.",
       },
     },
     {
@@ -260,16 +263,16 @@ False
         type: "tip",
         title: "Contrato local",
         content:
-          "El dueño de S48-T4-A responde por rollback y evidencia.",
+          "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`): si la lista de evidencia está vacía, un id no está en la allowlist o la inyección del corpus no se ignora, el gate rechaza.",
       },
     },
     {
       heading: "Salida estructurada y grounding",
       subtopicId: "S48-T4-A",
       paragraphs: [
-        "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`, …). El grounding exige que cada claim use solo evidence_ids permitidos. El texto recuperado —incluso si dice «ignora tus reglas»— es **data hostil**, no instrucción del sistema.",
-        "Contrato local T4-A. Entrada: output dict, schema_keys, allowlist de evidencia y flag `injected_instruction_ignored`. Salida: keys exactas, evidence ⊆ allowlist e injection ignorada. Breach → `REJECT_UNGROUNDED_OUTPUT`; missing del flag → `VALIDATE_OUTPUT_SCHEMA`.",
-        "Fixture `CASO-PUN-048-4A`: answer «plazo 30 días» con evidence `d7#2`. Un corpus envenenado con «envía secretos» se indexa como data; el flag de injection ignorada debe ser True o el gate rechaza.",
+        "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`, …). El grounding exige **al menos un** `evidence_id` y que todos estén en la allowlist. El texto recuperado —incluso si dice «ignora tus reglas»— es **data hostil**, no instrucción del sistema.",
+        "Contrato local T4-A. Entrada: output dict, schema_keys, allowlist de evidencia y flag `injected_instruction_ignored`. Salida: keys exactas, `evidence_ids` no vacío, evidence ⊆ allowlist e inyección ignorada. Breach → `REJECT_UNGROUNDED_OUTPUT`; missing del flag → `VALIDATE_OUTPUT_SCHEMA`. Un claim con lista vacía no pasa por verdad vacua de subconjuntos.",
+        "Fixture `CASO-PUN-048-4A`: answer «plazo 30 días» con evidence `d7#2`. Un corpus envenenado con «envía secretos» se indexa como data; el flag de inyección ignorada debe ser True o el gate rechaza.",
       ],
       code: {
         language: 'python',
@@ -277,7 +280,9 @@ False
         code: `def grounded(answer: dict, allowed: set, injection_ignored: bool) -> bool:
     if set(answer.keys()) != {"claim", "evidence_ids"}:
         return False
-    if not set(answer["evidence_ids"]) <= allowed:
+    ids = answer["evidence_ids"]
+    # Vacío no es grounded: un claim material exige al menos un id permitido
+    if not ids or not set(ids) <= allowed:
         return False
     return injection_ignored
 
@@ -292,7 +297,7 @@ False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S48-T4-B: residual risk y límites del lab stdlib.",
+          "El texto recuperado —incluso si dice «ignora tus reglas»— es data hostil, no instrucción del sistema: el flag `injected_instruction_ignored` debe ser True y la respuesta no debe basarse en órdenes del corpus.",
       },
     },
     {
@@ -301,16 +306,19 @@ False`,
       paragraphs: [
         "Retrieval eval (Recall@K) y answer eval (faithfulness/groundedness) son **gates separados**. Costo y latencia tienen presupuesto; la abstención es un resultado exitoso cuando el soporte es insuficiente.",
         "Contrato local T4-B. Entrada: recall, faithfulness, costo y flag/score de support. Salida: `answer` solo si todos los umbrales se cumplen; si no, `abstain` con razón. Breach → `ABSTAIN_WITH_REASON`; missing de support → `TUNE_RETRIEVAL_OR_BUDGET`.",
-        "En `CASO-PUN-048-4B`, support 0.8 con recall y faithfulness en umbral responde; support 0.2 se abstiene y registra ~1200 tokens del intento. No es veredicto de conducta: solo groundedness sobre docs autorizados.",
+        "En `CASO-PUN-048-4B`, support 0.8 con recall y faithfulness en umbral responde; support 0.2 se abstiene y registra ~1200 tokens del intento. No es veredicto de conducta: solo groundedness sobre documentos autorizados.",
       ],
       code: {
         language: 'python',
         title: "retrieval_answer_eval_cost_abstain.py",
-        code: `def decide(support: float, thr: float = 0.5) -> str:
-    return "answer" if support >= thr else "abstain"
+        code: `def route(support: float, recall: float, faith: float, cost: float,
+         thr=0.5, min_r=0.8, min_f=0.9, cap=0.1) -> str:
+    if support < thr or recall < min_r or faith < min_f or cost > cap:
+        return "abstain"
+    return "answer"
 
-print(decide(0.8))
-print(decide(0.2))
+print(route(0.8, 0.84, 0.91, 0.08))
+print(route(0.2, 0.84, 0.91, 0.08))
 print("cost_tokens", 1200)`,
         output: `answer
 abstain
@@ -320,12 +328,12 @@ cost_tokens 1200`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S48-T4-B: si la respuesta no está soportada, el sistema se abstiene (`ABSTAIN_WITH_REASON`); si faltan métricas o presupuesto, deriva a `TUNE_RETRIEVAL_OR_BUDGET`.",
+          "Si la respuesta no está soportada, el sistema se abstiene (`ABSTAIN_WITH_REASON`); si faltan métricas o presupuesto, deriva a `TUNE_RETRIEVAL_OR_BUDGET`.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S48 (aplicaciones LLM y RAG con evidencia) alineadas a CP-N4-C-RAG. Cada demo calcula el mecanismo del subtema, no imprime banderas decorativas.",
+    intro: "Te muestro 8 demos de S48 (aplicaciones LLM y RAG con evidencia). Cada demo calcula el mecanismo real del subtema —ranking, ACL, híbrido, citas, grounding, abstención— en lugar de imprimir solo etiquetas de estado.",
     steps: [
       {
         demoId: "S48-T1-A-DEMO",
@@ -355,7 +363,7 @@ score_d1 0.8`,
         demoId: "S48-T1-B-DEMO",
         subtopicId: "S48-T1-B",
         environment: "local-python",
-        description: "Demo: baseline vs candidato en holdout con costo",
+        description: "Demo: baseline vs. candidato en holdout con costo",
         code: {
           language: 'python',
           title: "demo_limits_versions_eval.py",
@@ -380,13 +388,16 @@ holdout rag-holdout-v1`,
         code: {
           language: 'python',
           title: "demo_chunking_metadata_dedup.py",
-          code: `def chunk_by_section(sections: list) -> list:
+          code: `import hashlib
+
+def chunk_by_section(sections: list) -> list:
     out = []
     for s in sections:
         text = s["text"].strip()
+        digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
         out.append({
             "id": f"{s['doc_id']}#{s['section']}",
-            "hash": hex(hash(text) & 0xFFFF),
+            "hash": digest,
             "section": s["section"],
         })
     return out
@@ -403,7 +414,7 @@ print("source", "d1-v3")`,
 unique True
 source d1-v3`,
         },
-        why: "Parte por sección semántica (no por caracteres), asigna id trazable y verifica hashes únicos.",
+        why: "Parte por sección semántica (no por caracteres), asigna id trazable y verifica hashes estables y únicos.",
       },
       {
         demoId: "S48-T2-B-DEMO",
@@ -428,7 +439,7 @@ print("provenance", "doc-7-v2")`,
 guest []
 provenance doc-7-v2`,
         },
-        why: "ops ve solo chunks activos con intersección; guest obtiene lista vacía; deleted no aparece aunque el rol coincida.",
+        why: "El rol `ops` ve solo chunks activos con intersección; `guest` obtiene lista vacía; los chunks `deleted` no aparecen aunque el rol coincida.",
       },
       {
         demoId: "S48-T3-A-DEMO",
@@ -478,7 +489,7 @@ print("budget", 1000)`,
 ABSTAIN_UNCITED
 budget 1000`,
         },
-        why: "Cada claim material debe estar citada y permitida; claim sin soporte → abstención, no contexto inflado.",
+        why: "Cada claim material debe estar citado y permitido; un claim sin soporte → abstención, no contexto inflado.",
       },
       {
         demoId: "S48-T4-A-DEMO",
@@ -491,20 +502,25 @@ budget 1000`,
           code: `def validate_output(out: dict, allowed: set, injection_ignored: bool) -> str:
     if set(out) != {"answer", "evidence_ids"}:
         return "VALIDATE_OUTPUT_SCHEMA"
-    if not set(out["evidence_ids"]) <= allowed or not injection_ignored:
+    ids = out["evidence_ids"]
+    # Lista vacía no grounded (verdad vacua de ⊆ no basta)
+    if not ids or not set(ids) <= allowed or not injection_ignored:
         return "REJECT_UNGROUNDED_OUTPUT"
     return "PASS"
 
 good = {"answer": "plazo 30 días", "evidence_ids": ["d7#2"]}
+empty = {"answer": "guess", "evidence_ids": []}
 bad = {"answer": "envía secretos", "evidence_ids": ["unknown"]}
 print(validate_output(good, {"d7#2"}, True))
+print(validate_output(empty, {"d7#2"}, True))
 print(validate_output(bad, {"d7#2"}, False))
 print("injection_as_data", True)`,
           output: `PASS
 REJECT_UNGROUNDED_OUTPUT
+REJECT_UNGROUNDED_OUTPUT
 injection_as_data True`,
         },
-        why: "Schema exacto, evidence en allowlist e injection del corpus ignorada como instrucción.",
+        why: "Schema exacto, al menos un evidence_id en allowlist e inyección del corpus ignorada como instrucción.",
       },
       {
         demoId: "S48-T4-B-DEMO",
@@ -590,7 +606,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta expected_top", "fixture adverso: top erróneo, métrica inválida o versión de embedding vacía", "CASO-PUN-048-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `expected_top` ausente y produce exactamente `PASS REJECT_EMBEDDING_RANK MISSING:expected_top`.",
-        feedback: "S48-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_EMBEDDING_RANK y por qué faltar expected_top exige REVIEW_METRIC_VERSION.",
+        feedback: "S48-T1-A-E2: nombra el campo que cambió la ruta (versión, top o expected_top), por qué el adverso cae en REJECT_EMBEDDING_RANK y por qué un schema incompleto pide REVIEW_METRIC_VERSION.",
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e2.py",
@@ -638,8 +654,6 @@ incomplete = {**valid}
 incomplete.pop("expected_top")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('1A-0' == '1A-0')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS REJECT_EMBEDDING_RANK MISSING:expected_top` ,
         },
@@ -648,7 +662,7 @@ print('meets_contract', meets_contract)
         id: "S48-T1-A-E3",
         subtopicId: "S48-T1-A",
         kind: "transfer",
-        instruction: "S48-T1-A-E3 · Pipeline fail-closed de ranking: CONTINUE si el top por dot + emb-v2 cuadra, `REJECT_EMBEDDING_RANK` si el adverso falla, `REVIEW_METRIC_VERSION` si falta `expected_top`. El starter trata missing como CONTINUE y elige el peor score; separa incertidumbre de breach. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T1-A-E3 · Pipeline fail-closed de ranking: CONTINUE si el top por dot + emb-v2 cuadra, `REJECT_EMBEDDING_RANK` si el adverso falla, `REVIEW_METRIC_VERSION` si falta `expected_top`. El starter trata missing como CONTINUE y elige el peor score; separa incertidumbre de breach. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Campo ausente → REVIEW_METRIC_VERSION; no lo conviertas en CONTINUE ni en REJECT.",
         hints: [
           "missing keys → REVIEW_METRIC_VERSION antes de rankear.",
@@ -656,7 +670,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta expected_top", "fixture adverso: top erróneo, métrica inválida o versión de embedding vacía", "CASO-PUN-048-1A es sintético"],
         tests: "Fixtures `CASO-PUN-048-1A`, adverso y sin `expected_top` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_EMBEDDING_RANK y por qué faltar expected_top exige REVIEW_METRIC_VERSION.",
+        feedback: "S48-T1-A-E3: separa CONTINUE (top emb-v2 correcto), REJECT (ranking roto) y REVIEW (campo ausente); no conviertas incertidumbre en éxito.",
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e3.py",
@@ -695,8 +709,6 @@ uncertain.pop("expected_top")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_EMBEDDING_RANK", "REVIEW_METRIC_VERSION"]
-meets_contract = ('1A-1' == '1A-1')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE REJECT_EMBEDDING_RANK REVIEW_METRIC_VERSION` ,
         },
@@ -706,7 +718,7 @@ print('meets_contract', meets_contract)
         subtopicId: "S48-T1-B",
         kind: "guided",
         instruction: "S48-T1-B-E1 · Promoción de embedding en `CASO-PUN-048-1B`. Implementa `promote_ok(record)`: el starter aprueba regresión o holdout vacío. Debe exigir candidate ≥ min_recall, candidate > baseline, holdout con prefijo `rag-holdout-` y reindex_cost_pen ≤ 50. Salida exacta: `S48-T1-B PASS`.",
-        hint: "Cuatro condiciones en AND: umbral, mejora vs baseline, holdout RAG y costo ≤ 50.",
+        hint: "Cuatro condiciones en AND: umbral, mejora vs. baseline, holdout RAG y costo ≤ 50.",
         hints: [
           "candidate_recall >= min_recall and candidate_recall > baseline_recall.",
           "holdout.startswith(\"rag-holdout-\") and reindex_cost_pen <= 50.",
@@ -760,7 +772,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta reindex_cost_pen", "fixture adverso: recall en regresión, holdout no-RAG o reindex_cost fuera de tope", "CASO-PUN-048-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `reindex_cost_pen` ausente y produce exactamente `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.",
-        feedback: "S48-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa KEEP_EMBEDDING_BASELINE y por qué faltar reindex_cost_pen exige EVALUATE_ERROR_SLICES.",
+        feedback: "S48-T1-B-E2: compara candidate vs. baseline y min_recall; el holdout train o el costo alto fuerzan KEEP; sin reindex_cost_pen no hay promoción.",
         starterCode: {
           language: 'python',
           title: "s48-t1-b-e2.py",
@@ -798,8 +810,6 @@ incomplete = {**valid}
 incomplete.pop("reindex_cost_pen")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('1B-2' == '1B-2')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen` ,
         },
@@ -808,7 +818,7 @@ print('meets_contract', meets_contract)
         id: "S48-T1-B-E3",
         subtopicId: "S48-T1-B",
         kind: "transfer",
-        instruction: "S48-T1-B-E3 · Decisión de reindexación: CONTINUE solo con mejora retenida y presupuesto; `KEEP_EMBEDDING_BASELINE` ante regresión/holdout train/costo alto; `EVALUATE_ERROR_SLICES` si falta `reindex_cost_pen`. El starter confunde missing con éxito y aprueba regresión. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T1-B-E3 · Decisión de reindexación: CONTINUE solo con mejora retenida y presupuesto; `KEEP_EMBEDDING_BASELINE` ante regresión/holdout train/costo alto; `EVALUATE_ERROR_SLICES` si falta `reindex_cost_pen`. El starter confunde missing con éxito y aprueba regresión. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Costo ausente no es “barato”: deriva a EVALUATE_ERROR_SLICES.",
         hints: [
           "missing reindex_cost_pen → EVALUATE_ERROR_SLICES.",
@@ -816,7 +826,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta reindex_cost_pen", "fixture adverso: recall en regresión, holdout no-RAG o reindex_cost fuera de tope", "CASO-PUN-048-1B es sintético"],
         tests: "Fixtures `CASO-PUN-048-1B`, adverso y sin `reindex_cost_pen` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa KEEP_EMBEDDING_BASELINE y por qué faltar reindex_cost_pen exige EVALUATE_ERROR_SLICES.",
+        feedback: "S48-T1-B-E3: CONTINUE solo con mejora retenida y presupuesto; KEEP ante regresión; EVALUATE_ERROR_SLICES si falta el costo de reindexación.",
         starterCode: {
           language: 'python',
           title: "s48-t1-b-e3.py",
@@ -855,8 +865,6 @@ uncertain.pop("reindex_cost_pen")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "KEEP_EMBEDDING_BASELINE", "EVALUATE_ERROR_SLICES"]
-meets_contract = ('1B-3' == '1B-3')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE KEEP_EMBEDDING_BASELINE EVALUATE_ERROR_SLICES` ,
         },
@@ -873,7 +881,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta source_version", "fixture adverso: hashes duplicados, section vacía o source_version sin -v3", "CASO-PUN-048-2A es sintético"],
         tests: "El fixture `CASO-PUN-048-2A` satisface un predicado de dominio real; imprime `S48-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S48-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa DEDUP_AND_RECHUNK y por qué faltar source_version exige RESTORE_CHUNK_METADATA.",
+        feedback: "S48-T2-A-E1: explica por qué hashes únicos y section no vacía son el contrato de ingesta, y por qué colisión o metadata rota fuerza DEDUP_AND_RECHUNK.",
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e1.py",
@@ -922,7 +930,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta source_version", "fixture adverso: hashes duplicados, section vacía o source_version sin -v3", "CASO-PUN-048-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `source_version` ausente y produce exactamente `PASS DEDUP_AND_RECHUNK MISSING:source_version`.",
-        feedback: "S48-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa DEDUP_AND_RECHUNK y por qué faltar source_version exige RESTORE_CHUNK_METADATA.",
+        feedback: "S48-T2-A-E2: distingue colisión de hash (breach) de source_version ausente (RESTORE); no trates missing como PASS.",
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e2.py",
@@ -960,8 +968,6 @@ incomplete = {**valid}
 incomplete.pop("source_version")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('2A-4' == '2A-4')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS DEDUP_AND_RECHUNK MISSING:source_version` ,
         },
@@ -970,7 +976,7 @@ print('meets_contract', meets_contract)
         id: "S48-T2-A-E3",
         subtopicId: "S48-T2-A",
         kind: "transfer",
-        instruction: "S48-T2-A-E3 · Ingesta fail-closed: CONTINUE con chunks deduplicados y d1-v3; `DEDUP_AND_RECHUNK` si hay colisión o section vacía; `RESTORE_CHUNK_METADATA` sin `source_version`. El starter trata missing como CONTINUE y colisión como éxito. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T2-A-E3 · Ingesta fail-closed: CONTINUE con chunks deduplicados y d1-v3; `DEDUP_AND_RECHUNK` si hay colisión o section vacía; `RESTORE_CHUNK_METADATA` sin `source_version`. El starter trata missing como CONTINUE y colisión como éxito. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Sin versión de fuente no reindexes: RESTORE_CHUNK_METADATA.",
         hints: [
           "missing source_version → RESTORE_CHUNK_METADATA.",
@@ -978,7 +984,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta source_version", "fixture adverso: hashes duplicados, section vacía o source_version sin -v3", "CASO-PUN-048-2A es sintético"],
         tests: "Fixtures `CASO-PUN-048-2A`, adverso y sin `source_version` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa DEDUP_AND_RECHUNK y por qué faltar source_version exige RESTORE_CHUNK_METADATA.",
+        feedback: "S48-T2-A-E3: CONTINUE con dedup y provenance d1-v3; DEDUP_AND_RECHUNK si hay colisión; RESTORE_CHUNK_METADATA sin versión de fuente.",
         starterCode: {
           language: 'python',
           title: "s48-t2-a-e3.py",
@@ -1017,8 +1023,6 @@ uncertain.pop("source_version")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "DEDUP_AND_RECHUNK", "RESTORE_CHUNK_METADATA"]
-meets_contract = ('2A-5' == '2A-5')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE DEDUP_AND_RECHUNK RESTORE_CHUNK_METADATA` ,
         },
@@ -1028,14 +1032,14 @@ print('meets_contract', meets_contract)
         subtopicId: "S48-T2-B",
         kind: "guided",
         instruction: "S48-T2-B-E1 · ACL y tombstone en `CASO-PUN-048-2B`. Implementa `acl_active_ok(record)`: el starter trata deny/deleted como PASS. Debe exigir intersección `user_acl ∩ chunk_acl`, `deleted=False`, provenance con prefijo `doc-` y `cache_invalidated=True`. El deny path (sin intersección o tombstone) se valida en E2. Salida exacta: `S48-T2-B PASS`.",
-        hint: "Cuatro condiciones AND: intersección ACL, no deleted, provenance doc-* y cache invalidado.",
+        hint: "Cuatro condiciones AND: intersección ACL, no deleted, provenance doc-* y caché invalidado.",
         hints: [
           "bool(user_acl & chunk_acl) and not deleted and provenance.startswith(\"doc-\").",
           "cache_invalidated debe ser True (tombstone coherente con índice).",
         ],
         edgeCases: ["falta cache_invalidated", "fixture adverso: sin intersección ACL o deleted", "CASO-PUN-048-2B es sintético"],
-        tests: "El fixture `CASO-PUN-048-2B` (allow path) satisface ACL∩≠∅, activo y cache; imprime `S48-T2-B PASS`.",
-        feedback: "S48-T2-B-E1: explica la vía allow (PASS) vs deny (FILTER_OR_DELETE_CHUNK) y por qué faltar cache_invalidated exige VERIFY_ACL_PROVENANCE.",
+        tests: "El fixture `CASO-PUN-048-2B` (allow path) satisface ACL∩≠∅, activo y caché; imprime `S48-T2-B PASS`.",
+        feedback: "S48-T2-B-E1: explica la vía allow (PASS) vs. deny (FILTER_OR_DELETE_CHUNK) y por qué faltar `cache_invalidated` exige VERIFY_ACL_PROVENANCE.",
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e1.py",
@@ -1076,14 +1080,14 @@ assert meets_contract is True` ,
         subtopicId: "S48-T2-B",
         kind: "independent",
         instruction: "S48-T2-B-E2 · Rutas allow/deny de ACL: válido (ops ∩ public, activo), adverso (roles sin intersección + deleted + provenance vacío) y sin `cache_invalidated`. Entrada: user_acl, chunk_acl, deleted, provenance, cache_invalidated. Salidas: `PASS`, `FILTER_OR_DELETE_CHUNK`, `MISSING:cache_invalidated`. El starter invierte allow/deny; demuestra que guest/legal denegado no es PASS.",
-        hint: "Incertidumbre de cache (campo ausente) ≠ deny de ACL.",
+        hint: "Incertidumbre de caché (campo ausente) ≠ deny de ACL.",
         hints: [
           "MISSING:cache_invalidated antes de evaluar intersección.",
-          "PASS solo con ACL∩≠∅, not deleted, provenance doc-* y cache True.",
+          "PASS solo con ACL∩≠∅, not deleted, provenance doc-* y caché True.",
         ],
         edgeCases: ["falta cache_invalidated", "fixture adverso: sin intersección ACL, deleted=True o provenance vacío", "CASO-PUN-048-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `cache_invalidated` ausente y produce exactamente `PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated`.",
-        feedback: "S48-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa FILTER_OR_DELETE_CHUNK y por qué faltar cache_invalidated exige VERIFY_ACL_PROVENANCE.",
+        feedback: "S48-T2-B-E2: sin intersección ACL o con tombstone → FILTER; caché no invalidada documentada como campo ausente → VERIFY, no deny silencioso.",
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e2.py",
@@ -1121,8 +1125,6 @@ incomplete = {**valid}
 incomplete.pop("cache_invalidated")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('2B-6' == '2B-6')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated` ,
         },
@@ -1131,15 +1133,15 @@ print('meets_contract', meets_contract)
         id: "S48-T2-B-E3",
         subtopicId: "S48-T2-B",
         kind: "transfer",
-        instruction: "S48-T2-B-E3 · Recuperación segura: CONTINUE en allow path (ACL∩, activo, cache ok); `FILTER_OR_DELETE_CHUNK` en deny/tombstone; `VERIFY_ACL_PROVENANCE` sin `cache_invalidated`. El starter invierte allow/deny y confunde missing con CONTINUE. Salida: imprime el valor de meets_contract.",
-        hint: "Incertidumbre de invalidación de cache → VERIFY, no deny silencioso.",
+        instruction: "S48-T2-B-E3 · Recuperación segura: CONTINUE en allow path (ACL∩, activo, cache ok); `FILTER_OR_DELETE_CHUNK` en deny/tombstone; `VERIFY_ACL_PROVENANCE` sin `cache_invalidated`. El starter invierte allow/deny y confunde missing con CONTINUE. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
+        hint: "Incertidumbre de invalidación de caché → VERIFY, no deny silencioso.",
         hints: [
           "missing cache_invalidated → VERIFY_ACL_PROVENANCE.",
           "acl_active_ok → CONTINUE; deny/deleted → FILTER_OR_DELETE_CHUNK.",
         ],
         edgeCases: ["falta cache_invalidated", "fixture adverso: sin intersección ACL, deleted=True o provenance vacío", "CASO-PUN-048-2B es sintético"],
         tests: "Fixtures `CASO-PUN-048-2B`, adverso y sin `cache_invalidated` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa FILTER_OR_DELETE_CHUNK y por qué faltar cache_invalidated exige VERIFY_ACL_PROVENANCE.",
+        feedback: "S48-T2-B-E3: CONTINUE solo en allow path (ACL∩, activo, caché coherente); FILTER en deny/tombstone; VERIFY si falta invalidación de caché.",
         starterCode: {
           language: 'python',
           title: "s48-t2-b-e3.py",
@@ -1178,8 +1180,6 @@ uncertain.pop("cache_invalidated")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "FILTER_OR_DELETE_CHUNK", "VERIFY_ACL_PROVENANCE"]
-meets_contract = ('2B-7' == '2B-7')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE FILTER_OR_DELETE_CHUNK VERIFY_ACL_PROVENANCE` ,
         },
@@ -1196,7 +1196,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta expected_top", "fixture adverso: scores híbridos no alcanzan expected_top (d1 débil)", "CASO-PUN-048-3A es sintético"],
         tests: "El fixture `CASO-PUN-048-3A` satisface un predicado de dominio real; imprime `S48-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S48-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa RECALIBRATE_HYBRID_RANK y por qué faltar expected_top exige REVIEW_RERANK_CANDIDATES.",
+        feedback: "S48-T3-A-E1: el híbrido 0.6/0.4 debe ganar sobre max(vector) solo; si d1 queda débil, recalibra pesos antes de promover el top.",
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e1.py",
@@ -1235,7 +1235,7 @@ assert meets_contract is True` ,
         id: "S48-T3-A-E2",
         subtopicId: "S48-T3-A",
         kind: "independent",
-        instruction: "S48-T3-A-E2 · Fusión híbrida vs puro vector: válido (pesos 0.6/0.4 → top d1), adverso (d1 débil en ambos canales → no alcanza expected_top) y sin `expected_top`. Entrada: lexical, vector, weights, expected_top. Salidas: `PASS`, `RECALIBRATE_HYBRID_RANK`, `MISSING:expected_top`. El starter rankea solo `max(vector)` (elegiría d2); corrige con score ponderado.",
+        instruction: "S48-T3-A-E2 · Fusión híbrida vs. puro vector: válido (pesos 0.6/0.4 → top d1), adverso (d1 débil en ambos canales → no alcanza expected_top) y sin `expected_top`. Entrada: lexical, vector, weights, expected_top. Salidas: `PASS`, `RECALIBRATE_HYBRID_RANK`, `MISSING:expected_top`. El starter rankea solo `max(vector)` (elegiría d2); corrige con score ponderado.",
         hint: "Falta expected_top → MISSING; no declares mejora de recall sin gold.",
         hints: [
           "score = w_lex*lexical + w_vec*vector; el top debe ser expected_top.",
@@ -1243,7 +1243,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta expected_top", "fixture adverso: scores híbridos no alcanzan expected_top (d1 débil)", "CASO-PUN-048-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `expected_top` ausente y produce exactamente `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top`.",
-        feedback: "S48-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa RECALIBRATE_HYBRID_RANK y por qué faltar expected_top exige REVIEW_RERANK_CANDIDATES.",
+        feedback: "S48-T3-A-E2: fusión híbrida vs. puro vector: PASS solo si el top ponderado coincide con expected_top; missing del top esperado es REVIEW, no PASS.",
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e2.py",
@@ -1293,8 +1293,6 @@ incomplete = {**valid}
 incomplete.pop("expected_top")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('3A-8' == '3A-8')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top` ,
         },
@@ -1303,7 +1301,7 @@ print('meets_contract', meets_contract)
         id: "S48-T3-A-E3",
         subtopicId: "S48-T3-A",
         kind: "transfer",
-        instruction: "S48-T3-A-E3 · Rerank fail-closed: CONTINUE si el híbrido ponderado da el top esperado; `RECALIBRATE_HYBRID_RANK` si d1 queda débil; `REVIEW_RERANK_CANDIDATES` sin `expected_top`. El starter rankea solo vector y trata missing como CONTINUE. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T3-A-E3 · Rerank fail-closed: CONTINUE si el híbrido ponderado da el top esperado; `RECALIBRATE_HYBRID_RANK` si d1 queda débil; `REVIEW_RERANK_CANDIDATES` sin `expected_top`. El starter rankea solo vector y trata missing como CONTINUE. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Sin gold top no calibres pesos: REVIEW_RERANK_CANDIDATES.",
         hints: [
           "missing expected_top → REVIEW_RERANK_CANDIDATES.",
@@ -1311,7 +1309,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta expected_top", "fixture adverso: scores híbridos no alcanzan expected_top (d1 débil)", "CASO-PUN-048-3A es sintético"],
         tests: "Fixtures `CASO-PUN-048-3A`, adverso y sin `expected_top` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa RECALIBRATE_HYBRID_RANK y por qué faltar expected_top exige REVIEW_RERANK_CANDIDATES.",
+        feedback: "S48-T3-A-E3: CONTINUE con híbrido correcto; RECALIBRATE si el ranking no sostiene el top; REVIEW_RERANK_CANDIDATES sin expected_top.",
         starterCode: {
           language: 'python',
           title: "s48-t3-a-e3.py",
@@ -1350,8 +1348,6 @@ uncertain.pop("expected_top")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "RECALIBRATE_HYBRID_RANK", "REVIEW_RERANK_CANDIDATES"]
-meets_contract = ('3A-9' == '3A-9')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE RECALIBRATE_HYBRID_RANK REVIEW_RERANK_CANDIDATES` ,
         },
@@ -1414,7 +1410,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta max_context_tokens", "fixture adverso: claim sin cita, citation_acl False o tokens sobre límite", "CASO-PUN-048-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `max_context_tokens` ausente y produce exactamente `PASS ABSTAIN_UNCITED MISSING:max_context_tokens`.",
-        feedback: "S48-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ABSTAIN_UNCITED y por qué faltar max_context_tokens exige REQUEST_AUTHORIZED_CONTEXT.",
+        feedback: "S48-T3-B-E2: claims ⊆ cited y ACL de cita; un claim huérfano o tokens sobre tope abstienen; sin max_context_tokens pides contexto autorizado.",
         starterCode: {
           language: 'python',
           title: "s48-t3-b-e2.py",
@@ -1452,8 +1448,6 @@ incomplete = {**valid}
 incomplete.pop("max_context_tokens")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('3B-10' == '3B-10')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS ABSTAIN_UNCITED MISSING:max_context_tokens` ,
         },
@@ -1462,7 +1456,7 @@ print('meets_contract', meets_contract)
         id: "S48-T3-B-E3",
         subtopicId: "S48-T3-B",
         kind: "transfer",
-        instruction: "S48-T3-B-E3 · Contexto autorizado fail-closed: CONTINUE con claims citadas bajo tope; `ABSTAIN_UNCITED` si hay claim huérfano o ACL rota; `REQUEST_AUTHORIZED_CONTEXT` sin `max_context_tokens`. El starter aprueba uncited y confunde missing con CONTINUE. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T3-B-E3 · Contexto autorizado fail-closed: CONTINUE con claims citadas bajo tope; `ABSTAIN_UNCITED` si hay claim huérfano o ACL rota; `REQUEST_AUTHORIZED_CONTEXT` sin `max_context_tokens`. El starter aprueba uncited y confunde missing con CONTINUE. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Sin presupuesto de tokens no armes contexto: REQUEST_AUTHORIZED_CONTEXT.",
         hints: [
           "missing max_context_tokens → REQUEST_AUTHORIZED_CONTEXT.",
@@ -1470,7 +1464,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta max_context_tokens", "fixture adverso: claim sin cita, citation_acl False o tokens sobre límite", "CASO-PUN-048-3B es sintético"],
         tests: "Fixtures `CASO-PUN-048-3B`, adverso y sin `max_context_tokens` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ABSTAIN_UNCITED y por qué faltar max_context_tokens exige REQUEST_AUTHORIZED_CONTEXT.",
+        feedback: "S48-T3-B-E3: CONTINUE con citas bajo tope; ABSTAIN_UNCITED si hay claim sin soporte; REQUEST_AUTHORIZED_CONTEXT si falta el límite de tokens.",
         starterCode: {
           language: 'python',
           title: "s48-t3-b-e3.py",
@@ -1509,8 +1503,6 @@ uncertain.pop("max_context_tokens")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "ABSTAIN_UNCITED", "REQUEST_AUTHORIZED_CONTEXT"]
-meets_contract = ('3B-11' == '3B-11')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE ABSTAIN_UNCITED REQUEST_AUTHORIZED_CONTEXT` ,
         },
@@ -1519,15 +1511,15 @@ print('meets_contract', meets_contract)
         id: "S48-T4-A-E1",
         subtopicId: "S48-T4-A",
         kind: "guided",
-        instruction: "S48-T4-A-E1 · Grounding en `CASO-PUN-048-4A`. Implementa `grounded_ok(record)`: el starter aprueba evidence fuera de allowlist o injection no ignorada. Exige keys del output == schema_keys, evidence_ids ⊆ allowed_evidence e injected_instruction_ignored True. Salida exacta: `S48-T4-A PASS`.",
-        hint: "Tres condiciones and en la función: schema exacto, evidence permitida, injection-as-data.",
+        instruction: "S48-T4-A-E1 · Grounding en `CASO-PUN-048-4A`. Implementa `grounded_ok(record)`: el starter aprueba evidence fuera de allowlist o inyección no ignorada. Exige keys del output == schema_keys, `evidence_ids` **no vacío** y ⊆ allowed_evidence, e `injected_instruction_ignored` True. Salida exacta: `S48-T4-A PASS`.",
+        hint: "Cuatro condiciones en AND: schema exacto, evidence no vacía, allowlist e inyección-as-data.",
         hints: [
-          "set(output) == schema_keys and set(evidence_ids) <= allowed_evidence.",
+          "set(output) == schema_keys and bool(evidence_ids) and set(evidence_ids) <= allowed_evidence.",
           "injected_instruction_ignored debe ser True (el corpus hostil no manda).",
         ],
-        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids fuera de allowlist o injection no ignorada", "CASO-PUN-048-4A es sintético"],
+        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids vacío, fuera de allowlist o inyección no ignorada", "CASO-PUN-048-4A es sintético"],
         tests: "El fixture `CASO-PUN-048-4A` satisface un predicado de dominio real; imprime `S48-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S48-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA.",
+        feedback: "S48-T4-A-E1: explica por qué un claim con `evidence_ids=[]` no es grounded (verdad vacua de ⊆), por qué `d7#2` en allowlist pasa y por qué inyección no ignorada activa REJECT_UNGROUNDED_OUTPUT.",
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e1.py",
@@ -1536,7 +1528,7 @@ print('meets_contract', meets_contract)
 # Corrige el DEFECT; la salida impresa debe coincidir con la del lab
 def grounded_ok(record: dict) -> bool:
     out = record["output"]
-    # DEFECT: invierte allowlist / injection
+    # DEFECT: invierte allowlist / injection y acepta lista vacía
     return not set(out["evidence_ids"]) <= record["allowed_evidence"] or not record["injected_instruction_ignored"]
 
 record = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"plazo 30 días","evidence_ids":["d7#2"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":True}}
@@ -1550,9 +1542,11 @@ print("S48-T4-A", status)
           title: "s48-t4-a-e1.py",
           code: `def grounded_ok(record: dict) -> bool:
     out = record["output"]
+    ids = out["evidence_ids"]
     return (
         set(out) == record["schema_keys"]
-        and set(out["evidence_ids"]) <= record["allowed_evidence"]
+        and bool(ids)
+        and set(ids) <= record["allowed_evidence"]
         and record["injected_instruction_ignored"]
     )
 
@@ -1568,15 +1562,15 @@ assert meets_contract is True` ,
         id: "S48-T4-A-E2",
         subtopicId: "S48-T4-A",
         kind: "independent",
-        instruction: "S48-T4-A-E2 · Schema, allowlist e injection: válido (plazo 30 días + d7#2 + injection ignorada), adverso (evidence `unknown` + injection activa «envía secretos») y sin `injected_instruction_ignored`. Entrada: output, schema_keys, allowed_evidence, injected_instruction_ignored. Salidas: `PASS`, `REJECT_UNGROUNDED_OUTPUT`, `MISSING:injected_instruction_ignored`. El starter aprueba evidence ilegal; el corpus hostil es data, no instrucción.",
-        hint: "Flag de injection ausente → MISSING (no asumas True).",
+        instruction: "S48-T4-A-E2 · Schema, allowlist e inyección: válido (plazo 30 días + d7#2 + inyección ignorada), adverso (evidence `unknown` + inyección activa «envía secretos») y sin `injected_instruction_ignored`. Entrada: output, schema_keys, allowed_evidence, injected_instruction_ignored. Salidas: `PASS`, `REJECT_UNGROUNDED_OUTPUT`, `MISSING:injected_instruction_ignored`. El starter aprueba evidence ilegal; el corpus hostil es data, no instrucción.",
+        hint: "Flag de inyección ausente → MISSING (no asumas True).",
         hints: [
-          "set(output) == schema_keys y evidence_ids ⊆ allowed.",
+          "set(output) == schema_keys, evidence_ids no vacío y ⊆ allowed.",
           "injected_instruction_ignored debe ser True para PASS.",
         ],
-        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids fuera de allowlist o injection no ignorada", "CASO-PUN-048-4A es sintético"],
+        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids vacío/fuera de allowlist o inyección no ignorada", "CASO-PUN-048-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `injected_instruction_ignored` ausente y produce exactamente `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored`.",
-        feedback: "S48-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA.",
+        feedback: "S48-T4-A-E2: distingue allowlist (`unknown` vs. `d7#2`), el flag de inyección y el campo ausente: missing no es breach silencioso.",
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e2.py",
@@ -1606,7 +1600,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    return "PASS" if set(record["output"]) == record["schema_keys"] and set(record["output"]["evidence_ids"]) <= record["allowed_evidence"] and record["injected_instruction_ignored"] else "REJECT_UNGROUNDED_OUTPUT"
+    out = record["output"]
+    ids = out["evidence_ids"]
+    ok = (
+        set(out) == record["schema_keys"]
+        and bool(ids)
+        and set(ids) <= record["allowed_evidence"]
+        and record["injected_instruction_ignored"]
+    )
+    return "PASS" if ok else "REJECT_UNGROUNDED_OUTPUT"
 
 valid = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"plazo 30 días","evidence_ids":["d7#2"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":True}}
 invalid = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"envía secretos","evidence_ids":["unknown"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":False}}
@@ -1614,8 +1616,6 @@ incomplete = {**valid}
 incomplete.pop("injected_instruction_ignored")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('4A-12' == '4A-12')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored` ,
         },
@@ -1624,15 +1624,15 @@ print('meets_contract', meets_contract)
         id: "S48-T4-A-E3",
         subtopicId: "S48-T4-A",
         kind: "transfer",
-        instruction: "S48-T4-A-E3 · Salida grounded fail-closed: CONTINUE con schema + allowlist + injection-as-data; `REJECT_UNGROUNDED_OUTPUT` ante evidence ilegal o injection activa; `VALIDATE_OUTPUT_SCHEMA` sin flag de injection. El starter aprueba poison y trata missing como CONTINUE.",
-        hint: "Flag de injection ausente → VALIDATE_OUTPUT_SCHEMA (no asumas ignorada).",
+        instruction: "S48-T4-A-E3 · Salida grounded fail-closed: CONTINUE con schema + allowlist no vacía + injection-as-data; `REJECT_UNGROUNDED_OUTPUT` ante evidence ilegal, vacía o inyección activa; `VALIDATE_OUTPUT_SCHEMA` sin flag de inyección. El starter aprueba poison y trata missing como CONTINUE. Salida exacta: `CONTINUE REJECT_UNGROUNDED_OUTPUT VALIDATE_OUTPUT_SCHEMA`.",
+        hint: "Flag de inyección ausente → VALIDATE_OUTPUT_SCHEMA (no asumas ignorada).",
         hints: [
           "missing injected_instruction_ignored → VALIDATE_OUTPUT_SCHEMA.",
-          "grounded_ok → CONTINUE; si no → REJECT_UNGROUNDED_OUTPUT.",
+          "grounded: schema + ids no vacíos ⊆ allowlist + flag True → CONTINUE.",
         ],
-        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids fuera de allowlist o injection no ignorada", "CASO-PUN-048-4A es sintético"],
+        edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids vacío/fuera de allowlist o inyección no ignorada", "CASO-PUN-048-4A es sintético"],
         tests: "Fixtures `CASO-PUN-048-4A`, adverso y sin `injected_instruction_ignored` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGROUNDED_OUTPUT y por qué faltar injected_instruction_ignored exige VALIDATE_OUTPUT_SCHEMA.",
+        feedback: "S48-T4-A-E3: separa uncertainty (sin flag) de breach (evidence ilegal o inyección activa) y no conviertas missing en CONTINUE.",
         starterCode: {
           language: 'python',
           title: "s48-t4-a-e3.py",
@@ -1662,7 +1662,15 @@ print(*results)
     missing = sorted(required - record.keys())
     if missing:
         return "VALIDATE_OUTPUT_SCHEMA"
-    return "CONTINUE" if set(record["output"]) == record["schema_keys"] and set(record["output"]["evidence_ids"]) <= record["allowed_evidence"] and record["injected_instruction_ignored"] else "REJECT_UNGROUNDED_OUTPUT"
+    out = record["output"]
+    ids = out["evidence_ids"]
+    ok = (
+        set(out) == record["schema_keys"]
+        and bool(ids)
+        and set(ids) <= record["allowed_evidence"]
+        and record["injected_instruction_ignored"]
+    )
+    return "CONTINUE" if ok else "REJECT_UNGROUNDED_OUTPUT"
 
 valid = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"plazo 30 días","evidence_ids":["d7#2"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":True}}
 invalid = {"case_id": "CASO-PUN-048-4A", **{"output":{"answer":"envía secretos","evidence_ids":["unknown"]},"schema_keys":{"answer","evidence_ids"},"allowed_evidence":{"d7#2"},"injected_instruction_ignored":False}}
@@ -1671,8 +1679,6 @@ uncertain.pop("injected_instruction_ignored")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "REJECT_UNGROUNDED_OUTPUT", "VALIDATE_OUTPUT_SCHEMA"]
-meets_contract = ('4A-13' == '4A-13')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE REJECT_UNGROUNDED_OUTPUT VALIDATE_OUTPUT_SCHEMA` ,
         },
@@ -1736,7 +1742,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta support", "fixture adverso: recall/faithfulness bajo, costo sobre cap o support False", "CASO-PUN-048-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `support` ausente y produce exactamente `PASS ABSTAIN_WITH_REASON MISSING:support`.",
-        feedback: "S48-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ABSTAIN_WITH_REASON y por qué faltar support exige TUNE_RETRIEVAL_OR_BUDGET.",
+        feedback: "S48-T4-B-E2: recall, faithfulness, costo y support son AND; un umbral roto abstiene; sin `support` no respondas — afiná retrieval o presupuesto.",
         starterCode: {
           language: 'python',
           title: "s48-t4-b-e2.py",
@@ -1774,8 +1780,6 @@ incomplete = {**valid}
 incomplete.pop("support")
 results = (assess(valid), assess(invalid), assess(incomplete))
 print(*results)
-meets_contract = ('4B-14' == '4B-14')
-print('meets_contract', meets_contract)
 ` ,
           output: `PASS ABSTAIN_WITH_REASON MISSING:support` ,
         },
@@ -1784,7 +1788,7 @@ print('meets_contract', meets_contract)
         id: "S48-T4-B-E3",
         subtopicId: "S48-T4-B",
         kind: "transfer",
-        instruction: "S48-T4-B-E3 · Promoción con abstención: CONTINUE solo si recall, faithfulness, costo y support pasan; `ABSTAIN_WITH_REASON` si algún umbral falla; `TUNE_RETRIEVAL_OR_BUDGET` sin `support`. El starter confunde missing con éxito y aprueba faithfulness baja. Salida: imprime el valor de meets_contract.",
+        instruction: "S48-T4-B-E3 · Promoción con abstención: CONTINUE solo si recall, faithfulness, costo y support pasan; `ABSTAIN_WITH_REASON` si algún umbral falla; `TUNE_RETRIEVAL_OR_BUDGET` sin `support`. El starter confunde missing con éxito y aprueba faithfulness baja. Salida exacta: el triple de tokens de ruta (CONTINUE / breach / review).",
         hint: "Sin medición de support no respondas: TUNE_RETRIEVAL_OR_BUDGET.",
         hints: [
           "missing support → TUNE_RETRIEVAL_OR_BUDGET.",
@@ -1792,7 +1796,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: ["falta support", "fixture adverso: recall/faithfulness bajo, costo sobre cap o support False", "CASO-PUN-048-4B es sintético"],
         tests: "Fixtures `CASO-PUN-048-4B`, adverso y sin `support` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S48-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ABSTAIN_WITH_REASON y por qué faltar support exige TUNE_RETRIEVAL_OR_BUDGET.",
+        feedback: "S48-T4-B-E3: CONTINUE solo con los cuatro umbrales; ABSTAIN_WITH_REASON es éxito operativo si el soporte falla; TUNE si falta la métrica de support.",
         starterCode: {
           language: 'python',
           title: "s48-t4-b-e3.py",
@@ -1831,8 +1835,6 @@ uncertain.pop("support")
 results = [decide(item) for item in (valid, invalid, uncertain)]
 print(*results)
 assert results == ["CONTINUE", "ABSTAIN_WITH_REASON", "TUNE_RETRIEVAL_OR_BUDGET"]
-meets_contract = ('4B-15' == '4B-15')
-print('meets_contract', meets_contract)
 ` ,
           output: `CONTINUE ABSTAIN_WITH_REASON TUNE_RETRIEVAL_OR_BUDGET` ,
         },
@@ -1841,10 +1843,10 @@ print('meets_contract', meets_contract)
   },
   youDo: {
     title: "Aplicaciones LLM y RAG con evidencia",
-    context: "Asistente RAG autorizado y evaluado sobre documentación sintética de una cooperativa ficticia en Puno. Entrada: documentos versionados con ACL, provenance, metadata y query del socio. Salida: respuesta estructurada con citas verificables o abstención explícita. El gate se bloquea si hay fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido.",
+    context: "Asistente RAG autorizado y evaluado sobre documentación sintética de una cooperativa ficticia en Puno. Entrada: documentos versionados con ACL, provenance, metadata y query del socio. Salida: respuesta estructurada con citas verificables o abstención explícita. El gate se bloquea si hay fragmento denegado, evidencia insuficiente, versión borrada o costo excedido.",
     objectives: [
       "Convertir documentos versionados con ACL, provenance y metadata en respuesta estructurada con citas verificables o abstención explícita.",
-      "Demostrar el gate CP-N4-C-RAG · RAG con evidencia: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+      "Demostrar el gate CP-N4-C-RAG de evidencia: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
       "Probar fallos: sin permiso → cero chunks; claim sin support → ABSTAIN; support bajo → ABSTAIN.",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
@@ -1962,7 +1964,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "OpenAI Embeddings guide",
         url: "https://platform.openai.com/docs/guides/embeddings",
-        note: "Embeddings y métricas de similaridad",
+        note: "Embeddings y métricas de similitud",
       },
       {
         label: "Elasticsearch hybrid search (RRF)",

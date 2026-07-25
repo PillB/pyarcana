@@ -12,15 +12,15 @@ export const section09: CourseSection = {
   icon: "ShieldAlert",
   accentColor: "bg-gradient-to-br from-pink-500 to-rose-600",
   jobRelevance:
-    "En pipelines de familiaridad y data engineering junior en Perú (bancos, fintech, retail, salud), un crash opaco o un log con email completo te cuesta incidentes, multas de cumplimiento y confianza del on-call. Tras el ETL de S08 (cuarentena + manifest), el gate siguiente es convertir fallos en **señales operables**: excepciones específicas, tracebacks legibles, **logging estructurado sin PII** y políticas de **fail-fast vs cuarentena**. Esta sección es el inicio operativo de **CP-N1-C**: bitácora auditable que un junior puede defender en code review y en un postmortem a las 02:00.",
+    "En pipelines de familiaridad y data engineering junior en Perú (bancos, fintech, retail, salud), un crash opaco o un log con email completo te cuesta incidentes, multas de cumplimiento y confianza del on-call. Tras el ETL de S08 (cuarentena + manifest), el gate siguiente es convertir fallos en **señales operables**: excepciones específicas, tracebacks legibles, **logging estructurado sin PII** y políticas de **fail-fast vs. cuarentena**. Esta sección es el inicio operativo de **CP-N1-C**: bitácora auditable que un junior puede defender en code review y en un post mórtem a las 02:00.",
   learningOutcomes: [
     { text: "Elegir tipos de excepción, raise con contexto y chaining con from" },
-    { text: "Dibujar fronteras try/except/else/finally y with; separar recuperable vs fatal" },
+    { text: "Dibujar fronteras try/except/else/finally y with; separar recuperable vs. fatal" },
     { text: "Leer tracebacks y ubicar el frame útil sin exponer secretos" },
     { text: "Reducir fallos a minimal repro con hipótesis y tests de regresión" },
     { text: "Configurar logging con niveles, campos estructurados y log.exception en ERROR" },
     { text: "Propagar correlation_id y redactar email/teléfono/dirección" },
-    { text: "Decidir fail-fast vs cuarentena según data|config|provider" },
+    { text: "Decidir fail-fast vs. cuarentena según data|config|provider" },
     { text: "Reintentar solo errores transitorios con operaciones idempotentes" },
   ],
   theory: [
@@ -28,15 +28,15 @@ export const section09: CourseSection = {
       heading: "Mapa: excepciones, diagnóstico, logs y resiliencia",
       paragraphs: [
         "En S08 dejaste un ETL con **cuarentena** y **manifest**. En producción eso no basta si el job muere con un traceback opaco o si el log de ERROR incluye el email completo del cliente. Esta sección arranca **CP-N1-C**: convertir fallos en **señales operables** — tipo de error, correlación y privacidad — sin claims de fraude ni parentesco.",
-        "Hilo conductor: un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`, montos con `Decimal`). Validar filas, encadenar causas, **redactar PII** en logs y decidir **fail-fast** (config) vs **cuarentena** (data). Entorno **local-python**. Reutiliza normalizadores de S05–S07 y los conteos reconciliados de S08: cada fila en cuarentena debería poder llevar `error_class` y `correlation_id` para el postmortem.",
-        "Imagina el job `ingest_clientes` de CASO-LIM-009 a las 02:10: el on-call ve un stack confuso, no sabe si reintentar el proveedor o cuarentenar una fila, y en Slack aparece un email completo. Al cerrar S09 sabrás clasificar el fallo, enmascarar PII y dejar una bitácora que otra persona pueda seguir sin adivinar.",
-        "Orden de aprendizaje: **T1 Excepciones** (tipos, raise, fronteras) → **T2 Diagnóstico** (traceback, minimal repro) → **T3 Logging** (niveles, correlation_id, redacción) → **T4 Resiliencia** (fail-fast vs cuarentena, retries idempotentes). S10 empaquetará este vocabulario en un CLI con handlers limpios; aquí construyes el contrato operativo del pipeline.",
+        "Hilo conductor: un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`, montos con `Decimal`). Validar filas, encadenar causas, **redactar PII** en logs y decidir **fail-fast** (config) vs. **cuarentena** (data). Entorno **local-python**. Reutiliza normalizadores de S05–S07 y los conteos reconciliados de S08: cada fila en cuarentena debería poder llevar `error_class` y `correlation_id` para el post mórtem.",
+        "Imagina el job `ingest_clientes` de CASO-LIM-009 a las 02:10: el on-call ve un stack confuso, no sabe si reintentar el proveedor o cuarentenar una fila, y en Slack aparece un email completo. Al cerrar esta sección sabrás clasificar el fallo, enmascarar PII y dejar una bitácora que otra persona pueda seguir sin adivinar.",
+        "Orden de aprendizaje: **T1 Excepciones** (tipos, raise, fronteras) → **T2 Diagnóstico** (traceback, minimal repro) → **T3 Logging** (niveles, correlation_id, redacción) → **T4 Resiliencia** (fail-fast vs. cuarentena, retries idempotentes). S10 (Módulos y CLI) empaquetará este vocabulario en un CLI con handlers limpios; aquí construyes el contrato operativo del pipeline.",
       ],
       callout: {
         type: "info",
         title: "Inicio CP-N1-C",
         content:
-          "Gate operativo: bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia fallo de datos, configuración y proveedor. Sin claims de fraude ni parentesco.",
+          "Gate operativo: bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia **fallos** de datos, configuración y proveedor. Sin claims de fraude ni parentesco.",
       },
     },
     {
@@ -45,7 +45,7 @@ export const section09: CourseSection = {
       paragraphs: [
         "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). Un `except Exception` genérico **oculta la causa** y complica el triage del on-call: el operador ve «algo falló» y no sabe si reintentar, cuarentenar o abortar.",
         "`raise ValueError('monto no numérico: …')` da contexto accionable. Para montos del intake: **`Decimal` desde texto**, `quantize(Decimal('0.01'))`, rechazo de no finitos — **nunca** `float`. Con **`raise NewError(...) from e`** encadenas la causa en `__cause__` sin perder el traceback original: el parse falla y la validación de fila lo envuelve.",
-        "Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib. En CASO-LIM-009, el mensaje lleva `id` de fila y el valor problemático **redactado** si es PII: accionable en el postmortem, inofensivo en el canal de Slack del equipo.",
+        "Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib. En CASO-LIM-009, el mensaje lleva `id` de fila y el valor problemático **redactado** si es PII: accionable en el post mórtem, inofensivo en el canal de Slack del equipo.",
       ],
       code: {
         language: 'python',
@@ -95,8 +95,8 @@ cause: ParseError no parseable: 'abc'`,
       heading: "Fronteras de recuperación y cleanup",
       subtopicId: "S09-T1-B",
       paragraphs: [
-        "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible, p. ej. «lote legible»); **finally** siempre (cleanup de handles y contadores). El `with` hace lo mismo de forma idiomática vía context managers: no dejes un `StringIO`/archivo abierto en el crash path del intake CASO-LIM-009.",
-        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
+        "`try/except/else/finally` dibuja el borde del job: **else** corre solo si no hubo excepción (camino feliz legible, p. ej. «lote legible»); **finally** siempre (cleanup de handles y contadores). El `with` hace lo mismo de forma idiomática vía context managers. No dejes un `StringIO`/archivo abierto en el crash path del intake CASO-LIM-009.",
+        "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide en el borde: **manejar** (recuperable: fila mala del CSV) vs. **propagar** (fatal: config inválida, encoding vacío). `except Exception: pass` es la forma más rápida de esconder corrupción de datos en producción y de mentir al on-call.",
         "Config rota → **fail-fast** (abortar antes de multiplicar basura en el lote). Fila de datos inválida → **cuarentena** y continúa, como el **manifest de S08** con conteos reconciliados. El borde del job es un **contrato operativo** que el on-call debe poder leer en el README del pipeline, no un gusto de estilo del autor del script.",
       ],
       code: {
@@ -182,9 +182,9 @@ KeyError: 'email'`,
       heading: "Reproducción mínima, hipótesis y causa raíz",
       subtopicId: "S09-T2-B",
       paragraphs: [
-        "**Minimal repro**: reduce un lote sintético a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el postmortem sin arrastrar PII real ni ruido de otras columnas del CSV de intake. En CASO-LIM-009, un fallo de apellidos no exige el archivo completo: basta `SoloNombre` (o la cadena mínima) que rompe el parser.",
+        "**Minimal repro**: reduce un lote sintético a la **menor entrada** que dispara el bug. Facilita tests de regresión, code review y el post mórtem sin arrastrar PII real ni ruido de otras columnas del CSV de intake. En CASO-LIM-009, un fallo de apellidos no exige el archivo completo: basta `SoloNombre` (o la cadena mínima) que rompe el parser.",
         "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Ojo: un nombre con 3 tokens puede **no lanzar** y aun así truncar mal el segundo apellido — ese bug silencioso no aparece en el `except`; el minimal repro del ValueError es el de 1 token. Descartar una hipótesis es progreso: anótala en la bitácora del incidente.",
-        "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo en el siguiente PR. 5-whys ligero: no pares en el síntoma («KeyError email») — pregunta si el schema del lote de S08 realmente exige esa clave en todas las filas o si el productor omitió un campo opcional sin documentarlo.",
+        "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo en el siguiente PR. 5-whys ligero: no pares en el síntoma («KeyError email»). Pregunta si el schema del lote de S08 realmente exige esa clave en todas las filas o si el productor omitió un campo opcional sin documentarlo.",
       ],
       code: {
         language: 'python',
@@ -226,8 +226,8 @@ minimal repro: SoloNombre -> faltan apellidos`,
       subtopicId: "S09-T3-A",
       paragraphs: [
         "Niveles: **DEBUG** (detalle dev), **INFO** (progreso del job), **WARNING** (anomalía recuperable: fila opcional rara), **ERROR** (fallo de una unidad que cuarentenarás o reintentarás), **CRITICAL** (el proceso o el lote entero está en peligro: config rota, disco lleno). No loguees ERROR para filas esperables de cuarentena si WARNING basta: el ruido entierra el incidente real en el dashboard de ops.",
-        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. Handlers y formatters se arman **una vez** en el entrypoint del CLI (preview suave de S10). En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
-        "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `correlation_id`, `duration_ms`, `error_class`) se filtran en agregadores y en el postmortem. Un `print(\"ok\")` suelto no escala a prod ni a la bitácora de **CP-N1-C**: no tiene nivel, no tiene correlation_id y se pierde en el stdout del pipe.",
+        "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas en cada helper. Handlers y formatters se arman **una vez** en el entrypoint del CLI (preview suave de S10, Módulos y CLI). En el camino de ERROR dentro de un `except`, `log.exception(...)` o `exc_info=True` adjuntan el traceback al mensaje estructurado sin perder `correlation_id` ni forzar un `print` del stack.",
+        "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `correlation_id`, `duration_ms`, `error_class`) se filtran en agregadores y en el post mórtem. Un `print(\"ok\")` suelto no escala a prod ni a la bitácora de **CP-N1-C**: no tiene nivel, no tiene correlation_id y se pierde en el stdout del pipe.",
         "Caso sintético CASO-LIM-009: el job `ingest_clientes` falla a las 02:10. Sin campos `stage`/`record_id`, el on-call no une el WARNING de la fila C014 con el ERROR del provider. Con mensajes `stage=normalize record_id=C014 event=parse_fail` y nivel correcto, el triage tarda minutos, no horas — y aún no has tocado PII (eso es T3-B).",
       ],
       code: {
@@ -268,7 +268,7 @@ ERROR stage=normalize record_id=C003 event=parse_fail field=monto`,
       heading: "Correlation IDs y redacción de PII",
       subtopicId: "S09-T3-B",
       paragraphs: [
-        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) como argumento explícito para unir logs del mismo job o lote. Sin él, el postmortem de las 02:10 es arqueología: no sabes si el WARNING de la fila C014 y el ERROR del provider pertenecen a la misma corrida de intake. En el **manifest de S08**, cada fila en cuarentena gana poder operativo si lleva el mismo `correlation_id` que el job que la rechazó.",
+        "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) como argumento explícito para unir logs del mismo job o lote. Sin él, el post mórtem de las 02:10 es arqueología: no sabes si el WARNING de la fila C014 y el ERROR del provider pertenecen a la misma corrida de intake. En el **manifest de S08**, cada fila en cuarentena gana poder operativo si lleva el mismo `correlation_id` que el job que la rechazó.",
         "**Nunca** loguees email, teléfono o dirección **completos**. Usa máscaras estables: `a***@ejemplo.pe`, `***4567`, dirección reducida a ciudad o `***`. Un ERROR con el row completo es un incidente de cumplimiento (y de confianza del cliente), no un «log detallado» útil. En CASO-LIM-009, con `corr-9c2e` y email enmascarado el canal de ops actúa en minutos sin filtrar PII a Slack.",
         "Helpers `mask_email` / `mask_phone` / `mask_address` deben ser el **único** camino hacia los logs; un audit de código falla si alguien hace `log.info(row)` o formatea f-strings con el email crudo. Redacta **antes** del format string. En el `except`, combina redacción con `log.exception(...)` para forensics (stack + correlation_id) sin exponer datos personales.",
       ],
@@ -331,11 +331,11 @@ phone=***4567`,
       },
     },
     {
-      heading: "Fallar rápido vs continuar con cuarentena",
+      heading: "Fallar rápido vs. continuar con cuarentena",
       subtopicId: "S09-T4-A",
       paragraphs: [
-        "Taxonomía del intake: **data** (fila sucia del CSV), **config** (delimiter, schema path, env `ROOT_PATH` vacía), **provider** (timeout S3, HTTP 503). La **política difiere** por clase: no trates un timeout del proveedor igual que un monto inválido — el primero puede reintentarse (T4-B); el segundo va a cuarentena con `error_class=data` y el lote sigue.",
-        "**Fail-fast** en config: seguir con schema roto multiplica basura y envenena el **manifest de S08**. **Cuarentena** en data: una fila mala **no** debe tumbar el lote entero — el mismo gate de reconciliación (`in == ok + quarantined`), ahora con `error_class` y `correlation_id` explícitos en cada rechazo para el postmortem de CP-N1-C.",
+        "Taxonomía del intake: **data** (fila sucia del CSV), **config** (delimiter, schema path, env `ROOT_PATH` vacía), **provider** (timeout S3, HTTP 503). La **política difiere** por clase: no trates un timeout del proveedor igual que un monto inválido. El primero puede reintentarse (T4-B); el segundo va a cuarentena con `error_class=data` y el lote sigue.",
+        "**Fail-fast** en config: seguir con schema roto multiplica basura y envenena el **manifest de S08**. **Cuarentena** en data: una fila mala **no** debe tumbar el lote entero. El mismo gate de reconciliación (`in == ok + quarantined`) ahora lleva `error_class` y `correlation_id` explícitos en cada rechazo para el post mórtem de CP-N1-C.",
         "Éxito parcial es válido si el manifest cuadra. Documenta la política en el README del job y **cierra en fallo** (**fail closed**: no publiques resultados si el reconcile no cuadra). Mejor abortar con ERROR/CRITICAL claro que entregar conteos mentirosos al dashboard de familiaridad o a un informe regulatorio sintético del lab.",
       ],
       code: {
@@ -375,8 +375,8 @@ abort: config: delimiter requerido`,
       subtopicId: "S09-T4-B",
       paragraphs: [
         "**Retry solo errores transitorios** (`TimeoutError`, HTTP 503, red). Un `ValueError` de datos **no** se reintenta: va a **cuarentena** con `error_class=data`. Reintentar un monto inválido no lo hace válido: solo gasta cuota del proveedor, multiplica logs ERROR y confunde al on-call del intake CASO-LIM-009 a las 02:10.",
-        "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` más un hash del payload — el mismo espíritu del **manifest de S08**, ahora a nivel de re-ingesta tras un retry, un redeploy nocturno o un reprocess parcial del lote cuarentenado.",
-        "Backoff simple (sleep creciente: 0.1s, 0.2s, 0.4s…) reduce el **thundering herd**: muchos workers reintentando a la vez y saturando el mismo proveedor. Tras `max_attempts` → cuarentena de la unidad o fail-fast del job según la política del README. **Nunca** retries infinitos en prod: un bucle eterno es un incidente disfrazado de «resiliencia».",
+        "Operaciones **idempotentes** (misma clave de escritura) permiten **volver a ejecutar** un job sin duplicar side-effects. Clave típica: `(source, record_id, version)` más un hash del payload — el mismo espíritu del **manifest de S08**, ahora a nivel de reingesta tras un retry, un redeploy nocturno o un reproceso parcial del lote cuarentenado.",
+        "Backoff simple (sleep creciente: 0.1 s, 0.2 s, 0.4 s…) reduce el **thundering herd** (estampida de reintentos concurrentes): muchos workers reintentando a la vez y saturando el mismo proveedor. Tras `max_attempts` → cuarentena de la unidad o fail-fast del job según la política del README. **Nunca** retries infinitos en prod: un bucle eterno es un incidente disfrazado de «resiliencia».",
       ],
       code: {
         language: 'python',
@@ -420,7 +420,7 @@ no-retry: dato malo`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema), en orden T1→T4. Partes del job de intake CASO-LIM-009: validar filas, leer tracebacks, loguear sin PII y decidir fail-fast vs cuarentena/retry. Datos sintéticos; entorno local-python. Observa el código completo antes de los We Do.",
+    intro: "Ocho demos I Do (uno por subtema), en orden T1→T4. Partes del job de intake CASO-LIM-009: validar filas, leer tracebacks, loguear sin PII y decidir fail-fast vs. cuarentena/retry. Datos sintéticos; entorno local-python. Observa el código completo antes de los We Do.",
     steps: [
       {
         demoId: "S09-T1-A-DEMO",
@@ -747,19 +747,18 @@ print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
         kind: "guided",
         instruction:
           "Mapea los 5 fallos sintéticos del starter (CASO-LIM-009 intake) al tipo de excepción más adecuado e imprime cada línea como `fallo -> Tipo` en el orden del array. No uses Exception genérico para todos; incluye un `ValidationError` de dominio para la regla de negocio (monto < 0).",
-        hint: "Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.",
+        hint: "Cinco clases distintas: no mapees todo a ValueError.",
         hints: [
-          "Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.",
+          "Piensa: tipo incorrecto vs. valor ilegal vs. clave ausente vs. I/O vs. genérico de dominio.",
           "Usa TypeError, ValueError, KeyError, FileNotFoundError y un custom ValidationError.",
         ],
-        edgeCases: ["No uses Exception genérico para todos", "FileNotFoundError es subclase de OSError"],
+        edgeCases: ["No uses Exception genérico para todos.", "FileNotFoundError es subclase de OSError."],
         tests: "Contrato exacto: 5 líneas `… -> Tipo` en el orden del starter (ValueError, TypeError, KeyError, FileNotFoundError, ValidationError); exit 0.",
         feedback: "Tipo incorrecto ≠ valor ilegal: TypeError y ValueError no son intercambiables; la regla de negocio usa ValidationError de dominio.",
         starterCode: {
           language: 'python',
           title: "map_exceptions.py",
-          code: `# CASO-LIM-009 · map fallo → Exception
-# A corregir: todo ValueError
+          code: `# A corregir: todo ValueError
 fallos = [
     "int('x')",
     "sumar str + int",
@@ -799,19 +798,18 @@ regla de negocio: monto < 0 -> ValidationError`,
         kind: "independent",
         instruction:
           "Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError con mensaje accionable si no parsea, no es finito o es negativo.",
-        hint: "Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.",
+        hint: "Construye Decimal desde texto, no desde float.",
         hints: [
           "Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.",
           "Rechaza NaN/Infinity con is_finite y compara contra Decimal('0').",
         ],
-        edgeCases: ["'' vacío", "None", "NaN", "Infinity"],
+        edgeCases: ["Cadena vacía.", "None.", "NaN.", "Infinity."],
         tests: "Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'monto negativo'; NaN e Infinity fallan; no se permite float().",
         feedback: "Si usaste float(), rehazlo con Decimal + quantize(0.01): el mensaje debe incluir el raw y rechazar no finitos.",
         starterCode: {
           language: 'python',
           title: "parse_monto.py",
-          code: `# CASO-LIM-009 · parse_monto Decimal
-# A corregir: float; no cuarentena
+          code: `# A corregir: float; no cuarentena
 from decimal import Decimal, InvalidOperation
 
 def parse_monto(raw):
@@ -856,20 +854,19 @@ abc ERR monto no numérico: 'abc'
         subtopicId: "S09-T1-A",
         kind: "transfer",
         instruction:
-          "Define `DataLoadError` y `load_text(path_fn)` que captura `OSError` del lector (callable que simula open) y re-lanza `DataLoadError` con `raise ... from e`. Imprime el tipo del error y de `__cause__` (CASO-LIM-009 intake).",
-        hint: "path_fn es un callable que simula open y puede lanzar OSError.",
+          "Define `DataLoadError` y `load_text(path_fn)` que captura `OSError` del lector (callable que simula open) y **relanza** `DataLoadError` con `raise ... from e`. Imprime el tipo del error y de `__cause__` (CASO-LIM-009 intake).",
+        hint: "path_fn es un callable: cuando falle con OSError, envuélvelo en DataLoadError.",
         hints: [
           "path_fn es un callable que simula open y puede lanzar OSError.",
           "Imprime type del error y de __cause__.",
         ],
-        edgeCases: ["PermissionError también es OSError"],
+        edgeCases: ["PermissionError también es OSError."],
         tests: "Contrato exacto: stdout muestra DataLoadError + mensaje y OSError como __cause__; exit 0; no dejes raise sin `from e`.",
-        feedback: "Sin `from e`, `__cause__` queda None y el postmortem pierde el I/O original (FileNotFoundError/OSError).",
+        feedback: "Sin `from e`, `__cause__` queda None y el post mórtem pierde el I/O original (FileNotFoundError/OSError).",
         starterCode: {
           language: 'python',
           title: "data_load_chain.py",
-          code: `# CASO-LIM-009 · DataLoadError chain
-# A corregir: raise sin from e
+          code: `# A corregir: raise sin from e
 class DataLoadError(Exception):
     pass
 
@@ -914,20 +911,19 @@ OSError no such file: data/clientes.csv`,
         subtopicId: "S09-T1-B",
         kind: "guided",
         instruction:
-          "Completa el `finally` en `work` para marcar `state['closed']=True` aunque haya excepción. El camino feliz imprime ok; el fallo propaga RuntimeError y aún así deja closed True (CASO-LIM-009).",
-        hint: "El flag `closed` debe quedar True siempre.",
+          "Completa el `finally` en `work` para marcar `state['closed']=True` aunque haya excepción. El camino feliz imprime ok; el fallo propaga RuntimeError y **aun así** deja closed True (CASO-LIM-009).",
+        hint: "El flag `closed` debe quedar True en éxito y en fallo.",
         hints: [
           "El flag `closed` debe quedar True siempre.",
           "Usa try/finally; no captures la excepción en el camino de fail si quieres re-raise.",
         ],
-        edgeCases: ["finally corre antes de propagar"],
+        edgeCases: ["finally corre antes de propagar."],
         tests: "Contrato exacto: primera línea `ok {'closed': True}`; segunda tras capturar: `err {'closed': True}`; exit 0.",
         feedback: "El finally corre antes de propagar: closed debe ser True también en el camino de RuntimeError.",
         starterCode: {
           language: 'python',
           title: "finally_close.py",
-          code: `# CASO-LIM-009 · finally close
-# A corregir: no finally; closed False en fail
+          code: `# A corregir: no finally; closed False en fail
 state = {"closed": False}
 
 def work(fail: bool):
@@ -971,19 +967,18 @@ err {'closed': True}`,
         kind: "independent",
         instruction:
           "Clasifica los 6 errores del starter en `recover` o `fail-fast` e imprime cada uno como `nombre: política`. Config/secretos → fail-fast; fila mala/parse/timeout de un record → recover (CASO-LIM-009).",
-        hint: "Config y secretos ausentes → fail-fast. Fila mala / parse → recover.",
+        hint: "En config inválida propaga; en fila mala recupera.",
         hints: [
           "Config y secretos ausentes → fail-fast. Fila mala / parse → recover.",
           "Timeout de red de un registro puede ser recover+retry (marca recover).",
         ],
-        edgeCases: ["recover no significa ignorar: cuarentena o retry"],
+        edgeCases: ["recover no significa ignorar: cuarentena o retry."],
         tests: "Contrato exacto: 6 líneas `…: fail-fast|recover` en el orden del starter; exit 0.",
         feedback: "Config/secretos → fail-fast; fila/parse/timeout de un record → recover (cuarentena o retry), no silenciar.",
         starterCode: {
           language: 'python',
           title: "classify_errors.py",
-          code: `# CASO-LIM-009 · fail-fast vs recover
-# A corregir: todo recover
+          code: `# A corregir: todo recover
 errores = [
     "delimiter vacío en config",
     "monto no numérico en fila",
@@ -1023,19 +1018,18 @@ timeout leyendo un record remoto: recover`,
         kind: "transfer",
         instruction:
           "Refactoriza `good_handler`: captura solo `ValueError` (cuarentena) y deja propagar el resto (p. ej. RuntimeError de config). No uses `except:` bare ni tragues Exception genérico (CASO-LIM-009).",
-        hint: "No uses except desnudo.",
+        hint: "bad traga todo; good solo ValueError a cuarentena.",
         hints: [
           "No uses except desnudo.",
-          "Imprime bad vs good_v quarantine y good_r raised según el caso.",
+          "Imprime bad vs. good_v quarantine y good_r raised según el caso.",
         ],
-        edgeCases: ["Exception aún es amplio; preferir tipos de dominio en prod"],
-        tests: "Contrato exacto: bad traga ambos; good_v → quarantine; good_r re-lanza RuntimeError capturado como raised; exit 0.",
+        edgeCases: ["Exception aún es amplio; preferir tipos de dominio en prod."],
+        tests: "Contrato exacto: bad traga ambos; good_v → quarantine; good_r relanza RuntimeError capturado como raised; exit 0.",
         feedback: "good_handler solo captura ValueError; RuntimeError de config debe propagar, no tragarse como swallowed.",
         starterCode: {
           language: 'python',
           title: "refactor_bare_except.py",
-          code: `# CASO-LIM-009 · bare except
-# A corregir: good_handler igual de traga-todo
+          code: `# A corregir: good_handler igual de traga-todo
 def bad_handler(fn):
     try:
         return ("ok", fn())
@@ -1092,20 +1086,19 @@ good_r raised config`,
         subtopicId: "S09-T2-A",
         kind: "guided",
         instruction:
-          "Dado el traceback sintético del starter (CASO-LIM-009), anota 3 frames (nombre de función) de afuera hacia adentro e imprime `frame1`, `frame2`, `frame3`. No re-ejecutes el código original: parsea el texto.",
-        hint: "Busca líneas 'File' o patrones 'in nombre'.",
+          "Dado el traceback sintético del starter (CASO-LIM-009), anota 3 frames (nombre de función) de afuera hacia adentro e imprime `frame1`, `frame2`, `frame3`. No vuelvas a ejecutar el código original: parsea el texto.",
+        hint: "Busca la línea File ... in nombre_función.",
         hints: [
           "Busca líneas 'File' o patrones 'in nombre'.",
           "Imprime frame1, frame2, frame3 (main, run, normalize).",
         ],
-        edgeCases: ["most recent call last: el último frame es el más profundo"],
+        edgeCases: ["most recent call last: el último frame es el más profundo."],
         tests: "Contrato exacto: frame1 main; frame2 run; frame3 normalize; exit 0.",
         feedback: "most recent call last: main → run → normalize; el frame útil del bug de email suele ser el más profundo de tu código.",
         starterCode: {
           language: 'python',
           title: "annotate_frames.py",
-          code: `# CASO-LIM-009 · parse traceback frames
-# A corregir: no extrae frames
+          code: `# A corregir: no extrae frames
 tb = '''Traceback (most recent call last):
   File "cli.py", line 10, in main
     run()
@@ -1148,19 +1141,18 @@ frame3 normalize`,
         kind: "independent",
         instruction:
           "Simula un breakpoint en `normalize`: si falta `email`, con DEBUG imprime locals seguros (solo `id`, sin row completo/PII) y lanza `KeyError('email')` (CASO-LIM-009).",
-        hint: "No imprimas el row completo si pudiera tener PII.",
+        hint: "Imprime solo id (y opcional DEBUG), nunca el row.",
         hints: [
           "No imprimas el row completo si pudiera tener PII.",
           "Usa un flag DEBUG; formato: break locals id= …",
         ],
-        edgeCases: ["En prod real usa logging + correlation_id"],
+        edgeCases: ["En prod real usa logging + correlation_id."],
         tests: "Contrato exacto: línea `break locals id= C009` y `raised 'email'`; exit 0; sin volcar PII.",
         feedback: "Locals de debug solo con id (y flags); nunca el row completo con email/teléfono sintético en claro.",
         starterCode: {
           language: 'python',
           title: "simulate_breakpoint.py",
-          code: `# CASO-LIM-009 · DEBUG locals
-# A corregir: no raise KeyError; devuelve None
+          code: `# A corregir: no raise KeyError; devuelve None
 DEBUG = True
 
 def normalize(row: dict) -> str:
@@ -1197,20 +1189,19 @@ raised 'email'`,
         subtopicId: "S09-T2-A",
         kind: "transfer",
         instruction:
-          "Solo con el traceback del starter (sin re-ejecutar el código original), imprime la causa raíz en una frase: función + clave faltante. Formato: `causa_raiz=normalize falta clave email`.",
-        hint: "No re-ejecutes el código original; parsea el texto.",
+          "Solo con el traceback del starter (sin volver a ejecutar el código original), imprime la causa raíz en una frase: función + clave faltante. Formato: `causa_raiz=normalize falta clave email`.",
+        hint: "Lee el texto del traceback; no vuelvas a ejecutar el código.",
         hints: [
-          "No re-ejecutes el código original; parsea el texto.",
+          "No vuelvas a ejecutar el código original; parsea el texto.",
           "Formato: causa_raiz=normalize falta clave email",
         ],
-        edgeCases: ["No culpes a cli.py si el bug está en normalize"],
+        edgeCases: ["No culpes a cli.py si el bug está en normalize."],
         tests: "Contrato exacto: una línea `causa_raiz=normalize falta clave email`; exit 0.",
         feedback: "No culpes a cli.py: la KeyError nace en normalize al pedir la clave email.",
         starterCode: {
           language: 'python',
           title: "root_from_tb.py",
-          code: `# CASO-LIM-009 · last exception line
-# A corregir: imprime todo el tb
+          code: `# A corregir: imprime todo el tb
 tb = '''Traceback (most recent call last):
   File "app.py", line 1, in <module>
     normalize({"id": 1})
@@ -1242,20 +1233,19 @@ print(f"causa_raiz=normalize falta clave {key}")`,
         subtopicId: "S09-T2-B",
         kind: "guided",
         instruction:
-          "Recorta la fixture a la primera fila mínima que hace fallar `parse_dni` (DNI peruano sintético: 8 dígitos). Imprime `minimal=` y re-ejecuta solo ese caso para mostrar el ValueError (CASO-LIM-009).",
-        hint: "Encuentra el primer fallido y re-ejecuta solo ese.",
+          "Recorta la fixture a la primera fila mínima que hace fallar `parse_dni` (DNI peruano sintético: 8 dígitos). Imprime `minimal=` y vuelve a ejecutar solo ese caso para mostrar el ValueError (CASO-LIM-009).",
+        hint: "Recorta a la primera fila que hace fallar parse_dni.",
         hints: [
-          "Encuentra el primer fallido y re-ejecuta solo ese.",
+          "Encuentra el primer fallido y vuelve a ejecutar solo ese.",
           "Imprime minimal=... y el mensaje dni inválido.",
         ],
-        edgeCases: ["Puede haber varios fallos; el mínimo del primer fallo basta para el test"],
+        edgeCases: ["Puede haber varios fallos; el mínimo del primer fallo basta para el test."],
         tests: "Contrato exacto: `minimal= 123` y línea `dni inválido: '123'`; exit 0.",
-        feedback: "El primer fallo basta como minimal repro: re-ejecuta solo esa entrada, no todo el fixture.",
+        feedback: "El primer fallo basta como minimal repro: vuelve a ejecutar solo esa entrada, no todo el fixture.",
         starterCode: {
           language: 'python',
           title: "crop_fixture.py",
-          code: `# CASO-LIM-009 · minimal failing fixture
-# A corregir: no encuentra primer fail
+          code: `# A corregir: no encuentra primer fail
 def parse_dni(d: str) -> str:
     if not (d.isdigit() and len(d) == 8):
         raise ValueError(f"dni inválido: {d!r}")
@@ -1297,19 +1287,18 @@ dni inválido: '123'`,
         kind: "independent",
         instruction:
           "Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que distingan el símbolo `+` de los dígitos de país `51`, según el contrato de S07.",
-        hint: "El formato normalizado contiene solo dígitos: debe conservar 51, no el carácter +.",
+        hint: "Prueba cada hipótesis con un fixture mínimo.",
         hints: [
           "El formato normalizado contiene solo dígitos: debe conservar 51, no el carácter +.",
           "Compara +51 999 111 222 con 999 111 222 para aislar el prefijo de país.",
         ],
-        edgeCases: ["Hipótesis falsables", "prefijo 51", "espacios"],
+        edgeCases: ["Hipótesis falsables.", "prefijo 51.", "espacios."],
         tests: "Contrato exacto: '+51 999 111 222'→'51999111222'; '999 111 222'→'999111222'; afirmar country_digits_preserved=True y plus_symbol_expected=False.",
         feedback: "S07 definió salida solo-dígitos: retirar '+' no es perder el código de país si los dígitos 51 permanecen.",
         starterCode: {
           language: 'python',
           title: "hypotheses.py",
-          code: `# CASO-LIM-009 · phone hypothesis
-# A corregir: strip espacio sin digits-only
+          code: `# A corregir: strip espacio sin digits-only
 def normalize_phone(p: str) -> str:
     return p.replace(" ", "").replace("+", "")
 
@@ -1343,19 +1332,18 @@ plus_symbol_expected False`,
         kind: "transfer",
         instruction:
           "Añade un test de regresión para nombres latam: `bad_title` con `.title()` debe fallar en rojo; `good_title` preserva partículas `de/la` y pasa en verde. Imprime RED, pass y GREEN (CASO-LIM-009).",
-        hint: "Imprime RED luego GREEN.",
+        hint: "title() no es suficiente para partículas latam.",
         hints: [
           "Imprime RED luego GREEN.",
           "Bug: title() capitaliza De/La; el assert espera 'Juan de la Cruz'.",
         ],
-        edgeCases: ["title() capitaliza De/La incorrectamente para nombres latam"],
+        edgeCases: ["title() capitaliza De/La incorrectamente para nombres latam."],
         tests: "Contrato exacto: líneas RED, pass, GREEN en ese orden; exit 0.",
         feedback: "title() capitaliza De/La: el assert rojo documenta el bug; good_title preserva partículas latam.",
         starterCode: {
           language: 'python',
           title: "regression_test.py",
-          code: `# CASO-LIM-009 · title particles
-# A corregir: good_title = title()
+          code: `# A corregir: good_title = title()
 def bad_title(s: str) -> str:
     return s.title()
 
@@ -1407,19 +1395,18 @@ GREEN`,
         kind: "guided",
         instruction:
           "Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a los 6 eventos del starter e imprime cada uno como `evento: NIVEL`. Progreso → INFO; detalle de loop → DEBUG; fila opcional rara → WARNING; fallo de unidad/config → ERROR.",
-        hint: "Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR.",
+        hint: "Mapea cada evento al nivel correcto (INFO/WARNING/ERROR).",
         hints: [
           "Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad → ERROR.",
           "Config inválida al arrancar también ERROR (o CRITICAL; usa ERROR aquí).",
         ],
-        edgeCases: ["WARNING no es ERROR si el job continúa"],
+        edgeCases: ["WARNING no es ERROR si el job continúa."],
         tests: "Contrato exacto: 6 líneas `…: DEBUG|INFO|WARNING|ERROR` en el orden del starter; exit 0.",
         feedback: "Fila opcional rara = WARNING (job sigue); parse/config ilegible = ERROR; loop interno = DEBUG, no INFO.",
         starterCode: {
           language: 'python',
           title: "assign_levels.py",
-          code: `# CASO-LIM-009 · log levels
-# A corregir: todo INFO
+          code: `# A corregir: todo INFO
 eventos = [
     "job iniciado",
     "valor de variable i en loop",
@@ -1464,14 +1451,13 @@ lote terminado con conteos: INFO`,
           "propagate=False; formatter simple `%(levelname)s %(message)s`.",
           "Mensaje: stage=ingest event=start",
         ],
-        edgeCases: ["Limpiar handlers en demos evita duplicados"],
+        edgeCases: ["Limpiar handlers en demos evita duplicados."],
         tests: "Contrato exacto: una línea `INFO stage=ingest event=start`; exit 0.",
         feedback: "Logger de módulo + StreamHandler a buffer + propagate=False: no uses print como bitácora de progreso.",
         starterCode: {
           language: 'python',
           title: "module_logger.py",
-          code: `# CASO-LIM-009 · logger INFO
-# A corregir: print en vez de log; no handler
+          code: `# A corregir: print en vez de log; no handler
 import logging, io
 print("INFO job_start")
 print("DEBUG i=0")
@@ -1500,19 +1486,18 @@ print(buf.getvalue().strip())`,
         kind: "transfer",
         instruction:
           "Convierte los prints de progreso del CLI stub a logs estructurados; el stdout de datos debe mostrar solo `RESULT=3` y, aparte, un resumen de logs (event=start/done). No mezcles progreso con el stream de datos (preview S10).",
-        hint: "Progreso a logger; resultado con print o stdout data.",
+        hint: "Progreso al logger; RESULT al stdout de datos.",
         hints: [
           "Progreso a logger; resultado con print o stdout data.",
           "Debe verse RESULT=3 y LOGS con event=start / event=done.",
         ],
-        edgeCases: ["No mezclar progress en el stream de datos"],
+        edgeCases: ["No mezclar progress en el stream de datos."],
         tests: "Contrato exacto: `RESULT=3` y línea LOGS con event=start y event=done; exit 0.",
-        feedback: "Stdout de datos limpio (RESULT=…); progreso del job en el logger — preview del contrato CLI de S10.",
+        feedback: "Stdout de datos **limpios** (RESULT=…); progreso del job en el logger — preview del contrato CLI de S10 (Módulos y CLI).",
         starterCode: {
           language: 'python',
           title: "prints_to_logs.py",
-          code: `# CASO-LIM-009 · logging vs print CLI
-# A corregir: cli_stub_good = print
+          code: `# A corregir: cli_stub_good = print
 import logging, io, sys
 
 def cli_stub_bad(n):
@@ -1560,19 +1545,18 @@ LOGS: event=start op=inc | event=done op=inc |`,
         kind: "guided",
         instruction:
           "Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos del starter (`carlos@ejemplo.pe`, `+51 988 777 666`). Email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.",
-        hint: "email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.",
+        hint: "Máscara estable: primer char + ***@dominio; phone ***+4.",
         hints: [
           "email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.",
           "Imprime ambas máscaras en dos líneas.",
         ],
-        edgeCases: ["email sin @", "teléfono corto"],
+        edgeCases: ["email sin @.", "teléfono corto."],
         tests: "Contrato exacto: `c***@ejemplo.pe` y `***7666`; exit 0; sin PII completa en stdout.",
         feedback: "Máscara estable: primer char + ***@dominio; teléfono *** + últimos 4 dígitos (nunca el raw).",
         starterCode: {
           language: 'python',
           title: "mask_helpers.py",
-          code: `# CASO-LIM-009 · mask PII
-# A corregir: devuelve raw
+          code: `# A corregir: devuelve raw
 def mask_email(email: str) -> str:
     return email
 
@@ -1610,19 +1594,18 @@ print(mask_phone("+51 988 777 666"))`,
         kind: "independent",
         instruction:
           "Propaga `correlation_id` por 3 capas (cli → service → repo) como argumento explícito (sin global) e imprime el mismo id en cada capa. Fixture: `corr-42`, item `C001` (CASO-LIM-009).",
-        hint: "Pasa el id como argumento explícito (sin global).",
+        hint: "Pasa correlation_id como argumento en cada capa.",
         hints: [
           "Pasa el id como argumento explícito (sin global).",
           "Mismo id en las 3 líneas: cli, service, repo.",
         ],
-        edgeCases: ["En apps reales: contextvars opcional; aquí explícito es más claro"],
+        edgeCases: ["En apps reales: contextvars opcional; aquí explícito es más claro."],
         tests: "Contrato exacto: tres líneas con correlation_id=corr-42 (cli, service, repo id=C001); exit 0.",
         feedback: "El mismo corr-42 debe aparecer en cli, service y repo: argumento explícito, no variable global oculta.",
         starterCode: {
           language: 'python',
           title: "correlation_layers.py",
-          code: `# CASO-LIM-009 · correlation_id
-# A corregir: no propaga corr
+          code: `# A corregir: no propaga corr
 def repo_save(corr, item):
     print(f"repo id={item['id']}")
 
@@ -1668,14 +1651,13 @@ repo correlation_id=corr-42 id=C001`,
           "Define template_unsafe = 'error en {email} tel={phone}' y busca '{email}' / '{phone}' en ese texto.",
           "Imprime 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=***1222' sin volcar PII raw.",
         ],
-        edgeCases: ["No loguear address completa tampoco", "No uses internals de bytecode (__code__)"],
+        edgeCases: ["No loguear address completa tampoco.", "No uses internals de bytecode (__code__)."],
         tests: "Contrato exacto: stdout contiene 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=***1222'; stdout no contiene a@ejemplo.pe ni 999111222.",
         feedback: "Una auditoría de logging no debe volver a filtrar la PII que intenta detectar; basta con escanear la plantilla.",
         starterCode: {
           language: 'python',
           title: "audit_pii_log.py",
-          code: `# CASO-LIM-009 · plantilla insegura vs log seguro
-# El starter aún formatea con PII raw: corrige safe_log y la detección.
+          code: `# El starter aún formatea con PII raw: corrige safe_log y la detección.
 
 template_unsafe = "error en {email} tel={phone}"
 
@@ -1723,19 +1705,18 @@ SAFE error en a***@ejemplo.pe tel=***1222`,
         kind: "guided",
         instruction:
           "Clasifica los **8** fallos del starter en data|config|provider e imprime cada uno como `fallo: clase` (dos puntos, no flecha). Orden del starter; fixture CASO-LIM-009.",
-        hint: "Config = arranque/schema/env; data = fila; provider = red/IO externo.",
+        hint: "Ocho casos: data | config | provider (sin Exception genérica).",
         hints: [
           "Config = arranque/schema/env; data = fila; provider = red/IO externo.",
           "Sé consistente con la taxonomía de la teoría T4-A; ROOT_PATH vacía es config.",
         ],
-        edgeCases: ["Un 400 del API por payload malo puede ser data; 503 es provider"],
+        edgeCases: ["Un 400 del API por payload malo puede ser data; 503 es provider."],
         tests: "Contrato exacto: 8 líneas `…: data|config|provider` en el orden del starter (incluye ROOT_PATH); sin flechas `->`; exit 0.",
         feedback: "Ocho casos, ocho clases: data (fila), config (arranque/env/schema), provider (S3/HTTP 503). ROOT_PATH vacía es config.",
         starterCode: {
           language: 'python',
           title: "taxonomy.py",
-          code: `# CASO-LIM-009 · classify failure (8 casos)
-# Starter marca todo como data: corrige la clase de cada fallo.
+          code: `# Starter marca todo como data: corrige la clase de cada fallo.
 fallos = [
     "monto NaN en CSV",
     "YAML de config corrupto",
@@ -1781,19 +1762,18 @@ variable de entorno ROOT_PATH vacía: config`,
         kind: "independent",
         instruction:
           "Implementa `process_batch` que envía filas sin `id` a `quarantined` (con reason) y retorna `{ok, quarantined, in}`. Reconcilia `in == len(ok)+len(quarantined)` (CASO-LIM-009, eco de S08).",
-        hint: "Retorno: ok, quarantined, in.",
+        hint: "Filas malas a quarantined; no las tires sin registro.",
         hints: [
           "Retorno: ok, quarantined, in.",
           "Reconciliación in = len(ok)+len(quarantined); no descartes filas en silencio.",
         ],
-        edgeCases: ["id=0 podría ser válido en otros dominios; aquí truthiness simple"],
+        edgeCases: ["id=0 podría ser válido en otros dominios; aquí truthiness simple."],
         tests: "Contrato exacto: dict con 2 ok, 1 quarantined reason data:missing_id, in=3; assert de reconcile; exit 0.",
         feedback: "Fila sin id no se descarta en silencio: va a quarantined con reason y el reconcile in==ok+q debe cuadrar.",
         starterCode: {
           language: 'python',
           title: "process_batch.py",
-          code: `# CASO-LIM-009 · quarantine batch
-# A corregir: drop rows without quarantine list
+          code: `# A corregir: drop rows without quarantine list
 def process_batch(rows):
     ok = [r for r in rows if r.get("id")]
     return {"ok": ok, "quarantined": [], "in": len(rows)}
@@ -1832,14 +1812,13 @@ assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
           "Evalúa en orden: config crítica → ratio quarantined/in > 0.5 → provider_exhausted.",
           "No abortes solo porque quarantined==1 si el ratio ≤ 0.5; documenta reason=ok.",
         ],
-        edgeCases: ["El umbral 0.5 es de lab; en tu org se documenta en el README", "in=0 evita división: trata ratio como 0"],
+        edgeCases: ["El umbral 0.5 es de lab; en tu org se documenta en el README.", "in=0 evita división: trata ratio como 0."],
         tests: "Contrato exacto: 4 líneas `case=… abort=… reason=…` (config→True, ratio alto→True, provider→True, una fila data→False reason=ok); exit 0.",
         feedback: "La política de abort debe ser una función testeable: el on-call no adivina; el README y el código dicen lo mismo.",
         starterCode: {
           language: 'python',
           title: "abort_policy.py",
-          code: `# CASO-LIM-009 · abort policies (función, no solo texto)
-# A corregir: aborta por cualquier quarantined>=1
+          code: `# A corregir: aborta por cualquier quarantined>=1
 
 def should_abort(metrics: dict) -> tuple[bool, str]:
     # metrics: in, quarantined, config_ok, provider_exhausted
@@ -1894,19 +1873,18 @@ case=una_fila_data abort=False reason=ok`,
         kind: "guided",
         instruction:
           "Completa la tabla error → retry (`yes`/`no`) para los 5 tipos del starter e imprime `error: yes|no`. Solo transitorios (TimeoutError, ConnectionError) se reintentan; ValueError/KeyError/PermissionError → no.",
-        hint: "Solo transitorios: TimeoutError, ConnectionError.",
+        hint: "TimeoutError/503 → retry; ValueError/400 → no.",
         hints: [
           "Solo transitorios: TimeoutError, ConnectionError.",
           "ValueError/KeyError/PermissionError → no.",
         ],
-        edgeCases: ["429 rate limit a veces yes con backoff"],
+        edgeCases: ["429 rate limit a veces sí con backoff."],
         tests: "Contrato exacto: TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no; exit 0.",
         feedback: "Solo transitorios de red (Timeout/Connection) merecen yes; datos y permisos no se arreglan reintentando.",
         starterCode: {
           language: 'python',
           title: "retry_table.py",
-          code: `# CASO-LIM-009 · retry matrix
-# A corregir: reintenta ValueError/KeyError
+          code: `# A corregir: reintenta ValueError/KeyError
 retry = {
     "TimeoutError": "yes",
     "ValueError": "yes",
@@ -1943,19 +1921,18 @@ PermissionError: no`,
         kind: "independent",
         instruction:
           "Implementa `retry_call(fn, max_attempts=3)` que reintenta solo `TimeoutError` (backoff opcional) y relanza el último si agota intentos. Con el flaky del starter debe imprimir `done calls 3` (CASO-LIM-009).",
-        hint: "Devuelve el resultado o relanza el último TimeoutError.",
+        hint: "Backoff creciente; tope en max_attempts.",
         hints: [
           "Devuelve el resultado o relanza el último TimeoutError.",
           "Cuenta intentos en un cierre o contador externo.",
         ],
-        edgeCases: ["max_attempts=1 no reintenta"],
+        edgeCases: ["max_attempts=1 no reintenta."],
         tests: "Contrato exacto: `done calls 3` (o equivalente con done y 3 intentos); exit 0.",
         feedback: "retry_call debe reintentar TimeoutError hasta max_attempts; el flaky del lab llega a done en el 3.er intento.",
         starterCode: {
           language: 'python',
           title: "retry_call.py",
-          code: `# CASO-LIM-009 · retry_call
-# A corregir: un solo attempt
+          code: `# A corregir: un solo attempt
 def retry_call(fn, max_attempts=3):
     return fn()
 
@@ -2003,19 +1980,18 @@ print(retry_call(flaky), "calls", n["c"])`,
         kind: "transfer",
         instruction:
           "Diseña la clave de idempotencia para re-ingesta e imprímela como `idem_key=...` para el record del starter. Incluye source, record_id, version y hash del payload (eco del manifest S08).",
-        hint: "Incluye source, record_id y content_hash o version.",
+        hint: "Clave = source + id + version + hash(payload).",
         hints: [
           "Incluye source, record_id y content_hash o version.",
           "Formato: idem_key=source:id:vN:hash12",
         ],
-        edgeCases: ["Misma clave + mismo payload = skip; misma clave + payload distinto = conflicto"],
+        edgeCases: ["Misma clave + mismo payload = skip; misma clave + payload distinto = conflicto."],
         tests: "Contrato exacto: una línea `idem_key=banco_a:C001:v3:` + 12 hex del payload; exit 0.",
         feedback: "La clave une source + record_id + version + hash del payload: re-ingestar sin duplicar side-effects (eco S08).",
         starterCode: {
           language: 'python',
           title: "idempotency_key.py",
-          code: `# CASO-LIM-009 · idempotency key
-# A corregir: key sin version/hash
+          code: `# A corregir: key sin version/hash
 import hashlib, json
 record = {"source": "banco_a", "id": "C001", "version": 3, "payload": {"m": 1}}
 key = f"{record['id']}"
@@ -2040,13 +2016,13 @@ print("idem_key=" + key)`,
   youDo: {
     title: "Bitácora auditable del pipeline (inicio CP-N1-C)",
     context:
-      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas — en un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco.",
+      "Inicias **CP-N1-C**: una bitácora de pipeline que **sintetiza** lo practicado en los We Do — taxonomía data|config|provider, máscaras de PII, `log` con correlation_id, fail-fast de config y cuarentena de filas. El resultado es un módulo de portfolio que un junior puede mostrar en GitHub. Usa solo datos sintéticos; sin claims de fraude ni parentesco.",
     objectives: [
       "Clasificar fallos en data | config | provider",
       "Emitir logs estructurados con correlation_id",
       "Redactar email/teléfono/dirección completos",
       "Cuarentena de filas inválidas sin abortar el lote salvo config fatal",
-      "Documentar política fail-fast vs continue en README",
+      "Documentar política fail-fast vs. continue en README",
       "Reconciliar conteos in == ok + quarantined y cubrir con tests mínimos",
     ],
     requirements: [
@@ -2201,7 +2177,7 @@ if __name__ == "__main__":
       },
       {
         question: "¿Para qué sirve propagar un `correlation_id` por capas?",
-        options: ["Unir logs del mismo job/lote en el postmortem", "Cifrar el email del cliente", "Reemplazar el traceback", "Marcar fraude automáticamente"],
+        options: ["Unir logs del mismo job/lote en el post mórtem", "Cifrar el email del cliente", "Reemplazar el traceback", "Marcar fraude automáticamente"],
         correctIndex: 0,
         explanation:
           "El correlation_id enlaza CLI → service → repo sin necesidad de PII completa en cada línea de log.",
@@ -2215,7 +2191,7 @@ if __name__ == "__main__":
       },
       {
         question: "¿Qué ventaja dan los campos estructurados (`stage=… record_id=…`) frente a un `print(\"ok\")`?",
-        options: ["Cifran automáticamente la PII del row", "Reemplazan la necesidad de tests de regresión", "Convierten todo ValueError en TimeoutError", "Permiten filtrar y correlacionar eventos en agregadores y postmortems"],
+        options: ["Cifran automáticamente la PII del row", "Reemplazan la necesidad de tests de regresión", "Convierten todo ValueError en TimeoutError", "Permiten filtrar y correlacionar eventos en agregadores y post mórtems"],
         correctIndex: 3,
         explanation:
           "Campos estables (stage, record_id, correlation_id, error_class) hacen el log consultable; un print suelto no tiene nivel ni correlación.",

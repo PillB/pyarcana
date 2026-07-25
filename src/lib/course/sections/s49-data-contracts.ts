@@ -5,7 +5,7 @@ export const section49: CourseSection = {
   index: 49,
   title: "Agentes, herramientas y context engineering",
   shortTitle: "Agentes y tools",
-  tagline: "agente acotado consulta casos/reportes y prepara propuesta; no envía, no modifica prod ni decide riesgo sin aprobación",
+  tagline: "Agente acotado que consulta casos y reportes y prepara propuestas; no envía, no modifica prod ni decide riesgo sin aprobación.",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
@@ -14,23 +14,23 @@ export const section49: CourseSection = {
   jobRelevance:
     "En equipos de plataforma y producto, **agentes, herramientas y context engineering** orquestan pasos con tools de scope mínimo, presupuestos y checkpoints. Prefiere **workflow** cuando los pasos son conocidos y el baseline determinista iguala o supera al agente; promueve un **agente** solo si supera ese baseline con plan evaluado, budgets y tools de responsabilidad única. Todo side effect sensible exige aprobación humana explícita.",
   learningOutcomes: [
-    { text: "Elegir workflow vs agente con baseline documentado y ADR" },
-    { text: "Diseñar routing planner/worker/evaluator con máximo de iteraciones" },
-    { text: "Definir tools de responsabilidad única con casos válidos e inválidos" },
-    { text: "Aplicar schema, permisos, idempotencia y errores tipados en tools" },
-    { text: "Minimizar contexto con retrieval JIT y checkpoints consistentes" },
-    { text: "Compactar memoria conservando restricciones críticas y LKG" },
-    { text: "Definir stopping conditions y budgets con razón de parada explícita" },
-    { text: "Operar sandbox, aprobación humana y recovery sin re-efectos" },
+    { text: "Elegir workflow vs. agente con baseline documentado y ADR." },
+    { text: "Diseñar routing planner/worker/evaluator con máximo de iteraciones." },
+    { text: "Definir tools de responsabilidad única con casos válidos e inválidos." },
+    { text: "Aplicar schema, permisos, idempotencia y errores tipados en tools." },
+    { text: "Minimizar contexto con retrieval JIT y checkpoints consistentes." },
+    { text: "Compactar memoria conservando restricciones críticas y LKG." },
+    { text: "Definir stopping conditions y budgets con razón de parada explícita." },
+    { text: "Operar sandbox, aprobación humana y recovery sin efectos duplicados." },
   ],
   theory: [
     {
       heading: "Ruta de S49: Agentes, herramientas y context engineering",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Workflow vs agente:** pasos conocidos vs decisiones acotadas con evaluator. **Planner/worker/evaluator:** descomponer, ejecutar, verificar. **Tool de responsabilidad única:** un efecto bien tipado. **Idempotencia de tool:** misma key ⇒ un solo side effect. **Context mínimo / JIT retrieval:** solo lo necesario, justo a tiempo. **Checkpoint / LKG:** last-known-good para recovery. **Budget:** `max_steps`, `max_tokens` y `max_cost_pen` (costo sintético en el lab). **Sandbox + human approval:** sin red/prod/riesgo sin aprobación explícita. **Códigos de acción** (laboratorio): p. ej. `KEEP_DETERMINISTIC_WORKFLOW`, `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, `COMPACT_AND_CHECKPOINT`, `STOP_BUDGET_EXHAUSTED`, `REQUEST_HUMAN_APPROVAL` — respuesta fail-closed, no éxito silencioso.",
-        "Esta sección extiende el RAG con evidencia de S48 hacia **agentes y tools**: el retrieval ya no basta; hace falta decidir *si* conviene un agente, *qué* tools puede invocar, *cuánto* contexto y presupuesto consume, y *cuándo* parar o pedir aprobación. Stack didáctico: demos en **stdlib** (contadores, sets, dicts de estado) sin frameworks de agentes ni red abierta. El caso sintético `CASO-AYA-049` (entidad ficticia en Ayacucho) no trae PII real ni tools de red abiertas. En S50 conectarás estas puertas a evals y red team del gate CP-N4-C.",
-        "Hilo conductor (trayectoria feliz): (1) mides baseline vs agente y eliges **workflow** o **agent** con ADR; (2) el planner descompone ≤ `max_steps` y el evaluator cierra el loop; (3) cada tool tiene schema estrecho, scope en allowlist e **idempotency key**; (4) el contexto se arma con **JIT** y checkpoint; (5) si se agota el budget o falta approval, el run emite un código de stop — no inventa éxito. Producto incremental: propuesta de plan + tool calls auditables. Fallos de promoción típicos: «éxito» sin `known_steps`, god-tool multi-efecto, replay de side effects o `network=open` sin humano.",
-        "Orden pedagógico: **T1** modo y routing → **T2** tools (SRP, schema, permisos, idempotencia) → **T3** context engineering (JIT, compaction, LKG) → **T4** stops, budgets, sandbox y HITL. En la demostración verás micro-mecanismos ejecutables; en el laboratorio repararás funciones de dominio y enrutarás valid/adverso/incierto hasta fallar cerrado. Esta sección no es solo «contratos de tablas»: es **uso gobernado de tools por un agente**. Ritmo sugerido (~20 h): sesiones 1–2 en T1; 3–5 en T2; 6–8 en T3; 9–10 en T4 + portfolio y self-check.",
+        "**Diccionario de la sección** (léelo antes de T1). Cada término se usa como enunciado y como contrato:\n\n- **Workflow vs. agente**: pasos conocidos vs. decisiones acotadas con evaluator.\n- **Planner / worker / evaluator**: descomponer, ejecutar, verificar.\n- **Tool de responsabilidad única**: un solo efecto, bien tipado.\n- **Idempotencia de tool**: misma key ⇒ un solo side effect.\n- **Context mínimo / JIT retrieval**: solo lo necesario, justo a tiempo.\n- **Checkpoint / LKG**: *last-known-good* para recovery.\n- **Budget**: `max_steps`, `max_tokens` y `max_cost_pen` (costo sintético en el lab).\n- **Sandbox + human approval**: sin red, prod ni riesgo sin aprobación explícita.\n\n**Códigos de acción del laboratorio** (fail-closed, nunca un éxito silencioso): `KEEP_DETERMINISTIC_WORKFLOW` (no promociones el agente aún; conserva el workflow), `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, `COMPACT_AND_CHECKPOINT`, `STOP_BUDGET_EXHAUSTED`, `REQUEST_HUMAN_APPROVAL`.",
+        "Esta sección extiende el RAG con evidencia de S48 hacia **agentes y tools**: el retrieval ya no basta; hace falta decidir *si* conviene un agente, *qué* tools puede invocar, *cuánto* contexto y presupuesto consume, y *cuándo* parar o pedir aprobación. Stack didáctico: demos en **stdlib** (contadores, sets, dicts de estado) sin frameworks de agentes ni red abierta. El caso sintético `CASO-AYA-049` (entidad ficticia en Ayacucho) no trae PII real ni tools con red abierta. En S50 conectarás estas puertas a evals y red team del gate CP-N4-C.",
+        "**Hilo conductor (trayectoria feliz):**\n\n1. Mides baseline vs. agente y eliges **workflow** o **agent** con ADR.\n2. El planner descompone en ≤ `max_steps` y el evaluator cierra el loop.\n3. Cada tool tiene schema estrecho, scope en allowlist e **idempotency key**.\n4. El contexto se arma con **JIT** y checkpoint.\n5. Si se agota el budget o falta approval, el run emite un código de stop — no inventa éxito.\n\n**Producto incremental:** propuesta de plan + tool calls auditables.\n**Fallos de promoción típicos:** «éxito» sin `known_steps`, *god-tool* multi-efecto, *replay* de side effects o `network=open` sin humano.",
+        "Orden pedagógico: **T1** modo y routing → **T2** tools (SRP, schema, permisos, idempotencia) → **T3** context engineering (JIT, compaction, LKG) → **T4** stops, budgets, sandbox y HITL. En la demostración verás micro-mecanismos ejecutables; en el laboratorio repararás funciones de dominio y enrutarás **válido, adverso o incierto** hasta fallar cerrado. Esta sección enseña **uso gobernado de tools por un agente** (no validación tabular de datasets). Ritmo sugerido (~20 h): sesiones 1–2 en T1; 3–5 en T2; 6–8 en T3; 9–10 en T4 + portfolio y self-check.",
       ],
       code: {
         language: 'python',
@@ -39,60 +39,70 @@ export const section49: CourseSection = {
     return {
         "case": "CASO-AYA-049",
         "gates": ["single_responsibility_tools", "idempotent_effects", "budget_stop", "human_approval_sensitive"],
-        "tabular_contracts_only_topic": False,
+        "topic_is_agent_tools": True,
         "prod_side_effect_without_approval_ok": False,
     }
 
 c = section_contract()
 print("case", c["case"])
-print("tabular_contracts_only_topic", c["tabular_contracts_only_topic"])
+print("topic_is_agent_tools", c["topic_is_agent_tools"])
 print("prod_side_effect_without_approval_ok", c["prod_side_effect_without_approval_ok"])
 `,
         output: `case CASO-AYA-049
-tabular_contracts_only_topic False
+topic_is_agent_tools True
 prod_side_effect_without_approval_ok False`,
       },
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "Nota de orientación: S49-T1-A: caso sintético con asserts locales; si falta, no promociones.",
+        content: "Promueve solo con evidencia ejecutable (fixtures + asserts). La confianza verbal no basta: si falta un campo o un assert, el gate queda bloqueado.",
       },
     },
     {
-      heading: "Workflow vs agente",
+      heading: "Workflow vs. agente",
       subtopicId: "S49-T1-A",
       paragraphs: [
         "Usa **workflow** cuando pasos y ramas son conocidos y deterministas; reserva **agente** solo para decisiones acotadas con beneficio medible frente a un baseline y salida verificable por un evaluator. Un agente abierto sin presupuesto ni tools de responsabilidad única no es «más inteligente»: es un riesgo de side effects (envíos, writes, costos) que un pipeline fijo no habría tomado.",
-        "Mecanismo de decisión: anota en el ADR `known_steps`, `branch_count`, si la tool choice es cierta, y las tasas `baseline_success` vs `agent_success` en un holdout local. Si los pasos son conocidos, hay pocas ramas y el baseline iguala o supera al agente, eliges **workflow**. Solo si el agente gana con plan acotado (`max_steps`/`max_cost`) y evaluator documentas **agent**, y dejas todo side effect detrás de aprobación humana. Entrada: objetivo + métricas. Salida: ADR con decisión y razón. Error o incertidumbre (falta `agent_success`, tool no permitida, presupuesto agotado) → stop o re-baseline, nunca promoción silenciosa.",
-        "En `CASO-AYA-049` (entidad ficticia en Ayacucho), preparar un reporte con plantilla fija y tres pasos conocidos es **workflow**. Reordenar fuentes desconocidas con tools de lectura *puede* ser **agent**, pero solo después de medir baseline. Evidencia mínima: ADR firmado en el repo del lab. Sin PII real ni inferencia de fraude o parentesco.",
+        "Mecanismo de decisión: anota en el ADR `known_steps`, `branch_count`, si la *tool choice* es cierta, y las tasas `baseline_success` vs. `agent_success` en un *holdout* local. Si los pasos son conocidos, hay pocas ramas y el baseline iguala o supera al agente, eliges **workflow**. Solo si el agente gana **y** el plan está acotado (`max_steps` / `max_cost`) con evaluator, documentas **agent_candidate** y dejas todo side effect detrás de aprobación humana. Si faltan métricas o no hay plan acotado, el resultado es **need_evidence** — nunca un `agent` por descarte. Entrada: objetivo + métricas + flag de plan. Salida: ADR con decisión y razón. Error o incertidumbre → stop o volver a medir el baseline, nunca promoción silenciosa.",
+        "En `CASO-AYA-049` (entidad ficticia en Ayacucho), preparar un reporte con plantilla fija y tres pasos conocidos es **workflow**. Reordenar fuentes desconocidas con tools de lectura *puede* ser **agent_candidate**, pero solo después de medir baseline y acotar el plan. Evidencia mínima: ADR firmado en el repo del lab. Sin PII real ni inferencia de riesgo legal desde el caso sintético.",
       ],
       code: {
         language: 'python',
         title: "workflow_vs_agent.py",
-        code: `def choose_mode(known_steps: bool, baseline: float, agent: float) -> str:
+        code: `def choose_mode(
+    known_steps: bool,
+    baseline: float,
+    agent: float,
+    plan_bounded: bool,
+) -> str:
+    """Fail-closed: never promote agent as residual else."""
     if known_steps and baseline >= agent:
         return "workflow"
-    return "agent"
+    if agent > baseline and plan_bounded:
+        return "agent_candidate"
+    return "need_evidence"
 
-print(choose_mode(True, 0.96, 0.90))
-print(choose_mode(False, 0.40, 0.80))
-print(choose_mode(True, 0.70, 0.88))`,
+print(choose_mode(True, 0.96, 0.90, False))
+print(choose_mode(False, 0.40, 0.80, True))
+print(choose_mode(True, 0.70, 0.88, False))
+print(choose_mode(False, 0.40, 0.80, False))`,
         output: `workflow
-agent
-agent`,
+agent_candidate
+need_evidence
+need_evidence`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "ADR antes del loop",
         content:
-          "Antes de promover S49-T1-B, verifica el contrato ejecutable y el riesgo residual.",
+          "Documenta workflow vs. agente con métricas locales antes de abrir el router. Sin baseline medido, el código de lab es `KEEP_DETERMINISTIC_WORKFLOW` o `RUN_AGENT_BASELINE` — no un agente libre.",
       },
     },
     {
       heading: "Routing, planner/worker y evaluator–optimizer",
       subtopicId: "S49-T1-B",
       paragraphs: [
-        "El **router** elige la ruta (p. ej. caso vs reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón **evaluator–optimizer** cierra el loop: si el evaluator falla, se replanifica o se reintenta el worker — pero solo hasta un `max_steps` (o `max_iters`) explícito. Sin cota, el «agente» se convierte en un while infinito con costo y riesgo crecientes.",
+        "El **router** elige la ruta (p. ej. caso vs. reporte), el **planner** descompone en pasos acotados, el **worker** ejecuta tools y el **evaluator** critica la salida. El patrón **evaluator–optimizer** cierra el loop: si el evaluator falla, se replanifica o se reintenta el worker — pero solo hasta un `max_steps` (o `max_iters`) explícito. Sin cota, el «agente» se convierte en un while infinito con costo y riesgo crecientes.",
         "Mecanismo de cota: exige `route` ∈ {`case`, `report`}, `plan_steps` ≤ `max_steps`, `worker_outputs == plan_steps` y `evaluator_pass` True. Si el plan crece sin techo, la ruta es desconocida o el evaluator queda en False tras agotar reintentos, el run termina con `STOP_AGENT_LOOP`. Entrada: goal + cota de iteraciones. Salida: trayectoria con roles (`router`→`planner`→`worker`→`evaluator`) y contador de loops. Error: loop abierto o plan sobre presupuesto → stop con razón, no «casi listo».",
         "En `CASO-AYA-049`, la ruta `report` con 3 pasos planificados, 3 outputs de worker y evaluator True es el happy path. Una ruta `unknown` con 12 pasos y evaluator False se detiene. Evidencia: traza de roles serializable (lista de dicts). Sin PII ni inferencia de fraude.",
       ],
@@ -116,9 +126,9 @@ STOP_AGENT_LOOP`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Cota o stop",
         content:
-          "La revisión de S49-T2-A exige salida esperada y fail-closed ante breach.",
+          "Si `plan_steps` supera `max_steps` o el evaluator queda en False, el run emite `STOP_AGENT_LOOP`. Sin cota no hay promote.",
       },
     },
     {
@@ -126,7 +136,7 @@ STOP_AGENT_LOOP`,
       subtopicId: "S49-T2-A",
       paragraphs: [
         "Una tool hace **una sola cosa observable**, usa schema estrecho y devuelve error tipado. La descripción en el prompt **no** concede autoridad: si un humano no podría elegir la tool con certeza mirando el catálogo, el agente tampoco debería. Las «god tools» (`do_everything`) mezclan lectura, escritura y red: rompen least privilege y hacen imposible auditar *qué* side effect ocurrió.",
-        "Mecanismo de contrato: `responsibilities == 1`, `schema_fields` mínimo (p. ej. solo `case_id`), `side_effect` declarado y `typed_errors` True. Si la tool acumula varios efectos o acepta `raw` sin tipar, responde `DISABLE_OVERBROAD_TOOL` o `SPLIT_TOOL_CONTRACT` (divide en tools SRP). Entrada: catálogo. Salida: allowlist de tools válidas vs deshabilitadas. Error: multi-duty sin descomponer → no se promociona el agente que la invoca.",
+        "Mecanismo de contrato: `responsibilities == 1`, `schema_fields` mínimo (p. ej. solo `case_id`), `side_effect` declarado y `typed_errors` True. Si la tool acumula varios efectos o acepta `raw` sin tipar, responde `DISABLE_OVERBROAD_TOOL` o `SPLIT_TOOL_CONTRACT` (divide en tools SRP). Entrada: catálogo. Salida: allowlist de tools válidas frente a deshabilitadas. Error: multi-duty sin descomponer → no se promociona el agente que la invoca.",
         "En `CASO-AYA-049`, `get_case_status` (1 responsabilidad, schema `{case_id}`, sin side effect) pasa; `do_everything` con 6 responsabilidades y schema `{raw}` se deshabilita. Evidencia: tabla de tools en el ADR o en el registry del portfolio. Sin secretos ni PII real en argumentos de demo.",
       ],
       code: {
@@ -148,16 +158,16 @@ do_everything False`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Catálogo auditable",
         content:
-          "Contrato S49-T2-B: fixture S49-T2-B; si falta evidencia, no promociones.",
+          "Cada tool del registry debe tener una sola responsabilidad, schema estrecho y errores tipados. Una *god-tool* bloquea el promote del agente que la invoca.",
       },
     },
     {
       heading: "Schema, permisos, idempotencia y errores",
       subtopicId: "S49-T2-B",
       paragraphs: [
-        "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** garantiza que un retry no duplique side effects; los errores se clasifican en `retryable` vs `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",
+        "El **schema** valida argumentos *antes* de ejecutar; los **permisos** se chequean en runtime contra un allowlist de scopes; la **idempotency key** garantiza que un retry no duplique side effects; los errores se clasifican en `retryable` vs. `terminal` **sin** volcar secretos al log. Un agente que reintenta ciegamente una tool de escritura sin key es un generador de dobles cargos o dobles envíos.",
         "Mecanismo de llamada: `schema_valid`, `scope` ∈ `granted`, key no vacía, `effects == 1` tras N intentos y `error_kind` ∈ {retryable, terminal}. Si el scope es `prod:write` sin grant, o hay effects duplicados, o el kind es un dump de secreto, responde `DENY_TOOL_CALL`. Entrada: call + store de keys. Salida: resultado o denegación tipada. El store se consulta *antes* de aplicar el efecto.",
         "En `CASO-AYA-049`, dos llamadas a `report:prepare` con la misma key devuelven el mismo efecto (replay seguro: `attempts` puede ser 2, `effects` sigue en 1). `prod:write` fuera del grant se niega. Evidencia: store de idempotencia serializable. Sin secretos reales en la salida del lab.",
       ],
@@ -184,16 +194,16 @@ print(call_tool("prod:write", granted, "k2", store))`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Un efecto, una key",
         content:
-          "Para S49-T3-A: fixture S49-T3-A; si falta evidencia, no promociones.",
+          "Misma `idempotency_key` ⇒ un solo side effect aunque `attempts` suba. Scope fuera del grant o error no tipado → `DENY_TOOL_CALL`.",
       },
     },
     {
       heading: "Contexto mínimo, retrieval JIT y checkpoints",
       subtopicId: "S49-T3-A",
       paragraphs: [
-        "El **contexto es un presupuesto de atención** finito: volcar todo el historial y todos los docs al prompt sube costo, latencia y riesgo de fuga de datos. Prefiere **retrieval just-in-time (JIT)** — solo lo necesario para el *paso actual* — y **checkpoints** después de efectos durables para reanudar sin re-ejecutar side effects. Context engineering no es «más tokens»: es *elegir* qué entra y qué se archiva.",
+        "El **contexto es un presupuesto de atención** finito: volcar todo el historial y todos los docs al prompt sube costo, latencia y riesgo de fuga de datos. Prefiere **retrieval just-in-time (JIT)** — solo lo necesario para el *paso actual* — y **checkpoints** después de efectos durables para reanudar sin volver a ejecutar side effects. Context engineering no es «más tokens»: es *elegir* qué entra y qué se archiva.",
         "Mecanismo de contexto: `context_tokens` ≤ `max_context_tokens`, `retrieved_just_in_time` True, `checkpoint_after_effect` True y `provenance` True (sabes de dónde salió cada hecho). Si el contexto desborda o falta checkpoint post-efecto, `COMPACT_AND_CHECKPOINT`; si falta provenance, `RETRIEVE_MINIMUM_CONTEXT`. Entrada: pool de facts + tope. Salida: contexto compacto + id de checkpoint. Error: overflow sin compactar → stop, no «el modelo ya se las arreglará».",
         "En `CASO-AYA-049`, recuperar solo el estado del caso C1 (≈1200 tokens bajo un max de 2000) y checkpoint tras preparar el borrador es el happy path; 9000 tokens sin JIT ni checkpoint activan compactación. Evidencia: reanudación desde checkpoint con los mismos hechos críticos. Sin PII real en el pool de demo.",
       ],
@@ -218,16 +228,16 @@ print(jit_context(pool, "C1", 100))`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Atención acotada",
         content:
-          "Promoción de S49-T3-B solo con evidencia reproducible y dueño asignado.",
+          "Si `context_tokens` supera el techo o falta checkpoint post-efecto, compacta y checkpointa. Sin provenance no continúes el run.",
       },
     },
     {
       heading: "Memoria, compaction y last-known-good",
       subtopicId: "S49-T3-B",
       paragraphs: [
-        "La **memoria** del agente tiene propósito y retención acotada (días, no «para siempre»). **Compaction** resume el historial pero **debe conservar hechos y decisiones críticas** con provenance. **Last-known-good (LKG)** es el último checkpoint seguro al que puedes volver sin re-ejecutar side effects. Compactar borrando `no_prod_write` es peor que no compactar: pierdes la restricción que evitaba un write en producción.",
+        "La **memoria** del agente tiene propósito y retención acotada (días, no «para siempre»). **Compaction** resume el historial pero **debe conservar hechos y decisiones críticas** con provenance. **Last-known-good (LKG)** es el último checkpoint seguro al que puedes volver sin volver a ejecutar side effects. Compactar borrando `no_prod_write` es peor que no compactar: pierdes la restricción que evitaba un write en producción.",
         "Mecanismo de compactación: el conjunto de hechos post-compaction debe conservar las restricciones críticas (`facts_before` ⊆ `facts_after` en el lab), retención ≤ política (p. ej. 7 días) y `last_known_good` con prefijo `cp-`. Si se pierde `budget`/`no_prod_write` o el LKG está vacío, `RESTORE_LAST_KNOWN_GOOD` o `REVIEW_COMPACTION_LOSS`. Entrada: memoria + política. Salida: memoria compacta + LKG. Error: drop de restricción crítica → no continuar el run.",
         "En `CASO-AYA-049`, compactar el log puede borrar pasos ruidosos (`paso_ruidoso`, `log_largo`), pero `case_id`, `budget` y `no_prod_write` deben sobrevivir y el LKG apunta a `cp-7`. Evidencia: diff de sets de facts antes/después. Sin PII ni secretos en la memoria de demo.",
       ],
@@ -251,16 +261,16 @@ print(compact(before, {"budget", "no_prod_write", "paso_ruidoso"}, "cp-7"))`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "LKG o nada",
         content:
-          "El dueño de S49-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
+          "Si la compaction pierde una restricción crítica (`budget`, `no_prod_write`), restaura el last-known-good. Seguir sin LKG no es recovery.",
       },
     },
     {
       heading: "Stopping conditions y budgets",
       subtopicId: "S49-T4-A",
       paragraphs: [
-        "Las **stopping conditions** incluyen meta alcanzada, máximo de pasos, tokens y costo. El lab usa `cost_pen` / `max_cost_pen` como **penalización de costo sintética** (no es moneda real): te obliga a comparar consumo vs techo en cada iteración. Agotar presupuesto produce estado explícito (`STOP_BUDGET_EXHAUSTED`), no un loop infinito ni un «éxito inventado» porque el modelo «estaba cerca».",
+        "Las **stopping conditions** incluyen meta alcanzada, máximo de pasos, tokens y costo. El lab usa `cost_pen` / `max_cost_pen` como **penalización de costo sintética** (no es moneda real): te obliga a comparar consumo frente al techo en cada iteración. Agotar presupuesto produce estado explícito (`STOP_BUDGET_EXHAUSTED`), no un loop infinito ni un «éxito inventado» porque el modelo «estaba cerca».",
         "Mecanismo de budget: exige `goal_met` y `steps` ≤ `max_steps` y `tokens` ≤ `max_tokens` y `cost_pen` ≤ `max_cost_pen`. Si falta `max_cost_pen` en la config, pide `ASK_FOR_SCOPE_REDUCTION` en lugar de seguir a ciegas. Entrada: contadores del run. Salida: continue o stop con razón legible en el log. Error: steps/cost sobre techo → stop con razón, no retry ciego ni elevar el techo sin humano.",
         "En `CASO-AYA-049`, 4 pasos / 3200 tokens / 0.04 de costo bajo techos 6 / 5000 / 0.06 con meta cumplida es PASS; 20 pasos y 0.4 de costo se detienen. Evidencia: string de parada en el log (`GOAL_MET` o `STOP_BUDGET_EXHAUSTED`). Sin PII.",
       ],
@@ -285,68 +295,77 @@ STOP_BUDGET_EXHAUSTED steps=2 cost=0.04`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Stop con razón",
         content:
-          "Cierre de S49-T4-B: documenta residual risk y límites del lab stdlib.",
+          "Al agotar `max_steps`, `max_tokens` o `max_cost_pen`, emite `STOP_BUDGET_EXHAUSTED` con la razón en el log. No inventes techo ni éxito.",
       },
     },
     {
       heading: "Sandbox, human approval y recuperación",
       subtopicId: "S49-T4-B",
       paragraphs: [
-        "El **sandbox** limita filesystem y red (`network=none`, `filesystem=workspace-read` en el lab). Acciones sensibles (enviar, mutar prod, riesgo alto) exigen **aprobación humana contextual** — no un checkbox genérico en el README. La **recuperación** reanuda desde checkpoint y **nunca** re-ejecuta side effects ya aplicados (`replayed_effects` debe quedar en 0). Un recovery que «vuelve a enviar el correo» no es recovery: es un incidente.",
-        "Mecanismo de gate: red cerrada, FS de workspace, si `approval_required` entonces `approval_present`, checkpoint `cp-*` y `replayed_effects == 0`. Breach (red abierta, re-efectos, FS root-write) → `SANDBOX_AND_STOP`. Evidencia incompleta de replay o acción prod sin humano → `REQUEST_HUMAN_APPROVAL`. Entrada: política de sandbox + flags. Salida: allow/deny + ruta de recovery. Error: `prod_send` sin `human_ok` → needs_human, no envío silencioso.",
-        "En `CASO-AYA-049`, el agente prepara la propuesta y un checkpoint; `search_docs` corre en sandbox; `prod_send` sin aprobación se detiene. Recovery = `resume_checkpoint`, no re-efectos. Sin PII ni red abierta en el happy path. Este cierre es el que S50 evaluará con red team y suites de gate.",
+        "El **sandbox** limita filesystem y red (`network=none`, `filesystem=workspace-read` en el lab). Acciones sensibles (enviar, mutar prod, riesgo alto) exigen **aprobación humana contextual** — ligada a la tool y a la llamada, no un checkbox genérico en el README. La **recuperación** reanuda desde checkpoint y **nunca** vuelve a ejecutar side effects ya aplicados (`replayed_effects` debe quedar en 0). Un recovery que «vuelve a enviar el correo» no es recovery: es un incidente.",
+        "Mecanismo de gate: red cerrada, FS de workspace, si `approval_required` entonces `approval_present`, checkpoint `cp-*` y `replayed_effects == 0`. Breach (red abierta, efectos duplicados, FS root-write) → `SANDBOX_AND_STOP`. Evidencia incompleta de replay o acción prod sin humano → `REQUEST_HUMAN_APPROVAL`. Entrada: política de sandbox + flags. Salida: allow/deny + ruta de recovery. Error: `prod_send` sin aprobación de esa tool → needs_human, no envío silencioso.",
+        "En `CASO-AYA-049`, el agente prepara la propuesta y un checkpoint; `search_docs` corre en sandbox; `prod_send` sin aprobación se detiene. Recovery = `resume_checkpoint`, sin efectos duplicados. Sin PII ni red abierta en el happy path. Este cierre es el que S50 evaluará con red team y suites de gate.",
       ],
       code: {
         language: 'python',
         title: "sandbox_human_approval_recovery.py",
-        code: `def run_tool(name: str, human_ok: bool, replayed: int) -> str:
+        code: `def run_tool(name: str, approved_for: str | None, replayed: int) -> str:
     if replayed > 0:
         return "SANDBOX_AND_STOP"
-    if name.startswith("prod_") and not human_ok:
+    if name.startswith("prod_") and approved_for != name:
         return "REQUEST_HUMAN_APPROVAL"
     return "sandbox_ok"
 
-print(run_tool("search_docs", False, 0))
-print(run_tool("prod_send", False, 0))
-print(run_tool("prod_send", True, 2))`,
+print(run_tool("search_docs", None, 0))
+print(run_tool("prod_send", None, 0))
+print(run_tool("prod_send", "prod_send", 2))`,
         output: `sandbox_ok
 REQUEST_HUMAN_APPROVAL
 SANDBOX_AND_STOP`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "HITL y anti-replay",
         content:
-          "Cierre de S49-T4-B: la acción de producción es imposible sin aprobación; conserva evidencia de `SANDBOX_AND_STOP` y la ruta humana `REQUEST_HUMAN_APPROVAL`.",
+          "La acción de producción es imposible sin aprobación de esa tool; documenta riesgo residual y límites del laboratorio basado en stdlib. Conserva evidencia de `SANDBOX_AND_STOP` y de `REQUEST_HUMAN_APPROVAL`.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro ocho demostraciones de S49 (Agentes, herramientas y context engineering) alineadas a CP-N4-C: cada una calcula un micro-mecanismo (decisión ADR, loop evaluator–optimizer, tool call con idempotencia, contexto JIT, compaction/LKG, budget o approval), no solo imprime etiquetas. Imita estos pasos en el laboratorio y en el portfolio.",
+    intro: "Te muestro ocho demostraciones de S49 (*Agentes, herramientas y context engineering*) alineadas al gate CP-N4-C. Cada una calcula un micro-mecanismo — decisión ADR, loop *evaluator–optimizer*, *tool call* con idempotencia, contexto JIT, *compaction/LKG*, budget o approval — y no se limita a imprimir etiquetas. Imita estos pasos en el laboratorio y en el portfolio.",
     steps: [
       {
         demoId: "S49-T1-A-DEMO",
         subtopicId: "S49-T1-A",
         environment: "local-python",
-        description: "Demo: workflow vs agente con baseline",
+        description: "Demo: workflow vs. agente con baseline (fail-closed)",
         code: {
           language: 'python',
           title: "demo_workflow_vs_agent.py",
-          code: `def adr_mode(known_steps: bool, baseline: float, agent: float) -> dict:
+          code: `def adr_mode(
+    known_steps: bool,
+    baseline: float,
+    agent: float,
+    plan_bounded: bool,
+) -> dict:
     if known_steps and baseline >= agent:
         return {"mode": "workflow", "reason": "baseline_wins"}
-    return {"mode": "agent", "reason": "open_or_beats_baseline"}
+    if agent > baseline and plan_bounded:
+        return {"mode": "agent_candidate", "reason": "beats_baseline_with_plan"}
+    return {"mode": "need_evidence", "reason": "no_silent_agent_promote"}
 
-print(adr_mode(True, 0.96, 0.90))
-print(adr_mode(False, 0.40, 0.80))
-print(adr_mode(True, 0.70, 0.88))`,
+print(adr_mode(True, 0.96, 0.90, False))
+print(adr_mode(False, 0.40, 0.80, True))
+print(adr_mode(True, 0.70, 0.88, False))
+print(adr_mode(False, 0.40, 0.80, False))`,
           output: `{'mode': 'workflow', 'reason': 'baseline_wins'}
-{'mode': 'agent', 'reason': 'open_or_beats_baseline'}
-{'mode': 'agent', 'reason': 'open_or_beats_baseline'}`,
+{'mode': 'agent_candidate', 'reason': 'beats_baseline_with_plan'}
+{'mode': 'need_evidence', 'reason': 'no_silent_agent_promote'}
+{'mode': 'need_evidence', 'reason': 'no_silent_agent_promote'}`,
         },
-        why: "Modela la decisión ADR de `workflow vs agente` con métricas locales: cuando pasos conocidos y baseline ≥ agente, se queda en workflow; si no, documenta agent. Evidencia: decisión + razón, sin servicio externo.",
+        why: "Modela la decisión ADR de `workflow vs. agente` con métricas locales y plan acotado: workflow si baseline gana; agent_candidate solo con plan; need_evidence si faltan garantías. Evidencia: decisión + razón, sin servicio externo.",
       },
       {
         demoId: "S49-T1-B-DEMO",
@@ -508,38 +527,38 @@ STOP_BUDGET_EXHAUSTED step=2 cost_pen=0.04`,
         demoId: "S49-T4-B-DEMO",
         subtopicId: "S49-T4-B",
         environment: "local-python",
-        description: "Demo: sandbox, approval y recovery sin re-efectos",
+        description: "Demo: sandbox, approval y recovery sin efectos duplicados",
         code: {
           language: 'python',
           title: "demo_sandbox_human_approval_recovery.py",
-          code: `def gate(action: str, network: str, approval: bool, replayed: int) -> str:
+          code: `def gate(action: str, network: str, approved_for: str | None, replayed: int) -> str:
     if network != "none" or replayed > 0:
         return "SANDBOX_AND_STOP"
-    if action.startswith("prod_") and not approval:
+    if action.startswith("prod_") and approved_for != action:
         return "REQUEST_HUMAN_APPROVAL"
     return "ALLOW_RESUME_CHECKPOINT"
 
-print(gate("search_docs", "none", False, 0))
-print(gate("prod_send", "none", False, 0))
-print(gate("prod_send", "open", True, 0))
-print(gate("prepare_report", "none", True, 2))`,
+print(gate("search_docs", "none", None, 0))
+print(gate("prod_send", "none", None, 0))
+print(gate("prod_send", "open", "prod_send", 0))
+print(gate("prepare_report", "none", "prepare_report", 2))`,
           output: `ALLOW_RESUME_CHECKPOINT
 REQUEST_HUMAN_APPROVAL
 SANDBOX_AND_STOP
 SANDBOX_AND_STOP`,
         },
-        why: "Combina red cerrada, approval humano y anti-replay: prod sin aprobación pide humano; red abierta o re-efectos detienen. Evidencia: gate fail-closed.",
+        why: "Combina red cerrada, aprobación ligada a la acción y anti-replay: prod sin approved_for pide humano; red abierta o efectos duplicados detienen. Evidencia: gate fail-closed.",
       },
     ],
   },
   weDo: {
-    intro: "S49 · Laboratorio de agentes y tools en tres capas sobre ocho fixtures sintéticos (`CASO-AYA-049-1A`…`4B`). **E1** repara una **función de dominio** con defecto deliberado: `workflow_preferred`, `bounded_loop_ok`, `is_srp_tool`, `tool_call_ok`, `context_ok`, `compaction_ok`, `budget_ok`, `sandbox_ok`. **E2** reutiliza esa función en una tabla de tres filas (válido / adverso situacional / missing) y emite códigos de acción (`KEEP_DETERMINISTIC_WORKFLOW`, `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, …). **E3** enruta `CONTINUE` / breach / incertidumbre sin inventar evidencia. Gradual release: construyes el mecanismo → lo calificas → lo operas fail-closed. El portfolio une registry, budgets, checkpoints y approval humano.",
+    intro: "S49 · Laboratorio de agentes y tools en tres capas sobre ocho fixtures sintéticos (`CASO-AYA-049-1A` … `4B`).\n\n**E1 (guiado):** repara una función de dominio con defecto deliberado (`workflow_preferred`, `bounded_loop_ok`, `is_srp_tool`, `tool_call_ok`, `context_ok`, `compaction_ok`, `budget_ok`, `sandbox_ok`).\n\n**E2 (independiente):** reutiliza esa función en una tabla de tres filas (válido / adverso situacional / missing) y emite códigos de acción (`KEEP_DETERMINISTIC_WORKFLOW`, `STOP_AGENT_LOOP`, `DENY_TOOL_CALL`, …).\n\n**E3 (transfer):** enruta `CONTINUE` / breach / incertidumbre sin inventar evidencia.\n\nGradual release: construyes el mecanismo → lo calificas → lo operas *fail-closed*. El portfolio une registry, budgets, checkpoints y approval humano. Nota: `KEEP_DETERMINISTIC_WORKFLOW` significa *no promocionar el agente aún* (conserva el workflow hasta justificación completa).",
     steps: [
       {
         id: "S49-T1-A-E1",
         subtopicId: "S49-T1-A",
         kind: "guided",
-        instruction: "S49-T1-A-E1 · Implementa `workflow_preferred(record)` para el ADR de `workflow vs agente` sobre `CASO-AYA-049-1A`. Debe devolver True solo cuando pasos conocidos, pocas ramas, tool choice cierta y baseline ≥ agente. El starter promueve agente sin necesidad: corrige la función, no los datos. Salida exacta: `S49-T1-A PASS`.",
+        instruction: "S49-T1-A-E1 · Implementa `workflow_preferred(record)` para el ADR de `workflow vs. agente` sobre `CASO-AYA-049-1A`. Debe devolver True solo cuando pasos conocidos, pocas ramas, tool choice cierta y baseline ≥ agente. El starter promueve agente sin necesidad: corrige la función, no los datos. Salida exacta: `S49-T1-A PASS`.",
         hint: "La demo de T1-A usa `known_steps and baseline >= agent`; aquí también acotas `branch_count` y `tool_choice_uncertain`.",
         hints: [
           "La demo de T1-A usa `known_steps and baseline >= agent`; aquí también acotas `branch_count` y `tool_choice_uncertain`.",
@@ -589,7 +608,7 @@ assert meets_contract is True` ,
         id: "S49-T1-A-E2",
         subtopicId: "S49-T1-A",
         kind: "independent",
-        instruction: "S49-T1-A-E2 · Construye la tabla ADR de `workflow vs agente` con tres filas: (1) plantilla fija de reporte donde baseline 0.96 ≥ agente 0.9, (2) path abierto con ramas altas donde el agente gana sin justificación de workflow, (3) fila sin métrica `agent_success`. Reutiliza `workflow_preferred` del E1 dentro de `assess`. Salidas exactas: `PASS`, `KEEP_DETERMINISTIC_WORKFLOW`, `MISSING:agent_success`.",
+        instruction: "S49-T1-A-E2 · Tabla ADR de `workflow vs. agente` en tres filas. (1) plantilla fija, baseline 0.96 ≥ agente 0.9 → `PASS`. (2) path abierto sin justificación completa → `KEEP_DETERMINISTIC_WORKFLOW` (no promociones aún). (3) sin `agent_success` → `MISSING:agent_success`. Reutiliza `workflow_preferred` del E1 en `assess`.",
         hint: "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
@@ -663,7 +682,7 @@ print(*results)
         ],
         edgeCases: ["falta agent_success", "adverso: known_steps=False o agent_success>baseline", "CASO-AYA-049-1A es sintético"],
         tests: "Fixtures `CASO-AYA-049-1A`, adverso y sin `agent_success` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S49-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa KEEP_DETERMINISTIC_WORKFLOW y por qué faltar agent_success exige RUN_AGENT_BASELINE.",
+        feedback: "S49-T1-A-E3: ¿por qué un path abierto con agent_success alto aún emite KEEP_DETERMINISTIC_WORKFLOW (no promocionar sin plan acotado), y por qué falta agent_success fuerza RUN_AGENT_BASELINE?",
         starterCode: {
           language: 'python',
           title: "s49-t1-a-e3.py",
@@ -1729,7 +1748,7 @@ assert results == ["CONTINUE", "STOP_BUDGET_EXHAUSTED", "ASK_FOR_SCOPE_REDUCTION
         id: "S49-T4-B-E1",
         subtopicId: "S49-T4-B",
         kind: "guided",
-        instruction: "S49-T4-B-E1 · Implementa `sandbox_ok(record)` para sandbox/HITL/recovery sobre `CASO-AYA-049-4B`. Debe exigir network=none, FS workspace-read, approval si aplica, checkpoint `cp-*` y replayed_effects==0. El starter aprueba red abierta y re-efectos: corrige la función. Salida exacta: `S49-T4-B PASS`.",
+        instruction: "S49-T4-B-E1 · Implementa `sandbox_ok(record)` para sandbox/HITL/recovery sobre `CASO-AYA-049-4B`. Debe exigir network=none, FS workspace-read, approval si aplica, checkpoint `cp-*` y replayed_effects==0. El starter aprueba red abierta y efectos duplicados: corrige la función. Salida exacta: `S49-T4-B PASS`.",
         hint: "Si approval_required es True, approval_present también debe ser True; replayed_effects > 0 es siempre breach.",
         hints: [
           "Si approval_required es True, approval_present también debe ser True; replayed_effects > 0 es siempre breach.",
@@ -1737,12 +1756,12 @@ assert results == ["CONTINUE", "STOP_BUDGET_EXHAUSTED", "ASK_FOR_SCOPE_REDUCTION
         ],
         edgeCases: ["falta replayed_effects", "adverso: network open, sin approval o replayed_effects>0", "CASO-AYA-049-4B es sintético"],
         tests: "El fixture `CASO-AYA-049-4B` hace que `sandbox_ok` sea True; imprime `S49-T4-B PASS` y el assert pasa.",
-        feedback: "S49-T4-B-E1: por qué recovery debe reanudar desde checkpoint y nunca re-ejecutar side effects.",
+        feedback: "S49-T4-B-E1: por qué recovery debe reanudar desde checkpoint y nunca volver a ejecutar side effects.",
         starterCode: {
           language: 'python',
           title: "s49-t4-b-e1.py",
           code: `# CASO-AYA-049 · sandbox network + human approval
-# DEFECT: sandbox_ok True con red abierta, sin HITL o re-efectos
+# DEFECT: sandbox_ok True con red abierta, sin HITL o efectos duplicados
 # Contrato: corrige la función de dominio; salida alineada al assert del ejercicio
 record = {"case_id": "CASO-AYA-049-4B", **{"network":"none","filesystem":"workspace-read","sensitive_action":"prepare-draft","approval_required":True,"approval_present":True,"checkpoint":"cp-9","replayed_effects":0}}
 
@@ -1793,7 +1812,7 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s49-t4-b-e2.py",
           code: `# CASO-AYA-049 · assess SANDBOX_AND_STOP
-# DEFECT: sandbox_ok / assess aprueban red abierta, sin HITL o re-efectos
+# DEFECT: sandbox_ok / assess aprueban red abierta, sin HITL o efectos duplicados
 # Contrato: corrige las funciones de dominio; salida alineada al assert del ejercicio
 def sandbox_ok(record: dict) -> bool:
     # DEFECT: aprueba network open, falta de approval o replay
@@ -1847,7 +1866,7 @@ print(*results)
         id: "S49-T4-B-E3",
         subtopicId: "S49-T4-B",
         kind: "transfer",
-        instruction: "S49-T4-B-E3 · Cierra CP-N4-C en el lab: sandbox + approval + recovery limpio → `CONTINUE`; red abierta, re-efectos o FS inseguro → `SANDBOX_AND_STOP`; sin evidencia de `replayed_effects` → `REQUEST_HUMAN_APPROVAL` (no reanudes a ciegas). Corrige missing→CONTINUE y el predicado invertido del starter. Salida: imprime el valor de meets_contract.",
+        instruction: "S49-T4-B-E3 · Cierra CP-N4-C en el lab: sandbox + approval + recovery limpio → `CONTINUE`; red abierta, efectos duplicados o FS inseguro → `SANDBOX_AND_STOP`; sin evidencia de `replayed_effects` → `REQUEST_HUMAN_APPROVAL` (no reanudes a ciegas). Corrige missing→CONTINUE y el predicado invertido del starter. Salida: imprime el valor de meets_contract.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
@@ -1903,10 +1922,10 @@ assert results == ["CONTINUE", "SANDBOX_AND_STOP", "REQUEST_HUMAN_APPROVAL"]` ,
     title: "Agentes, herramientas y context engineering",
     context: "Construye un **mini-lab de agente acotado** (stdlib) para preparación de reportes de una entidad ficticia en Ayacucho (`CASO-AYA-049`). Entrada: goal, catálogo de tools con scope, budgets (`max_steps` / `max_cost_pen`) y política de sandbox. Salida: propuesta trazable + checkpoint; **nunca** un cambio de producción ni red abierta. El run se detiene (fail-closed) si la tool no está permitida, el argumento es inválido, el presupuesto se agota, falta aprobación o el estado es incierto. Integra lo aprendido en T1–T4: ADR workflow/agente, loop evaluator acotado, registry SRP+idempotencia, JIT/checkpoint y gate HITL.",
     objectives: [
-      "Documentar ADR workflow vs agente con baseline local y razón explícita.",
+      "Documentar ADR workflow vs. agente con baseline local y razón explícita.",
       "Implementar un loop planner/worker/evaluator con `max_steps` y stop por eval o presupuesto.",
       "Exponer un registry de tools con schema, least privilege, idempotency store y errores tipados.",
-      "Demostrar context JIT + checkpoint y recovery sin re-efectos; side effects sensibles con approval humano.",
+      "Demostrar context JIT + checkpoint y recovery sin efectos duplicados; side effects sensibles con approval humano.",
       "Automatizar tres escenarios: normal (PASS), breach (`STOP_AGENT` / `SANDBOX_AND_STOP`) e incierto (`REQUEST_HUMAN_APPROVAL`).",
       "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
@@ -1939,17 +1958,19 @@ REQUIRED = [
 ]
 evidence = {name: False for name in REQUIRED}
 
-def decide_mode(known_steps: bool, baseline: float, agent: float) -> str:
+def decide_mode(known_steps: bool, baseline: float, agent: float, plan_bounded: bool = False) -> str:
     if known_steps and baseline >= agent:
         return "workflow"
-    return "agent"
+    if agent > baseline and plan_bounded:
+        return "agent_candidate"
+    return "need_evidence"
 
-def call_tool(name: str, key: str, human_ok: bool = False) -> dict:
-    """Micro-registry: scope, side-effect approval e idempotencia."""
+def call_tool(name: str, key: str, approved_for: str | None = None) -> dict:
+    """Micro-registry: scope, aprobación ligada a la tool e idempotencia."""
     tool = TOOLS[name]
     if tool["scope"] not in GRANTED:
         return {"error": "forbidden", "kind": "terminal"}
-    if tool["side_effect"] and not human_ok:
+    if tool["side_effect"] and approved_for != name:
         return {"error": "needs_approval", "kind": "terminal"}
     if key in idempotency_store:
         return idempotency_store[key]
@@ -1970,11 +1991,11 @@ def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
     return ("READY", []) if not missing else ("BLOCKED", missing)
 
 # Smoke de mecanismos (stdlib). READY exige evidencia real en evidence + artefactos del repo.
-print("mode_hint", decide_mode(True, 0.96, 0.90))
+print("mode_hint", decide_mode(True, 0.96, 0.90, plan_bounded=False))
 print("read", call_tool("get_case", "get_case:C1"))
-print("prep_no_approval", call_tool("prepare_report", "prep:C1", human_ok=False))
-print("prep_ok", call_tool("prepare_report", "prep:C1", human_ok=True))
-print("prep_replay", call_tool("prepare_report", "prep:C1", human_ok=True))
+print("prep_no_approval", call_tool("prepare_report", "prep:C1"))
+print("prep_ok", call_tool("prepare_report", "prep:C1", approved_for="prepare_report"))
+print("prep_replay", call_tool("prepare_report", "prep:C1", approved_for="prepare_report"))
 print("budget_ok", within_budget(4, 0.04), "budget_over", within_budget(20, 0.4))
 print("compact", compact_ok(CRITICAL_FACTS | {"ruido"} - {"ruido"}))
 print("checkpoints", checkpoints)
@@ -1984,7 +2005,7 @@ print(CASE_ID, status)
 print("missing", ",".join(missing))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-C · agente acotado con aprobación humana: muestra ADR con baseline, traza de roles, log de tool calls (incl. replay idempotente), checkpoint/LKG, razón de stop y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto (tests, README, logs), no cambiando asserts a True a mano.",
+    portfolioNote: "Evidencia de CP-N4-C · agente acotado con aprobación humana: muestra ADR con baseline, traza de roles, log de tool calls (incl. replay idempotente), checkpoint/LKG, razón de stop y riesgo residual. La lista de verificación inicia en BLOCKED por diseño; conviértela en READY enlazando artefactos reales del proyecto (tests, README, logs), no cambiando asserts a True a mano.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -1997,7 +2018,7 @@ assert status in {"READY", "BLOCKED"}
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?",
+        question: "¿Qué evidencia permite aprobar `workflow vs. agente` en `CASO-AYA-049`?",
         options: ["ADR workflow/agente con baseline", "un print sin assert ni versión", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
         correctIndex: 0,
         explanation: "La teoría exige ADR workflow/agente con baseline; evidencia decorativa o PII no satisface el contrato.",
@@ -2016,21 +2037,21 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?",
-        options: ["reemplazarlo por datos reales sin consentimiento", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "subir secretos para facilitar la demo", "inferir fraude o parentesco desde ER"],
+        options: ["reemplazarlo por datos reales sin consentimiento", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "subir secretos para facilitar la demo", "abrir network=open y omitir el sandbox del lab"],
         correctIndex: 1,
-        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
+        explanation: "Los casos son sintéticos, mínimos y trazables; abrir red o omitir sandbox rompe el alcance del lab y del gate CP-N4-C.",
       },
       {
-        question: "Una tool con side_effect y sin approval_present en red abierta debe…",
+        question: "Una *tool* con `side_effect` y sin `approval_present` en red abierta debe…",
         options: ["bloquearse hasta approval y scope en granted", "ejecutarse para maximizar autonomía", "elevar privilegios de red automáticamente", "reproducir effects en cada replay sin log"],
         correctIndex: 0,
         explanation: "Tool-use fail-closed: side effects y network abiertos requieren approval y scope explícitos.",
       },
       {
         question: "¿Qué práctica reduce el «attention budget» sin perder una restricción crítica?",
-        options: ["volcar todo el historial y todos los docs al prompt", "borrar el checkpoint para ahorrar tokens", "compactar conservando hechos/decisiones con provenance y LKG", "re-ejecutar side effects en cada recovery"],
+        options: ["volcar todo el historial y todos los docs al prompt", "borrar el checkpoint para ahorrar tokens", "compactar conservando hechos/decisiones con provenance y LKG", "volver a ejecutar side effects en cada recovery"],
         correctIndex: 2,
-        explanation: "Compaction + LKG es el contrato de S49-T3: menos tokens, sin perder restricciones ni re-efectos.",
+        explanation: "Compaction + LKG es el contrato de S49-T3: menos tokens, sin perder restricciones ni efectos duplicados.",
       },
       {
         question: "Si `steps > max_steps` o `cost_pen > max_cost_pen`, el agente debe…",
@@ -2105,10 +2126,10 @@ assert status in {"READY", "BLOCKED"}
     courses: [
       { label: "deeplearning.ai — Agentic AI / tools courses", url: "https://www.deeplearning.ai/", note: "Agentes y tool use intro" },
       { label: "Coursera AI agents", url: "https://www.coursera.org/courses?query=ai%20agents", note: "Agentes MOOCs" },
-      { label: "Stanford CS224N", url: "https://web.stanford.edu/class/cs224n/", note: "NLP foundations" },
-      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Contratos verificables" },
-      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles" },
-      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first progressive disclosure" },
+      { label: "Stanford CS224N", url: "https://web.stanford.edu/class/cs224n/", note: "Fundamentos de NLP (referencia opcional, no es el núcleo de agentes)" },
+      { label: "MIT 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Python y asserts (repaso si hace falta stdlib)" },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Tests y proyectos reproducibles (repaso)" },
+      { label: "Py4E", url: "https://www.py4e.com", note: "Stdlib-first (repaso de progressive disclosure)" },
     ],
   },
 }

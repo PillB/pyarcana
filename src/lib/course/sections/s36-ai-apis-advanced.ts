@@ -5,33 +5,33 @@ export const section36: CourseSection = {
  index: 36,
  title: "Clustering, anomalías y validación temporal",
  shortTitle: "Clustering y anomalías",
- tagline: "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+ tagline: "Señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida.",
  estimatedHours: 19,
  level: "Competente a experto",
  phase: 2,
  icon: "ScanSearch",
  accentColor: "bg-gradient-to-br from-indigo-400 to-violet-900",
  jobRelevance:
- "En un workbench de riesgo operativo en Lima (colas sintéticas tipo banca de procesos, fintech o retail), el analista recibe cientos de eventos al día y necesita **señales auxiliares** que acorten la cola de review — no un juez automático. Clustering, rareza y backtests temporales alimentan el triage CP-N3-C: priorizan qué mirar primero, miden si la señal ahorra tiempo (P@k + HITL) y fallan en cerrado si falta revisor o contrato. Un flag de rareza mal comunicado se convierte en daño reputacional y operativo. Anomalía ≠ conducta indebida ni fraude. Caso sintético CASO-LIM-036 (Red Andina ficticia).",
+ "En un workbench de riesgo operativo en Lima (colas sintéticas tipo banca de procesos, fintech o retail), el analista recibe cientos de eventos al día y necesita **señales auxiliares** que acorten la cola de revisión. Estas señales son apoyo, no un juez automático. Clustering, rareza y backtests temporales alimentan el triage CP-N3-C: priorizan qué mirar primero y miden si la señal ahorra tiempo al revisor (P@k + HITL). Si falta revisor o contrato, el sistema aplica *fail-closed* (cierra el flujo y no emite decisión automática). Un flag de rareza mal comunicado se convierte en daño reputacional y operativo. Anomalía ≠ conducta indebida ni fraude. Caso sintético CASO-LIM-036 (Red Andina ficticia).",
  learningOutcomes: [
- { text: "Escalar features, ejecutar un micro-paso assign–update de centroides 1D (núcleo de k-means) y marcar núcleos density (eps/min_samples) sin tratar el cluster como culpa" },
- { text: "Elegir k comparando seeds y reportar límites de métricas internas (no sancionar por silhouette)" },
- { text: "Proyectar con PCA toy (pesos fijos documentados, scale previo) solo para exploración visual" },
- { text: "Interpretar proyecciones con prudencia y sin auto-etiquetar culpa" },
- { text: "Detectar rareza con reglas σ y un micro-modelo de path length (idea de Isolation Forest), sabiendo cuándo IF/LOF de sklearn aplica en producción, sin veredicto de conducta" },
- { text: "Distinguir novelty vs outlier y calibrar contamination a capacidad de review" },
- { text: "Validar con backtests temporales: fit de normalidad en el pasado y score en el futuro, sin leakage" },
- { text: "Evaluar con labels escasos vía precision@k y revisión humana obligatoria" }
+ { text: "Escalar features, ejecutar un micro-paso assign–update de centroides 1D (núcleo de k-means) y marcar núcleos density (eps/min_samples) sin tratar el cluster como culpa." },
+ { text: "Elegir k comparando seeds y reportar límites de métricas internas (no sancionar por silhouette)." },
+ { text: "Proyectar con PCA toy (pesos fijos documentados, scale previo) solo para exploración visual." },
+ { text: "Interpretar proyecciones con prudencia y sin autoetiquetar culpa." },
+ { text: "Detectar rareza con reglas σ y un micro-modelo de path length (idea de Isolation Forest), sabiendo cuándo IF/LOF de sklearn aplica en producción, sin veredicto de conducta." },
+ { text: "Distinguir novelty vs. outlier y calibrar contamination a capacidad de revisión." },
+ { text: "Validar con backtests temporales: fit de normalidad en el pasado y score en el futuro, sin leakage." },
+ { text: "Evaluar con etiquetas escasas vía precision@k y revisión humana obligatoria." }
  ],
  theory: [
  {
  heading: "Señales no supervisadas para triage (mapa S36)",
  paragraphs: [
- "**Diccionario de la sección** (léelo antes de T1). **Clustering:** agrupar puntos por similitud sin etiqueta de conducta. **Centroide:** promedio geométrico de un grupo (no es una etiqueta moral). **Assign–update:** paso núcleo de k-means — asignar cada punto al centroide más cercano y recalcular medias. **Núcleo density (idea DBSCAN):** punto con ≥`min_samples` vecinos dentro de radio `eps` (no eliges k; eliges densidad). **Escalamiento (scale):** poner features en una escala comparable (p. ej. z-score) antes de distancias. **PCA:** proyección a pocas dimensiones para *explorar*, no para decidir culpa. **Anomalía / outlier:** punto raro respecto a una referencia; **novelty:** punto nuevo frente a un modelo de normalidad ya fijado. **Path length (idea IF):** cuántos cortes bastan para aislar un punto; path corto suele indicar rareza geométrica, no culpa. **contamination:** hipótesis de fracción a flaggear (control de cola), *no* tasa de fraude. **precision@k (P@k):** de los k primeros del ranking, qué fracción era útil al revisor. **HITL:** human-in-the-loop, revisión humana obligatoria antes de acciones que afectan personas. **Fail-closed:** si falta evidencia, revisor o contrato, no se emite sanción automática. **Leakage temporal:** usar datos del futuro (o del mes evaluado) al ajustar la normalidad del pasado.",
- "Clustering y detección de rareza alimentan el triage CP-N3-C como **señales auxiliares**, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se traducen solas en fraude, parentesco o sanción. El lenguaje fail-closed protege a las personas detrás de los registros sintéticos del laboratorio.",
+ "**Diccionario de la sección** (léelo antes de T1):\n\n- **Clustering:** agrupar puntos por similitud sin etiqueta de conducta.\n- **Centroide:** promedio geométrico de un grupo (no es una etiqueta moral).\n- **Assign–update:** paso núcleo de k-means — asignar cada punto al centroide más cercano y recalcular medias.\n- **Núcleo density (idea DBSCAN):** punto con ≥`min_samples` vecinos en radio `eps`, **contando el propio punto** (convención sklearn); no eliges k, eliges densidad.\n- **Escalamiento (scale):** poner features en una escala comparable (p. ej. z-score) antes de distancias.\n- **PCA:** proyección a pocas dimensiones para *explorar*, no para decidir culpa (el lab usa pesos fijos documentados; sklearn aprende autovectores).\n- **Anomalía / outlier:** punto raro respecto a una referencia.\n- **Novelty:** punto nuevo frente a un modelo de normalidad ya fijado.\n- **Path length (idea IF):** cuántos cortes bastan para aislar un punto; path corto suele indicar rareza geométrica, no culpa.\n- **contamination:** hipótesis de fracción a marcar (control de cola), *no* tasa de fraude.\n- **precision@k (P@k):** de los k primeros del ranking, qué fracción era útil al revisor.\n- **HITL:** *human-in-the-loop*, revisión humana obligatoria antes de acciones que afectan personas.\n- **Fail-closed:** si falta evidencia, revisor o contrato, no se emite sanción automática.\n- **Leakage temporal:** usar datos del futuro (o del mes evaluado) al ajustar la normalidad del pasado.\n- **PII:** datos personales identificables (en este lab no se usan datos reales).",
+ "Clustering y detección de rareza alimentan el triage CP-N3-C como **señales auxiliares**, no como veredictos. Se evalúan por utilidad de revisión (¿ahorra tiempo al humano?) y nunca se traducen solas en fraude, parentesco o sanción. El lenguaje *fail-closed* protege a las personas detrás de los registros sintéticos del laboratorio.",
  "Puente de carrera: en S35 armaste la ficha del caso (evidencia | modelo | incertidumbre | humano). Aquí agregas **scores no supervisados** a la capa modelo/cola, sin tocar la decisión humana. En S37 medirás costo y tiempo de generar estas señales; en S39 las integrarás al triage responsable de CP-N3-C.",
- "Contrato de la sección. Entrada: features sintéticas `CASO-LIM-036`, capacidad de cola de review y labels escasos. Salida: clusters/scores de rareza con disclaimer, backtest temporal y precision@k. Error: tratar anomalía como culpa, contamination como tasa de fraude, o fit con leakage de futuro bloquea el gate de señales.",
- "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. Orden: T1 Clustering → T2 Dimensión/PCA → T3 Anomalías → T4 Tiempo y labels escasos. Stack didáctico: **stdlib** (`statistics`, listas) para progressive disclosure; sklearn se cita como referencia profesional sin exigir la librería en ejercicios. Esta sección no decide fraude ni parentesco: solo produce señales para la cola de review."
+ "Contrato de la sección. Entrada: features sintéticas `CASO-LIM-036`, capacidad de cola de revisión y etiquetas escasas. Salida: clusters/scores de rareza con aviso ético, backtest temporal y precision@k. Error: tratar anomalía como culpa, contamination como tasa de fraude, o fit con leakage de futuro bloquea el gate de señales.",
+ "Caso Red Andina (ficticio, Lima): montos y frecuencias inventadas. Orden: T1 Clustering → T2 Dimensión/PCA → T3 Anomalías → T4 Tiempo y etiquetas escasas. Stack didáctico: **stdlib** (`statistics`, listas) para progressive disclosure; sklearn se cita como referencia profesional sin exigir la librería en ejercicios. Esta sección no decide fraude ni parentesco: solo produce señales para la cola de revisión."
  ],
  code: {
  language: 'python',
@@ -57,18 +57,18 @@ hitl True`,
  type: "info",
  title: "Ética de señales",
  content:
- "Anomalía ≠ culpa. Señal de rareza → candidato a revisión humana. Sin PII real; sin concluir conducta indebida automática.",
+ "Anomalía ≠ culpa. Señal de rareza → candidato a revisión humana. Sin PII (datos personales identificables) real; sin concluir conducta indebida automática.",
  },
  },
  {
  heading: "Escalamiento y centroides 1D (núcleo de k-means / density)",
  subtopicId: "S36-T1-A",
  paragraphs: [
- "Antes de k-means, **escala** features: sin scale, gana la magnitud (soles vs conteos de eventos). El núcleo didáctico es un **toy 1D**: z-score, un paso **assign → update** de centroides (el corazón de k-means) y, en paralelo, una idea density-based. Los centroides y los núcleos de densidad son resúmenes geométricos, no etiquetas de fraude ni de parentesco.",
- "Cómo se mueve el algoritmo: el z-score `z = (x-μ)/σ` pone cada feature en escala comparable (`σ=0` → 1.0). Luego (1) **assign**: cada punto se etiqueta con el índice del centroide más cercano en 1D (`argmin |x − c_i|`); (2) **update**: cada centroide se recalcula como media de su grupo. Un solo ciclo basta para ver el contrato; en 2D+ y en sklearn el bucle se repite hasta convergencia (CS229). Aquí no fingimos «k-means completo de producción»: mostramos el núcleo ejecutable sin librerías pesadas.",
- "**Density (operable en stdlib):** un método density-based (p. ej. DBSCAN) marca como núcleo los puntos con ≥`min_samples` vecinos dentro de radio `eps`. No eliges k; eliges densidad. Micro-contrato: `n_neighbors = sum(1 for y in xs if abs(x-y) <= eps) - 1`. Si `n_neighbors >= min_samples` es núcleo; si no, borde o ruido. En producción usarías `DBSCAN(eps=..., min_samples=...)` **después** de scale.",
- "Qué debe salir del micro-lab: z-scores, labels del assign, centroides actualizados, máscara density y `scaled=True` solo si el z-score se calculó; `verdict=False` siempre. Falla si imprimes `scaled True` sin escalar, mezclas montos crudos con conteos, o publicas el id de cluster como sanción.",
- "En `CASO-LIM-036-T1A` (Red Andina sintético): xs=[1.0,1.2,5.0,5.2,5.1] se escala; un assign–update con k=2 separa bajo/alto en el espacio z; density con `eps` y `min_samples` marca núcleos locales. Sirve para segmentar la cola de review (volumen o densidad), nunca para culpar. En fintech peruana de laboratorio, escalar mal distorsiona colas AML sintéticas."
+ "Antes de k-means, **escala** features: sin scale, gana la magnitud (soles vs. conteos de eventos). El núcleo didáctico es un **toy 1D**: z-score, un paso **assign → update** de centroides (el corazón de k-means) y, en paralelo, una idea density-based. Los centroides y los núcleos de densidad son resúmenes geométricos, no etiquetas de fraude ni de parentesco.",
+ "Cómo se mueve el algoritmo: el z-score `z = (x-μ)/σ` pone cada feature en escala comparable (`σ=0` → 1.0). Luego (1) **assign**: cada punto se etiqueta con el índice del centroide más cercano en 1D (`argmin |x − c_i|`); (2) **update**: cada centroide se recalcula como media de su grupo. Un solo ciclo basta para ver el contrato; en 2D+ y en sklearn el bucle se repite hasta convergencia (CS229). Aquí no fingimos «k-means completo de producción»: mostramos el núcleo ejecutable sin librerías pesadas. Si un grupo queda vacío, se conserva el centroide previo (no se inventa un `0.0`).",
+ "**Density (operable en stdlib):** un método density-based (p. ej. DBSCAN) marca como núcleo los puntos con ≥`min_samples` vecinos en radio `eps`, **contando el propio punto** (misma convención que sklearn). No eliges k; eliges densidad. Micro-contrato: `n_inc = sum(1 for y in xs if abs(x-y) <= eps)`; es núcleo si `n_inc >= min_samples`. En producción usarías `DBSCAN(eps=..., min_samples=...)` **después** de scale. Este lab solo calcula la máscara de núcleos; no expande clústeres ni etiqueta ruido como DBSCAN completo.",
+ "Qué debe salir del micro-lab: z-scores, labels del assign, centroides actualizados, máscara density y `scaled=True` solo si el z-score se calculó; `verdict=False` siempre. Falla si imprimes `scaled True` sin escalar, mezclas montos crudos con conteos, o publicas el `id` de cluster como sanción.",
+ "En `CASO-LIM-036-T1A` (Red Andina sintética): xs=[1.0,1.2,5.0,5.2,5.1] se escala; un assign–update con k=2 separa bajo/alto en el espacio z; density con `eps` y `min_samples=3` (incluye el propio punto) marca núcleos locales. Sirve para segmentar la cola de revisión (volumen o densidad), nunca para culpar. En fintech peruana de laboratorio, escalar mal distorsiona colas AML sintéticas."
  ],
  code: {
  language: 'python',
@@ -88,26 +88,35 @@ def assign_1d(xs, cents):
  # Cada punto → índice del centroide más cercano (núcleo de k-means)
  return [min(range(len(cents)), key=lambda i: abs(x - cents[i])) for x in xs]
 
-def update_centroids(xs, labels, k):
+def update_centroids(xs, labels, k, prev=None):
+ # Grupo vacío: conserva prev[i]; no inventa 0.0
  groups = [[] for _ in range(k)]
  for x, lab in zip(xs, labels):
   groups[lab].append(x)
- return [centroid_1d(g) if g else 0.0 for g in groups]
+ out = []
+ for i, g in enumerate(groups):
+  if g:
+   out.append(centroid_1d(g))
+  elif prev is not None:
+   out.append(prev[i])
+  else:
+   raise ValueError("empty cluster without previous centroid")
+ return out
 
-def density_core_1d(xs, eps=0.5, min_samples=2):
- # Idea DBSCAN 1D: núcleo si >= min_samples vecinos en radio eps
+def density_core_1d(xs, eps=0.5, min_samples=3):
+ # Idea DBSCAN 1D (sklearn): min_samples cuenta el propio punto
  core = []
  for x in xs:
-  n_nb = sum(1 for y in xs if abs(x - y) <= eps) - 1
-  core.append(n_nb >= min_samples)
+  n_inc = sum(1 for y in xs if abs(x - y) <= eps)
+  core.append(n_inc >= min_samples)
  return core
 
 xs = [1.0, 1.2, 5.0, 5.2, 5.1]
 xs_scaled, did_scale = zscore_list(xs)
 cents0 = [xs_scaled[0], xs_scaled[-1]]  # init: extremos
 labels = assign_1d(xs_scaled, cents0)
-cents1 = update_centroids(xs_scaled, labels, 2)
-core = density_core_1d(xs_scaled, eps=0.5, min_samples=2)
+cents1 = update_centroids(xs_scaled, labels, 2, prev=cents0)
+core = density_core_1d(xs_scaled, eps=0.5, min_samples=3)
 print("labels", labels)
 print("c1", round(cents1[0], 2), "c2", round(cents1[1], 2))
 print("core_density", core)
@@ -132,9 +141,9 @@ verdict False`,
  subtopicId: "S36-T1-B",
  paragraphs: [
  "Elige **k** con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance: un score alto puede ser un espejismo geométrico. Reporta sensibilidad a seed en el notebook de señales del triage sintético.",
- "Dado un mapa `k → score` (p. ej. silhouette sintético), tomas `argmax` por seed. La estabilidad multi-seed es un bool computado: `stable = (k_seed_a == k_seed_b)`. En producción repetirías k-means real y medirías ARI o jitter de centroides; aquí dos mapas sintéticos bastan para el contrato. Un silhouette alto **no** legitima sanción: solo sugiere una partición útil para priorizar review.",
- "Entrada: dos mapas k→score (seed A y seed B). Salida: k de cada seed, `stable` si coinciden, y el k propuesto solo si es estable. Error: fijar k con un solo seed o vender un k inestable como «óptimo» del negocio.",
- "En `CASO-LIM-036-T1B`: seed A {2:0.4, 3:0.55, 4:0.52} y seed B {2:0.41, 3:0.54, 4:0.50} → ambos eligen k=3 (`stable True`). Datos inventados; no hay labels de «culpable»."
+ "Dado un mapa `k → score` (p. ej. silhouette sintético), tomas `argmax` por seed. El lab computa un **acuerdo de k**: `stable = (k_seed_a == k_seed_b)`. Eso no es estabilidad de partición: en producción repetirías k-means real y medirías ARI o jitter de centroides. Un silhouette alto **no** legitima sanción: solo sugiere una partición útil para priorizar revisión.",
+ "Entrada: dos mapas k→score (seed A y seed B). Salida: k de cada seed, `stable` si el k elegido coincide, y el k propuesto solo si hay acuerdo. Error: fijar k con un solo seed o vender un k inestable como «óptimo» del negocio.",
+ "En `CASO-LIM-036-T1B`: seed A {2:0.4, 3:0.55, 4:0.52} y seed B {2:0.41, 3:0.54, 4:0.50} → ambos eligen k=3 (`stable True` = acuerdo de k). Datos inventados; no hay etiquetas de «culpable»."
  ],
  code: {
  language: 'python',
@@ -170,9 +179,9 @@ stable_check multi_seed`,
  subtopicId: "S36-T2-A",
  paragraphs: [
  "**PCA** proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad ni «eje de riesgo moral». Didáctica: proyección lineal por pesos fijos `pc = w0*x + w1*y` (cargas documentadas a mano). **No** son autovectores reales: en sklearn, `PCA` aprende pesos que maximizan varianza; aquí los fijas para ver el contrato sin álgebra de autovalores.",
- "Orden honesto del toy: (1) z-score por coordenada para que un eje en soles no aplaste a otro en conteos; (2) comprimir cada punto a `pc = w0*x + w1*y`. Un proxy legible de «cuánto pesa el primer eje» es `|w0|/(|w0|+|w1|)` — masa del componente, **no** la varianza explicada de autovalores reales. Con `decision_model=False`, el scatter no dispara auto-rechazo ni encola sanción.",
- "Qué entra y qué sale: puntos sintéticos crudos + pesos documentados → puntos escalados, lista pc, weight_share del primer eje y `scaled=True` solo si el z-score por eje se calculó. Falla el contrato si proyectas sin scale, clasificas culpa en el scatter o presentas pesos fijos como autovectores de producción.",
- "En `CASO-LIM-036-T2A` (Red Andina sintético), w=(0.8,0.2) sobre puntos toy **después** de scale produce la lista pc y weight_share≈0.8. Sirve solo para explorar el espacio de features del lab: el revisor humano manda en la cola y cualquier historia de negocio se valida en las features originales, no en el eje proyectado."
+ "Orden honesto del toy: (1) z-score por coordenada para que un eje en soles no aplaste a otro en conteos; (2) comprimir cada punto a `pc = w0*x + w1*y`. Un proxy legible de «cuánto pesa el primer eje» es `|w0|/(|w0|+|w1|)` — masa del componente, **no** la varianza explicada de autovalores reales. Con `decision_model=False`, el *scatter* no dispara autorrechazo ni encola sanción.",
+ "Qué entra y qué sale: puntos sintéticos crudos + pesos documentados → puntos escalados, lista pc, weight_share del primer eje y `scaled=True` solo si el z-score por eje se calculó. Falla el contrato si proyectas sin scale, clasificas culpa en el *scatter* o presentas pesos fijos como autovectores de producción.",
+ "En `CASO-LIM-036-T2A` (Red Andina sintética), w=(0.8,0.2) sobre puntos toy **después** de scale produce la lista pc y weight_share≈0.8. Sirve solo para explorar el espacio de features del lab: el revisor humano manda en la cola y cualquier historia de negocio se valida en las features originales, no en el eje proyectado."
  ],
  code: {
  language: 'python',
@@ -213,7 +222,7 @@ decision_model False`,
  type: "tip",
  title: "Solo exploración",
  content:
- "No clasifiques culpa en el scatter. PCA es lupa, no juez.",
+ "No clasifiques culpa en el *scatter* (diagrama de dispersión). PCA es lupa, no juez.",
  },
  },
  {
@@ -222,8 +231,8 @@ decision_model False`,
  paragraphs: [
  "Los ejes PC **no** traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha, un error de datos o un segmento legítimo raro — no un villano. Documenta el uso como exploratorio en el dossier de señales del triage sintético.",
  "Antes de narrar, **calcula** distancia en el eje: `far = max(pc) - mean(pc) > umbral`. Si `far`, la acción es `review_queue`, nunca `auto_block`. En paralelo, un guard de nombre prohíbe tokens como «fraude» o «culpa» en el label del eje. La historia de negocio se valida con features originales y un humano.",
- "Checklist del scatter: con lista pc, nombre de eje y umbral calculas `far`, eliges `action` y verificas que el eje no se llame con tokens de culpa; `auto_label=False`. No auto-etiquetes clusters como «sospechosos» ni uses el plot como prueba de conducta.",
- "En `CASO-LIM-036-T2B`: pc=[1.2,1.8,8.2] está lejos del centro → encola review; guilt siempre False. Fail-closed: duda → más evidencia o HITL, no sanción."
+ "Checklist del *scatter*: con lista pc, nombre de eje y umbral calculas `far`, eliges `action` y verificas que el eje no se llame con tokens de culpa; `auto_label=False`. No autoetiquetes clusters como «sospechosos» ni uses el *plot* como prueba de conducta.",
+ "En `CASO-LIM-036-T2B`: pc=[1.2,1.8,8.2] está lejos del centro → encola revisión; guilt siempre False. Fail-closed: duda → más evidencia o HITL, no sanción."
  ],
  code: {
  language: 'python',
@@ -255,18 +264,18 @@ guilt False`,
  type: "danger",
  title: "Lectura mágica",
  content:
- "No inventes historias en PC2. Distancia en el eje encola review; sin evidencia en features originales, no hay narrativa de negocio.",
+ "No inventes historias en PC2. Distancia en el eje encola revisión; sin evidencia en features originales, no hay narrativa de negocio.",
  },
  },
  {
  heading: "Isolation Forest / LOF (idea + path length) y reglas σ",
  subtopicId: "S36-T3-A",
  paragraphs: [
- "Isolation Forest y LOF generan scores de rareza en producción; en el lab stdlib enseñamos el **contrato** con dos piezas legibles: (1) regla σ (`x > μ+3σ` con `ref` explícito) y (2) un **path length toy** que imita la idea de Isolation Forest sin sklearn. Score alto o path corto ⇒ candidato a review, no culpa.",
- "**IF / LOF (tabla mental + micro-demo):** Isolation Forest aísla puntos con cortes (particiones): un outlier suele quedar solo tras **pocos** cortes (path corto → más «fácil de aislar»). LOF compara densidad local del punto con la de sus vecinos: densidad mucho menor ⇒ rareza alta. Ambos piden scale previo y `contamination` de capacidad, no de «tasa de fraude». En producción: `IsolationForest` / `LocalOutlierFactor` con el mismo `misconduct=False`.",
+ "Isolation Forest y LOF generan scores de rareza en producción. En el lab stdlib enseñamos el **contrato** con dos piezas legibles: (1) regla σ (`x > μ+3σ` con `ref` explícito) y (2) un *path length* toy que imita la idea de Isolation Forest sin sklearn. Score alto o path corto ⇒ candidato a revisión, no culpa.",
+ "**IF / LOF (tabla mental + micro-demo):** Isolation Forest aísla puntos con cortes (particiones): un outlier suele quedar solo tras **pocos** cortes (path corto → más «fácil de aislar»). LOF compara densidad local del punto con la de sus vecinos: densidad mucho menor ⇒ rareza alta. Ambos piden scale previo y `contamination` de capacidad, no de «tasa de fraude». En producción: `IsolationForest` / `LocalOutlierFactor` con el mismo `misconduct=False`. El toy de un solo camino con cortes fijos **no** es el ensamble real de Isolation Forest.",
  "Regla σ: fijas `ref` (normales del pasado o batch limpio), calculas μ y σ solo sobre `ref`, y marcas `x > mu + 3*sd` en la serie. **No** asumas «el último índice es el outlier» (`xs[:-1]`): el reloj y el índice no te avisan. Si `sd=0`, usa 1.0.",
- "Piezas del lab: serie + `ref` explícito + (opcional) umbrales de corte → flags σ, path lengths del toy IF, method y `misconduct=False`. Prohibido: enchufar el flag a un despido, o estimar μ/σ contaminando el fit con el propio outlier.",
- "En `CASO-LIM-036-T3A`: xs=[10,11,10,12,50], ref=xs[:4] → flag en 50; path length del 50 es más corto que el de un 10 típico. Raro respecto a la referencia, no «culpable»."
+ "Piezas del lab: serie + `ref` explícito + (opcional) umbrales de corte → flags σ, path lengths del toy IF, method y `misconduct=False`. Prohibido: conectar el flag a un despido automático, o estimar μ/σ contaminando el fit con el propio outlier.",
+ "En `CASO-LIM-036-T3A`: xs=[10,11,10,12,50], ref=xs[:4] → flag en 50; el *path length* del 50 es más corto que el de un 10 típico. Raro respecto a la referencia, no «culpable»."
  ],
  code: {
  language: 'python',
@@ -315,11 +324,11 @@ misconduct False`,
  },
  },
  {
- heading: "Novelty vs outlier y contamination (capacidad de cola)",
+ heading: "Novelty vs. outlier y contamination (capacidad de cola)",
  subtopicId: "S36-T3-B",
  paragraphs: [
- "**Outlier:** punto raro respecto al train. **Novelty:** punto nuevo comparado con un modelo de normalidad ya fijado. **contamination** es una hipótesis de fracción a flaggear, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de review sintética del lab.",
- "La aritmética es simple y el error de negocio es grave: `expected_flags = int(n * contamination)`. Si eso supera la capacidad de analistas, `overflow=True` y la acción es bajar contamination o priorizar con otra señal — no «descubrir más fraude». Nunca digas «contamination=0.05 ⇒ 5% de fraude».",
+ "**Outlier:** punto raro respecto al train. **Novelty:** punto nuevo comparado con un modelo de normalidad ya fijado. **contamination** es una hipótesis de fracción a marcar, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de revisión sintética del lab.",
+ "La aritmética es simple y el error de negocio es grave: `expected_flags = int(n * contamination)`. Si esa cantidad supera la capacidad de analistas, `overflow=True` y la acción es bajar *contamination* o priorizar con otra señal — no «descubrir más fraude». Nunca digas «contamination=0.05 ⇒ 5% de fraude».",
  "Entrada del lab: n del batch, contamination y capacity. Salida: expected_flags, overflow y `is_fraud_rate=False`. Falla el contrato si vendes contamination como tasa de ilícitos o encolas más de lo que el humano puede revisar con calidad.",
  "En `CASO-LIM-036-T3B`, n=200 y contamination=0.05 → expected_flags=10; con capacity=8 hay overflow y toca recalibrar. use=capacity_tuning: solo control de rareza y de carga de la cola ficticia."
  ],
@@ -350,16 +359,16 @@ use capacity_tuning`,
  type: "warning",
  title: "contamination≠fraude",
  content:
- "Solo control de rareza y de carga de cola. Nunca lo presentes como tasa de fraude real.",
+ "Solo control de rareza y de carga de cola. Nunca presentes contamination como tasa de fraude real.",
  },
  },
  {
  heading: "Splits, backtests y ventanas temporales",
  subtopicId: "S36-T4-A",
  paragraphs: [
- "Valida señales con **backtest temporal**: el fit de normalidad (μ, σ) vive **solo en el pasado**; el score se aplica al futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, un proxy de utilidad (click de review sintético) basta; el leakage de futuro en el fit invalida el experimento.",
- "Dos capas del contrato: (1) **fit → score**: `train` de meses pasados define μ y σ; `future` se flaggea con esa normalidad; (2) **ventanas**: serie `(mes, flag_rate)` → media y detección de spikes. `has_leakage` es True solo si el mes de test aparece en train. Un spike se investiga (drift, bug de scale) antes de ampliar la cola.",
- "Del reloj del caso salen: flags del future (con μ/σ del pasado), mean_flag_rate de ventanas, `backtest=True` y `leakage=False`. Rompes el experimento si el mes evaluado entra al fit o barajas filas como si el tiempo no existiera.",
+ "Valida señales con **backtest temporal**: el fit de normalidad (μ, σ) vive **solo en el pasado**; el score se aplica al futuro. Ventanas deslizantes miden estabilidad de la tasa de flags. Sin etiquetas densas, un proxy de utilidad (clic de revisión sintético) basta; el *leakage* de futuro en el fit invalida el experimento.",
+ "Dos capas del contrato: (1) **fit → score**: `train` de meses pasados define μ y σ; `future` se marca con esa normalidad; (2) **ventanas**: serie `(mes, flag_rate)` → media y detección de spikes. `has_leakage` es True solo si el mes de test aparece en train (chequeo de mes duplicado; el orden cronológico del split lo defines tú al armar train/future). Un spike se investiga (drift, bug de scale) antes de ampliar la cola.",
+ "El split temporal del caso produce: flags del future (con μ/σ del pasado), mean_flag_rate de ventanas, `backtest=True` y `leakage=False`. Rompes el experimento si el mes evaluado entra al fit o barajas filas como si el tiempo no existiera.",
  "En `CASO-LIM-036-T4A`: train=[10,11,10,12], future=[11,10,50] → flag solo en 50; rates 0.1, 0.12, 0.09 → mean≈0.103. Series sintéticas; el reloj del caso manda."
  ],
  code: {
@@ -410,7 +419,7 @@ backtest True`,
  paragraphs: [
  "Con pocas etiquetas, **precision@k** y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida automática. El HITL es parte del contrato, no un adorno del dashboard.",
  "Tomas un ranking binario de utilidad (1 = el revisor dijo «me sirvió») y miras solo los top-k: `P@k = sum(ranked[:k])/k`. Si `n_labels` es mucho menor que `n_flags`, el régimen es scarce y `human_in_loop` debe ser True; `auto_guilt` permanece False siempre.",
- "Entrada: ranking sintético de utilidad y k (y, en el lab, conteos de labels vs flags). Salida: precision_at_k + política HITL. Error de diseño: optimizar accuracy global con labels ralos o apagar el humano «para ir más rápido».",
+ "Entrada: ranking sintético de utilidad y k (y, en el lab, conteos de etiquetas vs. flags). Salida: precision_at_k + política HITL. Error de diseño: optimizar *accuracy* global con etiquetas ralas o apagar el humano «para ir más rápido».",
  "En `CASO-LIM-036-T4B`, ranked=[1,0,1,0,0] con k=3 → P@k≈0.667. La métrica de negocio del lab es «¿ayudó a la cola sintética?», no un veredicto moral sobre personas."
  ],
  code: {
@@ -418,7 +427,7 @@ backtest True`,
  title: "scarce_precision_at_k.py",
  code: `def precision_at_k(ranked, k):
  if k <= 0:
- raise ValueError("k must be positive")
+  raise ValueError("k must be positive")
  return sum(ranked[:k]) / k
 
 ranked = [1, 0, 1, 0, 0]
@@ -459,25 +468,34 @@ auto_guilt False`,
 def assign_1d(xs, cents):
  return [min(range(len(cents)), key=lambda i: abs(x - cents[i])) for x in xs]
 
-def update_centroids(xs, labels, k):
+def update_centroids(xs, labels, k, prev=None):
  groups = [[] for _ in range(k)]
  for x, lab in zip(xs, labels):
   groups[lab].append(x)
- return [sum(g) / len(g) if g else 0.0 for g in groups]
+ out = []
+ for i, g in enumerate(groups):
+  if g:
+   out.append(sum(g) / len(g))
+  elif prev is not None:
+   out.append(prev[i])
+  else:
+   raise ValueError("empty cluster without previous centroid")
+ return out
 
-def density_core_1d(xs, eps=0.5, min_samples=2):
+def density_core_1d(xs, eps=0.5, min_samples=3):
+ # sklearn: min_samples incluye el propio punto
  core = []
  for x in xs:
-  n_nb = sum(1 for y in xs if abs(x - y) <= eps) - 1
-  core.append(n_nb >= min_samples)
+  n_inc = sum(1 for y in xs if abs(x - y) <= eps)
+  core.append(n_inc >= min_samples)
  return core
 
 raw = [1.0, 1.2, 5.0, 5.2, 5.1]
 scaled, did_scale = zscore_list(raw)
 cents0 = [scaled[0], scaled[-1]]
 labels = assign_1d(scaled, cents0)
-cents1 = update_centroids(scaled, labels, 2)
-core = density_core_1d(scaled, eps=0.5, min_samples=2)
+cents1 = update_centroids(scaled, labels, 2, prev=cents0)
+core = density_core_1d(scaled, eps=0.5, min_samples=3)
 print("labels", labels)
 print("c1", round(cents1[0], 2), "c2", round(cents1[1], 2))
 print("core_density", core)
@@ -488,13 +506,13 @@ c1 -1.22 c2 0.82
 core_density [False, False, True, True, True]
 scaled True`,
  },
- why: "Scale se calcula; assign–update y density marcan geometría en z; sin veredicto de conducta.",
+ why: "El scale se calcula; assign–update y density marcan geometría en z; sin veredicto de conducta.",
  },
  {
  demoId: "S36-T1-B-DEMO",
  subtopicId: "S36-T1-B",
  environment: "local-python",
- description: "Demo: argmax de k en dos seeds y bool de estabilidad.",
+ description: "Demo: argmax de k en dos seeds y bool de acuerdo de k (no ARI).",
  code: {
  language: 'python',
  title: "s36_t1_b_demo.py",
@@ -513,7 +531,7 @@ print("stable", k_a == k_b)
 score 0.5
 stable True`,
  },
- why: "Multi-seed se computa como igualdad de k; k no sanciona personas.",
+ why: "Multi-seed del lab = acuerdo de k elegido; no compara particiones (ARI) ni sanciona personas.",
  },
  {
  demoId: "S36-T2-A-DEMO",
@@ -565,7 +583,7 @@ action review_queue
 axis_named_by_business False
 guilt False`,
  },
- why: "Distancia en PC se calcula; encola review sin auto-culpa ni nombre mágico.",
+ why: "Distancia en PC se calcula; encola revisión sin autoculpa ni nombre mágico.",
  },
  {
  demoId: "S36-T3-A-DEMO",
@@ -610,7 +628,7 @@ misconduct False`,
  demoId: "S36-T3-B-DEMO",
  subtopicId: "S36-T3-B",
  environment: "local-python",
- description: "Demo: expected_flags vs capacity (overflow de cola).",
+ description: "Demo: expected_flags vs. capacity (overflow de cola).",
  code: {
  language: 'python',
  title: "s36_t3_b_demo.py",
@@ -630,7 +648,7 @@ overflow True
 action lower_contamination
 is_fraud_rate False`,
  },
- why: "contamination calibra carga frente a capacity; no es tasa de fraude.",
+ why: "La contamination calibra la carga frente a la capacity; no es tasa de fraude.",
  },
  {
  demoId: "S36-T4-A-DEMO",
@@ -665,7 +683,7 @@ mean_flag_rate 0.103
 leakage False
 backtest True`,
  },
- why: "Fit solo en pasado; score en futuro; media de flag rate y leakage se computan.",
+ why: "Fit solo en pasado; score en futuro; la media de la tasa de flags y el leakage se computan.",
  },
  {
  demoId: "S36-T4-B-DEMO",
@@ -691,7 +709,7 @@ auto_guilt False`,
  ],
  },
  weDo: {
- intro: "S36 · Laboratorio de señales auxiliares (24 retos). E1 repara el cálculo, E2 consolida el criterio y E3 transfiere a un caso cercano. Fixtures sintéticos CASO-LIM-036; sin PII real. Cada starter tiene un defect real (fórmula o contrato), no un TODO vacío. La ética fail-closed (anomalía ≠ culpa) ya está en el mapa: aquí practicas números y guards.",
+ intro: "S36 · Laboratorio de señales auxiliares (24 retos). E1 repara el cálculo, E2 consolida el criterio y E3 transfiere a un caso cercano. Fixtures sintéticos CASO-LIM-036; sin PII real. Cada starter trae un defecto real de fórmula o contrato (no un esqueleto vacío). La ética fail-closed (anomalía ≠ culpa) ya está en el mapa: aquí practicas números y guards.",
  steps: [
  {
  id: "S36-T1-A-E1",
@@ -786,9 +804,9 @@ ok True`,
  id: "S36-T1-A-E3",
  subtopicId: "S36-T1-A",
  kind: "transfer",
- instruction: "S36-T1-A-E3 · Assign–update + density: xs=[2,4,10,12], cents0=[2,12]. assign al centroide más cercano; update medias → c1=3.0, c2=11.0; labels=[0,0,1,1]. Luego density_core_1d(xs, eps=8, min_samples=2) → core todo True. Imprime labels, c1/c2, core_density y verdict False. Starter fija labels mal, no actualiza y omite density (defect). Transfer: segmentar cola por geometría, no por culpa (CASO-LIM-036-1A).",
- hint: "label = argmin |x-c|; media por label; núcleo si vecinos en eps >= min_samples; verdict False.",
- hints: ["label = argmin |x-c|; media por label; núcleo si vecinos en eps >= min_samples; verdict False.", "Un ciclo assign–update + máscara density basta para el núcleo de k-means y de DBSCAN 1D."],
+ instruction: "S36-T1-A-E3 · Assign–update + density: xs=[2,4,10,12], cents0=[2,12]. Asigna al centroide más cercano; actualiza medias → c1=3.0, c2=11.0; labels=[0,0,1,1]. Luego density_core_1d(xs, eps=8, min_samples=2) → core todo True (min_samples cuenta el propio punto, como sklearn). Imprime labels, c1/c2, core_density y verdict False. El starter fija labels mal, no actualiza y omite density (defecto). Transfer: segmentar cola por geometría, no por culpa (CASO-LIM-036-1A).",
+ hint: "label = argmin |x-c|; media por label; núcleo si n_inc (incluye el punto) >= min_samples; verdict False.",
+ hints: ["label = argmin |x-c|; media por label; núcleo si n_inc (incluye el punto) >= min_samples; verdict False.", "Un ciclo assign–update + máscara density basta para el núcleo de k-means y de DBSCAN 1D."],
  edgeCases: ["grupo vacío tras assign", "eps demasiado chico (todo borde)", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-A-E3 (CASO-LIM-036).",
  feedback: "S36-T1-A-E3: assign–update y density segmentan geometría; no sancionan.",
@@ -821,10 +839,11 @@ c1 = sum(groups[0]) / len(groups[0])
 c2 = sum(groups[1]) / len(groups[1])
 
 def density_core_1d(xs, eps=8, min_samples=2):
+ # sklearn: min_samples incluye el propio punto
  core = []
  for x in xs:
-  n_nb = sum(1 for y in xs if abs(x - y) <= eps) - 1
-  core.append(n_nb >= min_samples)
+  n_inc = sum(1 for y in xs if abs(x - y) <= eps)
+  core.append(n_inc >= min_samples)
  return core
 
 print("labels", labels)
@@ -1162,7 +1181,7 @@ missing_ok True`,
  hints: ["far = max(pc) - mean(pc) > 3; guilt siempre False; action review_queue si far.", "Distancia en PC ≠ conducta indebida."],
  edgeCases: ["sancionar por scatter", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-B-E3 (CASO-LIM-036).",
- feedback: "S36-T2-B-E3: outlier en PC encola review; nunca auto-culpa.",
+ feedback: "S36-T2-B-E3: outlier en PC encola revisión; nunca autoculpa.",
  starterCode: {
  language: 'python',
  title: "s36-t2-b-e3.py",
@@ -1556,7 +1575,7 @@ ok True`,
  hints: ["spike si max(rates)-min(rates) >= 0.3.", "Investiga antes de ampliar cola."],
  edgeCases: ["rates constantes", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-A-E3 (CASO-LIM-036).",
- feedback: "S36-T4-A-E3: estabilidad de flag rate entre ventanas.",
+ feedback: "S36-T4-A-E3: estabilidad de la tasa de flags entre ventanas.",
  starterCode: {
  language: 'python',
  title: "s36-t4-a-e3.py",
@@ -1709,15 +1728,15 @@ n 1`,
  youDo: {
  title: "Señales auxiliares de rareza con backtest (CP-N3-C señales)",
  context:
- "Construye un mini-pipeline de clustering/anomalías sobre CASO-LIM-036 (sintético): scale → assign–update o centroides → PCA toy → flags σ + path length → fit-past/score-future → P@k con HITL. Sin concluir conducta indebida.",
+ "Construye un mini-pipeline de clustering y anomalías sobre `CASO-LIM-036` (sintético): scale → assign–update o centroides → PCA toy → flags σ + path length → fit-past/score-future → P@k con HITL. Sin concluir conducta indebida.",
  objectives: [
- "Scale + assign–update/centroides 1D + núcleos density (eps/min_samples) con disclaimer ético",
- "PCA exploratoria prudente (decision_model=False)",
- "Reglas σ y path length toy (idea IF) sin guilt automático",
- "Backtest temporal (fit pasado / score futuro) + P@k con human_in_loop",
+ "Scale + assign–update/centroides 1D + núcleos density (eps/min_samples, contando el propio punto) con aviso ético.",
+ "PCA exploratoria prudente (decision_model=False; pesos fijos, no autovectores).",
+ "Reglas σ y path length toy (idea IF) sin guilt automático.",
+ "Backtest temporal (fit pasado / score futuro) + P@k con human_in_loop.",
  ],
  requirements: [
- "Disclaimer anomalía≠culpa en cada salida de flag",
+ "Aviso: anomalía ≠ culpa en cada salida de flag",
  "Backtest temporal sin leakage (test ∉ train)",
  "es-PE sintético; sin PII real",
  "Ruta humana obligatoria para flags que afectan personas",
@@ -1733,18 +1752,27 @@ def scale(xs):
 def assign_1d(xs, cents):
  return [min(range(len(cents)), key=lambda i: abs(x - cents[i])) for x in xs]
 
-def update_centroids(xs, labels, k):
+def update_centroids(xs, labels, k, prev=None):
+ # Grupo vacío: conserva prev[i]; no inventa 0.0
  groups = [[] for _ in range(k)]
  for x, lab in zip(xs, labels):
   groups[lab].append(x)
- return [sum(g) / len(g) if g else 0.0 for g in groups]
+ out = []
+ for i, g in enumerate(groups):
+  if g:
+   out.append(sum(g) / len(g))
+  elif prev is not None:
+   out.append(prev[i])
+  else:
+   raise ValueError("empty cluster without previous centroid")
+ return out
 
-def density_core_1d(xs, eps=0.5, min_samples=2):
- # Idea DBSCAN 1D: núcleo si >= min_samples vecinos en radio eps
+def density_core_1d(xs, eps=0.5, min_samples=3):
+ # Idea DBSCAN 1D (sklearn): min_samples cuenta el propio punto
  core = []
  for x in xs:
-  n_nb = sum(1 for y in xs if abs(x - y) <= eps) - 1
-  core.append(n_nb >= min_samples)
+  n_inc = sum(1 for y in xs if abs(x - y) <= eps)
+  core.append(n_inc >= min_samples)
  return core
 
 def project_pc(x, y, w0=0.8, w1=0.2):
@@ -1787,10 +1815,11 @@ def precision_at_k(ranked, k):
 
 if __name__ == "__main__":
  xs = scale([1.0, 1.2, 5.0, 5.2, 5.1])
- labels = assign_1d(xs, [xs[0], xs[-1]])
- cents = update_centroids(xs, labels, 2)
+ cents0 = [xs[0], xs[-1]]
+ labels = assign_1d(xs, cents0)
+ cents = update_centroids(xs, labels, 2, prev=cents0)
  print("labels", labels, "cents", [round(c, 2) for c in cents])
- print("core_density", density_core_1d(xs, eps=0.5, min_samples=2))
+ print("core_density", density_core_1d(xs, eps=0.5, min_samples=3))
  print("pc_toy", round(project_pc(xs[0], xs[1]), 2))
  print("decision_model", False)
  train, future = [10, 11, 10, 12], [11, 10, 50]
@@ -1805,7 +1834,7 @@ if __name__ == "__main__":
  portfolioNote:
  "Señales CP-N3-C; evidencia de utilidad de cola (P@k + HITL). No PASS automático de carrera ni veredicto moral.",
  rubric: [
- { criterion: "Señales auxiliares al triage (cola de review, sin auto-culpa)", weight: "25%" },
+ { criterion: "Señales auxiliares al triage (cola de revisión, sin autoculpa)", weight: "25%" },
  { criterion: "Correctitud técnica (scale, centroides/density, σ/path, P@k, backtest)", weight: "20%" },
  { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
  { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
@@ -1826,19 +1855,19 @@ if __name__ == "__main__":
  question: "contamination representa:",
  options: ["Tasa de fraude real del negocio", "Hipótesis de fracción rara a flaggear (capacidad de cola)", "Accuracy del clasificador supervisado", "Kafka lag del pipeline"],
  correctIndex: 1,
- explanation: "Es un control de cuántos puntos se marcan raros; se calibra a capacidad de review, no a prevalencia de ilícitos.",
+ explanation: "Es un control de cuántos puntos se marcan raros; se calibra a capacidad de revisión, no a prevalencia de ilícitos.",
  },
  {
  question: "PCA en este curso se usa para:",
  options: ["Etiquetar culpa en el eje PC2", "Reemplazar el workbench de revisión", "Exploración/visualización prudente", "Borrar features de privacidad automáticamente"],
  correctIndex: 2,
- explanation: "Proyección exploratoria; no es el modelo de decisión ni un eje moral.",
+ explanation: "Proyección exploratoria; no es el modelo de decisión ni un eje moral. El lab usa pesos fijos; sklearn aprende autovectores.",
  },
  {
- question: "Con labels escasos prioriza:",
+ question: "Con etiquetas escasas prioriza:",
  options: ["precision@k y feedback humano", "Solo accuracy global", "Aumentar contamination a 0.9", "Eliminar reglas legibles"],
  correctIndex: 0,
- explanation: "P@k alinea con la cola; el humano valida utilidad. Accuracy global con labels ralos engaña.",
+ explanation: "P@k alinea con la cola; el humano valida la utilidad. La accuracy global con etiquetas ralas engaña.",
  },
  {
  question: "Un fit de normalidad que incluye el mes evaluado comete:",
@@ -1848,37 +1877,48 @@ if __name__ == "__main__":
  },
  {
  question: "En el path length toy (idea de Isolation Forest), un punto con path más corto que el resto suele interpretarse como:",
- options: ["Prueba de fraude", "Más fácil de aislar geométricamente (candidato a review)", "Etiqueta moral automática", "Que contamination es tasa de ilícitos"],
+ options: ["Prueba de fraude", "Más fácil de aislar geométricamente (candidato a revisión)", "Etiqueta moral automática", "Que contamination es tasa de ilícitos"],
  correctIndex: 1,
  explanation: "Path corto sugiere rareza geométrica (se aísla con pocos cortes). Sigue siendo señal auxiliar; no prueba conducta indebida.",
  },
  {
- question: "En el micro-contrato density 1D (idea DBSCAN), un punto es núcleo cuando:",
- options: ["Su id de cluster es impar", "contamination supera 0.5", "Tiene al menos min_samples vecinos dentro del radio eps", "El silhouette del mes de test es alto"],
+ question: "En el micro-contrato density 1D (idea DBSCAN, convención sklearn), un punto es núcleo cuando:",
+ options: ["Su id de cluster es impar", "contamination supera 0.5", "Tiene al menos min_samples vecinos en eps contando el propio punto", "El silhouette del mes de test es alto"],
  correctIndex: 2,
- explanation: "Núcleo = densidad local suficiente (vecinos en eps). No eliges k; eliges densidad. El núcleo no es una etiqueta de culpa.",
+ explanation: "Núcleo = densidad local suficiente (vecinos en eps, incluido el punto). No eliges k; eliges densidad. El núcleo no es una etiqueta de culpa.",
+ },
+ {
+ question: "Si dos seeds eligen el mismo k en el lab multi-seed, ¿qué puedes afirmar con rigor?",
+ options: [
+  "Las particiones son idénticas (ARI = 1)",
+  "Hay acuerdo sobre el número de clusters k; la estabilidad de etiquetas exige otra métrica (p. ej. ARI)",
+  "Se puede sancionar al segmento del cluster 0",
+  "El silhouette del mes de test es válido"
+ ],
+ correctIndex: 1,
+ explanation: "El lab mide acuerdo de k (argmax por seed). Estabilidad de partición requiere comparar etiquetas o centroides (ARI, jitter), no solo el entero k.",
  }
  ],
  },
  resources: {
  docs: [
- { label: "sklearn outlier detection", url: "https://scikit-learn.org/stable/modules/outlier_detection.html", note: "IF/LOF; novelty vs outlier" },
+ { label: "sklearn outlier detection", url: "https://scikit-learn.org/stable/modules/outlier_detection.html", note: "IF/LOF; novelty vs. outlier" },
  { label: "sklearn clustering", url: "https://scikit-learn.org/stable/modules/clustering.html", note: "k-means y límites" },
  { label: "sklearn PCA", url: "https://scikit-learn.org/stable/modules/decomposition.html#pca", note: "Proyecciones" },
  { label: "sklearn StandardScaler", url: "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html", note: "Scale-first antes de distancias" },
- { label: "Python statistics — mean/pstdev", url: "https://docs.python.org/3/library/statistics.html", note: "Reglas σ en stdlib" },
+ { label: "Módulo statistics de Python — mean/pstdev", url: "https://docs.python.org/3/library/statistics.html", note: "Reglas σ en stdlib" },
  { label: "Py4E — progressive exercises", url: "https://www.py4e.com", note: "Pedagogía de liberación gradual" }
  ],
  books: [
  { label: "ISLR — PCA chapter", note: "Proyecciones e interpretación prudente" },
- { label: "ESL / anomaly detection surveys", note: "Novelty vs outlier; límites de unsupervised" },
+ { label: "ESL / anomaly detection surveys", note: "Novelty vs. outlier; límites de unsupervised" },
  { label: "Python Data Science Handbook (VanderPlas) — k-means/PCA", note: "Notebooks clásicos" }
  ],
  courses: [
  { label: "Stanford CS229 — unsupervised learning notes", url: "https://cs229.stanford.edu/", note: "k-means, PCA, framing unsupervised" },
  { label: "Coursera Machine Learning (clustering modules)", url: "https://www.coursera.org/learn/machine-learning", note: "Intuición de k-means y costo" },
  { label: "MIT OCW Intro ML (6.036 materials)", url: "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/", note: "Framing unsupervised" },
- { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python", note: "Guided vs independent problem design" },
+ { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python", note: "Guided vs. independent problem design" },
  { label: "StatQuest — K-means clustering", url: "https://www.youtube.com/watch?v=4b5d3muPQmA", note: "Centroides con claridad visual" },
  { label: "StatQuest — PCA", url: "https://www.youtube.com/watch?v=FgakZw6K1QQ", note: "Ejes ≠ etiquetas morales" }
  ],

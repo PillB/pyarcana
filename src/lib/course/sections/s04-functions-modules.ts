@@ -17,19 +17,19 @@ export const section04: CourseSection = {
     { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
     { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },
     { text: "Escribir while con centinelas y condición de terminación explícita" },
-    { text: "Aplicar break/continue y guardrails contra loops infinitos" },
+    { text: "Aplicar break/continue y salvaguardas contra bucles infinitos" },
     { text: "Implementar contadores, acumuladores y búsquedas en un pase O(n)" },
     { text: "Escribir comprehensions legibles para filtros simples de resumen" },
     { text: "Trazar el estado de un bucle para depurar contadores" },
-    { text: "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices" },
+    { text: "Distinguir costo lineal vs. cuadrático y corregir off-by-one en índices" },
   ],
   theory: [
     {
       heading: "Mapa de la sección: iteración y resúmenes por lotes",
       paragraphs: [
         "**Antes de T1, tres ideas base** (no memorices el resto aún). Un **bucle** repite un bloque mientras haya elementos o mientras una condición sea verdadera. Un **centinela** es un valor especial que marca el fin del lote (`\"\"`, `\"END\"`). Una **tasa** es un contador dividido por el total de registros **intentados** — solo si ese total es mayor que cero; si el lote está vacío, reportas `None`, no divides.",
-        "Desde **S03** ya validas un registro (accept / reject / review). Aquí aplicas esa lógica a **muchas filas** en un solo pase **O(n)**: recorres el lote, acumulas contadores, evitas loops infinitos y emites un resumen con **denominador correcto**. Eso es lo que cierra el gate **CP-N1-A**. Empaquetado, CLI y decorators se abordan más adelante; no los necesitas para este cierre.",
-        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro, imprime por stdout un resumen y **conserva el original (raw)** de cada fila. Caso de laboratorio: `CASO-LIM-004`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+        "Desde **S03** ya validas un registro (accept / reject / review). Aquí aplicas esa lógica a **muchas filas** en un solo pase **O(n)**: recorres el lote, acumulas contadores, evitas bucles infinitos y emites un resumen con **denominador correcto**. Eso es lo que cierra el gate **CP-N1-A**. Empaquetado, CLI y decorators se abordan más adelante; no los necesitas para este cierre.",
+        "El hilo conductor es un **script de intake por lotes**. Lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro, imprime por stdout un resumen y **conserva el original (raw)** de cada fila. Caso de laboratorio: `CASO-LIM-004`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
         "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one). En cada subtema: teoría → demo I Do → We Do (E1 guiado, E2 independiente, E3 transferencia).",
         "Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do del batch + self-check. Si un demo se siente denso, rehazlo con lápiz (tabla TRACE) antes de copiar la solución. Cuando veas `def ...` en un ejemplo, es solo una **receta nombrada** para el playground — el diseño formal de funciones llega en la sección siguiente.",
       ],
@@ -125,7 +125,7 @@ zip strict → ValueError: desalineado: 3 vs 2`,
       subtopicId: "S04-T2-A",
       paragraphs: [
         "**`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando **no sabes de antemano cuántas** iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream.",
-        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **loop infinito**.",
+        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **bucle infinito**.",
         "En demos de browser no usamos `input()` interactivo real; simulamos un **buffer de líneas**. El patrón es el mismo: leer siguiente → chequear centinela (`\"END\"` / `\"\"`) → procesar → actualizar estado. Si olvidas avanzar el índice, el while es **infinito**.",
       ],
       code: {
@@ -143,7 +143,7 @@ while i < len(lineas):
 print("procesadas:", procesadas)
 print("restante no leída:", lineas[i:])
 `,
-        output: `procesadas: ['C001|Sucursal-Norte', 'C002|Sucursal-Sur']
+        output: `procesadas: ['C001|Lima', 'C002|Cusco']
 restante no leída: ['C003|Piura']`,
       },
       callout: {
@@ -154,7 +154,7 @@ restante no leída: ['C003|Piura']`,
       },
     },
     {
-      heading: "break, continue y prevención de loops infinitos",
+      heading: "break, continue y prevención de bucles infinitos",
       subtopicId: "S04-T2-B",
       paragraphs: [
         "**`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguiente** ciclo sin ejecutar el resto del cuerpo. En intake: `continue` para saltar filas vacías; `break` al encontrar un centinela o un error fatal de configuración.",
@@ -178,19 +178,19 @@ restante no leída: ['C003|Piura']`,
             break
     return kept, iters
 
-raw_lines = ["  ", "C001|Sucursal-Centro", "SKIP", "C002|Oficina-Este", "END"]
+raw_lines = ["  ", "C001|Lima", "SKIP", "C002|Cusco", "END"]
 kept, iters = clean_lines(raw_lines)
 print(kept)
 print("iteraciones efectivas del for:", iters)
 `,
-        output: `['C001|Oficina-Oeste', 'C002|Cliente-A']
+        output: `['C001|Lima', 'C002|Cusco']
 iteraciones efectivas del for: 5`,
       },
       callout: {
         type: "warning",
         title: "while True sin salida",
         content:
-          "En producción un loop infinito agota CPU y bloquea el lote. Siempre define centinela, excepción o MAX_ITERS en ejercicios de while.",
+          "En producción un bucle infinito agota CPU y bloquea el lote. Siempre define centinela, excepción o MAX_ITERS en ejercicios de while.",
       },
     },
     {
@@ -303,7 +303,7 @@ final total= 30 n_pos= 2`,
       subtopicId: "S04-T4-B",
       paragraphs: [
         "Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el mismo lote (`for a in xs: for b in xs:`) es **O(n²)** (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.",
-        "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs `>`) también son off-by-one de negocio.",
+        "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs. `>`) también son off-by-one de negocio.",
         "Para el gate CP-N1-A: cuenta registros con un contador **O(n)**; **no** recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`. `tasa_reject = n_reject / n_total` solo si `n_total > 0`; si no, reporta `None` (lote vacío), no `ZeroDivisionError` silencioso.",
       ],
       code: {
@@ -373,7 +373,7 @@ n= 3 range → [0, 1, 2]`,
           language: 'python',
           title: "S04-T1-B-DEMO — enumerate_zip",
           code: `ids = ["C001", "C002", "C003"]
-regiones = ["Cliente-B", "Sucursal-Norte", "Arequipa"]
+regiones = ["Lima", "Cusco", "Arequipa"]
 
 def zip_strict(a, b):
     if len(a) != len(b):
@@ -382,13 +382,13 @@ def zip_strict(a, b):
 
 for i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1):
     print(f"fila {i}: {rid} @ {reg}")
-mal = ["Sucursal-Sur", "Sucursal-Centro"]
+mal = ["Lima", "Cusco"]
 try:
     list(zip_strict(ids, mal))
 except ValueError:
     print("desalineado detectado")`,
-          output: `fila 1: C001 @ Oficina-Este
-fila 2: C002 @ Oficina-Oeste
+          output: `fila 1: C001 @ Lima
+fila 2: C002 @ Cusco
 fila 3: C003 @ Arequipa
 desalineado detectado`,
         },
@@ -402,7 +402,7 @@ desalineado detectado`,
         code: {
           language: 'python',
           title: "S04-T2-A-DEMO — while_end",
-          code: `buf = ["Ana|Cliente-A", "Luis|Cliente-B", "END", "ignorada"]
+          code: `buf = ["Ana|Lima", "Luis|Cusco", "END", "ignorada"]
 i = 0
 out = []
 while i < len(buf):
@@ -414,10 +414,10 @@ while i < len(buf):
 print(out)
 print("indice final", i)
 `,
-          output: `['Ana|Sucursal-Norte', 'Luis|Sucursal-Sur']
+          output: `['Ana|Lima', 'Luis|Cusco']
 indice final 3`,
         },
-        why: "El centinela corta el lote; lo posterior no se procesa. i avanza siempre → no hay infinito.",
+        why: "El centinela corta el lote; lo posterior no se procesa. El índice i avanza siempre → no hay bucle infinito.",
       },
       {
         demoId: "S04-T2-B-DEMO",
@@ -534,7 +534,7 @@ print("skipped_first", skipped_first)
           output: `linear 4 quad 16
 skipped_first [20, 30]`,
         },
-        why: "4 vs 16 pasos; range(1,len) omite el primer registro — bug clásico de resúmenes incompletos.",
+        why: "4 vs. 16 pasos; range(1,len) omite el primer registro — bug clásico de resúmenes incompletos.",
       },
     ],
   },
@@ -546,21 +546,21 @@ skipped_first [20, 30]`,
         subtopicId: "S04-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: `for` por valor y `range` con stop exclusivo. Fixture: `regiones = [\"Sucursal-Centro\", \"Oficina-Este\", \"Piura\"]`. Imprime cada región en su propia línea con un `for`; luego imprime `list(range(3))` (esperado: `[0, 1, 2]`). Contrato: un for simple sin índices; no mutes la lista.",
+          "E1 (guiado) — Concepto: `for` por valor y `range` con stop exclusivo. Fixture: `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`. Imprime cada región en su propia línea con un `for`; luego imprime `list(range(3))` (esperado: `[0, 1, 2]`). Contrato: un for simple sin índices; no mutes la lista.",
         hint: "for r in regiones: print(r)",
         hints: [
           "for r in regiones: print(r)",
           "range(3) produce 0,1,2 — stop exclusivo.",
         ],
         edgeCases: ["range stop exclusivo"],
-        tests: "3 regiones + [0,1,2]",
+        tests: "Lima / Cusco / Piura + [0,1,2]",
         feedback: "El for por valor es el default del procesador de lotes.",
         starterCode: {
           language: 'python',
           title: "for_regiones.py",
           code: `# CASO-LIM-004 · for sobre lista
 # DEFECT: no imprime range(3)
-regiones = ["Oficina-Oeste", "Cliente-A", "Piura"]
+regiones = ["Lima", "Cusco", "Piura"]
 for r in regiones:
     print(r)
 print('ok', True)
@@ -569,13 +569,13 @@ print('ok', True)
         solutionCode: {
           language: 'python',
           title: "for_regiones.py",
-          code: `regiones = ["Cliente-B", "Sucursal-Norte", "Piura"]
+          code: `regiones = ["Lima", "Cusco", "Piura"]
 for r in regiones:
     print(r)
 print(list(range(3)))`,
-          output: `Sucursal-Sur
-Sucursal-Centro
-Oficina-Este
+          output: `Lima
+Cusco
+Piura
 [0, 1, 2]`,
         },
       },
@@ -839,7 +839,7 @@ print(out)`,
         hint: "intentos += 1 dentro del while es la variable de control.",
         hints: [
           "intentos += 1 dentro del while es la variable de control.",
-          "Si olvidas incrementar, loop infinito (no lo hagas).",
+          "Si olvidas incrementar, bucle infinito (no lo hagas).",
         ],
         edgeCases: ["variable de control"],
         tests: "3 intentos + done 3",
@@ -922,21 +922,21 @@ rest ['job3']`,
         subtopicId: "S04-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: `continue` para saltar basura. Fixture: `raw = [\"  \", \"Oficina-Oeste\", \"\", \"Cliente-A\"]`. Con for, si `not x.strip()` haz continue; imprime solo regiones válidas (Cliente-B y Sucursal-Norte, una por línea). Contrato: no uses break aquí — solo saltas filas vacías o de solo espacios.",
+          "E1 (guiado) — Concepto: `continue` para saltar basura. Fixture: `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, si `not x.strip()` haz continue; imprime solo regiones válidas (Lima y Cusco, una por línea). Contrato: no uses break aquí — solo saltas filas vacías o de solo espacios.",
         hint: "if not x.strip(): continue",
         hints: [
           "if not x.strip(): continue",
-          "Solo Sucursal-Sur y Sucursal-Centro.",
+          "Solo Lima y Cusco.",
         ],
         edgeCases: ["whitespace only"],
-        tests: "Oficina-Este\\nCusco",
+        tests: "Lima\\nCusco",
         feedback: "continue es el filtro de filas vacías del intake por líneas.",
         starterCode: {
           language: 'python',
           title: "continue_vacios.py",
           code: `# CASO-LIM-004 · continue blanks
 # DEFECT: imprime blanks
-raw = ["  ", "Oficina-Oeste", "", "Cliente-A"]
+raw = ["  ", "Lima", "", "Cusco"]
 for x in raw:
     print(x)
 print('ok', True)
@@ -945,13 +945,13 @@ print('ok', True)
         solutionCode: {
           language: 'python',
           title: "continue_vacios.py",
-          code: `raw = ["  ", "Cliente-B", "", "Sucursal-Norte"]
+          code: `raw = ["  ", "Lima", "", "Cusco"]
 for x in raw:
     if not x.strip():
         continue
     print(x)`,
-          output: `Sucursal-Sur
-Sucursal-Centro`,
+          output: `Lima
+Cusco`,
         },
       },
       {
@@ -1008,10 +1008,10 @@ n_ok 2`,
         subtopicId: "S04-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise RuntimeError('guard')`. Imprime los valores leídos.",
-        hint: "while True no es pecado si break y guardrail están claros.",
+          "E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y una salvaguarda `if i > 10: raise RuntimeError('guard')`. Imprime los valores leídos.",
+        hint: "while True no es pecado si break y la salvaguarda están claros.",
         hints: [
-          "while True no es pecado si break y guardrail están claros.",
+          "while True no es pecado si break y la salvaguarda están claros.",
           "No proceses END como dato.",
         ],
         edgeCases: ["while True + break + max"],
@@ -1419,20 +1419,20 @@ FINAL {'accept': 2, 'reject': 1}`,
         subtopicId: "S04-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Concepto: sentir O(n) vs O(n²) con números chicos. Para `n=5`, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números en una línea (esperado: `5 25`). Contrato: no inventes los números — derívalos contando iteraciones reales.",
+          "E1 (guiado) — Concepto: sentir O(n) vs. O(n²) con números chicos. Para `n=5`, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números en una línea (esperado: `5 25`). Contrato: no inventes los números — derívalos contando iteraciones reales.",
         hint: "linear n, quad n*n",
         hints: [
           "linear n, quad n*n",
           "5 y 25",
         ],
-        edgeCases: ["n vs n²"],
+        edgeCases: ["n vs. n²"],
         tests: "5 25",
         feedback: "Sentir n² con números chicos prepara el ojo para lotes grandes.",
         starterCode: {
           language: 'python',
           title: "count_steps.py",
-          code: `# CASO-LIM-004 · lineal vs cuadrático
-# DEFECT: ambos usan un solo loop
+          code: `# CASO-LIM-004 · lineal vs. cuadrático
+# DEFECT: ambos usan un solo bucle
 n = 5
 lin = quad = 0
 for i in range(n):
@@ -1538,7 +1538,7 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
   youDo: {
     title: "Client Intake & Data Quality Script (cierre CP-N1-A)",
     context:
-      "Cierra el gate **CP-N1-A**. Sobre el parser (S02) y el motor de reglas (S03), construyes un procesador por **lotes**: múltiples registros sintéticos, un pase O(n), contadores accept/reject/review, **tasa de error con denominador = n_total** (`None` si el lote está vacío), conservación del **raw** por fila y reporte por stdout. El starter trae `_run_tests` con un fixture de 3 filas y un lote vacío: implementa las tres funciones hasta que `tests OK` se imprima. El empaquetado CLI se ve más adelante en el curso.",
+      "Cierra el gate **CP-N1-A**. Sobre el parser (S02) y el motor de reglas (S03), construyes un procesador por **lotes** que hace un solo pase O(n) sobre múltiples registros sintéticos. El procesador emite contadores accept/reject/review y una **tasa de error con denominador = n_total** (`None` si el lote está vacío); además conserva el **raw** por fila y reporta por stdout. El starter trae `_run_tests` con un fixture de 3 filas y un lote vacío: implementa las tres funciones hasta que `tests OK` se imprima. El empaquetado CLI se ve más adelante en el curso.",
     objectives: [
       "Procesar ≥3 registros sintéticos en un solo pase",
       "Emitir contadores y tasa_reject con denominador correcto",
@@ -1550,8 +1550,8 @@ nota: la tasa solo necesita conteo O(n), no pares O(n2)`,
       "process_batch(records) → summary con n_total, n_accept, n_reject, n_review, tasa_reject, results[]",
       "Cada result incluye raw intacto + status agregado + detalle de campos (accept|reject|review)",
       "tasa_reject is None cuando n_total == 0 (sin ZeroDivisionError); si n_total > 0, tasa_reject ∈ [0, 1]",
-      "Fixture de _run_tests (3 filas): n_total == 3; results[0]['raw']['raw_line'] == '30|Oficina-Este|0'; lote vacío → tasa_reject is None",
-      "Sin PII real; datos sintéticos embebidos; sin loops O(n²) innecesarios para el resumen",
+      "Fixture de _run_tests (3 filas): n_total == 3; results[0]['raw']['raw_line'] == '30|Lima|0'; lote vacío → tasa_reject is None",
+      "Sin PII real; datos sintéticos embebidos; sin bucles O(n²) innecesarios para el resumen",
       "README o docstring en español: explica el denominador de tasas y por qué se conserva el raw",
     ],
     starterCode: `"""intake_quality_batch.py — cierre CP-N1-A (S04)
@@ -1593,13 +1593,13 @@ def format_report(summary: dict[str, Any]) -> str:
 
 def _run_tests() -> None:
     batch = [
-        {"edad": 30, "region": "Oficina-Oeste", "monto_ingreso": 0, "raw_line": "30|Cliente-A|0"},
-        {"edad": None, "region": "Cliente-B", "monto_ingreso": 10, "raw_line": "|Sucursal-Norte|10"},
+        {"edad": 30, "region": "Lima", "monto_ingreso": 0, "raw_line": "30|Lima|0"},
+        {"edad": None, "region": "Cusco", "monto_ingreso": 10, "raw_line": "|Cusco|10"},
         {"edad": 15, "region": "Tacna", "monto_ingreso": -1, "raw_line": "15|Tacna|-1"},
     ]
     s = process_batch(batch)
     assert s["n_total"] == 3
-    assert s["results"][0]["raw"]["raw_line"] == "30|Sucursal-Sur|0"
+    assert s["results"][0]["raw"]["raw_line"] == "30|Lima|0"
     assert s["tasa_reject"] is None or 0 <= s["tasa_reject"] <= 1
     empty = process_batch([])
     assert empty["tasa_reject"] is None
@@ -1608,8 +1608,8 @@ def _run_tests() -> None:
 
 def main() -> None:
     demo = [
-        {"edad": 40, "region": "Sucursal-Centro", "monto_ingreso": 100, "raw_line": "40|Oficina-Este|100"},
-        {"edad": -3, "region": "Oficina-Oeste", "monto_ingreso": 50, "raw_line": "-3|Cliente-A|50"},
+        {"edad": 40, "region": "Arequipa", "monto_ingreso": 100, "raw_line": "40|Arequipa|100"},
+        {"edad": -3, "region": "Piura", "monto_ingreso": 50, "raw_line": "-3|Piura|50"},
     ]
     summary = process_batch(demo)
     print(format_report(summary))
@@ -1640,14 +1640,14 @@ if __name__ == "__main__":
           "range(stop) es 0-inclusive y stop-exclusivo: 0,1,2.",
       },
       {
-        question: "zip([1,2,3],[10,20]) sin strict…",
+        question: "¿Qué hace zip([1,2,3],[10,20]) sin strict?",
         options: ["Lanza ValueError", "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio", "Rellena con None el tercero", "Empareja en producto cartesiano"],
         correctIndex: 1,
         explanation:
           "zip se detiene en la secuencia más corta. Valida len o usa strict=True (3.10+) para fallar si difieren.",
       },
       {
-        question: "Para la tasa de reject del gate, el denominador debe ser…",
+        question: "¿Para la tasa de reject del gate, el denominador debe ser?",
         options: ["Solo n_accept", "Siempre 100", "n_total de registros procesados (intentados)", "n_review únicamente"],
         correctIndex: 2,
         explanation:
@@ -1661,7 +1661,7 @@ if __name__ == "__main__":
           "continue omite el resto del cuerpo y pasa a la siguiente iteración (p. ej. filas vacías).",
       },
       {
-        question: "Un doble for anidado sobre n elementos es aproximadamente…",
+        question: "¿Un doble for anidado sobre n elementos es aproximadamente?",
         options: ["O(1)", "O(n)", "O(log n)", "O(n²)"],
         correctIndex: 3,
         explanation:
@@ -1672,7 +1672,7 @@ if __name__ == "__main__":
         options: ["Nada: Python corta solo", "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela", "Usar solo continue", "Multiplicar n_total por 2"],
         correctIndex: 1,
         explanation:
-          "Sin variable de control que cambie (o break en centinela), la condición puede quedar siempre verdadera → loop infinito.",
+          "Sin variable de control que cambie (o break en centinela), la condición puede quedar siempre verdadera → bucle infinito.",
       },
       {
         question:

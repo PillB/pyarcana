@@ -27,10 +27,14 @@ export const section40: CourseSection = {
     {
       heading: "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
+        "**Diccionario de la sección** (léelo antes de T1).",
+        "**Quality attribute (QA):** escenario medible con fuente, estímulo, respuesta, umbral y dueño. **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo y ownership del modelo.",
+        "**Ports/adapters:** las dependencias apuntan al dominio, no al revés. **C4:** niveles context, container, component y code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias, rollback). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
         "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39 (triage y controles). Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real. Lo que aprendas aquí (ports, evolución aditiva) alimenta S41 (APIs) y deja la orquestación de agentes para más adelante.",
         "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
-        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 (E1 a menudo ensambla el artefacto: context map, C4+ADR, entity/VO, consumer contract; E2/E3 refuerzan fail-closed). **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+        "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs.",
+        "En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3. E1 a menudo ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, C4+ADR, consumer contract); E2 y E3 refuerzan fail-closed.",
+        "**Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
       ],
       code: {
         language: 'python',
@@ -55,8 +59,9 @@ pii_allowed False`,
       },
       callout: {
         type: "info",
-        title: "Gate de promoción",
-        content: "Nota de orientación: S40-T1-A: caso sintético con asserts locales; si falta, no promociones.",
+        title: "Contrato de la sección",
+        content:
+          "CP-N4-A exige fronteras explícitas y, en cada trade-off, medida, dueño y consecuencia. El caso es sintético (Red Andina, Lima): sin PII real ni secretos en el repo.",
       },
     },
     {
@@ -94,7 +99,7 @@ owner platform`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Antes de promover S40-T1-B, verifica el contrato ejecutable y el riesgo residual.",
+          "Antes de cerrar S40-T1-A, verifica un escenario QA con umbral medible y dueño contactable; sin umbral o sin dueño el escenario no es auditable.",
       },
     },
     {
@@ -103,7 +108,7 @@ owner platform`,
       paragraphs: [
         "Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación. No existe la opción «siempre mejor»: sync puede simplificar la operación y async puede bajar latencia percibida a costa de complejidad de mensajes.",
         "Contrato de decisión S40-T1-B. Entrada: alternativas con **score de costo ponderado** (menor es mejor bajo `min_score`) y residual aceptable (umbral ≤ 2 en el lab). Salida: opción elegida, tabla de scores y dueño que firma el residual. Error: elegir por moda o sin umbral → `REOPEN_TRADEOFF`. Si falta el residual: `ESCALATE_RESIDUAL_RISK`. La tabla se versiona junto al ADR.",
-        "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): el score es un **costo ponderado** (menor es mejor). async=2.2 vence a sync=3.8 bajo `min_score`; el riesgo residual de complejidad de mensajes (umbral ≤ 2) lo acepta el owner de plataforma (`arquitectura`), no el revisor de cola.",
+        "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): el score es un **costo ponderado** (menor es mejor). async=2.2 vence a sync=3.8 bajo `min_score`; el riesgo residual de complejidad de mensajes (umbral ≤ 2) lo acepta el dueño de plataforma (`arquitectura`), no el revisor de cola.",
       ],
       code: {
         language: 'python',
@@ -128,7 +133,7 @@ residual_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La revisión de S40-T2-A exige salida esperada y fail-closed ante breach.",
+          "En S40-T1-B elige por costo ponderado (menor es mejor) y deja el riesgo residual con umbral y dueño que lo firma; sin residual no hay decisión promocionable.",
       },
     },
     {
@@ -137,7 +142,7 @@ residual_ok True`,
       paragraphs: [
         "Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web. Si mañana cambias Postgres por un almacén de documentos, el lenguaje de triage no debería reescribirse.",
         "Contrato de capas S40-T2-A. Entrada: lista de capas y aristas de dependencia. Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro). Error local: `REDRAW_BOUNDARY`. Si falta el grafo: `REVIEW_LAYER_OWNER`.",
-        "En `CASO-LIM-040`, la UI de intake de Red Andina (formularios sintéticos de Lima) no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier — un salto de capa es un bug de arquitectura, no un atajo de sprint.",
+        "En `CASO-LIM-040`, la UI de intake de Red Andina (formularios sintéticos de Lima) no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier: un salto de capa es un bug de arquitectura, no un atajo de sprint.",
       ],
       code: {
         language: 'python',
@@ -164,7 +169,7 @@ domain_pure True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Contrato S40-T2-B: fixture S40-T2-B; si falta evidencia, no promociones.",
+          "En S40-T2-A la evidencia es el grafo de capas: prohíbe presentation→infrastructure y domain→infrastructure; infrastructure→domain (adapter hacia adentro) sí está permitido.",
       },
     },
     {
@@ -172,7 +177,7 @@ domain_pure True`,
       subtopicId: "S40-T2-B",
       paragraphs: [
         "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura.",
-        "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`.",
+        "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`. El flag `implements_port` es un **checklist de lab**; en producción la evidencia real es sustituir el adapter (memoria ↔ SQL) sin reescribir la regla de negocio.",
         "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
       ],
       code: {
@@ -202,7 +207,7 @@ port_ok True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Para S40-T3-A: fixture S40-T3-A; si falta evidencia, no promociones.",
+          "En S40-T2-B el dominio depende del port (Protocol), no de SQLAlchemy ni FastAPI. Evidencia de lab: `implements_port`, imports de dominio vacíos y ≥3 contract tests; no uses el sufijo del nombre del adapter como regla.",
       },
     },
     {
@@ -210,13 +215,14 @@ port_ok True`,
       subtopicId: "S40-T3-A",
       paragraphs: [
         "Un **bounded context** da significado local a cada término del lenguaje ubicuo. «Caso» en intake no es el mismo concepto que «record» en ER ni que «ticket» en triage. El **context map** declara relaciones (customer/supplier, ACL, shared kernel) y **traducciones** entre glosarios para no fusionar modelos por accidente.",
-        "Contrato de fronteras S40-T3-A. Entrada: conjuntos de términos por contexto y mapa de traducciones. Salida: glosarios **disjuntos** más al menos una traducción explícita (p. ej. case→record). Si hay intersección de términos sin ACL: `SPLIT_CONTEXTS`. Si falta el mapa de traducciones: `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
-        "En `CASO-LIM-040`, intake posee `{case}`; ER posee `{record, score}`; la traducción `case→record` es el Anti-Corruption Layer (ACL) que evita que el score de ER contamine el lenguaje de intake. No mezcles «score» en la UI de recepción sin traducir.",
+        "Contrato de fronteras S40-T3-A. Entrada: conjuntos de términos por contexto y mapa de traducciones. Un mismo vocablo puede existir en dos BC con **significados locales distintos**: el mapa y el ACL declaran ownership y traducción. En el lab de stdlib pedimos **tokens disjuntos** en los sets de cada fila para hacer visible el solape y forzar la traducción `case→record`. Si hay intersección de tokens sin mapa: `SPLIT_CONTEXTS`. Si falta el mapa de traducciones: `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
+        "En `CASO-LIM-040`, intake posee `{case}`; ER posee `{record, score}`; la traducción `case→record` es el Anti-Corruption Layer (ACL) que evita que el score de ER contamine el lenguaje de intake. No mezcles «score» en la UI de recepción sin traducir: el error de oficio no es «repetir una palabra», sino **mezclar modelos sin mapa**.",
       ],
       code: {
         language: 'python',
         title: "bounded_contexts_ubiquitous.py",
         code: `def contexts_ok(intake: set, er: set, translations: dict) -> bool:
+    # Lab: tokens disjuntos + ACL explícito (simplificación didáctica)
     return intake.isdisjoint(er) and translations.get("case") == "record"
 
 intake, er = {"case"}, {"record", "score"}
@@ -232,7 +238,7 @@ acl True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Promoción de S40-T3-B solo con evidencia reproducible y dueño asignado.",
+          "En S40-T3-A el artefacto es el context map: glosarios locales, relación entre BC y al menos una traducción ACL (p. ej. case→record). Mezclar modelos sin mapa es `SPLIT_CONTEXTS`.",
       },
     },
     {
@@ -240,8 +246,8 @@ acl True`,
       subtopicId: "S40-T3-B",
       paragraphs: [
         "Una **entity** se rastrea por **identidad** a lo largo del tiempo (`CASE-001` sigue siendo el mismo caso aunque cambie su estado). Un **value object (VO)** se compara por **valor** (150 PEN es igual a otro 150 PEN) y suele ser inmutable. Un **servicio de dominio** aloja una regla que no encaja naturalmente en una sola entidad (p. ej. fusionar scores sin guardar estado propio).",
-        "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
-        "En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN inmutable; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.",
+        "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. En el lab, `vo_frozen` es la **assert de invariante** sobre un dict sintético; en producción usarías un tipo inmutable (`NamedTuple` o dataclass congelada). El flag no congela el dict de Python por magia. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
+        "En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN con invariante de inmutabilidad; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.",
       ],
       code: {
         language: 'python',
@@ -259,10 +265,12 @@ def merge_scores(a: float, b: float, w: float = 0.5) -> float:
 case_a, case_b = "CASE-001", "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
+# Lab: assert de invariante (en prod: NamedTuple / frozen dataclass)
+vo_frozen = True
 print("entity_same", same_entity(case_a, case_b))
 print("vo_equal", same_money(vo_a, vo_b))
 print("merged", merge_scores(0.8, 0.6))
-print("vo_frozen", True)`,
+print("vo_frozen", vo_frozen)`,
         output: `entity_same True
 vo_equal True
 merged 0.7
@@ -272,7 +280,7 @@ vo_frozen True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El dueño de S40-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
+          "En S40-T3-B distingue identidad de entity, igualdad por valor del VO y servicio sin estado. `vo_frozen` es checklist de lab: en producción el VO es inmutable de verdad.",
       },
     },
     {
@@ -282,7 +290,7 @@ vo_frozen True`,
         "**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**. Un diagrama sin ADR es una foto; un ADR sin rollback es una promesa sin freno de mano.",
         "Contrato documental S40-T4-A. Entrada: niveles C4 presentes y campos del ADR. Salida mínima: `{context, container}` en C4 y `{decision, alternatives, consequences, rollback}` con `status=accepted`. Si el ADR está incompleto o en draft sin campos: `RETURN_ADR_TO_DRAFT`. Si falta el status: `REQUEST_ARCH_REVIEW`.",
         "En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async (picos de intake en Lima), qué alternativa se descartó (sync HTTP) y cómo revertir (`feature_flag_off`).",
-        "**Rúbrica de calidad de un ADR** (úsa la en You Do, no solo «campos presentes»): (1) **contexto** con estímulo real del negocio; (2) **≥2 alternatives** evaluadas, no un monólogo; (3) **consequences** con ganancia y costo residual; (4) **rollback** operable en ≤1 release; (5) **status** `accepted` solo cuando un dueño contactable firma. Un archivo vacío con títulos no pasa CP-N4-A.",
+        "**Rúbrica de calidad de un ADR** (úsala en el You Do, no solo «campos presentes»): (1) **contexto** con estímulo real del negocio; (2) **≥2 alternatives** evaluadas, no un monólogo; (3) **consequences** con ganancia y costo residual; (4) **rollback** operable en ≤1 release; (5) **status** `accepted` solo cuando un dueño contactable firma. Un archivo vacío con títulos no pasa CP-N4-A.",
       ],
       code: {
         language: 'python',
@@ -305,14 +313,14 @@ status accepted`,
         type: "tip",
         title: "Contrato local + rúbrica ADR",
         content:
-          "Cierre de S40-T4-B: documenta residual risk y límites del lab stdlib.",
+          "Cierre de S40-T4-A: C4 con context y container, más ADR accepted con alternatives, consequences y rollback operable. Documenta también el riesgo residual y los límites del lab stdlib.",
       },
     },
     {
       heading: "APIs, eventos, deuda y evolución compatible",
       subtopicId: "S40-T4-B",
       paragraphs: [
-        "Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa. Un **consumer contract** verifica que `v1_fields ⊆ v_next`. La **deuda técnica** no es un chiste de standup: lleva dueño, fecha de retiro y criterio de aceptación.",
+        "Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa. Un **consumer contract** verifica que `v1_fields ⊆ v_next`. La **deuda técnica** no es una nota al margen: lleva dueño, fecha de retiro y criterio de aceptación.",
         "Contrato de evolución S40-T4-B. Entrada: conjuntos de campos v1 y v1.1, `debt_owner` y `retire_on`. Salida: consumer contract en verde + deuda con dueño y fecha. Si se eliminan campos de v1: `BLOCK_BREAKING_CHANGE`. Si falta la fecha de retiro: `NEGOTIATE_VERSION`. Versiona eventos (`case.created`) al cambiar semántica.",
         "En `CASO-LIM-040`, el payload v1 `{case_id, status}` sigue legible en v1.1 con `priority` añadido: un consumidor antiguo permanece en verde. La deuda del job async de cola de intake tiene dueño `platform` y retiro planificado `2026-12-01`; sin `retire_on` no se negocia versión a ciegas.",
       ],
@@ -338,7 +346,7 @@ additive True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S40-T4-B: conserva el consumer contract de la versión previa en verde, evidencia de `BLOCK_BREAKING_CHANGE` y ruta humana `NEGOTIATE_VERSION`.",
+          "Cierre de S40-T4-B: conserva el consumer contract de la versión previa en verde, evidencia de `BLOCK_BREAKING_CHANGE` y ruta humana `NEGOTIATE_VERSION`. Toda deuda lleva dueño y `retire_on`.",
       },
     },
   ],
@@ -501,10 +509,12 @@ def merge_scores(a: float, b: float, w: float = 0.5) -> float:
 entity = "CASE-001"
 vo_a = {"amount": 150, "currency": "PEN"}
 vo_b = {"amount": 150, "currency": "PEN"}
+# Lab: assert de invariante (en prod: NamedTuple / frozen dataclass)
+vo_frozen = True
 print("entity", entity, "same", same_entity(entity, "CASE-001"))
 print("vo_equal", same_vo(vo_a, vo_b))
 print("merged", merge_scores(0.8, 0.6))
-print("vo_frozen", True)
+print("vo_frozen", vo_frozen)
 print("service_stateless", True)`,
           output: `entity CASE-001 same True
 vo_equal True
@@ -512,7 +522,7 @@ merged 0.7
 vo_frozen True
 service_stateless True`,
         },
-        why: "Contrasta identidad de entity (`CASE-001`) con igualdad por valor del VO Money en PEN, y calcula un servicio de fusión de scores sin guardar sesión. `vo_frozen` prohíbe mutar el monto in-place; el servicio se prueba aparte del ciclo de vida de la entity.",
+        why: "Contrasta identidad de entity (`CASE-001`) con igualdad por valor del VO Money en PEN. El servicio de fusión de scores no guarda sesión. En el lab, `vo_frozen` es la assert de invariante (en producción el VO sería un tipo inmutable); el servicio se prueba aparte del ciclo de vida de la entity.",
       },
       {
         demoId: "S40-T4-A-DEMO",
@@ -566,7 +576,7 @@ retire_on 2026-12-01`,
     ],
   },
   weDo: {
-    intro: "S40 · Laboratorio del dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un defecto y, en varios subtemas, ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, mini C4+ADR, consumer contract). E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Fixtures sintéticos con vocabulario intake→ER→triage→reporting.",
+    intro: "S40 · Laboratorio del dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un defecto y, en subtemas clave, ensambla un artefacto de oficio (capas, ports/DIP, context map, entity/VO, mini C4+ADR, consumer contract). E2 separa valid/invalid/missing. E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Fixtures sintéticos con vocabulario intake→ER→triage→reporting.",
     steps: [
       {
         id: "S40-T1-A-E1",
@@ -862,19 +872,19 @@ assert results == ["CONTINUE", "REOPEN_TRADEOFF", "ESCALATE_RESIDUAL_RISK"]` ,
         id: "S40-T2-A-E1",
         subtopicId: "S40-T2-A",
         kind: "guided",
-        instruction: "S40-T2-A-E1 · Filtra el contrato de capas sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin `domain→infrastructure` ni `presentation→infrastructure` (sí se permite `infrastructure→domain`). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; el fixture adverso en E2 activa `REDRAW_BOUNDARY`.",
-        hint: "Relaciona los campos `layers` y `dependencies` con las aristas prohibidas de S40-T2-A.",
+        instruction: "S40-T2-A-E1 · **Oficio de grafo de capas**: el starter trae capas y aristas de Red Andina. Demuestra un grafo sin `domain→infrastructure` ni `presentation→infrastructure` (sí se permite `infrastructure→domain`). Corrige el DEFECT booleano, imprime el grafo legible y conserva el assert. Salida exacta: `S40-T2-A PASS` más la línea `graph ...`; el fixture adverso en E2 activa `REDRAW_BOUNDARY`.",
+        hint: "Convierte cada edge a tuple y compáralo con forbidden = {(domain, infrastructure), (presentation, infrastructure)}.",
         hints: [
           "Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.",
-          "El fixture válido tiene presentation→application, application→domain e infrastructure→domain; layers[2] debe ser domain.",
+          "El fixture válido tiene presentation→application, application→domain e infrastructure→domain; layers[2] debe ser domain. Imprime también el grafo.",
         ],
         edgeCases: ["falta dependencies", "fixture adverso: domain→infrastructure o presentation→infrastructure", "CASO-LIM-040-2A es sintético"],
-        tests: "El fixture `CASO-LIM-040-2A` satisface un predicado de dominio real; imprime `S40-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T2-A-E1: forbidden = {(domain,infrastructure), (presentation,infrastructure)}. Construye tuple(edge); infrastructure→domain sí está permitido.",
+        tests: "El fixture `CASO-LIM-040-2A` satisface el grafo de capas; imprime `S40-T2-A PASS`, la línea `graph` y el assert booleano pasa.",
+        feedback: "S40-T2-A-E1: el artefacto es el grafo. forbidden = {(domain,infrastructure), (presentation,infrastructure)}; infrastructure→domain sí está permitido. No pases solo con un booleano sin imprimir aristas.",
         starterCode: {
           language: 'python',
           title: "s40-t2-a-e1.py",
-          code: `# CASO-LIM-040 · layered architecture deps
+          code: `# CASO-LIM-040 · oficio grafo de capas
 # DEFECT: dependencias de capas invertidas
 # Contrato: corrige el DEFECT; salida/checklist alineada a solutionCode
 record = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application","domain","infrastructure"],"dependencies":[["presentation","application"],["application","domain"],["infrastructure","domain"]]}}
@@ -882,6 +892,7 @@ record = {"case_id": "CASO-LIM-040-2A", **{"layers":["presentation","application
 meets_contract = all(edge[1] == "infrastructure" for edge in record["dependencies"])
 status = "PASS" if meets_contract else "REDRAW_BOUNDARY"
 print("S40-T2-A", status)
+print("graph", [tuple(e) for e in record["dependencies"]])
 ` ,
         },
         solutionCode: {
@@ -895,8 +906,10 @@ meets_contract = (
 )
 status = "PASS" if meets_contract else "REDRAW_BOUNDARY"
 print("S40-T2-A", status)
+print("graph", [tuple(e) for e in record["dependencies"]])
 assert meets_contract is True` ,
-          output: `S40-T2-A PASS` ,
+          output: `S40-T2-A PASS
+graph [('presentation', 'application'), ('application', 'domain'), ('infrastructure', 'domain')]` ,
         },
       },
       {
@@ -1207,15 +1220,15 @@ assert results == ["CONTINUE", "INVERT_DEPENDENCY", "DEFINE_PORT_CONTRACT"]` ,
         id: "S40-T3-A-E1",
         subtopicId: "S40-T3-A",
         kind: "guided",
-        instruction: "S40-T3-A-E1 · **Oficio de context map** (no solo un booleano): el starter trae filas de mapa para Red Andina (`intake` vs `er`) y un ACL `case→record`. Corrige el DEFECT para que el contrato pase solo si (1) los glosarios de cada fila son **disjuntos**, (2) existe la traducción `case→record` y (3) se imprime el resumen del mapa. Salida exacta: `S40-T3-A PASS`. En E2 el adverso (término `case` en ambos lados) activa `SPLIT_CONTEXTS`.",
+        instruction: "S40-T3-A-E1 · **Oficio de context map** (no solo un booleano): el starter trae filas de mapa para Red Andina (`intake` vs `er`) y un ACL `case→record`. En el lab, corrige el DEFECT para que el contrato pase solo si (1) los **tokens** de cada fila son **disjuntos** (simplificación didáctica), (2) existe la traducción `case→record` y (3) se imprime el resumen del mapa. Salida exacta: `S40-T3-A PASS`. En E2 el adverso (token `case` en ambos lados sin mapa) activa `SPLIT_CONTEXTS`.",
         hint: "Construye conjuntos de términos por BC y exige `isdisjoint` + `translations['case'] == 'record'`.",
         hints: [
-          "Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección como éxito.",
-          "El ACL mínimo del lab es `translations.get('case') == 'record'`. Imprime también el mapa legible.",
+          "Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección de tokens como éxito en este lab.",
+          "El ACL mínimo del lab es `translations.get('case') == 'record'`. Imprime también el mapa legible. En DDD real, un vocablo puede repetirse con significado local distinto si el mapa lo declara.",
         ],
-        edgeCases: ["falta translations", "fixture adverso: término compartido entre intake y er (p. ej. case en ambos)", "CASO-LIM-040-3A es sintético"],
-        tests: "El context map de `CASO-LIM-040-3A` es disjunto con ACL; imprime `S40-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S40-T3-A-E1: el artefacto es el mapa (BC + términos + ACL). isdisjoint + case→record; intersección de glosarios ⇒ SPLIT_CONTEXTS.",
+        edgeCases: ["falta translations", "fixture adverso: token compartido entre intake y er sin ACL (p. ej. case en ambos)", "CASO-LIM-040-3A es sintético"],
+        tests: "El context map de `CASO-LIM-040-3A` es disjunto en tokens con ACL; imprime `S40-T3-A PASS` y el assert booleano pasa.",
+        feedback: "S40-T3-A-E1: el artefacto es el mapa (BC + términos + ACL). En el lab: isdisjoint de tokens + case→record; solape de tokens sin mapa ⇒ SPLIT_CONTEXTS. El error de oficio es mezclar modelos, no «prohibir palabras repetidas» en abstracto.",
         starterCode: {
           language: 'python',
           title: "s40-t3-a-e1.py",
@@ -1902,7 +1915,7 @@ assert results == ["CONTINUE", "BLOCK_BREAKING_CHANGE", "NEGOTIATE_VERSION"]` ,
   },
   youDo: {
     title: "Arquitectura, DDD y decisiones técnicas",
-    context: "Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida.",
+    context: "Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima. La plataforma separa intake, resolución de entidades (ER), relación, triage, reporting e IA auxiliar. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida.",
     objectives: [
       "Convertir requisitos, escenarios de calidad, vocabulario de dominio y restricciones en mapa C4, context map, contratos y ADRs versionados con responsables.",
       "Demostrar el gate: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
@@ -2016,10 +2029,10 @@ assert status in {"READY", "BLOCKED"}
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
-      { criterion: "Seguridad, privacidad y least privilege", weight: "15%" },
+      { criterion: "Comunicación de trade-offs y límites", weight: "15%" },
       { criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" },
       { criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" },
-      { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
+      { criterion: "Seguridad, privacidad y least privilege", weight: "10%" },
     ],
   },
   selfCheck: {
@@ -2031,7 +2044,7 @@ assert status in {"READY", "BLOCKED"}
         explanation: "La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato.",
       },
       {
-        question: "Si ocurre un breach de arquitectura en el You Do, ¿qué respuesta preserva seguridad y auditabilidad?",
+        question: "Si ocurre un breach de arquitectura en el You Do del dossier, ¿qué respuesta preserva seguridad y auditabilidad?",
         options: ["continuar y ocultar el warning", "emitir BLOCK_ARCHITECTURE y conservar evidencia", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
         correctIndex: 1,
         explanation: "El contrato falla cerrado con BLOCK_ARCHITECTURE; no convierte incertidumbre o breach en éxito silencioso.",

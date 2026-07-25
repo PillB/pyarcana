@@ -19,7 +19,7 @@ export const section51: CourseSection = {
     { text: "Pinear un release inmutable (modelo/prompt/dataset/índice) y rechazar `latest` en producción" },
     { text: "Aplicar dual-control, scope least-privilege, retención acotada y audit append-only" },
     { text: "Evaluar multi-SLI (availability, faithfulness, drift) con owner y error budget antes de reentrenar" },
-    { text: "Ejecutar contención → rollback dentro de RTO → postmortem blameless con acciones y dueños" },
+    { text: "Ejecutar contención → rollback dentro de RTO → post mortem blameless con acciones y dueños" },
     { text: "Diseñar UX con incertidumbre visible, citas resolubles y confirmación antes de side-effects" },
     { text: "Cerrar CF-5 con WCAG AA (teclado, contraste, labels) más corrección y apelación humana" },
   ],
@@ -27,7 +27,7 @@ export const section51: CourseSection = {
     {
       heading: "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Trace:** correlación prompt/retrieval/tool/respuesta con versiones. **Redacción:** PII fuera de logs exportables. **Tokens/costo/latency:** SLI del copiloto. **Registro de artefactos:** modelo, prompt, dataset versionados. **Audit trail:** quién aprobó qué. **Drift/feedback:** señales de desalineación. **Postmortem blameless:** aprendizaje sin culpas. **Contestabilidad:** corrección y apelación del usuario. **CF-5:** congela interfaces y artefactos para integración final. **a11y:** accesibilidad (WCAG) del UI del copiloto.",
+        "**Diccionario de la sección** (léelo antes de T1). **Trace:** correlación prompt/retrieval/tool/respuesta con versiones. **Redacción:** PII fuera de logs exportables. **Tokens, costo y latencia:** SLI del copiloto. **Registro de artefactos:** modelo, prompt, dataset versionados. **Audit trail:** quién aprobó qué. **Drift y feedback:** señales de desalineación. **Post mortem blameless:** aprendizaje sin culpas. **Contestabilidad:** corrección y apelación del usuario. **CF-5:** congela interfaces y artefactos para integración final. **a11y:** accesibilidad (WCAG) del UI del copiloto.",
         "Esta sección parte de S50 (evals y red team) y opera el **copiloto en producción controlada**: traces, registry, SLO/incidentes y UX contestable. El caso `CASO-MOQ-051` (Moquegua sintético) se ejecuta sin credenciales ni servicios externos. Hallazgos de S50 (eval fallida, prompt inyectable) se convierten aquí en **señales de ops**: drift slice, incidente o freeze de release — no se reentrenan a ciegas.",
         "Producto incremental: **Auditable AI Operations Copilot** y freeze **CF-5**. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard **redactado**, SLO con owner, audit trail append-only y mecanismo de corrección/apelación. Error: PII en sink o release sin pin de versiones. Los artefactos se **acumulan** de T1 a T4: traza → métricas → bundle pinneado → ticket de cambio → alerta SLO → timeline de incidente → confirmación UX → ruta de apelación.",
         "Orden de aprendizaje: T1 traces y redacción → T2 registry y auditoría → T3 SLO e incidentes → T4 UX contestable y a11y. Cada tema cierra con un artefacto comprobable del **Auditable AI Operations Copilot**. Practicas solo con **stdlib** y fixtures sintéticos: sin telemetría real de PII ni backends externos obligatorios.",
@@ -55,14 +55,16 @@ raw_pii_in_logs_ok False`,
       callout: {
         type: "info",
         title: "Gate de promoción",
-        content: "Evidencia mínima de S51-T1-A: caso sintético con asserts locales; si falta, no promociones.",
+        content:
+          "Evidencia mínima para cerrar el primer subtema: caso sintético con asserts locales. Si no tienes esa evidencia, repite el laboratorio antes de avanzar.",
       },
     },
     {
       heading: "Traces de prompts, retrieval y tools",
       subtopicId: "S51-T1-A",
       paragraphs: [
-        "Un **trace** correlaciona **prompt template**, **retrieval**, **tool calls** y **respuesta** con **versiones** (prompt/modelo/índice) y un **trace_id** de correlación (prefijo `tr-`). En la práctica de ops de IA se modela como árbol de **spans** padre/hijo (prompt → retrieval → tool → answer) con atributos por span — no como tres strings sueltos. Sin correlación no hay auditoría: no se puede reconstruir «qué se citó y qué tool se llamó». **Redacta PII/secrets antes** de exportar a backends de observabilidad; raw logs con datos personales son incidente, no «detalle de ops». Este artefacto alimenta el registry y el dashboard de T1-B en adelante.",
+        "Un **trace** correlaciona **prompt template**, **retrieval**, **tool calls** y **respuesta** con **versiones** (prompt/modelo/índice) y un **trace_id** de correlación (prefijo `tr-`). En ops de IA se modela como árbol de **spans** padre/hijo (prompt → retrieval → tool → answer) con atributos por span, no como tres strings sueltos. Sin correlación no hay auditoría: no se puede reconstruir «qué se citó y qué tool se llamó».",
+        "**Redacta PII y secrets antes de exportar** a backends de observabilidad; los raw logs con datos personales son un incidente, no un «detalle de ops». Este artefacto alimenta el registry y el dashboard de T1-B en adelante.",
         "Contrato de traza reconstruible. Entrada: `trace_id` (prefijo `tr-`), `prompt_ver` pinneado, lista de citas y nombre de tool. Salida: dict con `status` PASS o acción fail-closed y la lista de spans presentes. Error: `pii=True`, spans incompletos, tool omitido o versión vacía → `REDACT_AND_QUARANTINE_TRACE` o `RESTORE_TRACE_CONTEXT`. Criterio CF-5: un auditor de Moquegua sintético reconstruye la decisión **sin** secretos en el sink.",
         "En `CASO-MOQ-051-1A`, el copiloto de la entidad ficticia en Moquegua atiende un ticket sintético de consulta de expediente: el on-call debe ver en el dashboard la traza `tr-moq-51` con spans `prompt/retrieval/tool/answer`, citas `c1` y tool `get_case`. Si el export incluye email o prompt_raw, se cuarentena la traza; ninguna señal del caso prueba fraude ni parentesco.",
       ],
@@ -101,14 +103,14 @@ REDACT_AND_QUARANTINE_TRACE`,
         type: "danger",
         title: "PII en el sink = incidente",
         content:
-          "Antes de promover S51-T1-B, verifica el contrato ejecutable y el riesgo residual.",
+          "Exportar `prompt_raw`, email o tokens a logs es breach: `REDACT_AND_QUARANTINE_TRACE`. Antes de cerrar este subtema, ejecuta el contrato sobre el caso sintético y documenta el riesgo residual.",
       },
     },
     {
-      heading: "Tokens, costo, latency y redacción",
+      heading: "Tokens, costo, latencia y redacción",
       subtopicId: "S51-T1-B",
       paragraphs: [
-        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media: un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** se deriva de tokens × precio por etapa; si la suma por etapa no reconcilia `total_tokens`, el dashboard miente. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o Authorization es PII en el sink.",
+        "**Tokens, costo y latencia** se miden **por etapa** (prompt build, retrieval, generation, tools) y por **percentil** (p50/p95), no solo media. Un p95 de 5 s con media de 200 ms es un incidente de UX, no un «pico normal». El **costo** se deriva de tokens × precio por etapa; si la suma por etapa no reconcilia `total_tokens`, el dashboard miente. **Redacción** aplica a atributos, eventos, payloads y mensajes de error: un stack trace con email o Authorization es PII en el sink.",
         "Contrato de costo y latencia. Entrada: contadores de tokens por etapa (prompt, retrieval, generation), latencias p50/p95 y un sink de atributos. Salida: fila de dashboard con suma de tokens reconciliada, p95 ≤ SLO y **prueba de redacción** (email/token ausentes del export). Error: media en lugar de percentil, total que no cuadra, o PII en atributos → `ALERT_COST_LATENCY` / `FIX_REDACTION_PIPELINE`. Criterio: un on-call explica el costo de `CASO-MOQ-051` sin abrir raw logs.",
         "En `CASO-MOQ-051-1B`, el dashboard de la entidad ficticia de Moquegua muestra 800+400+300=1500 tokens y p95=900 ms (SLO 1200 ms). Antes de exportar, los atributos `email` y `prompt_raw` se reemplazan por `[REDACTED]`. Ningún campo del caso prueba fraude o parentesco; solo calidad y privacidad operativa del sistema.",
       ],
@@ -148,14 +150,14 @@ assert m["total_tokens"] == 1500 and m["cost_usd"] == 0.003 and m["export_clean"
         type: "warning",
         title: "Percentil, no solo media",
         content:
-          "La revisión de S51-T2-A exige salida esperada y fail-closed ante breach.",
+          "En tu revisión, exige siempre la salida esperada del contrato y un comportamiento fail-closed ante cualquier breach de costo, latencia o redacción.",
       },
     },
     {
       heading: "Registro de modelo, prompt y dataset",
       subtopicId: "S51-T2-A",
       paragraphs: [
-        "Con la traza `tr-moq-51` y el dashboard de tokens/p95 de T1 ya redactado, el **registry** fija qué versión generó cada respuesta. Identifica **modelo, prompt, dataset, índice y evaluador** con IDs inmutables; un **release** apunta a un **bundle versionado** (system card + eval digest), no a `latest`. Responder en producción sin pin es drift silencioso: no hay rollback ni postmortem reproducible. El anti-patrón clásico es desplegar con `model=latest` y descubrir el cambio solo cuando falla la calidad.",
+        "Con la traza `tr-moq-51` y el dashboard de tokens/p95 de T1 ya redactado, el **registry** fija qué versión generó cada respuesta. Identifica **modelo, prompt, dataset, índice y evaluador** con IDs inmutables; un **release** apunta a un **bundle versionado** (system card + eval digest), no a `latest`. Responder en producción sin pin es drift silencioso: no hay rollback ni post mortem reproducible. El anti-patrón clásico es desplegar con `model=latest` y descubrir el cambio solo cuando falla la calidad.",
         "Contrato de registry inmutable. Entrada: dict de artefactos (`release`, `model`, `prompt`, `dataset`, `index`, `evaluator`) y flag `immutable`. Salida: bundle ordenado pinneado **o** `FREEZE_RELEASE_BUNDLE` si aparece `latest`/vacío/`immutable=False`. Error: versión desconocida o mutable en prod. Criterio: cada respuesta del copiloto se enlaza a un release reproducible (`copilot-7` → `m2/p3/d5`) que el auditor puede cruzar con el `trace_id` de T1.",
         "En `CASO-MOQ-051-2A`, el equipo de la entidad ficticia de Moquegua congela el release `copilot-7` con modelo `m2`, prompt `p3` y dataset de eval `d5`. Un intento de promover `model=latest` se rechaza y se emite freeze; el system card queda enlazado al bundle. No hay PII real ni inferencia de fraude o parentesco.",
       ],
@@ -187,14 +189,14 @@ FREEZE_RELEASE_BUNDLE`,
         type: "warning",
         title: "Prohibido latest en prod",
         content:
-          "Contrato S51-T2-B: fixture S51-T2-B; si falta evidencia, no promociones.",
+          "No promociones un release a producción sin evidencia de bundle pinneado e inmutable; `latest` o cualquier artefacto vacío son un freeze automático.",
       },
     },
     {
       heading: "Cambio, acceso, retención y auditoría",
       subtopicId: "S51-T2-B",
       paragraphs: [
-        "El bundle `copilot-7` de T2-A no se promueve solo: **change control** registra autor, aprobador y riesgo residual (**segregación de funciones**: quien escribe no se auto-aprueba). **Acceso y retención** son mínimos (need-to-know + TTL corto en ops-read). El **audit log** es **append-only** para eventos de decisión, pero también se **depura** según política legal: retención ≠ eternidad de PII. Sin ambos, no hay gobernanza operable sobre el registry.",
+        "El bundle `copilot-7` de T2-A no se promueve solo. **Change control** registra autor, aprobador y riesgo residual (**segregación de funciones**: quien escribe no se auto-aprueba). **Acceso y retención** son mínimos (need-to-know + TTL corto en ops-read). El **audit log** es **append-only** para eventos de decisión, pero también se **depura** según política legal: retención ≠ eternidad de PII. Sin ambos, no hay gobernanza operable sobre el registry.",
         "Contrato de dual-control. Entrada: `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only`. Salida: ticket de cambio auditable o `REJECT_UNGOVERNED_CHANGE`. Error: author==approver, scope admin, retención excesiva o audit no append-only. Si falta evidencia de aprobación independiente → `REQUEST_INDEPENDENT_APPROVAL`. Criterio: se reconstruye quién promovió `copilot-7`, con qué riesgo residual y bajo qué scope.",
         "En `CASO-MOQ-051-2B`, `dev-a` propone el release y `owner-b` lo aprueba con riesgo `medium`, scope `ops-read` y retención 30 días en el audit de la entidad ficticia de Moquegua. Un self-approve o `global-admin` se rechaza. El caso no contiene PII real ni prueba de fraude/parentesco.",
       ],
@@ -228,16 +230,16 @@ REQUEST_INDEPENDENT_APPROVAL`,
         type: "warning",
         title: "Self-approve = change no gobernado",
         content:
-          "Para S51-T3-A: fixture S51-T3-A; si falta evidencia, no promociones.",
+          "Un cambio sin aprobador independiente, con scope admin o sin audit append-only se rechaza como cambio no gobernado.",
       },
     },
     {
       heading: "SLO, feedback y drift",
       subtopicId: "S51-T3-A",
       paragraphs: [
-        "Con release pinneado y change ticket de T2, el **SLO** del copiloto combina **disponibilidad**, **calidad** (faithfulness / abstain rate) y **latencia** con **error budget**: si quemas el presupuesto, se detienen releases (no se «optimiza» en silencio). El **feedback** de usuarios es señal **sesgada** (quien se queja no es la población); **drift** exige slices, baseline y **dueño** antes de actuar — no reentrenar por un spike de thumbs-down. Un hallazgo de red team de S50 puede abrir el mismo slice de drift y, si persiste, el incidente de T3-B.",
-        "Contrato de SLO multi-SLI. Entrada: `availability`, `faithfulness`, umbrales SLO, `drift`/`max_drift` y `owner` del runbook. Salida: alerta accionable (`OPEN_COPILOT_INCIDENT`) o `PASS` con owner visible y burn de error budget calculable. Error: SLI bajo umbral, drift excesivo o owner vacío. Si falta el owner del slice → `TRIAGE_DRIFT_SLICE` (no se inventa un responsable). Criterio: hay runbook con dueño antes de reentrenar o de tocar el release pinneado.",
-        "En `CASO-MOQ-051-3A`, el slice de la entidad ficticia de Moquegua reporta availability 0.999 (≥0.995), faithfulness 0.93 (≥0.9) y drift 0.04 (≤0.08) con owner `ai-oncall`. Si faithfulness cae a 0.4, se abre incidente de copiloto; sin owner no se promociona el alert a producción de decisión. Señales ≠ fraude ni parentesco.",
+        "Con release pinneado y change ticket de T2, el **SLO** del copiloto combina **disponibilidad**, **calidad** (faithfulness / abstain rate) y **latencia** con **error budget**. Si quemas el presupuesto, se detienen releases: no se «optimiza» en silencio. El **feedback** de usuarios es señal **sesgada** (quien se queja no es la población); **drift** exige slices, baseline y **dueño** antes de actuar — no reentrenar por un spike de thumbs-down. Un hallazgo de red team de S50 puede abrir el mismo slice de drift y, si persiste, el incidente de T3-B.",
+        "Contrato de SLO multi-SLI. Entrada: `availability`, `faithfulness`, umbrales SLO, `drift`/`max_drift` y `owner` del runbook. Salida: alerta accionable (`OPEN_COPILOT_INCIDENT`) o `PASS` con owner visible y tasa de consumo del error budget calculable. Error: SLI bajo umbral, drift excesivo o owner vacío. Si falta el owner del slice → `TRIAGE_DRIFT_SLICE` (no se inventa un responsable). Criterio: hay runbook con dueño antes de reentrenar o de tocar el release pinneado.",
+        "En `CASO-MOQ-051-3A`, el slice de la entidad ficticia de Moquegua reporta availability 0.999 (≥0.995), faithfulness 0.93 (≥0.9) y drift 0.04 (≤0.08) con owner `ai-oncall`. Si faithfulness cae a 0.4, se abre incidente de copiloto; sin owner no se promociona la alerta a producción como señal de decisión. Señales ≠ fraude ni parentesco.",
       ],
       code: {
         language: 'python',
@@ -272,16 +274,16 @@ OPEN_COPILOT_INCIDENT`,
         type: "warning",
         title: "Owner antes de reentrenar",
         content:
-          "Promoción de S51-T3-B solo con evidencia reproducible y dueño asignado.",
+          "Antes de reentrenar, exige un runbook con dueño asignado y evidencia reproducible del slice de drift.",
       },
     },
     {
-      heading: "Incidentes, rollback y postmortem",
+      heading: "Incidentes, rollback y post mortem",
       subtopicId: "S51-T3-B",
       paragraphs: [
-        "Cuando el multi-SLI de T3-A rompe el error budget (o un release de T2 introduce `latest`), el **incidente** de IA sigue el orden **contener → rollback → comunicar → postmortem blameless**. Contener congela el release defectuoso; el rollback vuelve al last-good pinneado dentro del **RTO**; el postmortem sin culpa nombra condiciones sistémicas (holdout tocado, redaction rota, tool allowlist) y acciones con fecha/dueño — no castiga al on-call. Un simulacro sin timeline ni owners no cuenta como readiness CF-5.",
-        "Contrato de respuesta a incidente. Entrada: flags `contained`, `rolled_back_to` (last-good del registry), minutos de rollback vs `rto_minutes`, conteo de `postmortem_actions` y `owners_assigned`. Salida: timeline verificable o `ROLLBACK_AND_CONTAIN`. Error: sin contención, rollback fuera de RTO o acciones sin dueño. Si falta owners → `CONVENE_INCIDENT_REVIEW`. Criterio: se demuestra cómo revertir al pin de T2 y qué se aprendió para el system card.",
-        "En `CASO-MOQ-051-3B`, el copiloto de la entidad ficticia de Moquegua empezó a citar un índice `latest` tras un release. El simulacro exige: **contener** (congelar release), **rollback** a `copilot-6` en ≤10 min (RTO), timeline con dueños y postmortem blameless. Ningún campo del caso prueba fraude o parentesco; solo calidad operativa del sistema.",
+        "Cuando el multi-SLI de T3-A rompe el error budget (o un release de T2 introduce `latest`), el **incidente** de IA sigue el orden **contener → rollback → comunicar → post mortem blameless**. Contener congela el release defectuoso; el rollback vuelve al last-good pinneado dentro del **RTO**. El post mortem sin culpa nombra condiciones sistémicas (holdout tocado, redaction rota, tool allowlist) y acciones con fecha/dueño — no castiga al on-call. Un simulacro sin timeline ni owners no cuenta como readiness CF-5.",
+        "Contrato de respuesta a incidente. Entrada: flags `contained`, `rolled_back_to` (last-good del registry), minutos de rollback vs. `rto_minutes`, conteo de `postmortem_actions` y `owners_assigned`. Salida: timeline verificable o `ROLLBACK_AND_CONTAIN`. Error: sin contención, rollback fuera de RTO o acciones sin dueño. Si falta owners → `CONVENE_INCIDENT_REVIEW`. Criterio: se demuestra cómo revertir al pin de T2 y qué se aprendió para el system card.",
+        "En `CASO-MOQ-051-3B`, el copiloto de la entidad ficticia de Moquegua empezó a citar un índice `latest` tras un release. El simulacro exige: **contener** (congelar release), **rollback** a `copilot-6` en ≤10 min (RTO), timeline con dueños y post mortem blameless. Ningún campo del caso prueba fraude o parentesco; solo calidad operativa del sistema.",
       ],
       code: {
         language: 'python',
@@ -316,14 +318,14 @@ ROLLBACK_AND_CONTAIN`,
         type: "danger",
         title: "Contener antes de debatir",
         content:
-          "El dueño de S51-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
+          "Sin un dueño que responda por el rollback y la evidencia, no se promueve el siguiente paso del freeze CF-5. Contén y revierte antes de debatir la causa raíz.",
       },
     },
     {
       heading: "Incertidumbre, citas y confirmaciones",
       subtopicId: "S51-T4-A",
       paragraphs: [
-        "Con ops de traza, registry y incidente ya definidos, la **UX** del copiloto es el último eslabón que el usuario ve: muestra **incertidumbre** (low/med/high), **citas resolubles** al documento fuente (las mismas `cites` del span de retrieval de T1) y el **alcance** del claim; una **confirmación** resume el efecto (p. ej. «prepara borrador», no «envía a producción») antes de una acción irreversible y permite **corregir el dato fuente**. Ocultar «no sé» o auto-ejecutar tools de escritura es dark pattern, no productividad.",
+        "Con ops de traza, registry y incidente ya definidos, la **UX** del copiloto es el último eslabón que el usuario ve. Muestra **incertidumbre** (low/med/high), **citas resolubles** al documento fuente (las mismas `cites` del span de retrieval de T1) y el **alcance** del claim. Una **confirmación** resume el efecto (p. ej. «prepara borrador», no «envía a producción») antes de una acción irreversible y permite **corregir el dato fuente**. Ocultar «no sé» o auto-ejecutar tools de escritura es dark pattern, no productividad.",
         "Contrato de UX contestable. Entrada: flags `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed`. Salida: respuesta listable al usuario o `BLOCK_UNCONFIRMED_ACTION`. Error: sin incertidumbre visible, citas rotas o side-effect sin confirmación. Si falta `confirmed` cuando se exige → `ASK_USER_TO_CONFIRM`. Criterio: el usuario entiende evidencia y aprueba el efecto antes del side-effect; la confirmación queda en el audit trail de T2.",
         "En `CASO-MOQ-051-4A`, el copiloto de Moquegua propone un borrador de respuesta con incertidumbre media, citas a `c1` y resumen «prepara borrador». Solo tras confirmación humana se habilita la tool de escritura. No se infiere fraude ni parentesco desde el texto del caso.",
       ],
@@ -361,15 +363,15 @@ ASK_USER_TO_CONFIRM`,
         type: "warning",
         title: "Side-effect sin confirmación = bloqueo",
         content:
-          "Cierre de S51-T4-B: documenta residual risk y límites del lab stdlib.",
+          "Al cerrar este subtema, documenta el riesgo residual y los límites del laboratorio con stdlib. Sin confirmación del efecto, no se ejecuta una acción irreversible.",
       },
     },
     {
       heading: "Accesibilidad, corrección y contestabilidad",
       subtopicId: "S51-T4-B",
       paragraphs: [
-        "La confirmación de T4-A no basta si el panel es solo-mouse o ilegible. **Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste ≥ 4.5:1 y lenguaje claro no son opcionales en un copiloto de operaciones. **Contestabilidad** explica cómo **corregir** el dato, **apelar** y obtener respuesta humana con SLA — sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer. Cierra el hilo producto: traza + métricas redactadas + registry + change ticket + SLO + incidente + UX + a11y = freeze de interfaces.",
-        "Contrato de a11y y apelación. Entrada: `keyboard_complete`, `screen_reader_labels`, `contrast_ratio` vs `min_contrast`, `correction_available`, `appeal_to_human`. Salida: flujo completable o `FAIL_ACCESSIBILITY_GATE`. Error: contraste bajo, teclado incompleto o sin corrección/apelación. Si falta ruta humana → `ROUTE_CONTESTATION`. Criterio: un usuario puede corregir y apelar sin mouse y con lector de pantalla; la apelación queda enlazada al `trace_id` y al release pinneado.",
+        "La confirmación de T4-A no basta si el panel es solo-mouse o ilegible. **Accesibilidad** (WCAG 2.2 AA): flujo completo por teclado, labels para lector de pantalla, contraste ≥ 4.5:1 y lenguaje claro no son opcionales en un copiloto de operaciones. **Contestabilidad** explica cómo **corregir** el dato, **apelar** y obtener respuesta humana con SLA — sin dark patterns (urgencia falsa, opt-out escondido). CF-5 exige flujo demostrable, no solo un banner de disclaimer. Cierra el hilo del producto: traza + métricas redactadas + registry + change ticket + SLO + incidente + UX + a11y = freeze de interfaces.",
+        "Contrato de a11y y apelación. Entrada: `keyboard_complete`, `screen_reader_labels`, `contrast_ratio` vs. `min_contrast`, `correction_available`, `appeal_to_human`. Salida: flujo completable o `FAIL_ACCESSIBILITY_GATE`. Error: contraste bajo, teclado incompleto o sin corrección/apelación. Si falta ruta humana → `ROUTE_CONTESTATION`. Criterio: un usuario puede corregir y apelar sin mouse y con lector de pantalla; la apelación queda enlazada al `trace_id` y al release pinneado.",
         "En `CASO-MOQ-051-4B`, el panel de la entidad ficticia de Moquegua alcanza contraste 5.1 (≥4.5), teclado y labels OK, corrección de dato y apelación a humano. Un panel solo-mouse con contraste 2.1 se bloquea. El caso es sintético; no prueba fraude ni parentesco.",
       ],
       code: {
@@ -413,7 +415,7 @@ ROUTE_CONTESTATION`,
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S51 (Observabilidad, gobernanza y UX del copiloto) alineadas a CP-N4-C + CF-5. Cada demo **calcula** el artefacto del subtema sobre `CASO-MOQ-051` con stdlib; no son prints decorativos.",
+    intro: "Te muestro 8 demos de S51 (Observabilidad, gobernanza y UX del copiloto) alineadas al portafolio CP-N4-C y al freeze CF-5 (cierra interfaces y artefactos). Cada demo **calcula** el artefacto del subtema sobre `CASO-MOQ-051` con stdlib; no son prints decorativos.",
     steps: [
       {
         demoId: "S51-T1-A-DEMO",
@@ -511,7 +513,7 @@ print(pin_release(good, False))`,
 FREEZE_RELEASE_BUNDLE
 FREEZE_RELEASE_BUNDLE`,
         },
-        why: "En prod rechazo `latest` y bundles mutables: sin pin no hay rollback ni postmortem reproducible. El system card se enlaza al release, no a un floating tag.",
+        why: "En prod rechazo `latest` y bundles mutables: sin pin no hay rollback ni post mortem reproducible. El system card se enlaza al release, no a un tag móvil.",
       },
       {
         demoId: "S51-T2-B-DEMO",
@@ -537,7 +539,7 @@ print(assess_change({**good, "approver": "dev-a", "access_scope": "global-admin"
           output: `PASS
 REJECT_UNGOVERNED_CHANGE`,
         },
-        why: "Dual-control significa author ≠ approver: auto-aprobar es el anti-patrón. Scope termina en `-read` y retención corta; el audit es append-only, no un wiki editable.",
+        why: "Dual-control significa author ≠ approver: autoaprobar es el anti-patrón. Scope termina en `-read` y retención corta; el audit es append-only, no un wiki editable.",
       },
       {
         demoId: "S51-T3-A-DEMO",
@@ -570,7 +572,7 @@ OPEN_COPILOT_INCIDENT`,
         demoId: "S51-T3-B-DEMO",
         subtopicId: "S51-T3-B",
         environment: "local-python",
-        description: "Demo: contención, rollback dentro de RTO y postmortem con dueños",
+        description: "Demo: contención, rollback dentro de RTO y post mortem con dueños",
         code: {
           language: 'python',
           title: "demo_incidents_rollback_postmortem.py",
@@ -591,7 +593,7 @@ print(run_incident({**good, "contained": False, "rollback_minutes": 90}))`,
           output: `PASS
 ROLLBACK_AND_CONTAIN`,
         },
-        why: "Orden: contener, rollback al last-good `copilot-6` dentro del RTO, luego postmortem blameless con dueños. Si no contuve o me pasé del RTO, la acción es `ROLLBACK_AND_CONTAIN`, no «seguir investigando en prod».",
+        why: "Orden: contener, rollback al last-good `copilot-6` dentro del RTO, luego post mortem blameless con dueños. Si no contuve o me pasé del RTO, la acción es `ROLLBACK_AND_CONTAIN`, no «seguir investigando en prod».",
       },
       {
         demoId: "S51-T4-A-DEMO",
@@ -647,7 +649,7 @@ FAIL_ACCESSIBILITY_GATE`,
     ],
   },
   weDo: {
-    intro: "S51 · Laboratorio Auditable AI Operations Copilot y CF-5: 24 retos locales sobre `CASO-MOQ-051`. E1 repara un predicado de dominio, E2 separa valid/invalid/missing y E3 transfiere con helpers de compute (reconciliación de tokens, multi-SLI, dual-control, a11y) hacia CONTINUE / acción de breach / restore. Fixtures sintéticos de Moquegua; sin PII real.",
+    intro: "S51 · Laboratorio Auditable AI Operations Copilot y CF-5: 24 retos locales sobre `CASO-MOQ-051`. E1 repara un predicado de dominio. E2 separa valid/invalid/missing. E3 transfiere con helpers de cómputo (reconciliación de tokens, multi-SLI, dual-control, a11y) hacia CONTINUE / acción de breach / restore. Fixtures sintéticos de Moquegua; sin PII real.",
     steps: [
       {
         id: "S51-T1-A-E1",
@@ -661,7 +663,7 @@ FAIL_ACCESSIBILITY_GATE`,
         ],
         edgeCases: ["falta pii_in_trace", "fixture adverso: trace_id vacío, spans incompletos o pii_in_trace=True", "CASO-MOQ-051-1A es sintético"],
         tests: "El fixture `CASO-MOQ-051-1A` satisface un predicado de dominio real; imprime `S51-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S51-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
+        feedback: "S51-T1-A-E1: la traza válida exige `tr-` + cuatro spans + `pii_in_trace is False`. Con PII la acción es cuarentena, no «limpiar después»; sin la clave de PII no inventes el valor.",
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e1.py",
@@ -697,7 +699,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta pii_in_trace", "fixture adverso: trace_id vacío, spans incompletos o pii_in_trace=True", "CASO-MOQ-051-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `pii_in_trace` ausente y produce exactamente `PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace`.",
-        feedback: "S51-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
+        feedback: "S51-T1-A-E2: separa schema incompleto (`MISSING:pii_in_trace` → restore) de contenido adverso (PII True → cuarentena). No trates ausencia de clave como breach de privacidad.",
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e2.py",
@@ -755,7 +757,7 @@ print(*results)
         starterCode: {
           language: 'python',
           title: "s51-t1-a-e3.py",
-          code: `# CASO-MOQ-051 · decide restore vs continue (transfer spans/versions)
+          code: `# CASO-MOQ-051 · decide restore vs. continue (transfer spans/versions)
 # DEFECT: helpers invertidos; missing→CONTINUE; no RESTORE_TRACE_CONTEXT
 # Contrato: corrige el DEFECT; salida alineada a solutionCode
 def spans_complete(spans) -> bool:
@@ -820,7 +822,7 @@ assert results == ["CONTINUE", "REDACT_AND_QUARANTINE_TRACE", "RESTORE_TRACE_CON
         id: "S51-T1-B-E1",
         subtopicId: "S51-T1-B",
         kind: "guided",
-        instruction: "S51-T1-B-E1 · Compara el contrato de **tokens, costo, latency y redacción** sobre `CASO-MOQ-051-1B`. Debes demostrar que prompt+retrieval+answer == `total_tokens`, `p95_ms` ≤ `slo_ms` y `redacted_fields` ≥ 1. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T1-B PASS`. Un adverso con total descuadrado, p95 alto o sin redacción activa `ALERT_COST_LATENCY` en E2.",
+        instruction: "S51-T1-B-E1 · Compara el contrato de **tokens, costo, latencia y redacción** sobre `CASO-MOQ-051-1B`. Debes demostrar que prompt+retrieval+answer == `total_tokens`, `p95_ms` ≤ `slo_ms` y `redacted_fields` ≥ 1. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T1-B PASS`. Un adverso con total descuadrado, p95 alto o sin redacción activa `ALERT_COST_LATENCY` en E2.",
         hint: "Suma prompt+retrieval+answer y compárala con `total_tokens`; exige p95 ≤ SLO y al menos un campo redactado.",
         hints: [
           "Suma prompt+retrieval+answer y compárala con `total_tokens`; exige p95 ≤ SLO y `redacted_fields >= 1`.",
@@ -828,7 +830,7 @@ assert results == ["CONTINUE", "REDACT_AND_QUARANTINE_TRACE", "RESTORE_TRACE_CON
         ],
         edgeCases: ["falta redacted_fields", "fixture adverso: total_tokens no cuadra, p95>slo o redacted_fields=0", "CASO-MOQ-051-1B es sintético"],
         tests: "El fixture `CASO-MOQ-051-1B` satisface un predicado de dominio real; imprime `S51-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S51-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
+        feedback: "S51-T1-B-E1: el dashboard sano reconcilia tokens por etapa, p95 ≤ SLO y al menos un campo redactado. Si el total miente o el p95 se pasa, alerta de costo/latencia — no promedias el problema.",
         starterCode: {
           language: 'python',
           title: "s51-t1-b-e1.py",
@@ -856,7 +858,7 @@ assert meets_contract is True` ,
         id: "S51-T1-B-E2",
         subtopicId: "S51-T1-B",
         kind: "independent",
-        instruction: "S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens, answer_tokens, total_tokens, p95_ms, slo_ms, redacted_fields. Salidas exactas: `PASS`, `ALERT_COST_LATENCY`, `MISSING:redacted_fields`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latencia y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens, answer_tokens, total_tokens, p95_ms, slo_ms, redacted_fields. Salidas exactas: `PASS`, `ALERT_COST_LATENCY`, `MISSING:redacted_fields`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
         hint: "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
@@ -864,7 +866,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta redacted_fields", "fixture adverso: total_tokens no cuadra, p95>slo o redacted_fields=0", "CASO-MOQ-051-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `redacted_fields` ausente y produce exactamente `PASS ALERT_COST_LATENCY MISSING:redacted_fields`.",
-        feedback: "S51-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
+        feedback: "S51-T1-B-E2: sin `redacted_fields` la ruta es `FIX_REDACTION_PIPELINE` (incertidumbre de esquema). Con total descuadrado o p95 alto es `ALERT_COST_LATENCY` (breach de métrica).",
         starterCode: {
           language: 'python',
           title: "s51-t1-b-e2.py",
@@ -1008,7 +1010,7 @@ assert estimate_cost_usd(1500) == 0.003` ,
         ],
         edgeCases: ["falta immutable", "fixture adverso: release=latest, versiones vacías o immutable=False", "CASO-MOQ-051-2A es sintético"],
         tests: "El fixture `CASO-MOQ-051-2A` satisface un predicado de dominio real; imprime `S51-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S51-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
+        feedback: "S51-T2-A-E1: en prod cada artefacto va pinneado e inmutable. `latest` o `immutable=False` congela el release; sin pin no hay rollback ni system card auditable.",
         starterCode: {
           language: 'python',
           title: "s51-t2-a-e1.py",
@@ -1048,7 +1050,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta immutable", "fixture adverso: release=latest, versiones vacías o immutable=False", "CASO-MOQ-051-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `immutable` ausente y produce exactamente `PASS FREEZE_RELEASE_BUNDLE MISSING:immutable`.",
-        feedback: "S51-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
+        feedback: "S51-T2-A-E2: falta de `immutable` es `REGISTER_MISSING_VERSION` (no inventes el flag). Bundle con `latest` o mutable es freeze, no un PASS optimista.",
         starterCode: {
           language: 'python',
           title: "s51-t2-a-e2.py",
@@ -1173,7 +1175,7 @@ assert results == ["CONTINUE", "FREEZE_RELEASE_BUNDLE", "REGISTER_MISSING_VERSIO
         ],
         edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "El fixture `CASO-MOQ-051-2B` satisface un predicado de dominio real; imprime `S51-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S51-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
+        feedback: "S51-T2-B-E1: dual-control exige author ≠ approver, scope de lectura, retención acotada y audit append-only. Self-approve o admin global son cambio no gobernado.",
         starterCode: {
           language: 'python',
           title: "s51-t2-b-e1.py",
@@ -1209,7 +1211,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta audit_append_only", "fixture adverso: author==approver, scope admin, retención excesiva o audit no append-only", "CASO-MOQ-051-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `audit_append_only` ausente y produce exactamente `PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only`.",
-        feedback: "S51-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
+        feedback: "S51-T2-B-E2: sin `audit_append_only` pides aprobación independiente (evidencia incompleta). Con SoD roto o scope admin rechazas el change, no lo «arreglas» en silencio.",
         starterCode: {
           language: 'python',
           title: "s51-t2-b-e2.py",
@@ -1334,7 +1336,7 @@ assert results == ["CONTINUE", "REJECT_UNGOVERNED_CHANGE", "REQUEST_INDEPENDENT_
         ],
         edgeCases: ["falta owner", "fixture adverso: availability bajo SLO, faithfulness baja, drift alto o owner vacío", "CASO-MOQ-051-3A es sintético"],
         tests: "El fixture `CASO-MOQ-051-3A` satisface un predicado de dominio real; imprime `S51-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S51-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
+        feedback: "S51-T3-A-E1: multi-SLI + owner es el mínimo antes de reentrenar. SLI roto abre incidente de copiloto; owner vacío es triage del slice, no un responsable inventado.",
         starterCode: {
           language: 'python',
           title: "s51-t3-a-e1.py",
@@ -1370,7 +1372,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta owner", "fixture adverso: availability bajo SLO, faithfulness baja, drift alto o owner vacío", "CASO-MOQ-051-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS OPEN_COPILOT_INCIDENT MISSING:owner`.",
-        feedback: "S51-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
+        feedback: "S51-T3-A-E2: falta de clave `owner` → `TRIAGE_DRIFT_SLICE`. Faithfulness o availability bajo umbral con owner presente → `OPEN_COPILOT_INCIDENT`. No mezcles las dos rutas.",
         starterCode: {
           language: 'python',
           title: "s51-t3-a-e2.py",
@@ -1416,8 +1418,8 @@ print(*results)
         id: "S51-T3-A-E3",
         subtopicId: "S51-T3-A",
         kind: "transfer",
-        instruction: "S51-T3-A-E3 · Transferencia multi-SLI: implementa `sli_ok` (availability, faithfulness y drift vs umbrales) y `error_budget_burn` (errores/allowed en ventana 100) y úsalas en `decide` con owner obligatorio. `CASO-MOQ-051-3A` → `CONTINUE` si SLI OK, owner presente y burn finito; adverso → `OPEN_COPILOT_INCIDENT`; sin clave `owner` → `TRIAGE_DRIFT_SLICE`. El starter invierte el gate y trata missing como CONTINUE. Salida: imprime el valor de meets_contract.",
-        hint: "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. burn = errors/allowed con allowed=(1-slo)*window.",
+        instruction: "S51-T3-A-E3 · Transferencia multi-SLI: implementa `sli_ok` (availability, faithfulness y drift vs. umbrales) y `error_budget_burn` (errores/allowed en ventana 100) y úsalas en `decide` con owner obligatorio. `CASO-MOQ-051-3A` → `CONTINUE` si SLI OK, owner presente y burn finito; adverso → `OPEN_COPILOT_INCIDENT`; sin clave `owner` → `TRIAGE_DRIFT_SLICE`. El starter invierte el gate y trata missing como CONTINUE. Salida: imprime el valor de meets_contract.",
+        hint: "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. Burn = errors/allowed con allowed=(1-slo)*window.",
         hints: [
           "Una ausencia de clave no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
           "error_budget_burn(0.999, 0.995) debe ser 0.2 en ventana 100. sli_ok no basta solo: también bool(owner).",
@@ -1491,15 +1493,15 @@ assert error_budget_burn(0.999, 0.995) == 0.2` ,
         id: "S51-T3-B-E1",
         subtopicId: "S51-T3-B",
         kind: "guided",
-        instruction: "S51-T3-B-E1 · Clasifica el contrato de **incidentes, rollback y postmortem** sobre `CASO-MOQ-051-3B`. Contención True, last-good `copilot-*`, rollback ≤ RTO, ≥1 acción de postmortem y owners asignados. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T3-B PASS`. Sin contención o fuera de RTO activa `ROLLBACK_AND_CONTAIN` en E2.",
+        instruction: "S51-T3-B-E1 · Clasifica el contrato de **incidentes, rollback y post mortem** sobre `CASO-MOQ-051-3B`. Contención True, last-good `copilot-*`, rollback ≤ RTO, ≥1 acción de post mortem y owners asignados. Corrige la expresión booleana invertida (no los datos ni el assert). Salida exacta: `S51-T3-B PASS`. Sin contención o fuera de RTO activa `ROLLBACK_AND_CONTAIN` en E2.",
         hint: "Contención True, last-good `copilot-*`, minutos ≤ RTO, ≥1 acción y owners asignados.",
         hints: [
-          "Orden mental: contained → rollback al pin → reloj ≤ RTO → postmortem con dueños.",
+          "Orden mental: contained → rollback al pin → reloj ≤ RTO → post mortem con dueños.",
           "El starter pasa si no hubo contención o si el rollback se pasó del RTO; invierte esas ramas.",
         ],
         edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "El fixture `CASO-MOQ-051-3B` satisface un predicado de dominio real; imprime `S51-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S51-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
+        feedback: "S51-T3-B-E1: el gate de incidente exige contención, pin last-good, reloj ≤ RTO y dueños del post mortem; sin owners la ruta es `CONVENE_INCIDENT_REVIEW`, no un PASS improvisado.",
         starterCode: {
           language: 'python',
           title: "s51-t3-b-e1.py",
@@ -1527,7 +1529,7 @@ assert meets_contract is True` ,
         id: "S51-T3-B-E2",
         subtopicId: "S51-T3-B",
         kind: "independent",
-        instruction: "S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback_minutes, rto_minutes, postmortem_actions, owners_assigned. Salidas exactas: `PASS`, `ROLLBACK_AND_CONTAIN`, `MISSING:owners_assigned`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y post mortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback_minutes, rto_minutes, postmortem_actions, owners_assigned. Salidas exactas: `PASS`, `ROLLBACK_AND_CONTAIN`, `MISSING:owners_assigned`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
         hint: "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
@@ -1535,7 +1537,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `owners_assigned` ausente y produce exactamente `PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned`.",
-        feedback: "S51-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
+        feedback: "S51-T3-B-E2: sin `owners_assigned` convoca revisión de incidente. Sin contención o fuera de RTO emite `ROLLBACK_AND_CONTAIN`; el post mortem no sustituye la contención inmediata.",
         starterCode: {
           language: 'python',
           title: "s51-t3-b-e2.py",
@@ -1585,7 +1587,7 @@ print(*results)
         hint: "Missing → CONVENE_INCIDENT_REVIEW; within_rto e ir_complete en falso → ROLLBACK_AND_CONTAIN; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
-          "within_rto mide el reloj del rollback; ir_complete exige contención, acciones y dueños del postmortem.",
+          "within_rto mide el reloj del rollback; ir_complete exige contención, acciones y dueños del post mortem.",
         ],
         edgeCases: ["falta owners_assigned", "fixture adverso: sin contención, rollback fuera de RTO o sin acciones/dueños", "CASO-MOQ-051-3B es sintético"],
         tests: "Fixtures `CASO-MOQ-051-3B`, adverso y sin `owners_assigned` prueban continue/breach/uncertainty en ese orden.",
@@ -1663,7 +1665,7 @@ assert results == ["CONTINUE", "ROLLBACK_AND_CONTAIN", "CONVENE_INCIDENT_REVIEW"
         ],
         edgeCases: ["falta confirmed", "fixture adverso: sin incertidumbre/citas visibles o acción sin confirmación", "CASO-MOQ-051-4A es sintético"],
         tests: "El fixture `CASO-MOQ-051-4A` satisface un predicado de dominio real; imprime `S51-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S51-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
+        feedback: "S51-T4-A-E1: incertidumbre visible + citas + resumen del efecto van antes del side-effect. Si se exige confirmación y no hay `confirmed`, bloqueas la acción irreversible.",
         starterCode: {
           language: 'python',
           title: "s51-t4-a-e1.py",
@@ -1699,7 +1701,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta confirmed", "fixture adverso: sin incertidumbre/citas visibles o acción sin confirmación", "CASO-MOQ-051-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `confirmed` ausente y produce exactamente `PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed`.",
-        feedback: "S51-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
+        feedback: "S51-T4-A-E2: clave `confirmed` ausente → `ASK_USER_TO_CONFIRM` (incertidumbre de UX). Confirmación requerida en False con side-effect → `BLOCK_UNCONFIRMED_ACTION`.",
         starterCode: {
           language: 'python',
           title: "s51-t4-a-e2.py",
@@ -1824,7 +1826,7 @@ assert results == ["CONTINUE", "BLOCK_UNCONFIRMED_ACTION", "ASK_USER_TO_CONFIRM"
         ],
         edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector incompleto, contraste bajo o sin apelación", "CASO-MOQ-051-4B es sintético"],
         tests: "El fixture `CASO-MOQ-051-4B` satisface un predicado de dominio real; imprime `S51-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S51-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
+        feedback: "S51-T4-B-E1: WCAG AA (teclado, labels, contraste ≥ 4.5) + corrección + apelación humana cierran CF-5. Un panel solo-mouse o ilegible falla el gate de accesibilidad.",
         starterCode: {
           language: 'python',
           title: "s51-t4-b-e1.py",
@@ -1860,7 +1862,7 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector incompleto, contraste bajo o sin apelación", "CASO-MOQ-051-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `appeal_to_human` ausente y produce exactamente `PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human`.",
-        feedback: "S51-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
+        feedback: "S51-T4-B-E2: sin `appeal_to_human` enrutas a contestación. Contraste bajo o teclado incompleto fallan a11y; no promociones un panel «bonito» que el usuario no puede operar.",
         starterCode: {
           language: 'python',
           title: "s51-t4-b-e2.py",
@@ -1983,7 +1985,7 @@ assert results == ["CONTINUE", "FAIL_ACCESSIBILITY_GATE", "ROUTE_CONTESTATION"]`
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-MOQ-051`.",
       "Incluye traces de prompt/retrieval/tool con redacción (`traces_redacted`).",
       "Incluye registry y change log de versiones (`registry_changelog`).",
-      "Incluye SLO/drift/feedback/incidente/postmortem (`slo_incident_postmortem`).",
+      "Incluye SLO/drift/feedback/incidente/post mortem (`slo_incident_postmortem`).",
       "Incluye UX accesible con incertidumbre, citas, confirmación y contestabilidad (`ux_contestability_a11y`).",
       "Automatiza un caso normal, uno de breach (`ROLLBACK_AND_CONTAIN`) y uno incierto (`CONVENE_INCIDENT_REVIEW` o `ASK_USER_TO_CONFIRM`).",
       "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
@@ -2071,7 +2073,7 @@ print(CASE_ID, status)
 print("missing", ",".join(missing))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-C + CF-5 · copiloto observable y contestable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño (dicts vacíos); conviértelo en READY alimentando `trace`/`bundle`/`change`/`slo`/`ir`/`ux`/`a11y` con artefactos reales del proyecto y dejando que los helpers calculen las banderas — no hardcodees True ni cambies asserts.",
+    portfolioNote: "Evidencia de CP-N4-C + CF-5 · copiloto observable y contestable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño (dicts vacíos); conviértelo en READY alimentando `trace`/`bundle`/`change`/`slo`/`ir`/`ux`/`a11y` con artefactos reales del proyecto y dejando que los helpers calculen las banderas — no asignes True a mano ni cambies asserts.",
     rubric: [
       { criterion: "Correctitud del contrato y gate", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
@@ -2103,13 +2105,13 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "Antes de exportar métricas del copiloto, ¿qué tratamiento de atributos es correcto en S51?",
-        options: ["exportar prompt_raw y email para «depurar más rápido»", "usar model=latest en el registry de producción", "auto-aprobar el release si el autor y el aprobador son la misma persona", "redactar email/authorization/prompt_raw y rechazar el export si queda PII"],
+        options: ["exportar prompt_raw y email para «depurar más rápido»", "usar model=latest en el registry de producción", "autoaprobar el release si el autor y el aprobador son la misma persona", "redactar email/authorization/prompt_raw y rechazar el export si queda PII"],
         correctIndex: 3,
         explanation: "La redacción de atributos sensibles es parte del contrato de observabilidad; dual-control y pin de versiones son obligatorios en prod.",
       },
       {
         question: "Un trace de copiloto con spans completos pero `pii_in_trace=True`, ¿qué acción es correcta en S51?",
-        options: ["Promover a producción porque los spans están completos", "Borrar el audit log para ocultar el PII", "REDACT_AND_QUARANTINE_TRACE y bloquear promoción hasta re-redacción", "Inferir fraude del usuario a partir del prompt"],
+        options: ["Promover a producción porque los spans están completos", "Borrar el audit log para ocultar el PII", "REDACT_AND_QUARANTINE_TRACE y bloquear promoción hasta una nueva redacción", "Inferir fraude del usuario a partir del prompt"],
         correctIndex: 2,
         explanation:
           "PII en traza invalida el contrato de observabilidad: se redacta y se cuarentena; no se promueve ni se usa la traza como prueba de culpabilidad.",
@@ -2161,7 +2163,7 @@ assert status in {"READY", "BLOCKED"}
       },
     ],
     books: [
-      { label: "Site Reliability Engineering", note: "Incidentes, postmortems y SLO" },
+      { label: "Site Reliability Engineering", note: "Incidentes, post mortems y SLO" },
       { label: "Inclusive Design / a11y practice", note: "Contestabilidad y UX" },
     ],
     courses: [

@@ -12,7 +12,7 @@ export const section03: CourseSection = {
   icon: 'GitBranch',
   accentColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
   jobRelevance:
-    'En onboarding de data en bancos, fintech y retail en Perú, el parser de intake no basta con convertir tipos (S02): hay que **decidir** si cada campo se acepta, se rechaza o va a revisión. Si tratas `None` como si fuera `0`, o usas `if monto:` y rechazas un cero válido, generas falsos positivos caros. Esta sección construye el **motor de reglas** del capstone CP-N1-A: comparaciones, truthiness, if/elif/else, guards, allowlists, decision tables y pruebas de ramas con mensajes accionables.',
+    'En onboarding de data en bancos, fintech y retail en Perú, el parser de intake no basta con convertir tipos (S02). Además de convertir, hay que **decidir** si cada campo se acepta, se rechaza o va a revisión. Si tratas `None` como si fuera `0`, o usas `if monto:` y rechazas un cero válido, generas falsos positivos caros. Esta sección construye el **motor de reglas** del capstone CP-N1-A: comparaciones, truthiness, if/elif/else, guards, allowlists, decision tables y pruebas de ramas con mensajes accionables.',
   learningOutcomes: [
     { text: 'Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible' },
     { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de and/or' },
@@ -72,8 +72,8 @@ capstone_increment CP-N1-A`,
       subtopicId: 'S03-T1-A',
       paragraphs: [
         'Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a `(18 <= edad) and (edad <= 65)` y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena).',
-        '**Pertenencia**: `x in coleccion` / `x not in coleccion` funciona con str, list, set, dict (busca **claves**). Para allowlists de códigos fijos, un **`set` de literales** es ideal: lectura clara y chequeo O(1). Atención a **mayúsculas**: `"dni" in {"DNI"}` es `False` — normaliza antes o documenta el contrato.',
-        '**`is` vs `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”.',
+        '**Pertenencia**: `x in coleccion` / `x not in coleccion` funciona con str, list, set, dict (busca **claves**). Para allowlists de códigos fijos, un **`set` de literales** es ideal (un `set` es una colección sin duplicados; lo verás a fondo en colecciones): lectura clara y chequeo rápido. Atención a **mayúsculas**: `"dni" in {"DNI"}` es `False` — normaliza antes o documenta el contrato.',
+        '**`is` vs. `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”.',
       ],
       code: {
         language: 'python',
@@ -100,7 +100,7 @@ region in ALLOWED → True
         type: 'tip',
         title: 'Regla de intake',
         content:
-          'Primero decide el operador (comparación vs pertenencia). Luego fija el tipo del operando (S02). Solo después combina con and/or. No mezcles “¿existe?” con “¿está en rango?” en un solo if sin documentarlo.',
+          'Primero decide el operador (comparación vs. pertenencia). Luego fija el tipo del operando (S02). Solo después combina con and/or. No mezcles “¿existe?” con “¿está en rango?” en un solo if sin documentarlo.',
       },
     },
     {
@@ -219,13 +219,13 @@ for e in [None, "25", -1, 15, 30]:
       subtopicId: 'S03-T3-A',
       paragraphs: [
         'Con exclusividad de ramas y guards, el motor ya puede combinar **reglas de dominio**: rangos numéricos y listas permitidas. Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {"Lima", "Arequipa", ...}`). Si el valor no está, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.',
-        'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs `OUT_OF_RANGE`).',
+        'Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs. `OUT_OF_RANGE`).',
         'Tri-estado en dominio: **accept** (cumple), **reject** (viola hard), **review** (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite.',
       ],
       code: {
         language: 'python',
         title: 'regla_region_edad.py',
-        code: `ALLOWED_REG = {"Sucursal-Norte", "Arequipa", "Cusco", "Sucursal-Sur"}
+        code: `ALLOWED_REG = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 def rule_region_edad(region, edad):
     if region is None or edad is None:
@@ -236,11 +236,11 @@ def rule_region_edad(region, edad):
         return "reject"
     return "accept"
 
-for r, e in [("Sucursal-Centro", 30), ("Tacna", 30), ("Oficina-Este", 15), (None, 40)]:
+for r, e in [("Lima", 30), ("Tacna", 30), ("Piura", 15), (None, 40)]:
     print(r, e, "→", rule_region_edad(r, e))`,
-        output: `Oficina-Oeste 30 → accept
+        output: `Lima 30 → accept
 Tacna 30 → review
-Cliente-A 15 → reject
+Piura 15 → reject
 None 40 → review`,
       },
       callout: {
@@ -338,7 +338,7 @@ None → review ok= True
       paragraphs: [
         'Con invariantes y ejemplos canónicos (T4-A), el motor ya decide bien; falta **comunicar** el fallo y **probar** cada rama. Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo \'edad\'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Error o inválido. Códigos estables (`MISSING`, `OUT_OF_RANGE`, `NOT_IN_ALLOWLIST`, `NEEDS_REVIEW`, `OK`) permiten métricas y i18n después.',
         '**Un test por rama** del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta. Esta es la misma disciplina que usarás en el You Do (`_run_tests` del motor de reglas).',
-        'No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo **test rojo → arreglar regla → verde** es la forma de depurar off-by-one en fronteras (`>= 18` vs `> 18`). Cuando el mensaje y el test hablan el mismo idioma, el lead de datos puede mergear con confianza.',
+        'No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo **test rojo → arreglar regla → verde** es la forma de depurar off-by-one en fronteras (`>= 18` vs. `> 18`). Cuando el mensaje y el test hablan el mismo idioma, el lead de datos puede mergear con confianza.',
       ],
       code: {
         language: 'python',
@@ -394,24 +394,24 @@ PASS 35 OK`,
         code: {
           language: 'python',
           title: 'S03-T1-A-DEMO — comparar_region_monto',
-          code: `region = "Cliente-B"
+          code: `region = "Lima"
 monto = 1500
-ALLOWED = {"Sucursal-Norte", "Arequipa", "Cusco"}
+ALLOWED = {"Lima", "Arequipa", "Cusco"}
 
-print("region == 'Sucursal-Sur' →", region == "Sucursal-Centro")
-print("region != 'Oficina-Este' →", region != "Oficina-Oeste")
+print("region == 'Lima' →", region == "Lima")
+print("region != 'Piura' →", region != "Piura")
 print("monto >= 1000 →", monto >= 1000)
 print("monto < 500 →", monto < 500)
 print("region in ALLOWED →", region in ALLOWED)
-print("'Cliente-A' not in ALLOWED →", "Cliente-B" not in ALLOWED)
+print("'Piura' not in ALLOWED →", "Piura" not in ALLOWED)
 print("1000 <= monto <= 2000 →", 1000 <= monto <= 2000)
 `,
-          output: `region == 'Sucursal-Norte' → True
-region != 'Sucursal-Sur' → True
+          output: `region == 'Lima' → True
+region != 'Piura' → True
 monto >= 1000 → True
 monto < 500 → False
 region in ALLOWED → True
-'Sucursal-Centro' not in ALLOWED → True
+'Piura' not in ALLOWED → True
 1000 <= monto <= 2000 → True`,
         },
         why: 'Antes de escribir ifs de negocio, el analista predice booleanos sueltos. Cuatro comparaciones + dos membership checks + un encadenamiento fijan el vocabulario del motor de reglas.',
@@ -515,7 +515,7 @@ for e in [None, "25", -1, 15, 30, 200]:
         code: {
           language: 'python',
           title: 'S03-T3-A-DEMO — region_edad',
-          code: `ALLOWED_REG = {"Oficina-Este", "Arequipa", "Cusco", "Oficina-Oeste"}
+          code: `ALLOWED_REG = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 def rule_region_edad(region, edad):
     if region is None or edad is None:
@@ -526,11 +526,11 @@ def rule_region_edad(region, edad):
         return "reject"
     return "accept"
 
-for r, e in [("Cliente-A", 30), ("Tacna", 30), ("Cliente-B", 15), (None, 40)]:
+for r, e in [("Lima", 30), ("Tacna", 30), ("Piura", 15), (None, 40)]:
     print(r, e, "→", rule_region_edad(r, e))`,
-          output: `Sucursal-Norte 30 → accept
+          output: `Lima 30 → accept
 Tacna 30 → review
-Sucursal-Sur 15 → reject
+Piura 15 → reject
 None 40 → review`,
         },
         why: 'Allowlist + rango en una sola función. Región desconocida → review; edad fuera de banda → reject; ausencia → review.',
@@ -666,7 +666,7 @@ PASS 35 OK
   },
   weDo: {
     intro:
-      'Andamiaje por subtema (liberación gradual): **E1 guiado → E2 independiente → E3 transferencia**. Completa los **8 subtemas** (24 ejercicios) en el orden T1→T4 del mapa. Cada ejercicio nombra el concepto, el contrato de entrada/salida y el fixture `CASO-LIM-003`. Trae **2 hints** (`hints[]` + `hint` primario). Ejecuta y compara con la salida del solution; no inventes resultados. Datos sintéticos únicamente.',
+      'Andamiaje por subtema (liberación gradual): **E1 guiado → E2 independiente → E3 transferencia**. Completa los **8 subtemas** (24 ejercicios) en el orden T1→T4 del mapa. Cada ejercicio nombra el concepto, el contrato de entrada/salida y el fixture `CASO-LIM-003`. Cada uno trae **dos pistas** (principal y de refuerzo). Ejecuta y compara con la salida del solution; no inventes resultados. Datos sintéticos únicamente.',
     steps: [
       // ——— S03-T1-A ———
       {
@@ -678,7 +678,7 @@ PASS 35 OK
         hint: 'Usa print(expresion) directamente; no hace falta if todavía.',
         hints: [
           'Usa print(expresion) directamente; no hace falta if todavía.',
-          'El encadenamiento 18 <= edad <= 65 es True para 25. region == "Sucursal-Centro" es False.',
+          'El encadenamiento 18 <= edad <= 65 es True para 25. region == "Lima" es False (region es Cusco).',
         ],
         edgeCases: ['igualdad en frontera min/max si cambias edad a 18 o 65'],
         tests: 'assert expected bools: True, True, True, False, True',
@@ -693,8 +693,8 @@ region = "Cusco"
 print(edad < 18)
 print(edad >= 65)
 print(edad < 18 or edad > 65)
-print(region != "Oficina-Este")
-print(region == "Oficina-Oeste")
+print(region != "Piura")
+print(region == "Lima")
 `,
         },
         solutionCode: {
@@ -706,8 +706,8 @@ region = "Cusco"
 print(edad >= 18)
 print(edad < 65)
 print(18 <= edad <= 65)
-print(region == "Cliente-A")
-print(region != "Cliente-B")`,
+print(region == "Lima")
+print(region != "Piura")`,
           output: `True
 True
 True
@@ -755,7 +755,7 @@ RUC → False`,
         subtopicId: 'S03-T1-A',
         kind: 'transfer',
         instruction:
-          'E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en validadores de intake.',
+          'E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs. `==` en validadores de intake.',
         hint: 'is None para ausencia; == para valores de negocio. No uses is con enteros.',
         hints: [
           'is None para ausencia; == para valores de negocio. No uses is con enteros.',
@@ -763,11 +763,11 @@ RUC → False`,
         ],
         edgeCases: ['True == 1', 'is None idiom'],
         tests: 'rubric + fixed snippet: True, True, False + nota',
-        feedback: 'Elegir is vs == es el bug silencioso #1 en chequeos de presencia.',
+        feedback: 'Elegir is vs. == es el bug silencioso #1 en chequeos de presencia.',
         starterCode: {
           language: 'python',
           title: 'is_vs_eq.py',
-          code: `# CASO-LIM-003 · is None vs ==
+          code: `# CASO-LIM-003 · is None vs. ==
 # DEFECT: confunde is y ==
 valor = None
 print("valor is None →", valor == None)
@@ -847,15 +847,15 @@ range(0, 0) → False
           "'' or 'default' → 'default'; 0 and 99 → 0; None or 0 → 0.",
         ],
         edgeCases: ["'' or 'default'"],
-        tests: 'assert results: default, Sucursal-Norte, 0, 99, 0',
+        tests: 'assert results: default, Lima, 0, 99, 0',
         feedback: 'Si internalizaste el valor devuelto, dejas de “castear” mentalmente a True/False siempre.',
         starterCode: {
           language: 'python',
           title: 'and_or_predict.py',
           code: `# CASO-LIM-003 · or/and cortocircuito
-# DEFECT: valores incorrectos
+# DEFECT: operadores invertidos (and donde va or y viceversa)
 print("'' or 'default' →", "" and "default")
-print("'Sucursal-Sur' or 'default' →", "Sucursal-Centro" and "default")
+print("'Lima' or 'default' →", "Lima" and "default")
 print("0 and 99 →", 0 or 99)
 print("5 and 99 →", 5 or 99)
 print("None or 0 →", None and 0)
@@ -865,12 +865,12 @@ print("None or 0 →", None and 0)
           language: 'python',
           title: 'and_or_predict.py',
           code: `print("'' or 'default' →", "" or "default")
-print("'Oficina-Este' or 'default' →", "Oficina-Oeste" or "default")
+print("'Lima' or 'default' →", "Lima" or "default")
 print("0 and 99 →", 0 and 99)
 print("5 and 99 →", 5 and 99)
 print("None or 0 →", None or 0)`,
           output: `'' or 'default' → default
-'Cliente-A' or 'default' → Cliente-B
+'Lima' or 'default' → Lima
 0 and 99 → 0
 5 and 99 → 99
 None or 0 → 0`,
@@ -882,9 +882,9 @@ None or 0 → 0`,
         kind: 'transfer',
         instruction:
           'E3 (transferencia · CASO-LIM-003) — Bug canónico del intake: un validador hace `if not monto: return "reject"` y trata `0` y `None` igual. Reescribe `validate_monto(m)`: `m is None` → review; `m < 0` → reject; else accept (incluye 0). Prueba `None`, `0`, `-1`, `100`. Salida: review, accept, reject, accept.',
-        hint: 'Nunca uses truthiness para montos. if m is None primero.',
+        hint: 'Nunca uses truthiness para montos. Primero: if m is None.',
         hints: [
-          'Nunca uses truthiness para montos. if m is None primero.',
+          'Nunca uses truthiness para montos. Primero: if m is None.',
           '0 debe devolver accept; None → review; negativo → reject.',
         ],
         edgeCases: ['0 válido; None review'],
@@ -1041,9 +1041,9 @@ for s in [95, 60, 30]:
         kind: 'transfer',
         instruction:
           'E3 (transferencia · CASO-LIM-003) — Traza el orden de umbrales e implementa `band(n)`: `n > 100` → alto; `n > 50` → medio; `n > 0` → bajo; else → nulo. Verifica la salida para 150, 75, 10, 0, -3 (contrato: alto, medio, bajo, nulo, nulo). Si pones el umbral bajo primero, 150 cae mal.',
-        hint: 'Orden: primero el umbral más alto. else cubre 0 y negativos.',
+        hint: 'Orden: primero el umbral más alto. El else cubre 0 y negativos.',
         hints: [
-          'Orden: primero el umbral más alto. else cubre 0 y negativos.',
+          'Orden: primero el umbral más alto. El else cubre 0 y negativos.',
           '0 no es > 0 → nulo. 75 no es >100 pero sí >50 → medio.',
         ],
         edgeCases: ['else path para 0 y negativos'],
@@ -1105,7 +1105,7 @@ for n in [150, 75, 10, 0, -3]:
           title: 'guards_edad.py',
           code: `# CASO-LIM-003 · validate_edad guards
 def validate_edad(edad):
-    # DEFECT: no distingue None vs tipo
+    # DEFECT: no distingue None de tipo incorrecto
     if not edad:
         return {"status": "reject", "code": "BAD"}
     return {"status": "accept", "code": "OK"}
@@ -1145,7 +1145,7 @@ for e in [None, "25", 15, 30]:
         hint: 'Invierte el anidamiento: un if + return por precondición. No reescribas la política: solo el estilo.',
         hints: [
           'Invierte el anidamiento: un if + return por precondición. No reescribas la política: solo el estilo.',
-          'Compara salidas nested vs guards en [None, "x", -1, 0, 500, 20000]; deben coincidir.',
+          'Compara salidas nested vs. guards en [None, "x", -1, 0, 500, 20000]; deben coincidir.',
         ],
         edgeCases: ['mantener semántica idéntica', 'outlier suave > 10000 → review'],
         tests: 'same outputs que nested en [None, "x", -1, 0, 500, 20000]',
@@ -1295,28 +1295,28 @@ ok 0 → cero`,
           'Región desconocida → review (no reject) en esta política sintética.',
         ],
         edgeCases: ['región desconocida → review'],
-        tests: 'assert Sucursal-Norte accept, Tacna review, None review',
+        tests: 'assert Lima accept, Tacna review, None review',
         feedback: 'Allowlist + review para desconocidos es patrón de catálogos incompletos.',
         starterCode: {
           language: 'python',
           title: 'allowlist_regiones.py',
           code: `# CASO-LIM-003 · check_region allowlist
-ALLOWED = {"Sucursal-Sur", "Arequipa", "Sucursal-Centro", "Oficina-Este"}
+ALLOWED = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 def check_region(r):
-    # DEFECT: None → reject
+    # DEFECT: None → reject y desconocido → reject (debe ser review en ambos)
     if r not in ALLOWED:
         return "reject"
     return "accept"
 
-for r in ["Oficina-Oeste", "Tacna", None]:
+for r in ["Lima", "Tacna", None]:
     print(r, "→", check_region(r))
 `,
         },
         solutionCode: {
           language: 'python',
           title: 'allowlist_regiones.py',
-          code: `ALLOWED = {"Cliente-A", "Cliente-B", "Sucursal-Norte", "Sucursal-Sur"}
+          code: `ALLOWED = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 def check_region(r):
     if r is None:
@@ -1325,10 +1325,10 @@ def check_region(r):
         return "review"
     return "accept"
 
-for r in ["Sucursal-Centro", "Oficina-Este", None]:
+for r in ["Lima", "Tacna", None]:
     print(r, "→", check_region(r))`,
-          output: `Oficina-Oeste → accept
-Cliente-A → review
+          output: `Lima → accept
+Tacna → review
 None → review`,
         },
       },
@@ -1453,7 +1453,7 @@ None 1 → {'status': 'review', 'code': 'MISSING'}`,
         ],
         edgeCases: ['fila default'],
         tests: 'table complete: 4 filas de negocio + default',
-        feedback: 'Primero tabla, después código: reduce ramas inventadas.',
+        feedback: 'Primero la tabla, después el código: reduce ramas inventadas.',
         starterCode: {
           language: 'python',
           title: 'decision_table.py',
@@ -1497,9 +1497,9 @@ FOO → review`,
         kind: 'independent',
         instruction:
           'E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_TYPE, y `case _`.',
-        hint: 'case "A" | "B": en una sola rama. case _: al final.',
+        hint: 'Usa `case "A" | "B":` en una sola rama y `case _:` al final.',
         hints: [
-          'case "A" | "B": en una sola rama. case _: al final.',
+          'Usa `case "A" | "B":` en una sola rama y `case _:` al final.',
           'Requiere Python 3.10+. Si no, usa if/elif equivalente y anótalo.',
         ],
         edgeCases: ['wildcard _'],
@@ -1976,7 +1976,7 @@ Forma de resultado estándar del You Do:
   { "status": "accept"|"reject"|"review", "code": str, "message": str }
 """
 
-ALLOWED_REGIONS = {"Cliente-B", "Sucursal-Norte", "Sucursal-Sur", "Sucursal-Centro"}
+ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
 
 
 def validate_edad(valor):
@@ -2054,19 +2054,19 @@ def validate_record(record):
 
 def _run_tests():
     # Caso feliz + cero válido en monto
-    r = validate_record({"edad": 30, "region": "Oficina-Este", "monto_ingreso": 0})
+    r = validate_record({"edad": 30, "region": "Lima", "monto_ingreso": 0})
     assert r["monto_ingreso"]["status"] == "accept"  # cero válido
     assert r["edad"]["status"] == "accept"
     assert r["region"]["status"] == "accept"
     # Ausencia ≠ cero
-    r2 = validate_record({"edad": None, "region": "Oficina-Oeste", "monto_ingreso": None})
+    r2 = validate_record({"edad": None, "region": "Arequipa", "monto_ingreso": None})
     assert r2["edad"]["code"] == "MISSING"
     assert r2["monto_ingreso"]["status"] == "review"
     # Región desconocida → review (no reject duro en esta política)
-    r3 = validate_record({"edad": 25, "region": "Cliente-A", "monto_ingreso": 100})
+    r3 = validate_record({"edad": 25, "region": "Tacna", "monto_ingreso": 100})
     assert r3["region"]["status"] == "review"
     # Menor → review; negativo monto → reject
-    r4 = validate_record({"edad": 17, "region": "Cliente-B", "monto_ingreso": -5})
+    r4 = validate_record({"edad": 17, "region": "Lima", "monto_ingreso": -5})
     assert r4["edad"]["code"] == "NEEDS_REVIEW"
     assert r4["monto_ingreso"]["status"] == "reject"
     print("tests OK")
@@ -2075,7 +2075,7 @@ def _run_tests():
 def main():
     demo = {
         "edad": 17,
-        "region": "Sucursal-Norte",
+        "region": "Lima",
         "monto_ingreso": -5,
     }
     print(validate_record(demo))
@@ -2086,7 +2086,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      'En el README documenta invariantes en español, la decision table de cada campo y por qué no usas `if monto:` para presencia. Incluye la matriz de pruebas (al menos un caso por rama crítica: None, 0 válido, negativo, desconocido). Eso es lo que un lead de datos revisa antes del merge del incremento CP-N1-A.',
+      'En el README documenta invariantes en español, la decision table de cada campo y por qué no usas `if monto:` para presencia. Incluye la matriz de pruebas (al menos un caso por rama crítica: None, 0 válido, negativo, desconocido). Si usas umbral de outlier suave para montos, documenta la constante (p. ej. 50000) y por qué es review y no reject. Eso es lo que un lead de datos revisa antes del merge del incremento CP-N1-A.',
     rubric: [
       { criterion: 'Tri-estado correcto en todos los campos definidos', weight: '25%' },
       { criterion: 'Ausencia no se confunde con falsy válido', weight: '25%' },

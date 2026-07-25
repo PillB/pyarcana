@@ -5,14 +5,14 @@ export const section17: CourseSection = {
  index: 17,
  title: "Joins, reshape, groupby y cierre analítico",
  shortTitle: "Joins · groupby · cierre",
- tagline: "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+ tagline: "Portfolio ejecutivo de calidad + EDA: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
  estimatedHours: 18,
  level: "Competente",
  phase: 1,
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú (p. ej. un tablero de clientes y transacciones en Lima, Cusco o Arequipa), el analista que solo “hace merge y groupby” sin documentar **cardinalidad**, sin **anti-join** de huérfanos y sin **cutoff** anti-leakage es el que entrega números inflados al comité. Cerrar un **portfolio de data quality + EDA** exige unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Aquí cierras ese portfolio del nivel: script reproducible, evidencias numéricas, memo de límites y **sin PII real ni claims causales** no soportados.",
+ "En un equipo de analytics de banca, fintech o retail en Perú (p. ej. un tablero de clientes y transacciones en Lima, Cusco o Arequipa), el analista que solo “hace merge y groupby” sin documentar **cardinalidad**, sin **anti-join** de huérfanos y sin **cutoff** anti-leakage es el que entrega números inflados al comité. Cerrar un **portfolio de data quality + EDA** exige unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Aquí cierras ese portfolio del nivel: script reproducible, evidencias numéricas, memo de límites y **sin PII real ni claims causales** no soportados.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
  { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
@@ -29,7 +29,7 @@ export const section17: CourseSection = {
  paragraphs: [
  "En esta sección **cierras el portfolio de calidad + EDA**: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación **sin leakage temporal**. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible que un stakeholder puede re-ejecutar.",
  "El hilo conductor es un **portfolio ejecutivo** con regiones ficticias (Lima, Cusco, Arequipa), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real ni datos de producción. Cada bloque de teoría termina en un demo (I Do) y tres ejercicios (We Do); el You Do integra todo en un solo script.",
- "Orden pedagógico (gradual release): **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Ritmo sugerido (~18 h):** ~4 h T1, ~4 h T2, ~5 h T3, ~3 h T4 + We Do de integración, ~2 h You Do/memo. **Después, S18** abre la lectura de incertidumbre (hallazgo vs hipótesis, intervalos): aquí dejas las tablas y los gates listos para esa capa.",
+ "Orden pedagógico (gradual release): **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Ritmo sugerido (~18 h):** ~4 h T1, ~4 h T2, ~5 h T3, ~3 h T4 + We Do de integración, ~2 h You Do/memo. **Después, S18** abre la lectura de incertidumbre (hallazgo vs. hipótesis, intervalos): aquí dejas las tablas y los gates listos para esa capa.",
  ],
  callout: {
  type: "info",
@@ -41,8 +41,10 @@ export const section17: CourseSection = {
  {
  heading: "Diccionario rápido de la sección",
  paragraphs: [
- "**Cardinalidad:** cuántas filas del lado derecho (o izquierdo) corresponden a cada clave (1:1, 1:m, m:m). **Fan-out:** explosión de filas por claves duplicadas en un join (típico m:m accidental). **Anti-join:** filas de un lado sin match (`left_only` / `right_only` con `indicator=True`). **Long/wide:** forma apilada por periodo (long) versus una columna por periodo (wide).",
- "**Cohorte:** periodo de la primera observación válida de cada entidad (p. ej. mes de primera compra), no la fecha del batch de hoy. **Cutoff / as-of:** solo datos conocidos hasta la fecha *t* (`fecha <= t`). **Leakage temporal:** usar post-cutoff como si fuera pasado. **Reconciliación:** suma de partes ≈ total de referencia (tolerancia `eps`) o residual documentado en una tabla puente (**bridge**).",
+ "**Cardinalidad:** cuántas filas del lado derecho (o izquierdo) corresponden a cada clave (1:1, 1:m, m:m). **Fan-out:** explosión de filas por claves duplicadas en un join (típico m:m accidental).",
+ "**Anti-join:** filas de un lado sin match (`left_only` / `right_only` con `indicator=True`). **Long/wide:** forma apilada por periodo (long) frente a una columna por periodo (wide).",
+ "**Cohorte:** periodo de la primera observación válida de cada entidad (p. ej. mes de primera compra), no la fecha del batch de hoy. **Cutoff / as-of:** solo datos conocidos hasta la fecha *t* (`fecha <= t`).",
+ "**Leakage temporal:** usar post-cutoff como si fuera pasado. **Reconciliación:** suma de partes ≈ total de referencia (tolerancia `eps`) o residual documentado en una **tabla puente** (bridge table).",
  "Úsalo como glosario de trabajo: cada demo y ejercicio de esta sección nombra al menos uno de estos términos. Si un término aparece en el memo del portfolio, debe poder mapearse a una línea de código o a un número impreso — no a una frase suelta del slide.",
  ],
  callout: {
@@ -198,7 +200,7 @@ True`,
  paragraphs: [
  "Con la forma long/wide ya estable, pasamos a **colapsar o reinyectar** números. `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
  "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.",
- "Caso sintético: regiones Sucursal-Norte/Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
+ "Caso sintético: regiones Lima (dos filas), Arequipa y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
  ],
  code: {
  language: 'python',
@@ -207,8 +209,8 @@ True`,
     import pandas as pd
 
     df = pd.DataFrame({
-     "region": ["Sucursal-Sur", "Sucursal-Centro", "Oficina-Este"],
-     "monto": [10.0, 20.0, 5.0],
+     "region": ["Lima", "Lima", "Arequipa", "Cusco"],
+     "monto": [10.0, 20.0, 5.0, 15.0],
     })
     agg = df.groupby("region", as_index=False).agg(monto_sum=("monto", "sum"), n=("monto", "size"))
     df2 = df.copy()
@@ -217,12 +219,12 @@ True`,
     print(df2["monto_region_mean"].tolist())
 
 s17_th_5()`,
- output: `{'region': ['Oficina-Oeste', 'Cliente-A'], 'monto_sum': [5.0, 30.0], 'n': [1, 2]}
-[15.0, 15.0, 5.0]`,
+ output: `{'region': ['Arequipa', 'Cusco', 'Lima'], 'monto_sum': [5.0, 15.0, 30.0], 'n': [1, 1, 2]}
+[15.0, 15.0, 5.0, 15.0]`,
  },
  callout: {
  type: "tip",
- title: "transform vs agg",
+ title: "transform vs. agg",
  content:
  "`transform` preserva el número de filas (feature por fila); `agg` colapsa a una fila por grupo (tabla ejecutiva). Si tu salida tiene menos filas de las que esperabas para un score por transacción, probablemente usaste agg donde ibas a usar transform.",
  },
@@ -271,8 +273,8 @@ s17_th_6()`,
  subtopicId: "S17-T4-A",
  paragraphs: [
  "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
- "Contrato puente (**bridge table**): `total → segmento_A → residual`. Si Cliente-B=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
- "Caso sintético: total nacional 100 PEN; partes Sucursal-Norte/Sucursal-Sur/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
+ "Contrato de **tabla puente** (bridge table): `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
+ "Caso sintético: total nacional 100 PEN; partes Lima/Arequipa/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
  language: 'python',
@@ -281,16 +283,16 @@ s17_th_6()`,
     import pandas as pd
 
     total = 100.0
-    parts = pd.Series({"Sucursal-Centro": 60.0, "Oficina-Este": 30.0, "Arequipa": 10.0})
+    parts = pd.Series({"Lima": 60.0, "Arequipa": 30.0, "Cusco": 10.0})
     print("sum_parts", float(parts.sum()), "ok", abs(parts.sum() - total) < 1e-9)
-    # tasa: pagados / clientes activos
-    activos = 50
-    pagados = 20
+    # tasa: pagados / clientes del universo declarado
+    activos = 200
+    pagados = 150
     print("tasa", pagados / activos, "denominador", activos)
 
 s17_th_7()`,
  output: `sum_parts 100.0 ok True
-tasa 0.4 denominador 50`,
+tasa 0.75 denominador 200`,
  },
  callout: {
  type: "warning",
@@ -351,7 +353,7 @@ leakage_delta 100.0`,
  title: "demo_join.py",
  code: `def s17_ido_1():
     import pandas as pd
-    cli = pd.DataFrame({"cliente_id": ["C001", "C002"], "region": ["Oficina-Oeste", "Cliente-A"]})
+    cli = pd.DataFrame({"cliente_id": ["C001", "C002"], "region": ["Lima", "Cusco"]})
     tx = pd.DataFrame({"cliente_id": ["C001", "C001", "C002"], "monto": [3.0, 4.0, 5.0]})
     assert cli["cliente_id"].is_unique
     m = cli.merge(tx, on="cliente_id", how="left")
@@ -445,7 +447,7 @@ s17_ido_4()`,
  code: `def s17_ido_5():
     import pandas as pd
     df = pd.DataFrame({
-     "region": ["Cliente-B", "Sucursal-Norte", "Arequipa", "Arequipa"],
+     "region": ["Lima", "Cusco", "Arequipa", "Arequipa"],
      "monto": [10.0, 30.0, 5.0, 15.0],
     })
     resumen = df.groupby("region", as_index=False).agg(total=("monto", "sum"), n=("monto", "count"))
@@ -454,8 +456,8 @@ s17_ido_4()`,
     print(df["mean_reg"].tolist())
 
 s17_ido_5()`,
- output: `{'region': ['Sucursal-Sur', 'Sucursal-Centro'], 'total': [20.0, 40.0], 'n': [2, 2]}
-[20.0, 20.0, 10.0, 10.0]`,
+ output: `{'region': ['Arequipa', 'Cusco', 'Lima'], 'total': [20.0, 30.0, 10.0], 'n': [2, 1, 1]}
+[10.0, 30.0, 10.0, 10.0]`,
  },
  why: "`agg` produce la tabla ejecutiva (una fila por grupo); `transform` reinyecta la media/total al shape original para scores por fila. Confundirlos es el bug clásico de “me quedé sin filas” en un feature store.",
  },
@@ -490,13 +492,13 @@ s17_ido_6()`,
  demoId: "S17-T4-A-DEMO",
  subtopicId: "S17-T4-A",
  environment: "local-python",
- description: "Reconciliar total nacional vs suma por región",
+ description: "Reconciliar total nacional vs. suma por región",
  code: {
  language: 'python',
  title: "demo_totals.py",
  code: `def s17_ido_7():
     import pandas as pd
-    parts = pd.DataFrame({"region": ["Oficina-Este", "Oficina-Oeste", "Cliente-A"], "monto": [50.0, 30.0, 20.0]})
+    parts = pd.DataFrame({"region": ["Lima", "Arequipa", "Cusco"], "monto": [50.0, 30.0, 20.0]})
     total_ref = 100.0
     diff = float(parts["monto"].sum() - total_ref)
     print("diff", diff, "reconciled", abs(diff) < 1e-9)
@@ -509,7 +511,7 @@ s17_ido_7()`,
  output: `diff 0.0 reconciled True
 tasa 0.75 den 200`,
  },
- why: "Totales y denominadores anclan el EDA ejecutivo. Si `sum(partes) ≠ total`, el residual se documenta en la bridge — no se oculta en el slide ni se “redondea” a ojo.",
+ why: "Totales y denominadores anclan el EDA ejecutivo. Si `sum(partes) ≠ total`, el residual se documenta en la tabla puente — no se oculta en el slide ni se “redondea” a ojo.",
  },
  {
  demoId: "S17-T4-B-DEMO",
@@ -543,7 +545,7 @@ delta 999.0`,
  ],
  },
  weDo: {
- intro: "24 ejercicios en liberación gradual: E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter trae un **bug intencional** a corregir; las pistas y el feedback nombran el error típico (inner vs left, mean vs sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El **E3 de T4-B** es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA — trátarlo como puente, no como drill suelto.",
+ intro: "24 ejercicios en liberación gradual: E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter trae un **bug intencional** a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El **E3 de T4-B** es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA — trátarlo como puente, no como drill suelto.",
  steps: [
  {
  id: "S17-T1-A-E1",
@@ -963,7 +965,7 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  subtopicId: "S17-T3-A",
  kind: "guided",
  instruction:
- "E1 (guiado) — Concepto: groupby + sum. Fixture region Cliente-B×2 y Sucursal-Norte×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Sucursal-Sur': 3.0, 'Sucursal-Centro': 3.0}` (orden de keys puede seguir sort de pandas).",
+ "E1 (guiado) — Concepto: groupby + sum. Fixture: Lima×2 y Arequipa×1 con montos 1.0, 2.0 y 3.0. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Arequipa': 3.0, 'Lima': 3.0}` (orden de keys puede seguir sort de pandas).",
  hint: "groupby('region')['monto'].sum().to_dict() — suma, no media.",
  hints: [
  "groupby('region')['monto'].sum().to_dict() — suma, no media.",
@@ -971,23 +973,23 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  ],
  edgeCases: ["mean", "as_index confusion"],
  tests: "salida coincide con solution output",
- feedback: "Si usaste mean, Oficina-Este sale 1.5 no 3.0. El contrato de negocio pidió suma de montos en PEN.",
+ feedback: "Si usaste mean, Lima sale 1.5 no 3.0. El contrato de negocio pidió suma de montos en PEN.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · groupby sum
 # Bug a corregir: mean en vez de sum
 import pandas as pd
-df = pd.DataFrame({"region": ["Oficina-Oeste", "Cliente-A", "Cliente-B"], "monto": [1.0, 2.0, 3.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 2.0, 3.0]})
 print(df.groupby("region")["monto"].mean().to_dict())`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Sucursal-Norte", "Sucursal-Sur", "Sucursal-Centro"], "monto": [1.0, 2.0, 3.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 2.0, 3.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
- output: `{'Oficina-Este': 3.0, 'Oficina-Oeste': 3.0}`,
+ output: `{'Arequipa': 3.0, 'Lima': 3.0}`,
  },
  },
  {
@@ -995,7 +997,7 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
  subtopicId: "S17-T3-A",
  kind: "independent",
  instruction:
- "E2 (independiente) — Concepto: transform mean al shape original. Fixture Cliente-A 1.0/3.0 y Cliente-B 2.0. Imprime lista de `groupby('region')['monto'].transform('mean')`. Pass: `[2.0, 2.0, 2.0]`. No uses agg (colapsa filas).",
+ "E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima con montos 1.0 y 3.0, Arequipa con 2.0. Imprime lista de `groupby('region')['monto'].transform('mean')`. Pass: `[2.0, 2.0, 2.0]`. No uses agg (colapsa filas).",
  hint: "transform('mean') reinyecta la media al shape original (3 filas).",
  hints: [
  "transform('mean') reinyecta la media al shape original (3 filas).",
@@ -1010,14 +1012,14 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
  code: `# CASO-LIM-017 · transform mean
 # Bug a corregir: sum del groupby colapsa filas
 import pandas as pd
-df = pd.DataFrame({"region": ["Sucursal-Norte", "Sucursal-Sur", "Sucursal-Centro"], "monto": [1.0, 3.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 3.0, 2.0]})
 print(df.groupby("region")["monto"].sum().tolist())`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Oficina-Este", "Oficina-Oeste", "Cliente-A"], "monto": [1.0, 3.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 3.0, 2.0]})
 print(df.groupby("region")["monto"].transform("mean").tolist())`,
  output: `[2.0, 2.0, 2.0]`,
  },
@@ -1027,7 +1029,7 @@ print(df.groupby("region")["monto"].transform("mean").tolist())`,
  subtopicId: "S17-T3-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: contrato de columnas del resumen ejecutivo. Fixture region Cliente-B/Sucursal-Norte. Construye `groupby(..., as_index=False).agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`. Transfer: named agg fija el schema que el stakeholder verá en el CSV del portfolio.",
+ "E3 (transferencia) — Concepto: contrato de columnas del resumen ejecutivo. Fixture region Lima/Arequipa. Construye `groupby(..., as_index=False).agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`. Transfer: named agg fija el schema que el stakeholder verá en el CSV del portfolio.",
  hint: "as_index=False + agg con total= y n= nombrados.",
  hints: [
  "as_index=False + agg con total= y n= nombrados.",
@@ -1042,7 +1044,7 @@ print(df.groupby("region")["monto"].transform("mean").tolist())`,
  code: `# CASO-LIM-017 · named agg
 # Bug a corregir: sum simple no nombra total ni n
 import pandas as pd
-df = pd.DataFrame({"region": ["Sucursal-Sur", "Sucursal-Centro"], "monto": [1.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Arequipa"], "monto": [1.0, 2.0]})
 out = df.groupby("region")["monto"].sum().reset_index()
 print(out.columns.tolist())`,
  },
@@ -1050,7 +1052,7 @@ print(out.columns.tolist())`,
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Oficina-Este", "Oficina-Oeste"], "monto": [1.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Arequipa"], "monto": [1.0, 2.0]})
 out = df.groupby("region", as_index=False).agg(total=("monto", "sum"), n=("monto", "count"))
 print(out.columns.tolist())`,
  output: `['region', 'total', 'n']`,
@@ -1230,7 +1232,7 @@ print(pagados / activos)`,
  subtopicId: "S17-T4-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: tabla puente (bridge) nacional→Cliente-A con residual documentado. total=100, lima=60; imprime el dict `{'total': 100.0, 'lima': 60.0, 'residual': float}` con residual = total−lima. Pass: `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`. Transfer: en el memo del portfolio la bridge es total → segmento_A → residual, no un descuadre oculto ni un solo float suelto.",
+ "E3 (transferencia) — Concepto: tabla puente (bridge table) nacional→Lima con residual documentado. total=100, lima=60; imprime el dict `{'total': 100.0, 'lima': 60.0, 'residual': float}` con residual = total−lima. Pass: `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`. Transfer: en el memo del portfolio la tabla puente es total → segmento_A → residual, no un descuadre oculto ni un solo float suelto.",
  hint: "residual = total - lima; imprime dict con total, lima y residual.",
  hints: [
  "residual = total - lima (no lima - total).",
@@ -1238,12 +1240,12 @@ print(pagados / activos)`,
  ],
  edgeCases: ["doble conteo", "signs wrong", "solo residual sin dict"],
  tests: "salida coincide con solution output",
- feedback: "Si imprimiste -40.0 o residual negativo, restaste al revés (lima−total). La bridge documenta total, segmento y residual juntos (40.0).",
+ feedback: "Si imprimiste -40.0 o residual negativo, restaste al revés (lima−total). La tabla puente documenta total, segmento y residual juntos (40.0).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-017 · residual bridge
-# Bug a corregir: signo invertido (lima - total) y sin keys de bridge
+# Bug a corregir: signo invertido (lima - total) y sin keys de la tabla puente
 total = 100.0
 lima = 60.0
 print({"total": total, "lima": lima, "residual": lima - total})`,
@@ -1268,7 +1270,7 @@ print({"total": total, "lima": lima, "residual": total - lima})`,
  "Máscara tx['fecha'] <= cutoff; imprime montos de esas filas.",
  "fecha > cutoff selecciona el post-periodo (9.0), no el as-of.",
  ],
- edgeCases: ["< vs <=", "string compare"],
+ edgeCases: ["< vs. <=", "string compare"],
  tests: "salida coincide con solution output",
  feedback: "Si viste [9.0], filtraste fecha > cutoff (post-periodo). El control as-of usa fecha <= cutoff.",
  starterCode: {
@@ -1379,20 +1381,20 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
  ],
  },
  youDo: {
- title: "Executive Data Quality & EDA Portfolio (cierre de calidad + EDA)",
+ title: "Portfolio ejecutivo de calidad + EDA (cierre del nivel)",
  context:
- "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims en español profesional. Sin PII real ni datos de producción. **Criterios de aceptación del dict** (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs total bajo eps). Este entregable es la base tabular; en **S18** trabajarás la lectura de incertidumbre (hallazgo vs hipótesis) sobre estos mismos hallazgos.",
+ "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims en español profesional. Sin PII real ni datos de producción. **Criterios de aceptación del dict** (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs. total bajo eps). Este entregable es la base tabular; en **S18** trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
  objectives: [
  "Dataset limpio + script reproducible re-ejecutable por un colega",
  "Joins con filas pre/post, validate o anti-join documentados",
  "Reshape o schema long/wide con columnas expected validadas",
- "Agregados (groupby) alineados a la pregunta de negocio (suma vs media)",
+ "Agregados (groupby) alineados a la pregunta de negocio (suma vs. media)",
  "Reconciliación de totales/denominadores con residual o eps",
  "Cutoff anti-leakage con delta explícito en el memo",
  "Memo de límites y no-claims (sin causalidad no soportada)",
  ],
  requirements: [
- "Fixtures sintéticos end-to-end (Cliente-B/Sucursal-Norte/Sucursal-Sur, `C00x`, PEN; sin PII real)",
+ "Fixtures sintéticos end-to-end (Lima/Arequipa/Cusco, `C00x`, PEN; sin PII real)",
  "Joins con filas pre/post documentadas y anti-join o validate en el script o en el memo",
  "Al menos un reshape o validación de schema estable (set de columnas)",
  "Demo reproducible (`if __name__ == '__main__'`) que imprima `portfolio_summary`",
@@ -1409,8 +1411,8 @@ def portfolio_summary(clientes: pd.DataFrame, tx: pd.DataFrame, cutoff: str) -> 
  Contrato de métricas 'pre': solo filas con fecha <= cutoff (as-of).
  total_monto = suma de montos del merge completo (puede incluir post-cutoff).
  leakage_delta = total_monto - total_pre_cutoff.
- reconciled = True si el residual de partes vs total de referencia cabe en eps
- (o documenta residual en el memo si usas bridge externa).
+ reconciled = True si el residual de partes vs. total de referencia cabe en eps
+ (o documenta residual en el memo si usas tabla puente externa).
  """
  # Contrato: implementa la función (no dejes NotImplemented)
  # Sugerencia de pasos: left merge + indicator → anti-join count →
@@ -1419,7 +1421,7 @@ def portfolio_summary(clientes: pd.DataFrame, tx: pd.DataFrame, cutoff: str) -> 
 
 if __name__ == "__main__":
  # Fixture sintético de laboratorio (sin PII real)
- clientes = pd.DataFrame({"cliente_id": ["C001", "C002"], "region": ["Sucursal-Centro", "Oficina-Este"]})
+ clientes = pd.DataFrame({"cliente_id": ["C001", "C002"], "region": ["Lima", "Cusco"]})
  tx = pd.DataFrame({
  "cliente_id": ["C001", "C001", "C002"],
  "fecha": pd.to_datetime(["2024-01-10", "2024-03-01", "2024-01-20"]),
@@ -1430,11 +1432,11 @@ if __name__ == "__main__":
  # rows_merge=3, n_huerfanos depende de matches, total_pre usa ene, leakage_delta > 0
 `,
  portfolioNote:
- "Este cierre del portfolio de calidad + EDA debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre (intervalos, hallazgo vs hipótesis) sobre estos números — no reescribas los joins; reutiliza el dataset limpio.",
+ "Este cierre del portfolio de calidad + EDA debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados. En S18 añadirás la capa de incertidumbre (intervalos, hallazgo vs. hipótesis) sobre estos números — no reescribas los joins; reutiliza el dataset limpio.",
  rubric: [
  { criterion: "Joins con cardinalidad documentada (filas pre/post, validate o anti-join de huérfanos)", weight: "20%" },
  { criterion: "Reshape o schema estable long/wide con columnas expected validadas", weight: "15%" },
- { criterion: "Groupby/agg/transform alineado a la pregunta de negocio (suma vs media)", weight: "15%" },
+ { criterion: "Groupby/agg/transform alineado a la pregunta de negocio (suma vs. media)", weight: "15%" },
  { criterion: "Reconciliación de totales/denominadores con diff o residual documentado", weight: "15%" },
  { criterion: "Control de leakage temporal (cutoff/as-of) con delta explícito", weight: "15%" },
  { criterion: "Privacidad: solo sintéticos, sin PII real ni secretos", weight: "10%" },
@@ -1525,7 +1527,7 @@ if __name__ == "__main__":
  },
  {
  label: "Effective Pandas — aggregation patterns",
- note: "agg vs transform",
+ note: "agg vs. transform",
  },
  ],
  courses: [

@@ -1,0 +1,1456 @@
+{
+  "section": "S44",
+  "n_records": 180,
+  "n_spanish_records": 162,
+  "n_sentences": 224,
+  "WPS": {
+    "n": 224,
+    "min": 3,
+    "p25": 11,
+    "median": 17,
+    "p75": 22,
+    "max": 42,
+    "mean": 16.8
+  },
+  "SPW": {
+    "n": 224,
+    "min": 1.0,
+    "p25": 1.6,
+    "median": 1.8,
+    "p75": 2.0,
+    "max": 2.5,
+    "mean": 1.8
+  },
+  "FH": {
+    "n": 224,
+    "min": 51.2,
+    "p25": 72.4,
+    "median": 81.8,
+    "p75": 91.5,
+    "max": 142.8,
+    "mean": 82.5
+  },
+  "INFLESZ": {
+    "n": 224,
+    "min": 47.1,
+    "p25": 68.5,
+    "median": 78.2,
+    "p75": 88.0,
+    "max": 140.5,
+    "mean": 78.7
+  },
+  "findings_count": {
+    "missing_terminal": 47,
+    "long_gt32": 8
+  },
+  "worst_sentences_by_WPS": [
+    {
+      "field": "instruction",
+      "lineno": 1608,
+      "sentence": "S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la ausencia de `release_notes` debe devolver `COMPLETE_RELEASE_NOTES`.",
+      "words": 42,
+      "syllables": 78,
+      "WPS": 42,
+      "SPW": 1.857,
+      "FH": 52.6,
+      "INFLESZ": 49.1,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 800,
+      "sentence": "S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELINE_RESULT` y la ausencia de `conditions_cover_tags` debe devolver `INSPECT_WORKFLOW_CONDITION`.",
+      "words": 41,
+      "syllables": 70,
+      "WPS": 41,
+      "SPW": 1.707,
+      "FH": 62.6,
+      "INFLESZ": 59.5,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1750,
+      "sentence": "S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SILENT_FAILURE` y la ausencia de `evidence_retained` debe devolver `ASSIGN_INCIDENT_OWNER`.",
+      "words": 41,
+      "syllables": 73,
+      "WPS": 41,
+      "SPW": 1.78,
+      "FH": 58.2,
+      "INFLESZ": 54.9,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1466,
+      "sentence": "S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROLLBACK_RELEASE` y la ausencia de `rto_seconds` debe devolver `PAUSE_CANARY`.",
+      "words": 40,
+      "syllables": 71,
+      "WPS": 40,
+      "SPW": 1.775,
+      "FH": 59.5,
+      "INFLESZ": 56.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 658,
+      "sentence": "S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `FAIL_CI_GATE` y la ausencia de `supported` debe devolver `REVIEW_MATRIX`.",
+      "words": 39,
+      "syllables": 63,
+      "WPS": 39,
+      "SPW": 1.615,
+      "FH": 70.1,
+      "INFLESZ": 67.2,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1182,
+      "sentence": "S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia de `attestation_valid` debe devolver `REBUILD_PROVENANCE`.",
+      "words": 38,
+      "syllables": 74,
+      "WPS": 38,
+      "SPW": 1.947,
+      "FH": 51.2,
+      "INFLESZ": 47.5,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1324,
+      "sentence": "S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promoted_digest` debe devolver `REQUEST_RELEASE_APPROVAL`.",
+      "words": 38,
+      "syllables": 72,
+      "WPS": 38,
+      "SPW": 1.895,
+      "FH": 54.4,
+      "INFLESZ": 50.8,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 913,
+      "sentence": "S44-T2-A-E2 · Clasifica tres rutas de endurecimiento: fixture con pin SHA completo y least privilege (`PASS`), adverso con write/`@v4`/secret hit (`REVOKE_AND_ROTATE`), y registro sin `dependency_review` (`MISSING:dependency_review`).",
+      "words": 35,
+      "syllables": 60,
+      "WPS": 35,
+      "SPW": 1.714,
+      "FH": 68.3,
+      "INFLESZ": 65.0,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 853,
+      "sentence": "S44-T2-A-E1 · Endurece el workflow de `CASO-PIU-044-2A`: permisos mínimos, **pin por SHA completo de 40 hex** en `action_ref`, cero secret hits y dependency review.",
+      "words": 30,
+      "syllables": 43,
+      "WPS": 30,
+      "SPW": 1.433,
+      "FH": 90.2,
+      "INFLESZ": 87.5,
+      "findings": []
+    },
+    {
+      "field": "portfolioNote",
+      "lineno": 1892,
+      "sentence": "El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo.",
+      "words": 30,
+      "syllables": 55,
+      "WPS": 30,
+      "SPW": 1.833,
+      "FH": 66.2,
+      "INFLESZ": 62.6,
+      "findings": []
+    }
+  ],
+  "worst_sentences_by_FH_low": [
+    {
+      "field": "instruction",
+      "lineno": 1182,
+      "sentence": "S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia de `attestation_valid` debe devolver `REBUILD_PROVENANCE`.",
+      "words": 38,
+      "syllables": 74,
+      "WPS": 38,
+      "SPW": 1.947,
+      "FH": 51.2,
+      "INFLESZ": 47.5,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1608,
+      "sentence": "S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la ausencia de `release_notes` debe devolver `COMPLETE_RELEASE_NOTES`.",
+      "words": 42,
+      "syllables": 78,
+      "WPS": 42,
+      "SPW": 1.857,
+      "FH": 52.6,
+      "INFLESZ": 49.1,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 197,
+      "sentence": "SBOM, provenance y attestations",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1897,
+      "sentence": "Reproducibilidad, lineage y evidencia",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1998,
+      "sentence": "Release y canary conceptual",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1324,
+      "sentence": "S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promoted_digest` debe devolver `REQUEST_RELEASE_APPROVAL`.",
+      "words": 38,
+      "syllables": 72,
+      "WPS": 38,
+      "SPW": 1.895,
+      "FH": 54.4,
+      "INFLESZ": 50.8,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 21,
+      "sentence": "Promover entre environments solo con aprobación independiente y sin rebuild del artefacto testeado",
+      "words": 13,
+      "syllables": 30,
+      "WPS": 13,
+      "SPW": 2.308,
+      "FH": 55.1,
+      "INFLESZ": 50.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "tests",
+      "lineno": 1136,
+      "sentence": "La tabla cubre válido/adverso/campo `attestation_valid` ausente y produce exactamente `PASS REJECT_ATTESTATION MISSING:attestation_valid`.",
+      "words": 18,
+      "syllables": 40,
+      "WPS": 18,
+      "SPW": 2.222,
+      "FH": 55.1,
+      "INFLESZ": 50.4,
+      "findings": []
+    },
+    {
+      "field": "description",
+      "lineno": 443,
+      "sentence": "Demo: SBOM, provenance y attestations",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1898,
+      "sentence": "Operación: SLO, observabilidad y rollback",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    }
+  ],
+  "sentences_with_findings": [
+    {
+      "field": "title",
+      "lineno": 6,
+      "sentence": "CI/CD y seguridad de la cadena de suministro",
+      "words": 9,
+      "syllables": 13,
+      "WPS": 9,
+      "SPW": 1.444,
+      "FH": 111.0,
+      "INFLESZ": 107.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "tagline",
+      "lineno": 8,
+      "sentence": "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
+      "words": 14,
+      "syllables": 30,
+      "WPS": 14,
+      "SPW": 2.143,
+      "FH": 64.0,
+      "INFLESZ": 59.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 17,
+      "sentence": "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo",
+      "words": 19,
+      "syllables": 32,
+      "WPS": 19,
+      "SPW": 1.684,
+      "FH": 86.4,
+      "INFLESZ": 82.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 18,
+      "sentence": "Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build",
+      "words": 14,
+      "syllables": 27,
+      "WPS": 14,
+      "SPW": 1.929,
+      "FH": 76.8,
+      "INFLESZ": 72.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 19,
+      "sentence": "Aplicar least privilege, pin de actions por SHA completo y secret scanning antes de publicar",
+      "words": 15,
+      "syllables": 24,
+      "WPS": 15,
+      "SPW": 1.6,
+      "FH": 95.5,
+      "INFLESZ": 92.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 20,
+      "sentence": "Producir SBOM + provenance enlazados al mismo digest y rechazar attestation divergente",
+      "words": 11,
+      "syllables": 25,
+      "WPS": 11,
+      "SPW": 2.273,
+      "FH": 59.3,
+      "INFLESZ": 54.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 21,
+      "sentence": "Promover entre environments solo con aprobación independiente y sin rebuild del artefacto testeado",
+      "words": 13,
+      "syllables": 30,
+      "WPS": 13,
+      "SPW": 2.308,
+      "FH": 55.1,
+      "INFLESZ": 50.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 22,
+      "sentence": "Ejecutar canary con umbral de error y demostrar rollback al digest previo dentro del RTO",
+      "words": 15,
+      "syllables": 25,
+      "WPS": 15,
+      "SPW": 1.667,
+      "FH": 91.5,
+      "INFLESZ": 88.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 23,
+      "sentence": "Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)",
+      "words": 13,
+      "syllables": 27,
+      "WPS": 13,
+      "SPW": 2.077,
+      "FH": 69.0,
+      "INFLESZ": 64.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 24,
+      "sentence": "Clasificar fallos críticos con bloqueo, logs redactados, dueño y evidencia retenida (no continue-on-error silencioso)",
+      "words": 16,
+      "syllables": 32,
+      "WPS": 16,
+      "SPW": 2.0,
+      "FH": 70.5,
+      "INFLESZ": 66.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 28,
+      "sentence": "Ruta de S44: CI/CD y seguridad de la cadena de suministro",
+      "words": 12,
+      "syllables": 16,
+      "WPS": 12,
+      "SPW": 1.333,
+      "FH": 114.6,
+      "INFLESZ": 111.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 57,
+      "sentence": "Gate de promoción",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 62,
+      "sentence": "lint/types/tests y matrices",
+      "words": 5,
+      "syllables": 7,
+      "WPS": 5,
+      "SPW": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 102,
+      "sentence": "caches, artifacts y condiciones",
+      "words": 4,
+      "syllables": 8,
+      "WPS": 4,
+      "SPW": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 142,
+      "sentence": "permisos mínimos, pinning y secret scanning",
+      "words": 6,
+      "syllables": 9,
+      "WPS": 6,
+      "SPW": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 197,
+      "sentence": "SBOM, provenance y attestations",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 230,
+      "sentence": "environments y approvals",
+      "words": 3,
+      "syllables": 7,
+      "WPS": 3,
+      "SPW": 2.333,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 260,
+      "sentence": "Anti-patrón: rebuild al promover",
+      "words": 5,
+      "syllables": 8,
+      "WPS": 5,
+      "SPW": 1.6,
+      "FH": 105.7,
+      "INFLESZ": 102.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 266,
+      "sentence": "migrations, canary/blue-green y rollback",
+      "words": 6,
+      "syllables": 10,
+      "WPS": 6,
+      "SPW": 1.667,
+      "FH": 100.7,
+      "INFLESZ": 97.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 298,
+      "sentence": "branch/review policy y release notes",
+      "words": 6,
+      "syllables": 11,
+      "WPS": 6,
+      "SPW": 1.833,
+      "FH": 90.7,
+      "INFLESZ": 86.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 330,
+      "sentence": "failure handling y evidencia auditable",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 368,
+      "sentence": "Demo: lint/types/tests y matrices",
+      "words": 6,
+      "syllables": 9,
+      "WPS": 6,
+      "SPW": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 394,
+      "sentence": "Demo: caches, artifacts y condiciones",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 418,
+      "sentence": "Demo: permisos mínimos, pinning y secret scanning",
+      "words": 7,
+      "syllables": 11,
+      "WPS": 7,
+      "SPW": 1.571,
+      "FH": 105.4,
+      "INFLESZ": 101.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 443,
+      "sentence": "Demo: SBOM, provenance y attestations",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 464,
+      "sentence": "Demo: environments y approvals",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 497,
+      "sentence": "Demo: migrations, canary/blue-green y rollback",
+      "words": 7,
+      "syllables": 12,
+      "WPS": 7,
+      "SPW": 1.714,
+      "FH": 96.8,
+      "INFLESZ": 93.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 522,
+      "sentence": "Demo: branch/review policy y release notes",
+      "words": 7,
+      "syllables": 13,
+      "WPS": 7,
+      "SPW": 1.857,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "description",
+      "lineno": 543,
+      "sentence": "Demo: failure handling y evidencia auditable",
+      "words": 6,
+      "syllables": 12,
+      "WPS": 6,
+      "SPW": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 658,
+      "sentence": "S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `FAIL_CI_GATE` y la ausencia de `supported` debe devolver `REVIEW_MATRIX`.",
+      "words": 39,
+      "syllables": 63,
+      "WPS": 39,
+      "SPW": 1.615,
+      "FH": 70.1,
+      "INFLESZ": 67.2,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 800,
+      "sentence": "S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELINE_RESULT` y la ausencia de `conditions_cover_tags` debe devolver `INSPECT_WORKFLOW_CONDITION`.",
+      "words": 41,
+      "syllables": 70,
+      "WPS": 41,
+      "SPW": 1.707,
+      "FH": 62.6,
+      "INFLESZ": 59.5,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 913,
+      "sentence": "S44-T2-A-E2 · Clasifica tres rutas de endurecimiento: fixture con pin SHA completo y least privilege (`PASS`), adverso con write/`@v4`/secret hit (`REVOKE_AND_ROTATE`), y registro sin `dependency_review` (`MISSING:dependency_review`).",
+      "words": 35,
+      "syllables": 60,
+      "WPS": 35,
+      "SPW": 1.714,
+      "FH": 68.3,
+      "INFLESZ": 65.0,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1182,
+      "sentence": "S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia de `attestation_valid` debe devolver `REBUILD_PROVENANCE`.",
+      "words": 38,
+      "syllables": 74,
+      "WPS": 38,
+      "SPW": 1.947,
+      "FH": 51.2,
+      "INFLESZ": 47.5,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1324,
+      "sentence": "S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promoted_digest` debe devolver `REQUEST_RELEASE_APPROVAL`.",
+      "words": 38,
+      "syllables": 72,
+      "WPS": 38,
+      "SPW": 1.895,
+      "FH": 54.4,
+      "INFLESZ": 50.8,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1466,
+      "sentence": "S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROLLBACK_RELEASE` y la ausencia de `rto_seconds` debe devolver `PAUSE_CANARY`.",
+      "words": 40,
+      "syllables": 71,
+      "WPS": 40,
+      "SPW": 1.775,
+      "FH": 59.5,
+      "INFLESZ": 56.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1608,
+      "sentence": "S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la ausencia de `release_notes` debe devolver `COMPLETE_RELEASE_NOTES`.",
+      "words": 42,
+      "syllables": 78,
+      "WPS": 42,
+      "SPW": 1.857,
+      "FH": 52.6,
+      "INFLESZ": 49.1,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1750,
+      "sentence": "S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SILENT_FAILURE` y la ausencia de `evidence_retained` debe devolver `ASSIGN_INCIDENT_OWNER`.",
+      "words": 41,
+      "syllables": 73,
+      "WPS": 41,
+      "SPW": 1.78,
+      "FH": 58.2,
+      "INFLESZ": 54.9,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1894,
+      "sentence": "Correctitud del contrato y gate",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1895,
+      "sentence": "Pruebas normal/breach/uncertain y recuperación",
+      "words": 6,
+      "syllables": 12,
+      "WPS": 6,
+      "SPW": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1896,
+      "sentence": "Seguridad, privacidad y least privilege",
+      "words": 5,
+      "syllables": 9,
+      "WPS": 5,
+      "SPW": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1897,
+      "sentence": "Reproducibilidad, lineage y evidencia",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1898,
+      "sentence": "Operación: SLO, observabilidad y rollback",
+      "words": 5,
+      "syllables": 12,
+      "WPS": 5,
+      "SPW": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1899,
+      "sentence": "Comunicación de trade-offs y límites",
+      "words": 6,
+      "syllables": 10,
+      "WPS": 6,
+      "SPW": 1.667,
+      "FH": 100.7,
+      "INFLESZ": 97.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "question",
+      "lineno": 1929,
+      "sentence": "Antes de promover a staging, el digest del artefacto testeado y el promovido deben…",
+      "words": 14,
+      "syllables": 25,
+      "WPS": 14,
+      "SPW": 1.786,
+      "FH": 85.4,
+      "INFLESZ": 81.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1941,
+      "sentence": "Permisos, pinning y secrets",
+      "words": 4,
+      "syllables": 6,
+      "WPS": 4,
+      "SPW": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1946,
+      "sentence": "Approvals y environments",
+      "words": 3,
+      "syllables": 7,
+      "WPS": 3,
+      "SPW": 2.333,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1956,
+      "sentence": "Provenance y niveles de integridad",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1971,
+      "sentence": "Firmas y attestations de artefactos",
+      "words": 5,
+      "syllables": 11,
+      "WPS": 5,
+      "SPW": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1976,
+      "sentence": "Integridad de cadena de suministro",
+      "words": 5,
+      "syllables": 9,
+      "WPS": 5,
+      "SPW": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1986,
+      "sentence": "Pinning y hash checking",
+      "words": 4,
+      "syllables": 4,
+      "WPS": 4,
+      "SPW": 1.0,
+      "FH": 142.8,
+      "INFLESZ": 140.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1990,
+      "sentence": "CI/CD y delivery performance",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1991,
+      "sentence": "Canary, rollback y evidencia",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1994,
+      "sentence": "Pipelines y supply chain intro",
+      "words": 5,
+      "syllables": 7,
+      "WPS": 5,
+      "SPW": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1996,
+      "sentence": "Tests y proyectos reproducibles",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1998,
+      "sentence": "Release y canary conceptual",
+      "words": 4,
+      "syllables": 10,
+      "WPS": 4,
+      "SPW": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    }
+  ]
+}

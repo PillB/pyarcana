@@ -13,7 +13,7 @@ export const section01: CourseSection = {
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:
-    'El 90% de los problemas en equipos de data science no son de código: son de **entorno** (la máquina, el Python y los paquetes con los que corres el proyecto). Un analista que sabe crear un **entorno virtual** (carpeta aislada de Python + paquetes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un editor como VS Code ahorra horas al equipo. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un notebook. Si te trabas ahí, no pasas la semana de prueba. Esta sección te enseña cada una de esas palabras antes de usarla a fondo.',
+    'El 90 % de los problemas en equipos de data science no son de código: son de **entorno** (la máquina, el Python y los paquetes con los que corres el proyecto). Un analista que sabe crear un **entorno virtual**, usar **Git** y un editor como VS Code ahorra horas al equipo. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un notebook. Si te trabas ahí, no pasas la semana de prueba. Esta sección te enseña cada una de esas palabras antes de usarlas a fondo.',
   learningOutcomes: [
     {
       text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida',
@@ -37,7 +37,11 @@ export const section01: CourseSection = {
     {
       heading: 'Por qué el setup importa más de lo que crees',
       paragraphs: [
-        '**Diccionario del día 1** (léelo antes de seguir; el resto profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.',
+        '**Diccionario del día 1.** Léelo antes de seguir; el resto de la sección profundiza cada término.',
+        '**Intérprete y terminal (T1):** *Intérprete* — el programa `python`/`python3` que ejecuta tu código. *Terminal (shell)* — la ventana de texto donde escribes comandos.',
+        '**Entornos (T2):** *Entorno virtual (`venv`)* — una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. *pip* — instalador de paquetes de terceros. *requirements.txt* — archivo que lista esas dependencias con versión.',
+        '**Git (T3):** *Repo (repositorio)* — la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). *Clonar* — copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. *Commit* — guardar un snapshot del historial con un mensaje. *Pull Request (PR)* — pedir que revisen e integren tus cambios.',
+        'Vuelve a este bloque cuando veas una palabra en negrita y no la recuerdes.',
         'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `python -m pip install -r requirements.txt` (instala los paquetes listados atados al mismo intérprete) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
         'En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y **entornos virtuales** con el módulo `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` (más rápido), pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos.',
         'La regla de oro: **un proyecto = un entorno virtual = un requirements.txt**. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las **dependencias** (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar. Caso sintético de laboratorio: `CASO-LIM-001` (setup reproducible sin secretos en el repo).',
@@ -64,9 +68,9 @@ secrets_in_repo_ok False`,
       },
       callout: {
         type: 'tip',
-        title: 'Diccionario del día 1 + ritmo sugerido (19 h totales)',
+        title: 'Diccionario del día 1 + ritmo sugerido (18 h totales)',
         content:
-          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. **Ritmo:** 3–4 h núcleo (Python + venv + pip + git local), 6–8 h GitHub/PR/Ruff/ignore, el resto para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. No hace falta terminar el portafolio en un solo día: el núcleo de 3–4 h ya te deja con intérprete, venv y un commit limpio.',
+          'Si una palabra en negrita no te queda clara, vuelve a este bloque. **Ritmo sugerido (18 h totales):** 3–4 h de núcleo (Python + `venv` + `pip` + `git` local); 6–8 h para GitHub/PR/Ruff/`.gitignore`; el resto, para pulir el esqueleto CP-N1-A y el checklist de máquina limpia. No hace falta terminar el portafolio en un solo día. Con el núcleo de 3–4 h ya tendrás un intérprete, un `venv` y un commit limpio.',
       },
     },
     {
@@ -77,7 +81,7 @@ secrets_in_repo_ok False`,
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice "ábrelo en el intérprete y mira el tipo", te está pidiendo el REPL. Cuando dice "corre el entrypoint", te está pidiendo un archivo. Confundir ambos genera la sensación de que "a mí me funciona" en la laptop y falla en el servidor.',
         'Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == "__main__":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f"Hola {nombre}")` — la `f` delante de las comillas permite `{expresiones}` dentro.',
-        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` (“esta función no devuelve un valor útil”). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en runtime. Los demos y ejercicios de esta sección usan `def main():` sin anotaciones — las reencontrarás cuando S02–S03 profundicen tipos. Si las copias o las omites, la lógica del script no cambia.',
+        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` («esta función no devuelve un valor útil»). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en tiempo de ejecución. Los demos y ejercicios de esta sección usan `def main():` sin anotaciones; las reencontrarás cuando S02–S03 profundicen en tipos. Si las copias o las omites, la lógica del script no cambia.',
       ],
       code: {
         language: 'python',
@@ -96,7 +100,6 @@ if __name__ == "__main__":
         output: `Hola Estudiante
 3.12.3`,
       },
-      // keep bash REPL demo as second visual via callout-adjacent; original bash block renamed below
       callout: {
         type: 'tip',
         title: 'REPL vs script en un minuto',
@@ -153,7 +156,7 @@ pip 24.0 from ... (python 3.12)`,
         title: 'check_arg.py — argv, len y exit codes',
         code: `import sys
 
-def main() -> None:
+def main():
     # sys.argv[0] = script; usuario desde [1]
     if len(sys.argv) != 2:
         print("uso: python check_arg.py <arg>", file=sys.stderr)
@@ -270,7 +273,7 @@ git version 2.43.0
       paragraphs: [
         'Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo **`venv`**: `python -m venv .venv`. La regla de oro no cambia: **un proyecto = un entorno = un conjunto de dependencias**. Así evitas que el pandas 2.x de un cliente rompa el notebook legacy de otro. Instalar paquetes “en el Python global” del sistema es la vía rápida al caos en tres meses.',
         '**Nombre de la carpeta:** la documentación oficial de Python recomienda **`.venv`** (con punto): queda semi-oculto en listados Unix y se distingue de archivos `.env` de secretos. El nombre `venv` (sin punto) también es válido y lo verás en muchos tutoriales; en este curso el canónico es **`.venv`**, y tratamos `venv` como alias aceptado si ya lo usas. Ambos deben ir en `.gitignore` — nunca subas el entorno a GitHub (pesa decenas o cientos de MB y se regenera).',
-        '**Activación** engancha la shell al Python del entorno: en macOS/Linux, `source .venv/bin/activate`; en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`. **`deactivate`** vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta `.venv` y la recreas con el mismo comando. `conda` sigue siendo alternativa en investigación o GPU, pero **no es el default** de este curso. Herramientas más nuevas como `uv` son tendencia; aquí dominas `venv` porque es lo que encontrarás en la mayoría de onboarding corporativos.',
+        '**Activación** engancha la shell al Python del entorno: en macOS/Linux, `source .venv/bin/activate`; en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`. **`deactivate`** vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta `.venv` y la recreas con el mismo comando. `conda` sigue siendo alternativa en investigación o GPU, pero **no es el default** de este curso. Herramientas más nuevas como `uv` son tendencia; aquí dominas `venv` porque es lo que encontrarás en la mayoría de inducción corporativa.',
       ],
       code: {
         language: 'bash',
@@ -301,8 +304,8 @@ which python || where python
       subtopicId: 'S01-T2-B',
       paragraphs: [
         'Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló en un Python y `import` usa otro”. Comandos del día a día: `python -m pip install paquete`, pin con `paquete==1.2.3`, listar con `python -m pip list`, y exportar un snapshot con `python -m pip freeze > requirements.txt`. Para restaurar en otra máquina o en un entorno limpio: `python -m pip install -r requirements.txt`. La biblioteca estándar (`sys`, `datetime`, `pathlib`, `csv`, `json`…) **no** va a requirements: se importa sin `pip install`.',
-        '**`pip freeze`** escribe *todo* lo instalado en el entorno activo, incluidas **dependencias transitivas** (si instalas `requests`, también aparecen `urllib3`, `certifi`, etc.). Eso es un **snapshot reproducible** muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, `uv lock` van más allá). En S01 usamos freeze + `==` porque es el mínimo que encontrarás en onboarding corporativo y en muchos repos de data. Entiende el límite: freeze captura *lo que hay hoy* en *tu* venv; no resuelve conflictos multiplataforma ni firma paquetes.',
-        'Flujo profesional: (1) activar `.venv`, (2) instalar lo necesario, (3) `python -m pip freeze > requirements.txt`, (4) commitear el archivo (no la carpeta `.venv/`). Si un colega clona y hace `install -r`, debería obtener las mismas versiones pinneadas. Si ves `ModuleNotFoundError`, primero pregunta: ¿estoy en el venv correcto? ¿usé `python -m pip`? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”.',
+        '**`pip freeze`** escribe *todo* lo instalado en el entorno activo, incluidas **dependencias transitivas** (si instalas `requests`, también aparecen `urllib3`, `certifi`, etc.). Eso es un **snapshot reproducible** muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, `uv lock` van más allá). En S01 usamos freeze + `==` porque es el mínimo que encontrarás en inducción corporativa y en muchos repos de data. Entiende el límite: freeze captura *lo que hay hoy* en *tu* venv; no resuelve conflictos multiplataforma ni firma paquetes.',
+        'Flujo profesional: (1) activar `.venv`, (2) instalar lo necesario, (3) `python -m pip freeze > requirements.txt`, (4) hacer commit del archivo (no de la carpeta `.venv/`). Si un colega clona y hace `install -r`, debería obtener las mismas versiones pinneadas. Si ves `ModuleNotFoundError`, primero pregunta: ¿estoy en el venv correcto? ¿usé `python -m pip`? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”.',
       ],
       code: {
         language: 'bash',
@@ -363,8 +366,8 @@ docs: agregar README inicial
       subtopicId: 'S01-T3-B',
       paragraphs: [
         'Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git switch -c feat/nombre-corto`, haz commits ahí, publica con `git push -u origin feat/nombre-corto`, y abre un **Pull Request (PR)** en GitHub para revisar antes de integrar a `main`. El PR no es burocracia: es el lugar donde un colega lee el diff, comenta y aprueba. Nombres útiles: `feat/hello-env`, `docs/readme-install`, `fix/gitignore-env`.',
-        'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de merge o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no paniquear y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en onboarding, ni eso.',
-        'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commitear* en el working tree (vuelve a la última versión commiteada o staged, según el caso). `git stash` guarda cambios temporales y deja el árbol limpio; `git stash pop` los recupera. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo no commiteado de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
+        'Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de fusión o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no entrar en pánico y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en inducción, ni eso.',
+        'Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commit* en el working tree (vuelve a la última versión confirmada o staged, según el caso). `git stash` guarda cambios temporales y deja el árbol limpio; `git stash pop` los recupera. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo sin commit de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado.',
       ],
       code: {
         language: 'bash',
@@ -386,14 +389,14 @@ git push -u origin feat/hello-env
         type: 'danger',
         title: 'Errores típicos + prohibido force-push a main',
         content:
-          'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya trackeaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
+          'Errores típicos a evitar: (1) subir `.venv/`/`venv/` a GitHub, (2) subir `.env` con secretos, (3) commits "cambios"/"wip", (4) trabajar solo en `main`. Si ya versionaste un secreto: rotar + `git rm --cached .env` (`.gitignore` solo no limpia historial). **Prohibido:** `git push --force` a `main` — puede borrar commits ajenos. Recuperación segura: restore, stash, PR. Force-push nunca es la respuesta a “push rechazado” en main.',
       },
     },
     {
       heading: 'VS Code y Ruff como calidad mínima',
       subtopicId: 'S01-T4-A',
       paragraphs: [
-        'El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/formateador ultra rápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes del code review — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop.',
+        'El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter y formateador ultrarrápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes de la revisión de código — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop.',
         'La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = ["E", "F", "I"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**.',
         'Flujo: escribes código → `ruff check` reporta (ej. **F401** import sin usar) → corriges o, en casos justificados avanzados, documentas un `noqa` (en S01 prefiere corregir). No habilites `select = ["ALL"]` el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran.',
       ],
@@ -420,9 +423,9 @@ select = ["E", "F", "I"]
       heading: 'Archivos de calidad: ignore, secretos y README',
       subtopicId: 'S01-T4-B',
       paragraphs: [
-        '**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`, y a menudo `data/raw/` o dumps grandes si tu política es no versionar datos pesados. Incluye **ambos** nombres de entorno (`.venv/` y `venv/`) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo **ya** está trackeado, agregarlo al ignore no lo saca del historial: necesitas `git rm --cached archivo` y un commit.',
+        '**.gitignore** le dice a Git qué archivos no debe rastrear. Mínimo para Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`, y a menudo `data/raw/` o dumps grandes si tu política es no versionar datos pesados. Incluye **ambos** nombres de entorno (`.venv/` y `venv/`) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo **ya** está bajo control de versiones, agregarlo al `.gitignore` no lo saca del historial; necesitas `git rm --cached archivo` y un commit.',
         '**.env** guarda secretos y variables locales (API keys, contraseñas). **Nunca** va al repo. **`.env.example`** sí: lista las *claves* con valores vacíos o ficticios para que un colega sepa qué copiar a su `.env` privado. Ejemplo: `DATABASE_URL=` y `API_TOKEN=` sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo.',
-        '**README.md** es el onboarding del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Client Intake & Data Quality — capstone de Nivel 1 que se cierra en S04), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no commitear `.env`, datos sintéticos). En S01 **no** construyes el validador de intake: solo dejas estructura y smoke. Agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario no se puede auditar ni reutilizar en S02–S04.',
+        '**README.md** es la guía de arranque del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Validación de admisión de clientes y calidad de datos — *Client Intake & Data Quality*; capstone de Nivel 1 que se cierra en S04), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no versionar `.env`, datos sintéticos). En S01 **no** construyes el validador de intake: solo dejas estructura y smoke. Agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario no se puede auditar ni reutilizar en S02–S04.',
       ],
       code: {
         language: 'bash',
@@ -447,7 +450,7 @@ git check-ignore -v .env
         type: 'warning',
         title: 'Secretos, PII y datos sintéticos',
         content:
-          'En el esqueleto CP-N1-A usa solo datos sintéticos (nombres inventados, DNI ficticios). No subas extractos reales de clientes, ni dumps de producción, ni capturas con información personal. responsible_use en la rúbrica es tan importante como “que el script corra”.',
+          'En el esqueleto CP-N1-A usa solo datos sintéticos (nombres inventados, DNI ficticios). No subas extractos reales de clientes, ni dumps de producción, ni capturas con información personal. El uso responsable de los datos pesa en la rúbrica tanto como “que el script corra”.',
       },
     },
   ],
@@ -651,7 +654,7 @@ A  README.md
   },
   weDo: {
     intro:
-      'Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa T1–T4 (24 ejercicios con id S01-T*-E*). Los demos del I Do ya te mostraron comandos reales: aquí rellenas blanks, diagnosticas y transferes a escenarios de equipo. Usa las dos pistas si te trabas; solo entonces revisa la solución. Al final, el You Do cierra el **esqueleto CP-N1-A** (sin validador aún — solo repo clonable).',
+      'Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa T1–T4 (24 ejercicios con id `S01-T*-E*`). Los demos del I Do ya te mostraron comandos reales; aquí rellenas huecos, diagnosticas y trasladas lo aprendido a escenarios de equipo. Usa las dos pistas si te trabas; solo entonces revisa la solución. Al final, el You Do cierra el **esqueleto CP-N1-A** (sin validador aún — solo repo clonable).',
     steps: [
       {
         id: 'S01-T1-A-E1',
@@ -893,7 +896,7 @@ codigo_fail=1`,
         subtopicId: 'S01-T1-B',
         kind: 'independent',
         instruction:
-          'E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o hay más de uno), imprime un mensaje de uso en stderr y termina con código 1. Usa `sys.argv` y `sys.exit`.',
+          'E2 (independiente) — Escribe `check_arg.py` con este contrato: (1) si recibe **exactamente un** argumento de línea de comandos, imprime `OK:<arg>` y termina con código `0`; (2) si recibe cero argumentos o más de uno, imprime un mensaje de uso en `stderr` y termina con código `1`. Usa `sys.argv` y `sys.exit`.',
         hint: 'sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].',
         hints: [
           'sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].',
@@ -970,7 +973,7 @@ $ echo $?
         tests:
           'Rúbrica: clasifica A vs B; propone python -m pip; verifica --version de python y pip; no inventa reinstalls de SO innecesarios; sin secretos.',
         feedback:
-          'Separar "no está en el PATH" de "instalé en otro Python" es el 80% de los tickets de onboarding en equipos de datos. Llévalo a tu checklist del día 1.',
+          'Separar "no está en el PATH" de "instalé en otro Python" es el 80 % de los tickets de inducción en equipos de datos. Llévalo a tu checklist del día 1.',
         starterCode: {
           language: 'markdown',
           title: 'diagnostico_pip_vs_path.md',
@@ -1145,7 +1148,7 @@ ls hello.py 2>/dev/null || echo "(tu código fuente permanece en el proyecto)"`,
         tests:
           'Rúbrica: menciona conflicto de versiones; propone .venv o venv por proyecto; no recomienda install global ni sudo; tono profesional en español.',
         feedback:
-          'Saber argumentar el aislamiento de dependencias es parte del onboarding: no solo “cómo”, sino “por qué no lo hacemos global”.',
+          'Saber argumentar el aislamiento de dependencias es parte de la inducción: no solo “cómo”, sino “por qué no lo hacemos global”.',
         starterCode: {
           language: 'markdown',
           title: 'por_que_venv.md',
@@ -1182,7 +1185,7 @@ El Proyecto A (reporte legacy) necesita una API de pandas 1.x. El Proyecto B (pi
 ## Nota sobre la herramienta
 - venv es **stdlib** (viene con Python; no requiere descarga extra como gestor aparte).
 - Nombre canónico de carpeta en este curso: **\`.venv\`** (\`venv\` es alias aceptado).
-- conda/uv existen y son útiles en otros contextos; aquí el default es venv por portabilidad en onboarding.`,
+- conda/uv existen y son útiles en otros contextos; aquí el default es venv por portabilidad en inducción.`,
           output: 'Argumento de aislamiento con escenario de dos versiones; flujo .venv claro.',
         },
       },
@@ -1391,15 +1394,15 @@ git log -1 --oneline`,
         subtopicId: 'S01-T3-A',
         kind: 'independent',
         instruction:
-          'E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia entre archivo nuevo vs modificado; (3) una frase de qué cambió el commit.',
-        hint: 'Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD',
+          'E2 (independiente) — Modifica un README ya con commit (agrega una línea), haz otro commit y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia entre archivo nuevo vs. modificado; (3) una frase de qué cambió el commit.',
+        hint: 'Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD.',
         hints: [
-          'Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD',
+          'Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD.',
           'Archivo nuevo: todo el contenido aparece con +. Modificado: solo las líneas tocadas con +/−.',
         ],
         edgeCases: [
           'Mirar git diff después del commit (vacío) en lugar de git show',
-          'No stagear y creer que el commit incluye el cambio',
+          'No pasar el archivo a staging (`git add`) y creer que el commit incluye el cambio',
         ],
         tests:
           'Markdown responde las 3 preguntas; menciona +/−; commit existe en log.',
@@ -1626,7 +1629,7 @@ feat: agregar smoke hello_env y documentar install
         hint: 'restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.',
         hints: [
           'restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.',
-          'reset --hard borra trabajo no commiteado sin red de seguridad; no es el default de este curso.',
+          'reset --hard borra trabajo sin commit sin red de seguridad; no es el default de este curso.',
         ],
         edgeCases: [
           'Archivo ya staged: puede hacer falta git restore --staged y luego restore',
@@ -1669,8 +1672,8 @@ ____`,
 README.md modificado, sin commit, cambio indeseado.
 
 ## Procedimiento con restore
-1. \`git status\` para confirmar que el cambio es solo local y no commiteado.
-2. \`git restore README.md\` para volver al último contenido commiteado (si estaba staged: \`git restore --staged README.md\` y luego \`git restore README.md\`).
+1. \`git status\` para confirmar que el cambio es solo local y aún no tiene commit.
+2. \`git restore README.md\` para volver al último contenido con commit (si estaba staged: \`git restore --staged README.md\` y luego \`git restore README.md\`).
 
 ## ¿Cuándo stash en su lugar?
 Si *podrías* querer el cambio después: \`git stash push -m "wip readme"\` y más tarde \`git stash pop\`.
@@ -1679,7 +1682,7 @@ Si *podrías* querer el cambio después: \`git stash push -m "wip readme"\` y m�
 Reescribe historial compartido y puede borrar commits de otras personas. El rechazo de un push se resuelve con pull/rebase en tu rama o con PR, no con force a main.
 
 ## Por qué no reset --hard como default
-Borra cambios no commiteados de forma fácil de lamentar. Primero restore/stash; hard solo con conciencia y backup.`,
+Borra cambios sin commit de forma fácil de lamentar. Primero restore/stash; hard solo con conciencia y backup.`,
           output: 'restore/stash primero; force-push a main prohibido.',
         },
       },
@@ -1776,7 +1779,6 @@ def main():
 
 if __name__ == "__main__":
     main()`,
-          // Runtime prints today's date; ellipsis marks nondeterministic day.
           output: `hola
 ...`,
         },
@@ -1850,10 +1852,10 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
         hint: 'Una entrada por línea. Las barras finales marcan directorios.',
         hints: [
           'Una entrada por línea. Las barras finales marcan directorios.',
-          'Incluye AMBOS: .venv/ y venv/. Si .env ya estaba trackeado, git rm --cached .env tras el ignore.',
+          'Incluye AMBOS: .venv/ y venv/. Si .env ya estaba versionado, git rm --cached .env tras el ignore.',
         ],
         edgeCases: [
-          'Archivo ya trackeado: ignore no lo saca solo',
+          'Archivo ya versionado: el ignore no lo saca solo',
           'Olvidar .venv/ y solo poner venv/ (o al revés)',
         ],
         tests:
@@ -1956,7 +1958,7 @@ LOG_LEVEL=INFO
         ],
         edgeCases: [
           'Checklist que asume paths de tu laptop (Users/tu_nombre)',
-          'Olvidar responsible_use (PII real)',
+          'Olvidar el uso responsable de los datos (PII real)',
         ],
         tests:
           '≥5 ítems; comandos concretos; menciona datos sintéticos/diccionario; sin secretos.',
@@ -1990,7 +1992,7 @@ LOG_LEVEL=INFO
 - [ ] 2. \`python -m venv .venv\` + activate; \`python -c "import sys; print(sys.prefix)"\` contiene \`.venv\`
 - [ ] 3. \`python -m pip install -r requirements.txt\` exit 0
 - [ ] 4. \`python scripts/hello_env.py\` exit 0
-- [ ] 5. \`git check-ignore -v .env\` confirma ignore; \`.env.example\` está trackeado
+- [ ] 5. \`git check-ignore -v .env\` confirma ignore; \`.env.example\` está versionado
 
 ## Datos
 - [ ] \`data/clients_synthetic.csv\` es sintético (sin PII real)
@@ -2004,7 +2006,7 @@ LOG_LEVEL=INFO
   youDo: {
     title: 'Esqueleto CP-N1-A — Reproducible Client Intake Repo',
     context:
-      'Este You Do es el **primer incremento del capstone CP-N1-A** (Client Intake & Data Quality Script), que se cierra formalmente en S04. En S01 no construyes aún el validador completo: dejas un **repo clonable** con entorno reproducible, higiene Git, calidad mínima (Ruff), datos **sintéticos** y diccionario de datos. S02–S04 montarán el script de intake sobre este esqueleto. El repo puede llamarse `python-ds-journey` o similar; lo importante es la estructura y que un compañero arranque en minutos.',
+      'Este You Do es el **primer incremento del capstone CP-N1-A** (Validación de admisión de clientes y calidad de datos — *Client Intake & Data Quality*), que se cierra formalmente en S04. En S01 no construyes aún el validador completo; dejas un **repo clonable** con entorno reproducible, higiene Git, calidad mínima (Ruff), datos **sintéticos** y diccionario de datos. S02–S04 montarán el script de intake sobre este esqueleto. El repo puede llamarse `python-ds-journey` o similar; lo importante es la estructura y que un compañero arranque en minutos.',
     objectives: [
       'Publicar un repo clonable con `.gitignore` (`.venv/` y `venv/`), `.env.example`, `requirements.txt` y `pyproject.toml` (Ruff)',
       'Documentar en README install/run y la frase “esqueleto de CP-N1-A”',
@@ -2014,7 +2016,7 @@ LOG_LEVEL=INFO
     requirements: [
       'Repo público accesible (GitHub u otro remoto del curso)',
       '.gitignore excluye: .venv/, venv/, __pycache__/, *.pyc, .env, .ipynb_checkpoints/',
-      '.env.example trackeado sin secretos; .env nunca en el historial de la entrega',
+      '.env.example versionado sin secretos; .env nunca en el historial de la entrega',
       'requirements.txt pinneado (python -m pip freeze) usable con install -r',
       'pyproject.toml con [tool.ruff] mínimo; ruff check limpio en scripts/hello_env.py',
       'README: título, descripción, install (venv + pip -r), uso, mención esqueleto CP-N1-A, nota de seguridad',
@@ -2093,9 +2095,29 @@ if __name__ == "__main__":
         explanation:
           'Los archivos .env guardan variables de entorno con secretos. Si los subes a un repo público, cualquiera puede usar tus credenciales. Es uno de los errores de seguridad más comunes y costosos en desarrollo. Usa `.env.example` sin secretos y deja `.env` en `.gitignore`.',
       },
+      {
+        question: '¿Qué significa un código de salida (exit code) igual a 1 en un script de Python?',
+        options: ['Éxito', 'Fallo controlado o error', 'Que el script está pausado', 'Que faltan paquetes por instalar'],
+        correctIndex: 1,
+        explanation:
+          'Por convención, exit 0 = éxito y cualquier valor distinto de 0 = fallo. `sys.exit(1)` señala a la shell, a CI o a un orquestador que el proceso falló y debe detenerse o reintentarse.',
+      },
+      {
+        question: '¿En qué archivo se configura Ruff para un proyecto?',
+        options: ['ruff.json', '.ruffrc', 'pyproject.toml (sección [tool.ruff])', 'setup.cfg'],
+        correctIndex: 2,
+        explanation:
+          'Ruff lee su configuración de `pyproject.toml` bajo `[tool.ruff]` y `[tool.ruff.lint]`. Es el contrato del repo, no solo del editor: CI y tus compañeros usan el mismo archivo.',
+      },
+      {
+        question: '¿Por qué está prohibido hacer `git push --force` a `main`?',
+        options: ['Porque borra tu rama local', 'Porque puede borrar commits ajenos del historial compartido', 'Porque es lento', 'Porque GitHub no lo permite'],
+        correctIndex: 1,
+        explanation:
+          'Force-push a `main` reescribe el historial compartido y puede borrar commits de otras personas. La recuperación segura es restore/stash/PR, no force-push. Reescribir historial solo es aceptable en ramas personales no compartidas y con permiso del equipo.',
+      },
     ],
   },
-  // Evaluaciones formativas por tema (V3); render opcional en You Do tab
   topicEvaluations: [
     {
       id: 'S01-T1-TE',

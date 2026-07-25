@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-24T23:59:16.733804+00:00",
+  "generated_at": "2026-07-25T18:10:18.070480+00:00",
   "sections": 1,
   "totals": {
-    "pass": 64,
+    "pass": 62,
     "fail": 0,
-    "skip": 0,
+    "skip": 2,
     "artifacts": 64
   },
   "fail_count": 0,
@@ -13,12 +13,12 @@
   "ok": true,
   "sections_detail": [
     {
-      "file": "src/lib/course/sections/s43-llmops.ts",
-      "section_id": "llmops",
+      "file": "src/lib/course/sections/s49-data-contracts.ts",
+      "section_id": "data-contracts",
       "counts": {
-        "pass": 64,
+        "pass": 62,
         "fail": 0,
-        "skip": 0
+        "skip": 2
       },
       "artifact_count": 64
     }

@@ -1,0 +1,801 @@
+###L6|title###
+Schemas, seguridad y privacidad de servicios
+
+###L7|shortTitle###
+Schemas y seguridad
+
+###L8|tagline###
+Threat model y pruebas de permisos: un usuario no lee el caso de otro ni recupera datos redactados
+
+###L14|jobRelevance###
+En equipos de plataforma y producto (fintech, healthtech, retail y gobierno digital en el Perú), la API versionada de S41 no basta: hace falta un **control plane fail-closed**. **Schemas estrictos** rechazan campos extra antes de tocar negocio; **authn ≠ authz** con RBAC y resource binding evita que un analista de Cusco lea el ticket de otro tenant; **scopes** deny-by-default cierran rutas no declaradas; **SSRF/path** y secretos fuera del repo evitan abusos de red y filtraciones; **minimización, redacción y purga** cierran el ciclo de privacidad. El artefacto de esta sección es threat model + matriz de permisos con evidencia allow/deny auditable. Solo se promociona cuando se demuestra **CP-N4-A**: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.
+
+###L17|text###
+Definir un schema de borde estricto (tipos + rechazo de campos extra) y exportar fixtures válidos/inválidos
+
+###L18|text###
+Evolucionar contratos con cambios aditivos y discriminated unions exhaustivas sin romper lectores previos
+
+###L19|text###
+Implementar authn≠authz con RBAC y resource binding que deniega lectura cross-tenant
+
+###L20|text###
+Aplicar scopes e identidades de servicio con política deny-by-default en rutas no declaradas
+
+###L21|text###
+Rechazar input no confiable: límites de tamaño, SSRF por allowlist y path confinement
+
+###L22|text###
+Gestionar secretos fuera del repo, cifrado en reposo y dependencias fijadas sin CVE críticas abiertas
+
+###L23|text###
+Minimizar campos al propósito declarado y fijar retención finita con bloqueo al vencer
+
+###L24|text###
+Auditar sin PII, purgar derivados y verificar que un campo redactado no reaparece
+
+###L28|heading###
+Ruta de S42: Schemas, seguridad y privacidad de servicios
+
+###L37|title###
+s42_map_contract.py
+
+###L71|title###
+Gate de promoción CP-N4-A
+
+###L72|content###
+Control plane seguro y privado: (1) un actor nunca lee el caso de otro tenant, (2) un campo redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia o la rama es incertidumbre (missing), no se promociona: fail-closed y revisión humana.
+
+###L76|heading###
+Pydantic y JSON Schema
+
+###L85|title###
+pydantic_jsonschema.py
+
+###L114|title###
+Contrato local
+
+###L115|content###
+Evidencia mínima de S42-T1-A: schema exportado y fixtures válidos/inválidos. Si falta, responde `REJECT_SCHEMA`; si no alcanza para decidir, `REVIEW_BUSINESS_INVARIANT`.
+
+###L120|heading###
+Evolución, discriminated unions y validación de negocio
+
+###L129|title###
+evolution_unions_business_val.py
+
+###L155|title###
+Contrato local
+
+###L156|content###
+Antes de promover S42-T1-B, audita que el lector anterior conserve el contrato. Un breach activa `VERSION_SCHEMA` y una ausencia activa `MIGRATE_CONSUMERS`.
+
+###L161|heading###
+Authn/authz y RBAC
+
+###L170|title###
+authn_authz_rbac.py
+
+###L186|title###
+Contrato local
+
+###L187|content###
+La revisión de S42-T2-A conserva prueba actor A no lee caso B; no conviertas `DENY_CROSS_TENANT` ni `VERIFY_RESOURCE_OWNER` en éxito silencioso.
+
+###L192|heading###
+Scopes, service identities y deny-by-default
+
+###L201|title###
+scopes_service_ids_deny.py
+
+###L218|title###
+Contrato local
+
+###L219|content###
+Contrato S42-T2-B: demuestra matriz de scopes con denegaciones explícitas. Falla cerrada con `DENY_SCOPE` y deriva incertidumbre mediante `REQUEST_NARROW_GRANT`.
+
+###L224|heading###
+Límites de input, injection y SSRF/path traversal
+
+###L233|title###
+limits_injection_ssrf_path.py
+
+###L261|title###
+Contrato local
+
+###L262|content###
+Para S42-T3-A, el artefacto comprobable es payload/URL/ruta adversarial rechazada. Sin él corresponde `REJECT_UNTRUSTED_INPUT` o, si faltan datos, `SECURITY_REVIEW`.
+
+###L267|heading###
+Secretos, cifrado y dependency risk
+
+###L276|title###
+secrets_crypto_deps.py
+
+###L296|title###
+Contrato local
+
+###L297|content###
+Promoción de S42-T3-B: prueba scan sin secreto y rotación ensayada y registra por separado `ROTATE_AND_BLOCK` (breach) y `ASSESS_DEPENDENCY_RISK` (missing).
+
+###L302|heading###
+Minimización, purpose y retención
+
+###L311|title###
+minimize_purpose_retention.py
+
+###L327|title###
+Contrato local
+
+###L328|content###
+El dueño de S42-T4-A acepta solo inventario propósito-campo-retención aprobado; una violación produce `MINIMIZE_AND_EXPIRE` y un registro incompleto produce `PRIVACY_OWNER_REVIEW`.
+
+###L333|heading###
+Audit, deletion, pseudonymization y acceso
+
+###L342|title###
+audit_delete_pseudo_access.py
+
+###L360|title###
+Contrato local
+
+###L361|content###
+Cierre de S42-T4-B: conserva borrado y no-reaparición verificados, la evidencia de `PURGE_DERIVATIVES` y la ruta humana `VERIFY_DELETION_SCOPE`.
+
+###L367|intro###
+Te muestro 8 demos de S42 alineadas a CP-N4-A, en el orden del control plane: forma del payload → evolución → lectura de caso → scopes de servicio → SSRF/path → secretos/deps → minimización → purga. Cada demo **calcula** el control sobre `CASO-CUS-042` (Cusco sintético): no imprime una etiqueta de seguridad sin derivarla de los datos.
+
+###L373|description###
+Demo: schema estricto (extra=forbid) + regla de negocio
+
+###L376|title###
+demo_pydantic_jsonschema.py
+
+###L392|why###
+Muestra el modelo de extra=forbid: el ticket válido de Cusco pasa; un campo extra o un status fuera de vocabulario fallan antes de authz.
+
+###L398|description###
+Demo: lector v1 sobre cambio aditivo
+
+###L401|title###
+demo_evolution_unions_business_val.py
+
+###L423|why###
+El lector v1 sigue leyendo `amount` cuando aparece `currency` opcional; sin `amount` falla de verdad. `evolution_ok` confirma cambio aditivo con unión exhaustiva.
+
+###L429|description###
+Demo: authn ≠ authz y no cross-tenant
+
+###L432|title###
+demo_authn_authz_rbac.py
+
+###L446|why###
+Separa identidad de permiso: el analista u1 lee su caso, se deniega el de u2, y solo admin con scope explícito cruza tenants — evidencia del gate no cross-tenant.
+
+###L452|description###
+Demo: catálogo de scopes por identidad de servicio
+
+###L455|title###
+demo_scopes_service_ids_deny.py
+
+###L470|why###
+Deny-by-default por catálogo: el worker solo corre jobs; admin no granted y un principal desconocido no reciben scopes fantasma.
+
+###L476|description###
+Demo: allowlist SSRF + path confinement
+
+###L479|title###
+demo_limits_injection_ssrf_path.py
+
+###L505|why###
+Calcula el rechazo: host de docs permitido, metadata cloud bloqueada y path con `..` lanza traversal — no hay print de etiqueta fija.
+
+###L511|description###
+Demo: deps envejecidas y promote de secretos
+
+###L514|title###
+demo_secrets_crypto_deps.py
+
+###L528|why###
+Deriva riesgo de deps viejas y bloquea promote si hay secreto en repo o CVE críticas — evidencia de ROTATE_AND_BLOCK.
+
+###L534|description###
+Demo: drop de email en logs y purpose-bound
+
+###L537|title###
+demo_minimize_purpose_retention.py
+
+###L553|why###
+Minimiza el log al purpose de operaciones: el email no reaparece; la retención se calcula contra el techo del inventario de Cusco.
+
+###L559|description###
+Demo: borrado primario vs derivado vivo
+
+###L562|title###
+demo_audit_delete_pseudo_access.py
+
+###L579|why###
+Borrar la fila primaria no basta: `purge_complete` es False mientras el export derivado sigue vivo — evidencia de PURGE_DERIVATIVES pendiente.
+
+###L584|intro###
+S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre `CASO-CUS-042`. **E1** repara el cuerpo de una función de decisión (schema, evolución, `can_read`, scopes, SSRF/path, promote, inventario, purga). **E2** separa válido / adverso real / missing (missing ≠ breach). **E3** cierra fail-closed con códigos de acción (`CONTINUE` / DENY|REJECT / rama humana). Entrena el **control**, no el flip de un booleano precomputado: el adverso falla por contenido (extra key, cross-tenant, 169.254…, `/etc/passwd`, over-collection, audit∩PII).
+
+###L590|instruction###
+S42-T1-A-E1 · Valida el payload de `CASO-CUS-042-1A` con schema estricto (required ⊆ keys ⊆ allowed) y regla de negocio sobre `status`. El starter acepta cualquier dict con las claves required e ignora extras y el vocabulario de status. Corrige solo el predicado. Salida exacta: `S42-T1-A PASS`.
+
+###L591|hint###
+Modelo de extra=forbid: `set(payload) ⊆ allowed` y `status ∈ {open, closed}`.
+
+###L597|tests###
+El fixture `CASO-CUS-042-1A` satisface el schema estricto; imprime `S42-T1-A PASS` y el assert booleano pasa.
+
+###L598|feedback###
+S42-T1-A-E1: explica por qué required⊆keys⊆allowed modela extra=forbid y por qué un status inválido es REJECT_SCHEMA, no authz.
+
+###L601|title###
+s42-t1-a-e1.py
+
+###L616|title###
+s42-t1-a-e1.py
+
+###L635|instruction###
+S42-T1-A-E2 · Tres rutas de schema en el ticket de Cusco: payload válido (`case_id`+`status=open`) → `PASS`; cuerpo con `note_interna` extra → `REJECT_SCHEMA`; registro sin `status` → `MISSING:status`. Missing se evalúa antes del contenido; el adverso falla por clave no permitida, no por un flag inventado. Salida: imprime los tres resultados.
+
+###L636|hint###
+Si falta `status`, devuelve MISSING:status sin mirar extras.
+
+###L642|tests###
+La tabla cubre válido/extra/sin status y produce exactamente `PASS REJECT_SCHEMA MISSING:status`.
+
+###L643|feedback###
+S42-T1-A-E2: missing ≠ breach — faltar status no es lo mismo que aceptar un extra; explica la diferencia al revisor.
+
+###L646|title###
+s42-t1-a-e2.py
+
+###L665|title###
+s42-t1-a-e2.py
+
+###L691|instruction###
+S42-T1-A-E3 · Transfer: el borde HTTP de la mesa de soporte de Cusco decide si deja pasar un ticket. Payload limpio (`case_id`+`status` válidos) → `CONTINUE`; cuerpo con `note_interna` no declarada → `REJECT_SCHEMA`; sin `status` en el registro → `REVIEW_BUSINESS_INVARIANT` (no inventes el campo). El starter trata missing como CONTINUE y acepta extras: corrige ambas ramas. Salida: imprime el valor de meets_contract.
+
+###L692|hint###
+Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.
+
+###L698|tests###
+Fixtures válido, con extra y sin status prueban continue/breach/uncertainty en ese orden.
+
+###L699|feedback###
+S42-T1-A-E3: el revisor de borde ve un ticket incompleto como REVIEW (humano), no como ataque; el extra es breach demostrable y no se convierte en CONTINUE.
+
+###L702|title###
+s42-t1-a-e3.py
+
+###L721|title###
+s42-t1-a-e3.py
+
+###L747|instruction###
+S42-T1-B-E1 · Sobre `CASO-CUS-042-1B`, implementa `evolution_ok(change, old_reader_passes, union_tags, handled_tags)`: PASS solo con cambio aditivo, lector v1 OK y tags de unión exhaustivos. El starter marca PASS ante `rename_required` o tags incompletos (invertido). Salida exacta: `S42-T1-B PASS`.
+
+###L748|hint###
+PASS si change=='add_optional' y old_reader_passes y union_tags == handled_tags.
+
+###L754|tests###
+El fixture aditivo con tags email/phone manejados imprime `S42-T1-B PASS`.
+
+###L755|feedback###
+S42-T1-B-E1: la evolución segura es aditiva y exhaustiva; rename o tags huérfanos rompen lectores previos.
+
+###L758|title###
+s42-t1-b-e1.py
+
+###L777|title###
+s42-t1-b-e1.py
+
+###L796|instruction###
+S42-T1-B-E2 · Tres rutas de evolución: aditiva exhaustiva → `PASS`; rename + tag huérfano → `VERSION_SCHEMA`; sin `handled_tags` → `MISSING:handled_tags`. El starter invierte el criterio de compatibilidad. Salida: imprime el valor de meets_contract.
+
+###L797|hint###
+Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.
+
+###L803|tests###
+Produce exactamente `PASS VERSION_SCHEMA MISSING:handled_tags`.
+
+###L804|feedback###
+S42-T1-B-E2: VERSION_SCHEMA es rupture de contrato; MISSING:handled_tags es incertidumbre de migración (missing ≠ breach).
+
+###L807|title###
+s42-t1-b-e2.py
+
+###L829|title###
+s42-t1-b-e2.py
+
+###L856|instruction###
+S42-T1-B-E3 · Transfer: el canal de notificaciones de Cusco decide si puede desplegar un cambio de schema. Aditiva + lector v1 OK + tags exhaustivos → `CONTINUE`; rename/`push` sin handler → `VERSION_SCHEMA`; sin mapa `handled_tags` → `MIGRATE_CONSUMERS` (no inventes handlers). El starter trata missing y rename como CONTINUE. Salida: imprime el valor de meets_contract.
+
+###L857|hint###
+Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.
+
+###L863|tests###
+Produce `CONTINUE VERSION_SCHEMA MIGRATE_CONSUMERS` en ese orden.
+
+###L864|feedback###
+S42-T1-B-E3: MIGRATE_CONSUMERS es la rama humana cuando no hay mapa de handlers; VERSION_SCHEMA es la rupture demostrada.
+
+###L867|title###
+s42-t1-b-e3.py
+
+###L888|title###
+s42-t1-b-e3.py
+
+###L915|instruction###
+S42-T2-A-E1 · Sobre `CASO-CUS-042-2A`, repara `can_read(actor, owner, scopes)` del camino analista: allow solo si `actor == owner` y `case:read` ∈ scopes. El starter permite cross-tenant (actor ≠ owner). Salida exacta: `S42-T2-A PASS`.
+
+###L922|tests###
+can_read(user-a, user-a, {case:read}) es True e imprime `S42-T2-A PASS`.
+
+###L923|feedback###
+S42-T2-A-E1: authn del actor no basta; el resource binding actor==owner + scope cierra el cross-tenant.
+
+###L926|title###
+s42-t2-a-e1.py
+
+###L944|title###
+s42-t2-a-e1.py
+
+###L962|instruction###
+S42-T2-A-E2 · Tres rutas de lectura: mismo tenant + `case:read` → `PASS`; actor sobre caso ajeno → `DENY_CROSS_TENANT`; sin scopes en el registro → `MISSING:roles`. El starter abre cross-tenant y no exige el scope. Salida: imprime el valor de meets_contract.
+
+###L963|hint###
+Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.
+
+###L969|tests###
+Produce exactamente `PASS DENY_CROSS_TENANT MISSING:roles`.
+
+###L970|feedback###
+S42-T2-A-E2: el DENY es por resource binding fallido; el MISSING es incertidumbre de permiso, no lectura cruzada probada.
+
+###L973|title###
+s42-t2-a-e2.py
+
+###L995|title###
+s42-t2-a-e2.py
+
+###L1022|instruction###
+S42-T2-A-E3 · Transfer: la mesa de soporte de Cusco enruta tres lecturas de ticket. `user-a` sobre su caso con `case:read` → `CONTINUE`; `user-a` sobre el caso de `user-b` → `DENY_CROSS_TENANT` (authn OK, authz falla); sin `roles` en el token → `VERIFY_RESOURCE_OWNER`. El starter trata missing y cross-tenant como CONTINUE. Salida: imprime el valor de meets_contract.
+
+###L1023|hint###
+Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.
+
+###L1029|tests###
+Produce `CONTINUE DENY_CROSS_TENANT VERIFY_RESOURCE_OWNER` en ese orden.
+
+###L1030|feedback###
+S42-T2-A-E3: VERIFY_RESOURCE_OWNER es la rama humana cuando no hay matriz de permisos; DENY es la prueba de cross-tenant.
+
+###L1033|title###
+s42-t2-a-e3.py
+
+###L1054|title###
+s42-t2-a-e3.py
+
+###L1081|instruction###
+S42-T2-B-E1 · Implementa `allow(granted, needed, service_id, route_declared)` para el worker de reportes de Cusco: True solo si `needed ∈ granted`, `service_id` empieza por `svc-` y la ruta está en catálogo. El starter deniega cuando el scope *sí* está granted (cuerpo invertido). No toques los datos del fixture. Salida exacta: `S42-T2-B PASS`.
+
+###L1082|hint###
+return needed in granted and service_id.startswith('svc-') and route_declared
+
+###L1088|tests###
+allow({report:prepare}, report:prepare, svc-reporter, True) es True e imprime `S42-T2-B PASS`.
+
+###L1089|feedback###
+S42-T2-B-E1: deny-by-default exige las tres condiciones a la vez; grant de report no autoriza prod:write ni un principal genérico.
+
+###L1092|title###
+s42-t2-b-e1.py
+
+###L1111|title###
+s42-t2-b-e1.py
+
+###L1130|instruction###
+S42-T2-B-E2 · Tres filas de la matriz de scopes: (1) `svc-reporter` + `report:prepare` + ruta OK → `PASS`; (2) `prod:write` con grant de report y `shared-admin` → `DENY_SCOPE`; (3) sin `route_declared` → `MISSING:route_declared`. El starter invierte el allow y trata el adverso como PASS. Salida: imprime el valor de meets_contract.
+
+###L1131|hint###
+Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.
+
+###L1137|tests###
+Produce exactamente `PASS DENY_SCOPE MISSING:route_declared`.
+
+###L1138|feedback###
+S42-T2-B-E2: DENY_SCOPE es privilege real (scope/identidad/ruta); MISSING es catálogo incompleto — no lo confundes con allow.
+
+###L1141|title###
+s42-t2-b-e2.py
+
+###L1171|title###
+s42-t2-b-e2.py
+
+###L1202|instruction###
+S42-T2-B-E3 · Transfer: el worker `svc-reporter` de reportes en Cusco pide entrar a producción. Grant estrecho `report:prepare` + ruta en catálogo → `CONTINUE`; intento `prod:write` con principal `shared-admin` → `DENY_SCOPE`; sin `route_declared` en el registro → `REQUEST_NARROW_GRANT` (no inventes el catálogo). El starter trata missing como CONTINUE y acepta el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.
+
+###L1203|hint###
+Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.
+
+###L1209|tests###
+Produce `CONTINUE DENY_SCOPE REQUEST_NARROW_GRANT` en ese orden.
+
+###L1210|feedback###
+S42-T2-B-E3: least privilege en Cusco — CONTINUE solo con identidad svc + scope + ruta; shared-admin no es atajo; catálogo incompleto es REQUEST, no inventar allow.
+
+###L1213|title###
+s42-t2-b-e3.py
+
+###L1243|title###
+s42-t2-b-e3.py
+
+###L1274|instruction###
+S42-T3-A-E1 · Implementa `trusted(size, max_bytes, host, allowed_hosts, path, root)` para el adjunto de `CASO-CUS-042-3A`: True solo si size≤max, host∈allowlist y path bajo `root/`. El starter aprueba oversize o path `/etc` e ignora la allowlist. Corrige el cuerpo de la función. Salida exacta: `S42-T3-A PASS`.
+
+###L1281|tests###
+trusted(2048, 4096, docs.local, {docs.local}, /safe/reports/a.txt, /safe/reports) es True e imprime `S42-T3-A PASS`.
+
+###L1282|feedback###
+S42-T3-A-E1: las tres puertas (size, host, path) son conjuntas; falla una y es REJECT_UNTRUSTED_INPUT.
+
+###L1285|title###
+s42-t3-a-e1.py
+
+###L1304|title###
+s42-t3-a-e1.py
+
+###L1327|instruction###
+S42-T3-A-E2 · Tres rutas: upload confinado (PASS), adverso con oversize + host 169.254.169.254 + `/etc/passwd` (REJECT_UNTRUSTED_INPUT), sin `root` (MISSING:root). El starter invierte el predicado y no usa la allowlist: corrige la decisión de dominio. Salida: imprime el valor de meets_contract.
+
+###L1328|hint###
+Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.
+
+###L1334|tests###
+Produce exactamente `PASS REJECT_UNTRUSTED_INPUT MISSING:root`.
+
+###L1335|feedback###
+S42-T3-A-E2: el host 169.254.169.254 es el clásico SSRF a metadata; allowlist lo corta aunque el path parezca inocente.
+
+###L1338|title###
+s42-t3-a-e2.py
+
+###L1372|title###
+s42-t3-a-e2.py
+
+###L1411|instruction###
+S42-T3-A-E3 · Transfer: el worker de adjuntos de Cusco decide si guarda un archivo. Cuerpo ≤max, host en allowlist y path bajo `/safe/reports/` → `CONTINUE`; oversize + host `169.254.169.254` + path `/etc/passwd` → `REJECT_UNTRUSTED_INPUT`; sin `root` en el registro → `SECURITY_REVIEW` (no inventes root). El starter trata missing como CONTINUE y tiene el predicado invertido. Salida: imprime el valor de meets_contract.
+
+###L1412|hint###
+Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.
+
+###L1418|tests###
+Produce `CONTINUE REJECT_UNTRUSTED_INPUT SECURITY_REVIEW` en ese orden.
+
+###L1419|feedback###
+S42-T3-A-E3: SECURITY_REVIEW es la rama humana cuando no hay raíz de confinamiento; no inventes un root por defecto.
+
+###L1422|title###
+s42-t3-a-e3.py
+
+###L1456|title###
+s42-t3-a-e3.py
+
+###L1495|instruction###
+S42-T3-B-E1 · Implementa `promote_ok(secret_in_repo, secret_in_log, rotation_tested, pinned, critical_cves)` para el pipeline de Cusco: True solo sin secreto en repo/log, rotación ensayada, deps fijadas y 0 CVE críticas. El starter aprueba si *hay* secreto o deps sin pin (cuerpo incompleto). Salida exacta: `S42-T3-B PASS`.
+
+###L1502|tests###
+promote_ok(False, False, True, True, 0) es True e imprime `S42-T3-B PASS`.
+
+###L1503|feedback###
+S42-T3-B-E1: promote fail-closed es conjunción de cinco controles; un solo hallazgo (secreto o CVE) bloquea.
+
+###L1506|title###
+s42-t3-b-e1.py
+
+###L1527|title###
+s42-t3-b-e1.py
+
+###L1554|instruction###
+S42-T3-B-E2 · Tres rutas de promote: limpio → `PASS`; secreto en repo + unpinned + 2 CVE → `ROTATE_AND_BLOCK`; sin campo `critical_cves` → `MISSING:critical_cves`. El starter invierte el criterio y no exige rotación ni CVE==0. Salida: imprime el valor de meets_contract.
+
+###L1555|hint###
+Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.
+
+###L1561|tests###
+Produce exactamente `PASS ROTATE_AND_BLOCK MISSING:critical_cves`.
+
+###L1562|feedback###
+S42-T3-B-E2: ROTATE_AND_BLOCK es hallazgo demostrable; MISSING:critical_cves es inventario incompleto (ASSESS en E3), no un PASS optimista.
+
+###L1565|title###
+s42-t3-b-e2.py
+
+###L1602|title###
+s42-t3-b-e2.py
+
+###L1646|instruction###
+S42-T3-B-E3 · Transfer: el pipeline de CI de la mesa de Cusco decide un promote a staging. Scan limpio (sin secreto, deps pinneadas, 0 CVE críticas) → `CONTINUE`; API key en repo o CVE abiertas → `ROTATE_AND_BLOCK`; sin campo `critical_cves` en el informe → `ASSESS_DEPENDENCY_RISK` (no inventes un cero). El starter trata missing como CONTINUE y aprueba el adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.
+
+###L1647|hint###
+Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.
+
+###L1653|tests###
+Produce `CONTINUE ROTATE_AND_BLOCK ASSESS_DEPENDENCY_RISK` en ese orden.
+
+###L1654|feedback###
+S42-T3-B-E3: el release manager de Cusco rota y bloquea ante hallazgo demostrable; sin inventario CVE no se inventa un promote limpio — ASSESS, no CONTINUE.
+
+###L1657|title###
+s42-t3-b-e3.py
+
+###L1694|title###
+s42-t3-b-e3.py
+
+###L1738|instruction###
+S42-T4-A-E1 · Implementa `inventory_ok(collected, needed, purpose, days, max_days)` para el tablero de estado de Cusco: True solo si collected ⊆ needed, purpose es `status-report` y days ≤ max_days. El starter aprueba over-collection o retención excesiva (cuerpo invertido). Salida exacta: `S42-T4-A PASS`.
+
+###L1745|tests###
+inventory_ok({case_id,region}, {case_id,region}, status-report, 30, 30) es True e imprime `S42-T4-A PASS`.
+
+###L1746|feedback###
+S42-T4-A-E1: minimización es inclusion de conjuntos + purpose + techo de retención; no basta «parecer pocos campos».
+
+###L1749|title###
+s42-t4-a-e1.py
+
+###L1768|title###
+s42-t4-a-e1.py
+
+###L1787|instruction###
+S42-T4-A-E2 · Tres inventarios: mínimo 30d → `PASS`; full_name + maybe-useful + 3650d → `MINIMIZE_AND_EXPIRE`; sin techo `max_retention_days` → `MISSING:max_retention_days`. El starter invierte el criterio de minimización. Salida: imprime el valor de meets_contract.
+
+###L1788|hint###
+Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.
+
+###L1794|tests###
+Produce exactamente `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days`.
+
+###L1795|feedback###
+S42-T4-A-E2: MINIMIZE_AND_EXPIRE es over-collection o retención abusiva; MISSING:max es falta de política de techo.
+
+###L1798|title###
+s42-t4-a-e2.py
+
+###L1831|title###
+s42-t4-a-e2.py
+
+###L1865|instruction###
+S42-T4-A-E3 · Transfer: el tablero de estado de Cusco (solo `case_id`+`region`, purpose `status-report`, 30 días) pide publicar un dataset. Inventario mínimo y retención ≤ techo → `CONTINUE`; arrastre de `full_name` o purpose `maybe-useful` o 3650 días → `MINIMIZE_AND_EXPIRE`; sin `max_retention_days` declarado → `PRIVACY_OWNER_REVIEW` (no inventes 30). El starter trata missing como CONTINUE y acepta el adverso. Salida: imprime el valor de meets_contract.
+
+###L1866|hint###
+Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.
+
+###L1872|tests###
+Produce `CONTINUE MINIMIZE_AND_EXPIRE PRIVACY_OWNER_REVIEW` en ese orden.
+
+###L1873|feedback###
+S42-T4-A-E3: over-collection en el tablero de Cusco es MINIMIZE demostrable; sin techo de retención el dueño de privacidad revisa — no se asume 30 días por defecto.
+
+###L1876|title###
+s42-t4-a-e3.py
+
+###L1909|title###
+s42-t4-a-e3.py
+
+###L1943|instruction###
+S42-T4-B-E1 · Implementa `purge_ok(audit, pii, deleted, derived_deleted, key_separate)` para el cierre de ticket en Cusco: True solo si audit ∩ PII = ∅, primario y derivado borrados y llave de reidentificación separada. El starter aprueba intersección audit∩PII o derivado vivo (cuerpo invertido). Salida exacta: `S42-T4-B PASS`.
+
+###L1944|hint###
+return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate
+
+###L1950|tests###
+purge_ok({actor,action,at,case_token}, {email,full_name}, True, True, True) es True e imprime `S42-T4-B PASS`.
+
+###L1951|feedback###
+S42-T4-B-E1: soft-delete del primario no basta; audit limpio + derivados + llave separada cierran el ciclo.
+
+###L1954|title###
+s42-t4-b-e1.py
+
+###L1977|title###
+s42-t4-b-e1.py
+
+###L2000|instruction###
+S42-T4-B-E2 · Tres cierres: purga completa → `PASS`; email en audit + derivado vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `MISSING:key_separate`. El starter invierte el criterio de purga. Salida: imprime el valor de meets_contract.
+
+###L2001|hint###
+Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.
+
+###L2007|tests###
+Produce exactamente `PASS PURGE_DERIVATIVES MISSING:key_separate`.
+
+###L2008|feedback###
+S42-T4-B-E2: PURGE es reaparición o derivado vivo; MISSING:key es alcance de borrado no declarado.
+
+###L2011|title###
+s42-t4-b-e2.py
+
+###L2044|title###
+s42-t4-b-e2.py
+
+###L2078|instruction###
+S42-T4-B-E3 · Transfer: al cerrar un ticket de Cusco hay que purgar fila, snapshot de búsqueda y export. Audit sin PII + primario y derivados borrados + llave separada → `CONTINUE`; email en audit o export vivo → `PURGE_DERIVATIVES`; sin flag `key_separate` → `VERIFY_DELETION_SCOPE` (alcance de reidentificación no confirmado). El starter trata missing como CONTINUE y aprueba el adverso. Salida: imprime el valor de meets_contract.
+
+###L2079|hint###
+Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.
+
+###L2085|tests###
+Produce `CONTINUE PURGE_DERIVATIVES VERIFY_DELETION_SCOPE` en ese orden.
+
+###L2086|feedback###
+S42-T4-B-E3: soft-delete de la fila no cierra CP-N4-A en Cusco — hace falta purga de derivados y prueba de no-reaparición; sin key_separate el alcance queda en VERIFY humana.
+
+###L2089|title###
+s42-t4-b-e3.py
+
+###L2122|title###
+s42-t4-b-e3.py
+
+###L2155|title###
+Schemas, seguridad y privacidad de servicios
+
+###L2156|context###
+Eres el dueño del control plane de soporte sintético en Cusco (`CASO-CUS-042`). La misma petición HTTP que versionaste en S41 debe atravesar schema estricto, resource binding, allowlist de hosts, confinamiento de path y una vista redactada sin email. Entrada: payload, actor, owner, scopes, host y path. Salida: allow/deny auditable + evidencia de purga. El gate **CP-N4-A** se bloquea ante campo extra, lectura cross-tenant, URL/path no permitidos o reaparición de un campo redactado.
+
+###L2265|portfolioNote###
+Evidencia de CP-N4-A: el starter calcula READY desde asserts reales (extra→REJECT_SCHEMA, cross-tenant→DENY, SSRF y path→REJECT, email no reaparece, purga limpia). En tu repo amplía con matriz de scopes por `svc-*`, rotación de secretos, rollback documentado y riesgo residual — no entregues un checklist de booleans a mano.
+
+###L2267|criterion###
+Correctitud del contrato y gate CP-N4-A
+
+###L2268|criterion###
+Pruebas normal/breach/uncertain y recuperación
+
+###L2269|criterion###
+Seguridad, privacidad y least privilege
+
+###L2270|criterion###
+Reproducibilidad, lineage y evidencia
+
+###L2271|criterion###
+Operación: SLO, observabilidad y rollback
+
+###L2272|criterion###
+Comunicación de trade-offs y límites
+
+###L2278|question###
+¿Qué evidencia permite aprobar schema estricto en CASO-CUS-042?
+
+###L2281|explanation###
+Se exige forma estricta comprobable: válidos pasan y extras/status basura fallan; evidencia decorativa o PII no cuenta.
+
+###L2284|question###
+Si un actor autenticado pide el caso de otro tenant sin resource binding, ¿qué respuesta preserva seguridad y auditabilidad?
+
+###L2287|explanation###
+Authn ≠ authz: identidad correcta sin pertenencia del recurso → DENY con audit trail; no se convierte breach en éxito.
+
+###L2290|question###
+¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?
+
+###L2293|explanation###
+El gate es conductual y medible: no cross-tenant + redacción sostenida.
+
+###L2296|question###
+El canal de notificaciones añade un campo opcional `currency` sin tocar `amount`, y el lector v1 sigue pasando. ¿Qué tipo de evolución es?
+
+###L2299|explanation###
+Cambios aditivos opcionales preservan lectores previos; rename o tags sin handler exigen VERSION_SCHEMA o MIGRATE_CONSUMERS.
+
+###L2302|question###
+Una URL de adjunto apunta a `http://169.254.169.254/` (metadata cloud). ¿Qué control fail-closed aplica en S42-T3-A?
+
+###L2305|explanation###
+SSRF se corta antes del socket: host ∉ allowlist → REJECT_UNTRUSTED_INPUT. No se mitiga después del fetch ni solo por path.
+
+###L2312|label###
+Pydantic
+
+###L2314|note###
+Validación y JSON Schema
+
+###L2317|label###
+JSON Schema
+
+###L2319|note###
+Contrato de forma interoperable
+
+###L2322|label###
+OWASP API Security Top 10
+
+###L2324|note###
+Riesgos y controles de APIs
+
+###L2327|label###
+OWASP Cheat Sheet Series
+
+###L2329|note###
+Authn/authz, SSRF, secrets
+
+###L2332|label###
+OWASP Secrets Management Cheat Sheet
+
+###L2334|note###
+Secretos fuera del repo y rotación
+
+###L2337|label###
+NIST Privacy Framework
+
+###L2339|note###
+Gestión de riesgo de privacidad
+
+###L2342|label###
+NIST SP 800-63
+
+###L2344|note###
+Identidad digital y autenticación
+
+###L2347|label###
+NIST SP 800-88 media sanitization
+
+###L2349|note###
+Borrado y retención
+
+###L2352|label###
+OAuth 2.0 RFC 6749
+
+###L2354|note###
+Scopes y autorización
+
+###L2357|label###
+Python secrets / hashlib
+
+###L2359|note###
+Tokens y pseudonimización didáctica
+
+###L2363|label###
+Designing Data-Intensive Applications
+
+###L2363|note###
+Contratos, aislamiento y evolución
+
+###L2364|label###
+Threat Modeling (Shostack)
+
+###L2364|note###
+Amenazas y controles en el control plane
+
+###L2367|label###
+Stanford CS253 Web Security (materials)
+
+###L2367|note###
+Web/app security patterns
+
+###L2368|label###
+Google Cybersecurity Professional Certificate
+
+###L2368|note###
+Fundamentos de seguridad
+
+###L2369|label###
+MIT 6.100L
+
+###L2369|note###
+Contratos verificables
+
+###L2370|label###
+Harvard CS50P
+
+###L2370|note###
+Tests y proyectos reproducibles
+
+###L2371|label###
+Py4E
+
+###L2371|note###
+Stdlib-first progressive disclosure
+

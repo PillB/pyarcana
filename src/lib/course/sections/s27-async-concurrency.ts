@@ -8,12 +8,12 @@ export const section27: CourseSection = {
   tagline:
     "Convertir supuestos de normalización y matching en contratos ejecutables con pytest; cada bug reproducido deja un test de regresión",
   estimatedHours: 19,
-  level: "Competente",
+  level: "Senior",
   phase: 2,
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
   jobRelevance:
-    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de **entity resolution** solo es confiable si normalización y matching son **contratos ejecutables** con pytest—no scripts que “pasaron una vez en mi laptop”. En esta sección inicias **CP-N3-A**: priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos, aíslas datos con fixtures, cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato. Matching solo responde “¿misma entidad sintética?”; **nunca** etiqueta fraude ni parentesco.",
+    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de **entity resolution** solo es confiable si normalización y matching son **contratos ejecutables** con pytest — no scripts que “pasaron una vez en mi laptop”. En esta sección inicias **CP-N3-A**. Priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos y aíslas datos con fixtures. Cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato. Matching solo responde “¿misma entidad sintética?”; **nunca** etiqueta fraude ni parentesco.",
   learningOutcomes: [
     { text: "Priorizar suites con score de riesgo (impacto × probabilidad) y la pirámide unit → integration → E2E" },
     { text: "Escribir tests AAA con oráculos deterministas para normalize_name y exact_match" },
@@ -29,7 +29,7 @@ export const section27: CourseSection = {
       heading: "Estrategia pytest e inicio CP-N3-A",
       paragraphs: [
         "En S26 orquestaste el VP con evidencia por estado (RPA + analista HITL). Ese pipeline **asume** que `normalize_name` y el matching se comportan igual mañana que hoy. Si alguien “arregla” un `strip` o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa. Aquí **inicias CP-N3-A**: conviertes esos supuestos en **contratos de prueba** con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste.",
-        "Trabajamos un módulo sintético sobre contactos fakes del caso **`CASO-LIM-027`** (run_id=`cpn3a-01`, correos `@example.pe`): sin PII real y **sin** auto-veredicto de fraude o parentesco. Cada bug reproducido debe dejar un test de regresión con oráculo fijo. Matching solo responde: ¿son la misma entidad sintética tras normalizar? El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria.",
+        "Trabajamos un módulo sintético sobre contactos del **Caso 27** (run_id=`cpn3a-01`, correos `@example.pe`): sin PII real y **sin** auto-veredicto de fraude o parentesco. Cada bug reproducido debe dejar un test de regresión con oráculo fijo. Matching solo responde: ¿son la misma entidad sintética tras normalizar? El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria.",
         "Orden de aprendizaje: **T1 Diseño** (pirámide, riesgo, AAA y oráculos) → **T2 Pytest** (discovery, asserts, fixtures y scopes) → **T3 Bordes** (excepciones, floats, fechas, tmp, negativos) → **T4 Cobertura** (ramas de negocio y mutación conceptual). Dual-track honesto: en tu máquina `python -m pytest -q`; en este entorno del curso ejecutamos el **mismo contrato** como módulo con `assert` + `print` cuando no invocas el CLI. No hay teatro de “pytest sin pytest”: verás formas `test_*` reales aunque el runner del curso no sea el CLI.",
       ],
       callout: {
@@ -43,8 +43,8 @@ export const section27: CourseSection = {
       heading: "Riesgos y pirámide de pruebas",
       subtopicId: "S27-T1-A",
       paragraphs: [
-        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide): un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión. Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue.",
-        "Clasifica riesgo por **impacto** (datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecha) y **probabilidad** (código tocado a menudo, reglas frágiles, historial de bugs). En entity resolution, normalización y comparadores son capa de alto riesgo: si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas.",
+        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena el tiempo (no la forma de la pirámide). Un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión. Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue.",
+        "Clasifica riesgo por **impacto** y **probabilidad**. Impacto: datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecho. Probabilidad: código tocado a menudo, reglas frágiles, historial de bugs. En entity resolution, normalización y comparadores son capa de alto riesgo. Si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas.",
         "No inviertas la pirámide: una batería de E2E lentas no sustituye contratos unitarios de `strip`/`casefold`. Heurística práctica: **score = impacto × probabilidad**; ordena áreas y reparte más casos a las de mayor score. Ejemplo sintético de este caso: `normalize_name` (5×4=20) > `exact_match` (5×3=15) > repo SQL > cola UI. Regla de bolsillo para el equipo: score ≥ 15 → ≥ 5 tests de contrato; 8–14 → 2–3; < 8 → smoke + un negativo. El score no es ciencia exacta: es una cola de prioridad honestable en la retro del sprint.",
       ],
       code: {
@@ -82,8 +82,8 @@ ok True`,
       heading: "Arrange–Act–Assert y oráculos confiables",
       subtopicId: "S27-T1-B",
       paragraphs: [
-        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador: pierdes tiempo en CI y en code review. Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”.",
-        "Un **oráculo** es la fuente de verdad del assert: (1) valor fijo conocido (`\"juan pérez\"`), (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de `normalize_name`) o (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba. En matching, el oráculo **no** es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad.",
+        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador. Pierdes tiempo en CI y en code review. Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”.",
+        "Un **oráculo** es la fuente de verdad del assert. Tres tipos sirven en entity resolution: (1) valor fijo conocido (`\"juan pérez\"`); (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de `normalize_name`); (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba. En matching, el oráculo **no** es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad.",
         "Oráculos frágiles generan *flakes* (tests que fallan al azar): reloj real (`datetime.now()`), orden de un `set`, JSON sin `sort_keys`, red o disco no mockeados. Usa contactos sintéticos deterministas (`ana@example.pe`) y fechas literales (`date(2026, 7, 20)`). Si el assert depende del azar, del entorno o del orden de inserción, no es contrato: es suerte empaquetada.",
       ],
       code: {
@@ -115,8 +115,8 @@ phases arrange-act-assert`,
       heading: "Discovery y assertions de pytest",
       subtopicId: "S27-T2-A",
       paragraphs: [
-        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** (`path::name[param]`) identifican cada caso en CI y permiten re-correr solo el fallido con `pytest path::test_name -q`. Sin naming estable no puedes apuntar a un contrato concreto cuando falla la suite a las 2 a.m.: solo ves “falló algo de normalize”.",
-        "Las **assertions** reescritas de pytest muestran diff útil: `assert a == b` explica ambos lados sin escribir mensajes a mano. Para excepciones esperadas usa `pytest.raises(Tipo, match=\"fragmento\")`. En este lab, si aún no instalas pytest, modelamos el **mismo contrato** con try/except + comprobación de mensaje: el aprendizaje es el criterio (tipo + fragmento), no la magia del import.",
+        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** (`path::name[param]`) identifican cada caso en CI y permiten **volver a correr** solo el fallido con `pytest path::test_name -q`. Sin naming estable no puedes apuntar a un contrato concreto cuando falla la suite a las 2 a. m.: solo ves “falló algo de normalize”.",
+        "Las **assertions** reescritas de pytest muestran diff útil: `assert a == b` explica ambos lados sin escribir mensajes a mano. Para excepciones esperadas usa `pytest.raises(Tipo, match=\"fragmento\")`. En pytest real, `match=` es una **expresión regular** evaluada con `re.search` (usa `re.escape` si el texto tiene metacaracteres). En este lab, si aún no instalas pytest, modelamos el criterio con try/except + contención de un fragmento sin metacaracteres: aprendes tipo + mensaje; en tu máquina corre el runner real.",
         "Parametriza con `@pytest.mark.parametrize` (o una tabla de tuplas en un bucle) para casos de normalización sin copiar el cuerpo del test. Una tabla `(entrada, esperado)` es el corazón de los contratos de `normalize_name` y `exact_match`: cada fila es un node id conceptual; si falla la fila 7, sabes exactamente qué raw sintético rompió el oráculo.",
       ],
       code: {
@@ -215,7 +215,7 @@ scope_default function`,
       heading: "Excepciones, floats, fechas y archivos temporales",
       subtopicId: "S27-T3-A",
       paragraphs: [
-        "Prueba **excepciones** con el tipo y, si aplica, el **mensaje** (`pytest.raises(ValueError, match=\"vacío\")` en pytest real; aquí, try/except + `\"vacío\" in str(e)`). Un `raises` que solo mira el tipo acepta un mensaje basura; el fragmento es parte del contrato. Para **floats** y scores de matching usa tolerancia (`math.isclose`) o decimal cuantizado: `==` exacto en `0.1 + 0.2` es trampa pedagógica y de producción en umbrales de matching.",
+        "Prueba **excepciones** con el tipo y, si aplica, el **mensaje**. En pytest real: `pytest.raises(ValueError, match=\"vacío\")` — y recuerda que `match=` es regex (`re.search`), no solo `in`. Aquí, sin CLI: try/except + `\"vacío\" in str(e)` para el mismo criterio sobre un fragmento literal. Un `raises` que solo mira el tipo acepta un mensaje basura; el mensaje forma parte del contrato. Para **floats** y scores de matching usa tolerancia (`math.isclose`) o decimal cuantizado: `==` exacto en `0.1 + 0.2` es trampa pedagógica y de producción en umbrales de matching.",
         "**Fechas**: no compares `datetime.now()` con literales frágiles. **Inyecta el reloj**: la función recibe `today: date` (o un callable de reloj) y el test pasa un literal fijo (`date(2026, 7, 20)`). Así el contrato no cambia de un día al otro ni entre zonas horarias de Lima y un runner en UTC. Librerías como freezegun son opcionales; la inyección de parámetro basta, es más explícita y no añade dependencia al CI del motor ER.",
         "**tmp_path** (pytest) / `tempfile` (stdlib) evita escribir en el repo o en el home del desarrollador. Dos APIs: (1) `TemporaryDirectory()` borra al salir del `with`; (2) `NamedTemporaryFile(..., delete=False)` deja un path reabrable para reabrir y assert. Usa siempre `encoding='utf-8'` en texto y documenta si el contrato incluye el salto de línea final.",
       ],
@@ -228,7 +228,7 @@ from pathlib import Path
 import tempfile
 
 # En pytest real: with pytest.raises(ValueError, match="vacío"): parse_score("  ")
-# Aquí un mini assert_raises con match= (mismo contrato, sin dependencia).
+# (match= es regex vía re.search). Aquí: assert_raises con contención de fragmento.
 
 def parse_score(s: str) -> float:
     if s.strip() == "":
@@ -328,9 +328,9 @@ n_cases 4`,
       heading: "Cobertura por rama y por riesgo",
       subtopicId: "S27-T4-A",
       paragraphs: [
-        "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de **líneas** no implica 100% de riesgo cubierto: puedes cubrir logs, pretty-print y helpers de formato y dejar sin test la rama de umbral `review` que mueve el clerical queue. El reporte de coverage es un mapa; tú decides dónde poner la lupa.",
-        "**Risk coverage**: prioriza ramas de negocio (auto-match / review / non-match, campos faltantes, empates de score en el borde del umbral) sobre decoración. En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato — no el color del badge en la UI ni el orden de las columnas del CSV de evidencia.",
-        "Reporta cobertura como **evidencia** para el equipo, no como meta vacía del 100%. Una rama de umbral sin caso es deuda: en producción el clerical queue verá estados que CI nunca ejercitó y confiará en basura. En la retro del sprint, pregunta “¿qué rama de negocio no tiene caso?” antes de “¿llegamos al 90% de líneas?”.",
+        "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100 % de **líneas** no implica 100 % de riesgo cubierto. Puedes cubrir logs, pretty-print y helpers de formato y dejar sin test la rama de umbral `review` que mueve el clerical queue. El reporte de coverage es un mapa; tú decides dónde poner la lupa.",
+        "**Risk coverage**: prioriza ramas de negocio (auto-match / review / non-match, campos faltantes, empates de score en el borde del umbral) sobre decoración. En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato. No el color del badge en la UI ni el orden de las columnas del CSV de evidencia.",
+        "Reporta cobertura como **evidencia** para el equipo, no como meta vacía del 100 %. Una rama de umbral sin caso es deuda: en producción el clerical queue verá estados que CI nunca ejercitó y confiará en basura. En la retro del sprint, pregunta “¿qué rama de negocio no tiene caso?” antes de “¿llegamos al 90 % de líneas?”.",
       ],
       code: {
         language: 'python',
@@ -371,7 +371,7 @@ risk_focus thresholds`,
       subtopicId: "S27-T4-B",
       paragraphs: [
         "**Mutación conceptual**: cambia deliberadamente el código (quita un `strip`, invierte un umbral, elimina `casefold`) y verifica que **algún test falle**. Si la suite sigue verde, el test es teatro de cobertura, no un contrato. No necesitas un framework de mutación el primer día: un mutante a mano en un branch local ya expone oráculos débiles.",
-        "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False` o un bare `assert got` sin contexto. Un dict `{\"input\": …, \"expected\": …, \"actual\": …}` (o el rewrite de pytest) acelera el fix en CI y en code review: el colega no tiene que adivinar qué raw entró.",
+        "Fallas **útiles** muestran input sintético, esperado vs. actual y el contrato violado. Evita `assert False` o un bare `assert got` sin contexto. Un dict `{\"input\": …, \"expected\": …, \"actual\": …}` (o el rewrite de pytest) acelera el fix en CI y en code review: el colega no tiene que adivinar qué raw entró.",
         "Mantenimiento: borra tests que solo copian la implementación; renombra con intención (`test_normalize_collapses_spaces`); parametriza tablas; no dupliques el mismo oráculo en tres sitios. Política del ciclo: **bug_repro → regression_test** antes de cerrar el ticket. En S28 ampliarás estos contratos con dobles (`unittest.mock`) y pruebas de integración entre módulos del motor ER.",
       ],
       code: {
@@ -405,7 +405,7 @@ maintain one_oracle`,
   ],
   iDo: {
     intro:
-      "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, descubrir tests estilo pytest, aislar fixtures y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A. Observa el contrato (entrada → assert → salida) y el *por qué* de cada demo antes de tocar los We Do.",
+      "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, descubrir tests estilo pytest, aislar fixtures y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A. Observa el contrato (entrada → assert → salida) y el *porqué* de cada demo antes de tocar los ejercicios guiados.",
     steps: [
       {
         demoId: "S27-T1-A-DEMO",
@@ -632,7 +632,7 @@ policy regression_on_bug`,
   },
   weDo: {
     intro:
-      "24 ejercicios en tres capas por subtema: **E1 guiado** (micro-bug), **E2 independiente**, **E3 transferencia**. Cubren pirámide de riesgo, AAA/oráculos, discovery y parametrize, fixtures/scopes, bordes (isclose, raises+match, tempfile), negativos, cobertura de ramas y mutación conceptual. Cada starter trae un comentario `# DEFECT:` que marca el bug a corregir (patrón de caza de fallas del curso). Imprime **solo** las líneas del oráculo de la solución — sin prints extra de depuración. Datos sintéticos `@example.pe`; matching no etiqueta fraude ni parentesco.",
+      "24 ejercicios en tres capas por subtema: **E1 guiado** (micro-bug), **E2 independiente**, **E3 transferencia**. Cubren: pirámide de riesgo; AAA y oráculos; discovery y parametrize; fixtures y scopes; bordes (isclose, raises+match, tempfile); negativos; cobertura de ramas; mutación conceptual. Cada starter trae un comentario `# DEFECT:` que marca el bug a corregir (patrón de caza de fallas del curso). Imprime **solo** las líneas del oráculo de la solución — sin prints extra de depuración. Datos sintéticos `@example.pe` (Caso 27); matching no etiqueta fraude ni parentesco.",
     steps: [
       {
         id: "S27-T1-A-E1",
@@ -645,13 +645,13 @@ policy regression_on_bug`,
           "Multiplica enteros",
           "print del producto únicamente",
         ],
-        edgeCases: ["score 0 si likelihood 0"],
+        edgeCases: ["Score 0 si likelihood es 0."],
         tests: "score numérico = 20",
         feedback: "El score de priorización es producto, no suma: 5×4=20.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · risk = impact*likelihood
+          code: `# Caso 27 · risk = impact*likelihood
 # DEFECT: suma en vez de producto
 impact, likelihood = 5, 4
 print(impact + likelihood)
@@ -676,13 +676,13 @@ print(impact * likelihood)`,
           "key=lambda r: -(r[1]*r[2])",
           "imprime solo la lista de nombres",
         ],
-        edgeCases: ["empates: el orden secundario no se pide aquí"],
+        edgeCases: ["Empates: el orden secundario no se pide aquí."],
         tests: "lista de nombres unit antes que e2e",
         feedback: "Orden descendente por impacto×probabilidad: unit (25) antes que e2e (2).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · orden por riesgo desc
+          code: `# Caso 27 · orden por riesgo desc
 # DEFECT: ordena ascendente
 rows=[('e2e',2,1),('unit',5,5)]
 print([n for n,_,_ in sorted(rows, key=lambda r: (r[1]*r[2]))])
@@ -713,7 +713,7 @@ print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · capa del área de mayor score
+          code: `# Caso 27 · capa del área de mayor score
 # DEFECT: usa min (elige el score más bajo)
 risks = [('normalize', 20, 'unit'), ('ui_review', 4, 'e2e')]
 top = min(risks, key=lambda r: r[1])
@@ -746,7 +746,7 @@ print(top[2])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · normalize whitespace+casefold
+          code: `# Caso 27 · normalize whitespace+casefold
 # DEFECT: solo strip
 s=' A  B '
 print(s.strip())
@@ -777,7 +777,7 @@ print(' '.join(s.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · casefold assert
+          code: `# Caso 27 · casefold assert
 # DEFECT: imprime fail
 raw='ANA'
 assert raw.casefold() == 'ana'
@@ -810,7 +810,7 @@ print('pass')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · equality after normalize
+          code: `# Caso 27 · equality after normalize
 # DEFECT: compara crudo
 a,b='X Y','x  y'
 print(a == b)
@@ -841,7 +841,7 @@ print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · discovery test_
+          code: `# Caso 27 · discovery test_
 # DEFECT: no filtra
 names=['test_a','helper','test_b']
 print(names)
@@ -872,7 +872,7 @@ print([n for n in names if n.startswith('test_')])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · assert equality
+          code: `# Caso 27 · assert equality
 # DEFECT: siempre ok
 left,right='a','b'
 print('ok')
@@ -898,12 +898,12 @@ print('ok' if left == right else 'fail')`,
           "cada fila sería un node id con [param] en pytest real",
         ],
         edgeCases: ["casefold se suma en el contrato real de normalize_name"],
-        tests: "lista de bools True, True tras strip",
+        tests: "lista de dos aciertos True tras strip de la tabla",
         feedback: "Parametrize es una tabla que se ejecuta: no basta con imprimir las tuplas; hay que aplicar el oráculo a cada fila.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · tabla parametrize + oráculo strip
+          code: `# Caso 27 · tabla parametrize + oráculo strip
 # DEFECT: compara crudo sin strip
 cases = [(' x ', 'x'), ('  Y  ', 'Y')]
 print([raw == exp for raw, exp in cases])
@@ -934,7 +934,7 @@ print([raw.strip() == exp for raw, exp in cases])`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · deepcopy aislamiento
+          code: `# Caso 27 · deepcopy aislamiento
 # DEFECT: shallow copy
 from copy import copy
 orig=[{'n':1}]
@@ -1004,7 +1004,7 @@ print(chosen)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · factory len
+          code: `# Caso 27 · factory len
 # DEFECT: hardcode 0
 def make(n):
     return [{'id': f'c{i}'} for i in range(n)]
@@ -1037,7 +1037,7 @@ print(len(make(3)))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · isclose float
+          code: `# Caso 27 · isclose float
 # DEFECT: == exacto
 import math
 print(0.1 + 0.2 == 0.3)
@@ -1056,19 +1056,19 @@ print(math.isclose(0.1 + 0.2, 0.3))`,
         subtopicId: "S27-T3-A",
         kind: "independent",
         instruction:
-          "S27-T3-A-E2 · Modelo de `pytest.raises(ValueError, match=…)`: captura el `ValueError` de `int('x')` e imprime `True` solo si el mensaje contiene el fragmento `'invalid'` (en CPython suele decir *invalid literal*). El starter imprime `False` sin inspeccionar el mensaje.",
+          "S27-T3-A-E2 · Modelo de `pytest.raises(ValueError, match=…)`: captura el `ValueError` de `int('x')` e imprime `True` solo si el mensaje contiene el fragmento `'invalid'` (en CPython suele decir *invalid literal*). El starter imprime `False` sin inspeccionar el mensaje. En pytest real `match=` es regex (`re.search`); aquí usamos contención de un fragmento sin metacaracteres.",
         hint: "except ValueError as e; 'invalid' in str(e).casefold()",
         hints: [
-          "with pytest.raises(ValueError, match='invalid') en pytest real",
-          "print(True) solo si el fragmento está en el mensaje",
+          "with pytest.raises(ValueError, match='invalid') en pytest real (match= es regex)",
+          "print(True) solo si el fragmento está en el mensaje.",
         ],
-        edgeCases: ["match= es subcadena, no regex completa salvo flags"],
+        edgeCases: ["En pytest real, match= usa re.search (regex); aquí modelamos un fragmento literal sin metacaracteres."],
         tests: "True si el mensaje del ValueError contiene 'invalid'",
-        feedback: "pytest.raises(..., match=) falla si el tipo es correcto pero el mensaje no cuadra: el fragmento es parte del contrato.",
+        feedback: "pytest.raises(..., match=) falla si el tipo es correcto, pero el mensaje no cuadra: el fragmento es parte del contrato. En el runner real, match= es regex; usa re.escape si el texto tiene . ( ) [ ] u otros metacaracteres.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · raises + match fragment
+          code: `# Caso 27 · raises + match fragment
 # DEFECT: no inspecciona el mensaje
 try:
     int('x')
@@ -1107,7 +1107,7 @@ print(matched)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · tempfile content
+          code: `# Caso 27 · tempfile content
 # DEFECT: no lee
 import tempfile
 from pathlib import Path
@@ -1138,15 +1138,15 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
         hint: "print(e) o print(str(e))",
         hints: [
           "raise ValueError('email vacío')",
-          "el mensaje es el contrato del caso negativo; el tipo solo no basta",
+          "El mensaje es el contrato del caso negativo; el tipo solo no basta.",
         ],
-        edgeCases: ["None vs ''; mensajes sin PII real"],
+        edgeCases: ["None vs. cadena vacía; mensajes sin PII real."],
         tests: "salida coincide con solution output",
         feedback: "El mensaje de la excepción es el contrato del caso negativo. Solo imprimir el nombre del tipo no acelera el fix en CI.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · mensaje ValueError
+          code: `# Caso 27 · mensaje ValueError
 # DEFECT: imprime tipo
 email=''
 try:
@@ -1177,15 +1177,15 @@ except ValueError as e:
         hint: "'@' in s",
         hints: [
           "print('ok' if '@' in s else 'invalid')",
-          "no es validación RFC completa; basta el contrato mínimo del curso",
+          "No es validación RFC completa; basta el contrato mínimo del curso.",
         ],
-        edgeCases: ["no es validación RFC completa; no uses PII real"],
+        edgeCases: ["No es validación RFC completa; no uses PII real."],
         tests: "salida coincide con solution output",
         feedback: "Un email sintético sin '@' es inválido. El caso negativo debe fallar de forma controlada, no imprimir siempre 'ok'.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · validación mínima de email
+          code: `# Caso 27 · validación mínima de email
 # DEFECT: marca ok aunque falte '@'
 s = 'sin-arroba'
 print('ok')  # debería ser 'invalid' si falta '@'
@@ -1216,7 +1216,7 @@ print('ok' if '@' in s else 'invalid')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · mensaje inválido
+          code: `# Caso 27 · mensaje inválido
 # DEFECT: mensaje genérico
 v=-1
 print('error')
@@ -1247,7 +1247,7 @@ print(f'campo score inválido: {v!r}')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · branches hi/lo
+          code: `# Caso 27 · branches hi/lo
 # DEFECT: solo un branch
 def f(x):
     return 'hi' if x > 0 else 'lo'
@@ -1280,7 +1280,7 @@ print(f(1), f(-1))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · non no en hit
+          code: `# Caso 27 · non no en hit
 # DEFECT: non in hit
 hit={'auto','review'}
 print('non' in hit)
@@ -1303,7 +1303,7 @@ print('non' not in hit)`,
         hint: "int(100 * k / n)",
         hints: [
           "k, n = 2, 3",
-          "evidencia de cobertura, no meta vacía del 100%",
+          "evidencia de cobertura, no meta vacía del 100 %",
         ],
         edgeCases: ["no uses solo line coverage como KPI"],
         tests: "salida coincide con solution output",
@@ -1311,7 +1311,7 @@ print('non' not in hit)`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · coverage percent
+          code: `# Caso 27 · coverage percent
 # DEFECT: imprime k/n en fracción (≈0.666) en vez de porcentaje entero
 k, n = 2, 3
 print(k / n)  # debería ser int(100 * k / n) → 66
@@ -1342,7 +1342,7 @@ print(int(100 * k / n))`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · mutant fails oracle
+          code: `# Caso 27 · mutant fails oracle
 # DEFECT: no distingue mutant
 raw=' a '
 good=raw.strip()
@@ -1369,7 +1369,7 @@ print(good == 'a' and mutant != 'a')`,
         hint: "dict con input + expected + actual",
         hints: [
           "{'input': inp, 'expected': expected, 'actual': actual}",
-          "sin input el fix en CI es más lento",
+          "Sin input en el mensaje, el fix en CI es más lento.",
         ],
         edgeCases: ["no incluyas PII real en mensajes de CI"],
         tests: "dict con input/expected/actual sintéticos",
@@ -1377,7 +1377,7 @@ print(good == 'a' and mutant != 'a')`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · falla útil con input
+          code: `# Caso 27 · falla útil con input
 # DEFECT: falta input; roles confusos
 inp, expected, actual = 'ANA', 'ana', 'Ana'
 print({'expected': actual, 'actual': expected})
@@ -1396,11 +1396,11 @@ print({'input': inp, 'expected': expected, 'actual': actual})`,
         subtopicId: "S27-T4-B",
         kind: "transfer",
         instruction:
-          "S27-T4-B-E3 · Ciclo **bug_repro → regression_test**: el bug era comparar sin normalizar (`' ANA '` vs oráculo `'ana'`). Escribe la regresión: aplica `casefold` + `strip` e imprime el booleano del contrato (True). El starter se queda en la fase bug_repro (compara crudo → False).",
+          "S27-T4-B-E3 · Ciclo **bug_repro → regression_test**: el bug era comparar sin normalizar (`' ANA '` vs. oráculo `'ana'`). Escribe la regresión: aplica `casefold` + `strip` e imprime el booleano del contrato (True). El starter se queda en la fase bug_repro (compara crudo → False).",
         hint: "normaliza antes del ==",
         hints: [
           "got = raw.casefold().strip()",
-          "print(got == oracle) debe ser True tras la regresión",
+          "print(got == oracle) debe ser True tras la regresión.",
         ],
         edgeCases: ["después parametriza varios raw con el mismo oráculo"],
         tests: "regresión verde: True",
@@ -1408,7 +1408,7 @@ print({'input': inp, 'expected': expected, 'actual': actual})`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-027 · bug_repro → regression_test
+          code: `# Caso 27 · bug_repro → regression_test
 # DEFECT: aún en bug_repro (compara crudo, sin normalizar)
 raw, oracle = ' ANA ', 'ana'
 print(raw == oracle)
@@ -1428,13 +1428,13 @@ print(got == oracle)`,
   youDo: {
     title: "Contratos pytest de normalización y matching — inicio CP-N3-A",
     context:
-      "Construye una mini suite pytest (o, si aún no instalas pytest, un módulo de asserts equivalentes) sobre normalización y exact match con contactos sintéticos `@example.pe` (caso `CASO-LIM-027`, run_id `cpn3a-01`). Cada supuesto del ER debe ser un test ejecutable: mapa de riesgo por capa, tests AAA con oráculos fijos, fixtures con aislamiento function-scope, casos negativos con mensajes útiles, cobertura de ramas de umbral y al menos un mutante conceptual eliminado. Matching no implica fraude ni parentesco.",
+      "Construye una mini suite pytest (o, si aún no instalas pytest, un módulo de asserts equivalentes) sobre normalización y exact match con contactos sintéticos `@example.pe` (Caso 27, run_id `cpn3a-01`). Cada supuesto del ER debe ser un test ejecutable. El entregable cubre: mapa de riesgo por capa; tests AAA con oráculos fijos; fixtures con aislamiento function-scope; casos negativos con mensajes útiles; cobertura de ramas de umbral; al menos un mutante conceptual eliminado. Matching no implica fraude ni parentesco.",
     objectives: [
-      "Mapa de riesgos con score y capas unit/integration/e2e para normalize, match y umbrales",
-      "Tests AAA con oráculos fijos para normalize_name y exact_match (al menos 4 casos)",
-      "Fixture function-scope (o factory) y ≥3 casos negativos con mensajes que nombran el campo",
-      "Cobertura de las tres ramas de umbral + un mutante conceptual eliminado por regresión",
-      "README en español profesional: límites del fixture, evidencia de corrida y ética no-fraude",
+      "Mapa de riesgos con score y capas unit/integration/e2e para normalize, match y umbrales.",
+      "Tests AAA con oráculos fijos para normalize_name y exact_match (al menos 4 casos).",
+      "Fixture function-scope (o factory) y al menos 3 casos negativos con mensajes que nombran el campo.",
+      "Cobertura de las tres ramas de umbral y un mutante conceptual eliminado por regresión.",
+      "README en español profesional: límites del fixture, evidencia de corrida y ética no-fraude.",
     ],
     requirements: [
       "Datos sintéticos únicamente (`@example.pe`); sin PII real ni secretos en asserts ni logs",
@@ -1500,7 +1500,7 @@ if __name__ == "__main__":
     print("starter_ok")
 `,
     portfolioNote:
-      "Entrega de inicio CP-N3-A para tu portafolio: carpeta con código de normalización/matching sintético, tests (pytest preferido), README en español profesional con límites y evidencia de corrida.",
+      "Entrega de inicio CP-N3-A para tu portafolio. Carpeta con código de normalización/matching sintético, tests (pytest preferido) y README en español profesional con límites y evidencia de corrida.",
     rubric: [
       { criterion: "Cubre los objetivos de contratos pytest de esta sección (riesgo, AAA, fixtures, bordes, mutación)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
@@ -1541,7 +1541,7 @@ if __name__ == "__main__":
           "Entity resolution decide si dos registros sintéticos son la misma entidad tras normalizar; no prueba fraude, parentesco ni envío de correos.",
       },
       {
-        question: "¿Cuál es el scope por defecto de una fixture de pytest y por qué importa en datos mutables?",
+        question: "¿Cuál es el scope por defecto de un fixture de pytest y por qué importa en datos mutables?",
         options: ["session: reutiliza estado entre todos los tests (ideal para mutar listas)", "package: es el default de pytest y aísla mutables sin necesidad de deepcopy", "function: se recrea por test y reduce contaminación entre casos", "module: es el único scope que aísla copias profundas automáticamente"],
         correctIndex: 2,
         explanation:

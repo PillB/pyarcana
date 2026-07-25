@@ -12,24 +12,24 @@ export const section12: CourseSection = {
   icon: "MapPin",
   accentColor: "bg-gradient-to-br from-indigo-500 to-purple-600",
   jobRelevance:
-    "En onboarding, compliance y data quality en bancos, fintech y retail en Perú, el pipeline no empieza en el dashboard: empieza en **adaptadores HTTP resilientes** que leen señales con timeout y retry selectivo, un **SQLite local parametrizado** que une entidad y evidencia, y **geoevidencia controlada** sin filtrar PII bancaria a geocoders públicos. Un analista que hardcodea el token, reintenta un 400 o manda `document_id` a un proveedor gratis quema cuota, rompe auditoría y expone datos. Esta sección construye el tramo de **adquisición + geoevidencia del capstone CP-N1-C** con mocks locales y datos sintéticos (Lima/Arequipa, ids `C00x`): status y JSON, secretos fuera de código, joins con placeholders y geocoding autorizado — listo para el dashboard de S13.",
+    "En onboarding, compliance y data quality en bancos, fintech y retail del Perú, el pipeline no empieza en el dashboard. Empieza en **adaptadores HTTP resilientes** que leen señales con timeout y retry selectivo, en un **SQLite local parametrizado** que une entidad y evidencia, y en **geoevidencia controlada** sin filtrar PII bancaria a geocoders públicos. Un analista que hardcodea el token, reintenta un 400 o manda `document_id` a un proveedor gratis quema cuota, rompe auditoría y expone datos. Esta sección construye el tramo de **adquisición + geoevidencia del capstone CP-N1-C** con mocks locales y datos sintéticos (Lima/Arequipa, ids `C00x`): status y JSON, secretos fuera de código, joins con placeholders y geocoding autorizado. En S13 se cierra el dashboard de evidencia.",
   learningOutcomes: [
-    { text: "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados" },
+    { text: "Consumir API HTTP síncronas, interpretar status y parsear JSON con errores controlados" },
     { text: "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios" },
     { text: "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance" },
     { text: "Escribir contract tests del adaptador y fallback degradado offline" },
     { text: "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias" },
     { text: "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL" },
     { text: "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock" },
-    { text: "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor" },
+    { text: "Evaluar calidad de coordenadas, Haversine y caché bajo política de proveedor" },
   ],
   theory: [
     {
       heading: "Mapa de la sección: HTTP, SQL y geodatos responsables",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1; el resto profundiza cada término). **Status code:** código HTTP de la respuesta (2xx éxito, 4xx error de cliente, 5xx error de servidor). **Timeout:** tiempo máximo de espera por request — en un cliente real siempre pasas `timeout=`. **Retry/backoff:** reintentar solo errores **transitorios** (en N1: 429 y 503) con espera creciente. **Provenance (traza de origen):** metadatos del fetch (`source_url`, `fetched_at`, `status_code`, `cache_hit`) **sin** secretos. **SQL parametrizado:** placeholders `?` en lugar de f-strings con input. **Geocoder autorizado/mock:** proveedor permitido o simulado. **Egress (salida de datos):** qué campos pueden salir a un servicio externo. **Geoseñal:** distancia u otra métrica geo que alimenta un score de relación — **no** es parentesco ni fraude. **Fail-closed (falla cerrado):** si el contrato falla, se detiene; no se inventan filas ni coordenadas.",
-        "Imagina el onboarding de un caso sintético en Lima: un proveedor te lista señales por HTTP, tú las guardas en SQLite local y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, cache, provenance y fallback offline. Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema del JSON o del SQL no cuadra, **falla cerrado**.",
-        "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/cache/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección: adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. Profiling y concurrency de producción se tratan más adelante en el tramo de sistemas — no son el foco de esta semana."
+        "Imagina el onboarding de un caso sintético en Lima: un proveedor te lista señales por HTTP, tú las guardas en SQLite local y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline. Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema del JSON o del SQL no cuadra, **falla cerrado**.",
+        "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/caché/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección: adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. Profiling y concurrency de producción se tratan más adelante en el tramo de sistemas — no son el foco de esta semana."
       ],
       callout: {
         type: "info",
@@ -95,7 +95,7 @@ good_json {'id': 'C001'}`,
       heading: "Timeout, paginación, retry/backoff y rate limit",
       subtopicId: "S12-T1-B",
       paragraphs: [
-        "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` vs `timeout_s` para tests deterministas sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",
+        "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` vs. `timeout_s` para tests deterministas sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",
         "**Retry/backoff** solo en errores **transitorios**: **429**, **503** y timeouts de red en este curso (**política N1**). Otros **5xx** pueden reintentarse en producción con límite, pero el contrato de ejercicios usa `{429, 503}` para forzar selectividad. Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` cuando exista y un **max_retries** duro (p. ej. 3). La función `should_retry` y la tabla `status_action` deben contar la misma historia.",
         "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos contador de delays en lugar de `time.sleep` real para tests deterministas. Caso sintético: páginas 1→2→3 con `next` y `rate_limit_pauses == 2`; cuando **`next is None`**, dejas de pedir la siguiente página. **Qué observar:** el bucle termina por contrato del proveedor, no por un contador mágico de “siempre 3 páginas”."
       ],
@@ -133,11 +133,11 @@ print("items", all_items, "rate_limit_pauses", delays)`,
       },
     },
     {
-      heading: "Auth, secretos, cache y provenance",
+      heading: "Auth, secretos, caché y provenance",
       subtopicId: "S12-T2-A",
       paragraphs: [
         "Con el cliente resiliente en T1, el siguiente riesgo profesional es filtrar el secreto. Autenticación **Bearer** (o basic) lee el token de **variable de entorno** / secret store, nunca hardcodeado en el repo ni en un notebook compartido. Si falta `API_TOKEN`, **falla cerrado** con mensaje claro — no envíes requests anónimos “por si acaso” ni uses un token de demo pegado en el código que mañana se commitea.",
-        "**Cache de GET** por hash de URL (o la URL misma en demos) con **TTL** reduce costo y latencia; no caches respuestas de escritura ni PII sin política. Invalida o no reutilices si el status no fue 2xx. El segundo hit al mismo URL debe marcar `cache_hit=True` sin volver a “pegarle” al mock.",
+        "**Caché de GET** por hash de URL (o la URL misma en demos) con **TTL** reduce costo y latencia; no caches respuestas de escritura ni PII sin política. Invalida o no reutilices si el status no fue 2xx. El segundo hit al mismo URL debe marcar `cache_hit=True` sin volver a “pegarle” al mock.",
         "**Provenance (traza de origen)**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit` (y a veces `body_sha12` o `auth_scheme`). **Nunca loguees el token** ni el header Authorization: solo un booleano `token_present` o la longitud. Caso sintético: segundo `cached_get` a `https://api.example.com/signals` → `cache_hit=True`; el manifest de provenance no contiene la cadena del token. **Qué observar:** `token_len` sí; el valor del token, no."
       ],
       code: {
@@ -217,7 +217,7 @@ def geocode(addr, online=True):
 fix = {"lat": -16.4090, "lon": -71.5375, "label": "Arequipa"}
 print("contract", assert_contract(fix))
 print("online", geocode("Lima", online=True)["mode"])
-print("offline", geocode("Sucursal-Norte", online=False)["mode"])`,
+print("offline", geocode("Lima", online=False)["mode"])`,
         output: `contract True
 online online
 offline offline_fallback`,
@@ -317,7 +317,7 @@ print(try_batch_unique_doc())`,
       paragraphs: [
         "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress. Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload: el invento silencioso contamina geoevidencia y el score de S13.",
         "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es ciudad/dirección sintética autorizada. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"address\", \"city\", \"country\"}`. Si aparece `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
-        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Sucursal-Sur, Arequipa) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Plaza de Armas demo. **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
+        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
       code: {
         language: 'python',
@@ -330,7 +330,7 @@ def normalize_address(s: str) -> str:
 
 class MockGeocoder:
     TABLE = {
-        "Sucursal-Centro": (-12.0464, -77.0428),
+        "Lima": (-12.0464, -77.0428),
         "Arequipa": (-16.4090, -71.5375),
     }
     def geocode(self, city: str):
@@ -346,7 +346,7 @@ geo = MockGeocoder().geocode("lima")
 print("addr", addr)
 print("geo", geo)`,
         output: `addr av. larco 123
-geo {'city': 'Oficina-Este', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
+geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
       },
       callout: {
         type: "warning",
@@ -359,9 +359,9 @@ geo {'city': 'Oficina-Este', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock
       heading: "Calidad de coordenada, Haversine, caching y política",
       subtopicId: "S12-T4-B",
       paragraphs: [
-        "Tienes coords del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas basura (91°, NaN, strings) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no “corrige” a 0,0 (Golfo de Guinea) — ese “arreglo” ha generado mapas absurdos en producción real.",
+        "Tienes coords del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas inválidas (91°, NaN, strings) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no “corrige” a 0,0 (Golfo de Guinea) — ese “arreglo” ha generado mapas absurdos en producción real.",
         "**Haversine** estima km entre dos puntos WGS84 con radio R=6371 km en este curso; sirve como **geoseñal de relación** en el score de matching, no como veredicto de parentesco o fraude. Empaqueta el resultado como `{\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}` (o `verdict: None`). Documenta unidades (km) y el radio usado.",
-        "Cachea geocodes bajo TTL/política del proveedor para no quemar cuota (misma idea de cache GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Oficina-Oeste–Callao ≈ **8.95 km** → alimenta `relationship_signal_score` en S13, jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
+        "Cachea geocodes bajo TTL/política del proveedor para no quemar cuota (misma idea de caché GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ **8.95 km** → alimenta `relationship_signal_score` en S13, jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
       ],
       code: {
         language: 'python',
@@ -395,12 +395,12 @@ signal_only relationship_signal not kinship`,
         type: "tip",
         title: "Distancia ≠ parentesco",
         content:
-          "1.2 km entre entidades es geoseñal; jamás auto-etiqueta is_family o fraude.",
+          "1.2 km entre entidades es geoseñal; jamás autoetiqueta is_family o fraude.",
       },
     },
   ],
   iDo: {
-    intro: "Ocho demos locales del hilo CP-N1-C en orden de pipeline: (1) mock HTTP status→JSON, (2) paginación con rate-limit conceptual, (3) provenance sin token, (4) contract/fallback offline, (5) join de caso SQLite, (6) batch atómico con rollback, (7) MockGeocoder fail-closed, (8) Haversine Cliente-A–Callao como geoseñal (no parentesco). Lee description + why de cada demo: modelan el razonamiento del experto (status antes que body, traza honesta, atomicidad, ética geo) antes de los micro-defectos del We Do.",
+    intro: "Ocho demos locales del hilo CP-N1-C en orden de pipeline: (1) mock HTTP status→JSON, (2) paginación con rate-limit conceptual, (3) provenance sin token, (4) contract/fallback offline, (5) join de caso SQLite, (6) batch atómico con rollback, (7) MockGeocoder fail-closed, (8) Haversine Lima–Callao como geoseñal (no parentesco). Lee description y why de cada demo: modelan el razonamiento del experto (status antes que body, traza honesta, atomicidad, ética geo) antes de los micro-defectos del We Do.",
     steps: [
       {
         demoId: "S12-T1-A-DEMO",
@@ -441,7 +441,7 @@ kinds ['shared_phone', 'geo']`,
         demoId: "S12-T1-B-DEMO",
         subtopicId: "S12-T1-B",
         environment: "local-python",
-        description: "Pipeline de paginación: while next no es None, acumula items y cuenta pausas de rate-limit (sin sleep real). Observa items 1..5 y rate_limit_pauses=2: dos saltos de página, no tres sleeps al final.",
+        description: "Pipeline de paginación: while next no es None, acumula items y cuenta pausas de rate-limit (sin sleep real). Observa items del 1 al 5 y rate_limit_pauses=2: dos saltos de página, no tres sleeps al final.",
         code: {
           language: 'python',
           title: "paginate_demo.py",
@@ -506,12 +506,12 @@ token_logged False`,
         demoId: "S12-T2-B-DEMO",
         subtopicId: "S12-T2-B",
         environment: "local-python",
-        description: "Contract test del geocoder mock + fallback a coordenadas precalculadas. Observa mode=online vs mode=offline_fallback: mismo lat/lon de Cliente-B, traza distinta — el auditor ve la verdad.",
+        description: "Contract test del geocoder mock + fallback a coordenadas precalculadas. Observa mode=online vs. mode=offline_fallback: mismo lat/lon de Lima, traza distinta — el auditor ve la verdad.",
         code: {
           language: 'python',
           title: "geocoder_contract_demo.py",
           code: `REQUIRED = {"lat", "lon", "provider"}
-PRECALC = {"Sucursal-Norte": {"lat": -12.0464, "lon": -77.0428, "provider": "precalc"}}
+PRECALC = {"Lima": {"lat": -12.0464, "lon": -77.0428, "provider": "precalc"}}
 
 def contract_ok(d):
     return not (REQUIRED - set(d.keys()))
@@ -523,9 +523,9 @@ def geocode(city, fail_online=False):
     assert contract_ok(online)
     return online
 
-print("online", geocode("Sucursal-Sur"))
-print("fallback", geocode("Sucursal-Centro", fail_online=True))
-print("contract_precalc", contract_ok(PRECALC["Oficina-Este"]))`,
+print("online", geocode("Lima"))
+print("fallback", geocode("Lima", fail_online=True))
+print("contract_precalc", contract_ok(PRECALC["Lima"]))`,
           output: `online {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}
 fallback {'lat': -12.0464, 'lon': -77.0428, 'provider': 'precalc', 'mode': 'offline_fallback'}
 contract_precalc True`,
@@ -601,12 +601,12 @@ count 0`,
         demoId: "S12-T4-A-DEMO",
         subtopicId: "S12-T4-A",
         environment: "local-python",
-        description: "MockGeocoder autorizado: Oficina-Oeste y Arequipa devuelven lat/lon fijos; Iquitos → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
+        description: "MockGeocoder autorizado: Lima y Arequipa devuelven lat/lon fijos; Iquitos → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
         code: {
           language: 'python',
           title: "mock_cities_demo.py",
           code: `class MockGeocoder:
-    DB = {"Cliente-A": (-12.0464, -77.0428), "Cliente-B": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
     def geocode(self, city):
         if city not in self.DB:
             return None
@@ -614,10 +614,10 @@ count 0`,
         return {"city": city, "lat": lat, "lon": lon, "provider": "authorized_mock"}
 
 g = MockGeocoder()
-for c in ("Sucursal-Norte", "Sucursal-Sur", "Iquitos"):
+for c in ("Lima", "Arequipa", "Iquitos"):
     print(c, g.geocode(c))`,
-          output: `Sucursal-Centro {'city': 'Oficina-Este', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}
-Oficina-Oeste {'city': 'Cliente-A', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}
+          output: `Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}
+Arequipa {'city': 'Arequipa', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}
 Iquitos None`,
         },
         why: "Geocoder intercambiable y offline para demos sin egress de PII.",
@@ -626,7 +626,7 @@ Iquitos None`,
         demoId: "S12-T4-B-DEMO",
         subtopicId: "S12-T4-B",
         environment: "local-python",
-        description: "Calcula ~8.95 km Cliente-B–Callao y empaquétalos como geoseñal (type/value/verdict=None). Nunca auto-etiquetes parentesco o fraude: el disclaimer signal != kinship es parte del entregable.",
+        description: "Calcula ~8.95 km Lima–Callao y empaquétalos como geoseñal (type/value/verdict=None). Nunca autoetiquetes parentesco o fraude: el disclaimer signal != kinship es parte del entregable.",
         code: {
           language: 'python',
           title: "lima_callao_demo.py",
@@ -661,7 +661,7 @@ disclaimer signal != kinship`,
         subtopicId: "S12-T1-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva `(status, body)`. Si el id existe: `200` y el dict del store; si no: `404` y `{'error':'not_found'}`. Fixture: `store = {'C001': {'id':'C001','region':'Sucursal-Norte'}}`. Salida/pass: `(200, {'id': 'C001', 'region': 'Sucursal-Sur'})` y luego `(404, {'error': 'not_found'})`.",
+          "E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva `(status, body)`. Si el id existe: `200` y el dict del store; si no: `404` y `{'error':'not_found'}`. Fixture: `store = {'C001': {'id':'C001','region':'Lima'}}`. Salida/pass: `(200, {'id': 'C001', 'region': 'Lima'})` y luego `(404, {'error': 'not_found'})`.",
         hint: "Devuelve una tupla (status_code, dict).",
         hints: [
           "Devuelve una tupla (status_code, dict).",
@@ -675,7 +675,7 @@ disclaimer signal != kinship`,
           title: "get_entity.py",
           code: `# CASO-LIM-012 · get_entity
 # DEFECT: siempre 200 y body vacío
-store = {"C001": {"id": "C001", "region": "Sucursal-Centro"}}
+store = {"C001": {"id": "C001", "region": "Lima"}}
 def get_entity(store, entity_id):
     return 200, {}
 print(get_entity(store, "C001"))
@@ -685,14 +685,14 @@ print('ok', True)`,
         solutionCode: {
           language: 'python',
           title: "get_entity.py",
-          code: `store = {"C001": {"id": "C001", "region": "Oficina-Este"}}
+          code: `store = {"C001": {"id": "C001", "region": "Lima"}}
 def get_entity(store, entity_id):
     if entity_id not in store:
         return 404, {"error": "not_found"}
     return 200, store[entity_id]
 print(get_entity(store, "C001"))
 print(get_entity(store, "C999"))`,
-          output: `(200, {'id': 'C001', 'region': 'Oficina-Oeste'})
+          output: `(200, {'id': 'C001', 'region': 'Lima'})
 (404, {'error': 'not_found'})`,
         },
       },
@@ -701,7 +701,7 @@ print(get_entity(store, "C999"))`,
         subtopicId: "S12-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Dado un `payload` dict de respuesta, implementa `parse_entity(payload)` que exija las claves `id` y `region`. Si faltan o el tipo no es dict, devuelve `None`. Si están, devuelve un dict nuevo solo con esas dos claves (ignora extras). Caso: payload con extra → `{'id':'C001','region':'Cliente-A'}`; payload incompleto → `None`.",
+          "E2 (independiente) — Dado un `payload` dict de respuesta, implementa `parse_entity(payload)` que exija las claves `id` y `region`. Si faltan o el tipo no es dict, devuelve `None`. Si están, devuelve un dict nuevo solo con esas dos claves (ignora extras). Caso: payload con extra → `{'id':'C001','region':'Lima'}`; payload incompleto → `None`.",
         hint: "Usa set de required keys.",
         hints: [
           "Usa set de required keys.",
@@ -717,7 +717,7 @@ print(get_entity(store, "C999"))`,
 # DEFECT: no valida keys; devuelve payload crudo
 def parse_entity(payload):
     return payload
-print(parse_entity({"id": "C001", "region": "Cliente-B", "extra": 1}))
+print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
 print(parse_entity({"id": "C001"}))
 print('ok', True)`,
         },
@@ -730,9 +730,9 @@ print('ok', True)`,
     if "id" not in payload or "region" not in payload:
         return None
     return {"id": payload["id"], "region": payload["region"]}
-print(parse_entity({"id": "C001", "region": "Sucursal-Norte", "extra": 1}))
+print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
 print(parse_entity({"id": "C001"}))`,
-          output: `{'id': 'C001', 'region': 'Sucursal-Sur'}
+          output: `{'id': 'C001', 'region': 'Lima'}
 None`,
         },
       },
@@ -970,7 +970,7 @@ API_TOKEN missing`,
         subtopicId: "S12-T2-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Cache GET: implementa la clase `Cache` con `set(url, body)` y `get(url)` que devuelve `(body, cache_hit)`. Tras un set, la siguiente get del mismo url debe ser `({'ok': True}, True)`; un url desconocido → `(None, False)`. Usa un dict interno.",
+          "E2 (independiente) — Caché GET: implementa la clase `Cache` con `set(url, body)` y `get(url)` que devuelve `(body, cache_hit)`. Tras un set, la siguiente get del mismo url debe ser `({'ok': True}, True)`; un url desconocido → `(None, False)`. Usa un dict interno.",
         hint: "key = url",
         hints: [
           "key = url",
@@ -978,7 +978,7 @@ API_TOKEN missing`,
         ],
         edgeCases: ["miss → None, False"],
         tests: "hit y miss",
-        feedback: "Cache de GET reduce latencia en demos repetidas.",
+        feedback: "Caché de GET reduce latencia en demos repetidas.",
         starterCode: {
           language: 'python',
           title: "cache_get.py",
@@ -1181,7 +1181,7 @@ False local_file`,
         subtopicId: "S12-T3-A",
         kind: "guided",
         instruction:
-          "E1 (guiado) — En SQLite `:memory:`, crea la tabla `evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)`. Inserta la fila `E1` / `C001` / `geo` y imprime el `COUNT(*)`. Salida/pass: `1`.",
+          "E1 (guiado) — En SQLite `:memory:`, crea la tabla `evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)`. Inserta la fila `E1` / `C001` / `geo` e imprime el `COUNT(*)`. Salida/pass: `1`.",
         hint: "CREATE TABLE evidence (...)",
         hints: [
           "CREATE TABLE evidence (...)",
@@ -1267,7 +1267,7 @@ con.close()`,
         subtopicId: "S12-T3-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — JOIN de caso: une `clients` + `evidence` por `entity_id` y imprime los `kind` de `C001` ordenados. No mezcles evidencias de `C002`. Salida/pass: `['geo', 'phone']`.",
+          "E3 (transferencia) — JOIN de caso: une `clients` + `evidence` por `entity_id` e imprime los `kind` de `C001` ordenados. No mezcles evidencias de `C002`. Salida/pass: `['geo', 'phone']`.",
         hint: "JOIN ON c.id = e.entity_id",
         hints: [
           "JOIN ON c.id = e.entity_id",
@@ -1490,7 +1490,7 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
         subtopicId: "S12-T4-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Interfaz mínima: clase `MockGeocoder` con `geocode(city)` → dict o `None`. Solo Sucursal-Centro y Oficina-Este en la tabla; ciudad desconocida (p. ej. Cusco) → `None`. Imprime lat de Oficina-Oeste y el resultado de Cusco. Salida/pass: `-12.0464` y `None`.",
+          "E2 (independiente) — Interfaz mínima: clase `MockGeocoder` con `geocode(city)` → dict o `None`. Solo Lima y Arequipa en la tabla; ciudad desconocida (p. ej. Cusco) → `None`. Imprime lat de Lima y el resultado de Cusco. Salida/pass: `-12.0464` y `None`.",
         hint: "Tabla city→(lat,lon)",
         hints: [
           "Tabla city→(lat,lon)",
@@ -1503,14 +1503,14 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
           language: 'python',
           title: "mock_geocoder.py",
           code: `# CASO-LIM-012 · MockGeocoder
-# DEFECT: siempre Cliente-A coords
+# DEFECT: siempre coords de Lima (ignora la ciudad pedida)
 class MockGeocoder:
-    DB = {"Cliente-B": (-12.0464, -77.0428), "Sucursal-Norte": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
     def geocode(self, city):
-        lat, lon = self.DB["Sucursal-Sur"]
+        lat, lon = self.DB["Lima"]
         return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
 g = MockGeocoder()
-print(g.geocode("Sucursal-Centro")["lat"])
+print(g.geocode("Lima")["lat"])
 print(g.geocode("Cusco"))
 print('ok', True)`,
         },
@@ -1518,14 +1518,14 @@ print('ok', True)`,
           language: 'python',
           title: "mock_geocoder.py",
           code: `class MockGeocoder:
-    DB = {"Oficina-Este": (-12.0464, -77.0428), "Oficina-Oeste": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
     def geocode(self, city):
         if city not in self.DB:
             return None
         lat, lon = self.DB[city]
         return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
 g = MockGeocoder()
-print(g.geocode("Cliente-A")["lat"])
+print(g.geocode("Lima")["lat"])
 print(g.geocode("Cusco"))`,
           output: `-12.0464
 None`,
@@ -1553,8 +1553,8 @@ None`,
 ALLOWED = {"address", "city", "country"}
 def allowed_for_public_geocoder(payload):
     return True
-print(allowed_for_public_geocoder({"city": "Cliente-B", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Sucursal-Norte", "document_id": "D1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))
 print('ok', True)`,
         },
         solutionCode: {
@@ -1563,8 +1563,8 @@ print('ok', True)`,
           code: `ALLOWED = {"address", "city", "country"}
 def allowed_for_public_geocoder(payload):
     return set(payload) <= ALLOWED
-print(allowed_for_public_geocoder({"city": "Sucursal-Sur", "address": "Av 1"}))
-print(allowed_for_public_geocoder({"city": "Sucursal-Centro", "document_id": "D1"}))`,
+print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
           output: `True
 False`,
         },
@@ -1699,10 +1699,10 @@ print(as_relationship_signal(1.2))`,
   youDo: {
     title: "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
     context:
-      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env, cache GET, provenance sin tokens, SQLite parametrizado (`clients` / `transactions` / `evidence`) y **MockGeocoder** con allowlist de egress (sin PII bancaria). Solo datos sintéticos Oficina-Este/Oficina-Oeste e ids `C00x`. El `main()` del starter es un smoke path: al implementar cada stub, debe imprimir token_len, retry, entity, cache_hits, provenance, normalize, egress ok/bad, geo, km y case_row. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard.",
+      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env, caché GET y provenance sin tokens. Persiste en SQLite parametrizado (`clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (sin PII bancaria). Solo datos sintéticos Lima/Arequipa e ids `C00x`. El `main()` del starter es un smoke path: al implementar cada stub, debe imprimir token_len, retry, entity, cache_hits, provenance, normalize, egress ok/bad, geo, km y case_row. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard.",
     objectives: [
       "Cliente get_entity + should_retry N1 (429/503) y timeout en la interfaz",
-      "Cache GET + min_provenance sin secretos",
+      "Caché GET + min_provenance sin secretos",
       "Esquema SQLite + case_join (name, amount, kind) + seeds",
       "MockGeocoder + allowlist de egress + Haversine como geoseñal (no parentesco)",
       "Smoke path en main() con todos los stubs cableados",
@@ -1712,12 +1712,12 @@ print(as_relationship_signal(1.2))`,
       "SQL solo con placeholders `?`",
       "Sin tokens en logs/provenance",
       "Geocoder mock/autorizado; sin PII bancaria a servicios públicos",
-      "Datos sintéticos latam (example.com / Cliente-A / Cliente-B)",
+      "Datos sintéticos latam (example.com / Lima / Arequipa)",
       "Demo offline reproducible (fallback local)",
     ],
     starterCode: `"""cp_n1c_acquisition.py — CP-N1-C incremento S12
 HTTP mock + SQLite + MockGeocoder. Datos sintéticos únicamente.
-Integra: token env, retry N1, cache GET, provenance, join SQL, egress, Haversine.
+Integra: token env, retry N1, caché GET, provenance, join SQL, egress, Haversine.
 """
 
 from __future__ import annotations
@@ -1767,7 +1767,7 @@ def allowed_for_public_geocoder(payload: dict) -> bool:
 
 
 class MockGeocoder:
-    DB = {"Sucursal-Norte": (-12.0464, -77.0428), "Sucursal-Sur": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
 
     def geocode(self, city: str) -> Optional[dict]:
         # DEFECT: NotImplemented — dict con lat/lon/provider o None
@@ -1803,7 +1803,7 @@ def main() -> None:
     print("token_len", len(require_token(dict(os.environ))))
     print("retry 429", should_retry(429))
     print("retry 500", should_retry(500))
-    store = {"C001": {"id": "C001", "region": "Sucursal-Centro"}}
+    store = {"C001": {"id": "C001", "region": "Lima"}}
     print("entity", get_entity(store, "C001"))
     cache: dict = {}
     body, hit1 = cached_get(cache, "https://api.example.com/s", lambda: {"ok": True})
@@ -1811,9 +1811,9 @@ def main() -> None:
     print("cache_hits", hit1, hit2)
     print("prov", min_provenance("https://api.example.com/s", 200, hit2))
     print("norm", normalize_address("  av  larco  1 "))
-    print("egress_ok", allowed_for_public_geocoder({"city": "Oficina-Este", "address": "Av 1"}))
-    print("egress_bad", allowed_for_public_geocoder({"city": "Oficina-Oeste", "document_id": "D1"}))
-    print("geo", MockGeocoder().geocode("Cliente-A"))
+    print("egress_ok", allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+    print("egress_bad", allowed_for_public_geocoder({"city": "Arequipa", "document_id": "D1"}))
+    print("geo", MockGeocoder().geocode("Lima"))
     km = round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2)
     print("km", km)
     print("signal", as_relationship_signal(km))
@@ -1827,10 +1827,10 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README del portafolio muestra tres capturas o bloques: (1) manifest de provenance sin token (`token_logged` / sin Authorization), (2) join de caso SQLite con name/amount/kind, (3) distancia Cliente-B–Callao (~8.95 km) como geoseñal con disclaimer `signal != kinship`. Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
+      "En el README del portafolio muestra tres capturas o bloques: (1) manifest de provenance sin token (`token_logged` / sin Authorization), (2) join de caso SQLite con name/amount/kind, (3) distancia Lima–Callao (~8.95 km) como geoseñal con disclaimer `signal != kinship`. Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
     rubric: [
       { criterion: "HTTP status/JSON/timeout/retry selectivo", weight: "20%" },
-      { criterion: "Auth env + cache + provenance sin secretos", weight: "15%" },
+      { criterion: "Auth env + caché + provenance sin secretos", weight: "15%" },
       { criterion: "SQL parametrizado + transacciones + join", weight: "25%" },
       { criterion: "Geocoder mock + política de egress", weight: "20%" },
       { criterion: "Haversine como señal (no veredicto) + demo offline", weight: "20%" },
@@ -1840,7 +1840,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un 400 Bad Request del proveedor debe…",
-        options: ["Reintentarse con backoff infinito", "Ignorarse como 200", "Borrar el cache", "Tratarse como error de cliente (no retry ciego)"],
+        options: ["Reintentarse con backoff infinito", "Ignorarse como 200", "Borrar el caché", "Tratarse como error de cliente (no retry ciego)"],
         correctIndex: 3,
         explanation:
           "4xx de cliente no son transitorios; reintentar no corrige el request.",
@@ -1919,7 +1919,7 @@ if __name__ == "__main__":
       {
         label: "hashlib — Secure hashes",
         url: "https://docs.python.org/3/library/hashlib.html",
-        note: "cache keys de URL GET",
+        note: "claves de caché de URL GET",
       },
       {
         label: "OWASP — SQL Injection",

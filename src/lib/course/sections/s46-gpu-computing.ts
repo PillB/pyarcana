@@ -5,14 +5,14 @@ export const section46: CourseSection = {
   index: 46,
   title: "Ingeniería de datos y orquestación de producción",
   shortTitle: "Data eng producción",
-  tagline: "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
+  tagline: "Pipeline incremental y backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto en LATAM, **ingeniería de datos y orquestación de producción** convierte el job asíncrono de la sección anterior (object store, colas, DLQ e idempotency keys) en pipelines batch/stream con calidad medible y SLAs de frescura. Entregas típicas: tablas y contratos versionados, orquestación con checkpoint, lineage y alertas cuando el dato llega tarde o el schema se rompe. Se promociona solo cuando backfills y re-runs no corrompen el sink ni duplican agregados. La siguiente sección (MLOps) consumirá estas tablas versionadas y el lineage como fuente confiable de features y runs.",
+    "En equipos de plataforma y producto en LATAM, **ingeniería de datos y orquestación de producción** convierte el job asíncrono de la sección anterior (*object store*, colas, DLQ e *idempotency keys*) en pipelines batch/stream con calidad medible y **SLA** de frescura. Entregas típicas: tablas y contratos versionados, orquestación con *checkpoint*, *lineage* y alertas cuando el dato llega tarde o el schema se rompe. Se promociona solo cuando backfills y *re-runs* no corrompen el sink ni duplican agregados. La siguiente sección (MLOps) consumirá estas tablas versionadas y el *lineage* como fuente confiable de *features* y *runs*.",
   learningOutcomes: [
     { text: "Clasificar eventos on-time, allowed-late, late u out-of-window dado event_time, window_end, watermark y allowed_lateness, con política documentada" },
     { text: "Componer exactly-once end-to-end: fuente at-least-once + checkpoint + sink idempotente por clave + política de late data" },
@@ -21,16 +21,16 @@ export const section46: CourseSection = {
     { text: "Evaluar data contracts (schema + owner + freshness SLO) y fallar cerrado ante drift o retraso" },
     { text: "Registrar lineage run→inputs→outputs con owner y métricas de calidad para reconstruir incidentes" },
     { text: "Implementar carga incremental por partición con merge de claves y segunda corrida con cero cambios" },
-    { text: "Operar data SLOs (SLI vs objetivo), RTO de recuperación y postmortem con acciones concretas" },
+    { text: "Operar data SLOs (SLI vs. objetivo), RTO de recuperación y post mortem con acciones concretas" },
   ],
   theory: [
     {
       heading: "Ruta de S46: Ingeniería de datos y orquestación de producción",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Event time:** cuándo ocurrió el hecho (no el processing time del worker). **Watermark:** aserción de progreso en event time — watermark t declara que no se esperan más eventos con timestamp ≤ t. **Late data:** llega después de que el watermark superó su timestamp (política: drop / side-output / update / quarantine). **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints, no un flag mágico del broker. **DAG/asset:** grafo de dependencias sin ciclos. **Backfill:** re-run acotado de rangos históricos. **Data contract:** schema + freshness + ownership. **Lineage:** de qué run/tabla salió cada fila. **Incremental load:** particiones/keys sin full rewrite ciego.",
-        "Puente S45 → S46 → S47. En S45 modelaste un **job asíncrono** con artifact store, status, retry, DLQ e idempotency keys. Aquí ese job se vuelve **pipeline de datos de producción**: el mismo event_id/idempotency key alimenta dedup del sink; la cola at-least-once obliga a sinks idempotentes; el object store aloja particiones y artefactos de lineage. En S47 (MLOps) esas tablas versionadas, el lineage y la freshness serán la base de features, experiment tracking y serving — un pipeline sin contratos no es un buen dataset de entrenamiento.",
-        "Producto incremental: orquestación de producción. Entrada: eventos con event_time, schema, SLAs de frescura y keys de idempotencia. Salida: ventanas cerradas con política de late data, sink deduplicado, DAG acíclico y alertas de calidad. Error de promoción: late data silencioso, edges cíclicos, schema drift no detectado o segundo run que reescribe sin control.",
-        "Orden: T1 event-time/watermarks → T2 DAG tipado y checkpoint → T3 calidad/freshness → T4 re-runs y SLI/SLO. El watermark y la late policy de T1 habilitan el merge incremental de T4 (solo filas ON_TIME/ALLOWED_LATE entran al sink); el DAG acíclico de T2 ordena qué asset se backfillea; los contratos de T3 deciden cuándo cuarentenar. Stack didáctico: **stdlib** (dicts, listas) para modelar contratos al estilo Airflow/dbt/streaming **sin cluster**. El foco es corrección de datos y operación del pipeline, no kernels de hardware. Caso `CASO-HYO-046` (Huancayo sintético): eventos de atención de una entidad ficticia; sin PII real ni servicios externos.",
+        "**Diccionario de la sección** (léelo antes de T1).\n- **Event time:** cuándo ocurrió el hecho (no el *processing time* del worker).\n- **Watermark:** aserción de progreso en *event time*; un watermark `t` declara que no se esperan más eventos con timestamp ≤ `t`.\n- **Late data:** llega después de que el watermark superó su timestamp. Política: drop / side-output / update / quarantine.\n- **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints; no es un flag mágico del broker.\n- **DAG/asset:** grafo de dependencias sin ciclos.\n- **Backfill:** *re-run* acotado de rangos históricos.\n- **Data contract:** schema + freshness + ownership.\n- **Lineage:** de qué *run* o tabla salió cada fila.\n- **Incremental load:** particiones / *keys* sin *full rewrite* ciego.",
+        "Puente S45 → S46 → S47. En S45 modelaste un **job asíncrono** con *artifact store*, *status*, *retry*, DLQ e *idempotency keys*. Aquí ese job se vuelve **pipeline de datos de producción**. El mismo `event_id` / *idempotency key* alimenta el *dedup* del sink. La cola *at-least-once* obliga a sinks idempotentes. El *object store* aloja particiones y artefactos de *lineage*. En S47 (MLOps) esas tablas versionadas, el *lineage* y la *freshness* serán la base de *features*, *experiment tracking* y *serving*. Un pipeline sin contratos no es un buen dataset de entrenamiento.",
+        "Producto incremental: orquestación de producción. Entrada: eventos con `event_time`, schema, **SLA** de frescura y *keys* de idempotencia. Salida: ventanas cerradas con política de *late data*, sink deduplicado, DAG acíclico y alertas de calidad. Error de promoción: *late data* silenciosa, edges cíclicos, *schema drift* no detectado o segundo *run* que reescribe sin control.",
+        "Orden: T1 event-time/watermarks → T2 DAG tipado y *checkpoint* → T3 calidad/freshness → T4 *re-runs* y SLI/SLO. El watermark y la *late policy* de T1 habilitan el *merge* incremental de T4 (solo filas ON_TIME / ALLOWED_LATE entran al sink). El DAG acíclico de T2 ordena qué *asset* se backfillea. Los contratos de T3 deciden cuándo cuarentenar. Stack didáctico: **stdlib** (dicts, listas) para modelar contratos al estilo Airflow / dbt / streaming **sin cluster**. El foco es corrección de datos y operación del pipeline, no kernels de hardware. Para `CASO-HYO-046` (Huancayo sintético): eventos de atención de una entidad ficticia, sin PII real ni servicios externos.",
       ],
       code: {
         language: 'python',
@@ -67,9 +67,10 @@ silent_late_data_ok False`,
       heading: "Ventanas, event time y watermarks",
       subtopicId: "S46-T1-A",
       paragraphs: [
-        "**Event time** es cuándo ocurrió el hecho en el mundo; **processing time** es el reloj del worker. Las **ventanas** agrupan por rangos de event time. El **watermark** no es solo un “atraso aceptado”: es una aserción de progreso — watermark t afirma que no se esperan más eventos con timestamp ≤ t. Un evento es **late** si se evalúa cuando el watermark ya superó su timestamp; **allowed lateness** es gracia post-watermark (completeness vs latencia).",
-        "Contrato operativo de tiempo. Entrada: lista de event_time, window_end, lag del watermark y allowed_lateness. Salida: watermark = max(event_time) − lag, y etiqueta por evento ∈ {ON_TIME, ALLOWED_LATE, LATE, OUT_OF_WINDOW}. Error: materializar una ventana sin política de late data o aceptar eventos fuera de ventana. Criterio de éxito: fixtures en orden, desorden y tardío producen las mismas etiquetas al re-ejecutar; la política (side-output / drop / update) queda documentada.",
-        "Aplicación a `CASO-HYO-046` (Huancayo sintético): una clínica ficticia emite eventos de atención con retraso de red. Un parte de las 09:00 puede llegar a las 09:40 de processing time; el pipeline debe decidir con event time, no con el reloj del worker. Riesgos de DE (no de ER): doble conteo si se reabre la ventana en silencio, o dashboards incompletos si se dropea late data sin side-output.",
+        "**Event time** es cuándo ocurrió el hecho en el mundo. **Processing time** es el reloj del worker. Las **ventanas** agrupan por rangos de *event time*. El **watermark** no es solo un “atraso aceptado”: es una aserción de progreso. Un watermark `t` afirma que no se esperan más eventos con timestamp ≤ `t`. Un evento es **late** si se evalúa cuando el watermark ya superó su timestamp. **Allowed lateness**, en este lab, es una banda de gracia relativa al watermark (`wm − et ≤ gracia`) que modela el *trade-off completeness* vs. *latencia*. En motores como Beam/Flink la gracia se amarra también al cierre de ventana; aquí la simplificamos para razonar etiquetas sin cluster.",
+        "Contrato operativo de tiempo. Entrada: lista de `event_time`, `window_end`, *lag* del watermark y `allowed_lateness`. Salida: `watermark = max(event_time) − lag`, y etiqueta por evento ∈ {ON_TIME, ALLOWED_LATE, LATE, OUT_OF_WINDOW}. Error: materializar una ventana sin política de *late data* o aceptar eventos fuera de ventana. Criterio de éxito: *fixtures* en orden, desorden y tardío producen las mismas etiquetas al **reejecutar**. La política (side-output / drop / update) queda documentada.",
+        "**Timeline trabajado** (stream `[100, 108, 115]`, lag 5 → watermark 110, ventana 120, gracia 5): 112 es ON_TIME (por encima del watermark); 100 es LATE (`wm − et = 10 > 5`, side-output o drop según política); 105 es ALLOWED_LATE (entra por gracia). Misma regla en código, iDo y weDo: no inventes un bound inferior arbitrario.",
+        "Aplicación a `CASO-HYO-046` (Huancayo sintético): una clínica ficticia emite eventos de atención con retraso de red. Un parte de las 09:00 puede llegar a las 09:40 de *processing time*. El pipeline debe decidir con *event time*, no con el reloj del worker. Riesgos de ingeniería de datos (no de ER): doble conteo si se reabre la ventana en silencio, o dashboards incompletos si se **descarta** *late data* sin *side-output*.",
       ],
       code: {
         language: 'python',
@@ -101,18 +102,18 @@ labels ['ON_TIME', 'LATE', 'ALLOWED_LATE']`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T1-A · Watermark y ventana",
         content:
-          "Antes de promover S46-T1-B, verifica contrato y riesgo residual.",
+          "Antes de promover S46-T1-B, verifica contrato de etiquetas y el riesgo residual de late data silenciosa.",
       },
     },
     {
       heading: "Late data y exactly-once como propiedad compuesta",
       subtopicId: "S46-T1-B",
       paragraphs: [
-        "**Exactly-once end-to-end no es un switch del broker.** Es una cadena: la fuente suele ser at-least-once (reintentos), el motor guarda **checkpoint** del progreso, el **sink es idempotente** por clave de negocio (`event_id`), y el late data tiene política explícita (update / side-output / quarantine). Si falta un eslabón, el “exactly-once” del marketing se convierte en doble conteo en el dashboard de Huancayo.",
-        "Contrato de dedup y late policy. Entrada: stream de `event_id` (con reintentos), store de claves vistas, checkpoint y `late_policy` ∈ {update, side-output, quarantine}. Salida: primer apply → True; retry del mismo id → False; late event no inventa una segunda fila de agregado. Error: sink sin clave o late_policy vacía. Criterio: `apply_once` + política documentada antes de abrir backfills.",
-        "Secuencia trabajada (CASO-HYO-046-T1B): (1) llega e1 → se escribe y se marca visto; (2) reintento de e1 → no reescribe; (3) e2 late con política update → actualiza la fila o va a side-output, nunca “mezcla silenciosa”. Exactly-once compuesto = idempotent_sink + dedup + checkpoint + late_policy, no magia del middleware.",
+        "**Exactly-once end-to-end no es un switch del broker.** Es una cadena: la fuente suele ser *at-least-once* (reintentos); el motor guarda **checkpoint** del progreso; el **sink es idempotente** por clave de negocio (`event_id`); y el *late data* tiene política explícita (update / side-output / quarantine). Si falta un eslabón, el “exactly-once” del marketing se convierte en doble conteo en el dashboard de Huancayo.",
+        "Contrato de dedup y *late policy*. Entrada: *stream* de `event_id` (con reintentos), *store* de claves vistas, *checkpoint* y `late_policy` ∈ {update, side-output, quarantine}. Salida: primer *apply* → True; *retry* del mismo id → False; *late event* no inventa una segunda fila de agregado. Error: sink sin clave o `late_policy` vacía. Criterio: `apply_once` + política documentada antes de abrir backfills.",
+        "Secuencia trabajada (`CASO-HYO-046-T1B`):\n1. Llega e1 → se escribe y se marca visto.\n2. Reintento de e1 → no reescribe.\n3. e2 *late* con política *update* → actualiza la fila o va a *side-output*; nunca “mezcla silenciosa”.\n\nExactly-once compuesto = idempotent_sink + dedup + checkpoint + late_policy; no magia del *middleware*.",
       ],
       code: {
         language: 'python',
@@ -140,9 +141,9 @@ exactly_once idempotent_sink+dedup+checkpoint`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T1-B · Exactly-once y late policy",
         content:
-          "La revisión de S46-T2-A exige fail-closed y salida esperada.",
+          "La revisión de S46-T2-A exige fail-closed: reintento no reescribe y late no se mezcla en silencio.",
       },
     },
     {
@@ -150,8 +151,8 @@ exactly_once idempotent_sink+dedup+checkpoint`,
       subtopicId: "S46-T2-A",
       paragraphs: [
         "Un **DAG** expresa precedencia de ejecución; un **asset graph** expresa productos (tablas, reportes) y de qué dependen. Evita dependencias implícitas por nombres de archivo o “corren a la misma hora”. Un grafo con ciclo no tiene orden topológico: el orquestador no puede decidir qué materializar primero.",
-        "Contrato operativo de orquestación. Entrada: nodos de assets (ingest, normalize, er, report) y edges de dependencia. Salida: grafo **acíclico** con inputs/outputs tipados y dueño por asset. Error: ciclo, self-loop, edge a nodo no declarado o dependencia solo por horario coincidente. Criterio de éxito: un cambio en `normalize` invalida solo `er` y `report`; el plan de backfill lista ancestros sin solapes.",
-        "Aplicación a `CASO-HYO-046`: assets sintéticos raw → clean → report de atenciones en Huancayo. Si alguien cierra clean → raw “para refrescar”, el ciclo rompe el plan de backfill. Riesgo DE: re-ejecuciones infinitas o materialización parcial sin lineage claro del asset roto.",
+        "Contrato operativo de orquestación. Entrada: nodos de assets (ingest, normalize, clean, report) y edges de dependencia. Salida: grafo **acíclico** con inputs/outputs tipados y dueño por asset. Error: ciclo, self-loop, edge a nodo no declarado o dependencia solo por horario coincidente. Criterio de éxito: un cambio en `normalize` invalida solo `clean` y `report`; el plan de backfill lista ancestros sin solapes.",
+        "Aplicación a `CASO-HYO-046`: assets sintéticos raw → clean → report de atenciones en Huancayo. Si alguien cierra clean → raw “para refrescar”, el ciclo rompe el plan de backfill. Riesgo de ingeniería de datos: **reejecuciones** infinitas o materialización parcial sin *lineage* claro del *asset* roto.",
       ],
       code: {
         language: 'python',
@@ -184,25 +185,25 @@ ok_edges = {("raw", "clean"), ("clean", "report")}
 cycle = {("raw", "clean"), ("clean", "raw")}
 print("acyclic_ok", is_acyclic(nodes, ok_edges))
 print("acyclic_cycle", is_acyclic(nodes, cycle))
-print("asset", "er_clusters")`,
+print("asset", "report_atenciones")`,
         output: `acyclic_ok True
 acyclic_cycle False
-asset er_clusters`,
+asset report_atenciones`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T2-A · DAG acíclico",
         content:
-          "Contrato S46-T2-B: fixture S46-T2-B; evidencia local obligatoria.",
+          "Contrato S46-T2-B: plan de backfill solo sobre grafo acíclico; evidencia local obligatoria.",
       },
     },
     {
       heading: "Schedules, backfills y state recovery",
       subtopicId: "S46-T2-B",
       paragraphs: [
-        "El **schedule** dispara corridas; no garantiza corrección ni unicidad. Un **backfill** re-procesa un intervalo histórico y debe parametrizar start/end sin solaparse con otra corrida viva. El **checkpoint** permite reanudar desde un estado consistente tras un fallo — reanudar “desde el inicio del día” sin control es un double-write disfrazado.",
-        "Contrato operativo de re-ejecución. Entrada: intervalos [start, end), flag de solape, checkpoint id y `resume_from`. Salida: plan de backfill ordenado, sin solape, con resume = checkpoint. Error: dos backfills que cubren el mismo event_time o resume distinto del checkpoint. Criterio: re-run acotado produce el mismo sink que la corrida original (idempotencia de T1/T4).",
-        "Aplicación a `CASO-HYO-046`: un viernes se pierden 3 horas de eventos de clínica; el backfill cubre [09:00, 12:00) sin solaparse con el job horario de las 12:00. Riesgo DE: costo de re-cómputo y corrupción de particiones si dos writers tocan la misma key.",
+        "El **schedule** dispara corridas; no garantiza corrección ni unicidad. Un **backfill** **reprocesa** un intervalo histórico y debe parametrizar start/end sin solaparse con otra corrida viva. El **checkpoint** permite reanudar desde un estado consistente tras un fallo — reanudar “desde el inicio del día” sin control es un *double-write* disfrazado.",
+        "Contrato operativo de **reejecución**. Entrada: intervalos `[start, end)`, flag de solape, *checkpoint id* y `resume_from`. Salida: plan de backfill ordenado, sin solape, con `resume = checkpoint`. Error: dos backfills que cubren el mismo `event_time` o `resume` distinto del *checkpoint*. Criterio: *re-run* acotado produce el mismo sink que la corrida original (idempotencia de T1/T4).",
+        "Aplicación a `CASO-HYO-046`: un viernes se pierden 3 horas de eventos de clínica; el backfill cubre `[09:00, 12:00)` sin solaparse con el job horario de las 12:00. Riesgo de ingeniería de datos: costo de **recómputo** y corrupción de particiones si dos *writers* tocan la misma *key*.",
       ],
       code: {
         language: 'python',
@@ -226,18 +227,18 @@ recover from_checkpoint`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T2-B · Backfill y checkpoint",
         content:
-          "Para S46-T3-A: documenta breach y recovery.",
+          "Para S46-T3-A: documenta *breach* de schema/frescura y la ruta de *recovery*.",
       },
     },
     {
       heading: "Contratos y freshness",
       subtopicId: "S46-T3-A",
       paragraphs: [
-        "Un **data contract** fija schema (campos y tipos), semántica (qué significa cada columna), **owner** y, por separado, un **SLO de freshness** (cuánto atraso máximo tolera el consumidor). Schema y freshness se monitorean distinto: un schema correcto con dato de ayer sigue siendo un breach de frescura.",
+        "Un **contrato de datos** (*data contract*) fija schema (campos y tipos), semántica (qué significa cada columna), **owner** y, por separado, un **SLO de freshness** (cuánto atraso máximo tolera el consumidor). Schema y freshness se monitorean distinto: un schema correcto con dato de ayer sigue siendo un *breach* de frescura.",
         "Contrato operativo de calidad. Entrada: schema esperado, schema observado, lag en minutos, SLO de lag y owner. Salida: PASS solo si schema exacto, lag ≤ SLO y owner no vacío. Error: drift de tipo/columna o lag sobre el SLO → cuarentena del dataset afectado. Criterio: fail closed — no se publica la partición “casi bien”.",
-        "Aplicación a `CASO-HYO-046`: el contrato de `atenciones_diarias` exige `case_id:str` y `event_time:int` con freshness ≤ 15 min para el dashboard de operaciones. Si llega `event_time` como string o el lag es 80 min, se emite `QUARANTINE_DATASET` y se pagina al owner. Riesgo DE: consumidores downstream que leen basura con tipos rotos.",
+        "Aplicación a `CASO-HYO-046`: el contrato de `atenciones_diarias` exige `case_id:str` y `event_time:int` con freshness ≤ 15 min para el dashboard de operaciones. Si llega `event_time` como string o el lag es 80 min, se emite `QUARANTINE_DATASET` y se pagina al owner. Riesgo de ingeniería de datos: consumidores *downstream* que leen basura con tipos rotos.",
       ],
       code: {
         language: 'python',
@@ -264,18 +265,18 @@ QUARANTINE_DATASET`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T3-A · Schema y freshness",
         content:
-          "Promoción de S46-T3-B solo con evidencia reproducible.",
+          "Promoción de S46-T3-B solo con evidencia reproducible de contrato y frescura.",
       },
     },
     {
       heading: "Lineage, observability y ownership",
       subtopicId: "S46-T3-B",
       paragraphs: [
-        "**Lineage** conecta dataset de salida con inputs, código y run_id. **Observabilidad de datos** combina volumen, calidad (null_rate) y tiempo. Sin owner, el incidente no tiene dueño de página: el on-call de plataforma no debería adivinar quién rompió el schema de `clean-v3`.",
-        "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Error: inputs vacíos, null_rate sobre umbral o run_id no trazable. Criterio: un postmortem puede responder “qué corrida produjo esta fila”.",
-        "Aplicación a `CASO-HYO-046`: el run `run-hyo-46` materializa `clean-v3` desde `raw-v2` con null_rate 0.01 y owner analytics. Si null_rate sube a 0.3, se abre `OPEN_QUALITY_INCIDENT` con el run_id en el ticket. Riesgo DE: “arreglar a ciegas” sin saber qué upstream cambió.",
+        "**Lineage** conecta dataset de salida con inputs, código y run_id. **Observabilidad de datos** combina volumen, calidad (`null_rate`) y tiempo. Sin owner, el incidente no tiene dueño de página: el on-call de plataforma no debería adivinar quién rompió el schema de `clean-v3`.",
+        "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Error: inputs vacíos, null_rate sobre umbral o run_id no trazable. Criterio: un **post mortem** puede responder “qué corrida produjo esta fila”.",
+        "Aplicación a `CASO-HYO-046`: el *run* `run-hyo-46` materializa `clean-v3` desde `raw-v2` con `null_rate` 0.01 y *owner* `analytics`. Si `null_rate` sube a 0.3, se abre `OPEN_QUALITY_INCIDENT` con el `run_id` en el ticket. Riesgo de ingeniería de datos: “arreglar a ciegas” sin saber qué *upstream* cambió.",
       ],
       code: {
         language: 'python',
@@ -298,18 +299,18 @@ facet job/dataset/run`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T3-B · Lineage y owner",
         content:
-          "El dueño de S46-T4-A responde por rollback y evidencia.",
+          "El dueño de S46-T4-A responde por *rollback* de partición y evidencia de *lineage*.",
       },
     },
     {
       heading: "Partitions e incremental loads",
       subtopicId: "S46-T4-A",
       paragraphs: [
-        "Particionar por fecha (o por acceso) limita el blast radius de un re-run. Una **carga incremental** solo trae deltas respecto de un watermark/clave y hace **merge** al target: si la misma fila llega dos veces, el segundo run debe cambiar **cero** filas. Conecta con T1: el watermark decide qué event_time aún es elegible; con T2: el asset particionado es un nodo del DAG que se re-ejecuta por intervalo.",
-        "Contrato operativo de particiones. Entrada: partition id, source_keys, target_keys, second_run_changes y límite de small files. Salida: merge idempotente con keys alineadas y second_run_changes == 0. Error: full rewrite ciego, keys drift o explosión de small files. Criterio: re-ejecutar el mismo batch no duplica ni reescribe el sink.",
-        "Aplicación a `CASO-HYO-046`: partición `2026-07-22` con keys {a,b,c}. El job horario reintenta tras un timeout de red: el merge debe reportar 0 cambios en la segunda corrida. Riesgo DE: costos de storage y conteos inflados en el reporte diario.",
+        "Particionar por fecha (o por acceso) limita el *blast radius* de un *re-run*. Una **carga incremental** solo trae deltas respecto de un watermark/clave y hace **merge** al target: si la misma fila llega dos veces, el segundo *run* debe cambiar **cero** filas. Conecta con T1: el watermark decide qué `event_time` aún es elegible. Con T2: el *asset* particionado es un nodo del DAG que se reejecuta por intervalo.",
+        "Contrato operativo de particiones. Entrada: partition id, source_keys, target_keys, second_run_changes y límite de small files. Salida: merge idempotente con keys alineadas y second_run_changes == 0. Error: full rewrite ciego, keys drift o explosión de small files. Criterio: **reejecutar** el mismo batch no duplica ni reescribe el sink.",
+        "Aplicación a `CASO-HYO-046`: partición `2026-07-22` con *keys* `{a, b, c}`. El job horario reintenta tras un *timeout* de red: el *merge* debe reportar 0 cambios en la segunda corrida. Riesgo de ingeniería de datos: costos de *storage* y conteos inflados en el reporte diario.",
       ],
       code: {
         language: 'python',
@@ -336,18 +337,18 @@ no_dup_rerun True`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Contrato T4-A · Merge incremental",
         content:
-          "Cierre de S46-T4-B: residual risk y límites del lab stdlib.",
+          "Cierre de S46-T4-B: riesgo residual documentado y límites del lab stdlib.",
       },
     },
     {
       heading: "SLO, incidentes y data recovery",
       subtopicId: "S46-T4-B",
       paragraphs: [
-        "Un **data SLO** une un **SLI** (indicador medido, p. ej. proporción de particiones frescas) con un objetivo y una ventana. Un **incidente de datos** protege consumidores (dejar de publicar basura), recupera particiones y documenta causa + prevención. El **RTO** mide cuánto tarda la recuperación — un runbook sin dueño es teatro.",
-        "Contrato operativo de operación. Entrada: freshness_sli, freshness_slo, rto_minutes, target_rto, postmortem_actions y owner. Salida: PASS si SLI ≥ SLO, RTO ≤ target, ≥1 acción de postmortem y owner. Error: SLI bajo o RTO excedido → declarar incidente y activar runbook. Criterio: simulacro medido, no promesa en README.",
-        "Aplicación a `CASO-HYO-046`: el SLO de frescura del dashboard de atenciones es 0.99; un lag masivo baja el SLI a 0.80 y el RTO del replay a 90 min (>30). Se declara `DECLARE_DATA_INCIDENT` y se activa el runbook de recovery. Riesgo DE: consumidores de ML (S47) entrenan sobre datos “vivos” que en realidad están congelados.",
+        "Un **SLO de datos** une un **SLI** (indicador medido, p. ej. proporción de particiones frescas) con un objetivo y una ventana. Un **incidente de datos** protege consumidores (dejar de publicar basura), recupera particiones y documenta causa + prevención. El **RTO** mide cuánto tarda la recuperación — un *runbook* sin dueño es teatro.",
+        "Contrato operativo de operación. Entrada: `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto`, `postmortem_actions` y *owner*. Salida: PASS si SLI ≥ SLO, RTO ≤ target, ≥1 acción de **post mortem** y *owner*. Error: SLI bajo o RTO excedido → declarar incidente y activar *runbook*. Criterio: simulacro medido, no promesa en README.",
+        "Aplicación a `CASO-HYO-046`: el SLO de frescura del dashboard de atenciones es 0.99. Un lag masivo baja el SLI a 0.80 y el RTO del *replay* a 90 min (>30). Se declara `DECLARE_DATA_INCIDENT` y se activa el *runbook* de *recovery*. Riesgo de ingeniería de datos: consumidores de ML (S47) entrenan sobre datos “vivos” que en realidad están congelados.",
       ],
       code: {
         language: 'python',
@@ -367,14 +368,14 @@ recovery replay_partition`,
       },
       callout: {
         type: "tip",
-        title: "Contrato local",
+        title: "Cierre T4-B · RTO y post mortem",
         content:
-          "Cierre S46-T4-B: simulacro cumple RTO y postmortem con acciones. Breach → `DECLARE_DATA_INCIDENT`; sin owner → `ACTIVATE_RECOVERY_RUNBOOK`.",
+          "Cierre S46-T4-B: simulacro cumple RTO y **post mortem** con acciones. Breach → `DECLARE_DATA_INCIDENT`; sin owner → `ACTIVATE_RECOVERY_RUNBOOK`.",
       },
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S46 (Ingeniería de datos y orquestación de producción) alineadas a CP-N4-B. Cada demo **calcula** el contrato sobre fixtures de Huancayo sintético — no imprime etiquetas mágicas.",
+    intro: "Te muestro 8 demos de S46 (Ingeniería de datos y orquestación de producción) alineadas a `CP-N4-B`. Cada demo **calcula** el contrato sobre *fixtures* de Huancayo sintético — no imprime etiquetas mágicas.",
     steps: [
       {
         demoId: "S46-T1-A-DEMO",
@@ -407,7 +408,7 @@ print("watermark", wm)`,
 105 ALLOWED_LATE
 watermark 110`,
         },
-        why: "Sin un timeline calculado, el watermark es solo vocabulario. Este demo muestra por qué 100 es LATE (wm−et=10 > gracia 5) y 105 aún entra por allowed_lateness — el trade-off completeness vs latencia de Flink/Beam en miniatura, base del gate CP-N4-B.",
+        why: "Sin un *timeline* calculado, el watermark es solo vocabulario. Este demo muestra por qué 100 es LATE (`wm − et = 10 > gracia 5`) y por qué 105 aún entra por `allowed_lateness`. Es el *trade-off completeness* vs. *latencia* de Flink/Beam en miniatura, base del gate `CP-N4-B`.",
       },
       {
         demoId: "S46-T1-B-DEMO",
@@ -440,7 +441,7 @@ sink_keys ['e1']`,
         demoId: "S46-T2-A-DEMO",
         subtopicId: "S46-T2-A",
         environment: "local-python",
-        description: "Detecta grafo acíclico vs ciclo raw→clean→raw con Kahn",
+        description: "Detecta grafo acíclico vs. ciclo raw→clean→raw con Kahn",
         code: {
           language: 'python',
           title: "demo_dag_assets_dependency.py",
@@ -494,7 +495,7 @@ print("bad_resume", backfill_ok([[1, 3], [4, 6]], "cp-1", "start"))`,
 overlap False
 bad_resume False`,
         },
-        why: "Un schedule horario no autoriza a re-procesar el mismo rango dos veces. El demo calcula solape y alinea resume con checkpoint — sin eso, el backfill de las 3 h perdidas corrompe la partición viva.",
+        why: "Un *schedule* horario no autoriza a **reprocesar** el mismo rango dos veces. El demo calcula solape y alinea `resume` con *checkpoint* — sin eso, el backfill de las 3 h perdidas corrompe la partición viva.",
       },
       {
         demoId: "S46-T3-A-DEMO",
@@ -521,7 +522,7 @@ print(evaluate(schema, schema, 90, 60, "data-ops"))`,
 QUARANTINE_DATASET
 QUARANTINE_DATASET`,
         },
-        why: "El contrato falla cerrado por dos motivos distintos (drift de schema vs lag). Separarlos evita “arreglar freshness” cuando el tipo de columna ya está roto — patrón dbt/Great Expectations en stdlib.",
+        why: "El contrato falla cerrado por dos motivos distintos (*drift* de schema vs. *lag*). Separarlos evita “arreglar *freshness*” cuando el tipo de columna ya está roto — patrón dbt / Great Expectations en stdlib.",
       },
       {
         demoId: "S46-T3-B-DEMO",
@@ -551,7 +552,7 @@ print("page", should_page(f))`,
           output: `{'run': 'run-hyo-46', 'inputs': ['raw-v2'], 'outputs': ['clean-v3'], 'null_rate': 0.01, 'owner': 'analytics'}
 page False`,
         },
-        why: "Lineage no es un print de listas sueltas: es un facet run/inputs/outputs/métricas/owner. Solo con eso un incidente de calidad es reconstruible en el postmortem de Huancayo.",
+        why: "Lineage no es un *print* de listas sueltas: es un *facet* run / inputs / outputs / métricas / owner. Solo con eso un incidente de calidad es reconstruible en el **post mortem** de Huancayo.",
       },
       {
         demoId: "S46-T4-A-DEMO",
@@ -585,7 +586,7 @@ keys ['a', 'b']`,
         demoId: "S46-T4-B-DEMO",
         subtopicId: "S46-T4-B",
         environment: "local-python",
-        description: "Compara SLI vs SLO y RTO vs target para decidir incidente",
+        description: "Compara SLI vs. SLO y RTO vs. target para decidir incidente",
         code: {
           language: 'python',
           title: "demo_slo_incidents_data_recovery.py",
@@ -598,17 +599,17 @@ keys ['a', 'b']`,
 
 print(ops_decision(0.995, 0.99, 25, 30, 3, "data-oncall"))
 print(ops_decision(0.80, 0.99, 90, 30, 0, "data-oncall"))
-print("sli_vs_slo", "medida vs objetivo")`,
+print("sli_vs_slo", "medida vs. objetivo")`,
           output: `PASS
 DECLARE_DATA_INCIDENT
-sli_vs_slo medida vs objetivo`,
+sli_vs_slo medida vs. objetivo`,
         },
         why: "SLI es la medición; SLO es el objetivo. El demo obliga a comparar ambos y el RTO — vocabulario SRE que el self-check y el youDo reutilizan al declarar incidentes de datos.",
       },
     ],
   },
   weDo: {
-    intro: "S46 · Laboratorio de pipeline production-grade: 24 retos locales sobre CASO-HYO-046. Cada familia T* reutiliza la forma fail-closed E1 (predicado de dominio) → E2 (valid/invalid/missing) → E3 (CONTINUE / breach / incertidumbre), pero el **defecto** es de DE real: watermark/late, exactly-once, ciclo Kahn, solape de backfill calculado, schema+freshness, lineage, merge idempotente, SLI/SLO. Tokens de acción son el protocolo operativo de la sección (no enums internos vacíos).",
+    intro: "S46 · Laboratorio de pipeline de producción: 24 retos locales sobre `CASO-HYO-046`. Cada familia T* reutiliza la forma fail-closed E1 (predicado de dominio) → E2 (valid/invalid/missing) → E3 (CONTINUE / breach / incertidumbre). El **defecto** es de ingeniería de datos real: watermark/late, exactly-once, ciclo Kahn, solape de backfill calculado, schema+freshness, lineage, merge idempotente, SLI/SLO. Los *tokens* de acción son el protocolo operativo de la sección (no *enums* internos vacíos).",
     steps: [
       {
         id: "S46-T1-A-E1",
@@ -622,7 +623,7 @@ sli_vs_slo medida vs objetivo`,
         ],
         edgeCases: [
           "falta allowed_lateness → WAIT_FOR_WATERMARK / MISSING",
-          "fixture adverso: event_time demasiado temprano vs watermark (LATE) o > window_end → SIDE_OUTPUT_LATE_EVENT",
+          "fixture adverso: event_time demasiado temprano vs. watermark (LATE) o > window_end → SIDE_OUTPUT_LATE_EVENT",
           "eventos sintéticos CASO-HYO-046-1A (sin PII)",
         ],
         tests: "El fixture `CASO-HYO-046-1A` satisface el predicado de dominio; imprime `S46-T1-A PASS` y el assert booleano pasa.",
@@ -696,7 +697,7 @@ assert meets_contract is True` ,
           language: 'python',
           title: "s46-t1-a-e2.py",
           code: `# CASO-HYO-046 · assess LATE_OR_OUT_OF_WINDOW
-# DEFECT: PASS con event_time inválido vs watermark
+# DEFECT: PASS con event_time inválido vs. watermark
 def assess(record: dict) -> str:
     required = {"case_id", "event_time", "window_end", "watermark", "allowed_lateness"}
     missing = sorted(required - record.keys())
@@ -741,7 +742,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('1A-0' == '1A-0')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness` ,
+          output: `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness
+meets_contract True` ,
         },
       },
       {
@@ -756,7 +758,7 @@ print('meets_contract', meets_contract)
         ],
         edgeCases: [
           "falta allowed_lateness → WAIT_FOR_WATERMARK",
-          "fixture adverso: et demasiado early vs wm+lateness → SIDE_OUTPUT_LATE_EVENT",
+          "fixture adverso: et demasiado early vs. wm+lateness → SIDE_OUTPUT_LATE_EVENT",
           "eventos sintéticos CASO-HYO-046-1A (sin PII)",
         ],
         tests: "Fixtures válido/adverso/sin allowed_lateness → CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK.",
@@ -813,7 +815,8 @@ assert results == ["CONTINUE", "SIDE_OUTPUT_LATE_EVENT", "WAIT_FOR_WATERMARK"]
 meets_contract = ('1A-1' == '1A-1')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK` ,
+          output: `CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK
+meets_contract True` ,
         },
       },
       {
@@ -933,7 +936,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('1B-2' == '1B-2')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy` ,
+          output: `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy
+meets_contract True` ,
         },
       },
       {
@@ -952,7 +956,7 @@ print('meets_contract', meets_contract)
           "eventos sintéticos CASO-HYO-046-1B (sin PII)",
         ],
         tests: "CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY.",
-        feedback: "E3: distinguir “no sé la política” de “el sink está corrupto” evita re-procesar a ciegas.",
+        feedback: "E3: distinguir “no sé la política” de “el sink está corrupto” evita **reprocesar** a ciegas.",
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e3.py",
@@ -1000,7 +1004,8 @@ assert results == ["CONTINUE", "REPLAY_IDEMPOTENTLY", "CHOOSE_LATE_POLICY"]
 meets_contract = ('1B-3' == '1B-3')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY` ,
+          output: `CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY
+meets_contract True` ,
         },
       },
       {
@@ -1008,7 +1013,7 @@ print('meets_contract', meets_contract)
         subtopicId: "S46-T2-A",
         kind: "guided",
         instruction: "S46-T2-A-E1 · Valida DAG de `CASO-HYO-046-2A`: typed_io True, sin self-loops, todos los endpoints de edges ∈ nodes, y **sin ciclos** (orden topológico completo). El starter aprueba lo inverso. Salida: `S46-T2-A PASS`.",
-        hint: "Self-loop es necesario pero no suficiente: implementa Kahn o DFS para rechazar raw→clean→raw.",
+        hint: "Self-loop es necesario, pero no suficiente: implementa Kahn o DFS para rechazar raw→clean→raw.",
         hints: [
           "Cuenta nodos procesados por Kahn: si seen < len(nodes), hay ciclo residual.",
           "Válido: raw→clean→report. El assert debe ser True con typed_io.",
@@ -1159,7 +1164,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('2A-4' == '2A-4')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS REJECT_DAG MISSING:typed_io` ,
+          output: `PASS REJECT_DAG MISSING:typed_io
+meets_contract True` ,
         },
       },
       {
@@ -1245,7 +1251,8 @@ assert results == ["CONTINUE", "REJECT_DAG", "DECLARE_ASSET_DEPENDENCY"]
 meets_contract = ('2A-5' == '2A-5')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY` ,
+          output: `CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY
+meets_contract True` ,
         },
       },
       {
@@ -1372,7 +1379,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('2B-6' == '2B-6')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from` ,
+          output: `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from
+meets_contract True` ,
         },
       },
       {
@@ -1440,7 +1448,8 @@ assert results == ["CONTINUE", "STOP_OVERLAPPING_BACKFILL", "RECOVER_CHECKPOINT"
 meets_contract = ('2B-7' == '2B-7')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT` ,
+          output: `CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT
+meets_contract True` ,
         },
       },
       {
@@ -1448,7 +1457,7 @@ print('meets_contract', meets_contract)
         subtopicId: "S46-T3-A",
         kind: "guided",
         instruction: "S46-T3-A-E1 · Contract+freshness en `CASO-HYO-046-3A`: schema==observed_schema, freshness_min≤slo_min y owner no vacío. Starter invierte. Salida: `S46-T3-A PASS`.",
-        hint: "Igualdad de dicts de schema (tipos) y comparación numérica de lag vs SLO.",
+        hint: "Igualdad de dicts de schema (tipos) y comparación numérica de lag vs. SLO.",
         hints: [
           "PASS exige schema exacto (dict igual) AND lag_min ≤ slo_min AND owner no vacío.",
           "owner vacío es breach aunque el schema coincida.",
@@ -1561,7 +1570,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('3A-8' == '3A-8')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS QUARANTINE_DATASET MISSING:owner` ,
+          output: `PASS QUARANTINE_DATASET MISSING:owner
+meets_contract True` ,
         },
       },
       {
@@ -1628,7 +1638,8 @@ assert results == ["CONTINUE", "QUARANTINE_DATASET", "PAGE_DATA_OWNER"]
 meets_contract = ('3A-9' == '3A-9')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER` ,
+          output: `CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER
+meets_contract True` ,
         },
       },
       {
@@ -1753,7 +1764,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('3B-10' == '3B-10')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS OPEN_QUALITY_INCIDENT MISSING:owner` ,
+          output: `PASS OPEN_QUALITY_INCIDENT MISSING:owner
+meets_contract True` ,
         },
       },
       {
@@ -1822,7 +1834,8 @@ assert results == ["CONTINUE", "OPEN_QUALITY_INCIDENT", "TRACE_LINEAGE"]
 meets_contract = ('3B-11' == '3B-11')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE` ,
+          output: `CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE
+meets_contract True` ,
         },
       },
       {
@@ -1945,7 +1958,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('4A-12' == '4A-12')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS REBUILD_PARTITION MISSING:max_small_files` ,
+          output: `PASS REBUILD_PARTITION MISSING:max_small_files
+meets_contract True` ,
         },
       },
       {
@@ -2012,7 +2026,8 @@ assert results == ["CONTINUE", "REBUILD_PARTITION", "REVIEW_INCREMENTAL_KEY"]
 meets_contract = ('4A-13' == '4A-13')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY` ,
+          output: `CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY
+meets_contract True` ,
         },
       },
       {
@@ -2137,7 +2152,8 @@ print(* (assess(valid), assess(invalid), assess(incomplete)))
 meets_contract = ('4B-14' == '4B-14')
 print('meets_contract', meets_contract)
 ` ,
-          output: `PASS DECLARE_DATA_INCIDENT MISSING:owner` ,
+          output: `PASS DECLARE_DATA_INCIDENT MISSING:owner
+meets_contract True` ,
         },
       },
       {
@@ -2205,7 +2221,8 @@ assert results == ["CONTINUE", "DECLARE_DATA_INCIDENT", "ACTIVATE_RECOVERY_RUNBO
 meets_contract = ('4B-15' == '4B-15')
 print('meets_contract', meets_contract)
 ` ,
-          output: `CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK` ,
+          output: `CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK
+meets_contract True` ,
         },
       },
     ],
@@ -2233,7 +2250,7 @@ print('meets_contract', meets_contract)
 EVENTS = [
     {"event_id": "e1", "event_time": 100, "payload": 1},
     {"event_id": "e1", "event_time": 100, "payload": 1},  # reintento
-    {"event_id": "e2", "event_time": 80, "payload": 2},   # late vs wm
+    {"event_id": "e2", "event_time": 80, "payload": 2},   # late vs. wm
     {"event_id": "e3", "event_time": 115, "payload": 3},
 ]
 WINDOW_END = 120
@@ -2306,7 +2323,7 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
       { criterion: "DAG acíclico + backfill/recovery razonados", weight: "15%" },
       { criterion: "Contratos, lineage, freshness y tokens fail-closed", weight: "20%" },
       { criterion: "Reproducibilidad stdlib y evidencia legible", weight: "10%" },
-      { criterion: "Trade-offs (completeness vs latencia, costo de backfill)", weight: "10%" },
+      { criterion: "Trade-offs (completeness vs. latencia, costo de backfill)", weight: "10%" },
     ],
   },
   selfCheck: {
@@ -2333,7 +2350,7 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
         question: "Watermark t = 110 y allowed_lateness = 5. Un evento con event_time = 100 se evalúa como…",
         options: ["siempre ON_TIME porque 100 < window_end típico", "OUT_OF_WINDOW porque es menor que el watermark", "LATE (o side-output) si 110 − 100 > 5; ALLOWED_LATE si la gracia alcanza", "processing-time error: hay que ignorar event_time"],
         correctIndex: 2,
-        explanation: "Late = el watermark ya superó el timestamp del evento. Allowed lateness es gracia post-watermark (completeness vs latencia), no un bound inferior arbitrario.",
+        explanation: "Late = el watermark ya superó el timestamp del evento. Allowed lateness, en este lab, es gracia post-watermark (*completeness* vs. *latencia*), no un bound inferior arbitrario.",
       },
       {
         question: "Un grafo raw→clean→raw con typed_io=True debe…",
@@ -2353,7 +2370,7 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
       {
         label: "Flink — Event Time concepts",
         url: "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
-        note: "Event time vs processing time y watermarks",
+        note: "Event time vs. processing time y watermarks",
       },
       {
         label: "Apache Airflow",

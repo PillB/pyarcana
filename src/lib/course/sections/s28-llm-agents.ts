@@ -4,7 +4,7 @@ export const section28: CourseSection = {
   id: "llm-agents",
   index: 28,
   title: "Pruebas de datos, propiedades e integración",
-  shortTitle: "Props e integración",
+  shortTitle: "Propiedades e integración",
   tagline:
     "Suite que caza errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
   estimatedHours: 19,
@@ -13,12 +13,12 @@ export const section28: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El **QA del motor de entity resolution (ER)** exige más que tests unitarios felices: propiedades que generen bordes, contratos de schema, goldens con review humano, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
+    "El **QA del motor de entity resolution (ER)** exige más que tests unitarios felices. Necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes con seed o tabla exhaustiva" },
     { text: "Aplicar pruebas metamórficas, de simetría e idempotencia" },
     { text: "Validar contratos de schema y de calidad en ingest" },
-    { text: "Detectar drift de golden y reconciliar solo con approve" },
+    { text: "Detectar drift de golden y reconciliar solo con aprobación" },
     { text: "Doblar HTTP, DB y reloj con fakes controlados" },
     { text: "Escribir contract tests de borde sin sobre-mocking" },
     { text: "Montar integración sqlite (análogo local a testcontainers)" },
@@ -29,16 +29,16 @@ export const section28: CourseSection = {
       heading: "QA de datos del motor ER",
       paragraphs: [
         "En S27 convertiste normalización y matching en contratos **pytest**. Aquí **amplías la suite**: propiedades y pruebas metamórficas, contratos de datos/goldens, dobles controlados e integración sin flakes. En S29 el almacén SQL consumirá estos mismos contratos como regresión de schema.",
-        "**Diccionario del módulo** (léelo una vez; cada subtema lo profundiza). **Invariante:** propiedad que siempre debe cumplirse (`normalize` idempotente, score en [0, 1]). **Prueba de propiedades (property-based testing):** generar muchos casos desde la invariante, no solo un ejemplo feliz. **Prueba metamórfica:** no conoces el score “correcto”, pero sí una relación bajo una transformación del input. **Contrato de schema/calidad:** reglas de tipos, nulls y negocio en el borde de ingest. **Golden:** snapshot versionado de salida esperada; **drift** es la divergencia actual vs golden. **Doble (mock/fake/stub):** sustituto controlado de HTTP, DB o reloj. **Flake:** prueba inestable (pasa o falla sin cambio de código). **Fail-closed:** si el contrato se rompe, el batch se detiene con evidencia — no se “arregla” en silencio.",
+        "**Diccionario del módulo** (léelo una vez; cada subtema lo profundiza):\n\n- **Invariante:** propiedad que siempre debe cumplirse (`normalize` idempotente, score en [0, 1]).\n- **Prueba de propiedades (property-based testing):** generar muchos casos desde la invariante, no solo un ejemplo feliz.\n- **Prueba metamórfica:** no conoces el score “correcto”, pero sí una relación bajo una transformación del input.\n- **Contrato de schema/calidad:** reglas de tipos, nulls y negocio en el borde de ingest.\n- **Golden:** snapshot versionado de salida esperada; **drift** es la divergencia actual vs. golden.\n- **Doble (mock/fake/stub):** sustituto controlado de HTTP, DB o reloj.\n- **Flake:** prueba inestable (pasa o falla sin cambio de código).\n- **Fail-closed:** si el contrato se rompe, el batch se detiene con evidencia — no se “arregla” en silencio.",
         "Orden del módulo: **T1 Propiedades** (invariantes, generación, metamórficas) → **T2 Datos** (schema, quality, goldens) → **T3 Dobles** (mocks/fakes/reloj, contratos de borde) → **T4 Sistema/CI** (integración, encoding/cardinalidad/orden/timeout/reanudación, flakes). Fixture de laboratorio (una sola vez en este módulo): `CASO-LIM-028` (run_id=cpn3a-dataqa), contactos sintéticos `@example.pe` — sin PII real y sin auto-veredicto de fraude o parentesco.",
-        "Lo que ya sabes (S16 calidad + S27 pytest) y lo que es **nuevo aquí**: S16 fallaba cerrado ante schema roto; S27 fijó AAA, fixtures y oráculos. S28 añade **generación desde propiedades**, **goldens versionados con review**, **dobles en bordes HTTP/DB/reloj** e **integración multi-componente determinista**. ER solo decide *misma entidad* — nunca parentesco ni fraude.",
-        "Caso de desk PE (banca, fintech o retail en Lima): un batch sintético de contactos entra al matcher en CI local. Un fallo de golden muestra expected vs actual; un fallo de propiedad imprime la semilla y el input que rompió la invariante. Eso es evidencia revisable para el revisor humano, no un “True” mágico en pantalla ni una etiqueta de fraude.",
+        "Lo que ya sabes (S16 calidad + S27 pytest) y lo que es **nuevo aquí**: S16 fallaba cerrado ante schema roto; S27 fijó AAA, fixtures y oráculos. S28 añade **generación desde propiedades**, **goldens versionados con revisión**, **dobles en bordes HTTP/DB/reloj** e **integración multi-componente determinista**. ER solo decide *misma entidad* — nunca parentesco ni fraude.",
+        "Caso de desk PE (banca, fintech o retail en Lima): un batch sintético de contactos entra al matcher en CI local. Un fallo de golden muestra expected vs. actual; un fallo de propiedad imprime la semilla y el input que rompió la invariante. Eso es evidencia revisable para el revisor humano, no un “True” mágico en pantalla ni una etiqueta de fraude.",
       ],
       callout: {
         type: "info",
         title: "Límite del resultado + ritmo (19 h)",
         content:
-          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude. Ritmo sugerido: ~4–5 h T1 propiedades, ~4–5 h T2 schema/goldens, ~4 h T3 dobles, ~4–5 h T4 integración/CI + You Do portfolio.",
+          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo. Matching ≠ fraude. Ritmo sugerido: ~4–5 h T1 propiedades, ~4–5 h T2 schema/goldens, ~4 h T3 dobles, ~5–6 h T4 integración/CI + portfolio You Do (total ≈ 19 h).",
       },
     },
     {
@@ -46,7 +46,7 @@ export const section28: CourseSection = {
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
-        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso: (1) **tabla exhaustiva** pequeña (todos los bordes conocidos: vacío, solo espacios, tildes, scores 0/1/1.2), (2) **random acotado con seed fija** (reproducible en CI; imprime seed+input al fallar), (3) **Hypothesis** (herramienta industrial: defines la propiedad, una *strategy* genera inputs, y al fallar hace *shrink* del contraejemplo). Aquí practicas el pensamiento de (1)+(2) con `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo case “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
+        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso:\n\n1. **Tabla exhaustiva** pequeña: todos los bordes conocidos (vacío, solo espacios, tildes, scores 0/1/1.2).\n2. **Random acotado con seed fija:** reproducible en CI; imprime seed+input al fallar.\n3. **Hypothesis:** herramienta industrial — defines la propiedad, una *strategy* genera inputs, y al fallar hace *shrink* del contraejemplo.\n\nAquí practicas el pensamiento de (1)+(2) con `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo caso “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
         "Mapa mental Hypothesis (sin instalarlo aún): **propiedad** → **strategy** (qué generas) → **muchos ejemplos** → **shrink** del fallo mínimo. Tu análogo local: `assert` en un bucle con `random.seed` + imprimir el `s` que rompió. Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`). Cuando falla un caso generado, imprime **seed + input + expected/actual** para que el bug sea reproducible al primer intento.",
       ],
       code: {
@@ -123,7 +123,7 @@ note sim!=fraud`,
         type: "warning",
         title: "Simetría no siempre aplica",
         content:
-          "Algunas distancias dirigidas no son simétricas; documenta la propiedad esperada en el nombre del test (`test_jaccard_is_symmetric` vs `test_edit_distance_directed`).",
+          "Algunas distancias dirigidas no son simétricas; documenta la propiedad esperada en el nombre del test (`test_jaccard_is_symmetric` vs. `test_edit_distance_directed`).",
       },
     },
     {
@@ -145,8 +145,14 @@ note sim!=fraud`,
     if email is not None and "@" not in str(email):
         err.append("email inválido")
     score = r.get("score")
-    if score is not None and not (0 <= float(score) <= 1):
-        err.append("score fuera de [0,1]")
+    if score is not None:
+        try:
+            s = float(score)
+        except (TypeError, ValueError):
+            err.append("score no numérico")
+        else:
+            if not (0 <= s <= 1):
+                err.append("score fuera de [0,1]")
     return err
 
 rows = [
@@ -173,8 +179,8 @@ contract schema+quality`,
       subtopicId: "S28-T2-B",
       paragraphs: [
         "Un **golden** es un snapshot versionado de salida esperada (JSON/CSV sintético en el repo). Sirve de regresión del pipeline: mismos inputs sintéticos → misma estructura de pares (o de reporte de calidad). No es “la verdad del mundo real”; es el contrato de no-regresión del lab.",
-        "**Drift**: la salida actual difiere del golden. Clasifica antes de actuar: (a) bug real del matcher, (b) cambio intencional de política, (c) ruido de orden/float. Un diff de golden debe mostrar expected vs actual de forma legible — nunca un “pass” silencioso.",
-        "**Reconciliación**: actualizar el golden solo con **review humano y nota de cambio** (`approved=True` + mensaje). Actualizar golden sin approve en CI esconde regresiones de matching. Política: `blocked_drift` hasta que alguien firme el cambio de contrato.",
+        "**Drift**: la salida actual difiere del golden. Clasifica antes de actuar: (a) bug real del matcher, (b) cambio intencional de política, (c) ruido de orden/float. Un diff de golden debe mostrar expected vs. actual de forma legible — nunca un “pass” silencioso.",
+        "**Reconciliación**: actualizar el golden solo con **revisión humana y nota de cambio** (`approved=True` + mensaje). Actualizar el golden sin aprobación en CI esconde regresiones de matching. Política: `blocked_drift` hasta que alguien firme el cambio de contrato.",
       ],
       code: {
         language: "python",
@@ -204,14 +210,14 @@ reconcile blocked_drift`,
         type: "danger",
         title: "No aceptar drift automáticamente",
         content:
-          "Actualizar golden sin review esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato.",
+          "Actualizar el golden sin revisión esconde regresiones de matching. En desk PE: el PR que toca un golden debe explicar *por qué* cambió el contrato.",
       },
     },
     {
       heading: "Mocks, fakes y reloj inyectado",
       subtopicId: "S28-T3-A",
       paragraphs: [
-        "**Mock**: verifica interacciones (qué se llamó, con qué args). **Fake**: implementación liviana en memoria con estado real. **Stub**: respuestas fijas sin lógica. En QA del ER usas fakes de HTTP/DB y un reloj inyectable para que la suite no dependa de red ni de `datetime.now()`.",
+        "**Mock**: verifica interacciones (qué se llamó, con qué argumentos). **Fake**: implementación liviana en memoria con estado real. **Stub**: respuestas fijas sin lógica. En QA del ER usas fakes de HTTP/DB y un reloj inyectable para que la suite no dependa de red ni de `datetime.now()`.",
         "HTTP: fake de status/JSON. DB: `dict` o sqlite en memoria. Reloj: inyecta `now` callable en el constructor — no parches globales salvo código legado. Objetivo: tests **rápidos y deterministas** del pipeline sin red real ni timestamps que cambian entre corridas.",
         "Patrón de diseño: el servicio de matching recibe `clock` y `http` como dependencias. En producción son el reloj del sistema y un cliente real; en test son `FakeClock` y `FakeHTTP`. Así demuestras encoding de fechas ISO, reintentos ante 503 y lectura de entidades sin abrir sockets.",
       ],
@@ -254,7 +260,7 @@ db_fake Ana`,
       paragraphs: [
         "El **sobre-mocking** acopla el test a detalles internos (orden exacto de calls, nombres privados) y se rompe en refactors inocuos. Peor: si mockeas el comparador y solo asertas que “se llamó”, no pruebas matching — ocultas bugs con un `lambda: True`.",
         "Prefiere **contratos de borde**: dado input, observa output y efectos visibles (filas escritas, status HTTP, schema del payload). Mockea solo I/O externo; deja la lógica de normalización/matching real bajo prueba cuando es pura y barata.",
-        "Heurística GOOS-friendly: si la función es pura (`normalize`, Jaccard de tokens), **no la mockees**. Si habla con red o disco, fakea el borde y aserta el efecto. `casefold` (no solo `lower` en un lado) es el contrato de igualdad de texto del ER para Unicode.",
+        "Heurística al estilo *GOOS*: si la función es pura (`normalize`, Jaccard de tokens), **no la mockees**. Si habla con red o disco, fakea el borde y aserta el efecto. `casefold` (no solo `lower` en un lado) es el contrato de igualdad de texto del ER para Unicode.",
       ],
       code: {
         language: "python",
@@ -287,8 +293,8 @@ prefer real_pure_logic`,
       heading: "Integración, E2E y testcontainers (concepto)",
       subtopicId: "S28-T4-A",
       paragraphs: [
-        "Una prueba de **integración** ejerce **2+ componentes reales** (app + sqlite, o servicio + fake HTTP + DB). **E2E** cubre el flujo punta a punta (`ingest → pares → review`) con datos sintéticos. **Testcontainers** (concepto de CI): DB efímera en contenedor con el mismo dialecto que producción; en este curso usamos sqlite `:memory:` o archivo temp como análogo local honesto.",
-        "Mide lo que el tagline promete: **encoding** (tildes y formas NFC/NFD unificadas con `unicodedata.normalize`), **cardinalidad** de pares (`C(n,2)` o igualdad de nombre), **orden** de paginación estable, **timeout** simulado (retry/abort con reloj fake, no `sleep` real) y **reanudación** (checkpoint: no reprocesar ids ya hechos).",
+        "Una prueba de **integración** ejerce **2+ componentes reales** (app + sqlite, o servicio + fake HTTP + DB). **E2E** cubre el flujo punta a punta (`ingest → pares → review`) con datos sintéticos. **Testcontainers** (concepto de CI): DB efímera en contenedor con el mismo dialecto que producción; en este curso usamos sqlite `:memory:` o un archivo temporal como análogo local honesto.",
+        "Mide lo que el tagline promete:\n\n- **Encoding:** tildes y formas NFC/NFD unificadas con `unicodedata.normalize`.\n- **Cardinalidad de pares:** `C(n,2)` o igualdad de nombre.\n- **Orden de paginación estable.**\n- **Timeout simulado:** reintento/abort con reloj fake, no `sleep` real.\n- **Reanudación:** checkpoint; no reprocesar ids ya hechos.",
         "Demo mínima: inserta dos entidades homónimas en sqlite, cuenta filas y el par candidato con `id_a < id_b`. Eso es integración real de schema + query, no un print de `True`. Cuando el almacén sea Postgres en S29, el mismo contrato de pares se re-ejecuta contra el dialecto real.",
       ],
       code: {
@@ -325,9 +331,9 @@ encoding_ok True`,
       },
       callout: {
         type: "info",
-        title: "Containers vs memoria",
+        title: "Containers vs. memoria",
         content:
-          "sqlite memoria valida lógica de pares y schema; containers validan driver/SQL dialecto real cuando el almacén es Postgres (S29). Sé honesto en el reporte de evidencia: qué capa cubriste.",
+          "sqlite en memoria valida lógica de pares y schema; containers validan driver/SQL dialecto real cuando el almacén es Postgres (S29). Sé honesto en el reporte de evidencia: qué capa cubriste.",
       },
     },
     {
@@ -371,7 +377,7 @@ ci_policy no_flakes_on_gate`,
   ],
   iDo: {
     intro:
-      "Yo hago primero (I Do): ocho demos de invariantes con seed, pruebas metamórficas, contratos de schema/golden, fakes de reloj/HTTP e integración sqlite determinista. Corre cada demo en tu entorno local-python: el output del curso debe coincidir con tu terminal. Observa el patrón propiedad → assert → evidencia (seed/input), no solo el print final.",
+      "Yo hago primero (I Do): ocho demos de invariantes con seed, pruebas metamórficas, contratos de schema/golden, fakes de reloj/HTTP e integración sqlite determinista. Corre cada demo en tu entorno local-python: la salida del curso debe coincidir con tu terminal. Observa el patrón propiedad → assert → evidencia (seed/input), no solo el print final.",
     steps: [
       {
         demoId: "S28-T1-A-DEMO",
@@ -442,8 +448,15 @@ idemp True`,
     e = []
     if not r.get("id"):
         e.append("id")
-    if r.get("score") is not None and not 0 <= r["score"] <= 1:
-        e.append("score")
+    sc = r.get("score")
+    if sc is not None:
+        try:
+            s = float(sc)
+        except (TypeError, ValueError):
+            e.append("score")
+        else:
+            if not 0 <= s <= 1:
+                e.append("score")
     return e
 
 rows = [
@@ -510,7 +523,7 @@ print(H().get()["body"]["ok"], C().now().date().isoformat())`,
         subtopicId: "S28-T3-B",
         environment: "local-python",
         description:
-          "Contrato de borde sobre match real (casefold) vs overmock que oculta bug.",
+          "Contrato de borde sobre match real (casefold) vs. overmock que oculta bug.",
         code: {
           language: "python",
           title: "contract_demo.py",
@@ -581,7 +594,7 @@ print(run(3)[0])`,
   },
   weDo: {
     intro:
-      "24 ejercicios guiados → independientes → transferencia (8 subtemas × 3). Cada starter trae un **bug intencional** runnable: corrígelo y deja **solo** las líneas de salida del oráculo (mismas que la solución). Datos sintéticos; no etiquetes fraude ni parentesco. Tiempo sugerido: ~25–40 min por subtema en bloque We Do.",
+      "24 ejercicios guiados → independientes → transferencia (8 subtemas × 3). Cada starter trae un comentario `# DEFECT:` que marca el bug a corregir (mismo patrón de caza de fallas que en S27). Corrígelo y deja **solo** las líneas de salida del oráculo (mismas que la solución). Datos sintéticos; no etiquetes fraude ni parentesco. Tiempo sugerido: ~25–40 min por subtema en bloque We Do.",
     steps: [
       {
         id: "S28-T1-A-E1",
@@ -592,16 +605,16 @@ print(run(3)[0])`,
         hint: "Vuelve a llamar random.seed(0) antes de b",
         hints: [
           "Vuelve a llamar random.seed(0) antes de b",
-          "Sin re-seed, el segundo random avanza el PRNG y a!=b",
+          "Sin re-seed, el segundo random avanza el generador pseudoaleatorio (PRNG) y a!=b",
         ],
         edgeCases: ["sin seed no es CI-safe"],
-        tests: "Una línea booleana: True solo si a y b se regeneran con la misma seed",
+        tests: "Una línea booleana: True solo si a y b se regeneran con la misma seed.",
         feedback:
-          "Sin re-seed, el PRNG avanza: el segundo random no es la misma muestra. Seed antes de cada muestra = reproducible en CI.",
+          "Sin re-seed, el generador pseudoaleatorio (PRNG) avanza: el segundo random no es la misma muestra. Seed antes de cada muestra = reproducible en CI.",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: falta volver a seedear antes de b
+          code: `# DEFECT: falta volver a sembrar la seed antes de b
 import random
 random.seed(0)
 a = random.random()
@@ -639,7 +652,7 @@ print(a == b)`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: hardcodea True sin validar el batch (hay un score fuera de rango)
+          code: `# DEFECT: hardcodea True sin validar el batch (hay un score fuera de rango)
 scores = [0, 0.5, 1.2]
 print(True)
 `,
@@ -666,11 +679,11 @@ print(all(0 <= s <= 1 for s in scores))`,
         edgeCases: ["string vacío; solo espacios; tildes; assert falla → bug real"],
         tests: "Dos líneas: idempotent_ok True y n_cases 10 tras asserts del batch",
         feedback:
-          "Una propiedad real genera muchos inputs (seed + bucle) y aserta f(f(x))==f(x). Un solo literal no es property-based thinking.",
+          "Una propiedad real genera muchos inputs (seed + bucle) y aserta f(f(x))==f(x). Un solo literal no es pensamiento basado en propiedades (*property-based thinking*).",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: no genera casos ni comprueba f(f(x))==f(x); hardcodea n_cases=1
+          code: `# DEFECT: no genera casos ni comprueba f(f(x))==f(x); hardcodea n_cases=1
 import random
 
 def normalize(s: str) -> str:
@@ -731,7 +744,7 @@ n_cases 10`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: j dirigido (divide por len(ta)) → no es simétrico
+          code: `# DEFECT: j dirigido (divide por len(ta)) → no es simétrico
 def j(a, b):
     ta, tb = set(a.casefold().split()), set(b.casefold().split())
     if not ta:
@@ -774,7 +787,7 @@ print(j(a, b) == j(b, a))`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: igualdad case-sensitive; no es relación metamórfica
+          code: `# DEFECT: igualdad case-sensitive; no es relación metamórfica
 x, y = "Ana", "ana"
 print(x == y)
 `,
@@ -811,7 +824,7 @@ print(eq(x, y) == eq(x.upper(), y))`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: solo un par + polaridad invertida (no es all-simetría)
+          code: `# DEFECT: solo un par + polaridad invertida (no es all-simetría)
 def eq(u, v):
     return u.casefold() == v.casefold()
 
@@ -849,13 +862,9 @@ print(all(eq(a, b) == eq(b, a) for a, b in pairs))`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: imprime ok aunque r no tiene id
+          code: `# DEFECT: imprime ok aunque r no tiene id
 r = {}
 print("ok")
-# Completa el DEFECT con la condición del enunciado y un assert de aceptación.
-result = None  # calcula el valor correcto
-print(result)
-assert result is not None
 `,
         },
         solutionCode: {
@@ -884,7 +893,7 @@ print("id requerido" if not r.get("id") else "ok")`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: polaridad invertida al validar bounds
+          code: `# DEFECT: polaridad invertida al validar bounds
 score = 1.2
 print("ok" if not (0 <= score <= 1) else "score")
 `,
@@ -915,7 +924,7 @@ print("score" if not (0 <= score <= 1) else "ok")`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: cuenta todas las filas en vez de las que fallan
+          code: `# DEFECT: cuenta todas las filas en vez de las que fallan
 rows = [{"id": "1", "score": 0.2}, {"id": "", "score": 1.5}]
 print(len(rows))
 `,
@@ -951,11 +960,11 @@ print(sum(1 for r in rows if validate(r)))`,
         edgeCases: ["deep compare JSON canónico en prod"],
         tests: "Una línea: drift si golden != current",
         feedback:
-          "Siempre imprimir 'ok' esconde el diff del golden. Drift visible (expected vs actual) es el primer paso de la regresión de matching.",
+          "Siempre imprimir 'ok' esconde el diff del golden. Drift visible (expected vs. actual) es el primer paso de la regresión de matching.",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: ignora drift y siempre ok
+          code: `# DEFECT: ignora drift y siempre ok
 golden, current = {"n": 1}, {"n": 2}
 print("ok")
 `,
@@ -973,7 +982,7 @@ print("drift" if golden != current else "ok")`,
         subtopicId: "S28-T2-B",
         kind: "independent",
         instruction:
-          "S28-T2-B-E2 · Reconciliación de golden con review: si hay diff y `approved=False` → imprime `blocked`; solo con approve o sin diff → `ok`. El starter siempre dice ok aunque haya drift sin approve. Una línea.",
+          "S28-T2-B-E2 · Reconciliación de golden con revisión: si hay diff y `approved=False` → imprime `blocked`; solo con aprobación o sin diff → `ok`. El starter siempre dice ok aunque haya drift sin aprobación. Una línea.",
         hint: "blocked si diff and not approved",
         hints: [
           "blocked si diff and not approved",
@@ -982,11 +991,11 @@ print("drift" if golden != current else "ok")`,
         edgeCases: ["review humana obligatoria; changelog en el PR"],
         tests: "Una línea: blocked si hay diff y approved=False",
         feedback:
-          "Reconcile sin approve actualiza el contrato en silencio y esconde regresiones. blocked_drift fuerza review humana antes de tocar el golden.",
+          "Reconciliar sin aprobación actualiza el contrato en silencio y esconde regresiones. `blocked_drift` fuerza revisión humana antes de tocar el golden.",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: ok aunque hay diff y no approved
+          code: `# DEFECT: ok aunque hay diff y no approved
 diff, approved = True, False
 print("ok")
 `,
@@ -1004,20 +1013,20 @@ print("blocked" if diff and not approved else "ok")`,
         subtopicId: "S28-T2-B",
         kind: "transfer",
         instruction:
-          "S28-T2-B-E3 · Transferencia de golden versionado: meta tiene golden_version=3 y approved=False; current difiere del golden embebido. Imprime dos líneas: la versión leída del meta y la acción (`blocked` sin approve). El starter hardcodea 0 y ok.",
+          "S28-T2-B-E3 · Transferencia de golden versionado: meta tiene golden_version=3 y approved=False; current difiere del golden embebido. Imprime dos líneas: la versión leída del meta y la acción (`blocked` sin aprobación). El starter fija 0 y ok a mano.",
         hint: "Lee meta['golden_version']; acción = blocked si diff y not approved",
         hints: [
           "Lee meta['golden_version'] del dict",
-          "No actualices golden sin approved=True",
+          "No actualices el golden sin approved=True",
         ],
         edgeCases: ["changelog de versión en el PR"],
-        tests: "Dos líneas: golden_version del meta y blocked sin approve",
+        tests: "Dos líneas: golden_version del meta y blocked sin aprobación.",
         feedback:
-          "Versión del golden + acción de reconcile son evidencia del PR. Hardcodear 0/ok no es workflow de drift.",
+          "Versión del golden + acción de reconciliación son evidencia del PR. Fijar 0/ok a mano no es el flujo de drift.",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: hardcodea versión 0 y ok pese a drift
+          code: `# DEFECT: hardcodea versión 0 y ok pese a drift
 meta = {
     "golden_version": 3,
     "approved": False,
@@ -1062,7 +1071,7 @@ blocked`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: busca e2 en vez de e1
+          code: `# DEFECT: busca e2 en vez de e1
 db = {"e1": {"name": "Ana"}}
 
 def get_name(store, entity_id):
@@ -1101,7 +1110,7 @@ print(get_name(db, "e1"))`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: str(datetime) no es fecha ISO corta
+          code: `# DEFECT: str(datetime) no es fecha ISO corta
 from datetime import datetime, timezone
 d = datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)
 print(str(d))
@@ -1134,7 +1143,7 @@ print(d.date().isoformat())`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: polaridad 5xx invertida e ignora timeout
+          code: `# DEFECT: polaridad 5xx invertida e ignora timeout
 status = 503
 timeout_ms = 3000
 print("ok" if status >= 500 else "retry")
@@ -1167,7 +1176,7 @@ print("retry" if status >= 500 or timeout_ms > 2000 else "ok")`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: lower solo un lado → 'ana' == 'ANA' es False
+          code: `# DEFECT: lower solo un lado → 'ana' == 'ANA' es False
 print("Ana".lower() == "ANA")
 `,
         },
@@ -1196,7 +1205,7 @@ print("Ana".lower() == "ANA")
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: no marca weak cuando f acepta cualquier par
+          code: `# DEFECT: no marca weak cuando f acepta cualquier par
 f = lambda a, b: True
 print("ok")
 `,
@@ -1227,7 +1236,7 @@ print("weak" if f("x", "y") and f("1", "2") else "ok")`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: inventa métricas de calls en vez de leer el efecto
+          code: `# DEFECT: inventa métricas de calls en vez de leer el efecto
 store = []
 
 def write_row(row):
@@ -1273,7 +1282,7 @@ Ana`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: no ejecuta SELECT y hardcodea 0
+          code: `# DEFECT: no ejecuta SELECT y hardcodea 0
 import sqlite3
 c = sqlite3.connect(":memory:")
 c.execute("create table t(x int)")
@@ -1310,13 +1319,9 @@ print(c.execute("select count(*) from t").fetchone()[0])`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: usa n*n (incluye diagonal)
+          code: `# DEFECT: usa n*n (incluye diagonal)
 n = 4
 print(n * n)
-# Completa el DEFECT con la condición del enunciado y un assert de aceptación.
-result = None  # calcula el valor correcto
-print(result)
-assert result is not None
 `,
         },
         solutionCode: {
@@ -1345,7 +1350,7 @@ print(n * (n - 1) // 2)`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: reprocesa done e ignora normalización Unicode NFC
+          code: `# DEFECT: reprocesa done e ignora normalización Unicode NFC
 import unicodedata
 
 done, items = {"a"}, ["a", "b", "c"]
@@ -1387,13 +1392,9 @@ encoding_ok True`,
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: no aplica sorted
+          code: `# DEFECT: no aplica sorted
 ids = ["b", "a"]
 print(ids)
-# Completa el DEFECT con la condición del enunciado y un assert de aceptación.
-result = None  # calcula el valor correcto
-print(result)
-assert result is not None
 `,
         },
         solutionCode: {
@@ -1421,7 +1422,7 @@ assert result is not None
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: polaridad invertida del gate
+          code: `# DEFECT: polaridad invertida del gate
 flake_rate = 0.01
 print("ok" if flake_rate > 0 else "fail_job")
 `,
@@ -1442,17 +1443,17 @@ print("fail_job" if flake_rate > 0 else "ok")`,
           "S28-T4-B-E3 · Transferencia CI determinista: implementa `run(seed)` que fije seed, genere 5 letras de `'abc'` y devuelva `sorted(...)`. El starter no re-siembra entre corridas y no ordena. Imprime dos líneas: si `run(7)==run(7)` (debe ser True) y el resultado de `run(7)`.",
         hint: "Dentro de run: random.seed(seed); return sorted([...])",
         hints: [
-          "Cada llamada a run debe seedear de nuevo — si no, la 2.ª corrida diverge",
+          "Cada llamada a run debe re-sembrar la seed — si no, la 2.ª corrida diverge",
           "sorted garantiza orden estable del batch en CI",
         ],
         edgeCases: ["sin seed la igualdad entre corridas es flake"],
-        tests: "Dos líneas: True (run(7)==run(7)) y la lista ordenada de run(7)",
+        tests: "Dos líneas: True (run(7)==run(7)) y la lista ordenada de run(7).",
         feedback:
-          "Cada run debe seedear de nuevo y ordenar. Sin seed+sorted, dos 'mismas' corridas CI divergen: eso es un flake.",
+          "Cada `run` debe re-sembrar la seed y ordenar. Sin `seed`+`sorted`, dos 'mismas' corridas de CI divergen: eso es un flake.",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# BUG intencional: no re-siembra ni ordena → dos corridas divergen / orden inestable
+          code: `# DEFECT: no re-siembra ni ordena → dos corridas divergen / orden inestable
 import random
 
 def run(seed):
@@ -1483,16 +1484,16 @@ print(run(7))`,
   youDo: {
     title: "Suite QA del motor ER — propiedades, goldens e integración",
     context:
-      "Entrega una suite sintética que cace encoding, cardinalidad, orden, timeout/reanudación y drift de golden para el pipeline ER de CP-N3-A. Usa fixtures mínimas, fakes de reloj/HTTP y sqlite memoria. Sin PII real; matching ≠ fraude. Extiende lo aprendido en S27 (pytest AAA/fixtures) con las capas de S28.\n\n**Criterios de aceptación (checklist de entrega):**\n1. `tests/test_properties.py` — al menos `test_normalize_idempotent` (seed + N≥20) y una metamórfica o simetría documentada en el nombre.\n2. `tests/test_schema_golden.py` — `validate_record` con lista de errores + golden con `blocked_drift` si `approved=False`.\n3. `tests/test_doubles.py` — FakeClock y/o FakeHTTP; timeout/retry sin `sleep` real.\n4. `tests/test_integration.py` — sqlite `:memory:` con pares `id_a < id_b` + NFC en un nombre con tilde.\n5. README de la suite: seeds usadas, reloj, orden de pipeline (unit → property/data → integration), qué **no** prueba (fraude/parentesco).\n6. Cero flakes en la suite de merge: seed, sort, reloj inyectado.",
+      "Entrega una suite sintética que cace encoding, cardinalidad, orden, timeout/reanudación y drift de golden para el pipeline ER de CP-N3-A. Usa fixtures mínimas, fakes de reloj/HTTP y sqlite en memoria. Sin PII real; matching ≠ fraude. Extiende lo aprendido en S27 (pytest AAA/fixtures) con las capas de S28.\n\n**Criterios de aceptación (checklist de entrega):**\n1. `tests/test_properties.py` — al menos `test_normalize_idempotent` (seed + N≥20) y una metamórfica o simetría documentada en el nombre.\n2. `tests/test_schema_golden.py` — `validate_record` con lista de errores + golden con `blocked_drift` si `approved=False`.\n3. `tests/test_doubles.py` — FakeClock y/o FakeHTTP; timeout/reintento sin `sleep` real.\n4. `tests/test_integration.py` — sqlite `:memory:` con pares `id_a < id_b` + NFC en un nombre con tilde.\n5. README de la suite: seeds usadas, reloj, orden de pipeline (unit → property/data → integration), qué **no** prueba (fraude/parentesco).\n6. Cero flakes en la suite de merge: seed, sort, reloj inyectado.",
     objectives: [
       "Invariantes + generación con seed (idempotencia de normalize)",
       "Metamórficas/simetría de comparadores documentadas",
-      "Contratos de schema/calidad y golden con reconcile bloqueado sin approve",
+      "Contratos de schema/calidad y golden con reconciliación bloqueada sin aprobación",
       "Integración sqlite de candidatos + CI determinista (seed, sort, reloj)",
     ],
     requirements: [
       "Fixtures sintéticas mínimas (nombres/emails @example.pe, sin PII real)",
-      "Al menos: (1) test de propiedad/idempotencia con seed, (2) validador de schema con lista de errores, (3) golden con drift bloqueado sin approve, (4) fake de reloj o HTTP, (5) integración sqlite de pares candidatos, (6) sort/seed documentados para CI",
+      "Al menos: (1) test de propiedad/idempotencia con seed, (2) validador de schema con lista de errores, (3) golden con drift bloqueado sin aprobación, (4) fake de reloj o HTTP, (5) integración sqlite de pares candidatos, (6) sort/seed documentados para CI",
       "Cero pruebas inestables (flakes) en la suite que bloquea merge: seed, reloj inyectado y orden estable",
       "Documentación en español profesional (es-PE): límites, evidencias, qué no prueba la suite",
       "Alineación QA ER del hilo CP-N3-A (solo misma entidad; sin etiquetas de fraude/parentesco)",
@@ -1520,8 +1521,14 @@ def validate_record(r: dict) -> list[str]:
     if not r.get("id"):
         err.append("id requerido")
     score = r.get("score")
-    if score is not None and not (0 <= float(score) <= 1):
-        err.append("score fuera de [0,1]")
+    if score is not None:
+        try:
+            s = float(score)
+        except (TypeError, ValueError):
+            err.append("score no numérico")
+        else:
+            if not (0 <= s <= 1):
+                err.append("score fuera de [0,1]")
     return err
 
 def test_normalize_idempotent(n_cases: int = 20) -> None:
@@ -1610,25 +1617,25 @@ if __name__ == "__main__":
           "Una prueba metamórfica relaciona salidas bajo transformaciones conocidas (p. ej. padding no cambia normalize; upper no debe romper igualdad casefold) cuando no hay un oráculo absoluto del score “correcto”.",
       },
       {
-        question: "Actualizar un golden con drift sin review es:",
+        question: "Actualizar un golden con drift sin revisión es:",
         options: ["Buena práctica de velocidad en CI porque el job vuelve a verde", "Riesgo de ocultar regresiones de matching al reescribir el contrato", "Obligatorio en cada merge del matcher", "Irrelevante si el job es verde a veces en la semana"],
         correctIndex: 1,
         explanation:
-          "Reconcile debe ser aprobado por un humano con nota de cambio: sin review, el golden deja de proteger el contrato y esconde bugs de matching.",
+          "La reconciliación debe ser aprobada por un humano con nota de cambio: sin revisión, el golden deja de proteger el contrato y esconde bugs de matching.",
       },
       {
         question: "Sobre-mocking típico en el matcher:",
-        options: ["Probar lógica pura real de normalize/comparador en el contrato de borde", "Usar sqlite memoria para materializar pares candidatos", "Acoplar el test a detalles internos y ocultar bugs con dobles que siempre pasan", "Fijar seed en generadores de casos de propiedad"],
+        options: ["Probar lógica pura real de normalize/comparador en el contrato de borde", "Usar sqlite en memoria para materializar pares candidatos", "Acoplar el test a detalles internos y ocultar bugs con dobles que siempre pasan", "Fijar seed en generadores de casos de propiedad"],
         correctIndex: 2,
         explanation:
           "Mockea solo I/O externo (HTTP/DB/reloj); deja el corazón del matching real bajo prueba cuando es puro y barato. Un lambda que siempre devuelve True es un overmock débil.",
       },
       {
         question: "Flakes en la suite que bloquea merge del ER se manejan:",
-        options: ["Con determinismo (seed/reloj/sort) y fallo de job si persisten", "Ignorándolos si el promedio del día es verde", "Subiendo retries a 100 sin root-cause", "Borrando el test que molesta al pipeline"],
+        options: ["Con determinismo (seed/reloj/sort) y fallo de job si persisten", "Ignorándolos si el promedio del día es verde", "Subiendo reintentos a 100 sin root-cause", "Borrando el test que molesta al pipeline"],
         correctIndex: 0,
         explanation:
-          "CI determinista es outcome de S28: seed fija, reloj inyectado, orden estable. Retry sin root-cause o borrar el test no es fix; cuarentena documentada es el último recurso.",
+          "Un CI determinista es el resultado de S28: seed fija, reloj inyectado, orden estable. Reintentar sin root-cause o borrar el test no es fix; la cuarentena documentada es el último recurso.",
       },
       {
         question: "En integración local del ER, sqlite en memoria sirve sobre todo para…",

@@ -5,14 +5,14 @@ export const section07: CourseSection = {
   index: 7,
   title: "Texto, Unicode y expresiones regulares",
   shortTitle: "Texto & Unicode",
-  tagline: "Unicode latam, strings y regex sin sobrevalidar",
+  tagline: "Unicode latam, cadenas y regex sin sobrevalidar",
   estimatedHours: 20,
   level: "Intermedio",
   phase: 0,
   icon: "Languages",
   accentColor: "bg-gradient-to-br from-teal-500 to-cyan-600",
   jobRelevance:
-    "En intake de clientes Latam (banca, telecom, retail, gobierno), normalizadores pensados para ASCII/US fallan con tildes, ñ, dos apellidos y partículas: el resultado son falsos negativos, colas de revisión y, peor, **claims automáticos** de identidad, parentesco o fraude. Un score de similitud es **evidencia para un humano**, nunca prueba. En esta sección construyes el tramo textual de **CP-N1-B**: Unicode NFC, `str` antes que regex, contacto modesto y matching con rastro auditable.",
+    "En *intake* de clientes Latam (banca, telecom, retail, gobierno), los normalizadores pensados para ASCII/US fallan con tildes, ñ, dos apellidos y partículas. El resultado: falsos negativos, colas de revisión y, peor aún, **afirmaciones automáticas** de identidad, parentesco o fraude. Un score de similitud es **evidencia para un humano**, nunca prueba. En esta sección construyes el tramo textual de **CP-N1-B**: Unicode NFC, `str` antes que regex, contacto modesto y matching con rastro auditable.",
   learningOutcomes: [
     { text: "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones" },
     { text: "Modelar nombres latam con dos apellidos y partículas sin forzar formato US" },
@@ -21,15 +21,15 @@ export const section07: CourseSection = {
     { text: "Escribir patrones con grupos y anchors ^$" },
     { text: "Compilar patrones, extraer con findall/finditer y conocer límites" },
     { text: "Comparar por igualdad normalizada y Jaccard de tokens" },
-    { text: "Razonar FP/FN y conservar evidencia sin claims de parentesco" },
+    { text: "Razonar FP/FN y conservar evidencia sin afirmaciones de parentesco" },
   ],
   theory: [
     {
       heading: "Mapa de la sección: texto latinoamericano y matching con evidencia",
       paragraphs: [
-        "En esta sección dominas **texto latinoamericano**: normalización Unicode, nombres con dos apellidos, métodos `str` antes que regex, y matching con evidencia **sin afirmar parentesco**. Scraping, SQL y APIs públicas se abordan más adelante (p. ej. archivos/ETL en S08 y servicios en S12).",
-        "El incremento **CP-N1-B** es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Solo datos sintéticos peruanos/latam; sin PII real. Si el schema no cuadra o falta evidencia, **no completes campos en silencio** (fail-closed: mejor dejar el caso en revisión que inventar datos).",
-        "Orden pedagógico: **T1 Unicode** (formas y casefold) → **T2 str y contacto** (sin overvalidation) → **T3 regex** (fullmatch y límites) → **T4 similitud y FP/FN** (score como evidencia). Casos sintéticos recurrentes: José/Quispe, emails y teléfonos ficticios, Lima/Arequipa. Cada bloque I Do modela, We Do practica y el You Do integra el contrato `raw` / `normalized` / `transforms`.",
+        "En esta sección dominas **texto latinoamericano**: normalización Unicode, nombres con dos apellidos y métodos `str` antes que regex. Haces matching con evidencia **sin afirmar parentesco**. Scraping, SQL y APIs públicas se abordan más adelante (archivos y ETL en S08; servicios en S12).",
+        "El incremento **CP-N1-B** es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Solo usas datos sintéticos peruanos o latam; **nunca PII real**. Si el schema no cuadra o falta evidencia, **no completes campos en silencio**: cierras por fallo (*fail-closed*) y dejas el caso en revisión antes que inventar datos.",
+        "Orden pedagógico: **T1 Unicode** (formas y *casefold*) → **T2 `str` y contacto** (sin *overvalidation*) → **T3 regex** (`fullmatch` y límites) → **T4 similitud y FP/FN** (score como evidencia). Los casos sintéticos recurrentes son José/Quispe, emails y teléfonos ficticios, y Lima/Arequipa. En cada bloque, *I Do* modela, *We Do* practica y *You Do* integra el contrato `raw` / `normalized` / `transforms`.",
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section07: CourseSection = {
       heading: "Code points, normalización y casefold",
       subtopicId: "S07-T1-A",
       paragraphs: [
-        "Python 3 `str` es Unicode. `ord('ñ')` / `chr(241)` exploran **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (base + combining mark). En matching de nombres latam, sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”) aunque se vean idénticos en pantalla.",
-        "`unicodedata.normalize('NFC', s)` unifica formas **antes** de comparar o de tokenizar. Sin eso, `'José' == 'Jose\\u0301'` puede ser `False` y tu Jaccard o tu exact-match fallan en silencio. En el normalizador de registro documentas cada paso (NFC, colapso de espacios, casefold) y, si el schema no cuadra, dejas el caso en **review** en lugar de inventar campos. Herramientas de esta sección: stdlib `str`, `unicodedata` y `re`.",
-        "`casefold()` es la **política canónica** de matching case-insensitive del normalizador: más robusta que `lower()` cuando hay casing especial (clásico: ß alemana → `ss`). En español, `lower` y `casefold` suelen coincidir en ñ; aun así escribes `casefold` por **contrato**, no porque `lower` “rompa” la ñ. Pipeline: **NFC → strip/collapse → casefold (si la política lo pide) → comparar**. Datos sintéticos; **nunca** PII real ni parentesco automático.",
+        "Python 3 `str` es Unicode. Con `ord('ñ')` y `chr(241)` exploras **code points**. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) o **NFD** (base + marca combinante). Al comparar nombres latam sin unificar formas obtienes **falsos negativos** (“José” ≠ “José”), aunque se vean idénticos en pantalla.",
+        "`unicodedata.normalize('NFC', s)` unifica formas **antes** de comparar o tokenizar. Sin eso, `'José' == 'Jose\\u0301'` puede ser `False`, y tu Jaccard o tu exact-match fallan en silencio. En el normalizador de registro documentas cada paso (NFC, colapso de espacios, `casefold`); si el schema no cuadra, dejas el caso en **review** en vez de inventar campos. Las herramientas de esta sección son stdlib `str`, `unicodedata` y `re`.",
+        "`casefold()` es la **política canónica** de matching case-insensitive del normalizador: más robusta que `lower()` cuando hay *casing* especial (caso clásico: ß alemana → `ss`). En español, `lower` y `casefold` suelen coincidir en ñ; aun así escribes `casefold` por **contrato**, no porque `lower` “rompa” la ñ. El pipeline es: **NFC → strip/collapse → casefold (si la política lo pide) → comparar**. Trabajas solo con datos sintéticos: **nunca** PII real ni inferencia automática de parentesco.",
       ],
       code: {
         language: 'python',
@@ -70,16 +70,16 @@ ord ñ: 241`,
         type: "tip",
         title: "Pipeline de comparación",
         content:
-          "NFC → strip/collapse → casefold (política) → comparar. Los encodings al leer archivos (UTF-8 vs latin-1 / mojibake) se tratan en S08; aquí trabajas sobre `str` ya decodificado.",
+          "NFC → strip/collapse → casefold (política) → comparar. Los encodings al leer archivos (UTF-8 vs. latin-1 / mojibake) se tratan en S08; aquí trabajas sobre `str` ya decodificado.",
       },
     },
     {
       heading: "Tildes, ñ, partículas y apellidos compuestos",
       subtopicId: "S07-T1-B",
       paragraphs: [
-        "En Perú y Latam es común **nombre(s) + apellido paterno + apellido materno**. Forzar el formato US (un solo first/last) recorta información y genera FN al cruzar padrones o CRM. Conserva el **raw** siempre: es tu única fuente si la heurística se equivoca o si mañana cambia la política de parseo.",
-        "Partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza, aplica la heurística de “últimos dos tokens = apellidos si hay ≥3”, y si falta evidencia marca **review** en vez de inventar `apellido2`. Mejor un caso en cola humana que un campo demográfico inventado.",
-        "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Ejemplo sintético: `María del Carmen Quispe Huamán` → given con partícula + dos apellidos finales. Datos ficticios únicamente; **nunca** PII real ni inferencia de parentesco o identidad legal.",
+        "En Perú y Latam es común **nombre(s) + apellido paterno + apellido materno**. Forzar el formato estadounidense (un único *first* / *last*) recorta información y genera falsos negativos (FN) al cruzar padrones o CRM. Conserva el **raw** siempre: es tu única fuente si la heurística se equivoca o si mañana cambia la política de parseo.",
+        "Las partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza y aplica la heurística “últimos dos tokens = apellidos si hay tres o más”. Si falta evidencia, marca **review** en vez de inventar `apellido2`. Mejor un caso en cola humana que un campo demográfico inventado.",
+        "Los espacios múltiples se colapsan; las tildes y la ñ se preservan en la forma normalizada visible (NFC). Ejemplo sintético: `María del Carmen Quispe Huamán` → *given* con partícula + dos apellidos finales. Los datos son ficticios: **nunca** PII real ni inferencia de parentesco o identidad legal.",
       ],
       code: {
         language: 'python',
@@ -111,9 +111,9 @@ apellidos: Quispe Huamán`,
       heading: "split / join / search / replace",
       subtopicId: "S07-T2-A",
       paragraphs: [
-        "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. En limpieza de direcciones, teléfonos enmascarados y tokens de intake, la mayor parte se resuelve así: menos backtracking, más legible y más fácil de testear que un patrón “inteligente”.",
-        "`' '.join(s.split())` colapsa espacios. `split(',')` alcanza para CSV-like **simple** (sin comillas escapadas). Cuando aparezcan comillas, saltos de línea o encodings raros, el módulo `csv` y `pathlib` de **S08** son el camino correcto — no un `split` más creativo.",
-        "`replace` es **literal** y predecible: normaliza guiones, abreviaturas o prefijos **antes** de pensar en regex. Caso sintético Lima: `Av. Larco, Miraflores` o `Jr. de la Unión` — documenta el reemplazo en `transforms` y conserva el `raw` en el record de evidencia.",
+        "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. En la limpieza de direcciones, teléfonos enmascarados y tokens de *intake*, la mayor parte se resuelve así. Obtienes menos *backtracking*, más legibilidad y mayor facilidad de testeo que con un patrón “inteligente”.",
+        "`' '.join(s.split())` colapsa espacios. `split(',')` alcanza para CSV-like **simple** (sin comillas escapadas). Cuando aparezcan comillas, saltos de línea o *encodings* raros, el módulo `csv` y `pathlib` de **S08** son el camino correcto. No fuerces un `split` más “creativo”: te vas a topar con casos que no esperabas.",
+        "`replace` es **literal** y predecible: normaliza guiones, abreviaturas o prefijos **antes** de pensar en regex. Caso sintético Lima: `Av. Larco, Miraflores` o `Jr. de la Unión`. Documenta el reemplazo en `transforms` y conserva el `raw` en el registro de evidencia.",
       ],
       code: {
         language: 'python',
@@ -142,9 +142,9 @@ Avenida Larco 123 , Miraflores`,
       heading: "Nombres, emails y teléfonos sin sobrevalidación",
       subtopicId: "S07-T2-B",
       paragraphs: [
-        "Email: `strip` + `casefold` y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. Eso no confirma que el buzón exista; solo decide si el valor es usable o va a **review**. Regex hiper-estrictas **rechazan válidos** (plus addressing `user+tag@…`, dominios nuevos, Unicode en labels).",
-        "Teléfono PE sintético de demo: extrae dígitos y conserva el prefijo de país `51` cuando viene como `+51`. Salida solo dígitos (`51999000111`); el signo `+` no se conserva. Longitud (p. ej. 9 dígitos locales que empiezan en 9) y operadora son **revisión fuera de banda**, no un `raise` automático del normalizador.",
-        "Nombre de contacto: colapso de espacios + NFC. El title-case es cosmético y puede pelear con partículas (`del` → `Del`): **elige una política, documenta en `transforms` y sé consistente**. Un score de similitud entre nombres es **evidencia para review**, nunca prueba de parentesco, fraude o identidad legal.",
+        "Para emails: `strip` + `casefold` y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. Eso no confirma que el buzón exista; solo decide si el valor es usable o va a **review**. Las regex hiper-estrictas **rechazan válidos** (*plus addressing* `user+tag@…`, dominios nuevos, Unicode en *labels*).",
+        "Teléfono PE sintético de demo: extrae dígitos y conserva el prefijo de país `51` cuando viene como `+51`. La salida es solo dígitos (`51999000111`); el signo `+` no se conserva. La longitud (p. ej. 9 dígitos locales que empiezan en 9) y la operadora son **revisión fuera de banda**, no un `raise` automático del normalizador.",
+        "Nombre de contacto: colapso de espacios + NFC. La capitalización tipo título (*title-case*) es cosmética y puede pelear con partículas (`del` → `Del`). **Elige una política, documenta en `transforms` y sé consistente.** Un score de similitud entre nombres es **evidencia para review**, nunca prueba de parentesco, fraude o identidad legal.",
       ],
       code: {
         language: 'python',
@@ -177,9 +177,9 @@ print(normalize_phone_pe("+51 999-000-111"))`,
       heading: "Patrones, grupos y anchors",
       subtopicId: "S07-T3-A",
       paragraphs: [
-        "Regex entra cuando el patrón es **regular de verdad**: DNI sintético de 8 dígitos, códigos de región (`LIM`), prefijos fijos. Usa `re` con **grupos** `(...)` y anchors. Si `str.startswith` / `replace` / `isdigit` bastan, **no** escribas regex: ya lo practicaste en T2.",
-        "`re.fullmatch` exige que **toda** la cadena cumpla el patrón. `re.search` encuentra un substring en medio. Confundirlos produce **falsos positivos** en validación (un DNI embebido en texto tipo «DNI 12345678 PE» “pasa” con search). Validar un código completo → `fullmatch`; extraer de un log → `search` / `finditer`.",
-        "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos (`m.group('dni')` en vez de índices mágicos). Úsalos en códigos y logs, no para “parsear identidad”. Caso sintético de 8 dígitos: **nunca** PII real ni claims legales a partir de un match. Nombres con partículas (`María del Carmen`) se modelan mejor con tokenización `str` (T1-B) que con un solo `\\w+`.",
+        "La regex entra cuando el patrón es **regular de verdad**: DNI sintético de 8 dígitos, códigos de región (`LIM`), prefijos fijos. Usa `re` con **grupos** `(...)` y *anchors*. Si `str.startswith`, `replace` o `isdigit` bastan, **no** escribas regex: ya lo practicaste en T2.",
+        "`re.fullmatch` exige que **toda** la cadena cumpla el patrón. `re.search` encuentra un *substring* en medio. Confundirlos produce **falsos positivos** en validación: un DNI embebido en texto tipo «DNI 12345678 PE» “pasa” con `search`. Regla: validar un código completo → `fullmatch`; extraer de un log → `search` o `finditer`.",
+        "Los grupos con nombre `(?P<name>...)` mejoran la legibilidad al extraer campos (`m.group('dni')` en vez de índices mágicos). Úsalos en códigos y logs, no para “parsear identidad”. En el caso sintético de 8 dígitos: **nunca** PII real ni afirmaciones legales a partir de un *match*. Los nombres con partículas (`María del Carmen`) se modelan mejor con tokenización `str` (T1-B) que con un solo `\\w+`.",
       ],
       code: {
         language: 'python',
@@ -208,9 +208,9 @@ full mid: False`,
       heading: "Compilación, extracción y límites",
       subtopicId: "S07-T3-B",
       paragraphs: [
-        "`re.compile` reutiliza el patrón en loops: deja clara la intención y evita reescribir el mismo raw string en cada iteración. `findall` / `finditer` extraen múltiples matches de un log sintético — herramientas de **extracción**, no de overvalidation de email (eso quedó en T2).",
-        "Límite duro de este subtema: **catastrophic backtracking** con cuantificadores anidados ambiguos (p. ej. `(a+)+b` sobre strings hostiles de `a`s). Prefiere patrones **aburridos y simples**, o vuelve a `str.find` / `split`. No ejecutes patrones peligrosos “para ver qué pasa” en producción.",
-        "Si el patrón crece sin control (email + teléfono + DNI + dirección en una sola expresión), un parser por pasos con `str` y regex pequeñas suele ser más testeable y más fácil de explicar en code review. La elegancia de una sola mega-regex es un bug de producto disfrazado: un fallo opaco en el medio no dice *qué* campo rompió el contrato.",
+        "`re.compile` reutiliza el patrón en bucles: deja clara la intención y evita reescribir el mismo *raw string* en cada iteración. `findall` y `finditer` extraen múltiples *matches* de un log sintético. Son herramientas de **extracción**, no de *overvalidation* de email (eso quedó en T2).",
+        "Límite duro de este subtema: **catastrophic backtracking** con cuantificadores anidados ambiguos (p. ej. `(a+)+b` sobre *strings* hostiles de `a`s). Prefiere patrones **aburridos y simples**, o vuelve a `str.find` o `split`. No ejecutes patrones peligrosos “para ver qué pasa” en producción.",
+        "Si el patrón crece sin control (email + teléfono + DNI + dirección en una sola expresión), un parser por pasos con `str` y regex pequeñas suele ser más testeable. También es más fácil de explicar en una revisión de código (*code review*). La elegancia de una sola mega-regex es un defecto de producto disfrazado (*bug*): un fallo opaco en el medio no dice *qué* campo rompió el contrato.",
       ],
       code: {
         language: 'python',
@@ -239,9 +239,9 @@ span (29, 38) 988777666`,
       heading: "Exacta y por tokens (Jaccard simple)",
       subtopicId: "S07-T4-A",
       paragraphs: [
-        "Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse de espacios). Si tras el mismo pipeline que usaste en T1 las cadenas no son iguales, recién entonces **similitud por tokens** (Jaccard) como señal débil para revisión humana — no como auto-fusión.",
-        "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Tokeniza **después** de NFC (así “José” y “José” no se desdoblan en tokens distintos) y, si hace falta, colapsa puntuación trivial (puntos de abreviatura). Un score medio (p. ej. 0.67 entre `Juan Perez` y `Juan P Perez`) cae en **review**, no en merge automático ni en fusión de cuentas.",
-        "Nunca digas “es la misma persona” ni “parentesco” por un score. Empaqueta evidencia (`raw_a`, `raw_b`, `score`, `decision`, `reason`) y deja la decisión sensible al humano que conoce el contexto del negocio (fraude, KYC, CRM). El pipeline sugiere; no sentencia.",
+        "Matching de texto en *intake*: primero **igualdad normalizada** (NFC + `casefold` + colapso de espacios). Si, tras el mismo pipeline que usaste en T1, las cadenas no son iguales, recién entonces usas **similitud por tokens** (Jaccard) como señal débil para revisión humana. No la uses para auto-fusionar.",
+        "Jaccard = |A∩B| / |A∪B| sobre conjuntos de tokens. Tokeniza **después** de NFC (así “José” y “José” no se desdoblan en tokens distintos) y, si hace falta, colapsa puntuación trivial (puntos de abreviatura). Un score medio (p. ej. 0.67 entre `Juan Perez` y `Juan P Perez`) cae en **review**, no en fusión automática ni en fusión de cuentas.",
+        "Nunca digas “es la misma persona” ni “parentesco” por un score. Empaqueta evidencia (`raw_a`, `raw_b`, `score`, `decision`, `reason`) y deja la decisión sensible al humano que conoce el contexto del negocio (fraude, KYC, CRM). El pipeline sugiere; no sentencia: el veredicto le corresponde a una persona.",
       ],
       code: {
         language: 'python',
@@ -267,18 +267,18 @@ print(round(token_jaccard("Ana Quispe", "Luis Huamán"), 3))`,
       },
       callout: {
         type: "danger",
-        title: "Sin claims de identidad",
+        title: "Sin afirmaciones de identidad",
         content:
-          "Score ≠ identidad. Pipeline de match solo sugiere revisión humana.",
+          "Score ≠ identidad. El pipeline de *match* solo sugiere revisión humana.",
       },
     },
     {
       heading: "FP/FN y conservación de evidencia",
       subtopicId: "S07-T4-B",
       paragraphs: [
-        "**FP** (false positive): el sistema dice match y no debería (p. ej. homónimos o Luisa≈Luis con umbral flojo). **FN**: debería matchear y no lo hizo (tildes, partículas, abreviatura de segundo nombre). En nombres latam, NFC y el parse de partículas mueven ambos lados de la matriz.",
-        "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión es `exact` / `review` / `no_match` de **matching** — **no** etiqueta familiar ni veredicto legal. Si falta evidencia, no completes el paquete con inventos (fail-closed: mejor `review` vacío de claims que un campo inventado).",
-        "Por qué el curso prohíbe afirmar parentesco o identidad legal desde Jaccard: no hay fuente autoritativa (RENIEC u otra), el riesgo ético/legal es alto, y un score textual **no es prueba**. El pipeline entrega señales; el humano decide merges sensibles.",
+        "**FP** (*falso positivo*): el sistema dice *match* y no debería (p. ej. homónimos o “Luisa” ≈ “Luis” con umbral flojo). **FN** (*falso negativo*): debería coincidir y no lo hizo (tildes, partículas, abreviatura de segundo nombre). En nombres latam, NFC y el *parse* de partículas mueven ambos lados de la matriz.",
+        "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión es `exact`, `review` o `no_match` de **matching**: **no** es etiqueta familiar ni veredicto legal. Si falta evidencia, no completes el paquete con inventos. Cierra por fallo (*fail-closed*): mejor `review` vacío de afirmaciones que un campo inventado.",
+        "¿Por qué el curso prohíbe afirmar parentesco o identidad legal desde Jaccard? Porque no hay fuente autoritativa (RENIEC u otra), porque el riesgo ético y legal es alto, y porque un score textual **no es prueba**. El pipeline entrega señales; el humano decide qué fusiones son sensibles.",
       ],
       code: {
         language: 'python',
@@ -293,27 +293,27 @@ print(round(token_jaccard("Ana Quispe", "Luis Huamán"), 3))`,
     for a, b, score, dec in pairs:
         # FP demo: exact sobre homónimos sería riesgo; aquí solo tabula
         print(f"{a!r} vs {b!r} score={score} → {dec}")
-    print("nota: sin claims de parentesco ni identidad legal")
+    print("nota: sin afirmaciones de parentesco ni identidad legal")
 
 s07_th_8()`,
         output: `'José Pérez' vs 'Jose Perez' score=0.9 → review
 'Ana' vs 'Ana' score=1.0 → exact
 'Luis' vs 'Carla' score=0.0 → no_match
 'Juan Perez' vs 'Juan P Perez' score=0.67 → review
-nota: sin claims de parentesco ni identidad legal`,
+nota: sin afirmaciones de parentesco ni identidad legal`,
       },
       callout: {
         type: "info",
         title: "Evidencia > etiqueta",
         content:
-          "Guarda `raw`, `score` y `reason`. El humano decide merges sensibles; el sistema no etiqueta parentesco ni fraude.",
+          "Guarda `raw`, `score` y `reason`. El humano decide fusiones sensibles; el sistema no etiqueta parentesco ni fraude.",
       },
     },
     {
       heading: "Cierre y puente a S08",
       paragraphs: [
-        "Ya puedes normalizar texto **en memoria** con contrato auditable: NFC, `str` antes que regex, contacto modesto y matching con evidencia sin claims. El siguiente cuello de botella real aparece al **leer y escribir archivos**: encodings (UTF-8 vs latin-1), mojibake (`Ã±` en vez de `ñ`), CSV con comillas, JSON y cuarentena de filas rotas.",
-        "Lleva a S08 tu mental model de `normalize_record`: `raw` se conserva, `transforms` se documentan, y un decode incorrecto se trata como error **visible** — no como tildes “misteriosas”. El split ingenuo de esta sección cede el paso al módulo `csv` y a un manifest de ingesta.",
+        "Ya puedes normalizar texto **en memoria** con contrato auditable: NFC, `str` antes que regex, contacto modesto y matching con evidencia **sin afirmaciones**. El siguiente cuello de botella real aparece al **leer y escribir archivos**: *encodings* (UTF-8 vs. latin-1), *mojibake* (`Ã±` en vez de `ñ`), CSV con comillas, JSON y cuarentena de filas rotas.",
+        "Lleva a S08 tu **modelo mental** de `normalize_record`: `raw` se conserva, `transforms` se documentan, y un *decode* incorrecto se trata como error **visible**, no como tildes “misteriosas”. El split ingenuo de esta sección cede el paso al módulo `csv` y a un *manifest* de ingesta.",
       ],
       callout: {
         type: "tip",
@@ -324,7 +324,7 @@ nota: sin claims de parentesco ni identidad legal`,
     },
   ],
   iDo: {
-    intro: "Ocho demos (I Do): el instructor modela el pipeline T1→T4 — NFC y casefold, nombres con dos apellidos, `str` antes que regex, contacto modesto, fullmatch disciplinado y matching con evidencia. Datos sintéticos; entorno browser-pyodide (stdlib: `unicodedata`, `re`).",
+    intro: "Las ocho demos (I Do) modelan el pipeline T1→T4: NFC y `casefold`, nombres con dos apellidos, `str` antes que regex, contacto modesto, `fullmatch` disciplinado y matching con evidencia. Los datos son sintéticos; el editor ejecuta Python real en tu navegador (Pyodide) con stdlib (`unicodedata`, `re`).",
     steps: [
       {
         demoId: "S07-T1-A-DEMO",
@@ -551,7 +551,7 @@ evidencia se conserva; no se afirma parentesco`,
     ],
   },
   weDo: {
-    intro: "Andamiaje gradual (We Do): por cada subtema, **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, 2 hints c/u). Corrige el defecto marcado en el código, ejecuta y compara con la **salida esperada** de la instrucción. Prioriza `str` antes que regex; validación de contacto modesta; **sin** claims de parentesco ni identidad legal.",
+    intro: "Andamiaje gradual (We Do): por cada subtema, **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, 2 pistas cada uno). Corrige el defecto marcado en el código, ejecuta y compara con la **salida esperada** de la instrucción. Prioriza `str` antes que regex; mantén la validación de contacto modesta; **sin** afirmaciones de parentesco ni identidad legal.",
     steps: [
       {
         id: "S07-T1-A-E1",
@@ -595,7 +595,7 @@ for n in names:
         subtopicId: "S07-T1-A",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Usa `casefold` para decidir si `'MAÑANA'` y `'mañana'` matchean e imprime el booleano. Política del normalizador: matching case-insensitive con `casefold` (no `lower`), aunque en este par español ambos den True. Salida esperada: `True`.",
+          "E2 (independiente) — Usa `casefold` para decidir si `'MAÑANA'` y `'mañana'` coinciden e imprime el booleano. Política del normalizador: matching case-insensitive con `casefold` (no `lower`), aunque en este par español ambos den True. Salida esperada: `True`.",
         hint: "a.casefold() == b.casefold()",
         hints: [
           "a.casefold() == b.casefold()",
@@ -1473,11 +1473,11 @@ print(evidence)`,
         ],
         edgeCases: ["ética"],
         tests: "3 líneas de política",
-        feedback: "Gate de cumplimiento del capstone N1-B sobre claims.",
+        feedback: "Gate de cumplimiento del capstone N1-B sobre afirmaciones de parentesco e identidad.",
         starterCode: {
           language: 'python',
           title: "no_parentesco.py",
-          code: `# TAREA: explica por qué no hay claims de parentesco
+          code: `# TAREA: explica por qué no hay afirmaciones de parentesco
 # DEFECT: afirma parentesco e identidad legal
 print('Afirmamos parentesco: score alto prueba familia.')
 print('Afirmamos identidad legal: score textual basta para RENIEC.')
@@ -1500,7 +1500,7 @@ Solo emitimos evidencia (raw, score, decision=review) para un humano.`,
   youDo: {
     title: "Normalización latinoamericana (CP-N1-B)",
     context:
-      "Proyecto independiente (You Do): cierras el tramo textual de **CP-N1-B**. Implementas un pipeline que conserva **raw**, emite **normalized** y registra **transforms** por campo. Combina lo modelado en I Do y lo practicado en We Do: Unicode NFC, nombres con dos apellidos y partículas, email/tel modestos, `str` primero y regex solo si aporta y lo justificas. Sin scraping, HTTP ni SQL. Sin afirmar parentesco ni identidad legal.",
+      "Proyecto independiente (You Do): cierras el tramo textual de **CP-N1-B**. Implementas un pipeline que conserva **raw**, emite **normalized** y registra **transforms** por campo. Combinas lo modelado en *I Do* y lo practicado en *We Do*: Unicode NFC, nombres con dos apellidos y partículas, email y teléfono modestos, `str` primero y regex solo si aporta y lo justificas. Sin scraping, HTTP ni SQL. Sin afirmar parentesco ni identidad legal.",
     objectives: [
       "normalize_record → {raw, normalized, transforms}",
       "NFC + casefold donde corresponda en nombres",
@@ -1515,8 +1515,8 @@ Solo emitimos evidencia (raw, score, decision=review) para un humano.`,
       "Solo datos sintéticos peruanos/latam (sin PII real)",
       "Email: un @, local/dominio no vacíos, cero espacios; plus permitido; inválido → review (no inventar local)",
       "Teléfono: solo dígitos; conserva dígitos del prefijo 51; no inferir operadora ni raise por longitud",
-      "transforms es un dict por campo con nombres ordenados (nfc, collapse_spaces, casefold, digits_only, …)",
-      "Si agregas matching, empaqueta evidencia sin claims de parentesco ni identidad legal",
+      "transforms es un dict por campo cuya lista sigue el orden de aplicación (nfc, collapse_spaces, casefold, digits_only, …)",
+      "Si agregas matching, empaqueta evidencia sin afirmaciones de parentesco ni identidad legal",
     ],
     starterCode: `"""latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07)
 Conserva raw, produce normalized y lista transforms.
@@ -1599,7 +1599,7 @@ if __name__ == "__main__":
         options: ["Nunca", "Cuando la transformación es literal/simple", "Solo en emails", "Solo si el string es ASCII"],
         correctIndex: 1,
         explanation:
-          "Si la transformación es literal o simple, `str` es más legible, testeable y evita overfit o backtracking de regex.",
+          "Si la transformación es literal o simple, `str` es más legible y más testeable, y evita *overfit* o *backtracking* de regex.",
       },
       {
         question: "En un parse de nombres latam, las partículas (`de`, `del`, `de la`)…",
@@ -1627,7 +1627,7 @@ if __name__ == "__main__":
         options: ["Regex que solo acepte .com", "Exactamente un @, local y dominio no vacíos, sin espacios", "Verificar que el buzón exista por SMTP", "Rechazar plus addressing"],
         correctIndex: 1,
         explanation:
-          "Validación estructural mínima; plus addressing permitido; sin fingir entregabilidad.",
+          "Validación estructural mínima; *plus addressing* permitido; sin fingir entregabilidad.",
       },
       {
         question: "Ante un patrón con cuantificadores anidados ambiguos, la postura del curso es…",
@@ -1648,7 +1648,7 @@ if __name__ == "__main__":
         options: ["Solo dígitos (`51999000111`); longitud/operadora van a review, no a raise automático", "Conservar el `+` y validar operadora", "Rechazar si no hay 9 dígitos locales exactos", "Usar regex que exija el formato con guiones"],
         correctIndex: 0,
         explanation:
-          "digits_only conserva el 51 del prefijo; no inventamos validación de operadora ni longitud rígida en raise.",
+          "`digits_only` conserva el 51 del prefijo. No inventamos validación de operadora ni de longitud rígida mediante un `raise`.",
       },
     ],
   },

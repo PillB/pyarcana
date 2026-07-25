@@ -6,14 +6,14 @@ export const section34: CourseSection = {
   title: "Métricas, desbalance, calibración y umbrales",
   shortTitle: "Métricas y umbrales",
   tagline:
-    "De scores del baseline a una cola humana calibrada: métricas honestas, thr versionado y abstención — nunca auto-fraude",
+    "De scores del baseline a una cola humana calibrada: métricas honestas, thr versionado y abstención — nunca autofraude",
   estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "Gauge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), el baseline de S33 ya produce **scores de priorización**. El paso que separa un notebook de un producto operable es convertir esos scores en una **cola de revisión humana** con métricas honestas bajo desbalance, calibración fuera de muestra y umbrales versionados por costo y capacidad del equipo. Cierras **CP-N3-B** del **Relationship Investigation Workbench** (Red Andina, ficticia): precision/recall de la cola — **nunca** auto-etiqueta de fraude. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude.",
+    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), el baseline de S33 ya produce **scores de priorización**. El paso que separa un notebook de un producto operable es convertir esos scores en una **cola de revisión humana**: métricas honestas bajo desbalance, calibración fuera de muestra y umbrales versionados por costo y capacidad del equipo. Cierras **CP-N3-B** del **Relationship Investigation Workbench** (Red Andina, ficticia): precision/recall de la cola — **nunca** autoetiqueta de fraude. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude.",
   learningOutcomes: [
     {
       text: "Calcular matriz de confusión completa (TP/FP/FN/TN), precision, recall, F1 y average precision de ranking cuando la clase positiva es rara",
@@ -28,10 +28,10 @@ export const section34: CourseSection = {
       text: "Reportar prevalencia (base rate) junto a P/R y rechazar accuracy como única métrica bajo desbalance",
     },
     {
-      text: "Calcular Brier medio sobre un conjunto y un bin de reliability (mean_p vs frecuencia observada)",
+      text: "Calcular Brier medio sobre un conjunto y un bin de reliability (mean_p vs. frecuencia observada)",
     },
     {
-      text: "Aplicar un calibrador afín (esqueleto didáctico de Platt) solo sobre holdout versionado, nunca sobre el test final",
+      text: "Aplicar un calibrador afín (implementación simplificada de Platt) solo sobre holdout versionado, nunca sobre el test final",
     },
     {
       text: "Elegir umbral thr-vN buscando candidatos por costo (c_fp, c_fn) sujeto a capacidad de revisión",
@@ -46,22 +46,22 @@ export const section34: CourseSection = {
       paragraphs: [
         "Esta sección **cierra CP-N3-B**. En S31 armaste el grafo de relaciones, en S32 las features de evidencia y en S33 un baseline responsable que ya produce un número por caso. Hoy ese número deja de vivir en un notebook: se convierte en una **cola de revisión humana** — un ranking con métricas honestas, calibración fuera de muestra y umbrales versionados por costo y capacidad. Sin esa capa, el score es decoración: no prioriza a nadie de forma auditable.",
         "Imagina el mini-tablero sintético `CASO-LIM-034` en Red Andina (ficticia): cinco scores `[0.1, 0.4, 0.55, 0.6, 0.9]` y etiquetas `needs_review` `[0, 0, 1, 0, 1]`. Es el mismo hilo de punta a punta. En T1 mides confusión, F1 y la calidad del ranking; en T2 enfrentas el desbalance y la prevalencia; en T3 preguntas si el score se comporta como probabilidad útil (Brier y reliability); en T4 eliges thr-v1 bajo capacidad y dejas la zona gris en **abstain**. Nunca imprimes `fraud=true`: el score solo ordena trabajo humano.",
-        "Mapa mental: **T1** confusión y ranking → **T2** desbalance y prevalencia → **T3** Brier y calibrador en holdout → **T4** umbral por costo/capacidad y banda de abstención. Esta lección es de **evaluación y umbrales de cola**, no de visión por computador. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude. Solo datos sintéticos.",
-        "Glosario del workbench (códigos de política, no de Python): `REJECT_*` = la evidencia está completa pero **rompe** la política (accuracy sola, resample global, thr sin versionar, forzar label en banda). `REQUEST_*` = **falta** un campo necesario (counts, capacidad, base rate, set de calibración). Regla de oro: no inventes evidencia y no auto-etiquetes fraude. Cuando falte un dato, pides; cuando la política se rompe, rechazas.",
+        "Mapa mental: **T1** confusión y ranking → **T2** desbalance y prevalencia → **T3** Brier y calibrador en holdout → **T4** umbral por costo/capacidad y banda de abstención. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude. Solo datos sintéticos.",
+        "Glosario del workbench (códigos de política, no de Python): `REJECT_*` = la evidencia está completa pero **rompe** la política (accuracy sola, resample global, thr sin versionar, forzar label en banda). `REQUEST_*` = **falta** un campo necesario (counts, capacidad, base rate, set de calibración). Regla de oro: no inventes evidencia y no autoetiquetes fraude. Cuando falte un dato, pides; cuando la política se rompe, rechazas.",
       ],
       callout: {
         type: "info",
         title: "Cierre CP-N3-B — promesa del día",
         content:
-          "Ranking calibrado para humanos. Matching ≠ parentesco ni fraude. Sin PII real. REJECT_*/REQUEST_* son políticas de cola del workbench (no de visión por computador). Al final del You Do tendrás un reporte con confusión, precision@k, Brier, thr-v* y abstain.",
+          "Ranking calibrado para humanos. Matching ≠ parentesco ni fraude. Sin PII real. `REJECT_*` / `REQUEST_*` son políticas de cola del workbench. Al final del You Do tendrás un reporte con confusión, precision@k, Brier, thr-v* y abstain.",
       },
     },
     {
       heading: "Matriz de confusión, precision, recall y F1",
       subtopicId: "S34-T1-A",
       paragraphs: [
-        "Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1; en el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",
-        "Operación concreta: a partir de `y` (verdad) y `pred` (decisión binaria) cuentas la matriz completa **TP, FP, FN y TN**. Luego `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0). **Average precision (AP)** resume el ranking sin fijar un thr: ordenas por score descendente y promedias la precision en cada positivo recuperado. Es el espíritu de la curva precision-recall (PR) y un proxy didáctico de PR-AUC — la brújula natural cuando la clase positiva es rara, a diferencia de ROC que se infla con muchos verdaderos negativos.",
+        "Con **desbalance**, un solo porcentaje de aciertos (accuracy) engaña: si casi nadie necesita revisión, predecir siempre «no revisar» luce genial en el dashboard y no prioriza a nadie. Piensa en la cola como un filtro de calidad, no como un concurso de aciertos globales. **Precision** responde: de lo que mandas a cola, ¿cuánto era realmente positivo? **Recall** responde: de los positivos reales, ¿cuántos atrapaste? **F1** es la media armónica de ambos: castiga cuando uno de los dos se desploma. Cuando el costo de un FN pesa más que el de un FP (perder un caso que sí merecía revisión), la familia se generaliza a **Fβ** con β>1. En el workbench anclamos en F1 y dejamos el desbalance de costos al umbral versionado de T4.",
+        "Operación concreta: a partir de `y` (verdad) y `pred` (decisión binaria) cuentas la matriz completa **TP, FP, FN y TN**. Luego `P = TP/(TP+FP)`, `R = TP/(TP+FN)`, `F1 = 2·P·R/(P+R)` (con cuidado de ceros: si no hay predicciones positivas, P=0; si no hay positivos reales, R=0). **Average precision (AP)** resume el ranking sin fijar un thr: ordenas por score descendente y promedias la precision en cada positivo recuperado. Es el espíritu de la curva precision-recall (PR) y una aproximación a PR-AUC. Es la brújula natural cuando la clase positiva es rara, a diferencia de ROC, que se infla con muchos verdaderos negativos.",
         "Mini-caso `CASO-LIM-034`: con `y=[1,0]` y `pred=[1,1]` obtienes TP=1, FP=1, FN=0, TN=0 → P=0.5, R=1.0, F1≈0.667. Atrapaste el positivo, pero la mitad de la cola era ruido. El workbench trata costos de FP (cola ruidosa, horas de analista) y FN (miss operativo) por separado en T4. Si solo publicas accuracy, la política responde `REJECT_ACCURACY_ONLY`; si faltan counts, `REQUEST_CONFUSION`.",
       ],
       code: {
@@ -112,7 +112,7 @@ accuracy_only False`,
       heading: "Precision@k, recall@k y carga de revisión",
       subtopicId: "S34-T1-B",
       paragraphs: [
-        "En un workbench de investigación de relaciones no revisas todo el universo: miras los **k primeros** del ranking, porque el equipo de analistas tiene un tope diario. **precision@k** es la fracción de positivos en ese top-k (calidad del recorte). **recall@k** es la fracción de *todos* los positivos reales capturados en ese top-k (cobertura). Una cola con precision@k alta pero que genera más alertas que personas puede «ganar» el notebook y perder el turno: la métrica de ranking y la **capacidad** viajan juntas.",
+        "En un workbench de investigación de relaciones no revisas todo el universo: miras los **k primeros** del ranking, porque el equipo de analistas tiene un tope diario. **precision@k** es la fracción de positivos en ese top-k (calidad del recorte). **recall@k** es la fracción de *todos* los positivos reales capturados en ese top-k (cobertura). Una cola con precision@k alta, pero que genera más alertas que personas, puede «ganar» el notebook y perder el turno: la métrica de ranking y la **capacidad** viajan juntas.",
         "Para medirlos necesitas labels ya ordenados por score descendente, un entero `k` alineado a la capacidad del día y el total de positivos `n_pos` (sin él, recall@k no tiene denominador). El flag `overload = load > capacity` te dice cuándo el thr es inviable para el personal de revisión: no es un detalle de UX, es un breach operativo (`REJECT_QUEUE_OVERLOAD`). Si falta capacity en el reporte, el workbench pide `REQUEST_CAPACITY` en vez de inventar un default generoso.",
         "Con el top-3 sintético `[1,0,1]` obtienes precision@3 ≈ 0.667 y, si `n_pos=2`, recall@3 = 1.0: atrapaste todos los positivos del set, pero un tercio del top era ruido. Cincuenta alertas frente a capacidad 10 es overload: reevalúas thr o k. El score solo prioriza humanos; entity resolution o matching de identidad no prueba parentesco ni fraude.",
       ],
@@ -150,7 +150,7 @@ fraud_label False`,
       subtopicId: "S34-T2-A",
       paragraphs: [
         "Cuando hay nueve negativos por cada positivo, el optimizador puede «aprender» a ignorar la minoría: el loss se minimiza prediciendo siempre la clase mayoritaria. **Class weights** (ratio simple `n0/n1` o mapa `{0: 1, 1: n0/n1}`) y **resampling** (oversample de la minoría o undersample de la mayoría) reequilibran la señal, pero solo si viven **dentro del fold de train**. Resamplear todo el dataset *antes* del cross-validation contamina la validación: el test «ve» copias sintéticas o un balance artificial y las métricas se inflan respecto a producción.",
-        "Piensa cada fold como dos cajas: train y test. El plan honesto deja la caja de test intacta y aplica oversample o weights solo a train. En código, un esqueleto es `fold_plan(..., resample_global=False)` → `resample_train_only=True`, `test_untouched=True`. El flag `resample_global=True` es leakage de pipeline: no es un detalle de estilo, es un error de evaluación. El boceto de abajo simula un fold con índices de train y test: el rebalance solo toca train.",
+        "Piensa cada fold como dos cajas: train y test. El plan honesto deja la caja de test intacta y aplica oversample o weights solo a train. En código, una plantilla es `fold_plan(..., resample_global=False)` → `resample_train_only=True`, `test_untouched=True`. El flag `resample_global=True` es una fuga de pipeline: no es un detalle de estilo, es un error de evaluación. El ejemplo de abajo simula un fold con índices de train y test: el rebalance solo toca train.",
         "Con `n0=9` y `n1=1` el weight ratio es 9.0 (división float en Python 3). Política del workbench: sin resample global y test sin tocar. Si alguien resamplea el dataset entero → `REJECT_LEAKY_RESAMPLE`. Si falta el conteo de minoría `n1` → `REQUEST_WEIGHTS` (no inventes un ratio).",
       ],
       code: {
@@ -169,7 +169,7 @@ def fold_plan(n_train, n_test, resample_global):
     }
 
 def apply_rebalance_in_fold(train_idx, test_idx, resample_global):
-    """Esqueleto: el rebalance toca train; test nunca se toca."""
+    """Plantilla: el rebalance toca train; test nunca se toca."""
     plan = fold_plan(len(train_idx), len(test_idx), resample_global)
     rebalanced_train = list(train_idx)  # aquí iría oversample/weights
     untouched_test = list(test_idx)
@@ -229,7 +229,7 @@ accuracy_enough False`,
       subtopicId: "S34-T3-A",
       paragraphs: [
         "Un score de 0.8 no «es» 80 % de culpa ni de parentesco: es una señal de **priorización** para la cola. Si quieres leerlo como probabilidad útil («de cada 10 casos con ~0.8, ¿cuántos resultaron positivos?»), necesitas calibración. **Brier** promedia `(p − y)²` sobre el conjunto: más bajo es mejor entre modelos comparables. **Reliability** agrupa scores en bins y contrasta la media de `p` con la frecuencia observada de y=1. Si mean_p=0.8 y freq=0.5, el bin miente: el modelo se sobreconfía.",
-        "No basta un punto perfecto (`p=1, y=1` → Brier 0 en un solo caso). Calculas Brier **medio** sobre el set y al menos un bin. Un Brier bajo con bins desalineados, o bins perfectos con Brier alto, cuentan historias distintas (calibración vs discriminación). Evaluar reliability «a ojo» sobre el mismo set con el que ajustaste un calibrador es autoengaño: la medición va sobre datos no usados para el fit (T3-B).",
+        "No basta un punto perfecto (`p=1, y=1` → Brier 0 en un solo caso). Calculas Brier **medio** sobre el set y al menos un bin. Un Brier bajo con bins desalineados, o bins perfectos con Brier alto, cuentan historias distintas (calibración vs. discriminación). Evaluar reliability «a ojo» sobre el mismo set con el que ajustaste un calibrador es autoengaño: la medición va sobre datos no usados para el fit (T3-B).",
         "`CASO-LIM-034` (mini-set de calibración): scores `[0.1,0.2,0.8,0.9]` y labels `[0,0,0,1]` → Brier medio 0.175; bin `[0.7,1.0)` da mean_p=0.85 y freq=0.5 → no calibrado. Breach → `REJECT_UNCALIBRATED`. Sin scores/Brier en el reporte → `REQUEST_BRIER`.",
       ],
       code: {
@@ -260,22 +260,22 @@ calibrated False`,
         type: "tip",
         title: "Qué escribir ahora",
         content:
-          "S34-T3-A: calcula Brier medio y al menos un bin (mean_p vs freq). Breach → REJECT_UNCALIBRATED; falta scores → REQUEST_BRIER.",
+          "S34-T3-A: calcula Brier medio y al menos un bin (mean_p vs. freq). Breach → REJECT_UNCALIBRATED; falta scores → REQUEST_BRIER.",
       },
     },
     {
       heading: "Calibradores y evaluación fuera de muestra",
       subtopicId: "S34-T3-B",
       paragraphs: [
-        "**Platt scaling** (regresión logística del score crudo hacia probabilidad) e **isotonic regression** (mapa monótono no paramétrico) se ajustan en un set de calibración **distinto** del train del modelo base. En producción verás `CalibratedClassifierCV` en sklearn; aquí usamos un **mapa afín** `clip(a·raw + b)` como esqueleto didáctico de Platt: los coeficientes `a, b` se «ajustan» solo con el holdout versionado (`holdout_v1`), nunca con el test final del reporte.",
+        "**Platt scaling** (regresión logística del score crudo hacia probabilidad) e **isotonic regression** (mapa monótono no paramétrico) se ajustan en un set de calibración **distinto** del train del modelo base. En producción verás `CalibratedClassifierCV` en sklearn. Aquí usamos un **mapa afín** `clip(a·raw + b)` como implementación simplificada de Platt: los coeficientes `a, b` se «ajustan» solo con el holdout versionado (`holdout_v1`), nunca con el test final del reporte.",
         "Clip a `[0,1]` es un pre-paso de rango, **no** es calibración por sí solo: no aprende la relación entre score y frecuencia observada. El contrato del workbench exige: (1) set nombrado que empiece por `holdout`, (2) misma longitud raw/cal, (3) evaluación de Brier/reliability en un split no usado para fit. `calibrator_set=train_in_sample` activa `REJECT_IN_SAMPLE_CAL`; sin set → `REQUEST_CAL_SET`.",
-        "`CASO-LIM-034`: raw `[1.5, -0.2, 0.4]` con `a=0.8`, `b=0.1` (coeficientes ficticios de holdout_v1) → `[1.0, 0.0, 0.42]`. En el portafolio documenta: *dónde se ajustó el calibrador* y *dónde se midió Brier*. Esa frase evita training-serving skew de probabilidades cuando el thr de T4 se elige sobre scores «calibrados».",
+        "`CASO-LIM-034`: raw `[1.5, -0.2, 0.4]` con `a=0.8`, `b=0.1` (coeficientes ilustrativos de `holdout_v1`) → `[1.0, 0.0, 0.42]`. En el portafolio documenta: *dónde se ajustó el calibrador* y *dónde se midió Brier*. Esa frase evita el training-serving skew de las probabilidades cuando el thr de T4 se elige sobre scores «calibrados».",
       ],
       code: {
         language: "python",
         title: "calibrator.py",
         code: `def calibrate_affine(raw, a, b):
-    """Mapa afín + clip: esqueleto didáctico de Platt en holdout."""
+    """Mapa afín + clip: implementación simplificada de Platt en holdout."""
     return [round(min(1.0, max(0.0, a * x + b)), 2) for x in raw]
 
 raw = [1.5, -0.2, 0.4]
@@ -299,8 +299,8 @@ same_len True`,
       heading: "Umbral por costo y capacidad de revisión",
       subtopicId: "S34-T4-A",
       paragraphs: [
-        "El **umbral** no es el default 0.5 de la librería ni un número «mágico» del modelo: es una **decisión de producto**. Se elige por **costo** (`fp·c_fp + fn·c_fn`) y por **capacidad** de la cola (cuántos casos puede revisar el equipo hoy). Se **versiona** (`thr-v1`, `thr-v2`) para auditoría y rollback cuando cambian costos, headcount o prevalencia. Un thr fijo sin matriz de costos es `REJECT_FIXED_THR`; sin costos documentados → `REQUEST_COST_MATRIX`.",
-        "Procedimiento honesto: para cada thr candidato (p. ej. valores únicos de score), predices `s >= thr`, descartas candidatos con `n_review > capacity` o `n_review == 0`, calculas costo y te quedas con el de menor costo. Documentas thr_id, n_review y la matriz de costos. Si c_fn sube (un miss es más caro), el thr óptimo suele bajar: mandas más casos a cola. Si la capacidad cae, el thr suele subir: priorizas menos volumen y más precisión operativa.",
+        "Con scores ya calibrados en holdout (T3-B), el **umbral** no es el default 0.5 de la librería ni un número «mágico» del modelo: es una **decisión de producto**. Se elige por **costo** (`fp·c_fp + fn·c_fn`) y por **capacidad** de la cola (cuántos casos puede revisar el equipo hoy). Se **versiona** (`thr-v1`, `thr-v2`) para auditoría y rollback cuando cambian costos, *headcount* o prevalencia. Un thr fijo sin matriz de costos es `REJECT_FIXED_THR`; sin costos documentados → `REQUEST_COST_MATRIX`.",
+        "Procedimiento honesto: para cada thr candidato (p. ej. valores únicos de score), predices `s >= thr`, descartas candidatos con `n_review > capacity` o `n_review == 0`, calculas costo y te quedas con el de menor costo. Documentas thr_id, n_review y la matriz de costos. Si c_fn sube (un *miss* es más caro), el thr óptimo suele bajar: mandas más casos a cola. Si la capacidad cae, el thr suele subir: priorizas menos volumen y más precisión operativa.",
         "Demo de cuatro puntos `CASO-LIM-034`: scores `[0.1,0.4,0.6,0.9]`, labels `[0,0,1,1]`, `c_fp=2`, `c_fn=10`, capacidad 2 → thr óptimo 0.6, n_review=2, costo 0, thr_id `thr-v1`. En el You Do de cinco puntos con capacity 2 el óptimo puede ser **otro** thr: no copies 0.6 de memoria; corre la búsqueda.",
       ],
       code: {
@@ -335,7 +335,7 @@ thr_id thr-v1`,
         type: "tip",
         title: "Qué escribir ahora",
         content:
-          "Busca thr por costo bajo capacidad y versiona thr-vN. thr fijo o sin costos → REJECT_FIXED_THR / REQUEST_COST_MATRIX.",
+          "Busca thr por costo bajo capacidad y versiona thr-vN. Thr fijo o sin costos → REJECT_FIXED_THR / REQUEST_COST_MATRIX.",
       },
     },
     {
@@ -343,7 +343,7 @@ thr_id thr-v1`,
       subtopicId: "S34-T4-B",
       paragraphs: [
         "Entre «claramente no revisar» y «claramente revisar» hay una **banda gris**. Forzar 0/1 ahí fabrica confianza falsa: el sistema parece decisivo y en realidad está adivinando. La política `decide(score)` devuelve `skip` (bajo low), `review` (sobre high) o `abstain` (en banda). Abstener es salida de **primera clase**, no un error del pipeline: protege al sujeto investigado y al analista de un thr frágil.",
-        "Además, antes de promover el thr conviene mirar **sensibilidad** (cuántos casos cambian de decisión al mover low/high o el thr 0.5→0.6) y métricas **por slice** (cohorte, región sintética, tipo de edge del grafo de S31). Un thr que luce bien en global y se rompe en un slice es una deuda de equidad y de producto. Nunca conviertas el score en auto-fraude ni en prueba de parentesco.",
+        "Además, antes de promover el thr conviene mirar **sensibilidad** (cuántos casos cambian de decisión al mover low/high o el thr 0.5→0.6). También conviene mirar métricas **por slice** (cohorte, región sintética, tipo de edge del grafo de S31). Un thr que luce bien en global y se rompe en un slice es una deuda de equidad y de producto. Nunca conviertas el score en autofraude ni en prueba de parentesco.",
         "`CASO-LIM-034`: score 0.5 (o 0.55 en el You Do) con low=0.3 y high=0.7 → `abstain`. `decision=force_1` en banda activa `REJECT_FORCE_LABEL`. Sin low/high documentados → `REQUEST_ABSTAIN_BAND`. Así cierras el arco: ranking para humanos, no veredicto automático.",
       ],
       code: {
@@ -383,7 +383,7 @@ force_label False`,
   ],
   iDo: {
     intro:
-      "Te muestro, paso a paso, cómo el workbench de Red Andina convierte el mini-set `CASO-LIM-034` en números auditables: confusión y F1, precision@k / recall@k, pesos CV-safe, prevalencia, Brier y bin de reliability, calibración afín en holdout, thr por costo bajo capacidad y decide() con abstain. Observa el cálculo — no solo el print final — porque en We Do repararás el mismo tipo de defecto.",
+      "Te muestro, paso a paso, cómo el workbench de Red Andina convierte el mini-set `CASO-LIM-034` en números auditables. Pasamos por confusión y F1, precision@k / recall@k, pesos CV-safe, prevalencia, Brier y bin de reliability, calibración afín en holdout, thr por costo bajo capacidad y decide() con abstain. Observa el cálculo — no solo el print final — porque en We Do repararás el mismo tipo de defecto.",
     steps: [
       {
         demoId: "S34-T1-A-DEMO",
@@ -542,7 +542,7 @@ calibrated False`,
         subtopicId: "S34-T3-B",
         environment: "local-python",
         description:
-          "Mapa afín + clip ajustado en holdout_v1 (esqueleto de Platt), no in-sample.",
+          "Mapa afín + clip ajustado en holdout_v1 (Platt simplificado), no in-sample.",
         code: {
           language: "python",
           title: "cal_demo.py",
@@ -620,7 +620,7 @@ force_label False`,
   },
   weDo: {
     intro:
-      "Ahora te toca operar el Relationship Investigation Workbench sobre `CASO-LIM-034` (Red Andina, sintético) y cerrar **CP-N3-B**. En cada unidad practicas el cálculo de la métrica o la política de decisión (E1), triages un fixture válido frente a uno adverso y uno incompleto (E2), y cierras fail-closed con CONTINUE / REJECT_* / REQUEST_* (E3). Los fixtures usan case_id peruanos sintéticos; no hay PII real ni auto-fraude: el score solo prioriza revisión humana.",
+      "Ahora te toca operar el Relationship Investigation Workbench sobre `CASO-LIM-034` (Red Andina, sintético) y cerrar **CP-N3-B**. En cada unidad practicas el cálculo de la métrica o la política de decisión (E1), triages un fixture válido frente a uno adverso y uno incompleto (E2), y cierras fail-closed con CONTINUE / REJECT_* / REQUEST_* (E3). Los fixtures usan `case_id` peruanos sintéticos, sin PII real ni autofraude: el score solo prioriza revisión humana.",
     steps: [
       {
         id: "S34-T1-A-E1",
@@ -697,7 +697,7 @@ assert (tp, fp, fn, tn) == (1, 1, 0, 1)
         ],
         tests: "Salida exacta: `PASS REJECT_ACCURACY_ONLY MISSING:tp`.",
         feedback:
-          "S34-T1-A-E2: ordena las tres rutas (válido / adverso / missing) y di qué campo del adverso activa REJECT_ACCURACY_ONLY frente a un REQUEST_CONFUSION por ausencia. ¿Qué rol juegan region/team en el reporte vs en el predicado?",
+          "S34-T1-A-E2: ordena las tres rutas (válido / adverso / missing) y di qué campo del adverso activa REJECT_ACCURACY_ONLY frente a un REQUEST_CONFUSION por ausencia. ¿Qué rol juegan region/team en el reporte vs. en el predicado?",
         starterCode: {
           language: "python",
           title: "s34-t1-a-e2.py",
@@ -818,7 +818,7 @@ assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
         subtopicId: "S34-T1-B",
         kind: "guided",
         instruction:
-          "S34-T1-B-E1 · Calcula precision@k y recall@k sobre labels top ordenados `[1,0,1]` con k=3 y n_pos=2. El starter divide mal recall (`/ k` en vez de `/ n_pos`). Corrige y marca PASS si precision≈0.667, recall=1.0 y load=8 ≤ capacity=10; si no, `REJECT_QUEUE_OVERLOAD`.",
+          "S34-T1-B-E1 · Calcula precision@k y recall@k sobre los labels del top ordenado `[1,0,1]` con k=3 y n_pos=2. El starter divide mal recall (`/ k` en vez de `/ n_pos`). Corrige y marca PASS si precision≈0.667, recall=1.0 y load=8 ≤ capacity=10; si no, `REJECT_QUEUE_OVERLOAD`.",
         hint: "recall@k = sum(labels[:k]) / n_pos; precision@k = sum(labels[:k]) / k.",
         hints: [
           "recall@k = sum(labels[:k]) / n_pos; precision@k = sum(labels[:k]) / k.",
@@ -1364,11 +1364,11 @@ assert results == ["CONTINUE", "REJECT_PREVALENCE_BLIND", "REQUEST_BASE_RATE"]
         subtopicId: "S34-T3-A",
         kind: "guided",
         instruction:
-          "S34-T3-A-E1 · Calcula Brier medio sobre ps=[0.5,0.5] ys=[0,1] y un bin [0.0,1.0) con mean_p y freq. El starter usa brier de un solo punto o compara mal. PASS si brier==0.25 y |mean_p−freq|≤0.1; si no REJECT_UNCALIBRATED.",
-        hint: "brier_mean = media de (p−y)²; con p=0.5 y y en {0,1}: (0.25+0.25)/2=0.25.",
+          "S34-T3-A-E1 · Calcula Brier medio sobre `ps=[0.5, 0.5]`, `ys=[0, 1]` y un bin `[0.0, 1.0)` con `mean_p` y `freq`. El starter usa Brier de un solo punto o compara mal. PASS si `brier==0.25` y `|mean_p−freq|≤0.1`; si no, `REJECT_UNCALIBRATED`.",
+        hint: "`brier_mean` es la media de `(p−y)²`. Con `p=0.5` y etiqueta `y∈{0,1}`: `(0.25 + 0.25)/2 = 0.25`.",
         hints: [
-          "brier_mean = media de (p−y)²; con p=0.5 y y en {0,1}: (0.25+0.25)/2=0.25.",
-          "reliability del bin completo: mean_p=0.5, freq=0.5 → alineado.",
+          "`brier_mean` es la media de `(p−y)²`. Con `p=0.5` y etiqueta `y∈{0,1}`: `(0.25 + 0.25)/2 = 0.25`.",
+          "Reliability del bin completo: mean_p=0.5, freq=0.5 → alineado.",
         ],
         edgeCases: [
           "falta brier o lista vacía",
@@ -1427,7 +1427,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_UNCALIBRATED MISSING:brier`.",
         feedback:
-          "S34-T3-A-E2: si mean_p y freq alinean pero Brier es alto, ¿qué te dice sobre discriminación vs calibración?",
+          "S34-T3-A-E2: si mean_p y freq alinean, pero Brier es alto, ¿qué te dice sobre discriminación vs. calibración?",
         starterCode: {
           language: "python",
           title: "s34-t3-a-e2.py",
@@ -1532,11 +1532,11 @@ assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
         subtopicId: "S34-T3-B",
         kind: "guided",
         instruction:
-          "S34-T3-B-E1 · Aplica mapa afín `clip(a·x+b)` con a=0.8, b=0.1 a raw=[1.5,-0.2,0.4]. El starter solo hace clip sin afín. PASS si cal==[1.0,0.0,0.42], calibrator_set empieza por holdout y misma longitud; si no REJECT_IN_SAMPLE_CAL.",
-        hint: "cal_i = min(1, max(0, a*raw_i + b)); no uses solo min/max del raw.",
+          "S34-T3-B-E1 · Aplica el mapa afín `clip(a·x + b)` con `a=0.8`, `b=0.1` a `raw=[1.5, -0.2, 0.4]`. El starter solo hace clip sin afín. PASS si `cal == [1.0, 0.0, 0.42]`, `calibrator_set` empieza por `holdout` y misma longitud; si no, `REJECT_IN_SAMPLE_CAL`.",
+        hint: "`cal_i = min(1, max(0, a*raw_i + b))`; no uses solo min/max del raw.",
         hints: [
-          "cal_i = min(1, max(0, a*raw_i + b)); no uses solo min/max del raw.",
-          "Clip sin a,b no es calibración; aquí a,b vienen del holdout_v1 ficticio.",
+          "`cal_i = min(1, max(0, a*raw_i + b))`; no uses solo min/max del raw.",
+          "Clip sin `a, b` no es calibración; aquí `a, b` vienen del `holdout_v1` ilustrativo.",
         ],
         edgeCases: [
           "falta calibrator_set",
@@ -1549,7 +1549,7 @@ assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
         starterCode: {
           language: "python",
           title: "s34-t3-b-e1.py",
-          code: `# CASO-LIM-034-3B · afín holdout (esqueleto Platt)
+          code: `# CASO-LIM-034-3B · afín holdout (Platt simplificado)
 # DEFECT: solo clip, sin a·x+b
 raw = [1.5, -0.2, 0.4]
 a, b = 0.8, 0.1
@@ -1721,7 +1721,7 @@ assert results == ["CONTINUE", "REJECT_IN_SAMPLE_CAL", "REQUEST_CAL_SET"]
         ],
         tests: "Salida `S34-T4-A PASS` con thr óptimo versionado.",
         feedback:
-          "S34-T4-A-E1: si c_fn sube a 100, ¿esperas un thr más bajo o más alto? Razona en términos de misses vs cola.",
+          "S34-T4-A-E1: si c_fn sube a 100, ¿esperas un thr más bajo o más alto? Razona en términos de *misses* vs. cola.",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e1.py",
@@ -1786,7 +1786,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_FIXED_THR MISSING:cost`.",
         feedback:
-          "S34-T4-A-E2: ¿por qué versionar thr-v1 vs thr-v2 importa cuando el headcount del team cola-relaciones en Lima cambia de 10 a 6 analistas?",
+          "S34-T4-A-E2: ¿por qué versionar thr-v1 vs. thr-v2 importa cuando el *headcount* del team cola-relaciones en Lima cambia de 10 a 6 analistas?",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e2.py",
@@ -2032,7 +2032,7 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_FORCE_LABEL REQUEST_ABSTAIN_BAND`.",
         feedback:
-          "S34-T4-B-E3: cierra el arco CP-N3-B: ¿cómo protege la abstención la promesa de «ranking para humanos, no auto-fraude»?",
+          "S34-T4-B-E3: cierra el arco CP-N3-B: ¿cómo protege la abstención la promesa de «ranking para humanos, no autofraude»?",
         starterCode: {
           language: "python",
           title: "s34-t4-b-e3.py",
@@ -2079,11 +2079,11 @@ assert results == ["CONTINUE", "REJECT_FORCE_LABEL", "REQUEST_ABSTAIN_BAND"]
   youDo: {
     title: "Workbench: métricas + thr versionado + abstain (cierre CP-N3-B)",
     context:
-      "Integra, sobre el mismo mini-set sintético CASO-LIM-034 de Red Andina (cinco scores del baseline de S33 y labels `needs_review`), el flujo completo del Relationship Investigation Workbench que **cierra CP-N3-B**: confusión y F1 → precision@k bajo capacidad → Brier y reliability_bin → thr-v1 por costo y capacidad → decide() con abstain. El thr **no se copia** del demo de cuatro puntos de T4-A: lo descubres con búsqueda bajo capacidad 2 (con cinco puntos el óptimo suele ser 0.9, costo 10). Sin auto-fraude ni PII real. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude.",
+      "Integra, sobre el mismo mini-set sintético `CASO-LIM-034` de Red Andina (cinco scores del baseline de S33 y labels `needs_review`), el flujo completo del Relationship Investigation Workbench que **cierra CP-N3-B**. El flujo es: (1) confusión y F1, (2) precision@k bajo capacidad, (3) Brier y `reliability_bin`, (4) `thr-v1` por costo y capacidad, y (5) `decide()` con abstain. El thr **no se copia** del demo de cuatro puntos de T4-A: lo descubres con búsqueda bajo capacidad 2 (con cinco puntos el óptimo suele ser `0.9`, costo `10`). Sin autofraude ni PII real. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude.",
     objectives: [
       "Calcular confusión (TP/FP/FN/TN), precision, recall y F1 con el thr elegido por búsqueda",
       "Reportar precision@k bajo capacidad y respetar n_review ≤ CAPACITY",
-      "Calcular Brier medio y un bin de reliability (mean_p vs frecuencia observada)",
+      "Calcular Brier medio y un bin de reliability (mean_p vs. frecuencia observada)",
       "Elegir thr-v1 por costo/capacidad (sin hardcodear 0.5 ni copiar 0.6) y aplicar banda de abstención en 0.55",
     ],
     requirements: [
@@ -2096,13 +2096,10 @@ assert results == ["CONTINUE", "REJECT_FORCE_LABEL", "REQUEST_ABSTAIN_BAND"]
     ],
     starterCode: `# Workbench CP-N3-B — CASO-LIM-034 (sintético Red Andina)
 # Flujo: confusión → precision@k → Brier/reliability → thr-v* → abstain
-# Defectos intencionales del starter (corrígelos):
-#  1) choose_thr fija thr=0.5 sin buscar por costo bajo capacidad
-#  2) decide fuerza "review" en la banda gris (debe ser abstain)
-#  3) el reporte deja accuracy_only=True y thr_id="default"
+# Hay tres DEFECT marcados en el código; corrígelos antes de ejecutar.
 # Pista: con 5 scores y capacity=2 el thr óptimo suele ser 0.9 (costo 10),
 # no el 0.6 del demo de 4 puntos de T4-A. Corre la búsqueda.
-# No inventes PII ni auto-fraude. Matching de identidad ≠ parentesco ni fraude.
+# No inventes PII ni autofraude. Matching de identidad ≠ parentesco ni fraude.
 
 SCORES = [0.1, 0.4, 0.55, 0.6, 0.9]
 LABELS = [0, 0, 1, 0, 1]  # needs_review sintético (no es etiqueta de fraude)
@@ -2202,11 +2199,11 @@ if __name__ == "__main__":
     )
 `,
     portfolioNote:
-      "Cierre CP-N3-B: adjunta el thr-v* que devuelva tu búsqueda sobre los cinco scores (no el del demo de cuatro puntos), un reliability_bin o Brier, capacidad 2 y un párrafo en español profesional: el score prioriza revisión humana y no es auto-fraude ni prueba de parentesco. En S35 conectarás este reporte con explainability y equidad por slice.",
+      "Cierre CP-N3-B: adjunta el `thr-v*` que devuelva tu búsqueda sobre los cinco scores (no el del demo de cuatro puntos), un `reliability_bin` o Brier, y la capacidad 2. Escribe además un párrafo en español profesional: el score prioriza revisión humana y no es autofraude ni prueba de parentesco. En S35 conectarás este reporte con explainability y equidad por slice.",
     rubric: [
       {
         criterion:
-          "Reporte de métricas + thr versionado + abstención alineado al workbench (sin auto-fraude)",
+          "Reporte de métricas + thr versionado + abstención alineado al workbench (sin autofraude)",
         weight: "25%",
       },
       { criterion: "Correctitud técnica de confusión, Brier y choose_thr por búsqueda", weight: "20%" },
@@ -2231,10 +2228,10 @@ if __name__ == "__main__":
       },
       {
         question: "Resamplear todo el dataset antes de CV:",
-        options: ["Es best practice", "Elimina necesidad de thr", "Garantiza calibración", "Introduce leakage y métricas infladas"],
+        options: ["Es best practice", "Elimina necesidad de thr", "Garantiza calibración", "Introduce fuga de datos y métricas infladas"],
         correctIndex: 3,
         explanation:
-          "El resampling debe vivir dentro del fold de train; hacerlo global contamina validación.",
+          "El resampling debe vivir dentro del fold de train; hacerlo global contamina la validación.",
       },
       {
         question: "Un calibrador (Platt/afín/isotonic) debe ajustarse:",
@@ -2272,8 +2269,8 @@ if __name__ == "__main__":
           "Con prevalencia baja, muchos verdaderos negativos inflan ROC; PR y average precision miran la calidad de la cola positiva que el workbench prioriza.",
       },
       {
-        question: "Si precision@k es alta pero load > capacity del equipo de analistas, el workbench debe:",
-        options: ["Ignorar capacity y maximizar recall", "Auto-etiquetar el excedente como fraude", "Tratar overload como breach operativo (reevaluar thr / k) aunque la métrica de top-k luzca bien", "Bajar k a cero y cerrar el tablero"],
+        question: "Si precision@k es alta, pero load > capacity del equipo de analistas, el workbench debe:",
+        options: ["Ignorar capacity y maximizar recall", "Autoetiquetar el excedente como fraude", "Tratar overload como breach operativo (reevaluar thr / k) aunque la métrica de top-k luzca bien", "Bajar k a cero y cerrar el tablero"],
         correctIndex: 2,
         explanation:
           "Una cola brillante en el papel que satura a los humanos no es operable: capacity y thr versionado van juntos.",

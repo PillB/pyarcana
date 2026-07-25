@@ -12,14 +12,14 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En pipelines de onboarding y calidad de datos en bancos, fintech y retail en Perú, antes de CSV/JSON necesitas un **modelo tabular en memoria**: clientes, contactos y transacciones como list/dict/set bien elegidos, con deduplicación que **reporta conflictos** y salidas **deterministas**. Aquí inicias el bloque de portafolio **CP-N1-B** (modelo en RAM) usando solo la biblioteca estándar — sin NumPy ni pandas. Si ya dominas listas y funciones de S04–S05, esta sección te enseña a **componerlas** como almacén confiable, no solo como ejercicios sueltos.",
+    "En pipelines de onboarding y calidad de datos en bancos, fintech y retail en Perú, antes de CSV/JSON necesitas un **modelo tabular en memoria**: clientes, contactos y transacciones como list/dict/set bien elegidos. La deduplicación debe **reportar conflictos** y las salidas deben ser **deterministas**. Aquí inicias el bloque de portafolio **CP-N1-B** (modelo en RAM) usando solo la biblioteca estándar — sin NumPy ni pandas. Si ya dominas listas y funciones de S04–S05, esta sección te enseña a **componerlas** como almacén confiable, no solo como ejercicios sueltos.",
   learningOutcomes: [
     { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
-    { text: "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda" },
+    { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
     { text: "Modelar registros con dict, get e índices id→fila" },
     { text: "Deduplicar con set y reportar conflictos sin borrarlos" },
     { text: "Navegar list[dict] anidados cliente→contactos→txs" },
-    { text: "Acceder campos opcionales sin KeyError; missing vs vacío" },
+    { text: "Acceder campos opcionales sin KeyError; missing vs. vacío" },
     { text: "Ordenar con sorted(..., key=) de forma estable" },
     { text: "Elegir list/dict/set y producir JSON determinista" },
   ],
@@ -27,8 +27,8 @@ export const section06: CourseSection = {
     {
       heading: "Mapa de la sección: modelo tabular en memoria",
       paragraphs: [
-        "**Antes de T1, tres ideas base** (no memorices el resto aún). Una **secuencia** (list/tuple) ordena filas y ventanas. Un **dict** indexa por id en tiempo casi constante. Un **set** responde “¿está en la cohorte?” y alimenta deduplicación. El resto de la sección enseña a **combinar** esas piezas en un mini almacén en RAM con datos sintéticos LATAM.",
-        "En esta sección construyes el **modelo tabular en memoria** que tu portafolio **CP-N1-B** necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones**, con salidas **deterministas** y deduplicación que **reporta conflictos**. Partes de lo que ya practicaste en S04–S05 (listas, funciones con contrato); aquí el foco es **elegir y componer** estructuras, no reinventar bucles.",
+        "**Antes de T1, tres ideas base** (no memorices el resto aún). Una **secuencia** (`list`/`tuple`) ordena filas y ventanas. Un **dict** indexa por ID en tiempo casi constante. Un **set** responde “¿está en la cohorte?”, y alimenta la deduplicación. El resto de la sección enseña a **combinar** esas piezas en un mini almacén en RAM con datos sintéticos LATAM.",
+        "En esta sección construyes el **modelo tabular en memoria** que tu portafolio **CP-N1-B** necesita: listas, tuplas, dicts, sets y estructuras anidadas *cliente → contactos → transacciones*. Las salidas son **deterministas** y la deduplicación **reporta conflictos**. Partes de lo que ya practicaste en S04–S05 (listas, funciones con contrato); aquí el foco es **elegir y componer** estructuras, no reinventar bucles.",
         "El hilo conductor es ese **mini almacén** (`example.com`, ids `C00x`). Trabajas solo con la **biblioteca estándar** — sin pandas ni NumPy (el cálculo vectorizado llega más adelante, p. ej. S14). En S08 ese modelo se conecta a CSV/JSON y cuarentena. **Nunca** PII real.",
         "Orden pedagógico: **T1 Secuencias** (list/tuple/slicing → alias/copia) → **T2 Dicts/sets** (índices, dedup con conflictos) → **T3 Anidado y missing** → **T4 Orden y elección de estructura** (sorted estable, JSON determinista). En cada subtema: teoría, demo I Do y tres We Do (guiada → independiente → transferencia). Ritmo sugerido (~18 h): no intentes dominar conflictos y JSON el primer día; avanza T1→T4 en orden.",
       ],
@@ -43,7 +43,7 @@ export const section06: CourseSection = {
       heading: "Listas, tuplas y slicing",
       subtopicId: "S06-T1-A",
       paragraphs: [
-        "Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`) — la cola de llegada de un lote de onboarding sintético. Una **tuple** es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente cuando varios helpers comparten el mismo esquema.",
+        "Una `list` es mutable y ordenada: ideal para filas que crecen (`append`, `extend`) — la cola de llegada de un lote de onboarding sintético. Una `tuple` es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente cuando varios helpers comparten el mismo esquema.",
         "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones: el patrón de “últimos N movimientos” en un extracto. El **stop es exclusivo**, igual que en `range` — evita off-by-one al numerar N filas. En lista vacía, `[][-2:]` devuelve `[]` sin error.",
         "Membership `x in seq` es **O(n)** en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** (O(1) promedio) en T2. Caso de borde: no uses una lista de 100k ids para `in` dentro de un loop caliente — es la semilla del O(n²) que T4-B te hará medir conceptualmente.",
       ],
@@ -131,9 +131,9 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
       heading: "Diccionarios y pertenencia",
       subtopicId: "S06-T2-A",
       paragraphs: [
-        "Con secuencias y copias bajo control, pasas al **índice del almacén**. Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio **O(1)**. Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave: buscar “¿dónde está C002?” no debe recorrer toda la lista en cada llamada.",
-        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundas con “¿el cliente tiene email?” si buscas en values. Caso: `\"email\" in cliente` no dice si el email es válido; solo si la clave existe en el dict.",
-        "`update` / merge fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (`override > base`) y **no mutes** el dict base compartido si varios helpers lo leen: prefer `{**base, **override}` o una copia antes de `update`. Eso evita pisar sin querer políticas de normalización de S05.",
+        "Con secuencias y copias bajo control, pasas al **índice del almacén**. Un `dict` modela registros y **índices** `id → cliente`. Lookup promedio **O(1)**. Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave: buscar “¿dónde está C002?” no debe recorrer toda la lista en cada llamada.",
+        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundas con “¿el cliente tiene email?” si buscas en values. Caso: `\"email\" in cliente` no dice si el email es válido; solo si la clave existe en el `dict`.",
+        "`update` / merge fusiona configs: el segundo `dict` **pisa** claves del primero. Documenta la precedencia (`override > base`) y **no mutes** el `dict` base compartido si varios helpers lo leen: prefer `{**base, **override}` o una copia antes de `update`. Eso evita pisar sin querer políticas de normalización de S05.",
       ],
       code: {
         language: 'python',
@@ -163,17 +163,17 @@ merged: {'timeout': 30, 'retry': 3}`,
       },
       callout: {
         type: "tip",
-        title: "Índice vs lista",
+        title: "Índice vs. lista",
         content:
-          "Lista para orden de llegada; dict índice para lookup. Ambos conviven en el modelo CP-N1-B.",
+          "Lista para orden de llegada; dict índice para lookup por ID. Ambos conviven en el modelo CP-N1-B.",
       },
     },
     {
       heading: "Deduplicación y operaciones de set",
       subtopicId: "S06-T2-B",
       paragraphs: [
-        "El dict te da lookup; el **set** te da **membership de cohorte** y deduplicación de ids/emails hashables. Ideal para **unión/intersección/diferencia** de dos lotes sintéticos (quién está en A y en B, quién solo en A). Elementos deben ser hashables: `str` e `int` sí; `list` o `dict` no van directo al set.",
-        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero payload distinto deben **reportarse** en `conflicts`, no silenciarse. El patrón de calidad es `unique` + `conflicts`. **Política:** si el payload es **idéntico**, es un duplicado inocente (no entra a `conflicts`); si **difiere**, deja traza del choque. “El último gana” sin traza es un anti-patrón de calidad de datos.",
+        "El `dict` te da lookup; el **set** te da **membership de cohorte** y deduplicación de ids/emails hashables. Ideal para **unión/intersección/diferencia** de dos lotes sintéticos (quién está en A y en B, quién solo en A). Elementos deben ser hashables: `str` e `int` sí; `list` o `dict` no van directo al `set`.",
+        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id`, pero payload distinto, deben **reportarse** en `conflicts`, no silenciarse. El patrón de calidad es `unique` + `conflicts`. **Política:** si el payload es **idéntico**, es un duplicado inocente (no entra a `conflicts`); si **difiere**, deja traza del choque. “El último gana” sin traza es un anti-patrón de calidad de datos.",
         "Para exports **deterministas**, no dependas del orden del set: ordena con `sorted(...)` al exportar (JSON `sort_keys`, listas de ids ordenadas). Reproducibilidad > “orden de llegada mágico”. El mismo lote sintético debe producir el mismo reporte en cada corrida del demo.",
       ],
       code: {
@@ -226,7 +226,7 @@ n_conflicts: 1`,
       paragraphs: [
         "Hasta aquí modelaste filas planas e índices. El modelo **CP-N1-B** anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:` — bucles anidados **legibles** sobre el grafo en memoria. No hace falta una clase formal aún: un `list[dict]` bien documentado es un almacén suficiente para la **entrega de modelo en memoria** del portafolio.",
         "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08: una fila por tx, no un JSON anidado opaco. **Contar** contactos por cliente (`len(c['contacts'])`) valida integridad del almacén en RAM antes de exportar.",
-        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a **review** — no asumas que todo dict llegó bien formado del lote sintético. Un string `'oops'` donde debía haber lista de txs es basura silenciosa si solo haces `if c.get('txs'):`.",
+        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a **review** — no asumas que todo `dict` llegó bien formado del lote sintético. Un string `'oops'` donde debía haber lista de txs es basura silenciosa si solo haces `if c.get('txs'):`.",
       ],
       code: {
         language: 'python',
@@ -314,7 +314,7 @@ phone missing: MISSING`,
       paragraphs: [
         "Con el grafo en memoria legible, el export y los rankings piden **orden estable**. `sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)` y pierdes las filas (`x is None` y el store original ya cambió).",
         "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena **estable** por región y luego nombre. Timsort preserva el orden relativo de empates — útil para audits reproducibles y para que el README del portafolio no “baile” entre corridas del mismo lote sintético.",
-        "Para montos, asegúrate de que el tipo sea **numérico** antes de ordenar; strings `'100' < '20'` rompen el ranking (orden lexicográfico). Normaliza tipos (S05) antes de `sorted`. Caso de lab: top por `monto` en txs sintéticas solo es confiable si `monto` es `int`/`float` (o `Decimal` más adelante), no str sucio del formulario.",
+        "Para montos, asegúrate de que el tipo sea **numérico** antes de ordenar; strings `'100' < '20'` rompen el ranking (orden lexicográfico). Normaliza tipos (S05) antes de `sorted`. Caso de lab: top por `monto` en txs sintéticas solo es confiable si `monto` es `int`/`float` (o `Decimal` más adelante), no `str` sucio del formulario.",
       ],
       code: {
         language: 'python',
@@ -349,8 +349,8 @@ top monto: Ana 50`,
       heading: "Estructura adecuada, complejidad y determinismo",
       subtopicId: "S06-T4-B",
       paragraphs: [
-        "Cierra el modelo eligiendo estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple. **No** uses dict “porque sí” si el orden de llegada importa y no indexas. Justificar la elección es parte del rubric del You Do.",
-        "Complejidad (solo ahora, con las cuatro estructuras en la mano): membership en list **O(n)**; en set/dict **O(1)** promedio. No hagas `if x in big_list` dentro de un loop de n si puedes **preindexar** con un set o dict. n búsquedas sobre list cuestan ~n×n chequeos conceptuales; sobre set, ~n. Eso es deuda de rendimiento en el almacén en RAM.",
+        "Cierra el modelo eligiendo estructura por **operación dominante**: muchos appends → `list`; muchos lookups por ID → `dict`; membership de cohortes → `set`; contrato fijo inmutable → `tuple`. **No** uses `dict` “porque sí” si el orden de llegada importa y no indexas. Justificar la elección es parte del rubric del You Do.",
+        "Complejidad (solo ahora, con las cuatro estructuras en la mano): membership en `list` **O(n)**; en `set`/`dict` **O(1)** promedio. No hagas `if x in big_list` dentro de un loop de n si puedes **preindexar** con un `set` o `dict`. n búsquedas sobre `list` cuestan ~n×n chequeos conceptuales; sobre `set`, ~n. Eso es deuda de rendimiento en el almacén en RAM.",
         "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids/clients produce el mismo string en cada corrida. La reproducibilidad es un **criterio de entrega** de CP-N1-B: demos y diffs de README deben ser estables. Próximo paso natural: en S08 ese JSON/list[dict] se conecta a archivos CSV/JSON y cuarentena; aquí cierras el shape en memoria.",
       ],
       code: {
@@ -380,7 +380,7 @@ print(dump_deterministic(payload))`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema, orden T1→T4). Cada demo **muestra** el contrato del subtema antes de que lo practicques en We Do. Modelo en memoria del inicio CP-N1-B; datos sintéticos; solo biblioteca estándar (browser-pyodide).",
+    intro: "Ocho demos I Do (uno por subtema, orden T1→T4). Cada demo **muestra** el contrato del subtema antes de que lo practiques en We Do. Modelo en memoria del inicio CP-N1-B; datos sintéticos; solo biblioteca estándar (browser-pyodide).",
     steps: [
       {
         demoId: "S06-T1-A-DEMO",
@@ -598,7 +598,7 @@ C002 MISSING missing
 C003  empty
 C004 MISSING missing`,
         },
-        why: "dig() centraliza acceso seguro; etiquetas missing vs empty alimentan el reporte de calidad.",
+        why: "dig() centraliza acceso seguro; etiquetas missing vs. empty alimentan el reporte de calidad.",
       },
       {
         demoId: "S06-T4-A-DEMO",
@@ -671,7 +671,7 @@ determinista: True`,
     ],
   },
   weDo: {
-    intro: "Andamiaje por subtema: **E1 guiado** (arregla el bug del starter) → **E2 independiente** → **E3 transferencia**. Son 24 ejercicios (8×3) con 2 hints c/u. Ejecuta, compara con la solución y solo entonces avanza. Sin NumPy/pandas; datos sintéticos.",
+    intro: "Andamiaje por subtema: **E1 guiado** (arregla el bug del starter) → **E2 independiente** → **E3 transferencia**. Son 24 ejercicios (8×3) con 2 hints cada uno. Ejecuta, compara con la solución y solo entonces avanza. Sin NumPy/pandas; datos sintéticos.",
     steps: [
       {
         id: "S06-T1-A-E1",
@@ -763,10 +763,10 @@ KEYS sigue ('id', 'monto')`,
         subtopicId: "S06-T1-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnóstico.",
-        hint: "tuple no tiene append → AttributeError",
+          "E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el `AttributeError`, convierte a `list`, haz `append('C003')`, e imprime el resultado y un mensaje de diagnóstico.",
+        hint: "tuple no tiene append → AttributeError.",
         hints: [
-          "tuple no tiene append → AttributeError",
+          "tuple no tiene append → AttributeError.",
           "list(ids) para mutar una copia.",
         ],
         edgeCases: ["diagnóstico AttributeError"],
@@ -838,13 +838,13 @@ print(cid, region, monto)`,
         subtopicId: "S06-T1-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.",
+          "E2 (independiente) — Demuestra alias vs. copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.",
         hint: "alias comparte objeto; copy es superficial de la lista de ints.",
         hints: [
           "alias comparte objeto; copy es superficial de la lista de ints.",
           "ints inmutables: shallow basta.",
         ],
-        edgeCases: ["alias vs copy"],
+        edgeCases: ["alias vs. copy"],
         tests: "xs crece con alias; no con copia tras divergencia",
         feedback: "copy() corta el alias de la lista contenedora.",
         starterCode: {
@@ -879,13 +879,13 @@ tras copia [1, 2, 3] [1, 2, 4]`,
         subtopicId: "S06-T1-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.",
+          "E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs. deep.",
         hint: "import copy; deepcopy",
         hints: [
           "import copy; deepcopy",
           "shallow[0] is original[0] → True",
         ],
-        edgeCases: ["shallow vs deep anidado"],
+        edgeCases: ["shallow vs. deep anidado"],
         tests: "deep no contamina original en el append 'd'",
         feedback: "En modelo cliente con listas internas, deepcopy (o reconstrucción) evita fugas.",
         starterCode: {
@@ -966,7 +966,7 @@ Cusco`,
           "idx.get('C999','N/A')",
           "KeyError solo en acceso duro.",
         ],
-        edgeCases: ["get vs KeyError"],
+        edgeCases: ["get vs. KeyError"],
         tests: "Ana / N/A / KeyError",
         feedback: "get para opcionales; KeyError cuando la ausencia es bug de programación.",
         starterCode: {
@@ -1111,12 +1111,12 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         kind: "transfer",
         instruction:
           "E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin borrar la traza de choques. Política: **payload idéntico** no es conflicto; solo si el mismo `id` llega con datos **distintos**. El fixture trae C001 idéntico y C001 con `v` distinto.",
-        hint: "seen dict; si key existe y row!=prev → conflict",
+        hint: "Usa un dict seen: si la clave ya existe y la fila difiere, anota conflicto.",
         hints: [
-          "seen dict; si key existe y row!=prev → conflict",
-          "unique guarda primera ocurrencia; idénticos no van a conflicts.",
+          "Usa un dict seen: si la clave ya existe y la fila difiere, anota conflicto.",
+          "unique guarda la primera ocurrencia; filas idénticas no van a conflicts.",
         ],
-        edgeCases: ["conflicto vs duplicado idéntico"],
+        edgeCases: ["conflicto vs. duplicado idéntico"],
         tests: "1 conflict C001 (v distinto); idéntico no cuenta",
         feedback: "Patrón del You Do S06: unique + conflicts; idéntico ≠ choque de calidad.",
         starterCode: {
@@ -1351,7 +1351,7 @@ N/A`,
           "'email' not in c or c['email'] is None → missing",
           "'' puede contarse present vacío según política; aquí '' = present.",
         ],
-        edgeCases: ["None vs ausente"],
+        edgeCases: ["None vs. ausente"],
         tests: "present/missing/missing",
         feedback: "Reporte de missing alimenta tasas de completitud.",
         starterCode: {
@@ -1396,12 +1396,12 @@ C003: missing`,
         kind: "transfer",
         instruction:
           "E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).",
-        hint: "bool(x) vs x is None",
+        hint: "bool(x) vs. x is None.",
         hints: [
-          "bool(x) vs x is None",
-          "0 y '' son falsy pero pueden ser datos válidos.",
+          "bool(x) vs. x is None.",
+          "0 y '' son falsy, pero pueden ser datos válidos.",
         ],
-        edgeCases: ["falsy vs missing"],
+        edgeCases: ["falsy vs. missing"],
         tests: "solo None missing=True",
         feedback: "Política explícita evita bugs de if not value.",
         starterCode: {
@@ -1510,7 +1510,7 @@ Lima Zed`,
           "x = lst.sort() → x is None",
           "sorted(base) no muta base.",
         ],
-        edgeCases: ["in-place vs sorted"],
+        edgeCases: ["in-place vs. sorted"],
         tests: "None + base intacta",
         feedback: "Nunca encadenes .sort() esperando la lista ordenada.",
         starterCode: {
@@ -1546,7 +1546,7 @@ base [3, 1, 2] copy [1, 2, 3]`,
         subtopicId: "S06-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Para tres operaciones del almacén en RAM, elige e imprime la estructura Python adecuada: (1) cola de llegada de filas → list; (2) lookup frecuente por id → dict; (3) cohorte de emails únicos → set. Una línea por job con la elección explícita.",
+          "E1 (guiado) — Para tres operaciones del almacén en RAM, elige e imprime la estructura Python adecuada. Una línea por operación con la elección explícita: (1) cola de llegada de filas → `list`; (2) lookup frecuente por ID → `dict`; (3) cohorte de emails únicos → `set`.",
         hint: "list / dict / set",
         hints: [
           "list / dict / set",
@@ -1623,10 +1623,10 @@ print(s)`,
         subtopicId: "S06-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Tradeoff de membership: con `ids_list` de n=5, construye `ids_set`, comprueba `'C003' in list` e `in set` (ambos True), y **calcula** costo conceptual de n búsquedas (`n*n` en list vs `n` en set). No inventes strings de Big-O a mano: derívalos de `n = len(ids_list)`.",
-        hint: "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs n",
+          "E3 (transferencia) — Tradeoff de membership. Con `ids_list` de n=5, construye `ids_set` y comprueba `'C003' in list` e `in set` (ambos True). **Calcula** el costo conceptual de n búsquedas (`n*n` en list vs. `n` en set) desde `n = len(ids_list)`. No inventes Big-O a mano.",
+        hint: "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs. n.",
         hints: [
-          "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs n",
+          "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs. n.",
           "ids_set = set(ids_list); needle = 'C003'; n = len(ids_list)",
         ],
         edgeCases: ["complejidad derivada de n"],
@@ -1666,12 +1666,12 @@ costo_conceptual_set 5`,
   youDo: {
     title: "Modelo tabular en memoria (CP-N1-B)",
     context:
-      "Inicias el capstone **CP-N1-B**. Representas clientes, contactos y transacciones en estructuras Python puras (sin NumPy/pandas). Deduplicas por clave de negocio **reportando conflictos**, aplanas txs y exportas JSON determinista. En S07–S08 se suma normalización LATAM e ingesta por archivos. Solo datos sintéticos.",
+      "Inicias el capstone **CP-N1-B**: representas clientes, contactos y transacciones en estructuras Python puras (sin NumPy/pandas). La deduplicación por clave de negocio **reporta conflictos**; aplanas las txs y exportas un JSON determinista. En S07–S08 se suma normalización LATAM e ingesta por archivos. Solo datos sintéticos.",
     objectives: [
       "Representar cliente/contacto/tx en list[dict] documentado",
       "Implementar dedup_report → unique + conflicts",
       "Aplanar transacciones con client_id",
-      "Acceso seguro a faltantes (get_nested)",
+      "Acceder de forma segura a faltantes (get_nested)",
       "Export determinista (sorted + sort_keys)",
     ],
     requirements: [
@@ -1771,7 +1771,7 @@ if __name__ == "__main__":
           "Slicing negativo toma desde el final: últimos 2 elementos [3,4].",
       },
       {
-        question: "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+        question: "`b = a` (listas) y mutas `b.append(1)`. ¿Qué pasa con `a`?",
         options: ["a no cambia", "se lanza error", "a se convierte en tuple", "a también ve el append (alias)"],
         correctIndex: 3,
         explanation:
@@ -1838,7 +1838,7 @@ if __name__ == "__main__":
       {
         label: "copy — Shallow and deep copy",
         url: "https://docs.python.org/3/library/copy.html",
-        note: "alias vs shallow vs deep",
+        note: "alias vs. shallow vs. deep",
       },
       {
         label: "json — JSON encoder/decoder",

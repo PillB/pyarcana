@@ -27,10 +27,10 @@ export const section21: CourseSection = {
  {
  heading: "Reporting Factory y cierre CP-N2-B",
  paragraphs: [
- "Imagina la reunión de operaciones en Lima: el Excel de S20 muestra ticket mediano **28.0 PEN (n=40)** y el DOCX del analista dice **30 PEN** “porque redondeó a mano”. El comité no firma. En analytics y operaciones en Perú, **cerrar CP-N2-B** no es “exportar bonito”: es un **Reporting Factory** que une plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva, paridad numérica con el dashboard (S19) y el Excel (S20), provenance y cola de aprobación humana. Las APIs HTTP se tratan más adelante; aquí el entregable son **archivos locales verificables**.",
+ "Imagina la reunión de operaciones en Lima: el Excel de S20 muestra ticket mediano **28.0 PEN (n=40)** y el DOCX del analista dice **30 PEN** “porque redondeó a mano”. El comité no firma. En analytics y operaciones en Perú, **cerrar CP-N2-B** no es “exportar bonito”: es un **Reporting Factory** con cinco piezas — plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva y paridad numérica con el dashboard (S19) y el Excel (S20) — más provenance y cola de aprobación humana. Las API HTTP se tratan más adelante; aquí el entregable son **archivos locales verificables**.",
  "Una sola corrida produce artefactos alineados: mismos *n* y métricas clave que el EDA de S18 y el factory de S20. Usamos solo datos sintéticos Lima/Cusco (sin PII) y no publicamos el informe sin checklist visual. El hilo del lab es **CASO-LIM-021**: ticket mediano 28 PEN, n=40, cobertura web-only. Si en un artefacto aparece n=32 y en otro n=40, el factory ya falló el criterio de paridad antes de hablar de diseño.",
- "Orden pedagógico (no saltes adelante): **T1 Plantillas** (Jinja, separación datos/presentación, tablas seguras) → **T2 Documentos** (DOCX real; PDF digital vs imagen/OCR) → **T3 Narrativa** (resumen, método, hallazgos, figuras/tablas, limitaciones) → **T4 Gobernanza** (redacción y a11y, provenance, aprobación). En cada subtema: teoría → demo I Do → tres We Do (guiada, independiente, transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–5 en T2 (artefactos reales); 6–7 en T3; 8 en T4 + You Do + self-check. El You Do une las piezas; no es un atajo para saltarte T2.",
- "**Diccionario de la sección** (consúltalo al dudar): **context** = dict versionado que alimenta todas las plantillas; **missing ≠ 0** = celda `—` cuando no hay dato; **PDF digital** = texto seleccionable (pypdf extrae); **needs_ocr** = extracción vacía sin inventar texto; **paridad** = mismas métricas clave en dashboard, Excel y documento; **provenance** = run_id + huellas + checklist visual antes de `pending_review`. **Qué no es el foco:** montar APIs HTTP, autenticación ni despliegue en la nube — solo el paquete de reportes locales del cierre CP-N2-B.",
+ "Orden pedagógico (no saltes adelante): **T1 Plantillas** (Jinja, separación datos/presentación, tablas seguras) → **T2 Documentos** (DOCX real; PDF digital vs. imagen/OCR) → **T3 Narrativa** (resumen, método, hallazgos, figuras/tablas, limitaciones) → **T4 Gobernanza** (redacción y a11y, provenance, aprobación). En cada subtema: teoría → demo I Do → tres ejercicios (E1 guiado, E2 con menos andamiaje, E3 de transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–5 en T2 (artefactos reales); 6–7 en T3; 8 en T4 + You Do + self-check. El You Do une las piezas; no es un atajo para saltarte T2.",
+ "**Diccionario de la sección** (consúltalo al dudar):\n- **context** = dict versionado que alimenta todas las plantillas.\n- **missing ≠ 0** = celda `—` cuando no hay dato (el mismo glifo `—` también se usa como raya tipográfica en prosa; en tablas significa ausencia).\n- **PDF digital** = texto seleccionable (pypdf extrae).\n- **needs_ocr** = extracción vacía sin inventar texto.\n- **paridad** = mismas métricas clave en dashboard, Excel y documento.\n- **provenance** = run_id + huellas + checklist visual antes de `pending_review`.\n\n**Qué no es el foco:** montar API HTTP, autenticación ni despliegue en la nube — solo el paquete de reportes locales del cierre CP-N2-B.",
  ],
  callout: {
  type: "info",
@@ -44,7 +44,7 @@ export const section21: CourseSection = {
  subtopicId: "S21-T1-A",
  paragraphs: [
  "Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). Calcula métricas **antes** del render: la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. Un solo `context` versionado (run_id, métricas, límites) alimenta DOCX, PDF y, más adelante, el correo de aprobación en S22. Si cada canal inventa su propio formato de KPI, la paridad muere en el primer redondeo.",
- "Contrato operativo: `Template(...).render(**ctx)`. En HTML confía en autoescape; nunca marques input de usuario con `mark_safe` sin sanitizar. En texto plano (Markdown, cuerpo de DOCX vía plantilla) define política de caracteres. Los KPI llegan ya redondeados (1–2 decimales PEN) desde Python: no “se redondean a ojo” en la plantilla ni en el Word del autor. El revisor debe poder re-renderizar el mismo context y obtener la misma cadena.",
+ "Contrato operativo: `Template(...).render(**ctx)`. En HTML confía en autoescape; nunca marques input de usuario con `mark_safe` sin sanitizar. En texto plano (Markdown, cuerpo de DOCX vía plantilla) define política de caracteres. En un factory serio, configura `StrictUndefined` para que falte una variable a gritos en lugar de dejar un hueco vacío en el informe. Los KPI llegan ya redondeados (1–2 decimales PEN) desde Python: no “se redondean a ojo” en la plantilla ni en el Word del autor. El revisor debe poder re-renderizar el mismo context y obtener la misma cadena.",
  "Caso CASO-LIM-021: portada `CASO-LIM-021 · {{ region }} (n={{ n }})` → `CASO-LIM-021 · Lima (n=40)`; KPI `{{ m }} PEN (n={{ n }})` → `28 PEN (n=40)`. Una función `render_kpi(ctx)` centraliza el template fijo región/mediana/n y evita que cada autor del informe invente su propio formato. Así el dashboard S19 y el Excel S20 hablan el mismo idioma numérico — y el DOCX de esta sección no se desvía.",
  ],
  code: {
@@ -68,7 +68,7 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
  type: "tip",
  title: "Context dict único y autoescape",
  content:
- "Pasa un context versionado (run_id, metricas, limites) a todas las plantillas del factory. En HTML, activa autoescape en el Environment: el demo de arriba convierte `<b>28</b>` en entidades (`&lt;b&gt;…`), no en markup. Nunca uses `mark_safe` sobre input de usuario sin sanitizar. En este lab de texto plano (Markdown/DOCX) no hace falta desactivar el escape; cuando empaquetes HTML del dashboard, deja autoescape encendido.",
+ "Pasa un context versionado (run_id, métricas, límites) a todas las plantillas del factory. En HTML, activa autoescape en el Environment: el demo de arriba convierte `<b>28</b>` en entidades (`&lt;b&gt;…`), no en markup. Nunca uses `mark_safe` sobre input de usuario sin sanitizar. En este lab de texto plano (Markdown/DOCX) no hace falta desactivar el escape; cuando empaquetes HTML del dashboard, deja autoescape encendido.",
  },
  },
  {
@@ -83,14 +83,15 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
  language: 'python',
  title: "jinja_table.py",
  code: `def s21_th_2():
-    from jinja2 import Template
+    from jinja2 import Environment
 
-    tmpl = Template(
-     """{% for r in rows %}- {{ r.region }}: {{ '%.2f'|format(r.median) }} PEN
-    {% endfor %}"""
+    # trim/lstrip evitan que la indentación del fuente se cuele en la tabla
+    env = Environment(trim_blocks=True, lstrip_blocks=True)
+    tmpl = env.from_string(
+        "{% for r in rows %}- {{ r.region }}: {{ '%.2f'|format(r.median) }} PEN\\n{% endfor %}"
     )
     rows = [{"region": "Lima", "median": 28.0}, {"region": "Cusco", "median": 22.5}]
-    print(tmpl.render(rows=rows))
+    print(tmpl.render(rows=rows), end="")
 
 s21_th_2()`,
  output: `- Lima: 28.00 PEN
@@ -246,9 +247,9 @@ s21_th_6()`,
  heading: "Redacción, accesibilidad y consistencia",
  subtopicId: "S21-T4-A",
  paragraphs: [
- "Redacción en español profesional (**es-PE**): el cuerpo ejecutivo habla al comité, no a un repositorio de GitHub. Evita anglicismos innecesarios (“outperform”, “drive insights”); deja términos técnicos (KPI, SLA, a11y, provenance) donde el gremio los espera, glosándolos la primera vez si el lector no es técnico. Accesibilidad: headings reales, alt de figuras con n y unidad, tablas con encabezados, contraste en HTML cuando el dashboard se empaqueta.",
+ "Redacción en español profesional (**es-PE**): el cuerpo ejecutivo habla al comité, no a un repositorio de GitHub. Evita anglicismos que el gremio no reconoce (“outperform”, “drive insights”); deja términos técnicos (KPI, SLA, a11y, provenance, factory) donde el oficio los espera, glosándolos la primera vez si el lector no es técnico. Accesibilidad: headings reales, alt de figuras con n y unidad, tablas con encabezados, contraste en HTML cuando el dashboard se empaqueta.",
  "Contrato de consistencia: **misma precisión decimal** (p. ej. 1 decimal PEN) en dashboard, Excel e informe. Si un canal imprime `28.0` y otro `28`, el revisor ve “dos números” aunque sean iguales. Centraliza con `fmt_pen` / `format_metric` para no divergir entre Jinja y Excel. Un glosario breve en anexo basta si introduces siglas nuevas en el paquete.",
- "Caso CASO-LIM-021: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad (`Barras mediana por región, n por barra en tooltip`); headings del DOCX son estilos de Word, no solo tamaño de fuente. Checklist mínimo (`has_h1` + alts con longitud útil > 10) evita publicar un paquete ilegible para lectores con tecnología asistiva — y es la misma barra que usa el I Do de este subtema.",
+ "Caso CASO-LIM-021: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad (`Barras mediana por región, n por barra en tooltip`); headings del DOCX son estilos de Word, no solo tamaño de fuente. Checklist mínima (`has_h1` + al menos un alt con longitud útil > 10; lista vacía no pasa) evita publicar un paquete ilegible para lectores con tecnología asistiva — y es la misma barra que usa el I Do de este subtema.",
  ],
  code: {
  language: 'python',
@@ -275,9 +276,9 @@ consistente True`,
  heading: "Render visual, provenance y aprobación",
  subtopicId: "S21-T4-B",
  paragraphs: [
- "T4-A dejó el texto y los decimales consistentes; el cierre del factory es **gobernanza**: ¿quién generó qué, con qué datos, y quién miró el paquete? Registra **provenance**: run_id, huella de datos, hashes de artefactos, checklist visual. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completo (dashboard, xlsx, doc), **no hay cierre CP-N2-B**. El paquete en `pending_review` es la entrada limpia al flujo de email/aprobación de S22 — no marques `approved` desde el script del factory.",
+ "T4-A dejó el texto y los decimales consistentes; el cierre del factory es **gobernanza**: ¿quién generó qué, con qué datos, y quién miró el paquete? Registra **provenance**: run_id, huella de datos, hashes de artefactos, checklist visual. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completa (dashboard, xlsx, doc), **no hay cierre CP-N2-B**. El paquete en `pending_review` es la entrada limpia al flujo de email/aprobación de S22 — no marques `approved` desde el script del factory.",
  "Contrato: `ready(checklist)` es True solo si dashboard, xlsx y doc están True (`all`, no `any`). En el lab usamos un recorte corto de sha1 (8 hex) como id didáctico; en producción prefiere **SHA-256** del artefacto completo (el recorte de 8 hex es débil ante colisiones). Actor y timestamp van en el log de aprobación (preludio de S22).",
- "Caso CASO-LIM-021: checklist incompleto → `ready` False; completo → True. El manifiesto JSON fija run_id, huella, lista de artefactos y `approval.status = pending_review` hasta que un humano revise. Un print de “ok” o un dict solo en memoria no sustituye ese manifiesto ni los archivos en disco.",
+ "Caso CASO-LIM-021: checklist incompleta → `ready` False; completa → True. El manifiesto JSON fija run_id, huella, lista de artefactos y `approval.status = pending_review` hasta que un humano revise. Un print de “ok” o un dict solo en memoria no sustituye ese manifiesto ni los archivos en disco.",
  ],
  code: {
  language: 'python',
@@ -307,7 +308,7 @@ s21_th_8()`,
  }
  ],
  iDo: {
- intro: "I Do — observa el Reporting Factory en ocho demos (una por subtema): Jinja con context único → tablas con missing honesto → DOCX real reabierto → PDF digital + PNG → narrativa H→evidencia → paridad dash/xlsx/doc → fmt_pen y a11y mínima → provenance + checklist visual. No copies a ciegas: nota qué se calcula, qué se persiste a disco y qué se deja en pending_review. En We Do practicarás cada pieza; en You Do las unes en una sola corrida CP-N2-B.",
+ intro: "I Do — observa el Reporting Factory en ocho demos (una por subtema). El recorrido: Jinja con context único → tablas con missing honesto → DOCX real reabierto → PDF digital + PNG → narrativa H→evidencia → paridad dash/xlsx/doc → fmt_pen y a11y mínima → provenance + checklist visual. No copies a ciegas: nota qué se calcula, qué se persiste a disco y qué se deja en `pending_review`. En We Do practicarás cada pieza; en You Do las unes en una sola corrida CP-N2-B.",
  steps: [
  {
  demoId: "S21-T1-A-DEMO",
@@ -346,17 +347,17 @@ s21_ido_1()`,
  language: 'python',
  title: "demo_cond_table.py",
  code: `def s21_ido_2():
-    from jinja2 import Template
+    from jinja2 import Environment
 
-    tmpl = Template(
-     """{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }}
-    {% endfor %}"""
+    env = Environment(trim_blocks=True, lstrip_blocks=True)
+    tmpl = env.from_string(
+        "{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }}\\n{% endfor %}"
     )
     rows = [
      {"region": "Lima", "median": 28.0},
      {"region": "Cusco", "median": None}
     ]
-    print(tmpl.render(rows=rows))
+    print(tmpl.render(rows=rows), end="")
 
 s21_ido_2()`,
  output: `Lima: 28.0
@@ -494,9 +495,11 @@ s21_ido_6()`,
         "has_h1": True,
         "alts": ["Barras mediana por región, n por barra en tooltip"],
     }
+    alts = checks["alts"]
+    a11y_ok = checks["has_h1"] and len(alts) > 0 and all(len(a) > 10 for a in alts)
     print(checks["decimals"])
     print("decimal_ok", len(set(checks["decimals"])) == 1)
-    print("a11y_min", checks["has_h1"] and all(len(a) > 10 for a in checks["alts"]))
+    print("a11y_min", a11y_ok)
 
 s21_ido_7()`,
  output: `['28.0 PEN', '28.0 PEN']
@@ -535,7 +538,7 @@ ready_for_review True`,
  ],
  },
  weDo: {
- intro: "We Do — practica el mini-factory en piezas (T1→T4). Cada starter es un scaffold incompleto o incorrecto a propósito: completa el TODO, ejecuta y solo entonces compara con la solución. T1 fija context y missing; T2 exige archivos reales reabiertos; T3 estructura narrativa y paridad; T4 cierra con a11y y provenance. El You Do orquesta build_docx / build_pdf / extract_and_render / manifest en una corrida: no saltes a portfolio sin haber fallado y corregido al menos un DOCX y un PDF en T2.",
+ intro: "We Do — practica el mini-factory en piezas (T1→T4). Cada **starter** (código de partida) es un **scaffold** (andamiaje) incompleto o incorrecto a propósito: completa lo pendiente del código de partida, ejecuta y solo entonces compara con la solución. T1 fija context y missing; T2 exige archivos reales reabiertos; T3 estructura narrativa y paridad; T4 cierra con a11y y provenance. El You Do orquesta `build_docx` / `build_pdf` / `extract_and_render` / `manifest` en una corrida. No saltes a portfolio sin haber fallado y corregido al menos un DOCX y un PDF en T2.",
  steps: [
  {
  id: "S21-T1-A-E1",
@@ -548,9 +551,9 @@ ready_for_review True`,
  "Crea un Template y llama .render(region=..., n=...).",
  "No armes el string con f-string fuera de Jinja: el ejercicio entrena separación datos/plantilla.",
  ],
- edgeCases: ["n omitido en render → vacío en el hueco"],
+ edgeCases: ["n omitido con Template por defecto → hueco vacío (en producción usa StrictUndefined para fallar en voz alta)"],
  tests: "el print es exactamente CASO-LIM-021 · Lima (n=40)",
- feedback: "Si ves solo el prefijo o n vacío, el Template no está recibiendo region/n en .render().",
+ feedback: "Si ves solo el prefijo o n vacío, el Template no está recibiendo region/n en .render(). En un factory serio, StrictUndefined bloquea variables ausentes en lugar de imprimir huecos silenciosos.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1187,7 +1190,7 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  ],
  edgeCases: ["fuente minúscula"],
  tests: "print True cuando el caption declara Fuente",
- feedback: "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (ancla Lima del lab), no un n inventado.",
+ feedback: "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (muestra Lima del lab), no un n inventado.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1306,33 +1309,36 @@ print(fmt_pen(28.04))`,
  subtopicId: "S21-T4-A",
  kind: "transfer",
  instruction:
- "E3 (transferencia) — Concepto: checklist mínima a11y (H1 + alt con longitud). Implementa `a11y_min(has_h1, alts)` que sea True solo si hay H1 y todos los alt tienen más de 10 caracteres. Imprime el resultado para un caso válido y uno con alt corto.",
- hint: "has_h1 and all(len(a) > 10 for a in alts).",
+ "E3 (transferencia) — Concepto: checklist mínima a11y (H1 + alts no vacíos con longitud útil). Implementa `a11y_min(has_h1, alts)` que sea True solo si hay H1, la lista de alts no está vacía y **todos** los alt tienen más de 10 caracteres. Imprime tres resultados: caso válido, alt corto y lista vacía.",
+ hint: "has_h1 and len(alts) > 0 and all(len(a) > 10 for a in alts). Recuerda: all([]) es True en Python.",
  hints: [
- "has_h1 and all(len(a) > 10 for a in alts).",
- "Dos prints: True y False.",
+ "has_h1 and len(alts) > 0 and all(len(a) > 10 for a in alts).",
+ "Tres prints: True, False (alt corto), False (lista vacía).",
  ],
- edgeCases: ["alts vacía"],
- tests: "dos líneas: True luego False",
- feedback: "has_h1 solo no basta: un alt de 5 caracteres no describe n ni unidad para tecnología asistiva.",
+ edgeCases: ["alts vacía debe ser False: all([]) es True y no basta"],
+ tests: "tres líneas: True, False, False",
+ feedback: "has_h1 solo no basta. Un alt de 5 caracteres no describe n ni unidad; una lista vacía tampoco (all([]) es True y haría pasar el gate por error).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# Lab CASO-LIM-021 — a11y_min H1 + alts
-# TODO: exige longitud útil en cada alt, no solo has_h1
+ code: `# Lab CASO-LIM-021 — a11y_min H1 + alts no vacíos
+# TODO: exige al menos un alt y longitud útil en cada uno; no solo has_h1
 def a11y_min(has_h1, alts):
  return has_h1
-print(a11y_min(True, ["descripcion larga de figura"]))
-print(a11y_min(True, ["corto"]))`,
+print(a11y_min(True, ["descripción larga de figura"]))
+print(a11y_min(True, ["corto"]))
+print(a11y_min(True, []))`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `def a11y_min(has_h1, alts):
- return has_h1 and all(len(a) > 10 for a in alts)
-print(a11y_min(True, ["descripcion larga de figura"]))
-print(a11y_min(True, ["corto"]))`,
+ return bool(has_h1) and len(alts) > 0 and all(len(a) > 10 for a in alts)
+print(a11y_min(True, ["descripción larga de figura"]))
+print(a11y_min(True, ["corto"]))
+print(a11y_min(True, []))`,
  output: `True
+False
 False`,
  },
  },
@@ -1444,7 +1450,7 @@ False`,
  youDo: {
  title: "Reporting Factory — cierre CP-N2-B",
  context:
- "En un comité de analytics en Lima te piden el **paquete único** de CASO-LIM-021: no tres exports sueltos, sino una corrida que una EDA (S18), dashboard (S19) y Excel (S20) en un **factory de reportes trazables**. El entregable cierra **CP-N2-B**: DOCX y PDF con los mismos números (mediana Lima 28.0 PEN, n=40, cobertura solo web), captions con Fuente, missing como —, provenance y cola `pending_review`. Datos sintéticos únicamente; sin PII. El siguiente paso del currículum (S22) envía/aprueba — aquí dejas el paquete listo para revisión humana.",
+ "En un comité de analytics en Lima te piden el **paquete único** de CASO-LIM-021: no tres exportaciones sueltas, sino una corrida que una EDA (S18), dashboard (S19) y Excel (S20) en un **factory de reportes trazables**. El entregable cierra **CP-N2-B**: DOCX y PDF con los mismos números (mediana Lima 28.0 PEN, n=40, cobertura solo web), captions con Fuente, missing como `—`, provenance y cola `pending_review`. Datos sintéticos únicamente; sin PII. El siguiente paso del currículum (S22) envía y aprueba; aquí dejas el paquete listo para revisión humana.",
  objectives: [
  "Un solo context Jinja (run_id, métricas, limits) reutilizado en todos los artefactos",
  "DOCX con Heading reales + PDF digital; reabrir, extraer y renderizar PNG",
@@ -1561,11 +1567,11 @@ def manifest(artifacts: dict) -> dict:
  "El factory cierra con artefactos verificables: provenance, revisión visual y hallazgos con evidencia. Un print no sustituye el paquete.",
  },
  {
- question: "El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato de trazabilidad?",
- options: ["Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo", "Inventar el texto del resumen a partir del título del archivo", "Aprobar el paquete igual porque el PNG se ve legible en pantalla", "Convertir el PDF a DOCX sin avisar en el provenance"],
+ question: "En la narrativa del informe, un hallazgo H1 con evidencia Tabla1 debe llevar decision=None. ¿Por qué?",
+ options: ["Porque hallazgo ≠ decisión de negocio hasta revisión humana", "Porque el Excel de S20 no admite decisiones", "Porque Jinja no puede renderizar strings de decisión", "Porque el PDF digital prohíbe recomendaciones"],
  correctIndex: 0,
  explanation:
- "PDF imagen-only no es texto seleccionable. El contrato documenta needs_ocr; no inventa extracción ni oculta el modo en provenance.",
+ "La evidencia se empaqueta con id y mapa H→tabla; la decisión de negocio la toma un humano en la cola de aprobación (S22), no el factory.",
  },
  {
  question: "Si la mediana de Cusco no está disponible, ¿cómo debe representarse en el informe?",
@@ -1580,6 +1586,13 @@ def manifest(artifacts: dict) -> dict:
  correctIndex: 3,
  explanation:
  "La auditoría reabre el DOCX y lee style.name (Heading 1, …). La negrita visual sola no es un outline auditable.",
+ },
+ {
+ question: "La checklist mínima de a11y del lab (has_h1 + alts) debe fallar cuando la lista de alts está vacía. ¿Por qué no basta con all(len(a) > 10 for a in alts)?",
+ options: ["Porque all([]) es True en Python y aprobaría un paquete sin alternativas", "Porque Jinja no admite listas vacías", "Porque ReportLab exige al menos dos alts", "Porque SHA-256 no firma listas vacías"],
+ correctIndex: 0,
+ explanation:
+ "En Python, all([]) es True. El contrato mínimo exige H1, al menos un alt y longitud útil en cada uno; una lista vacía no describe ninguna figura.",
  },
  ],
  },

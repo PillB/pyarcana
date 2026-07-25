@@ -5,32 +5,32 @@ export const section43: CourseSection = {
   index: 43,
   title: "Contenedores y reproducibilidad operativa",
   shortTitle: "Contenedores",
-  tagline: "Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas",
+  tagline: "Governed Python Service Platform: un comando, tests/health, non-root, configuración y recuperación documentadas.",
   estimatedHours: 20,
   level: "Master",
   phase: 3,
   icon: "Package",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **contenedores y reproducibilidad operativa** empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados y los límites de recursos y CVE críticos están bajo control. Esta sección no cubre pipelines de fine-tuning de modelos: el foco es empaquetar y operar el servicio Python de forma reproducible.",
+    "En equipos de plataforma y producto, **contenedores y reproducibilidad operativa** empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados, los límites de recursos están acotados y el inventario no deja CVE crítico abierto. Esta sección no cubre pipelines de fine-tuning de modelos: el foco es empaquetar y operar el servicio Python de forma reproducible.",
   learningOutcomes: [
-    { text: "Ordenar layers de un Dockerfile (base → deps/lock → app → USER/CMD) y explicar cuándo se invalida el cache" },
-    { text: "Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime" },
-    { text: "Inyectar secretos solo en runtime, declarar config no secreta y clasificar volumes durable vs efímero" },
-    { text: "Diseñar readiness/liveness y drenar trabajo en SIGTERM con grace period medible" },
-    { text: "Componer API/worker/DB/cache con redes, health y retries de aplicación (depends_on no basta)" },
-    { text: "Aplicar migraciones expand/contract, recrear datos efímeros y ensayar restore de durable" },
-    { text: "Fijar locks con hash y multi-stage (toolchain solo en builder; runtime mínimo)" },
-    { text: "Escanear CVEs, definir límites CPU/memoria > 0 y depurar sin shell root permanente" },
+    { text: "Ordenar layers de un Dockerfile (base → deps/lock → app → USER/CMD) y explicar cuándo se invalida el caché." },
+    { text: "Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime." },
+    { text: "Inyectar secretos solo en runtime, declarar configuración no secreta y clasificar volumes durable vs. efímero." },
+    { text: "Diseñar readiness/liveness y drenar trabajo en SIGTERM con grace period medible." },
+    { text: "Componer API/worker/DB/caché con redes, health y retries de aplicación (depends_on no basta)." },
+    { text: "Aplicar migraciones expand/contract, recrear datos efímeros y ensayar restore de durable." },
+    { text: "Fijar locks con hash y multi-stage (toolchain solo en builder; runtime mínimo)." },
+    { text: "Escanear CVE, definir límites CPU/memoria > 0 y depurar sin shell root permanente." },
   ],
   theory: [
     {
       heading: "Ruta de S43: Contenedores y reproducibilidad operativa",
       paragraphs: [
-        "**Mapa de ideas (luego T1 las aterriza con un Dockerfile real).** **Layer cache:** deps/lock antes de app para no invalidar en cada commit. **Non-root:** UID ≥1000 sin capabilities extras. **Secret injection:** solo en runtime, nunca en capas. **Health/readiness:** el proceso solo se declara listo cuando puede servir. **Compose:** API/worker/DB/cache con redes y health. **Multi-stage:** toolchain fuera de la imagen final. **Resource limits:** CPU/memoria acotados y > 0. **SBOM/scan:** inventario y CVEs antes de promover. En S44 conectarás estos gates al pipeline CI/CD.",
-        "Esta sección empaqueta el servicio seguro de S42 en **contenedores reproducibles** sin exigir un cluster: aprendes los contratos de Dockerfile y Compose (referencia Docker oficial) y los verificas primero con modelos en Python/stdlib que puedes correr en el navegador o en local. El caso `CASO-TRU-043` (plataforma ficticia en Trujillo) es sintético: sin secretos reales ni registro remoto obligatorio.",
-        "Producto incremental: Governed Python Service Platform. Entrada: código fijado, lock de deps, config no secreta y secretos inyectados en runtime. Salida: layers cacheables, non-root, health/readiness, compose API/worker/DB/cache y runbook de recovery. Error de promoción: root UID, secret horneado, health falso o migración no reversible.",
-        "Orden de aprendizaje: T1 Dockerfile y non-root → T2 config, secretos y señales → T3 Compose y migraciones → T4 locks, multi-stage, scan y límites. En cada bloque verás el contrato, una demo que lo calcula y ejercicios que fallan cerrado si el build no es reproducible. Stack de práctica: **stdlib** para modelar el contrato; en el youDo documentas los artefactos reales (Dockerfile/Compose) listos para un entorno con Docker.",
+        "**Mapa de ideas** (T1 las aterriza con un Dockerfile real):\n\n- **Layer caché:** deps/lock antes de app para no invalidar el caché en cada commit.\n- **Non-root:** UID ≥1000 sin capabilities extras.\n- **Secret injection:** solo en runtime, nunca en capas.\n- **Health/readiness:** el proceso solo se declara listo cuando puede servir.\n- **Compose:** API/worker/DB/caché con redes y health.\n- **Multi-stage:** toolchain fuera de la imagen final.\n- **Resource limits:** CPU/memoria acotadas y > 0.\n- **SBOM/scan:** inventario y CVE crítico antes de promover.\n\nEn S44 conectarás estos gates al pipeline CI/CD.",
+        "Esta sección empaqueta el servicio seguro de S42 en **contenedores reproducibles** sin exigir un cluster. Aprendes los contratos de Dockerfile y Compose (referencia Docker oficial) y los verificas primero con modelos en Python/stdlib que puedes correr en el navegador o en local. El caso `CASO-TRU-043` (plataforma ficticia en Trujillo) es sintético: sin secretos reales ni registro remoto obligatorio.",
+        "Producto incremental: Governed Python Service Platform. Entrada: código fijado, lock de deps, configuración no secreta y secretos inyectados en runtime. Salida: layers cacheables, non-root, health/readiness, compose API/worker/DB/caché y runbook de recovery. Error de promoción: root UID, secret horneado, health falso o migración no reversible.",
+        "Orden de aprendizaje: T1 Dockerfile y non-root → T2 configuración, secretos y señales → T3 Compose y migraciones → T4 locks, multi-stage, scan y límites. En cada bloque verás el contrato, una demo que lo calcula y ejercicios que fallan cerrado si el build no es reproducible. **Stack de práctica (stdlib):** modela el contrato con la biblioteca estándar; en el youDo documentas los artefactos reales (Dockerfile/Compose) listos para un entorno con Docker.",
       ],
       code: {
         language: 'python',
@@ -59,11 +59,11 @@ root_uid_ok False`,
       },
     },
     {
-      heading: "Dockerfile, layers y cache",
+      heading: "Dockerfile, layers y caché",
       subtopicId: "S43-T1-A",
       paragraphs: [
-        "Ordena layers de **estable a cambiante**: base y dependencias primero, código de aplicación después. Así el cache de build acelera commits de app sin re-resolver pip en cada push. Un cache «mágico» que depende de estado oculto del host rompe la reproducibilidad entre máquinas. Lee el fragmento de abajo: `COPY requirements` + `RUN pip` van antes de `COPY src/`.",
-        "Contrato de cache. Entrada: secuencia de layers `base→deps→app→cmd` y lock de dependencias. Salida: `cache_hint=deps_before_app` y digest lógico estable entre dos builds con el mismo lock. Error: copiar el source antes del lock (invalida cache en cada commit) o hornear secretos en una layer. Criterio: en el lab de Trujillo sintético, un cambio solo de app no re-resuelve pip si deps no cambió.",
+        "Ordena layers de **estable a cambiante**: base y dependencias primero, código de aplicación después. Así el caché de build acelera los commits de la app sin re-resolver pip en cada push. Un caché «mágico» que depende de estado oculto del host rompe la reproducibilidad entre máquinas. Lee el fragmento de abajo: `COPY requirements` + `RUN pip` van antes de `COPY src/`.",
+        "Contrato de caché. Entrada: secuencia de layers `base→deps→app→cmd` y lock de dependencias. Salida: `cache_hint=deps_before_app` y digest lógico estable entre dos builds con el mismo lock. Error: copiar el source antes del lock (invalida el caché en cada commit) u hornear secretos en una layer. Criterio: en el lab de Trujillo sintético, un cambio solo de app no re-resuelve pip si deps no cambió.",
         "Aplicación a `CASO-TRU-043-T1A`: modelas el Dockerfile de la API de la plataforma ficticia. Sin secretos en capas; el secret se inyecta en runtime (T2-A). Evidencia: dos builds con el mismo lock producen el mismo digest lógico de deps. Si el orden falla, `REORDER_DOCKERFILE`.",
       ],
       code: {
@@ -110,7 +110,7 @@ has_user True`,
       heading: "Bases, usuarios no root y tamaño",
       subtopicId: "S43-T1-B",
       paragraphs: [
-        "Con el cache de layers en orden (T1-A), endureces la **imagen de runtime**. Una base mínima reduce superficie de ataque, pero debe seguir parchable: fija tag o digest (nunca `latest` suelto). Distroless/slim recortan shell y paquetes; el trade-off es depuración más difícil (lo resuelves en T4-B con shells efímeros, no root permanente). Ejecuta como UID de aplicación (≥1000), sin `CAP_SYS_ADMIN` ni capabilities extras, y acota el tamaño runtime (MB).",
+        "Con el caché de layers en orden (T1-A), endureces la **imagen de runtime**. Una base mínima reduce superficie de ataque, pero debe seguir parchable: fija tag o digest (nunca `latest` suelto). Distroless/slim recortan shell y paquetes; el trade-off es depuración más difícil (lo resuelves en T4-B con shells efímeros, no root permanente). Ejecuta como UID de aplicación (≥1000), sin `CAP_SYS_ADMIN` ni capabilities extras, y acota el tamaño runtime (MB).",
         "Contrato de base y usuario. Entrada: tag o digest de base, UID planificado (≥1000), conjunto de capabilities y techo de tamaño runtime. Salida: imagen con base fijada, proceso non-root y runtime bajo presupuesto de MB. Error de promoción: UID 0, capabilities extras, base mutable o imagen inflada sin justificación. Criterio local: `USER`/`uid` y tamaño se auditan antes de publicar.",
         "En `CASO-TRU-043-T1B` (API de la plataforma ficticia en Trujillo) eliges `python:3.12-slim` (o distroless en runtime multi-stage) con digest, creas `appuser` 10001 y verificas non-root. El riesgo a documentar es superficie de ataque y privilegio, no identidad de personas. Sin evidencia de UID/base → `SELECT_PATCHABLE_BASE`; breach → `REBUILD_NONROOT`.",
       ],
@@ -143,8 +143,8 @@ ok True`,
       heading: "Config, secrets y volumes",
       subtopicId: "S43-T2-A",
       paragraphs: [
-        "Partiendo de una imagen non-root (T1-B), la config **no secreta** (ENV de feature flags, puertos, log level) puede declararse en Compose o archivos montados. Los **secretos** (API keys, contraseñas DB) se inyectan en runtime vía secret store, env del orquestador o mounts de solo lectura; **nunca** van en `ENV KEY=valor` del Dockerfile ni en capas de build. Los volumes separan estado **durable** (DB) de **efímero** (cache, tmp): recrear el efímero no debe borrar el durable.",
-        "Contrato de secretos y estado. Entrada: capas de imagen inspeccionables, referencias de secret (`secret_ref`), config declarada y clasificación de volumes. Salida: imagen e inspección sin valor secreto; DB en volume durable; cache/tmp efímeros. Error: secret horneado, `.env` con secretos en la imagen, o DB montada como efímera. Criterio: `docker history`/inspección no revela secretos; rotación no requiere rebuild de app.",
+        "Partiendo de una imagen non-root (T1-B), la configuración **no secreta** (ENV de feature flags, puertos, log level) puede declararse en Compose o archivos montados. Los **secretos** (API keys, contraseñas DB) se inyectan en runtime vía secret store, env del orquestador o mounts de solo lectura. **Nunca** van en `ENV KEY=valor` del Dockerfile ni en capas de build. Los volumes separan estado **durable** (DB) de **efímero** (caché, tmp): recrear el efímero no debe borrar el durable.",
+        "Contrato de secretos y estado. Entrada: capas de imagen inspeccionables, referencias de secret (`secret_ref`), configuración declarada y clasificación de volumes. Salida: imagen e inspección sin valor secreto; DB en volume durable; caché/tmp efímeros. Error: secret horneado, `.env` con secretos en la imagen, o DB montada como efímera. Criterio: `docker history`/inspección no revela secretos; rotación no requiere rebuild de app.",
         "En `CASO-TRU-043-T2A` la API de Trujillo usa `runtime_secret=True` y `secret_baked=False`; `db` es durable y `cache` efímero. Breach → `REMOVE_BAKED_SECRET`; si falta clasificación de volumes → `CLASSIFY_VOLUME`.",
       ],
       code: {
@@ -180,9 +180,9 @@ db_durable True`,
       heading: "Networking, health checks y signals",
       subtopicId: "S43-T2-B",
       paragraphs: [
-        "Con secretos fuera de la imagen (T2-A), defines **quién habla con quién** y cuándo el proceso está listo. Red privada para DB/cache; API expone solo lo necesario. **Readiness** (`/readyz`) responde 200 solo si deps críticas (p. ej. DB) aceptan tráfico; si no, 503. **Liveness** (`/healthz`) detecta bloqueo del proceso (loop colgado), no «puedo servir». Ante **SIGTERM**, drena requests en curso y cierra conexiones dentro de un `grace_seconds` (p. ej. ≥20); un kill abrupto deja trabajo a medias.",
+        "Con secretos fuera de la imagen (T2-A), defines **quién habla con quién** y cuándo el proceso está listo. Red privada para DB/caché; API expone solo lo necesario. **Readiness** (`/readyz`) responde 200 solo si deps críticas (p. ej. DB) aceptan tráfico; si no, 503. **Liveness** (`/healthz`) detecta bloqueo del proceso (loop colgado), no «puedo servir». Ante **SIGTERM**, drena requests en curso y cierra conexiones dentro de un `grace_seconds` (p. ej. ≥20); un kill abrupto deja trabajo a medias.",
         "Contrato de health y shutdown. Entrada: red, probes readiness/liveness, handler de SIGTERM y grace period. Salida: health checks semánticos y shutdown limpio ensayados. Error: readiness que siempre devuelve 200, red pública a DB, o proceso que ignora SIGTERM. Criterio: simular DB caída → readiness 503; enviar SIGTERM → drain antes de exit.",
-        "En `CASO-TRU-043-T2B` la API de Trujillo corre en red privada, valida DB en readiness y drena en 30s. Breach → `DRAIN_AND_ISOLATE`; falta de grace → `DIAGNOSE_HEALTH_SIGNAL`.",
+        "En `CASO-TRU-043-T2B` la API de Trujillo corre en red privada, valida DB en readiness y drena en 30 s. Breach → `DRAIN_AND_ISOLATE`; falta de grace → `DIAGNOSE_HEALTH_SIGNAL`.",
       ],
       code: {
         language: 'python',
@@ -270,9 +270,9 @@ compose_shape True`,
       heading: "Dependencias, migraciones y datos efímeros",
       subtopicId: "S43-T3-B",
       paragraphs: [
-        "El stack de T3-A necesita **orden de arranque de datos**. Las migraciones de esquema son jobs controlados: patrón **expand/contract** (primero agregas columnas compatibles con código viejo; luego retiras lo obsoleto). Un `contract` incompatible con código aún en producción bloquea el release. Datos **efímeros** (tmp, cache) se recrean; datos **durables** (DB) exigen backup y drill de restore antes de confiar en el rollback.",
-        "Contrato de migración. Entrada: tipo de migración (`expand`/`contract`), compatibilidad con código viejo, reset de efímeros y evidencia de restore. Salida: migración y rollback de prueba documentados. Error: contract sin compat, efímero tratado como durable, o backup nunca restaurado. Criterio: migrate antes de servir API; restore drill aprobado.",
-        "En `CASO-TRU-043-T3B` la plataforma de Trujillo aplica `expand` compatible, recrea cache y tiene backup restaurado en lab. Breach → `ROLL_BACK_MIGRATION`; falta de restore → `RUN_RESTORE_DRILL`.",
+        "El stack de T3-A necesita **orden de arranque de datos**. Las migraciones de esquema son jobs controlados: patrón **expand/contract** (primero agregas columnas compatibles con código viejo; luego retiras lo obsoleto). Un `contract` incompatible con código aún en producción bloquea el release. Datos **efímeros** (tmp, caché) se recrean; datos **durables** (DB) exigen backup y drill de restore antes de confiar en el rollback.",
+        "Contrato de migración. Entrada: tipo de migración (`expand`/`contract`), compatibilidad con código viejo, reset de efímeros y evidencia de restore. Salida: migración y rollback de prueba documentados. Error: contract sin compat, efímero tratado como durable, o backup nunca restaurado. Criterio: ejecutar `migrate` antes de servir la API; restore drill aprobado.",
+        "En `CASO-TRU-043-T3B` la plataforma de Trujillo aplica `expand` compatible, recrea el caché y tiene backup restaurado en lab. Breach → `ROLL_BACK_MIGRATION`; falta de restore → `RUN_RESTORE_DRILL`.",
       ],
       code: {
         language: 'python',
@@ -359,9 +359,9 @@ reproducible True`,
       heading: "Scanning, resource limits y debugging",
       subtopicId: "S43-T4-B",
       paragraphs: [
-        "Cierra el camino a S44 (CI/CD): la imagen multi-stage (T4-A) entra a **política de scan**. Cero CVE críticos (o excepciones firmadas). **Límites** de memoria y CPU deben estar definidos y ser **> 0** (cero o ausente = unlimited disfrazado; no pasa el gate). Depuración con logs redactados y shells **efímeros**; un shell root permanente en la imagen de prod es breach. OOM simulado o CVE crítica bloquean el deploy.",
-        "Contrato de scan y límites. Entrada: conteo de CVE críticos, `memory_limit_mb`, `cpu_limit`, flag de debug shell y logs redactados. Salida: deploy permitido solo si scan limpio, límites en rango (0 < mem ≤ 512, 0 < cpu ≤ 1.0), sin shell de debug y logs sin secretos/PII. Error: CVE > 0, límites 0/ausentes, shell root o logs crudos. Criterio: `QUARANTINE_IMAGE` ante breach.",
-        "En `CASO-TRU-043-T4B` la imagen de Trujillo tiene 0 CVE críticos, 512Mi/1 CPU, sin debug shell y logs redactados. Breach → `QUARANTINE_IMAGE`; falta de evidencia de logs → `TRIAGE_SCAN_FINDING`.",
+        "Cierra el camino a S44 (CI/CD): la imagen multi-stage (T4-A) entra a **política de scan**. Cero CVE crítico (o excepciones firmadas). **Límites** de memoria y CPU deben estar definidos y ser **> 0** (cero o ausente = unlimited disfrazado; no pasa el gate). Depuración con logs redactados y shells **efímeros**; un shell root permanente en la imagen de prod es breach. OOM simulado o CVE crítico bloquea el deploy.",
+        "Contrato de scan y límites. Entrada: conteo de CVE crítico, `memory_limit_mb`, `cpu_limit`, flag de debug shell y logs redactados. Salida: deploy permitido solo si scan limpio, límites en rango (0 < mem ≤ 512, 0 < cpu ≤ 1.0), sin shell de debug y logs sin secretos/PII. Error: CVE > 0, límites 0/ausentes, shell root o logs crudos. Criterio: `QUARANTINE_IMAGE` ante breach.",
+        "En `CASO-TRU-043-T4B` la imagen de Trujillo tiene 0 CVE crítico, 512Mi/1 CPU, sin debug shell y logs redactados. Breach → `QUARANTINE_IMAGE`; falta de evidencia de logs → `TRIAGE_SCAN_FINDING`.",
       ],
       code: {
         language: 'python',
@@ -388,7 +388,7 @@ allow_deploy True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cierre de S43-T4-B: CVE críticos o límites inválidos (incl. 0) bloquean con `QUARANTINE_IMAGE`; incertidumbre de scan va a `TRIAGE_SCAN_FINDING`.",
+          "Cierre de S43-T4-B: un CVE crítico o límites inválidos (incluido el valor 0) bloquean con `QUARANTINE_IMAGE`. La incertidumbre de scan va a `TRIAGE_SCAN_FINDING`.",
       },
     },
   ],
@@ -399,7 +399,7 @@ allow_deploy True`,
         demoId: "S43-T1-A-DEMO",
         subtopicId: "S43-T1-A",
         environment: "local-python",
-        description: "Demo: Dockerfile, layers y cache",
+        description: "Demo: Dockerfile, layers y caché",
         code: {
           language: 'python',
           title: "demo_dockerfile_layers_cache.py",
@@ -625,18 +625,18 @@ print("scan", r["scan"])`,
 mem_mb 512
 scan ci_gate`,
         },
-        why: "Bloquea deploy si hay CVE críticos, límites ≤0 o shell de debug; evidencia de scan + límites, no solo conteo de CVE.",
+        why: "Bloquea deploy si hay CVE crítico, límites ≤0 o shell de debug; evidencia de scan + límites, no solo conteo de CVE.",
       },
     ],
   },
   weDo: {
-    intro: "S43 · Laboratorio Governed Python Service Platform reproducible: 24 retos. E1 repara el predicado de dominio, E2 separa válido/adverso/missing y E3 audita un artefacto de texto (Dockerfile, Compose, log de probes, runbook, scan) con CONTINUE | breach | incertidumbre. Un defecto ops intencional por ejercicio; fixtures `CASO-TRU-043`.",
+    intro: "S43 · Laboratorio Governed Python Service Platform reproducible: 24 retos. E1 repara el predicado de dominio. E2 separa válido, adverso y missing. E3 audita un artefacto de texto (Dockerfile, Compose, log de probes, runbook, scan) con CONTINUE, breach o incertidumbre. Un defecto ops intencional por ejercicio; fixtures `CASO-TRU-043`.",
     steps: [
       {
         id: "S43-T1-A-E1",
         subtopicId: "S43-T1-A",
         kind: "guided",
-        instruction: "S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y cache` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y digest estable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REORDER_DOCKERFILE` en E2.",
+        instruction: "S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y caché` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y digest estable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REORDER_DOCKERFILE` en E2.",
         hint: "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
         hints: [
           "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
@@ -652,7 +652,7 @@ scan ci_gate`,
 # DEFECT: PASS si no reusa capa deps y rebuilds>3 (invertido)
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
 record = {"case_id": "CASO-TRU-043-1A", **{"lock_copied_before_source":True,"dependency_layer_reused":True,"source_change_rebuilds":1,"digest_stable":True}}
-# DEFECT: cache de deps debe reutilizarse; rebuilds de source no deben re-resolver deps
+# DEFECT: el caché de deps debe reutilizarse; rebuilds de source no deben re-resolver deps
 meets_contract = not record["dependency_layer_reused"] and record["source_change_rebuilds"] > 3
 status = "PASS" if meets_contract else "REORDER_DOCKERFILE"
 print("S43-T1-A", status)
@@ -673,7 +673,7 @@ assert meets_contract is True` ,
         id: "S43-T1-A-E2",
         subtopicId: "S43-T1-A",
         kind: "independent",
-        instruction: "S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y cache`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock_copied_before_source, dependency_layer_reused, source_change_rebuilds, digest_stable. Salidas exactas: `PASS`, `REORDER_DOCKERFILE`, `MISSING:digest_stable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        instruction: "S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y caché`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock_copied_before_source, dependency_layer_reused, source_change_rebuilds, digest_stable. Salidas exactas: `PASS`, `REORDER_DOCKERFILE`, `MISSING:digest_stable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
         hint: "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
@@ -734,7 +734,7 @@ print(*results)
           "Busca las posiciones de `COPY requirements` y `COPY src` en el texto; solo si deps aparece y está antes de app devuelves `CONTINUE`.",
         ],
         edgeCases: ["dockerfile None/vacío → INSPECT_CACHE_INVALIDATION", "adverso: COPY src antes de COPY requirements → REORDER_DOCKERFILE", "CASO-TRU-043-1A es sintético"],
-        tests: "Buen Dockerfile, Dockerfile reordenado y ausencia prueban CONTINUE / REORDER_DOCKERFILE / INSPECT_CACHE_INVALIDATION.",
+        tests: "Artefacto bueno, reordenado y ausente prueban CONTINUE / REORDER_DOCKERFILE / INSPECT_CACHE_INVALIDATION.",
         feedback: "S43-T1-A-E3: explica en qué líneas del texto falló el orden, por qué REORDER_DOCKERFILE y por qué la ausencia exige INSPECT_CACHE_INVALIDATION sin rellenar el Dockerfile.",
         starterCode: {
           language: 'python',
@@ -1410,7 +1410,7 @@ print(*results)
           "Exige los cuatro servicios, redes front/back y un token de retries de **aplicación** (`DB_MAX_ATTEMPTS` o `retries`). Un restart_policy del orquestador no sustituye reintentos de la app a DB.",
         ],
         edgeCases: ["compose None/vacío → WAIT_FOR_DEPENDENCY", "adverso: falta worker o redes front/back o DB_MAX_ATTEMPTS → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
-        tests: "Buen compose, compose incompleto y ausencia prueban CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.",
+        tests: "Compose bueno, incompleto y ausente prueban CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.",
         feedback: "S43-T3-A-E3: explica qué faltó (servicio, red o DB_MAX_ATTEMPTS), por qué STOP_UNHEALTHY_STACK y por qué la ausencia exige WAIT_FOR_DEPENDENCY sin rellenar el compose.",
         starterCode: {
           language: 'python',
@@ -1853,7 +1853,7 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
           "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
           "El predicado correcto exige CVE==0, límites > 0 en rango, sin debug shell y logs redactados. Un límite 0 no es «sin tope válido».",
         ],
-        edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
+        edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "El fixture `CASO-TRU-043-4B` satisface un predicado de dominio real; imprime `S43-T4-B PASS` y el assert booleano pasa.",
         feedback: "S43-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
         starterCode: {
@@ -1894,16 +1894,16 @@ assert meets_contract is True` ,
         hint: "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
-          "Después aplica la regla de S43-T4-B: 0 CVE críticos, 0 < mem ≤ 512, 0 < cpu ≤ 1.0, sin debug shell y logs redactados. El fixture adverso (incl. límites 0) debe fallar por contenido.",
+          "Después aplica la regla de S43-T4-B: 0 CVE crítico, 0 < mem ≤ 512, 0 < cpu ≤ 1.0, sin debug shell y logs redactados. El fixture adverso (incl. límites 0) debe fallar por contenido.",
         ],
-        edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
+        edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `logs_redacted` ausente y produce exactamente `PASS QUARANTINE_IMAGE MISSING:logs_redacted`.",
         feedback: "S43-T4-B-E2: explica qué campo cambió la decisión (CVE, límite 0, shell o logs), por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e2.py",
           code: `# CASO-TRU-043 · assess QUARANTINE_IMAGE
-# DEFECT: PASS con CVEs, límites 0, debug shell o logs crudos
+# DEFECT: PASS con CVE, límites 0, debug shell o logs crudos
 # TAREA: corrige la condición defectuosa; no cambies los datos del fixture
 def assess(record: dict) -> str:
     required = {"case_id", "critical_cves", "memory_limit_mb", "cpu_limit", "debug_shell", "logs_redacted"}
@@ -1958,7 +1958,7 @@ print(*results)
           "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
           "Parsea CRITICAL, memory_limit_mb y cpu_limit como números; exige CRITICAL==0, límites estrictamente positivos en rango, debug_shell false y logs_redacted true.",
         ],
-        edgeCases: ["reporte None/vacío → TRIAGE_SCAN_FINDING", "adverso: CVE críticos / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
+        edgeCases: ["reporte None/vacío → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "Reporte bueno, reporte adverso y ausencia prueban CONTINUE / QUARANTINE_IMAGE / TRIAGE_SCAN_FINDING.",
         feedback: "S43-T4-B-E3: explica qué línea del reporte (CRITICAL, límites o debug_shell) activó QUARANTINE_IMAGE y por qué la ausencia exige TRIAGE_SCAN_FINDING sin rellenar el scan.",
         starterCode: {
@@ -2043,7 +2043,7 @@ assert results == ["CONTINUE", "QUARANTINE_IMAGE", "TRIAGE_SCAN_FINDING"]` ,
   },
   youDo: {
     title: "[FINAL] Contenedores y reproducibilidad operativa · CP-N4-A (cierre)",
-    context: "Governed Python Service Platform reproducible. Trabaja sobre API, worker, base y cache locales de una plataforma ficticia en Trujillo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida: imágenes mínimas, servicios sanos y recuperación documentada con un comando. El gate se bloquea si hay imagen mutable, proceso root, health check falso o migración no reversible.",
+    context: "Governed Python Service Platform reproducible. Trabaja sobre API, worker, base y caché locales de una plataforma ficticia en Trujillo. Entrada: código fijado, locks, configuración no secreta y secretos inyectados en runtime. Salida: imágenes mínimas, servicios sanos y recuperación documentada con un comando. El gate se bloquea si hay imagen mutable, proceso root, health check falso o migración no reversible.",
     objectives: [
       "Convertir código fijado, locks, configuración no secreta y secretos inyectados en runtime en imágenes mínimas, servicios sanos y recuperación documentada con un comando.",
       "Demostrar el gate: build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo.",
@@ -2053,8 +2053,8 @@ assert results == ["CONTINUE", "QUARANTINE_IMAGE", "TRIAGE_SCAN_FINDING"]` ,
     requirements: [
       "Usa exclusivamente fixtures sintéticos identificados por `CASO-TRU-043`.",
       "Incluye Dockerfile multi-stage fijado (base → deps → app → USER ≥1000 → CMD; digest o tag no latest).",
-      "Incluye Compose con API/worker/DB/cache, health checks y redes segmentadas.",
-      "Incluye config/secrets/volumes documentados (secretos solo runtime; DB durable; cache efímero).",
+      "Incluye Compose con API/worker/DB/caché, health checks y redes segmentadas.",
+      "Incluye configuración, secretos y volumes documentados (secretos solo runtime; DB durable; caché efímero).",
       "Incluye runbook de migración expand/contract, señales SIGTERM, límites CPU/memoria > 0 y recuperación.",
       "Automatiza un caso normal (CONTINUE/PASS), uno de breach (p. ej. `REBUILD_NONROOT`, `REMOVE_BAKED_SECRET` o `QUARANTINE_IMAGE`) y uno incierto (`TRIAGE_SCAN_FINDING` o `INSPECT_CACHE_INVALIDATION`).",
       "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
@@ -2101,27 +2101,27 @@ print("uncertain", gate_case("uncertain"))
 assert status in {"READY", "BLOCKED"}
 # Extiende: no marques True en evidence sin Dockerfile/compose/runbook firmados.
 `,
-    portfolioNote: "Evidencia de CP-N4-A · servicio reproducible en contenedores: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo.",
+    portfolioNote: "Evidencia de CP-N4-A · servicio reproducible en contenedores: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. La checklist inicia en BLOCKED por diseño; conviértela en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo.",
     rubric: [
-      { criterion: "Correctitud del contrato y gate", weight: "25%" },
-      { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
-      { criterion: "Seguridad, privacidad y least privilege", weight: "15%" },
-      { criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" },
-      { criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" },
-      { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
+      { criterion: "Corrección técnica del contrato y gate.", weight: "25%" },
+      { criterion: "Pruebas normal/breach/uncertain y recuperación.", weight: "20%" },
+      { criterion: "Seguridad, privacidad y least privilege.", weight: "15%" },
+      { criterion: "Reproducibilidad, lineage y evidencia.", weight: "15%" },
+      { criterion: "Operación: SLO, observabilidad y rollback.", weight: "15%" },
+      { criterion: "Comunicación de trade-offs y límites.", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: "¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?",
+        question: "¿Qué evidencia permite aprobar `Dockerfile, layers y caché` en CASO-TRU-043?",
         options: ["un print sin assert ni versión", "una captura de pantalla sin fuente", "dos builds con el mismo lock producen el mismo digest lógico de deps", "datos personales reales para que parezca auténtico"],
         correctIndex: 2,
         explanation: "La teoría exige que dos builds con el mismo lock produzcan el mismo digest lógico de deps; evidencia decorativa o PII no satisface el contrato.",
       },
       {
         question: "Si el health check no prueba readiness real o el proceso corre como root, ¿qué respuesta preserva seguridad y auditabilidad?",
-        options: ["emitir el código de breach del subtema (p. ej. REBUILD_NONROOT o DRAIN_AND_ISOLATE) y conservar evidencia", "continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
+        options: ["emitir el código de breach del subtema (p. ej. `REBUILD_NONROOT` o `DRAIN_AND_ISOLATE`) y conservar evidencia", "continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
         correctIndex: 0,
         explanation: "Cada subtema falla cerrado con su código de breach; la incertidumbre usa rutas de inspección, no éxito silencioso.",
       },
@@ -2139,9 +2139,9 @@ assert status in {"READY", "BLOCKED"}
       },
       {
         question: "Un Dockerfile que copia el source antes del lock de dependencias…",
-        options: ["maximiza cache: solo app cambia y deps no se re-resuelven", "es obligatorio para non-root", "invalida cache de deps en cada commit de código (reorder a deps_before_app)", "garantiza el mismo digest aunque el lock cambie"],
+        options: ["maximiza el caché: solo app cambia y deps no se re-resuelven", "es obligatorio para non-root", "invalida el caché de deps en cada commit de código (reorder a deps_before_app)", "garantiza el mismo digest aunque el lock cambie"],
         correctIndex: 2,
-        explanation: "Layers deben ir de estable a cambiante: deps/lock antes de app; copiar source primero rompe el cache de dependencias.",
+        explanation: "Layers deben ir de estable a cambiante: deps/lock antes de app; copiar source primero rompe el caché de dependencias.",
       },
     ],
   },
@@ -2155,12 +2155,12 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "Docker multi-stage builds",
         url: "https://docs.docker.com/build/building/multi-stage/",
-        note: "Builder vs runtime",
+        note: "Builder vs. runtime",
       },
       {
         label: "Docker best practices",
         url: "https://docs.docker.com/build/building/best-practices/",
-        note: "Cache, non-root y tamaño",
+        note: "Caché, non-root y tamaño",
       },
       {
         label: "Docker Compose Specification",
@@ -2190,7 +2190,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "Trivy (image scanning)",
         url: "https://github.com/aquasecurity/trivy",
-        note: "Scan de CVEs en imágenes",
+        note: "Scan de CVE en imágenes",
       },
       {
         label: "Python signal handling",

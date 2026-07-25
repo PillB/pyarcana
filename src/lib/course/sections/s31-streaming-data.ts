@@ -5,14 +5,14 @@ export const section31: CourseSection = {
   index: 31,
   title: "Grafos y evidencia relacional",
   shortTitle: "Grafos y evidencia",
-  tagline: "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+  tagline: "grafo de evidencia relacional: responde cómo están conectados con camino reproducible y sin convertir centralidad en culpabilidad",
   estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "Network",
   accentColor: "bg-gradient-to-br from-violet-500 to-indigo-800",
   jobRelevance:
-    "En investigación de relaciones entre entidades (banca, BPO, compliance en Perú), necesitas un **grafo de evidencia**: nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Tras el ER de S30, el grafo responde *cómo están conectadas* las entidades — no *quién es culpable*.",
+    "En investigación de relaciones entre entidades — banca, BPO y compliance en Perú — necesitas un **grafo de evidencia**. Ese grafo se compone de nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Tras el ER de S30, el grafo responde *cómo están conectadas* las entidades — no *quién es culpable*.",
   learningOutcomes: [
     { text: "Modelar nodos/aristas con peso y dirección" },
     { text: "Representar multigrafo temporal con provenance" },
@@ -42,34 +42,36 @@ export const section31: CourseSection = {
       heading: "Nodos, aristas, dirección y peso",
       subtopicId: "S31-T1-A",
       paragraphs: [
-        "Un **nodo** es una entidad del caso (cliente, cuenta, email o teléfono sintético). Una **arista** es un **hecho relacional** con tipo (`etype`), y opcionalmente **dirección** y **peso** (monto en PEN, frecuencia o score de confianza). Sin tipos estables, el path del revisor no se puede filtrar ni auditar.",
-        "Dirigido vs no dirigido: las transferencias son **dirigidas**; “comparte teléfono/dirección” suele modelarse **no dirigido** (o con dos aristas simétricas si tu store lo exige). Elige una convención, documéntala en el schema y no la mezcles en el mismo etype.",
-        "El **peso** es evidencia cuantitativa (**no** veredicto). Declara **unidades** en el schema: `PEN`, `count` o `score`. Mezclar unidades en el mismo campo rompe agregaciones y rankings posteriores del workbench.",
+        "Un **nodo** es una entidad del caso: cliente, cuenta, email o teléfono sintético. Una **arista** es un **hecho relacional** con tipo (`etype`), y opcionalmente **dirección** y **peso**. El peso puede ser monto en PEN, frecuencia o score de confianza. Sin tipos estables, el path del revisor no se puede filtrar ni auditar.",
+        "Dirigido vs. no dirigido: las transferencias son **dirigidas**. “Comparte teléfono/dirección” suele modelarse **no dirigido** (o con dos aristas simétricas si tu store lo exige). Elige una convención, documéntala en el schema y no la mezcles en el mismo etype.",
+        "El **peso** es evidencia cuantitativa (**no** veredicto). Declara **unidades** en el schema por etype: `PEN`, `count` o `score`. Mezclar unidades en el mismo campo sin documentarlas rompe agregaciones y rankings posteriores del workbench.",
       ],
       code: {
         language: 'python',
         title: "graph_model.py",
         code: `def s31_th_1():
-    # modelo mínimo de grafo dirigido con pesos (CP-N3-B)
+    # modelo mínimo con unidad de peso por etype (CP-N3-B)
     nodes = {
-        "E1": {"kind": "entity", "label": "Ana López"},
-        "E2": {"kind": "entity", "label": "Luis Ríos"},
+        "E1": {"kind": "entity", "label": "Cliente-Demo-01"},
+        "E2": {"kind": "entity", "label": "Cliente-Demo-02"},
         "C1": {"kind": "account", "label": "cta-1001"},
     }
     edges = [
-        {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "directed": True},
-        {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "directed": False},
-        {"src": "C1", "dst": "E2", "etype": "transfer", "weight": 250.0, "directed": True},
+        {"src": "E1", "dst": "C1", "etype": "owns", "weight": 1.0, "unit": "count", "directed": True},
+        {"src": "E1", "dst": "E2", "etype": "shared_phone", "weight": 0.8, "unit": "score", "directed": False},
+        {"src": "C1", "dst": "E2", "etype": "transfer", "weight": 250.0, "unit": "PEN", "directed": True},
     ]
     print("n_nodes", len(nodes))
     print("n_edges", len(edges))
     print("types", sorted({e["etype"] for e in edges}))
+    print("units", sorted({e["unit"] for e in edges}))
 
 s31_th_1()
 `,
         output: `n_nodes 3
 n_edges 3
-types ['owns', 'shared_phone', 'transfer']`,
+types ['owns', 'shared_phone', 'transfer']
+units ['PEN', 'count', 'score']`,
       },
       callout: {
         type: "tip",
@@ -121,7 +123,7 @@ has_provenance True`,
       subtopicId: "S31-T2-A",
       paragraphs: [
         "Construyes el grafo desde tablas: **entidades** (nodos persona/organización), **cuentas**, **transacciones** (aristas dirigidas) y **contactos** (email/teléfono/dirección como nodos o como aristas tipadas). Cada fila de tabla se proyecta a nodos y/o aristas con un etype del schema canónico.",
-        "Patrón habitual: entity —`owns`→ account; account —`transfer`→ account; entity —`has_phone`/`has_email`→ valor de contacto. Cuando dos entidades apuntan al mismo valor, el revisor ve un **hecho de contacto compartido** — no parentesco ni fraude. El valor de contacto como **nodo** facilita detectar ese hecho sin inventar una arista persona–persona opaca.",
+        "Patrón habitual: entity —`owns`→ account; account —`transfer`→ account; entity —`has_phone`/`has_email`→ valor de contacto. Preferencia canónica: el valor de contacto como **nodo** intermedio (`E1 → ph:900 ← E2`). Una arista directa `shared_phone` entre personas es un atajo derivado, no el modelo primario. En ambos casos es un **hecho de contacto compartido** — no parentesco ni fraude.",
         "Usa ids **sintéticos estables** (`ent-001`, `acc-1`) y dominios demo (`@example.pe`). Ids estables hacen la construcción **idempotente** (mismas filas → mismo grafo ordenado). Nunca cargues PII real en ejercicios del curso.",
       ],
       code: {
@@ -152,9 +154,11 @@ has_provenance True`,
         + [{"src": t["src"], "dst": t["dst"], "etype": "transfer", "weight": t["amount"]} for t in txs]
         + [{"src": c["entity"], "dst": c["value"], "etype": "has_" + c["kind"]} for c in contacts]
     )
+    phones = [c["value"] for c in contacts if c["kind"] == "phone"]
+    shared = len(phones) != len(set(phones))
     print("nodes", len(nodes))
     print("edges", len(edges))
-    print("shared_phone", True)
+    print("shared_phone", shared)
 
 s31_th_3()
 `,
@@ -166,7 +170,7 @@ shared_phone True`,
         type: "tip",
         title: "Contactos como nodos",
         content:
-          "Modelar el valor de contacto como nodo facilita detectar shared-contact sin inventar parentesco ni fraude: es un hecho de contacto compartido a revisar, no un veredicto.",
+          "Modelar el valor de contacto como nodo facilita detectar un **contacto compartido** sin inventar parentesco ni fraude: es un hecho a revisar, no un veredicto.",
       },
     },
     {
@@ -174,7 +178,7 @@ shared_phone True`,
       subtopicId: "S31-T2-B",
       paragraphs: [
         "**Deduplicar nodos** tras el ER colapsa ids canónicos; conserva el mapa `raw_id → canonical_id` para reescribir aristas sin perder trazabilidad del matching de S30. Sin ese mapa, dos raw del mismo canónico generan aristas fantasmas o rompen el path del revisor.",
-        "**Agregar aristas**: suma montos, cuenta eventos, min/max `ts` — y guarda una **capa de detalle** (lista de `record_id` o punteros a las filas fuente). El agregado acelera filtros y dashboards; el detalle responde “muéstrame las transacciones de este hop”.",
+        "**Agregar aristas**: la clave de agregado incluye al menos `(src, dst, etype)` — y, si aplica, unidad y ventana temporal. Suma montos, cuenta eventos, min/max `ts` y guarda una **capa de detalle** (lista de `record_id`). El agregado acelera filtros; el detalle responde «muéstrame las transacciones de este hop».",
         "Si solo dejas el agregado, el revisor no puede explicar el camino con evidencia. El workbench de investigación (y el inicio de CP-N3-B) necesita **ambas capas**: sumario para priorizar y fuente para auditar.",
       ],
       code: {
@@ -183,32 +187,32 @@ shared_phone True`,
         code: `def s31_th_4():
     from collections import defaultdict
     detail = [
-        {"src": "E1", "dst": "E2", "amount": 100.0, "record_id": "tx-1"},
-        {"src": "E1", "dst": "E2", "amount": 50.0, "record_id": "tx-2"},
-        {"src": "E2", "dst": "E3", "amount": 20.0, "record_id": "tx-3"},
+        {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 100.0, "record_id": "tx-1"},
+        {"src": "E1", "dst": "E2", "etype": "transfer", "amount": 50.0, "record_id": "tx-2"},
+        {"src": "E2", "dst": "E3", "etype": "transfer", "amount": 20.0, "record_id": "tx-3"},
     ]
+    # clave semántica: no mezclar transfer con shared_phone del mismo par
     agg = defaultdict(lambda: {"sum": 0.0, "n": 0, "records": []})
     for d in detail:
-        k = (d["src"], d["dst"])
+        k = (d["src"], d["dst"], d["etype"])
         agg[k]["sum"] += d["amount"]
         agg[k]["n"] += 1
         agg[k]["records"].append(d["record_id"])
-    # capa agregada + detalle intacto
     print("pairs", len(agg))
-    print("E1_E2", agg[("E1", "E2")]["sum"], agg[("E1", "E2")]["n"])
+    print("E1_E2_tx", agg[("E1", "E2", "transfer")]["sum"], agg[("E1", "E2", "transfer")]["n"])
     print("detail_kept", len(detail) == sum(v["n"] for v in agg.values()))
 
 s31_th_4()
 `,
         output: `pairs 2
-E1_E2 150.0 2
+E1_E2_tx 150.0 2
 detail_kept True`,
       },
       callout: {
         type: "danger",
         title: "Agregado ≠ evidencia completa",
         content:
-          "Mostrar solo sum(amount) sin records impide contestar 'muéstrame las transacciones'.",
+          "Mostrar solo sum(amount) sin records impide contestar «muéstrame las transacciones».",
       },
     },
     {
@@ -217,7 +221,7 @@ detail_kept True`,
       paragraphs: [
         "**Grado** (degree): número de vecinos (in/out en dirigidos). Sirve para filtrar **hubs** (nodos de alto grado) y priorizar exploración — **no** para culpar a un nodo. En grafos dirigidos, reporta in-degree y out-degree por separado cuando el flujo importa (p. ej. transferencias).",
         "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso de revisión suele vivir en un **subgrafo acotado**; componentes aisladas ayudan a acotar ruido y a no mezclar islas irrelevantes en la misma vista.",
-        "**Caminos**: BFS/DFS con **límite de profundidad** (*hop limit*, máximo de saltos). El path **reproducible** lista nodos en orden estable (vecinos sorted) y, en producción, aristas + evidencia. Sin límite, caminos largos son caros y poco accionables para la cola humana.",
+        "**Caminos**: BFS/DFS con **límite de profundidad** (*hop limit*, máximo de saltos). El path **reproducible** lista nodos en orden estable (vecinos sorted) y, en producción, incluye aristas y evidencia. Sin límite, los caminos largos son caros y poco accionables para la cola humana.",
       ],
       code: {
         language: 'python',
@@ -280,9 +284,10 @@ path_A_D ['A', 'B', 'D']`,
       heading: "Centralidad con interpretación limitada",
       subtopicId: "S31-T3-B",
       paragraphs: [
-        "**Degree centrality** (grado normalizado) mide **cuántos vecinos** tiene un nodo: es **estructura**, no culpa. Un hub puede ser un procesador de pagos legítimo o un teléfono de call center compartido. *Betweenness* (cuántos caminos cortos pasan por el nodo) y *closeness* (qué tan cerca está del resto) existen en NetworkX; en S31 dominas **degree + interpretación** y dejas las otras para la documentación enlazada — sin fingir que ya las calculaste.",
-        "Interpreta con contexto antes de priorizar: **tipo de arista** (¿solo `transfer` o también `shared_phone`?), **ventana temporal** (¿el grado creció en un pico reciente?) y si el nodo es **infraestructura** (`INF-…`) vs **persona** (`PER-…`). Un score alto solo ordena la cola de revisión humana; no cierra el caso.",
-        "Nunca automatices “alta centralidad → fraude”. Eso viola el espíritu de CP-N3-B y del workbench de S34: la métrica **informa** la investigación; el revisor **decide** con path + records + contexto de negocio. Reporta siempre métrica + tipos de arista + disclaimer de no-culpabilidad.",
+        "**Degree centrality** (NetworkX / teoría de redes) normaliza el grado por el máximo posible: `deg(v) / (n - 1)` en un grafo simple no dirigido sin self-loops. Es **estructura**, no culpa. Un hub puede ser un procesador de pagos legítimo o un teléfono de call center compartido.",
+        "*Betweenness* mide cuántos caminos cortos pasan por el nodo; *closeness*, qué tan cerca está del resto. Ambas existen en NetworkX, pero en S31 dominas **degree + interpretación** y dejas las otras para la documentación enlazada — sin fingir que ya las calculaste.",
+        "Interpreta con contexto antes de priorizar: **tipo de arista** (¿solo `transfer` o también `shared_phone`?), **ventana temporal** (¿el grado creció en un pico reciente?) y si el nodo es **infraestructura** (`INF-…`) vs. **persona** (`PER-…`). Un score alto solo ordena la cola de revisión humana; no cierra el caso.",
+        "Nunca automatices “alta centralidad → fraude”. Eso viola el espíritu de CP-N3-B y del workbench de S34: la métrica **informa** la investigación; el revisor **decide** con path, records y contexto de negocio. Reporta siempre la métrica, los tipos de arista y el disclaimer de no-culpabilidad.",
       ],
       code: {
         language: 'python',
@@ -292,29 +297,32 @@ adj = defaultdict(set)
 edges = [("P1", "HUB"), ("P2", "HUB"), ("P3", "HUB"), ("P1", "P2"), ("X", "Y")]
 for u, v in edges:
     adj[u].add(v); adj[v].add(u)
-degree_cent = {n: len(adj[n]) for n in adj}
-# degree centrality: grado normalizado por el máximo del grafo
-max_d = max(degree_cent.values())
-norm = {n: degree_cent[n] / max_d for n in degree_cent}
-print("top", sorted(norm, key=norm.get, reverse=True)[:1][0])
-print("hub_degree", degree_cent["HUB"])
+n = len(adj)
+degree = {v: len(adj[v]) for v in adj}
+# Degree centrality estándar: deg / (n - 1), no deg / max_observed
+deg_cent = {v: degree[v] / (n - 1) for v in degree}
+top = max(deg_cent, key=deg_cent.get)
+print("top", top)
+print("hub_degree", degree["HUB"])
+print("hub_degree_cent", round(deg_cent["HUB"], 2))
 print("not_guilt", True)  # centralidad ≠ culpabilidad`,
         output: `top HUB
 hub_degree 3
+hub_degree_cent 0.6
 not_guilt True`,
       },
       callout: {
         type: "danger",
         title: "Centralidad ≠ culpabilidad",
         content:
-          "Reporta métrica + tipos de arista + disclaimer. No etiquetes conducta indebida.",
+          "Reporta la métrica, los tipos de arista y el disclaimer. No etiquetes conducta indebida.",
       },
     },
     {
       heading: "Subgrafos y pruebas",
       subtopicId: "S31-T4-A",
       paragraphs: [
-        "Extrae un **subgrafo de caso** (*ego-subgraph* o *ego-k*): el **seed** (semilla del caso — p. ej. la entidad bajo revisión) más vecinos a **k hops** (saltos), con filtros de tipo y/o ventana temporal. El revisor trabaja sobre ese recorte; no navega el grafo completo del banco.",
+        "Extrae un **subgrafo de caso** (*ego-subgraph* o *ego-k*): el **seed** (semilla del caso) más vecinos a **k hops** (saltos). El **seed** suele ser la entidad bajo revisión. Puedes aplicar filtros de tipo y/o ventana temporal sobre el recorte. El revisor trabaja sobre ese recorte; no navega el grafo completo del banco.",
         "Prueba invariantes de construcción: sin self-loops basura, pesos ≥ 0, provenance presente en toda arista de evidencia, y construcción **idempotente** (mismas filas → mismo grafo ordenado). Cada bug (arista invertida, nodo huérfano, `record_id` perdido) merece un test de regresión con fixture sintético.",
         "Tests típicos: cardinalidades, path existe/no existe, componente esperada, `ego(seed, k)` no incluye nodos fuera del radio. Mini-caso: seed `E1`, k=1 incluye el teléfono compartido `ph:900`; k=2 ya alcanza `E2` por ese contacto. El path `E1 → ph:900 → E2` es **hipótesis con evidencia**, no veredicto de fraude ni parentesco.",
       ],
@@ -364,9 +372,9 @@ k 2`,
       heading: "Visualización, escalabilidad, privacidad y evidencia por arista",
       subtopicId: "S31-T4-B",
       paragraphs: [
-        "Visualiza **subgrafos acotados**; no intentes dibujar 100k nodos en el navegador del revisor. A escala tipo SNAP (miles o millones de nodos), la política correcta es: **ego-k o componente del caso** para explorar, y **resumir** (top hubs, tamaños de componentes, conteos por etype) cuando `n_nodes` supera un umbral de render. Renderizar todo no es “más transparente”: es ruido e inoperable.",
+        "Visualiza **subgrafos acotados**; no intentes dibujar 100k nodos en el navegador del revisor. A escala tipo SNAP (miles o millones de nodos), la política correcta se divide en dos modos. Para explorar, usa **ego-k o la componente del caso**. Cuando `n_nodes` supera un umbral de render (p. ej. 500 en el lab — valor ilustrativo, no universal), **resume** con top hubs, tamaños de componentes y conteos por etype. Renderizar todo no es “más transparente”: es ruido e inoperable.",
         "**Privacidad**: enmascara PII en labels de la vista (email parcial, teléfono parcial). Los roles ven solo lo necesario para la revisión. Un layout bonito con PII completa es un **incidente de compliance**, no un entregable de portafolio.",
-        "**Evidencia por arista — storyboard del revisor (CASO-LIM-031):** (1) abre el caso con seed `E1`; (2) expande ego k=2 y localiza el hop `E1 → ph:900 → E2`; (3) al hacer clic en cada hop ve `records`, `ts` y `source`; (4) lee el disclaimer de centralidad del hub de contacto; (5) **no** recibe auto-label de fraude ni parentesco — solo hipótesis con evidencia para la cola humana. Ese contrato alimenta CP-N3-B y el workbench de S34.",
+        "**Evidencia por arista — storyboard del revisor (CASO-LIM-031):** el revisor abre el caso con seed `E1` y recorre cinco pasos: (1) expande ego k=2 y localiza el hop `E1 → ph:900 → E2`; (2) al hacer clic en cada hop, ve `records`, `ts` y `source`; (3) lee el disclaimer de centralidad del hub de contacto; (4) **no** recibe auto-label de fraude ni parentesco, solo hipótesis con evidencia para la cola humana; (5) ese contrato alimenta CP-N3-B y el workbench de S34.",
       ],
       code: {
         language: 'python',
@@ -405,7 +413,7 @@ scalable_view subgraph_only`,
     },
   ],
   iDo: {
-    intro: "Te muestro el inicio de CP-N3-B paso a paso: modelo tipado, multiaristas con provenance, proyección tablas→grafo, agregación con detalle, path con hop limit, degree con disclaimer, ego-k y vista redactada. Observa la salida de cada demo: es el contrato que luego practicarás en We Do.",
+    intro: "Te muestro el inicio de CP-N3-B paso a paso. Primero el modelo tipado, las multiaristas con provenance y la proyección tablas→grafo. Luego la agregación con detalle, el path con hop limit, el degree con disclaimer, el ego-k y la vista redactada. Observa la salida de cada demo: es el contrato que luego practicarás en We Do.",
     steps: [
       {
         demoId: "S31-T1-A-DEMO",
@@ -573,9 +581,11 @@ def path(s, t, max_h=4):
                 seen.add(m)
                 q.append((m, p + [m]))
     return None
-print("path", path("A", "D"))
-print("hops", len(path("A", "D")) - 1)
-print("repro", True)
+p1 = path("A", "D")
+p2 = path("A", "D")
+print("path", p1)
+print("hops", len(p1) - 1)
+print("repro", p1 == p2)
 # Opcional en producción (mismo contrato):
 # import networkx as nx
 # G = nx.Graph(); G.add_edges_from([("A","B"),("B","C"),("C","D")])
@@ -644,9 +654,10 @@ adj = defaultdict(set)
 for u, v in [("S", "A"), ("S", "B"), ("A", "C")]:
     adj[u].add(v)
     adj[v].add(u)
-print("ego", ego(adj, "S", 1))
+ego1 = ego(adj, "S", 1)
+print("ego", ego1)
 print("k", 1)
-print("test_ok", True)
+print("test_ok", ego1 == ["A", "B", "S"])
 `,
           output: `ego ['A', 'B', 'S']
 k 1
@@ -727,7 +738,7 @@ n_directed 1`,
         subtopicId: "S31-T1-A",
         kind: "independent",
         instruction:
-          "S31-T1-A-E2 · Dada una lista de aristas dirigidas (src, dst, weight en PEN), calcula el **peso total saliente** por nodo (*out-strength*: suma de pesos de aristas que salen del nodo) e imprime el nodo con mayor out-strength, su valor y cuántos nodos tienen salida. Fixture `CASO-LIM-031`; datos sintéticos solo; sin fraude automático.",
+          "S31-T1-A-E2 · Dada una lista de aristas dirigidas (`src`, `dst`, `weight` en PEN), calcula el **peso total saliente** por nodo (*out-strength*: la suma de pesos de las aristas que salen del nodo). Imprime el nodo con mayor out-strength, su valor y cuántos nodos tienen salida. Fixture `CASO-LIM-031`; datos sintéticos solo; sin fraude automático.",
         hint: "Acumula en un dict solo por `src`; usa max(out, key=out.get).",
         hints: [
           "Acumula out[s] += w por cada arista saliente (ignora dst para el total).",
@@ -778,19 +789,19 @@ n 2`,
         subtopicId: "S31-T1-A",
         kind: "transfer",
         instruction:
-          "S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los `etype` únicos ordenados. Usa el schema canónico (`transfer` dirigida, `shared_phone` no dirigida). Esta clasificación es el filtro que el revisor aplica al path. Fixture `CASO-LIM-031`.",
+          "S31-T1-A-E3 · Clasifica aristas en directed vs. undirected y devuelve dos conteos; imprime también los `etype` únicos ordenados. Usa el schema canónico (`transfer` dirigida, `shared_phone` no dirigida). Esta clasificación es el filtro que el revisor aplica al path. Fixture `CASO-LIM-031`.",
         hint: "sets para etypes; sorted(set(...)).",
         hints: [
           "Cuenta directed=True y directed=False por separado (no mezcles convenciones en el mismo etype).",
           "etypes = sorted({e['etype'] for e in edges}).",
         ],
-        edgeCases: ["etype repetido colapsa en set", "misma etype no debe mezclar directed True/False en producción"],
+        edgeCases: ["etype repetido colapsa en set.", "misma etype no debe mezclar directed True/False en producción."],
         tests: "salida: directed 2 / undirected 1 / etypes ['shared_phone', 'transfer']",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · directed vs undirected counts (schema canónico)
+          code: `# CASO-LIM-031 · directed vs. undirected counts (schema canónico)
 # TODO: implementa counts(edges) → (n_dir, n_undir, etypes_sorted)
 edges = [
     {'directed': True, 'etype': 'transfer'},
@@ -1186,7 +1197,7 @@ detail_kept True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · aggregate vs detail invariant
+          code: `# CASO-LIM-031 · aggregate vs. detail invariant
 # TODO: agrega desde detail y comprueba que no se perdieron filas
 from collections import defaultdict
 detail = [
@@ -1389,11 +1400,11 @@ found True`,
         subtopicId: "S31-T3-B",
         kind: "guided",
         instruction:
-          "S31-T3-B-E1 · Desde aristas no dirigidas, calcula el grado de cada nodo, normaliza por el máximo (degree centrality en [0, 1]), e imprime el nodo top, el score redondeado a 2 decimales y `guilt=False`. Fixture `CASO-LIM-031`.",
-        hint: "Primero deg desde edges; luego score = deg / max_deg; round(score, 2).",
+          "S31-T3-B-E1 · Desde aristas no dirigidas, calcula el grado de cada nodo y la **degree centrality** estándar `deg / (n - 1)` (n = nodos del grafo). Imprime el nodo top, el score redondeado a 2 decimales y `guilt=False`. Fixture `CASO-LIM-031`.",
+        hint: "Acumula deg desde ambos extremos; n = len(deg); score = deg / (n - 1).",
         hints: [
           "deg[u] += 1; deg[v] += 1 por cada arista.",
-          "norm = {k: deg[k] / m for k in deg}; guilt siempre False.",
+          "norm = {k: deg[k] / (n - 1) for k in deg}; guilt siempre False.",
         ],
         edgeCases: ["guilt siempre False en enunciado pedagógico"],
         tests: "salida: top H / score 1.0 / guilt False",
@@ -1401,12 +1412,12 @@ found True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · normalized degree centrality
-# TODO: calcula grado desde edges, normaliza y reporta top (sin culpa)
+          code: `# CASO-LIM-031 · degree centrality estándar deg/(n-1)
+# TODO: acumula deg; n = len(deg); norm = deg/(n-1); reporta top (sin culpa)
 from collections import defaultdict
 edges = [('H', 'A'), ('H', 'B'), ('H', 'C')]
 deg = defaultdict(int)
-# completar: acumular deg, m = max, norm, top, prints
+# completar: acumular deg, n, norm, top, prints
 `,
         },
         solutionCode: {
@@ -1418,8 +1429,8 @@ deg = defaultdict(int)
 for u, v in edges:
     deg[u] += 1
     deg[v] += 1
-m = max(deg.values())
-norm = {k: deg[k] / m for k in deg}
+n = len(deg)
+norm = {k: deg[k] / (n - 1) for k in deg}
 top = max(norm, key=norm.get)
 print("top", top)
 print("score", round(norm[top], 2))
@@ -1434,7 +1445,7 @@ guilt False`,
         subtopicId: "S31-T3-B",
         kind: "independent",
         instruction:
-          "S31-T3-B-E2 · Desde aristas no dirigidas del fixture, calcula el grado de cada nodo, elige el hub de mayor grado y clasifícalo como `infra` o `person` por prefijo de id (`INF-` vs `PER-`). Imprime kind, disclaimer `centrality_not_guilt` y hub. Un hub de pagos no implica culpa de las personas conectadas. Fixture `CASO-LIM-031`.",
+          "S31-T3-B-E2 · Desde aristas no dirigidas del fixture, calcula el grado de cada nodo, elige el hub de mayor grado y clasifícalo como `infra` o `person` por prefijo de id (`INF-` vs. `PER-`). Imprime kind, disclaimer `centrality_not_guilt` y hub. Un hub de pagos no implica culpa de las personas conectadas. Fixture `CASO-LIM-031`.",
         hint: "Acumula deg desde ambos extremos; hub = max(deg, key=deg.get); startswith('INF-').",
         hints: [
           "for u, v in edges: deg[u] += 1; deg[v] += 1.",
@@ -1446,7 +1457,7 @@ guilt False`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · hub infra vs person (degree desde aristas)
+          code: `# CASO-LIM-031 · hub infra vs. person (degree desde aristas)
 # TODO: calcula grado, elige hub y clasifica por prefijo INF-/PER-
 from collections import defaultdict
 edges = [
@@ -1653,24 +1664,24 @@ prov True`,
         subtopicId: "S31-T4-A",
         kind: "transfer",
         instruction:
-          "S31-T4-A-E3 · Idempotencia del builder: construir el grafo dos veces desde las mismas filas debe producir la misma lista de aristas ordenada (reproducible para auditoría y re-ejecución del workbench). Implementa `build` determinista e imprime `equal`, la lista `edges` y `idempotent`. Fixture `CASO-LIM-031`.",
-        hint: "función build → sorted(set(...)); compara dos builds.",
+          "S31-T4-A-E3 · Idempotencia del builder **dirigido**: construir el grafo dos veces desde las mismas filas debe producir la misma lista de aristas ordenada, **conservando dirección** (A→B ≠ B→A). Implementa `build` determinista e imprime `equal`, la lista `edges` y `idempotent`. Fixture `CASO-LIM-031`.",
+        hint: "build → sorted(set(edges)); no uses sorted(e) por arista si el grafo es dirigido.",
         hints: [
-          "build debe ser determinista (sort + set de tuples normalizados).",
+          "Cada arista es un par ordenado (src, dst). set + sorted de la lista basta.",
           "equal = build(raw) == build(list(raw)); sin eso el revisor no confía en re-runs.",
         ],
-        edgeCases: ["orden de entrada no debe cambiar el grafo canónico"],
+        edgeCases: ["orden de entrada no debe cambiar el grafo canónico.", "no colapses A→B con B→A."],
         tests: "salida: equal True / edges [('a', 'b'), ('b', 'c')] / idempotent True",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-031 · build idempotence (reproducible para auditoría)
-# TODO: build determinista y comparación equal
+          code: `# CASO-LIM-031 · build idempotence (conserva dirección)
+# TODO: build determinista con par ordenado (src, dst); no inviertas extremos
 raw = [('a', 'b'), ('b', 'c')]
 
 def build(edges):
-    return []  # completar: sorted set de tuples normalizados
+    return []  # completar: sorted(set(...)) sin reordenar cada arista
 `,
         },
         solutionCode: {
@@ -1679,10 +1690,11 @@ def build(edges):
           code: `raw = [('a', 'b'), ('b', 'c')]
 
 def build(edges):
-    return sorted(set(tuple(sorted(e)) for e in edges))
+    # Conserva dirección: no hacer tuple(sorted(e)) por arista
+    return sorted(set(edges))
 print("equal", build(raw) == build(list(raw)))
 print("edges", build(raw))
-print("idempotent", True)`,
+print("idempotent", build(raw) == build(list(reversed(raw))))`,
           output: `equal True
 edges [('a', 'b'), ('b', 'c')]
 idempotent True`,
@@ -1782,7 +1794,7 @@ explainable True`,
           language: 'python',
           title: "exercise.py",
           code: `# CASO-LIM-031 · scale policy summarize
-# TODO: política render vs summarize
+# TODO: política render vs. summarize
 max_n = 500
 
 def decide(n):
@@ -1809,7 +1821,7 @@ max_n 500`,
   youDo: {
     title: "Grafo temporal con caminos de evidencia (CP-N3-B inicio)",
     context:
-      "Tras el ER de S30, construye un grafo sintético entity/account/contact/tx (fixture conceptual `CASO-LIM-031`, `@example.pe`) con multiaristas, provenance y consulta de camino reproducible con hop limit. El revisor debe poder abrir un path (p. ej. `E1 → ph:900 → E2`), ver records por hop y un disclaimer de centralidad — sin auto-label de fraude ni parentesco. Reporta degree solo como estructura.",
+      "Tras el ER de S30, construye un grafo sintético con entidades, cuentas, contactos y transacciones. Usa el fixture conceptual `CASO-LIM-031` con `@example.pe`. El grafo debe tener multiaristas, provenance y consulta de camino reproducible con hop limit. El revisor debe poder abrir un path (p. ej. `E1 → ph:900 → E2`), ver records por hop y un disclaimer de centralidad — sin auto-label de fraude ni parentesco. Reporta degree solo como estructura.",
     objectives: [
       "Modelo nodos/aristas con dirección, peso y tipos del schema canónico",
       "Multigrafo temporal con provenance por arista",
@@ -1824,7 +1836,7 @@ max_n 500`,
       "`path(src, dst, max_hops)` reproducible (vecinos sorted; mismo orden en re-ejecución)",
       "Tests mínimos: no self-loop basura, provenance presente, construcción idempotente, ego-k no excede radio",
       "Vista de path con labels redactados + records por hop + disclaimer de centralidad",
-      "README es-PE: schema, hop limit, política render vs summarize, centralidad = estructura no culpa",
+      "README es-PE: schema, hop limit, política render vs. summarize, centralidad = estructura no culpa",
       "Cero labels automáticos de fraude o parentesco",
     ],
     starterCode: `# CP-N3-B inicio — grafo de evidencia (CASO-LIM-031 sintético)
@@ -1886,7 +1898,7 @@ if __name__ == "__main__":
     print("disclaimer", "centrality_structure_only_not_guilt")
 `,
     portfolioNote:
-      "Inicio CP-N3-B: entrega un grafo temporal con evidencia, tests mínimos, política de escala documentada y una vista de path redactada lista para portafolio (puente natural hacia el workbench de S34).",
+      "Inicio CP-N3-B: entrega un grafo de evidencia con tests mínimos y política de escala documentada. La vista de path redactada es la pieza lista para portafolio y el puente natural hacia el workbench de S34.",
     rubric: [
       { criterion: "Modelo de grafo completo (tipos, pesos, provenance, multiedges)", weight: "25%" },
       { criterion: "Correctitud técnica (paths, agregación, tests) en entorno local-python", weight: "20%" },
@@ -1894,8 +1906,8 @@ if __name__ == "__main__":
       { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
       { criterion: "Código legible y límites claros (hop limit, schema)", weight: "10%" },
       { criterion: "Documentación en español profesional (es-PE)", weight: "10%" },
-      { criterion: "Path + provenance y disclaimer de centralidad", weight: "bonus checklist" },
-      { criterion: "Sin inferencia automática de fraude ni parentesco", weight: "criterio de privacidad" },
+      { criterion: "Path + provenance y disclaimer de centralidad (checklist de excelencia)", weight: "bonus" },
+      { criterion: "Sin inferencia automática de fraude ni parentesco (gate obligatorio)", weight: "gate" },
     ],
   },
   selfCheck: {
@@ -1951,10 +1963,10 @@ if __name__ == "__main__":
       },
       {
         question: "En el schema de esta sección, una transferencia de cuenta a cuenta se modela como arista:",
-        options: ["no dirigida con etype owns", "sin tipo, solo con layout visual", "siempre como shared_phone", "dirigida con etype transfer y peso en PEN (u otra unidad documentada)"],
+        options: ["no dirigida con etype `owns`", "sin tipo, solo con layout visual", "siempre como `shared_phone`", "dirigida con etype `transfer` y peso en PEN (u otra unidad documentada)"],
         correctIndex: 3,
         explanation:
-          "transfer es dirigida; owns es entidad→cuenta; shared_phone es hecho de contacto.",
+          "La arista `transfer` es dirigida; `owns` es entidad→cuenta; `shared_phone` es un hecho de contacto.",
       },
       {
         question: "Un ego-subgraph con seed S y k=1 incluye:",

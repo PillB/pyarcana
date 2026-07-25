@@ -1,0 +1,84 @@
+{
+  "research_notes": {
+    "fernandez_huerta": "Spanish Flesch adaptation (1959); uses syllables/word and words/sentence.",
+    "szigriszt_pazos_inflesz": "Spanish perspicuity; related INFLESZ scale (Barrio-Cantalejo et al.).",
+    "structure_heuristics": "Length, punctuation pairing, delimiters, monotony, meta-leaks.",
+    "languagetool": "Open-source multilingual grammar/style checker; Spanish rules via public API.",
+    "sources": [
+      "https://readabilityformulas.com/readability-formulas-to-score-spanish-texts/",
+      "https://languagetool.org/spellchecking-spanish",
+      "https://github.com/languagetool-org/languagetool",
+      "INFLESZ validation literature (Spanish medical/education readability)"
+    ]
+  },
+  "sections_audited": 1,
+  "total_sentences": 301,
+  "total_paragraphs": 226,
+  "total_findings": 23,
+  "severity": {
+    "low": 23
+  },
+  "mean_quality_score": 10.0,
+  "min_quality_score": 10.0,
+  "mean_fernandez_huerta": 79.1,
+  "mean_fh_label": "bastante fácil",
+  "mean_wps": 17.41,
+  "languagetool": false,
+  "top_rules": [
+    [
+      "long_sentence",
+      15
+    ],
+    [
+      "lowercase_after_period",
+      6
+    ],
+    [
+      "comma_density",
+      1
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      1
+    ]
+  ],
+  "improvement_playbook": [
+    {
+      "rule": "long_sentence",
+      "count": 15,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "lowercase_after_period",
+      "count": 6,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "possible_plural_det_singular_noun",
+      "count": 1,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
+    }
+  ],
+  "sections_ranked": [
+    {
+      "section": 49,
+      "file": "s49-data-contracts.ts",
+      "quality_score_0_10": 10.0,
+      "fernandez_huerta": 79.1,
+      "avg_words_per_sentence": 17.41,
+      "findings_by_severity": {
+        "low": 23
+      },
+      "findings_total": 23
+    }
+  ]
+}
