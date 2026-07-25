@@ -406,6 +406,8 @@ runbook True`,
         subtopicId: "S38-T1-A",
         environment: "local-python",
         description: "Demo: medir wall vs. CPU del path caliente y elegir modelo de concurrencia para c-synth-1.",
+        preamble:
+          "En el batch sintético de Red Andina, el tramo de features de `c-synth-1` satura CPU y el de normalización espera red mock. En esta demo mido wall vs. CPU y elijo el modelo de concurrencia *después* de etiquetar el bound. No escribas aún: predice si 100 ms wall y 95 ms CPU piden processes o async, y por qué `pick(\"io\")` no usa processes. Si eliges framework por moda, el runbook del gate CP-N3-C no se defiende.",
         code: {
           language: 'python',
           title: "s38_t1_a_demo.py",
@@ -432,13 +434,18 @@ print("ok", pick(bound) == "processes")`,
 cpu processes
 ok True`,
         },
-        why: "Think-aloud: no elijo processes por moda; mido wall vs. CPU del tramo features y solo entonces documento processes. La tabla bound→modelo queda justificada por el bottleneck.",
+        why:
+          "Wall ≈ cpu implica bound `cpu` y en CPython conviene processes por el GIL; wall >> cpu implica espera I/O y async/threads liberan el hilo. No elijo processes por moda: mido wall vs. CPU del tramo features y solo entonces documento el modelo. `measure_first` es la disciplina de S37 aplicada a concurrencia. En We Do repararás un `pick` que ignora bound o fuerza processes en I/O.",
+        retrospective:
+          "Si puedes justificar processes para features densas *sin* decir «porque me gusta multiproceso», ya mides antes de elegir. El error clásico es async en CPU pura. En We Do corregirás el mapa bound→modelo y el flag `measure_first`.",
       },
       {
         demoId: "S38-T1-B-DEMO",
         subtopicId: "S38-T1-B",
         environment: "local-python",
         description: "Demo: comparar bytes de payload full vs. compacto antes de cruzar IPC.",
+        preamble:
+          "Ya elegiste processes para features densas; ahora el blob que cruza el boundary puede ser más caro que el score. En la demo se miden bytes de un payload compacto (`case_id`+`score`) frente a uno full con email sintético. No escribas: predice si compact gana y por qué el GIL sigue limitando threads CPU. Si mandas el registro completo a la cola, inflas IPC y arriesgas PII en logs de worker.",
         code: {
           language: 'python',
           title: "s38_t1_b_demo.py",
@@ -456,13 +463,18 @@ print("ok", compact_bytes(compact) < compact_bytes(full))`,
 gil limited
 ok True`,
         },
-        why: "Think-aloud: el process pool paga serialización. Si mando email en el blob, inflamos IPC y arriesgamos PII en logs de cola. Compacto gana en bytes y en privacidad; GIL sigue limitando threads CPU.",
+        why:
+          "`json.dumps(...).encode()` mide el blob real de IPC; el email en el blob no hace falta para score y viola el contrato de privacidad. GIL limited en threads CPU justifica processes *solo* con payload mínimo: el process pool paga serialización. Compacto gana en bytes y en privacidad. En We Do serializarás JSON real (no `str(dict)`) y preferirás `compact_payload`.",
+        retrospective:
+          "Compacto es performance y privacidad a la vez: menos bytes de IPC y sin email en el blob del worker. El error clásico es copiar el DataFrame o el email «por si acaso». Pregunta: si compact y full midieran lo mismo, ¿seguirías enviando el email al process pool? We Do: JSON real, etiqueta GIL y prefer medido.",
       },
       {
         demoId: "S38-T2-A-DEMO",
         subtopicId: "S38-T2-A",
         environment: "local-python",
         description: "Demo: Queue(maxsize) aplica backpressure; token bucket niega el exceso de tasa.",
+        preamble:
+          "Con el modelo de concurrencia elegido, el productor del batch aún puede llenar la RAM si la cola es infinita. En esta demo una `Queue(maxsize=2)` bloquea el tercer `put_nowait` con `Full`, y un token bucket de 2 niega el tercer allow. No escribas: predice quién queda en backpressure y la lista de allows. Si confías solo en `full()` entre hilos, el rechazo no es atómico.",
         code: {
           language: 'python',
           title: "s38_t2_a_demo.py",
@@ -495,13 +507,18 @@ print("ok", blocked == ["c3"])`,
 backpressure ['c3']
 ok True`,
         },
-        why: "Think-aloud: con maxsize=2 el tercer put_nowait lanza Full — backpressure atómico, no un full() consultivo. Luego el token bucket (estático aquí) protege al proveedor; primero acotamos la cola del worker, después la tasa de salida.",
+        why:
+          "Señal segura de rechazo = `put_nowait` + `Full` (o put con timeout); `full()` solo es consultivo entre hilos. El token bucket didáctico sin refill fija allow/deny para practicar el modelo mental; en prod se rellena por ventana. Primero acotas la cola del worker, después la tasa hacia el proveedor. En We Do: rate=2, maxsize=50 y ban_risk del mock.",
+        retrospective:
+          "Backpressure y rate limit son capas distintas: una protege memoria del worker, la otra al API mock. El error clásico es cola sin tope o flood de requests. We Do: token bucket, Queue acotada y riesgo de ban.",
       },
       {
         demoId: "S38-T2-B-DEMO",
         subtopicId: "S38-T2-B",
         environment: "local-python",
         description: "Demo: timeout simulado por latencia mock + cierre garantizado en finally.",
+        preamble:
+          "Aunque la cola esté acotada, un fetch sin presupuesto de tiempo puede colgar un worker indefinidamente. En la demo el mock tarda 2500 ms y el timeout es 1 s: status timeout, on_fail hacia DLQ, y el `finally` cierra la conn sintética igual. No escribas: predice status y por qué finally corre. Si omites timeout, el p95 del batch explota en silencio.",
         code: {
           language: 'python',
           title: "s38_t2_b_demo.py",
@@ -523,13 +540,18 @@ print("ok", pol["status"] == "timeout")`,
 finally True
 ok True`,
         },
-        why: "Think-aloud: el mock tarda 2.5s y el budget es 1s → timeout, no hang. El finally corre igual y libera la conn sintética. Sin este contrato, un solo proveedor lento satura el pool.",
+        why:
+          "Clasificar latencia mock vs. presupuesto es el contrato didáctico (en async real, `wait_for` cancela). El mock tarda 2.5s y el budget es 1s → timeout, no hang. El `finally` libera el recurso siempre; on_fail explícito evita hang eterno. Sin este contrato un solo proveedor lento satura el pool. En We Do: política seconds>0, close en finally, open_runbook.",
+        retrospective:
+          "Timeout + cierre determinista son el mínimo viable de I/O externa: fallar observable es mejor que colgar el pool. El error clásico es «el proveedor casi siempre responde». Pregunta: si el `finally` no corriera tras timeout, ¿qué se filtra en el worker? We Do: política seconds>0, close y open_runbook.",
       },
       {
         demoId: "S38-T3-A-DEMO",
         subtopicId: "S38-T3-A",
         environment: "local-python",
         description: "Demo: evento scored con correlation_id, métrica de cola y pii_raw=False (o11y mínima).",
+        preamble:
+          "Cuando aparece un timeout, el on-call no puede reconstruir el path de `c-synth-1` con un print suelto. En esta demo se emite un evento `scored` con `corr-1`, métrica de latencia y `pii_raw=False`. No escribas: predice event, nombre de métrica y flag de PII. Si omites correlation_id, el trace del caso se rompe entre intake y score.",
         code: {
           language: 'python',
           title: "s38_t3_a_demo.py",
@@ -551,13 +573,18 @@ print("pii_raw", ev["pii_raw"])`,
 metric latency_ms
 pii_raw False`,
         },
-        why: "Think-aloud: el on-call reconstruye el path de c-synth-1 con corr-1. La métrica nombra latency_ms; pii_raw False es parte del contrato, no un extra. Observabilidad (o11y) = logs + metrics + traces correlacionados.",
+        why:
+          "Observabilidad (o11y) = logs + metrics + traces. El on-call reconstruye el path de `c-synth-1` con `corr-1`, no con el payload del cliente. La métrica nombra `latency_ms`; `pii_raw=False` es contrato del gate CP-N3-C, no un extra de compliance. En We Do: emitir corr, activar tres pilares y redactar email sintético.",
+        retrospective:
+          "Un on-call reconstruye el path con correlation_id, no con el email en claro ni con un print suelto. El error clásico es loggear el blob completo «para debug». Pregunta: si solo tienes case_id en un servicio y no corr, ¿qué tramo del path se rompe? We Do: corr obligatorio, tres pilares y pii_raw False.",
       },
       {
         demoId: "S38-T3-B-DEMO",
         subtopicId: "S38-T3-B",
         environment: "local-python",
         description: "Demo: SLO ok, redacción de PII y acción de error budget.",
+        preamble:
+          "Con logs y corr en su lugar, el servicio aún necesita objetivos: p95 120 ≤ 200 y redacción de email sintético. En la demo, si el SLO se cumple se pueden shippear features; si se viola, la política de error budget empuja a freeze de deploys no urgentes. No escribas: predice ok, redacted y action. Si celebras latencia peor que el límite, el dashboard miente.",
         code: {
           language: 'python',
           title: "s38_t3_b_demo.py",
@@ -576,13 +603,18 @@ print("ok", action == "ship_features")`,
 redacted an***
 ok True`,
         },
-        why: "Think-aloud: p95 120 ≤ 200 → SLO ok y aún se pueden shippear features. Si se viola, el error budget empuja a freeze de deploys no urgentes. Redacción siempre, aunque el email sea sintético.",
+        why:
+          "SLI mide la realidad (p95); SLO es el acuerdo (≤200 ms). Error budget convierte la violación en acción de equipo: freeze de deploys no urgentes. Redacción siempre, aunque el email sea inventado. p95 120 ≤ 200 → aún se puede shippear. En We Do: máscara de teléfono, slo multi-SLI y freeze al agotar budget.",
+        retrospective:
+          "Error budget convierte el SLO en decisión de equipo (ship vs freeze), no en eslogan del dashboard. El error clásico es celebrar p95 bueno e ignorar error_rate, o comparar al revés. Pregunta: si p95=250 y budget=200, ¿qué action debe salir? We Do: redactar teléfono, slo_ok compuesto y freeze al agotar budget.",
       },
       {
         demoId: "S38-T4-A-DEMO",
         subtopicId: "S38-T4-A",
         environment: "local-python",
         description: "Demo: idempotency key + last_done → resume_from (siguiente paso pendiente).",
+        preamble:
+          "Tras un crash del worker a mitad de batch, el proceso nuevo no debe rehacer features si ya están done. En la demo, `c1:features:v1` identifica el intento y `resume_from(\"features\")` avanza a score. No escribas: predice key y siguiente paso. Si reejecutas un paso done sin store de claves, puedes duplicar enqueues o tickets de review.",
         code: {
           language: 'python',
           title: "s38_t4_a_demo.py",
@@ -602,13 +634,18 @@ print("ok", resume_from("features") == "score" and key == "c1:features:v1")`,
 status done
 ok True`,
         },
-        why: "Think-aloud: last_done=features no significa rehacer features; resume_from avanza a score. La key case:step:ver hace seguro un reintento tardío sin duplicar side effects.",
+        why:
+          "`last_done` nombra el paso terminado; `resume_from` es el siguiente pendiente — no rehacer features. La key `case:step:ver` es estable entre deploys de lógica y hace seguro un reintento tardío sin duplicar side effects. En We Do: estados terminales, idem_key con ver y mapa NEXT.",
+        retrospective:
+          "Reanudar mal es tan malo como no reanudar: volver a intake «por si acaso» duplica enqueues y tickets. El error clásico es rehacer un paso `done` sin store de claves. Pregunta: si last_done es features, ¿qué imprime `resume_from` y por qué no features otra vez? We Do: estados, key con versión y mapa NEXT.",
       },
       {
         demoId: "S38-T4-B-DEMO",
         subtopicId: "S38-T4-B",
         environment: "local-python",
         description: "Demo: backoff exponencial, ruta poison→DLQ y runbook presente.",
+        preamble:
+          "Un fallo retriable se espera con backoff; un mensaje venenoso no debe reintentarse a ciegas. En la demo ves la serie 0.1/0.2/0.4, la ruta poison→DLQ y el flag de runbook presente. No escribas: predice si poison va a retry o dlq y por qué el runbook es entregable. Si reinyectas la DLQ entera sin inspección, el veneno vuelve a la cola.",
         code: {
           language: 'python',
           title: "s38_t4_b_demo.py",
@@ -627,7 +664,10 @@ print("runbook", True)`,
 dlq True
 runbook True`,
         },
-        why: "Think-aloud: retriable usa backoff; poison va directo a DLQ con replay controlado. El runbook (síntomas→checks→acciones) es entregable de operación, no un wiki opcional.",
+        why:
+          "Backoff exponencial: base×2^attempt (jitter en prod). Poison o max_attempts → dlq con replay controlado; retriable usa espera, no bucle ciego. El runbook (síntomas→checks→acciones) se prueba en drill y es entregable de operación, no un wiki opcional. En We Do: 0.8 en attempt=3, route poison y dict de on-call.",
+        retrospective:
+          "Retriable espera con backoff; poison va a DLQ con replay controlado, no a retry_forever. El error clásico es reinyectar la DLQ entera sin inspección. Pregunta: ¿por qué 0.1→0.2→0.4 no es lineal? We Do: fórmula attempt=3, ruta poison y dict de on-call.",
       },
     ],
   },
@@ -638,7 +678,11 @@ runbook True`,
         id: "S38-T1-A-E1",
         subtopicId: "S38-T1-A",
         kind: "guided",
-        instruction: "S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: implementa pick(bound) para que bound='cpu' devuelva 'processes'; imprime la elección, la etiqueta bound y ok True. El starter ignora bound y devuelve siempre 'async_or_threads' (defecto). Salida esperada: processes / bound cpu / ok True.",
+        title: "CPU-bound pide processes, no async",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-038-1A` el profile sintético del tramo features muestra wall≈cpu; el worker no puede «ganar» con async puro.\n- **Meta:** implementar `pick(bound)` para que `cpu` devuelva `processes`.\n- **Éxito:** tres líneas `processes` / `bound cpu` / `ok True`.\n- **Límites:** no hardcodees solo el caso feliz sin mapa; no lances pools reales; datos sintéticos sin red.",
+        instruction:
+          "1. Abre el starter: `pick` ignora `bound` y devuelve siempre `async_or_threads` (DEFECTO).\n2. Mapea `io`→`async_or_threads`, `cpu`→`processes`, `mixed`→`batch_then_io`.\n3. Con `bound = \"cpu\"`, imprime la elección, `bound cpu` y `ok True`.\n4. No uses red ni PII.",
         hint: "Para CPU-bound en CPython prefiere processes por el GIL.",
         hints: [
           "Para CPU-bound en CPython prefiere processes por el GIL.",
@@ -646,7 +690,10 @@ runbook True`,
         ],
         edgeCases: ["bound mal etiquetado", "elegir async en CPU", "CASO-LIM-038-1A sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E1.",
-        feedback: "S38-T1-A-E1: explica por qué processes evita el GIL en features densas y por qué async no acelera CPU pura.",
+        feedback:
+          "Processes evaden el GIL en features densas de Python puro; async no acelera CPU. Documentar el bound en el runbook evita reabrir el incidente «elegimos async por moda» en el worker de c-synth-1.",
+        retrospective:
+          "El mapa bound→modelo es el primer contrato operable del batch. El error clásico es async en CPU. Siguiente (E2): el tramo de red mock debe liberar espera, no pagar IPC de processes.",
         starterCode: {
           language: 'python',
           title: "s38-t1-a-e1.py",
@@ -686,7 +733,11 @@ ok True`,
         id: "S38-T1-A-E2",
         subtopicId: "S38-T1-A",
         kind: "independent",
-        instruction: "S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: implementa pick(bound) para bound='io' → 'async_or_threads'; imprime la elección, bound io y ok True. El starter mapea todo a 'processes' (defecto de copy-paste). Fixture sintético sin red real.",
+        title: "I/O-bound: async o threads, no processes",
+        preamble:
+          "- **Contexto:** el tramo de normalización de `CASO-LIM-038-1A2` espera red mock (wall >> cpu); forzar processes solo añade serialización e IPC.\n- **Meta:** `pick(\"io\")` → `async_or_threads` con justificación de bound.\n- **Éxito:** `async_or_threads` / `bound io` / `ok True`.\n- **Límites:** no lances procesos reales; no copies el mapa a ciegas sin leer el bound del fixture.",
+        instruction:
+          "1. Revisa el starter: `pick` siempre devuelve `processes` (DEFECTO de copy-paste).\n2. Restaura el mapa io/cpu/mixed.\n3. Con `bound = \"io\"`, imprime elección, etiqueta y ok.\n4. Fixture local; sin red.",
         hint: "I/O-bound: threads o async liberan espera de red.",
         hints: [
           "I/O-bound: threads o async liberan espera de red.",
@@ -694,7 +745,10 @@ ok True`,
         ],
         edgeCases: ["IPC innecesario", "sin medir bound", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E2.",
-        feedback: "S38-T1-A-E2: justifica async_or_threads cuando wall >> cpu en el tramo de red mock.",
+        feedback:
+          "Async o threads liberan la espera de red mock en normalización; processes pagarían pickle sin acelerar el wall. En c-synth-1, wall >> cpu en este tramo es la justificación del runbook.",
+        retrospective:
+          "I/O y CPU no comparten el mismo modelo: processes en espera de red pagan pickle sin ganancia. Pregunta: ¿qué mediste (wall vs. CPU) para rechazar processes aquí?",
         starterCode: {
           language: 'python',
           title: "s38-t1-a-e2.py",
@@ -734,7 +788,11 @@ ok True`,
         id: "S38-T1-A-E3",
         subtopicId: "S38-T1-A",
         kind: "transfer",
-        instruction: "S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): con wall_ms=100 y cpu_ms=95 mide el bound y elige el modelo. Imprime el modelo ('processes'), measure_first True y ok True. Starter salta la medición (measure_first=False) y deja choice='async_or_threads' (defecto). Implementa measure_bound + pick como en la demo T1-A; sin red real.",
+        title: "Medir bound antes de elegir modelo",
+        preamble:
+          "- **Contexto:** en el incidente sintético `CASO-LIM-038-1A3`, alguien eligió async sin profile; el path de features (100/95 ms) pedía otra cosa.\n- **Meta:** implementar `measure_bound` + `pick` y dejar `measure_first=True`.\n- **Éxito:** `processes` / `measure_first True` / `ok True`.\n- **Límites:** no dejes `measure_first=False`; no elijas async por moda; sin red real.",
+        instruction:
+          "1. Lee el starter: `measure_first=False` y `choice=\"async_or_threads\"` sin medir.\n2. Con wall=100 y cpu=95, calcula bound (`cpu` si cpu ≥ 0.8×wall).\n3. `pick(bound)` → `processes`; imprime modelo, measure_first y ok.\n4. Sin pools reales.",
         hint: "wall≈cpu ⇒ bound cpu ⇒ processes; measure_first debe ser True.",
         hints: [
           "Si cpu_ms >= wall_ms × 0.8 el bound es cpu.",
@@ -742,7 +800,10 @@ ok True`,
         ],
         edgeCases: ["moda async", "sin profile", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-A-E3.",
-        feedback: "S38-T1-A-E3: sin medición no hay elección defendible de concurrencia.",
+        feedback:
+          "Sin medición no hay elección defendible de concurrencia. El gate CP-N3-C espera bound documentado en el runbook del batch (100/95 → cpu → processes), no el framework de moda que dejó el starter.",
+        retrospective:
+          "Medir wall vs. CPU convierte la moda del framework en un bound defendible en el runbook. El error clásico es documentar «usamos async» y omitir el profile del path. Pregunta: con wall=100 y cpu=95, ¿qué bound imprime tu `measure_bound` y por qué no `io`? En T1-B medirás el blob que cruza procesos, no solo el modelo.",
         starterCode: {
           language: 'python',
           title: "s38-t1-a-e3.py",
@@ -790,7 +851,11 @@ ok True`,
         id: "S38-T1-B-E1",
         subtopicId: "S38-T1-B",
         kind: "guided",
-        instruction: "S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json.dumps(...).encode('utf-8'). Imprime el tamaño en bytes (8), ok True solo si el blob decodificado es exactamente '{\"x\": 2}' (comillas dobles JSON), y format 'json'. El starter usa str(payload).encode() (defecto: comillas simples de repr Python — no es el contrato de IPC aunque a veces el len coincida). Fixture local sin PII.",
+        title: "Serializa IPC con JSON, no str(dict)",
+        preamble:
+          "- **Contexto:** el worker de features de `CASO-LIM-038-1B` debe medir el blob que viajará entre procesos; `str(dict)` no es contrato de IPC.\n- **Meta:** serializar `{\"x\": 2}` con `json.dumps(...).encode(\"utf-8\")` y validar el texto decodificado.\n- **Éxito:** `8` / `ok True` / `format json`.\n- **Límites:** no uses `str(payload)`; no inventes formato pickle aquí; sin PII.",
+        instruction:
+          "1. Revisa el starter: `blob = str(payload).encode(...)` y `format \"str\"` (DEFECTO).\n2. Cambia a `json.dumps(payload).encode(\"utf-8\")`.\n3. `ok` solo si `blob.decode() == '{\"x\": 2}'`.\n4. Imprime len, ok y format json.",
         hint: "json.dumps produce el blob estable entre procesos; str(dict) usa comillas simples.",
         hints: [
           "blob = json.dumps(payload).encode('utf-8'); mide len(blob).",
@@ -798,7 +863,10 @@ ok True`,
         ],
         edgeCases: ["payload grande", "PII en blob", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E1.",
-        feedback: "S38-T1-B-E1: el costo de IPC se mide sobre el blob JSON real que cruzará procesos, no sobre str().",
+        feedback:
+          "El costo de IPC se mide sobre el blob JSON real que cruzará procesos del worker de features, no sobre el `str()` de Python. Un len coincidente no basta si el parse falla al otro lado.",
+        retrospective:
+          "El contrato entre procesos es un blob parseable, no el `repr` de Python. El error clásico es «el `len` coincidió, listo» y fallar el parse al otro lado. Pregunta: ¿por qué `str({\"x\": 2})` no pasa el assert de `ok` aunque tenga longitud parecida? Siguiente: etiquetar GIL limited en threads CPU.",
         starterCode: {
           language: 'python',
           title: "s38-t1-b-e1.py",
@@ -831,7 +899,11 @@ format json`,
         id: "S38-T1-B-E2",
         subtopicId: "S38-T1-B",
         kind: "independent",
-        instruction: "S38-T1-B-E2 · Política GIL para threads CPU: con model='threads' y bound='cpu', el runbook debe registrar gil_cpu_threads='limited' (no 'unlimited'). Imprime limited, ok True, cpu_threads True. Starter asume unlimited (defecto). Usa la función gil_status(model, bound); no lances threads reales.",
+        title: "GIL limited en threads CPU",
+        preamble:
+          "- **Contexto:** el runbook del batch documenta expectativas de paralelismo; si model=threads y bound=cpu, CPython no da speedup lineal.\n- **Meta:** `gil_status(\"threads\", \"cpu\")` → `limited`.\n- **Éxito:** `limited` / `ok True` / `cpu_threads True`.\n- **Límites:** no lances threads reales; no digas unlimited en CPU puro.",
+        instruction:
+          "1. Starter devuelve siempre `unlimited` (DEFECTO).\n2. Si threads+cpu → `limited`; processes pueden reportar bypass.\n3. Imprime status, ok y `cpu_threads True`.\n4. Sin red ni pools.",
         hint: "GIL limita paralelismo CPU en threads Python puros → 'limited'.",
         hints: [
           "Si model=='threads' y bound=='cpu' → limited; processes evaden el GIL.",
@@ -839,7 +911,10 @@ format json`,
         ],
         edgeCases: ["confundir I/O con CPU", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E2.",
-        feedback: "S38-T1-B-E2: la etiqueta limited evita falsas expectativas de speedup multi-thread.",
+        feedback:
+          "La etiqueta `limited` evita promesas de speedup multi-thread que el on-call del scoring no verá. En CPython, CPU denso con threads no escala linealmente: documenta limited y evalúa processes con payload compacto.",
+        retrospective:
+          "Documentar `limited` en el runbook frena promesas de paralelismo que el batch de c-synth-1 no entregará con threads CPU. El error clásico es vender N× speedup sin medir. Pregunta: si el bound es I/O, ¿sigue siendo correcta la etiqueta limited? Ese hábito se reutiliza al elegir process pool solo cuando el IPC compacto lo justifica.",
         starterCode: {
           language: 'python',
           title: "s38-t1-b-e2.py",
@@ -878,7 +953,11 @@ cpu_threads True`,
         id: "S38-T1-B-E3",
         subtopicId: "S38-T1-B",
         kind: "transfer",
-        instruction: "S38-T1-B-E3 · Transferencia IPC: compara bytes de full (con email sintético) vs. compact (case_id+score) con json.dumps(...).encode(). Imprime 'compact_payload', ok True y el tamaño en bytes del compact (31). Starter prefiere 'full_record' sin medir (defecto: arrastra PII y bytes de más). Fixture CASO-LIM-038 sin red.",
+        title: "Prefiere compact_payload medido",
+        preamble:
+          "- **Contexto:** al encolar hacia el process pool de features, un full_record con email sintético infla bytes y arriesga PII en logs de cola.\n- **Meta:** comparar bytes JSON y elegir `compact_payload` si compact < full.\n- **Éxito:** `compact_payload` / `ok True` / `bytes 31`.\n- **Límites:** no hardcodees prefer sin medir; no loguees el email en claro; fixture sintético.",
+        instruction:
+          "1. Starter fija `prefer = \"full_record\"` y bytes 0 (DEFECTO).\n2. Mide `payload_bytes` de full y compact con json.dumps.encode.\n3. Elige compact si es menor; imprime prefer, ok y bytes del compact.\n4. Email solo sintético example.pe.",
         hint: "prefer = compact_payload si len(compact_bytes) < len(full_bytes).",
         hints: [
           "json.dumps(payload).encode() mide el blob real de IPC.",
@@ -886,7 +965,10 @@ cpu_threads True`,
         ],
         edgeCases: ["PII en queue", "pickle enorme", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T1-B-E3.",
-        feedback: "S38-T1-B-E3: compact_payload es privacidad y performance a la vez.",
+        feedback:
+          "`compact_payload` es privacidad y performance a la vez: menos IPC al process pool de features y sin email en logs de cola del batch CP-N3-C. Medir bytes (31) es la evidencia, no un hardcode de prefer.",
+        retrospective:
+          "Compact_payload es privacidad y performance a la vez. El error clásico es «por si acaso mando todo el registro». En T2 acotarás la cola que transporta esos payloads.",
         starterCode: {
           language: 'python',
           title: "s38-t1-b-e3.py",
@@ -926,7 +1008,11 @@ bytes 31`,
         id: "S38-T2-A-E1",
         subtopicId: "S38-T2-A",
         kind: "guided",
-        instruction: "S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defecto) o cuenta mal. Implementa el bucket mínimo del fixture CASO-LIM-038-2A.",
+        title: "Token bucket: dos allows, tercero deny",
+        preamble:
+          "- **Contexto:** el batch de Lima sintético lanza una ráfaga al mock; con rate=2 el tercero debe denegarse (bucket didáctico estático, sin refill).\n- **Meta:** contar allows True en 3 intentos con `TokenBucket(2)`.\n- **Éxito:** `2` / `third False` / `ok True`.\n- **Límites:** no rellenes tokens entre llamadas en este fixture estático; sin red real.",
+        instruction:
+          "1. Starter usa `TokenBucket(3)` (DEFECTO).\n2. Cambia a rate=2; genera 3 `allow()`.\n3. Imprime la suma de True, el third y ok.\n4. Fixture estático sin refill.",
         hint: "rate=2 ⇒ dos True y el tercero False.",
         hints: [
           "rate=2 ⇒ dos True y el tercero False.",
@@ -934,7 +1020,10 @@ bytes 31`,
         ],
         edgeCases: ["burst sin límite", "ban del API mock", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E1.",
-        feedback: "S38-T2-A-E1: el bucket acota la ráfaga visible al proveedor.",
+        feedback:
+          "El bucket acota la ráfaga visible al proveedor mock del batch de Lima sintético. Un rate «generoso» disfraza flood y reabre el riesgo de ban.",
+        retrospective:
+          "Rate=2 fija dos allows y un deny visible; el fixture no rellena tokens (estático). El error clásico es subir el rate «para que pase el test» y disfrazar flood al mock. Pregunta: si en prod el bucket se rellena por ventana, ¿qué cambia en tu runbook respecto a este lab? Siguiente: acotar la cola del worker con maxsize.",
         starterCode: {
           language: 'python',
           title: "s38-t2-a-e1.py",
@@ -981,7 +1070,11 @@ ok True`,
         id: "S38-T2-A-E2",
         subtopicId: "S38-T2-A",
         kind: "independent",
-        instruction: "S38-T2-A-E2 · Cola acotada con Queue: crea Queue(maxsize=50), encola c1 y c2, e imprime la política 'backpressure', ok True y maxsize 50. Starter reporta 'unbounded_queue' y maxsize None sin acotar la cola (defecto: sin backpressure). Corrige para modelar la cola del worker de scoring CASO-LIM-038.",
+        title: "Cola maxsize=50 con backpressure",
+        preamble:
+          "- **Contexto:** el worker de scoring de `CASO-LIM-038` no puede crecer la cola sin tope bajo un pico sintético.\n- **Meta:** crear `Queue(maxsize=50)`, encolar c1/c2 y reportar política `backpressure`.\n- **Éxito:** `backpressure` / `ok True` / `maxsize 50`.\n- **Límites:** no dejes maxsize None; no uses cola ilimitada «por simplicidad».",
+        instruction:
+          "1. Starter reporta `unbounded_queue` y maxsize None (DEFECTO).\n2. Instancia `Queue(maxsize=50)` y encola dos case_id sintéticos.\n3. Imprime política, ok (maxsize==50 y qsize==2) y maxsize.\n4. Sin red.",
         hint: "from queue import Queue; maxsize finito = backpressure.",
         hints: [
           "from queue import Queue; maxsize=50 acota memoria del worker.",
@@ -989,7 +1082,10 @@ ok True`,
         ],
         edgeCases: ["OOM", "productor sin bloqueo", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E2.",
-        feedback: "S38-T2-A-E2: backpressure protege memoria y estabilidad del batch.",
+        feedback:
+          "maxsize es política de memoria del worker de scoring, no un detalle de API. Backpressure protege el batch de c-synth-1 bajo pico sintético y evita OOM.",
+        retrospective:
+          "Una cola sin tope no es «más simple»: es deuda de memoria bajo pico. El error clásico es dejar `maxsize` None en staging y copiar a prod. Pregunta: bajo pico, ¿bloqueas, dropeas o mandas overflow a DLQ — y dónde lo escribes? Ese hábito se reutiliza cuando el productor del batch de c-synth-1 se acelera.",
         starterCode: {
           language: 'python',
           title: "s38-t2-a-e2.py",
@@ -1023,7 +1119,11 @@ maxsize 50`,
         id: "S38-T2-A-E3",
         subtopicId: "S38-T2-A",
         kind: "transfer",
-        instruction: "S38-T2-A-E3 · Transferencia: con TokenBucket(rate=1), el segundo allow() es False — el rate limit protege al 'provider' y ban_risk es True. Starter imprime 'flood' y ban_risk False (defecto: ignora al proveedor). Imprime 'provider', ok True, ban_risk True tras demostrar el deny.",
+        title: "Rate limit evita ban del proveedor",
+        preamble:
+          "- **Contexto:** sin límite de tasa el mock/API puede banear la IP del batch y tumbar todo el triage sintético.\n- **Meta:** con `TokenBucket(1)` demostrar second=False y documentar `ban_risk True`.\n- **Éxito:** `provider` / `ok True` / `ban_risk True`.\n- **Límites:** no uses rate «infinito»; no ignores el deny; datos sintéticos.",
+        instruction:
+          "1. Starter usa rate=99, imprime flood y ban_risk False (DEFECTO).\n2. Rate=1; first True, second False.\n3. Imprime `provider`, ok y ban_risk True.\n4. Sin red real.",
         hint: "Sin rate limit el mock/API puede banear la IP del batch.",
         hints: [
           "Sin rate limit el mock/API puede banear la IP del batch.",
@@ -1031,7 +1131,10 @@ maxsize 50`,
         ],
         edgeCases: ["429 storm", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-A-E3.",
-        feedback: "S38-T2-A-E3: rate limit es cortesía y supervivencia ante el proveedor.",
+        feedback:
+          "Rate limit es cortesía y supervivencia: sin él el mock puede banear la IP y tumbar el triage sintético completo. Documenta ban_risk en el runbook.",
+        retrospective:
+          "Rate limit es cortesía y supervivencia. El error clásico es flood «solo en sandbox» que se cuela a prod. En T2-B un proveedor lento sin timeout colgará workers aunque la tasa esté bien.",
         starterCode: {
           language: 'python',
           title: "s38-t2-a-e3.py",
@@ -1078,7 +1181,11 @@ ban_risk True`,
         id: "S38-T2-B-E1",
         subtopicId: "S38-T2-B",
         kind: "guided",
-        instruction: "S38-T2-B-E1 · Política de timeout: con latency_ms=8000 y timeout_s=5 marca status timeout y on_fail='retry_or_dlq'. Imprime 5, on_fail retry_or_dlq y ok True. Starter usa timeout_s=0 y on_fail='ignore' (defecto: hang sin camino de fallo). Simula el fetch mock comparando latencia vs. presupuesto; sin threads reales.",
+        title: "Timeout con on_fail retry_or_dlq",
+        preamble:
+          "- **Contexto:** el geocoding mock de `c-synth-1` llega a 8000 ms; sin presupuesto el worker cuelga.\n- **Meta:** devolver status timeout, seconds=5 y on_fail `retry_or_dlq`.\n- **Éxito:** `5` / `on_fail retry_or_dlq` / `ok True`.\n- **Límites:** no uses timeout_s=0; no ignores el fallo; simulación local sin threads reales.",
+        instruction:
+          "1. Starter ignora latency y devuelve seconds=0, on_fail ignore, status ok (DEFECTO).\n2. Compara latency_ms > timeout_s*1000.\n3. Si superado → status timeout; siempre on_fail retry_or_dlq y seconds=timeout_s.\n4. Imprime seconds, on_fail y ok.",
         hint: "timed_out = latency_ms > timeout_s * 1000; seconds debe ser > 0.",
         hints: [
           "seconds>0 evita hang infinito; on_fail = retry_or_dlq.",
@@ -1086,7 +1193,10 @@ ban_risk True`,
         ],
         edgeCases: ["hang", "retry infinito", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E1.",
-        feedback: "S38-T2-B-E1: timeout + on_fail es el mínimo viable de I/O externa.",
+        feedback:
+          "Timeout + on_fail es el mínimo viable de I/O externa del geocoding mock. Status ok con seconds=0 es hang disfrazado y tumba el p95 del batch.",
+        retrospective:
+          "Timeout sin on_fail es un bool sin ruta. El error clásico es status ok con seconds=0. Siguiente: liberar la conn en finally aunque falle el fetch.",
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e1.py",
@@ -1126,7 +1236,11 @@ ok True`,
         id: "S38-T2-B-E2",
         subtopicId: "S38-T2-B",
         kind: "independent",
-        instruction: "S38-T2-B-E2 · Cierre de recurso en finally: simula un fetch mock y cierra la 'conn' en finally aunque falle. Imprime True (closed), resource 'conn', ok True. Starter deja closed=False y no usa finally (defecto: leak). Sin sockets reales; solo el patrón try/finally del worker sintético.",
+        title: "Cierra la conn en finally",
+        preamble:
+          "- **Contexto:** bajo carga, un leak de conn sintética agota el pool del worker de scoring.\n- **Meta:** marcar `closed=True` en `finally` aunque el fetch mock falle.\n- **Éxito:** `True` / `resource conn` / `ok True`.\n- **Límites:** no dejes el close solo en el happy path; sin sockets reales.",
+        instruction:
+          "1. Starter atrapa RuntimeError y no cierra (DEFECTO).\n2. Añade `finally: closed = True`.\n3. Imprime closed, resource conn y ok.\n4. Fixture local.",
         hint: "finally/context manager cierra aunque falle el fetch.",
         hints: [
           "finally/context manager cierra aunque falle el fetch.",
@@ -1134,7 +1248,10 @@ ok True`,
         ],
         edgeCases: ["resource leak", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E2.",
-        feedback: "S38-T2-B-E2: sin close determinista el pool se agota.",
+        feedback:
+          "Sin close determinista el pool del worker de scoring se agota bajo carga del batch. En prod preferirás context manager; aquí fijas el hábito del finally.",
+        retrospective:
+          "Liberar la conn en `finally` (o context manager) es higiene de pool, no un detalle de sintaxis. El error clásico es cerrar solo en el happy path y agotar recursos bajo carga. Pregunta: en prod, ¿qué ventaja concreta da `with` frente a un `finally` manual olvidable? Ese hábito se reutiliza en todo fetch del triage.",
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e2.py",
@@ -1173,7 +1290,11 @@ ok True`,
         id: "S38-T2-B-E3",
         subtopicId: "S38-T2-B",
         kind: "transfer",
-        instruction: "S38-T2-B-E3 · Transferencia runbook: con latency_ms=5000 y timeout_s=1.0 marca incidente de proveedor lento. Imprime incident True, ok True y action 'open_runbook' (no 'ignore'). Starter usa timeout_s=0, niega el incidente y action='ignore' (defecto: hang sin playbook). Implementa needs_incident + action_for del fixture CASO-LIM-038.",
+        title: "Incidente de timeout abre el runbook",
+        preamble:
+          "- **Contexto:** latency 5000 ms con budget 1 s (o sin presupuesto) debe generar incidente de proveedor lento, no «seguir ignorando».\n- **Meta:** `needs_incident` True y `action_for` → `open_runbook`.\n- **Éxito:** `incident True` / `ok True` / `action open_runbook`.\n- **Límites:** no devuelvas ignore; timeout_s≤0 también es hang = incidente.",
+        instruction:
+          "1. Starter: timeout_s=0 niega incidente y action ignore (DEFECTO).\n2. Sin presupuesto o latencia sobre budget → incidente.\n3. Si hit → open_runbook; imprime incident, ok y action.\n4. Fixture CASO-LIM-038 sintético.",
         hint: "Hang o timeout superado ⇒ incidente y open_runbook.",
         hints: [
           "needs_incident: timeout_s<=0 o latency > timeout*1000.",
@@ -1181,7 +1302,10 @@ ok True`,
         ],
         edgeCases: ["p95 explotado", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T2-B-E3.",
-        feedback: "S38-T2-B-E3: nombrar el incidente y abrir el runbook es el primer paso operable.",
+        feedback:
+          "Nombrar el incidente y abrir el runbook es el primer paso operable ante proveedor lento. Silence under hang es el anti-patrón que el gate CP-N3-C rechaza.",
+        retrospective:
+          "Un timeout sin playbook es un bool local, no un incidente operable. El error clásico es silence under hang o action ignore. Pregunta: si latency=5000 y timeout_s=0, ¿por qué aún hay incidente? En T3 el on-call necesitará logs, metrics y traces con correlation_id.",
         starterCode: {
           language: 'python',
           title: "s38-t2-b-e3.py",
@@ -1225,7 +1349,11 @@ action open_runbook`,
         id: "S38-T3-A-E1",
         subtopicId: "S38-T3-A",
         kind: "guided",
-        instruction: "S38-T3-A-E1 · Evento scored con correlation id: implementa emit_scored(case_id, corr, score) que devuelva dict con event='scored', case_id, corr y pii_raw=False. Imprime True (corr presente), event 'scored', ok True. Starter omite corr (defecto → False). Path intake→score de c-synth-1 sin PII.",
+        title: "Evento scored con correlation_id",
+        preamble:
+          "- **Contexto:** al marcar scored en `c-synth-1`, el log debe llevar `corr-1` para unir spans del path.\n- **Meta:** `emit_scored` devuelve dict con event, case_id, corr y pii_raw=False.\n- **Éxito:** `True` / `event scored` / `ok True`.\n- **Límites:** no dejes corr=None; no pongas PII en el evento; sin red.",
+        instruction:
+          "1. Starter fija corr=None e ignora el parámetro (DEFECTO).\n2. Propaga el corr recibido al dict.\n3. Imprime bool(corr), event y ok (corr-1 y pii_raw False).\n4. Fixture sintético.",
         hint: "corr debe ser truthy string en el dict emitido.",
         hints: [
           "corr debe ser truthy string en el dict emitido.",
@@ -1233,7 +1361,10 @@ action open_runbook`,
         ],
         edgeCases: ["log sin corr", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E1.",
-        feedback: "S38-T3-A-E1: correlation_id une spans del caso.",
+        feedback:
+          "correlation_id une spans del path intake→score de c-synth-1. Sin corr el on-call no reconstruye el caso aunque tenga case_id en un solo servicio.",
+        retrospective:
+          "correlation_id une spans del caso. El error clásico es case_id sin corr entre servicios. Siguiente: activar logs, metrics y traces juntos.",
         starterCode: {
           language: 'python',
           title: "s38-t3-a-e1.py",
@@ -1274,7 +1405,11 @@ ok True`,
         id: "S38-T3-A-E2",
         subtopicId: "S38-T3-A",
         kind: "independent",
-        instruction: "S38-T3-A-E2 · Tres pilares de observabilidad (o11y): implementa active_pillars(signals) que devuelva, en orden fijo, solo las claves True entre logs/metrics/traces. Con los tres activos imprime ['logs','metrics','traces'], ok True y n 3. Starter solo activa logs y deja la función incompleta (defecto: omite metrics/traces). No hardcodees la lista de tres si puedes filtrar el dict.",
+        title: "Tres pilares activos de o11y",
+        preamble:
+          "- **Contexto:** diagnosticar cola llena, latencia p95 y path de un caso exige logs, metrics y traces, no solo un log INFO.\n- **Meta:** `active_pillars` devuelve en orden fijo las claves True entre logs/metrics/traces.\n- **Éxito:** `['logs', 'metrics', 'traces']` / `ok True` / `n 3`.\n- **Límites:** no hardcodees la lista si puedes filtrar el dict; activa los tres en el fixture.",
+        instruction:
+          "1. Starter solo considera logs y deja metrics/traces en False (DEFECTO).\n2. Filtra ORDER por signals.get(k).\n3. Señales con los tres True; imprime lista, ok y n.\n4. Sin OpenTelemetry real.",
         hint: "return [k for k in ('logs','metrics','traces') if signals.get(k)].",
         hints: [
           "Logs eventos, metrics agregados, traces spans — los tres deben estar True.",
@@ -1282,7 +1417,10 @@ ok True`,
         ],
         edgeCases: ["solo logs", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E2.",
-        feedback: "S38-T3-A-E2: un solo pilar no basta para diagnosticar cola + latencia + caso.",
+        feedback:
+          "Un solo pilar no basta: cola llena pide metrics, latencia p95 pide series, path del caso pide traces. La o11y mínima del gate exige los tres activos.",
+        retrospective:
+          "Logs, metrics y traces responden preguntas distintas: evento local, agregados de cola/latencia y path del caso. El error clásico es «con un INFO basta». Pregunta: si solo tienes metrics sin corr en el log, ¿qué incidente del batch no puedes cerrar? Ese hábito se reutiliza en el You Do al trazar c-synth-1.",
         starterCode: {
           language: 'python',
           title: "s38-t3-a-e2.py",
@@ -1323,7 +1461,11 @@ n 3`,
         id: "S38-T3-A-E3",
         subtopicId: "S38-T3-A",
         kind: "transfer",
-        instruction: "S38-T3-A-E3 · pii_raw debe ser False y el email sintético debe redactarse (an***). Imprime False, ok True (solo si redact(email)=='an***' y pii_raw es False), y redact True. Starter imprime True y no enmascara (defecto: permite PII). Contrato de privacidad del pipeline CP-N3-C operación.",
+        title: "pii_raw False y email redactado",
+        preamble:
+          "- **Contexto:** el contrato de operación CP-N3-C prohíbe PII cruda en logs del pipeline, aunque el email sea sintético de lab.\n- **Meta:** `pii_raw=False` y `redact(email)==\"an***\"`.\n- **Éxito:** `False` / `ok True` / `redact True`.\n- **Límites:** nunca pii_raw True en operación; conserva case_id sintético sin enmascararlo como email.",
+        instruction:
+          "1. Starter: redact identidad y pii_raw True (DEFECTO).\n2. Implementa s[:2]+\"***\"; pii_raw False.\n3. Imprime pii_raw, ok y redact.\n4. Solo example.pe sintético.",
         hint: "Nunca pii_raw True en logs de operación.",
         hints: [
           "Nunca pii_raw True en logs de operación.",
@@ -1331,7 +1473,10 @@ n 3`,
         ],
         edgeCases: ["PII en log aggregate", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-A-E3.",
-        feedback: "S38-T3-A-E3: privacidad es parte del contrato de observabilidad (o11y), no un extra.",
+        feedback:
+          "Privacidad es parte del contrato de o11y del gate CP-N3-C, no un extra de compliance al final. «Solo es sandbox» no justifica pii_raw True en logs del batch.",
+        retrospective:
+          "`pii_raw=False` y máscara de email son contrato del gate, no un extra de compliance al final del sprint. El error clásico es «solo es sandbox / example.pe». Pregunta: ¿por qué el case_id sintético no se enmascara igual que el email? En T3-B redactarás teléfono con otra máscara y evaluarás SLO con error budget.",
         starterCode: {
           language: 'python',
           title: "s38-t3-a-e3.py",
@@ -1369,7 +1514,11 @@ redact True`,
         id: "S38-T3-B-E1",
         subtopicId: "S38-T3-B",
         kind: "guided",
-        instruction: "S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True solo si el valor impreso es '90****01', y pii False. Starter imprime el número completo (defecto). No uses PII real.",
+        title: "Redacta teléfono sintético en logs",
+        preamble:
+          "- **Contexto:** un log de operación no debe llevar el teléfono sintético completo; el on-call usa case_id y corr.\n- **Meta:** enmascarar a `90****01` (2+****+2).\n- **Éxito:** `90****01` / `ok True` / `pii False`.\n- **Límites:** no uses PII real; no imprimas el número crudo «para debug».",
+        instruction:
+          "1. Starter asigna redacted = phone (DEFECTO).\n2. Aplica phone[:2]+\"****\"+phone[-2:].\n3. Imprime redactado, ok y pii False.\n4. Fixture sintético 90000001.",
         hint: "Conserva prefijo/sufijo mínimo; enmascara el medio.",
         hints: [
           "redacted = phone[:2] + '****' + phone[-2:]",
@@ -1377,7 +1526,10 @@ redact True`,
         ],
         edgeCases: ["email en claro", "sintético example.pe"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E1.",
-        feedback: "S38-T3-B-E1: redacción es mecánica y revisable en code review.",
+        feedback:
+          "Redacción de teléfono es mecánica y revisable en code review. El on-call opera con case_id y corr, no con el número crudo «solo un rato».",
+        retrospective:
+          "Enmascarar 2+****+2 es revisable en code review y deja al on-call con case_id y corr, no con el número crudo. El error clásico es loggear «solo un rato» para debug. Pregunta: si el teléfono sintético cambia de longitud, ¿qué invariante de máscara mantienes? Siguiente: evaluar p95 y error_rate juntos.",
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e1.py",
@@ -1408,7 +1560,11 @@ pii False`,
         id: "S38-T3-B-E2",
         subtopicId: "S38-T3-B",
         kind: "independent",
-        instruction: "S38-T3-B-E2 · SLI compuesto: p95_ms=100 (SLO≤200) y error_rate=0.01 (SLO≤0.02). Implementa slo_ok(sli, slo) que sea True solo si ambos umbrales se cumplen. Imprime True, p95 100 y limit 200. Starter solo mira p95 y además compara al revés (defecto: ignora error_rate e invierte el signo).",
+        title: "SLO multi-SLI: p95 y error_rate",
+        preamble:
+          "- **Contexto:** celebrar p95 bueno con error_rate alto engaña al dueño del servicio de triage.\n- **Meta:** `slo_ok` True solo si p95≤200 y error_rate≤0.02.\n- **Éxito:** `True` / `p95 100` / `limit 200`.\n- **Límites:** no compares al revés; no ignores error_rate.",
+        instruction:
+          "1. Starter: `p95 > limit` e ignora error_rate (DEFECTO doble).\n2. AND de ambos umbrales con `<=`.\n3. Imprime ok, p95 y limit.\n4. Fixture sintético.",
         hint: "slo_ok = p95 <= slo_p95 AND error_rate <= slo_err.",
         hints: [
           "Ambos SLI deben respetar su SLO; uno solo no basta.",
@@ -1416,7 +1572,10 @@ pii False`,
         ],
         edgeCases: ["error_rate alto con p95 ok", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E2.",
-        feedback: "S38-T3-B-E2: un SLO multi-SLI evita celebrar latencia buena con errores altos.",
+        feedback:
+          "Un SLO multi-SLI evita celebrar latencia buena con errores altos en el servicio de triage de c-synth-1. Comparar al revés apaga o enciende alertas falsas.",
+        retrospective:
+          "Un SLO multi-SLI obliga a mirar p95 **y** error_rate con `<=`, no un solo umbral al revés. El error clásico del starter es alerta falsa o silencio con error_rate alto. Pregunta: si p95=100 (ok) y error_rate=0.05, ¿qué debe devolver `slo_ok` y por qué miente el dashboard si devuelves True? Luego (E3): freeze cuando el budget llega a 0.",
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e2.py",
@@ -1457,7 +1616,11 @@ limit 200`,
         id: "S38-T3-B-E3",
         subtopicId: "S38-T3-B",
         kind: "transfer",
-        instruction: "S38-T3-B-E3 · Error budget operativo: implementa budget_action(remaining) — si remaining==0 devuelve 'freeze_nonurgent_deploys', si no 'ship_features'. Con remaining=0 imprime el mecanismo 'error_budget', ok True (solo si la acción es freeze) y n 1. Starter imprime 'uptime_only' y n 0 porque ignora remaining (defecto: SLO sin consecuencia operativa).",
+        title: "Error budget agotado: freeze deploys",
+        preamble:
+          "- **Contexto:** al agotarse el error budget del servicio de scoring sintético, la operación prioriza estabilidad sobre features nuevas.\n- **Meta:** `budget_action(0)` → `freeze_nonurgent_deploys` y documentar mecanismo `error_budget`.\n- **Éxito:** `error_budget` / `ok True` / `n 1`.\n- **Límites:** no ignores remaining; no imprimas uptime_only como si no hubiera política.",
+        instruction:
+          "1. Starter siempre ship_features e imprime uptime_only, n 0 (DEFECTO).\n2. remaining==0 → freeze; si no → ship_features.\n3. Imprime error_budget, ok y n 1.\n4. Fixture didáctico.",
         hint: "Error budget cuantifica cuánto incumplimiento queda; al agotarse prioriza estabilidad.",
         hints: [
           "Error budget cuantifica cuánto incumplimiento queda en el periodo.",
@@ -1465,7 +1628,10 @@ limit 200`,
         ],
         edgeCases: ["SLO sin consecuencia", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T3-B-E3.",
-        feedback: "S38-T3-B-E3: sin error budget el SLO es eslogan.",
+        feedback:
+          "Sin error budget el SLO es eslogan. Al remaining=0 el scoring sintético congela deploys no urgentes: estabilidad primero. El starter que siempre shippea e imprime `uptime_only` niega la política operativa del gate.",
+        retrospective:
+          "El presupuesto de error convierte la violación en acción de equipo, no en un gráfico sin consecuencia. El error clásico es seguir shippeando features con remaining en cero. Pregunta: ¿qué documentarías en el runbook cuando el freeze se activa? En T4 el workflow aún necesita checkpoint e idempotencia para reanudar sin duplicar side effects.",
         starterCode: {
           language: 'python',
           title: "s38-t3-b-e3.py",
@@ -1501,7 +1667,11 @@ n 1`,
         id: "S38-T4-A-E1",
         subtopicId: "S38-T4-A",
         kind: "guided",
-        instruction: "S38-T4-A-E1 · Estados del workflow: define WORKFLOW_STATES con pending/running/done/failed y una función is_terminal(status) que sea True para done y failed. Imprime la lista de estados, ok True y n 4. Starter omite 'failed' y no marca terminales (defecto).",
+        title: "Cuatro estados; failed es terminal",
+        preamble:
+          "- **Contexto:** el workflow de triage necesita pending/running/done/failed; sin failed no hay ruta clara a DLQ o retry.\n- **Meta:** lista de 4 estados e `is_terminal` True para done y failed.\n- **Éxito:** lista con failed / `ok True` / `n 4`.\n- **Límites:** no omitas failed; no marques pending como terminal.",
+        instruction:
+          "1. Starter: tres estados y terminal solo done (DEFECTO).\n2. Añade failed; is_terminal en (done, failed).\n3. Imprime lista, ok y n.\n4. Fixture sintético.",
         hint: "failed es estado terminal de error, distinto de pending.",
         hints: [
           "failed y done son terminales; pending/running no.",
@@ -1509,7 +1679,10 @@ n 1`,
         ],
         edgeCases: ["estado perdido tras crash", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E1.",
-        feedback: "S38-T4-A-E1: sin estado failed no hay ruta clara a DLQ/retry.",
+        feedback:
+          "Sin estado failed no hay ruta clara a DLQ o retry en el workflow de triage. Colapsar error en running deja al on-call sin terminal de fallo.",
+        retrospective:
+          "Failed es estado terminal de error, distinto de pending. El error clásico es colapsar error en running. Siguiente: key case:step:ver.",
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e1.py",
@@ -1546,7 +1719,11 @@ n 4`,
         id: "S38-T4-A-E2",
         subtopicId: "S38-T4-A",
         kind: "independent",
-        instruction: "S38-T4-A-E2 · Implementa idem_key(case, step, ver) → 'case:step:ver'. Con case='c-synth-1', step='features', ver='v3' imprime la key, ok True (key termina en :v3 y tiene 3 segmentos) y dup False. Starter imprime 'c-synth-1:features' sin :ver y dup True (defecto: colisiones al cambiar lógica).",
+        title: "Idempotency key case:step:ver",
+        preamble:
+          "- **Contexto:** al reintentar features de `c-synth-1` tras un deploy de lógica v3, la key debe incluir versión para no colisionar con v2.\n- **Meta:** `idem_key` → `c-synth-1:features:v3` y dup False.\n- **Éxito:** key completa / `ok True` / `dup False`.\n- **Límites:** no omitas ver; no marques dup True en el happy path.",
+        instruction:
+          "1. Starter omite ver y deja dup True (DEFECTO).\n2. Formato f\"{case}:{step}:{ver}\".\n3. Imprime key, ok (2 dos puntos y ends with :v3) y dup False.\n4. Sin side effects reales.",
         hint: "Incluye step y versión de lógica: f'{case}:{step}:{ver}'.",
         hints: [
           "Incluye step y versión de lógica para evitar colisiones entre deploys.",
@@ -1554,7 +1731,10 @@ n 4`,
         ],
         edgeCases: ["doble enqueue", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E2.",
-        feedback: "S38-T4-A-E2: la key estable es la base de la idempotencia del checkpoint.",
+        feedback:
+          "La key estable `case:step:ver` es la base de la idempotencia del checkpoint: sin ver, dos deploys de lógica colisionan y pueden reaplicar side effects.",
+        retrospective:
+          "La key estable es la base de la idempotencia del checkpoint. Pregunta: ¿qué pasa si dos deploys comparten case:step sin ver?",
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e2.py",
@@ -1589,7 +1769,11 @@ dup False`,
         id: "S38-T4-A-E3",
         subtopicId: "S38-T4-A",
         kind: "transfer",
-        instruction: "S38-T4-A-E3 · Resume al siguiente pendiente: last_done='features' → resume_from='score' (no rehacer features). Imprime 'score', ok True, checkpoint True. Starter hardcodea 'intake' (defecto: rehace trabajo). Usa el mapa NEXT del fixture CASO-LIM-038.",
+        title: "Resume al siguiente, no al intake",
+        preamble:
+          "- **Contexto:** tras crash con last_done=features, el worker nuevo debe ir a score; volver a intake duplica trabajo y side effects.\n- **Meta:** `resume = NEXT[last_done]` → score.\n- **Éxito:** `score` / `ok True` / `checkpoint True`.\n- **Límites:** no hardcodees intake; no reuses last_done como resume_from.",
+        instruction:
+          "1. Starter fija resume=\"intake\" (DEFECTO).\n2. Usa NEXT[state[\"last_done\"]].\n3. Imprime resume, ok y checkpoint True.\n4. Fixture CASO-LIM-038.",
         hint: "resume_from = NEXT[last_done], no el last_done mismo ni intake fijo.",
         hints: [
           "last_done=features ⇒ siguiente es score.",
@@ -1597,7 +1781,10 @@ dup False`,
         ],
         edgeCases: ["doble side effect", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-A-E3.",
-        feedback: "S38-T4-A-E3: reanudar mal es tan malo como no reanudar.",
+        feedback:
+          "Reanudar mal es tan malo como no reanudar: volver a intake tras features done duplica side effects y falla el gate de idempotencia CP-N3-C.",
+        retrospective:
+          "last_done nombra lo terminado; resume_from avanza. El error clásico es «siempre desde el inicio por seguridad». En T4-B, si score falla de forma no transitoria, irás a DLQ en lugar de reintentar infinito.",
         starterCode: {
           language: 'python',
           title: "s38-t4-a-e3.py",
@@ -1630,7 +1817,11 @@ checkpoint True`,
         id: "S38-T4-B-E1",
         subtopicId: "S38-T4-B",
         kind: "guided",
-        instruction: "S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defecto). Implementa exponencial del fixture CASO-LIM-038-4B.",
+        title: "Backoff exponencial, no lineal",
+        preamble:
+          "- **Contexto:** reintentos lineales golpean el mock en ráfaga; el fixture pide base×2^attempt.\n- **Meta:** `backoff(3, 0.1)` → 0.8.\n- **Éxito:** `0.8` / `ok True` / `attempt 3`.\n- **Límites:** no uses base*attempt lineal; jitter opcional en prod, no aquí.",
+        instruction:
+          "1. Starter: base*attempt (DEFECTO).\n2. Cambia a base * (2 ** attempt).\n3. Imprime wait, ok y attempt 3.\n4. Fixture didáctico.",
         hint: "Fórmula didáctica: base * 2**attempt.",
         hints: [
           "Fórmula didáctica: base * 2**attempt.",
@@ -1638,7 +1829,10 @@ checkpoint True`,
         ],
         edgeCases: ["retry storm", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E1.",
-        feedback: "S38-T4-B-E1: backoff exponencial reduce presión sobre el proveedor.",
+        feedback:
+          "Backoff exponencial reduce presión sobre el proveedor mock entre reintentos de c-synth-1. Sleep lineal o fijo recrea la ráfaga que el rate limit intentaba evitar.",
+        retrospective:
+          "La espera crece como base×2^attempt y deja respirar al mock entre reintentos. El error clásico es sleep fijo o lineal que recrea la ráfaga. Pregunta: con base 0.1 y attempt 3, ¿por qué 0.8 y no 0.3? Siguiente: poison a DLQ con replay controlado.",
         starterCode: {
           language: 'python',
           title: "s38-t4-b-e1.py",
@@ -1671,7 +1865,11 @@ attempt 3`,
         id: "S38-T4-B-E2",
         subtopicId: "S38-T4-B",
         kind: "independent",
-        instruction: "S38-T4-B-E2 · Enruta kind='poison' a DLQ: imprime 'dlq', ok True, replay 'controlled'. Starter imprime 'retry_forever' y replay 'uncontrolled' (defecto: reintenta veneno en bucle). Implementa route(kind) del fixture CASO-LIM-038 (poison→dlq).",
+        title: "Poison va a DLQ, no retry forever",
+        preamble:
+          "- **Contexto:** un payload malformado que falla siempre no se cura con más reintentos; contamina el throughput del batch.\n- **Meta:** `route(\"poison\")` → `dlq` y replay controlled.\n- **Éxito:** `dlq` / `ok True` / `replay controlled`.\n- **Límites:** no reintentes veneno en bucle; no borres DLQ sin análisis.",
+        instruction:
+          "1. Starter: retry_forever y replay uncontrolled (DEFECTO).\n2. if kind == \"poison\": return \"dlq\".\n3. Imprime dest, ok y replay controlled.\n4. Fixture sintético.",
         hint: "DLQ = mensajes que fallan de forma no transitoria; replay controlado tras inspección.",
         hints: [
           "if kind == 'poison': return 'dlq' (no retry_forever).",
@@ -1679,7 +1877,10 @@ attempt 3`,
         ],
         edgeCases: ["loop de fallo", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E2.",
-        feedback: "S38-T4-B-E2: poison + replay controlado es higiene de cola.",
+        feedback:
+          "Poison + replay controlado es higiene de cola: retry_forever contamina el throughput del batch y reinyecta el mismo fallo malformado. El starter que imprime `uncontrolled` niega el contrato de DLQ del gate.",
+        retrospective:
+          "Un mensaje que falla siempre no se cura con más intentos: se aísla y se reinyecta caso a caso tras inspección. El error clásico es borrar la DLQ «para limpiar» o reinyectar en bucle. Pregunta: ¿por qué el replay ciego devuelve el mismo poison a la cola caliente? Ese hábito se reutiliza en el runbook del You Do.",
         starterCode: {
           language: 'python',
           title: "s38-t4-b-e2.py",
@@ -1714,7 +1915,11 @@ replay controlled`,
         id: "S38-T4-B-E3",
         subtopicId: "S38-T4-B",
         kind: "transfer",
-        instruction: "S38-T4-B-E3 · Runbook de on-call para c-synth-1: define un dict con symptoms (provider_slow, worker_down) y actions (restart_worker, replay_batch, escalate_provider). Imprime True (runbook existe), oncall True, ok True solo si 'restart_worker' está en actions. Starter deja runbook vacío y oncall False (defecto: operar sin playbook). Transferencia: el drill sintético exige runbook documentado antes de prod.",
+        title: "Runbook on-call con restart_worker",
+        preamble:
+          "- **Contexto:** el drill sintético de `c-synth-1` exige un playbook antes de prod: síntomas (provider_slow, worker_down) y acciones (restart_worker, replay_batch, escalate_provider).\n- **Meta:** dict no vacío con `restart_worker` en actions.\n- **Éxito:** `True` / `oncall True` / `ok True`.\n- **Límites:** no dejes runbook={}; no improvises acciones solo en la cabeza bajo presión.",
+        instruction:
+          "1. Starter: runbook vacío y oncall False (DEFECTO).\n2. Define symptoms y actions mínimas.\n3. Imprime bool(runbook), oncall True y ok si restart_worker ∈ actions.\n4. Transferencia a operación CP-N3-C.",
         hint: "Runbook: síntomas → checks → acciones; no improvise bajo presión.",
         hints: [
           "Runbook mínimo: symptoms + actions con al menos restart_worker.",
@@ -1722,7 +1927,10 @@ replay controlled`,
         ],
         edgeCases: ["incidente sin playbook", "sintético"],
         tests: "Salida exacta de tres líneas (sin red, sin PII) — S38-T4-B-E3.",
-        feedback: "S38-T4-B-E3: el runbook es entregable de operación, no un wiki opcional.",
+        feedback:
+          "El runbook es entregable de operación del gate CP-N3-C, no un wiki opcional. Improvisar bajo presión es el anti-patrón del drill de c-synth-1.",
+        retrospective:
+          "El runbook es entregable de operación, no un wiki opcional. El error clásico es «ya lo sabíamos del incidente pasado». En el You Do ensamblarás los cuatro pilares y demostrarás resume + idempotencia + runbook para el gate.",
         starterCode: {
           language: 'python',
           title: "s38-t4-b-e3.py",
@@ -1755,6 +1963,8 @@ ok True`,
     title: "Pipeline reanudable con trace y runbook (CP-N3-C operación)",
     context:
       "Construye un mini-worker sintético con pool y backpressure, logs redactados, checkpoint durable e idempotente, retry con DLQ y runbook de proveedor lento. Integra el hilo de `c-synth-1` visto en T1–T4. Solo datos CASO-LIM-038; sin PII real ni servicios externos.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con dos `apply_once` del mismo `case:step:ver` y un resume desde checkpoint? (2) ¿qué cambiarías con red real (timeouts, jitter, store durable) vs. el mock sintético, sin PII? (3) Escribe en el README una frase de impacto medible (p. ej. «mismo resultado tras kill del worker; 0 side effects duplicados») que puedas defender en 30 segundos ante el gate CP-N3-C / S39.",
     objectives: [
       "Concurrencia adecuada al bound medido (ideal: ThreadPoolExecutor o ProcessPoolExecutor local)",
       "Timeouts y backpressure acotados (put_nowait / Full)",

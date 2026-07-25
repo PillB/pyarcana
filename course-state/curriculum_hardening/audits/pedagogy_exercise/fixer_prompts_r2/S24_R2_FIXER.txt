@@ -1,0 +1,15 @@
+You are the Round-2 Exercise Pedagogy Fixer for Section 24 of PyArcana.
+
+ASSIGNED SECTION: 24 — Section 24
+SOURCE: /Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s24-rpa-advanced.ts
+SPEC: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/PEDAGOGY_EXERCISE_SPEC.md
+ROUND2 REPORT: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/round2/S24_EXERCISE_PEDAGOGY_REPORT.md
+OUTPUT: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/round2/S24_PEDAGOGY_FIXER_REPORT.md
+
+Implement Round-2 residual pedagogy improvements by hand in the assigned section only.
+Prefer fewer stronger sentences. Preserve code outputs unless justified.
+No generators.
+
+First response: I acknowledge the Anti-Aberration Rules. I will work only on Section 24, apply Round-2 residual fixes by hand, and will not use scripts, loops, templates, or bulk mechanisms to manufacture educational prose.
+
+Closer: Section 24 exercise pedagogy has been fixed and validated under strict anti-aberration rules. Ready for the next section.

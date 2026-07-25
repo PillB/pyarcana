@@ -438,20 +438,32 @@ function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () 
               <span className="text-sm font-semibold">{step.description}</span>
             </div>
           </div>
-          <div className="p-5">
+          <div className="space-y-3 p-5">
+            {step.preamble && (
+              <Callout type="info" title="Antes de la demo">
+                <RichText content={step.preamble} sectionId={section.id} />
+              </Callout>
+            )}
             <CodeBlock
               code={step.code.code}
               language={step.code.language}
               title={step.code.title}
               output={step.code.output}
             />
-            <div className="mt-4 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+            <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
               <div className="flex items-center gap-2 text-xs font-semibold text-amber-700 dark:text-amber-300">
                 <Lightbulb className="h-3.5 w-3.5" />
                 ¿Por qué este código?
               </div>
-              <p className="mt-1 text-sm text-foreground/80">{step.why}</p>
+              <div className="mt-1 text-sm text-foreground/80">
+                <RichText content={step.why} sectionId={section.id} />
+              </div>
             </div>
+            {step.retrospective && (
+              <Callout type="success" title="Después de la demo — consolida">
+                <RichText content={step.retrospective} sectionId={section.id} />
+              </Callout>
+            )}
           </div>
         </Card>
       ))}
@@ -477,6 +489,9 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
       {section.weDo.steps.map((step, i) => {
         const showSol = showSolutions[i] || false
         const exId = step.id || `step-${i}`
+        const headerTitle =
+          step.title?.trim() ||
+          (step.instruction.length > 96 ? `${step.instruction.slice(0, 93).trim()}…` : step.instruction)
         return (
           <Card
             key={i}
@@ -488,19 +503,30 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
                   {i + 1}
                 </span>
-                <span className="text-sm font-semibold">{step.instruction}</span>
+                <span className="text-sm font-semibold">{headerTitle}</span>
               </div>
             </div>
             <div className="space-y-3 p-5">
+              {step.preamble && (
+                <Callout type="info" title="Antes de empezar">
+                  <RichText content={step.preamble} sectionId={section.id} />
+                </Callout>
+              )}
+              <div>
+                <div className="mb-1 text-xs font-medium text-muted-foreground">Tu tarea</div>
+                <div className="text-sm text-foreground/90">
+                  <RichText content={step.instruction} sectionId={section.id} />
+                </div>
+              </div>
               {step.hints && step.hints.length > 0 ? (
                 step.hints.map((h, hi) => (
                   <Callout key={hi} type="tip" title={hi === 0 ? 'Pista 1' : `Pista ${hi + 1}`}>
-                    {h}
+                    <RichText content={h} sectionId={section.id} />
                   </Callout>
                 ))
               ) : (
                 <Callout type="tip" title="Pista">
-                  {step.hint}
+                  <RichText content={step.hint} sectionId={section.id} />
                 </Callout>
               )}
               {step.kind && (
@@ -568,7 +594,12 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                   )}
                   {step.feedback && (
                     <Callout type="success" title="Feedback">
-                      {step.feedback}
+                      <RichText content={step.feedback} sectionId={section.id} />
+                    </Callout>
+                  )}
+                  {step.retrospective && (
+                    <Callout type="tip" title="Después del ejercicio — consolida">
+                      <RichText content={step.retrospective} sectionId={section.id} />
                     </Callout>
                   )}
                   {step.tests && (
@@ -611,7 +642,9 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
         <div className="space-y-4 p-5">
           <div>
             <div className="text-sm font-semibold text-foreground">Contexto</div>
-            <p className="mt-1 text-sm text-foreground/80">{project.context}</p>
+            <div className="mt-1 text-sm text-foreground/80">
+              <RichText content={project.context} sectionId={section.id} />
+            </div>
           </div>
 
           <div>
@@ -646,8 +679,14 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
           )}
 
           <Callout type="tip" title="Tip para tu portafolio">
-            {project.portfolioNote}
+            <RichText content={project.portfolioNote} sectionId={section.id} />
           </Callout>
+
+          {project.retrospective && (
+            <Callout type="success" title="Después del proyecto — consolida y defiende">
+              <RichText content={project.retrospective} sectionId={section.id} />
+            </Callout>
+          )}
 
           <div>
             <div className="mb-2 text-sm font-semibold text-foreground">Rúbrica de evaluación</div>

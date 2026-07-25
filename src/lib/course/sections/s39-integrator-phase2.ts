@@ -409,6 +409,8 @@ cards ['data', 'model', 'system']`,
         subtopicId: "S39-T1-A",
         environment: "local-python",
         description: "Pipeline canónico N3: stages derivados del run, label_space needs_review y auto_fraud en false sobre CASO-LIM-039.",
+        preamble:
+          "Antes de ensamblar el workbench del revisor, el equipo de la fintech sintética en Lima fija el **orden de etapas** del triage N3. En esta demo `build_run` arma stages `intake → er → relation_graph → features → model_score → queue` sobre `CASO-LIM-039` con score 0.66. No escribas aún: predice las tres líneas de salida y fíjate en `label_space` y `auto_fraud`. Si reordenas ER después del grafo, o lees el score como culpa, rompes el contrato del nivel.",
         code: {
           language: 'python',
           title: "pipe_demo.py",
@@ -430,13 +432,17 @@ print("auto_fraud", run["auto_fraud"])`,
 label_space needs_review
 auto_fraud False`,
         },
-        why: "Hace observable el flujo intake→cola con el label correcto: prioridad de revisión, no veredicto de fraude ni parentesco.",
+        why: "Cada stage es una frontera de contrato: intake normaliza, ER resuelve identidad, el grafo expone paths, features materializan señales y el score solo ordena trabajo humano en cola. `label_space=needs_review` y `auto_fraud=False` evitan mapear el ranking a veredicto legal o de parentesco. Si saltas una frontera, los features o el packet mienten al revisor. En We Do repararás el predicado de orden y el alcance de ER.",
+        retrospective:
+          "Si puedes explicar por qué el pipeline termina en cola y no en «fraude detectado», ya tienes el hábito de fronteras. El error clásico es saltar ER o tratar el score como sanción. En We Do practicarás el predicado de orden y el rechazo de parentesco inventado.",
       },
       {
         demoId: "S39-T1-B-DEMO",
         subtopicId: "S39-T1-B",
         environment: "local-python",
         description: "Registry mínimo: conteo de owners y política semver derivados de metadatos de artefactos.",
+        preamble:
+          "Sin dueño contactable no hay on-call del triage; sin semver no hay regresión confiable. Esta demo arma un registry mínimo (`er_engine`, `ranker`) con owners distintos y un flag `breaking` que fuerza política major. Observa el conteo de owners, el print de `semver_policy` y `owner_required`. No escribas: predice si un artefacto sin owner pasaría `registry_ok`.",
         code: {
           language: 'python',
           title: "reg_demo.py",
@@ -457,13 +463,17 @@ print("owner_required", registry_ok(reg))`,
 semver_policy major_on_breaking
 owner_required True`,
         },
-        why: "Ownership y semver son el contrato de evolución del triage: sin ellos no hay on-call ni regresión confiable.",
+        why: "Ownership y bump major en breaking evitan packets de cola con paths de grafo obsoletos o rankers huérfanos. Un patch silencioso ante cambio de schema rompe la regresión S27–S39: el revisor sigue citando paths que ya no existen. Cada artefacto del triage necesita dueño y política de versión antes de liberar. En We Do practicarás major ante breaking y escalamiento si falta owner.",
+        retrospective:
+          "Owner + semver = contrato de evolución del triage. Confundir patch con major deja packets de cola con paths de grafo muertos. Pregunta: si `graph_schema` elimina un tipo de nodo, ¿qué bump firmas ante investigations? We Do: predicado major, tres rutas y registry de cuatro artefactos.",
       },
       {
         demoId: "S39-T2-A-DEMO",
         subtopicId: "S39-T2-A",
         environment: "local-python",
         description: "Evidence packet: claves mínimas, capas contadas, bucket por umbrales calibrados y carga de cola frente a capacidad.",
+        preamble:
+          "El revisor de onboarding no puede trabajar con un número suelto. Esta demo ordena las claves del packet (`case_id`, `evidence`, `graph_path`, `score`), cuenta capas, marca que score solo no basta, calcula bucket con umbrales 0.75/0.40 y carga de cola frente a capacidad 3. Observa `score_alone_ok False` y `within_capacity True`. No escribas: predice bucket para score 0.81.",
         code: {
           language: 'python',
           title: "pkt_demo.py",
@@ -496,13 +506,17 @@ score_alone_ok False
 bucket queue_now
 load {'n_queue_now': 2, 'within_capacity': True}`,
         },
-        why: "El revisor necesita path y evidencia; el score solo no constituye workbench. El umbral calibrado (S34) ordena capacidad de cola sin convertir el score en fraude.",
+        why: "El umbral calibrado (S34) ordena capacidad de cola sin convertir el score en fraude. Path y evidencia citables son el workbench del revisor: sin ellos el caso es un número huérfano. `score_alone_ok=False` es política del producto, no un detalle de UI. En We Do repararás el predicado «score > 0» y el fail-closed de gaps en el packet.",
+        retrospective:
+          "Packet = hechos + path + score (+ incertidumbre). El error clásico es encolar solo con 0.99 y llamar eso workbench. Pregunta: con thr_hi=0.75 y capacity=3, ¿por qué `within_capacity True` con dos `queue_now`? We Do: predicado mínimo, empty vs missing, capas + uncertainty.",
       },
       {
         demoId: "S39-T2-B-DEMO",
         subtopicId: "S39-T2-B",
         environment: "local-python",
         description: "Override humano a skip con flag de audit y conteo de overrides derivados del log.",
+        preamble:
+          "El modelo prioriza; el revisor decide. En esta demo score 0.9 haría queue automático, pero el humano elige `skip` y el log marca override con audit. Observa la acción final, `n_overrides` y que todos los overrides tienen `audit True`. No escribas: predice qué pasa si `human=None`.",
         code: {
           language: 'python',
           title: "dec_demo.py",
@@ -521,13 +535,17 @@ print("audit", all(e["audit"] for e in log if e["override"]))`,
 n_overrides 1
 audit True`,
         },
-        why: "El override gana al auto y debe quedar auditado; sin log no hay control humano verificable.",
+        why: "Override sin audit no es control humano verificable: el score no ordena al revisor y el expediente miente. La precedencia humana es el núcleo del HITL en triage responsable. Si `human=None`, gana el auto por umbral; si hay acción humana, gana el humano y queda rastro. En We Do practicarás precedencia, apelación con segundo revisor y fail-closed de audit.",
+        retrospective:
+          "Humano gana al auto y deja rastro auditado. El error clásico es override silencioso (HITL cosmético). Pregunta: si `human=None` y score=0.9, ¿qué acción final ves y por qué? We Do: precedencia, apelación con segundo revisor y fail-closed de audit.",
       },
       {
         demoId: "S39-T3-A-DEMO",
         subtopicId: "S39-T3-A",
         environment: "local-python",
         description: "Checklist de liberación: `release_ok` se deriva de flags (sin secretos, sin autofraude).",
+        preamble:
+          "Liberar el triage no es «el modelo midió bien»: es un checklist firmable. Esta demo exige sin secretos en repo, sin autofraude, con RBAC y PII minimizada. Observa que `risk_release_ok` es True solo con el paquete limpio. No escribas: predice el resultado si `secrets_in_repo` fuera True.",
         code: {
           language: 'python',
           title: "risk_demo.py",
@@ -548,13 +566,17 @@ print("auto_fraud", checklist["auto_fraud"])`,
 secrets_in_repo False
 auto_fraud False`,
         },
-        why: "Release responsable del triage bloquea secretos y prohíbe etiquetas automáticas de fraude.",
+        why: "Blockers duros (secretos en repo, autofraude) no se compensan con un buen AUC. Controles positivos (RBAC, minimización de PII) deben estar en verde antes del release. El checklist es el contrato de seguridad del triage hacia CF-3. En We Do practicarás negar secrets, separar missing de reject y fairness por slice.",
+        retrospective:
+          "Release del triage es política firmable, no solo métrica de modelo. El error clásico es tratar secrets como «detalle de DevOps» compensable con AUC. Pregunta: si `secrets_in_repo=True` y todo lo demás verde, ¿`risk_release_ok`? We Do: predicado, missing vs reject y fairness por slice.",
       },
       {
         demoId: "S39-T3-B-DEMO",
         subtopicId: "S39-T3-B",
         environment: "local-python",
         description: "Modo human_only ante incidente y target de rollback derivado del artefacto previo.",
+        preamble:
+          "Ante incidente, el throughput no manda: se corta automatización. Esta demo devuelve `human_only`, apunta rollback a `prev_model` y demuestra que incident gana aunque drift también esté alto. Observa las tres líneas. No escribas: predice el modo si solo hubiera drift.",
         code: {
           language: 'python',
           title: "ops_demo.py",
@@ -576,13 +598,17 @@ print("priority", priority)`,
 rollback prev_model
 priority incident_over_drift`,
         },
-        why: "Ante incidente, fail-closed a human_only y rollback versionado; el throughput no manda sobre seguridad.",
+        why: "Fail-closed a humano y artefacto versionado previo protegen la cola cuando hay fuego. Drift alto pide más abstención; incidente corta el auto-skip. Confundir ambos deja el sistema en «casi normal» con riesgo activo. En We Do codificarás la prioridad de modo, la tabla de tres escenarios y el rollback frente al monitor.",
+        retrospective:
+          "Incident → human_only; drift → más abstención. Confundirlos deja el sistema en «casi normal» con fuego real. Pregunta: con solo drift alto, ¿rollback de modelo o `abstain_more`? We Do: prioridad, tabla de tres modos y rollback versionado.",
       },
       {
         demoId: "S39-T4-A-DEMO",
         subtopicId: "S39-T4-A",
         environment: "local-python",
         description: "Seis criterios de aceptación contados, scope de regresión S27–S39 y CF-3 con revisión externa.",
+        preamble:
+          "Cerrar el nivel no es imprimir OK en un script. Esta demo cuenta seis criterios de aceptación, fija regresión `S27-S39`, revisión CF-3 externa y prohíbe autodeclarar promoción. Observa las cuatro líneas de salida. No escribas: predice qué diría un revisor si `self_declared_promotion` fuera True.",
         code: {
           language: 'python',
           title: "acc_demo.py",
@@ -608,13 +634,17 @@ regression S27-S39
 cf3_review external
 self_declared_promotion False`,
         },
-        why: "Aceptación medible y regresión documentada; la promoción la confirma un revisor externo sobre el expediente.",
+        why: "Aceptación medible y regresión documentada no bastan para cerrar el nivel: la promoción la confirma un evaluador externo sobre el expediente CF-3. `self_declared_promotion=False` es política de producto, no un detalle de metadata. En We Do practicarás `no_auto_fraud_label`, notas de gate y demo paths.",
+        retrospective:
+          "Expediente listo ≠ nivel cerrado: la promoción la confirma un evaluador externo. El error clásico es auto-PASS de promoción en el script. Pregunta: si `self_declared_promotion` fuera True, ¿qué diría el revisor de CF-3? We Do: membership de aceptación, gate_notes y demo paths.",
       },
       {
         demoId: "S39-T4-B-DEMO",
         subtopicId: "S39-T4-B",
         environment: "local-python",
         description: "Métricas de valor operativo, tres cards y post mórtem blameless derivados de estructuras.",
+        preamble:
+          "El negocio no lee solo AUC: lee overrides, tiempo de review y si el post mórtem es blameless. Esta demo lista claves de valor, ordena cards model/data/system y valida un post mórtem con root_cause y actions. Observa las tres líneas. No escribas: predice si un post mórtem con blameless=False pasaría.",
         code: {
           language: 'python',
           title: "val_demo.py",
@@ -643,7 +673,9 @@ print("postmortem", postmortem_ready(postmortem))`,
 ['data', 'model', 'system']
 postmortem True`,
         },
-        why: "Cierre de nivel con valor de negocio, cards y post mórtem blameless listos para CF-3.",
+        why: "Cierre de nivel con valor operativo (override_rate, tiempo de review), cards de límites y aprendizaje sin cacería de brujas. El revisor externo de CF-3 mira ese paquete, no solo un AUC offline. En We Do codificarás el set de cards, las métricas de valor y los tokens del post mórtem.",
+        retrospective:
+          "Cards y valor operativo cierran el producto; el post mórtem cierra el incidente sin cacería de brujas. El error clásico es publicar solo AUC. Pregunta: ¿un post mórtem con `blameless=False` pasa `postmortem_ready`? We Do: set de cards, métricas de valor y tokens del post mórtem.",
       },
     ],
   },
@@ -654,8 +686,11 @@ postmortem True`,
         id: "S39-T1-A-E1",
         subtopicId: "S39-T1-A",
         kind: "guided",
+        title: "Orden canónico del pipeline N3",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-039-T1A` la cola de onboarding solo es auditable si las etapas siguen el orden intake→ER→grafo→features→score→queue.\n- **Meta:** corregir el predicado que hoy compara stages con la lista invertida.\n- **Éxito:** imprimes `S39-T1-A PASS` con fixture válido (`needs_review`, `auto_fraud False`).\n- **Límites:** no inviertas el orden a mano; no marques fraude automático; no cambies el fixture.",
         instruction:
-          "S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y auto_fraud. Debe exigir el orden intake→er→relation_graph→features→model_score→queue, label_space needs_review y auto_fraud False. El starter compara el orden al revés (defecto). Salida exacta: `S39-T1-A PASS`. El fixture adverso de E2 activará `REJECT_STAGE_ORDER`.",
+          "1. Abre el starter: `meets` usa `reversed(CANON)` (bug).\n2. Compara `record[\"stages\"]` con `CANON` en el orden correcto.\n3. Exige también `label_space == \"needs_review\"` y `auto_fraud is False`.\n4. Conserva el print `S39-T1-A` + status.",
         hint: "Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.",
         hints: [
           "Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.",
@@ -663,7 +698,10 @@ postmortem True`,
         ],
         edgeCases: ["stages en orden inverso", "label_space fraud_certainty", "CASO-LIM-039-T1A sintético"],
         tests: "Fixture válido imprime `S39-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S39-T1-A-E1: el orden de stages y el label_space definen el contrato; el score no autoriza auto_fraud.",
+        feedback:
+          "El orden de stages es el contrato del run: si ER va después del grafo, los features mienten. `needs_review` y `auto_fraud False` impiden que el score se lea como veredicto de conducta.",
+        retrospective:
+          "Orden canónico + `needs_review` + `auto_fraud False` = frontera del triage: el score solo prioriza cola. El error clásico es invertir la comparación o «arreglar» el fixture. Pregunta: si ER va después del grafo, ¿qué miente — features o el revisor? Siguiente (E2): separar orden malo de schema incompleto.",
         starterCode: {
           language: 'python',
           title: "s39-t1-a-e1.py",
@@ -706,8 +744,11 @@ assert meets is True
         id: "S39-T1-A-E2",
         subtopicId: "S39-T1-A",
         kind: "independent",
+        title: "Schema incompleto vs orden adverso",
+        preamble:
+          "- **Contexto:** en operaciones de Lima, un registro sin `label_space` no se «arregla» inventando fraude; se reporta como missing.\n- **Meta:** implementar `assess` que priorice campos faltantes y luego valide orden + política.\n- **Éxito:** línea exacta `PASS REJECT_STAGE_ORDER MISSING:label_space`.\n- **Límites:** no evalúes stages si falta clave; no uses un solo token genérico para todo fallo.",
         instruction:
-          "S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_id, stages, label_space, auto_fraud. Salidas exactas: `PASS`, `REJECT_STAGE_ORDER`, `MISSING:label_space`. El starter invierte la comparación de orden; corrige solo la decisión de dominio y conserva el chequeo de missing.",
+          "1. Revisa el starter: acepta orden invertido como OK (bug).\n2. Primero calcula `missing` de `case_id`, `stages`, `label_space`, `auto_fraud`.\n3. Si hay missing, devuelve `MISSING:…`; si no, valida CANON + `needs_review` + `auto_fraud is False`.\n4. Imprime las tres evaluaciones en una línea.",
         hint: "Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.",
         hints: [
           "Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.",
@@ -715,7 +756,10 @@ assert meets is True
         ],
         edgeCases: ["stages invertidos", "falta label_space", "auto_fraud True es adverso de política"],
         tests: "Salida exacta: PASS REJECT_STAGE_ORDER MISSING:label_space",
-        feedback: "S39-T1-A-E2: separa schema incompleto de orden incorrecto; ambos bloquean cola, con tokens distintos.",
+        feedback:
+          "Missing y contenido adverso bloquean la cola con señales distintas: el revisor de onboarding arregla schema o corrige orden, no el mismo ticket genérico.",
+        retrospective:
+          "Tres tokens distintos protegen tres tickets distintos: schema incompleto, orden adverso y política de score. El error clásico es un solo `REJECT` genérico. Pregunta: si falta `label_space`, ¿por qué no inventar `fraud_certainty`? Luego (E3): alcance de ER sin parentesco.",
         starterCode: {
           language: 'python',
           title: "s39-t1-a-e2.py",
@@ -775,8 +819,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T1-A-E3",
         subtopicId: "S39-T1-A",
         kind: "transfer",
+        title: "ER sin parentesco: fail-closed del pipeline",
+        preamble:
+          "- **Contexto:** en el triage sintético, ER solo decide si dos registros son la **misma entidad**; nunca familia ni culpa.\n- **Meta:** enrutar cuatro fixtures con tokens exactos de fail-closed.\n- **Éxito:** `CONTINUE REJECT_STAGE_ORDER REJECT_ER_SCOPE REQUEST_STAGE_LIST`.\n- **Límites:** no inventes stages ni evidencia; incertidumbre (missing) ≠ breach de parentesco.",
         instruction:
-          "S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_parentesco=True`) → `REJECT_ER_SCOPE`, y falta de stages → `REQUEST_STAGE_LIST`. El starter continúa en todos los casos y no detecta el abuso de alcance de ER. Corrige sin rellenar evidencia inventada.",
+          "1. Si falta `stages` → `REQUEST_STAGE_LIST`.\n2. Si `er_claims_parentesco` → `REJECT_ER_SCOPE`.\n3. Si orden o política incorrectos → `REJECT_STAGE_ORDER`.\n4. Si no, `CONTINUE`. Imprime los cuatro resultados.",
         hint: "Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.",
         hints: [
           "Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.",
@@ -784,7 +831,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["er_claims_parentesco", "stages faltantes", "orden invertido"],
         tests: "Salida: CONTINUE REJECT_STAGE_ORDER REJECT_ER_SCOPE REQUEST_STAGE_LIST",
-        feedback: "S39-T1-A-E3: el alcance de ER es la misma entidad; parentesco y fraude no se infieren del pipeline.",
+        feedback:
+          "El alcance de ER es la misma entidad: parentesco y fraude no se infieren del pipeline. Un `CONTINUE` silencioso ante parentesco inventado envenena el packet del revisor.",
+        retrospective:
+          "Fail-closed protege al revisor: pide lo que falta y rechaza parentesco inventado. El error clásico es `CONTINUE` silencioso. Pregunta: ¿missing de stages es lo mismo que claim de familia? En el You Do el mismo principio vive en packet y audit.",
         starterCode: {
           language: 'python',
           title: "s39-t1-a-e3.py",
@@ -852,8 +902,11 @@ assert results == [
         id: "S39-T1-B-E1",
         subtopicId: "S39-T1-B",
         kind: "guided",
+        title: "Breaking change exige bump major",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-039-T1B` el `graph_schema` rompe paths ya guardados en packets; el bump debe ser major.\n- **Meta:** corregir el predicado que hoy exige `minor` ante `breaking=True`.\n- **Éxito:** `S39-T1-B PASS` con owner presente y bump major.\n- **Límites:** no borres el fixture; no aceptes owner vacío.",
         instruction:
-          "S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si breaking es True, bump debe ser `major`; owner no vacío. El starter exige bump `minor` ante breaking (defecto). Salida exacta: `S39-T1-B PASS`. El adverso de E2 activará `REJECT_BUMP_POLICY`.",
+          "1. Localiza el DEFECTO: `bump == \"minor\"`.\n2. Cambia a `bump == \"major\"` cuando `breaking` es True.\n3. Mantén `bool(record[\"owner\"])`.\n4. Imprime `S39-T1-B` + status.",
         hint: "Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.",
         hints: [
           "Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.",
@@ -861,7 +914,10 @@ assert results == [
         ],
         edgeCases: ["breaking con bump minor", "owner vacío", "CASO-LIM-039-T1B sintético"],
         tests: "Imprime `S39-T1-B PASS` cuando bump=major, owner presente y breaking True.",
-        feedback: "S39-T1-B-E1: semver y owner son el contrato de evolución; patch/minor no cubren breaking.",
+        feedback:
+          "Semver major comunica breaking al equipo de investigations y a la regresión S27–S39. Un minor silencioso deja packets huérfanos en cola.",
+        retrospective:
+          "Breaking → major + owner contactable. El error clásico es «es solo un campo del grafo» y publicar patch. Pregunta: ¿quién recibe el semver en el on-call de la cola? Siguiente (E2): tres rutas (política vs missing de owner).",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e1.py",
@@ -902,8 +958,11 @@ assert meets is True
         id: "S39-T1-B-E2",
         subtopicId: "S39-T1-B",
         kind: "independent",
+        title: "Owner faltante vs política de bump",
+        preamble:
+          "- **Contexto:** el ranker de `ml-risk` no puede ir a producción sin owner ni con bump incorrecto ante breaking.\n- **Meta:** `assess` con missing-antes-de-contenido y rechazo de política.\n- **Éxito:** `PASS REJECT_BUMP_POLICY MISSING:owner`.\n- **Límites:** no mires bump si falta owner; no inventes owner por defecto.",
         instruction:
-          "S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, owner, breaking, bump. Salidas exactas: `PASS`, `REJECT_BUMP_POLICY`, `MISSING:owner`. Corrige el predicado invertido del starter y mantén el orden missing-antes-de-contenido.",
+          "1. Calcula missing de claves requeridas.\n2. Si owner vacío o ausente → `MISSING:owner`.\n3. Si `breaking` y `bump != \"major\"` → `REJECT_BUMP_POLICY`.\n4. Imprime las tres rutas.",
         hint: "Si falta owner, devuelve MISSING:owner sin mirar bump.",
         hints: [
           "Si falta owner, devuelve MISSING:owner sin mirar bump.",
@@ -911,7 +970,10 @@ assert meets is True
         ],
         edgeCases: ["owner ausente", "breaking con patch", "registry de 4 artefactos conceptuales"],
         tests: "Salida: PASS REJECT_BUMP_POLICY MISSING:owner",
-        feedback: "S39-T1-B-E2: owner y major bump son independientes; faltantes y políticas no se confunden.",
+        feedback:
+          "Owner y major bump son chequeos independientes: uno es gente de on-call, el otro es contrato de evolución. Confundirlos retrasa el release del triage.",
+        retrospective:
+          "Gente (owner) y contrato (bump) se fallan por caminos distintos: un ticket de staffing no es un ticket de semver. El error clásico es inventar owner por defecto para «pasar» el release. Pregunta: si el owner está vacío pero el bump es major, ¿qué token gana? Luego: registry de cuatro artefactos como conjunto.",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e2.py",
@@ -970,8 +1032,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T1-B-E3",
         subtopicId: "S39-T1-B",
         kind: "transfer",
+        title: "Registry completo o escala",
+        preamble:
+          "- **Contexto:** el triage de Lima no se libera «por partes»: basta un artefacto sin owner para escalar.\n- **Meta:** `decide` sobre registry happy, sin owner en ranker y breaking con minor en graph_schema.\n- **Éxito:** `CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY`.\n- **Límites:** corrige el off-by-one; no ignores owners vacíos.",
         instruction:
-          "S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos en tres rutas visibles. Happy: todos con owner y bump correcto → imprime `CONTINUE` y `n_art=4`. Adverso sin owner en `ranker` → `ESCALATE_NO_OWNER`. Breaking con bump `minor` en `graph_schema` → `REJECT_BUMP_POLICY`. El starter ignora owners vacíos y usa `len(registry) - 1` (off-by-one). Salida exacta: `CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY`.",
+          "1. Recorre todos los artefactos en `decide`.\n2. Sin owner → `ESCALATE_NO_OWNER`; breaking sin major → `REJECT_BUMP_POLICY`.\n3. Imprime `CONTINUE`, `len(registry)` (=4), y las dos rutas adversas.\n4. No uses `len - 1`.",
         hint: "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
         hints: [
           "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea el registry entero.",
@@ -979,7 +1044,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["owner vacío en un artefacto", "breaking sin major", "registry incompleto"],
         tests: "Salida: CONTINUE 4 ESCALATE_NO_OWNER REJECT_BUMP_POLICY",
-        feedback: "S39-T1-B-E3: el registry es un conjunto: basta un artefacto sin owner para escalar.",
+        feedback:
+          "El registry es un conjunto: un hueco bloquea el release del triage. El off-by-one miente sobre cobertura ante el revisor de CF-3.",
+        retrospective:
+          "El registry se libera entero o se escala: un hueco de owner no se «compensa» con tres artefactos verdes. El off-by-one miente sobre cobertura ante auditoría. Pregunta: ¿qué miraría primero un revisor de CF-3 — happy path o owners vacíos? En el You Do el mismo conjunto vive en system-card y manifest.",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e3.py",
@@ -1038,8 +1106,11 @@ print(status, n_art, decide(no_owner), decide(bad_bump))
         id: "S39-T2-A-E1",
         subtopicId: "S39-T2-A",
         kind: "guided",
+        title: "Packet mínimo con path y evidencia",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-039-T2A` el revisor necesita path `E1 → ph:900 → E2` y evidencia de teléfono sintético, no solo 0.81.\n- **Meta:** exigir case_id, score, evidence y graph_path no vacíos.\n- **Éxito:** `S39-T2-A PASS`.\n- **Límites:** no aceptes score solo; no inventes path si faltara.",
         instruction:
-          "S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_path (lista no vacía). El starter solo exige score > 0 (defecto: score alone). Salida exacta: `S39-T2-A PASS`. El adverso de E2 activará `REJECT_PACKET_INCOMPLETE`.",
+          "1. Reemplaza `score > 0` por chequeos de las cuatro claves.\n2. Verifica listas `evidence` y `graph_path` con longitud > 0.\n3. Status PASS o REJECT_PACKET_INCOMPLETE.\n4. Conserva el print del subtema.",
         hint: "evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.",
         hints: [
           "evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.",
@@ -1047,7 +1118,10 @@ print(status, n_art, decide(no_owner), decide(bad_bump))
         ],
         edgeCases: ["evidence vacía", "sin graph_path", "solo score"],
         tests: "Imprime `S39-T2-A PASS` cuando el packet tiene las cuatro claves mínimas útiles.",
-        feedback: "S39-T2-A-E1: packet mínimo = case_id + score + evidence + graph_path accionables.",
+        feedback:
+          "Sin path ni evidencia el caso no es «listo para cola»: es un score huérfano. El packet mínimo es el workbench mínimo del revisor de onboarding.",
+        retrospective:
+          "Cuatro piezas mínimas del packet: sin path ni evidencia el revisor no puede citar. El error clásico es confiar en un score alto. Pregunta: ¿`score=0.99` con `evidence=[]` es PASS? Siguiente: distinguir lista vacía de clave ausente.",
         starterCode: {
           language: 'python',
           title: "s39-t2-a-e1.py",
@@ -1091,8 +1165,11 @@ assert meets is True
         id: "S39-T2-A-E2",
         subtopicId: "S39-T2-A",
         kind: "independent",
+        title: "Evidence vacía vs path ausente",
+        preamble:
+          "- **Contexto:** en la cola de Lima, evidence vacía y path omitido se diagnostican distinto: uno es contenido inválido, el otro es schema incompleto.\n- **Meta:** tokens `PASS`, `REJECT_PACKET_INCOMPLETE`, `MISSING:graph_path`.\n- **Éxito:** esa línea exacta de tres tokens.\n- **Límites:** score 0.99 sin path nunca es PASS.",
         instruction:
-          "S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exactas: `PASS`, `REJECT_PACKET_INCOMPLETE`, `MISSING:graph_path`. El starter trata evidence vacía como PASS; corrige el predicado y el missing check.",
+          "1. Primero missing de claves requeridas.\n2. Luego rechaza listas vacías de evidence o graph_path.\n3. Imprime las tres evaluaciones.\n4. No hardcodees tokens sin evaluar fixtures.",
         hint: "Missing de clave ≠ lista vacía: tokens distintos (MISSING frente a REJECT_PACKET_INCOMPLETE).",
         hints: [
           "Missing de clave ≠ lista vacía: tokens distintos (MISSING frente a REJECT_PACKET_INCOMPLETE).",
@@ -1100,7 +1177,10 @@ assert meets is True
         ],
         edgeCases: ["evidence vacía", "graph_path ausente", "score alto sin path"],
         tests: "Salida: PASS REJECT_PACKET_INCOMPLETE MISSING:graph_path",
-        feedback: "S39-T2-A-E2: el revisor no puede trabajar con score huérfano ni path omitido.",
+        feedback:
+          "El revisor no puede trabajar con score huérfano ni path omitido. Tokens distintos aceleran la remediación en la cola HITL.",
+        retrospective:
+          "Missing pide schema; incomplete rechaza basura. El revisor gana tiempo si el token es honesto. Pregunta: evidence `[]` y path omitido — ¿mismo ticket de remediación? Luego: uncertainty y capas de explicación (S35).",
         starterCode: {
           language: 'python',
           title: "s39-t2-a-e2.py",
@@ -1152,8 +1232,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T2-A-E3",
         subtopicId: "S39-T2-A",
         kind: "transfer",
+        title: "Capas de explicación o rechazo",
+        preamble:
+          "- **Contexto:** la explicación usable (S35) solo tiene sentido con packet completo e incertidumbre declarada.\n- **Meta:** devolver status + layers (4 solo si OK).\n- **Éxito:** `CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY`.\n- **Límites:** no inventes `in_distribution` ni path en el adverso score-only.",
         instruction:
-          "S39-T2-A-E3 · Workbench fail-closed sobre tres fixtures: packet OK → `CONTINUE` y layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El starter siempre continúa y reporta layers=1. Salida exacta de la línea: `CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY`. No inventes path si no viene en el fixture adverso.",
+          "1. Score-only (solo case_id+score) → REJECT_SCORE_ALONE.\n2. Sin `uncertainty` → REQUEST_UNCERTAINTY.\n3. Packet OK → CONTINUE, layers 4.\n4. Imprime unpack del happy y los status de adversarios.",
         hint: "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
         hints: [
           "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
@@ -1161,7 +1244,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["solo score", "sin uncertainty", "evidence vacía"],
         tests: "Salida: CONTINUE 4 REJECT_SCORE_ALONE REQUEST_UNCERTAINTY",
-        feedback: "S39-T2-A-E3: explicación en capas exige evidencia; no enmascares gaps del packet.",
+        feedback:
+          "Explicación en capas exige evidencia: no enmascares gaps del packet con layers=1. Capas sin hechos son teatro para el revisor.",
+        retrospective:
+          "Capas sin evidencia son teatro. El error clásico es CONTINUE con layers=1. Pregunta: ¿puedes inventar `in_distribution` para «completar» capas? En el You Do packet y cards deben contar la misma historia.",
         starterCode: {
           language: 'python',
           title: "s39-t2-a-e3.py",
@@ -1217,8 +1303,11 @@ print(*decide(ok), decide(score_only)[0], decide(no_unc)[0])
         id: "S39-T2-B-E1",
         subtopicId: "S39-T2-B",
         kind: "guided",
+        title: "Override humano gana al auto",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-039-T2B` el auto pondría queue (0.9 ≥ 0.7); el revisor de Lima hace skip por evidencia insuficiente.\n- **Meta:** que final=human_action y override=True cuando hay humano.\n- **Éxito:** `S39-T2-B PASS`.\n- **Límites:** no borres el score; no ignores human_action.",
         instruction:
-          "S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_action y override=True; si no, auto queue/skip por umbral. El starter ignora el humano y siempre usa auto (defecto). Salida exacta: `S39-T2-B PASS` cuando final es skip con override True ante human_action=skip.",
+          "1. Calcula auto por umbral.\n2. Si `human_action` no es None, final = human_action y override True.\n3. Verifica final skip + override True.\n4. Imprime status del subtema.",
         hint: "human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.",
         hints: [
           "human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.",
@@ -1226,7 +1315,10 @@ print(*decide(ok), decide(score_only)[0], decide(no_unc)[0])
         ],
         edgeCases: ["human skip con score alto", "sin human → auto queue", "sin audit conceptual"],
         tests: "Imprime `S39-T2-B PASS` con final skip y override True.",
-        feedback: "S39-T2-B-E1: override humano gana al auto; el score solo sugiere, no ordena al revisor.",
+        feedback:
+          "El score solo sugiere prioridad. Si el humano no puede ganar al auto, el HITL es cosmético y el audit miente.",
+        retrospective:
+          "Precedencia humana es el núcleo del triage responsable: el score sugiere, no ordena al revisor. El error clásico es dejar `final = auto` aunque haya skip humano. Pregunta: ¿override sin cambiar la acción final engaña al audit? Siguiente: apelación exige segundo revisor.",
         starterCode: {
           language: 'python',
           title: "s39-t2-b-e1.py",
@@ -1269,8 +1361,11 @@ assert meets is True
         id: "S39-T2-B-E2",
         subtopicId: "S39-T2-B",
         kind: "independent",
+        title: "Apelación con segundo revisor",
+        preamble:
+          "- **Contexto:** si el cliente apela, el caso reabre con **otro** revisor; no con el mismo criterio silencioso.\n- **Meta:** devolver `queue`, `skip` o `MISSING:second_reviewer` según el fixture.\n- **Éxito:** línea `queue skip MISSING:second_reviewer`.\n- **Límites:** appeal sin second_reviewer no cierra; override solo con human_action.",
         instruction:
-          "S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second_reviewer (`MISSING:second_reviewer`). Entrada: score, threshold, human_action, appeal, second_reviewer. El starter no exige second_reviewer en apelación. Salidas: `queue`, `skip`, `MISSING:second_reviewer` en la línea impresa de resultados de acción/estado.",
+          "1. Si appeal y no hay second_reviewer → MISSING.\n2. Si hay human_action → devuélvelo.\n3. Si no, auto por umbral.\n4. Imprime las tres salidas de assess.",
         hint: "Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.",
         hints: [
           "Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.",
@@ -1278,7 +1373,10 @@ assert meets is True
         ],
         edgeCases: ["apelación sin segundo revisor", "override a skip", "auto por umbral"],
         tests: "Salida: queue skip MISSING:second_reviewer",
-        feedback: "S39-T2-B-E2: apelación exige segundo par de ojos; override exige acción humana explícita.",
+        feedback:
+          "Apelación exige segundo par de ojos documentado; override exige acción humana explícita. Un reopen sin control no es HITL verificable.",
+        retrospective:
+          "Apelación = segundo par de ojos documentado, no un `reopen` mágico. El error clásico es reabrir sin `second_reviewer`. Pregunta: ¿por qué el mismo revisor no basta para el expediente? Luego: audit de feedback sin leakage.",
         starterCode: {
           language: 'python',
           title: "s39-t2-b-e2.py",
@@ -1329,8 +1427,11 @@ print(assess(auto_q), assess(override), assess(appeal))
         id: "S39-T2-B-E3",
         subtopicId: "S39-T2-B",
         kind: "transfer",
+        title: "Feedback solo con audit completo",
+        preamble:
+          "- **Contexto:** el feedback del revisor puede mejorar reglas o datasets, pero sin audit ni id se reinyecta basura o se pierde la cadena de custodia.\n- **Meta:** fail-closed en tres eventos de log.\n- **Éxito:** `LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID`.\n- **Límites:** sin audit_entry no hay override válido; feedback sin id no se loguea; cuida leakage temporal.",
         instruction:
-          "S39-T2-B-E3 · Audit log de feedback sobre tres eventos: happy con leakage_care → `LOGGED True`; override sin audit_entry → `REJECT_NO_AUDIT`; feedback sin feedback_id → `REQUEST_FEEDBACK_ID`. El starter marca LOGGED aunque no haya audit. Salida exacta: `LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID`.",
+          "1. Override sin audit_entry → REJECT_NO_AUDIT.\n2. Feedback sin feedback_id → REQUEST_FEEDBACK_ID.\n3. Happy con leakage_care → LOGGED True.\n4. Imprime unpack del happy + tokens adversarios.",
         hint: "Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.",
         hints: [
           "Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.",
@@ -1338,7 +1439,10 @@ print(assess(auto_q), assess(override), assess(appeal))
         ],
         edgeCases: ["override sin audit", "feedback sin id", "leakage_care False"],
         tests: "Salida: LOGGED True REJECT_NO_AUDIT REQUEST_FEEDBACK_ID",
-        feedback: "S39-T2-B-E3: feedback y override solo cuentan si el audit es completo y sin leakage.",
+        feedback:
+          "Feedback y override solo cuentan si el audit es completo y sin leakage. «LOGGED siempre» envenena el train set y el expediente CF-3.",
+        retrospective:
+          "Audit y feedback_id hacen al feedback reutilizable sin leakage. El error clásico es «LOGGED siempre». En el You Do el audit.jsonl es la prueba del HITL.",
         starterCode: {
           language: 'python',
           title: "s39-t2-b-e3.py",
@@ -1394,8 +1498,11 @@ print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
         id: "S39-T3-A-E1",
         subtopicId: "S39-T3-A",
         kind: "guided",
+        title: "Secretos bloquean el release",
+        preamble:
+          "- **Contexto:** en el release de `CASO-LIM-039-T3A`, un secreto en el repo es blocker duro aunque el resto del checklist esté verde.\n- **Meta:** `release_ok` con `not secrets_in_repo` y demás flags True.\n- **Éxito:** `S39-T3-A PASS` en el fixture limpio.\n- **Límites:** no borres campos; no trates True de secrets como «OK».",
         instruction:
-          "S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, input_limits. release_ok exige todos True salvo secrets_in_repo que debe ser False. El starter trata secrets_in_repo True como aceptable (defecto grave). Salida exacta: `S39-T3-A PASS` en el fixture limpio.",
+          "1. Abre el DEFECTO: incluye `checklist[\"secrets_in_repo\"]` en el `all` sin negar.\n2. Usa `not checklist[\"secrets_in_repo\"]`.\n3. Mantén pii, rbac, slice_metrics, input_limits.\n4. Imprime status del subtema.",
         hint: "not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.",
         hints: [
           "not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.",
@@ -1403,7 +1510,10 @@ print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
         ],
         edgeCases: ["secrets_in_repo True", "rbac False", "sin slice_metrics"],
         tests: "Imprime `S39-T3-A PASS` cuando el checklist limpio cumple el contrato.",
-        feedback: "S39-T3-A-E1: secretos en repo son blocker duro del release del triage.",
+        feedback:
+          "Secretos en repo invalidan el expediente de seguridad del triage. No se «compensan» con un buen AUC ni con RBAC verde.",
+        retrospective:
+          "`not secrets_in_repo` es hábito de release: un True bloquea aunque RBAC y PII estén verdes. El error clásico es leer el flag «en positivo» dentro del `all`. Pregunta: ¿un buen AUC limpia un secreto en el repo? Siguiente: secrets activos vs controles ausentes.",
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e1.py",
@@ -1456,8 +1566,11 @@ assert meets is True
         id: "S39-T3-A-E2",
         subtopicId: "S39-T3-A",
         kind: "independent",
+        title: "Missing de control vs secrets activos",
+        preamble:
+          "- **Contexto:** falta de RBAC y secrets en repo no se arreglan igual: uno pide el control, el otro rechaza la violación.\n- **Meta:** tres tokens exactos en una línea.\n- **Éxito:** `PASS REJECT_SECRETS MISSING:rbac`.\n- **Límites:** no confundes missing con reject genérico.",
         instruction:
-          "S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada: flags del checklist de riesgo. El starter no niega secrets y confunde missing con reject. Salida exacta de la línea: `PASS REJECT_SECRETS MISSING:rbac`.",
+          "1. Missing de claves requeridas primero.\n2. Si secrets_in_repo True → REJECT_SECRETS.\n3. Si no, valida resto y PASS/REJECT_RELEASE.\n4. Imprime las tres rutas.",
         hint: "Missing de rbac se detecta por claves; secrets True es breach de contenido.",
         hints: [
           "Missing de rbac se detecta por claves; secrets True es breach de contenido.",
@@ -1465,7 +1578,10 @@ assert meets is True
         ],
         edgeCases: ["secrets en repo", "rbac ausente", "pii no minimizada"],
         tests: "Salida: PASS REJECT_SECRETS MISSING:rbac",
-        feedback: "S39-T3-A-E2: separa ausencia de control (missing) de violación activa (secrets).",
+        feedback:
+          "Separa ausencia de control (missing) de violación activa (secrets): el ticket de remediación y el bloqueo de release no son el mismo.",
+        retrospective:
+          "Tokens distintos aceleran remediación: missing pide el control; secrets rechaza la violación. El error clásico es un `REJECT_RELEASE` genérico para ambos. Pregunta: ¿falta de RBAC se arregla igual que una API key en el repo? Luego: fairness de cola por slice, no culpa grupal.",
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e2.py",
@@ -1528,8 +1644,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T3-A-E3",
         subtopicId: "S39-T3-A",
         kind: "transfer",
+        title: "Fairness de cola por slice, no culpa",
+        preamble:
+          "- **Contexto:** en el batch sintético, un `fp_rate` alto en `canal_app` significa **demasiado daño de revisión** en ese canal, no «ese canal es culpable».\n- **Meta:** CONTINUE con métrica `fp_rate`, o REQUEST/REJECT según slices.\n- **Éxito:** `CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP`.\n- **Límites:** no uses el score para afirmar fraude en un slice; no inventes slices.",
         instruction:
-          "S39-T3-A-E3 · Fairness de cola sobre tres payloads: OK → `CONTINUE fp_rate`; slices vacíos → `REQUEST_SLICE_METRICS`; fp_rate sobre umbral → `REJECT_SLICE_FP`. El starter siempre continúa y no lee slices. Salida exacta: `CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP`. No uses el score para afirmar fraude en un slice.",
+          "1. Slices vacíos o ausentes → REQUEST_SLICE_METRICS.\n2. Si algún fp_rate > umbral → REJECT_SLICE_FP.\n3. Si no → CONTINUE, métrica `fp_rate` (no auc).\n4. Imprime las tres rutas.",
         hint: "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
         hints: [
           "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
@@ -1537,7 +1656,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["sin slices", "fp_rate sobre umbral", "metric nombre fp_rate"],
         tests: "Salida: CONTINUE fp_rate REQUEST_SLICE_METRICS REJECT_SLICE_FP",
-        feedback: "S39-T3-A-E3: fairness operativa mide daño de revisión por slice, no culpa grupal.",
+        feedback:
+          "Fairness operativa mide daño de revisión por slice, no culpa grupal. Un AUC global verde no limpia un canal con cola injusta.",
+        retrospective:
+          "Fairness operativa protege a usuarios de revisión injusta por canal. El error clásico es mirar solo AUC global. En cards del You Do documentas slices sintéticos sin PII real.",
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e3.py",
@@ -1588,8 +1710,11 @@ print(*decide(happy), decide(empty)[0], decide(high_fp)[0])
         id: "S39-T3-B-E1",
         subtopicId: "S39-T3-B",
         kind: "guided",
+        title: "Incidente manda sobre drift",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-039-T3B` hay incidente y drift a la vez; el modo seguro es human_only, no «abstener un poco más».\n- **Meta:** corregir la prioridad de `mode(drift_high, incident)`.\n- **Éxito:** `S39-T3-B PASS`.\n- **Límites:** no devuelvas abstain_more si incident es True.",
         instruction:
-          "S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si no, drift_high → abstain_more; si no, normal. El starter invierte prioridades (defecto). Salida exacta: `S39-T3-B PASS` cuando incident True produce human_only.",
+          "1. Primero `if incident: return \"human_only\"`.\n2. Luego drift → abstain_more.\n3. Si no, normal.\n4. Imprime status del assert del fixture.",
         hint: "incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.",
         hints: [
           "incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.",
@@ -1597,7 +1722,10 @@ print(*decide(happy), decide(empty)[0], decide(high_fp)[0])
         ],
         edgeCases: ["incident y drift simultáneos", "solo drift", "normal"],
         tests: "Imprime `S39-T3-B PASS` si mode(incident=True)=human_only.",
-        feedback: "S39-T3-B-E1: human_only es el fail-closed de incidente; el throughput no manda.",
+        feedback:
+          "human_only es fail-closed de incidente: el revisor manda y el modelo deja de auto-saltar casos. El throughput espera.",
+        retrospective:
+          "Orden de `if`s = política de seguridad: incident gana aunque drift también esté alto. El error clásico es «abstener un poco más» en pleno incidente. Pregunta: ¿por qué el throughput espera en human_only? Siguiente: tabla completa normal / drift / incident.",
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e1.py",
@@ -1640,8 +1768,11 @@ assert meets is True
         id: "S39-T3-B-E2",
         subtopicId: "S39-T3-B",
         kind: "independent",
+        title: "Tabla de modos ops del triage",
+        preamble:
+          "- **Contexto:** el runbook de ops de la fintech sintética necesita la tabla completa, no solo el caso de incidente.\n- **Meta:** (F,F)→normal, (T,F)→abstain_more, (F,T)→human_only.\n- **Éxito:** `normal abstain_more human_only`.\n- **Límites:** no inventes labels de fraude al subir abstención; no intercambies ramas.",
         instruction:
-          "S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas exactas en una línea: `normal abstain_more human_only`. El starter intercambia drift e incident. No inventes labels de fraude al subir abstención.",
+          "1. Corrige las ramas invertidas del starter.\n2. Prioriza incident sobre drift.\n3. Imprime las tres combinaciones del enunciado.\n4. No hardcodees la línea sin llamar a `mode`.",
         hint: "Tabla de verdad simple: (F, F) = normal; (T, F) = abstain_more; (F, T) = human_only.",
         hints: [
           "Tabla de verdad simple: (F, F) = normal; (T, F) = abstain_more; (F, T) = human_only.",
@@ -1649,7 +1780,10 @@ assert meets is True
         ],
         edgeCases: ["ambos True", "flags ausentes conceptualmente", "rollback target aparte"],
         tests: "Salida: normal abstain_more human_only",
-        feedback: "S39-T3-B-E2: drift reduce automatización; incident la corta.",
+        feedback:
+          "Drift reduce automatización; incident la corta. Invertir los modos deja el runbook mentiroso cuando hay fuego real.",
+        retrospective:
+          "La tabla del runbook es el contrato de ops: (F,F) normal, drift abstain_more, incident human_only. El error clásico es intercambiar ramas y mentir cuando hay fuego. Pregunta: con ambos True, ¿qué fila gana y por qué no basta «solo drift»? Luego: rollback versionado vs monitor de drift.",
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e2.py",
@@ -1686,8 +1820,11 @@ print(mode(False, False), mode(True, False), mode(False, True))
         id: "S39-T3-B-E3",
         subtopicId: "S39-T3-B",
         kind: "transfer",
+        title: "Rollback versionado o monitor de drift",
+        preamble:
+          "- **Contexto:** rollback no es «reiniciar la laptop»: apunta a `prev_model_id` versionado. Drift sin incidente no revierte el modelo a ciegas.\n- **Meta:** tres respuestas ops exactas.\n- **Éxito:** `ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more`.\n- **Límites:** sin prev no inventes id; no mezcles STAY con human_only.",
         instruction:
-          "S39-T3-B-E3 · Rollback versionado sobre tres escenarios: incident con prev → `ROLLBACK previous_model`; falta prev_model_id → `REQUEST_PREV_MODEL`; solo drift → `MONITOR abstain_more`. El starter siempre imprime current_model. Salida exacta: `ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more`.",
+          "1. Incident con prev → ROLLBACK + id.\n2. Incident sin prev → REQUEST_PREV_MODEL.\n3. Solo drift → MONITOR abstain_more.\n4. Imprime las tres rutas.",
         hint: "Rollback apunta a artefacto versionado previo, no al working tree local.",
         hints: [
           "Rollback apunta a artefacto versionado previo, no al working tree local.",
@@ -1695,7 +1832,10 @@ print(mode(False, False), mode(True, False), mode(False, True))
         ],
         edgeCases: ["sin prev_model_id", "solo drift", "incident con prev"],
         tests: "Salida: ROLLBACK previous_model REQUEST_PREV_MODEL MONITOR abstain_more",
-        feedback: "S39-T3-B-E3: rollback y abstención son controles distintos; no los mezcles.",
+        feedback:
+          "Rollback y abstención son controles distintos: no te quedes en current_model en pleno incidente ni reviertas el modelo por un drift leve.",
+        retrospective:
+          "Rollback apunta a `prev_model_id` versionado; drift sin incidente no revierte a ciegas. El error clásico es STAY en current_model con incidente. Pregunta: sin prev, ¿inventas un id o pides REQUEST? En el You Do `force_failure` empuja a human_only con audit.",
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e3.py",
@@ -1749,8 +1889,11 @@ print(*decide(happy), decide(missing)[0], *decide(drift_only))
         id: "S39-T4-A-E1",
         subtopicId: "S39-T4-A",
         kind: "guided",
+        title: "Aceptación sin auto-label de fraude",
+        preamble:
+          "- **Contexto:** el checklist de `CASO-LIM-039-T4A` debe incluir el string exacto `no_auto_fraud_label`: el score no etiqueta fraude.\n- **Meta:** membership correcto en la lista de aceptación.\n- **Éxito:** `S39-T4-A PASS`.\n- **Límites:** no inventes alias `auto_fraud_ok`; no reescribas la lista.",
         instruction:
-          "S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_label` y al menos e2e_synthetic_run, audit_log. El starter busca la clave equivocada `auto_fraud_ok` (defecto). Salida exacta: `S39-T4-A PASS` cuando el criterio correcto está presente.",
+          "1. Reemplaza `\"auto_fraud_ok\" in acceptance` por `\"no_auto_fraud_label\"`.\n2. Exige también e2e_synthetic_run y audit_log.\n3. Imprime status del subtema.\n4. No hardcodees PASS sin membership.",
         hint: "Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.",
         hints: [
           "Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.",
@@ -1758,7 +1901,10 @@ print(*decide(happy), decide(missing)[0], *decide(drift_only))
         ],
         edgeCases: ["falta no_auto_fraud_label", "lista vacía", "typo fraud_auto"],
         tests: "Imprime `S39-T4-A PASS` si el checklist de aceptación es completo en lo esencial.",
-        feedback: "S39-T4-A-E1: aceptar el triage exige prohibir auto-label de fraude de forma explícita.",
+        feedback:
+          "Sin la prohibición explícita de auto-label, el e2e puede «pasar» y aun así declarar fraude. El string del criterio es el contrato del producto.",
+        retrospective:
+          "Aceptación = criterios citables con el string exacto del producto, no alias «casi iguales». El error clásico es un e2e verde que aún declara fraude. Pregunta: ¿por qué no basta `auto_fraud_ok` como sinónimo? Siguiente: regresión y CF-3 sin autodeclarar promoción.",
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e1.py",
@@ -1806,8 +1952,11 @@ assert meets is True
         id: "S39-T4-A-E2",
         subtopicId: "S39-T4-A",
         kind: "independent",
+        title: "CF-3 externo, sin auto-promoción",
+        preamble:
+          "- **Contexto:** documentas smoke S27–S39 y CF-3; un revisor externo confirma. Autodeclarar promoción es rechazo de política.\n- **Meta:** assess de gate_notes con tres rutas.\n- **Éxito:** `PASS REJECT_AUTO_PASS MISSING:regression_scope`.\n- **Límites:** self_declared_promotion True nunca es PASS; scope debe ser exacto `S27-S39`.",
         instruction:
-          "S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_review=`external`, self_declared_promotion debe ser False. Entrada: dict gate_notes. Adverso: self_declared_promotion True → `REJECT_AUTO_PASS`. Missing scope → `MISSING:regression_scope`. Salidas: `PASS REJECT_AUTO_PASS MISSING:regression_scope`. El starter permite autodeclarar promoción.",
+          "1. Missing de claves primero.\n2. Si self_declared_promotion True → REJECT_AUTO_PASS.\n3. Valida scope y cf3_review external.\n4. Imprime las tres rutas.",
         hint: "No autodeclares promoción: self_declared_promotion True es rechazo de política. CF-3 se confirma con revisión externa.",
         hints: [
           "No autodeclares promoción: self_declared_promotion True es rechazo de política. CF-3 se confirma con revisión externa.",
@@ -1815,7 +1964,10 @@ assert meets is True
         ],
         edgeCases: ["self_declared_promotion True", "scope incompleto", "cf3_review no external"],
         tests: "Salida: PASS REJECT_AUTO_PASS MISSING:regression_scope",
-        feedback: "S39-T4-A-E2: regresión y expediente se documentan; la promoción la confirma un revisor externo.",
+        feedback:
+          "Regresión y expediente se documentan; la promoción la confirma un revisor externo. Un auto-PASS en el manifest no cierra el nivel.",
+        retrospective:
+          "Tú dejas evidencia; otro cierra el nivel. El error clásico es `promotion=True` en el manifest. En el You Do el manifest ya trae `self_declared_promotion: false`.",
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e2.py",
@@ -1870,8 +2022,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T4-A-E3",
         subtopicId: "S39-T4-A",
         kind: "transfer",
+        title: "Demo e2e: happy, override y abstención",
+        preamble:
+          "- **Contexto:** la demo de aceptación del triage debe mostrar override humano y abstención OOD, no solo el caso feliz.\n- **Meta:** conjunto canónico de tres paths.\n- **Éxito:** `CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH`.\n- **Límites:** usa el token `ood_abstain` (no un alias vago); no inventes paths.",
         instruction:
-          "S39-T4-A-E3 · Demo paths sobre tres listas: completo → `CONTINUE 3`; solo happy → `REJECT_HAPPY_ONLY`; falta ood_abstain → `REQUEST_DEMO_PATH`. El starter cuenta mal y acepta cualquier lista. Salida exacta: `CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH`.",
+          "1. Conjunto vacío o incompleto (sin ood_abstain) → REQUEST_DEMO_PATH.\n2. Solo happy → REJECT_HAPPY_ONLY.\n3. Happy+override+ood_abstain → CONTINUE 3.\n4. Imprime las tres rutas.",
         hint: "Compara como conjunto los nombres canónicos; el orden de la lista no importa.",
         hints: [
           "Compara como conjunto los nombres canónicos; el orden de la lista no importa.",
@@ -1879,7 +2034,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["solo happy", "path mal nombrado", "lista vacía"],
         tests: "Salida: CONTINUE 3 REJECT_HAPPY_ONLY REQUEST_DEMO_PATH",
-        feedback: "S39-T4-A-E3: la demo de triage debe cubrir override y abstención, no solo el caso feliz.",
+        feedback:
+          "La demo de triage debe cubrir override y abstención, no solo el caso feliz. Una demo de marketing no es demo de aceptación del HITL.",
+        retrospective:
+          "La demo demuestra control humano y abstención OOD, no solo que el score «funciona». Pregunta: ¿por qué `ood_abstain` y no un alias vago `ood`? En el You Do los tres `demo_cases` son ese contrato.",
         starterCode: {
           language: 'python',
           title: "s39-t4-a-e3.py",
@@ -1927,8 +2085,11 @@ print(*decide(full), decide(happy_only)[0], decide(partial)[0])
         id: "S39-T4-B-E1",
         subtopicId: "S39-T4-B",
         kind: "guided",
+        title: "Tres cards: model, data, system",
+        preamble:
+          "- **Contexto:** el paquete mínimo de cierre de `CASO-LIM-039-T4B` son model, data y system cards — límites y ownership publicados.\n- **Meta:** igualdad de sets con esas tres.\n- **Éxito:** `S39-T4-B PASS`.\n- **Límites:** no exijas `ops`; no omitas `system`.",
         instruction:
-          "S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system (como conjunto). El starter exige cuatro cards incluyendo 'ops' (defecto). Salida exacta: `S39-T4-B PASS`. El adverso de E2 activará `REJECT_CARDS`.",
+          "1. Corrige el set que incluye `\"ops\"`.\n2. `set(cards) == {\"model\", \"data\", \"system\"}`.\n3. Imprime status.\n4. No rellenes una cuarta card para «compensar».",
         hint: "Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.",
         hints: [
           "Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.",
@@ -1936,7 +2097,10 @@ print(*decide(full), decide(happy_only)[0], decide(partial)[0])
         ],
         edgeCases: ["falta system", "card extra no compensa falta", "lista vacía"],
         tests: "Imprime `S39-T4-B PASS` cuando las tres cards mínimas están presentes.",
-        feedback: "S39-T4-B-E1: model/data/system cards son el paquete mínimo de cierre de nivel.",
+        feedback:
+          "Las tres cards son el mínimo legible para un revisor externo de CF-3. Una card inventada no sustituye system.",
+        retrospective:
+          "model/data/system = paquete mínimo de límites y ownership. El error clásico es inventar una card `ops` o omitir `system` «porque sobra». Pregunta: ¿una card extra compensa la falta de system ante CF-3? Siguiente: métricas de valor que negocio sí lee.",
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e1.py",
@@ -1966,8 +2130,11 @@ assert meets is True
         id: "S39-T4-B-E2",
         subtopicId: "S39-T4-B",
         kind: "independent",
+        title: "Valor operativo, no solo AUC",
+        preamble:
+          "- **Contexto:** en la cola de onboarding, override_rate y tiempo de review cuentan más para el cierre que un AUC offline suelto.\n- **Meta:** exigir clave `value` con al menos `override_rate`.\n- **Éxito:** `PASS REJECT_VALUE_METRICS MISSING:value`.\n- **Límites:** auc solo → REJECT; sin dict value → MISSING.",
         instruction:
-          "S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offline → `REJECT_VALUE_METRICS`; sin dict de métricas → `MISSING:value`. El starter acepta auc como suficiente. Salida: `PASS REJECT_VALUE_METRICS MISSING:value`.",
+          "1. Si falta clave value → MISSING:value.\n2. Si no hay override_rate → REJECT_VALUE_METRICS.\n3. Si no → PASS.\n4. Imprime las tres rutas.",
         hint: "Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.",
         hints: [
           "Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.",
@@ -1975,7 +2142,10 @@ assert meets is True
         ],
         edgeCases: ["solo auc", "value ausente", "override_rate 0.12 válido"],
         tests: "Salida: PASS REJECT_VALUE_METRICS MISSING:value",
-        feedback: "S39-T4-B-E2: negocio lee overrides y tiempo de review; AUC no basta para el cierre.",
+        feedback:
+          "Negocio lee overrides y tiempo de review; AUC no basta para el cierre del triage. Valor = cómo opera la cola, no solo ranking offline.",
+        retrospective:
+          "Valor operativo del triage = cómo opera la cola (override_rate, tiempo de review), no un AUC offline suelto. El error clásico es enorgullecerse del ranking y omitir overrides. Pregunta: con solo `auc=0.91`, ¿qué token devuelves? Luego: post mórtem blameless con root_cause y actions.",
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e2.py",
@@ -2017,8 +2187,11 @@ print(assess(valid), assess(invalid), assess(incomplete))
         id: "S39-T4-B-E3",
         subtopicId: "S39-T4-B",
         kind: "transfer",
+        title: "Post mórtem blameless con acciones",
+        preamble:
+          "- **Contexto:** el aprendizaje del incidente del triage es de sistemas y procesos, no de cacería de brujas.\n- **Meta:** validar blameless, root_cause no vacío y actions no vacía.\n- **Éxito:** `CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS`.\n- **Límites:** no uses nombres de personas como root_cause; no dejes actions=[].",
         instruction:
-          "S39-T4-B-E3 · Post mórtem blameless sobre cuatro fixtures: OK → `CONTINUE True`; blameless False → `REJECT_BLAMEFUL`; root_cause vacío → `REQUEST_ROOT_CAUSE`; actions vacía → `REQUEST_ACTIONS`. El starter acepta revisiones con culpa personal y sin acciones. Salida exacta: `CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS`.",
+          "1. blameless no True → REJECT_BLAMEFUL.\n2. root_cause vacío → REQUEST_ROOT_CAUSE.\n3. actions vacía → REQUEST_ACTIONS.\n4. Happy → CONTINUE True. Imprime las cuatro rutas.",
         hint: "Blameless mira procesos y sistemas; no nombres de personas como root_cause. Actions vacía tiene token propio (REQUEST_ACTIONS).",
         hints: [
           "Blameless mira procesos y sistemas; no nombres de personas como root_cause.",
@@ -2026,7 +2199,10 @@ print(assess(valid), assess(invalid), assess(incomplete))
         ],
         edgeCases: ["blameless False", "root_cause vacío", "actions []"],
         tests: "Salida: CONTINUE True REJECT_BLAMEFUL REQUEST_ROOT_CAUSE REQUEST_ACTIONS",
-        feedback: "S39-T4-B-E3: el post mórtem cierra el aprendizaje del incidente sin cacería de brujas; root_cause y actions no se confunden.",
+        feedback:
+          "El post mórtem cierra el aprendizaje del incidente sin cacería de brujas; root_cause y actions no se confunden ni se dejan vacíos.",
+        retrospective:
+          "Post mórtem cierra el ciclo: causa + acciones + sin culpa personal. El error clásico es CONTINUE con lista vacía. En el You Do documenta un post mórtem sintético alineado a este contrato.",
         starterCode: {
           language: 'python',
           title: "s39-t4-b-e3.py",
@@ -2303,6 +2479,8 @@ def build_bundle(out: Path, *, force_failure: bool = False, run_id: str = "run-0
 `,
     portfolioNote:
       "Cierre CP-N3-C + artefactos para regresión N3/CF-3. El expediente queda listo para revisión externa; no autodeclares promoción.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con el audit (override, ood_abstain o human_only) y un digest del bundle? (2) ¿dónde queda escrito `auto_fraud=False` y `self_declared_promotion=false` para un revisor externo de CF-3? (3) Escribe en el README una frase de impacto medible (p. ej. paths de demo + tasa de override sintética) defendible en 30 segundos. No autodeclares la promoción de nivel.",
     rubric: [
       { criterion: "Alineación al entregable CP-N3-C (triage e2e responsable)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno local-python", weight: "20%" },

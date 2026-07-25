@@ -336,6 +336,8 @@ assert_fail True`,
         subtopicId: "S14-T1-A",
         environment: "local-python",
         description: "Crear arrays de flags y scores con dtype/shape documentados y validar ndim",
+        preamble:
+          "Antes de sumar completitud, el tablero CP-N2-A exige un **contrato** de array: filas = clientes, columnas = campos, dtype barato para flags y `float64` para scores. En esta demo `make_quality_arrays` construye flags 0/1 y scores sintéticos, y **aserta** shape y dtype antes de devolver. No escribas aún: predice `flags_shape`, `itemsize` de uint8 y `nbytes` de scores; si el contrato fallara, el assert detiene el pipeline (fail-closed), no “arregla” en silencio.",
         code: {
           language: 'python',
           title: "demo_ndarray.py",
@@ -355,13 +357,17 @@ print("scores_shape", s.shape, "nbytes", s.nbytes)`,
           output: `flags_shape (4, 3) dtype uint8 itemsize 1
 scores_shape (4,) nbytes 32`,
         },
-        why: "Fija el contrato dtype/shape antes de calcular métricas de calidad.",
+        why: "Documentar dtype y shape evita ufuncs sobre `object` o divisiones enteras no deseadas. `itemsize` y `nbytes` anticipan el presupuesto de memoria del lote. El `assert` es el mismo hábito fail-closed que practicarás en We Do T1-A E3 (`validate`): si el contrato no cuadra, el pipeline se detiene; no se “casta” en silencio a lo que el llamador no pidió.",
+        retrospective:
+          "Si puedes explicar por qué un score en `int` o un flags 1D rompería las métricas sin mirar el código, ya tienes el hábito de contrato. El error clásico es confiar en el dtype por defecto. En We Do T1-A practicarás meta, `linspace` y validación fail-closed.",
       },
       {
         demoId: "S14-T1-B-DEMO",
         subtopicId: "S14-T1-B",
         environment: "local-python",
         description: "Indexar y filtrar clientes sintéticos con máscara booleana",
+        preamble:
+          "El tablero necesita “clientes sintéticos de Lima con score bajo 0.6” sin un `for` por fila. Sigue la demo: `region` y `score` se combinan con `&` (y paréntesis), no con `and` de Python. Predice la lista `filtrados` y el entero `count` antes de mirar la salida. Datos solo sintéticos (`C00x`, Lima/Arequipa/Cusco); la máscara debe alinear el eje o NumPy lanza `ValueError`.",
         code: {
           language: 'python',
           title: "demo_masks.py",
@@ -379,13 +385,17 @@ s14_ido_2()`,
           output: `filtrados ['C003', 'C005']
 count 2`,
         },
-        why: "Máscaras combinadas expresan reglas de calidad sin loops.",
+        why: "Las máscaras expresan reglas de calidad en un pase vectorizado, sin un loop Python por cliente. `mask.sum()` es el conteo del gate (cuántos cumplen). Combina condiciones con `&`/`|` y paréntesis; `and`/`or` de Python entre arrays falla. En We Do practicarás umbral con `where`, filtro por mediana y reorden con fancy index.",
+        retrospective:
+          "Si sabes por qué `and` entre arrays falla y `&` funciona, ya evitas el bug clásico del newbie. Pregunta de auto-chequeo: ¿la máscara y `ids` tienen la misma longitud? We Do: umbral con `where`, filtro por mediana y reorden con fancy index.",
       },
       {
         demoId: "S14-T2-A-DEMO",
         subtopicId: "S14-T2-A",
         environment: "local-python",
         description: "Reducir métricas de completitud y unicidad por campo/cliente con ufuncs",
+        preamble:
+          "Aquí el tablero deja de listar filas y empieza a **agregar**: media de presencia por campo (columnas) y por cliente (filas), más la tasa de unicidad de ids sintéticos. Observa la matriz 0/1 y el vector `ids` con un duplicado. Predice `completitud_campo` (¿qué campo es el más vacío?) y `unicidad` antes de leer la salida. Solo NumPy; un duplicado debe bajar la tasa por debajo de 1.0.",
         code: {
           language: 'python',
           title: "demo_reductions.py",
@@ -414,13 +424,17 @@ completitud_cliente [0.75, 0.75, 0.5, 1.0]
 std_campos 0.1768
 unicidad 0.75`,
         },
-        why: "Reducciones por eje y unicidad con np.unique son el núcleo del tablero de calidad vectorizado.",
+        why: "`axis=0` vs `axis=1` es una decisión de negocio (¿agrego clientes o campos?), no un hábito de notebook. `np.unique(...).size / size` es la fórmula de unicidad del portfolio CP-N2-A; `len(ids)/len(ids)` siempre da 1.0 y miente. `std` resume la dispersión de completitud entre campos del tablero.",
+        retrospective:
+          "Si puedes decir por qué la unicidad es 0.75 y no 1.0, ya detectas el truco `len/len`. We Do: mean por ejes, tasa de unicidad y centrado por fila con `keepdims`.",
       },
       {
         demoId: "S14-T2-B-DEMO",
         subtopicId: "S14-T2-B",
         environment: "local-python",
         description: "Alinear scores de clientes con pesos de campos vía broadcast explícito",
+        preamble:
+          "Las señales por pares del tablero necesitan una matriz n×n de diferencias de score agregado **sin** un doble `for` Python. Observa: primero se ponderan dimensiones con broadcast `(3,3)*(3,)`, se suma por cliente y luego `agg[:, None] - agg[None, :]`. Predice `agg`, el `diff_shape` y por qué `diff[0,0]` es 0.0. El assert de columnas vs pesos es el contrato de alineación.",
         code: {
           language: 'python',
           title: "demo_broadcast.py",
@@ -447,13 +461,17 @@ s14_ido_4()`,
 diff_shape (3, 3)
 diff_00 0.0`,
         },
-        why: "Broadcast documentado evita ValueError y fan-out silencioso de shapes.",
+        why: "Broadcast documentado evita `ValueError` o, peor, alineaciones silenciosas malas (restar un umbral a la dimensión equivocada). La diagonal cero de la matriz de pares es el auto-chequeo: `score_i − score_i = 0`. El assert de columnas vs pesos es el mismo contrato que `pairwise_diff` del youDo.",
+        retrospective:
+          "Si explicas por qué la diagonal es cero sin mirar el código, entiendes “score_i − score_i”. We Do: sumar pesos a filas, producto exterior con `newaxis` y capturar broadcast incompatible.",
       },
       {
         demoId: "S14-T3-A-DEMO",
         subtopicId: "S14-T3-A",
         environment: "local-python",
         description: "Demostrar mutación vía view y aislar normalización con copy",
+        preamble:
+          "En calidad, el array crudo alimenta logs, reprocess y tests. Si normalizas un **view** (`raw[:]`), el raw se corrompe y la auditoría miente. Sigue el mal camino y el bueno: predice `raw_corrupto` tras `v /= v.max()` y luego `raw_ok` cuando usas `.copy()`. Solo datos sintéticos; el principio es mutabilidad, no el score en sí.",
         code: {
           language: 'python',
           title: "demo_views.py",
@@ -477,13 +495,17 @@ s14_ido_5()`,
 raw_ok [100.0, 200.0, 50.0, 150.0]
 norm [0.5, 1.0, 0.25, 0.75]`,
         },
-        why: "Copia antes de mutar cuando el raw alimenta auditoría o reprocess.",
+        why: "Los slices simples suelen compartir memoria (view); fancy index y máscaras booleanas suelen copiar. Mutar un view muta el original: el bug más caro del pipeline de calidad. Regla operativa CP-N2-A: **copia antes de mutar** si el array crudo se reutiliza en auditoría, reprocess o tests.",
+        retrospective:
+          "Si puedes explicar por qué el primer `raw` ya no tiene 100.0, nunca volverás a “normalizar en sitio” sin pensarlo. We Do: forzar la mutación vía view, aislar con copy y bloquear escritura.",
       },
       {
         demoId: "S14-T3-B-DEMO",
         subtopicId: "S14-T3-B",
         environment: "local-python",
         description: "Calcular media robusta de scores ignorando NaN/inf documentados",
+        preamble:
+          "Un score ausente (`nan`) o no finito (`inf`) no es un 0 de calidad: contamina `mean` o domina la suma. Observa el vector mixto: cuenta válidos con `isfinite`, promedia solo finitos y compara con `nanmean` tras convertir inf a nan. Predice `n_valid` y `mean_robusta` antes de la salida. Política del tablero: documentar el filtro; no sustituir por 0 en silencio.",
         code: {
           language: 'python',
           title: "demo_nan.py",
@@ -501,13 +523,17 @@ s14_ido_6()`,
 mean_robusta 0.7125
 nanmean_solo_nan 0.7125`,
         },
-        why: "Métricas de calidad deben declarar política ante NaN/inf.",
+        why: "NaN no es cero de negocio: es ausencia de medición. `nanmean` solo no basta si hay `inf` (hay que mapear inf→nan o filtrar con `isfinite`). Fail-closed o traza de no-finitos; no sustituyas por 0 en silencio. En We Do contarás NaN, promediarás omitiendo ausencias y limpiarás inf antes de sumar.",
+        retrospective:
+          "Si sabes por qué `mean` del vector crudo no es 0.7125, ya separas ausencia de valor. Auto-chequeo: ¿`nanmean` solo basta si aún hay `inf`? We Do: contar NaN, promediar omitiendo NaN y limpiar inf antes de sumar.",
       },
       {
         demoId: "S14-T4-A-DEMO",
         subtopicId: "S14-T4-A",
         environment: "local-python",
         description: "Comparar loop vs vectorizado para score ponderado con timing honesto",
+        preamble:
+          "Vectorizar el score ponderado del tablero solo se defiende si (1) el resultado **coincide** con el loop y (2) el tiempo del loop supera al de `X @ w` en N grande. Observa el demo con n=20_000: `perf_counter`, sin prints dentro del loop, `allclose` primero, luego `ratio_gt_1`. El número exacto del ratio **depende de tu máquina**; no lo trates como SLA del portfolio.",
         code: {
           language: 'python',
           title: "demo_bench.py",
@@ -541,13 +567,17 @@ s14_ido_7()`,
           output: `allclose True
 ratio_gt_1 True`,
         },
-        why: "Equivalencia + ratio de tiempo (el número exacto depende de la máquina) justifican la vectorización en el portfolio.",
+        why: "Benchmark honesto: mismo input y dtype, `time.perf_counter` (no `time.time`), equivalencia (`allclose`) **antes** del ratio de tiempo. Un ratio sin equivalencia no demuestra que la versión vectorizada sea correcta. En CP-N2-A, `bench_weighted_mean` devuelve ambos; el número exacto del ratio depende de la máquina.",
+        retrospective:
+          "Si internalizas “allclose antes del ratio”, ya haces benchmarks honestos: un número de velocidad sin oráculo no demuestra corrección. El error clásico es publicar solo el ratio o tratarlo como SLA. Auto-chequeo: ¿qué reportarías si `allclose` fuera `False`? We Do: comparar sumas, suma de cuadrados y timing de suma vectorizada.",
       },
       {
         demoId: "S14-T4-B-DEMO",
         subtopicId: "S14-T4-B",
         environment: "local-python",
         description: "Test con np.allclose y presupuesto de memoria para matriz de señales",
+        preamble:
+          "Las señales por pares son O(n²): con n=500 y float64, `pair.nbytes` ya es ~2 MB. Observa el demo: construye la matriz con broadcast, compara con un **budget**, y valida equivalencia numérica con ruido 1e-10 vía `allclose` y `assert_allclose`. Predice `budget_ok` y por qué el assert no lanza. En el portfolio, documenta rtol/atol y el presupuesto; nunca PII real.",
         code: {
           language: 'python',
           title: "demo_tol.py",
@@ -571,7 +601,9 @@ s14_ido_8()`,
 allclose True
 assert_ok True`,
         },
-        why: "Presupuesto de memoria + allclose cierran el incremento S14 de CP-N2-A.",
+        why: "La memoria es contrato del incremento: materializar n×n sin presupuesto agota RAM. `assert_allclose` es el oráculo de tests de CP-N2-A; `rtol` escala con la magnitud y `atol` cubre cercanos a cero (útil en scores [0, 1]). Sin ese check, un ratio de tiempo no demuestra corrección.",
+        retrospective:
+          "Si sabes por qué 2e6 bytes es “ok” bajo el budget, ya piensas en memoria antes de materializar n×n. We Do: `nbytes` de float64, `allclose` con atol y un assert que **debe** fallar.",
       },
     ],
   },
@@ -582,8 +614,11 @@ assert_ok True`,
         id: "S14-T1-A-E1",
         subtopicId: "S14-T1-A",
         kind: "guided",
+        title: "Meta dtype/shape sin invertir ejes",
+        preamble:
+          "- **Contexto:** en el lote sintético del tablero, cada fila es un cliente y cada columna un campo de presencia.\n- **Meta:** crear `flags` con el contrato correcto e imprimir sus atributos.\n- **Éxito:** una línea `uint8 (3, 2) 2`.\n- **Límites:** solo NumPy; no inviertas la tupla `shape`; dtype debe ser `uint8` (no el `int64` por defecto).",
         instruction:
-          "E1 (guiado) — Crea un ndarray `flags` de shape `(3, 2)`, dtype `uint8`, con valores `[[1,0],[1,1],[0,1]]` e imprime `dtype`, `shape` y `ndim`. Salida esperada: `uint8 (3, 2) 2`. Solo NumPy; corrige el bug del código inicial (shape invertida).",
+          "1. Abre el starter: el array está bien, pero se imprime `shape[::-1]` (bug).\n2. Crea `flags` con `np.array(..., dtype=np.uint8)` y la matriz dada.\n3. Imprime `dtype`, `shape` y `ndim` en ese orden (sin texto extra).\n4. Comprueba que no quede ningún `::-1`.",
         hint: "Usa np.array(..., dtype=np.uint8).",
         hints: [
           "Usa np.array(..., dtype=np.uint8).",
@@ -591,7 +626,10 @@ assert_ok True`,
         ],
         edgeCases: ["dtype incorrecto (int64 por defecto)", "shape transpuesta"],
         tests: "dtype == uint8; shape == (3, 2); ndim == 2",
-        feedback: "Si ves (2, 3), imprimiste shape invertida. El contrato es filas×columnas = (3, 2) y dtype uint8.",
+        feedback:
+          "Si ves `(2, 3)`, invertiste la forma al imprimir o construiste filas/columnas al revés. El contrato del tablero es filas×columnas = clientes×campos; `uint8` ahorra memoria frente a `int64` en flags 0/1.",
+        retrospective:
+          "Imprimir meta no es “debug de aficionado”: es el contrato que reutilizarás en asserts. El misconception es que “si se ve bien, el shape da igual”. Siguiente (E2): malla de scores con `linspace` y `nbytes`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -614,8 +652,11 @@ print(flags.dtype, flags.shape, flags.ndim)`,
         id: "S14-T1-A-E2",
         subtopicId: "S14-T1-A",
         kind: "independent",
+        title: "Scores con linspace y nbytes",
+        preamble:
+          "- **Contexto:** los scores del tablero viven en [0, 1] como malla controlada, no como enteros 0…4.\n- **Meta:** construir `scores` con `linspace` y reportar coste de memoria.\n- **Éxito:** `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`.\n- **Límites:** solo NumPy; `dtype=float64` (itemsize 8); no uses `arange` como sustituto de malla.",
         instruction:
-          "E2 (independiente) — Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` e imprime `itemsize`, `nbytes` y la lista de valores. Salida esperada: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Solo NumPy; corrige el bug del código inicial (`arange` en lugar de `linspace`).",
+          "1. El starter usa `arange(5)` e imprime solo la lista.\n2. Sustituye por una malla en [0, 1] con 5 puntos y `dtype=float64` (no enteros consecutivos).\n3. Imprime `itemsize`, `nbytes` y `tolist()` en una línea.\n4. Verifica mentalmente: 5 × 8 = 40.",
         hint: "linspace con dtype=float64.",
         hints: [
           "linspace con dtype=float64.",
@@ -623,7 +664,10 @@ print(flags.dtype, flags.shape, flags.ndim)`,
         ],
         edgeCases: ["float32 por accidente", "endpoint de linspace"],
         tests: "itemsize == 8; nbytes == 40; valores = linspace(0,1,5)",
-        feedback: "`arange` da enteros consecutivos, no una malla en [0, 1]. Usa `linspace` y verifica itemsize=8.",
+        feedback:
+          "`arange` da enteros consecutivos, no una malla en [0, 1]. Usa `linspace` y verifica itemsize=8; ese mismo cálculo de `nbytes` escala al presupuesto de matrices n×n.",
+        retrospective:
+          "`nbytes = size × itemsize` es el mismo cálculo que el presupuesto de matrices n×n en T4-B. No confundes “cinco puntos” con “cinco enteros”. Luego (E3): rechazar arrays que no cumplan 1D float64.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -646,8 +690,11 @@ print(scores.itemsize, scores.nbytes, scores.tolist())`,
         id: "S14-T1-A-E3",
         subtopicId: "S14-T1-A",
         kind: "transfer",
+        title: "Validar 1D float64 o fallar",
+        preamble:
+          "- **Contexto:** una métrica de scores que recibe `int` o una matriz 2D miente en silencio si no valida.\n- **Meta:** `validate(a)` exige `ndim == 1` y `dtype == float64`.\n- **Éxito:** válido → `ok 2`; inválido (`[1, 2]`) → `err expected 1d float64`.\n- **Límites:** mensaje corto y estable; no “castees” a float en silencio; solo NumPy.",
         instruction:
-          "E3 (transferencia) — Valida un contrato: si un array no es 1D float64, lanza `ValueError`; si es válido imprime `ok` y el size. Caso inválido: `np.array([1, 2])` (1D pero no float64). Salida esperada: `ok 2` y `err expected 1d float64`. Solo NumPy; corrige el bug del código inicial.",
+          "1. Lee el DEFECT: `validate` solo imprime `ok` sin chequear.\n2. Si `ndim != 1` o `dtype != float64`, lanza `ValueError(\"expected 1d float64\")`.\n3. Si pasa, imprime `ok` y `size`.\n4. Ejecuta el caso válido y el `try/except` del fixture.",
         hint: "Comprueba ndim y dtype.",
         hints: [
           "Comprueba ndim y dtype.",
@@ -655,7 +702,10 @@ print(scores.itemsize, scores.nbytes, scores.tolist())`,
         ],
         edgeCases: ["aceptar int64", "no validar ndim"],
         tests: "válido → 'ok' + size; inválido (int) → ValueError expected 1d float64",
-        feedback: "Valida `ndim == 1` y `dtype == float64`. Un array 1D de enteros también debe fallar.",
+        feedback:
+          "Valida `ndim == 1` y `dtype == float64`. Un array 1D de enteros también debe fallar: cast silencioso a float ocultaría el error del llamador.",
+        retrospective:
+          "Fail-closed es el mismo criterio del youDo (`completeness` rechaza 1D). Pregunta de cierre: ¿por qué un cast silencioso a float sería peor que un error ruidoso? Puente a T1-B: filtrar con máscaras sin romper longitudes.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -695,8 +745,11 @@ err expected 1d float64`,
         id: "S14-T1-B-E1",
         subtopicId: "S14-T1-B",
         kind: "guided",
+        title: "Índices con score >= 0.5",
+        preamble:
+          "- **Contexto:** el revisor del lote necesita las **posiciones** de clientes sintéticos que superan el umbral, no solo la lista de scores.\n- **Meta:** localizar índices 0-based con máscara y `np.where`.\n- **Éxito:** `[1, 3]` para `score = [0.2, 0.8, 0.4, 0.9]`.\n- **Límites:** solo NumPy; umbral inclusivo `>= 0.5`; no inventes un loop de índices a mano.",
         instruction:
-          "E1 (guiado) — Dado `score = [0.2, 0.8, 0.4, 0.9]`, imprime los índices (0-based) donde `score >= 0.5` con máscara y `np.where`. Salida esperada: `[1, 3]`. Solo NumPy; corrige el bug del código inicial (umbral invertido).",
+          "1. El starter usa `score < 0.5` (complemento).\n2. Cambia a `score >= 0.5`.\n3. Toma `np.where(mask)[0]` y pásalo a lista.\n4. Imprime solo esa lista.",
         hint: "mask = score >= 0.5.",
         hints: [
           "mask = score >= 0.5.",
@@ -704,7 +757,10 @@ err expected 1d float64`,
         ],
         edgeCases: ["comparación estricta >", "olvidar [0] en where"],
         tests: "índices donde score >= 0.5 → [1, 3]",
-        feedback: "La máscara correcta es `score >= 0.5`. Si usas `<`, obtienes los índices del complemento.",
+        feedback:
+          "Si obtienes `[0, 2]`, filtraste el complemento. `where` devuelve una tupla de arrays por eje: en 1D usas `[0]`. El mismo patrón alimenta “quién cae bajo umbral” en el tablero.",
+        retrospective:
+          "Índice vectorizado es la base de fancy index y de reportes “filas problemáticas”. El misconception es confundir **posición** con **valor** del score. Auto-chequeo: si el umbral es inclusivo, ¿por qué `>` cambiaría el resultado? Siguiente: filtrar **ids** bajo la mediana (E2).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -729,8 +785,11 @@ print(idx.tolist())`,
         id: "S14-T1-B-E2",
         subtopicId: "S14-T1-B",
         kind: "independent",
+        title: "Ids bajo la mediana del lote",
+        preamble:
+          "- **Contexto:** en un batch sintético, “bajo” se define respecto del lote (mediana), no de un número mágico.\n- **Meta:** listar ids con `score < mediana`.\n- **Éxito:** `['C001', 'C003']`.\n- **Límites:** usa `np.median`; no hardcodes umbral 0.5; conserva el orden del array original.",
         instruction:
-          "E2 (independiente) — Con ids `C001..C004` y sus scores, imprime los ids con score bajo la mediana (`score < mediana`). Salida esperada: `['C001', 'C003']`. Solo NumPy; corrige el bug del código inicial (máscara invertida).",
+          "1. El starter filtra la mitad alta del lote (máscara invertida).\n2. Calcula la mediana del vector de scores (no un umbral fijo 0.5).\n3. Filtra los ids con score **bajo** esa mediana y pásalos a lista.\n4. Conserva el orden original; no uses `mean` en lugar de mediana.",
         hint: "np.median(scores).",
         hints: [
           "np.median(scores).",
@@ -738,7 +797,10 @@ print(idx.tolist())`,
         ],
         edgeCases: ["usar mean en vez de median", "máscara invertida"],
         tests: "ids con score < mediana; orden del array original",
-        feedback: "Calcula la mediana sobre scores y filtra con máscara. No uses un umbral fijo inventado.",
+        feedback:
+          "Calcula la mediana sobre scores y filtra con máscara. Un umbral fijo inventado no se adapta al lote; invertir `>` vs `<` selecciona la mitad equivocada.",
+        retrospective:
+          "La mediana del lote es un umbral adaptativo del tablero. El error clásico es invertir la máscara o usar la media. Luego (E3): reordenar con fancy index, otra forma de seleccionar sin loop.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -765,8 +827,11 @@ print(ids[scores < med].tolist())`,
         id: "S14-T1-B-E3",
         subtopicId: "S14-T1-B",
         kind: "transfer",
+        title: "Reordenar con fancy index",
+        preamble:
+          "- **Contexto:** a veces el tablero necesita reordenar un vector de métricas según un ranking de índices, no ordenar los valores.\n- **Meta:** aplicar `a[order]` con `order = [2, 0, 3, 1]`.\n- **Éxito:** `[30, 10, 40, 20]`.\n- **Límites:** solo NumPy; sin loops; no uses `sorted` sobre los valores.",
         instruction:
-          "E3 (transferencia) — Fancy index: reordena el vector `[10, 20, 30, 40]` con el orden de índices `[2, 0, 3, 1]` e imprime el resultado. Salida esperada: `[30, 10, 40, 20]`. Solo NumPy; sin loops; corrige el bug del código inicial.",
+          "1. El starter imprime `sorted(a.tolist())` (ordena valores).\n2. Usa el vector `order` como índice.\n3. Imprime `a[order].tolist()`.\n4. Comprueba que el primer elemento sea 30 (posición 2), no 10.",
         hint: "a[order] con lista de índices.",
         hints: [
           "a[order] con lista de índices.",
@@ -774,7 +839,10 @@ print(ids[scores < med].tolist())`,
         ],
         edgeCases: ["argsort confuso", "copia accidental del orden"],
         tests: "fancy index con [2,0,3,1] → [30, 10, 40, 20]",
-        feedback: "Fancy index reordena con la lista de posiciones; no es un slice contiguo.",
+        feedback:
+          "Fancy index reordena con la lista de posiciones; no es un slice contiguo ni un `sorted` de valores. Si el primer elemento es 10, ordenaste valores en vez de posiciones.",
+        retrospective:
+          "Fancy index no es un slice contiguo ni un sort: es “tráeme estas posiciones en este orden”. Pregunta: ¿por qué `sorted` rompe el significado del ranking? Puente a T2-A: agregados por eje del tablero.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -799,8 +867,11 @@ print(a[order].tolist())`,
         id: "S14-T2-A-E1",
         subtopicId: "S14-T2-A",
         kind: "guided",
+        title: "Completitud: mean por columnas y filas",
+        preamble:
+          "- **Contexto:** el tablero publica un vector de completitud **por campo** y otro **por cliente**.\n- **Meta:** reducir una matriz 2×3 con `mean` en ambos ejes y redondear.\n- **Éxito:** primero `[1.0, 0.5, 0.5]`; luego `[0.67, 0.67]`.\n- **Límites:** solo NumPy; orden de impresión: axis=0 y después axis=1; redondeo a 2 decimales.",
         instruction:
-          "E1 (guiado) — Matriz 2×3 de unos y ceros: calcula `mean` por `axis=0` y por `axis=1`; imprime ambas listas redondeadas a 2 decimales (primero columnas, luego filas). Salida esperada: `[1.0, 0.5, 0.5]` y `[0.67, 0.67]`. Solo NumPy; corrige el bug del código inicial.",
+          "1. El starter imprime primero axis=1 y sin `np.round`.\n2. Calcula `M.mean(axis=0)` y `M.mean(axis=1)`.\n3. Redondea con `np.round(..., 2)` y pasa a lista.\n4. Imprime columnas y luego filas.",
         hint: "M.mean(axis=0) y axis=1.",
         hints: [
           "M.mean(axis=0) y axis=1.",
@@ -808,7 +879,10 @@ print(a[order].tolist())`,
         ],
         edgeCases: ["axis invertido", "no redondear"],
         tests: "mean axis=0 y axis=1 redondeados a 2 decimales",
-        feedback: "axis=0 colapsa filas (un valor por columna); axis=1 colapsa columnas (un valor por fila).",
+        feedback:
+          "`axis=0` colapsa filas → un valor por columna (campo). `axis=1` colapsa columnas → un valor por fila (cliente). Invertir el eje o el orden de print rompe la lectura del tablero.",
+        retrospective:
+          "Elegir el eje es elegir el significado de negocio (campo vs cliente), no un hábito de notebook. El error clásico es imprimir filas primero o omitir el redondeo y “no coincidir” con el tablero. Siguiente: unicidad de ids con `np.unique` (E2).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -834,8 +908,11 @@ print(np.round(M.mean(axis=1), 2).tolist())`,
         id: "S14-T2-A-E2",
         subtopicId: "S14-T2-A",
         kind: "independent",
+        title: "Tasa de unicidad con np.unique",
+        preamble:
+          "- **Contexto:** ids sintéticos duplicados inflan el lote y bajan la calidad del emparejamiento.\n- **Meta:** calcular `np.unique(ids).size / ids.size` con 4 decimales.\n- **Éxito:** `0.6` para el fixture de cinco ids con dos pares repetidos.\n- **Límites:** no uses `len(ids)/len(ids)`; no cuentes solo con `set` de Python si puedes usar NumPy.",
         instruction:
-          "E2 (independiente) — Con ids sintéticos `['C001','C002','C001','C003','C002']`, calcula la **tasa de unicidad** `np.unique(ids).size / ids.size` e imprímela con 4 decimales. Salida esperada: `0.6`. Solo NumPy; corrige el bug del código inicial (usa `len` sobre el array crudo y no `unique`).",
+          "1. El starter divide `len(ids)/len(ids)` (siempre 1.0).\n2. Obtén el número de valores distintos con `np.unique(ids).size`.\n3. Divide entre `ids.size` y redondea a 4 decimales.\n4. Imprime solo ese float.",
         hint: "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
         hints: [
           "n_unique = np.unique(ids).size; tasa = n_unique / ids.size.",
@@ -843,7 +920,10 @@ print(np.round(M.mean(axis=1), 2).tolist())`,
         ],
         edgeCases: ["contar con set de Python en vez de np.unique", "dividir por n_unique"],
         tests: "unicidad = unique.size / ids.size ≈ 0.6000",
-        feedback: "`len(ids)/len(ids)` siempre da 1.0. La tasa es `np.unique(ids).size / ids.size`.",
+        feedback:
+          "`len(ids)/len(ids)` siempre da 1.0 y miente ante duplicados. La tasa correcta es `np.unique(ids).size / ids.size` — el mismo assert del youDo con un `C001` duplicado.",
+        retrospective:
+          "Unicidad 1.0 no es “éxito por defecto”: hay que medirla. El mismo assert aparece en el youDo (`0.75` con un `C001` duplicado). Luego (E3): centrar filas sin romper el broadcast.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -868,8 +948,11 @@ print(round(unicidad, 4))`,
         id: "S14-T2-A-E3",
         subtopicId: "S14-T2-A",
         kind: "transfer",
+        title: "Centrar filas con keepdims",
+        preamble:
+          "- **Contexto:** para comparar perfiles de cliente, a veces restas la media de **cada fila** sin pelear shapes.\n- **Meta:** centrar por fila (`axis=1`, `keepdims=True`) y verificar media ~0.\n- **Éxito:** `[0.0, 0.0, 0.0]`.\n- **Límites:** solo NumPy; no centres por columnas (`axis=0`); no omitas `keepdims`.",
         instruction:
-          "E3 (transferencia) — Centra cada fila restando su media con `keepdims=True` e imprime la media de cada fila tras centrar (debe ser ~0). Salida esperada: `[0.0, 0.0, 0.0]`. Solo NumPy; corrige el bug del código inicial (centra por columnas).",
+          "1. El starter resta la media de **columnas** y luego promedia por el eje equivocado.\n2. Centra **por fila** de modo que el rebroadcast no pelee shapes (media de cada fila, eje de columnas colapsado con tamaño 1).\n3. Imprime la media por fila del resultado, redondeada.\n4. Debe ser un vector de ceros (dentro de redondeo).",
         hint: "row - row.mean(axis=1, keepdims=True).",
         hints: [
           "row - row.mean(axis=1, keepdims=True).",
@@ -877,7 +960,10 @@ print(round(unicidad, 4))`,
         ],
         edgeCases: ["olvidar keepdims", "axis=0"],
         tests: "media por fila tras centrar ≈ 0 (keepdims en axis=1)",
-        feedback: "Resta la media de cada fila con keepdims=True. Si usas axis=0, centras por columna y la media por fila no queda en 0.",
+        feedback:
+          "Si la media por fila no es ~0, o centraste por columnas (`axis=0`) o perdiste el eje al restar. Resta la media de cada fila de forma que la matriz y el vector de medias sigan alineados; el tablero usa el mismo truco al normalizar perfiles de cliente.",
+        retrospective:
+          "`keepdims` guarda el eje colapsado en tamaño 1 para rebroadcast. El misconception es “ya resté una media, da igual el eje”: con `axis=0` normalizas campos y la media por fila no se anula. Auto-chequeo: ¿qué shape tiene `X.mean(axis=1)` sin `keepdims` frente a `X`? Puente a T2-B: alinear pesos y scores con broadcast.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -902,8 +988,11 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
         id: "S14-T2-B-E1",
         subtopicId: "S14-T2-B",
         kind: "guided",
+        title: "Sumar pesos a cada fila (broadcast)",
+        preamble:
+          "- **Contexto:** a veces el tablero suma un vector de pesos a cada fila de una matriz de ceros (o de scores base).\n- **Meta:** broadcast de `w` shape `(3,)` sobre `M` shape `(2, 3)`.\n- **Éxito:** `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`.\n- **Límites:** solo NumPy; operación `+`, no `*`; sin loops ni `tile` manual.",
         instruction:
-          "E1 (guiado) — Suma el vector de pesos `[1, 2, 3]` a cada fila de una matriz 2×3 de ceros con broadcast e imprime la matriz. Salida esperada: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Solo NumPy; corrige el bug del código inicial (multiplica en vez de sumar).",
+          "1. El starter hace `M * w` (producto).\n2. Cambia a `M + w`.\n3. Imprime `.tolist()` de la matriz.\n4. Verifica que ambas filas sean iguales a los pesos.",
         hint: "zeros + pesos (shape (3,)).",
         hints: [
           "zeros + pesos (shape (3,)).",
@@ -911,7 +1000,10 @@ print(np.round(Xc.mean(axis=1), 10).tolist())`,
         ],
         edgeCases: ["shape (2,) incompatible", "usar loop"],
         tests: "pesos (3,) sumados a cada fila de (2,3)",
-        feedback: "Broadcast alinea el vector de pesos a cada fila. No repitas el vector a mano con un loop.",
+        feedback:
+          "Broadcast alinea el vector por la derecha con cada fila. Multiplicar por ceros deja todo en 0 y “parece que funcionó” sin el efecto de negocio. No repitas el vector a mano.",
+        retrospective:
+          "Sumar un vector a una matriz es el caso más simple de broadcast del tablero: el vector se alinea por la derecha a cada fila. El error clásico es multiplicar por ceros y creer que “funcionó” porque no hay excepción. Siguiente (E2): producto exterior con ejes insertados.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -936,16 +1028,22 @@ print((M + w).tolist())`,
         id: "S14-T2-B-E2",
         subtopicId: "S14-T2-B",
         kind: "independent",
+        title: "Producto exterior con newaxis",
+        preamble:
+          "- **Contexto:** una matriz de interacciones (cliente × factor) se arma alineando un vector columna con un vector fila.\n- **Meta:** obtener shape `(4, 3)` con broadcast de `a` y `b`.\n- **Éxito:** `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`.\n- **Límites:** solo NumPy; no uses un doble loop; no dejes el `try/except` imprimiendo `fail`.",
         instruction:
-          "E2 (independiente) — Con `a` de shape `(4,)` crea columna `(4, 1)` con `newaxis` y multiplica por `b` de shape `(3,)`. Imprime shape y valores del producto. Salida esperada: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Solo NumPy (no pandas ni sklearn). Corrige el bug del código inicial: hoy multiplica sin reshape.",
+          "1. El starter multiplica `(4,)` × `(3,)` y cae en error o wrong.\n2. Inserta un eje en `a` (columna) y opcionalmente en `b` (fila).\n3. Multiplica y imprime `shape` y `tolist()`.\n4. Comprueba la primera columna de ceros (porque `b[0]=0`).",
         hint: "Inserta un eje en `a` antes de multiplicar.",
         hints: [
-          "Inserta un eje en `a` antes de multiplicar.",
-          "El producto exterior debe tener shape (4, 3).",
+          "Convierte `a` en columna antes de multiplicar por `b`.",
+          "El producto exterior debe tener shape (4, 3); si ves fail o ValueError, los ejes aún no alinean.",
         ],
         edgeCases: ["broadcast a (3,4)", "outer manual incorrecto"],
         tests: "shape del producto == (4, 3); valores = a[:, None] * b",
-        feedback: "Sin `newaxis`/`None`, `a * b` no alinea (4,) con (3,). El outer es (4, 1)×(1, 3) → (4, 3).",
+        feedback:
+          "Si ves `fail` o `ValueError`, los shapes `(4,)` y `(3,)` no se alinean sin un eje extra. Inserta dimensión en el vector que debe comportarse como **columna** (y, si hace falta, como **fila** en el otro). La primera columna de ceros del resultado confirma que `b[0]=0`, no un bug.",
+        retrospective:
+          "El outer product es el hermano menor de `pairwise_diff` del youDo: columna × fila → matriz de interacciones. El misconception es “si multiplico dos 1D, NumPy ya entiende filas y columnas”. Luego (E3): forzar y capturar la incompatibilidad a propósito.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -975,8 +1073,11 @@ print(out.shape, out.tolist())`,
         id: "S14-T2-B-E3",
         subtopicId: "S14-T2-B",
         kind: "transfer",
+        title: "Capturar broadcast incompatible",
+        preamble:
+          "- **Contexto:** un shape “casi” correcto en el tablero no debe “arreglarse” sumando lo que sí cabe.\n- **Meta:** forzar `(2,3)+(2,4)`, capturar `ValueError` e imprimir `incompatible`.\n- **Éxito:** `incompatible`.\n- **Límites:** no cambies el segundo array a (2,3) para que “pase”; solo NumPy.",
         instruction:
-          "E3 (transferencia) — Detecta incompatibilidad de broadcast: intenta sumar shapes `(2, 3)` y `(2, 4)`, captura `ValueError` e imprime `incompatible`. Salida esperada: `incompatible`. Solo NumPy; corrige el bug del código inicial (hoy suma shapes compatibles `(2, 3)+(2, 3)` y no captura el error).",
+          "1. El starter suma dos `(2, 3)` y no captura error.\n2. Pon el segundo operando en shape `(2, 4)`.\n3. Envuelve en `try/except ValueError`.\n4. En el except, imprime solo `incompatible`.",
         hint: "try/except ValueError con shapes (2,3) y (2,4).",
         hints: [
           "Cambia el segundo array a shape (2, 4).",
@@ -984,7 +1085,10 @@ print(out.shape, out.tolist())`,
         ],
         edgeCases: ["no capturar excepción", "shapes que sí broadcastan"],
         tests: "ValueError de broadcast → print incompatible",
-        feedback: "Shapes (2,3)+(2,4) son incompatibles. Captura ValueError; no “arregles” sumando arrays del mismo shape.",
+        feedback:
+          "Shapes `(2,3)+(2,4)` son incompatibles. Captura `ValueError` e imprime solo `incompatible`. No “arregles” el segundo array a `(2,3)` solo para ver un número: en el tablero un shape casi correcto debe fallar ruidoso, no alinearse a medias.",
+        retrospective:
+          "Un error ruidoso de broadcast es mejor que un producto silencioso mal alineado. Pregunta: ¿qué harías en un pipeline si el assert de columnas vs pesos falla? Puente a T3-A: no corrompas el raw al normalizar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1008,8 +1112,11 @@ except ValueError:
         id: "S14-T3-A-E1",
         subtopicId: "S14-T3-A",
         kind: "guided",
+        title: "Demostrar que el view muta raw",
+        preamble:
+          "- **Contexto:** antes de copiar siempre, debes **ver** el efecto colateral de un slice.\n- **Meta:** mutar una view de los dos primeros elementos y observar `raw`.\n- **Éxito:** `[9, 2, 3]`.\n- **Límites:** no uses `.copy()` en este ejercicio; solo NumPy; es un demo controlado, no un patrón de producción.",
         instruction:
-          "E1 (guiado) — Con `raw=[1,2,3]`, crea una **view** de los dos primeros elementos, asigna `vista[0]=9` e imprime `raw` (debe mutar). Salida esperada: `[9, 2, 3]`. Solo NumPy; corrige el bug del código inicial (usa `.copy()` y oculta el efecto).",
+          "1. El starter hace `raw[:2].copy()` y el raw no cambia.\n2. Quita el `.copy()`: `v = raw[:2]`.\n3. Asigna `v[0] = 9` e imprime `raw.tolist()`.\n4. Confirma que el primer valor del original es 9.",
         hint: "raw[:2] es view.",
         hints: [
           "raw[:2] es view.",
@@ -1017,7 +1124,10 @@ except ValueError:
         ],
         edgeCases: ["usar copy por error", "fancy index copia"],
         tests: "raw mutado a [9, 2, 3] vía view",
-        feedback: "Un slice simple es view: mutar vista[0] cambia raw. Si usas .copy(), el raw no se altera.",
+        feedback:
+          "Un slice simple es view: mutar `vista[0]` escribe en el buffer del padre. Si dejas `.copy()`, “arreglas” el síntoma y no aprendes el riesgo del pipeline.",
+        retrospective:
+          "Ver el bug es parte de la formación: no todo éxito es un raw intacto. Siguiente (E2): el patrón de producción — copiar antes de mutar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1044,8 +1154,11 @@ print(raw.tolist())`,
         id: "S14-T3-A-E2",
         subtopicId: "S14-T3-A",
         kind: "independent",
+        title: "Aislar mutación con copy",
+        preamble:
+          "- **Contexto:** la normalización del tablero no puede reescribir el array que alimenta el reprocess.\n- **Meta:** mutar una copia y dejar `raw` en `[1, 2, 3]`.\n- **Éxito:** `[1, 2, 3] [9, 2]`.\n- **Límites:** usa `.copy()`; solo NumPy; imprime raw y copia en ese orden.",
         instruction:
-          "E2 (independiente) — Repite el escenario con `.copy()`: muta la copia y demuestra que `raw` queda `[1, 2, 3]`. Salida esperada: `[1, 2, 3] [9, 2]`. Solo NumPy; corrige el bug del código inicial (view sin copy).",
+          "1. El starter asigna sobre la view y corrompe raw.\n2. Cambia a `c = raw[:2].copy()`.\n3. Asigna `c[0] = 9`.\n4. Imprime `raw.tolist()` y `c.tolist()`.",
         hint: "raw[:2].copy().",
         hints: [
           "raw[:2].copy().",
@@ -1053,7 +1166,10 @@ print(raw.tolist())`,
         ],
         edgeCases: ["olvidar copy", "slice que no es view en todos backends"],
         tests: "raw intacto [1, 2, 3] tras mutar la copia",
-        feedback: "Necesitas .copy() antes de mutar. Sin copia, sigues escribiendo sobre la view del original.",
+        feedback:
+          "Necesitas `.copy()` antes de mutar. Sin copia, `c` sigue siendo view del original y la auditoría del raw miente aunque no reasignes el nombre `raw`. Imprime raw y copia en ese orden: raw intacto, copia con el 9.",
+        retrospective:
+          "Copia antes de mutar es la regla operativa de CP-N2-A. El misconception es “si no reasigno el nombre `raw`, el original está a salvo”. Luego (E3): bloquear escritura con flags.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1080,16 +1196,22 @@ print(raw.tolist(), c.tolist())`,
         id: "S14-T3-A-E3",
         subtopicId: "S14-T3-A",
         kind: "transfer",
+        title: "Bloquear escritura con writeable=False",
+        preamble:
+          "- **Contexto:** a veces pasas un array crudo a una función de normalización y quieres **fallar** si intenta escribir.\n- **Meta:** marcar `writeable=False`, intentar asignar y capturar el error.\n- **Éxito:** `blocked`.\n- **Límites:** solo NumPy; captura `ValueError` (no un `print` del array mutado).",
         instruction:
-          "E3 (transferencia) — Marca un array como no escribible (`flags.writeable=False`), intenta asignar y captura `ValueError` imprimiendo `blocked`. Salida esperada: `blocked`. Solo NumPy; corrige el bug del código inicial.",
+          "1. El starter asigna `a[0]=3` e imprime el array.\n2. Pon `a.flags.writeable = False` antes de asignar.\n3. Envuelve la asignación en `try/except ValueError`.\n4. En el except, imprime `blocked`.",
         hint: "a.flags.writeable = False.",
         hints: [
-          "a.flags.writeable = False.",
-          "La asignación sobre un array no escribible lanza ValueError.",
+          "Marca el flag de escritura del array como desactivado antes de asignar.",
+          "La asignación sobre un array no escribible lanza ValueError; captura e imprime blocked.",
         ],
         edgeCases: ["no desactivar writeable", "capturar Exception genérica sin print"],
         tests: "writeable=False → ValueError al asignar",
-        feedback: "Marca flags.writeable = False y captura ValueError al intentar a[0] = ….",
+        feedback:
+          "Marca `flags.writeable = False` y captura `ValueError` al intentar `a[0] = …`. Si imprimes el array mutado, no estás defendiendo el contrato de solo lectura.",
+        retrospective:
+          "`writeable=False` es defensa de contrato, no maquillaje: la función de normalización debe **fallar** si intenta escribir. Auto-chequeo: ¿cuándo preferirías `.copy()` (trabajar aislado) vs `writeable=False` (rechazar escritura)? Puente a T3-B: NaN/inf también “rompen” métricas si no hay política.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1117,8 +1239,11 @@ except ValueError:
         id: "S14-T3-B-E1",
         subtopicId: "S14-T3-B",
         kind: "guided",
+        title: "Contar NaN con isnan",
+        preamble:
+          "- **Contexto:** el tablero reporta la **tasa de ausencia**, no solo la media de lo presente.\n- **Meta:** contar NaN en `[1, nan, 2, nan]` con `np.isnan`.\n- **Éxito:** `2`.\n- **Límites:** no uses `x == np.nan` (siempre False); no cuentes `inf` como NaN.",
         instruction:
-          "E1 (guiado) — Cuenta cuántos `NaN` hay en `[1, nan, 2, nan]` con `np.isnan` e imprime el entero. Salida esperada: `2`. Solo NumPy; no uses `x == np.nan` (siempre False).",
+          "1. El starter suma `(x == np.nan)` y obtiene 0.\n2. Usa `np.isnan(x).sum()`.\n3. Imprime el entero.\n4. Verifica mentalmente: dos posiciones con nan.",
         hint: "np.isnan(x).sum().",
         hints: [
           "np.isnan(x).sum().",
@@ -1126,7 +1251,10 @@ except ValueError:
         ],
         edgeCases: ["usar x == np.nan (siempre False)", "contar inf"],
         tests: "isnan(...).sum() == 2",
-        feedback: "`x == np.nan` es siempre False. Usa np.isnan(x) y suma la máscara.",
+        feedback:
+          "IEEE hace que NaN no sea igual a sí mismo; por eso `==` miente y da 0. `np.isnan` (o `~np.isfinite` con cuidado) es el detector idiomático del tablero.",
+        retrospective:
+          "Contar ausencias es tan importante como promediar presentes: el tablero publica tasa de NaN aparte de la media. El misconception es “`x == np.nan` detecta huecos” — IEEE hace que NaN no sea igual a sí mismo. Auto-chequeo: ¿contarías `inf` con `isnan`? Siguiente: `nanmean` vs `mean` (E2).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1149,8 +1277,11 @@ print(int(np.isnan(x).sum()))`,
         id: "S14-T3-B-E2",
         subtopicId: "S14-T3-B",
         kind: "independent",
+        title: "Media omitiendo NaN",
+        preamble:
+          "- **Contexto:** publicar `nan` como “media del lote” rompe el dashboard de negocio.\n- **Meta:** promediar `[1, nan, 3]` omitiendo NaN.\n- **Éxito:** `2.0`.\n- **Límites:** usa `np.nanmean` (o filtra con `isnan`); no rellenes NaN con 0 sin documentarlo.",
         instruction:
-          "E2 (independiente) — Calcula `np.nanmean` de `[1, nan, 3]` e imprime con 2 decimales. Salida esperada: `2.0`. Solo NumPy; corrige el bug del código inicial (`mean` propaga nan).",
+          "1. El starter usa `np.mean` y propaga nan.\n2. Cambia a `np.nanmean`.\n3. Imprime el float redondeado a 2 decimales.\n4. Resultado esperado: 2.0.",
         hint: "np.nanmean.",
         hints: [
           "np.nanmean.",
@@ -1158,7 +1289,10 @@ print(int(np.isnan(x).sum()))`,
         ],
         edgeCases: ["mean normal da nan", "redondeo"],
         tests: "nanmean([1,nan,3]) == 2.0",
-        feedback: "np.mean propaga NaN. np.nanmean omite NaNs y promedia el resto.",
+        feedback:
+          "`np.mean` propaga NaN y el dashboard se llena de “sin dato”. `np.nanmean` omite NaNs y promedia el resto: es una política documentada, no un relleno silencioso con 0.",
+        retrospective:
+          "`nanmean` documenta una política: “ausencia no entra al promedio”. No es lo mismo que tratar ausencia como cero. Luego (E3): `inf` tampoco es un valor de negocio.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1181,16 +1315,22 @@ print(round(float(np.nanmean(x)), 2))`,
         id: "S14-T3-B-E3",
         subtopicId: "S14-T3-B",
         kind: "transfer",
+        title: "Inf a nan y luego nansum",
+        preamble:
+          "- **Contexto:** un overflow o valor no finito no debe volverse un “score total infinito” en el tablero.\n- **Meta:** reemplazar `inf` por `nan` y sumar con `nansum`.\n- **Éxito:** `3.0` para `[1, inf, 2]`.\n- **Límites:** solo NumPy; no uses `sum` crudo sobre inf; documenta la conversión.",
         instruction:
-          "E3 (transferencia) — En `[1, inf, 2]`, reemplaza `inf` por `nan` y luego usa `nansum`; imprime el resultado. Salida esperada: `3.0`. Solo NumPy; corrige el bug del código inicial (suma con inf).",
-        hint: "np.where(np.isinf(x), np.nan, x).",
+          "1. El starter hace `np.sum` y obtiene `inf`.\n2. Antes de agregar, convierte los no-finitos `inf` en `nan` (no dejes el `inf` intacto).\n3. Suma omitiendo NaN e imprime el float.\n4. Confirma 1+2=3 (el `inf` no debe dominar).",
+        hint: "Detecta inf (`isinf`) y conviértelo a nan antes de agregar.",
         hints: [
-          "np.where(np.isinf(x), np.nan, x).",
-          "nansum ignora nan; inf no.",
+          "Detecta inf y conviértelo a nan antes de agregar (`isinf` / `where`).",
+          "nansum ignora nan; inf no se omite solo con nansum.",
         ],
         edgeCases: ["sum con inf da inf", "no convertir inf"],
         tests: "inf→nan y nansum → 3.0",
-        feedback: "Sustituye inf por nan (np.where/isinf) y luego nansum; un sum con inf devuelve inf.",
+        feedback:
+          "Sustituye inf por nan (`np.where`/`isinf`) y luego `nansum`; un `sum` con inf devuelve inf y el tablero publica basura. `nansum` solo no basta si dejas el inf intacto.",
+        retrospective:
+          "`inf` no se omite solo: hay que convertirlo o filtrar con `isfinite`. El youDo (`in_range_rate`) exige finitos en rango; el mismo hábito. Puente a T4-A: equivalencia loop vs vectorizado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1214,8 +1354,11 @@ print(float(np.nansum(y)))`,
         id: "S14-T4-A-E1",
         subtopicId: "S14-T4-A",
         kind: "guided",
+        title: "Equivalencia loop y suma vectorizada",
+        preamble:
+          "- **Contexto:** un ratio de tiempo sin chequear igualdad no demuestra que la versión vectorizada sea correcta.\n- **Meta:** sumar `a*b` con loop y con `(a*b).sum()` y comparar con tolerancia.\n- **Éxito:** `True` (`abs(diff) < 1e-6`).\n- **Límites:** `arange(1000, dtype=float)`; no imprimas un booleano fijo; solo NumPy + aritmética.",
         instruction:
-          "E1 (guiado) — Suma `a*b` con un loop y con `(a*b).sum()` para `a=b=arange(1000)`; imprime si `abs(diff) < 1e-6`. Salida esperada: `True`. Solo NumPy; el código inicial imprime `False` sin comparar — corrígelo.",
+          "1. El starter calcula `s2` vectorizado e imprime `False`.\n2. Acumula `s1` con un `for` sobre índices.\n3. Compara `abs(s1 - s2) < 1e-6`.\n4. Imprime solo ese booleano.",
         hint: "np.arange(1000, dtype=float).",
         hints: [
           "np.arange(1000, dtype=float).",
@@ -1223,7 +1366,10 @@ print(float(np.nansum(y)))`,
         ],
         edgeCases: ["int overflow en loop", "comparar identidades"],
         tests: "abs(loop - vec) < 1e-6 → True",
-        feedback: "Compara el resultado del loop con (a*b).sum(). Imprimir False fijo no demuestra equivalencia.",
+        feedback:
+          "Imprimir `False` fijo “pasa el gesto” pero no el contrato. Primero equivalencia; el timing llega en E3. Usa float para evitar rarezas de tipo.",
+        retrospective:
+          "Equivalencia es el oráculo del portfolio: sin comparar loop y vectorizado, el timing no demuestra nada. El error clásico es imprimir un booleano fijo o solo mirar tiempos. Auto-chequeo: ¿por qué `dtype=float` aquí? Siguiente: una reducción vectorizada concreta (suma de cuadrados) sin loop.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1253,8 +1399,11 @@ print(abs(s1 - s2) < 1e-6)`,
         id: "S14-T4-A-E2",
         subtopicId: "S14-T4-A",
         kind: "independent",
+        title: "Suma de cuadrados vectorizada",
+        preamble:
+          "- **Contexto:** varias métricas del tablero elevan scores al cuadrado antes de agregar (energía, norma al cuadrado).\n- **Meta:** sumar los cuadrados de `arange(5)` de forma vectorizada.\n- **Éxito:** `30.0`.\n- **Límites:** solo NumPy; no sumes `a` lineal (eso da 10); dtype float.",
         instruction:
-          "E2 (independiente) — Implementa la suma de cuadrados vectorizada de `arange(5)` e imprime el total. Salida esperada: `30.0`. Solo NumPy; corrige el bug del código inicial (suma lineal en vez de cuadrados).",
+          "1. El starter hace `a.sum()` (0+1+2+3+4).\n2. Eleva al cuadrado: `a**2` o `np.square(a)`.\n3. Suma e imprime el float.\n4. Verifica 0+1+4+9+16 = 30.",
         hint: "(a**2).sum() o np.dot(a,a).",
         hints: [
           "(a**2).sum() o np.dot(a,a).",
@@ -1262,7 +1411,10 @@ print(abs(s1 - s2) < 1e-6)`,
         ],
         edgeCases: ["olvidar dtype float", "sumar a no a**2"],
         tests: "suma de cuadrados de arange(5) == 30",
-        feedback: "La suma de cuadrados es (a**2).sum() o np.dot(a,a), no a.sum() (eso es solo 0+1+2+3+4=10).",
+        feedback:
+          "Si obtienes `10.0`, sumaste la serie lineal (0+1+2+3+4), no los cuadrados. Usa elevación al cuadrado y luego reduce; el tablero comete el mismo error cuando “vectoriza” la métrica equivocada.",
+        retrospective:
+          "La ufunc correcta es tan importante como “usar NumPy”. Un sum lineal “parece vectorizado” pero mide otra cosa (energía/norma al cuadrado ≠ suma de scores). Luego (E3): medir tiempo y verificar la media del resultado, no solo un elemento.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1285,16 +1437,22 @@ print(float((a ** 2).sum()))`,
         id: "S14-T4-A-E3",
         subtopicId: "S14-T4-A",
         kind: "transfer",
+        title: "Timing de suma vectorizada con chequeo",
+        preamble:
+          "- **Contexto:** el portfolio documenta tiempo de la operación vectorizada, no de un loop de aprendizaje.\n- **Meta:** medir `a+b` con `perf_counter` y verificar `mean == 1.0`.\n- **Éxito:** `timed True`.\n- **Límites:** n=10000; zeros + ones; no midas el loop del starter; no imprimas el float del tiempo (solo la etiqueta y el booleano).",
         instruction:
-          "E3 (transferencia) — Mide con `time.perf_counter` un `(a+b)` vectorizado de `n=10000` (a=ceros, b=unos) e imprime `timed` junto a si la media del resultado es `1.0`. Salida esperada: `timed True`. Solo NumPy; corrige el bug del código inicial (loop sin check de mean).",
+          "1. El starter llena `c` con un loop y chequea solo `c[0]`.\n2. Sustituye el cuerpo por `c = a + b` entre dos `perf_counter`.\n3. Verifica `float(c.mean()) == 1.0`.\n4. Imprime `\"timed\"` y el booleano.",
         hint: "time.perf_counter antes/después.",
         hints: [
-          "time.perf_counter antes/después.",
-          "El booleano timed resume la verificación del resultado.",
+          "time.perf_counter antes/después de la operación vectorizada.",
+          "El booleano resume la verificación del resultado (mean), no solo el primer elemento.",
         ],
         edgeCases: ["no crear arrays", "mean != 1"],
         tests: "timed True tras (a+b).mean() == 1.0",
-        feedback: "Mide solo la operación vectorizada y verifica mean==1.0. No dejes el check en False ni midas un loop vacío.",
+        feedback:
+          "Mide solo la operación vectorizada (`a + b`) y verifica `mean == 1.0`. Chequear solo `c[0]` deja pasar un array a medias; no midas el loop del starter ni imprimas el float del tiempo — solo la etiqueta y el booleano.",
+        retrospective:
+          "Un micro-bench honesto mide la operación que publicarás, no el andamiaje del ejercicio. Pregunta: ¿por qué chequear mean y no solo el primer elemento? Puente a T4-B: memoria y `allclose`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1327,8 +1485,11 @@ print("timed", float(c.mean()) == 1.0)`,
         id: "S14-T4-B-E1",
         subtopicId: "S14-T4-B",
         kind: "guided",
+        title: "nbytes de 1000 float64",
+        preamble:
+          "- **Contexto:** el presupuesto de memoria del tablero empieza por `itemsize × size`.\n- **Meta:** reportar `nbytes` de 1000 float64 y validar 8000.\n- **Éxito:** `8000 True`.\n- **Límites:** `dtype=np.float64`; no uses el presupuesto de float32 (4000).",
         instruction:
-          "E1 (guiado) — Imprime `nbytes` de `np.zeros(1000, dtype=np.float64)` y verifica que sea `8000`. Salida esperada: `8000 True`. Solo NumPy; corrige el bug del código inicial (compara con 4000 como si fuera float32).",
+          "1. El starter compara con 4000.\n2. Calcula o recuerda: 8 bytes × 1000 = 8000.\n3. Imprime `a.nbytes` y `a.nbytes == 8000`.\n4. Sin texto extra.",
         hint: "float64 = 8 bytes.",
         hints: [
           "float64 = 8 bytes.",
@@ -1336,7 +1497,10 @@ print("timed", float(c.mean()) == 1.0)`,
         ],
         edgeCases: ["float32", "shape 2d"],
         tests: "nbytes == 8000 para 1000 float64",
-        feedback: "float64 = 8 bytes/elemento → 1000×8=8000. Comparar con 4000 es el presupuesto de float32.",
+        feedback:
+          "float64 = 8 bytes/elemento → 1000×8=8000. Comparar con 4000 es el error de “pensé en float32”. El mismo hábito escala a matrices n×n del demo.",
+        retrospective:
+          "`nbytes` es evidencia de portfolio, no un print ornamental: `itemsize × size` es el mismo hábito que el budget n×n del demo. El misconception es “pensé en float32” (4000). Auto-chequeo: ¿cuántos bytes tiene una matriz 500×500 float64? Siguiente: comparar floats con tolerancia (E2).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1359,16 +1523,22 @@ print(a.nbytes, a.nbytes == 8000)`,
         id: "S14-T4-B-E2",
         subtopicId: "S14-T4-B",
         kind: "independent",
+        title: "allclose con atol en floats",
+        preamble:
+          "- **Contexto:** loop y vectorizado raramente coinciden bit a bit; el oráculo del tablero es tolerancia.\n- **Meta:** `np.allclose` entre `[1.0, 2.0]` y un vecino a 1e-9 con `atol=1e-8`.\n- **Éxito:** `True`.\n- **Límites:** no uses igualdad exacta `==`; solo NumPy.",
         instruction:
-          "E2 (independiente) — Usa `np.allclose` entre `[1.0, 2.0]` y `[1.0+1e-9, 2.0]` con `atol=1e-8` e imprime el booleano. Salida esperada: `True`. Solo NumPy; corrige el bug del código inicial (la comparación exacta con `==` no sirve para floats).",
-        hint: "np.allclose(..., atol=1e-8).",
+          "1. El starter hace igualdad exacta elemento a elemento y obtiene False.\n2. Compara los dos vectores con tolerancia absoluta adecuada al ruido 1e-9 del fixture (orden 1e-8).\n3. Imprime solo el booleano.\n4. No aprietes la tolerancia por debajo del ruido del fixture.",
+        hint: "Compara con tolerancia absoluta del orden 1e-8 (ruido del fixture ~1e-9).",
         hints: [
-          "np.allclose(..., atol=1e-8).",
-          "Debe ser True.",
+          "Compara con tolerancia absoluta del orden 1e-8 (ruido del fixture ~1e-9).",
+          "Debe ser True; no uses igualdad exacta elemento a elemento.",
         ],
         edgeCases: ["atol demasiado estricto", "listas sin numpy"],
         tests: "allclose(..., atol=1e-8) → True",
-        feedback: "La igualdad exacta (==) falla con 1e-9 de ruido. np.allclose con atol=1e-8 devuelve True.",
+        feedback:
+          "La igualdad exacta (`==`) falla con 1e-9 de ruido numérico. `np.allclose` con `atol=1e-8` es el mismo oráculo que une loop y vectorizado en el portfolio.",
+        retrospective:
+          "`allclose` (y `assert_allclose` en tests) es el puente entre “más rápido” y “igual de correcto”. El misconception es “si no son idénticos bit a bit, falló la vectorización”. Luego (E3): forzar un fallo controlado del assert.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1392,8 +1562,11 @@ print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))`,
         id: "S14-T4-B-E3",
         subtopicId: "S14-T4-B",
         kind: "transfer",
+        title: "assert_allclose que debe fallar",
+        preamble:
+          "- **Contexto:** un test que solo ve el camino feliz no protege el tablero.\n- **Meta:** forzar diferencia 0.1 con `atol=1e-3`, capturar `AssertionError` e imprimir `fail`.\n- **Éxito:** `fail`.\n- **Límites:** no dejes arrays idénticos; no imprimas `ok` en el camino feliz de este ejercicio.",
         instruction:
-          "E3 (transferencia) — `assert_allclose` debe fallar entre `[0, 0]` y `[0, 0.1]` con `atol=1e-3`; captura `AssertionError` e imprime `fail`. Salida esperada: `fail`. Solo NumPy; corrige el bug del código inicial (hoy el assert pasa porque compara valores iguales).",
+          "1. El starter compara `[0,0]` consigo mismo y cae en `ok`.\n2. Cambia el segundo vector a incluir `0.1`.\n3. Llama `np.testing.assert_allclose(..., atol=1e-3)`.\n4. En `except AssertionError`, imprime `fail`.",
         hint: "np.testing.assert_allclose.",
         hints: [
           "np.testing.assert_allclose.",
@@ -1401,7 +1574,10 @@ print(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))`,
         ],
         edgeCases: ["atol que pasa el test", "no capturar"],
         tests: "assert_allclose falla → print fail",
-        feedback: "Fuerza una diferencia > atol (p. ej. 0.1) y captura AssertionError. Si los arrays son idénticos, el assert no falla.",
+        feedback:
+          "Fuerza una diferencia > atol (p. ej. 0.1) y captura `AssertionError`. Si los arrays son idénticos, el assert no falla y el test “verde” no protege nada.",
+        retrospective:
+          "Diseñar el fallo es parte del oficio: el assert debe doler cuando la métrica se desvía. Cierre del tramo We Do: ya puedes defender contratos, máscaras, ejes, broadcast, mutabilidad, NaN y equivalencia numérica en el youDo CP-N2-A.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1572,6 +1748,8 @@ if __name__ == "__main__":
       { criterion: "Código legible, contratos dtype/shape y límites claros", weight: "10%" },
       { criterion: "Documentación en español profesional (nota de portfolio)", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `_run_tests` (shape de completitud, unicidad < 1 con duplicado, `in_range_rate` con NaN/inf, diagonal 0 de pares, `allclose` del bench)? (2) ¿qué harías distinto con PII real vs. sintéticos `C00x`? (3) En el README, una frase de impacto medible (p. ej. “métricas vectorizadas equivalentes al baseline en loop dentro de atol X; presupuesto n×n documentado”) que puedas defender en 30 segundos. El ratio de tiempo **no** es el SLA: la equivalencia y el contrato dtype/shape sí lo son.",
   },
   selfCheck: {
     questions: [

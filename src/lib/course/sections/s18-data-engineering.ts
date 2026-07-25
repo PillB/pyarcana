@@ -374,6 +374,8 @@ mean 15.0`,
  subtopicId: "S18-T1-A",
  environment: "local-python",
  description: "Resumir distribución de montos sintéticos con centro, dispersión y cuantiles",
+ preamble:
+  "Antes de escribir un slide de “ticket promedio” para CP-N2-B, el analista debe *ver* la forma de la distribución. En esta demo generamos montos sintéticos (lognormal + dos outliers de 400 y 450 PEN) y un dict con n, mean, median, std muestral, cuantiles e IQR. No escribas aún: predice si mean y median coincidirán; luego compara con la salida. Si confundes “típico” con media, el memo de negocio miente sobre el cliente mediano.",
  code: {
  language: 'python',
  title: "demo_center_spread.py",
@@ -397,13 +399,18 @@ def resumen(x):
 print(resumen(montos))`,
  output: `{'n': 92, 'mean': 30.5, 'median': 20.02, 'std': 60.01, 'q25': 16.12, 'q50': 20.02, 'q75': 25.34, 'q90': 33.98, 'IQR': 9.22}`,
  },
- why: "Un resumen tabular con n y cuantiles es la base de cualquier hallazgo de distribución.",
+ why:
+  "n siempre viaja con el resumen: sin tamaño el número no es auditable. La mean se infla con cola y outliers (aquí 400 y 450 PEN); median/Q50 es el ticket típico que el negocio suele preguntar primero. IQR y p90 documentan dispersión y cola sin asumir normalidad. En We Do corregirás resúmenes incompletos y empaquetarás el dict reutilizable del portafolio.",
+ retrospective:
+  "Si puedes explicar por qué mean 30.5 y median ~20 no se contradicen (cola + outliers), ya tienes el hábito de centro dual. El error clásico es reportar solo la media. En We Do practicarás n/mean/median, IQR y un dict reutilizable de portafolio.",
  },
  {
  demoId: "S18-T1-B-DEMO",
  subtopicId: "S18-T1-B",
  environment: "local-python",
  description: "Comparar media vs. mediana/MAD y escala log1p en montos con outlier",
+ preamble:
+  "Cuando un ticket de 200 PEN se cuela entre montos ~15, la media deja de ser “típico”. Esta demo compara mean, median, MAD y el ratio mean/median, y muestra la mediana en escala `log1p`. No escribas: observa cómo el ratio > 2 avisa cola y por qué log1p no borra la necesidad de declarar la escala. Datos sintéticos, sin PII.",
  code: {
  language: 'python',
  title: "demo_robust.py",
@@ -424,13 +431,18 @@ median 16.0 MAD 1.0
 ratio_mean_median 2.43
 log1p_median 2.833`,
  },
- why: "Cuando mean ≫ median, prioriza métricas robustas y declara la cola.",
+ why:
+  "MAD ancla la dispersión en la mediana y resiste el outlier de 200. El ratio mean/median es un semáforo de cola: valores ≫ 1 avisan que “típico” no es la media. `log1p` reduce asimetría visual para EDA, pero no se reporta como diferencia en soles PEN sin antitransformar. Elige métrica según la pregunta de negocio, no por costumbre.",
+ retrospective:
+  "Si mean ≫ median, prioriza robustez y declara la cola en el memo; no vendas la media como ticket típico. El error clásico es “el cliente promedio gasta ~39 PEN” cuando el mediano está en 16. We Do: ratio, MAD y log1p honestas con ceros.",
  },
  {
  demoId: "S18-T2-A-DEMO",
  subtopicId: "S18-T2-A",
  environment: "local-python",
  description: "Diagnosticar sesgo de muestreo por región frente a cuotas poblacionales",
+ preamble:
+  "Un `mean` impecable sobre una muestra sesgada sigue siendo una estimación sesgada de la población. Esta demo compara shares de muestra vs. cuotas sintéticas (Lima/Arequipa/Cusco), calcula el peor |bias_pp| y marca cobertura LIMITADA si supera 0.1. Observa los números: no escribas aún; predice si generalizarías el KPI regional al “todo Perú”.",
  code: {
  language: 'python',
  title: "demo_bias.py",
@@ -452,13 +464,18 @@ s18_ido_3()`,
 max_abs_bias_pp 0.2
 cobertura LIMITADA`,
  },
- why: "El sesgo de cuota se mide en puntos porcentuales, no solo con “se ve bien”.",
+ why:
+  "El bias se mide en puntos porcentuales (share_muestra − share_pob), no con “se ve bien”. El umbral 0.1 es contrato de la nota de datos de CP-N2-B: por encima, cobertura LIMITADA. Sin marco poblacional se declara cobertura limitada; no se inventa representatividad para generalizar a todo el Perú.",
+ retrospective:
+  "Sesgo de selección ≠ error aritmético: un mean impecable sobre muestra sesgada sigue siendo local a la muestra. Si max |bias| > umbral, el KPI no es “todo el Perú”. We Do: share, signo del bias_pp y `max_bias` de portafolio.",
  },
  {
  demoId: "S18-T2-B-DEMO",
  subtopicId: "S18-T2-B",
  environment: "local-python",
  description: "Reportar IC 95% z, bootstrap de la diferencia y d de Cohen entre dos grupos sintéticos",
+ preamble:
+  "Magnitud sin incertidumbre es marketing. Aquí dos grupos sintéticos (ctrl/trat) reportan diferencia de medias, IC 95% z, d de Cohen, bootstrap de la diferencia y n. Observa si el IC cruza 0 y la nota `no_probado`: el EDA dice “compatible con”, no “queda demostrado”. Predice el signo de d y si el bootstrap se parece al IC z.",
  code: {
  language: 'python',
  title: "demo_effect.py",
@@ -496,13 +513,18 @@ n 35 35
 boot_diff_ic95 (-2.11, 6.7)
 nota z_approx_y_bootstrap; no_probado`,
  },
- why: "Magnitud + IC z + bootstrap + n comunican incertidumbre mejor que un solo valor p o un “probado al 95%”.",
+ why:
+  "El IC habla del parámetro bajo un modelo de muestreo, no del rango donde cae el 95% de los tickets. Bootstrap ayuda con n chico o colas; d de Cohen comunica tamaño de efecto. Ninguno es causalidad ni “probado al 95%”. Siempre reporta magnitud + intervalo + n y lenguaje “compatible con”.",
+ retrospective:
+  "Si el IC de la diferencia incluye 0, no vendas certeza de efecto. Siempre n + magnitud + intervalo. We Do: margen SE, d con orden B−A, bootstrap de la media.",
  },
  {
  demoId: "S18-T3-A-DEMO",
  subtopicId: "S18-T3-A",
  environment: "local-python",
  description: "Correlación alta por confusor, caída al residualizar, y Spearman monótono de control",
+ preamble:
+  "Un r de 0.97 puede ser un confusor Z que mueve X e Y a la vez. Esta demo muestra Pearson crudo, Pearson de residuales tras regresar X e Y sobre Z, Spearman en una relación monótona no lineal, y la etiqueta ética `asociacion_observada_no_causal`. Observa la caída de r: no escribas; pregunta en voz alta si recomendarías una campaña automática solo con r_raw.",
  code: {
  language: 'python',
  title: "demo_corr.py",
@@ -535,13 +557,18 @@ r_residual_z 0.166
 spearman_mono 1.0
 claim asociacion_observada_no_causal`,
  },
- why: "r alto no implica causa; residualizar confusores y reportar Spearman monótono refuerzan el hábito de asociación observada.",
+ why:
+  "Residualizar es un control exploratorio, no una prueba causal: r cae cuando Z era el confusor. Spearman captura asociaciones monótonas no lineales vía rangos. El claim `asociacion_observada_no_causal` protege el portafolio de lenguaje de fraude o causa automática. En CP-N2-B ese claim es tan importante como el número.",
+ retrospective:
+  "r alto es hallazgo de asociación, no veredicto. Si al controlar Z cae, el confusor era el relato. We Do: Pearson correcto, Spearman por rangos, residuales de confusor.",
  },
  {
  demoId: "S18-T3-B-DEMO",
  subtopicId: "S18-T3-B",
  environment: "local-python",
  description: "Segmentar por región y marcar anomalías Tukey sin afirmación causal",
+ preamble:
+  "Marcar montos fuera de cercas Tukey es un hallazgo univariado, no un veredicto de fraude ni culpa de región. Esta demo calcula lo/hi, flags y sum/mean de flags por Lima/Arequipa/Cusco en datos sintéticos. Observa tasas 0.167 en Arequipa y Cusco: describe, no acusa. Predice si Lima tiene flags antes de mirar la salida.",
  code: {
  language: 'python',
  title: "demo_segments.py",
@@ -565,13 +592,18 @@ s18_ido_6()`,
 {'sum': {'Arequipa': 1, 'Cusco': 1, 'Lima': 0}, 'mean': {'Arequipa': 0.167, 'Cusco': 0.167, 'Lima': 0.0}}
 sin_claim_causal True`,
  },
- why: "Flags + tasas por segmento; la narrativa causal queda fuera del EDA.",
+ why:
+  "1.5·IQR es el contrato clásico de cercas Tukey. Las tasas por segmento son descriptivas: un flag alto en Cusco no implica culpa regional. La decisión de investigar es humana; el booleano `sin_claim_causal` cierra el artefacto ético del EDA.",
+ retrospective:
+  "Anomalía univariada ≠ causa ni fraude automático. Siempre método + n + límites de segmento. El error clásico es “Cusco tiene más flags → culpable”. We Do: cerca 1.5, tasa solo en Lima, máscara bilateral.",
  },
  {
  demoId: "S18-T4-A-DEMO",
  subtopicId: "S18-T4-A",
  environment: "local-python",
  description: "Separar pregunta, hipótesis, evidencia y no-decisión en un dict trazable",
+ preamble:
+  "El artefacto de calidad de CP-N2-B separa pregunta, hipótesis, cálculo, resultado e incertidumbre; la decisión de negocio puede quedar en `None` hasta que un humano la tome. Sigue el dict sintético Lima vs. Cusco: imprime pregunta, hallazgo y verifica que decisión es None. No escribas: el hábito es no saltar de mediana a campaña.",
  code: {
  language: 'python',
  title: "demo_qhe.py",
@@ -593,13 +625,18 @@ s18_ido_7()`,
 hallazgo {'Lima': 28.0, 'Cusco': 22.5, 'n_Lima': 40, 'n_Cusco': 32}
 decision_es_none True`,
  },
- why: "La traza pregunta→cálculo→límite es el artefacto de calidad de CP-N2-B inicio.",
+ why:
+  "La traza pregunta→cálculo→límite es el artefacto de calidad del inicio de CP-N2-B: hace auditable cada hallazgo. Incertidumbre y cobertura viven en el mismo objeto. `decision: None` es una feature, no un bug: el EDA no lanza campañas ni cierra el caso.",
+ retrospective:
+  "Si puedes defender por qué `decision` es None con un hallazgo numérico claro, ya separas capas de calidad. El error clásico es rellenar decisión con una campaña “porque la mediana es mayor”. We Do: clave pregunta, umbral hallazgo vs. candidato, traza P→M→V→L.",
  },
  {
  demoId: "S18-T4-B-DEMO",
  subtopicId: "S18-T4-B",
  environment: "local-python",
  description: "Generar nota de datos con n, filtros, seed y huella de filas",
+ preamble:
+  "El notebook del portafolio no es creíble sin nota de datos: origen, n_raw/n_final, filtros, seed y huella corta del CSV ordenado. Esta demo filtra montos > 0 en tickets sintéticos T001…, arma el dict y calcula mediana final. Observa cómo n cae de 5 a 4 y por qué el sha1 se toma del blob filtrado ordenado. Sin PII real.",
  code: {
  language: 'python',
  title: "demo_datanote.py",
@@ -630,7 +667,10 @@ s18_ido_8()`,
  output: `{"origen": "sintetico", "n_raw": 5, "n_final": 4, "filtros": ["monto > 0"], "seed": 18, "sha1_8": "07e9d521"}
 median_final 11.5`,
  },
- why: "Las notas de datos hacen auditable el notebook del portafolio.",
+ why:
+  "Ordenar por ticket_id estabiliza el hash: el mismo corte produce la misma huella. Seed fija el generador; filtros listados hacen auditable cada exclusión. Esa nota es la base del dashboard accesible en S19.",
+ retrospective:
+  "Si cambias el filtro y no actualizas n_final ni el hash, la nota miente. We Do: dict mínimo, sha1[:8], nota post-filtro con seed.",
  }
  ],
  },
@@ -641,8 +681,11 @@ median_final 11.5`,
  id: "S18-T1-A-E1",
  subtopicId: "S18-T1-A",
  kind: "guided",
+ title: "Reportar n, mean y median juntos",
+ preamble:
+  "- **Contexto:** en el resumen de un lote de tickets sintéticos de CP-N2-B, un solo `mean` sin n ni median es un hallazgo incompleto.\n- **Meta:** completar el contrato mínimo de centro: n, mean y median.\n- **Éxito:** tres líneas `n 5`, `mean 30.4`, `median 14.0` con el array del starter.\n- **Límites:** no inventes datos; no omitas etiquetas; no borres el array sintético.",
  instruction:
- "E1 (guiado) — Con el array sintético de montos del starter (`CASO-LIM-018` / `S18-T1-A-E1`), corrige el bug indicado en el starter: reporta **n**, **mean** (2 decimales) y **median** con esas etiquetas. No inventes datos ni dejes un print suelto de control. Compara con la solución solo después de ejecutar.",
+ "1. Abre el starter: solo imprime `mean` (bug nombrado).\n2. Añade `print` de `n` con `montos.size` (o `len`).\n3. Añade `median` con `np.median`.\n4. Redondea mean a 2 decimales; imprime solo las tres etiquetas pedidas.",
  hint: "Usa .size (o len); mean y median del array.",
  hints: [
  "Usa .size (o len); mean y median del array.",
@@ -650,7 +693,10 @@ median_final 11.5`,
  ],
  edgeCases: ["lista vacía", "todos iguales"],
  tests: "salida coincide con solution output",
- feedback: "¿Imprimiste n, mean y median? Con outliers, mean y median suelen diferir.",
+ feedback:
+  "n documenta tamaño; mean se mueve con el 100; median 14 es el ticket típico. Un EDA sin n no es auditable: nadie sabe sobre cuántas filas se basó el número.",
+ retrospective:
+  "El trio n + mean + median es el mínimo de un hallazgo de distribución. El error clásico es “solo la media del día”. Siguiente (E2): cuantiles Q1/Q3 e IQR para dispersión.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -677,8 +723,11 @@ median 14.0`,
  id: "S18-T1-A-E2",
  subtopicId: "S18-T1-A",
  kind: "independent",
+ title: "Q1, Q3 e IQR correctos",
+ preamble:
+  "- **Contexto:** el negocio pregunta “cuánto se dispersa el ticket típico”; p10/p90 miden colas, no el IQR de cuartiles.\n- **Meta:** calcular Q1 (p25), Q3 (p75) e IQR = Q3−Q1.\n- **Éxito:** `Q1 8.5`, `Q3 12.5`, `IQR 4.0` con el array del starter.\n- **Límites:** no uses 0.10/0.90 como si fueran cuartiles; redondea a 2 decimales.",
  instruction:
- "E2 (independiente) — El starter de `S18-T1-A-E2` calcula “cuartiles” con los percentiles equivocados. Corrige el bug indicado en el starter para reportar **Q1**, **Q3** e **IQR** (2 decimales) del array sintético. No uses colas p10/p90 como si fueran Q1/Q3.",
+ "1. Revisa el starter: `np.quantile(..., [0.10, 0.90])` (bug).\n2. Cambia a `[0.25, 0.75]`.\n3. Imprime Q1, Q3 e IQR con las etiquetas exactas.\n4. No alteres el array de montos.",
  hint: "Cuartiles clásicos: 0.25 y 0.75.",
  hints: [
  "Cuartiles clásicos: 0.25 y 0.75.",
@@ -686,7 +735,10 @@ median 14.0`,
  ],
  edgeCases: ["n=1", "empates en cuantiles"],
  tests: "salida coincide con solution output",
- feedback: "Q1/Q3 son p25/p75; IQR = Q3 − Q1. Revisa los argumentos de quantile.",
+ feedback:
+  "Q1/Q3 son p25/p75; IQR = Q3 − Q1. Usar p10/p90 como “cuartiles” distorsiona el memo de dispersión del cuerpo central.",
+ retrospective:
+  "IQR es el contrato de dispersión del *cuerpo* sin asumir normalidad; p10/p90 se reportan aparte como cola. El error clásico es etiquetar colas como “Q1/Q3” en el slide. Pregunta: si el negocio pide “rango típico del ticket”, ¿das IQR o p10–p90? Luego (E3) empaquetas n/mean/median/std en un dict reutilizable.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -717,8 +769,11 @@ IQR 4.0`,
  id: "S18-T1-A-E3",
  subtopicId: "S18-T1-A",
  kind: "transfer",
+ title: "Dict resumen reutilizable del portafolio",
+ preamble:
+  "- **Contexto:** en CP-N2-B copiar prints sueltos no escala; el notebook necesita una función de resumen.\n- **Meta:** implementar `resumen(x)` → dict con n, mean, median, std muestral.\n- **Éxito:** sobre `[1,2,3,4,5]` imprime `{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}`.\n- **Límites:** `ddof=1` (muestra); redondeo a 4 decimales; no devuelvas `{}` vacío.",
  instruction:
- "E3 (transferencia) — Diseña un resumen reutilizable para el portafolio (`S18-T1-A-E3`): la función `resumen` debe devolver un dict con **n**, **mean**, **median** y **std muestral** (`ddof=1`), valores numéricos redondeados a 4 decimales. Completa el cuerpo y prueba con la lista sintética del starter.",
+ "1. Completa el cuerpo de `resumen` (starter devuelve `{}`).\n2. Convierte a array float; calcula n, mean, median, std(ddof=1).\n3. Redondea numéricos a 4 decimales; n como int.\n4. Deja el `print(resumen([...]))` de prueba.",
  hint: "std muestral: ddof=1; no olvides median.",
  hints: [
  "std muestral: ddof=1; no olvides median.",
@@ -726,7 +781,10 @@ IQR 4.0`,
  ],
  edgeCases: ["array vacío debe fallar o manejarse"],
  tests: "salida coincide con solution output",
- feedback: "¿Incluiste median y usaste ddof=1? La std poblacional (ddof=0) no es el contrato de muestra.",
+ feedback:
+  "¿Incluiste median y usaste ddof=1? La std poblacional (ddof=0) no es el contrato de muestra. Un dict vacío no alimenta tablas del portafolio.",
+ retrospective:
+  "Un dict con contrato fijo es el artefacto que alimenta tablas y notas de datos. El error clásico es std poblacional (ddof=0) en muestra. Pregunta de cierre: ¿por qué reportas n dentro del dict y no solo en el markdown?",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -760,8 +818,11 @@ print(resumen([1, 2, 3, 4, 5]))`,
  id: "S18-T1-B-E1",
  subtopicId: "S18-T1-B",
  kind: "guided",
+ title: "Ratio mean/median como semáforo",
+ preamble:
+  "- **Contexto:** el analista de CP-N2-B necesita un número simple que avise “hay cola” sin graficar aún.\n- **Meta:** imprimir mean, median y ratio = mean/median.\n- **Éxito:** `mean 29.2`, `median 12.0`, `ratio 2.43`.\n- **Límites:** no inviertas la razón; redondea mean y ratio a 2 decimales.",
  instruction:
- "E1 (guiado) — Con montos sintéticos del starter (`S18-T1-B-E1`), imprime **mean**, **median** y la **ratio mean/median** (2 decimales). El bug indicado en el starter invierte la razón: corrígelo. Un ratio ≫ 1 avisa cola pesada.",
+ "1. El starter usa `med / m` (bug).\n2. Cambia a `m / med`.\n3. Mantén etiquetas `mean`, `median`, `ratio`.\n4. No alteres el array con el 100.",
  hint: "ratio = mean / median (no al revés).",
  hints: [
  "ratio = mean / median (no al revés).",
@@ -769,7 +830,10 @@ print(resumen([1, 2, 3, 4, 5]))`,
  ],
  edgeCases: ["median 0"],
  tests: "salida coincide con solution output",
- feedback: "La razón correcta es mean/median. Si la invertiste, el outlier “achica” el aviso en vez de ampliarlo.",
+ feedback:
+  "La razón correcta es mean/median. Si la invertiste, el outlier “achica” el aviso en vez de ampliarlo. Ratio ≫ 1 grita cola pesada en el memo.",
+ retrospective:
+  "El semáforo mean/median es un hábito de *lectura* de forma, no un KPI de campaña. Si lo inviertes, el outlier de 100 “tranquiliza” el slide. Pregunta de cierre: con ratio 2.43, ¿reportas mean o median como “típico”? Siguiente: MAD sin anclar en mean.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -802,8 +866,11 @@ ratio 2.43`,
  id: "S18-T1-B-E2",
  subtopicId: "S18-T1-B",
  kind: "independent",
+ title: "MAD con mediana, no con media",
+ preamble:
+  "- **Contexto:** con un outlier de 100, la dispersión “típica” no debe anclarse en la media.\n- **Meta:** calcular MAD = mediana de |x − mediana|.\n- **Éxito:** una línea `MAD 1.0`.\n- **Límites:** no uses mean ni mean de desviaciones absolutas; no mutes el array.",
  instruction:
- "E2 (independiente) — Calcula el **MAD** (mediana de las desviaciones absolutas respecto a la mediana) del array sintético en `S18-T1-B-E2`. El starter usa media en ambos pasos: corrige el bug indicado en el starter e imprime `MAD` con el valor correcto.",
+ "1. Revisa el starter: ancla y promedio con mean.\n2. Cambia ancla a mediana; dispersión a mediana de absolutos.\n3. Imprime solo `MAD` y el valor.\n4. No renombres la etiqueta.",
  hint: "Ancla = mediana; dispersión = mediana de |x − ancla|.",
  hints: [
  "Ancla = mediana; dispersión = mediana de |x − ancla|.",
@@ -811,7 +878,10 @@ ratio 2.43`,
  ],
  edgeCases: ["todos iguales → MAD 0"],
  tests: "salida coincide con solution output",
- feedback: "MAD usa mediana dos veces: de x y de |x − mediana|. Mean abs dev es otro estadístico.",
+ feedback:
+  "MAD usa mediana dos veces: de x y de |x − mediana|. Mean abs dev es otro estadístico: con el 100 se infla y deja de ser “típico”.",
+ retrospective:
+  "MAD es un contrato de robustez: cambia el ancla *y* el agregador. El error clásico es “casi igual que mean abs, da igual”. Con el 100, no da igual. Luego (E3): log1p con ceros sin mentir en soles PEN.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -838,8 +908,11 @@ print("MAD", mad)`,
  id: "S18-T1-B-E3",
  subtopicId: "S18-T1-B",
  kind: "transfer",
+ title: "log1p honesto con montos y ceros",
+ preamble:
+  "- **Contexto:** en EDA de montos ≥0 a veces hay ceros; `log(0)` rompe el pipeline.\n- **Meta:** transformar con `log1p` e imprimir lista a 3 decimales.\n- **Éxito:** `[0.0, 0.693, 2.303, 4.605]`.\n- **Límites:** no uses `log` crudo; no compares diferencias log como soles PEN en el memo.",
  instruction:
- "E3 (transferencia) — En el portafolio CP-N2-B a veces necesitas EDA en escala log con montos ≥0 que incluyen ceros (`S18-T1-B-E3`). Completa el starter: transforma el array sintético con la función segura para ceros e imprime la lista redondeada a **3 decimales**. En el memo, si usas log, dilo en el eje y en la conclusión; no compares diferencias log como soles PEN.",
+ "1. Completa el starter que imprime `[]`.\n2. Aplica `np.log1p(x)`.\n3. Redondea cada valor a 3 decimales en lista.\n4. No inventes otros transformadores.",
  hint: "Para montos ≥0 con ceros, usa log1p (log(1+x)), no log crudo.",
  hints: [
  "Para montos ≥0 con ceros, usa log1p (log(1+x)), no log crudo.",
@@ -847,7 +920,10 @@ print("MAD", mad)`,
  ],
  edgeCases: ["negativos no válidos en log1p de montos"],
  tests: "salida coincide con solution output",
- feedback: "log(0) es −inf. Para montos ≥0 usa log1p y declara la escala en la narrativa.",
+ feedback:
+  "log(0) es −inf. Para montos ≥0 usa log1p y declara la escala en eje y conclusión; no compares diferencias log como soles PEN.",
+ retrospective:
+  "log1p es seguro con ceros; la honestidad está en declarar la escala en eje y conclusión. Pregunta: si el KPI es en PEN, ¿reportas en log o antitransformas? Puente a T2: incertidumbre sobre el estimador, no solo la escala.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -871,8 +947,11 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  id: "S18-T2-A-E1",
  subtopicId: "S18-T2-A",
  kind: "guided",
+ title: "Proporción de Lima en la muestra",
+ preamble:
+  "- **Contexto:** antes de comparar con cuotas poblacionales, necesitas el share observado de cada región.\n- **Meta:** calcular e imprimir `share_Lima` (2 decimales).\n- **Éxito:** `share_Lima 0.75` con la lista del starter.\n- **Límites:** cuenta solo `\"Lima\"`; no inventes otra muestra.",
  instruction:
- "E1 (guiado) — En la muestra sintética de `S18-T2-A-E1`, calcula la **proporción de Lima** e imprímela como `share_Lima` (2 decimales). El bug indicado en el starter cuenta la región equivocada.",
+ "1. El starter hace `count(\"Arequipa\")` (bug).\n2. Cambia a `count(\"Lima\")` y divide por `len(muestra)`.\n3. Imprime con etiqueta `share_Lima` y round 2.\n4. No uses Counter si no hace falta.",
  hint: "share = conteo de la región / n de la muestra.",
  hints: [
  "share = conteo de la región / n de la muestra.",
@@ -880,7 +959,10 @@ print([round(float(v), 3) for v in np.log1p(x)])`,
  ],
  edgeCases: ["muestra vacía"],
  tests: "salida coincide con solution output",
- feedback: "¿Contaste Arequipa u otra región? share_Lima = count(\"Lima\") / n.",
+ feedback:
+  "¿Contaste Arequipa u otra región? share_Lima = count(\"Lima\") / n. Contar la región equivocada es un bug de negocio silencioso en la nota de cobertura.",
+ retrospective:
+  "Share = conteo/n es el ladrillo de la nota de cobertura. Un share “correcto” de la región equivocada pasa el test de aritmética y falla el de negocio. Pregunta: ¿por qué no basta con `Counter` bonito si la clave está mal? Siguiente: el *signo* del bias_pp.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -903,8 +985,11 @@ print("share_Lima", round(share_lima, 2))`,
  id: "S18-T2-A-E2",
  subtopicId: "S18-T2-A",
  kind: "independent",
+ title: "bias_pp = share − población",
+ preamble:
+  "- **Contexto:** en la nota de datos, bias positivo en Lima significa sobremuestreo de Lima, no “menos Lima”.\n- **Meta:** calcular `bias_Lima_pp` con el orden share − pob.\n- **Éxito:** `bias_Lima_pp 0.3` (share 0.8, pob 0.5).\n- **Límites:** no inviertas la resta; redondea a 2 decimales.",
  instruction:
- "E2 (independiente) — El sesgo en puntos porcentuales es **share_muestra − share_población**. En `S18-T2-A-E2` el starter invierte la resta: corrige el signo e imprime `bias_Lima_pp` (2 decimales) con los valores del starter.",
+ "1. Starter imprime `pob - share`.\n2. Corrige a `share - pob`.\n3. Mantén la etiqueta `bias_Lima_pp`.\n4. No cambies los valores 8/10 y 0.5.",
  hint: "bias_pp = share − pob (no al revés).",
  hints: [
  "bias_pp = share − pob (no al revés).",
@@ -912,7 +997,10 @@ print("share_Lima", round(share_lima, 2))`,
  ],
  edgeCases: ["regiones faltantes en muestra"],
  tests: "salida coincide con solution output",
- feedback: "Si share > pob, el bias de sobremuestreo debe ser positivo. Revisa el orden de la resta.",
+ feedback:
+  "Si share > pob, el bias de sobremuestreo debe ser positivo. Invertir la resta miente en el memo de cobertura: el signo comunica dirección del sesgo.",
+ retrospective:
+  "bias positivo = sobremuestreo de esa región en la muestra. Si inviertes la resta, el memo dice “falta Lima” cuando sobra Lima. El hábito es share − pob, siempre. Luego (E3): el *peor* |bias| decide LIMITADA/OK, no el promedio.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -935,8 +1023,11 @@ print("bias_Lima_pp", round(share - pob, 2))`,
  id: "S18-T2-A-E3",
  subtopicId: "S18-T2-A",
  kind: "transfer",
+ title: "Peor |bias_pp| de cobertura",
+ preamble:
+  "- **Contexto:** la nota de CP-N2-B marca cobertura LIMITADA/OK con el máximo |bias|, no con el promedio ni el mínimo.\n- **Meta:** implementar `max_bias(pob, counts)`.\n- **Éxito:** imprime `0.4` con el fixture (9 Lima / 1 Arequipa vs. 50-50).\n- **Límites:** itera claves de `pob`; usa `counts.get(k, 0)`; no devuelvas el mínimo.",
  instruction:
- "E3 (transferencia) — Para la nota de datos de cobertura del portafolio, implementa `max_bias(pob, counts)` que devuelve el **peor** |bias_pp| = |count/n − share_pob| entre regiones (`S18-T2-A-E3`). Completa el cuerpo de la función y prueba con el fixture ya escrito: imprime el resultado redondeado a **2 decimales**. Ese número decide si marcas cobertura LIMITADA.",
+ "1. Completa el cuerpo (hoy `NotImplementedError`).\n2. n = suma de counts.\n3. Por región: |count/n − share_pob|; devuelve el max.\n4. Deja el `print(round(..., 2))` de prueba.",
  hint: "Por cada región en pob: |counts[k]/n − pob[k]|; devuelve el máximo de esos absolutos.",
  hints: [
  "Por cada región en pob: |counts[k]/n − pob[k]|; devuelve el máximo de esos absolutos.",
@@ -944,7 +1035,10 @@ print("bias_Lima_pp", round(share - pob, 2))`,
  ],
  edgeCases: ["keys faltantes"],
  tests: "salida coincide con solution output",
- feedback: "Cobertura LIMITADA se decide con el máximo |bias|, no con el mínimo. Revisa el agregador.",
+ feedback:
+  "Cobertura LIMITADA se decide con el máximo |bias|, no con el mínimo ni el promedio. El riesgo de generalización es el *peor* sesgo de cuota.",
+ retrospective:
+  "El riesgo de generalización es el *peor* sesgo de cuota. Pregunta: con max |bias| = 0.4, ¿afirmas el KPI para “todo el Perú”? Puente a T2-B: incertidumbre del estimador *además* del sesgo de muestra.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -971,8 +1065,11 @@ print(round(max_bias({"Lima": 0.5, "Arequipa": 0.5}, {"Lima": 9, "Arequipa": 1})
  id: "S18-T2-B-E1",
  subtopicId: "S18-T2-B",
  kind: "guided",
+ title: "Margen del IC 95% con √n",
+ preamble:
+  "- **Contexto:** el margen del IC z no es 1.96·s; es 1.96·(s/√n).\n- **Meta:** calcular e imprimir `margen` a 3 decimales.\n- **Éxito:** `margen 0.98` con media=10, s=2, n=16.\n- **Límites:** z≈1.96; no inventes t-student aquí; no omitas √n.",
  instruction:
- "E1 (guiado) — Con media, s y n del starter (`S18-T2-B-E1`), calcula el **margen** del IC 95% aproximado: z·(s/√n) con z≈1.96. Imprime `margen` a 3 decimales. El bug indicado en el starter olvida dividir por √n.",
+ "1. Starter: `1.96 * s` sin dividir.\n2. Divide por `math.sqrt(n)`.\n3. Imprime `margen` redondeado a 3.\n4. Deja media/s/n fijos.",
  hint: "margen = 1.96 * s / sqrt(n).",
  hints: [
  "margen = 1.96 * s / sqrt(n).",
@@ -980,7 +1077,10 @@ print(round(max_bias({"Lima": 0.5, "Arequipa": 0.5}, {"Lima": 9, "Arequipa": 1})
  ],
  edgeCases: ["n=0"],
  tests: "salida coincide con solution output",
- feedback: "Sin /√n el margen no es un error estándar. El IC es media ± margen, no media ± 1.96·s.",
+ feedback:
+  "Sin /√n el margen no es un error estándar: confundes dispersión de datos con error del estimador. El IC es media ± margen, no media ± 1.96·s.",
+ retrospective:
+  "El SE del estimador se encoge con √n; la std de los datos no. El error clásico es dibujar un “IC” tan ancho como 1.96·s y asustar al negocio sin causa. Pregunta: si n pasa de 16 a 64, ¿qué pasa con el margen? Siguiente: d de Cohen con orden B−A.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1005,8 +1105,11 @@ print("margen", round(margen, 3))`,
  id: "S18-T2-B-E2",
  subtopicId: "S18-T2-B",
  kind: "independent",
+ title: "d de Cohen con orden B − A",
+ preamble:
+  "- **Contexto:** d resume magnitud estandarizada; el signo depende de qué grupo restas.\n- **Meta:** d = (media_B − media_A) / s_pooled.\n- **Éxito:** `d 1.5` (A=10, B=13, sp=2).\n- **Límites:** no inviertas A y B; no interpretes d como “probado”.",
  instruction:
- "E2 (independiente) — La d de Cohen compara **media del grupo B menos media del grupo A**, dividido por la desviación pooled del starter (`S18-T2-B-E2`). El starter invierte el orden de las medias: corrígelo e imprime `d` a 2 decimales. Interpreta d como magnitud, no como “probado”.",
+ "1. Starter usa (10−13)/2.\n2. Corrige a (13−10)/2.\n3. Imprime `d` a 2 decimales.\n4. No cambies s_pooled.",
  hint: "d = (media_B − media_A) / s_pooled con los números del starter.",
  hints: [
  "d = (media_B − media_A) / s_pooled con los números del starter.",
@@ -1014,7 +1117,10 @@ print("margen", round(margen, 3))`,
  ],
  edgeCases: ["sp=0"],
  tests: "salida coincide con solution output",
- feedback: "Si inviertes A y B, el signo de d se voltea. El contrato usa B − A.",
+ feedback:
+  "Si inviertes A y B, el signo de d se voltea y el relato de “efecto” miente. El contrato usa B − A; d habla de magnitud, no de “probado”.",
+ retrospective:
+  "d habla de magnitud estandarizada, no de decisión de campaña ni de “probado”. Invertir grupos voltea el relato del efecto. Pregunta: con d=1.5 y n chico, ¿qué más reportas además del punto? Luego (E3): bootstrap cuando z es dudoso.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1036,8 +1142,11 @@ print("d", round(d, 2))`,
  id: "S18-T2-B-E3",
  subtopicId: "S18-T2-B",
  kind: "transfer",
+ title: "Bootstrap simple de la media",
+ preamble:
+  "- **Contexto:** con montos de cola pesada y n chico, 1.96·s/√n es tosco; el portafolio pide bootstrap documentado.\n- **Meta:** remuestrear con reemplazo B=100 (seed fija), percentiles 2.5/97.5 de la media.\n- **Éxito:** `boot_ic95 (10.89, 31.17)`, `n 5`, `nota bootstrap_simple`.\n- **Límites:** no reinicies el rng en el bucle; no uses z aquí; el IC no es el rango del 95% de x.",
  instruction:
- "E3 (transferencia) — Con montos sintéticos de cola pesada (`S18-T2-B-E3`), implementa un **bootstrap simple** de la media. Remuestrea con reemplazo `B` veces (seed y `B` ya fijos en el starter). Toma los percentiles 2.5 y 97.5 de esas medias e imprime `boot_ic95` como tupla a 2 decimales, más `n` y la nota `bootstrap_simple`. No uses z·s/√n aquí: practicas remuestreo cuando la aproximación normal es dudosa. El IC describe incertidumbre del estimador, no el rango donde cae el 95% de los tickets.",
+ "1. Completa el bloque de boots (starter imprime None).\n2. B medias con `rng.choice(..., replace=True)`.\n3. `np.quantile(..., [0.025, 0.975])` redondeado a 2.\n4. Imprime n y nota exacta `bootstrap_simple`.",
  hint: "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
  hints: [
  "Para i en range(B): rng.choice(x, size=len(x), replace=True).mean(); luego np.quantile(..., [0.025, 0.975]).",
@@ -1045,7 +1154,10 @@ print("d", round(d, 2))`,
  ],
  edgeCases: ["B=1 inútil", "x vacío"],
  tests: "salida coincide con solution output",
- feedback: "Bootstrap = remuestrear con reemplazo y percentiles de la estadística. No es z·s/√n ni el rango del 95% de los datos crudos.",
+ feedback:
+  "Bootstrap = remuestrear con reemplazo y percentiles de la estadística. No es z·s/√n ni el rango del 95% de los tickets crudos: estima incertidumbre del *estimador*.",
+ retrospective:
+  "Bootstrap estima la incertidumbre del *estimador*, no el intervalo donde viven el 95% de los tickets. Seed fija hace auditable el notebook. Puente a T3: asociación sin vender causa.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1082,8 +1194,11 @@ nota bootstrap_simple`,
  id: "S18-T3-A-E1",
  subtopicId: "S18-T3-A",
  kind: "guided",
+ title: "Pearson entre x e y, no y consigo",
+ preamble:
+  "- **Contexto:** un r=1 en el slide puede ser un bug de correlacionar la serie consigo misma.\n- **Meta:** Pearson de x con y a 3 decimales.\n- **Éxito:** `r 0.934` con x=[1,2,3,4], y=[2,5,5,10] (el starter con y,y imprime 1.0 y **falla**).\n- **Límites:** usa `corrcoef(x, y)[0,1]`; no borres x.",
  instruction:
- "E1 (guiado) — Calcula la correlación de **Pearson entre x e y** del starter (`S18-T3-A-E1`) e imprime `r` a 3 decimales. El bug indicado en el starter correlaciona un vector consigo mismo.",
+ "1. Starter: `corrcoef(y, y)`.\n2. Cambia a `corrcoef(x, y)`.\n3. Redondea a 3; etiqueta `r`.\n4. No alteres los arrays.",
  hint: "corrcoef(x, y)[0, 1], no corrcoef(y, y).",
  hints: [
  "corrcoef(x, y)[0, 1], no corrcoef(y, y).",
@@ -1091,7 +1206,10 @@ nota bootstrap_simple`,
  ],
  edgeCases: ["constante en x → nan"],
  tests: "salida coincide con solution output",
- feedback: "corrcoef(y, y) siempre da 1. Necesitas la asociación entre las dos series.",
+ feedback:
+  "corrcoef(y, y) siempre da 1: es tautología, no hallazgo. Necesitas la asociación entre las dos series; revisa siempre los dos argumentos.",
+ retrospective:
+  "Correlacionar y con y siempre da 1: es tautología, no hallazgo. Si tu salida es 1.0 y el fixture no es lineal perfecto, sospecha los argumentos. Revisa siempre los dos vectores. Siguiente: Spearman monótono por rangos.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1099,7 +1217,7 @@ nota bootstrap_simple`,
 # Bug a corregir: r de y vs y no x vs y
 import numpy as np
 x = np.array([1, 2, 3, 4], dtype=float)
-y = np.array([2, 4, 6, 8], dtype=float)
+y = np.array([2, 5, 5, 10], dtype=float)
 print("r", round(float(np.corrcoef(y, y)[0, 1]), 3))`,
  },
  solutionCode: {
@@ -1107,17 +1225,20 @@ print("r", round(float(np.corrcoef(y, y)[0, 1]), 3))`,
  title: "exercise.py",
  code: `import numpy as np
 x = np.array([1, 2, 3, 4], dtype=float)
-y = np.array([2, 4, 6, 8], dtype=float)
+y = np.array([2, 5, 5, 10], dtype=float)
 print("r", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
- output: `r 1.0`,
+ output: `r 0.934`,
  },
  },
  {
  id: "S18-T3-A-E2",
  subtopicId: "S18-T3-A",
  kind: "independent",
+ title: "Spearman como Pearson de rangos",
+ preamble:
+  "- **Contexto:** y crece monótono pero no lineal con x; Pearson en escala original no es el contrato “Spearman”.\n- **Meta:** rangos de x e y + Pearson de rangos.\n- **Éxito:** `spearman 1.0`.\n- **Límites:** usa `argsort(argsort(...))`; no reportes Pearson crudo con etiqueta spearman.",
  instruction:
- "E2 (independiente) — Calcula **Spearman** (correlación de rangos) entre los arrays sintéticos de `S18-T3-A-E2`: convierte cada serie a rangos y aplica Pearson sobre esos rangos; imprime `spearman` a 3 decimales. El bug del starter reporta Pearson en la escala original (útil, pero no es Spearman). Spearman resume asociación monótona; sigue siendo asociación observada, no causa.",
+ "1. Starter imprime Pearson de x,y crudos.\n2. Construye rx, ry con rangos.\n3. `corrcoef(rx, ry)[0,1]` redondeado a 3.\n4. Etiqueta exacta `spearman`.",
  hint: "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
  hints: [
  "Rangos estables: np.argsort(np.argsort(serie)); luego corrcoef de los dos vectores de rangos.",
@@ -1125,7 +1246,10 @@ print("r", round(float(np.corrcoef(x, y)[0, 1]), 3))`,
  ],
  edgeCases: ["empates en rangos (aquí no hay)"],
  tests: "salida coincide con solution output",
- feedback: "Spearman = Pearson sobre rangos. Si usaste corrcoef(x, y) crudo, obtienes Pearson, no Spearman.",
+ feedback:
+  "Spearman = Pearson sobre rangos. Si usaste corrcoef(x, y) crudo, obtienes Pearson, no Spearman. Confundir etiqueta y método rompe la auditoría del notebook.",
+ retrospective:
+  "Spearman resume asociación *monótona*; sigue siendo observación, no causa. El error de auditoría es imprimir Pearson con etiqueta spearman: el revisor cree que usaste rangos. Pregunta: si y = x², ¿esperas Spearman 1 y Pearson <1? Luego: residualizar un confusor Z.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1152,8 +1276,11 @@ print("spearman", round(float(np.corrcoef(rx, ry)[0, 1]), 3))`,
  id: "S18-T3-A-E3",
  subtopicId: "S18-T3-A",
  kind: "transfer",
+ title: "Residualizar confusor y claim no causal",
+ preamble:
+  "- **Contexto:** en CP-N2-B un r alto entre monto y visitas puede ser tamaño de ciudad (Z).\n- **Meta:** reportar r_raw, r_residual tras residualizar x,y vs z, y claim ético.\n- **Éxito:** `r_raw 0.828`, `r_residual 0.075`, `claim asociacion_observada_no_causal`.\n- **Límites:** seed 1 y coeficientes del starter fijos; no regeneres datos; no afirmes causa.",
  instruction:
- "E3 (transferencia) — Un confusor Z genera X e Y en el starter (`S18-T3-A-E3`, seed fija). Reporta **r_raw** (Pearson X–Y), **r_residual** tras residualizar X e Y respecto a Z (`polyfit` grado 1) y la etiqueta `claim asociacion_observada_no_causal`. Completa el bloque de residuales: el punto es ver r alto que cae al controlar Z (no uses colinealidad perfecta).",
+ "1. r_raw ya está; completa residuales.\n2. `polyfit(z, serie, 1)` para x e y; resta la predicción.\n3. Pearson de residuales a 3 decimales.\n4. Imprime claim exacto no causal.",
  hint: "Residualiza con polyfit(z, serie, 1); corrcoef de residuales; redondea a 3 decimales.",
  hints: [
  "Residualiza con polyfit(z, serie, 1); corrcoef de residuales; redondea a 3 decimales.",
@@ -1161,7 +1288,10 @@ print("spearman", round(float(np.corrcoef(rx, ry)[0, 1]), 3))`,
  ],
  edgeCases: ["ruido cero → residuales ~0; aquí hay ruido intencional"],
  tests: "salida coincide con solution output",
- feedback: "r alto con confusor no prueba causa. Residualiza Z y reporta r_residual + claim no causal.",
+ feedback:
+  "r alto con confusor no prueba causa. Residualiza Z y reporta r_residual + claim no causal: si r cae, el confusor era el relato principal.",
+ retrospective:
+  "Si r cae al controlar Z, el confusor era el relato principal. El claim protege de lenguaje causal en el portafolio. Puente a T3-B: flags por segmento sin culpa regional.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1203,8 +1333,11 @@ claim asociacion_observada_no_causal`,
  id: "S18-T3-B-E1",
  subtopicId: "S18-T3-B",
  kind: "guided",
+ title: "Cerca superior Tukey 1.5·IQR",
+ preamble:
+  "- **Contexto:** el runbook de anomalías univariadas usa cerca hi = Q3 + 1.5·IQR.\n- **Meta:** contar cuántos montos superan hi.\n- **Éxito:** `n_hi 1` (el 50 del array).\n- **Límites:** multiplicador 1.5 (no 0.5); flag ≠ fraude.",
  instruction:
- "E1 (guiado) — Cuenta cuántos montos superan la cerca superior de Tukey en el array sintético (`S18-T3-B-E1`): hi = Q3 + 1.5·IQR. Imprime `n_hi`. El bug indicado en el starter usa un multiplicador incorrecto. Flag ≠ fraude.",
+ "1. Starter usa `0.5 * iqr`.\n2. Cambia a `1.5 * iqr`.\n3. Cuenta `(m > hi).sum()` como int.\n4. Etiqueta `n_hi`.",
  hint: "Multiplicador Tukey clásico: 1.5 sobre el IQR.",
  hints: [
  "Multiplicador Tukey clásico: 1.5 sobre el IQR.",
@@ -1212,7 +1345,10 @@ claim asociacion_observada_no_causal`,
  ],
  edgeCases: ["sin outliers"],
  tests: "salida coincide con solution output",
- feedback: "Tukey usa 1.5·IQR, no 0.5. Los flags son candidatos a revisión, no fraude.",
+ feedback:
+  "Tukey usa 1.5·IQR, no 0.5. Con 0.5 inventas outliers de más. Los flags son candidatos a revisión humana, no fraude automático.",
+ retrospective:
+  "El contrato Tukey del runbook es 1.5·IQR; bajar a 0.5 es inventar un método distinto sin documentarlo. Los flags son candidatos a revisión humana. Pregunta: si n_hi se dispara, ¿miras primero el multiplicador o acusas al canal? Siguiente: tasa solo en Lima.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1241,8 +1377,11 @@ print("n_hi", int((m > hi).sum()))`,
  id: "S18-T3-B-E2",
  subtopicId: "S18-T3-B",
  kind: "independent",
+ title: "Tasa de flags solo en Lima",
+ preamble:
+  "- **Contexto:** un slide que mezcla regiones miente sobre “riesgo en Lima”.\n- **Meta:** media de flags donde region == \"Lima\".\n- **Éxito:** `tasa_Lima 1.0` con el fixture de 3 filas.\n- **Límites:** no uses `flag.mean()` global; no inventes causalidad regional.",
  instruction:
- "E2 (independiente) — Calcula la **tasa de flags en Lima** (no la tasa global) con los arrays sintéticos de `S18-T3-B-E2`. Imprime `tasa_Lima`. Una tasa alta es hallazgo descriptivo, no prueba de causa regional.",
+ "1. Starter imprime mean global.\n2. Enmascara `flag[region == \"Lima\"]`.\n3. Media float; etiqueta `tasa_Lima`.\n4. No alteres los arrays.",
  hint: "Filtra flags donde region == \"Lima\" y toma la media.",
  hints: [
  "Filtra flags donde region == \"Lima\" y toma la media.",
@@ -1250,7 +1389,10 @@ print("n_hi", int((m > hi).sum()))`,
  ],
  edgeCases: ["segmento vacío"],
  tests: "salida coincide con solution output",
- feedback: "La tasa global mezcla regiones. Enmascara con region == \"Lima\" antes del mean.",
+ feedback:
+  "La tasa global mezcla regiones y miente sobre “riesgo en Lima”. Enmascara con region == \"Lima\" antes del mean; la tasa alta es hallazgo descriptivo, no causa.",
+ retrospective:
+  "Segmentar antes de promediar es el hábito del EDA por cohorte. Tasa alta en un segmento es hallazgo descriptivo. Luego: máscara Tukey bilateral completa.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1275,8 +1417,11 @@ print("tasa_Lima", float(flag[region == "Lima"].mean()))`,
  id: "S18-T3-B-E3",
  subtopicId: "S18-T3-B",
  kind: "transfer",
+ title: "Máscara Tukey bilateral a lista",
+ preamble:
+  "- **Contexto:** el portafolio marca outliers altos *y* bajos; solo `m > hi` pierde la cola inferior.\n- **Meta:** booleans fuera de [lo, hi] como lista.\n- **Éxito:** `[True, False, False, False, True]` con un valor muy bajo (−20) y un 100 (unilateral solo marcaría el alto).\n- **Límites:** bilateral; documenta en memo flag ≠ fraude ni culpa de región.",
  instruction:
- "E3 (transferencia) — Para el portafolio, marca anomalías univariadas con **Tukey bilateral**: fuera de [Q1−1.5·IQR, Q3+1.5·IQR] en el array sintético de `S18-T3-B-E3`. El starter ya calcula lo/hi; completa la máscara booleana e imprímela como **lista**. Documenta en el memo que flag ≠ fraude ni culpa de región.",
+ "1. lo/hi ya calculados.\n2. `(m < lo) | (m > hi)` — **ambas** cercas.\n3. `.tolist()` e imprime.\n4. No cambies el array ni las cercas.",
  hint: "flag = (m < lo) | (m > hi); luego .tolist().",
  hints: [
  "flag = (m < lo) | (m > hi); luego .tolist().",
@@ -1284,13 +1429,16 @@ print("tasa_Lima", float(flag[region == "Lima"].mean()))`,
  ],
  edgeCases: ["IQR 0"],
  tests: "salida coincide con solution output",
- feedback: "Tukey es bilateral. Si solo usas m > hi, pierdes outliers bajos. Flags son candidatos a revisión.",
+ feedback:
+  "Tukey es bilateral. Si solo usas m > hi, pierdes outliers bajos y sesgas el runbook. Flags son candidatos a revisión, no fraude ni culpa regional.",
+ retrospective:
+  "Bilateral protege de sesgo a “solo valores altos”. Flags son input a investigación humana. Puente a T4: trazar pregunta→evidencia sin convertir flag en decisión.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
  code: `# CASO-LIM-018 · máscara Tukey bilateral (transferencia)
 import numpy as np
-m = np.array([1, 2, 3, 4, 100], dtype=float)
+m = np.array([-20.0, 2.0, 3.0, 4.0, 100.0], dtype=float)
 q1, q3 = np.quantile(m, [0.25, 0.75])
 iqr = q3 - q1
 lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
@@ -1301,20 +1449,23 @@ print([])`,
  language: 'python',
  title: "exercise.py",
  code: `import numpy as np
-m = np.array([1, 2, 3, 4, 100], dtype=float)
+m = np.array([-20.0, 2.0, 3.0, 4.0, 100.0], dtype=float)
 q1, q3 = np.quantile(m, [0.25, 0.75])
 iqr = q3 - q1
 lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
 print(((m < lo) | (m > hi)).tolist())`,
- output: `[False, False, False, False, True]`,
+ output: `[True, False, False, False, True]`,
  },
  },
  {
  id: "S18-T4-A-E1",
  subtopicId: "S18-T4-A",
  kind: "guided",
+ title: "Imprimir la pregunta, no la hipótesis",
+ preamble:
+  "- **Contexto:** en la traza Q→H→E, la pregunta de negocio y la hipótesis son capas distintas.\n- **Meta:** imprimir solo el valor de `evidencia[\"pregunta\"]`.\n- **Éxito:** `¿Cuál es el ticket mediano?`\n- **Límites:** no reescribas el dict; no imprimas hipótesis ni resultado.",
  instruction:
- "E1 (guiado) — La plantilla Q→H→E del starter (`S18-T4-A-E1`) guarda pregunta, hipótesis y resultado. Imprime solo el valor de la clave **pregunta** (el texto de negocio). El bug indicado en el starter imprime la hipótesis.",
+ "1. Starter imprime `hipotesis`.\n2. Cambia la clave a `pregunta`.\n3. Un solo print del string.\n4. No mutes el dict.",
  hint: "Accede a evidencia[\"pregunta\"], no a \"hipotesis\".",
  hints: [
  "Accede a evidencia[\"pregunta\"], no a \"hipotesis\".",
@@ -1322,7 +1473,10 @@ print(((m < lo) | (m > hi)).tolist())`,
  ],
  edgeCases: ["claves faltantes"],
  tests: "salida coincide con solution output",
- feedback: "Pregunta e hipótesis son capas distintas. El print de traza de pregunta usa la clave pregunta.",
+ feedback:
+  "Pregunta e hipótesis son capas distintas. Mezclarlas confunde el memo y la revisión: el print de traza de pregunta usa la clave pregunta.",
+ retrospective:
+  "La traza empieza por la pregunta de negocio; la hipótesis es una apuesta testeable distinta. Si imprimes la hipótesis en el bloque “pregunta”, el revisor no sabe qué se estaba midiendo. Siguiente: etiquetar solo_hallazgo vs. candidato_decision.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1351,8 +1505,11 @@ print(evidencia["pregunta"])`,
  id: "S18-T4-A-E2",
  subtopicId: "S18-T4-A",
  kind: "independent",
+ title: "Hallazgo vs. candidato a decisión",
+ preamble:
+  "- **Contexto:** una mediana de 12 no dispara campaña; solo etiqueta el nivel del hallazgo.\n- **Meta:** si median < 15 → `solo_hallazgo`; si no → `candidato_decision`.\n- **Éxito:** `solo_hallazgo` con median=12.\n- **Límites:** no lances decisiones automáticas; corrige el operador de comparación.",
  instruction:
- "E2 (independiente) — Separa hallazgo de decisión: con la mediana sintética del starter (`S18-T4-A-E2`), imprime `solo_hallazgo` si median < 15; si no, `candidato_decision`. El starter usa el operador de comparación al revés: corrígelo. No inventes campañas ni bloqueos.",
+ "1. Starter usa `median > 15` al revés.\n2. Condición correcta: `median < 15` → solo_hallazgo.\n3. Un print de la etiqueta.\n4. No cambies el umbral 15.",
  hint: "solo_hallazgo cuando median está por debajo del umbral 15.",
  hints: [
  "solo_hallazgo cuando median está por debajo del umbral 15.",
@@ -1360,7 +1517,10 @@ print(evidencia["pregunta"])`,
  ],
  edgeCases: ["igualdad al umbral"],
  tests: "salida coincide con solution output",
- feedback: "Revisa el operador de comparación. Hallazgo no es lanzar campaña; solo etiqueta el nivel de la mediana.",
+ feedback:
+  "Revisa el operador de comparación. Hallazgo no es lanzar campaña: solo etiqueta el nivel de la mediana. Candidato a decisión ≠ decisión tomada.",
+ retrospective:
+  "Candidato a decisión ≠ decisión tomada. El EDA etiqueta; el negocio decide. Luego (E3): traza P→M→V→L con límite de cobertura.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1381,8 +1541,11 @@ print("solo_hallazgo" if median < 15 else "candidato_decision")`,
  id: "S18-T4-A-E3",
  subtopicId: "S18-T4-A",
  kind: "transfer",
+ title: "Traza P→M→V→L auditable",
+ preamble:
+  "- **Contexto:** sin límite de cobertura (L), un hallazgo de mediana en Lima no es auditable.\n- **Meta:** función `traza` con prints `P:`, `M:`, `V:`, `L:`.\n- **Éxito:** cuatro líneas con “ticket mediano Lima”, median, 27.5, “solo web”.\n- **Límites:** no cambies la llamada de prueba; usa el parámetro `limite`.",
  instruction:
- "E3 (transferencia) — Implementa la traza **P→M→V→L** del portafolio CP-N2-B (`S18-T4-A-E3`): pregunta, métrica, valor y **límite de cobertura**. Completa la función con prints `P:`, `M:`, `V:`, `L:` y no cambies la llamada de prueba. Sin L el hallazgo no es auditable.",
+ "1. Completa el `pass` de la función.\n2. Cuatro prints con prefijos exactos.\n3. Orden P, M, V, L.\n4. Deja `traza(...)` intacta.",
  hint: "Cuatro prints con prefijos P/M/V/L; el cuarto usa el parámetro límite (identificador `limite` en el código).",
  hints: [
  "Cuatro prints con prefijos P/M/V/L; el cuarto usa el parámetro límite (identificador `limite` en el código).",
@@ -1390,7 +1553,10 @@ print("solo_hallazgo" if median < 15 else "candidato_decision")`,
  ],
  edgeCases: ["None en valor"],
  tests: "salida coincide con solution output",
- feedback: "Sin límite de cobertura (L) el hallazgo no es auditable. Añade print(\"L:\", limite).",
+ feedback:
+  "Sin límite de cobertura (L) el hallazgo no es auditable: “solo web” impide generalizar. Añade print(\"L:\", limite) en orden P→M→V→L.",
+ retrospective:
+  "L cierra la traza: “solo web” impide generalizar. Pregunta de cierre: ¿qué L pondrías si la muestra es solo canal app? Puente a T4-B: nota de datos con n y hash.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1421,8 +1587,11 @@ L: solo web`,
  id: "S18-T4-B-E1",
  subtopicId: "S18-T4-B",
  kind: "guided",
+ title: "Nota mínima n_raw, n_final, filtros",
+ preamble:
+  "- **Contexto:** un `{}` en la nota de datos no pasa revisión de CP-N2-B.\n- **Meta:** dict con n_raw=5, n_final=4, filtros `[\"monto>0\"]`.\n- **Éxito:** imprimir ese dict.\n- **Límites:** n_final ≤ n_raw; no inventes campos extra obligatorios aquí.",
  instruction:
- "E1 (guiado) — Completa la **nota de datos** mínima del starter (`S18-T4-B-E1`): dict con `n_raw`, `n_final` y `filtros` (lista). Valores sintéticos de práctica: 5 filas crudas, 4 tras filtro `monto>0`. Imprime el dict. El bug indicado en el starter deja el note vacío.",
+ "1. Starter: `note = {}`.\n2. Llena las tres claves.\n3. `print(note)`.\n4. Filtros como lista de strings.",
  hint: "Claves: n_raw, n_final, filtros (lista de strings).",
  hints: [
  "Claves: n_raw, n_final, filtros (lista de strings).",
@@ -1430,7 +1599,10 @@ L: solo web`,
  ],
  edgeCases: ["n_final > n_raw inválido"],
  tests: "salida coincide con solution output",
- feedback: "Una nota de datos vacía no es auditable. Incluye n_raw, n_final y la lista de filtros.",
+ feedback:
+  "Una nota de datos vacía no es auditable. Incluye n_raw, n_final y la lista de filtros: sin ellos nadie reproduce el corte de filas.",
+ retrospective:
+  "n_raw vs. n_final hace visible la pérdida por filtro; sin lista de filtros nadie reproduce el corte. El error clásico es copiar n del raw al final “porque casi no filtramos”. Siguiente: huella SHA-1 de 8 hex.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1451,8 +1623,11 @@ print(note)`,
  id: "S18-T4-B-E2",
  subtopicId: "S18-T4-B",
  kind: "independent",
+ title: "SHA-1 de 8 hex del CSV",
+ preamble:
+  "- **Contexto:** la huella corta del CSV ordenado permite detectar cambios de filas sin pegar el digest entero.\n- **Meta:** sha1 del payload con newlines reales, primeros 8 hex.\n- **Éxito:** `2aa26ec9`.\n- **Límites:** no md5; no digest completo; newlines reales (chr(10)), no la secuencia literal `\\n` de dos caracteres.",
  instruction:
- "E2 (independiente) — Calcula la huella **SHA-1 en hex** de los bytes del CSV sintético del starter (`S18-T4-B-E2`: cabecera `a,b` y fila `1,2`, cada línea terminada en salto de línea real) y muestra solo los **primeros 8** caracteres hex. El bug indicado en el starter usa md5 y el digest completo: corrígelo a sha1 recortado. No uses md5 ni el digest completo.",
+ "1. Starter usa md5 y digest completo.\n2. Cambia a `sha1(...).hexdigest()[:8]`.\n3. Mantén el armado del payload del starter.\n4. Un solo print del string de 8 chars.",
  hint: "Arma el payload con newlines reales (p. ej. uniendo líneas con chr(10)); sha1(...).hexdigest()[:8].",
  hints: [
  "Arma el payload con newlines reales (p. ej. uniendo líneas con chr(10)); sha1(...).hexdigest()[:8].",
@@ -1460,7 +1635,10 @@ print(note)`,
  ],
  edgeCases: ["orden de filas cambia hash"],
  tests: "salida coincide con solution output",
- feedback: "Debe ser SHA-1, no MD5, y solo 8 hex chars. Los bytes deben incluir newlines reales tras cada línea del CSV.",
+ feedback:
+  "Debe ser SHA-1, no MD5, y solo 8 hex chars. Los bytes deben incluir newlines reales tras cada línea del CSV; cambiar el orden de filas cambia el hash.",
+ retrospective:
+  "Algoritmo y longitud son contrato del portafolio. Cambiar el orden de filas cambia el hash: por eso se ordena antes. Luego (E3): nota con n y seed tras filtro.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1486,8 +1664,11 @@ print(hashlib.sha1(payload).hexdigest()[:8])`,
  id: "S18-T4-B-E3",
  subtopicId: "S18-T4-B",
  kind: "transfer",
+ title: "Nota post-filtro con seed 42",
+ preamble:
+  "- **Contexto:** el cierre hacia S19 exige n_raw, n_final y seed en la misma nota.\n- **Meta:** filtrar monto>0 y armar dict con seed 42.\n- **Éxito:** `{'n_raw': 3, 'n_final': 2, 'seed': 42}`.\n- **Límites:** n_final no puede igualar n_raw si el filtro elimina filas; seed exacto 42.",
  instruction:
- "E3 (transferencia) — Cierra el hilo hacia S19: con el DataFrame sintético de `S18-T4-B-E3`, filtra `monto > 0` y arma una nota de datos con **n_raw** (antes del filtro), **n_final** (después) y **seed: 42**. Completa el dict e imprímelo — base de trazabilidad del portafolio.",
+ "1. n_raw ya está; df2 filtra monto>0.\n2. Completa note con n_raw, n_final=len(df2), seed=42.\n3. Imprime el dict.\n4. No borres el filtro.",
  hint: "n_raw = len(df) antes del filtro; n_final = len(df2); incluye seed: 42.",
  hints: [
  "n_raw = len(df) antes del filtro; n_final = len(df2); incluye seed: 42.",
@@ -1495,7 +1676,10 @@ print(hashlib.sha1(payload).hexdigest()[:8])`,
  ],
  edgeCases: ["todo filtrado"],
  tests: "salida coincide con solution output",
- feedback: "n_final debe reflejar el filtro. Sin seed el notebook no es reproducible entre personas.",
+ feedback:
+  "n_final debe reflejar el filtro (aquí 2, no 3). Sin seed el notebook no es reproducible entre compañeros: “me salió distinto” deja de ser auditable.",
+ retrospective:
+  "Seed + n_final hacen reproducible el notebook entre compañeros. Sin seed, “me salió distinto” no es auditable. Puente a You Do: EDA completo de CP-N2-B con los seis checkpoints.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1626,6 +1810,8 @@ print(df.head())
  { criterion: "Código legible y sin afirmaciones causales/fraude automático", weight: "10%" },
  { criterion: "Documentación en español profesional", weight: "10%" }
  ],
+ retrospective:
+  "Antes de marcar listo: (1) ¿cada hallazgo cita n, métrica y un límite de cobertura? (2) ¿declaraste por qué usaste z, bootstrap o ambos en montos lognormales? (3) ¿puedes defender en 30 segundos que un flag Tukey o un r alto no es fraude ni causa? Escribe en el README una frase de impacto medible (antes/después del EDA) y confirma que la nota de datos incluye seed y sha1_8 del CSV ordenado. Ese paquete es lo que alimenta el dashboard de S19.",
  },
  selfCheck: {
  questions: [

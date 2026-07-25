@@ -315,6 +315,8 @@ s21_th_8()`,
  subtopicId: "S21-T1-A",
  environment: "local-python",
  description: "Separar datos de plantilla Jinja con context único",
+ preamble:
+ "Antes de exportar DOCX o PDF, el factory necesita un **solo** dict de contexto. En esta demo ves `run_id`, región Lima, mediana 28.0 PEN, n=40 y el límite “solo web” alimentando una plantilla Jinja. No escribas aún; predice la cadena completa y fíjate en que **nada** de la métrica se calcula dentro del template: solo se presenta. Si cada canal inventa su propio formato, la paridad con el Excel de S20 muere en el primer redondeo.",
  code: {
  language: 'python',
  title: "demo_jinja.py",
@@ -336,13 +338,17 @@ s21_th_8()`,
 s21_ido_1()`,
  output: `Run r1 — Lima: 28.0 PEN (n=40). Límite: solo web.`,
  },
- why: "Un context versionado alimenta todos los renders del factory.",
+ why: "El context versionado es el contrato del factory: `Template.render(**context)` reutiliza los mismos campos en portada, KPI y, más adelante, el correo de aprobación (S22). No hardcodees la línea final en un f-string fuera de Jinja si el objetivo es separar datos y presentación. Las métricas llegan ya calculadas desde Python; la plantilla solo presenta. En We Do corregirás portada incompleta y centralizarás `render_kpi`.",
+ retrospective:
+ "Si puedes explicar por qué el template no debe recalcular la mediana, ya tienes el hábito de separar datos y presentación. El error clásico es armar el string a mano y “olvidar” el n. En We Do T1-A practicarás portada, KPI multi-var y una función reutilizable.",
  },
  {
  demoId: "S21-T1-B-DEMO",
  subtopicId: "S21-T1-B",
  environment: "local-python",
  description: "Render condicional seguro de tabla con missing como em-dash",
+ preamble:
+ "En un informe de operaciones, un “0.00” en reclamos se lee como “no hubo reclamos”, no como “no medimos”. Esta demo renderiza filas con Jinja: Lima 28.0 y Cusco sin mediana. Observa la rama `is not none` y el glifo `—`. No escribas aún; predice las dos líneas. Si confundes missing con cero, el Excel y el DOCX mienten de forma distinta y la paridad se rompe en silencio.",
  code: {
  language: 'python',
  title: "demo_cond_table.py",
@@ -364,13 +370,17 @@ s21_ido_2()`,
 Cusco: —
 `,
  },
- why: "Missing explícito evita ceros inventados en el informe.",
+ why: "Missing es una decisión de reporting, no un detalle cosmético: el caption o data note debe decir por qué la celda está vacía (cobertura, corte, canal). No uses 0 “para no romper la tabla”: distorsiona totales y engaña al comité. El em-dash es el contrato visual del lab y debe reconciliar con el workbook de S20.",
+ retrospective:
+ "Missing se declara; no se inventa. El em-dash es el contrato visual del lab y debe cuadrar con el workbook. Si puedes decir por qué “0.00” engaña al comité sin mirar el código, ya tienes el hábito. Pregunta: ¿qué total se distorsiona si Cusco sin dato entra como 0? We Do: celda missing, formato `.2f` y bucle de filas.",
  },
  {
  demoId: "S21-T2-A-DEMO",
  subtopicId: "S21-T2-A",
  environment: "local-python",
  description: "Crear, guardar y reabrir un DOCX con estilos reales",
+ preamble:
+ "T1 te dio un context limpio; T2 lo baja a **disco**. Un DOCX trazable usa estilos Heading reales, se guarda y se **reabre** para extraer texto y estilos. En esta demo creas `reporte.docx`, verificas la firma ZIP (`PK`) y lees el heading “Resumen ejecutivo”. No escribas aún; predice `suffix`, booleano PK y la lista de headings. “Se veía bien en la sesión del autor” no es evidencia ante un revisor sin tu Word abierto.",
  code: {
  language: 'python',
  title: "demo_docx_artifact.py",
@@ -392,13 +402,17 @@ s21_ido_3()`,
  output: `.docx True
 ['Resumen ejecutivo']`,
  },
- why: "Guardar y reabrir verifica el paquete OOXML y sus estilos, no una simulación.",
+ why: "Reabrir prueba el paquete OOXML real: `style.name` debe empezar por Heading; la negrita sola no es outline auditable. Un dict en memoria no sustituye el archivo en disco ni la firma PK. El factory no “exporta una vez y reza”: guarda, reabre y verifica texto y estilos antes de empaquetar.",
+ retrospective:
+ "Evidencia = archivo reabierto, no el objeto en RAM. “Se veía bien en mi Word” no es audit. Pregunta: si `style.name` es `Normal` con negrita, ¿pasa la prueba de outline? We Do: outline con Resumen/n=40, conteo de Heading 1 y tabla con missing honesto.",
  },
  {
  demoId: "S21-T2-B-DEMO",
  subtopicId: "S21-T2-B",
  environment: "local-python",
  description: "Generar PDF, extraer texto y renderizar una página PNG",
+ preamble:
+ "Un PDF digital tiene texto seleccionable; un escaneo es imagen. En esta demo generas `reporte.pdf` con ReportLab, extraes con pypdf y renderizas la primera página a PNG con PyMuPDF. Observa tres checks: firma `%PDF`, presencia de “H1” en el texto extraído y tamaño del PNG. No escribas aún; predice los booleanos. Ninguna de las tres pruebas sustituye sola la reconciliación tabular — pero juntas cierran el artefacto.",
  code: {
  language: 'python',
  title: "demo_pdf_artifact.py",
@@ -422,13 +436,17 @@ s21_ido_4()`,
  output: `True True
 True`,
  },
- why: "El contrato conserva PDF, texto extraído y render visual como evidencia separada.",
+ why: "Extracción = capa digital; PNG = legibilidad visual; el hash del PDF entra al provenance (T4-B). Un PNG legible no prueba por sí solo que el PDF sea digital: hace falta `extract_text`. Si la capa queda vacía, el contrato es `needs_ocr`, no inventar texto. En We Do practicarás n=40 en capa, render PNG y caso imagen-only.",
+ retrospective:
+ "Un PNG legible no prueba por sí solo que el PDF sea digital: hace falta extracción. Si la capa queda vacía, el contrato es `needs_ocr`, no inventar texto. Pregunta: ¿qué evidencia llevarías al manifiesto si solo tienes un PNG bonito? We Do: n=40 en capa, render PNG y caso imagen-only.",
  },
  {
  demoId: "S21-T3-A-DEMO",
  subtopicId: "S21-T3-A",
  environment: "local-python",
  description: "Estructurar informe en resumen, método y hallazgos con ids",
+ preamble:
+ "Con DOCX/PDF reales, falta la **voz ejecutiva** sin contaminar el método con opinión. Esta demo empaqueta resumen con n=40, método (fuente y filtros) y un hallazgo H1 que apunta a Tabla1 con `decision=None`. Observa que el claim “Lima > Cusco” no trae recomendación de precios. No escribas aún; predice las tres líneas de salida. Sin id de evidencia, el párrafo es eslogan, no paquete de aprobación.",
  code: {
  language: 'python',
  title: "demo_exec.py",
@@ -454,13 +472,17 @@ s21_ido_5()`,
 H1 Tabla1
 decision_none True`,
  },
- why: "Ids de hallazgo habilitan revisión y aprobación selectiva.",
+ why: "Ids de hallazgo habilitan revisión selectiva del paquete. `decision=None` deja la acción de negocio a la cola humana (S22): hallazgo ≠ decisión (eco de S18). Sin evidencia nombrada, el claim no entra al paquete de aprobación por elocuente que suene. El resumen debe llevar `n=` y unidad PEN para reconciliar con el EDA.",
+ retrospective:
+ "Hallazgo = claim + evidencia; decisión = humano en la cola (S22). Sin id de evidencia, el párrafo es eslogan. Pregunta: ¿“recomendamos subir precios” es hallazgo o decisión? We Do: dict H1, resumen con n=/PEN y `pack_report` de tres claves.",
  },
  {
  demoId: "S21-T3-B-DEMO",
  subtopicId: "S21-T3-B",
  environment: "local-python",
  description: "Embeber métricas con fuentes/límites y check de paridad",
+ preamble:
+ "El corazón de CP-N2-B es **paridad**: dashboard, Excel y documento con la misma mediana Lima 28.0. Esta demo compara tres dicts, adjunta límites (cobertura web, n Cusco bajo) y empaqueta `parity` + `fuente`. Observa que `parity` es un booleano de igualdad de estructuras de métricas, no un “se ve similar”. No escribas aún; predice el bundle. Si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño.",
  code: {
  language: 'python',
  title: "demo_parity.py",
@@ -476,13 +498,17 @@ decision_none True`,
 s21_ido_6()`,
  output: `{'parity': True, 'limits': ['cobertura web', 'n Cusco bajo'], 'fuente': 'sintético'}`,
  },
- why: "Paridad entre dashboard, Excel y documento es el corazón del cierre.",
+ why: "Paridad es el gate de cierre del factory: un solo número, tres superficies. Los límites de cobertura deben ser visibles al lector, no solo en un anexo escondido. Sin `fuente` y sin `limits`, el revisor no puede interpretar el n ni la muestra web-only del CASO-LIM-021.",
+ retrospective:
+ "Un solo número, tres superficies: si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño. Paridad no es “se ve similar”. Pregunta: ¿basta alinear dash y xlsx si el doc diverge? We Do: alinear dash/doc + “solo web”, captions con Fuente, y `check_parity` a tres vías.",
  },
  {
  demoId: "S21-T4-A-DEMO",
  subtopicId: "S21-T4-A",
  environment: "local-python",
  description: "Normalizar decimales y validar presencia de headings/alt",
+ preamble:
+ "Antes de mandar a revisión, el factory unifica **cómo se escribe** el número y si el paquete es mínimamente accesible. Esta demo formatea 28.04 y 28.0 a `28.0 PEN`, verifica un solo string decimal y un alt de figura con longitud útil. Observa que `a11y_min` exige H1 **y** alts no vacíos con más de 10 caracteres. No escribas aún; predice las tres líneas. Si un canal imprime `28` y otro `28.0`, el revisor ve dos métricas aunque sean iguales.",
  code: {
  language: 'python',
  title: "demo_a11y_copy.py",
@@ -506,13 +532,17 @@ s21_ido_7()`,
 decimal_ok True
 a11y_min True`,
  },
- why: "Consistencia tipográfica y a11y mínima antes de mandar a revisión.",
+ why: "Centralizar `fmt_pen` evita divergencia tipográfica entre Jinja, Excel y documento. La checklist a11y mínima (H1 + alts útiles) no es WCAG completa, pero bloquea paquetes ilegibles o sin alternativa de figura. `has_h1` solo no basta: `all([])` es True en Python y haría pasar una lista vacía de alts.",
+ retrospective:
+ "Una función de formato + gate a11y = consistencia tipográfica y mínima inclusión. `has_h1` solo no basta: una lista vacía de alts aprueba por el truco de `all([])`. Pregunta: ¿por qué `28` y `28.0` se leen como dos métricas? We Do: round a 1 decimal, `fmt_pen` con unidad y `a11y_min` robusto.",
  },
  {
  demoId: "S21-T4-B-DEMO",
  subtopicId: "S21-T4-B",
  environment: "local-python",
  description: "Registrar provenance y estado de cola de aprobación",
+ preamble:
+ "El cierre del factory es **gobernanza**: quién generó qué, con qué datos, y quién miró el paquete. Esta demo emite un manifiesto con run_id, recorte sha1 de lab, lista de artefactos, checklist visual completa y `approval.status = pending_review`. Observa también `ready_for_review` con `all(...)` sobre la checklist. No escribas aún; predice el JSON y el booleano. Un print de “ok” o un dict solo en memoria no sustituye el manifiesto ni los archivos en disco — y **nunca** marques `approved` desde el factory (eso es S22 humano).",
  code: {
  language: 'python',
  title: "demo_prov.py",
@@ -533,9 +563,11 @@ s21_ido_8()`,
  output: `{"run_id": "cpn2b-close-01", "data_sha1_8": "f2b0d009", "artifacts": ["dashboard.html", "results.xlsx", "informe.md"], "visual_checklist": {"dashboard": true, "xlsx": true, "doc": true}, "approval": {"status": "pending_review"}}
 ready_for_review True`,
  },
- why: "Provenance + checklist visual cierran el Reporting Factory CP-N2-B.",
- }
- ],
+ why: "Provenance + checklist visual cierran CP-N2-B: el revisor sabe qué corrida, con qué huella y qué miró. En producción preferir SHA-256 del artefacto completo; el recorte de 8 hex es id didáctico del lab. El estado honesto de cierre de contenido es `pending_review`, no `approved` hardcodeado en el script del factory.",
+ retrospective:
+ "`pending_review` es el estado honesto de cierre de contenido: el script no se autoaprueba. Un print “ok” no sustituye manifiesto ni archivos en disco. Pregunta: ¿quién pone `approved` y en qué sección del currículum? We Do: completar manifiesto, huella corta y `ready` con `all()` no `any()`.",
+ },
+ ]
  },
  weDo: {
  intro: "We Do — practica el mini-factory en piezas (T1→T4). Cada **starter** (código de partida) es un **scaffold** (andamiaje) incompleto o incorrecto a propósito: completa lo pendiente del código de partida, ejecuta y solo entonces compara con la solución. T1 fija context y missing; T2 exige archivos reales reabiertos; T3 estructura narrativa y paridad; T4 cierra con a11y y provenance. El You Do orquesta `build_docx` / `build_pdf` / `extract_and_render` / `manifest` en una corrida. No saltes a portfolio sin haber fallado y corregido al menos un DOCX y un PDF en T2.",
@@ -544,8 +576,11 @@ ready_for_review True`,
  id: "S21-T1-A-E1",
  subtopicId: "S21-T1-A",
  kind: "guided",
+ title: "Portada Jinja con región y n",
+ preamble:
+ "- **Contexto:** en CASO-LIM-021 la portada del paquete debe decir región y tamaño muestral, no solo un título bonito.\n- **Meta:** renderizar con Jinja `CASO-LIM-021 · {{ region }} (n={{ n }})` desde el context.\n- **Éxito:** imprime exactamente `CASO-LIM-021 · Lima (n=40)`.\n- **Límites:** no armes la línea con f-string fuera de Jinja; no hardcodees “Lima (n=40)” en el `print`.",
  instruction:
- "E1 (guiado) — Concepto: portada Jinja del factory con context. Renderiza la plantilla `CASO-LIM-021 · {{ region }} (n={{ n }})` con region=\"Lima\" y n=40. Imprime solo el texto renderizado (sin comillas extra). El valor de región y n deben salir del context, no de un print hardcodeado.",
+ "1. Revisa el starter: imprime solo el prefijo sin n.\n2. Crea un `Template` con `{{ region }}` y `{{ n }}`.\n3. Llama `.render(region=\"Lima\", n=40)`.\n4. Imprime solo el texto renderizado (sin comillas extra).",
  hint: "Crea un Template y llama .render(region=..., n=...).",
  hints: [
  "Crea un Template y llama .render(region=..., n=...).",
@@ -553,7 +588,10 @@ ready_for_review True`,
  ],
  edgeCases: ["n omitido con Template por defecto → hueco vacío (en producción usa StrictUndefined para fallar en voz alta)"],
  tests: "el print es exactamente CASO-LIM-021 · Lima (n=40)",
- feedback: "Si ves solo el prefijo o n vacío, el Template no está recibiendo region/n en .render(). En un factory serio, StrictUndefined bloquea variables ausentes en lugar de imprimir huecos silenciosos.",
+ feedback:
+ "Si ves solo el prefijo o n vacío, el Template no recibe `region`/`n` en `.render()`. En un factory serio, `StrictUndefined` grita variables ausentes en lugar de dejar huecos silenciosos en la portada del comité.",
+ retrospective:
+ "Portada = identity del caso + n visible. Sin n, el revisor no reconcilia con el EDA ni con el Excel de S20. El error clásico es imprimir un f-string “bonito” fuera de Jinja y creer que ya hay plantilla. Pregunta: si la portada dice solo “CASO-LIM-021 · Lima”, ¿qué falta para auditar la muestra? Siguiente (E2): un KPI con mediana y n en la misma plantilla.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -574,8 +612,11 @@ print(Template("CASO-LIM-021 · {{ region }} (n={{ n }})").render(region="Lima",
  id: "S21-T1-A-E2",
  subtopicId: "S21-T1-A",
  kind: "independent",
+ title: "KPI Jinja con mediana y n",
+ preamble:
+ "- **Contexto:** el comité compara el KPI del DOCX con el ticket mediano del workbook; sin n no hay reconciliación.\n- **Meta:** renderizar `{{ m }} PEN (n={{ n }})` con m=28 y n=40.\n- **Éxito:** imprime exactamente `28 PEN (n=40)`.\n- **Límites:** no omitas la unidad PEN ni el prefijo `n=`; no inventes otro formato de KPI.",
  instruction:
- "E2 (independiente) — Concepto: template de KPI con mediana y n. Renderiza con Jinja la forma `{{ m }} PEN (n={{ n }})` usando m=28 y n=40. Imprime solo la cadena resultante.",
+ "1. Abre el starter: el Template solo tiene `{{ m }} PEN`.\n2. Extiende la plantilla para incluir `(n={{ n }})`.\n3. Pasa `m=28` y `n=40` en `.render(...)`.\n4. Imprime solo la cadena resultante.",
  hint: "Dos variables en el mismo Template.",
  hints: [
  "Dos variables en el mismo Template.",
@@ -583,7 +624,10 @@ print(Template("CASO-LIM-021 · {{ region }} (n={{ n }})").render(region="Lima",
  ],
  edgeCases: ["tipos str vs int"],
  tests: "el print es 28 PEN (n=40)",
- feedback: "Si falta «(n=40)», la plantilla no declara {{ n }} o no lo pasas en render.",
+ feedback:
+ "Si falta «(n=40)», la plantilla no declara `{{ n }}` o no lo pasas en render. Sin n el comité no reconcilia el KPI del DOCX con el Excel de S20.",
+ retrospective:
+ "Dos variables en un template es el mínimo de un KPI auditable (valor + tamaño). Pregunta de cierre: ¿qué falla si el DOCX dice 28 PEN y el Excel n=32? Luego (E3) encapsularás el formato en `render_kpi`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -604,8 +648,11 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  id: "S21-T1-A-E3",
  subtopicId: "S21-T1-A",
  kind: "transfer",
+ title: "Función render_kpi con context dict",
+ preamble:
+ "- **Contexto:** cada autor del informe no debe inventar su propio string de KPI; el factory centraliza el formato.\n- **Meta:** implementar `render_kpi(ctx)` que use región, mediana y n del dict.\n- **Éxito:** `Cusco: 22.5 PEN (n=18)` (muestra regional distinta; no es fallo de paridad del paquete Lima).\n- **Límites:** no hardcodees Cusco fuera del dict; no omitas n en la plantilla.",
  instruction:
- "E3 (transferencia) — Concepto: función reutilizable `render_kpi(ctx)`. Implementa una función que reciba un dict con region, median y n, y devuelva el string `{{ region }}: {{ median }} PEN (n={{ n }})` renderizado. Prueba con Cusco, mediana 22.5 y n=18 (muestra regional distinta de Lima n=40: no es un fallo de paridad entre artefactos, sino otro context). Imprime el resultado.",
+ "1. Lee el TODO: la plantilla del starter no declara `{{ n }}`.\n2. Completa el Template dentro de `render_kpi` con región, mediana y n.\n3. Pasa el dict completo con `**ctx`.\n4. Imprime el resultado de la prueba Cusco / 22.5 / 18.",
  hint: "Template dentro de la función o reutilizado; pasa el dict completo al render.",
  hints: [
  "Template dentro de la función o reutilizado; pasa el dict completo al render.",
@@ -613,7 +660,10 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  ],
  edgeCases: ["key error"],
  tests: "el print es Cusco: 22.5 PEN (n=18)",
- feedback: "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
+ feedback:
+ "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
+ retrospective:
+ "Centralizar el template evita que cada autor invente su string de KPI. n=18 es **otro context** (Cusco), no un bug de paridad del paquete Lima n=40. Pregunta: si hardcodeas “Cusco” fuera del dict, ¿qué pasa al reutilizar la función en Lima? Puente a T1-B: cuando el valor falta, no inventes 0 — usa em-dash.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -640,8 +690,11 @@ print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
  id: "S21-T1-B-E1",
  subtopicId: "S21-T1-B",
  kind: "guided",
+ title: "Missing como em-dash (no cero)",
+ preamble:
+ "- **Contexto:** en CASO-LIM-021, un KPI sin medición no puede aparecer como 0.00 en la tabla del informe.\n- **Meta:** mapear `median = None` a la celda `—` (em dash Unicode).\n- **Éxito:** imprime exactamente el carácter `—`.\n- **Límites:** no imprimas `None`, `0` ni la cadena `\"None\"`.",
  instruction:
- "E1 (guiado) — Concepto: missing → em-dash. Dado `median = None`, imprime `—` (em dash Unicode) en lugar de None o 0. No inventes un cero que distorsione totales.",
+ "1. Revisa el starter: hace `print(median)` con `median = None`.\n2. Escribe un condicional: si es `None` → `\"—\"`, si no → el valor.\n3. Imprime solo el resultado de la celda.\n4. No inventes un cero “para rellenar”.",
  hint: "Usa un condicional: si median is None → '—'.",
  hints: [
  "Usa un condicional: si median is None → '—'.",
@@ -649,7 +702,10 @@ print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
  ],
  edgeCases: ["NaN float"],
  tests: "el print es exactamente el em dash —",
- feedback: "Si imprimes 0 o None, el comité creerá que la mediana es cero. Missing se declara, no se inventa.",
+ feedback:
+ "Si imprimes 0 o None, el comité creerá que la mediana es cero. Missing se declara, no se inventa: protege totales y la paridad con el Excel.",
+ retrospective:
+ "El comité lee 0 como hecho medido, no como “no medimos”. Missing honesto protege totales, promedios y la paridad con el Excel. El error clásico es rellenar con cero “para no romper la tabla”. Pregunta: ¿imprimir `\"None\"` como texto es mejor o igual de malo? Siguiente (E2): formatear un número real a dos decimales sin redondeo a ojo en Word.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -670,16 +726,22 @@ print("—" if median is None else median)`,
  id: "S21-T1-B-E2",
  subtopicId: "S21-T1-B",
  kind: "independent",
+ title: "Formato a dos decimales (.2f)",
+ preamble:
+ "- **Contexto:** las tablas de detalle del factory usan 2 decimales explícitos; el redondeo “a ojo” en el Word del autor rompe paridad.\n- **Meta:** formatear `x = 28.456` a exactamente dos decimales en Python.\n- **Éxito:** imprime `28.46`.\n- **Límites:** no redondees mentalmente y hardcodees el string; no uses locale con coma.",
  instruction:
- "E2 (independiente) — Concepto: formato a 2 decimales. Dado `x = 28.456`, imprime el valor con exactamente dos decimales (redondeo de formato, no a ojo en el Word).",
+ "1. El starter imprime `x` crudo.\n2. Usa f-string con `:.2f` (o formato equivalente).\n3. Imprime solo el valor formateado.\n4. Verifica mentalmente: 28.456 → 28.46, no 28.45 ni 28.5.",
  hint: "f-string con :.2f o formato equivalente.",
  hints: [
  "f-string con :.2f o formato equivalente.",
- "La salida esperada es 28.46.",
+ "Compara tu salida con el test del ejercicio (dos decimales).",
  ],
  edgeCases: ["locale comma"],
  tests: "el print es 28.46",
- feedback: "Formatea en Python (o con filtro Jinja explícito), no redondees «a ojo» en la plantilla.",
+ feedback:
+ "Si ves `28.456` crudo o `28.5`, no usaste formato a 2 decimales. El redondeo “a ojo” en Word del autor rompe paridad con el workbook; el rastro debe ser auditable en código.",
+ retrospective:
+ "Formatear en Python (o con filtro Jinja explícito) deja un rastro que el revisor puede re-ejecutar. Aquí el detalle pide 2 decimales; en resúmenes ejecutivos a menudo usarás 1 decimal PEN (T4). Pregunta: ¿por qué hardcodear `\"28.46\"` falla el espíritu del drill aunque el print pase? Luego (E3): emitir filas con bucle Jinja.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -700,8 +762,11 @@ print(f"{x:.2f}")`,
  id: "S21-T1-B-E3",
  subtopicId: "S21-T1-B",
  kind: "transfer",
+ title: "Bucle Jinja de filas region:v",
+ preamble:
+ "- **Contexto:** el factory serializa filas del context a líneas o celdas; un string único con pipes no es tabla.\n- **Meta:** con un Template Jinja, emitir una línea `region:v` por fila.\n- **Éxito:** dos líneas — `Lima:1` y `Cusco:2` (sin espacios extra).\n- **Límites:** no unir regiones con `|`; no hardcodees las dos líneas fuera del bucle.",
  instruction:
- "E3 (transferencia) — Concepto: bucle Jinja de filas. Con un Template, itera `rows` y emite una línea `region:v` por fila (sin espacios extra). Datos: Lima→1, Cusco→2. Imprime el bloque completo (dos líneas, no unidas por |).",
+ "1. Reemplaza el template `\"static\"` por un `{% for r in rows %}…{% endfor %}`.\n2. Dentro del bucle: `{{ r.region }}:{{ r.v }}` y salto de línea.\n3. Pasa la lista de dicts en `.render(rows=...)`.\n4. Usa `print(..., end=\"\")` si el template ya trae `\\n` final.",
  hint: "Usa {% for r in rows %} … {% endfor %} con region y v.",
  hints: [
  "Usa {% for r in rows %} … {% endfor %} con region y v.",
@@ -709,7 +774,10 @@ print(f"{x:.2f}")`,
  ],
  edgeCases: ["rows vacías"],
  tests: "dos líneas: Lima:1 y Cusco:2",
- feedback: "Cada fila del context debe producir su propia línea; un pipe entre regiones no es tabla serializable.",
+ feedback:
+ "Cada fila del context debe producir su propia línea; un pipe entre regiones no es tabla serializable ni reabre como celdas en el workbook.",
+ retrospective:
+ "Una fila del context = una línea (o celda) de salida. Un string único con `|` no se reabre como tabla en el workbook. Pregunta: si `rows` crece a 10 regiones, ¿tu solución escala sin editar el template a mano? Puente a T2-A: materializar el mismo contrato en un DOCX real con headings y celdas.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -733,8 +801,11 @@ Cusco:2`,
  id: "S21-T2-A-E1",
  subtopicId: "S21-T2-A",
  kind: "guided",
+ title: "DOCX con Resumen y n=40 reabierto",
+ preamble:
+ "- **Contexto:** el paquete CP-N2-B exige un DOCX en disco con sección Resumen y el n de la muestra.\n- **Meta:** crear, guardar y reabrir un Document con headings reales y párrafo `n=40`.\n- **Éxito:** dos líneas `True True` (existe+PK; contiene Resumen y n=40).\n- **Límites:** no dejes el texto solo en un dict; no uses solo `add_paragraph` para fingir el heading Resumen.",
  instruction:
- "E1 (guiado) — Concepto: DOCX con heading y n=. Crea un Document, agrega heading de título, heading Resumen y un párrafo con n=40; guarda, reabre y verifica. Salida esperada (dos líneas): primera `True True` (existe + firma PK); segunda `True True` (contiene Resumen y n=40).",
+ "1. Revisa el starter: solo un párrafo genérico, sin “Resumen” ni n=40.\n2. Agrega heading de título y heading “Resumen” (nivel 1).\n3. Agrega un párrafo que incluya `n=40`; guarda y reabre.\n4. Imprime los dos pares de booleanos del scaffold (no inventes otro formato de salida).",
  hint: "Usa Document(), add_heading(), add_paragraph(), save() y vuelve a abrir la ruta.",
  hints: [
  "La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.",
@@ -742,7 +813,10 @@ Cusco:2`,
  ],
  edgeCases: ["ruta no escribible", "documento sin párrafos"],
  tests: "dos líneas True True: archivo+PK, luego Resumen y n=40 en texto reabierto",
- feedback: "Si el segundo True falla, el heading Resumen o el párrafo n=40 no están en el archivo guardado (no en un dict en memoria).",
+ feedback:
+ "Si el segundo True falla, el heading Resumen o el párrafo n=40 no están en el archivo guardado (no en un dict en memoria). El revisor del comité solo ve el disco.",
+ retrospective:
+ "El segundo `True True` solo es posible si el archivo guardado trae “Resumen” y `n=40`. Outline primero, prosa después; un dict en memoria no cierra CP-N2-B. Pregunta: ¿por qué basta `add_paragraph(\"Resumen\")` para engañarte en pantalla pero no al revisor? Siguiente (E2): contar estilos Heading al reabrir.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -784,8 +858,11 @@ True True`,
  id: "S21-T2-A-E2",
  subtopicId: "S21-T2-A",
  kind: "independent",
+ title: "Contar Heading 1 al reabrir el DOCX",
+ preamble:
+ "- **Contexto:** el revisor audita `style.name`, no el tamaño de fuente que “se veía como título”.\n- **Meta:** crear headings reales Resumen(1), Método(2), Anexos(1); guardar, reabrir y reportar estilos.\n- **Éxito:** primera línea `2`; segunda `['Heading 1', 'Heading 2', 'Heading 1']`.\n- **Límites:** no uses `add_paragraph` + negrita; la evidencia debe venir del archivo reabierto.",
  instruction:
- "E2 (independiente) — Concepto: conteo de estilos Heading. Con levels = Resumen(1), Método(2), Anexos(1), crea headings reales, guarda y reabre. Imprime el conteo de Heading 1 y la lista de style.name de los párrafos con texto.",
+ "1. El bucle del starter llama `add_paragraph` (bug).\n2. Cámbialo a `add_heading(text, level)` con el level del tuple.\n3. Guarda, reabre y construye la lista de `style.name` de párrafos con texto.\n4. Imprime el conteo de `\"Heading 1\"` y la lista completa.",
  hint: "Cada párrafo reabierto expone style.name.",
  hints: [
  "Filtra exactamente Heading 1 y conserva también la jerarquía completa.",
@@ -793,7 +870,10 @@ True True`,
  ],
  edgeCases: ["heading sin texto", "estilo Normal"],
  tests: "conteo 2 y lista ['Heading 1', 'Heading 2', 'Heading 1']",
- feedback: "add_paragraph con negrita no es Heading: al reabrir, style.name debe ser Heading 1/2.",
+ feedback:
+ "Si el conteo de Heading 1 es 0, el bucle sigue usando `add_paragraph`. Al reabrir, `style.name` debe ser `Heading 1`/`Heading 2`: el outline real habilita a11y y navegación del revisor.",
+ retrospective:
+ "Heading real = outline navegable y a11y; negrita visual = maquillaje. La evidencia sale del archivo reabierto, no del input del bucle. Pregunta: ¿cuántos Heading 1 esperas con Resumen y Anexos a nivel 1 y Método a nivel 2? Luego (E3): tabla de métricas con Reclamos como `—`, no 0.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -833,8 +913,11 @@ print(styles)`,
  id: "S21-T2-A-E3",
  subtopicId: "S21-T2-A",
  kind: "transfer",
+ title: "Tabla DOCX con Reclamos como —",
+ preamble:
+ "- **Contexto:** en auditoría del CASO-LIM-021, un 0 en reclamos se interpreta como “no hubo”, no como “no medimos”.\n- **Meta:** tabla métrica/valor con Ticket mediano=28.0 y Reclamos=`—`; verificar al reabrir.\n- **Éxito:** `['Ticket mediano', '28.0']` y `['Reclamos', '—'] True`.\n- **Límites:** no uses `\"0\"` para rellenar; la lectura debe salir del DOCX reabierto.",
  instruction:
- "E3 (transferencia) — Concepto: tabla DOCX con missing como —. Construye una tabla métrica/valor con Ticket mediano=28.0 y Reclamos=— (no 0). Guarda, reabre e imprime la fila 1 de datos y la fila 2 junto con un booleano que confirme que el valor no es \"0\".",
+ "1. Corrige la lista `metrics`: Reclamos debe ser em-dash.\n2. Conserva encabezados Métrica/Valor y el bucle de filas.\n3. Guarda, reabre y lee `rows[1]` y `rows[2]`.\n4. Imprime la fila 2 y el booleano `valor != \"0\"`.",
  hint: "Usa add_table(rows=1, cols=2), agrega filas y lee cell.text del documento reabierto.",
  hints: [
  "La tabla debe contener columnas métrica y valor.",
@@ -842,7 +925,10 @@ print(styles)`,
  ],
  edgeCases: ["missing", "tabla vacía"],
  tests: "filas reabiertas: Ticket mediano/28.0 y Reclamos/— con booleano True",
- feedback: "Reclamos=0 en la celda es un error de reporting: el revisor debe leer — al reabrir el DOCX.",
+ feedback:
+ "Reclamos=0 en la celda es un error de reporting: el revisor debe leer — al reabrir el DOCX, o el comité creerá que no hubo reclamos.",
+ retrospective:
+ "Missing en celda de Word es el mismo contrato que en Jinja. Pregunta: ¿qué decisión falsa toma el comité si lee 0? Puente a T2-B: PDF digital con capa de texto extraíble.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -892,8 +978,11 @@ print(rows[2], rows[2][1] != "0")`,
  id: "S21-T2-B-E1",
  subtopicId: "S21-T2-B",
  kind: "guided",
+ title: "PDF digital con n=40 extraíble",
+ preamble:
+ "- **Contexto:** el revisor del factory extrae texto del PDF; si n no está en la capa digital, el artefacto no es auditable.\n- **Meta:** generar PDF con ReportLab que incluya n=40 y verificar firma + extracción.\n- **Éxito:** dos líneas `True` (firma `%PDF` y `\"n=40\" in text`).\n- **Límites:** no declares “digital” sin extraer; no hardcodees los booleanos a True.",
  instruction:
- "E1 (guiado) — Concepto: PDF digital con texto extraíble. Genera un PDF con ReportLab que incluya n=40 en el canvas; verifica firma %PDF y que pypdf extraiga el texto con n=40. Imprime dos booleanos (uno por línea).",
+ "1. El starter dibuja “Resumen sintetico” sin n.\n2. Incluye `n=40` en el `drawString` **antes** de `save()`.\n3. Extrae con `PdfReader` y normaliza `or \"\"`.\n4. Imprime los dos booleanos del scaffold.",
  hint: "Canvas.drawString()+save(); luego PdfReader(path).pages[0].extract_text().",
  hints: [
  "Comprueba primero los bytes %PDF.",
@@ -901,7 +990,10 @@ print(rows[2], rows[2][1] != "0")`,
  ],
  edgeCases: ["PDF corrupto", "capa de texto vacía"],
  tests: "dos líneas True: firma %PDF y n=40 en extract_text",
- feedback: "drawString crea capa de texto; si n=40 no aparece en extract_text, el canvas no lo escribió antes de save().",
+ feedback:
+ "drawString crea capa de texto; si n=40 no aparece en extract_text, el canvas no lo escribió antes de save(). Sin n en capa, el revisor no audita el paquete.",
+ retrospective:
+ "`drawString` escribe la capa digital **antes** de `save()`; no se “arregla” después con un print True inventado. Sin n en el extract, el revisor no audita el paquete. Pregunta: ¿por qué hardcodear `print(True)` falla el espíritu aunque “pase” visualmente? Siguiente (E2): render de página a PNG con tamaño > 0.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -941,8 +1033,11 @@ True`,
  id: "S21-T2-B-E2",
  subtopicId: "S21-T2-B",
  kind: "independent",
+ title: "Render de página PDF a PNG",
+ preamble:
+ "- **Contexto:** la checklist visual del cierre CP-N2-B exige ver el informe, no solo confiar en el path.\n- **Meta:** generar PDF, renderizar página 0 a PNG con fitz y verificar tamaños.\n- **Éxito:** `True True` (PDF y PNG con `st_size > 0`).\n- **Límites:** no imprimas True si el PNG no existe; no verifiques solo el nombre del archivo.",
  instruction:
- "E2 (independiente) — Concepto: render de página a PNG. Genera un PDF, renderiza la primera página a PNG con PyMuPDF (fitz) y verifica que ambos archivos tienen tamaño positivo. Imprime los dos booleanos en una línea.",
+ "1. Tras `save()` del PDF, abre con `fitz.open(pdf)`.\n2. En la página 0, `get_pixmap().save(png)`.\n3. Compara tamaños positivos de ambos paths.\n4. Imprime los dos booleanos en una línea.",
  hint: "Abre con fitz.open(path), usa get_pixmap() y save().",
  hints: [
  "Cierra o conserva el documento mientras accedes a la página.",
@@ -950,7 +1045,10 @@ True`,
  ],
  edgeCases: ["PDF sin páginas", "ruta PNG no escribible"],
  tests: "True True: PDF y PNG con st_size > 0",
- feedback: "La extracción prueba la capa digital; el PNG prueba legibilidad visual. Ambas evidencias son archivos reales.",
+ feedback:
+ "Si el segundo booleano es False, nunca creaste el PNG o no verificaste `st_size > 0`. La checklist visual del cierre CP-N2-B exige ver el informe, no solo confiar en que el path “suena bien”.",
+ retrospective:
+ "Extracción y render son pruebas distintas: una mira capa digital, la otra legibilidad. Ambas deben ser archivos reales en disco. Pregunta: ¿un PDF con `st_size > 0` y un PNG de 0 bytes cierra la checklist visual? Luego (E3): PDF solo-imagen y abstención `needs_ocr`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -986,8 +1084,11 @@ print(pdf.stat().st_size > 0, png.stat().st_size > 0)`,
  id: "S21-T2-B-E3",
  subtopicId: "S21-T2-B",
  kind: "transfer",
+ title: "PDF imagen-only y needs_ocr",
+ preamble:
+ "- **Contexto:** un “PDF” que solo incrusta un PNG con texto dibujado no es capa digital; inventar lectura es fraude de reporting.\n- **Meta:** insertar imagen (sin `drawString`), extraer con pypdf y marcar `needs_ocr` si la capa está vacía.\n- **Éxito:** `True True` y `{'needs_ocr': True, 'n_chars': 0}`.\n- **Límites:** no agregues `drawString` “para que pase”; no inventes el texto de n=17 en el extract.",
  instruction:
- "E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Dibuja texto en un PNG, insértalo como imagen en un PDF (sin drawString de texto), extrae con pypdf. Imprime si es PDF válido y si n=17 NO está en la capa de texto; luego un dict con needs_ocr y n_chars.",
+ "1. Conserva el pipeline PNG → `drawImage` (sin texto vectorial).\n2. Extrae y normaliza `extract_text() or \"\"`.\n3. Imprime si es PDF válido y si **n=17 NO** está en el texto.\n4. Calcula `needs_ocr` con `not bool(text.strip())` y `n_chars=len(text)`.",
  hint: "Pillow dibuja el PNG; reportlab.drawImage lo inserta como imagen; la extracción vacía activa abstención.",
  hints: [
  "No agregues texto con drawString al PDF: eso crearía capa digital.",
@@ -995,7 +1096,10 @@ print(pdf.stat().st_size > 0, png.stat().st_size > 0)`,
  ],
  edgeCases: ["OCR no instalado", "extracción devuelve None"],
  tests: "True True y dict needs_ocr=True con n_chars=0",
- feedback: "Si needs_ocr queda False, o inventaste texto o usaste drawString. Abstente: no finjas PDF digital.",
+ feedback:
+ "Si `needs_ocr` queda False, o inventaste texto o agregaste `drawString`. Un PNG con “n=17” dibujado no es capa digital: abstente; no finjas PDF nativo ante el comité.",
+ retrospective:
+ "Abstenerse con honestidad es el contrato; OCR llega en S24. Pregunta: ¿qué daño hace inventar “n=17” desde el PNG? Puente a T3-A: narrativa con H→evidencia y `decision=None`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1043,8 +1147,11 @@ print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
  id: "S21-T3-A-E1",
  subtopicId: "S21-T3-A",
  kind: "guided",
+ title: "Hallazgo H1 con evidencia y decision=None",
+ preamble:
+ "- **Contexto:** el comité de Lima aprueba evidencia, no eslóganes de pricing embebidos en el factory.\n- **Meta:** completar el dict del hallazgo con id, claim, evidencia Tabla1 y `decision=None`.\n- **Éxito:** imprime `H1 Tabla1 True` (id, evidencia, decision es None).\n- **Límites:** no dejes una acción de negocio en `decision`; no omitas el id.",
  instruction:
- "E1 (guiado) — Concepto: hallazgo H→evidencia (y hallazgo ≠ decisión). Completa el dict del starter: id H1, claim con el contraste Lima/Cusco, evidencia Tabla1 y decision=None (no una recomendación de negocio). Imprime, en una línea y separados por espacio: id, evidencia y un booleano que confirme que decision es None.",
+ "1. El starter trae claim y una decisión de negocio (bug).\n2. Agrega `\"id\": \"H1\"` y `\"evidencia\": \"Tabla1\"`.\n3. Pon `decision` en `None`.\n4. Imprime id, evidencia y el booleano `decision is None` (no el claim).",
  hint: "El hallazgo lleva id, claim, evidencia y decision; la decisión de negocio se deja en None hasta revisión humana.",
  hints: [
  "Completa las claves faltantes del dict (id, claim, evidencia, decision).",
@@ -1052,7 +1159,10 @@ print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
  ],
  edgeCases: ["id duplicado", "decision con texto de acción"],
  tests: "print H1 Tabla1 True",
- feedback: "Sin id de evidencia el hallazgo no es auditable; decision=None recuerda que hallazgo ≠ decisión de negocio. Un claim sin Tabla1 es eslogan.",
+ feedback:
+ "Sin id de evidencia el hallazgo no es auditable; decision=None recuerda que hallazgo ≠ decisión de negocio. Un claim sin Tabla1 es eslogan ante el comité.",
+ retrospective:
+ "Sin Tabla1, H1 no entra al paquete de aprobación. `decision=None` es honestidad de proceso, no timidez: el factory no aprueba pricing. Pregunta: si dejas `decision=\"subir precios\"`, ¿qué riesgo corre el comité al leer el DOCX? Siguiente (E2): el resumen debe llevar `n=` y `PEN`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1081,8 +1191,11 @@ print(h["id"], h["evidencia"], h["decision"] is None)`,
  id: "S21-T3-A-E2",
  subtopicId: "S21-T3-A",
  kind: "independent",
+ title: "Resumen con n= y unidad PEN",
+ preamble:
+ "- **Contexto:** un resumen sin tamaño muestral ni unidad no se reconcilia con el workbook ni el dashboard.\n- **Meta:** corregir el string y validar presencia de `n=` y `PEN`.\n- **Éxito:** imprime `True`.\n- **Límites:** no basta el número 28 suelto; no uses “pen” en minúsculas si el test busca `PEN`.",
  instruction:
- "E2 (independiente) — Concepto: validar resumen ejecutivo auditable. Un resumen de CASO-LIM-021 es válido solo si menciona el marcador `n=` (tamaño muestral) y la unidad `PEN` (métrica de ticket). Dado el string del starter, corrígelo e imprime un solo booleano: True si cumple ambas condiciones.",
+ "1. Reemplaza `s = \"mediana 28\"` por un resumen que incluya unidad y n.\n2. Valida con `\"n=\" in s and \"PEN\" in s`.\n3. Imprime un solo booleano.\n4. Ejemplo válido del lab: mencionar mediana, PEN y n=40.",
  hint: "Usa el operador in dos veces (n= y PEN) con and.",
  hints: [
  "Ambas subcadenas deben aparecer: n= y PEN.",
@@ -1090,7 +1203,10 @@ print(h["id"], h["evidencia"], h["decision"] is None)`,
  ],
  edgeCases: ["n sin =", "pen minúscula"],
  tests: "print True cuando el resumen incluye n= y PEN",
- feedback: "Un resumen sin n= o sin PEN es eslogan: el revisor no puede reconciliar tamaño de muestra ni unidad con el EDA/S20.",
+ feedback:
+ "Un resumen sin n= o sin PEN es eslogan: el revisor no puede reconciliar tamaño de muestra ni unidad con el EDA/S20.",
+ retrospective:
+ "Eslogan ≠ resumen auditable. El revisor busca `n=` y unidad en un vistazo para reconciliar con EDA/S20. Pregunta: ¿por qué `\"mediana 28 pen\"` con p minúscula puede fallar el test aunque “se entienda”? Luego (E3): empaquetar resumen, método y hallazgos en un solo dict.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1111,8 +1227,11 @@ print("n=" in s and "PEN" in s)`,
  id: "S21-T3-A-E3",
  subtopicId: "S21-T3-A",
  kind: "transfer",
+ title: "pack_report con tres claves",
+ preamble:
+ "- **Contexto:** sin clave `metodo`, el paquete mezcla opinión con procedimiento y el revisor no separa evidencia de sesgo.\n- **Meta:** implementar `pack_report` que devuelva resumen, metodo y hallazgos.\n- **Éxito:** `['hallazgos', 'metodo', 'resumen']` (claves ordenadas).\n- **Límites:** no omitas `metodo`; no agregues claves de decisión de negocio aquí.",
  instruction:
- "E3 (transferencia) — Concepto: pack_report con tres claves. Implementa `pack_report(resumen, metodo, hallazgos)` que devuelva un dict con exactamente las claves resumen, metodo y hallazgos. Imprime las claves ordenadas.",
+ "1. El return del starter solo tiene resumen y hallazgos.\n2. Incluye `\"metodo\": metodo` en el dict.\n3. Imprime `sorted(...keys())` del resultado de la llamada de prueba.\n4. No alteres los argumentos de la firma.",
  hint: "Devuelve un dict con las tres claves; usa sorted(...keys()).",
  hints: [
  "Devuelve un dict con las tres claves.",
@@ -1120,7 +1239,10 @@ print("n=" in s and "PEN" in s)`,
  ],
  edgeCases: ["tipos"],
  tests: "claves ordenadas: hallazgos, metodo, resumen",
- feedback: "Si falta metodo, el paquete no separa método de opinión: la estructura de tres claves es el contrato.",
+ feedback:
+ "Si en las claves ordenadas no aparece `metodo`, el return del starter sigue incompleto. Sin método, el revisor no separa procedimiento de opinión en el paquete.",
+ retrospective:
+ "Tres claves = contrato de narrativa ejecutiva (resumen / método / hallazgos). Método documentado protege de “insights” opacos. Pregunta: ¿dónde meterías una recomendación de precios si no va en el hallazgo? Puente a T3-B: paridad numérica entre dash y doc más limitaciones visibles.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1143,8 +1265,11 @@ print(sorted(pack_report(["a"], {}, []).keys()))`,
  id: "S21-T3-B-E1",
  subtopicId: "S21-T3-B",
  kind: "guided",
+ title: "Paridad dash/doc y límite solo web",
+ preamble:
+ "- **Contexto:** el paquete del comité debe reconciliar métricas y declarar cobertura web-only donde el lector la vea.\n- **Meta:** alinear `median_Lima` en dash y doc e incluir `\"solo web\"` en limits.\n- **Éxito:** `True True` (paridad y limitación presentes).\n- **Límites:** no dejes 27.0 “porque redondeaste a mano”; no uses limits vacía.",
  instruction:
- "E1 (guiado) — Concepto: paridad dash↔doc y limitaciones visibles. Arma un paquete con `dash`, `doc` (misma mediana Lima 28.0) y `limits=[\"solo web\"]`. Imprime dos booleanos en una línea: paridad de métricas y presencia de la limitación web-only.",
+ "1. Corrige `doc[\"median_Lima\"]` a 28.0.\n2. Pon `limits = [\"solo web\"]`.\n3. Imprime `dash == doc` y `\"solo web\" in limits`.\n4. No inventes otras claves de métrica.",
  hint: "Compara dash == doc y verifica \"solo web\" in limits.",
  hints: [
  "Ambos dicts deben llevar median_Lima=28.0.",
@@ -1152,7 +1277,10 @@ print(sorted(pack_report(["a"], {}, []).keys()))`,
  ],
  edgeCases: ["float vs int", "limits vacía"],
  tests: "print True True (paridad y limitación presentes)",
- feedback: "Paridad sin límites es incompleta: el lector debe ver «solo web» junto a las métricas reconciliadas.",
+ feedback:
+ "Si el primer booleano es False, `doc[\"median_Lima\"]` sigue en 27.0 (redondeo a mano). Si el segundo falla, `limits` no incluye el string exacto `\"solo web\"`: el lector no ve la cobertura.",
+ retrospective:
+ "Paridad y límites viajan juntos: números reconciliados sin cobertura visible aún engañan al comité sobre la muestra web-only. Pregunta: ¿qué malinterpreta el lector si ve 28.0 sin “solo web”? Siguiente (E2): caption de figura con campo Fuente visible.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1181,8 +1309,11 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  id: "S21-T3-B-E2",
  subtopicId: "S21-T3-B",
  kind: "independent",
+ title: "Caption con campo Fuente visible",
+ preamble:
+ "- **Contexto:** un pie de figura sin Fuente impide reconciliar el PNG del dashboard con el dataset del factory.\n- **Meta:** construir un caption CASO-LIM-021 que declare Fuente y n de Lima.\n- **Éxito:** imprime `True` cuando `\"Fuente\" in cap`.\n- **Límites:** no uses solo `n=40` sin nombrar Fuente; no inventes otro n de muestra.",
  instruction:
- "E2 (independiente) — Concepto: caption con campo Fuente visible. Construye un caption de figura CASO-LIM-021 que declare Fuente y el n de Lima (n=40). Imprime True si \"Fuente\" aparece en el caption.",
+ "1. El starter tiene `Fig1 | n=40` sin Fuente.\n2. Amplía el string con un segmento `| Fuente: sintético |` (o equivalente legible).\n3. Conserva n=40 de la muestra Lima.\n4. Imprime el booleano de presencia de `\"Fuente\"`.",
  hint: "Incluye un segmento | Fuente: … y el n de la muestra Lima.",
  hints: [
  "El pie debe nombrar la Fuente de forma legible (no solo n).",
@@ -1190,7 +1321,10 @@ print(package["dash"] == package["doc"], "solo web" in package["limits"])`,
  ],
  edgeCases: ["fuente minúscula"],
  tests: "print True cuando el caption declara Fuente",
- feedback: "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (muestra Lima del lab), no un n inventado.",
+ feedback:
+ "Un pie sin «Fuente» impide reconciliar la figura con el dataset del factory. Usa n=40 (muestra Lima del lab), no un n inventado.",
+ retrospective:
+ "Caption = puente visual al dataset. Sin `Fuente`, el PNG es decoración y no se reconcilia con el factory. Pregunta: ¿basta poner solo `n=40` sin nombrar la fuente? Luego (E3): checksum a tres artefactos con `a == b == c`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1211,16 +1345,22 @@ print("Fuente" in cap)`,
  id: "S21-T3-B-E3",
  subtopicId: "S21-T3-B",
  kind: "transfer",
+ title: "check_parity en tres artefactos",
+ preamble:
+ "- **Contexto:** comparar solo dashboard y Excel deja pasar un DOCX divergente; el cierre exige tres vías.\n- **Meta:** implementar `check_parity(a, b, c)` como `a == b == c`.\n- **Éxito:** dos líneas — `True` luego `False`.\n- **Límites:** no uses solo `a == b`; no ignores el tercer argumento.",
  instruction:
- "E3 (transferencia) — Concepto: checksum de métricas entre tres artefactos. Implementa `check_parity(a, b, c)` que sea True solo si a == b == c. Imprime el resultado para un caso alineado y uno divergente (dos líneas).",
- hint: "return a == b == c.",
+ "1. El starter hace `return a == b` (bug).\n2. Cambia a igualdad encadenada de a, b y c.\n3. Conserva los dos prints de prueba (alineado y divergente).\n4. No mutes los dicts de entrada.",
+ hint: "La igualdad debe involucrar los tres argumentos, no solo los dos primeros.",
  hints: [
- "return a == b == c.",
- "Dos prints: caso True y caso False.",
+ "La igualdad debe involucrar los **tres** argumentos, no solo los dos primeros.",
+ "Conserva los dos prints de prueba (caso alineado y caso divergente).",
  ],
  edgeCases: ["keys extra"],
  tests: "dos líneas: True luego False",
- feedback: "Comparar solo a==b deja pasar un DOCX divergente: el cierre exige a==b==c (dash, xlsx, doc).",
+ feedback:
+ "Si el segundo print sale True con doc divergente, tu función sigue en `a == b`. El cierre CP-N2-B exige tres vías (dash, xlsx, doc).",
+ retrospective:
+ "Tres superficies, un número. Comparar solo dos deja “salvarse” al artefacto omitido. Pregunta: en un fallo real, ¿qué artefacto conviene listar primero en el reporte de discrepancia? Puente a T4-A: misma precisión decimal y a11y mínima.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1246,8 +1386,11 @@ False`,
  id: "S21-T4-A-E1",
  subtopicId: "S21-T4-A",
  kind: "guided",
+ title: "Precisión a 1 decimal PEN",
+ preamble:
+ "- **Contexto:** el contrato del lab unifica métricas PEN a 1 decimal en dashboard, Excel e informe.\n- **Meta:** redondear `vals = [28.04, 28.0]` a 1 decimal.\n- **Éxito:** imprime `[28.0, 28.0]`.\n- **Límites:** no uses `round(..., 0)`; no hardcodees la lista de salida.",
  instruction:
- "E1 (guiado) — Concepto: precisión a 1 decimal en métricas PEN. Dada la lista vals = [28.04, 28.0], imprime la lista redondeada a 1 decimal para unificar precisión en dashboard, Excel e informe.",
+ "1. El starter hace `round(v, 0)` (bug).\n2. Cambia a `round(v, 1)` en la comprehension.\n3. Imprime la lista resultante.\n4. Verifica que ambos elementos sean 28.0.",
  hint: "list comprehension con round(v, 1).",
  hints: [
  "list comprehension con round(v, 1).",
@@ -1255,7 +1398,10 @@ False`,
  ],
  edgeCases: ["banker's rounding"],
  tests: "print [28.0, 28.0]",
- feedback: "Si redondeas a 0 decimales, 28.04 y 28.0 divergen del contrato de 1 decimal PEN del factory.",
+ feedback:
+ "Si imprimes `[28.0, 28.0]` con `round(v, 0)` “de casualidad” en este fixture, el bug sigue ahí: el contrato del lab es **1** decimal, no 0. Cambia el segundo argumento de `round`.",
+ retrospective:
+ "0 decimales “aplana” y rompe el contrato de 1 decimal PEN del factory en dash, Excel e informe. Pregunta: ¿qué pasa con 28.04 si redondeas a 0 decimales en un lote real? Siguiente (E2): encapsular redondeo + unidad en `fmt_pen`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1276,8 +1422,11 @@ print([round(v, 1) for v in vals])`,
  id: "S21-T4-A-E2",
  subtopicId: "S21-T4-A",
  kind: "independent",
+ title: "fmt_pen con unidad PEN",
+ preamble:
+ "- **Contexto:** si Jinja y Excel inventan el sufijo por separado, un canal escribe “PEN” y otro “soles” o nada.\n- **Meta:** implementar `fmt_pen(x)` a 1 decimal con sufijo ` PEN`.\n- **Éxito:** imprime `28.0 PEN` para 28.04.\n- **Límites:** no omitas la unidad; no redondees a 0 decimales.",
  instruction:
- "E2 (independiente) — Concepto: formateo centralizado `fmt_pen` con unidad. Implementa `fmt_pen(x)` que devuelva el valor a 1 decimal seguido de ` PEN`. Prueba con 28.04 e imprime el string.",
+ "1. El return del starter solo formatea el número.\n2. Agrega el literal ` PEN` al f-string.\n3. Conserva `round(float(x), 1)`.\n4. Imprime `fmt_pen(28.04)`.",
  hint: "f-string con round(float(x), 1) y sufijo PEN.",
  hints: [
  "f-string con round(float(x), 1) y sufijo PEN.",
@@ -1285,7 +1434,10 @@ print([round(v, 1) for v in vals])`,
  ],
  edgeCases: ["None"],
  tests: "print 28.0 PEN",
- feedback: "Sin unidad en el formatter, Jinja y Excel inventan sufijos distintos; centraliza fmt_pen.",
+ feedback:
+ "Si ves solo `28.0` sin unidad, el f-string no concatena ` PEN`. Sin formatter central, Jinja y Excel inventan “soles”, “PEN” o nada y el comité ve tres idiomas.",
+ retrospective:
+ "Formatter central = paridad tipográfica entre canales. El error clásico es formatear el número en un sitio y la unidad en otro. Pregunta: ¿qué imprime `fmt_pen(28.04)` si redondeas a 0 decimales y omites la unidad? Luego (E3): gate a11y que no se engañe con `all([])`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1308,16 +1460,22 @@ print(fmt_pen(28.04))`,
  id: "S21-T4-A-E3",
  subtopicId: "S21-T4-A",
  kind: "transfer",
+ title: "a11y_min con H1 y alts útiles",
+ preamble:
+ "- **Contexto:** publicar un paquete sin alternativas de figura falla a lectores con tecnología asistiva — y al checklist del lab.\n- **Meta:** `a11y_min(has_h1, alts)` exige H1, lista no vacía y todos los alt con más de 10 caracteres.\n- **Éxito:** tres líneas — `True`, `False`, `False`.\n- **Límites:** no devuelvas solo `has_h1`; recuerda que `all([])` es True en Python.",
  instruction:
- "E3 (transferencia) — Concepto: checklist mínima a11y (H1 + alts no vacíos con longitud útil). Implementa `a11y_min(has_h1, alts)` que sea True solo si hay H1, la lista de alts no está vacía y **todos** los alt tienen más de 10 caracteres. Imprime tres resultados: caso válido, alt corto y lista vacía.",
- hint: "has_h1 and len(alts) > 0 and all(len(a) > 10 for a in alts). Recuerda: all([]) es True en Python.",
+ "1. El starter retorna solo `has_h1`.\n2. Combina `bool(has_h1)`, `len(alts) > 0` y `all(len(a) > 10 for a in alts)`.\n3. Conserva los tres prints de prueba (válido, corto, vacío).\n4. No borres el caso de lista vacía: es el truco del edge case.",
+ hint: "Combina tres condiciones: H1, lista no vacía, y longitud útil en cada alt.",
  hints: [
- "has_h1 and len(alts) > 0 and all(len(a) > 10 for a in alts).",
- "Tres prints: True, False (alt corto), False (lista vacía).",
+ "Combina tres condiciones: H1, lista no vacía, y longitud útil en **cada** alt.",
+ "El caso de lista vacía debe fallar: no confíes solo en `all(...)` sobre una lista sin elementos.",
  ],
  edgeCases: ["alts vacía debe ser False: all([]) es True y no basta"],
  tests: "tres líneas: True, False, False",
- feedback: "has_h1 solo no basta. Un alt de 5 caracteres no describe n ni unidad; una lista vacía tampoco (all([]) es True y haría pasar el gate por error).",
+ feedback:
+ "has_h1 solo no basta. Un alt de 5 caracteres no describe n ni unidad; una lista vacía tampoco (all([]) es True y haría pasar el gate por error).",
+ retrospective:
+ "`all([])` aprueba por vacío; por eso exiges `len(alts) > 0` además de la longitud de cada alt. `has_h1` solo no es a11y. Pregunta: ¿qué imprime el tercer print si olvidas el check de lista vacía? Puente a T4-B: provenance, huella y `ready` con `all()` sobre la checklist visual.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1346,8 +1504,11 @@ False`,
  id: "S21-T4-B-E1",
  subtopicId: "S21-T4-B",
  kind: "guided",
+ title: "Manifiesto pending_review (no approved)",
+ preamble:
+ "- **Contexto:** el factory prepara el paquete; la aprobación humana es S22. Marcar `approved` en código es fraude de proceso.\n- **Meta:** completar run_id, data_sha1_8 y `approval.status = pending_review`.\n- **Éxito:** imprime `cpn2b-01 pending_review`.\n- **Límites:** no hardcodees `approved`; no omitas run_id.",
  instruction:
- "E1 (guiado) — Concepto: manifiesto de provenance. Completa el dict del starter con run_id=\"cpn2b-01\", data_sha1_8=\"385fcd67\" y approval.status=\"pending_review\" (nunca approved desde el factory). Imprime run_id y el status de aprobación en una línea (espacio entre ambos).",
+ "1. El starter tiene status `approved` y no trae run_id/huella.\n2. Agrega `\"run_id\": \"cpn2b-01\"` y `\"data_sha1_8\": \"385fcd67\"`.\n3. Cambia status a `\"pending_review\"`.\n4. Imprime run_id y status desde el dict (una línea, espacio entre ambos).",
  hint: "El manifiesto une identidad de corrida, huella corta de lab y cola de aprobación; no marques approved en código.",
  hints: [
  "Rellena run_id, data_sha1_8 y el status anidado bajo approval.",
@@ -1355,7 +1516,10 @@ False`,
  ],
  edgeCases: ["typo status"],
  tests: "print cpn2b-01 pending_review",
- feedback: "No hardcodees «approved»: el cierre de contenido deja pending_review hasta revisión humana (S22). Un manifiesto sin run_id no es provenance.",
+ feedback:
+ "No hardcodees «approved»: el cierre de contenido deja pending_review hasta revisión humana (S22). Un manifiesto sin run_id no es provenance auditable.",
+ retrospective:
+ "Manifiesto sin `run_id` no es provenance. `pending_review` deja la puerta abierta a comentarios del revisor humano (S22); `approved` en código es fraude de proceso. Pregunta: ¿qué falta en un dict que solo tiene `artifacts` y status? Siguiente (E2): calcular la huella corta del payload de lab.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1384,16 +1548,22 @@ print(prov["run_id"], prov["approval"]["status"])`,
  id: "S21-T4-B-E2",
  subtopicId: "S21-T4-B",
  kind: "independent",
+ title: "Huella corta sha1[:8] de lab",
+ preamble:
+ "- **Contexto:** el manifiesto necesita un id de payload; en el lab usamos 8 hex de sha1 como didáctica.\n- **Meta:** calcular sha1 de `b\"synthetic\"` y mostrar solo los primeros 8 hex.\n- **Éxito:** imprime `385fcd67`.\n- **Límites:** no imprimas el digest completo; no uses otro payload.",
  instruction:
- "E2 (independiente) — Concepto: huella corta de payload (lab). Calcula sha1 de b\"synthetic\" y muestra solo los primeros 8 hex. (En producción preferirás SHA-256 del artefacto completo; aquí el recorte es id didáctico.)",
+ "1. El starter imprime `hexdigest()` entero.\n2. Aplica el slice `[:8]` al resultado.\n3. Conserva `hashlib.sha1(b\"synthetic\")`.\n4. Imprime solo la cadena de 8 caracteres.",
  hint: "hashlib.sha1(...).hexdigest()[:8].",
  hints: [
- "hashlib.sha1(...).hexdigest()[:8].",
+ "Aplica un slice de 8 caracteres al hexdigest.",
  "No imprimes el digest completo.",
  ],
  edgeCases: ["encoding"],
  tests: "print 385fcd67",
- feedback: "El recorte de 8 hex es id de lab; en producción firma el artefacto completo con SHA-256.",
+ feedback:
+ "Si imprimes 40 caracteres hex, falta el slice `[:8]`. Conserva el payload `b\"synthetic\"`: otro input produce otra huella y no cuadrará con el manifiesto del lab (`385fcd67`).",
+ retrospective:
+ "Recorte de 8 hex = id didáctico (débil ante colisiones). En producción firmas el artefacto completo con SHA-256, no un string de juguete. Pregunta: ¿por qué el manifiesto necesita huella además de `run_id`? Luego (E3): `ready` exige **todos** los artefactos, no “alguno”.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1414,16 +1584,22 @@ print(hashlib.sha1(b"synthetic").hexdigest()[:8])`,
  id: "S21-T4-B-E3",
  subtopicId: "S21-T4-B",
  kind: "transfer",
+ title: "ready con all sobre la checklist",
+ preamble:
+ "- **Contexto:** un solo artefacto “ok” no cierra CP-N2-B; faltan dashboard, xlsx y doc.\n- **Meta:** implementar `ready(checklist)` como `all(checklist.values())`.\n- **Éxito:** dos líneas — `True` luego `False`.\n- **Límites:** no uses `any()`; un artefacto fallido bloquea el cierre.",
  instruction:
- "E3 (transferencia) — Concepto: ready(checklist) del paquete. Implementa `ready(checklist)` que sea True solo si todos los valores del dict son True (dashboard, xlsx, doc). Imprime el resultado para checklist completa e incompleta.",
- hint: "all(checklist.values()).",
+ "1. El starter retorna `any(...)` (bug).\n2. Cámbialo a `all(checklist.values())`.\n3. Conserva los dos prints (checklist completa e incompleta).\n4. No rellenes a mano los booleanos de salida.",
+ hint: "Un solo artefacto en verde no debe bastar para cerrar el paquete.",
  hints: [
- "all(checklist.values()).",
- "No uses any(): un artefacto fallido bloquea el cierre.",
+ "Un solo artefacto en verde no debe bastar para cerrar el paquete.",
+ "Piensa en el opuesto de “¿hay alguno listo?”: “¿están listos todos?”.",
  ],
  edgeCases: ["keys faltantes"],
  tests: "dos líneas: True luego False",
- feedback: "any() aprueba con un solo artefacto listo; el factory exige all() (dashboard + xlsx + doc).",
+ feedback:
+ "any() aprueba con un solo artefacto listo; el factory exige all() (dashboard + xlsx + doc) antes de mandar a S22.",
+ retrospective:
+ "`any()` aprueba con un solo verde; el factory exige el paquete completo. Pregunta de cierre: ¿qué checklist dejarías en False a propósito para detener un envío a S22? El You Do une DOCX, PDF, PNG y manifiesto en una corrida.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1526,7 +1702,9 @@ def manifest(artifacts: dict) -> dict:
 # print(json.dumps(pack, indent=2, ensure_ascii=False))
 `,
  portfolioNote:
- "Paquete final CP-N2-B: dashboard + xlsx + informe (DOCX/PDF/PNG) con provenance y checklist visual; listo para revisión humana antes del flujo de email/aprobación en S22. No marques el paquete como aprobado desde el código del factory.",
+ "Paquete final CP-N2-B: dashboard + xlsx + informe (DOCX/PDF/PNG) con provenance y checklist visual; listo para revisión humana antes del flujo de email/aprobación en S22. No marques el paquete como aprobado desde el código del factory. Antes de marcar listo, responde las tres preguntas de la retrospective.",
+ retrospective:
+ "Antes de marcar listo: (1) ¿qué invariante de paridad demuestras con un print o assert (median_Lima y n_Lima iguales en context, DOCX reabierto y PDF extraído)? (2) ¿por qué el manifiesto deja `pending_review` y no `approved`, y qué revisaría un humano en la checklist visual? (3) Escribe en el README una frase de impacto medible (antes: tres exportaciones divergentes / después: un run_id y un número) que puedas defender en 30 segundos ante un comité de operaciones en Lima. Datos solo sintéticos; sin PII.",
  rubric: [
  { criterion: "Artefactos DOCX/PDF reales, reabiertos, con paridad de métricas y provenance", weight: "25%" },
  { criterion: "Correctitud técnica en entorno declarado (venv + deps del lab)", weight: "20%" },

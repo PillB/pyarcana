@@ -30,8 +30,17 @@ export interface TheoryBlock {
 
 export interface IDoStep {
   description: string
+  /**
+   * Before-code framing for novices: scenario, what to watch for, and how this
+   * demo connects to the section story (Gradual Release — I Do).
+   */
+  preamble?: string
   code: CodeExample
   why: string
+  /**
+   * After-demo consolidation: principle learned, common misconception, link to We Do.
+   */
+  retrospective?: string
   /** V3 demo id, e.g. S01-T1-A-DEMO */
   demoId?: string
   subtopicId?: string
@@ -40,6 +49,17 @@ export interface IDoStep {
 }
 
 export interface WeDoStep {
+  /**
+   * Short card header (preferred). When absent, the UI falls back to a
+   * truncated form of `instruction`.
+   */
+  title?: string
+  /**
+   * Newbie-facing framing shown above the task: context, goal, success criteria,
+   * and constraints (Markdown/RichText).
+   */
+  preamble?: string
+  /** Concrete task steps the learner must perform (body, not only the header). */
   instruction: string
   /** Primary hint (always present for backward compatibility) */
   hint: string
@@ -54,7 +74,13 @@ export interface WeDoStep {
   edgeCases?: string[]
   /** How the exercise is verified (tests / checklist / rubric) */
   tests?: string
+  /** Immediate corrective / solution-side notes */
   feedback?: string
+  /**
+   * Metacognitive close after solution: what stuck, misconception repaired,
+   * when to reuse (shown with the solution panel).
+   */
+  retrospective?: string
 }
 
 export interface YouDoProject {
@@ -65,6 +91,10 @@ export interface YouDoProject {
   starterCode?: string
   portfolioNote: string
   rubric: { criterion: string; weight: string }[]
+  /**
+   * Post-project reflection / defense prompts to cement transfer and portfolio narrative.
+   */
+  retrospective?: string
 }
 
 export interface QuizQuestion {

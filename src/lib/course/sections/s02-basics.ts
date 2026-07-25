@@ -380,6 +380,8 @@ raw '  Ñahui  ' clean 'Ñahui'`,
         subtopicId: 'S02-T1-A',
         environment: 'browser-pyodide',
         description: 'Literales de un registro de cliente y type() de cada campo',
+        preamble:
+          'Antes de parsear un intake, el analista debe *ver* el tipo de cada campo. Esta demo usa un registro sintético (sin PII real) con `str`, `int`, `float`, `bool` y `None`. Observa la línea que compara `42` con `"42"`: si confundes número y texto, el pipeline de calidad miente. No escribas aún; sigue cada `print` y la salida esperada.',
         code: {
           language: 'python',
           title: 'S02-T1-A-DEMO — literales_cliente',
@@ -418,13 +420,17 @@ type(42)= int
 type('42')= str
 42 == '42' → False`,
         },
-        why: 'Antes de parsear, el analista debe “ver” el tipo de cada literal. Si el teléfono o un código viaja como int, o si comparas 42 con "42", el pipeline de calidad miente. Esta demo fija int/float/str/bool/NoneType y la distinción literal vs. texto numérico.',
+        why: '`type(x).__name__` hace visible la clase de cada campo. Teléfono y códigos deben modelarse como `str` aunque “parezcan números”. La igualdad `42 == "42"` es `False` a propósito: el pipeline no puede comparar cantidad con texto.',
+        retrospective:
+          'Si puedes explicar por qué `"42"` no es `42` sin mirar el código, ya tienes el hábito de inspección de tipos. El teléfono y los códigos deben modelarse como `str`. En We Do clasificarás literales y elegirás tipos por semántica del campo.',
       },
       {
         demoId: 'S02-T1-B-DEMO',
         subtopicId: 'S02-T1-B',
         environment: 'browser-pyodide',
         description: 'safe_int unificado: vacío, OK y ValueError con mensaje por campo',
+        preamble:
+          'En formularios y CSV casi todo llega como texto. Esta demo fija el contrato único de `safe_int` de la sección: vacío tras `strip`, entero OK, o basura con mensaje por campo. Observa la tupla `(ok, valor, mensaje)` y por qué `isinstance("19", int)` es `False`. Datos sintéticos; no uses `eval`.',
         code: {
           language: 'python',
           title: 'S02-T1-B-DEMO — safe_int_contrato',
@@ -448,12 +454,16 @@ isinstance(19, int) → True
 isinstance('19', int) → False`,
         },
         why: 'El contrato de tres ramas (vacío / OK / basura) es el mismo del pipeline de dos campos, de la demo T4-B y del You Do. `isinstance` separa “ya es `int`” de “sigue siendo texto”. El mensaje siempre nombra el campo y el valor recibido.',
+        retrospective:
+          'Tres salidas posibles (OK / vacío / basura) y mensaje con nombre de campo: eso es validación profesional. El error clásico es tragar el fallo o convertir sin `strip`. Autochequeo: ¿puedes nombrar las tres salidas de `safe_int` sin mirar el código? Reutilizarás este contrato en el pipeline de dos campos y en el You Do.',
       },
       {
         demoId: 'S02-T2-A-DEMO',
         subtopicId: 'S02-T2-A',
         environment: 'browser-pyodide',
         description: 'Renombrar a snake_case y usar == en comparaciones',
+        preamble:
+          'En un code review junior en Perú, los nombres y `=` vs `==` se miran antes que el algoritmo. Esta demo muestra `snake_case`, una constante `UPPER_CASE` y una comparación con `==` (no asignación). Observa qué imprime el `if` cuando `edad` no es la mínima. No copies aún el estilo “malo” de los comentarios.',
         code: {
           language: 'python',
           title: 'S02-T2-A-DEMO — nombres_y_comparacion',
@@ -479,13 +489,17 @@ s02_ido_3()
 nombres_cliente= Ana
 apellido_paterno= García`,
         },
-        why: 'Code review junior en Perú mira nombres y = vs == antes que algoritmos. snake_case + constantes UPPER_CASE + == en el if es el contrato mínimo de legibilidad para el schema de intake.',
+        why: 'Code review junior en Perú mira nombres y `=` vs `==` antes que algoritmos. `snake_case` + constantes `UPPER_CASE` + `==` en el `if` es el contrato mínimo de legibilidad para el schema de intake.',
+        retrospective:
+          'Asignar es `=`; preguntar igualdad es `==` — mezclarlos es `SyntaxError` o lógica rota. `snake_case` y constantes `UPPER_CASE` reducen `NameError` en review. El error clásico es “el código se ve bien” con CamelCase y `if x = 1`. En We Do renombrarás variables y corregirás tres `if` rotos.',
       },
       {
         demoId: 'S02-T2-B-DEMO',
         subtopicId: 'S02-T2-B',
         environment: 'browser-pyodide',
         description: 'Alias vs. copia y preservar raw tras normalizar',
+        preamble:
+          'El contrato raw/clean del parser exige que el original sobreviva al `strip`. Aquí verás que `strip` devuelve *otro* string y que `b = a` en listas es un alias (mutar `b` muta `a`). También el idioma canónico `x is None`. Sigue raw → clean → alias → copia → `is None` en ese orden.',
         code: {
           language: 'python',
           title: 'S02-T2-B-DEMO — raw_y_alias',
@@ -518,13 +532,17 @@ a is b? True
 a is c? False
 x is None → True`,
         },
-        why: 'El raw debe sobrevivir al strip. En estructuras mutables, el alias es la principal forma de corromper el original “sin tocar raw”. `copy()`/slice y claves `*_raw` son el hábito que el parser de intake exige.',
+        why: 'El raw debe sobrevivir al strip. En estructuras mutables, el alias es la principal forma de corromper el original “sin tocar raw”. `copy()`/slice y claves `*_raw` son el hábito del parser. Las listas aquí son solo un preview de mutabilidad: la auditoría de intake depende de las claves `*_raw`, no de colecciones profundas aún.',
+        retrospective:
+          'Strings limpios no deben sobrescribir el raw. En mutables, copia antes de mutar. `is` es para identidad (sobre todo `None`); `==` es para valor. We Do te pedirá romper el alias y diseñar un dict con `*_raw`.',
       },
       {
         demoId: 'S02-T3-A-DEMO',
         subtopicId: 'S02-T3-A',
         environment: 'browser-pyodide',
         description: 'Evaluar // % ** y corregir expresión con precedencia',
+        preamble:
+          'Antes de confiar en un cálculo de negocio, verifica `//`, `%`, `**` y paréntesis. Presta atención a `-3**2` (vale `-9`, no `9`) y a `(a+b)*c` vs `a+b*c`. El total con IGV 18% usa `float` a propósito: en T3-B lo harás con `Decimal`. Solo observa la salida.',
         code: {
           language: 'python',
           title: 'S02-T3-A-DEMO — operadores_precedencia',
@@ -552,13 +570,17 @@ a + b * c = 16
 (-3)**2 = 9
 total con IGV (float demo) = 118.0`,
         },
-        why: 'Antes de confiar en un cálculo de negocio, verificas `//`, `%`, `**` y paréntesis. `-3**2` es la trampa de precedencia más citada; `(a+b)*c` vs. `a+b*c` es el bug de descuento/IGV en una línea.',
+        why: 'En code review, paréntesis explícitos evitan reabrir el manual de precedencia. `-3**2` es la trampa más citada; `(a+b)*c` vs `a+b*c` es el bug de descuento/IGV en una línea. El total con `float` aquí es solo práctica de expresión: dinero exacto va con `Decimal` en T3-B.',
+        retrospective:
+          'Precedencia no se memoriza a ciegas: paréntesis explícitos ganan en code review. La basura del float en montos se ataca en la siguiente demo con `Decimal`. We Do practicará operadores y la trampa de la potencia.',
       },
       {
         demoId: 'S02-T3-B-DEMO',
         subtopicId: 'S02-T3-B',
         environment: 'browser-pyodide',
         description: 'Subtotal + IGV 18% con Decimal y quantize a 2 decimales',
+        preamble:
+          'En montos en soles, `float` miente: mira `0.1 + 0.2`. Esta demo construye `Decimal` **desde texto**, calcula IGV 18% y redondea a céntimos con `quantize(..., ROUND_HALF_EVEN)`. Observa que no aparece `Decimal(0.1)`. Datos de laboratorio; no es contabilidad real.',
         code: {
           language: 'python',
           title: 'S02-T3-B-DEMO — decimal_igv',
@@ -580,13 +602,17 @@ s02_ido_6()
 Decimal = 0.3
 subtotal=100.00 IGV=18.00 total=118.00`,
         },
-        why: 'En soles, float miente. Decimal desde str + quantize(0.01) es el contrato mínimo de montos en onboarding de data financiera en Perú.',
+        why: 'En soles, `float` miente por la base binaria. `Decimal` se construye **desde texto** para no heredar ese error; `quantize(..., ROUND_HALF_EVEN)` fija céntimos. Este es el contrato mínimo de montos en onboarding de data financiera en Perú — no contabilidad real, sí hábito de review.',
+        retrospective:
+          'Dinero = `Decimal` desde `str` + `quantize` a `0.01`. El error clásico es `Decimal(0.1)` o “arreglar” con `round` al final. Pregunta de cierre: ¿por qué `0.1 + 0.2` no es `0.3` en float? En We Do compararás float vs Decimal y armarás propina y `parse_monto`.',
       },
       {
         demoId: 'S02-T4-A-DEMO',
         subtopicId: 'S02-T4-A',
         environment: 'browser-pyodide',
         description: 'Capturar (simulado) y reportar nombre + monto con f-string',
+        preamble:
+          '`input()` siempre devuelve `str`; en demos y tests simulamos la captura con variables. Esta demo reporta nombre y monto en soles con f-string y el especificador `:.2f` sobre un `Decimal`. Observa el separador personalizado del segundo `print`. No llames `input()` aquí.',
         code: {
           language: 'python',
           title: 'S02-T4-A-DEMO — reporte_fstring',
@@ -603,13 +629,17 @@ s02_ido_7()
           output: `Cliente: María José | Monto: S/ 150.50
 OK · intake`,
         },
-        why: 'input devuelve str; el reporte usa f-strings y :.2f. Separar captura de formato permite testear el parser sin consola interactiva.',
+        why: '`input()` siempre devuelve `str`; en demos y tests se simula con variables para poder ejecutar en Pyodide/CI. El reporte usa f-strings y `:.2f` sobre `Decimal` sin convertir a `float`. Separar captura, parse y formato es lo que hace testeable el intake.',
+        retrospective:
+          'Si el resumen se arma sin consola real, los tests del parser no dependen del teclado. El error clásico es formatear con `float(monto)` “por comodidad”. We Do: saludo, reporte multi-línea y función que simula prompts.',
       },
       {
         demoId: 'S02-T4-B-DEMO',
         subtopicId: 'S02-T4-B',
         environment: 'browser-pyodide',
         description: 'Parser mínimo: raw, clean, errors; 3 casos de prueba',
+        preamble:
+          'El gate del parser no es “imprimió algo”: son asserts sobre raw, Unicode y errores accionables. Esta demo modela el schema del You Do (CP-N1-A): `*_raw`, limpios, `errors`, y `safe_int` para edad. Observa los tres casos — feliz con Ñahui, nombres vacío, edad `"abc"` — y que el raw nunca se borra. Solo datos sintéticos.',
         code: {
           language: 'python',
           title: 'S02-T4-B-DEMO — parse_cliente_min',
@@ -684,7 +714,9 @@ print(r3["errors"])`,
 ["ERROR en 'nombres': vacío (raw='')"]
 ["ERROR en 'edad': no se pudo convertir 'abc' a int"]`,
         },
-        why: 'El gate no es “imprimió algo”: son asserts sobre raw, Unicode y errores accionables. Esta demo modela el schema completo del You Do CP-N1-A.',
+        why: 'El schema de salida fija claves `*_raw`, campos limpios y `errors`. `clean_required` valida texto obligatorio; `safe_int` cubre edad opcional (vacío / OK / basura). Los asserts demuestran Unicode, vacío y número inválido sin depender de “mirar la consola”.',
+        retrospective:
+          'Tres invariantes: raw siempre presente, Unicode round-trip, número inválido no revienta el proceso. El mensaje nombra campo y valor (`!r`). We Do construirá cada pieza y al final la suite completa; el You Do es este contrato con `main` y tests fijos.',
       },
     ],
   },
@@ -697,8 +729,11 @@ print(r3["errors"])`,
         id: 'S02-T1-A-E1',
         subtopicId: 'S02-T1-A',
         kind: 'guided',
+        title: 'Clasificar cinco literales con `type`',
+        preamble:
+          '- **Contexto:** en un lote de intake sintético (CASO-LIM-002) el primer control de calidad es saber qué tipo trae cada literal.\n- **Meta:** practicar `repr` + `type(...).__name__` sobre cinco valores base.\n- **Éxito:** cinco líneas en este orden de tipos: `int`, `float`, `str`, `bool`, `NoneType` (p. ej. `0 → int`).\n- **Límites:** no conviertas valores; no uses `eval`; solo datos del starter.',
         instruction:
-          'E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `"Lima"`, `False`, `None`.',
+          '1. Revisa la lista `literales` del starter.\n2. En el `for`, completa los dos huecos del `print`.\n3. Ejecuta y compara con la salida esperada (cinco líneas).',
         hint: 'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
         hints: [
           'Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).',
@@ -710,7 +745,9 @@ print(r3["errors"])`,
         ],
         tests: 'Checklist: 5 líneas; tipos en orden int, float, str, bool, NoneType.',
         feedback:
-          'Si acertaste NoneType y bool, ya evitas el error de “todo es texto o todo es número”. Siguiente: 42 vs. `"42"`.',
+          'Si acertaste `NoneType` y `bool`, ya no mezclas “ausencia”, “falso” y “cero” en el ojo. El `repr` muestra el literal real (comillas en str). Siguiente: igualdad cruda `42` vs `"42"`.',
+        retrospective:
+          'El nombre del tipo se lee con `type(x).__name__`; `None` es `NoneType`, no la cadena `"None"`. El error clásico es tratar `False` como texto o `0` como `bool` en el reporte de tipos. Autochequeo: ¿qué imprime `type(None).__name__`? Siguiente: demostrar que `42` y `"42"` no son lo mismo.',
         starterCode: {
           language: 'python',
           title: 'clasificar_literales.py',
@@ -739,8 +776,11 @@ None → NoneType`,
         id: 'S02-T1-A-E2',
         subtopicId: 'S02-T1-A',
         kind: 'independent',
+        title: 'Demostrar `42` vs `"42"` y el subtipo bool',
+        preamble:
+          '- **Contexto:** el bug junior más caro en parse es comparar texto numérico con entero sin convertir.\n- **Meta:** contrastar literales, igualdad cruda vs tras `str()`, y el matiz `isinstance(True, int)`.\n- **Éxito:** salidas coherentes con tipos `int`/`str`, igualdad cruda `False`, tras `str()` `True`, `isinstance(True, int)` `True`, más una nota de una frase.\n- **Límites:** no conviertas *antes* de la igualdad cruda; no abuses de bool-como-int en negocio.',
         instruction:
-          'E2 (independiente) — Demuestra que `42` y `"42"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado de `42 == "42"`, y el de `str(42) == "42"`. Comenta en un print por qué `isinstance(True, int)` es True (subtipo) y por qué no debes abusar de eso en intake.',
+          '1. Completa los `print` del starter con `codigo_int` y `codigo_str`.\n2. Imprime tipos, igualdad cruda, igualdad tras `str()`, e `isinstance(True, int)`.\n3. Cierra con un `print` de nota (una frase) sobre no tratar banderas como montos.',
         hint: 'No conviertas antes de la primera comparación. str(42) produce el texto "42".',
         hints: [
           'No conviertas antes de la primera comparación. str(42) produce el texto "42".',
@@ -752,7 +792,9 @@ None → NoneType`,
         ],
         tests: 'assert types int/str; assert 42 != "42"; assert str(42) == "42"; mención de isinstance(True, int).',
         feedback:
-          'Separar literal numérico de texto numérico es el 50% de los bugs de parse en juniors. Bien.',
+          'La igualdad cruda `False` y la conversión explícita son el 50% de los bugs de parse junior: el tipo se decide *antes* de comparar, no “después si falla”. Si `isinstance(True, int)` te sorprendió, trátarlo como detalle del lenguaje, no como permiso de modelar banderas como montos.',
+        retrospective:
+          '`42 == "42"` es `False` aunque “se vean” iguales; la conversión es explícita. `bool` subclase de `int` es un detalle del lenguaje, no un permiso de modelar banderas como dinero. En E3 elegirás tipos por semántica del campo de intake.',
         starterCode: {
           language: 'python',
           title: 'literal_vs_texto.py',
@@ -789,8 +831,11 @@ Nota: bool es subtipo de int; en intake no trates True/False como montos.`,
         id: 'S02-T1-A-E3',
         subtopicId: 'S02-T1-A',
         kind: 'transfer',
+        title: 'Tipar campos del cliente de intake',
+        preamble:
+          '- **Contexto:** el schema del registro sintético fija tipos antes de cualquier cálculo.\n- **Meta:** elegir literales y tipos esperados por semántica de campo (no “lo que Excel infiera”).\n- **Éxito:** seis campos con `ok=True`; `contacto` es `str` (teléfono), `edad` `int`, `activo` `bool`.\n- **Límites:** teléfono **no** como `int`; Unicode permitido en nombres/apellidos; sin PII real.',
         instruction:
-          'E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apellido_materno, contacto (teléfono), edad, activo. El teléfono **debe ser str**. Imprime un reporte campo → valor → tipo y verifica con `type(v) is t_esperado` (aquí miras el tipo exacto del literal; en parsers de validación preferirás `isinstance`, como en T1-B).',
+          '1. Completa cada par `(valor, tipo)` en el dict `campos`.\n2. Asegura `contacto` como string de dígitos entre comillas.\n3. Ejecuta el `for` de verificación; todas las líneas deben mostrar `ok=True`.',
         hint: 'contacto = "999000111" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.',
         hints: [
           'contacto = "999000111" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.',
@@ -802,7 +847,9 @@ Nota: bool es subtipo de int; en intake no trates True/False como montos.`,
         ],
         tests: 'Rúbrica: 6 campos; contacto str; edad int; activo bool; todos type checks True.',
         feedback:
-          'Elegir tipo por semántica del campo es diseño de schema, no “lo que Python infiera del Excel”.',
+          'Si `contacto` quedó entre comillas y todos los `ok=True`, elegiste tipos por semántica de campo, no por “lo que Excel infiere”. Teléfono no es cantidad. Llevas este schema al dict del You Do.',
+        retrospective:
+          'Elegir tipo es diseño de schema: identificadores (teléfono, códigos) son `str`. `type(v) is t` comprueba clase exacta del literal; en parsers de validación preferirás `isinstance` (T1-B). Llevas esto al You Do al declarar el dict de salida.',
         starterCode: {
           language: 'python',
           title: 'campos_intake_tipados.py',
@@ -850,8 +897,11 @@ activo: True esperado=bool ok=True`,
         id: 'S02-T1-B-E1',
         subtopicId: 'S02-T1-B',
         kind: 'guided',
+        title: 'Convertir edad con `strip` e `int`',
+        preamble:
+          '- **Contexto:** en CSV/formularios la edad llega con espacios (`" 21 "`).\n- **Meta:** hábito `strip` → constructor `int`.\n- **Éxito:** imprime `21 int` (`edad == 21` y tipo `int`).\n- **Límites:** no uses `eval`; no ignores espacios (aplica `strip` aunque a veces `int` tolere whitespace).',
         instruction:
-          'E1 (guiado) — Dado `raw = " 21 "`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de tipo int.',
+          '1. A partir de `raw`, construye `edad` con `strip` e `int`.\n2. Imprime valor y `type(edad).__name__`.\n3. Verifica mentalmente: no debe quedar `str`.',
         hint: 'int(raw.strip()) — strip primero, constructor después.',
         hints: [
           'int(raw.strip()) — strip primero, constructor después.',
@@ -859,7 +909,10 @@ activo: True esperado=bool ok=True`,
         ],
         edgeCases: ['espacios alrededor del número'],
         tests: 'assert edad == 21 and type(edad) is int',
-        feedback: 'strip + int es el mínimo viable de un campo numérico en CSV/formulario.',
+        feedback:
+          '`int` sin `strip` a veces “funciona” con espacios, pero el hábito falla en vacíos y en mensajes. Orden: limpiar → construir → reportar tipo. Sin `eval`.',
+        retrospective:
+          '`strip` + `int` es el mínimo de campo numérico en texto. El error clásico es convertir y solo después descubrir `""`. Siguiente: envolver las tres ramas (OK / vacío / basura) en `safe_int`.',
         starterCode: {
           language: 'python',
           title: 'int_con_strip.py',
@@ -883,8 +936,11 @@ print(edad, type(edad).__name__)`,
         id: 'S02-T1-B-E2',
         subtopicId: 'S02-T1-B',
         kind: 'independent',
+        title: 'Implementar `safe_int` con tres ramas',
+        preamble:
+          '- **Contexto:** el parser de intake no puede morir en el primer campo basura.\n- **Meta:** devolver `(ok, valor|None, mensaje|None)` con mensaje accionable.\n- **Éxito:** cuatro casos `" 21 "`, `""`, `"abc"`, `"  "` como en la solución (OK / vacío / basura / vacío).\n- **Límites:** sin `eval`; sin `except: pass`; mensaje con nombre de campo y `!r` del valor.',
         instruction:
-          'E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(False, None, mensaje)` si está vacío (tras strip) o no es entero. Prueba con `" 21 "`, `""`, `"abc"` y `"  "`.',
+          '1. Completa el cuerpo de `safe_int` (vacío tras strip → error; `try int`; `ValueError` → mensaje).\n2. Deja el `for` de prueba tal cual.\n3. Ejecuta y compara las cuatro líneas con la solución.',
         hint: 'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
         hints: [
           'Tras strip, si texto == "", error de vacío. try/except ValueError para letras.',
@@ -893,7 +949,9 @@ print(edad, type(edad).__name__)`,
         edgeCases: ['vacío', 'solo espacios', 'letras'],
         tests: 'devuelve (ok, valor|None, msg); 4 casos como en la demo de solución.',
         feedback:
-          'Una función safe_* reutilizable es el núcleo del parse gate. No uses eval.',
+          'Vacío y basura son errores distintos: el mensaje debe decirlo y nombrar el campo. Sin `eval` ni `except: pass`. Si las cuatro líneas coinciden con la solución, ya tienes el contrato reutilizable del parser.',
+        retrospective:
+          'Una `safe_*` reutilizable es el núcleo del gate de parse. Tres ramas, un mensaje accionable con `!r`. Reusarás esta función en el pipeline de dos campos y en el You Do — no reinventes otra firma a mitad de sección.',
         starterCode: {
           language: 'python',
           title: 'safe_int.py',
@@ -934,8 +992,11 @@ for v in [" 21 ", "", "abc", "  "]:
         id: 'S02-T1-B-E3',
         subtopicId: 'S02-T1-B',
         kind: 'transfer',
+        title: 'Pipeline de dos enteros con raw/errors',
+        preamble:
+          '- **Contexto:** un registro real tiene varios campos; uno puede fallar y el otro seguir OK.\n- **Meta:** armar dict `raw` / `clean` / `errors` reutilizando `safe_int` dos veces.\n- **Éxito:** tres escenarios impresos — ambos OK; edad inválida; anios inválidos — con raw intacto.\n- **Límites:** solo enteros (sin float/Decimal aún); raw siempre con los strings de entrada.',
         instruction:
-          'E3 (transferencia) — Pipeline de 2 campos: `edad` e `anios_cliente` (ambos `int`) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre conserva los strings originales. Prueba: ambos OK; edad inválida; anios inválidos. (El parse de montos con Decimal llega en T3-B.)',
+          '1. Implementa `pipeline(edad_txt, anios_txt)`.\n2. Llama `safe_int` para `"edad"` y `"anios_cliente"`; acumula errores.\n3. Si falla, `clean[campo] = None` pero `raw` conserva el texto.\n4. Ejecuta los tres `print` del starter.',
         hint: 'Reutiliza safe_int dos veces. Acumula mensajes en errors[]. clean[campo] = None si falla, pero raw sigue con el string de entrada.',
         hints: [
           'Llama safe_int("edad", ...) y safe_int("anios_cliente", ...); no uses float ni Decimal aquí.',
@@ -944,7 +1005,9 @@ for v in [" 21 ", "", "abc", "  "]:
         edgeCases: ['un campo falla otro ok', 'raw siempre presente'],
         tests: 'Contrato: 3 escenarios; raw intacto; ambos campos int cuando OK; cero float/Decimal.',
         feedback:
-          'Este es el embrión del parse_client del You Do: multi-campo, errores parciales, raw intacto. Decimal para montos se entrena en T3-B.',
+          'Este es el embrión del `parse_client` del You Do: multi-campo, errores parciales, raw intacto. Si un campo falla, no pises `raw` al dejar clean en `None`. Decimal para montos se entrena en T3-B.',
+        retrospective:
+          'Errores parciales + raw intacto es el embrión de `parse_client`. No “arregles” un campo pisando el original. Los montos con `Decimal` llegan en T3-B con el mismo estilo de tupla `(ok, valor, error)`.',
         starterCode: {
           language: 'python',
           title: 'pipeline_dos_campos.py',
@@ -1010,8 +1073,11 @@ print(pipeline("30", "nope"))`,
         id: 'S02-T2-A-E1',
         subtopicId: 'S02-T2-A',
         kind: 'guided',
+        title: 'Renombrar cinco variables a PEP 8',
+        preamble:
+          '- **Contexto:** el schema de intake se lee en code review: nombres feos retrasan merges.\n- **Meta:** pasar de CamelCase / abreviaturas / `l` a `snake_case` y `UPPER_CASE`.\n- **Éxito:** el `print` final corre con `nombre_cliente`, `apellido_paterno`, `indice`, `longitud`, `EDAD_MAXIMA` y valores sintéticos dados.\n- **Límites:** sin `l`/`O`/`I` sueltos; constante de tope en `UPPER_CASE`.',
         instruction:
-          'E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (constante de negocio). Imprime los cinco nombres buenos con valores sintéticos.',
+          '1. Sustituye cada `____` por el nombre PEP 8 correcto.\n2. Asigna los valores sintéticos del starter.\n3. Ejecuta el `print` (debe listar los cinco sin `NameError`).',
         hint: 'snake_case para vars; UPPER_CASE para la constante de tope de edad.',
         hints: [
           'snake_case para vars; UPPER_CASE para la constante de tope de edad.',
@@ -1019,7 +1085,10 @@ print(pipeline("30", "nope"))`,
         ],
         edgeCases: ['evitar l/O/I', 'constantes en UPPER_CASE'],
         tests: 'pasa estilo: 5 nombres PEP 8; sin l/O/I sueltos.',
-        feedback: 'Nombres legibles reducen `NameError` y aceleran la revisión de código.',
+        feedback:
+          'Si el `print` listó los cinco sin `NameError`, los identificadores coinciden con el contrato del starter. `EDAD_MAXIMA` en mayúsculas marca tope de negocio; `l`/`O`/`I` quedan fuera a propósito.',
+        retrospective:
+          '`snake_case` para variables, `UPPER_CASE` para constantes. Evitar `l`/`O`/`I` evita confusiones con `1`/`0` en review. El error clásico es renombrar en la cabeza pero no en el `print`. Siguiente: cazar `=` donde iba `==`.',
         starterCode: {
           language: 'python',
           title: 'snake_case_checklist.py',
@@ -1051,8 +1120,11 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
         id: 'S02-T2-A-E2',
         subtopicId: 'S02-T2-A',
         kind: 'independent',
+        title: 'Corregir `=` por `==` en tres `if`',
+        preamble:
+          '- **Contexto:** `if x = 1` es `SyntaxError` y el bug de novato más citado en review.\n- **Meta:** distinguir asignación de comparación en condicionales.\n- **Éxito:** el archivo corre e imprime exactamente tres líneas: `ok estado`, `ok codigo`, `ok flag`.\n- **Límites:** no uses `:=` (morsa); en S02 compara con `==` (o truthiness de `flag`).',
         instruction:
-          'E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas para que imprima tres líneas `ok ...` sin SyntaxError.',
+          '1. Localiza las tres comparaciones rotas con `=`.\n2. Corrígelas para que sean comparaciones válidas.\n3. Ejecuta y confirma las tres líneas `ok`.',
         hint: 'En cada if, cambia = por ==. No uses el operador walrus := en S02.',
         hints: [
           'En cada if, cambia = por ==. No uses el operador walrus := en S02.',
@@ -1060,7 +1132,10 @@ print(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)`,
         ],
         edgeCases: ['SyntaxError con if x = 1', 'confundir asignación con comparación'],
         tests: 'corre sin SyntaxError; tres prints ok.',
-        feedback: 'Detectar `=` vs. `==` en revisión de código es habilidad de producción, no de examen de memoria.',
+        feedback:
+          'Detectar `=` vs `==` en revisión de código es habilidad de producción, no de examen de memoria. Preferir `if flag:` a `if flag == True` es estilo; el bug principal era la asignación en el `if`.',
+        retrospective:
+          '`=` guarda; `==` pregunta. En un `if`, la asignación es `SyntaxError` en Python. Detectarlo en review es habilidad de producción. Preferir `if flag:` a `if flag == True` es estilo, no el bug principal. En E3 mapearás encabezados CSV a identificadores estables.',
         starterCode: {
           language: 'python',
           title: 'eq_vs_assign.py',
@@ -1100,17 +1175,22 @@ ok flag`,
         id: 'S02-T2-A-E3',
         subtopicId: 'S02-T2-A',
         kind: 'transfer',
+        title: 'Mapear encabezados CSV a snake_case',
+        preamble:
+          '- **Contexto:** un CSV de intake llega con encabezados con espacios y tildes.\n- **Meta:** proponer nombres Python estables (`apellido_paterno` / `apellido_materno` incluidos).\n- **Éxito:** dict con 6 claves; cada encabezado imprime su `snake_case` (sin `???`). Preferido: teléfono → `contacto`, dirección → `direccion` (alineado al schema del You Do).\n- **Límites:** identificadores sin espacios ni tildes; no inventes sinónimos si ya hay nombre de schema.',
         instruction:
-          'E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / Cel`, `Dirección`, `Edad (años)`. Devuelve un dict `original → snake_case` e imprime el mapeo. Incluye `apellido_paterno` y `apellido_materno`.',
+          '1. Completa `mapeo` original → snake_case para los seis encabezados.\n2. Incluye `apellido_paterno` y `apellido_materno`; usa `contacto` y `direccion` para teléfono y dirección.\n3. Ejecuta el `for` de impresión del mapeo.',
         hint: 'Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.',
         hints: [
           'Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.',
-          'Ejemplos: "Apellido Paterno" → apellido_paterno; "Teléfono / Cel" → telefono o contacto (elige uno y sé consistente).',
+          'Ejemplos: "Apellido Paterno" → apellido_paterno; "Teléfono / Cel" → contacto; "Dirección" → direccion.',
         ],
         edgeCases: ['apellido_paterno', 'sin espacios en identificadores'],
         tests: 'rúbrica de nombres: 6 claves; snake_case; incluye apellido_paterno y apellido_materno.',
         feedback:
-          'Renombrar columnas es el primer `commit` de un pipeline real. La consistencia gana a la creatividad.',
+          'Renombrar columnas es el primer `commit` de un pipeline real. La consistencia gana a la creatividad: `contacto` y `direccion` ya son el contrato del schema de intake.',
+        retrospective:
+          'Renombrar columnas es el primer commit de un pipeline real: consistencia gana a creatividad. Los apellidos son campos de texto, no parentesco real. Llevas estos nombres al schema del You Do.',
         starterCode: {
           language: 'python',
           title: 'schema_intake_nombres.py',
@@ -1168,8 +1248,11 @@ for orig in encabezados:
         id: 'S02-T2-B-E1',
         subtopicId: 'S02-T2-B',
         kind: 'guided',
+        title: 'Tabla `is` vs `==` (cinco predicciones)',
+        preamble:
+          '- **Contexto:** en el parser usarás `is None` y evitarás `is` para igualdad numérica.\n- **Meta:** contrastar identidad y valor con cinco expresiones.\n- **Éxito:** resultados `True`, `True`, `False`, `True`, `False` en ese orden, más un comentario de cuándo usar cada operador.\n- **Límites:** no “arregles” con conversiones; evalúa las expresiones tal cual.',
         instruction:
-          'E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 == True`, `1 is True`. Luego escribe una línea de comentario: cuándo usar `is` vs. `==`.',
+          '1. Completa cada `____` con la expresión correspondiente.\n2. Ejecuta y verifica la tabla de bools.\n3. Escribe un comentario de una línea: cuándo `is` vs cuándo `==`.',
         hint: 'Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.',
         hints: [
           'Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.',
@@ -1178,7 +1261,9 @@ for orig in encabezados:
         edgeCases: ['is None idiom', '[] is [] es False'],
         tests: 'tabla de predicción: True, True, False, True, False.',
         feedback:
-          'Si internalizaste is None y no usar is para valores, evitaste una clase entera de bugs sutiles.',
+          '`None is None` y `[] is []` no se “sienten” igual: listas nuevas son objetos distintos. `1 == True` no autoriza `1 is True`. Si la tabla salió `True, True, False, True, False`, ya separas identidad de valor.',
+        retrospective:
+          '`is` para identidad (sobre todo `None`); `==` para valor. `[] is []` es `False` porque son objetos distintos. `1 == True` no autoriza usar `is` con números. Siguiente: romper un alias de lista.',
         starterCode: {
           language: 'python',
           title: 'is_vs_eq.py',
@@ -1211,8 +1296,11 @@ print("1 is True →", 1 is True)
         id: 'S02-T2-B-E2',
         subtopicId: 'S02-T2-B',
         kind: 'independent',
+        title: 'Copiar lista y mutar sin alias',
+        preamble:
+          '- **Contexto:** si `trabajo = original` y haces `append`, corrompes la fuente.\n- **Meta:** crear una copia superficial y demostrar independencia.\n- **Éxito:** `original == ["a", "b"]`, `trabajo == ["a", "b", "c"]`, `original is trabajo` → `False`.\n- **Límites:** usa `.copy()` o slice `[:]`; la lista es solo preview de mutabilidad (colecciones a fondo después).',
         instruction:
-          'E2 (independiente) — `original = ["a", "b"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append("c")` y demuestra que `original` sigue siendo `["a", "b"]`.',
+          '1. Asigna `trabajo` como copia de `original`.\n2. Haz `append("c")` solo en `trabajo`.\n3. Imprime ambas listas y si son el mismo objeto.',
         hint: 'trabajo = original.copy()  o  trabajo = original[:]',
         hints: [
           'trabajo = original.copy()  o  trabajo = original[:]',
@@ -1220,7 +1308,10 @@ print("1 is True →", 1 is True)
         ],
         edgeCases: ['slice vs assign', 'alias accidental'],
         tests: 'assert original == ["a", "b"] and trabajo == ["a", "b", "c"]',
-        feedback: 'Romper el alias antes de mutar es el hábito de no corromper la fuente de datos original.',
+        feedback:
+          'Romper el alias antes de mutar es el hábito de no corromper la fuente de datos original. Si `original is trabajo` es `False` y solo `trabajo` tiene `"c"`, la copia superficial cumplió.',
+        retrospective:
+          'Romper el alias antes de mutar es no corromper la fuente de datos. `is` confirma identidad; `==` confirma contenido. En E3 aplicarás la misma idea a strings `*_raw` vs limpios.',
         starterCode: {
           language: 'python',
           title: 'romper_alias.py',
@@ -1252,8 +1343,11 @@ mismo objeto? False`,
         id: 'S02-T2-B-E3',
         subtopicId: 'S02-T2-B',
         kind: 'transfer',
+        title: 'Dict raw/clean que sobrevive a mutar',
+        preamble:
+          '- **Contexto:** auditoría de intake exige el texto original aunque el clean se normalice.\n- **Meta:** `make_record` con `*_raw` y campos strip; luego mutar clean sin tocar raw.\n- **Éxito:** asserts de raw intacto tras `.upper()` en clean; print final `raw preserved OK`.\n- **Límites:** no reutilices el mismo nombre para raw y clean; Unicode (María) debe sobrevivir.',
         instruction:
-          'E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el campo limpio a `.upper()` y **assert** que los `*_raw` no cambiaron.',
+          '1. Implementa `make_record` devolviendo las cuatro claves.\n2. Corre el bloque que muta `rec["nombres"]`.\n3. Confirma que los asserts de raw pasan.',
         hint: 'Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.',
         hints: [
           'Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.',
@@ -1262,7 +1356,9 @@ mismo objeto? False`,
         edgeCases: ['no perder raw en fail', 'Unicode en raw (María)'],
         tests: 'assert raw keys; clean puede cambiar; raw idéntico al input.',
         feedback:
-          'raw/clean es el contrato del You Do y del gate CP-N1-A. Si el assert pasa, ya piensas en auditoría.',
+          'Tras `.upper()` en clean, si `nombres_raw` sigue con espacios y tildes, el assert de auditoría pasó. No hace falta mutar el string original: `str` es inmutable; el riesgo real es reutilizar el mismo nombre o clave.',
+        retrospective:
+          'raw/clean es el contrato del You Do y del gate CP-N1-A. Si el assert pasa, ya piensas en auditoría. El error clásico es `clean = raw` en estructuras mutables o sobrescribir el mismo string “normalizado”.',
         starterCode: {
           language: 'python',
           title: 'raw_clean_record.py',
@@ -1309,8 +1405,11 @@ raw preserved OK`,
         id: 'S02-T3-A-E1',
         subtopicId: 'S02-T3-A',
         kind: 'guided',
+        title: 'Tabla `// % ** /` con enteros',
+        preamble:
+          '- **Contexto:** descomponer cantidades (cajas, cuotas) usa división entera y resto.\n- **Meta:** practicar `//`, `%`, `**` y `/` en Python 3.\n- **Éxito:** con `n=17`, `d=5` imprime `// 3`, `% 2`, `** 16`, `/ 3.4` y una nota de que `/` devuelve float.\n- **Límites:** sin imports; no redondees a mano el `/`.',
         instruction:
-          'E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` devuelve float.',
+          '1. Completa los cuatro operadores en los `print`.\n2. Añade un `print` de nota sobre por qué `/` es float.\n3. Ejecuta y compara con la solución.',
         hint: 'Usa los operadores // % ** / directamente. No hace falta import.',
         hints: [
           'Usa los operadores // % ** / directamente. No hace falta import.',
@@ -1322,7 +1421,9 @@ raw preserved OK`,
         ],
         tests: 'assert 17//5==3; 17%5==2; 2**4==16; 17/5==3.4',
         feedback:
-          'Si // y % te salieron, ya puedes descomponer cantidades (cajas, cuotas). Siguiente: la trampa -a**b.',
+          'Con `n=17`, `d=5`: `//` 3, `%` 2, `**` 16, `/` 3.4. En Python 3 el `/` no trunca. Si la nota menciona float, ya no confundes división entera con real.',
+        retrospective:
+          'En Python 3, `/` siempre produce float; `//` y `%` descomponen enteros. El error clásico es asumir truncado “hacia cero” en negativos (`//` va hacia −∞). Siguiente: la trampa `-3**2`.',
         starterCode: {
           language: 'python',
           title: 'tabla_operadores.py',
@@ -1358,8 +1459,11 @@ nota: / devuelve float en Python 3`,
         id: 'S02-T3-A-E2',
         subtopicId: 'S02-T3-A',
         kind: 'independent',
+        title: 'Precedencia de `-3**2` vs `(-3)**2`',
+        preamble:
+          '- **Contexto:** una línea de scoring o fórmula con signo y potencia rompe silenciosamente.\n- **Meta:** demostrar la precedencia de `**` sobre el unario `-`.\n- **Éxito:** prints muestran `-9` y `9`; `cuadrado_neg == 9` y `assert OK`.\n- **Límites:** no uses `pow` con float; paréntesis obligatorios para el cuadrado del negativo.',
         instruction:
-          'E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert cuadrado_neg == 9`.',
+          '1. Ejecuta mentalmente o imprime ambas formas de potencia.\n2. Asigna `cuadrado_neg = (-3)**2`.\n3. Deja el `assert` y confirma `assert OK`.',
         hint: '** tiene mayor precedencia que el unario menos. Paréntesis cambian el orden.',
         hints: [
           '** tiene mayor precedencia que el unario menos. Paréntesis cambian el orden.',
@@ -1371,7 +1475,9 @@ nota: / devuelve float en Python 3`,
         ],
         tests: 'assert -3**2 == -9; assert (-3)**2 == 9',
         feedback:
-          'Esta es la pregunta de entrevista junior de precedencia. Si la internalizaste, evitas bugs en fórmulas de scoring.',
+          'Esta es la pregunta de entrevista junior de precedencia. Si la internalizaste, evitas bugs en fórmulas de scoring donde el signo “desaparece” del cuadrado.',
+        retrospective:
+          '`-3**2` es `-(3**2)`, no `(-3)**2`. Precedencia de `**` sobre el unario `-` no se adivina: se demuestra con prints y paréntesis. El error clásico es “cuadrado de negativo” sin paréntesis en una fórmula de scoring. En E3 aplicarás paréntesis en la tasa IGV.',
         starterCode: {
           language: 'python',
           title: 'precedencia_potencia.py',
@@ -1400,8 +1506,11 @@ assert OK`,
         id: 'S02-T3-A-E3',
         subtopicId: 'S02-T3-A',
         kind: 'transfer',
+        title: 'Subtotal e IGV 18% con paréntesis',
+        preamble:
+          '- **Contexto:** ticket sintético de dos líneas; aquí entrenas la *expresión*, no dinero de producción.\n- **Meta:** `subtotal` y `total = subtotal * (1 + 0.18)` con paréntesis explícitos en la tasa.\n- **Éxito:** `subtotal` 80; `total` igual a `80*(1+0.18)` (puede mostrar basura float — es esperado).\n- **Límites:** no uses `Decimal` aún; documenta que T3-B corrige la precisión.',
         instruction:
-          'E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **paréntesis explícitos** en la tasa IGV 18%. Imprime ambos. (En T3-B reemplazarás float por Decimal.)',
+          '1. Suma las dos líneas en `subtotal`.\n2. Calcula `total` multiplicando por `(1 + 0.18)`.\n3. Imprime ambos; no “arregles” el float con `round` todavía.',
         hint: 'subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal sin revisar.',
         hints: [
           'subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal sin revisar.',
@@ -1410,7 +1519,9 @@ assert OK`,
         edgeCases: ['18% = 0.18', 'float puede mostrar basura; documentar y migrar a Decimal'],
         tests: 'subtotal==80; total == 80*(1+0.18); expresión usa paréntesis en (1+0.18)',
         feedback:
-          'La expresión correcta es el 50% del trabajo; el otro 50% es no usar float en producción de montos (T3-B).',
+          'La expresión correcta es el 50% del trabajo; el otro 50% es no usar float en producción de montos (T3-B). Si viste basura en el print, no la “arregles” con `round` aquí: es la motivación de Decimal.',
+        retrospective:
+          'La expresión correcta es la mitad del trabajo; la otra mitad es no usar float en montos reales. Si viste `94.3999…`, ya tienes el argumento para exigir `Decimal` en T3-B. Autochequeo: ¿por qué no usas `round` aquí aunque el print “se vea feo”?',
         starterCode: {
           language: 'python',
           title: 'precio_igv_expr.py',
@@ -1441,8 +1552,11 @@ total 94.39999999999999`,
         id: 'S02-T3-B-E1',
         subtopicId: 'S02-T3-B',
         kind: 'guided',
+        title: 'Contrastar float y `Decimal("0.1")`',
+        preamble:
+          '- **Contexto:** en onboarding de data financiera en Perú, el code review rechaza float para soles.\n- **Meta:** ver la basura de `0.1+0.2` frente a `Decimal` desde str.\n- **Éxito:** prints de float y Decimal; assert de suma Decimal a `0.3` y `assert OK`.\n- **Límites:** `from decimal import Decimal`; **no** `Decimal(0.1)`.',
         instruction:
-          'E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal("0.1") + Decimal("0.2")`. Importa desde `decimal`.',
+          '1. Completa los dos `print` del starter.\n2. Deja el `assert` intacto.\n3. Ejecuta hasta ver `assert OK`.',
         hint: 'from decimal import Decimal. Construye Decimal desde strings, no desde 0.1 float.',
         hints: [
           'from decimal import Decimal. Construye Decimal desde strings, no desde 0.1 float.',
@@ -1451,7 +1565,9 @@ total 94.39999999999999`,
         edgeCases: ['from decimal import Decimal', 'no uses Decimal(0.1)'],
         tests: 'assert Decimal("0.1")+Decimal("0.2") == Decimal("0.3")',
         feedback:
-          'Si viste la basura del float, ya tienes el argumento de code review para exigir Decimal en soles.',
+          'Si viste la basura del float, ya tienes el argumento de code review para exigir Decimal en soles. `Decimal("0.1")` no es lo mismo que `Decimal(0.1)`.',
+        retrospective:
+          'Si viste `0.30000000000000004`, ya tienes el argumento de review. `Decimal` se construye desde texto para no heredar el error binario; `Decimal(0.1)` lo reintroduce. Siguiente: propina con `quantize` a céntimos.',
         starterCode: {
           language: 'python',
           title: 'float_vs_decimal.py',
@@ -1483,8 +1599,11 @@ assert OK`,
         id: 'S02-T3-B-E2',
         subtopicId: 'S02-T3-B',
         kind: 'independent',
+        title: 'Propina 10% con `quantize` a céntimos',
+        preamble:
+          '- **Contexto:** ticket sintético de restaurante en soles; necesitas céntimos estables.\n- **Meta:** propina 10% y total con `ROUND_HALF_EVEN` y `quantize(0.01)`.\n- **Éxito:** `propina == Decimal("8.55")` y `total == Decimal("94.05")`, print `OK`.\n- **Límites:** sin `float`; multiplica por `Decimal("0.10")`; quantize en cada monto a persistir.',
         instruction:
-          'E2 (independiente) — Cuenta de restaurante sintético `Decimal("85.50")`, propina 10%. Calcula propina y total con `quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)`. Sin float.',
+          '1. Calcula `propina` quantizada a dos decimales.\n2. Calcula `total` quantizado.\n3. Ejecuta asserts del starter.',
         hint: 'from decimal import Decimal, ROUND_HALF_EVEN. Multiplica por Decimal("0.10").',
         hints: [
           'from decimal import Decimal, ROUND_HALF_EVEN. Multiplica por Decimal("0.10").',
@@ -1493,7 +1612,9 @@ assert OK`,
         edgeCases: ['no float', 'quantize a 2 decimales', 'ROUND_HALF_EVEN'],
         tests: 'propina==Decimal("8.55"); total==Decimal("94.05")',
         feedback:
-          'Propina y total a 2 decimales sin basura: listo para tickets sintéticos de demos de data.',
+          '`8.55` y `94.05` con `ROUND_HALF_EVEN` demuestran céntimos estables sin `float`. Quantize en propina y en total, no solo “al final por suerte”.',
+        retrospective:
+          'Propina y total a 2 decimales sin basura: patrón listo para demos de data. Quantize en cada paso monetario, no solo al final “por suerte”. E3 generaliza esto a `parse_monto` desde texto de CSV.',
         starterCode: {
           language: 'python',
           title: 'propina_soles.py',
@@ -1533,8 +1654,11 @@ OK`,
         id: 'S02-T3-B-E3',
         subtopicId: 'S02-T3-B',
         kind: 'transfer',
+        title: '`parse_monto` con Decimal y errores',
+        preamble:
+          '- **Contexto:** el monto llega como texto de formulario (`"150.50"`); el parser no puede explotar.\n- **Meta:** `(ok, Decimal|None, error|None)` con strip, vacío, `InvalidOperation` y quantize `0.01`.\n- **Éxito:** cuatro casos del starter (OK, OK quantize `20.10`, vacío, `abc`) con mensajes accionables.\n- **Límites:** convención **punto** decimal (no coma); sin float; raw en el mensaje con `!r`.',
         instruction:
-          'E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, error accionable si falla. Prueba `"150.50"`, `"  20.1 "`, `""`, `"abc"`. Convención: **punto** decimal.',
+          '1. Implementa `parse_monto`: strip → vacío → `Decimal` → `quantize(0.01)` → `except InvalidOperation`.\n2. Rechaza vacío antes de construir Decimal; mensaje con `!r` del raw.\n3. Ejecuta el `for` de cuatro strings y compara salidas.',
         hint: 'try/except InvalidOperation. raw en el mensaje con !r.',
         hints: [
           'try/except InvalidOperation. raw en el mensaje con !r.',
@@ -1543,7 +1667,9 @@ OK`,
         edgeCases: ['vacío', 'coma vs punto — documentar punto', 'quantize .01'],
         tests: 'OK 150.50; vacío y abc con error; sin float',
         feedback:
-          'Este `parse_monto` se conecta al parser de intake cuando el CSV traiga un monto. Mismo contrato (ok, valor, error).',
+          'Este `parse_monto` se conecta al parser de intake cuando el CSV traiga un monto. Mismo contrato `(ok, valor, error)` que `safe_int`, con `InvalidOperation` en lugar de `ValueError`.',
+        retrospective:
+          'Mismo contrato que `safe_int`: ok / valor / error. `InvalidOperation` es el `ValueError` del dinero. Conecta este helper al intake cuando el CSV traiga monto; no conviertas con float “por rapidez”.',
         starterCode: {
           language: 'python',
           title: 'parse_monto.py',
@@ -1587,8 +1713,11 @@ for s in ["150.50", "  20.1 ", "", "abc"]:
         id: 'S02-T4-A-E1',
         subtopicId: 'S02-T4-A',
         kind: 'guided',
+        title: 'Saludo con f-string y acento',
+        preamble:
+          '- **Contexto:** los prompts y mensajes del intake van en español claro, con Unicode.\n- **Meta:** interpolar un nombre con f-string (estilo preferido de S02).\n- **Éxito:** una línea exacta: `Hola, José. Bienvenido al intake.`\n- **Límites:** usa f-string (no concatenación con `+` como solución principal).',
         instruction:
-          'E1 (guiado) — Con `nombre = "José"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluido).',
+          '1. Construye `mensaje` interpolando `nombre`.\n2. Imprímelo.\n3. Verifica acento y texto completo.',
         hint: 'f"Hola, {nombre}. Bienvenido al intake."',
         hints: [
           'f"Hola, {nombre}. Bienvenido al intake."',
@@ -1597,7 +1726,9 @@ for s in ["150.50", "  20.1 ", "", "abc"]:
         edgeCases: ['acentos en str Unicode', 'f-string con llaves'],
         tests: 'stdout contiene José y intake',
         feedback:
-          'Unicode en f-strings “simplemente funciona” en Python 3 — úsalo en prompts reales.',
+          'Sin la `f` verías llaves literales; con ella el acento de José se interpola limpio en Unicode. El mensaje exacto del éxito evita “casi igual” en el reporte de intake.',
+        retrospective:
+          'Unicode en f-strings funciona en Python 3 sin trucos. El error clásico es olvidar la `f` y ver `{nombre}` literal. Autochequeo: ¿qué sale si quitas la `f`? Siguiente: reporte multi-línea con monto `:.2f`.',
         starterCode: {
           language: 'python',
           title: 'saludo_fstring.py',
@@ -1622,8 +1753,11 @@ print(mensaje)`,
         id: 'S02-T4-A-E2',
         subtopicId: 'S02-T4-A',
         kind: 'independent',
+        title: 'Reporte multi-línea con `S/ {monto:.2f}`',
+        preamble:
+          '- **Contexto:** el analista pega un resumen legible en el ticket de calidad.\n- **Meta:** cuatro f-strings (nombres, apellido_paterno, contacto, monto).\n- **Éxito:** salida con las 4 etiquetas y `monto: S/ 99.50` (dos decimales).\n- **Límites:** no conviertas `Decimal` a `float` solo para formatear; usa `:.2f`.',
         instruction:
-          'E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal("99.5")`, imprime un reporte multi-línea con f-string incluyendo `S/ {monto:.2f}`.',
+          '1. Completa los cuatro `print` como f-strings.\n2. Formatea el monto con `S/` y `:.2f`.\n3. Ejecuta y compara con la solución.',
         hint: 'Usa varios print(f"...") o un solo f-string multi-línea. :.2f formatea dos decimales.',
         hints: [
           'Usa varios print(f"...") o un solo f-string multi-línea. :.2f formatea dos decimales.',
@@ -1632,7 +1766,9 @@ print(mensaje)`,
         edgeCases: [':.2f si monto', 'Decimal acepta formato .2f en f-string'],
         tests: 'salida con 4 campos; monto con 2 decimales (99.50)',
         feedback:
-          'El reporte legible es lo que el analista pega en el ticket. El formato consistente gana a la creatividad.',
+          'El reporte legible es lo que el analista pega en el ticket. El formato consistente gana a la creatividad; `S/ 99.50` con dos decimales fijos es el estándar de demo.',
+        retrospective:
+          'Formato consistente gana a creatividad en reportes de datos. `Decimal` acepta `:.2f` sin pasarlo a `float`. El error clásico es `str(monto)` sin dos decimales fijos. En E3 harás la captura testeable sin `input()` real.',
         starterCode: {
           language: 'python',
           title: 'reporte_cliente.py',
@@ -1676,8 +1812,11 @@ monto: S/ 99.50`,
         id: 'S02-T4-A-E3',
         subtopicId: 'S02-T4-A',
         kind: 'transfer',
+        title: 'Simular prompts sin `input()` real',
+        preamble:
+          '- **Contexto:** en Pyodide/CI no hay consola interactiva confiable; los tests necesitan funciones puras.\n- **Meta:** `simular_intake(...)` devuelve campos str + subdict `types` con `__name__`.\n- **Éxito:** `types["edad"]` y `types["nombres"]` son `"str"`; print `OK`.\n- **Límites:** **no** llames `input()`; no conviertas tipos aún (eso es el parse).',
         instruction:
-          'E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de prompts), devuelve un dict con esos str y un subdict `types` con `type(...).__name__` de cada uno. Demuestra que todo sigue siendo str.',
+          '1. Implementa el dict de retorno con campos y `types`.\n2. Usa `type(...).__name__` para cada campo (sin comprehensions si evitas complejidad).\n3. Corre asserts del starter.',
         hint: 'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
         hints: [
           'No uses input(). Los parámetros ya simulan las respuestas del usuario.',
@@ -1686,7 +1825,9 @@ monto: S/ 99.50`,
         edgeCases: ['todo str', 'testeable sin consola interactiva'],
         tests: 'function takes values params; all types str',
         feedback:
-          'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar.',
+          'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar. `types["edad"] == "str"` aunque el usuario “escribió un número”.',
+        retrospective:
+          'Si el intake es str→dict puro, los tests del parser (T4-B) se automatizan. El error clásico es asumir que dígitos en pantalla ya son `int`. El parse viene después, campo por campo.',
         starterCode: {
           language: 'python',
           title: 'simular_intake.py',
@@ -1731,8 +1872,11 @@ OK`,
         id: 'S02-T4-B-E1',
         subtopicId: 'S02-T4-B',
         kind: 'guided',
+        title: 'Parse de nombres vacíos con raw/errors',
+        preamble:
+          '- **Contexto:** el caso vacío es el primero que rompe demos “felices” de intake.\n- **Meta:** `parse_nombres` con `nombres_raw`, clean o `None`, y `errors` accionable.\n- **Éxito:** con `""` → raw `""`, `nombres is None`, errors menciona nombres; print `OK`.\n- **Límites:** guarda raw **antes** de strip; no borres el original.',
         instruction:
-          'E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y `errors` (lista). Si vacío tras strip, agrega error accionable. Prueba con `""`.',
+          '1. Completa `parse_nombres`.\n2. Si vacío tras strip, agrega error y deja clean en `None`.\n3. Ejecuta asserts del starter.',
         hint: 'Siempre guarda raw = valor original antes de strip.',
         hints: [
           'Siempre guarda raw = valor original antes de strip.',
@@ -1741,7 +1885,9 @@ OK`,
         edgeCases: ['mensaje accionable', "raw '' se conserva"],
         tests: 'caso vacío: raw==""; errors no vacío; nombres is None',
         feedback:
-          'El caso vacío es el primero que rompe demos “felices”. Si pasa el assert, el contrato raw/errors ya nació.',
+          'El caso vacío es el primero que rompe demos “felices”. Si pasa el assert, el contrato raw/errors ya nació: clean puede ser `None` sin borrar el original.',
+        retrospective:
+          'Raw siempre presente aunque clean sea `None`. Mensaje accionable = campo + `raw` con `!r`. El error clásico es borrar el original al fallar. Este micro-contrato se multiplica a todos los campos requeridos del You Do.',
         starterCode: {
           language: 'python',
           title: 'parse_vacio.py',
@@ -1785,8 +1931,11 @@ OK`,
         id: 'S02-T4-B-E2',
         subtopicId: 'S02-T4-B',
         kind: 'independent',
+        title: 'Conservar raw Unicode (`Ñahui`)',
+        preamble:
+          '- **Contexto:** apellidos peruanos con ñ y tildes no pueden “romperse” a ASCII en el pipeline.\n- **Meta:** separar raw (con espacios) y clean (`strip`) sin perder Unicode.\n- **Éxito:** `raw == original`, `clean == "Ñahui"`, print `Unicode OK`.\n- **Límites:** no encodes a ASCII; no mutes el string original (son inmutables de todos modos).',
         instruction:
-          'E2 (independiente) — Parsea `apellido_materno = "  Ñahui  "` conservando raw con espacios y clean strip. Assert de round-trip Unicode: clean == "Ñahui" y raw original intacto.',
+          '1. Asigna `raw` al original (con espacios).\n2. Asigna `clean` con `strip` (sin tocar codificación).\n3. Corre los asserts: raw idéntico al original; clean es `"Ñahui"`.',
         hint: 'No encodes a ascii. Python 3 str es Unicode.',
         hints: [
           'No encodes a ascii. Python 3 str es Unicode.',
@@ -1795,7 +1944,9 @@ OK`,
         edgeCases: ['no ascii errors', 'Ñ y acentos'],
         tests: 'caso unicode: raw con espacios; clean == "Ñahui"',
         feedback:
-          'Si Ñahui sobrevive, tu pipeline no es del siglo ASCII. Obligatorio en datos peruanos.',
+          'Si `Ñahui` sobrevive con ñ intacta, tu pipeline no es del siglo ASCII. Obligatorio en datos peruanos; no hace falta `encode`/`decode` aquí.',
+        retrospective:
+          'Si `Ñahui` sobrevive, tu pipeline no es del siglo ASCII. Raw con espacios + clean strip es el mismo hábito que en el parser completo. Siguiente: armar la suite de tres tests del cliente.',
         starterCode: {
           language: 'python',
           title: 'parse_unicode.py',
@@ -1827,8 +1978,11 @@ Unicode OK`,
         id: 'S02-T4-B-E3',
         subtopicId: 'S02-T4-B',
         kind: 'transfer',
+        title: 'Suite `parse_client`: Unicode, vacío, edad',
+        preamble:
+          '- **Contexto:** este ejercicio es el corazón del You Do (CP-N1-A) en miniatura.\n- **Meta:** `safe_int` + `parse_client` con `*_raw`, limpios y `errors`.\n- **Éxito:** tres asserts pasan — Ñahui raw OK y sin errors; nombres vacío con error; edad `"abc"` con `edad_raw` intacto — y print `3 tests OK`.\n- **Límites:** no dejes escapar `ValueError`; raw siempre presente; solo datos sintéticos.',
         instruction:
-          'E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` para edad. Suite de 3 tests: feliz+Unicode, vacío en nombres, edad `"abc"`. Todos deben pasar.',
+          '1. Implementa `safe_int` (vacío / OK / basura) con el contrato de la sección.\n2. Implementa `parse_client`: todas las claves `*_raw`, limpios, `edad`, `errors`; edad opcional con `safe_int`.\n3. No modifiques los tres bloques de assert; ejecuta hasta `3 tests OK`.',
         hint: 'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
         hints: [
           'Reutiliza el patrón de la demo T4-B. No dejes que ValueError se escape.',
@@ -1837,12 +1991,17 @@ Unicode OK`,
         edgeCases: ['raw conservado', '3 pruebas pasan', 'lista de errores'],
         tests: '3 pruebas pasan (unicode, vacío, edad inválida)',
         feedback:
-          'Esta suite es el corazón del You Do. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo.',
+          'Esta suite es el corazón del You Do en miniatura. Si pasa en local y en Pyodide, el incremento CP-N1-A de S02 está listo para el portafolio — pero el You Do aún pide `mostrar_resumen`, `main` y un cuarto caso.',
+        retrospective:
+          'Si la suite pasa en local y en Pyodide, el incremento S02 del capstone está listo. Tres invariantes: Unicode, vacío, número inválido. El You Do añade `mostrar_resumen`, `main` y un **cuarto** caso de edad en blanco — no copies solo esta suite y marques el portafolio listo.',
         starterCode: {
           language: 'python',
           title: 'parse_client_suite.py',
           code: `# CASO-LIM-002 · T4-B-E3
 # Implementa safe_int (vacío + strip + int) y parse_client con schema completo.
+# Claves del dict: nombres_raw, apellido_paterno_raw, apellido_materno_raw,
+# contacto_raw, direccion_raw, edad_raw, nombres, apellido_paterno,
+# apellido_materno, contacto, direccion, edad, errors.
 def safe_int(campo: str, valor: str):
     # vacío tras strip → error; int OK; ValueError → mensaje accionable
     pass
@@ -1934,7 +2093,7 @@ print("3 tests OK")`,
   youDo: {
     title: 'Parser de intake — registro sintético de cliente',
     context:
-      'Incremento del capstone CP-N1-A: construyes el **esqueleto de un parser de intake** para un cliente sintético (nombres, apellido paterno, apellido materno, contacto, dirección). Conservas valores originales, normalizas con strip, validas al menos un campo numérico opcional (edad) con mensaje claro, y reportas con f-strings. Solo datos ficticios — sin PII real.',
+      'Incremento del capstone CP-N1-A: construyes el **esqueleto de un parser de intake** para un cliente sintético (nombres, apellido paterno, apellido materno, contacto, dirección). Conservas valores originales, normalizas con strip, validas al menos un campo numérico opcional (edad) con mensaje claro, y reportas con f-strings. Solo datos ficticios — sin PII real. Éxito operativo: `_run_tests()` imprime `tests OK` y `main()` muestra un resumen demo — sin modificar los asserts fijos.',
     objectives: [
       'Capturar o recibir nombres, apellido_paterno, apellido_materno, contacto y dirección',
       'Conservar el valor original (raw) de cada campo',
@@ -2060,6 +2219,8 @@ if __name__ == "__main__":
 `,
     portfolioNote:
       'Este esqueleto demuestra tipos, conversión segura, nombres PEP 8, preservación de `raw` e I/O con f-strings — el primer artefacto de datos de tu portafolio. En entrevistas te pedirán extenderlo (más campos, `Decimal` para montos, lectura de CSV). Si el contrato raw/clean + errors está sólido, esas extensiones son naturales. Súbelo a tu repo de práctica (p. ej. `python-ds-journey`) **sin datos reales**.',
+    retrospective:
+      'Antes de marcar listo: (1) ¿qué invariante demuestras con un assert (raw intacto, Unicode, o edad inválida)? (2) ¿qué harías distinto con datos reales vs sintéticos (PII)? (3) En el README, una frase de impacto medible (antes/después) que puedas defender en 30 segundos en entrevista. Extensiones naturales: más campos, `Decimal` para monto, lectura de CSV — sin tocar el contrato raw/clean/errors.',
     rubric: [
       { criterion: 'Parse y tipos correctos (correctness)', weight: '30%' },
       { criterion: 'Vacíos / Unicode / inválidos cubiertos (robustness)', weight: '25%' },

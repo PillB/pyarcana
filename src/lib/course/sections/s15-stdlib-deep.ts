@@ -343,6 +343,8 @@ s15_th_8()`,
         subtopicId: "S15-T1-A",
         environment: "local-python",
         description: "Construir DataFrame de clientes con Index estable y dtypes claros",
+        preamble:
+          "Antes de unir clientes y transacciones, el analista necesita un **Index de negocio estable**, no solo filas en orden 0, 1, 2. En esta demo un DataFrame sintético (C001/C002/C003, Lima/Arequipa/Cusco) pone `cliente_id` como index y tipa `score` a float64. No escribas aún: predice el nombre del index, la lista de ids y el par región/score de `C002`, luego compara con la salida. Si confundes etiqueta con posición, el pipeline de calidad miente cuando reordenas filas.",
         code: {
           language: 'python',
           title: "demo_df_index.py",
@@ -363,13 +365,18 @@ s15_ido_1()`,
           output: `cliente_id ['C001', 'C002', 'C003']
 Arequipa 0.42`,
         },
-        why: "Sin Index de negocio estable, alinear clientes y transacciones es adivinar el orden de filas.",
+        why:
+          "`set_index('cliente_id')` fija la identidad de negocio: `loc['C002']` lee por etiqueta, no por el orden en que llegó el CSV. Sin ese eje, alinear clientes y transacciones es adivinar filas. Tipar `score` a float64 declara intención numérica. En We Do T1-A practicarás set_index, acceso por etiqueta y alineación de Series con el mismo Index.",
+        retrospective:
+          "Si puedes explicar por qué `loc['C002']` no es lo mismo que «la segunda fila» sin mirar el código, ya tienes el hábito de Index de negocio. El error clásico es exportar y perder la clave. En We Do T1-A practicarás set_index, Series por etiqueta y suma alineada.",
       },
       {
         demoId: "S15-T1-B-DEMO",
         subtopicId: "S15-T1-B",
         environment: "local-python",
         description: "Ingerir CSV sintético con sep, decimal latino, dtype, parse_dates y na_values",
+        preamble:
+          "En retail y banca de LatAm el CSV a menudo llega con `;` y montos `15,50`. Si lees como si el decimal fuera punto, el monto se vuelve basura o texto. En esta demo un extracto sintético declara `sep`, `decimal`, `dtype` de `cliente_id`, `parse_dates` y `na_values` para celdas vacías. No escribas aún: predice filas, cuántos nulos en `monto` y el dtype de `fecha`, luego compara con la salida.",
         code: {
           language: 'python',
           title: "demo_read_csv.py",
@@ -400,13 +407,18 @@ s15_ido_2()`,
 datetime64[ns]
 ['C001', 'C002', 'C003']`,
         },
-        why: "Declarar sep y decimal en el parser evita monedas/fechas como object opaco en CSV latinos.",
+        why:
+          "Cada parámetro de `read_csv` es un **contrato de archivo**: `sep` y `decimal=','` son idiomáticos frente a un `.replace` manual frágil; sin `parse_dates` las fechas rompen filtros temporales; `dtype` y `na_values` evitan columnas `object` opacas. En We Do T1-B practicarás na_values del proveedor, fechas y CSV latino con usecols.",
+        retrospective:
+          "Si puedes explicar por qué `15,50` sin `decimal=','` no es 15.5, ya internalizaste el contrato del parser. El error clásico es «arreglar» el archivo a mano y perder trazabilidad. We Do T1-B practica na_values, parse_dates y usecols.",
       },
       {
         demoId: "S15-T2-A-DEMO",
         subtopicId: "S15-T2-A",
         environment: "local-python",
         description: "Seleccionar filas Lima y asignar columna de prioridad de revisión (etiqueta neutra de laboratorio)",
+        preamble:
+          "Tras ingerir, el analista filtra un subconjunto y deriva una etiqueta de **laboratorio** (prioridad de revisión), no un veredicto sobre personas. En esta demo se copian filas de Lima, se asigna `prioridad_revision` si `score < 0.5`, y se imprime el dict de ids/scores/prioridad. Observa el orden: `loc` del filtro → `copy` → `assign`. Predice quién queda en «si» antes de mirar la salida. El score sintético no es culpa ni fraude.",
         code: {
           language: 'python',
           title: "demo_loc.py",
@@ -428,13 +440,18 @@ datetime64[ns]
 s15_ido_3()`,
           output: `{'cliente_id': ['C001', 'C003', 'C004'], 'score': [0.9, 0.3, 0.8], 'prioridad_revision': ['no', 'si', 'no']}`,
         },
-        why: "Un solo loc + assign deja pipelines legibles y testeables. La etiqueta es de laboratorio: score sintético no es culpa ni riesgo calibrado.",
+        why:
+          "Un solo `loc` + `assign` deja pipelines legibles y testeables; evita el encadenamiento `df[cols][rows]`. La etiqueta es de laboratorio: el score sintético no es culpa, fraude ni riesgo calibrado. En We Do T2-A practicarás umbral inclusivo, columnas derivadas y posición con `iloc`.",
+        retrospective:
+          "Si puedes decir por qué `C003` es «si» y `C001`/`C004` son «no» sin reejecutar, ya lees máscaras booleanas. El error clásico es filtrar con `df[df.region==...][cols]` encadenado y luego pelear con SettingWithCopy. Pregunta: ¿la etiqueta `prioridad_revision` es un veredicto sobre personas o un flag de laboratorio? We Do T2-A: umbral inclusivo, `assign` e `iloc`.",
       },
       {
         demoId: "S15-T2-B-DEMO",
         subtopicId: "S15-T2-B",
         environment: "local-python",
         description: "Evitar chained assignment: flag seguro con loc y subset con copy",
+        preamble:
+          "En pipelines de ingesta, el bug clásico es asignar en cadena (`df[mask]['col'] = ...`): en pantalla el flag parece seteado y al exportar desaparece. En esta demo se marca `estado='revisar'` con un solo `loc` sobre el original, se materializa un subset con `.copy()`, se añade `owner` y se imprimen ambos. Observa que el padre no tiene `owner` y el subset sí. No escribas aún; sigue el flujo seguro.",
         code: {
           language: 'python',
           title: "demo_copy.py",
@@ -452,13 +469,18 @@ s15_ido_4()`,
           output: `{'id': ['C001', 'C002', 'C003'], 'score': [0.2, 0.9, 0.4], 'estado': ['revisar', nan, 'revisar']}
 {'id': ['C001', 'C003'], 'owner': ['dq_team', 'dq_team']}`,
         },
-        why: "Un solo loc sobre el padre + .copy() en subsets evita mutaciones fantasmas (chained assignment nunca actualiza el original de forma fiable).",
+        why:
+          "Un solo `loc` sobre el padre actualiza de forma fiable; `.copy()` declara independencia del subset. El chained assignment nunca es el contrato profesional: con Copy-on-Write el comportamiento es más determinista, no más «mágico». En We Do T2-B practicarás loc, copy y aislamiento de mutación.",
+        retrospective:
+          "Si puedes explicar por qué `C002` no tiene `estado` y por qué mutar el subset no inventa `owner` en el padre, ya separaste mutación del original vs. trabajo en copia. We Do T2-B practica loc, copy y aislamiento.",
       },
       {
         demoId: "S15-T3-A-DEMO",
         subtopicId: "S15-T3-A",
         environment: "local-python",
         description: "Coercionar string/category, numeric y fechas con conteo de NaN",
+        preamble:
+          "Tipar es declarar intención: región como categoría, monto como número, alta como fecha. En esta demo se normaliza `region` con `str.title()` antes de `category`, se coerciona monto y alta con `errors='coerce'`, y se **cuentan** los NaN. Observa un fallo en monto (`?`) y uno en fecha (`2024-13-01`). Predice `na_monto` y `na_alta` antes de mirar la salida. Sin conteo, coerce es una forma elegante de esconder basura.",
         code: {
           language: 'python',
           title: "demo_types.py",
@@ -482,13 +504,18 @@ s15_ido_5()`,
 na_monto 1 na_alta 1
 [10.5, nan, 3.0]`,
         },
-        why: "Tipos correctos + conteo de NaN son la base de la ingesta tipada y del reporte de calidad.",
+        why:
+          "`str.title()` evita categorías duplicadas lima/Lima; `errors='coerce'` prefiere NaN contable a tumbar el lote; el conteo de NaN es evidencia de calidad, no un detalle cosmético. En We Do T3-A practicarás category, to_numeric y to_datetime por separado.",
+        retrospective:
+          "Si puedes decir por qué hay 1 NaN en monto y 1 en alta sin reejecutar, ya separas fallo de conversión de «dato bueno». Coerce **sin** conteo es basura elegante: el número de NaN es evidencia, no ruido. Pregunta: ¿`?` y `2024-13-01` son nulos del parser o fallos de conversión? We Do T3-A: category, `to_numeric` y `to_datetime` por separado.",
       },
       {
         demoId: "S15-T3-B-DEMO",
         subtopicId: "S15-T3-B",
         environment: "local-python",
         description: "Aplicar schema y listar coerciones fallidas por columna",
+        preamble:
+          "El schema es el acuerdo entre el dueño del dato y el pipeline: columna → tipo. En esta demo una función aplica string/float/datetime, **falla en voz alta** si falta una columna, y emite `report` con fallos nuevos de coerción (`monto: 1`, `fecha: 1`). Sigue el bucle por el schema y predice dtypes y reporte antes de mirar la salida. En CP-N2-A este par `(df, report)` viaja junto al DataFrame, no en un mensaje de chat.",
         code: {
           language: 'python',
           title: "demo_schema.py",
@@ -527,13 +554,18 @@ print(rep)`,
           output: `{'cliente_id': 'string', 'monto': 'float64', 'fecha': 'datetime64[ns]'}
 {'cliente_id': 0, 'monto': 1, 'fecha': 1}`,
         },
-        why: "Schema + reporte de fallos (numéricos y fechas) es el contrato fail-closed; tipos no soportados fallan en voz alta.",
+        why:
+          "El delta de `isna` aísla coerciones **nuevas** de nulos del parser; tipos no soportados → TypeError; columna faltante → KeyError. Schema + reporte es el contrato fail-closed de CP-N2-A. En We Do T3-B practicarás delta, fail-closed y dtype string; el You Do une dos tablas con el mismo patrón.",
+        retrospective:
+          "Si puedes explicar por qué `cliente_id` reporta 0 y `monto` reporta 1, ya separas «ya era nulo» de «la conversión lo volvió nulo». Fail-closed (columna faltante) no se negocia con defaults. Pregunta: ¿dónde viaja el `report` en CP-N2-A — junto al DF o en un chat? We Do T3-B: delta, KeyError y dtype `string`.",
       },
       {
         demoId: "S15-T4-A-DEMO",
         subtopicId: "S15-T4-A",
         environment: "local-python",
         description: "Exportar a CSV y Excel sin perder columnas críticas; emitir contrato Parquet",
+        preamble:
+          "Exportar es materializar el dataset analítico sin inventar columnas. En esta demo se escribe CSV con `index=False`, se relee y se **assert** de columnas críticas; se escribe Excel en `BytesIO` con `openpyxl`; se emite un dict de dtypes (contrato estilo Parquet sin motor). Observa `rows`, `excel_ok` y `contract`. Predice si el round-trip conserva `cliente_id`/`monto`/`region`. Sin `openpyxl` el tramo Excel no arranca: es dependencia de entorno, no fallo de lógica.",
         code: {
           language: 'python',
           title: "demo_export.py",
@@ -561,13 +593,18 @@ s15_ido_7()`,
           output: `rows 2 excel_ok True
 contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
         },
-        why: "El round-trip de columnas críticas es la prueba mínima de un export reproducible.",
+        why:
+          "`index=False` evita `Unnamed: 0` al reingestar; el assert de columnas es la prueba mínima de export; el dict de dtypes documenta el contrato aunque no haya motor Parquet. En We Do T4-A practicarás CSV, Excel y contrato de dtypes por separado.",
+        retrospective:
+          "Si puedes explicar por qué el assert de columnas va **después** del re-read, ya tienes el hábito de round-trip. El error clásico es confiar en el DF en memoria y descubrir `Unnamed: 0` al reingestar. Pregunta: ¿qué prueba el `excel_ok` además del CSV? We Do T4-A: CSV sin index, Excel en memoria y contrato de dtypes.",
       },
       {
         demoId: "S15-T4-B-DEMO",
         subtopicId: "S15-T4-B",
         environment: "local-python",
         description: "Emitir manifest de filas/columnas, memoria y provenance",
+        preamble:
+          "Sin manifest no hay reconciliación de ingesta: no sabes si el CSV de «esta mañana» es el de ayer. En esta demo se serializa con `to_csv(index=False)`, se hashea el **mismo** blob, y se emite un JSON con filas, columnas, dtypes, memoria, `source` y `content_sha256` corto. Observa `sort_keys=True` en el dump. Predice `rows=3` y que el hash no es el del `repr` del DataFrame. Ese JSON es evidencia auditable para CP-N2-A.",
         code: {
           language: 'python',
           title: "demo_manifest.py",
@@ -589,7 +626,10 @@ contract {'cliente_id': 'object', 'monto': 'float64', 'region': 'object'}`,
 s15_ido_8()`,
           output: `{"columns": ["cliente_id", "monto"], "content_sha256": "15375056672a", "dtypes": {"cliente_id": "object", "monto": "float64"}, "memory_bytes": 335, "rows": 3, "source": "synthetic_tx_v1"}`,
         },
-        why: "El manifest reconcilia filas de entrada y de salida, y prueba que el artefacto hasheado no cambió entre corridas.",
+        why:
+          "Hashear el payload exportado (no `str(df)`) hace el hash estable entre corridas; `memory_usage(deep=True)` no subestima strings; `source` es provenance mínima. El manifest reconcilia filas de entrada y de salida. En We Do T4-B practicarás memoria, manifest mínimo y hash truncado.",
+        retrospective:
+          "Si puedes explicar por qué el hash debe salir del CSV y no del display, ya tienes provenance profesional. El error clásico es hashear `str(df)` o el index por defecto y obtener un «mismo dataset, hash distinto». Pregunta de auto-chequeo: con el fixture de la demo, ¿`rows` es 3 y el hash es del payload con `index=False`? We Do T4-B: memoria deep, manifest mínimo y hash truncado.",
       },
     ],
   },
@@ -601,8 +641,11 @@ s15_ido_8()`,
         id: "S15-T1-A-E1",
         subtopicId: "S15-T1-A",
         kind: "guided",
+        title: "Index de negocio con set_index",
+        preamble:
+          "- **Contexto:** en el lote de clientes del retailer sintético, la identidad es `cliente_id`, no la posición de la fila.\n- **Meta:** poner `cliente_id` como index e imprimir la lista de etiquetas.\n- **Éxito:** con el fixture del starter, `print(df.index.tolist())` muestra `['C001', 'C002']`.\n- **Límites:** no borres los datos del starter; no uses joins ni validaciones de calidad avanzadas.",
         instruction:
-          "E1 (guiado) — **Index de negocio.** Con el DataFrame del starter (ids `C001`/`C002`), pon `cliente_id` como index e imprime `index.tolist()`. Salida esperada: `['C001', 'C002']`. No borres los datos del starter. Quédate en Series/DataFrame (sin joins ni validaciones de calidad avanzadas).",
+          "1. Abre el starter: imprime `columns` (DEFECT: falta `set_index`).\n2. Aplica `set_index('cliente_id')` al DataFrame.\n3. Imprime solo `df.index.tolist()` (sin texto extra).\n4. Verifica que la salida sea `['C001', 'C002']`.",
         hint: "set_index('cliente_id').",
         hints: [
           "set_index('cliente_id').",
@@ -611,7 +654,9 @@ s15_ido_8()`,
         edgeCases: ["reset_index accidental", "index name None sin set"],
         tests: "print(df.index.tolist()) == ['C001', 'C002'] tras set_index",
         feedback:
-          "Si ves nombres de columnas en vez del index, falta set_index('cliente_id') antes de imprimir.",
+          "Si ves nombres de columnas (`cliente_id`, `score`) en vez del index, el DataFrame aún no tiene eje de negocio: falta `set_index` antes de imprimir. Columnas e index son ejes distintos.",
+        retrospective:
+          "El index estable es el puente a alinear tablas y auditar filas. No confundas «lista de columnas» con «lista de ids». Pregunta: si mañana reordenas el CSV, ¿tus etiquetas `C001`/`C002` siguen siendo las mismas? Siguiente (E2): leer un score por etiqueta, no por posición.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -635,9 +680,12 @@ print(df.index.tolist())`,
         id: "S15-T1-A-E2",
         subtopicId: "S15-T1-A",
         kind: "independent",
+        title: "Series por etiqueta, no por posición",
+        preamble:
+          "- **Contexto:** el score de un cliente se busca por id de negocio (`C002`), no por «el que quedó primero en el CSV».\n- **Meta:** leer el valor de la Series por etiqueta y publicarlo como float limpio.\n- **Éxito:** imprime `0.9` (valor de `C002`); no `0.1` (primera posición).\n- **Límites:** no uses `iloc`; conserva el fixture del starter.",
         instruction:
-          "E2 (independiente) — **Series por etiqueta.** Con el objeto `Series` del starter (index `C001`/`C002`, name `score`), imprime el valor de `s['C002']` como float. No uses acceso posicional. Salida esperada: `0.9`. Conserva el fixture del starter.",
-        hint: "pd.Series(..., index=..., name=...).",
+          "1. Revisa el starter: usa `s.iloc[0]` (DEFECT posicional).\n2. Accede por etiqueta: `s['C002']` o `s.loc['C002']`.\n3. Envuelve en `float(...)` e imprime solo ese número.\n4. No reordenes ni reconstruyas la Series.",
+        hint: "Acceso por etiqueta, no por posición.",
         hints: [
           "Acceso por etiqueta: s['C002'] o s.loc['C002'].",
           "float(...) para un print limpio.",
@@ -645,7 +693,9 @@ print(df.index.tolist())`,
         edgeCases: ["iloc en vez de etiqueta", "name incorrecto"],
         tests: "print(float(s['C002'])) == 0.9",
         feedback:
-          "iloc[0] lee la primera posición (0.1), no la etiqueta C002. Usa s['C002'].",
+          "`iloc[0]` lee la primera **posición** (0.1), no la etiqueta `C002`. Usa `s['C002']` o `s.loc['C002']` y `float(...)` para un print limpio. Si reordenas la Series, `iloc[0]` cambia y la etiqueta no.",
+        retrospective:
+          "Etiqueta ≠ posición: si reordenas filas, `iloc[0]` cambia y `C002` no. Ese hábito evita off-by-one en pipelines con Index de negocio. Luego (E3) la alineación de dos Series pone a prueba el mismo eje.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -668,17 +718,22 @@ print(float(s["C002"]))`,
         id: "S15-T1-A-E3",
         subtopicId: "S15-T1-A",
         kind: "transfer",
+        title: "Alinear Series con add y fill_value",
+        preamble:
+          "- **Contexto:** dos extractos parciales de score se suman por **etiqueta** de cliente; no es un join de DataFrames (eso llega después).\n- **Meta:** sumar alineando índices y rellenar huecos con 0.\n- **Éxito:** tras `sort_index()`, el dict redondeado es `{'C001': 1.0, 'C002': 2.5}`.\n- **Límites:** no uses merge/join de tablas; no inventes filas a mano.",
         instruction:
-          "E3 (transferencia) — **Alineación de Index (sin joins de tablas).** Dos Series con índices parciales se suman alineando etiquetas: usa `.add(..., fill_value=0)` y `sort_index()`, luego imprime el dict redondeado. No es un join de DataFrames (eso vendrá después): es la misma idea de Index de T1-A. Salida esperada: `{'C001': 1.0, 'C002': 2.5}`.",
-        hint: "s1.add(s2, fill_value=0).",
+          "1. Lee el DEFECT: `s1 + s2` deja NaN en `C001`.\n2. Suma alineando por Index y rellenando huecos con 0 (método de Series, no `merge`).\n3. Ordena con `sort_index()` y redondea a 2 decimales.\n4. Imprime el dict (sin texto extra); verifica `{'C001': 1.0, 'C002': 2.5}`.",
+        hint: "Suma alineando índices; rellena huecos.",
         hints: [
-          "s1.add(s2, fill_value=0) evita NaN donde s2 no tiene C001.",
+          "Preferí `.add` con relleno de huecos sobre el operador +.",
           "sort_index() antes de to_dict().",
         ],
         edgeCases: ["NaN sin fill_value", "no ordenar"],
         tests: "out.round(2).to_dict() == {'C001': 1.0, 'C002': 2.5}",
         feedback:
-          "El operador + alinea por index y deja NaN donde falta valor. `add(..., fill_value=0)` rellena el hueco.",
+          "El operador `+` alinea por index y deja NaN donde falta valor. `add(..., fill_value=0)` rellena el hueco cuando el negocio dice «cero si no aparece».",
+        retrospective:
+          "La alineación por Index es el mismo principio que unir tablas por clave, pero en Series. El error clásico es aceptar NaN «porque el operador + lo hizo». Pregunta de cierre: ¿qué valor debería tener un cliente que solo aparece en una de las dos Series si el negocio dice «cero si falta»? Puente a T1-B: leer el CSV ya con dtypes.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -705,9 +760,12 @@ print(out.round(2).to_dict())`,
         id: "S15-T1-B-E1",
         subtopicId: "S15-T1-B",
         kind: "guided",
+        title: "na_values del proveedor al leer CSV",
+        preamble:
+          "- **Contexto:** el proveedor marca montos faltantes con `SIN_DATO`, un token **propio** que no es nulo por defecto en `read_csv`.\n- **Meta:** declarar ese marcador al leer e informar cuántos nulos hay en `b`.\n- **Éxito:** imprime `1` (un nulo en la columna `b`).\n- **Límites:** no reescribas el CSV a mano; no uses el default de `NA` como atajo de este ejercicio.",
         instruction:
-          "E1 (guiado) — **na_values al leer CSV.** Lee el CSV del starter con `StringIO` y declara `na_values=['SIN_DATO']` (marcador del proveedor, no es nulo por defecto). Imprime cuántos nulos hay en la columna `b`. Salida esperada: `1`. Tokens como `NA`/`N/A` ya son nulos por defecto; aquí el contrato es un token propio.",
-        hint: "pd.read_csv(StringIO(...), na_values=['SIN_DATO']).",
+          "1. Abre el starter: lee sin `na_values` y `isna` da 0.\n2. Pasa `na_values=['SIN_DATO']` a `read_csv`.\n3. Imprime `int(df['b'].isna().sum())`.\n4. Verifica salida `1`.",
+        hint: "Declara el marcador del proveedor en el parser.",
         hints: [
           "pd.read_csv(StringIO(...), na_values=['SIN_DATO']).",
           "int(df['b'].isna().sum()).",
@@ -715,7 +773,9 @@ print(out.round(2).to_dict())`,
         edgeCases: ["na_values no aplicado", "usar NA por defecto (no enseña na_values)"],
         tests: "isna().sum() de b == 1 tras na_values=['SIN_DATO']",
         feedback:
-          "Sin na_values, el texto 'SIN_DATO' no es nulo. Decláralo en na_values y vuelve a contar isna. No confíes en NA del default para este ejercicio.",
+          "Sin `na_values`, `'SIN_DATO'` es texto y `isna` no lo ve. Decláralo en el parser y vuelve a contar. No confíes en `NA` del default para practicar este contrato.",
+        retrospective:
+          "Distingue nulos del parser (tokens por defecto) de marcadores del proveedor. Si `isna` da 0 con basura visible, el contrato del parser está incompleto — no el «CSV mágico». Pregunta: ¿`SIN_DATO` es lo mismo que `NA` del default de pandas? Siguiente (E2): tipar fechas en la lectura.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -740,17 +800,22 @@ print(int(df["b"].isna().sum()))`,
         id: "S15-T1-B-E2",
         subtopicId: "S15-T1-B",
         kind: "independent",
+        title: "parse_dates al ingerir la fecha",
+        preamble:
+          "- **Contexto:** si `fecha` queda como texto, los filtros temporales y el orden cronológico fallan en silencio o con errores confusos.\n- **Meta:** tipar la columna en la lectura con `parse_dates`.\n- **Éxito:** `str(df['fecha'].dtype)` imprime `datetime64[ns]`.\n- **Límites:** no conviertas después con un bucle manual; declara el contrato en `read_csv`.",
         instruction:
-          "E2 (independiente) — **parse_dates.** Lee el CSV del starter con `parse_dates=['fecha']` e imprime `str(df['fecha'].dtype)`. Salida esperada: `datetime64[ns]`. Si omites parse_dates, verás un dtype object/string.",
-        hint: "parse_dates=['fecha'].",
+          "1. Revisa el starter: lee sin `parse_dates` (dtype object/string).\n2. Añade `parse_dates=['fecha']`.\n3. Imprime `str(df['fecha'].dtype)`.\n4. Confirma `datetime64[ns]`.",
+        hint: "Declara la columna de fecha en la lectura.",
         hints: [
-          "parse_dates=['fecha'] en read_csv.",
+          "parse_dates en read_csv con la columna de fecha.",
           "str(df['fecha'].dtype).",
         ],
         edgeCases: ["dtype object", "formato de fecha inválido"],
         tests: "str(df['fecha'].dtype) == 'datetime64[ns]'",
         feedback:
-          "Sin parse_dates la columna queda como texto. Declara parse_dates en read_csv.",
+          "Sin `parse_dates` la columna queda como texto: un `head()` bonito miente. Declara el contrato en `read_csv` para que el dtype sea `datetime64` desde la ingesta y los filtros temporales no fallen en silencio.",
+        retrospective:
+          "Tipar en la ingesta es más barato que «arreglar» después. El error clásico es confiar en un `head()` bonito con strings de fecha. Luego (E3) el CSV latino combina sep, decimal y usecols.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -775,17 +840,22 @@ print(str(df["fecha"].dtype))`,
         id: "S15-T1-B-E3",
         subtopicId: "S15-T1-B",
         kind: "transfer",
+        title: "CSV latino con decimal y usecols",
+        preamble:
+          "- **Contexto:** un extracto de retail llega con `;`, monto `15,50` y una columna basura `z` que no pertenece al schema de laboratorio.\n- **Meta:** declarar sep, decimal y columnas útiles en el parser.\n- **Éxito:** `monto.tolist()` es `[15.5]` (float, no texto).\n- **Límites:** no uses `.replace(',', '.')` sobre el CSV crudo; no dejes entrar `z`.",
         instruction:
-          "E3 (transferencia) — **CSV latino + usecols.** El fixture usa `;` y decimal coma (`15,50`), más una columna basura `z`. Léelo con `sep=';'`, `decimal=','` y `usecols` solo de `cliente_id` y `monto`. Imprime `monto.tolist()`. Salida esperada: `[15.5]`. No reescribas el texto con `.replace(',', '.')`: declara el contrato en el parser.",
-        hint: "sep=';', decimal=',', usecols=[...].",
+          "1. Lee el DEFECT: solo `sep=';'` — el monto queda como texto.\n2. Añade `decimal=','` y `usecols=['cliente_id', 'monto']`.\n3. Imprime `df['monto'].tolist()`.\n4. Verifica `[15.5]`.",
+        hint: "Contrato de parser: separador, decimal y columnas útiles.",
         hints: [
-          "pd.read_csv(..., sep=';', decimal=',', usecols=['cliente_id', 'monto']).",
+          "Además del sep, declara decimal y usecols de las columnas del schema.",
           "print(df['monto'].tolist()) — el float debe ser 15.5, no texto.",
         ],
         edgeCases: ["sin decimal → texto o mal parseo", "sin usecols entra z", "replace manual frágil"],
         tests: "sep=';' + decimal=',' + usecols → monto.tolist() == [15.5]",
         feedback:
-          "Si omites decimal=',', el monto no llega como 15.5. Declara sep, decimal y usecols en read_csv; no uses replace sobre el CSV crudo.",
+          "Si omites `decimal=','`, el monto no llega como 15.5. Declara sep, decimal y usecols en `read_csv`; no uses replace sobre el CSV crudo.",
+        retrospective:
+          "El contrato del archivo se declara en parámetros, no en parches de string. Pregunta de cierre: ¿qué pasa si omites `usecols` y tipas después? Puente a T2-A: ya con tabla limpia, seleccionar filas con `loc`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -817,9 +887,12 @@ print(df["monto"].tolist())`,
         id: "S15-T2-A-E1",
         subtopicId: "S15-T2-A",
         kind: "guided",
+        title: "Filtro inclusivo con loc y umbral",
+        preamble:
+          "- **Contexto:** un gate de laboratorio marca clientes con score en o por encima del umbral 0.5.\n- **Meta:** seleccionar con `loc` y un comparador **inclusivo**.\n- **Éxito:** lista de `cliente_id` = `['C002']` (score exacto 0.5 no se cae).\n- **Límites:** no uses solo `iloc` posicional; no mutes el DF.",
         instruction:
-          "E1 (guiado) — **Filtro con loc.** Con el DF del starter (`C001` score 0.4, `C002` score **0.5**), selecciona filas con `score >= 0.5` e imprime la lista de `cliente_id`. Salida esperada: `['C002']`. Cuidado: `>` estricto deja fuera el umbral exacto y devolvería lista vacía.",
-        hint: "df.loc[df.score>=0.5, 'cliente_id'].",
+          "1. Abre el starter: usa `score > 0.5` y sale `[]`.\n2. Cambia a `>= 0.5` dentro de `loc`.\n3. Selecciona la columna `cliente_id` y `tolist()`.\n4. Imprime solo esa lista.",
+        hint: "loc con umbral inclusivo sobre score.",
         hints: [
           "df.loc[df['score'] >= 0.5, 'cliente_id'].",
           "tolist().",
@@ -827,7 +900,9 @@ print(df["monto"].tolist())`,
         edgeCases: ["iloc posicional incorrecto", "filtro invertido", "score exacto 0.5 excluido por >"],
         tests: "loc score>=0.5 → cliente_id list == ['C002'] (fixture con borde 0.5)",
         feedback:
-          "Con score 0.5 en el borde, `>` excluye a C002 y sale []. Usa >= si el umbral es inclusivo.",
+          "Con score 0.5 en el borde, `>` excluye a C002 y devuelve lista vacía. Si el umbral del negocio es inclusivo, usa `>=`. El bug no es «pandas raro»: es el comparador.",
+        retrospective:
+          "Umbral inclusivo vs. estricto es un error de negocio disfrazado de off-by-one. Pregunta: si el gate dice «score al menos 0.5», ¿qué comparador usas? Siguiente (E2): derivar columnas con `assign` sin mutar a ciegas.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -850,17 +925,22 @@ print(df.loc[df["score"] >= 0.5, "cliente_id"].tolist())`,
         id: "S15-T2-A-E2",
         subtopicId: "S15-T2-A",
         kind: "independent",
+        title: "Columna derivada con assign",
+        preamble:
+          "- **Contexto:** en un pipeline legible, las columnas derivadas se construyen sin ensuciar el DF original como paso obligatorio.\n- **Meta:** crear `doble = score * 2` con `assign` e imprimir la lista.\n- **Éxito:** `[2.0, 4.0]`.\n- **Límites:** no dejes el factor `*1`; prefiere `assign` sobre mutación opaca.",
         instruction:
-          "E2 (independiente) — **assign.** Crea la columna `doble = score * 2` con `assign` (sin mutar el DF original como paso obligatorio) e imprime la lista de `doble`. Salida esperada: `[2.0, 4.0]`.",
-        hint: "df.assign(doble=...).",
+          "1. Revisa el starter: multiplica por 1 e in-place.\n2. Usa `df.assign(doble=lambda x: x['score'] * 2)`.\n3. Selecciona `['doble']` y `tolist()`.\n4. Imprime solo esa lista.",
+        hint: "Construye la columna derivada y devuelve un DF nuevo.",
         hints: [
-          "df.assign(doble=lambda x: x['score'] * 2).",
+          "Preferí assign con la fórmula score * 2.",
           "Selecciona la columna doble y tolist().",
         ],
         edgeCases: ["chained assign", "olvidar columna"],
         tests: "assign(doble=score*2)['doble'].tolist() == [2.0, 4.0]",
         feedback:
-          "No mutes con *1 in-place. Usa assign(doble=lambda x: x['score'] * 2) y selecciona la columna 'doble'.",
+          "No mutes con `*1` in-place. Usa `assign` con la fórmula correcta (`score * 2`) y selecciona la columna `doble` para el print.",
+        retrospective:
+          "`assign` devuelve un objeto nuevo y hace la intención visible en una línea. El error clásico es mutar in-place con la fórmula incorrecta y no notar el factor. Luego (E3): posición pura con `iloc`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -884,17 +964,22 @@ print(df.assign(doble=lambda x: x["score"] * 2)["doble"].tolist())`,
         id: "S15-T2-A-E3",
         subtopicId: "S15-T2-A",
         kind: "transfer",
+        title: "Celda por posición con iloc",
+        preamble:
+          "- **Contexto:** a veces el contrato es **posición** (fila 1, columna 0 de una grilla), no etiqueta de cliente.\n- **Meta:** leer con `iloc` la celda inferior izquierda del DF 2×2.\n- **Éxito:** imprime `3`.\n- **Límites:** no uses `loc` (etiquetas); índices base 0, no 1-based.",
         instruction:
-          "E3 (transferencia) — **iloc posicional.** Dado un DF 2×2 `[[1,2],[3,4]]`, imprime el valor en posición fila 1, columna 0 con `iloc`. Salida esperada: `3`. No uses `loc` (etiquetas).",
-        hint: "iloc posición 1,0 → 3.",
+          "1. Lee el DEFECT: `loc[0, 0]` devuelve 1 (etiqueta, no «abajo-izquierda»).\n2. Lee por **posición** la celda inferior izquierda del DF 2×2 (base 0).\n3. Envuelve en `int(...)` e imprime solo ese número.\n4. No reindexes el DataFrame; verifica `3`.",
+        hint: "Posición, no etiqueta.",
         hints: [
-          "df.iloc[1, 0].",
+          "Acceso por posición: fila 1, columna 0.",
           "int(...) para un print limpio.",
         ],
         edgeCases: ["confusión loc/iloc", "1-based"],
         tests: "int(df.iloc[1, 0]) == 3",
         feedback:
-          "`loc` usa etiquetas (aquí 0,0 es 1). `iloc` usa posiciones: fila 1, col 0 es 3.",
+          "`loc` usa etiquetas (aquí 0,0 es 1). `iloc` usa posiciones: fila 1, col 0 es 3. Base 0, no 1-based.",
+        retrospective:
+          "`loc` = etiqueta; `iloc` = posición. Confundirlos es el off-by-one clásico cuando el Index ya no es 0..n-1. Pregunta: si el index fuera `cliente_id`, ¿`iloc[1]` seguiría siendo «el segundo cliente»? Puente a T2-B: mutar con seguridad.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -917,9 +1002,12 @@ print(int(df.iloc[1, 0]))`,
         id: "S15-T2-B-E1",
         subtopicId: "S15-T2-B",
         kind: "guided",
+        title: "Asignar flag con un solo loc",
+        preamble:
+          "- **Contexto:** el pipeline debe marcar scores bajos en el **DataFrame original**, no en un fantasma de vista.\n- **Meta:** donde `score < 0.5`, asignar `flag = 'x'` con un solo `loc`.\n- **Éxito:** `flag.fillna('').tolist()` es `['x', '']`.\n- **Límites:** no uses `df[df...]['flag'] = ...` en cadena; normaliza NaN solo al imprimir.",
         instruction:
-          "E1 (guiado) — **Asignar con loc.** Donde `score < 0.5`, asigna `flag = 'x'` con un solo `loc` sobre el DF original. Imprime la lista de `flag` usando `fillna('')` para los NaN. Salida esperada: `['x', '']`.",
-        hint: "df.loc[mask, 'flag'] = 'x'.",
+          "1. Abre el starter: no existe `flag` (imprime vacíos).\n2. Asigna con `df.loc[df['score'] < 0.5, 'flag'] = 'x'`.\n3. Imprime `df['flag'].fillna('').tolist()`.\n4. Verifica `['x', '']`.",
+        hint: "Una sola indexación en la asignación.",
         hints: [
           "df.loc[df['score'] < 0.5, 'flag'] = 'x'.",
           "print(df['flag'].fillna('').tolist()).",
@@ -927,7 +1015,9 @@ print(int(df.iloc[1, 0]))`,
         edgeCases: ["chained df[df...]['flag']", "sin fillna en print"],
         tests: "flag.fillna('').tolist() == ['x', '']",
         feedback:
-          "Asigna con loc sobre el original y normaliza NaN con fillna('') al imprimir.",
+          "Asigna con `loc` sobre el original: una sola indexación en la asignación. Luego normaliza NaN con `fillna('')` solo para el print limpio, no para «inventar» datos de negocio.",
+        retrospective:
+          "Un solo `loc` es el patrón seguro de mutación del padre. El error clásico es la cadena que no escribe y el ticket de calidad que regresa al exportar. Pregunta: ¿`fillna('')` inventa un valor de negocio o solo limpia el print? Siguiente (E2): copiar el subset antes de mutarlo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -951,17 +1041,22 @@ print(df["flag"].fillna("").tolist())`,
         id: "S15-T2-B-E2",
         subtopicId: "S15-T2-B",
         kind: "independent",
+        title: "copy antes de mutar el subset",
+        preamble:
+          "- **Contexto:** a veces el subset viaja a otra función (revisión DQ) y necesita columnas propias sin tocar el padre.\n- **Meta:** filtrar, materializar con `.copy()`, añadir `ok=True` e imprimir.\n- **Éxito:** lista de `ok` = `[True, True]`.\n- **Límites:** no mutes el slice sin `.copy()`; conserva el filtro `score > 0.5`.",
         instruction:
-          "E2 (independiente) — **copy antes de mutar.** Filtra `score > 0.5`, haz `.copy()` del subset, añade `ok=True` e imprime la lista de `ok`. Salida esperada: `[True, True]`. Sin copy corres riesgo de SettingWithCopy.",
-        hint: "subset = df.loc[...].copy().",
+          "1. Revisa el starter: `sub = df.loc[...]` sin `.copy()`.\n2. Encadena `.copy()` tras el `loc`.\n3. Asigna `sub['ok'] = True`.\n4. Imprime `sub['ok'].tolist()`.",
+        hint: "Materializa el subset antes de mutarlo.",
         hints: [
-          "sub = df.loc[df['score'] > 0.5].copy().",
-          "sub['ok'] = True; print(sub['ok'].tolist()).",
+          "Encadena .copy() tras el filtro por score.",
+          "Asigna ok=True en el subset e imprime la lista.",
         ],
         edgeCases: ["sin copy", "filtro wrong"],
         tests: "subset copiado con ok=True → [True, True]",
         feedback:
-          "Encadena .copy() tras el loc del filtro; luego muta el subset con seguridad.",
+          "El starter hace `sub = df.loc[...]` y muta: es un slice sin independencia. Encadena `.copy()` tras el `loc` del filtro y **después** asigna `ok=True`. El print debe salir de ese subset materializado.",
+        retrospective:
+          "`.copy()` declara que el subset tiene vida propia (p. ej. viaja a una función de DQ). Sin eso, el warning o la mutación fantasma regresan en producción. Pregunta: si solo lees el subset, ¿necesitas `copy`? Siguiente (E3): mutar la copia y demostrar que el original no cambió.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -988,9 +1083,12 @@ print(sub["ok"].tolist())`,
         id: "S15-T2-B-E3",
         subtopicId: "S15-T2-B",
         kind: "transfer",
+        title: "Aislar mutación con df.copy",
+        preamble:
+          "- **Contexto:** en un code review te piden probar que mutar un «working set» no corrompe el dataset exportable.\n- **Meta:** crear una copia real, mutarla, e imprimir los scores del **original**.\n- **Éxito:** `[1.0, 2.0]` (el original intacto).\n- **Límites:** no uses `c = df` (alias); imprime el original, no la copia.",
         instruction:
-          "E3 (transferencia) — **Aislamiento de copy.** Demuestra que mutar una **copia** no cambia el original: crea `c = df.copy()`, muta `c`, e imprime los scores del **original**. Salida esperada: `[1.0, 2.0]`.",
-        hint: "c = df.copy(); c.iloc[0,0]=99.",
+          "1. Lee el DEFECT: `c = df` comparte identidad.\n2. Cambia a `c = df.copy()`.\n3. Muta `c` (p. ej. `iloc[0, 0] = 99.0`).\n4. Imprime `df['score'].tolist()` del original.",
+        hint: "Copia real, no alias.",
         hints: [
           "c = df.copy() (no c = df).",
           "print(df['score'].tolist()) del original.",
@@ -998,7 +1096,9 @@ print(sub["ok"].tolist())`,
         edgeCases: ["view accidental", "mutar df no c"],
         tests: "tras mutar la copy, df['score'] sigue [1.0, 2.0]",
         feedback:
-          "c = df comparte el mismo objeto. Usa df.copy() para aislar la mutación.",
+          "`c = df` no copia: es el mismo objeto. Tras `c.iloc[0,0] = 99`, el original también cambia. Usa `df.copy()`, muta solo `c`, e imprime `df['score']` — debe seguir `[1.0, 2.0]`.",
+        retrospective:
+          "Alias (`c = df`) no es copia. Si el original cambió, no tenías aislamiento. Pregunta de cierre: ¿qué imprimirías para demostrar que la copia sí cambió? Puente a T3-A: tipar columnas sin esconder basura.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1025,9 +1125,12 @@ print(df["score"].tolist())`,
         id: "S15-T3-A-E1",
         subtopicId: "S15-T3-A",
         kind: "guided",
+        title: "Región normalizada a category",
+        preamble:
+          "- **Contexto:** «lima» y «Lima» no deben ser dos categorías distintas en un reporte de regiones.\n- **Meta:** normalizar con `str.title()` y castear a `category`.\n- **Éxito:** `dtype.name` imprime `category`.\n- **Límites:** no dejes `object`; title **antes** del astype.",
         instruction:
-          "E1 (guiado) — **category + title.** Normaliza `region` con `str.title()` y castea a `category`. Imprime el nombre del dtype. Salida esperada: `category`.",
-        hint: "astype('category').",
+          "1. Abre el starter: imprime el dtype crudo (`object`).\n2. Encadena `.str.title().astype('category')` sobre la serie.\n3. Imprime `s.dtype.name`.\n4. Verifica `category`.",
+        hint: "Normaliza texto y luego castea a category.",
         hints: [
           "str.title() primero para unificar mayúsculas y minúsculas de región.",
           "astype('category'); print(s.dtype.name).",
@@ -1035,7 +1138,9 @@ print(df["score"].tolist())`,
         edgeCases: ["object residual", "sin title"],
         tests: "dtype.name == 'category' tras title + astype",
         feedback:
-          "Encadena `.str.title().astype('category')` sobre la serie de región.",
+          "Sin `title`, las mayúsculas inconsistentes duplican categorías. Sin `astype('category')`, el dtype sigue siendo object. Encadena ambos en ese orden.",
+        retrospective:
+          "Normalizar texto **antes** de `category` evita dos categorías para el mismo valor de negocio (`lima`/`Lima`). El error clásico es castear a category y «limpiar mayúsculas después», cuando ya fijaste etiquetas duplicadas. Pregunta: ¿cuántas categorías distintas tendrías con el fixture del starter si omites `title`? Siguiente (E2): montos basura a NaN contable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1060,17 +1165,22 @@ print(s.dtype.name)`,
         id: "S15-T3-A-E2",
         subtopicId: "S15-T3-A",
         kind: "independent",
+        title: "to_numeric con errors coerce",
+        preamble:
+          "- **Contexto:** un monto inválido (`'a'`) no debe tumbar todo el lote si el contrato permite NaN contable.\n- **Meta:** convertir con `errors='coerce'` e imprimir la lista.\n- **Éxito:** `[1.0, nan, 3.0]`.\n- **Límites:** no uses `errors='raise'` ni conviertas a int a la fuerza.",
         instruction:
-          "E2 (independiente) — **to_numeric coerce.** Convierte `['1','a','3']` con `pd.to_numeric(..., errors='coerce')` e imprime la lista (floats/NaN). Salida esperada: `[1.0, nan, 3.0]`.",
-        hint: "pd.to_numeric(..., errors='coerce').",
+          "1. Revisa el starter: sin coerce falla o no produce NaN.\n2. Llama `pd.to_numeric(..., errors='coerce')`.\n3. Imprime `s.tolist()`.\n4. Confirma el NaN en la posición del `'a'`.",
+        hint: "Conversión numérica que tolera basura contable.",
         hints: [
-          "errors='coerce' convierte 'a' en NaN.",
+          "errors='coerce' convierte inválidos en NaN.",
           "print(s.tolist()).",
         ],
         edgeCases: ["errors raise", "astype int falla"],
         tests: "to_numeric coerce → [1.0, nan, 3.0]",
         feedback:
-          "Sin `errors='coerce'`, el valor `'a'` lanza error o se descarta. Usa `errors='coerce'`.",
+          "Sin `errors='coerce'`, el valor `'a'` lanza error o se descarta. Usa coerce para dejar un NaN visible en esa posición.",
+        retrospective:
+          "Coerce sin conteo es ocultar basura; el NaN visible en la lista es el embrión del `coercion_report`. Pregunta: ¿cuántos NaN nuevos hay aquí y en qué posición? Siguiente (E3): el mismo principio en fechas con NaT.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1096,17 +1206,22 @@ print(s.tolist())`,
         id: "S15-T3-A-E3",
         subtopicId: "S15-T3-A",
         kind: "transfer",
+        title: "Fechas inválidas a NaT contable",
+        preamble:
+          "- **Contexto:** una fecha basura (`no-fecha`) debe volverse NaT y contarse, no quedarse como string opaco.\n- **Meta:** parsear con `errors='coerce'` e imprimir cuántos NaT hay.\n- **Éxito:** imprime `1`.\n- **Límites:** no uses `errors='ignore'`; cuenta con `isna`, no con `len` del series entero.",
         instruction:
-          "E3 (transferencia) — **to_datetime coerce.** Parsea `['2024-01-01','no-fecha']` con `errors='coerce'` e imprime cuántos NaT hay. Salida esperada: `1`.",
-        hint: "isna().sum().",
+          "1. Lee el DEFECT: `errors='ignore'` no deja NaT contable de forma fiable.\n2. Cambia a `errors='coerce'`.\n3. Imprime `int(s.isna().sum())`.\n4. Verifica `1`.",
+        hint: "Parse de fechas con basura contable.",
         hints: [
-          "pd.to_datetime(..., errors='coerce').",
+          "Prefiere coerce sobre ignore al parsear fechas basura.",
           "int(s.isna().sum()) — NaT cuenta como na.",
         ],
         edgeCases: ["errors raise", "contar len"],
         tests: "isna().sum() == 1 tras to_datetime coerce",
         feedback:
-          "errors='ignore' no convierte a NaT de forma fiable. Usa coerce y cuenta isna.",
+          "`errors='ignore'` no deja un NaT contable de forma fiable: la basura puede seguir como string opaco. Usa `errors='coerce'`, cuenta con `isna` (NaT es nulo) e imprime el entero — aquí debe ser `1`.",
+        retrospective:
+          "NaT contable es el gemelo del NaN numérico en el reporte de calidad. Pregunta: ¿por qué `ignore` es peligroso en un pipeline auditado? Puente a T3-B: schema + reporte `{columna: n_fallos}`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1129,9 +1244,12 @@ print(int(s.isna().sum()))`,
         id: "S15-T3-B-E1",
         subtopicId: "S15-T3-B",
         kind: "guided",
+        title: "Contar coerciones nuevas en monto",
+        preamble:
+          "- **Contexto:** el reporte de calidad necesita **cuántos** valores se volvieron NaN por la conversión, no solo «hay nulos».\n- **Meta:** aplicar `to_numeric` con coerce y reportar el delta isna.\n- **Éxito:** imprime `1` (el `'x'`).\n- **Límites:** resta isna después − antes; no rellenes con 0.",
         instruction:
-          "E1 (guiado) — **Conteo de coerciones.** Aplica `to_numeric` con `errors='coerce'` a `monto` y reporta cuántos **nuevos** NaN se introdujeron (resta isna después − antes). Salida esperada: `1`.",
-        hint: "Compara isna antes/después.",
+          "1. Abre el starter: guarda `before` pero no convierte.\n2. Asigna `df['monto'] = pd.to_numeric(..., errors='coerce')`.\n3. Imprime `int(df['monto'].isna().sum() - before)`.\n4. Verifica `1`.",
+        hint: "Convierte y compara isna antes/después.",
         hints: [
           "before = df['monto'].isna().sum().",
           "to_numeric(..., errors='coerce'); print delta de isna.",
@@ -1139,7 +1257,9 @@ print(int(s.isna().sum()))`,
         edgeCases: ["no restar before", "astype sin coerce"],
         tests: "delta de isna tras to_numeric == 1",
         feedback:
-          "Debes convertir con to_numeric y restar isna anterior del posterior.",
+          "Sin `to_numeric`, el delta es 0 aunque haya basura en texto. Convierte, luego resta isna anterior del posterior: ese entero es la entrada del `coercion_report`.",
+        retrospective:
+          "El delta es honestidad de métrica: nulos del parser ≠ fallos de conversión. Pregunta: si `before` ya tuviera un nulo y conviertes un `'x'`, ¿el delta sería 1 o 2? Siguiente (E2): si falta la columna del schema, no inventes defaults.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1165,9 +1285,12 @@ print(int(df["monto"].isna().sum() - before))`,
         id: "S15-T3-B-E2",
         subtopicId: "S15-T3-B",
         kind: "independent",
+        title: "Schema fail-closed si falta columna",
+        preamble:
+          "- **Contexto:** el schema exige `monto`, pero el extracto solo trae `cliente_id`. Inventar la columna con ceros es una mentira de pipeline.\n- **Meta:** validar columnas del schema y, si falta, fallar de forma explicable.\n- **Éxito:** imprime `missing` (capturando KeyError).\n- **Límites:** no crees `monto` vacío ni imprimas `ok`.",
         instruction:
-          "E2 (independiente) — **Schema fail-closed.** El schema exige `monto`, pero el DF solo tiene `cliente_id`. Si falta la columna, lanza `KeyError` y en el except imprime `missing`. Salida esperada: `missing`.",
-        hint: "if col not in df.columns.",
+          "1. Revisa el starter: imprime `ok` sin validar.\n2. Recorre las claves del schema; si la columna no está, `raise KeyError`.\n3. En `except KeyError`, imprime `missing`.\n4. No inventes la columna.",
+        hint: "Valida presencia de columnas del schema.",
         hints: [
           "Recorre schema; si col no está en columns, raise KeyError.",
           "try/except KeyError → print('missing').",
@@ -1175,7 +1298,9 @@ print(int(df["monto"].isna().sum() - before))`,
         edgeCases: ["silenciar falta", "crear columna vacía"],
         tests: "KeyError por columna faltante → print 'missing'",
         feedback:
-          "No inventes la columna. Valida el schema y propaga KeyError como 'missing'.",
+          "No inventes la columna. Valida el schema y propaga KeyError como `missing`. Rellenar ceros «para que corra» miente al dashboard.",
+        retrospective:
+          "Fail-closed = el contrato habla antes que el dashboard. El error clásico es «rellenar para que pase el test». Luego (E3): tipar ids a dtype `string` de pandas (no object).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1205,17 +1330,22 @@ except KeyError:
         id: "S15-T3-B-E3",
         subtopicId: "S15-T3-B",
         kind: "transfer",
+        title: "Ids como dtype string de pandas",
+        preamble:
+          "- **Contexto:** el schema de CP-N2-A declara `cliente_id: string`; el default de Series de texto suele ser `object`.\n- **Meta:** castear a dtype `string` de pandas e imprimir `str(dtype)`.\n- **Éxito:** imprime `string`.\n- **Límites:** no dejes `object`; no uses `category` para ids casi únicos.",
         instruction:
-          "E3 (transferencia) — **dtype string de pandas.** Castea la serie de ids a dtype `string` (no `object`) e imprime `str(dtype)`. Salida esperada: `string`. El default de texto en Series suele ser object; aquí el contrato es el string nullable de pandas.",
-        hint: "astype('string').",
+          "1. Lee el DEFECT: imprime el dtype por defecto (`object`).\n2. Aplica `astype('string')`.\n3. Imprime `str(s.dtype)`.\n4. Verifica `string`.",
+        hint: "Dtype string nullable de pandas, no object.",
         hints: [
-          "s.astype('string').",
+          "Castea la serie al dtype string de pandas.",
           "print(str(s.dtype)).",
         ],
         edgeCases: ["object", "category"],
         tests: "str(dtype) == 'string' tras astype('string')",
         feedback:
-          "El default de Series de texto es object. Usa astype('string') de pandas.",
+          "El default de Series de texto es object. Usa `astype('string')` de pandas para el contrato tipado del schema.",
+        retrospective:
+          "`string` nullable es el contrato tipado; `object` es el default opaco. Pregunta: ¿por qué no castear ids únicos a category «por costumbre»? Puente a T4-A: exportar sin perder el mapa de columnas.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1238,9 +1368,12 @@ print(str(s.dtype))`,
         id: "S15-T4-A-E1",
         subtopicId: "S15-T4-A",
         kind: "guided",
+        title: "CSV round-trip sin columna Unnamed",
+        preamble:
+          "- **Contexto:** al reingestar un CSV exportado con index por defecto suele aparecer una columna basura (`Unnamed: 0`).\n- **Meta:** exportar con `index=False`, releer e imprimir columnas.\n- **Éxito:** `['a', 'b']`.\n- **Límites:** no omitas `seek(0)`; no uses index=True «por costumbre».",
         instruction:
-          "E1 (guiado) — **CSV round-trip sin index.** Exporta el DF a CSV en `StringIO` con `index=False`, relee e imprime `columns.tolist()`. Salida esperada: `['a', 'b']`. Con index=True suele aparecer una columna basura.",
-        hint: "to_csv(buf, index=False).",
+          "1. Abre el starter: `to_csv(buf)` sin `index=False`.\n2. Pasa `index=False`.\n3. `seek(0)`, `read_csv`, imprime `columns.tolist()`.\n4. Verifica `['a', 'b']`.",
+        hint: "Exporta sin index y reposiciona el buffer.",
         hints: [
           "df.to_csv(buf, index=False); buf.seek(0).",
           "pd.read_csv(buf).columns.tolist().",
@@ -1248,7 +1381,9 @@ print(str(s.dtype))`,
         edgeCases: ["index=True crea col extra", "no seek"],
         tests: "round-trip columns == ['a', 'b'] con index=False",
         feedback:
-          "to_csv sin index=False escribe el index y al releer aparece Unnamed. Usa index=False y seek(0).",
+          "Sin `index=False`, el index se escribe y al releer contamina el schema. Usa `index=False` y `seek(0)` para reposicionar el buffer en memoria.",
+        retrospective:
+          "Round-trip de columnas es la prueba mínima de export: escribes, reposicionas el buffer, relees y comparas el schema. El error clásico es `index=True` por costumbre y un `Unnamed: 0` que rompe el contrato al reingestar. Pregunta: ¿por qué `seek(0)` es parte del test y no un detalle de IO? Siguiente (E2): Excel en memoria con openpyxl.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1279,17 +1414,22 @@ print(pd.read_csv(buf).columns.tolist())`,
         id: "S15-T4-A-E2",
         subtopicId: "S15-T4-A",
         kind: "independent",
+        title: "Excel en memoria con openpyxl",
+        preamble:
+          "- **Contexto:** a veces el entregable del stakeholder es Excel; el test de humo es «hay bytes en el buffer».\n- **Meta:** escribir un DF a `BytesIO` con `to_excel` e `engine='openpyxl'`.\n- **Éxito:** imprime `True` (`len(getvalue()) > 0`).\n- **Límites:** requiere `openpyxl` instalado; no escribas a disco obligatorio.",
         instruction:
-          "E2 (independiente) — **Excel en memoria.** Escribe un DF a `BytesIO` con `to_excel(..., engine='openpyxl')` e imprime `True` si `len(getvalue()) > 0`. Salida esperada: `True`. Requiere `openpyxl` instalado.",
-        hint: "engine='openpyxl'.",
+          "1. Revisa el starter: imprime sobre buffer vacío.\n2. Llama `to_excel(bio, index=False, engine='openpyxl')` con un DF mínimo.\n3. Imprime `len(bio.getvalue()) > 0`.\n4. Si falta openpyxl, instálalo o documenta el límite (no finjas éxito).",
+        hint: "to_excel en BytesIO con motor de terceros.",
         hints: [
-          "pd.DataFrame(...).to_excel(bio, index=False, engine='openpyxl').",
+          "Escribe un DF mínimo a BytesIO con engine openpyxl.",
           "print(len(bio.getvalue()) > 0).",
         ],
         edgeCases: ["sin engine", "archivo disco obligatorio"],
         tests: "BytesIO con to_excel openpyxl → len(getvalue()) > 0",
         feedback:
-          "Un BytesIO vacío no es un export. Llama to_excel con engine='openpyxl' (pip install openpyxl si falta).",
+          "El starter imprime sobre un buffer vacío. Escribe un DF mínimo con `to_excel(..., index=False, engine='openpyxl')` y vuelve a medir `len(bio.getvalue()) > 0`. Si falta el motor, instálalo (`pip install openpyxl`) o documenta el límite — no hardcodees `True`.",
+        retrospective:
+          "La honestidad de dependencias es parte de la calidad: un «export Excel» sin `openpyxl` es teatro. Pregunta: ¿qué entregarías si el entorno no tiene el motor (CSV + schema JSON)? Siguiente (E3): contrato de dtypes sin motor Parquet.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1315,17 +1455,22 @@ print(len(bio.getvalue()) > 0)`,
         id: "S15-T4-A-E3",
         subtopicId: "S15-T4-A",
         kind: "transfer",
+        title: "Contrato de dtypes por columna",
+        preamble:
+          "- **Contexto:** si el entorno no tiene motor Parquet, un dict columna→dtype es el contrato de tipos que acompaña al CSV.\n- **Meta:** construir `{col: str(dtype)}` e imprimirlo ordenado por clave.\n- **Éxito:** `{'cliente_id': 'object', 'monto': 'float64'}`.\n- **Límites:** no dejes el dict vacío; usa `str(dtype)`, no el objeto dtype crudo sin convertir.",
         instruction:
-          "E3 (transferencia) — **Contrato de dtypes.** Emite un dict `{col: str(dtype)}` para el DF del starter e imprímelo ordenado por clave. Salida esperada: `{'cliente_id': 'object', 'monto': 'float64'}`. Quédate en dtypes del DataFrame (sin joins ni validaciones de calidad avanzadas).",
-        hint: "dict comprehension.",
+          "1. Lee el DEFECT: `contract = {}`.\n2. Llena con comprehension sobre `df.columns`.\n3. Imprime `dict(sorted(contract.items()))`.\n4. Verifica el mapa del fixture.",
+        hint: "Mapa columna → dtype legible.",
         hints: [
-          "contract = {c: str(df[c].dtype) for c in df.columns}.",
+          "Recorre df.columns y convierte cada dtype a str.",
           "print(dict(sorted(contract.items()))).",
         ],
         edgeCases: ["dtypes Series print feo", "sin str()"],
         tests: "dict sorted de str(dtype) por columna",
         feedback:
-          "No dejes el contract vacío. Construye {col: str(dtype)} y ordénalo al imprimir.",
+          "Un `contract = {}` no documenta el schema. Llena `{col: str(df[col].dtype) for col in df.columns}` y ordena al imprimir (`dict(sorted(...))`) para un assert estable entre corridas.",
+        retrospective:
+          "El contrato de dtypes es la mitad del manifest (la otra es provenance/hash). Pregunta: ¿por qué ordenar al imprimir ayuda al assert? Puente a T4-B: filas, memoria y hash del artefacto.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1350,9 +1495,12 @@ print(dict(sorted(contract.items())))`,
         id: "S15-T4-B-E1",
         subtopicId: "S15-T4-B",
         kind: "guided",
+        title: "Memoria real con deep True",
+        preamble:
+          "- **Contexto:** al castear a `category`/`string` en datasets grandes, necesitas medir memoria **real** de object/string.\n- **Meta:** calcular `memory_usage(deep=True).sum()` y decir si es `> 0`.\n- **Éxito:** imprime `True`.\n- **Límites:** no imprimas un booleano fijo; `deep=True` importa para strings.",
         instruction:
-          "E1 (guiado) — **memory_usage deep.** Calcula `memory_usage(deep=True).sum()` de un DF con strings e imprime si el entero es `> 0`. Salida esperada: `True`. Sin `deep=True` subestimas memoria de object/string.",
-        hint: "memory_usage(deep=True).sum().",
+          "1. Abre el starter: imprime `False` sin medir.\n2. Calcula `int(df.memory_usage(deep=True).sum()) > 0`.\n3. Imprime ese booleano.\n4. Verifica `True` con el fixture de strings.",
+        hint: "Mide memoria profunda del DataFrame.",
         hints: [
           "int(df.memory_usage(deep=True).sum()) > 0.",
           "print el booleano.",
@@ -1360,7 +1508,9 @@ print(dict(sorted(contract.items())))`,
         edgeCases: ["deep=False en strings", "no sum"],
         tests: "memory_usage(deep=True).sum() > 0 → True",
         feedback:
-          "No imprimas un booleano fijo. Calcula int(df.memory_usage(deep=True).sum()) > 0 — deep=True importa para strings.",
+          "Un booleano hardcodeado no es una medición. `deep=True` cuenta el contenido de object/string; sin él subestimas el costo real de columnas de texto.",
+        retrospective:
+          "Medir antes/después de castear es el hábito de optimización honesta. El error clásico es imprimir un booleano fijo o usar `deep=False` y subestimar strings. Pregunta: ¿por qué este fixture de regiones necesita `deep=True`? Siguiente (E2): armar el manifest mínimo de filas y columnas.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1384,17 +1534,22 @@ print(int(df.memory_usage(deep=True).sum()) > 0)`,
         id: "S15-T4-B-E2",
         subtopicId: "S15-T4-B",
         kind: "independent",
+        title: "Manifest mínimo de filas y columnas",
+        preamble:
+          "- **Contexto:** el primer chequeo de reconciliación es «¿cuántas filas salieron y con qué columnas?».\n- **Meta:** construir un dict `rows`/`columns` desde el DF e imprimir ambos.\n- **Éxito:** `3 ['a']`.\n- **Límites:** no dejes ceros/listas vacías; `columns` debe ser lista, no Index crudo sin convertir.",
         instruction:
-          "E2 (independiente) — **Manifest mínimo.** Construye un dict con keys `rows` y `columns` a partir del DF del starter e imprime ambos. Salida esperada: `3 ['a']`.",
-        hint: "len(df) y columns.tolist().",
+          "1. Revisa el starter: `rows=0`, `columns=[]`.\n2. Asigna `len(df)` y `df.columns.tolist()`.\n3. Imprime `manifest['rows']` y `manifest['columns']`.\n4. Verifica `3 ['a']`.",
+        hint: "Filas y columnas desde el DF real.",
         hints: [
-          "manifest = {'rows': len(df), 'columns': df.columns.tolist()}.",
+          "rows = len(df); columns = df.columns.tolist().",
           "print(manifest['rows'], manifest['columns']).",
         ],
         edgeCases: ["shape confuso", "columns Index no list"],
         tests: "manifest rows==3 y columns==['a']",
         feedback:
-          "rows = len(df); columns = df.columns.tolist(). No dejes ceros/listas vacías.",
+          "El starter deja `rows=0` y `columns=[]`: eso no reconcilia nada. Toma hechos del DF real (`len(df)`, `df.columns.tolist()`) y publícalos en el manifest. Un Index de columnas no es lo mismo que una lista serializable.",
+        retrospective:
+          "Filas y columnas son el esqueleto del manifest; hash y `source` completan la provenance. El error clásico es hardcodear ceros «porque el print pasa» y mentir en la reconciliación de ingesta. Pregunta: si el DF crece a 300 filas, ¿qué debe cambiar en el print? Siguiente (E3): hashear el artefacto exportado.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1419,17 +1574,22 @@ print(manifest["rows"], manifest["columns"])`,
         id: "S15-T4-B-E3",
         subtopicId: "S15-T4-B",
         kind: "transfer",
+        title: "Hash del CSV exportado",
+        preamble:
+          "- **Contexto:** el hash del artefacto detecta si el archivo cambió entre corridas; hashear el `repr` del DataFrame no sirve (el display cambia con opciones).\n- **Meta:** hashear los bytes de `to_csv(index=False)` e imprimir los primeros 8 hex.\n- **Éxito:** `309b0e45`.\n- **Límites:** no hashees `str(df)`; codifica a bytes con `.encode()`.",
         instruction:
-          "E3 (transferencia) — **Hash del artefacto.** Calcula SHA-256 de `df.to_csv(index=False).encode()` e imprime los primeros 8 hex. Salida esperada: `309b0e45`. Hashea el CSV, no el `repr` del DataFrame.",
-        hint: "hashlib.sha256(blob).hexdigest()[:8].",
+          "1. Lee el DEFECT: se hashea `str(df)`, no el artefacto.\n2. Serializa el DF a CSV **sin** index y codifica a bytes.\n3. Calcula SHA-256 de ese blob e imprime los primeros 8 hex.\n4. Verifica `309b0e45` (mismo fixture; no cambies el DF).",
+        hint: "Hashea el payload CSV, no el display.",
         hints: [
-          "blob = df.to_csv(index=False).encode().",
-          "hashlib.sha256(blob).hexdigest()[:8].",
+          "Serializa con to_csv(index=False) y encode a bytes.",
+          "SHA-256 del blob; imprime los primeros 8 hex.",
         ],
         edgeCases: ["hash del objeto python", "sin encode"],
         tests: "sha256(to_csv index=False)[:8] == '309b0e45'",
         feedback:
-          "str(df) no es el artefacto exportado. Serializa con to_csv(index=False) y hashea esos bytes (SHA-256).",
+          "`str(df)` no es el artefacto exportado. Serializa con `to_csv(index=False)` y hashea esos bytes (SHA-256). El hash canónico de este fixture es `309b0e45`.",
+        retrospective:
+          "Provenance = source + filas + hash del **mismo** payload que entregas. Pregunta de cierre: ¿por qué `index=False` también importa para el hash? Puente al You Do: dos tablas, reportes y manifests auditable.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1592,7 +1752,9 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "Entrega: script reproducible que pase `_run_tests()` + (opcional) CSV/Excel con index=False + JSON de coercion_report y manifest para **clientes y transacciones**. En el README explica en español profesional qué columnas fallaron, cómo contaste las coerciones y por qué no inventaste defaults. Si exportas Excel, declara `openpyxl`. Este artefacto es la base del dataset de CP-N2-A. Un revisor debe poder re-ejecutar `python ingest_cp_n2a.py` y ver `tests OK`, filas, reportes y hash sin adivinar tu entorno.",
+      "Entrega: script reproducible que pase `_run_tests()` + (opcional) CSV/Excel con index=False + JSON de coercion_report y manifest para **clientes y transacciones**. En el README explica en español profesional qué columnas fallaron, cómo contaste las coerciones y por qué no inventaste defaults. Prepara 30 segundos para defender el delta de coerción (antes/después isna) ante un revisor. Si exportas Excel, declara `openpyxl`. Este artefacto es la base del dataset de CP-N2-A. Un revisor debe poder re-ejecutar `python ingest_cp_n2a.py` y ver `tests OK`, filas, reportes y hash sin adivinar tu entorno.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `_run_tests()` (filas, `report['score'|'monto'] >= 1`, KeyError si falta columna, hash del CSV)? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, encoding del proveedor, openpyxl)? (3) Escribe en el README una frase de impacto medible (antes: CSV opaco / después: schema + coercion_report + manifest) que puedas defender en 30 segundos. Recuerda: un score sintético no es culpa ni decisión sobre personas.",
     rubric: [
       { criterion: "Schema tipado + reporte de coerciones y reconciliación de filas/columnas (ambos hilos)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado (pandas; openpyxl solo si usas Excel)", weight: "20%" },

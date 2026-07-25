@@ -366,6 +366,8 @@ audit True`,
         subtopicId: "S44-T1-A",
         environment: "local-python",
         description: "Demo: lint/types/tests y matrices.",
+        preamble:
+          "Antes de gastar minutos en SBOM o publish, el repo de ops de Piura (CASO-PIU-044) debe **certificar el código**. En esta demo tres checks verdes y la matriz `{3.11, 3.12}` coinciden con lo soportado. No escribas aún: predice si `gates_green` devuelve `True` y por qué un solo check rojo o Python 3.10 fuera de matriz tumbaría el gate. Observa las tres líneas: `ok`, `n 3` y `matrix_ok`.",
         code: {
           language: 'python',
           title: "demo_lint_types_tests_matrix.py",
@@ -385,37 +387,45 @@ print("matrix_ok", ok)`,
 n 3
 matrix_ok True`,
         },
-        why: "Calcula el AND de lint/types/tests y la igualdad matriz==soportada: evidencia mínima antes de pasos costosos de supply chain.",
+        why: "Lint → types → tests en AND es barato antes de lo costoso (SBOM, publish). La matriz solo cubre runtimes que el equipo realmente soporta; un semáforo verde sin igualdad matriz==soportada miente. Sin secretos ni registry: solo el predicado de certificación. En We Do el starter usa OR débil en lugar de AND + igualdad de conjuntos.",
+        retrospective:
+          "Si puedes explicar por qué tres checks en OR no son un gate de CI sin mirar el código, ya tienes el hábito de certificar antes de publicar. El error clásico es «tests pasaron, el resto es opcional». En We Do repararás el predicado y el fallo cerrado con `FAIL_CI_GATE` / `REVIEW_MATRIX`.",
       },
       {
         demoId: "S44-T1-B-DEMO",
         subtopicId: "S44-T1-B",
         environment: "local-python",
         description: "Demo: caches, artifacts y condiciones.",
+        preamble:
+          "En CASO-PIU-044 la caché acelera el job, pero **no prueba** que el build sea reproducible. En esta demo la clave empieza por `lock-` (hash del lockfile) y el artifact `sha256:def` con 14 días de retención es publicable — el mismo prefijo del lab We Do. No escribas: predice `cache_key True`, `artifact True` y la condición `main_and_tags`. Observa por qué un digest `latest` o retención 0 no contarían como evidencia.",
         code: {
           language: 'python',
           title: "demo_caches_artifacts_conditions.py",
           code: `def cache_key(lock_hash: str) -> str:
-    return f"pip-{lock_hash[:8]}"
+    return f"lock-{lock_hash[:8]}"
 
 def artifact_ok(digest: str, retention_days: int) -> bool:
     return digest.startswith("sha256:") and retention_days >= 7
 
 key = cache_key("abcdef12deadbeef")
-print("cache_key", key.startswith("pip-"))
+print("cache_key", key.startswith("lock-"))
 print("artifact", artifact_ok("sha256:def", 14))
 print("condition", "main_and_tags")`,
           output: `cache_key True
 artifact True
 condition main_and_tags`,
         },
-        why: "Separa la caché (optimización por lockfile) del artifact verificable (digest + retención): la caché no sustituye evidencia.",
+        why: "La cache es optimización ligada al lockfile (`lock-`); el artifact con digest y retención es lo que un auditor re-descarga. Tags de release sin los mismos gates que main se descartan (`DISCARD_PIPELINE_RESULT`). En We Do el starter invierte `cache_miss_passes` y las condiciones de tags.",
+        retrospective:
+          "Cache acelera; el artifact con digest y retención es lo que un auditor re-descarga. El error clásico es tratar un cache hit como «build OK» o publicar `latest` con retención 0. Pregunta: si el miss de cache aún produce el wheel, ¿por qué eso es señal de robustez y no de fallo? We Do: predicado `lock-` + sha256 + retención ≥7 + tags cubiertos.",
       },
       {
         demoId: "S44-T2-A-DEMO",
         subtopicId: "S44-T2-A",
         environment: "local-python",
         description: "Demo: permisos mínimos, pinning y secret scanning.",
+        preamble:
+          "El token del workflow de Piura es un **atacante en potencia** si tiene write amplio. En esta demo hay 1 hit de secreto (debe bloquear), permisos least y un checkout pinneado con SHA de 40 hex. No escribas: predice `gitleaks block`, `perms least` y `pin True`. Observa que un `@v4` no pasaría `is_full_sha_pin`.",
         code: {
           language: 'python',
           title: "demo_min_perms_pin_secret_scan.py",
@@ -434,13 +444,17 @@ print("pin", is_full_sha_pin(f"actions/checkout@{sha}"))`,
 perms least
 pin True`,
         },
-        why: "Muestra secret scanning que bloquea hits y pin por SHA completo de 40 hex — no un tag flotante.",
+        why: "Pin inmutable = 40 hex; los tags se mueven y no cierran supply chain de actions. `secret_hits > 0` obliga a rotar, no a «limpiar el log». `contents: read` es el default defendible. En We Do el starter aprueba write o secret hits y debes calcular el pin del string `action_ref`.",
+        retrospective:
+          "Least privilege + pin SHA + cero secretos en logs es el suelo de hardening. El error clásico es pin por tag flotante `@v4` o «limpiar el log» en lugar de rotar. Pregunta: si `secret_hits == 1`, ¿qué haces antes de reintentar el pipeline? We Do: calcular el pin del string `action_ref`, no de un booleano mágico.",
       },
       {
         demoId: "S44-T2-B-DEMO",
         subtopicId: "S44-T2-B",
         environment: "local-python",
         description: "Demo: SBOM, provenance y attestations.",
+        preamble:
+          "Una attestation no «garantiza calidad»: impide promover un binario **huérfano de evidencia**. En esta demo artifact, SBOM y subject de provenance comparten `sha256:abc`. No escribas: predice `attest True` y por qué un SBOM del build de ayer con otro digest fallaría. Observa las tres salidas.",
         code: {
           language: 'python',
           title: "demo_sbom_provenance_attest.py",
@@ -455,13 +469,17 @@ print("spdx", True)`,
 verifiable True
 spdx True`,
         },
-        why: "Exige que artifact, SBOM y subject de provenance compartan el mismo digest antes de confiar en la attestation.",
+        why: "La longitud del set de digests == 1 es el contrato medible: artifact, SBOM y subject de provenance deben ser el mismo subject. Divergencia → `REJECT_ATTESTATION`. Sin `attestation_valid` no se inventa un verde: se reconstruye provenance (`REBUILD_PROVENANCE`). En We Do el starter exige len > 1 (invertido a propósito).",
+        retrospective:
+          "Mismo subject en artifact, SBOM y provenance: esa es la cadena. El error clásico es reutilizar el SBOM de ayer «porque casi es el mismo». Pregunta: si el wheel es `sha256:aaa` y el SBOM apunta a `bbb`, ¿qué dice el gate aunque el README diga OK? We Do: alinear digests + `attestation_valid`.",
       },
       {
         demoId: "S44-T3-A-DEMO",
         subtopicId: "S44-T3-A",
         environment: "local-python",
         description: "Demo: environments y approvals.",
+        preamble:
+          "Producción en Piura no se alimenta de un rebuild improvisado: se mueve el **mismo digest** que pasó staging. En esta demo staging→prod con `sha256:abc` y aprobador `lead` es OK; el rebuild a `sha256:new` se niega. No escribas: predice `next prod`, `ok True` y `rebuild_denied False`. Observa la igualdad tested==promoted.",
         code: {
           language: 'python',
           title: "demo_envs_approvals.py",
@@ -488,13 +506,17 @@ print("rebuild_denied", promote_ok("staging", "prod", "sha256:abc", "sha256:new"
 ok True
 rebuild_denied False`,
         },
-        why: "Staging→prod exige aprobación y el mismo digest testeado; rebuild en promote se niega explícitamente.",
+        why: "Source staging, target prod, `approved_by` truthy, digests iguales y prefijo sha256 cierran el promote. Rebuild al promover produce otro digest, huérfana la provenance y el gate niega el promote. En We Do el starter marca PASS sin approval o con digests distintos.",
+        retrospective:
+          "Mismo digest + aprobación independiente = promote defendible. El error clásico es «reconstruir para estar seguros». Pregunta: si tested es `sha256:abc` y promoted `sha256:new` con el mismo lead, ¿qué imprime el predicado y por qué no es un atajo de confianza? We Do: `DENY_PROMOTION` y `REQUEST_RELEASE_APPROVAL`.",
       },
       {
         demoId: "S44-T3-B-DEMO",
         subtopicId: "S44-T3-B",
         environment: "local-python",
         description: "Demo: migrations, canary/blue-green y rollback.",
+        preamble:
+          "El canary de Piura al 10% **mide** error contra umbral y tiene rollback ensayado dentro del RTO. En esta demo migración compatible, 0.4% de error bajo 1% → hold; 8% sobre 5% → rollback. No escribas: predice las tres líneas de salida. Observa que rollback_s 75 ≤ rto 120 en el camino fallido aún devuelve `rollback` (no «hold»).",
         code: {
           language: 'python',
           title: "demo_migrations_canary_rollback.py",
@@ -513,13 +535,17 @@ print("failed", canary_decision(0.08, 0.05, 120, 75))`,
 healthy hold_healthy
 failed rollback`,
         },
-        why: "Contrasta canary sano (hold) vs. canary sobre umbral (rollback dentro del RTO): ambas rutas del contrato dual.",
+        why: "Contrato dual: PASS cuando canary sano (error ≤ umbral + rollback listo ≤ RTO) vs incidente (error sobre umbral → rollback). Sin `rto_seconds` no se mide el ensayo. En We Do el starter marca PASS si error alto o rollback no tested.",
+        retrospective:
+          "Canary sano = hold; canary roto = rollback al digest previo dentro del RTO. El error clásico es ampliar tráfico con error alto «para ver si se estabiliza». Pregunta: con 8% de error y rollback 75 s ≤ RTO 120, ¿por qué la decisión es `rollback` y no hold? We Do: `ROLLBACK_RELEASE` y `PAUSE_CANARY`.",
       },
       {
         demoId: "S44-T4-A-DEMO",
         subtopicId: "S44-T4-A",
         environment: "local-python",
         description: "Demo: branch/review policy y release notes.",
+        preamble:
+          "Las release notes de Piura no son marketing: son el mapa del on-call a las 02:00. En esta demo 2 reviews y el set {change, risk, migration, rollback} dejan el release listo. No escribas: predice `reviews 2`, `release_notes True` y `conventional True`. Observa por qué un set solo con `change` fallaría.",
         code: {
           language: 'python',
           title: "demo_branch_review_release_notes.py",
@@ -534,13 +560,17 @@ print("conventional", True)`,
 release_notes True
 conventional True`,
         },
-        why: "Release listo solo con reviews y notes operables (cambio, riesgo, migración, rollback).",
+        why: "Branch protection + ≥1 review + checks + notes ⊇ {change, risk, migration, rollback} son el contrato medible del release. Merge sin protección o notes solo con `change` → `BLOCK_UNREVIEWED_RELEASE`. En We Do el starter marca PASS sin protección o con reviews==0.",
+        retrospective:
+          "Review humano + notes operables = primer control de supply chain antes del publish. El error clásico es un tag con un párrafo de «mejoras» sin riesgo ni rollback. Pregunta: ¿qué falta si el set solo tiene `change`? We Do: `BLOCK_UNREVIEWED_RELEASE` y `COMPLETE_RELEASE_NOTES`.",
       },
       {
         demoId: "S44-T4-B-DEMO",
         subtopicId: "S44-T4-B",
         environment: "local-python",
         description: "Demo: failure handling y evidencia auditable.",
+        preamble:
+          "Cuando un test crítico del servicio de jobs de Piura falla a las 02:10, el pipeline **bloquea** el release y retiene evidencia: no usa continue-on-error como aprobación silenciosa. En esta demo critical True → `on_fail block`, 2 piezas de evidencia y audit trail. No escribas: predice las tres líneas. Observa que warn no es el camino de un fallo crítico.",
         code: {
           language: 'python',
           title: "demo_failure_handling_audit_evidence.py",
@@ -555,7 +585,9 @@ print("audit_trail", audit)`,
 evidence_n 2
 audit_trail True`,
         },
-        why: "Fallo crítico → block + evidencia retenida; no continue-on-error silencioso.",
+        why: "Critical + `pipeline_blocked` + logs_redacted + owner + evidence_retained son el AND del fallo auditable y defendible. Breach silencioso (crítico sin bloqueo) → `STOP_SILENT_FAILURE`; sin evidencia → `ASSIGN_INCIDENT_OWNER`. En We Do el starter marca PASS si critical y **no** blocked.",
+        retrospective:
+          "Fallo crítico = block + dueño + evidencia redactada. El error clásico es re-lanzar con continue-on-error como aprobación silenciosa. Pregunta: si el test crítico falla a las 02:10, ¿qué tres piezas de evidencia retienes antes de reabrir el tag? We Do: `STOP_SILENT_FAILURE` y `ASSIGN_INCIDENT_OWNER`.",
       },
     ],
   },
@@ -566,7 +598,11 @@ audit_trail True`,
         id: "S44-T1-A-E1",
         subtopicId: "S44-T1-A",
         kind: "guided",
-        instruction: "S44-T1-A-E1 · Calcula el contrato de `lint/types/tests y matrices` sobre `CASO-PIU-044-1A`. La entrada es el dict completo del starter; la operación debe demostrar tres gates y matriz exactamente soportada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_CI_GATE` en E2.",
+        title: "Tres checks en AND y matriz exacta",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-1A el PR de ops de Piura solo avanza si lint, types y tests pasan **todos** y la matriz ejecutada es la soportada.\n- **Meta:** corregir el predicado (AND de los tres checks + `matrix == supported`).\n- **Éxito:** una línea `S44-T1-A PASS`.\n- **Límites:** no mutes el fixture; no uses OR; el DEFECT está en la expresión, no en los datos.",
+        instruction:
+          "1. Abre el starter: `meets_contract` usa `lint or types or tests` (DEFECT).\n2. Cámbialo a `all(...)` de lint/types/tests **y** `matrix == supported`.\n3. Conserva el print de status.\n4. Debe imprimir `S44-T1-A PASS`.",
         hint: "Recuerda el AND de lint/types/tests más la igualdad matriz == soportada.",
         hints: [
           "Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicada en S44-T1-A.",
@@ -574,7 +610,10 @@ audit_trail True`,
         ],
         edgeCases: ["falta supported", "fixture adverso: tres gates y matriz exactamente soportada", "CASO-PIU-044-1A es sintético"],
         tests: "El fixture `CASO-PIU-044-1A` satisface un predicado de dominio real; imprime `S44-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S44-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.",
+        feedback:
+          "Con los tres checks en True y matriz idéntica, solo el AND + igualdad devuelve PASS. El OR aprueba un typecheck rojo si lint pasó: el gate de CI deja de ser fail-closed.",
+        retrospective:
+          "Certificar en AND barato → caro es el primer eslabón de supply chain. El error clásico es OR parcial o ignorar una versión fuera de matriz. Siguiente (E2): enrutar válido, adverso y sin `supported`.",
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e1.py",
@@ -602,7 +641,11 @@ assert meets_contract is True` ,
         id: "S44-T1-A-E2",
         subtopicId: "S44-T1-A",
         kind: "independent",
-        instruction: "S44-T1-A-E2 · Modela tres rutas de `lint/types/tests y matrices`: fixture válido, fixture adverso y registro sin `supported`. Entrada: dict con case_id, lint, types, tests, matrix, supported. Salidas exactas: `PASS`, `FAIL_CI_GATE`, `MISSING:supported`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas del gate de CI",
+        preamble:
+          "- **Contexto:** el job de Piura no inventa una matriz cuando falta `supported`: primero valida campos, luego mide contenido.\n- **Meta:** implementar `assess` que separe válido, adverso (types False + 3.10) y sin `supported`.\n- **Éxito:** `PASS FAIL_CI_GATE MISSING:supported`.\n- **Límites:** calcula `missing` antes de leer `supported`; no rellenes la matriz; datos sintéticos CASO-PIU-044-1A.",
+        instruction:
+          "1. Revisa el starter: PASS si OR de lint/types/tests (DEFECT).\n2. Corrige a AND + matrix==supported.\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.",
@@ -610,7 +653,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta supported", "fixture adverso: tres gates y matriz exactamente soportada", "CASO-PIU-044-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `supported` ausente y produce exactamente `PASS FAIL_CI_GATE MISSING:supported`.",
-        feedback: "S44-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.",
+        feedback:
+          "Schema (MISSING) se evalúa antes que breach (FAIL_CI_GATE). Acceder a `supported` cuando falta tumba el flujo; el adverso falla por types False y 3.10 fuera de matriz, no por schema.",
+        retrospective:
+          "Primero schema, después contenido: un `KeyError` por leer `supported` ausente no es «CI roja», es un bug del assessor. El error clásico es mezclar «falta el campo» con «types False y 3.10 fuera de matriz». Pregunta: si el adverso tuviera los tres checks verdes pero matriz `{3.10}`, ¿qué código devuelves y por qué no es MISSING? Luego (E3): CONTINUE / FAIL_CI_GATE / REVIEW_MATRIX.",
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e2.py",
@@ -655,7 +701,11 @@ print(*results)
         id: "S44-T1-A-E3",
         subtopicId: "S44-T1-A",
         kind: "transfer",
-        instruction: "S44-T1-A-E3 · Transferencia: aísla el fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. (1) `CASO-PIU-044-1A` debe devolver `CONTINUE`. (2) El fixture adverso debe devolver `FAIL_CI_GATE`. (3) La ausencia de `supported` debe devolver `REVIEW_MATRIX`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: REVIEW_MATRIX o FAIL_CI_GATE",
+        preamble:
+          "- **Contexto:** en plataforma de Piura no se asume «todo OK» si falta la matriz soportada: se deriva a revisión humana.\n- **Meta:** decidir CONTINUE / FAIL_CI_GATE / REVIEW_MATRIX.\n- **Éxito:** `CONTINUE FAIL_CI_GATE REVIEW_MATRIX`.\n- **Límites:** missing → REVIEW_MATRIX (no CONTINUE); no inventes `supported`; breach de checks cierra con FAIL_CI_GATE.",
+        instruction:
+          "1. Lee el DEFECT: missing devuelve CONTINUE y pred usa OR.\n2. En `decide`, missing → `REVIEW_MATRIX`.\n3. Completos: CONTINUE solo si AND + matrix==supported; si no → FAIL_CI_GATE.\n4. Imprime las tres decisiones en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `supported` a `REVIEW_MATRIX` antes de mirar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.",
@@ -663,7 +713,10 @@ print(*results)
         ],
         edgeCases: ["falta supported", "fixture adverso: tres gates y matriz exactamente soportada", "CASO-PIU-044-1A es sintético"],
         tests: "Fixtures `CASO-PIU-044-1A`, adverso y sin `supported` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.",
+        feedback:
+          "REVIEW_MATRIX pide evidencia de matriz; FAIL_CI_GATE cierra el breach; CONTINUE solo con CI certificada. Tratar «falta supported» como éxito silencioso es el anti-patrón de este E3.",
+        retrospective:
+          "En plataforma no se inventa la matriz soportada: se pide dueño y se detiene el promote del PR. El error clásico es tratar `REVIEW_MATRIX` como «casi PASS» y rellenar `{3.11, 3.12}` en silencio. Pregunta: si el adverso y el missing llegaran el mismo día, ¿qué código cierras primero y por qué no rellenas `supported`? Ese hábito se reutiliza en You Do al declarar runtimes reales del portfolio.",
         starterCode: {
           language: 'python',
           title: "s44-t1-a-e3.py",
@@ -708,7 +761,11 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
         id: "S44-T1-B-E1",
         subtopicId: "S44-T1-B",
         kind: "guided",
-        instruction: "S44-T1-B-E1 · Compara el contrato de `caches, artifacts y condiciones` sobre `CASO-PIU-044-1B`. La entrada es el dict completo del starter; la operación debe demostrar cache opcional, artifact con digest y condiciones completas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `DISCARD_PIPELINE_RESULT` en E2.",
+        title: "Artifact verificable, no solo cache",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-1B el wheel de Piura solo se adjunta si el miss de cache aún produce resultado y el digest es verificable.\n- **Meta:** corregir el predicado (prefijo `lock-`, miss pasa, sha256, retención ≥7, tags cubiertos).\n- **Éxito:** `S44-T1-B PASS`.\n- **Límites:** no mutes el fixture; no publiques con digest `latest`; DEFECT en la expresión booleana.",
+        instruction:
+          "1. El starter marca PASS con `not cache_miss_passes or not conditions_cover_tags` (DEFECT).\n2. Reemplaza por AND de startswith lock-, miss True, sha256, retention ≥7, conditions True.\n3. Conserva el print.\n4. Debe imprimir `S44-T1-B PASS`.",
         hint: "Clave de caché con prefijo lock-, artifact sha256 y tags cubiertos: todo en AND.",
         hints: [
           "Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada en S44-T1-B.",
@@ -716,7 +773,10 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
         ],
         edgeCases: ["falta conditions_cover_tags", "fixture adverso: cache opcional, artifact con digest y condiciones completas", "CASO-PIU-044-1B es sintético"],
         tests: "El fixture `CASO-PIU-044-1B` satisface un predicado de dominio real; imprime `S44-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S44-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.",
+        feedback:
+          "Un cache miss que sigue produciendo el wheel es señal de robustez, no de fallo. Invertir esa flag convierte el happy path en DISCARD_PIPELINE_RESULT y el adverso de E2 «parece» válido.",
+        retrospective:
+          "Evidencia = digest + retención + condiciones de release, no velocidad de install. El error clásico es confiar en cache global sin lock. Siguiente: tres rutas con DISCARD y MISSING de conditions.",
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e1.py",
@@ -744,7 +804,11 @@ assert meets_contract is True` ,
         id: "S44-T1-B-E2",
         subtopicId: "S44-T1-B",
         kind: "independent",
-        instruction: "S44-T1-B-E2 · Verifica tres rutas de `caches, artifacts y condiciones`: fixture válido, fixture adverso y registro sin `conditions_cover_tags`. Entrada: dict con case_id, cache_key, cache_miss_passes, artifact_digest, retention_days, conditions_cover_tags. Salidas exactas: `PASS`, `DISCARD_PIPELINE_RESULT`, `MISSING:conditions_cover_tags`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de evidencia de build",
+        preamble:
+          "- **Contexto:** el pipeline de Piura descarta un job si la cache es global, el digest es `latest` o los tags no tienen gates.\n- **Meta:** `assess` con PASS / DISCARD_PIPELINE_RESULT / MISSING:conditions_cover_tags.\n- **Éxito:** exactamente esas tres cadenas en una línea.\n- **Límites:** missing antes de leer conditions; no inventes cobertura de tags; fixture sintético.",
+        instruction:
+          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica el contrato completo de T1-B sobre datos completos.\n3. Conserva MISSING por schema.\n4. Imprime `PASS DISCARD_PIPELINE_RESULT MISSING:conditions_cover_tags`.",
         hint: "Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.",
@@ -752,7 +816,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta conditions_cover_tags", "fixture adverso: cache opcional, artifact con digest y condiciones completas", "CASO-PIU-044-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `conditions_cover_tags` ausente y produce exactamente `PASS DISCARD_PIPELINE_RESULT MISSING:conditions_cover_tags`.",
-        feedback: "S44-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.",
+        feedback:
+          "El adverso falla por contenido (global/latest/retención 0), no por schema. Mezclar «falta el campo» con «el campo está mal» es el error que este assess separa.",
+        retrospective:
+          "Schema y breach no se mezclan: falta `conditions_cover_tags` no es lo mismo que tags en False con cache `global` y digest `latest`. El error clásico es devolver DISCARD cuando falta el campo o inventar `True` para «cerrar el job». Pregunta: ¿qué evidencia mínima retiene el artifact si el cache miss pasó? Luego: CONTINUE vs INSPECT_WORKFLOW_CONDITION.",
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e2.py",
@@ -797,7 +864,11 @@ print(*results)
         id: "S44-T1-B-E3",
         subtopicId: "S44-T1-B",
         kind: "transfer",
-        instruction: "S44-T1-B-E3 · Transferencia: extiende el fallo cerrado para `caches, artifacts y condiciones` con tres fixtures. (1) `CASO-PIU-044-1B` → `CONTINUE`. (2) Adverso → `DISCARD_PIPELINE_RESULT`. (3) Sin `conditions_cover_tags` → `INSPECT_WORKFLOW_CONDITION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: inspeccionar condiciones del workflow",
+        preamble:
+          "- **Contexto:** si no sabes si los tags de release de Piura comparten gates con main, **pausas a revisar el workflow**, no inventas True.\n- **Meta:** decide CONTINUE / DISCARD_PIPELINE_RESULT / INSPECT_WORKFLOW_CONDITION.\n- **Éxito:** `CONTINUE DISCARD_PIPELINE_RESULT INSPECT_WORKFLOW_CONDITION`.\n- **Límites:** missing ≠ breach; no rellenes conditions; no publiques digest huérfano.",
+        instruction:
+          "1. DEFECT: missing → CONTINUE; pred invertido.\n2. missing → INSPECT_WORKFLOW_CONDITION.\n3. Completos: CONTINUE solo con contrato T1-B; si no → DISCARD.\n4. Imprime en orden valid, invalid, uncertain.",
         hint: "Missing ≠ breach: enruta la ausencia de `conditions_cover_tags` a `INSPECT_WORKFLOW_CONDITION` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.",
@@ -805,7 +876,10 @@ print(*results)
         ],
         edgeCases: ["falta conditions_cover_tags", "fixture adverso: cache opcional, artifact con digest y condiciones completas", "CASO-PIU-044-1B es sintético"],
         tests: "Fixtures `CASO-PIU-044-1B`, adverso y sin `conditions_cover_tags` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.",
+        feedback:
+          "INSPECT_* reabre el workflow; DISCARD_* tira el resultado; CONTINUE solo con artifact defendible. Un tag de prod sin gates es peor que un job lento: rompe el contrato de release.",
+        retrospective:
+          "Sin saber si los tags de release comparten gates con main, no se publica: se inspecciona el workflow. El error clásico es rellenar `conditions_cover_tags=True` porque «siempre lo cubrimos en main». Pregunta: ¿por qué un tag de prod sin gates es peor que un job lento? Lleva esa respuesta al You Do al documentar condiciones de release.",
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e3.py",
@@ -850,7 +924,11 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         id: "S44-T2-A-E1",
         subtopicId: "S44-T2-A",
         kind: "guided",
-        instruction: "S44-T2-A-E1 · Endurece el workflow de `CASO-PIU-044-2A`: permisos mínimos, **pin por SHA completo de 40 hex** en `action_ref`, cero secret hits y dependency review. Reemplaza el predicado defectuoso (hoy aprueba write o secretos); no mutes los datos ni el assert. Salida exacta: `S44-T2-A PASS`. El fixture adverso de E2 activará `REVOKE_AND_ROTATE`.",
+        title: "Pin SHA y least privilege",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-2A el workflow de Piura usa `contents: read` y checkout con SHA real de 40 hex.\n- **Meta:** implementar least privilege + `full_sha_pin` + secret_hits==0 + dependency_review.\n- **Éxito:** `S44-T2-A PASS`.\n- **Límites:** no mutes el PIN; no aceptes `@v4`; no cambies el assert; sin secretos reales.",
+        instruction:
+          "1. Starter: PASS si write o secret_hits>0 (DEFECT invertido).\n2. Extrae el ref tras `@` y valida len 40 hex.\n3. AND con permisos ⊆ {read, none}, secret_hits==0 y dependency_review.\n4. Imprime `S44-T2-A PASS`.",
         hint: "Valida permisos ⊆ {read, none}, `action_ref` con SHA de 40 hex tras `@`, secret_hits==0 y dependency_review.",
         hints: [
           "Extrae el ref después de `@` en `action_ref` y comprueba len==40 y hex.",
@@ -858,7 +936,10 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         ],
         edgeCases: ["falta dependency_review", "action_ref con tag flotante o write amplio", "CASO-PIU-044-2A es sintético"],
         tests: "El fixture `CASO-PIU-044-2A` con SHA de 40 hex y least privilege imprime `S44-T2-A PASS`.",
-        feedback: "S44-T2-A-E1: el pin real es el SHA inmutable, no un booleano; write o secret_hits>0 activan REVOKE_AND_ROTATE; sin dependency_review → SECURITY_APPROVAL.",
+        feedback:
+          "El pin se **calcula** del string, no se asume. Un predicado que premia write o secret hits revoca la confianza del token: el adverso de E2 debe activar REVOKE_AND_ROTATE.",
+        retrospective:
+          "SHA inmutable cierra supply chain de actions; write amplio y secretos en logs obligan a rotar. El error clásico es confiar en un tag `@v4` o un stub corto. Pregunta: ¿qué compruebas del ref tras `@` además de la longitud? Siguiente: clasificar tag flotante como breach de contenido.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e1.py",
@@ -910,7 +991,11 @@ assert meets_contract is True` ,
         id: "S44-T2-A-E2",
         subtopicId: "S44-T2-A",
         kind: "independent",
-        instruction: "S44-T2-A-E2 · Clasifica tres rutas de endurecimiento. Entrada: case_id, token_permissions, action_ref, secret_hits, dependency_review. (1) Pin SHA completo y least privilege → `PASS`. (2) Write / `@v4` / secret hit → `REVOKE_AND_ROTATE`. (3) Sin `dependency_review` → `MISSING:dependency_review`. Conserva la rama missing antes del dominio. Salida exacta: `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.",
+        title: "Tres rutas de endurecimiento del workflow",
+        preamble:
+          "- **Contexto:** un job de release en Piura con `packages: write` y checkout@v4 no es «casi pinneado»: es breach.\n- **Meta:** assess PASS / REVOKE_AND_ROTATE / MISSING:dependency_review.\n- **Éxito:** `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.\n- **Límites:** missing antes del dominio; pin calculado; no inventes dependency_review.",
+        instruction:
+          "1. Starter aprueba write/secret (DEFECT).\n2. Reutiliza full_sha_pin y least privilege.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero `missing`; luego least privilege + full_sha_pin(action_ref) + secret_hits==0 + dependency_review.",
         hints: [
           "El inválido usa `@v4` (tag flotante) y write: debe fallar por contenido, no por schema.",
@@ -918,7 +1003,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta dependency_review", "tag @v4 no es pin", "CASO-PIU-044-2A es sintético"],
         tests: "Salidas exactas: `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.",
-        feedback: "S44-T2-A-E2: diferencia schema (missing) de breach (write, tag flotante, secret); pin = 40 hex.",
+        feedback:
+          "Schema (falta review) ≠ breach (write/tag/secret). Marcar PASS si «hay un action_ref» sin validar el SHA es el error que este assess corrige.",
+        retrospective:
+          "Un `@v4` no es «casi pinneado»: el tag se mueve y el SHA no. Falta `dependency_review` es schema; write + secret hits + tag es breach de contenido. El error clásico es marcar PASS si el string `action_ref` «existe». Pregunta: ¿qué extraes después de `@` y cuántos caracteres hex exige el gate? Luego: SECURITY_APPROVAL en incertidumbre.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e2.py",
@@ -1000,7 +1088,11 @@ print(*results)
         id: "S44-T2-A-E3",
         subtopicId: "S44-T2-A",
         kind: "transfer",
-        instruction: "S44-T2-A-E3 · Transferencia: decide fail-closed. (1) Válido → `CONTINUE`. (2) Adverso (write / `@v4` / secret) → `REVOKE_AND_ROTATE`. (3) Sin `dependency_review` → `SECURITY_APPROVAL`. No conviertas missing en CONTINUE ni apruebes tag flotante. Salida exacta: `CONTINUE REVOKE_AND_ROTATE SECURITY_APPROVAL`.",
+        title: "Fail-closed: rotar o pedir SECURITY_APPROVAL",
+        preamble:
+          "- **Contexto:** sin dependency_review el lead de ops en Piura no inventa un True: pide **aprobación de seguridad**.\n- **Meta:** decide CONTINUE / REVOKE_AND_ROTATE / SECURITY_APPROVAL.\n- **Éxito:** `CONTINUE REVOKE_AND_ROTATE SECURITY_APPROVAL`.\n- **Límites:** missing ≠ CONTINUE; no apruebes tag flotante; sin secretos reales.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred premia write/secret.\n2. missing → SECURITY_APPROVAL.\n3. Completos: CONTINUE solo con contrato T2-A; si no → REVOKE_AND_ROTATE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `dependency_review` a `SECURITY_APPROVAL` antes del contenido.",
         hints: [
           "Reutiliza full_sha_pin sobre action_ref; solo least privilege + pin + cero secrets + review devuelve CONTINUE.",
@@ -1008,7 +1100,10 @@ print(*results)
         ],
         edgeCases: ["falta dependency_review", "tag @v4 no es pin", "CASO-PIU-044-2A es sintético"],
         tests: "Salidas exactas: `CONTINUE REVOKE_AND_ROTATE SECURITY_APPROVAL`.",
-        feedback: "S44-T2-A-E3: uncertainty ≠ breach; pin SHA es medible; write o secret obligan a rotar.",
+        feedback:
+          "REVOKE_* implica rotación de credenciales; SECURITY_APPROVAL es incertidumbre, no breach silencioso. Un `@v4` no se «promueve» a pin con un comentario en el YAML.",
+        retrospective:
+          "Sin dependency_review el lead no inventa un True: pide aprobación de seguridad y detiene el publish. El error clásico es «promover» `@v4` a pin con un comentario en el YAML. Pregunta: si hay write amplio **y** falta review, ¿qué código aplica primero y por qué no es CONTINUE? Ese criterio alimenta el workflow pinneado del You Do.",
         starterCode: {
           language: 'python',
           title: "s44-t2-a-e3.py",
@@ -1090,7 +1185,11 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
         id: "S44-T2-B-E1",
         subtopicId: "S44-T2-B",
         kind: "guided",
-        instruction: "S44-T2-B-E1 · Modela el contrato de `SBOM, provenance y attestations` sobre `CASO-PIU-044-2B`. La entrada es el dict completo del starter; la operación debe demostrar SBOM y provenance enlazados al mismo digest. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_ATTESTATION` en E2.",
+        title: "Un solo digest en la cadena",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-2B el wheel de Piura, su SBOM y el subject de provenance deben ser el **mismo** digest.\n- **Meta:** corregir a len(set)==1 y attestation_valid.\n- **Éxito:** `S44-T2-B PASS`.\n- **Límites:** no mutes digests del fixture; no copies SBOM de otro build; DEFECT en la comparación.",
+        instruction:
+          "1. Starter: PASS si len({...}) > 1 (DEFECT).\n2. Cámbialo a == 1 **y** attestation_valid.\n3. Conserva print/status.\n4. Debe imprimir `S44-T2-B PASS`.",
         hint: "Los tres digests deben coincidir y la attestation debe ser válida.",
         hints: [
           "Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.",
@@ -1098,7 +1197,10 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
         ],
         edgeCases: ["falta attestation_valid", "fixture adverso: SBOM y provenance enlazados al mismo digest", "CASO-PIU-044-2B es sintético"],
         tests: "El fixture `CASO-PIU-044-2B` satisface un predicado de dominio real; imprime `S44-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S44-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.",
+        feedback:
+          "Tres digests distintos no son «casi alineados»: la attestation miente. Con len==1 y attestation True el happy path es PASS; el adverso de E2 activa REJECT_ATTESTATION.",
+        retrospective:
+          "Integridad medible por igualdad de digests, no por narrativa del README. El error clásico es creer que tres digests «parecidos» son suficientes. Pregunta: ¿por qué `attestation_valid` no basta si el set de digests tiene más de un elemento? Siguiente: valid / divergente / sin flag de attestation.",
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e1.py",
@@ -1126,7 +1228,11 @@ assert meets_contract is True` ,
         id: "S44-T2-B-E2",
         subtopicId: "S44-T2-B",
         kind: "independent",
-        instruction: "S44-T2-B-E2 · Audita tres rutas de `SBOM, provenance y attestations`: fixture válido, fixture adverso y registro sin `attestation_valid`. Entrada: dict con case_id, artifact_digest, sbom_digest, provenance_subject, attestation_valid. Salidas exactas: `PASS`, `REJECT_ATTESTATION`, `MISSING:attestation_valid`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de attestation",
+        preamble:
+          "- **Contexto:** el auditor de supply chain en Piura rechaza digests divergentes aunque el README diga OK.\n- **Meta:** assess PASS / REJECT_ATTESTATION / MISSING:attestation_valid.\n- **Éxito:** `PASS REJECT_ATTESTATION MISSING:attestation_valid`.\n- **Límites:** missing antes de leer attestation_valid; no inventes True; sintético.",
+        instruction:
+          "1. Starter: PASS con digests divergentes (DEFECT).\n2. Corrige a len==1 y attestation_valid.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.",
@@ -1134,7 +1240,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta attestation_valid", "fixture adverso: SBOM y provenance enlazados al mismo digest", "CASO-PIU-044-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `attestation_valid` ausente y produce exactamente `PASS REJECT_ATTESTATION MISSING:attestation_valid`.",
-        feedback: "S44-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.",
+        feedback:
+          "Falta el flag de attestation → schema; digests distintos → breach. Devolver PASS si «hay algún digest» no cierra la cadena de suministro.",
+        retrospective:
+          "Cadena íntegra solo con un subject compartido y attestation True. El error clásico es devolver PASS si «hay algún digest» aunque el set tenga tres valores. Pregunta: en el adverso con aaa/bbb/ccc, ¿qué campo miras primero después del schema? Luego: REBUILD_PROVENANCE.",
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e2.py",
@@ -1179,7 +1288,11 @@ print(*results)
         id: "S44-T2-B-E3",
         subtopicId: "S44-T2-B",
         kind: "transfer",
-        instruction: "S44-T2-B-E3 · Transferencia: recupera el fallo cerrado para `SBOM, provenance y attestations`. (1) `CASO-PIU-044-2B` → `CONTINUE`. (2) Adverso → `REJECT_ATTESTATION`. (3) Sin `attestation_valid` → `REBUILD_PROVENANCE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: rebuild de provenance",
+        preamble:
+          "- **Contexto:** sin saber si la attestation es válida, Piura **reconstruye provenance**, no inventa un check verde.\n- **Meta:** decide CONTINUE / REJECT_ATTESTATION / REBUILD_PROVENANCE.\n- **Éxito:** `CONTINUE REJECT_ATTESTATION REBUILD_PROVENANCE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes attestation_valid; no promuevas digest huérfano.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred len>1.\n2. missing → REBUILD_PROVENANCE.\n3. Completos: CONTINUE solo si digests alineados + attestation; si no → REJECT.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `attestation_valid` a `REBUILD_PROVENANCE` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.",
@@ -1187,7 +1300,10 @@ print(*results)
         ],
         edgeCases: ["falta attestation_valid", "fixture adverso: SBOM y provenance enlazados al mismo digest", "CASO-PIU-044-2B es sintético"],
         tests: "Fixtures `CASO-PIU-044-2B`, adverso y sin `attestation_valid` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.",
+        feedback:
+          "REJECT cierra la cadena rota; REBUILD pide rehacer evidencia. Copiar el SBOM del release anterior rompe CP-N4-B aunque el código «casi no cambió».",
+        retrospective:
+          "Sin saber si la attestation es válida, Piura reconstruye provenance: no inventa un check verde ni copia el SBOM del release anterior. El error clásico es CONTINUE cuando falta el flag. Pregunta: ¿por qué copiar el SBOM del release anterior rompe CP-N4-B aunque el código «casi no cambió»?",
         starterCode: {
           language: 'python',
           title: "s44-t2-b-e3.py",
@@ -1232,7 +1348,11 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
         id: "S44-T3-A-E1",
         subtopicId: "S44-T3-A",
         kind: "guided",
-        instruction: "S44-T3-A-E1 · Verifica el contrato de `environments y approvals` sobre `CASO-PIU-044-3A`. La entrada es el dict completo del starter; la operación debe demostrar el mismo digest probado y la aprobación independiente. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_PROMOTION` en E2.",
+        title: "Mismo digest y aprobación independiente",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-3A staging aprobó `sha256:abc`; production solo se mueve con `release-owner` y el **mismo** digest.\n- **Meta:** corregir a staging→production + approved_by + digests idénticos.\n- **Éxito:** `S44-T3-A PASS`.\n- **Límites:** no mutes digests; no promuevas desde dev; DEFECT en el predicado.",
+        instruction:
+          "1. Starter: PASS con not approved_by o digests != (DEFECT).\n2. Exige source staging, target production, bool(approved_by), tested==promoted.\n3. Conserva print.\n4. `S44-T3-A PASS`.",
         hint: "Staging → production, aprobador presente y digests idénticos (sin rebuild).",
         hints: [
           "Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted_digest` con la regla explicada en S44-T3-A.",
@@ -1240,7 +1360,10 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
         ],
         edgeCases: ["falta promoted_digest", "fixture adverso: el mismo digest probado y la aprobación independiente", "CASO-PIU-044-3A es sintético"],
         tests: "El fixture `CASO-PIU-044-3A` satisface un predicado de dominio real; imprime `S44-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S44-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.",
+        feedback:
+          "Invertir el predicado hace que el happy path (aprobado y digests iguales) falle. Rebuild a otro digest con el mismo aprobador sigue siendo DENY en E2.",
+        retrospective:
+          "Promote mueve el subject testeado, no un binario nuevo. El error clásico es PASS sin `approved_by` o con digests distintos «porque el lead confía». Pregunta: ¿por qué staging→production importa y no basta un promote desde dev con el mismo digest? Siguiente: tres rutas con dev/sin approval/digest new.",
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e1.py",
@@ -1268,7 +1391,11 @@ assert meets_contract is True` ,
         id: "S44-T3-A-E2",
         subtopicId: "S44-T3-A",
         kind: "independent",
-        instruction: "S44-T3-A-E2 · Decide tres rutas de `environments y approvals`: fixture válido, fixture adverso y registro sin `promoted_digest`. Entrada: dict con case_id, source_env, target_env, approved_by, tested_digest, promoted_digest. Salidas exactas: `PASS`, `DENY_PROMOTION`, `MISSING:promoted_digest`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de promoción",
+        preamble:
+          "- **Contexto:** el lead de ops en Piura pregunta «¿podemos promover?»: la respuesta es digests y aprobador, no el README.\n- **Meta:** assess PASS / DENY_PROMOTION / MISSING:promoted_digest.\n- **Éxito:** `PASS DENY_PROMOTION MISSING:promoted_digest`.\n- **Límites:** missing antes de leer promoted_digest; no inventes digest; sintético.",
+        instruction:
+          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.",
@@ -1276,7 +1403,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta promoted_digest", "fixture adverso: el mismo digest probado y la aprobación independiente", "CASO-PIU-044-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `promoted_digest` ausente y produce exactamente `PASS DENY_PROMOTION MISSING:promoted_digest`.",
-        feedback: "S44-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.",
+        feedback:
+          "Promover desde dev o con digest distinto es breach de contenido. Inventar promoted_digest para «cerrar el ticket» rompe el gate de release.",
+        retrospective:
+          "El gate de promote no es un warning de README: es igualdad de digests y aprobador independiente. El error clásico es inventar `promoted_digest` para cerrar el ticket. Pregunta: ¿qué le muestras al lead de Piura en 30 segundos además del aprobador? Luego: REQUEST_RELEASE_APPROVAL.",
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e2.py",
@@ -1321,7 +1451,11 @@ print(*results)
         id: "S44-T3-A-E3",
         subtopicId: "S44-T3-A",
         kind: "transfer",
-        instruction: "S44-T3-A-E3 · Transferencia: contrasta el fallo cerrado para `environments y approvals`. (1) `CASO-PIU-044-3A` → `CONTINUE`. (2) Adverso → `DENY_PROMOTION`. (3) Sin `promoted_digest` → `REQUEST_RELEASE_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: pedir aprobación de release",
+        preamble:
+          "- **Contexto:** sin `promoted_digest` no se inventa uno: se **solicita aprobación de release** y se detiene el promote.\n- **Meta:** decide CONTINUE / DENY_PROMOTION / REQUEST_RELEASE_APPROVAL.\n- **Éxito:** `CONTINUE DENY_PROMOTION REQUEST_RELEASE_APPROVAL`.\n- **Límites:** missing ≠ CONTINUE; no rellenes digest; no rebuild al promover.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → REQUEST_RELEASE_APPROVAL.\n3. Completos: CONTINUE solo con contrato T3-A; si no → DENY.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `promoted_digest` a `REQUEST_RELEASE_APPROVAL` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.",
@@ -1329,7 +1463,10 @@ print(*results)
         ],
         edgeCases: ["falta promoted_digest", "fixture adverso: el mismo digest probado y la aprobación independiente", "CASO-PIU-044-3A es sintético"],
         tests: "Fixtures `CASO-PIU-044-3A`, adverso y sin `promoted_digest` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.",
+        feedback:
+          "REQUEST_* es incertidumbre humana; DENY_* cierra el anti-patrón de rebuild. Al lead de Piura le das digests iguales y aprobador, no un párrafo del README.",
+        retrospective:
+          "Sin `promoted_digest` no se inventa uno: se solicita aprobación de release y se detiene el promote. El error clásico es CONTINUE «mientras llega el digest». Pregunta: ¿qué evidencia le das al lead de Piura en 30 segundos para decir «sí, mismo digest»? Eso cierra el gate de promoción del You Do.",
         starterCode: {
           language: 'python',
           title: "s44-t3-a-e3.py",
@@ -1374,7 +1511,11 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         id: "S44-T3-B-E1",
         subtopicId: "S44-T3-B",
         kind: "guided",
-        instruction: "S44-T3-B-E1 · Clasifica el contrato de `migrations, canary/blue-green y rollback` sobre `CASO-PIU-044-3B`. La entrada es el dict completo del starter; la operación debe demostrar migración compatible, canary bajo umbral y rollback dentro de RTO. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_RELEASE` en E2.",
+        title: "Canary bajo umbral y rollback en RTO",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-3B el servicio de jobs de Piura canariza con 0.4% de error (umbral 1%) y rollback ensayado en 75 s (RTO 120).\n- **Meta:** migración compatible + error ≤ umbral + rollback_tested + segundos ≤ RTO.\n- **Éxito:** `S44-T3-B PASS`.\n- **Límites:** no mutes tasas; no ignores RTO; DEFECT en el predicado.",
+        instruction:
+          "1. Starter: PASS con error alto o sin rollback (DEFECT).\n2. Invierte a AND del camino sano completo.\n3. Conserva print.\n4. `S44-T3-B PASS`.",
         hint: "Error rate ≤ umbral, rollback ensayado y segundos de rollback ≤ RTO.",
         hints: [
           "Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.",
@@ -1382,7 +1523,10 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         ],
         edgeCases: ["falta rto_seconds", "fixture adverso: migración compatible, canary bajo umbral y rollback dentro de RTO", "CASO-PIU-044-3B es sintético"],
         tests: "El fixture `CASO-PIU-044-3B` satisface un predicado de dominio real; imprime `S44-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S44-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.",
+        feedback:
+          "El happy path tiene error bajo y rollback listo: si tu pred premia lo opuesto, el PASS real se convierte en ROLLBACK_RELEASE y el adverso de E2 «parece» sano.",
+        retrospective:
+          "Umbral medible + ensayo de rollback ≤ RTO son el contrato dual del canary. El error clásico es ampliar tráfico con error alto «para ver si se estabiliza». Pregunta: con 0.4% de error y rollback 75 s ≤ RTO 120, ¿por qué PASS no es lo mismo que «hold a ciegas»? Siguiente: adverso con 8% error y 500 s de rollback.",
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e1.py",
@@ -1410,7 +1554,11 @@ assert meets_contract is True` ,
         id: "S44-T3-B-E2",
         subtopicId: "S44-T3-B",
         kind: "independent",
-        instruction: "S44-T3-B-E2 · Calcula tres rutas de `migrations, canary/blue-green y rollback`: fixture válido, fixture adverso y registro sin `rto_seconds`. Entrada: dict con case_id, migration_compatible, canary_error_rate, max_error_rate, rollback_tested, rollback_seconds, rto_seconds. Salidas exactas: `PASS`, `ROLLBACK_RELEASE`, `MISSING:rto_seconds`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de canary y rollback",
+        preamble:
+          "- **Contexto:** un canary de Piura al 8% de error con rollback no ensayado no se «hold»: se clasifica como release a revertir.\n- **Meta:** assess PASS / ROLLBACK_RELEASE / MISSING:rto_seconds.\n- **Éxito:** `PASS ROLLBACK_RELEASE MISSING:rto_seconds`.\n- **Límites:** missing antes de rto_seconds; no inventes RTO; sintético.",
+        instruction:
+          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.",
@@ -1418,7 +1566,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta rto_seconds", "fixture adverso: migración compatible, canary bajo umbral y rollback dentro de RTO", "CASO-PIU-044-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `rto_seconds` ausente y produce exactamente `PASS ROLLBACK_RELEASE MISSING:rto_seconds`.",
-        feedback: "S44-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.",
+        feedback:
+          "Breach de canary/rollback ≠ falta de RTO (schema). Ampliar tráfico sin RTO medible es el error que este assess separa del incidente real.",
+        retrospective:
+          "Breach de canary/rollback no es falta de RTO: el adverso con 8% error y rollback no ensayado es incidente; sin `rto_seconds` es schema. El error clásico es ampliar tráfico sin RTO medible. Pregunta: si error está bajo umbral pero `rollback_seconds` es 500 y RTO 120, ¿PASS o ROLLBACK? Luego: PAUSE_CANARY.",
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e2.py",
@@ -1463,7 +1614,11 @@ print(*results)
         id: "S44-T3-B-E3",
         subtopicId: "S44-T3-B",
         kind: "transfer",
-        instruction: "S44-T3-B-E3 · Transferencia: instrumenta el fallo cerrado para `migrations, canary/blue-green y rollback`. (1) `CASO-PIU-044-3B` → `CONTINUE`. (2) Adverso → `ROLLBACK_RELEASE`. (3) Sin `rto_seconds` → `PAUSE_CANARY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: pausar canary sin RTO",
+        preamble:
+          "- **Contexto:** sin `rto_seconds` no sabes si el ensayo de rollback de Piura fue a tiempo: **pausas el canary**, no continúas el release.\n- **Meta:** decide CONTINUE / ROLLBACK_RELEASE / PAUSE_CANARY.\n- **Éxito:** `CONTINUE ROLLBACK_RELEASE PAUSE_CANARY`.\n- **Límites:** missing ≠ CONTINUE; no inventes RTO; no ignores error alto.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → PAUSE_CANARY.\n3. Completos: CONTINUE solo con contrato sano; si no → ROLLBACK_RELEASE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `rto_seconds` a `PAUSE_CANARY` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.",
@@ -1471,7 +1626,10 @@ print(*results)
         ],
         edgeCases: ["falta rto_seconds", "fixture adverso: migración compatible, canary bajo umbral y rollback dentro de RTO", "CASO-PIU-044-3B es sintético"],
         tests: "Fixtures `CASO-PIU-044-3B`, adverso y sin `rto_seconds` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.",
+        feedback:
+          "PAUSE_* es incertidumbre operativa; ROLLBACK_* es incidente medible. En el portfolio de CP-N4-B demuestras log de canary y ensayo de rollback, no un hold a ciegas.",
+        retrospective:
+          "Sin `rto_seconds` no sabes si el ensayo de rollback fue a tiempo: pausas el canary. El error clásico es CONTINUE «porque el error aún no superó el umbral». Pregunta: ¿qué log mínimo demuestras en el portfolio de canary/rollback de CP-N4-B?",
         starterCode: {
           language: 'python',
           title: "s44-t3-b-e3.py",
@@ -1516,7 +1674,11 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         id: "S44-T4-A-E1",
         subtopicId: "S44-T4-A",
         kind: "guided",
-        instruction: "S44-T4-A-E1 · Audita el contrato de `branch/review policy y release notes` sobre `CASO-PIU-044-4A`. La entrada es el dict completo del starter; la operación debe demostrar branch protegida, review/checks y notas operables. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNREVIEWED_RELEASE` en E2.",
+        title: "Branch protegida y notes operables",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-4A main de Piura exige 2 reviews, checks de CI y notes con cambio, riesgo, migración y rollback.\n- **Meta:** protected_branch + reviews ≥1 + required_checks + set de notes completo.\n- **Éxito:** `S44-T4-A PASS`.\n- **Límites:** no mutes el set de notes; no aceptes notes solo con `change`; DEFECT en el pred.",
+        instruction:
+          "1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rollback}.\n3. Conserva print.\n4. `S44-T4-A PASS`.",
         hint: "Branch protegida, ≥1 review, checks activos y notes con change/risk/migration/rollback.",
         hints: [
           "Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.",
@@ -1524,7 +1686,10 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "El fixture `CASO-PIU-044-4A` satisface un predicado de dominio real; imprime `S44-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S44-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.",
+        feedback:
+          "El happy path tiene branch protegida y notes completas: si tu pred premia lo opuesto, el PASS real se vuelve BLOCK_UNREVIEWED_RELEASE. El adverso de E2 (sin protección, notes solo con `change`) debe fallar aunque el dict «se vea de release».",
+        retrospective:
+          "Trazabilidad de release = protección + reviews + notes operables. El error clásico es merge directo a main «porque el CI ya pasó». Pregunta: ¿por qué `required_checks` no basta sin el set de notes? Siguiente: adverso sin protección y notes solo con change.",
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e1.py",
@@ -1552,7 +1717,11 @@ assert meets_contract is True` ,
         id: "S44-T4-A-E2",
         subtopicId: "S44-T4-A",
         kind: "independent",
-        instruction: "S44-T4-A-E2 · Compara tres rutas de `branch/review policy y release notes`: fixture válido, fixture adverso y registro sin `release_notes`. Entrada: dict con case_id, protected_branch, required_reviews, required_checks, release_notes. Salidas exactas: `PASS`, `BLOCK_UNREVIEWED_RELEASE`, `MISSING:release_notes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de release trazable",
+        preamble:
+          "- **Contexto:** merge directo a main sin protección o notes incompletas deja al on-call de Piura sin mapa.\n- **Meta:** assess PASS / BLOCK_UNREVIEWED_RELEASE / MISSING:release_notes.\n- **Éxito:** `PASS BLOCK_UNREVIEWED_RELEASE MISSING:release_notes`.\n- **Límites:** missing antes de release_notes; no inventes el set; sintético.",
+        instruction:
+          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T4-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
@@ -1560,7 +1729,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `release_notes` ausente y produce exactamente `PASS BLOCK_UNREVIEWED_RELEASE MISSING:release_notes`.",
-        feedback: "S44-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.",
+        feedback:
+          "Notes solo con `change` son breach de contenido, no «casi completas». El on-call a las 02:00 necesita risk, migration y rollback.",
+        retrospective:
+          "El on-call a las 02:00 necesita risk, migration y rollback — no un párrafo de «mejoras». El error clásico es inventar el set en el assessor cuando falta el mapa. Pregunta: si falta `release_notes` del todo, ¿qué código devuelves antes de mirar reviews? Luego: COMPLETE_RELEASE_NOTES.",
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e2.py",
@@ -1605,7 +1777,11 @@ print(*results)
         id: "S44-T4-A-E3",
         subtopicId: "S44-T4-A",
         kind: "transfer",
-        instruction: "S44-T4-A-E3 · Transferencia: aísla el fallo cerrado para `branch/review policy y release notes`. (1) `CASO-PIU-044-4A` → `CONTINUE`. (2) Adverso → `BLOCK_UNREVIEWED_RELEASE`. (3) Sin `release_notes` → `COMPLETE_RELEASE_NOTES`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: completar release notes",
+        preamble:
+          "- **Contexto:** sin el mapa `release_notes` no se inventa un set: se exige **completar notes** antes de liberar.\n- **Meta:** decide CONTINUE / BLOCK_UNREVIEWED_RELEASE / COMPLETE_RELEASE_NOTES.\n- **Éxito:** `CONTINUE BLOCK_UNREVIEWED_RELEASE COMPLETE_RELEASE_NOTES`.\n- **Límites:** missing ≠ CONTINUE; no rellenes notes; no merges sin protección.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → COMPLETE_RELEASE_NOTES.\n3. Completos: CONTINUE solo con contrato T4-A; si no → BLOCK.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `release_notes` a `COMPLETE_RELEASE_NOTES` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.",
@@ -1613,7 +1789,10 @@ print(*results)
         ],
         edgeCases: ["falta release_notes", "fixture adverso: branch protegida, review/checks y notas operables", "CASO-PIU-044-4A es sintético"],
         tests: "Fixtures `CASO-PIU-044-4A`, adverso y sin `release_notes` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.",
+        feedback:
+          "COMPLETE_* pide evidencia operativa; BLOCK_* cierra merge inseguro. La frase de rollback en las notes es lo que el on-call ejecuta a las 02:00.",
+        retrospective:
+          "Sin el mapa `release_notes` no se inventa un set: se exige completar notes antes de liberar. El error clásico es CONTINUE «mientras el PM escribe el changelog». Pregunta: ¿qué frase de rollback escribiste en las notes que el on-call pueda ejecutar a las 02:00?",
         starterCode: {
           language: 'python',
           title: "s44-t4-a-e3.py",
@@ -1658,7 +1837,11 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         id: "S44-T4-B-E1",
         subtopicId: "S44-T4-B",
         kind: "guided",
-        instruction: "S44-T4-B-E1 · Decide el contrato de `failure handling y evidencia auditable` sobre `CASO-PIU-044-4B`. La entrada es el dict completo del starter; la operación debe demostrar que un fallo crítico bloquea con logs redactados y dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S44-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `STOP_SILENT_FAILURE` en E2.",
+        title: "Fallo crítico bloquea con evidencia",
+        preamble:
+          "- **Contexto:** en CASO-PIU-044-4B un test de integración crítico falla: el workflow marca block, retiene log+artifact, owner `release` y logs redactados.\n- **Meta:** critical + blocked + redacted + owner truthy + evidence_retained.\n- **Éxito:** `S44-T4-B PASS`.\n- **Límites:** no mutes el fixture; no borres el trace; DEFECT en el pred.",
+        instruction:
+          "1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T4-B PASS`.",
         hint: "Crítico + pipeline bloqueado + logs redactados + owner + evidencia retenida.",
         hints: [
           "Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.",
@@ -1666,7 +1849,10 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         ],
         edgeCases: ["falta evidence_retained", "fixture adverso: fallo crítico bloquea con logs redactados y dueño", "CASO-PIU-044-4B es sintético"],
         tests: "El fixture `CASO-PIU-044-4B` satisface un predicado de dominio real; imprime `S44-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S44-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.",
+        feedback:
+          "Un crítico sin bloqueo es el anti-patrón de aprobación silenciosa. Con el pred correcto el happy path (blocked + evidencia) es PASS; el adverso de E2 activa STOP_SILENT_FAILURE.",
+        retrospective:
+          "Auditabilidad = dueño + logs redactados + artifact retenido, no solo «el job falló». El error clásico es PASS si critical y el pipeline sigue verde (continue-on-error). Pregunta: ¿por qué `logs_redacted` importa tanto como `pipeline_blocked`? Siguiente: adverso sin bloqueo, sin redaction, owner vacío.",
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e1.py",
@@ -1694,7 +1880,11 @@ assert meets_contract is True` ,
         id: "S44-T4-B-E2",
         subtopicId: "S44-T4-B",
         kind: "independent",
-        instruction: "S44-T4-B-E2 · Filtra tres rutas de `failure handling y evidencia auditable`: fixture válido, fixture adverso y registro sin `evidence_retained`. Entrada: dict con case_id, critical_failure, pipeline_blocked, logs_redacted, owner, evidence_retained. Salidas exactas: `PASS`, `STOP_SILENT_FAILURE`, `MISSING:evidence_retained`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de fallo auditable",
+        preamble:
+          "- **Contexto:** un fallo sin dueño ni evidencia en Piura es un incidente que se olvida hasta el siguiente outage.\n- **Meta:** assess PASS / STOP_SILENT_FAILURE / MISSING:evidence_retained.\n- **Éxito:** `PASS STOP_SILENT_FAILURE MISSING:evidence_retained`.\n- **Límites:** missing antes de evidence_retained; no inventes owner; sintético.",
+        instruction:
+          "1. Starter: PASS con critical y not blocked (DEFECT).\n2. Aplica contrato T4-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.",
@@ -1702,7 +1892,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta evidence_retained", "fixture adverso: fallo crítico bloquea con logs redactados y dueño", "CASO-PIU-044-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `evidence_retained` ausente y produce exactamente `PASS STOP_SILENT_FAILURE MISSING:evidence_retained`.",
-        feedback: "S44-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.",
+        feedback:
+          "Breach silencioso (sin bloqueo/redaction/owner) ≠ falta del flag de evidencia (schema). No inventes owner para «cerrar el ticket» del incidente.",
+        retrospective:
+          "Breach silencioso (sin bloqueo/redaction/owner) no es lo mismo que falta del flag `evidence_retained`. El error clásico es inventar owner para «cerrar el ticket» del incidente. Pregunta: en el adverso con `pipeline_blocked=False` y owner vacío, ¿qué código devuelves y por qué no es MISSING? Luego: ASSIGN_INCIDENT_OWNER.",
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e2.py",
@@ -1747,7 +1940,11 @@ print(*results)
         id: "S44-T4-B-E3",
         subtopicId: "S44-T4-B",
         kind: "transfer",
-        instruction: "S44-T4-B-E3 · Transferencia: demuestra el fallo cerrado para `failure handling y evidencia auditable`. (1) `CASO-PIU-044-4B` → `CONTINUE`. (2) Adverso → `STOP_SILENT_FAILURE`. (3) Sin `evidence_retained` → `ASSIGN_INCIDENT_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: asignar dueño del incidente",
+        preamble:
+          "- **Contexto:** sin `evidence_retained` no se reintenta a ciegas: se **asigna dueño de incidente** y se retiene el rastro.\n- **Meta:** decide CONTINUE / STOP_SILENT_FAILURE / ASSIGN_INCIDENT_OWNER.\n- **Éxito:** `CONTINUE STOP_SILENT_FAILURE ASSIGN_INCIDENT_OWNER`.\n- **Límites:** missing ≠ CONTINUE; no inventes evidencia; no continue-on-error.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; pred de crítico sin bloqueo.\n2. missing → ASSIGN_INCIDENT_OWNER.\n3. Completos: CONTINUE solo con contrato T4-B; si no → STOP_SILENT_FAILURE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `evidence_retained` a `ASSIGN_INCIDENT_OWNER` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.",
@@ -1755,7 +1952,10 @@ print(*results)
         ],
         edgeCases: ["falta evidence_retained", "fixture adverso: fallo crítico bloquea con logs redactados y dueño", "CASO-PIU-044-4B es sintético"],
         tests: "Fixtures `CASO-PIU-044-4B`, adverso y sin `evidence_retained` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S44-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.",
+        feedback:
+          "ASSIGN_* es incertidumbre de ownership; STOP_* cierra el silencioso. En You Do/CP-N4-B demuestras dueño y artifact retenido, no un reintento a ciegas.",
+        retrospective:
+          "Sin `evidence_retained` no se reintenta a ciegas: se asigna dueño de incidente y se retiene el rastro. El error clásico es CONTINUE o continue-on-error cuando falta evidencia. Pregunta de You Do: ¿qué owner y qué artifact retienes cuando el test crítico de tu portfolio falla?",
         starterCode: {
           language: 'python',
           title: "s44-t4-b-e3.py",
@@ -1800,7 +2000,7 @@ assert results == ["CONTINUE", "STOP_SILENT_FAILURE", "ASSIGN_INCIDENT_OWNER"]` 
   },
   youDo: {
     title: "CI/CD y seguridad de la cadena de suministro",
-    context: "Pipeline CI/CD con supply-chain gates. Trabaja sobre un repositorio ficticio de servicio de operaciones en Piura. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback. El gate bloquea la publicación si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente.",
+    context: "Pipeline CI/CD con supply-chain gates. Trabaja sobre un repositorio ficticio de servicio de operaciones en Piura. Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos. Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback. El gate bloquea la publicación si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente. El checklist del starter inicia en BLOCKED hasta que enlaces archivos reales de evidencia.",
     objectives: [
       "Convertir commit revisado, dependencias fijadas y workflow con permisos mínimos en artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback.",
       "Demostrar el gate: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.",
@@ -1889,7 +2089,9 @@ print("breach", gate_case("breach"))
 print("uncertain", gate_case("uncertain"))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo.",
+    portfolioNote: "Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo. Defensa oral: muéstrame el digest testeado == promovido en 30 segundos.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras (mismo digest, pin SHA de 40 hex, o canary ≤ umbral con rollback ≤ RTO)? (2) ¿qué harías distinto con registry y secretos reales vs. CASO-PIU-044 sintético (sin subir tokens)? (3) Escribe en el README una frase de impacto medible (antes: promote sin attestation / después: gate fail-closed + rollback ensayado) que puedas defender en 30 segundos ante un lead de ops en Piura.",
     rubric: [
       { criterion: "Corrección técnica del contrato y gate.", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación.", weight: "20%" },

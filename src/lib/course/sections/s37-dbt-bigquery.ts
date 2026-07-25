@@ -394,6 +394,8 @@ micro_only False`,
         subtopicId: "S37-T1-A",
         environment: "local-python",
         description: "Demo: wall, CPU, pico de memoria y hot path (cProfile) del trabajo sintético con n.",
+        preamble:
+          "En el path de escala del triage sintético (`CASO-LIM-037`), un «se siente más rápido» no pasa el gate: necesitas wall, CPU, pico de alocaciones y el nombre de la función caliente. En esta demo un `path` llama a `cheap` y luego a `expensive` con `n=10000`. No escribas aún: predice qué función gana en `cProfile` y por qué el reporte usa predicados (`wall_ms_ok`) en lugar de ms fijos. Si omites `n` o mides un tramo frío del `import`, el revisor no puede comparar PRs.",
         code: {
           language: 'python',
           title: "s37_t1_a_demo.py",
@@ -454,13 +456,17 @@ n 10000
 hot_fn expensive
 ok True`,
         },
-        why: "Deriva wall, CPU, pico de alocaciones del path y la función caliente (`cProfile`) del work real con `n`. Los ms exactos varían por máquina; por eso el demo reporta predicados estables.",
+        why: "`perf_counter` es reloj de pared; `process_time` es CPU del proceso; `tracemalloc` debe envolver el **work real**, no una alocación aparte; `cProfile` nombra el hot path después de saber que el wall importa. Los ms exactos varían por máquina: por eso el demo publica predicados y `hot_fn expensive`. En We Do repararás `n=0` y medirás CPU/peak del work.",
+        retrospective:
+          "Si puedes explicar por qué un wall sin `n` no es comparable y por qué `expensive` debe ganar a `cheap` sin mirar el código, ya tienes el hábito de medir el path caliente. El error clásico es micro-shave de un loop que ni es hot. En We Do corregirás el reporte de medición y el predicado `same_result`.",
       },
       {
         demoId: "S37-T1-B-DEMO",
         subtopicId: "S37-T1-B",
         environment: "local-python",
         description: "Demo: warmup real + mediana y spread de 5 runs.",
+        preamble:
+          "Un solo run frío mezcla `import`, cachés de CPU y el algoritmo; el PR de escala del triage no puede basarse en eso. En esta demo se descarta un warmup de `work()`, se miden 5 runs y se reportan predicados de mediana y spread (no ms fijos). No escribas: predice por qué `warmup True` y `n_runs 5` importan más que un número mágico de milisegundos. Si publicas el cold start, engañas al equipo y al budget.",
         code: {
           language: 'python',
           title: "s37_t1_b_demo.py",
@@ -486,13 +492,17 @@ spread_ms_ok True
 warmup True
 n_runs 5`,
         },
-        why: "Higiene de bench real: warmup, N runs, mediana y nota de variabilidad (spread) — no mediana de enteros inventados.",
+        why: "El warmup descarta distorsión de arranque; la mediana es robusta a un outlier; el spread (max−min) es nota de variabilidad con N chico, no un p95 de producción. No uses mean de enteros inventados ni un solo run frío como «verdad». En We Do medirás de verdad y forzarás `discard_first`.",
+        retrospective:
+          "Bench serio = warmup + N runs + mediana + nota de variabilidad. El error clásico es mean de números inventados o un solo run frío vendido como performance del algoritmo. Pregunta: si publicas el cold start y el budget de CI light es justo, ¿quién paga el flaky? We Do: medir de verdad, `discard_first` y proxy de cola con nombre.",
       },
       {
         demoId: "S37-T2-A-DEMO",
         subtopicId: "S37-T2-A",
         environment: "local-python",
         description: "Demo: all_pairs vs blocked_pairs derivados de n y bloques.",
+        preamble:
+          "Escalar entity resolution no empieza por shave del scorer: empieza por contar cuántos pares entran al scorer. En la demo, `n=4` y 2 bloques: 6 pares completos vs 2 bloqueados. No escribas: predice por qué `all_p > blk` y qué implica para el wall del matching. Si no cuentas pares, no sabes si el blocking sirve; si bajas recall por un blocking ciego, no es victoria de escala (puente S30).",
         code: {
           language: 'python',
           title: "s37_t2_a_demo.py",
@@ -513,13 +523,17 @@ print("ok", all_p > blk)`,
 blocked 2
 ok True`,
         },
-        why: "Contar all_pairs vs. blocked derivados del tamaño de bloque es la métrica principal de escala en entity resolution.",
+        why: "`n*(n-1)//2` son pares no ordenados sin diagonal; el blocked asume bloques de tamaño `n//blocks`; la métrica de costo del path de Red Andina es el conteo de candidatos, no el «feeling» del loop. Un blocking agresivo que baje el recall no es victoria. En We Do corregirás `n*n` y calcularás `reduction`.",
+        retrospective:
+          "Contar pares es el primer instrumento de escala del matching. El error clásico es mirar solo ms del scorer con n² intacto o celebrar un blocking que baje recall (S30). Pregunta: si `all_p` no cae, ¿qué ganas micro-shaveando el inner loop? We Do: fórmula correcta, `reduction` y preferir blocking a microopt.",
       },
       {
         demoId: "S37-T2-B-DEMO",
         subtopicId: "S37-T2-B",
         environment: "local-python",
         description: "Demo: tamaño de bloque Lima en inverted index.",
+        preamble:
+          "Antes de features caras del matching, se reduce el espacio de candidatos. En la demo un índice invertido por ciudad sintética (Lima×2, Cusco×1) muestra tamaños de bloque. No escribas: predice el tamaño de Lima y el flag `ok`. La ciudad es solo clave de blocking de laboratorio: no afirma parentesco ni fraude. Si scoras el producto cartesiano y «optimizas» el scorer después, invertiste el orden del path de escala.",
         code: {
           language: 'python',
           title: "s37_t2_b_demo.py",
@@ -539,13 +553,17 @@ print("ok", sizes.get("Lima") == 2)`,
 structure inverted_index
 ok True`,
         },
-        why: "El índice por ciudad sintética reduce candidatos antes del scorer.",
+        why: "`defaultdict(list)` agrupa `entity_id` por clave; el scorer opera dentro del bloque; membership con set/dict es O(1) amortizado frente a list scan. Ciudad es clave de lab, no señal de parentesco. En We Do practicarás set vs list_scan, count de Lima y el orden block→score.",
+        retrospective:
+          "Indexar primero es optimización de verdad: el scorer opera dentro del bloque. El error clásico es scan lineal repetido o scorear el cartesiano «porque el scorer es el cuello». Pregunta: si Lima tiene tamaño 2 y Cusco 1, ¿cuántos pares locales predices en Lima? We Do: set vs list_scan, count de Lima y orden block→score.",
       },
       {
         demoId: "S37-T3-A-DEMO",
         subtopicId: "S37-T3-A",
         environment: "local-python",
         description: "Demo: tamaños de chunk, subset columnar y bound de memoria por itemsize.",
+        preamble:
+          "El batch de features del triage puede caber en la laptop del lab y reventar en el worker nocturno. En esta demo se planifican chunks de 10 con size 3 (`[3,3,3,1]`), se proyectan solo `id`/`amount` (sin `blob`) y se compara bound int32 vs int64. No escribas: predice por qué `blob` no debe viajar y por qué el bound de int32 es menor. Si cargas la tabla ancha «porque cabe», el OOM llega en silencio con `n` real.",
         code: {
           language: 'python',
           title: "s37_t3_a_demo.py",
@@ -573,13 +591,17 @@ col_subset ['id', 'amount']
 bound_i32 40
 ok True`,
         },
-        why: "Chunking acota el pico; el subset columnar evita blobs; el bound por itemsize justifica dtype angosto con bytes, no con intuición.",
+        why: "El chunk acota el pico de RAM; el subset columnar reduce I/O y memoria al dejar fuera blobs; `itemsize` justifica dtype angosto con bytes medibles, no con intuición de «int64 siempre seguro». En We Do planificarás chunks con ceil, proyectarás columnas y elegirás int32 por itemsize.",
+        retrospective:
+          "Memoria se diseña: chunks, columnas y dtypes con bound medible. El error clásico es `load_all` + int64 por defecto «porque en mi laptop cabe». Pregunta: si `blob` viaja al worker, ¿qué crece aunque el scorer no lo use? We Do: ceil de chunks, proyección y itemsize.",
       },
       {
         demoId: "S37-T3-B-DEMO",
         subtopicId: "S37-T3-B",
         environment: "local-python",
         description: "Demo: put, hit e invalidación por cambio de versión.",
+        preamble:
+          "Guardar features o pares de blocking acelera re-runs del triage, pero un cache sin versión de feature set miente al matching. En la demo se hace put con `fs-v1` (hit) y se consulta `fs-v2` (miss). No escribas: predice ambos hits y el `ok`. Si reutilizas scores de un schema viejo, el «speedup» es stale y puede romper `same_result` en silencio.",
         code: {
           language: 'python',
           title: "s37_t3_b_demo.py",
@@ -599,13 +621,17 @@ print("ok", hit_v1 and not hit_v2)`,
 hit_v2 False
 ok True`,
         },
-        why: "Hit/miss y versión de features son parte del diseño: el put se ve; el cambio de versión invalida.",
+        why: "La key incluye versión y cutoff; el miss tras bump de versión es la invalidación visible; out-of-core (chunk) se documenta junto a la política de cache. Un hit con schema viejo no es victoria de performance. En We Do armarás la key completa, detectarás stale y acotarás RAM con chunks.",
+        retrospective:
+          "Hit/miss y versión son parte del diseño del path de triage, no un afterthought. El error clásico es cache infinito sin schema de feature set. Pregunta: si `hit_v2` fuera True con `fs-v1` en store, ¿qué mientes al matching? We Do: key completa, miss por versión y OOC por chunks.",
       },
       {
         demoId: "S37-T4-A-DEMO",
         subtopicId: "S37-T4-A",
         environment: "local-python",
         description: "Demo: budget pass measured<=budget.",
+        preamble:
+          "El PR de escala del triage no se aprueba porque «se siente más rápido»: se aprueba si measured ≤ budget en el fixture acordado. En la demo, budget 50 ms y measured 10 ms pasan el assert. No escribas: predice el booleano y fíjate que se publican ambos números. Si el test no puede fallar, no es un budget; es decoración de CI.",
         code: {
           language: 'python',
           title: "s37_t4_a_demo.py",
@@ -620,13 +646,17 @@ print("measured", measured)`,
 budget 50
 measured 10`,
         },
-        why: "El test de performance compara measured contra budget acordado.",
+        why: "El test de regresión de performance compara measured contra umbral versionado con el dataset de bench; CI light corre bench corto; nightly puede ser más estricto. Publicar budget y measured juntos deja evidencia en el PR. En We Do practicarás signo correcto, fail real y multi-métrica.",
+        retrospective:
+          "Budget = umbral versionado que el PR puede romper en rojo. El error clásico es assert siempre verde o publicar solo el booleano sin budget/measured. Pregunta: si measured es 10 y budget 50, ¿qué falta en el PR si omites los dos números? We Do: pass, fail real y tres dimensiones a la vez.",
       },
       {
         demoId: "S37-T4-B-DEMO",
         subtopicId: "S37-T4-B",
         environment: "local-python",
         description: "Demo: speedup y pair_factor con same_result.",
+        preamble:
+          "El entregable de escala no es un leaderboard de microbenchmarks: es before/after con el mismo resultado, ratio de wall y factor de pares. En la demo, 100→25 ms (speedup 4×), 1e6→5e4 pares (factor 20) y `result=42` en ambos lados. No escribas: predice speedup, pair_factor y por qué `micro_only` es False. Si omites dataset/hardware o rompes `same_result`, el PR no es comparable.",
         code: {
           language: 'python',
           title: "s37_t4_b_demo.py",
@@ -648,7 +678,9 @@ pair_factor 20
 same_result True
 micro_only False`,
         },
-        why: "Before/after con ratio, factor de pares y same_result; micro_only False cuando ganó el algoritmo.",
+        why: "`speedup = before/after` (ratio, no resta ni inverso); `pair_factor` es «cuántas veces menos pares» (entero), distinto de `reduction` en [0,1] de T2-A; `same_result` se calcula sobre salidas. `micro_only` es False cuando ganó el algoritmo o el blocking. En We Do practicarás ratio correcto, claridad vs 2 % y las claves del reporte.",
+        retrospective:
+          "Before/after con ratio, pares y `same_result` es el lenguaje del PR de escala. El error clásico es publicar after/before o un 2 % opaco sin dataset. Pregunta: ¿por qué `pair_factor` no es lo mismo que `reduction`? We Do: speedup, preferencia de claridad y reporte completo.",
       },
     ],
   },
@@ -659,12 +691,19 @@ micro_only False`,
         id: "S37-T1-A-E1",
         subtopicId: "S37-T1-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Mide el wall del work sintético con `time.perf_counter` y reporta `n=1000`, `metric='wall'`, `ok=True`. El starter ya mide el wall, pero reporta `n=0` (defect: el `n` del fixture no viaja al reporte). Corrige el reporte de medición.",
+        title: "Wall con n del fixture",
+        preamble:
+          "- **Contexto:** en el lab de Red Andina el primer dato del reporte de escala es el wall del work sintético; sin el tamaño del input, dos PRs no son comparables.\n- **Meta:** medir wall con `perf_counter` y reportar el `n` real del fixture (`1000`).\n- **Éxito:** `n 1000` / `metric wall` / `ok True`.\n- **Límites:** no dejes `n=0`; no inventes ms fijos; solo fixture sintético sin PII.",
+        instruction:
+          "1. Abre el starter: el wall se mide bien, pero `print(\"n\", 0)` ignora el fixture.\n2. Usa el `n = 1000` ya definido al reportar.\n3. Mantén `metric` en `\"wall\"` y `ok` si el resultado y el wall son ≥ 0.\n4. Imprime solo `n`, `metric` y `ok` en ese orden.",
         hint: "Todo wall_ms viaja con su n.",
         hints: ["Todo wall_ms viaja con su n.", "print('n', n) con n=1000 del fixture."],
         edgeCases: ["ms sin n", "fixture sintético Red Andina"],
         tests: "Salida alinea con solution output; predicado de dominio sobre fixture sintético.",
-        feedback: "Sin `n`, el `wall_ms` no es comparable entre PR.",
+        feedback:
+          "Un `wall_ms` sin `n` no sirve al revisor: no sabes si el fixture creció en silencio. El número viaja con su tamaño; si no, el «speedup» es teatro entre datasets distintos.",
+        retrospective:
+          "Toda métrica de tiempo de un path de triage lleva el `n` del fixture. El error clásico es medir bien y reportar mal. Siguiente (E2): sumar CPU y peak del **mismo** work.",
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e1.py",
@@ -709,7 +748,11 @@ ok True`,
         id: "S37-T1-A-E2",
         subtopicId: "S37-T1-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · Mide wall, CPU y pico de memoria del work sintético (`perf_counter` + `process_time` + `tracemalloc`) con `n=5000`. Imprime `wall_ok True`, `cpu_ok True`, `peak_ok True`, `n 5000`. El starter mide solo wall, fuerza `cpu_ok`/`peak_ok` en `False` y reporta `n 0` (defect). Mide el peak del **work**, no de una alocación aparte.",
+        title: "Wall, CPU y peak del work",
+        preamble:
+          "- **Contexto:** un solo wall no dice si el path es I/O-bound o si se va de RAM; en CI light del triage necesitas wall, CPU y pico del **work medido**.\n- **Meta:** completar medición con `perf_counter`, `process_time` y `tracemalloc` sobre `work(n)` con `n=5000`.\n- **Éxito:** `wall_ok True` / `cpu_ok True` / `peak_ok True` / `n 5000`.\n- **Límites:** no midas el peak de una alocación aparte; no dejes `n 0`; no hardcodees los predicados en `True` sin medir.",
+        instruction:
+          "1. Revisa el starter: solo hay wall; `cpu_ok`/`peak_ok` están en `False` y `n` en `0`.\n2. Mide CPU con `process_time` alrededor de `work(n)`.\n3. Envuelve `work(n)` con `tracemalloc.start/stop` y usa el peak del path.\n4. Reporta los tres predicados ≥ 0 y el `n` del fixture.",
         hint: "Wall=reloj; CPU=process_time; peak=tracemalloc del work medido.",
         hints: [
           "Mide wall con perf_counter y CPU con process_time.",
@@ -718,7 +761,10 @@ ok True`,
         ],
         edgeCases: ["solo wall", "peak de alocación ajena al work"],
         tests: "Salida alinea con solution output; predicado de dominio sobre fixture sintético.",
-        feedback: "Wall, CPU y peak del path juntos evitan optimizar la métrica equivocada o ignorar OOM.",
+        feedback:
+          "Wall, CPU y peak del path juntos evitan optimizar la métrica equivocada o ignorar OOM. Un peak medido fuera de `work` engaña al budget de memoria del PR de escala.",
+        retrospective:
+          "Medir tres señales del mismo `work` es política de CI light, no un checklist vacío. El error clásico es hardcodear `cpu_ok`/`peak_ok` en `True` o envolver una alocación aparte con `tracemalloc`. Pregunta: si wall es bajo pero peak del path real supera el budget de RAM, ¿qué optimizas primero y por qué? Luego (E3): `same_result` se calcula, no se declara.",
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e2.py",
@@ -778,12 +824,19 @@ n 5000`,
         id: "S37-T1-A-E3",
         subtopicId: "S37-T1-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Correctitud junto a velocidad: calcula `same_result` comparando `before_fn` y `after_fn` sobre el mismo input. Imprime `same_result`, `ok` (igual a `same_result`) y `n 1`. El starter usa una `after_fn` defectuosa que cambia el resultado (`same_result False`). El gate de escala exige el mismo resultado funcional.",
+        title: "same_result se calcula, no se declara",
+        preamble:
+          "- **Contexto:** el gate de escala de `CASO-LIM-037` exige el mismo resultado funcional antes y después del «optimizar»; un speedup que cambia el score del matching es regresión.\n- **Meta:** hacer que `after_fn` preserve la semántica de `before_fn` y reportar `same_result` como predicado medible.\n- **Éxito:** `same_result True` / `ok True` / `n 1`.\n- **Límites:** no hardcodees `True`; no «arregles» el print sin corregir la función; sin PII.",
+        instruction:
+          "1. Lee el starter: `after_fn` hace `v + 2` en lugar de `v * 2` (cambia semántica).\n2. Alinea `after_fn` a la misma semántica que `before_fn`.\n3. Calcula `same_result = before_fn(x) == after_fn(x)`.\n4. Imprime `same_result`, `ok` (igual a ese predicado) y `n 1`.",
         hint: "Performance sin same_result es regresión.",
         hints: ["Compara before_fn(x) == after_fn(x).", "Corrige after_fn para preservar el resultado; ok debe reflejar same_result."],
         edgeCases: ["cambio silencioso de semántica", "fixture sintético Red Andina"],
         tests: "Salida alinea con solution output; predicado de dominio sobre fixture sintético.",
-        feedback: "`same_result` se calcula comparando salidas de las funciones, no se declara por fe.",
+        feedback:
+          "`same_result` se calcula comparando salidas de las funciones, no se declara por fe. Sin ese predicado, el PR de escala es regresión disfrazada de optimización.",
+        retrospective:
+          "Performance sin `same_result` es regresión disfrazada. El error clásico es «optimizar» cambiando el contrato. En el You Do compararás las salidas de `before_path` y `after_path` antes de publicar el speedup.",
         starterCode: {
           language: 'python',
           title: "s37-t1-a-e3.py",
@@ -828,12 +881,19 @@ n 1`,
         id: "S37-T1-B-E1",
         subtopicId: "S37-T1-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Bench real: warmup de `work()`, 3 runs con `perf_counter`; imprime `(median_ms >= 0)` como `True`, `n_runs 3`, `warmup True`. El starter usa `statistics.mean` de una lista inventada y `warmup False` (defect). Los ms exactos varían por máquina; el grader usa el predicado estable.",
+        title: "Mediana de runs reales con warmup",
+        preamble:
+          "- **Contexto:** el bench del path sintético debe basarse en tiempos medidos, no en enteros de juguete que «se ven bien».\n- **Meta:** ejecutar warmup, medir 3 runs con `perf_counter` y reportar el predicado de mediana.\n- **Éxito:** `True` / `n_runs 3` / `warmup True`.\n- **Límites:** no uses mean de listas inventadas; no publiques ms exactos como contrato (varían por máquina).",
+        instruction:
+          "1. Abre el starter: `vals = [5, 1, 4]` no son tiempos; `warmup` está en `False`.\n2. Llama `work()` una vez (descartada).\n3. Mide 3 runs, toma `statistics.median(times)` y convierte a ms solo para el predicado `>= 0`.\n4. Imprime el predicado, `n_runs` y `warmup True`.",
         hint: "median de los tiempos medidos, no mean de enteros inventados.",
         hints: ["Descarta cold start con un work() previo.", "statistics.median(times) sobre los 3 runs post-warmup."],
         edgeCases: ["un solo run", "sintético"],
         tests: "Salida alinea con solution output de S37-T1-B-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "Mediana + warmup sobre tiempos reales es higiene mínima de bench.",
+        feedback:
+          "Mediana + warmup sobre tiempos reales es higiene mínima de bench. Inventar enteros «que se ven bien» rompe el PR de escala: el revisor no puede reproducir ni comparar fixtures.",
+        retrospective:
+          "Inventar enteros «que se ven bien» rompe reproducibilidad del PR de escala: el revisor no puede re-ejecutar el fixture. El error clásico es `statistics.mean` de una lista de juguete. Pregunta: ¿por qué el contrato del lab es un predicado `med_ms >= 0` y no un ms exacto? Luego (E2): hacer explícito el `discard_first`.",
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e1.py",
@@ -878,12 +938,19 @@ warmup True`,
         id: "S37-T1-B-E2",
         subtopicId: "S37-T1-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · Implementa warmup real: ejecuta `work()` una vez (descartada), luego 3 runs y reporta `n_runs`, `warmup True` y `discard_first True`. El starter no descarta el primer run y reporta `warmup False` (defect).",
+        title: "Warmup: descarta el cold start",
+        preamble:
+          "- **Contexto:** si el primer run entra a la mediana, el «algoritmo» se carga con el arranque en frío y el budget de CI light se vuelve flaky o engañoso.\n- **Meta:** implementar warmup real y reportar `discard_first True` con 3 runs post-warmup.\n- **Éxito:** `warmup True` / `discard_first True` / `n_runs 3` / `ok True`.\n- **Límites:** no cuentes el warmup dentro de `n_runs`; no dejes los flags en `False` sin cambiar el flujo.",
+        instruction:
+          "1. Starter mide 3 runs sin corrida previa y publica `warmup False`.\n2. Ejecuta `work()` una vez antes del bucle (descartada).\n3. Mide solo las 3 corridas siguientes.\n4. Imprime flags y `n_runs` de las post-warmup.",
         hint: "Descarta la primera corrida (cold start).",
         hints: ["Llama work() una vez antes del bucle de medición.", "n_runs es la cantidad de runs post-warmup."],
         edgeCases: ["cold start publicado", "sintético"],
         tests: "Salida alinea con solution output de S37-T1-B-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "`discard_first` evita reportar el cold start como performance del algoritmo.",
+        feedback:
+          "`discard_first` evita reportar el cold start como performance del algoritmo. Si el warmup falla, le mientes al revisor del PR con un número inflado o flaky.",
+        retrospective:
+          "`discard_first` es política de bench documentada, no un booleano cosmético que se imprime en `True` sin cambiar el flujo. El error clásico es meter el primer run en la mediana y culpar al algoritmo. Pregunta: si `n_runs` incluye el warmup, ¿qué le mientes al revisor del budget? Luego (E3): proxy de cola con N chico.",
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e2.py",
@@ -934,12 +1001,19 @@ ok True`,
         id: "S37-T1-B-E3",
         subtopicId: "S37-T1-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Variabilidad en muestra chica: con `runs=[1,2,9]` imprime `max=9` como proxy de cola, `spread=max-min=8`, `proxy 'p95_small_n'`, `ok True`. El starter usa `min` y `spread=0` (defect). Nombra el proxy para no confundirlo con un p95 real en producción.",
+        title: "Proxy de cola y spread (N chico)",
+        preamble:
+          "- **Contexto:** con pocas muestras no inventas un p95 de producción; reportas un proxy pesimista y el spread, con el nombre del proxy a la vista.\n- **Meta:** de `runs=[1,2,9]` obtener cola `max=9`, `spread=8` y etiqueta `p95_small_n`.\n- **Éxito:** `9` / `spread 8` / `proxy p95_small_n` / `ok True`.\n- **Límites:** no uses `min` como cola; no digas que esto es el p95 real de prod; sintético.",
+        instruction:
+          "1. Lee el starter: imprime `min` y `spread 0`.\n2. Calcula `tail = max(xs)` y `spread = max - min`.\n3. Mantén el nombre del proxy.\n4. `ok` si `tail == 9` y `spread == 8`.",
         hint: "Con N tiny, max es proxy pesimista; spread = max-min es nota de variabilidad.",
         hints: ["max(xs) y max(xs)-min(xs).", "En prod usa percentil real con más muestras."],
         edgeCases: ["variabilidad alta", "sintético"],
         tests: "Salida alinea con solution output de S37-T1-B-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "Nombra el proxy y reporta el spread; no lo confundes con un p95 de producción.",
+        feedback:
+          "Nombra el proxy y reporta el spread; no lo confundes con un p95 de producción. Con N chico el max es pesimista honesto, no un SLI de prod.",
+        retrospective:
+          "Nombrar el proxy evita que el equipo trate un max de 3 runs como SLI de producción. El error clásico es esconder la cola o no reportar variabilidad. En budgets (T4) la mediana/p95 reales necesitan más muestras.",
         starterCode: {
           language: 'python',
           title: "s37-t1-b-e3.py",
@@ -973,12 +1047,19 @@ ok True`,
         id: "S37-T2-A-E1",
         subtopicId: "S37-T2-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Pares completos para `n=10`: usa `n*(n-1)//2 = 45` (no `n*n`). Imprime `45`, `n 10`, `ok True`. El starter usa `n*n=100` (defect). Fórmula de `all_pairs` del entity resolution sintético.",
+        title: "Pares no ordenados: n*(n-1)//2",
+        preamble:
+          "- **Contexto:** el costo base del matching sintético se expresa en pares candidatos, no en `n²` con diagonal y dobles.\n- **Meta:** calcular `all_pairs` para `n=10` con la fórmula de combinaciones.\n- **Éxito:** `45` / `n 10` / `ok True`.\n- **Límites:** no uses `n*n` ni `n`; no inventes el 45 sin fórmula.",
+        instruction:
+          "1. Starter imprime `n * n` (100).\n2. Calcula `pairs = n * (n - 1) // 2`.\n3. Imprime pares, `n` y `ok` si `pairs == 45`.",
         hint: "Pares no ordenados: n*(n-1)//2.",
         hints: ["Pares no ordenados: n*(n-1)//2.", "No cuentes n² ni n."],
         edgeCases: ["doble conteo", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-A-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "La fórmula de pares es la base del costo de escala.",
+        feedback:
+          "La fórmula de pares es la base del costo de escala. `n*n` incluye diagonal y dobles: el revisor del path de matching no puede confiar en ese conteo.",
+        retrospective:
+          "`n*(n-1)//2` excluye diagonal y dobles: es el conteo que el revisor del path de matching puede confiar. El error clásico es `n*n` o inventar el 45 sin fórmula. Pregunta: con `n=10`, ¿qué sobra en el 100 de `n*n`? Luego (E2): `reduction` como fracción eliminada, no residual.",
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e1.py",
@@ -1008,12 +1089,19 @@ ok True`,
         id: "S37-T2-A-E2",
         subtopicId: "S37-T2-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · Reducción de pares (fracción eliminada): `blocked=10`, `all=45` → `round(1-10/45,3)=0.778`. Imprime `0.778`, `ok True`, `blocking True`. El starter imprime `blocked/all` (defect: no es la reduction).",
+        title: "Reduction: fracción de pares eliminada",
+        preamble:
+          "- **Contexto:** el reporte de blocking no basta con «bajaron los pares»: necesitas la fracción eliminada en [0,1], comparable entre fixtures.\n- **Meta:** con `blocked=10` y `all=45`, calcular `round(1 - blocked/all, 3)`.\n- **Éxito:** `0.778` / `ok True` / `blocking True`.\n- **Límites:** no reportes `blocked/all` como reduction; no lo confundas con `pair_factor = all//blocked` (T4-B).",
+        instruction:
+          "1. Starter imprime `blocked/all_p` (0.222).\n2. Calcula `reduction = round(1 - blocked / all_p, 3)`.\n3. Imprime reduction, `ok` si es 0.778, y `blocking True`.",
         hint: "reduction = 1 - blocked/all (fracción en [0,1]).",
         hints: ["reduction = 1 - blocked/all.", "No confundas con pair_factor = all//blocked de T4-B."],
         edgeCases: ["blocking sin métrica", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-A-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "Sin `reduction` no hay evidencia medible de escala.",
+        feedback:
+          "`blocked/all` es el residual de candidatos, no la fracción eliminada. `reduction = 1 − blocked/all` vive en [0,1] y se compara entre fixtures; no lo confundas con `pair_factor = all//blocked` (entero de T4-B).",
+        retrospective:
+          "La fracción eliminada es la métrica comparable del blocking; el residual `blocked/all` solo describe lo que quedó. Pregunta: si reduction sube pero el recall de S30 cae, ¿celebras o reabres el gate de matching? Luego (E3): preferir blocking a microopt con números de pares.",
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e2.py",
@@ -1043,12 +1131,19 @@ blocking True`,
         id: "S37-T2-A-E3",
         subtopicId: "S37-T2-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Prioriza algoritmo: con `all_pairs=4950`, `blocked=450` y `micro_pairs=4900` (recorte del 1 %), elige `prefer 'blocking'` si `blocked < micro_pairs`. Imprime `prefer`, `ok` (`blocked < all_pairs`), `micro False`. El starter fija `prefer='microopt'` y `micro=True` sin comparar (defect).",
+        title: "Preferir blocking a microopt del 1 %",
+        preamble:
+          "- **Contexto:** en el path O(n²) del triage, bajar un 1 % el inner loop y dejar casi todos los pares es teatro; el blocking de 4950→450 gana en números.\n- **Meta:** elegir `prefer 'blocking'` cuando `blocked < micro_pairs` y marcar `micro False`.\n- **Éxito:** `prefer blocking` / `ok True` / `micro False`.\n- **Límites:** no hardcodees el prefer sin comparar; no celebres microopt sin conteo de pares.",
+        instruction:
+          "1. Starter fija `prefer=\"microopt\"` y `micro=True`.\n2. Compara `blocked` vs `micro_pairs`.\n3. Asigna `prefer` y `micro = (prefer == \"microopt\")`.\n4. Imprime prefer, `ok` (blocked < all y prefer blocking) y micro.",
         hint: "Bajar pares O(n²) domina micro-optimizar.",
         hints: ["Compara blocked vs micro_pairs numéricamente.", "prefer = 'blocking' si blocked es menor; micro = (prefer == 'microopt')."],
         edgeCases: ["teatro de 1%", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-A-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "Priorizar blocking se decide con números de pares, no con lemas.",
+        feedback:
+          "Priorizar blocking se decide con números de pares, no con lemas de «código más ingenioso». El PR del 1 % con n² intacto es teatro de escala.",
+        retrospective:
+          "El PR del 1–2 % con n² casi intacto es teatro de escala: los números de pares deciden, no el lema de «código más ingenioso». El error clásico es hardcodear `prefer='blocking'` sin comparar `blocked` vs `micro_pairs`. Pregunta: si micro_pairs fuera 400 y blocked 450, ¿qué preferirías y por qué? En T2-B el orden operativo será block→score.",
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e3.py",
@@ -1081,12 +1176,19 @@ micro False`,
         id: "S37-T2-B-E1",
         subtopicId: "S37-T2-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Membership: con `ids=[1,2,3,4,5]` y `target=4`, construye un `set`, consulta membership y reporta `structure 'set'`, `found True`, `scan False`. El starter consulta la lista y reporta `structure 'list_scan'` con `scan True` (defect de diseño).",
+        title: "Membership con set, no list scan",
+        preamble:
+          "- **Contexto:** en el hot path del triage, consultar si un id ya se vio con un scan de lista O(n) se multiplica por cada par candidato.\n- **Meta:** construir un `set`, consultar membership y documentar la estructura correcta.\n- **Éxito:** `structure set` / `found True` / `scan False`.\n- **Límites:** no dejes `list_scan`; no inventes `found` sin consulta; sintético.",
+        instruction:
+          "1. Starter hace `target in ids` sobre lista y reporta `list_scan` / `scan True`.\n2. Construye `index = set(ids)` y consulta `target in index`.\n3. Imprime `structure 'set'`, `found` y `scan False`.",
         hint: "set/dict evitan scan lineal repetido.",
         hints: ["Construye set(ids) y consulta target in s.", "structure debe ser 'set' y scan False."],
         edgeCases: ["O(n) en loop caliente", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-B-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "Elegir la estructura correcta (set vs. list scan) es optimización de verdad.",
+        feedback:
+          "Elegir la estructura correcta (set vs. list scan) es optimización de verdad, no micro-shave de sintaxis. En el hot path del triage el O(n) se multiplica por cada par.",
+        retrospective:
+          "Documentar `structure set` y `scan False` fuerza la decisión de diseño, no solo el booleano `found`. El error clásico es list membership en bucle caliente del triage (O(n) × pares). Pregunta: si `found` ya es True con lista, ¿por qué igual falla el gate del lab? Luego (E2): tamaño del bloque Lima.",
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e1.py",
@@ -1120,12 +1222,19 @@ scan False`,
         id: "S37-T2-B-E2",
         subtopicId: "S37-T2-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · Índice invertido: filas Lima×2 → imprime `2`, `city 'Lima'`, `ok True`. El starter deja `count=0` sin filtrar por ciudad Lima (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferido.",
+        title: "Tamaño del bloque Lima",
+        preamble:
+          "- **Contexto:** el índice invertido solo es útil si el scorer opera dentro del bloque; el tamaño de Lima predice cuántos pares locales se generarán.\n- **Meta:** contar filas con ciudad `\"Lima\"` en el fixture sintético (sin inferir parentesco).\n- **Éxito:** `2` / `city Lima` / `ok True`.\n- **Límites:** no cuentes Cusco dentro de Lima; no inventes PII ni parentesco.",
+        instruction:
+          "1. Starter deja `count = 0` sin filtrar.\n2. Cuenta filas donde la ciudad es Lima.\n3. Imprime el conteo, la ciudad y `ok` si es 2.",
         hint: "Cuenta entidades por clave de blocking.",
         hints: ["Cuenta entidades por clave de blocking.", "Cusco no entra en el bloque Lima."],
         edgeCases: ["bloque vacío", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-B-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "El tamaño del bloque predice los pares locales del scorer.",
+        feedback:
+          "El tamaño del bloque predice los pares locales del scorer (`size*(size-1)//2` dentro de Lima). Ciudad es clave de lab: no afirma parentesco ni fraude. Contar Cusco dentro de Lima miente al costo del matching.",
+        retrospective:
+          "Contar Lima fuerza a mirar el skew del fixture antes de celebrar el blocking global. Pregunta: si Lima concentra el 90 % de las filas, ¿el blocking «global» sigue salvándote? Luego (E3): el orden operativo es block→score, no al revés.",
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e2.py",
@@ -1156,12 +1265,19 @@ ok True`,
         id: "S37-T2-B-E3",
         subtopicId: "S37-T2-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Orden operativo: con `n=10`, `all_pairs=n*(n-1)//2` y blocked con 5 bloques, el pipeline correcto es block→score. Imprime `order ['block','score']`, `pairs_after_block` (blocked), `ok True`. El starter usa order score→block y `pairs_after_block=all_pairs` (defect).",
+        title: "Orden operativo: block luego score",
+        preamble:
+          "- **Contexto:** el path de escala del matching no es «scorear todo y luego filtrar»: primero se bloquea, luego se puntúa sobre candidatos reducidos.\n- **Meta:** con `n=10` y 5 bloques, fijar el orden correcto y reportar pares después del block.\n- **Éxito:** `order ['block', 'score']` / `pairs_after_block 5` / `ok True`.\n- **Límites:** no inviertas a score→block; no dejes `pairs_after = all_pairs`.",
+        instruction:
+          "1. Starter pone `order = [\"score\", \"block\"]` y `pairs_after = all_pairs`.\n2. Calcula `blocked` con bloques iguales.\n3. Asigna `order = [\"block\", \"score\"]` y `pairs_after = blocked`.\n4. Imprime order, pares y `ok` si pares < all_pairs.",
         hint: "Primero reduces candidatos; luego features.",
         hints: ["Calcula blocked_pairs con bloques iguales.", "order debe ser ['block','score']."],
         edgeCases: ["features O(n²)", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-B-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "El orden block→score se demuestra con el conteo de pares, no con un lema.",
+        feedback:
+          "El orden block→score se demuestra con el conteo de pares, no con un lema. Features O(n²) «porque el scorer es el cuello» invierten el path de escala.",
+        retrospective:
+          "Features O(n²) «porque el scorer es el cuello» invierten el path de escala: primero se reduce el espacio de candidatos. El error clásico es dejar `pairs_after = all_pairs` con un lema de block. Pregunta: con `pairs_after_block 5` y `all_pairs 45`, ¿qué evidencia llevas al revisor? En memoria (T3) acotarás el pico con chunks y dtypes.",
         starterCode: {
           language: 'python',
           title: "s37-t2-b-e3.py",
@@ -1200,12 +1316,19 @@ ok True`,
         id: "S37-T3-A-E1",
         subtopicId: "S37-T3-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Chunks: 10 items con size 4 → ceil = 3 chunks. Imprime `3`, `size 4`, `ok True`. El starter usa `n//size=2` (defect). Planifica el job out-of-core del fixture sintético.",
+        title: "Número de chunks con ceil",
+        preamble:
+          "- **Contexto:** planificar el job out-of-core del fixture sintético exige saber cuántas ventanas habrá; truncar con `//` pierde el resto.\n- **Meta:** con `n=10` y `size=4`, calcular 3 chunks (último más corto).\n- **Éxito:** `3` / `size 4` / `ok True`.\n- **Límites:** no uses solo `n//size`; no asumas chunks de tamaño uniforme sin resto.",
+        instruction:
+          "1. Starter imprime `n // size` (2).\n2. Usa `(n + size - 1) // size`.\n3. Imprime n_chunks, size y `ok` si es 3.",
         hint: "Ceil: (n+size-1)//size.",
         hints: ["Ceil: (n+size-1)//size.", "Último chunk puede ser más corto."],
         edgeCases: ["OOM sin chunks", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-A-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "Contar chunks planifica el job out-of-core.",
+        feedback:
+          "Contar chunks con ceil planifica el job out-of-core. `n//size` reporta 2 en vez de 3 y el revisor del budget de memoria no ve el último lote del fixture sintético.",
+        retrospective:
+          "Truncar con `//` «pierde» el último lote: el plan del nightly queda incompleto y el resto se procesa en silencio o se cae. El error clásico es asumir chunks uniformes sin resto. Pregunta: con `n=10` y `size=4`, ¿qué filas quedarían fuera si usas solo `n//size`? Luego (E2): no cargar columnas basura.",
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e1.py",
@@ -1235,12 +1358,19 @@ ok True`,
         id: "S37-T3-A-E2",
         subtopicId: "S37-T3-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · Subset columnar: del row con id/amt/blob/notes, proyecta solo `['id','amt']`. Imprime las claves, `ok True`, `columnar True`. El starter imprime todas las columnas y `columnar False` (defect).",
+        title: "Subset columnar sin blobs",
+        preamble:
+          "- **Contexto:** el scorer del triage usa pocas columnas; arrastrar `blob` y `notes` multiplica I/O y RAM sin ganar recall.\n- **Meta:** proyectar solo `['id','amt']` y marcar `columnar True`.\n- **Éxito:** `['id', 'amt']` / `ok True` / `columnar True`.\n- **Límites:** no imprimas todas las claves del row; no dejes `columnar False` si proyectaste.",
+        instruction:
+          "1. Starter hace `cols = list(row.keys())` y `columnar False`.\n2. Proyecta con un dict comprehension sobre `keep = [\"id\", \"amt\"]`.\n3. Imprime las claves del subset, `ok` si no hay blob, y `columnar True`.",
         hint: "Lee solo columnas usadas por el scorer.",
         hints: ["Proyecta con un dict comprehension.", "blob y notes no deben quedar en el subset."],
         edgeCases: ["tabla ancha", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-A-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "Columnar es reducción de I/O, no solo de RAM.",
+        feedback:
+          "Columnar es reducción de I/O, no solo de RAM. Si el scorer solo usa `id` y `amt`, leer `notes` no se justifica ante el revisor del budget de memoria.",
+        retrospective:
+          "Proyectar solo las columnas del scorer es el bound de I/O del batch sintético; arrastrar `blob` multiplica bytes sin recall. Pregunta: si el scorer solo usa `id` y `amt`, ¿qué justificas al revisor por leer `notes`? Luego (E3): dtype estrecho por `itemsize`.",
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e2.py",
@@ -1272,12 +1402,19 @@ columnar True`,
         id: "S37-T3-A-E3",
         subtopicId: "S37-T3-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · dtype estrecho: con `array.array`, compara `itemsize` de `'i'` (int32) vs. `'q'` (int64). Si `itemsize_i < itemsize_q`, imprime `dtype 'int32'`, `mem 'lower'`, `ok True`. El starter fuerza int64 y `mem higher` (defect).",
+        title: "dtype estrecho por itemsize",
+        preamble:
+          "- **Contexto:** el bound de memoria del batch sintético se discute en bytes, no en intuición de «int64 siempre seguro».\n- **Meta:** comparar `itemsize` de `'i'` vs `'q'` y elegir int32 cuando cabe y ahorra.\n- **Éxito:** `dtype int32` / `ok True` / `mem lower`.\n- **Límites:** no fuerces int64 sin comparar; no ignores overflow si el dominio no cabe (aquí el lab asume que sí).",
+        instruction:
+          "1. Starter deja `dtype = \"int64\"` y `mem = \"higher\"`.\n2. Compara `i32` e `i64` con `array.array`.\n3. Elige dtype y mem según `i32 < i64`.\n4. Imprime dtype, `ok` y mem.",
         hint: "Si el rango cabe en int32, ahorras memoria.",
         hints: ["import array; array.array('i').itemsize vs 'q'.", "Elige int32 cuando itemsize_i es menor."],
         edgeCases: ["overflow si no cabe", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-A-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "El dtype es una decisión de presupuesto de RAM medida en bytes.",
+        feedback:
+          "El dtype se elige midiendo `itemsize` (`'i'` vs `'q'`), no por fe de «int64 siempre seguro». Sin comparar bytes, el default ancho infla el bound del batch sintético aunque el dominio quepa en int32.",
+        retrospective:
+          "Overflow sigue siendo riesgo si el dominio no cabe: aquí el lab asume que sí y exige evidencia de ahorro. El error clásico es forzar int64 sin medición. Pregunta: si `i32 == i64` en una plataforma rara, ¿qué imprime el lab y por qué `ok` depende de la comparación? En caché (T3-B) el riesgo pasa a ser datos stale, no solo bytes.",
         starterCode: {
           language: 'python',
           title: "s37-t3-a-e3.py",
@@ -1314,12 +1451,19 @@ mem lower`,
         id: "S37-T3-B-E1",
         subtopicId: "S37-T3-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Clave de caché completa: imprime `('fs-v1','cut')`, `hit True`, `ok True`. El starter usa una key incompleta, solo `('fs-v1',)` (defect: colisiones). Fixture de features sintéticas versionadas.",
+        title: "Cache key: versión + cutoff",
+        preamble:
+          "- **Contexto:** reutilizar features del triage con solo la versión de feature set colisiona: distinto cutoff, mismos scores viejos.\n- **Meta:** armar la key completa `('fs-v1','cut')` y obtener hit en el store sintético.\n- **Éxito:** `('fs-v1', 'cut')` / `hit True` / `ok True`.\n- **Límites:** no dejes la key de un solo elemento; no hardcodees hit sin `in cache`.",
+        instruction:
+          "1. Starter usa `key = (\"fs-v1\",)` y falla el hit.\n2. Incluye el cutoff en la tupla.\n3. Calcula `hit = key in cache`.\n4. Imprime key, hit y `ok` si hit y `len(key)==2`.",
         hint: "Key = versión de features + cutoff.",
         hints: ["Key = versión de features + cutoff.", "Sin cutoff reutilizas scores viejos."],
         edgeCases: ["cache stale", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-B-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "La key completa (versión + cutoff) es la invalidación.",
+        feedback:
+          "La key completa (versión + cutoff) evita colisiones entre corridas del triage. Sin cutoff reutilizas scores viejos y el matching miente en silencio aunque el print «se vea limpio».",
+        retrospective:
+          "Sin cutoff, distinto lote temporal colisiona con scores viejos y el hit «verde» es mentira. El error clásico es key de un solo elemento o hardcodear `hit True`. Pregunta: ¿por qué `ok` exige `len(key)==2` además del hit? Luego (E2): miss explícito al cambiar versión.",
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e1.py",
@@ -1351,12 +1495,19 @@ ok True`,
         id: "S37-T3-B-E2",
         subtopicId: "S37-T3-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · Invalidación por versión: con store pre-cargado en `fs-v1`, al pedir `fs-v2` imprime `reason 'version_change'`, `hit False`, `stale True`. El starter imprime `'keep_forever'` y `stale False` (defect).",
+        title: "Miss al cambiar feature set",
+        preamble:
+          "- **Contexto:** al subir de `fs-v1` a `fs-v2` los pares o features cacheados no deben pegar; el miss es la señal de recompute.\n- **Meta:** detectar miss, publicar `reason 'version_change'` y `stale True`.\n- **Éxito:** `version_change` / `hit False` / `stale True`.\n- **Límites:** no inventes hit True; no uses `keep_forever` como política.",
+        instruction:
+          "1. Starter imprime `keep_forever` y fuerza `hit True`.\n2. Calcula `hit = new_key in store`.\n3. Si no hay hit → `reason = \"version_change\"` y `stale = not hit`.\n4. Imprime reason, hit y stale.",
         hint: "Al cambiar feature set, la key nueva no pega.",
         hints: ["hit = new_key in store.", "Si no hay hit tras cambio de versión, reason=version_change."],
         edgeCases: ["cutoff change", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-B-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "Invalidar es parte del diseño, no un afterthought.",
+        feedback:
+          "Invalidar al cambiar feature set es parte del diseño del cache, no un afterthought. Servir scores de `fs-v1` con el scorer de `fs-v2` rompe `same_result` en silencio y el hit verde es stale.",
+        retrospective:
+          "Un miss por `version_change` es la señal de recompute, no un fallo cosmético del cache. El error clásico es `keep_forever` o forzar `hit True`. Pregunta: ¿qué rompe en el matching si sirves scores de `fs-v1` con el scorer de `fs-v2`? Luego (E3): out-of-core por chunks acota RAM del batch.",
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e2.py",
@@ -1390,12 +1541,19 @@ stale True`,
         id: "S37-T3-B-E3",
         subtopicId: "S37-T3-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Out-of-core: procesa `range(10)` en chunks de 4. Imprime `ooc 'chunk'`, `max_chunk 4`, `ram 'bounded'`. El starter usa `ooc 'load_all'` y `max_chunk=len(data)` (defect).",
+        title: "Out-of-core por chunks",
+        preamble:
+          "- **Contexto:** el batch de triage puede crecer de noche; asumir `load_all` en RAM es OOM programado.\n- **Meta:** procesar `range(10)` en chunks de 4 y demostrar RAM acotada con `max_chunk`.\n- **Éxito:** `ooc chunk` / `max_chunk 4` / `ram bounded`.\n- **Límites:** no uses `ooc load_all`; no reportes `max_chunk=len(data)`.",
+        instruction:
+          "1. Starter imprime load_all y `max_chunk` = longitud total.\n2. Parte `data` en ventanas de `size`.\n3. Calcula `max_chunk` y elige `ooc 'chunk'` / `ram 'bounded'` si el max ≤ size.\n4. Imprime los tres campos.",
         hint: "chunk/spill acotan RAM.",
         hints: ["max(len(c) for c in chunks) debe ser size.", "ooc='chunk' cuando no cargas load_all."],
         edgeCases: ["OOM en nightly", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-B-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "Out-of-core se demuestra con el tamaño máximo de chunk, no con un lema.",
+        feedback:
+          "Out-of-core se demuestra con el tamaño máximo de chunk, no con un lema. «En mi laptop cabe» no es un bound de memoria para el nightly.",
+        retrospective:
+          "«En mi laptop cabe» no es un bound de memoria para el nightly del triage. El error clásico es reportar `max_chunk=len(data)` con `ooc load_all`. Pregunta: si `max_chunk` es 4 y `size` es 4, ¿qué evidencia de RAM acotada llevas al budget de T4? En T4 el umbral podrá fallar en CI light.",
         starterCode: {
           language: 'python',
           title: "s37-t3-b-e3.py",
@@ -1429,12 +1587,19 @@ ram bounded`,
         id: "S37-T4-A-E1",
         subtopicId: "S37-T4-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Budget pass: `measured 9 <= budget 10` → `True`. Imprime `True`, `budget 10`, `measured 9`. El starter compara al revés (defect). Assert del PR de performance sintético.",
+        title: "Budget pass: measured ≤ budget",
+        preamble:
+          "- **Contexto:** el assert del PR sintético de performance del triage debe ser `measured <= budget`, no al revés.\n- **Meta:** con measured 9 y budget 10, reportar pass y ambos números.\n- **Éxito:** `True` / `budget 10` / `measured 9`.\n- **Límites:** no inviertas el signo; no omitas publicar budget y measured.",
+        instruction:
+          "1. Starter imprime `measured > budget` (False incorrecto para el caso pass).\n2. Cambia a `measured <= budget`.\n3. Imprime el booleano, budget y measured.",
         hint: "pass si measured <= budget.",
         hints: ["pass si measured <= budget.", "Publica ambos números en el test."],
         edgeCases: ["flaky sin warmup", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-A-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "El signo del budget es el assert del PR.",
+        feedback:
+          "El signo del budget es el assert del PR de escala. Comparar al revés hace «pasar» cuando se viola el umbral y engaña a CI light: el revisor ve verde con measured por encima del umbral.",
+        retrospective:
+          "Comparar al revés hace «pasar» cuando se viola el umbral y engaña a CI light. El error clásico es `measured > budget` copiado de un test de «exceso». Pregunta: con measured 9 y budget 10, ¿qué imprime un signo invertido y por qué el revisor lo rechaza? Luego (E2): el caso fail debe imprimir `False` calculado.",
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e1.py",
@@ -1463,12 +1628,19 @@ measured 9`,
         id: "S37-T4-A-E2",
         subtopicId: "S37-T4-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · Budget fail: `measured 12 > budget 10` → `False`. Imprime `False`, `budget 10`, `measured 12`. El starter fuerza `True` (defect: test siempre verde). El budget debe poder fallar.",
+        title: "Budget fail: el test puede poner rojo",
+        preamble:
+          "- **Contexto:** un budget que siempre imprime `True` no protege el path de escala; en CI light el rojo es salud del sistema.\n- **Meta:** con measured 12 y budget 10, reportar `False` calculado.\n- **Éxito:** `False` / `budget 10` / `measured 12`.\n- **Límites:** no hardcodees `True`; no «arregles» el caso cambiando measured.",
+        instruction:
+          "1. Starter hace `print(True)` aunque measured > budget.\n2. Usa el mismo predicado `measured <= budget`.\n3. Imprime el booleano y ambos números.",
         hint: "El test debe poder fallar.",
         hints: ["El test debe poder fallar.", "False aquí es salud del sistema."],
         edgeCases: ["assert True hardcode", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-A-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "Un budget que no puede fallar no es un budget.",
+        feedback:
+          "Un budget que no puede fallar no es un budget. Si el scorer sube de 10 a 80 ms y el test sigue verde, nadie se entera antes de prod.",
+        retrospective:
+          "Hardcodear `print(True)` es decoración de CI, no regresión de performance. El error clásico es «arreglar» el caso bajando measured en el test. Pregunta: si el scorer sube de 10 a 80 ms y el test sigue verde, ¿quién se entera antes de prod? Luego (E3): budget en latency + memory + pairs a la vez.",
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e2.py",
@@ -1497,12 +1669,19 @@ measured 12`,
         id: "S37-T4-A-E3",
         subtopicId: "S37-T4-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Budget multi-métrica: con límites `{latency_p95:50, memory:512, pairs:10000}` y medidos `{12, 400, 8000}`, imprime `keys ['latency_p95','memory','pairs']`, `all_pass True`, `n 3`. El starter solo budgetea latency y fuerza `all_pass True` (defect).",
+        title: "Budget en tres dimensiones",
+        preamble:
+          "- **Contexto:** bajar p95 inflando pares candidatos o memoria es un tradeoff oculto; el gate de escala del triage mira las tres dimensiones.\n- **Meta:** con límites y medidos de latency/memory/pairs, calcular `all_pass` y listar las tres keys.\n- **Éxito:** `['latency_p95', 'memory', 'pairs']` / `all_pass True` / `n 3`.\n- **Límites:** no budgetees solo latency; no hardcodees `all_pass True`.",
+        instruction:
+          "1. Starter deja `budget` solo con latency y fuerza `all_pass True`.\n2. Completa budget con memory 512 y pairs 10000.\n3. `all_pass = all(measured[k] <= budget[k] for k in keys)`.\n4. Imprime keys, all_pass y `n` = 3.",
         hint: "Latencia sola no basta: cada dimensión debe cumplir measured <= budget.",
         hints: ["Incluye las tres claves en el dict de límites.", "all_pass = all(measured[k] <= budget[k] for k in keys)."],
         edgeCases: ["solo p95", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-A-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "Un budget multi-métrica evita tradeoffs ocultos (bajar p95 inflando pares).",
+        feedback:
+          "Bajar p95 inflando pares candidatos o memoria es un tradeoff oculto. El gate de escala exige `measured[k] <= budget[k]` en latency, memory y pairs — no un `all_pass True` hardcodeado con solo latency en el dict.",
+        retrospective:
+          "El error clásico es «pasa p95» con el cartesiano intacto. Pregunta: si memory y pairs fallan pero latency pasa, ¿qué debe imprimir `all_pass` y por qué? En T4-B el entregable será el reporte before/after legible con dataset y hardware.",
         starterCode: {
           language: 'python',
           title: "s37-t4-a-e3.py",
@@ -1536,12 +1715,19 @@ n 3`,
         id: "S37-T4-B-E1",
         subtopicId: "S37-T4-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Speedup `80/20 = 4.0` (ratio before/after, no el inverso). Imprime `4.0`, `ok True`, `micro_only False`. El starter imprime after/before y marca `micro_only True` (defect). Fixture before/after sintético del path de escala.",
+        title: "Speedup = before / after",
+        preamble:
+          "- **Contexto:** el revisor del PR de escala lee un ratio «cuántas veces más rápido», no el inverso ni una resta de ms.\n- **Meta:** con before 80 y after 20, calcular speedup 4.0 y marcar `micro_only False`.\n- **Éxito:** `4.0` / `ok True` / `micro_only False`.\n- **Límites:** no uses after/before; no marques micro_only si ganó el algoritmo/blocking.",
+        instruction:
+          "1. Starter imprime `after / before` (0.25) y `micro_only True`.\n2. Calcula `speedup = before / after`.\n3. Imprime speedup, `ok` si es 4.0 y `micro_only False`.",
         hint: "speedup = before_ms / after_ms.",
         hints: ["speedup = before_ms / after_ms.", "micro_only False si ganó el algo."],
         edgeCases: ["división por cero", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-B-E1; predicado de dominio sobre fixture sintético.",
-        feedback: "`speedup` es un ratio, no una diferencia ni el inverso.",
+        feedback:
+          "`speedup` es un ratio, no una diferencia ni el inverso. after/before (0.25) confunde al revisor del PR; `micro_only True` solo si el gain fue cosmético, no cuando ganó blocking o algoritmo.",
+        retrospective:
+          "after/before (0.25) confunde al revisor: no es «cuántas veces más rápido». El error clásico es marcar `micro_only True` cuando ganó blocking/algoritmo. Pregunta: con before 80 y after 20, ¿qué ratio debe ver el PR y por qué `micro_only` es False? Luego (E2): claridad vs shave del 2 %.",
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e1.py",
@@ -1571,12 +1757,19 @@ micro_only False`,
         id: "S37-T4-B-E2",
         subtopicId: "S37-T4-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · Claridad sobre un recorte del 2 %: con `algo_gain=0.80` y `micro_gain=0.02`, prefiere `'clarity'` si `micro_gain < 0.05` y `algo_gain > micro_gain`. Imprime `prefer`, `ok` (`algo_gain > micro_gain`), `shave '2pct_no'`. El starter fija `prefer='micro_shave'` y `shave='2pct_yes'` sin aplicar la regla (defect).",
+        title: "Claridad sobre un shave del 2 %",
+        preamble:
+          "- **Contexto:** el costo total del path de escala incluye bugs y review humana; un 2 % opaco suele ser pérdida neta frente a un gain algorítmico medido (0.80).\n- **Meta:** preferir `'clarity'` cuando `micro_gain < 0.05` y `algo_gain > micro_gain`, con `shave '2pct_no'`.\n- **Éxito:** `prefer clarity` / `ok True` / `shave 2pct_no`.\n- **Límites:** no hardcodees micro_shave; aplica la regla de gains.",
+        instruction:
+          "1. Starter fija `prefer=\"micro_shave\"` y `shave=\"2pct_yes\"`.\n2. Aplica la condición de umbral 0.05 y comparación de gains.\n3. Deriva `shave` del prefer.\n4. Imprime prefer, ok y shave.",
         hint: "Costo total incluye bugs y review.",
         hints: ["Compara algo_gain vs micro_gain con la regla del umbral 0.05.", "2% opaco suele ser pérdida neta frente a un gain algorítmico medido."],
         edgeCases: ["heroics sin medición", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-B-E2; predicado de dominio sobre fixture sintético.",
-        feedback: "La claridad es performance de equipo medida con gains, no un lema.",
+        feedback:
+          "La claridad es performance de equipo medida con gains, no un lema. Un shave del 2 % que oscurece el scorer se paga a las 3 a. m. con un bug.",
+        retrospective:
+          "Aplicar la regla de gains (`micro_gain < 0.05` y `algo_gain > micro_gain`) es la decisión medible; hardcodear `prefer='clarity'` sin la condición es teatro. El error clásico es el PR del 2 % opaco sin medición. Pregunta: si micro_gain fuera 0.12 y algo_gain 0.10, ¿qué preferirías según la regla del lab? En E3: claves del reporte completo.",
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e2.py",
@@ -1609,12 +1802,19 @@ shave 2pct_no`,
         id: "S37-T4-B-E3",
         subtopicId: "S37-T4-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Claves del reporte before/after: construye un dict con `before`, `after`, `dataset` y `hardware`. Imprime `['before','after','dataset','hardware']`, `ok True`, `n 4`. El starter solo tiene `['before','after']` (defect: omite dataset y hardware).",
+        title: "Reporte: dataset y hardware incluidos",
+        preamble:
+          "- **Contexto:** un speedup sin dataset ni hardware no es comparable entre laptops ni entre PRs; el gate de `CASO-LIM-037` exige el reporte completo.\n- **Meta:** construir un dict con `before`, `after`, `dataset` y `hardware` y listar las cuatro keys.\n- **Éxito:** `['before', 'after', 'dataset', 'hardware']` / `ok True` / `n 4`.\n- **Límites:** no dejes solo before/after; no inventes PII en el dataset (usa etiqueta sintética).",
+        instruction:
+          "1. Starter solo tiene before/after.\n2. Añade `dataset` y `hardware` del lab sintético.\n3. Publica la lista canónica de keys y `ok` si el set del report coincide.\n4. Imprime keys, ok y n=4.",
         hint: "Sin hardware/dataset el speedup no es comparable.",
         hints: ["Cuatro claves mínimas del reporte.", "n = len(keys)."],
         edgeCases: ["bench no reproducible", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-B-E3; predicado de dominio sobre fixture sintético.",
-        feedback: "El reporte completo es el entregable, no el «feeling» del PR.",
+        feedback:
+          "El reporte completo es el entregable, no el «feeling» del PR. Sin dataset/hardware el speedup no es comparable entre laptops ni entre revisores del gate de escala.",
+        retrospective:
+          "Publicar solo ms before/after no es comparable entre laptops ni entre PRs. El error clásico es dejar `ok True` con dos claves. Pregunta: si el set del report no coincide con `{before, after, dataset, hardware}`, ¿qué falla en el gate de CASO-LIM-037? En You Do armarás el dict `report` con pares, reduction, same_result y budget.",
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e3.py",
@@ -1652,7 +1852,7 @@ n 4`,
   youDo: {
     title: "Reporte antes/después de escala del triage",
     context:
-      "Mide el path caliente, aplica blocking/estructuras, budget test y reporte. Solo datos sintéticos; el mismo resultado funcional se calcula comparando las salidas de las funciones cronometradas.",
+      "En `CASO-LIM-037` cierras el gate de escala del triage: mides el path caro O(n²), aplicas blocking, demuestras `same_result` comparando salidas de las funciones cronometradas y publicas un `report` con ms, pares, reduction, budget, dataset y hardware del lab. Solo fixture sintético Red Andina; sin PII real ni inferencia de fraude. El speedup sin `same_result` o sin dataset anotado no cuenta para el portfolio. No hardcodees `same_result=True`; anota hardware real del lab (p. ej. M2-16GB); si el budget falla con n=200, justifica o ajusta blocks/budget con transparencia.",
     objectives: [
       "Perfilar wall (y CPU si aplica) con `n` y `same_result` calculado sobre las funciones medibles.",
       "Medir blocking reduction (pares before/after) sin abandonar el recall como gate de matching.",
@@ -1750,6 +1950,8 @@ if __name__ == "__main__":
 `,
     portfolioNote:
       "Escala del triage: adjunta el dict `report` (before/after ms, pares, `reduction`, `same_result`, `budget`, `dataset`, `hardware`) y una nota breve del tradeoff en español profesional. Traspaso a S38: colas y reintentos sobre el mismo gate.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con el assert de `same_result` y el `budget_pass` calculado? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, n mayor, recall de S30)? (3) Escribe en el README una frase de impacto medible (p. ej. «pares 19900→~1800, same_result True, budget documentado») que puedas defender en 30 segundos ante un revisor. Puente a S38: colas y reintentos sobre el mismo gate.",
     rubric: [
       { criterion: "Alineación al gate de escala de la sección (same_result + before/after + budget)", weight: "25%" },
       { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },

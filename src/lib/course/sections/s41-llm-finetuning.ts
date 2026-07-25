@@ -388,6 +388,8 @@ trace_ok True`,
         subtopicId: "S41-T1-A",
         environment: "local-python",
         description: "Demo: recursos, métodos y status",
+        preamble:
+          "Antes de cablear FastAPI, el control plane de la oficina sintética en Arequipa (`CASO-ARE-041`) necesita una **matriz HTTP** asertable. En esta demo `status_for` decide el código a partir del método, el path y si el ítem existe. Observa cuatro llamadas: create de jobs, GET de un id ausente, listado de colección y health. No escribas aún: predice `201`, `404`, `200`, `200` y compáralos con la salida. Si confundes create con 200 o tratas la colección vacía como 404, el OpenAPI y los clientes mienten.",
         code: {
           language: 'python',
           title: "demo_resources_methods_status.py",
@@ -411,13 +413,17 @@ print(status_for("GET", "/v1/health"))`,
 200
 200`,
         },
-        why: "Pienso el create como POST + `/v1/jobs` → 201 (no 200). El ítem ausente es 404 en `/v1/jobs/{id}`; la colección vacía o llena sigue en 200. Health es 200. Así la matriz método/path/status queda asertable antes de cablear FastAPI.",
+        why: "El create exitoso es **201** (recurso nuevo), no 200 de lectura genérica. El **404** vive en `/v1/jobs/{id}` cuando el ítem no existe; la colección (vacía o no) sigue en **200**. Health es 200. Así la matriz método/path/status queda testeable antes de `@app.post`. En We Do repararás el DEFECT que devuelve 200 en create.",
+        retrospective:
+          "Si puedes explicar por qué un create no es 200 y por qué una lista vacía no es 404 sin mirar el código, ya tienes el hábito de status semánticos. El error clásico es un 200 genérico que confunde a OpenAPI. En We Do practicarás corregir `status_for` y luego assess/decide fail-closed.",
       },
       {
         demoId: "S41-T1-B-DEMO",
         subtopicId: "S41-T1-B",
         environment: "local-python",
         description: "Demo: idempotencia, paginación y versionado",
+        preamble:
+          "El riesgo operativo del create no es solo el status: es el **reintento**. En esta demo `idempotent_create` liga una key al body canónico: idéntico ⇒ replay, distinto ⇒ conflict, y `side_effects` queda en 1. Luego `page_keyset` pagina por cursor (`next=job-002`), no por offset. No escribas: predice las tres etiquetas, el largo del store y las dos páginas. Si la misma key con body distinto crea un segundo job, el gate CP-N4-A se rompe.",
         code: {
           language: 'python',
           title: "demo_idempotency_pagination_versioning.py",
@@ -450,13 +456,17 @@ side_effects 1
 {'data': ['job-001', 'job-002'], 'next': 'job-002'}
 {'data': ['job-003', 'job-004'], 'next': None}`,
         },
-        why: "Guardo la clave con el body canónico: idéntico ⇒ replay; distinto ⇒ conflicto; `side_effects==1`. Luego pagino por cursor keyset (`next=job-002`), no por offset: si el set crece al inicio, no repito filas de la página anterior.",
+        why: "La key + el body canónico evitan side effects duplicados: idéntico ⇒ replay, distinto ⇒ conflict (no segundo create). `side_effects==1` es el assert del gate. Keyset (`after_id` → `next`) es más estable que offset si el set crece al inicio. En We Do repararás un store que siempre inserta.",
+        retrospective:
+          "Replay ≠ segundo create; body distinto bajo la misma key es conflicto. El error clásico es “si la key existe, reintento silencioso” sin comparar el body. Pregunta: ¿qué assert del gate mide un solo side effect? (`len(store)==1` / un job). We Do: implementar el store y luego assess/decide de auditoría.",
       },
       {
         demoId: "S41-T2-A-DEMO",
         subtopicId: "S41-T2-A",
         environment: "local-python",
         description: "Demo: routing, dependencies y modelos",
+        preamble:
+          "En FastAPI (y en este modelo stdlib) el **path operation** solo orquesta. Esta demo muestra `thin_handler(get_store, body)` que llama a `create_job` sin status codes: al inyectar dos stores distintos, cada uno crece por su cuenta (`swapped_stores 1 1`). No escribas: predice los dos jobs y los largos. Si el dominio importa HTTP o un global, no puedes sustituir el store en tests de contrato.",
         code: {
           language: 'python',
           title: "demo_routing_deps_models.py",
@@ -477,13 +487,17 @@ print("swapped_stores", len(mem_a), len(mem_b))`,
 {'id': 'job-1', 'name': 'other-store'}
 swapped_stores 1 1`,
         },
-        why: "Sustituyo `get_store` por dos fakes distintos sin tocar el handler: eso es DI. El dominio solo recibe store+body; no conoce status codes ni FastAPI.",
+        why: "DI = sustituir `get_store` sin tocar la ruta. El dominio solo recibe store+body; no conoce status codes ni FastAPI (`domain_imports_http == False` como flag mental). Así montas tests de contrato con fakes. En We Do sacarás `status_code` y el global del dominio.",
+        retrospective:
+          "Handler delgado + store inyectable es el mismo hábito que `Depends` en FastAPI. El error clásico es meter SQL y status en el path. Pregunta: si el dominio importa `Request`, ¿puedes montar un test de contrato con fake store sin reescribir la ruta? We Do: reparar el handler gordo del starter.",
       },
       {
         demoId: "S41-T2-B-DEMO",
         subtopicId: "S41-T2-B",
         environment: "local-python",
         description: "Demo: validación, serialización y documentación",
+        preamble:
+          "El handler delgado asume un body confiable: hay que **validar y redactar**. En esta demo `handle` devuelve 422 si falta `priority` y, si es válido, una vista allow-list sin `secret`. Observa las dos rutas y el flag `secret_leaked`. No escribas: predice los pares status/body. Si el secreto del body crudo sale en la respuesta, el contrato y la privacidad fallan aunque el status sea 200.",
         code: {
           language: 'python',
           title: "demo_validation_serialize_docs.py",
@@ -504,13 +518,17 @@ print("secret_leaked", "secret" in handle(ok)[1])`,
 (422, {'error': 'validation_error', 'fields': ['priority']})
 secret_leaked False`,
         },
-        why: "Primero valido (422 si falta `priority`); luego serializo allow-list. El secreto del body crudo no viaja a la respuesta — el OpenAPI debe declarar ese shape, no el interno.",
+        why: "Validación antes del dominio (como Pydantic/FastAPI 422); serialización por allow-list. El secreto del body crudo no viaja a la respuesta: OpenAPI declara el shape público, no el interno. Así el contrato de entrada y salida se puede testear sin red. En We Do dejarás de devolver el body crudo.",
+        retrospective:
+          "422 tipado + vista pública es el par mínimo de contrato de entrada/salida. El error clásico es 200 con leak o defaults inventados. Pregunta: ¿qué status devuelve FastAPI por defecto ante body inválido? We Do: implementar `handle` y luego assess de OpenAPI alineado.",
       },
       {
         demoId: "S41-T3-A-DEMO",
         subtopicId: "S41-T3-A",
         environment: "local-python",
         description: "Demo: sync/async y background boundaries",
+        preamble:
+          "El contrato HTTP puede ser correcto y aun así **bloquear el event loop**. Esta demo clasifica `io_wait` → async (sin encolar) y `cpu_heavy` → background (encola `queued`). Observa las tuplas boundary/longitud y el contenido de la cola. No escribas: predice `('async', 0)` y luego un item en queue. Si el score CPU vive en el path del POST, el control plane se ahoga bajo carga.",
         code: {
           language: 'python',
           title: "demo_sync_async_background.py",
@@ -535,13 +553,17 @@ print("queued", q)`,
 ('background', 1)
 queued [{'id': 'job-cpu', 'status': 'queued'}]`,
         },
-        why: "I/O se queda en el request (async); CPU/durable se encola. El demo no imprime un booleano vacío: muestra la decisión y el efecto en la cola.",
+        why: "Async brilla en I/O wait; CPU y trabajo durable salen a worker con store confiable. La demo muestra decisión + efecto en la cola, no un booleano vacío. En We Do dejarás de marcar todo como async.",
+        retrospective:
+          "Boundary = decisión documentada + efecto observable (cola). El error clásico es `await` de trabajo CPU como si fuera red. Pregunta: si el POST encola, ¿qué `status` de job esperas ver en la respuesta? (`queued`.) We Do: implementar choose/enqueue y assess de offload.",
       },
       {
         demoId: "S41-T3-B-DEMO",
         subtopicId: "S41-T3-B",
         environment: "local-python",
         description: "Demo: errores, timeouts y lifecycle",
+        preamble:
+          "Cuando el upstream tarda de más, el cliente no debe recibir un stack ni un email. Esta demo corre con budget: ok cierra el pool; timeout devuelve `UPSTREAM_TIMEOUT` con `trace_id` y **también** deja `open []` gracias al `finally`. Observa ambos prints. No escribas: predice outcome y recursos. Si solo cierras en el camino feliz, el timeout deja sockets abiertos.",
         code: {
           language: 'python',
           title: "demo_errors_timeouts_lifecycle.py",
@@ -568,13 +590,17 @@ print(run_with_budget(40, 30, resources), "open", resources)`,
           output: `{'outcome': 'ok'} open []
 {'outcome': 'timeout', 'error': {'type': 'https://api.example/errors/UPSTREAM_TIMEOUT', 'title': 'UPSTREAM_TIMEOUT', 'status': 504, 'trace_id': 'tr-are-041'}} open []`,
         },
-        why: "El budget decide ok vs. timeout; el `finally` cierra recursos en ambos caminos. El error lleva `trace_id` y título seguro — sin PII — al estilo Problem Details.",
+        why: "El budget decide ok vs timeout; el `finally` cierra siempre. El error lleva type/title/status/trace_id estilo RFC 9457, sin PII. En We Do quitarás el 500 con email del starter y medirás cascada client>service>db.",
+        retrospective:
+          "Cancel + close + payload seguro es el trío de timeout. El error clásico es 500 genérico con PII o cerrar el pool solo si `outcome==ok`. Pregunta: ¿por qué el error lleva `trace_id` y no email? We Do: implementar budget y assess de cascada client>service>db.",
       },
       {
         demoId: "S41-T4-A-DEMO",
         subtopicId: "S41-T4-A",
         environment: "local-python",
         description: "Demo: unit/contract/integration",
+        preamble:
+          "Ya tienes contratos y timeouts: falta **demostrar** que un fallo se atrapa en el nivel correcto. Esta demo siembra `domain` (solo unit lo ve) y `http` (solo contract); integration no debe ser el único colador. Observa True/False por semilla y `pyramid True` con 12≥5≥2. No escribas: predice cada fila. Si solo confías en un e2e, un 200 en create puede esconderse.",
         code: {
           language: 'python',
           title: "demo_unit_contract_integration.py",
@@ -591,13 +617,17 @@ domain integration False
 http contract True
 pyramid True`,
         },
-        why: "Siembras el bug y preguntas qué nivel debe atraparlo: dominio en unit, HTTP en contract. Integration no debe ser el único colador ni enmascarar un status malo.",
+        why: "Unit = regla de dominio; contract = status/schema/headers; integration = adapter controlado. Forma unit ≥ contract ≥ integration. Siembras el bug y preguntas qué nivel debe atraparlo. En We Do dejarás de devolver siempre True.",
+        retrospective:
+          "El nivel correcto localiza el diseño roto. El error clásico es solo unit o solo e2e. Pregunta: un 200 en create sembrado, ¿qué nivel debe atraparlo? (contract.) We Do: mapear seeds y forma de pirámide.",
       },
       {
         demoId: "S41-T4-B-DEMO",
         subtopicId: "S41-T4-B",
         environment: "local-python",
         description: "Demo: compatibility, rate limit y observabilidad",
+        preamble:
+          "El gate CP-N4-A también pide que el abuso no tire el servicio y que la traza no filtre PII. Esta demo calcula `admit`: used 73 ⇒ remaining 27; used 110 ⇒ 429 con `retry_after_s`. Luego `log_fields` saca el email y deja `trace_id`/`job_id`. No escribas: predice los tres prints. Si respondes 500 opaco o logueas el email “para depurar”, rompes privacidad y recuperabilidad.",
         code: {
           language: 'python',
           title: "demo_compat_ratelimit_observability.py",
@@ -617,7 +647,9 @@ print(log_fields({"trace_id": "tr-are-041", "job_id": "j1", "email": "a@b.c"}))`
 {'status': 429, 'retry_after_s': 1}
 {'trace_id': 'tr-are-041', 'job_id': 'j1'}`,
         },
-        why: "Calculo remaining frente a un 429 real (no un string decorativo) y redacto el log: el email no sale. Compatibilidad v1 se preserva dejando `job_id`/`trace_id` estables.",
+        why: "429 es recuperable (no un 500 opaco); remaining solo en allow; ban-set de email/dni/secret en el log. Campos estables `job_id`/`trace_id` preservan compat v1. En We Do dejarás de admitir siempre y de devolver el event crudo.",
+        retrospective:
+          "Throttle real + log limpio cierran el edge del control plane. El error clásico es 200 con remaining negativo o PII en log “para depurar”. Pregunta: ¿qué campo de compat v1 preserva el lab además de `job_id`? (`trace_id`.) We Do: implementar admit/log y assess de consumer v1.",
       },
     ],
   },
@@ -628,7 +660,11 @@ print(log_fields({"trace_id": "tr-are-041", "job_id": "j1", "email": "a@b.c"}))`
         id: "S41-T1-A-E1",
         subtopicId: "S41-T1-A",
         kind: "guided",
-        instruction: "S41-T1-A-E1 · Implementa `status_for(method, resource, *, item_exists)` para el contrato de recursos/métodos/status (`CASO-ARE-041-1A`). `POST /v1/jobs` ⇒ 201; `GET /v1/health` ⇒ 200; `GET /v1/jobs` (colección) ⇒ 200; `GET /v1/jobs/{id}` ausente ⇒ 404. El starter devuelve 200 en create (DEFECT). Salida exacta: `S41-T1-A PASS`. En E2/E3 practicarás el mismo criterio como assess/decide fail-closed.",
+        title: "Create de jobs con status 201",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-1A` la matriz del lab fija el create de jobs como POST + colección `/v1/jobs` ⇒ **201**, no 200.\n- **Meta:** implementar `status_for(method, resource, *, item_exists)` con status semánticos.\n- **Éxito:** los asserts del starter pasan e imprimes `S41-T1-A PASS` (POST create 201; health 200; colección 200; ítem ausente 404).\n- **Límites:** no dejes 200 en create; no uses 404 en la colección; fixtures sintéticos sin PII.",
+        instruction:
+          "1. Abre el starter: en POST + path que termina en `/jobs` devuelve `200` (bug).\n2. Cámbialo a `201`.\n3. Conserva health 200, colección 200, ítem ausente 404 y el fallback 405.\n4. No borres los asserts ni el print final.",
         hint: "Piensa en una matriz: el status sale de (método, path, existencia del ítem), no de un literal fijo.",
         hints: [
           "Piensa en una matriz: el status sale de (método, path, existencia del ítem), no de un literal fijo.",
@@ -636,7 +672,10 @@ print(log_fields({"trace_id": "tr-are-041", "job_id": "j1", "email": "a@b.c"}))`
         ],
         edgeCases: ["Falta status", "Fixture adverso: POST create con status 200 (incoherente)", "CASO-ARE-041-1A es sintético"],
         tests: "Los asserts de la matriz HTTP pasan e imprimen `S41-T1-A PASS`.",
-        feedback: "Un create exitoso es 201, no 200. La colección vacía no es 404: el 404 es del ítem `/v1/jobs/{id}`. En E2/E3, status incoherente ⇒ RETURN_CORRECT_HTTP_STATUS; sin campo ⇒ REVIEW_RESOURCE_SEMANTICS.",
+        feedback:
+          "Un create exitoso es 201 Created: comunica recurso nuevo a clientes y a OpenAPI. Devolver 200 confunde lectura con creación. La colección vacía no es 404; el 404 es del ítem `/v1/jobs/{id}`. En E2/E3, status incoherente ⇒ `RETURN_CORRECT_HTTP_STATUS`.",
+        retrospective:
+          "Status = parte del contrato, no un adorno. El error clásico es 200 en create o 404 en lista vacía. Pregunta: ¿qué status usarías en `GET /v1/jobs` sin filas? (200.) Siguiente (E2): evaluar tres fixtures con assess.",
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e1.py",
@@ -689,7 +728,11 @@ print("S41-T1-A", "PASS")
         id: "S41-T1-A-E2",
         subtopicId: "S41-T1-A",
         kind: "independent",
-        instruction: "S41-T1-A-E2 · Modela tres rutas de `recursos, métodos y status`: fixture válido, fixture adverso y registro sin `status`. Entrada: dict con case_id, method, resource, created, status. Salidas exactas: `PASS`, `RETURN_CORRECT_HTTP_STATUS`, `MISSING:status`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar create con assess de status",
+        preamble:
+          "- **Contexto:** un revisor del control plane recibe tres samples de tráfico sintético: create bien formado, create con 200 incoherente y un registro sin campo `status`.\n- **Meta:** implementar `assess(record)` que valide campos y aplique la regla de T1-A (POST + /jobs + created + 201).\n- **Éxito:** imprimes exactamente `PASS RETURN_CORRECT_HTTP_STATUS MISSING:status`.\n- **Límites:** no inventes status si falta el campo; no apruebes create con 200; solo sintético.",
+        instruction:
+          "1. Revisa el starter: el PASS usa `status==200` y `method==GET` (predicado invertido).\n2. Mantén la rama `missing` primero.\n3. PASS solo si POST, resource termina en `/jobs`, `created` y `status==201`.\n4. Conserva el print de las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a status debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a status debe ocurrir antes de esa rama.",
@@ -697,7 +740,10 @@ print("S41-T1-A", "PASS")
         ],
         edgeCases: ["Falta status", "Fixture adverso: POST create con status 200 (incoherente)", "CASO-ARE-041-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `status` ausente y produce exactamente `PASS RETURN_CORRECT_HTTP_STATUS MISSING:status`.",
-        feedback: "PASS solo con POST + /jobs + created + 201. Un create con 200 es RETURN_CORRECT_HTTP_STATUS. Si falta `status`, no inventes el código: REVIEW_RESOURCE_SEMANTICS.",
+        feedback:
+          "PASS solo con POST + /jobs + created + 201: esa es la matriz que el cliente y OpenAPI esperan. Un create con 200 es breach (`RETURN_CORRECT_HTTP_STATUS`). Si falta `status`, no inventes el código.",
+        retrospective:
+          "Missing-first evita leer un campo que no existe. PASS exige la matriz de create (POST + `/jobs` + 201), no un 200 genérico de lectura. Pregunta: si el record trae `status=201` pero `method=GET`, ¿PASS o breach y por qué? Luego (E3) el mismo criterio se vuelve decisión de gate.",
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e2.py",
@@ -744,7 +790,11 @@ print(*results)
         id: "S41-T1-A-E3",
         subtopicId: "S41-T1-A",
         kind: "transfer",
-        instruction: "S41-T1-A-E3 · Transferencia de contrato OpenAPI: tres muestras de tráfico (POST create 201 OK; POST create con status 200 incoherente; sample sin `status`). Decide: OK ⇒ `CONTINUE`; status incoherente ⇒ `RETURN_CORRECT_HTTP_STATUS`; sin status ⇒ `REVIEW_RESOURCE_SEMANTICS`. El starter confunde ausencia con éxito y aprueba 200 en create: corrige fail-closed. Salida exacta (en ese orden): `CONTINUE RETURN_CORRECT_HTTP_STATUS REVIEW_RESOURCE_SEMANTICS`.",
+        title: "Gate fail-closed de status HTTP",
+        preamble:
+          "- **Contexto:** en transferencia de contrato OpenAPI, tres muestras de tráfico deciden si el flujo de jobs **sigue**, se **corrige** o se **revisa** por incertidumbre.\n- **Meta:** `decide(record)` fail-closed: OK ⇒ `CONTINUE`; create con 200 ⇒ `RETURN_CORRECT_HTTP_STATUS`; sin `status` ⇒ `REVIEW_RESOURCE_SEMANTICS`.\n- **Éxito:** `CONTINUE RETURN_CORRECT_HTTP_STATUS REVIEW_RESOURCE_SEMANTICS` en ese orden.\n- **Límites:** no trates la ausencia como éxito; no inventes el código HTTP; tokens de lab, no enums de prod.",
+        instruction:
+          "1. Si faltan campos, devuelve `REVIEW_RESOURCE_SEMANTICS` (no CONTINUE).\n2. CONTINUE solo con POST + /jobs + created + 201.\n3. Cualquier otra combinación completa ⇒ `RETURN_CORRECT_HTTP_STATUS`.\n4. Conserva el assert de orden de resultados.",
         hint: "Sin status ⇒ REVIEW_RESOURCE_SEMANTICS antes de mirar method/resource. CONTINUE solo con POST + /jobs + created + status 201.",
         hints: [
           "Sin status ⇒ REVIEW_RESOURCE_SEMANTICS antes de mirar method/resource. CONTINUE solo con POST + /jobs + created + status 201.",
@@ -752,7 +802,10 @@ print(*results)
         ],
         edgeCases: ["Falta status", "Fixture adverso: POST create con status 200 (incoherente)", "CASO-ARE-041-1A es sintético"],
         tests: "Fixtures `CASO-ARE-041-1A`, adverso y sin `status` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T1-A-E3 (contrato OpenAPI): 200 en create es RETURN_CORRECT_HTTP_STATUS; sin status no se inventa el código — REVIEW_RESOURCE_SEMANTICS.",
+        feedback:
+          "En el gate de promoción: 200 en create es `RETURN_CORRECT_HTTP_STATUS` porque el cliente y OpenAPI esperan 201. Sin status no se inventa el código — `REVIEW_RESOURCE_SEMANTICS`.",
+        retrospective:
+          "Incertidumbre ≠ CONTINUE: sin evidencia de status no se promueve. El error clásico es aprobar 200 en create o rellenar campos. Pregunta: ¿qué token usarías si falta `method`? (misma rama de missing.)",
         starterCode: {
           language: 'python',
           title: "s41-t1-a-e3.py",
@@ -800,7 +853,11 @@ assert results == ["CONTINUE", "RETURN_CORRECT_HTTP_STATUS", "REVIEW_RESOURCE_SE
         id: "S41-T1-B-E1",
         subtopicId: "S41-T1-B",
         kind: "guided",
-        instruction: "S41-T1-B-E1 · Implementa `idempotent_create(store, key, body)` para el contrato de idempotencia (`CASO-ARE-041-1B`). Primera llamada con key+body ⇒ `created`; misma key+mismo body ⇒ `replay`; misma key+body distinto ⇒ `conflict`. El starter ignora la store y siempre crea (DEFECT). Tras dos POST idénticos, `len(store)==1`. Salida exacta: `S41-T1-B PASS`. En E2/E3 evaluarás el mismo criterio como assess/decide.",
+        title: "Store de Idempotency-Key sin duplicar",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-1B` un cliente reintenta `POST /v1/jobs` con la misma Idempotency-Key; el lab debe dejar **un solo** side effect.\n- **Meta:** implementar `idempotent_create(store, key, body)` → `created` | `replay` | `conflict`.\n- **Éxito:** created → replay → conflict y `len(store)==1`; imprime `S41-T1-B PASS`.\n- **Límites:** no insertes con key mutada; no crees un segundo job en replay; no silencies body distinto.",
+        instruction:
+          "1. Abre el starter: ignora el store real y siempre devuelve `\"created\"`.\n2. Si `key in store`, compara body: igual ⇒ `replay`, distinto ⇒ `conflict`.\n3. Si la key es nueva, guarda `store[key] = body` y devuelve `created`.\n4. Conserva los asserts de longitud 1.",
         hint: "Si la key ya está en store, compara el body guardado: igual ⇒ replay, distinto ⇒ conflict. Solo insertas cuando la key es nueva.",
         hints: [
           "Si la key ya está en store, compara el body guardado: igual ⇒ replay, distinto ⇒ conflict. Solo insertas cuando la key es nueva.",
@@ -808,7 +865,10 @@ assert results == ["CONTINUE", "RETURN_CORRECT_HTTP_STATUS", "REVIEW_RESOURCE_SE
         ],
         edgeCases: ["Falta version", "Fixture adverso: hash mismatch o effects>1 (conflicto de idempotencia)", "CASO-ARE-041-1B es sintético"],
         tests: "created → replay → conflict y un solo side effect; imprime `S41-T1-B PASS`.",
-        feedback: "S41-T1-B-E1: la key liga body canónico; conflict no es segundo create. E2 usa RETURN_IDEMPOTENCY_CONFLICT cuando hash/effects fallan.",
+        feedback:
+          "La key liga el body canónico: igualdad ⇒ replay, mismatch ⇒ conflict, y el store no crece. Un segundo create en reintento rompe el gate CP-N4-A. E2 usa `RETURN_IDEMPOTENCY_CONFLICT` cuando hash/effects fallan.",
+        retrospective:
+          "Un reintento del cliente no debe crear un segundo job: la key es el candado, el body canónico es la llave. El error clásico es mutar la key (`key+len`) “para no pisar” y esconder el duplicado. Pregunta: si el segundo POST es idéntico, ¿qué label y qué largo de store esperas? Siguiente (E2): auditar hash, effects y version.",
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e1.py",
@@ -852,7 +912,11 @@ print("S41-T1-B", "PASS")
         id: "S41-T1-B-E2",
         subtopicId: "S41-T1-B",
         kind: "independent",
-        instruction: "S41-T1-B-E2 · Verifica tres rutas de `idempotencia, paginación y versionado`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, key, request_hash, stored_hash, effects, cursor, version. Salidas exactas: `PASS`, `RETURN_IDEMPOTENCY_CONFLICT`, `MISSING:version`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar hash, effects y versión",
+        preamble:
+          "- **Contexto:** el gateway te entrega tres records de auditoría de reintentos: uno sano, uno con hash mismatch + effects>1, y uno sin `version`.\n- **Meta:** `assess` con missing-first y predicado de T1-B (hash igual, un efecto, cursor tipo `job-*`, version `v1`).\n- **Éxito:** `PASS RETURN_IDEMPOTENCY_CONFLICT MISSING:version`.\n- **Límites:** no apruebes effects>1; no inventes version; cursor offset no cuenta como keyset sano.",
+        instruction:
+          "1. Corrige el predicado invertido (hoy PASS si effects>1 o hash distinto).\n2. PASS solo con hash estable, effects==1, cursor que empieza por `job-` y version `v1`.\n3. Mantén `MISSING:` + campos ordenados.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
@@ -860,7 +924,10 @@ print("S41-T1-B", "PASS")
         ],
         edgeCases: ["Falta version", "Fixture adverso: hash mismatch o effects>1 (conflicto de idempotencia)", "CASO-ARE-041-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `version` ausente y produce exactamente `PASS RETURN_IDEMPOTENCY_CONFLICT MISSING:version`.",
-        feedback: "Idempotencia sana exige hash estable, un solo efecto y versión explícita. Hash mismatch o effects>1 ⇒ RETURN_IDEMPOTENCY_CONFLICT. Sin `version` no asumas v1: REPLAY_STORED_RESPONSE.",
+        feedback:
+          "Idempotencia sana es observable: un efecto, hash estable, cursor keyset (`job-*`) y versión explícita `v1`. Hash mismatch o effects>1 ⇒ `RETURN_IDEMPOTENCY_CONFLICT` porque el cliente no debe ver un segundo job. Sin `version` no asumas v1.",
+        retrospective:
+          "No “arregles” inventando version o cursor: la evidencia incompleta es `MISSING`, no PASS. El error clásico es aprobar effects=2 si el hash “se ve”. Pregunta: ¿por qué un cursor `offset:20` no cuenta como keyset sano en este lab? Luego (E3): tokens de reintento fail-closed.",
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e2.py",
@@ -907,7 +974,11 @@ print(*results)
         id: "S41-T1-B-E3",
         subtopicId: "S41-T1-B",
         kind: "transfer",
-        instruction: "S41-T1-B-E3 · Transferencia: un cliente reintenta `POST /v1/jobs` y el gateway te entrega tres records de auditoría (válido, hash mismatch + effects>1, sin `version`). Decide fail-closed: válido ⇒ `CONTINUE`; adverso ⇒ `RETURN_IDEMPOTENCY_CONFLICT`; sin `version` ⇒ `REPLAY_STORED_RESPONSE` (no inventes v1). El starter confunde ausencia con éxito y acepta effects>1: corrige sin rellenar evidencia. Salida exacta: `CONTINUE RETURN_IDEMPOTENCY_CONFLICT REPLAY_STORED_RESPONSE`.",
+        title: "Reintentos: continue, conflict o replay",
+        preamble:
+          "- **Contexto:** un cliente reintenta POST y el gateway pide una decisión fail-closed sobre tres records (válido, hash/effects rotos, sin version).\n- **Meta:** `decide` → `CONTINUE` | `RETURN_IDEMPOTENCY_CONFLICT` | `REPLAY_STORED_RESPONSE`.\n- **Éxito:** `CONTINUE RETURN_IDEMPOTENCY_CONFLICT REPLAY_STORED_RESPONSE`.\n- **Límites:** sin version no inventes v1; breach por hash o effects>1; tokens de lab.",
+        instruction:
+          "1. Missing ⇒ `REPLAY_STORED_RESPONSE` (no CONTINUE).\n2. CONTINUE solo con el predicado sano de E2.\n3. Resto completo ⇒ `RETURN_IDEMPOTENCY_CONFLICT`.\n4. Conserva el assert de orden.",
         hint: "Incertidumbre (falta version) se enruta a REPLAY_STORED_RESPONSE *antes* de mirar hashes. Breach = hash distinto o effects>1 o cursor/version rotos.",
         hints: [
           "Incertidumbre (falta version) se enruta a REPLAY_STORED_RESPONSE *antes* de mirar hashes. Breach = hash distinto o effects>1 o cursor/version rotos.",
@@ -915,7 +986,10 @@ print(*results)
         ],
         edgeCases: ["Falta version", "Fixture adverso: hash mismatch o effects>1 (conflicto de idempotencia)", "CASO-ARE-041-1B es sintético"],
         tests: "Fixtures `CASO-ARE-041-1B`, adverso y sin `version` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T1-B-E3 (transferencia de reintentos): el adverso activa RETURN_IDEMPOTENCY_CONFLICT por hash/effects; faltar version exige REPLAY_STORED_RESPONSE, no un invento de v1.",
+        feedback:
+          "Ante reintentos: el adverso activa `RETURN_IDEMPOTENCY_CONFLICT` por hash/effects (el cliente no debe ver un segundo job). Faltar version exige `REPLAY_STORED_RESPONSE` (token de lab: no inventes v1 ni “arregles” el record). CONTINUE solo con el predicado sano de E2.",
+        retrospective:
+          "Ante incertidumbre de version, reutiliza la respuesta almacenada o escala: no “arregles” inventando v1. El error clásico es CONTINUE cuando falta evidencia. Pregunta: ¿por qué body distinto bajo la misma key no es replay?",
         starterCode: {
           language: 'python',
           title: "s41-t1-b-e3.py",
@@ -963,7 +1037,11 @@ assert results == ["CONTINUE", "RETURN_IDEMPOTENCY_CONFLICT", "REPLAY_STORED_RES
         id: "S41-T2-A-E1",
         subtopicId: "S41-T2-A",
         kind: "guided",
-        instruction: "S41-T2-A-E1 · Implementa un handler delgado con dependencia inyectable (`CASO-ARE-041-2A`). `create_job(store, body)` es dominio puro; `thin_handler(get_store, body)` solo obtiene el store y llama al dominio. El starter mete status HTTP y un store global en el dominio (DEFECT). Al inyectar dos fakes distintos, cada uno recibe un job sin reescribir la ruta. Salida exacta: `S41-T2-A PASS`.",
+        title: "Handler delgado con store inyectable",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-2A` el POST de jobs debe poder probarse con dos fakes sin reescribir la ruta.\n- **Meta:** `create_job(store, body)` puro y `thin_handler(get_store, body)` que solo orquesta.\n- **Éxito:** cada fake recibe un job, sin `status_code` en el body; imprime `S41-T2-A PASS`.\n- **Límites:** no uses un global; no pongas status HTTP en el dominio; no ignores `get_store`.",
+        instruction:
+          "1. Elimina `GLOBAL` y el campo `status_code`.\n2. `create_job` recibe `store` y hace append.\n3. `thin_handler` es `return create_job(get_store(), body)`.\n4. Conserva asserts de longitud y ausencia de status_code.",
         hint: "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
         hints: [
           "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
@@ -971,7 +1049,10 @@ assert results == ["CONTINUE", "RETURN_IDEMPOTENCY_CONFLICT", "REPLAY_STORED_RES
         ],
         edgeCases: ["Falta domain_called", "Fixture adverso: handler gordo o domain_imports_http (boundary rota)", "CASO-ARE-041-2A es sintético"],
         tests: "Dos stores inyectados reciben un job cada uno; dominio sin status HTTP; imprime `S41-T2-A PASS`.",
-        feedback: "S41-T2-A-E1: DI = sustituir get_store sin tocar el path operation. E2 marca THIN_THE_HANDLER si el handler es gordo o el dominio importa HTTP.",
+        feedback:
+          "DI se demuestra sustituyendo `get_store` sin tocar el path operation: así montas tests de contrato con fakes. E2 marca `THIN_THE_HANDLER` si el handler es gordo o el dominio importa HTTP.",
+        retrospective:
+          "El dominio no debe conocer status ni un store global: recibe store+body y devuelve el job. El error clásico es el singleton `GLOBAL` o meter `status_code` “para OpenAPI”. Pregunta: ¿por qué dos lambdas distintas demuestran DI mejor que un solo store? Siguiente (E2): assess de líneas del handler y flags de boundary.",
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e1.py",
@@ -1024,7 +1105,11 @@ print("S41-T2-A", "PASS")
         id: "S41-T2-A-E2",
         subtopicId: "S41-T2-A",
         kind: "independent",
-        instruction: "S41-T2-A-E2 · Clasifica tres rutas de `routing, dependencies y modelos`: fixture válido, fixture adverso y registro sin `domain_called`. Entrada: dict con case_id, handler_lines, dependency_injectable, domain_imports_http, domain_called. Salidas exactas: `PASS`, `THIN_THE_HANDLER`, `MISSING:domain_called`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Medir si el handler se engordó",
+        preamble:
+          "- **Contexto:** en code review del control plane mides si el path operation sigue delgado o se mezcló con HTTP/dominio.\n- **Meta:** `assess` → PASS si handler corto, DI, dominio sin HTTP y `domain_called`; si no, `THIN_THE_HANDLER`; missing ⇒ `MISSING:domain_called`.\n- **Éxito:** `PASS THIN_THE_HANDLER MISSING:domain_called`.\n- **Límites:** no apruebes handlers gordos ni `domain_imports_http`; no inventes domain_called.",
+        instruction:
+          "1. Invierte el predicado: PASS no es “líneas >20 y domain_imports_http”.\n2. Criterio: `handler_lines <= 5` y flags sanos.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
@@ -1032,7 +1117,10 @@ print("S41-T2-A", "PASS")
         ],
         edgeCases: ["Falta domain_called", "Fixture adverso: handler gordo o domain_imports_http (boundary rota)", "CASO-ARE-041-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `domain_called` ausente y produce exactamente `PASS THIN_THE_HANDLER MISSING:domain_called`.",
-        feedback: "Handler delgado + dependencia inyectable + dominio sin HTTP ⇒ PASS. Si el path engorda o el dominio importa HTTP ⇒ THIN_THE_HANDLER. Sin `domain_called` no hay orquestación demostrada: REVIEW_DEPENDENCY_BOUNDARY.",
+        feedback:
+          "Handler delgado + DI + dominio sin HTTP ⇒ PASS: el cliente no ve capas mezcladas y los tests pueden inyectar fakes. Si el path engorda o el dominio importa HTTP ⇒ `THIN_THE_HANDLER`. Sin `domain_called` no hay orquestación demostrada.",
+        retrospective:
+          "Las métricas del lab (líneas, flags) son proxies de boundary, no dogmas de estilo de equipo. Sin `domain_called` no hay orquestación demostrada aunque el path “compile”. Pregunta: ¿qué fallaría en un TestClient si el dominio importara FastAPI? Luego (E3): tokens de review.",
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e2.py",
@@ -1079,7 +1167,11 @@ print(*results)
         id: "S41-T2-A-E3",
         subtopicId: "S41-T2-A",
         kind: "transfer",
-        instruction: "S41-T2-A-E3 · Transferencia de code review: tres mediciones de capas (handler delgado + DI OK; handler gordo o dominio con HTTP; métrica sin `domain_called`). Decide: OK ⇒ `CONTINUE`; boundary rota ⇒ `THIN_THE_HANDLER`; sin evidencia de dominio ⇒ `REVIEW_DEPENDENCY_BOUNDARY`. El starter aprueba handlers gordos y omite la incertidumbre: corrige fail-closed. Salida exacta: `CONTINUE THIN_THE_HANDLER REVIEW_DEPENDENCY_BOUNDARY`.",
+        title: "Review: adelgazar o revisar boundary",
+        preamble:
+          "- **Contexto:** tres mediciones de capas deciden si el path sigue, se adelgaza o se revisa la boundary de dependencias.\n- **Meta:** `decide` fail-closed con tokens de lab.\n- **Éxito:** `CONTINUE THIN_THE_HANDLER REVIEW_DEPENDENCY_BOUNDARY`.\n- **Límites:** sin `domain_called` no asumas orquestación; tokens ≠ enums de producción.",
+        instruction:
+          "1. Missing ⇒ `REVIEW_DEPENDENCY_BOUNDARY`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `THIN_THE_HANDLER`.\n4. Conserva el assert.",
         hint: "Sin domain_called ⇒ REVIEW_DEPENDENCY_BOUNDARY. CONTINUE exige handler_lines≤5, dependency_injectable, no domain_imports_http y domain_called.",
         hints: [
           "Sin domain_called ⇒ REVIEW_DEPENDENCY_BOUNDARY. CONTINUE exige handler_lines≤5, dependency_injectable, no domain_imports_http y domain_called.",
@@ -1087,7 +1179,10 @@ print(*results)
         ],
         edgeCases: ["Falta domain_called", "Fixture adverso: handler gordo o domain_imports_http (boundary rota)", "CASO-ARE-041-2A es sintético"],
         tests: "Fixtures `CASO-ARE-041-2A`, adverso y sin `domain_called` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T2-A-E3 (code review): THIN_THE_HANDLER si el path operation engorda o el dominio toca HTTP; sin domain_called no se asume orquestación — REVIEW_DEPENDENCY_BOUNDARY.",
+        feedback:
+          "En code review: `THIN_THE_HANDLER` si el path engorda o el dominio toca HTTP (rompe tests con fakes). Sin `domain_called` no se asume orquestación — `REVIEW_DEPENDENCY_BOUNDARY`.",
+        retrospective:
+          "Code review fail-closed: falta de evidencia de dominio no es CONTINUE. El error clásico es “compila, ya está”. Pregunta: ¿por qué el dominio no debe importar `Request`?",
         starterCode: {
           language: 'python',
           title: "s41-t2-a-e3.py",
@@ -1135,7 +1230,11 @@ assert results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
         id: "S41-T2-B-E1",
         subtopicId: "S41-T2-B",
         kind: "guided",
-        instruction: "S41-T2-B-E1 · Implementa `handle(body)` de validación + vista pública (`CASO-ARE-041-2B`). Body sin `priority` ⇒ `(422, {error, fields})`; body válido ⇒ `(200, public_view)` sin `secret`/`internal_key`. El starter devuelve 200 con el body crudo (DEFECT). Salida exacta: `S41-T2-B PASS`.",
+        title: "Validar 422 y redactar la vista",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-2B` un job sintético `er-run` puede traer `secret`; el cliente solo debe ver campos públicos.\n- **Meta:** `handle(body)` → 422 tipado si falta `priority`; 200 con allow-list `{name, priority}` si es válido.\n- **Éxito:** asserts de 200 sin secret y 422 con fields; imprime `S41-T2-B PASS`.\n- **Límites:** no devuelvas el body crudo; no uses 200 con defaults silenciosos; sin PII real.",
+        instruction:
+          "1. Define required `{name, priority}`.\n2. Si faltan campos, 422 + error/fields ordenados.\n3. Si pasa, `public_view` con allow-list.\n4. Conserva los asserts del starter.",
         hint: "required = {name, priority}. Si faltan campos, 422 con lista de fields. Si pasa, serializa solo la allow-list pública.",
         hints: [
           "required = {name, priority}. Si faltan campos, 422 con lista de fields. Si pasa, serializa solo la allow-list pública.",
@@ -1143,7 +1242,10 @@ assert results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
         ],
         edgeCases: ["Falta openapi_matches", "Fixture adverso: 200 con leak de secret u OpenAPI desalineado", "CASO-ARE-041-2B es sintético"],
         tests: "422 en inválido, 200 sin secret en válido; imprime `S41-T2-B PASS`.",
-        feedback: "S41-T2-B-E1: validación antes del dominio y allow-list al salir. E2 usa REJECT_AND_REDACT ante 200 con leak.",
+        feedback:
+          "Validación antes del dominio y allow-list al salir: el cliente no ve `secret` ni `internal_key`. Un 200 con body crudo rompe privacidad y OpenAPI. E2 usa `REJECT_AND_REDACT` ante 200 con leak.",
+        retrospective:
+          "Validación y redaction son dos pasos: primero rechazas, luego serializas. El error clásico es echo del body. Siguiente (E2): auditar status, leak y OpenAPI.",
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e1.py",
@@ -1195,7 +1297,11 @@ print("S41-T2-B", "PASS")
         id: "S41-T2-B-E2",
         subtopicId: "S41-T2-B",
         kind: "independent",
-        instruction: "S41-T2-B-E2 · Audita tres rutas de `validación, serialización y documentación`: fixture válido, fixture adverso y registro sin `openapi_matches`. Entrada: dict con case_id, input_valid, status, response_fields, internal_fields, openapi_matches. Salidas exactas: `PASS`, `REJECT_AND_REDACT`, `MISSING:openapi_matches`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar 422, leak y OpenAPI",
+        preamble:
+          "- **Contexto:** revisas tres snapshots: rechazo 422 bien formado (PASS), 200 con secret en response (breach), y un record sin flag `openapi_matches`.\n- **Meta:** `assess` — PASS si input inválido fue rechazado con 422, sin intersección con campos internos y OpenAPI alineado.\n- **Éxito:** `PASS REJECT_AND_REDACT MISSING:openapi_matches`.\n- **Límites:** no apruebes 200 con secret; no inventes openapi_matches; el PASS de este lab es un **rechazo correcto**, no un create feliz.",
+        instruction:
+          "1. Corrige el predicado invertido (hoy PASS con 200 y leak).\n2. PASS: `not input_valid` y status 422 y sets disjuntos y openapi_matches.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
@@ -1203,7 +1309,10 @@ print("S41-T2-B", "PASS")
         ],
         edgeCases: ["Falta openapi_matches", "Fixture adverso: 200 con leak de secret u OpenAPI desalineado", "CASO-ARE-041-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `openapi_matches` ausente y produce exactamente `PASS REJECT_AND_REDACT MISSING:openapi_matches`.",
-        feedback: "422 tipado, vista pública y OpenAPI alineado ⇒ PASS. Un 200 con secret o shape inválido ⇒ REJECT_AND_REDACT. Sin `openapi_matches` el contrato no es confiable: REGENERATE_OPENAPI.",
+        feedback:
+          "Un contrato sano también se demuestra fallando bien: 422 tipado, sin leak y OpenAPI alineado ⇒ PASS. Un 200 con secret ⇒ `REJECT_AND_REDACT`. Sin `openapi_matches` el shape no es confiable.",
+        retrospective:
+          "Un contrato sano también se demuestra fallando bien (422). OpenAPI desalineado es deuda de contrato. Luego (E3): tokens de PR review.",
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e2.py",
@@ -1250,7 +1359,11 @@ print(*results)
         id: "S41-T2-B-E3",
         subtopicId: "S41-T2-B",
         kind: "transfer",
-        instruction: "S41-T2-B-E3 · Transferencia de revisión de PR: tres snapshots de respuesta (público OK, 200 con secret filtrado, snapshot sin flag `openapi_matches`). Decide: OK ⇒ `CONTINUE`; leak/200 inválido ⇒ `REJECT_AND_REDACT`; sin evidencia de OpenAPI ⇒ `REGENERATE_OPENAPI`. El starter trata el leak como PASS y la ausencia como CONTINUE: revierte a fail-closed sin inventar el flag. Salida exacta: `CONTINUE REJECT_AND_REDACT REGENERATE_OPENAPI`.",
+        title: "PR: rechazar leak o regenerar OpenAPI",
+        preamble:
+          "- **Contexto:** en revisión de PR del control plane, tres snapshots deciden si el contrato sigue, se redacta/rechaza o se regenera la doc.\n- **Meta:** `decide` con tokens fail-closed.\n- **Éxito:** `CONTINUE REJECT_AND_REDACT REGENERATE_OPENAPI`.\n- **Límites:** sin `openapi_matches` no evalúes el body como confiable; no inventes el flag.",
+        instruction:
+          "1. Missing ⇒ `REGENERATE_OPENAPI`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `REJECT_AND_REDACT`.\n4. Conserva el assert.",
         hint: "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
         hints: [
           "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
@@ -1258,7 +1371,10 @@ print(*results)
         ],
         edgeCases: ["Falta openapi_matches", "Fixture adverso: 200 con leak de secret u OpenAPI desalineado", "CASO-ARE-041-2B es sintético"],
         tests: "Fixtures `CASO-ARE-041-2B`, adverso y sin `openapi_matches` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "En revisión de PR: REJECT_AND_REDACT ante leak o 200 inválido; sin openapi_matches regenera el contrato — REGENERATE_OPENAPI.",
+        feedback:
+          "En revisión de PR: `REJECT_AND_REDACT` ante leak o 200 inválido (el cliente no debe ver secretos). Sin `openapi_matches` regenera el contrato — `REGENERATE_OPENAPI`. No merges un 200 con secret “para depurar”.",
+        retrospective:
+          "OpenAPI es evidencia del contrato: si el flag falta, regenera, no asumas. El error clásico es mergear un 200 con secret “para depurar”. Pregunta: ¿qué status devuelve FastAPI ante body inválido por defecto?",
         starterCode: {
           language: 'python',
           title: "s41-t2-b-e3.py",
@@ -1306,7 +1422,11 @@ assert results == ["CONTINUE", "REJECT_AND_REDACT", "REGENERATE_OPENAPI"]
         id: "S41-T3-A-E1",
         subtopicId: "S41-T3-A",
         kind: "guided",
-        instruction: "S41-T3-A-E1 · Implementa `choose_boundary(kind)` y `enqueue_if_needed` (`CASO-ARE-041-3A`). `io_wait` ⇒ async (sin encolar); `cpu_heavy`/`durable` ⇒ background y encola con `status=queued`. El starter marca todo como async y nunca encola (DEFECT). Salida exacta: `S41-T3-A PASS`.",
+        title: "Encolar CPU fuera del event loop",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-3A` un GET ligero puede ser I/O; un score CPU o job durable no debe quedarse en el request.\n- **Meta:** `choose_boundary` + `enqueue_if_needed` (background encola `status=queued`).\n- **Éxito:** io_wait no encola; cpu_heavy encola uno; imprime `S41-T3-A PASS`.\n- **Límites:** no marques todo async; no dejes CPU en el loop; sin PII en ids.",
+        instruction:
+          "1. Mapea io_wait→async; cpu_heavy/durable→background; resto→sync.\n2. Solo background hace append a la cola.\n3. Devuelve (boundary, len(queue)).\n4. Conserva los asserts.",
         hint: "Clasifica el kind primero; solo background toca la cola. I/O no debe dejar items en queue.",
         hints: [
           "Clasifica el kind primero; solo background toca la cola. I/O no debe dejar items en queue.",
@@ -1314,7 +1434,10 @@ assert results == ["CONTINUE", "REJECT_AND_REDACT", "REGENERATE_OPENAPI"]
         ],
         edgeCases: ["Falta durable_job", "Fixture adverso: CPU en event loop sin offload (boundary rota)", "CASO-ARE-041-3A es sintético"],
         tests: "io_wait no encola; cpu_heavy encola un item queued; imprime `S41-T3-A PASS`.",
-        feedback: "S41-T3-A-E1: boundary = decisión + efecto en cola. E2 usa MOVE_WORK_OFF_EVENT_LOOP si CPU queda en el loop.",
+        feedback:
+          "Boundary = decisión documentada + efecto en cola: I/O no llena la cola; CPU sí se encola. Si el score CPU vive en el path, el control plane se ahoga. E2 usa `MOVE_WORK_OFF_EVENT_LOOP` si CPU queda en el loop.",
+        retrospective:
+          "I/O no llena la cola; CPU sí se encola. El error clásico es “async = más rápido” sin offload. Siguiente (E2): assess de uses_await y cpu_offloaded.",
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e1.py",
@@ -1368,7 +1491,11 @@ print("S41-T3-A", "PASS")
         id: "S41-T3-A-E2",
         subtopicId: "S41-T3-A",
         kind: "independent",
-        instruction: "S41-T3-A-E2 · Decide tres rutas de `sync/async y background boundaries`: fixture válido, fixture adverso y registro sin `durable_job`. Entrada: dict con case_id, work_kind, uses_await, cpu_offloaded, durable_job. Salidas exactas: `PASS`, `MOVE_WORK_OFF_EVENT_LOOP`, `MISSING:durable_job`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar offload del event loop",
+        preamble:
+          "- **Contexto:** capacity review del path: ¿el I/O usa await y los flags de offload/durable están documentados?\n- **Meta:** `assess` — PASS si work_kind io, uses_await, cpu_offloaded y durable_job; adverso CPU sin offload ⇒ `MOVE_WORK_OFF_EVENT_LOOP`; sin flag durable ⇒ `MISSING:durable_job`.\n- **Éxito:** `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.\n- **Límites:** no apruebes CPU en el request; no inventes durable_job; en este lab PASS exige **flags de capacidad presentes**, no solo el kind.",
+        instruction:
+          "1. Invierte el predicado (hoy PASS con cpu + await sin offload).\n2. PASS con el conjunto de flags del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
@@ -1376,7 +1503,10 @@ print("S41-T3-A", "PASS")
         ],
         edgeCases: ["Falta durable_job", "Fixture adverso: CPU en event loop sin offload (boundary rota)", "CASO-ARE-041-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `durable_job` ausente y produce exactamente `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.",
-        feedback: "I/O awaited y CPU/durable fuera del loop ⇒ PASS. CPU en el request ⇒ MOVE_WORK_OFF_EVENT_LOOP. Sin flag `durable_job` no asumas offload: CHOOSE_BACKGROUND_BOUNDARY.",
+        feedback:
+          "I/O awaited y flags de offload/durable documentados ⇒ PASS (capacidad visible al revisor). CPU en el request ⇒ `MOVE_WORK_OFF_EVENT_LOOP` porque el event loop no aguanta score pesado. Sin flag `durable_job` no asumas offload.",
+        retrospective:
+          "Documentar `cpu_offloaded` y `durable_job` evita asumir que “ya está en background” solo porque el kind es io. Sin flag no hay evidencia de capacidad. Pregunta: ¿por qué el fixture PASS exige flags True aunque el work_kind sea io? (capacidad del path documentada, no solo el kind del request actual.) Luego (E3): tokens de capacity.",
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e2.py",
@@ -1423,7 +1553,11 @@ print(*results)
         id: "S41-T3-A-E3",
         subtopicId: "S41-T3-A",
         kind: "transfer",
-        instruction: "S41-T3-A-E3 · Transferencia de capacity review: tres clasificaciones de trabajo (I/O o sync OK; CPU/durable en el event loop; record sin `durable_job`). Decide: OK ⇒ `CONTINUE`; loop bloqueado ⇒ `MOVE_WORK_OFF_EVENT_LOOP`; sin flag durable ⇒ `CHOOSE_BACKGROUND_BOUNDARY`. El starter confunde ausencia con éxito y aprueba CPU en request: corrige fail-closed. Salida exacta: `CONTINUE MOVE_WORK_OFF_EVENT_LOOP CHOOSE_BACKGROUND_BOUNDARY`.",
+        title: "Capacity: offload o elegir boundary",
+        preamble:
+          "- **Contexto:** tres clasificaciones de trabajo deciden si el request sigue, se saca del loop o se elige boundary de background ante incertidumbre.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE MOVE_WORK_OFF_EVENT_LOOP CHOOSE_BACKGROUND_BOUNDARY`.\n- **Límites:** sin `durable_job` no asumas offload; tokens de lab.",
+        instruction:
+          "1. Missing ⇒ `CHOOSE_BACKGROUND_BOUNDARY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `MOVE_WORK_OFF_EVENT_LOOP`.\n4. Conserva el assert.",
         hint: "Sin durable_job ⇒ CHOOSE_BACKGROUND_BOUNDARY antes de juzgar el loop. CPU o durable en el request ⇒ MOVE_WORK_OFF_EVENT_LOOP.",
         hints: [
           "Sin durable_job ⇒ CHOOSE_BACKGROUND_BOUNDARY antes de juzgar el loop. CPU o durable en el request ⇒ MOVE_WORK_OFF_EVENT_LOOP.",
@@ -1431,7 +1565,10 @@ print(*results)
         ],
         edgeCases: ["Falta durable_job", "Fixture adverso: CPU en event loop sin offload (boundary rota)", "CASO-ARE-041-3A es sintético"],
         tests: "Fixtures `CASO-ARE-041-3A`, adverso y sin `durable_job` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T3-A-E3 (capacity): MOVE_WORK_OFF_EVENT_LOOP si CPU/durable bloquea el request; sin durable_job no se asume offload — CHOOSE_BACKGROUND_BOUNDARY.",
+        feedback:
+          "En capacity review: `MOVE_WORK_OFF_EVENT_LOOP` si CPU/durable bloquea el request (el loop no aguanta). Sin `durable_job` no se asume offload — `CHOOSE_BACKGROUND_BOUNDARY`. Incertidumbre de durable no es luz verde para CONTINUE.",
+        retrospective:
+          "Incertidumbre de durable no es luz verde. El error clásico es dejar CPU en el path “por ahora”. Pregunta: ¿qué status de job devolverías al encolar? (`queued`.)",
         starterCode: {
           language: 'python',
           title: "s41-t3-a-e3.py",
@@ -1479,7 +1616,11 @@ assert results == ["CONTINUE", "MOVE_WORK_OFF_EVENT_LOOP", "CHOOSE_BACKGROUND_BO
         id: "S41-T3-B-E1",
         subtopicId: "S41-T3-B",
         kind: "guided",
-        instruction: "S41-T3-B-E1 · Implementa `run_with_budget(elapsed_s, limit_s, open_resources)` (`CASO-ARE-041-3B`). Si elapsed > limit ⇒ outcome timeout con Problem Details (`type`, `title`, `status` 504, `trace_id` sin PII). En **ambos** caminos el `finally` cierra recursos (`open_resources.clear()`). El starter no cierra en timeout y devuelve un 500 genérico con email (DEFECT). Salida exacta: `S41-T3-B PASS`.",
+        title: "Timeout con finally y sin PII",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-3B` el job sintético puede superar el budget de servicio; el pool debe cerrarse siempre.\n- **Meta:** `run_with_budget` con try/finally; timeout ⇒ 504 Problem Details + `trace_id` sintético, sin email.\n- **Éxito:** ok y timeout dejan resources vacío; error tipado; imprime `S41-T3-B PASS`.\n- **Límites:** no devuelvas 500 con email; no omitas finally; sin PII real.",
+        instruction:
+          "1. Envuelve la lógica en try/finally con `clear()`.\n2. Si elapsed > limit, arma error type/title/status 504/trace_id.\n3. Si no, outcome ok.\n4. Conserva los asserts de ambos caminos.",
         hint: "Usa try/finally: clear siempre. En timeout arma un dict con type/title/status/trace_id — nunca email ni stack.",
         hints: [
           "Usa try/finally: clear siempre. En timeout arma un dict con type/title/status/trace_id — nunca email ni stack.",
@@ -1487,7 +1628,10 @@ assert results == ["CONTINUE", "MOVE_WORK_OFF_EVENT_LOOP", "CHOOSE_BACKGROUND_BO
         ],
         edgeCases: ["Falta resource_closed", "Fixture adverso: budgets invertidos o recurso no cerrado", "CASO-ARE-041-3B es sintético"],
         tests: "ok y timeout dejan resources vacío; error tipado sin PII; imprime `S41-T3-B PASS`.",
-        feedback: "S41-T3-B-E1: cancel + close + payload seguro. E2 usa CANCEL_AND_CLOSE si budgets se invierten o no se cierra.",
+        feedback:
+          "Cancel + close + payload seguro: el cliente ve 504 tipado con `trace_id`, no un 500 con email. El finally cierra en ok y en timeout. E2 usa `CANCEL_AND_CLOSE` si budgets se invierten o no se cierra.",
+        retrospective:
+          "El finally no es opcional: cierra en ok y en timeout. El error clásico es PII “para depurar”. Siguiente (E2): assess de cascada de budgets.",
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e1.py",
@@ -1549,7 +1693,11 @@ print("S41-T3-B", "PASS")
         id: "S41-T3-B-E2",
         subtopicId: "S41-T3-B",
         kind: "independent",
-        instruction: "S41-T3-B-E2 · Calcula tres rutas de `errores, timeouts y lifecycle`: fixture válido, fixture adverso y registro sin `resource_closed`. Entrada: dict con case_id, client_timeout_ms, service_budget_ms, db_budget_ms, error_code, resource_closed. Salidas exactas: `PASS`, `CANCEL_AND_CLOSE`, `MISSING:resource_closed`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar cascada de timeouts",
+        preamble:
+          "- **Contexto:** telemetría de tres mediciones: cascada sana y recurso cerrado; budgets invertidos + pool abierto; flag de cierre ausente.\n- **Meta:** `assess` — PASS si db < service < client, error `UPSTREAM_TIMEOUT` y `resource_closed`; si no `CANCEL_AND_CLOSE`; missing ⇒ `MISSING:resource_closed`.\n- **Éxito:** `PASS CANCEL_AND_CLOSE MISSING:resource_closed`.\n- **Límites:** no apruebes budgets invertidos; no inventes resource_closed.",
+        instruction:
+          "1. Invierte el predicado (hoy PASS con db > client o cerrado False).\n2. PASS con cascada estricta + código estable + closed True.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a resource_closed debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a resource_closed debe ocurrir antes de esa rama.",
@@ -1557,7 +1705,10 @@ print("S41-T3-B", "PASS")
         ],
         edgeCases: ["Falta resource_closed", "Fixture adverso: budgets invertidos o recurso no cerrado", "CASO-ARE-041-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `resource_closed` ausente y produce exactamente `PASS CANCEL_AND_CLOSE MISSING:resource_closed`.",
-        feedback: "Cascada client>service>db y recurso cerrado ⇒ PASS. Budgets invertidos o pool abierto ⇒ CANCEL_AND_CLOSE. Sin `resource_closed` no hay cierre demostrable: RECALCULATE_TIMEOUT_BUDGET.",
+        feedback:
+          "Cascada client>service>db deja cancelar primero lo interno; con recurso cerrado ⇒ PASS. Budgets invertidos o pool abierto ⇒ `CANCEL_AND_CLOSE`. Sin `resource_closed` no hay cierre demostrable.",
+        retrospective:
+          "Budgets invertidos matan el cancel interno: el cliente corta antes que la DB y el worker sigue ocupado. Pool abierto tras timeout es breach de lifecycle, no solo de status. Pregunta: si `resource_closed` falta, ¿inventas True o devuelves MISSING? Luego (E3): tokens de incidente.",
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e2.py",
@@ -1604,7 +1755,11 @@ print(*results)
         id: "S41-T3-B-E3",
         subtopicId: "S41-T3-B",
         kind: "transfer",
-        instruction: "S41-T3-B-E3 · Transferencia de incidente: tres mediciones de budget (cascada sana + recurso cerrado; budgets invertidos o pool abierto; telemetría sin `resource_closed`). Decide: sana ⇒ `CONTINUE`; adverso ⇒ `CANCEL_AND_CLOSE`; sin flag de cierre ⇒ `RECALCULATE_TIMEOUT_BUDGET`. El starter aprueba ante incertidumbre y ante budgets rotos: corrige fail-closed. Salida exacta: `CONTINUE CANCEL_AND_CLOSE RECALCULATE_TIMEOUT_BUDGET`.",
+        title: "Incidente: cancelar o recalcular budget",
+        preamble:
+          "- **Contexto:** en un incidente de timeout del control plane, tres mediciones deciden continuar, cancelar/cerrar o recalcular budgets ante evidencia incompleta.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE CANCEL_AND_CLOSE RECALCULATE_TIMEOUT_BUDGET`.\n- **Límites:** sin `resource_closed` no hay promoción; tokens de lab.",
+        instruction:
+          "1. Missing ⇒ `RECALCULATE_TIMEOUT_BUDGET`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `CANCEL_AND_CLOSE`.\n4. Conserva el assert.",
         hint: "Sin resource_closed ⇒ RECALCULATE_TIMEOUT_BUDGET. CONTINUE exige client>service>db, error_code estable y resource_closed True.",
         hints: [
           "Sin resource_closed ⇒ RECALCULATE_TIMEOUT_BUDGET. CONTINUE exige client>service>db, error_code estable y resource_closed True.",
@@ -1612,7 +1767,10 @@ print(*results)
         ],
         edgeCases: ["Falta resource_closed", "Fixture adverso: budgets invertidos o recurso no cerrado", "CASO-ARE-041-3B es sintético"],
         tests: "Fixtures `CASO-ARE-041-3B`, adverso y sin `resource_closed` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T3-B-E3 (incidente timeout): CANCEL_AND_CLOSE si la cascada o el cierre fallan; sin resource_closed no hay promoción — RECALCULATE_TIMEOUT_BUDGET.",
+        feedback:
+          "En incidente de timeout: `CANCEL_AND_CLOSE` si la cascada o el cierre fallan (sockets abiertos o budgets invertidos). Sin `resource_closed` no hay promoción — `RECALCULATE_TIMEOUT_BUDGET` exige rehacer la cascada con evidencia, no inventar el flag.",
+        retrospective:
+          "Sin flag de cierre no se asume lifecycle sano. El error clásico es 500 genérico y pool abierto. Pregunta: ¿por qué el error lleva `trace_id` y no email?",
         starterCode: {
           language: 'python',
           title: "s41-t3-b-e3.py",
@@ -1660,7 +1818,11 @@ assert results == ["CONTINUE", "CANCEL_AND_CLOSE", "RECALCULATE_TIMEOUT_BUDGET"]
         id: "S41-T4-A-E1",
         subtopicId: "S41-T4-A",
         kind: "guided",
-        instruction: "S41-T4-A-E1 · Implementa `level_detects(seed_bug, level)` y `pyramid_ok(unit, contract, integration)` (`CASO-ARE-041-4A`). seed `domain` solo lo atrapa `unit`; seed `http` solo `contract`. Pirámide: conteos `unit >= contract >= integration`. El starter siempre devuelve True (DEFECT). Salida exacta: `S41-T4-A PASS`.",
+        title: "Mapear seed al nivel de test",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-4A` siembras un bug de dominio o de HTTP y exiges que el nivel correcto lo detecte.\n- **Meta:** `level_detects` (domain→unit, http→contract, adapter→integration) y `pyramid_ok` con unit ≥ contract ≥ integration.\n- **Éxito:** asserts de seeds y pirámides; imprime `S41-T4-A PASS`.\n- **Límites:** no dejes siempre True; no inviertas la forma de la pirámide.",
+        instruction:
+          "1. Mapea seed→nivel y compara igualdad.\n2. `pyramid_ok` = cadena de conteos.\n3. Conserva asserts positivos y el caso 2,5,12 False.\n4. Print final PASS.",
         hint: "Mapea domain→unit, http→contract, adapter→integration. No dejes que integration sea el único colador de un bug de status.",
         hints: [
           "Mapea domain→unit, http→contract, adapter→integration. No dejes que integration sea el único colador de un bug de status.",
@@ -1668,7 +1830,10 @@ assert results == ["CONTINUE", "CANCEL_AND_CLOSE", "RECALCULATE_TIMEOUT_BUDGET"]
         ],
         edgeCases: ["Falta seeded_failure_detected", "Fixture adverso: una sola capa o fallo sembrado no detectado", "CASO-ARE-041-4A es sintético"],
         tests: "seeds correctos/incorrectos y pirámide 12≥5≥2; imprime `S41-T4-A PASS`.",
-        feedback: "S41-T4-A-E1: el nivel correcto detecta el seed. E2 usa BLOCK_UNTESTED_CONTRACT si falta capa o seed no se detecta.",
+        feedback:
+          "El nivel correcto localiza el diseño roto: domain→unit, http→contract. Una pirámide invertida o “siempre True” no atrapa un 200 en create. E2 usa `BLOCK_UNTESTED_CONTRACT` si falta capa o seed no se detecta.",
+        retrospective:
+          "Seed + nivel correcto es la red de seguridad del contrato. El error clásico es pirámide invertida (más integration que unit). Siguiente (E2): assess de capas y seed detectado.",
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e1.py",
@@ -1714,7 +1879,11 @@ print("S41-T4-A", "PASS")
         id: "S41-T4-A-E2",
         subtopicId: "S41-T4-A",
         kind: "independent",
-        instruction: "S41-T4-A-E2 · Compara tres rutas de `unit/contract/integration`: fixture válido, fixture adverso y registro sin `seeded_failure_detected`. Entrada: dict con case_id, layers, rule_unit, http_contract, adapter_integration, seeded_failure_detected. Salidas exactas: `PASS`, `BLOCK_UNTESTED_CONTRACT`, `MISSING:seeded_failure_detected`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar pirámide y seed atrapado",
+        preamble:
+          "- **Contexto:** tres reportes de test plan: pirámide completa con seed atrapado; solo unit sin seed; flag de seed ausente.\n- **Meta:** `assess` → PASS si layers incluyen unit/contract/integration y todos los flags; si no `BLOCK_UNTESTED_CONTRACT`; missing ⇒ `MISSING:seeded_failure_detected`.\n- **Éxito:** `PASS BLOCK_UNTESTED_CONTRACT MISSING:seeded_failure_detected`.\n- **Límites:** no apruebes una sola capa; no inventes seed detectado.",
+        instruction:
+          "1. Invierte el predicado (hoy PASS con layers==1 y seed False).\n2. PASS con subset de capas y all(flags).\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a seeded_failure_detected debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a seeded_failure_detected debe ocurrir antes de esa rama.",
@@ -1722,7 +1891,10 @@ print("S41-T4-A", "PASS")
         ],
         edgeCases: ["Falta seeded_failure_detected", "Fixture adverso: una sola capa o fallo sembrado no detectado", "CASO-ARE-041-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `seeded_failure_detected` ausente y produce exactamente `PASS BLOCK_UNTESTED_CONTRACT MISSING:seeded_failure_detected`.",
-        feedback: "Tres capas y seed atrapado ⇒ PASS. Una sola capa o seed invisible ⇒ BLOCK_UNTESTED_CONTRACT. Sin `seeded_failure_detected` no hay evidencia de red de seguridad: ADD_MISSING_TEST_LEVEL.",
+        feedback:
+          "Tres capas + seed atrapado ⇒ PASS: hay red de seguridad demostrable. Una sola capa o seed invisible ⇒ `BLOCK_UNTESTED_CONTRACT`. Sin `seeded_failure_detected` no hay evidencia de que el colador funciona.",
+        retrospective:
+          "Una sola capa unit no demuestra el contrato HTTP: un 200 en create puede pasar desapercibido. Sin `seeded_failure_detected` no hay prueba de que el colador funciona aunque la pirámide “tenga tres nombres”. Pregunta: ¿qué bloqueas en el merge si el seed http no se atrapa? Luego (E3): tokens de test plan.",
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e2.py",
@@ -1769,7 +1941,11 @@ print(*results)
         id: "S41-T4-A-E3",
         subtopicId: "S41-T4-A",
         kind: "transfer",
-        instruction: "S41-T4-A-E3 · Transferencia de test plan: tres reportes de pirámide (unit≥contract≥integration + seed atrapado; una sola capa o seed no detectado; reporte sin `seeded_failure_detected`). Decide: OK ⇒ `CONTINUE`; contrato sin red de seguridad ⇒ `BLOCK_UNTESTED_CONTRACT`; sin seed ⇒ `ADD_MISSING_TEST_LEVEL`. El starter aprueba pirámides incompletas: corrige fail-closed. Salida exacta: `CONTINUE BLOCK_UNTESTED_CONTRACT ADD_MISSING_TEST_LEVEL`.",
+        title: "Test plan: bloquear o añadir nivel",
+        preamble:
+          "- **Contexto:** antes de promover el control plane, el test plan debe atrapar seeds en el nivel correcto o bloquear el merge.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE BLOCK_UNTESTED_CONTRACT ADD_MISSING_TEST_LEVEL`.\n- **Límites:** sin flag de seed no asumas cobertura; tokens de lab.",
+        instruction:
+          "1. Missing ⇒ `ADD_MISSING_TEST_LEVEL`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `BLOCK_UNTESTED_CONTRACT`.\n4. Conserva el assert.",
         hint: "Sin seeded_failure_detected ⇒ ADD_MISSING_TEST_LEVEL. CONTINUE exige shape de pirámide y seed detectado en el nivel correcto.",
         hints: [
           "Sin seeded_failure_detected ⇒ ADD_MISSING_TEST_LEVEL. CONTINUE exige shape de pirámide y seed detectado en el nivel correcto.",
@@ -1777,7 +1953,10 @@ print(*results)
         ],
         edgeCases: ["Falta seeded_failure_detected", "Fixture adverso: una sola capa o fallo sembrado no detectado", "CASO-ARE-041-4A es sintético"],
         tests: "Fixtures `CASO-ARE-041-4A`, adverso y sin `seeded_failure_detected` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T4-A-E3 (test plan): BLOCK_UNTESTED_CONTRACT si la pirámide no atrapa el seed; sin seeded_failure_detected no hay evidencia — ADD_MISSING_TEST_LEVEL.",
+        feedback:
+          "En test plan: `BLOCK_UNTESTED_CONTRACT` si la pirámide no atrapa el seed (un e2e solo no basta para localizar un 200 en create). Sin `seeded_failure_detected` no hay evidencia — `ADD_MISSING_TEST_LEVEL`.",
+        retrospective:
+          "Un contrato sin red de seguridad no se promueve. El error clásico es “tenemos un e2e”. Pregunta: ¿qué nivel atrapa un 200 en create sembrado?",
         starterCode: {
           language: 'python',
           title: "s41-t4-a-e3.py",
@@ -1825,7 +2004,11 @@ assert results == ["CONTINUE", "BLOCK_UNTESTED_CONTRACT", "ADD_MISSING_TEST_LEVE
         id: "S41-T4-B-E1",
         subtopicId: "S41-T4-B",
         kind: "guided",
-        instruction: "S41-T4-B-E1 · Implementa `admit(used, limit)` y `log_fields(event)` (`CASO-ARE-041-4B`). Si `used > limit` ⇒ status 429 con `retry_after_s`; si no ⇒ 200 con `remaining`. `log_fields` elimina email/dni/secret. El starter nunca throttle y deja PII en el log (DEFECT). Salida exacta: `S41-T4-B PASS`.",
+        title: "429 recuperable y log sin PII",
+        preamble:
+          "- **Contexto:** en `CASO-ARE-041-4B` la cuota sintética es 100; la traza `tr-are-041` no debe llevar email.\n- **Meta:** `admit(used, limit)` y `log_fields` con ban-set.\n- **Éxito:** remaining 27 bajo cuota; 429 over-limit; log sin email; imprime `S41-T4-B PASS`.\n- **Límites:** no dejes siempre 200; no inventes remaining en 429; no loguees PII.",
+        instruction:
+          "1. Si used > limit ⇒ 429 + retry_after_s.\n2. Si no ⇒ 200 + remaining = limit - used.\n3. log_fields filtra email/dni/secret.\n4. Conserva los asserts.",
         hint: "429 es recuperable: incluye retry_after_s. Redacta con ban-set antes de imprimir/loguear.",
         hints: [
           "429 es recuperable: incluye retry_after_s. Redacta con ban-set antes de imprimir/loguear.",
@@ -1833,7 +2016,10 @@ assert results == ["CONTINUE", "BLOCK_UNTESTED_CONTRACT", "ADD_MISSING_TEST_LEVE
         ],
         edgeCases: ["Falta pii_in_log", "Fixture adverso: over-limit, consumer roto o PII en log", "CASO-ARE-041-4B es sintético"],
         tests: "allow con remaining, 429 over-limit, log sin email; imprime `S41-T4-B PASS`.",
-        feedback: "S41-T4-B-E1: throttle real + traza limpia. E2 usa THROTTLE_AND_REDACT si over-limit o PII en log.",
+        feedback:
+          "429 es señal recuperable (con `retry_after_s`), no un 500 opaco. Redaction del log es parte del contrato de observabilidad: el email no sale. E2 usa `THROTTLE_AND_REDACT` si over-limit o PII en log.",
+        retrospective:
+          "Remaining solo existe en allow; en 429 la señal útil es `retry_after_s`, no un remaining negativo. Redaction del log es parte del contrato de observabilidad, no un “extra de seguridad”. Pregunta: si used=110, ¿qué status y qué campo debe ver el cliente? Siguiente (E2): assess de consumer, cuota y pii_in_log.",
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e1.py",
@@ -1883,7 +2069,11 @@ print("S41-T4-B", "PASS")
         id: "S41-T4-B-E2",
         subtopicId: "S41-T4-B",
         kind: "independent",
-        instruction: "S41-T4-B-E2 · Filtra tres rutas de `compatibility, rate limit y observabilidad`: fixture válido, fixture adverso y registro sin `pii_in_log`. Entrada: dict con case_id, old_consumer_passes, limit, used, trace_id, pii_in_log. Salidas exactas: `PASS`, `THROTTLE_AND_REDACT`, `MISSING:pii_in_log`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Auditar cuota, consumer y redaction",
+        preamble:
+          "- **Contexto:** tres telemetrías de edge: consumer v1 + cuota sana + log limpio; over-limit + consumer roto + PII; flag pii ausente.\n- **Meta:** `assess` — PASS si consumer pasa, used en rango, trace con prefijo `tr-` y no pii; si no `THROTTLE_AND_REDACT`; missing ⇒ `MISSING:pii_in_log`.\n- **Éxito:** `PASS THROTTLE_AND_REDACT MISSING:pii_in_log`.\n- **Límites:** no apruebes over-limit ni PII en log; no inventes el flag.",
+        instruction:
+          "1. Invierte el predicado (hoy PASS con over-limit o pii).\n2. PASS con el conjunto sano del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a pii_in_log debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a pii_in_log debe ocurrir antes de esa rama.",
@@ -1891,7 +2081,10 @@ print("S41-T4-B", "PASS")
         ],
         edgeCases: ["Falta pii_in_log", "Fixture adverso: over-limit, consumer roto o PII en log", "CASO-ARE-041-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `pii_in_log` ausente y produce exactamente `PASS THROTTLE_AND_REDACT MISSING:pii_in_log`.",
-        feedback: "Consumer v1, cuota sana y log sin PII ⇒ PASS. Over-limit o PII en log ⇒ THROTTLE_AND_REDACT. Sin flag `pii_in_log` no asumas redaction: INSPECT_COMPATIBILITY.",
+        feedback:
+          "Compat + cuota + privacidad se evalúan juntos en el edge: consumer v1, used en rango y log sin PII ⇒ PASS. Over-limit o PII en log ⇒ `THROTTLE_AND_REDACT`. Sin flag `pii_in_log` no asumas redaction.",
+        retrospective:
+          "El edge del gate CP-N4-A no se juzga por un solo número: consumer v1 roto con cuota “OK” sigue siendo breach. Sin flag `pii_in_log` no asumas redaction. Pregunta: ¿por qué el valid exige `trace_id` con prefijo `tr-`? Luego (E3): tokens del gate.",
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e2.py",
@@ -1938,7 +2131,11 @@ print(*results)
         id: "S41-T4-B-E3",
         subtopicId: "S41-T4-B",
         kind: "transfer",
-        instruction: "S41-T4-B-E3 · Transferencia de gate CP-N4-A: tres telemetrías de edge (cuota sana + consumer v1 + log limpio; over-limit o PII en log; telemetría sin flag `pii_in_log`). Decide: sana ⇒ `CONTINUE`; abuse/leak ⇒ `THROTTLE_AND_REDACT`; sin evidencia de redaction ⇒ `INSPECT_COMPATIBILITY`. El starter aprueba over-limit y omite el flag: revierte a fail-closed. Salida exacta: `CONTINUE THROTTLE_AND_REDACT INSPECT_COMPATIBILITY`.",
+        title: "Gate edge: throttle o inspeccionar",
+        preamble:
+          "- **Contexto:** cierre del gate CP-N4-A en el edge: cuota, consumer v1 y redaction deben demostrarse o el flujo se bloquea/inspecciona.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE THROTTLE_AND_REDACT INSPECT_COMPATIBILITY`.\n- **Límites:** sin `pii_in_log` no asumas redaction; tokens de lab, no enums de prod.",
+        instruction:
+          "1. Missing ⇒ `INSPECT_COMPATIBILITY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `THROTTLE_AND_REDACT`.\n4. Conserva el assert.",
         hint: "Sin pii_in_log ⇒ INSPECT_COMPATIBILITY. CONTINUE exige old_consumer_passes, used≤limit y pii_in_log False.",
         hints: [
           "Sin pii_in_log ⇒ INSPECT_COMPATIBILITY. CONTINUE exige old_consumer_passes, used≤limit y pii_in_log False.",
@@ -1946,7 +2143,10 @@ print(*results)
         ],
         edgeCases: ["Falta pii_in_log", "Fixture adverso: over-limit, consumer roto o PII en log", "CASO-ARE-041-4B es sintético"],
         tests: "Fixtures `CASO-ARE-041-4B`, adverso y sin `pii_in_log` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S41-T4-B-E3 (gate edge): THROTTLE_AND_REDACT ante over-limit o PII; sin pii_in_log no se asume redaction — INSPECT_COMPATIBILITY.",
+        feedback:
+          "En el gate edge CP-N4-A: `THROTTLE_AND_REDACT` ante over-limit o PII (recuperable y limpio). Sin `pii_in_log` no se asume redaction — `INSPECT_COMPATIBILITY` exige revisar consumer v1 y traza antes de promover.",
+        retrospective:
+          "El edge no se promueve a ciegas: sin evidencia de redaction se inspecciona. El error clásico es silenciar el 429 o loguear email. Pregunta de puente: ¿qué tres piezas ensambla el You Do de esta sección?",
         starterCode: {
           language: 'python',
           title: "s41-t4-b-e3.py",
@@ -2084,7 +2284,7 @@ print(CASE_ID, status)
 print("missing", ",".join(missing))
 assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote: "Evidencia de CP-N4-A · API HTTP gobernada: implementa create/replay/conflict y validación hasta que readiness() imprima READY. No fuerces flags booleanos: los asserts miden el comportamiento. Enlace opcional: reescribe el lab con FastAPI + TestClient usando los recursos de la sección.",
+    portfolioNote: "Evidencia de CP-N4-A · API HTTP gobernada: implementa create/replay/conflict y validación hasta que readiness() imprima READY (CASE_ID + READY; missing vacío). No fuerces flags booleanos: los asserts miden el comportamiento. Enlace opcional: reescribe el lab con FastAPI + TestClient usando los recursos de la sección.",
     rubric: [
       { criterion: "Corrección técnica del contrato y del gate (create/replay/conflict + status).", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación.", weight: "20%" },
@@ -2093,6 +2293,8 @@ assert status in {"READY", "BLOCKED"}
       { criterion: "Operación: observabilidad (trace) y rollback mental.", weight: "15%" },
       { criterion: "Comunicación de trade-offs y límites (stdlib vs. FastAPI).", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `readiness()` (un side effect, replay, conflict, 422, sin secret, GET 200)? (2) ¿qué harías distinto con PII real vs. sintético de Arequipa? (3) En el README, una frase de impacto medible (antes: create duplicaba; después: key+body ⇒ un job) defendible en 30 segundos. Siguiente en S42: authz, schemas estrictos y privacidad de servicios sobre este control plane.",
   },
   selfCheck: {
     questions: [

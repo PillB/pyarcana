@@ -391,6 +391,8 @@ force_label False`,
         environment: "local-python",
         description:
           "Matriz completa TP/FP/FN/TN, F1 y average precision de ranking; rechaza accuracy como única métrica.",
+        preamble:
+          "En Red Andina el baseline de S33 ya da scores; hoy mides si la *decisión* binaria y el *ranking* son honestos. Esta demo arma confusión completa sobre `y=[1,0]` / `pred=[1,1]`, calcula F1 y average precision sobre un mini-ranking. No escribas aún: predice TP/FP/FN/TN, el F1 (~0.667) y el AP; observa que `accuracy_only` queda en `False`. Si solo publicaras accuracy, la cola de revisión humana se autovalida con un espejo.",
         code: {
           language: "python",
           title: "cm_demo.py",
@@ -425,7 +427,9 @@ f1 0.667
 ap 0.833
 accuracy_only False`,
         },
-        why: "La matriz completa y AP de ranking anclan P/R/F1 antes de elegir umbral de cola de revisión.",
+        why: "La matriz completa ancla precision, recall y F1: sin TP/FP/FN/TN el informe de cola miente aunque el dashboard se vea limpio. Average precision resume la calidad del ranking sin fijar un thr. Accuracy sola bajo desbalance es `REJECT_ACCURACY_ONLY`. TN importa: olvidarlo deja el informe incompleto. En We Do repararás la media armónica y el conteo de TN.",
+        retrospective:
+          "Si puedes explicar por qué F1 no es `P+R` y por qué AP no es accuracy, ya tienes el hábito de métricas de cola. El error clásico es publicar un solo porcentaje de aciertos. En We Do repararás la media armónica y el conteo de TN.",
       },
       {
         demoId: "S34-T1-B-DEMO",
@@ -433,6 +437,8 @@ accuracy_only False`,
         environment: "local-python",
         description:
           "precision@k y recall@k del top-3; overload cuando alertas superan capacidad.",
+        preamble:
+          "En un workbench de relaciones no revisas el universo: miras el top-k del ranking porque el equipo tiene tope diario. Esta demo calcula precision@3 y recall@3 sobre labels ya ordenados, y marca overload cuando 50 alertas superan capacidad 10. No escribas: predice 0.667, 1.0 y `True`; piensa qué pasa si optimizas solo el notebook y saturas a tres analistas.",
         code: {
           language: "python",
           title: "topk_demo.py",
@@ -450,7 +456,9 @@ print("overload", 50 > 10)`,
 recall_at_k 1.0
 overload True`,
         },
-        why: "Top-k alinea ranking con la capacidad real del equipo de revisión en el workbench.",
+        why: "Precision@k mide qué tan limpio es el recorte del top; recall@k mide cuántos positivos del set atrapaste. Capacity y thr viajan juntos: overload es breach operativo (`REJECT_QUEUE_OVERLOAD`), no un detalle de UX. Sin capacidad documentada el workbench pide `REQUEST_CAPACITY`. En We Do corregirás el denominador de recall y triages overload.",
+        retrospective:
+          "Top-k sin capacidad es métrica de pizarra, no de turno. El error clásico es dividir recall entre k. Pregunta: si n_pos=2 y el top-3 atrapa ambos, ¿recall@3 puede ser 1.0 con precision 0.667? We Do: corrige el denominador y triages overload.",
       },
       {
         demoId: "S34-T2-A-DEMO",
@@ -458,6 +466,8 @@ overload True`,
         environment: "local-python",
         description:
           "Weight ratio n0/n1 y plan de fold con rebalance solo en train (test intacto).",
+        preamble:
+          "Con nueve negativos por un positivo, el optimizador puede ignorar la minoría. Esta demo muestra `weight_ratio=9.0` y un plan de fold con rebalance solo en train (`resample_global=False`). No escribas: predice el dict del plan y por qué tocar el test del fold inflaría la validación respecto a producción.",
         code: {
           language: "python",
           title: "w_demo.py",
@@ -482,7 +492,9 @@ print("resample_global", False)`,
 ({'resample_train_only': True, 'test_untouched': True}, 10)
 resample_global False`,
         },
-        why: "Pesos o resample solo en train del fold evitan leakage y métricas infladas en validación.",
+        why: "Weights o resample reequilibran la señal solo dentro del train del fold; el test debe quedar intacto. Resample global contamina la validación (`REJECT_LEAKY_RESAMPLE`). Sin conteo de minoría n1 no hay ratio defendible (`REQUEST_WEIGHTS`). En We Do corregirás el flag invertido y cerrarás la política del fold.",
+        retrospective:
+          "CV-safe = rebalance en train, test intacto. El error clásico es balancear todo el CSV al inicio. Pregunta: si el test del fold «ve» copias sintéticas, ¿qué se infla — train loss o métrica de validación? We Do: corrige el flag invertido y cierra la política de pesos.",
       },
       {
         demoId: "S34-T2-B-DEMO",
@@ -490,6 +502,8 @@ resample_global False`,
         environment: "local-python",
         description:
           "Prevalencia 0.025 y accuracy all-negative engañosa para la clase rara.",
+        preamble:
+          "La prevalencia ancla toda interpretación de precision. Esta demo calcula 25/1000 = 0.025 y muestra que un clasificador all-negative luce 0.975 en accuracy sin mandar a nadie a cola. No escribas: predice los tres prints y por qué `accuracy_enough` debe quedar en False en un tablero de revisión.",
         code: {
           language: "python",
           title: "prev_demo.py",
@@ -503,7 +517,9 @@ print("accuracy_enough", False)`,
 all_neg_acc 0.975
 accuracy_enough False`,
         },
-        why: "Sin base rate, precision no es comparable entre periodos ni entre slices.",
+        why: "La base rate cambia entre trimestres; comparar precision sin prevalencia engaña. All-neg es el truco barato del dashboard cuando la clase positiva es rara. Accuracy sola con prev baja es ceguera de prevalencia (`REJECT_PREVALENCE_BLIND`). En We Do forzarás `accuracy_enough=False` y pedirás base rate.",
+        retrospective:
+          "Sin base rate, precision no es comparable entre periodos. El error clásico es celebrar accuracy alta con clase rara. Pregunta: si la prevalencia cae a la mitad y el thr no se mueve, ¿precision suele subir o bajar? We Do: fuerza accuracy_enough=False y pide base rate.",
       },
       {
         demoId: "S34-T3-A-DEMO",
@@ -511,6 +527,8 @@ accuracy_enough False`,
         environment: "local-python",
         description:
           "Brier medio sobre un mini-set y bin de reliability desalineado.",
+        preamble:
+          "Un score de priorización no es veredicto de culpa. Esta demo calcula Brier medio sobre un mini-set y un bin [0.7, 1.0) con mean_p=0.85 y freq=0.5: el bin miente. No escribas: predice brier 0.175 y `calibrated False`; resiste la tentación de confiar en un solo caso perfecto.",
         code: {
           language: "python",
           title: "brier_demo.py",
@@ -535,7 +553,9 @@ print("calibrated", False)`,
 bin (0.85, 0.5)
 calibrated False`,
         },
-        why: "Brier y reliability dicen si el score se puede leer como probabilidad de priorización.",
+        why: "Brier promedia (p−y)² sobre el set; reliability contrasta mean_p vs frecuencia observada en un bin. Un punto perfecto no calibra el modelo. La medición debe vivir fuera del set de fit del calibrador (T3-B). En We Do calcularás Brier medio 0.25 en un mini-set equilibrado.",
+        retrospective:
+          "Calibración se mide en conjunto y en bins, no en un solo acierto. El error clásico es «p=1, y=1 ⇒ ya está». Pregunta: ¿un Brier bajo con bins desalineados cuenta la misma historia que bins perfectos con Brier alto? We Do: Brier medio 0.25 en un mini-set equilibrado.",
       },
       {
         demoId: "S34-T3-B-DEMO",
@@ -543,6 +563,8 @@ calibrated False`,
         environment: "local-python",
         description:
           "Mapa afín + clip ajustado en holdout_v1 (Platt simplificado), no in-sample.",
+        preamble:
+          "Platt real vive en sklearn; aquí un mapa afín `clip(a·raw + b)` simula el contrato del workbench: coeficientes de `holdout_v1`, no del test final. Esta demo transforma `[1.5, -0.2, 0.4]` en `[1.0, 0.0, 0.42]`. No escribas: predice la lista y por qué `train_in_sample` activaría `REJECT_IN_SAMPLE_CAL`.",
         code: {
           language: "python",
           title: "cal_demo.py",
@@ -554,7 +576,9 @@ print("calibrator_set", "holdout_v1")`,
           output: `[1.0, 0.0, 0.42]
 calibrator_set holdout_v1`,
         },
-        why: "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades.",
+        why: "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades. Clip solo recorta rango; no aprende mean_p vs freq. Documenta el set versionado (`holdout_vN`); sin él el gate pide `REQUEST_CAL_SET`. En We Do repararás el mapa y cerrarás la política del set.",
+        retrospective:
+          "Clip recorta rango; calibración aprende la relación score–frecuencia. El error clásico es fit in-sample. Pregunta: si `calibrator_set=train_in_sample`, ¿qué código de política activa el workbench? We Do: repara el mapa y cierra la política del set.",
       },
       {
         demoId: "S34-T4-A-DEMO",
@@ -562,6 +586,8 @@ calibrator_set holdout_v1`,
         environment: "local-python",
         description:
           "Búsqueda de thr por costo bajo capacidad 2; thr-v1 documentado.",
+        preamble:
+          "Con scores calibrados, el umbral es decisión de producto: costo FP/FN y capacidad del equipo. Esta demo busca thr sobre cuatro puntos y capacidad 2; el óptimo es 0.6 con costo 0 y thr-v1. No escribas: predice thr y cost; **no memorices 0.6** — en el You Do con cinco puntos el óptimo cambia.",
         code: {
           language: "python",
           title: "thr_demo.py",
@@ -584,7 +610,9 @@ print("thr_id", "thr-v1")`,
           output: `thr 0.6 cost 0
 thr_id thr-v1`,
         },
-        why: "El thr se elige por costo y capacidad y se versiona para auditoría del workbench.",
+        why: "Se itera thr candidato, se descarta n_review > capacity o 0, se minimiza fp·c_fp+fn·c_fn y se versiona thr-vN. El thr no es el default 0.5 de la librería. Sin matriz de costos el gate pide `REQUEST_COST_MATRIX`. En We Do implementarás la búsqueda real — no hardcodees el thr del demo.",
+        retrospective:
+          "Thr versionado = auditoría y rollback cuando cambia headcount o prevalencia. El error clásico es thr fijo 0.5. Pregunta: si capacity cae a 1, ¿el thr óptimo suele subir o bajar? We Do: implementa la búsqueda — no hardcodees el thr del demo.",
       },
       {
         demoId: "S34-T4-B-DEMO",
@@ -592,6 +620,8 @@ thr_id thr-v1`,
         environment: "local-python",
         description:
           "Decisión abstain en banda gris 0.3–0.7 y sensibilidad al mover thr; sin forzar label 0/1.",
+        preamble:
+          "Entre skip y review hay banda gris. Forzar label fabrica confianza falsa. Esta demo devuelve abstain en 0.5, skip en 0.15, review en 0.9, y cuenta 1 flip al mover thr 0.5→0.6. No escribas: predice las salidas y por qué `force_label` queda en False en el cierre de CP-N3-B.",
         code: {
           language: "python",
           title: "abs_demo.py",
@@ -614,7 +644,9 @@ print("force_label", False)`,
 n_flip 1
 force_label False`,
         },
-        why: "La abstención es salida de primera clase; la sensibilidad al thr evita promover un corte frágil.",
+        why: "Abstain protege al sujeto y al analista en zona gris; sensibilidad al thr evita promover un corte frágil. Matching o entity resolution no prueba parentesco ni fraude. Forzar label es `REJECT_FORCE_LABEL`; sin low/high el gate pide `REQUEST_ABSTAIN_BAND`. En We Do repararás la banda y cerrarás fail-closed.",
+        retrospective:
+          "Abstener es salida de producto, no un error del pipeline. El error clásico es force_1 en zona gris. Pregunta: con score 0.55, low=0.3 y high=0.7, ¿qué decide el workbench y por qué no es fraude? We Do: decide(0.5)==abstain y política fail-closed.",
       },
     ],
   },
@@ -626,8 +658,11 @@ force_label False`,
         id: "S34-T1-A-E1",
         subtopicId: "S34-T1-A",
         kind: "guided",
+        title: "F1 armónica y TN contado",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-1A` la cola de Red Andina necesita confusión completa, no un F1 «a ojo» ni un TN inventado.\n- **Meta:** contar TP/FP/FN/**TN** y calcular F1 como media armónica.\n- **Éxito:** `S34-T1-A PASS` con `|f1 − 2/3| < 1e-9` y `tn == 1`.\n- **Límites:** no cambies `y`/`pred`; no uses suma `p+r` como F1; no hardcodees `tn=0`.",
         instruction:
-          "S34-T1-A-E1 · Sobre `CASO-LIM-034-1A`, calcula la matriz **completa** TP/FP/FN/**TN** a partir de `y=[1,0,0]` y `pred=[1,1,0]`, luego precision, recall y **F1**. El starter usa `f1 = p + r` (suma, no media armónica) y deja `tn = 0` sin contar: corrige la fórmula y cuenta TN (debe ser 1). Imprime `S34-T1-A PASS` solo si `|f1 − 2/3| < 1e-9` y `tn == 1`; si no, `REJECT_ACCURACY_ONLY`. No cambies y/pred.",
+          "1. Abre el starter: `f1 = p + r` y `tn = 0` (DEFECT).\n2. Cuenta TN con `zip` (pares y=0, pred=0).\n3. Reemplaza F1 por `2·P·R/(P+R)` con guarda si P+R=0.\n4. Imprime `S34-T1-A PASS` solo si pasan las dos condiciones del ok.",
         hint: "F1 = 2·P·R / (P+R); con P=0.5 y R=1.0 da 2/3. TN = pares (y=0, pred=0) — aquí hay uno.",
         hints: [
           "F1 = 2·P·R / (P+R) cuando P+R > 0; con P=0.5 y R=1.0 debe dar 2/3.",
@@ -640,7 +675,9 @@ force_label False`,
         ],
         tests: "Con y/pred del starter, F1=2/3 y tn=1 → `S34-T1-A PASS` y assert True.",
         feedback:
-          "S34-T1-A-E1: anota TP/FP/FN/TN, P, R y F1. ¿Por qué la suma p+r no es media armónica, y qué aporta TN=1 frente a un dashboard que solo mira accuracy?",
+          "Con P=0.5 y R=1.0 la media armónica es 2/3, no 1.5. TN=1 completa la matriz: sin él el informe miente aunque P y R «cuadran».",
+        retrospective:
+          "F1 castiga el desbalance entre P y R; sumar no es media armónica. El error clásico es ignorar TN porque «no va a la cola». Pregunta: con P=0.5 y R=1.0, ¿por qué 2/3 y no 0.75? Siguiente (E2): triages PASS / REJECT / MISSING sobre counts.",
         starterCode: {
           language: "python",
           title: "s34-t1-a-e1.py",
@@ -683,8 +720,11 @@ assert (tp, fp, fn, tn) == (1, 1, 0, 1)
         id: "S34-T1-A-E2",
         subtopicId: "S34-T1-A",
         kind: "independent",
+        title: "Assess: counts honestos vs accuracy sola",
+        preamble:
+          "- **Contexto:** el workbench triages tres fixtures de confusión: válido, adverso (accuracy sola o counts cero) e incompleto (sin `tp`).\n- **Meta:** reparar `assess` para que el predicado de dominio sea honesto.\n- **Éxito:** `PASS REJECT_ACCURACY_ONLY MISSING:tp`.\n- **Límites:** missing antes de leer campos; `region`/`team` son contexto, no gates; no inventes `tp`.",
         instruction:
-          "S34-T1-A-E2 · Tres rutas de política de confusión en la cola de Red Andina: fixture válido (counts > 0, accuracy_only=False, región sintética), adverso (accuracy_only=True o counts cero) y sin `tp`. Salidas exactas: `PASS`, `REJECT_ACCURACY_ONLY`, `MISSING:tp`. Corrige solo el predicado de dominio; respeta la rama missing antes de leer campos.",
+          "1. Revisa el starter: da PASS cuando `accuracy_only` es True (DEFECT).\n2. Mantén la rama `MISSING:` primero.\n3. PASS solo si `accuracy_only is False` y suma de counts ≥ 1.\n4. Imprime las tres rutas en un solo print.",
         hint: "Primero `missing`; después exige accuracy_only is False y suma de counts ≥ 1.",
         hints: [
           "Primero `missing`; después exige accuracy_only is False y suma de counts ≥ 1.",
@@ -697,7 +737,9 @@ assert (tp, fp, fn, tn) == (1, 1, 0, 1)
         ],
         tests: "Salida exacta: `PASS REJECT_ACCURACY_ONLY MISSING:tp`.",
         feedback:
-          "S34-T1-A-E2: ordena las tres rutas (válido / adverso / missing) y di qué campo del adverso activa REJECT_ACCURACY_ONLY frente a un REQUEST_CONFUSION por ausencia. ¿Qué rol juegan region/team en el reporte vs. en el predicado?",
+          "Ausencia de campo ≠ breach de contenido: primero MISSING, luego REJECT por política. region/team van al reporte, no al predicado de PASS.",
+        retrospective:
+          "Tres rutas distintas protegen el informe: evidencia incompleta, evidencia mala y evidencia usable. El error clásico es mezclar «falta `tp`» con «accuracy sola». Pregunta: si `region` falta pero `tp` está, ¿debe fallar el predicado de PASS? Luego (E3): CONTINUE / REJECT / REQUEST.",
         starterCode: {
           language: "python",
           title: "s34-t1-a-e2.py",
@@ -757,8 +799,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T1-A-E3",
         subtopicId: "S34-T1-A",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_CONFUSION",
+        preamble:
+          "- **Contexto:** en el gate del workbench, un informe a compliance no puede inventar counts ni seguir si solo hay accuracy.\n- **Meta:** mapear válido → CONTINUE, adverso → REJECT_ACCURACY_ONLY, sin `tp` → REQUEST_CONFUSION.\n- **Éxito:** `CONTINUE REJECT_ACCURACY_ONLY REQUEST_CONFUSION`.\n- **Límites:** no rellenes evidencia; no uses CONTINUE ante missing; no inviertas el predicado.",
         instruction:
-          "S34-T1-A-E3 · Fail-closed del workbench de Red Andina: válido → `CONTINUE`, adverso → `REJECT_ACCURACY_ONLY`, sin `tp` → `REQUEST_CONFUSION` (no CONTINUE). El starter confunde missing con CONTINUE y tiene el predicado invertido: repara ambas ramas sin rellenar evidencia ni inventar counts.",
+          "1. Lee el DEFECT: missing devuelve CONTINUE y el pred está invertido.\n2. Sin `tp` → `REQUEST_CONFUSION`.\n3. Con datos: CONTINUE solo si accuracy_only False y hay al menos un count no nulo.\n4. Imprime las tres decisiones.",
         hint: "Ausencia ≠ breach: REQUEST_CONFUSION antes de evaluar contenido.",
         hints: [
           "Ausencia ≠ breach: REQUEST_CONFUSION antes de evaluar contenido.",
@@ -771,7 +816,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_ACCURACY_ONLY REQUEST_CONFUSION`.",
         feedback:
-          "S34-T1-A-E3: ¿por qué REQUEST_CONFUSION protege mejor que inventar tp=0? Relaciona fail-closed con no fabricar una matriz de confusión en un informe a compliance.",
+          "REQUEST_CONFUSION protege mejor que inventar tp=0: ausencia no es «cero observados». Fail-closed evita fabricar matriz en un informe a compliance.",
+        retrospective:
+          "Fallar abierto (CONTINUE ante missing) fabrica matriz y miente a compliance. El error clásico es rellenar tp=0 «para que el informe corra». Pregunta: ¿qué frase dirías si el reporte llega sin counts? En T1-B el mismo patrón protege capacity, no confusión.",
         starterCode: {
           language: "python",
           title: "s34-t1-a-e3.py",
@@ -817,8 +864,11 @@ assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
         id: "S34-T1-B-E1",
         subtopicId: "S34-T1-B",
         kind: "guided",
+        title: "recall@k divide entre n_pos",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-1B` mides el top-3 de una cola con capacidad 10 y load 8.\n- **Meta:** corregir precision@k y recall@k (denominadores distintos).\n- **Éxito:** `S34-T1-B PASS` con precision≈0.667, recall=1.0 y load ≤ capacity.\n- **Límites:** no uses k como denominador de recall; no ignores capacity en el ok.",
         instruction:
-          "S34-T1-B-E1 · Calcula precision@k y recall@k sobre los labels del top ordenado `[1,0,1]` con k=3 y n_pos=2. El starter divide mal recall (`/ k` en vez de `/ n_pos`). Corrige y marca PASS si precision≈0.667, recall=1.0 y load=8 ≤ capacity=10; si no, `REJECT_QUEUE_OVERLOAD`.",
+          "1. Abre el starter: `recall_at_k` divide entre k (DEFECT).\n2. Usa `sum(labels[:k]) / n_pos` (con guarda si n_pos=0).\n3. Mantén precision = suma / k.\n4. Exige también `load <= capacity` antes del PASS.",
         hint: "recall@k = sum(labels[:k]) / n_pos; precision@k = sum(labels[:k]) / k.",
         hints: [
           "recall@k = sum(labels[:k]) / n_pos; precision@k = sum(labels[:k]) / k.",
@@ -831,7 +881,9 @@ assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
         ],
         tests: "Salida `S34-T1-B PASS` con métricas y capacidad válidas.",
         feedback:
-          "S34-T1-B-E1: explica la diferencia conceptual entre precision@k (calidad del top) y recall@k (cobertura de positivos) en una cola de 10 analistas.",
+          "Precision@k es «qué tan limpio es el top»; recall@k es «cuántos positivos del set atrapaste». Mezclar denominadores rompe el informe del turno.",
+        retrospective:
+          "k mide el recorte del top; n_pos mide el universo de positivos reales. Confundirlos rompe el informe del turno aunque el print «se vea numérico». Siguiente (E2): assess de overload vs missing capacity — no re-enseñar la fórmula.",
         starterCode: {
           language: "python",
           title: "s34-t1-b-e1.py",
@@ -875,8 +927,11 @@ assert ok is True
         id: "S34-T1-B-E2",
         subtopicId: "S34-T1-B",
         kind: "independent",
+        title: "Assess: load vs capacity",
+        preamble:
+          "- **Contexto:** la cola `cola-revision-manana` en Lima-sintética reporta precision@k, load y capacity.\n- **Meta:** PASS solo con load ≤ capacity y precision en [0,1]; overload y missing con códigos distintos.\n- **Éxito:** `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity`.\n- **Límites:** missing primero; `region`/`queue` no son predicados; no inventes capacity.",
         instruction:
-          "S34-T1-B-E2 · Tres rutas en la cola sintética de Red Andina (Lima): válido (load ≤ capacity y precision_at_k en [0,1], con region/queue de contexto), adverso (load > capacity), sin `capacity` → `MISSING:capacity`. Salidas: `PASS`, `REJECT_QUEUE_OVERLOAD`, `MISSING:capacity`. region/queue no son gates.",
+          "1. Revisa el starter: PASS cuando load > capacity (DEFECT).\n2. Invierte el predicado y valida rango de precision_at_k.\n3. Mantén MISSING:capacity si falta la clave.\n4. Imprime las tres rutas.",
         hint: "Missing primero; luego load <= capacity y 0 <= precision_at_k <= 1.",
         hints: [
           "Missing primero; luego load <= capacity y 0 <= precision_at_k <= 1.",
@@ -889,7 +944,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity`.",
         feedback:
-          "S34-T1-B-E2: ¿qué haría el workbench si ignorara capacity y solo maximizara recall@k en la cola-revision-manana de Lima? Conecta overload con costo humano de cola; region/queue son contexto, no predicados.",
+          "Una cola brillante en el notebook y saturada en el turno es breach. Maximizar recall@k ignorando headcount quema al equipo; region/queue son contexto, no predicados.",
+        retrospective:
+          "Capacity es un predicado de producto, no decoración del JSON. El error clásico es maximizar recall@k e ignorar headcount. Pregunta: con load=8 y capacity=10, ¿por qué PASS aunque precision no sea 1.0? Luego (E3): REQUEST_CAPACITY fail-closed.",
         starterCode: {
           language: "python",
           title: "s34-t1-b-e2.py",
@@ -947,8 +1004,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T1-B-E3",
         subtopicId: "S34-T1-B",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_CAPACITY",
+        preamble:
+          "- **Contexto:** sin capacidad documentada no hay thr operativo defendible ante el equipo de 3 analistas.\n- **Meta:** CONTINUE / REJECT_QUEUE_OVERLOAD / REQUEST_CAPACITY.\n- **Éxito:** `CONTINUE REJECT_QUEUE_OVERLOAD REQUEST_CAPACITY`.\n- **Límites:** no rellenes capacity por defecto; no CONTINUEs ante missing.",
         instruction:
-          "S34-T1-B-E3 · Fail-closed: válido → CONTINUE, overload → REJECT_QUEUE_OVERLOAD, sin capacity → REQUEST_CAPACITY. Corrige missing→CONTINUE y el predicado invertido del starter.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin capacity → REQUEST_CAPACITY.\n3. CONTINUE solo con load ≤ capacity y precision válida.\n4. Imprime las tres decisiones.",
         hint: "REQUEST_CAPACITY ante ausencia; CONTINUE solo con load ≤ capacity y precision válida.",
         hints: [
           "REQUEST_CAPACITY ante ausencia; CONTINUE solo con load ≤ capacity y precision válida.",
@@ -961,7 +1021,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_QUEUE_OVERLOAD REQUEST_CAPACITY`.",
         feedback:
-          "S34-T1-B-E3: argumenta por qué pedir capacity (REQUEST_*) es preferible a asumir un default de 100 alertas/día en un equipo de 3 analistas.",
+          "Pedir capacity es más seguro que asumir 100 alertas/día en un equipo de 3 analistas. Un default «generoso» quema el turno.",
+        retrospective:
+          "Sin tope del turno no hay thr defendible ante producto. El error clásico es CONTINUE ante missing y «seguir el thr del notebook». Pregunta: sin capacity, ¿qué thr elegirías y por qué no es defendible? En T2-A el mismo fail-closed protege el plan de fold, no la cola.",
         starterCode: {
           language: "python",
           title: "s34-t1-b-e3.py",
@@ -1007,8 +1069,11 @@ assert results == ["CONTINUE", "REJECT_QUEUE_OVERLOAD", "REQUEST_CAPACITY"]
         id: "S34-T2-A-E1",
         subtopicId: "S34-T2-A",
         kind: "guided",
+        title: "Plan CV-safe: not resample_global",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-2A` documentas el ratio de clase y el plan del fold antes de entrenar.\n- **Meta:** ratio 9.0 y `resample_train_only=True` cuando `resample_global=False`.\n- **Éxito:** `S34-T2-A PASS`.\n- **Límites:** `resample_train_only = not resample_global`; n1 > 0; no toques el test del fold.",
         instruction:
-          "S34-T2-A-E1 · Calcula `weight_ratio = n0/n1` y un plan de fold. El starter marca `resample_train_only = resample_global` (leak invertido). Corrige para que con n0=9, n1=1 y resample_global=False el ratio sea 9.0 y el plan sea CV-safe; imprime `S34-T2-A PASS` o `REJECT_LEAKY_RESAMPLE`.",
+          "1. Abre el starter: el flag de train-only copia el global (DEFECT).\n2. Cambia a `not resample_global`.\n3. Mantén weight_ratio = n0/n1 (float 9.0).\n4. Imprime PASS solo si ratio, flag y n1 cumplen.",
         hint: "resample_train_only debe ser not resample_global; n1 > 0.",
         hints: [
           "resample_train_only debe ser not resample_global; n1 > 0.",
@@ -1021,7 +1086,9 @@ assert results == ["CONTINUE", "REJECT_QUEUE_OVERLOAD", "REQUEST_CAPACITY"]
         ],
         tests: "PASS cuando ratio 9.0 y plan train-only.",
         feedback:
-          "S34-T2-A-E1: dibuja mentalmente train/test de un fold y señala dónde vive el oversample. ¿Qué métrica se infla si resampleas globalmente?",
+          "El flag «train only» es la negación del resample global, no su copia. Oversample vive en train del fold; resample global infla la validación.",
+        retrospective:
+          "Un solo booleano al revés convierte un plan CV-safe en fuga de pipeline. El error clásico no es «olvidar weights»; es copiar el flag global. Siguiente (E2): assess de política de fold con n0/n1 auditables.",
         starterCode: {
           language: "python",
           title: "s34-t2-a-e1.py",
@@ -1063,8 +1130,11 @@ assert ok is True
         id: "S34-T2-A-E2",
         subtopicId: "S34-T2-A",
         kind: "independent",
+        title: "Assess: sin resample global",
+        preamble:
+          "- **Contexto:** el workbench revisa si el plan de fold es auditable: n0, n1 y política de resample.\n- **Meta:** PASS con CV-safe; REJECT_LEAKY_RESAMPLE si hay resample global; MISSING:n1 si falta minoría.\n- **Éxito:** `PASS REJECT_LEAKY_RESAMPLE MISSING:n1`.\n- **Límites:** missing primero; exige n1>0 y n0>n1; no inventes minority counts.",
         instruction:
-          "S34-T2-A-E2 · assess: válido (resample_global=False, n1>0, n0>n1), adverso (resample_global=True), sin n1 → MISSING:n1. Salidas PASS / REJECT_LEAKY_RESAMPLE / MISSING:n1.",
+          "1. Revisa el starter: PASS si resample_global es True (DEFECT).\n2. Invierte: PASS solo con False + n1>0 + n0>n1.\n3. Mantén MISSING:n1.\n4. Imprime las tres rutas.",
         hint: "Missing primero; PASS solo si no hay resample global y minority > 0.",
         hints: [
           "Missing primero; PASS solo si no hay resample global y minority > 0.",
@@ -1077,7 +1147,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_LEAKY_RESAMPLE MISSING:n1`.",
         feedback:
-          "S34-T2-A-E2: si el adverso fuera n1=0 en vez de resample_global, ¿qué REQUEST o REJECT aplicarías y por qué?",
+          "Sin n1 no hay weight ratio defendible; n1=0 pediría REQUEST_WEIGHTS, no un ratio a ojo. Resample global es REJECT_LEAKY_RESAMPLE.",
+        retrospective:
+          "Sin n1 no hay weight ratio defendible ante auditoría. El error clásico es «poner pesos a ojo» o inventar minority counts. Pregunta: si n0=n1, ¿el plan sigue documentando desbalance? Luego (E3): REQUEST_WEIGHTS.",
         starterCode: {
           language: "python",
           title: "s34-t2-a-e2.py",
@@ -1121,8 +1193,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T2-A-E3",
         subtopicId: "S34-T2-A",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_WEIGHTS",
+        preamble:
+          "- **Contexto:** un reporte de modelo sin conteo de minoría no se puede auditar en el workbench.\n- **Meta:** CONTINUE / REJECT_LEAKY_RESAMPLE / REQUEST_WEIGHTS.\n- **Éxito:** `CONTINUE REJECT_LEAKY_RESAMPLE REQUEST_WEIGHTS`.\n- **Límites:** no inventes n1; no CONTINUEs ante missing.",
         instruction:
-          "S34-T2-A-E3 · Fail-closed: CONTINUE / REJECT_LEAKY_RESAMPLE / REQUEST_WEIGHTS. Repara missing→CONTINUE y predicado invertido.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin n1 → REQUEST_WEIGHTS.\n3. CONTINUE solo con política CV-safe.\n4. Imprime las tres decisiones.",
         hint: "Sin n1 → REQUEST_WEIGHTS; CONTINUE solo con política CV-safe.",
         hints: [
           "Sin n1 → REQUEST_WEIGHTS; CONTINUE solo con política CV-safe.",
@@ -1135,7 +1210,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_LEAKY_RESAMPLE REQUEST_WEIGHTS`.",
         feedback:
-          "S34-T2-A-E3: relaciona REQUEST_WEIGHTS con no poder auditar el ratio de clase en un reporte de modelo.",
+          "REQUEST_WEIGHTS evita ratios fantasmas: sin n1 no se audita el ratio de clase en el informe de modelo.",
+        retrospective:
+          "REQUEST_WEIGHTS evita ratios fantasmas en el informe. El error clásico es rellenar n1=1 «para que corra». Pregunta: ¿qué métrica de validación se infla con resample global? En T2-B la prevalencia ancla la lectura de precision, no solo el plan de fold.",
         starterCode: {
           language: "python",
           title: "s34-t2-a-e3.py",
@@ -1181,8 +1258,11 @@ assert results == ["CONTINUE", "REJECT_LEAKY_RESAMPLE", "REQUEST_WEIGHTS"]
         id: "S34-T2-B-E1",
         subtopicId: "S34-T2-B",
         kind: "guided",
+        title: "Prevalencia baja: accuracy no basta",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-2B` hay 25 positivos de 1000; el panel ejecutivo se enamora del all-neg.\n- **Meta:** calcular prev y all_neg_acc, y marcar accuracy_enough=False.\n- **Éxito:** `S34-T2-B PASS` con prev en (0, 0.5) y accuracy_enough False.\n- **Límites:** no dejes accuracy_enough=True; no inventes prevalencia distinta del fixture.",
         instruction:
-          "S34-T2-B-E1 · Calcula prevalencia = 25/1000 y all_neg_acc = 1 − prev. El starter marca accuracy_enough=True pese a prev baja. Corrige: PASS solo si prev en (0, 0.5) y accuracy_enough is False; si no REJECT_PREVALENCE_BLIND.",
+          "1. Abre el starter: accuracy_enough=True (DEFECT).\n2. Calcula prevalence = pos/n y all_neg_acc = 1 − prev.\n3. Fija accuracy_enough = False.\n4. Imprime PASS solo si el ok del contrato se cumple.",
         hint: "prevalence = pos/n; all_neg_acc = 1 - prev; accuracy no basta bajo desbalance.",
         hints: [
           "prevalence = pos/n; all_neg_acc = 1 - prev; accuracy no basta bajo desbalance.",
@@ -1195,7 +1275,9 @@ assert results == ["CONTINUE", "REJECT_LEAKY_RESAMPLE", "REQUEST_WEIGHTS"]
         ],
         tests: "Salida `S34-T2-B PASS` con base rate honesta.",
         feedback:
-          "S34-T2-B-E1: si la prevalencia cae de 5 % a 1 % y precision se mantiene, ¿qué cambió realmente en la cola? Usa base rate en tu respuesta.",
+          "All-neg accuracy ≈ 1 − prev: brilla cuando la clase positiva es rara y no prioriza cola. Con prev 2.5%, el 97.5% engaña al panel.",
+        retrospective:
+          "El error del starter es dejar el panel ejecutivo feliz con 97.5% sin priorizar a nadie. accuracy_enough debe ser False aunque el all-neg «brille». Siguiente (E2): assess con period/region de contexto, no re-calcular el all-neg.",
         starterCode: {
           language: "python",
           title: "s34-t2-b-e1.py",
@@ -1231,8 +1313,11 @@ assert abs(all_neg_acc - 0.975) < 1e-12
         id: "S34-T2-B-E2",
         subtopicId: "S34-T2-B",
         kind: "independent",
+        title: "Assess: base rate honesta",
+        preamble:
+          "- **Contexto:** el reporte del period 2024-Q3-sintético en Lima debe llevar prevalencia y renunciar a accuracy sola.\n- **Meta:** PASS si accuracy_enough False y 0 < prev < 0.5; adverso y missing con códigos distintos.\n- **Éxito:** `PASS REJECT_PREVALENCE_BLIND MISSING:prevalence`.\n- **Límites:** missing primero; no uses solo all_neg_acc como gate.",
         instruction:
-          "S34-T2-B-E2 · assess válido/adverso/missing prevalence. PASS si accuracy_enough is False y 0 < prevalence < 0.5. Salidas: PASS / REJECT_PREVALENCE_BLIND / MISSING:prevalence.",
+          "1. Revisa el starter: PASS si accuracy_enough True (DEFECT).\n2. Invierte y exige rango de prevalencia.\n3. Mantén MISSING:prevalence.\n4. Imprime las tres rutas.",
         hint: "Missing primero; el adverso tiene accuracy_enough=True.",
         hints: [
           "Missing primero; el adverso tiene accuracy_enough=True.",
@@ -1245,7 +1330,9 @@ assert abs(all_neg_acc - 0.975) < 1e-12
         ],
         tests: "Salida: `PASS REJECT_PREVALENCE_BLIND MISSING:prevalence`.",
         feedback:
-          "S34-T2-B-E2: ¿por qué comparar precision entre Q1 y Q2 (p. ej. period 2024-Q3-sintetico en Lima) sin reportar prevalencia puede hacer que un modelo peor «gane» el dashboard?",
+          "Comparar precision entre trimestres sin base rate hace «ganar» al modelo por cambio de población, no por mejor cola.",
+        retrospective:
+          "La prevalencia del period sintético es el ancla del slide, no un opcional. Omitirla hace «ganar» al modelo por cambio de población. Pregunta: ¿por qué `all_neg_acc` solo no basta como gate de PASS? Luego (E3): REQUEST_BASE_RATE.",
         starterCode: {
           language: "python",
           title: "s34-t2-b-e2.py",
@@ -1303,8 +1390,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T2-B-E3",
         subtopicId: "S34-T2-B",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_BASE_RATE",
+        preamble:
+          "- **Contexto:** compliance no acepta un informe de cola sin base rate ni con accuracy «suficiente» por decreto.\n- **Meta:** CONTINUE / REJECT_PREVALENCE_BLIND / REQUEST_BASE_RATE.\n- **Éxito:** `CONTINUE REJECT_PREVALENCE_BLIND REQUEST_BASE_RATE`.\n- **Límites:** no inventes prev=0.5; no CONTINUEs ante missing.",
         instruction:
-          "S34-T2-B-E3 · Fail-closed: CONTINUE / REJECT_PREVALENCE_BLIND / REQUEST_BASE_RATE. Corrige missing y predicado del starter.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin prevalence → REQUEST_BASE_RATE.\n3. CONTINUE solo con accuracy_enough False y prev en (0, 0.5).\n4. Imprime las tres decisiones.",
         hint: "Sin prevalence → REQUEST_BASE_RATE; no inventes 0.5 por defecto.",
         hints: [
           "Sin prevalence → REQUEST_BASE_RATE; no inventes 0.5 por defecto.",
@@ -1317,7 +1407,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_PREVALENCE_BLIND REQUEST_BASE_RATE`.",
         feedback:
-          "S34-T2-B-E3: en un informe a compliance, ¿qué frase en español peruano profesional usarías para explicar por qué all-neg accuracy no basta?",
+          "Frase de portafolio: «Con prevalencia 2.5%, predecir siempre no-revisar da 97.5% de accuracy y cero priorización.»",
+        retrospective:
+          "Callar la base rate en el informe a compliance es ceguera de prevalencia, no un detalle de estilo. El error clásico es thr fijo cuando la población cambia. Pregunta: si la prevalencia cae y el thr se mantiene, ¿precision suele subir o bajar? En T3-A el score deja de ser solo ranking: se mide como probabilidad útil.",
         starterCode: {
           language: "python",
           title: "s34-t2-b-e3.py",
@@ -1363,8 +1455,11 @@ assert results == ["CONTINUE", "REJECT_PREVALENCE_BLIND", "REQUEST_BASE_RATE"]
         id: "S34-T3-A-E1",
         subtopicId: "S34-T3-A",
         kind: "guided",
+        title: "Brier medio del set, no de un punto",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-3A` evalúas si el score se puede leer como probabilidad de priorización.\n- **Meta:** Brier medio sobre `ps=[0.5,0.5]`, `ys=[0,1]` y bin alineado.\n- **Éxito:** `S34-T3-A PASS` con brier==0.25 y |mean_p−freq|≤0.1.\n- **Límites:** no uses un solo par (1,1); promedia (p−y)² sobre todo el set.",
         instruction:
-          "S34-T3-A-E1 · Calcula Brier medio sobre `ps=[0.5, 0.5]`, `ys=[0, 1]` y un bin `[0.0, 1.0)` con `mean_p` y `freq`. El starter usa Brier de un solo punto o compara mal. PASS si `brier==0.25` y `|mean_p−freq|≤0.1`; si no, `REJECT_UNCALIBRATED`.",
+          "1. Abre el starter: brier de un punto perfecto (DEFECT).\n2. Reemplaza por media de (p−y)² con zip.\n3. Calcula mean_p y freq del set.\n4. Imprime PASS solo si ambas condiciones del ok se cumplen.",
         hint: "`brier_mean` es la media de `(p−y)²`. Con `p=0.5` y etiqueta `y∈{0,1}`: `(0.25 + 0.25)/2 = 0.25`.",
         hints: [
           "`brier_mean` es la media de `(p−y)²`. Con `p=0.5` y etiqueta `y∈{0,1}`: `(0.25 + 0.25)/2 = 0.25`.",
@@ -1377,7 +1472,9 @@ assert results == ["CONTINUE", "REJECT_PREVALENCE_BLIND", "REQUEST_BASE_RATE"]
         ],
         tests: "Salida `S34-T3-A PASS` con Brier y bin calculados.",
         feedback:
-          "S34-T3-A-E1: ¿por qué un Brier de un solo punto perfecto no demuestra calibración del modelo completo?",
+          "Un Brier de un caso no demuestra calibración del modelo. Elegir el ejemplo que luce bien es el autoengaño clásico.",
+        retrospective:
+          "Promediar (p−y)² sobre el set es el hábito de calibración del workbench, no el cherry-pick de un par (1,1). Pregunta: con ps=[0.5,0.5] y ys=[0,1], ¿por qué 0.25 y no 0? Siguiente (E2): assess con umbrales del contrato (no re-promediar a mano).",
         starterCode: {
           language: "python",
           title: "s34-t3-a-e1.py",
@@ -1413,8 +1510,11 @@ assert ok is True
         id: "S34-T3-A-E2",
         subtopicId: "S34-T3-A",
         kind: "independent",
+        title: "Assess: Brier y bin alineados",
+        preamble:
+          "- **Contexto:** el workbench exige Brier y un bin de reliability antes de tratar el score como probabilidad útil.\n- **Meta:** PASS con brier≤0.25 y |mean_p−freq|≤0.1; adverso y missing con códigos distintos.\n- **Éxito:** `PASS REJECT_UNCALIBRATED MISSING:brier`.\n- **Límites:** missing primero; no apruebes desalineación grande.",
         instruction:
-          "S34-T3-A-E2 · assess: válido (brier≤0.25 y |mean_p−freq|≤0.1), adverso (desalineado o brier alto), sin brier → MISSING:brier.",
+          "1. Revisa el starter: PASS si |mean_p−freq| > 0.3 (DEFECT).\n2. Exige alineación ≤0.1 y brier ≤0.25.\n3. Mantén MISSING:brier.\n4. Imprime las tres rutas.",
         hint: "Missing primero; umbrales del contrato de reliability del workbench.",
         hints: [
           "Missing primero; umbrales del contrato de reliability del workbench.",
@@ -1427,7 +1527,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_UNCALIBRATED MISSING:brier`.",
         feedback:
-          "S34-T3-A-E2: si mean_p y freq alinean, pero Brier es alto, ¿qué te dice sobre discriminación vs. calibración?",
+          "Bins alineados con Brier alto cuentan otra historia: calibración vs discriminación. No mires solo un número.",
+        retrospective:
+          "El contrato exige Brier y |mean_p−freq| juntos: un solo KPI del dashboard no basta. Pregunta: con brier=0.1 y |mean_p−freq|=0.05, ¿qué ruta imprime y por qué no basta el Brier solo? Luego (E3): REQUEST_BRIER.",
         starterCode: {
           language: "python",
           title: "s34-t3-a-e2.py",
@@ -1471,8 +1573,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T3-A-E3",
         subtopicId: "S34-T3-A",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_BRIER",
+        preamble:
+          "- **Contexto:** sin Brier en el reporte no hay evidencia de que el score sea probabilidad de priorización (no de culpa).\n- **Meta:** CONTINUE / REJECT_UNCALIBRATED / REQUEST_BRIER.\n- **Éxito:** `CONTINUE REJECT_UNCALIBRATED REQUEST_BRIER`.\n- **Límites:** no inventes brier=0.0 «perfecto»; no CONTINUEs ante missing.",
         instruction:
-          "S34-T3-A-E3 · Fail-closed: CONTINUE / REJECT_UNCALIBRATED / REQUEST_BRIER. Repara missing y predicado invertido.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin brier → REQUEST_BRIER.\n3. CONTINUE con umbrales del contrato de reliability.\n4. Imprime las tres decisiones.",
         hint: "Sin brier → REQUEST_BRIER; no inventes 0.0 «perfecto».",
         hints: [
           "Sin brier → REQUEST_BRIER; no inventes 0.0 «perfecto».",
@@ -1485,7 +1590,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_UNCALIBRATED REQUEST_BRIER`.",
         feedback:
-          "S34-T3-A-E3: describe en una frase de portafolio por qué el score del workbench es probabilidad de priorización, no de culpa.",
+          "Frase de portafolio: «El score ordena revisión humana; no afirma culpa ni parentesco.» No rellenes Brier cero para pasar el gate.",
+        retrospective:
+          "El score ordena revisión humana; no afirma culpa ni parentesco. Inventar Brier=0.0 para el gate es fraude de métrica. Pregunta: ¿por qué clip a [0,1] no basta como calibración? En T3-B el mapa afín se ajusta en holdout, no en el test final.",
         starterCode: {
           language: "python",
           title: "s34-t3-a-e3.py",
@@ -1531,8 +1638,11 @@ assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
         id: "S34-T3-B-E1",
         subtopicId: "S34-T3-B",
         kind: "guided",
+        title: "Mapa afín en holdout (no solo clip)",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-3B` aplicas el calibrador simplificado de holdout_v1 a tres scores crudos.\n- **Meta:** `cal_i = clip(a·x + b)` con a=0.8, b=0.1.\n- **Éxito:** `S34-T3-B PASS` con cal == [1.0, 0.0, 0.42] y set holdout.\n- **Límites:** no uses solo min/max del raw; misma longitud raw/cal; set debe empezar por holdout.",
         instruction:
-          "S34-T3-B-E1 · Aplica el mapa afín `clip(a·x + b)` con `a=0.8`, `b=0.1` a `raw=[1.5, -0.2, 0.4]`. El starter solo hace clip sin afín. PASS si `cal == [1.0, 0.0, 0.42]`, `calibrator_set` empieza por `holdout` y misma longitud; si no, `REJECT_IN_SAMPLE_CAL`.",
+          "1. Abre el starter: clip sin a·x+b (DEFECT).\n2. Aplica `round(min(1, max(0, a*x+b)), 2)`.\n3. Mantén calibrator_set = \"holdout_v1\".\n4. Imprime PASS solo si cal, set y longitudes cumplen.",
         hint: "`cal_i = min(1, max(0, a*raw_i + b))`; no uses solo min/max del raw.",
         hints: [
           "`cal_i = min(1, max(0, a*raw_i + b))`; no uses solo min/max del raw.",
@@ -1545,7 +1655,9 @@ assert results == ["CONTINUE", "REJECT_UNCALIBRATED", "REQUEST_BRIER"]
         ],
         tests: "Salida `S34-T3-B PASS` con cal afín en holdout.",
         feedback:
-          "S34-T3-B-E1: nombra una diferencia entre clip a [0,1] y un calibrador ajustado en holdout. ¿Cuál miente en reliability?",
+          "Clip sin coeficientes no es calibración: no mueve mean_p hacia freq. «Ya está en [0,1]» no basta.",
+        retrospective:
+          "a·x+b mueve la escala; el clip final solo acota el dominio. El error clásico es creer que «ya está en [0,1]» calibra. Pregunta: con raw=1.5, a=0.8, b=0.1, ¿por qué cal=1.0 y no 1.3? Siguiente (E2): assess del nombre del set, no de la aritmética.",
         starterCode: {
           language: "python",
           title: "s34-t3-b-e1.py",
@@ -1589,8 +1701,11 @@ assert ok is True
         id: "S34-T3-B-E2",
         subtopicId: "S34-T3-B",
         kind: "independent",
+        title: "Assess: calibrator_set holdout",
+        preamble:
+          "- **Contexto:** el reporte del workbench debe nombrar el set de calibración versionado y alinear longitudes.\n- **Meta:** PASS con startswith('holdout') y misma longitud; REJECT si train_in_sample; MISSING sin set.\n- **Éxito:** `PASS REJECT_IN_SAMPLE_CAL MISSING:calibrator_set`.\n- **Límites:** missing primero; no apruebes fit in-sample.",
         instruction:
-          "S34-T3-B-E2 · assess: holdout + misma longitud → PASS; train_in_sample → REJECT_IN_SAMPLE_CAL; sin calibrator_set → MISSING:calibrator_set.",
+          "1. Revisa el starter: PASS si set == train_in_sample (DEFECT).\n2. Exige startswith('holdout') y len(raw)==len(cal).\n3. Mantén MISSING:calibrator_set.\n4. Imprime las tres rutas.",
         hint: "startswith('holdout') y len(raw)==len(cal).",
         hints: [
           "startswith('holdout') y len(raw)==len(cal).",
@@ -1603,7 +1718,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_IN_SAMPLE_CAL MISSING:calibrator_set`.",
         feedback:
-          "S34-T3-B-E2: ¿qué riesgo de auditoría aparece si el calibrator_set no está versionado en el reporte del workbench?",
+          "Sin set versionado no hay auditoría de «dónde se ajustó». Callar el holdout es riesgo de compliance.",
+        retrospective:
+          "El nombre del set es evidencia de proceso: holdout_v1 se audita; train_in_sample se rechaza. Pregunta: si raw y cal tienen distinta longitud, ¿debe PASS aunque el set diga holdout_v1? Luego (E3): REQUEST_CAL_SET.",
         starterCode: {
           language: "python",
           title: "s34-t3-b-e2.py",
@@ -1647,8 +1764,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T3-B-E3",
         subtopicId: "S34-T3-B",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_CAL_SET",
+        preamble:
+          "- **Contexto:** la política del README debe decir *dónde se ajusta* el calibrador y *dónde se mide* Brier.\n- **Meta:** CONTINUE / REJECT_IN_SAMPLE_CAL / REQUEST_CAL_SET.\n- **Éxito:** `CONTINUE REJECT_IN_SAMPLE_CAL REQUEST_CAL_SET`.\n- **Límites:** nunca fit en el test final del reporte; no CONTINUEs ante missing.",
         instruction:
-          "S34-T3-B-E3 · Fail-closed: CONTINUE / REJECT_IN_SAMPLE_CAL / REQUEST_CAL_SET. Repara missing y predicado.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin set → REQUEST_CAL_SET.\n3. CONTINUE solo con holdout + misma longitud.\n4. Imprime las tres decisiones.",
         hint: "Sin set → REQUEST_CAL_SET; CONTINUE solo con holdout + misma longitud.",
         hints: [
           "Sin set → REQUEST_CAL_SET; CONTINUE solo con holdout + misma longitud.",
@@ -1661,7 +1781,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_IN_SAMPLE_CAL REQUEST_CAL_SET`.",
         feedback:
-          "S34-T3-B-E3: escribe la política en una línea para el README del workbench: dónde se ajusta el calibrador y dónde se mide Brier.",
+          "Política en una línea: «Fit en holdout_vN; Brier en split no usado para fit; nunca en test final.»",
+        retrospective:
+          "Fit en holdout_vN; Brier en split no usado para fit; nunca en test final. El error clásico es training-serving skew de probabilidades. Pregunta: ¿qué thr de T4 se rompe si calibras in-sample? El umbral de T4 hereda scores ya distorsionados.",
         starterCode: {
           language: "python",
           title: "s34-t3-b-e3.py",
@@ -1707,8 +1829,11 @@ assert results == ["CONTINUE", "REJECT_IN_SAMPLE_CAL", "REQUEST_CAL_SET"]
         id: "S34-T4-A-E1",
         subtopicId: "S34-T4-A",
         kind: "guided",
+        title: "Búsqueda de thr por costo y capacidad",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-4A` eliges thr de cola con c_fp=2, c_fn=10 y capacity=2.\n- **Meta:** minimizar costo sujeto a n_review ≤ capacity y n_review ≥ 1.\n- **Éxito:** `S34-T4-A PASS` con thr==0.6, cost==0 y thr_id thr-v*.\n- **Límites:** no hardcodees 0.5; no copies thr sin recorrer candidatos; versiona thr-v1.",
         instruction:
-          "S34-T4-A-E1 · Implementa búsqueda de thr: scores=[0.1,0.4,0.6,0.9], labels=[0,0,1,1], c_fp=2, c_fn=10, capacity=2. El starter fija thr=0.5 sin buscar. PASS si thr==0.6, cost==0 y thr_id empieza por thr-v; si no REJECT_FIXED_THR.",
+          "1. Abre el starter: thr fijo 0.5 (DEFECT).\n2. Itera thr en sorted(set(scores)).\n3. Descarta n_review > capacity o 0; minimiza fp*c_fp+fn*c_fn.\n4. Asigna thr_id thr-v1 e imprime PASS si thr y cost cumplen.",
         hint: "Itera thr en sorted(set(scores)); descarta n_review > capacity; minimiza fp*c_fp+fn*c_fn.",
         hints: [
           "Itera thr en sorted(set(scores)); descarta n_review > capacity; minimiza fp*c_fp+fn*c_fn.",
@@ -1721,7 +1846,9 @@ assert results == ["CONTINUE", "REJECT_IN_SAMPLE_CAL", "REQUEST_CAL_SET"]
         ],
         tests: "Salida `S34-T4-A PASS` con thr óptimo versionado.",
         feedback:
-          "S34-T4-A-E1: si c_fn sube a 100, ¿esperas un thr más bajo o más alto? Razona en términos de *misses* vs. cola.",
+          "Con capacidad 2, thr 0.6 deja los dos positivos sin FP (costo 0). Un thr 0.5 satura o sube costo: por eso se busca, no se fija.",
+        retrospective:
+          "Si c_fn sube, el thr óptimo suele bajar (más cola, menos misses). El error clásico es el default de librería. Siguiente (E2): assess de thr_id y cost.",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e1.py",
@@ -1772,8 +1899,11 @@ assert ok is True
         id: "S34-T4-A-E2",
         subtopicId: "S34-T4-A",
         kind: "independent",
+        title: "Assess: thr-v* con cost documentado",
+        preamble:
+          "- **Contexto:** el team cola-relaciones en Lima versiona thr cuando cambia headcount o costos.\n- **Meta:** PASS con thr-v*, cost not None y n_review≥1; default/None → REJECT; sin cost → MISSING.\n- **Éxito:** `PASS REJECT_FIXED_THR MISSING:cost`.\n- **Límites:** missing primero; no apruebes thr_id='default'.",
         instruction:
-          "S34-T4-A-E2 · assess: thr_id thr-v* + cost not None + n_review≥1 → PASS; default/None → REJECT_FIXED_THR; sin cost → MISSING:cost.",
+          "1. Revisa el starter: PASS si thr_id == default (DEFECT).\n2. Exige startswith('thr-v'), cost is not None y n_review ≥ 1.\n3. Mantén MISSING:cost.\n4. Imprime las tres rutas.",
         hint: "Missing primero; startswith('thr-v') y cost is not None.",
         hints: [
           "Missing primero; startswith('thr-v') y cost is not None.",
@@ -1786,7 +1916,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_FIXED_THR MISSING:cost`.",
         feedback:
-          "S34-T4-A-E2: ¿por qué versionar thr-v1 vs. thr-v2 importa cuando el *headcount* del team cola-relaciones en Lima cambia de 10 a 6 analistas?",
+          "thr-v1 vs thr-v2 permite rollback cuando el equipo pasa de 10 a 6 analistas. thr «default» sin matriz de costos no se audita.",
+        retrospective:
+          "Versionar thr-vN documenta el corte ante cambio de headcount; un thr_id «default» sin cost no se audita. Pregunta: si cost is None pero thr_id=thr-v1, ¿qué ruta debe devolver assess? Luego (E3): REQUEST_COST_MATRIX.",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e2.py",
@@ -1846,8 +1978,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T4-A-E3",
         subtopicId: "S34-T4-A",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_COST_MATRIX",
+        preamble:
+          "- **Contexto:** un auditor no acepta «el thr mágico 0.5 de la librería» sin costos ni capacidad.\n- **Meta:** CONTINUE / REJECT_FIXED_THR / REQUEST_COST_MATRIX.\n- **Éxito:** `CONTINUE REJECT_FIXED_THR REQUEST_COST_MATRIX`.\n- **Límites:** no asumas c_fp=c_fn=1 en silencio; no CONTINUEs ante missing cost.",
         instruction:
-          "S34-T4-A-E3 · Fail-closed: CONTINUE / REJECT_FIXED_THR / REQUEST_COST_MATRIX. Repara missing y predicado.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin cost → REQUEST_COST_MATRIX.\n3. CONTINUE con thr-v* y cost documentado.\n4. Imprime las tres decisiones.",
         hint: "Sin cost → REQUEST_COST_MATRIX; no asumas c_fp=c_fn=1 en silencio.",
         hints: [
           "Sin cost → REQUEST_COST_MATRIX; no asumas c_fp=c_fn=1 en silencio.",
@@ -1860,7 +1995,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_FIXED_THR REQUEST_COST_MATRIX`.",
         feedback:
-          "S34-T4-A-E3: formula en español cómo explicarías a un auditor que el thr no es «mágico 0.5» sino una decisión de costo y capacidad.",
+          "Frase a auditor: «El thr se eligió minimizando costo esperado bajo capacidad del turno y se versionó thr-v1.»",
+        retrospective:
+          "Un thr sin matriz de costos no se defiende ante auditoría. El error clásico es thr fijo sin evidencia de búsqueda. Pregunta: si capacity cae a la mitad, ¿reasignas thr-v2 o dejas thr-v1? En T4-B la banda gris evita forzar 0/1 cuando el corte es frágil.",
         starterCode: {
           language: "python",
           title: "s34-t4-a-e3.py",
@@ -1906,8 +2043,11 @@ assert results == ["CONTINUE", "REJECT_FIXED_THR", "REQUEST_COST_MATRIX"]
         id: "S34-T4-B-E1",
         subtopicId: "S34-T4-B",
         kind: "guided",
+        title: "Banda gris: devolver abstain",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-034-4B` el score 0.5 cae entre low=0.3 y high=0.7; no debe forzar cola.\n- **Meta:** implementa decide() con skip / abstain / review.\n- **Éxito:** `S34-T4-B PASS` con decide(0.5)=abstain, (0.1)=skip, (0.9)=review.\n- **Límites:** no devuelvas force_1 ni labels binarios en zona gris.",
         instruction:
-          "S34-T4-B-E1 · Implementa decide(score, low=0.3, high=0.7). El starter fuerza 'review' en la banda. PASS si decide(0.5)=='abstain', decide(0.1)=='skip', decide(0.9)=='review'; si no REJECT_FORCE_LABEL.",
+          "1. Abre el starter: en banda devuelve review (DEFECT).\n2. Cambia el else a return \"abstain\".\n3. Mantén las ramas < low y > high.\n4. Imprime PASS solo si las tres pruebas del ok pasan.",
         hint: "score < low → skip; score > high → review; else abstain.",
         hints: [
           "score < low → skip; score > high → review; else abstain.",
@@ -1920,7 +2060,9 @@ assert results == ["CONTINUE", "REJECT_FIXED_THR", "REQUEST_COST_MATRIX"]
         ],
         tests: "Salida `S34-T4-B PASS` con las tres rutas de decide.",
         feedback:
-          "S34-T4-B-E1: ¿por qué abstener en 0.5 puede ser más seguro para el sujeto investigado que forzar review o skip automático?",
+          "Forzar review en 0.5 satura la cola y finge certeza. Abstain deja el caso a política humana o a un segundo look.",
+        retrospective:
+          "Zona gris ≠ «casi review». El error clásico es sesgar la banda hacia un solo lado. Siguiente (E2): assess de decision vs force_1.",
         starterCode: {
           language: "python",
           title: "s34-t4-b-e1.py",
@@ -1960,8 +2102,11 @@ assert ok is True
         id: "S34-T4-B-E2",
         subtopicId: "S34-T4-B",
         kind: "independent",
+        title: "Assess: abstain en banda documentada",
+        preamble:
+          "- **Contexto:** el workbench solo aprueba registros en banda con decision=abstain y low/high documentados.\n- **Meta:** PASS con low < score < high y decision abstain; force_1 → REJECT; sin low → MISSING.\n- **Éxito:** `PASS REJECT_FORCE_LABEL MISSING:low`.\n- **Límites:** missing primero; no apruebes force_1.",
         instruction:
-          "S34-T4-B-E2 · assess: score en (low, high) y decision==abstain → PASS; force_1 → REJECT_FORCE_LABEL; sin low → MISSING:low.",
+          "1. Revisa el starter: PASS si decision == force_1 (DEFECT).\n2. Exige score estrictamente en (low, high) y decision abstain.\n3. Mantén MISSING:low.\n4. Imprime las tres rutas.",
         hint: "Missing primero; exige low < score < high y decision abstain.",
         hints: [
           "Missing primero; exige low < score < high y decision abstain.",
@@ -1974,7 +2119,9 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_FORCE_LABEL MISSING:low`.",
         feedback:
-          "S34-T4-B-E2: si el adverso fuera decision='skip' con score=0.5, ¿seguiría siendo breach? Justifica con la banda.",
+          "force_1 en banda es breach de producto y de ética de cola. skip en 0.5 con banda 0.3–0.7 también sería breach: la decisión correcta es abstain.",
+        retrospective:
+          "En banda documentada, force_1 y skip son breaches: la decisión correcta es abstain. El error clásico es «mejor decidir algo» para el dashboard. Pregunta: si falta `low`, ¿REJECT o MISSING? Luego (E3): REQUEST_ABSTAIN_BAND y cierre del arco.",
         starterCode: {
           language: "python",
           title: "s34-t4-b-e2.py",
@@ -2018,8 +2165,11 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         id: "S34-T4-B-E3",
         subtopicId: "S34-T4-B",
         kind: "transfer",
+        title: "Fail-closed: REQUEST_ABSTAIN_BAND",
+        preamble:
+          "- **Contexto:** cierras CP-N3-B: sin banda documentada no hay thr defendible ni promesa de no autofraude.\n- **Meta:** CONTINUE / REJECT_FORCE_LABEL / REQUEST_ABSTAIN_BAND.\n- **Éxito:** `CONTINUE REJECT_FORCE_LABEL REQUEST_ABSTAIN_BAND`.\n- **Límites:** no fuerces 0/1 en zona gris; no CONTINUEs ante missing low.",
         instruction:
-          "S34-T4-B-E3 · Fail-closed: CONTINUE / REJECT_FORCE_LABEL / REQUEST_ABSTAIN_BAND. Repara missing y predicado.",
+          "1. Lee el DEFECT: missing→CONTINUE y pred invertido.\n2. Sin low → REQUEST_ABSTAIN_BAND.\n3. CONTINUE solo con score en banda y decision abstain.\n4. Imprime las tres decisiones.",
         hint: "Sin low → REQUEST_ABSTAIN_BAND; no fuerces 0/1 en zona gris.",
         hints: [
           "Sin low → REQUEST_ABSTAIN_BAND; no fuerces 0/1 en zona gris.",
@@ -2032,7 +2182,9 @@ print(*(assess(valid), assess(invalid), assess(incomplete)))
         ],
         tests: "Salida: `CONTINUE REJECT_FORCE_LABEL REQUEST_ABSTAIN_BAND`.",
         feedback:
-          "S34-T4-B-E3: cierra el arco CP-N3-B: ¿cómo protege la abstención la promesa de «ranking para humanos, no autofraude»?",
+          "La abstención protege la promesa del workbench: el score prioriza humanos; no emite veredicto automático de fraude.",
+        retrospective:
+          "Cierre de CP-N3-B: ranking calibrado para humanos, no autofraude. El error clásico es «cerrar el caso con un label para el dashboard». Pregunta: ¿qué documentarías en el README junto a thr-v1 y la banda abstain? Matching ≠ parentesco ni fraude.",
         starterCode: {
           language: "python",
           title: "s34-t4-b-e3.py",
@@ -2216,6 +2368,8 @@ if __name__ == "__main__":
       { criterion: "Documentación en español profesional", weight: "10%" },
       { criterion: "thr versionado + reliability/Brier + capacidad en el reporte", weight: "bonus" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué thr devolvió tu búsqueda con capacity=2 y por qué no copiaste 0.6 del demo de cuatro puntos? (2) ¿qué invariante demuestras con Brier/reliability_bin y con decision_sample=abstain en 0.55? (3) Escribe una frase medible: «cola humana versionada, sin autofraude» para el README. En S35 conectarás este reporte con explainability y equidad por slice.",
   },
   selfCheck: {
     questions: [

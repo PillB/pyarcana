@@ -375,6 +375,8 @@ feature_set fs-v2`,
         subtopicId: "S32-T1-A",
         environment: "local-python",
         description: "Valida keys del row contra el catálogo y reporta note_len como feature derivada.",
+        preamble:
+          "Antes de fittear un imputer o un z-score, el workbench CP-N3-B exige un **catálogo** de features: sin él, serve inventa columnas y rompe train≡serve. En esta demo un row sintético Red Andina (`amount_7d`, `canal`, `note`) se valida contra schema tipado y se deriva `note_len`. No escribas aún: predice la lista numérica, la longitud de `\"hola\"` y si `catalog_ok` es True; luego contrasta con la salida. Si aparece una key fuera del catálogo, el gate no es “ignorar en silencio”.",
         code: {
           language: 'python',
           title: "cat_demo.py",
@@ -394,13 +396,17 @@ print("catalog_ok", ok)`,
 note_len 4
 catalog_ok True`,
         },
-        why: "El catálogo es la fuente de verdad de dtypes: sin él, serve inventa columnas y rompe train≡serve.",
+        why: "El catálogo es la fuente de verdad de dtypes y política de missing. `note_len` se documenta como feature derivada, no se inventa en serve. Keys del row ⊆ catálogo es el contrato local antes de cualquier fit: una feature desconocida en producción es `REJECT_UNKNOWN_FEATURE`, no un warning opcional. Sin catálogo, train y serve divergen en silencio.",
+        retrospective:
+          "Si puedes explicar por qué una columna “solo en el notebook de serve” rompe train≡serve sin mirar el código, ya tienes el hábito de catálogo primero. El error clásico es confiar en el dict del row. En We Do practicarás unknown keys y `REQUEST_CATALOG`.",
       },
       {
         demoId: "S32-T1-B-DEMO",
         subtopicId: "S32-T1-B",
         environment: "local-python",
         description: "Missing indicator, fill mediana y z-score sobre la serie rellena con stats de train.",
+        preamble:
+          "Un `None` en montos del caso Red Andina no es “cero barato”: la ausencia es señal. Esta demo marca missing, rellena con mediana de train (2.0) y aplica z-score con μ/σ **congelados** sobre la serie rellena. No escribas: predice `ind`, `filled` y `z` para `[1, None, 3]`; observa que no se reestiman stats en serve. Si rellenas sin indicator, cometes silent fill.",
         code: {
           language: 'python',
           title: "ms_demo.py",
@@ -418,13 +424,17 @@ print(z)`,
 [1.0, 2.0, 3.0]
 [0.5, 1.0, 1.5]`,
         },
-        why: "Indicator + μ/σ de train preservan la señal de ausencia y bloquean silent fill con stats de test.",
+        why: "El indicator preserva la señal de ausencia; fill y μ/σ solo de train bloquean leakage de test. El z se calcula sobre `filled`, no sobre constantes ni sobre stats reestimadas en serve. Rellenar sin indicator es silent fill (`REJECT_SILENT_FILL`): el modelo cree que no faltó nada y la cola de revisión confía en un score mentiroso.",
+        retrospective:
+          "Indicator + stats de train = contrato de missing/scale: la ausencia es señal, no un cero barato. El error clásico es rellenar en silencio o reestimar μ/σ en serve y creer que el z “se ve bien”. Pregunta: ¿por qué el z se calcula sobre `filled` y no sobre la lista original con `None`? We Do: corregir z y fallar closed sin mediana.",
       },
       {
         demoId: "S32-T2-A-DEMO",
         subtopicId: "S32-T2-A",
         environment: "local-python",
         description: "Shared address, degree y path con default 99 cuando falta la arista en el grafo sintético.",
+        preamble:
+          "Las features relacionales del grafo de evidencia (S31) resumen topología: dirección compartida, degree, min path. En esta demo, dos entidades con `Av1`, vecinos de E1 y path a E9 **ausente** producen shared=1, degree=2, path=99. No escribas: predice los tres números. Recuerda: shared address **no** es etiqueta de parentesco ni de fraude — es input para el modelo o la cola humana.",
         code: {
           language: 'python',
           title: "g_demo.py",
@@ -446,13 +456,17 @@ print("path", path)`,
 degree 2
 path 99`,
         },
-        why: "Features de grafo (herencia S31) resumen evidencia relacional sin convertir matching en fraude ni parentesco.",
+        why: "Solo topología y atributos observados en t entran como feature. Path ausente usa default alto (99), no inventar aristas. Label de decisión como input es `REJECT_LABEL_AS_FEATURE`; sin grafo se pide `REQUEST_GRAPH_FEAT`. Features de contacto (puente S31) resumen evidencia para el score o la cola, nunca un veredicto de parentesco o fraude.",
+        retrospective:
+          "Path missing → default alto (99), no arista inventada ni degree=0 “por si acaso”. El error clásico es convertir matching o shared address en veredicto de parentesco o fraude. Pregunta: ¿por qué un path ausente no debe codificarse como 0? We Do: shared/degree/path y rechazo de label-as-feature.",
       },
       {
         demoId: "S32-T2-B-DEMO",
         subtopicId: "S32-T2-B",
         environment: "local-python",
         description: "Cuenta eventos en ventana half-open [t-w, t), contrasta con el conteo cerrado (mal) y devuelve `includes_t=False`.",
+        preamble:
+          "Incluir el instante de decisión `t` en un conteo de eventos es **leakage temporal clásico**: el score offline sube y en serve colapsa. Esta demo contrasta half-open `[t−w, t)` (count=2) con cerrado `<= t` (count=3) sobre eventos `[1,2,3,5]`, t=5, w=3. No escribas: predice count, closed_bad e includes_t. Observa `ok True` solo con la política half-open.",
         code: {
           language: 'python',
           title: "w_demo.py",
@@ -472,13 +486,17 @@ print("ok", count == 2 and includes_t is False and bad == 3)`,
 includes_t False
 ok True`,
         },
-        why: "Half-open elimina leakage temporal; el conteo cerrado infla features y el AUC offline (la historia del fallo del intro).",
+        why: "Half-open elimina leakage temporal: el modelo no ve el instante de decisión. El cerrado infla features y el AUC offline (la historia del fallo del intro). `includes_t` se deriva del predicado, no de un flag suelto. Sin ancho `w` documentado no hay feature temporal legítima (`REQUEST_WINDOW`).",
+        retrospective:
+          "Si el score offline solo sube con ventana cerrada, sospecha leakage temporal: en serve el instante t no existe igual. El error clásico es `ts <= t` “por redondeo” o “porque se ve más estable”. Pregunta: con eventos `[1,2,3,5]`, t=5, w=3, ¿por qué half-open da 2 y cerrado 3? We Do: forzar half-open y `REQUEST_WINDOW`.",
       },
       {
         demoId: "S32-T3-A-DEMO",
         subtopicId: "S32-T3-A",
         environment: "local-python",
         description: "Fit de moda, transform de None, fallo si no hay fit, y router numérico/categórico (análogo ColumnTransformer).",
+        preamble:
+          "Un transformer tiene contrato: **fit** aprende estado, **transform** aplica; transformar sin fit debe fallar ruidoso. Esta demo fitea la moda de canal (`app`), rellena None, muestra `not fitted` si se llama antes, y enruta amount/canal con fill y scale de train. No escribas: predice la salida de transform, el mensaje before_fit y el routed de amount. Es la idea de sklearn Pipeline/ColumnTransformer sin runtime extra.",
         code: {
           language: 'python',
           title: "tf_demo.py",
@@ -519,13 +537,17 @@ fitted True
 before_fit not fitted
 routed [0, 6] ['app', 'web']`,
         },
-        why: "fit→transform ordenado + router por tipo es el contrato de un pipeline heterogéneo (idea de sklearn sin runtime extra).",
+        why: "fit→transform ordenado es train≡serve: hardcodear fill en transform rompe el state versionable y el audit del notebook. El router por tipo separa numéricas y categóricas (idea de ColumnTransformer). Transform before fit debe fallar ruidoso (`REJECT_TRANSFORM_BEFORE_FIT`), no inventar silent defaults en serve. Puente a We Do: aprender moda real y fallar closed sin train_xs.",
+        retrospective:
+          "Estado fitted se demuestra con fit real sobre datos de train, no con un flag `fitted=True` prebakeado. El error clásico es silent default en serve (“siempre app”). Pregunta: ¿qué debe ocurrir si llamas `transform` antes de `fit`? We Do: aprender moda y `REQUEST_FIT_STATE`.",
       },
       {
         demoId: "S32-T3-B-DEMO",
         subtopicId: "S32-T3-B",
         environment: "local-python",
         description: "Round-trip JSON del state y apply de mediana versionada al batch de serve.",
+        preamble:
+          "El estado fit (mediana, vocab, μ/σ) debe **sobrevivir** al notebook: se serializa y se aplica igual en serve. Esta demo hace round-trip JSON de `{median: 2, version: fs-v1}` y rellena `[None, 4]` → `[2, 4]`. No escribas: predice median, version y serve. Si mañana cambia el vocab de `canal`, subes a `fs-v2` — S33 debe citar el id nuevo, no reutilizar el viejo en silencio.",
         code: {
           language: 'python',
           title: "ps_demo.py",
@@ -541,13 +563,17 @@ print("serve", serve)`,
 version fs-v1
 serve [2, 4]`,
         },
-        why: "Persistir estado versionado (`fs-vN`) evita skew silencioso y es el artefacto que S33 debe citar.",
+        why: "Persistir estado versionado evita skew silencioso entre train e inferencia. Apply de mediana de train es el mismo en ambos lados. Sin version legible no se promueve (`REJECT_UNVERSIONED`); sin JSON de state se pide el artefacto (`REQUEST_STATE_JSON`). `fs-vN` es lo que el baseline S33 citará.",
+        retrospective:
+          "`fs-vN` es el contrato de entrada del baseline: S33 debe citar el id, no reutilizar un state viejo en silencio. El error clásico es reestimar la mediana en serve o “solo imprimir version” sin apply. Pregunta: si cambia el vocab de `canal`, ¿reutilizas fs-v1 o subes a fs-v2? We Do: round-trip + discipline de version.",
       },
       {
         demoId: "S32-T4-A-DEMO",
         subtopicId: "S32-T4-A",
         environment: "local-python",
         description: "Time split por cutoff y verificación de overlap de entidades desde filas reales.",
+        preamble:
+          "Si la misma entidad aparece en train y test, el modelo memoriza identidad, no patrón generalizable: **leakage de identidad**. Esta demo parte filas sintéticas por cutoff `2026-02-01` (e1 en enero, e2 en febrero) y mide intersección de entidades. No escribas: predice n_train, n_test, overlap y ok. Observa que overlap 0 es el gate antes del baseline S33.",
         code: {
           language: 'python',
           title: "sp_demo.py",
@@ -566,13 +592,17 @@ print("ok", len(overlap) == 0)`,
 overlap 0
 ok True`,
         },
-        why: "Split por tiempo + entity isolation es la defensa principal contra leakage de identidad antes del baseline.",
+        why: "Split temporal más aislamiento de entity es la defensa principal contra leakage de identidad. Overlap > 0 → `REJECT_ENTITY_OVERLAP`. El informe debe listar n_train, n_test y overlap explícitos (no un print “ok” vacío). Sin filas de split no hay auditoría (`REQUEST_SPLIT_KEYS`). Random split sobre filas con entidades repetidas infla el AUC y engaña a la cola.",
+        retrospective:
+          "Overlap de entidades infla métricas offline y engaña a la cola de revisión: el modelo memoriza identidad, no patrón. El error clásico es split aleatorio sobre filas con entidades repetidas o un print “ok” sin n_train/n_test/overlap. Pregunta: si e1 aparece en enero y febrero, ¿qué overlap reportas? We Do: calcular overlap, no hardcodearlo.",
       },
       {
         demoId: "S32-T4-B-DEMO",
         subtopicId: "S32-T4-B",
         environment: "local-python",
         description: "Scan de nombres leaky, alerta de skew y feature_set fs-v2 listo para S33.",
+        preamble:
+          "Nombres con `label` o `decision` en el catálogo son **red flags**: el modelo entrenaría con la respuesta. Esta demo escanea `['amount_7d', 'label_decision']`, mide skew |0.8−0.0| > 0.5 y muestra `feature_set fs-v2`. No escribas: predice leaky, skew y el id. En promote limpio (hacia S33) leaky vacío, skew False e id `fs-v*` son obligatorios — no “warnings opcionales”.",
         code: {
           language: 'python',
           title: "lk_demo.py",
@@ -591,7 +621,9 @@ print("feature_set", "fs-v2")`,
 skew True
 feature_set fs-v2`,
         },
-        why: "Scan de nombres + skew + `fs-vN` cierran el promote: sin gate limpio no se entrena el baseline S33.",
+        why: "Scan de nombres y skew en CI cierran el promote antes del baseline. Promover con leaky o skew es fallo de gate, no un warning. El id debe empezar por `fs-v`; sin id se pide el prerequisito (`REQUEST_FEATURE_SET_ID`). Esta demo muestra **detección** (leaky y skew True); el lab E1 usa fixture limpio de promote.",
+        retrospective:
+          "Scan + skew + fs-vN cierran el promote: no son warnings opcionales. El error clásico es colar `label_decision` “solo para el notebook” o promover con skew alto porque el AUC offline se ve bien. Pregunta: ¿esta demo muestra promote limpio o detección de fallos? (detección). We Do: invertir el gate defectuoso y exigir id.",
       }
     ],
   },
@@ -602,7 +634,11 @@ feature_set fs-v2`,
         id: "S32-T1-A-E1",
         subtopicId: "S32-T1-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Sobre el caso sintético Red Andina, calcula si las keys del row están ⊆ catálogo (unión de numeric/categorical/text). El starter declara `catalog_ok` al revés: corrige el cálculo de unknown keys. Salida exacta: `S32-T1-A PASS`. En E2, el adverso con feature desconocida debe activar `REJECT_UNKNOWN_FEATURE`.",
+        title: "Keys del row ⊆ catálogo (catalog_ok)",
+        preamble:
+          "- **Contexto:** en el feature set sintético Red Andina (`cpn3b-feat`), el fit solo arranca si el row no trae columnas inventadas.\n- **Meta:** calcular unknown keys como “en row y no en known” y dejar `catalog_ok` correcto.\n- **Éxito:** una línea exacta `S32-T1-A PASS`.\n- **Límites:** no inviertas el booleano final; no hardcodees `PASS`; solo PII sintético.",
+        instruction:
+          "1. Abre el starter: `unknown` usa `k in known` (DEFECT).\n2. Cambia a `k not in known`.\n3. Deja `catalog_ok = len(unknown) == 0` y el status PASS/REJECT.\n4. Imprime `S32-T1-A` y el status.",
         hint: "Une las listas del schema en un set known y compara set(row) ⊆ known.",
         hints: [
           "Une las listas del schema en un set known y compara set(row) ⊆ known.",
@@ -610,7 +646,10 @@ feature_set fs-v2`,
         ],
         edgeCases: ["falta schema", "fixture adverso: row con unknown_feat fuera del catálogo", "Caso sintético Red Andina (sin PII real)"],
         tests: "Con schema y row del starter, imprime `S32-T1-A PASS` y assert catalog_ok.",
-        feedback: "Sin keys desconocidas, el catálogo pasa. Una feature inventada en serve exige `REJECT_UNKNOWN_FEATURE`. Si falta schema: `REQUEST_CATALOG`.",
+        feedback:
+          "Sin keys desconocidas el catálogo pasa. El predicado al revés aprueba basura: una feature inventada en serve exige `REJECT_UNKNOWN_FEATURE`, no un fit optimista que engaña a la cola de revisión.",
+        retrospective:
+          "Unknown = row − catálogo, no al revés: si inviertes el predicado, “pasas” siempre y el fit arranca sobre basura. El error clásico es creer que “cualquier key del schema cuenta” en lugar de “solo las del row deben estar en known”. Pregunta: si el row trae solo `amount_7d` y el schema lista tres columnas, ¿qué sale en `unknown`? Siguiente (E2): tres rutas PASS / REJECT / MISSING.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e1.py",
@@ -644,7 +683,11 @@ assert catalog_ok is True
         id: "S32-T1-A-E2",
         subtopicId: "S32-T1-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · Tres rutas: válido (keys ⊆ catálogo), adverso (`unknown_feat`) y sin `schema`. Implementa `assess` calculando unknown keys — no uses un flag prebakeado. Salidas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`.",
+        title: "Assess: PASS, unknown y MISSING schema",
+        preamble:
+          "- **Contexto:** el gate de catálogo no es un booleano suelto: debe distinguir row válido, feature inventada y prerequisito ausente.\n- **Meta:** implementar `assess` calculando unknown keys (sin flag prebakeado).\n- **Éxito:** `PASS REJECT_UNKNOWN_FEATURE MISSING:schema`.\n- **Límites:** primero keys requeridas; no resuelvas el adverso cambiando `case_id`; no inventes schema.",
+        instruction:
+          "1. Revisa el starter: devuelve PASS cuando hay unknown (DEFECT).\n2. Si faltan keys → `MISSING:…`.\n3. Si hay unknown → `REJECT_UNKNOWN_FEATURE`; si no → `PASS`.\n4. Imprime las tres rutas en una línea.",
         hint: "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
         hints: [
           "Primero valida keys requeridas; solo si hay schema y row calculas unknown.",
@@ -652,7 +695,10 @@ assert catalog_ok is True
         ],
         edgeCases: ["falta schema", "fixture adverso: unknown_feat no listada en schema", "Caso sintético Red Andina (sin PII real)"],
         tests: "Produce exactamente `PASS REJECT_UNKNOWN_FEATURE MISSING:schema`.",
-        feedback: "El cálculo de unknown es la evidencia. El adverso no se resuelve cambiando el case_id.",
+        feedback:
+          "El cálculo de unknown es la evidencia del gate. El adverso falla por *contenido* (feature fuera del catálogo), no por schema ausente: confundir ambos deja logs inútiles para la cola.",
+        retrospective:
+          "Tres códigos distintos son tres historias de ops: PASS (contrato sano), REJECT (violación demostrada), MISSING (falta prerequisito). Confundir “feature inventada” con “schema ausente” deja logs que nadie puede triagear en el promote. Pregunta: ¿por qué el adverso con `unknown_feat` no debe devolver `MISSING:schema`? Luego (E3) separas `REQUEST_CATALOG` de `REJECT`.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e2.py",
@@ -702,7 +748,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T1-A-E3",
         subtopicId: "S32-T1-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de catálogo. Válido → `CONTINUE`. Adverso (keys fuera del catálogo) → `REJECT_UNKNOWN_FEATURE`. Sin schema → `REQUEST_CATALOG`. El starter confunde ausencia con CONTINUE y revierte el predicado de keys.",
+        title: "Fail-closed: REQUEST_CATALOG frente a REJECT",
+        preamble:
+          "- **Contexto:** en promote hacia S33, faltar el catálogo no es “seguir igual”: es pedir el prerequisito.\n- **Meta:** enrutar válido → CONTINUE, unknown → REJECT, sin schema → REQUEST_CATALOG.\n- **Éxito:** `CONTINUE REJECT_UNKNOWN_FEATURE REQUEST_CATALOG`.\n- **Límites:** ausencia ≠ incumplimiento; no inventes schema vacío para “pasar”.",
+        instruction:
+          "1. Lee el DEFECT: missing→CONTINUE y predicado invertido.\n2. Si faltan keys → `REQUEST_CATALOG`.\n3. Con schema: CONTINUE solo si no hay unknown.\n4. Imprime las tres decisiones.",
         hint: "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
         hints: [
           "Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.",
@@ -710,7 +760,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta schema", "fixture adverso: unknown_feat", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_UNKNOWN_FEATURE REQUEST_CATALOG`.",
-        feedback: "`REQUEST_CATALOG` protege el fit. `REJECT` solo cuando el catálogo existe y el row lo viola.",
+        feedback:
+          "`REQUEST_CATALOG` protege el fit pidiendo el artefacto. `REJECT` solo cuando el catálogo existe y el row lo viola: continuar ciego deja el baseline S33 sobre columnas inventadas.",
+        retrospective:
+          "`REQUEST_*` pide artefacto; `REJECT_*` demuestra violación del contrato existente. El error clásico es CONTINUE cuando falta el catálogo o inventar un schema vacío “para pasar”. Pregunta: ¿qué imprimirías si el row trae `unknown_feat` y el schema sí existe? Ese hábito (pedir vs rechazar) se reutiliza en todo el promote hacia S33.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e3.py",
@@ -761,7 +814,11 @@ assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
         id: "S32-T1-B-E1",
         subtopicId: "S32-T1-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Sobre `[1, None, 3]`, construye indicator, fill con mediana de train (=2) y z-score con μ=0, σ=2 **sobre la serie rellena**. El starter escala constantes ajenas; corrige para que z use `filled`. Salida: `S32-T1-B PASS` si indicator marca el hueco, filled=[1,2,3] y silent_fill es False.",
+        title: "Z-score sobre la serie rellena",
+        preamble:
+          "- **Contexto:** en el pipeline numérico de CP-N3-B, el z-score no puede usar una lista hardcodeada: debe seguir a `filled`.\n- **Meta:** indicator + fill mediana + z con μ=0, σ=2 sobre filled; `silent_fill=False`.\n- **Éxito:** `S32-T1-B PASS`.\n- **Límites:** no escales constantes ajenas; no pongas silent_fill True; stats de train ya dadas.",
+        instruction:
+          "1. Abre el starter: `z` usa `[2, 4]` (DEFECT).\n2. Cambia a `for x in filled`.\n3. Comprueba ind, filled y z contra los valores esperados.\n4. Imprime `S32-T1-B` y el status.",
         hint: "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
         hints: [
           "z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.",
@@ -769,7 +826,10 @@ assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
         ],
         edgeCases: ["falta median", "fixture adverso: silent_fill=True o fill sin indicator", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T1-B PASS` cuando filled y z son correctos.",
-        feedback: "Escalar la serie rellena es el patrón de stats solo de train. Silent fill sin indicator es `REJECT_SILENT_FILL`.",
+        feedback:
+          "Escalar la serie rellena es el patrón de stats solo de train. Un z “bonito” sobre constantes no se puede servir: silent fill o desalineación es `REJECT_SILENT_FILL` y engaña al score de la cola.",
+        retrospective:
+          "El z sigue a `filled`, no a un ejemplo de pizarra: si hardcodeas la salida, train≡serve se rompe en el primer batch real. El error clásico es copiar constantes del notebook “porque el assert pasa”. Pregunta: ¿qué se rompe si mañana la mediana de train deja de ser 2.0? Siguiente (E2): validar indicator vs values.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e1.py",
@@ -807,7 +867,11 @@ assert meets is True
         id: "S32-T1-B-E2",
         subtopicId: "S32-T1-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` recibe values, median e indicator. Construye fill con la mediana y comprueba que el indicator marque cada `None` (silent_fill=False). Válido: indicator correcto + median. Adverso: indicator todo False con huecos (silent fill). Sin median → `MISSING:median`.",
+        title: "Assess silent fill y mediana de train",
+        preamble:
+          "- **Contexto:** un indicator todo False con huecos reales es silent fill: el modelo cree que no faltó nada.\n- **Meta:** PASS si median presente e indicator marca cada None; adverso → REJECT; sin median → MISSING.\n- **Éxito:** `PASS REJECT_SILENT_FILL MISSING:median`.\n- **Límites:** detecta falta de median antes de filled; no “arregles” el indicator del adverso.",
+        instruction:
+          "1. Starter: PASS solo por median (DEFECT).\n2. Calcula `expected_ind` desde values.\n3. Si indicator ≠ expected → REJECT_SILENT_FILL.\n4. Imprime las tres rutas.",
         hint: "Falta median se detecta antes de construir filled; silent_fill si hay None e indicator no lo marca.",
         hints: [
           "Falta median se detecta antes de construir filled; silent_fill si hay None e indicator no lo marca.",
@@ -815,7 +879,10 @@ assert meets is True
         ],
         edgeCases: ["falta median", "fixture adverso: silent_fill=True o indicator que oculta None", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_SILENT_FILL MISSING:median`.",
-        feedback: "La mediana de train es prerequisito. Silent fill es incumplimiento de contrato, no un atajo de notebook.",
+        feedback:
+          "La mediana de train es prerequisito del transform. Silent fill es incumplimiento de contrato, no un atajo de notebook: el score offline miente a quien revisa el caso.",
+        retrospective:
+          "Un indicator todo `False` con huecos reales es un mentiroso: el modelo cree que no faltó nada y la cola confía en un score inflado. La mediana de train es prerequisito; silent fill es rechazo de contrato, no un atajo de notebook. Pregunta: si `values` tiene un `None` y el indicator no lo marca, ¿PASS o REJECT y por qué? Luego (E3): `REQUEST_MEDIAN`.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e2.py",
@@ -881,7 +948,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T1-B-E3",
         subtopicId: "S32-T1-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de missing/scale. Válido (median presente e indicator que marca los None) → `CONTINUE`. Indicator que oculta missing → `REJECT_SILENT_FILL`. Sin median → `REQUEST_MEDIAN`. No rellenes con 0 en silencio.",
+        title: "Fail-closed: REQUEST_MEDIAN sin inventar fill",
+        preamble:
+          "- **Contexto:** sin mediana de train no hay transform legítimo hacia serve.\n- **Meta:** enrutar válido → CONTINUE, silent fill → REJECT, sin median → REQUEST_MEDIAN.\n- **Éxito:** `CONTINUE REJECT_SILENT_FILL REQUEST_MEDIAN`.\n- **Límites:** no rellenes con 0 en silencio; REQUEST antes de comparar indicator.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE y siempre CONTINUE.\n2. Sin keys → `REQUEST_MEDIAN`.\n3. Compara indicator con values; CONTINUE solo si ok.\n4. Imprime las tres decisiones.",
         hint: "REQUEST_MEDIAN antes de comparar indicator con values.",
         hints: [
           "REQUEST_MEDIAN antes de comparar indicator con values.",
@@ -889,7 +960,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta median", "fixture adverso: indicator que oculta None (silent fill)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_SILENT_FILL REQUEST_MEDIAN`.",
-        feedback: "Sin mediana no hay transform legítimo. Pedirla es fail-closed, no rellenar con 0.",
+        feedback:
+          "Sin mediana no hay transform legítimo hacia serve. Pedirla es fail-closed, no rellenar con 0: silent fill deja al baseline S33 con stats inventadas.",
+        retrospective:
+          "Pedir la mediana es fail-closed, no inventar fill con 0: sin stats de train no hay transform legítimo hacia serve. El error clásico es silent default “porque el assert local pasaba”. Pregunta: ¿REJECT o REQUEST si falta `median` en el record? Ese matiz (ausencia ≠ silent fill) se reutiliza en el promote.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e3.py",
@@ -955,7 +1029,11 @@ assert results == ["CONTINUE", "REJECT_SILENT_FILL", "REQUEST_MEDIAN"]
         id: "S32-T2-A-E1",
         subtopicId: "S32-T2-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Calcula shared (1 si mismas addr), degree (len vecinos de E1) y path (lookup o 99). El starter hardcodea path=99 sin leer `paths` y marca uses_label mal. Pasa si shared=1, degree=2, path=99 y uses_label es False. Salida: `S32-T2-A PASS`.",
+        title: "Shared, degree y path sin label",
+        preamble:
+          "- **Contexto:** el mini-grafo sintético Red Andina alimenta features, no veredictos.\n- **Meta:** calcular shared, degree y path (lookup o 99) con `uses_label=False`.\n- **Éxito:** `S32-T2-A PASS`.\n- **Límites:** no uses label de decisión en el cómputo; path = `paths.get('E1-E9', 99)`.",
+        instruction:
+          "1. DEFECT: path no lee paths; meets exige uses_label True.\n2. `path = paths.get(\"E1-E9\", 99)`.\n3. meets con uses_label **False** y shared/degree/path correctos.\n4. Imprime `S32-T2-A` y el status.",
         hint: "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
         hints: [
           "path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.",
@@ -963,7 +1041,10 @@ assert results == ["CONTINUE", "REJECT_SILENT_FILL", "REQUEST_MEDIAN"]
         ],
         edgeCases: ["falta degree/neighbors", "fixture adverso: uses_label=True (label de decisión como feature)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T2-A PASS` con features calculadas y uses_label False.",
-        feedback: "Shared, degree y path son topología. Label de decisión como feature es `REJECT_LABEL_AS_FEATURE`.",
+        feedback:
+          "Shared, degree y path son topología observada en t. Exigir `uses_label=True` para “pasar” es entrenar con la respuesta: `REJECT_LABEL_AS_FEATURE` y un score que miente a la cola humana.",
+        retrospective:
+          "Features de grafo ≠ label: shared, degree y path son topología observada en t, no la respuesta del caso. El error clásico es colar `label_fraud` “porque ayuda al AUC” o exigir `uses_label=True` para “pasar”. Pregunta: si E1-E9 no está en `paths`, ¿qué valor de path es el contrato del lab? Siguiente (E2): assess con ban de uses_label.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e1.py",
@@ -1003,7 +1084,11 @@ assert meets is True
         id: "S32-T2-A-E2",
         subtopicId: "S32-T2-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` recibe attrs, neighbors y paths: calcula shared/degree/path y rechaza si `uses_label` es True. Válido: topología limpia; adverso: label de decisión como feature; sin neighbors → `MISSING:neighbors`.",
+        title: "Assess grafo y ban de label",
+        preamble:
+          "- **Contexto:** un record con `uses_label=True` no debe promover features al catálogo de train.\n- **Meta:** PASS con topología limpia; REJECT si hay label; MISSING sin neighbors.\n- **Éxito:** `PASS REJECT_LABEL_AS_FEATURE MISSING:neighbors`.\n- **Límites:** calcula degree desde neighbors; no confíes solo en el flag invertido.",
+        instruction:
+          "1. DEFECT: PASS si uses_label True.\n2. Missing keys primero.\n3. Calcula shared/degree/path; PASS solo si uses_label False y topología válida.\n4. Imprime las tres rutas.",
         hint: "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
         hints: [
           "Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).",
@@ -1011,7 +1096,10 @@ assert meets is True
         ],
         edgeCases: ["falta neighbors", "fixture adverso: uses_label=True (label de decisión como feature)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_LABEL_AS_FEATURE MISSING:neighbors`.",
-        feedback: "El grafo no autoriza parentesco ni fraude: solo topología observada en t.",
+        feedback:
+          "El grafo no autoriza parentesco ni fraude: solo topología observada en t. Un label como feature infla el AUC y deja a la cola humana con un veredicto disfrazado de score.",
+        retrospective:
+          "El grafo resume evidencia para el score o la cola, no emite parentesco ni fraude. Un record con `uses_label=True` no se “arregla” ignorando el flag: se rechaza. Pregunta: ¿por qué falta de `neighbors` es MISSING y no REJECT_LABEL? Luego (E3): `REQUEST_GRAPH_FEAT` sin inventar degree=0.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e2.py",
@@ -1073,7 +1161,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T2-A-E3",
         subtopicId: "S32-T2-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de features de grafo. Recalcula shared/degree/path desde attrs y neighbors. Topología limpia y uses_label False → `CONTINUE`. Label de decisión como feature → `REJECT_LABEL_AS_FEATURE`. Sin neighbors → `REQUEST_GRAPH_FEAT`. No inventes degree=0 si falta el grafo.",
+        title: "Fail-closed: REQUEST_GRAPH_FEAT sin inventar 0",
+        preamble:
+          "- **Contexto:** sin vecinos no hay feature de degree legítima: pedir el grafo es mejor que inventar 0.\n- **Meta:** topología limpia → CONTINUE; label → REJECT; sin neighbors → REQUEST_GRAPH_FEAT.\n- **Éxito:** `CONTINUE REJECT_LABEL_AS_FEATURE REQUEST_GRAPH_FEAT`.\n- **Límites:** no inventes degree=0; recalcula shared/degree/path.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; predicado invertido.\n2. Sin neighbors → REQUEST_GRAPH_FEAT.\n3. Con grafo: CONTINUE solo si uses_label False y topología ok.\n4. Imprime las tres decisiones.",
         hint: "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
         hints: [
           "Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).",
@@ -1081,7 +1173,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta neighbors", "fixture adverso: uses_label=True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_LABEL_AS_FEATURE REQUEST_GRAPH_FEAT`.",
-        feedback: "Pedir la feature de grafo es mejor que inventar degree=0 en silencio. El `CONTINUE` se gana recalculando topología, no leyendo un flag.",
+        feedback:
+          "Pedir la feature de grafo es mejor que inventar degree=0 en silencio. El `CONTINUE` se gana recalculando topología, no leyendo un flag: silent defaults contaminan el baseline S33.",
+        retrospective:
+          "Pedir la feature de grafo evita silent defaults que contaminan el baseline S33. El error clásico es inventar degree=0 “por si acaso” cuando faltan vecinos. Pregunta: ¿qué código sale si falta `neighbors` y el resto del record está completo? Ese hábito (REQUEST vs inventar) es entrevista-relevante.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e3.py",
@@ -1145,7 +1240,11 @@ assert results == ["CONTINUE", "REJECT_LABEL_AS_FEATURE", "REQUEST_GRAPH_FEAT"]
         id: "S32-T2-B-E1",
         subtopicId: "S32-T2-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Con events=[1,2,3,5], t=5, w=3, corrige el conteo de ventana. El starter usa `<= t` (incluye el instante de decisión). Debe quedar count=2 e includes_t=False con half-open `[t-w, t)`. Salida: `S32-T2-B PASS`.",
+        title: "Ventana half-open sin incluir t",
+        preamble:
+          "- **Contexto:** en features de frecuencia del caso Red Andina, contar el evento en t filtra el futuro al modelo.\n- **Meta:** corregir el predicado a `t−w <= ts < t` (count=2, includes_t=False).\n- **Éxito:** `S32-T2-B PASS`.\n- **Límites:** no uses `<= t`; includes_t se deriva del half-open, no de un booleano inventado.",
+        instruction:
+          "1. DEFECT: `<= t` en el sum y en includes_t.\n2. Cambia ambos a `ts < t`.\n3. meets: count==2 e includes_t False.\n4. Imprime `S32-T2-B` y el status.",
         hint: "Predicado correcto: t - w <= ts < t (estricto en t).",
         hints: [
           "Predicado correcto: t - w <= ts < t (estricto en t).",
@@ -1153,7 +1252,10 @@ assert results == ["CONTINUE", "REJECT_LABEL_AS_FEATURE", "REQUEST_GRAPH_FEAT"]
         ],
         edgeCases: ["falta w", "fixture adverso: includes_t=True o ts>=t en el conteo", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T2-B PASS` con count 2 e includes_t False.",
-        feedback: "Incluir t es leakage temporal clásico. La política half-open es el contrato documentado.",
+        feedback:
+          "Incluir t es leakage temporal. La política half-open es el contrato documentado en el catálogo: train y serve deben usar el mismo predicado o el score offline engaña a la cola.",
+        retrospective:
+          "Estricto en t protege el momento de decisión: el modelo no debe ver el evento que dispara el score. El error clásico es “cerrado se ve más estable” o redondear con `<= t`. Pregunta: ¿qué count esperas si un evento cae exactamente en t? Siguiente (E2): assess con flag includes_t.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e1.py",
@@ -1185,7 +1287,11 @@ assert meets is True
         id: "S32-T2-B-E2",
         subtopicId: "S32-T2-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` calcula count e includes_t desde events/t/w. Válido: half-open correcto. Adverso: flag includes_t True (o conteo cerrado). Sin w → `MISSING:w`.",
+        title: "Assess ventana y includes_t",
+        preamble:
+          "- **Contexto:** un fixture con `includes_t=True` modela la ventana que filtra t, no un schema incompleto.\n- **Meta:** PASS half-open limpio; REJECT si se marca t; MISSING sin w.\n- **Éxito:** `PASS REJECT_FUTURE_TS MISSING:w`.\n- **Límites:** si falta w no intentes el conteo; recomputa desde events.",
+        instruction:
+          "1. DEFECT: PASS cuando includes_t es True.\n2. Missing w → MISSING:w.\n3. Recompute count e includes half-open; PASS solo si flag y cómputo limpios.\n4. Imprime las tres rutas.",
         hint: "Si falta w no intentes el conteo.",
         hints: [
           "Si falta w no intentes el conteo.",
@@ -1193,7 +1299,10 @@ assert meets is True
         ],
         edgeCases: ["falta w", "fixture adverso: includes_t=True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_FUTURE_TS MISSING:w`.",
-        feedback: "El adverso modela la ventana que filtra t. No es un schema roto.",
+        feedback:
+          "El adverso modela la ventana que filtra t: es leakage de política, no un schema roto. Recomputar desde events evita confiar en un flag prebakeado.",
+        retrospective:
+          "El adverso con `includes_t=True` modela una **política** que filtra t, no un schema incompleto: es leakage de ventana, no de keys. Recomputar desde `events` evita confiar en un flag prebakeado. Pregunta: si falta `w`, ¿intentas el conteo o devuelves MISSING? Luego (E3): `REQUEST_WINDOW` sin inventar w=7.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e2.py",
@@ -1238,7 +1347,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T2-B-E3",
         subtopicId: "S32-T2-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed temporal. Recompute includes_t y count con half-open `[t−w, t)`. Si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`. Sin w → `REQUEST_WINDOW`. Válido → `CONTINUE`. No inventes el ancho de ventana.",
+        title: "Fail-closed: REQUEST_WINDOW sin inventar w",
+        preamble:
+          "- **Contexto:** sin ancho `w` no hay feature de frecuencia legítima hacia S33.\n- **Meta:** válido → CONTINUE; t incluido → REJECT; sin w → REQUEST_WINDOW.\n- **Éxito:** `CONTINUE REJECT_FUTURE_TS REQUEST_WINDOW`.\n- **Límites:** no inventes w; recalcula includes desde events, no solo el flag.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; predicado invertido.\n2. Sin w → REQUEST_WINDOW.\n3. Con w: CONTINUE solo si half-open limpio y flag False.\n4. Imprime las tres decisiones.",
         hint: "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
         hints: [
           "Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).",
@@ -1246,7 +1359,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta w", "fixture adverso: includes_t=True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_FUTURE_TS REQUEST_WINDOW`.",
-        feedback: "Sin ancho de ventana no hay feature temporal legítima.",
+        feedback:
+          "Sin ancho de ventana no hay feature temporal legítima hacia S33. Inventar w=7 “por costumbre” es silent default: pide el prerequisito, no improvises, o el score offline y serve divergen en silencio.",
+        retrospective:
+          "Sin ancho de ventana no hay feature de frecuencia legítima hacia S33: pedir `w` es fail-closed, no improvisar 7 “por costumbre”. El error clásico es CONTINUE cuando falta el prerequisito. Pregunta: ¿REJECT o REQUEST si falta `w` y el record trae events y t? Ese matiz (ausencia ≠ incumplimiento) se reutiliza en todo el promote.",
         starterCode: {
           language: 'python',
           title: "s32-t2-b-e3.py",
@@ -1300,7 +1416,11 @@ assert results == ["CONTINUE", "REJECT_FUTURE_TS", "REQUEST_WINDOW"]
         id: "S32-T3-A-E1",
         subtopicId: "S32-T3-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · Completa ModeImputer: fit aprende la moda; transform rellena None. El starter transforma sin comprobar fit y deja mode=None. Tras fit(['app','app','web']), transform([None,'web']) debe ser ['app','web']. Salida: `S32-T3-A PASS`.",
+        title: "ModeImputer: fit real y transform",
+        preamble:
+          "- **Contexto:** en el pipeline categórico de canal, la moda debe aprenderse de train, no adivinarse.\n- **Meta:** fit con `max(set, key=count)`; transform rellena None con `self.mode` y falla si no hay fit.\n- **Éxito:** `S32-T3-A PASS` (out `['app','web']`, mode `app`).\n- **Límites:** no hardcodees \"app\" en transform; raise si mode is None.",
+        instruction:
+          "1. DEFECT: fit deja mode=None; transform hardcodea.\n2. En fit, aprende la moda de xs.\n3. En transform, exige fit y usa self.mode.\n4. Imprime `S32-T3-A` y el status.",
         hint: "En transform, si self.mode is None: raise RuntimeError('not fitted').",
         hints: [
           "En transform, si self.mode is None: raise RuntimeError('not fitted').",
@@ -1308,7 +1428,10 @@ assert results == ["CONTINUE", "REJECT_FUTURE_TS", "REQUEST_WINDOW"]
         ],
         edgeCases: ["falta fitted/state", "fixture adverso: transform_before_fit=True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T3-A PASS` cuando el transform post-fit es correcto.",
-        feedback: "El orden fit→transform es el contrato. Transform silencioso sin fit es `REJECT_TRANSFORM_BEFORE_FIT`.",
+        feedback:
+          "El orden fit→transform es el contrato. Un transform “que siempre pone app” no se puede versionar ni servir de forma auditable hacia el baseline S33.",
+        retrospective:
+          "La moda se aprende en fit y se reutiliza en serve: hardcodear `\"app\"` en transform no se puede versionar ni auditar. El error clásico es “ya sé cuál es la mayoritaria del fixture” y copiarla en el código. Pregunta: si train fuera `[\"web\",\"web\",\"app\"]`, ¿qué mode debería salir? Siguiente (E2): assess try_before_fit.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e1.py",
@@ -1358,7 +1481,11 @@ assert meets is True
         id: "S32-T3-A-E2",
         subtopicId: "S32-T3-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` recibe `train_xs` y `serve_xs`: haz fit de moda en train y transform en serve. Válido: train con moda aprendible y serve transformable. Adverso: `try_before_fit=True` (intentar transform sin fit). Sin train_xs → `MISSING:train_xs`. No confíes en un flag `fitted` prebakeado.",
+        title: "Assess fit real vs try_before_fit",
+        preamble:
+          "- **Contexto:** un notebook que “transforma primero” no deja state reproducible para serve.\n- **Meta:** PASS con fit+transform reales; REJECT si try_before_fit; MISSING sin train_xs.\n- **Éxito:** `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:train_xs`.\n- **Límites:** no confíes en un flag `fitted` prebakeado; mode desde train_xs.",
+        instruction:
+          "1. DEFECT: PASS si try_before_fit True.\n2. Missing train_xs primero.\n3. Si try_before_fit → REJECT; si no, fit y comprueba transform.\n4. Imprime las tres rutas.",
         hint: "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
         hints: [
           "Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.",
@@ -1366,7 +1493,10 @@ assert meets is True
         ],
         edgeCases: ["falta train_xs", "fixture adverso: try_before_fit=True (transform sin fit)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:train_xs`.",
-        feedback: "El state fitted se demuestra con fit real sobre train_xs. Un flag no es evidencia.",
+        feedback:
+          "El state fitted se demuestra con fit real sobre train_xs. Un flag no es evidencia: sin state serializable no hay train≡serve ni baseline auditable.",
+        retrospective:
+          "Un flag `try_before_fit` no es evidencia de state: o haces fit real sobre `train_xs` o rechazas el notebook que “transforma primero”. Sin state serializable no hay train≡serve ni baseline auditable. Pregunta: ¿por qué falta de `train_xs` es MISSING y no REJECT_TRANSFORM_BEFORE_FIT? Luego (E3): `REQUEST_FIT_STATE`.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e2.py",
@@ -1436,7 +1566,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T3-A-E3",
         subtopicId: "S32-T3-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de transformers. Con `train_xs`/`serve_xs`, haz fit real de moda y transform. Ok → `CONTINUE`. `try_before_fit` o train vacío → `REJECT_TRANSFORM_BEFORE_FIT`. Sin train_xs → `REQUEST_FIT_STATE`. No inventes mode='app' sin fit.",
+        title: "Fail-closed: REQUEST_FIT_STATE hacia fs-vN",
+        preamble:
+          "- **Contexto:** sin train_xs no hay state de fit que serializar hacia `fs-vN`.\n- **Meta:** fit real → CONTINUE; try_before_fit → REJECT; sin train → REQUEST_FIT_STATE.\n- **Éxito:** `CONTINUE REJECT_TRANSFORM_BEFORE_FIT REQUEST_FIT_STATE`.\n- **Límites:** no inventes mode='app' sin fit; CONTINUE solo con transform de longitud correcta.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; predicado invertido.\n2. Sin train_xs → REQUEST_FIT_STATE.\n3. Con train: REJECT si try_before_fit; si no, fit y CONTINUE si ok.\n4. Imprime las tres decisiones.",
         hint: "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
         hints: [
           "Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.",
@@ -1444,7 +1578,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta train_xs", "fixture adverso: try_before_fit=True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_TRANSFORM_BEFORE_FIT REQUEST_FIT_STATE`.",
-        feedback: "Pedir el state de fit evita silent defaults en serve. El `CONTINUE` se gana fitteando, no leyendo un flag.",
+        feedback:
+          "Pedir el state de fit evita silent defaults en serve. El `CONTINUE` se gana fitteando, no leyendo un flag ni inventando la moda “app”.",
+        retrospective:
+          "Sin `train_xs` no hay state que serializar hacia `fs-vN`: pedir el prerequisito es mejor que inventar mode=`\"app\"`. El error clásico es CONTINUE ciego o un silent default “porque en el demo era app”. Pregunta: ¿qué sale si falta `train_xs`? Ese REQUEST protege el promote a S33.",
         starterCode: {
           language: 'python',
           title: "s32-t3-a-e3.py",
@@ -1513,7 +1650,11 @@ assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE
         id: "S32-T3-B-E1",
         subtopicId: "S32-T3-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Serializa state a JSON, recarga y aplica mediana al batch [None, 4]. El starter omite version o no aplica median. Pasa si version empieza con fs-v y serve=[2, 4]. Salida: `S32-T3-B PASS`.",
+        title: "JSON state y mediana en serve",
+        preamble:
+          "- **Contexto:** el batch de serve del caso Red Andina no puede ir con None si el state ya tiene mediana de train.\n- **Meta:** round-trip JSON, apply median, version que empiece por `fs-v`.\n- **Éxito:** `S32-T3-B PASS` (serve `[2, 4]`, fs-v1).\n- **Límites:** no dejes serve = `[None, 4]`; no borres la version.",
+        instruction:
+          "1. DEFECT: serve no aplica median.\n2. `loaded = json.loads(json.dumps(state))`.\n3. Rellena None con `loaded[\"median\"]`.\n4. Imprime `S32-T3-B` y el status.",
         hint: "json.loads(json.dumps(state)); fill None con state['median'].",
         hints: [
           "json.loads(json.dumps(state)); fill None con state['median'].",
@@ -1521,7 +1662,10 @@ assert results == ["CONTINUE", "REJECT_TRANSFORM_BEFORE_FIT", "REQUEST_FIT_STATE
         ],
         edgeCases: ["falta version", "fixture adverso: version vacía o versioned=False", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T3-B PASS` con serve [2, 4] y version fs-v1.",
-        feedback: "El round-trip JSON es el contrato de persistencia. Servir sin version es `REJECT_UNVERSIONED`.",
+        feedback:
+          "El round-trip JSON es el contrato de persistencia. Servir sin aplicar mediana o sin version legible es `REJECT_UNVERSIONED`: S33 no puede citar un artefacto fantasma.",
+        retrospective:
+          "State versionado + apply idéntico = train≡serve: no basta imprimir `fs-v1` si el batch sigue con `None`. El error clásico es “solo chequear que existe version”. Pregunta: ¿qué debe quedar en serve si el batch es `[None, 4]` y median=2? Siguiente (E2): assess con version vacía.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e1.py",
@@ -1557,7 +1701,11 @@ assert meets is True
         id: "S32-T3-B-E2",
         subtopicId: "S32-T3-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` hace round-trip JSON del `state`, aplica mediana al `serve_batch` y exige version `fs-v*`. Válido: fs-v1 y batch con None rellenados. Adverso: version vacía. Sin version → `MISSING:version`. No apruebes solo con un flag versioned.",
+        title: "Assess fs-vN y apply de mediana",
+        preamble:
+          "- **Contexto:** el id `fs-vN` es lo que el baseline S33 citará; version vacía no se promueve.\n- **Meta:** PASS con state válido y batch sin None; REJECT si version vacía; MISSING sin version.\n- **Éxito:** `PASS REJECT_UNVERSIONED MISSING:version`.\n- **Límites:** no apruebes solo con un flag versioned; apply real de median.",
+        instruction:
+          "1. DEFECT: PASS sin version válida y sin apply.\n2. Missing version → MISSING:version.\n3. Round-trip + startswith('fs-v') + serve == [2, 4].\n4. Imprime las tres rutas.",
         hint: "loaded = json.loads(json.dumps(state)); serve = [median if x is None else x for x in batch].",
         hints: [
           "loaded = json.loads(json.dumps(state)); serve = [median if x is None else x for x in batch].",
@@ -1565,7 +1713,10 @@ assert meets is True
         ],
         edgeCases: ["falta version", "fixture adverso: version '' (no se puede promover state)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_UNVERSIONED MISSING:version`.",
-        feedback: "El id `fs-vN` es el que S33 consumirá. El round-trip y el apply de mediana demuestran train≡serve.",
+        feedback:
+          "El id `fs-vN` es el que S33 consumirá. Round-trip y apply demuestran train≡serve; un flag versioned sin apply deja None en producción.",
+        retrospective:
+          "Round-trip JSON + apply demuestran que el state sobrevive al notebook; el id `fs-v*` es lo que S33 citará. Version vacía no se “arregla” con un flag `versioned=True`. Pregunta: ¿PASS o REJECT si `version=\"\"` aunque la mediana sea 2? Luego (E3): `REQUEST_STATE_JSON`.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e2.py",
@@ -1638,7 +1789,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T3-B-E3",
         subtopicId: "S32-T3-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de persistencia. Round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`. Version vacía o serve con None sin apply → `REJECT_UNVERSIONED`. Sin version → `REQUEST_STATE_JSON`.",
+        title: "Fail-closed: REQUEST_STATE_JSON sin inventar version",
+        preamble:
+          "- **Contexto:** sin version en el record no hay artefacto que S33 pueda citar.\n- **Meta:** state+apply ok → CONTINUE; version vacía → REJECT; sin version → REQUEST_STATE_JSON.\n- **Éxito:** `CONTINUE REJECT_UNVERSIONED REQUEST_STATE_JSON`.\n- **Límites:** no inventes version; CONTINUE solo si serve quedó sin None.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; no aplica median.\n2. Sin version → REQUEST_STATE_JSON.\n3. Con version: JSON + fill; CONTINUE si ok.\n4. Imprime las tres decisiones.",
         hint: "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
         hints: [
           "Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.",
@@ -1646,7 +1801,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta version", "fixture adverso: version vacía o state sin median aplicable", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_UNVERSIONED REQUEST_STATE_JSON`.",
-        feedback: "`REQUEST_STATE_JSON` es fail-closed cuando falta el artefacto. El `CONTINUE` se gana aplicando el state, no con un flag versioned.",
+        feedback:
+          "`REQUEST_STATE_JSON` es fail-closed cuando falta el artefacto. El `CONTINUE` se gana aplicando el state, no con un flag versioned ni promoviendo version vacía.",
+        retrospective:
+          "Falta de `version` en el record es ausencia de artefacto: se pide JSON de state, no se inventa un id. El error clásico es promover con `version=\"\"` o CONTINUE sin apply. Pregunta: ¿qué sale si `version=\"\"` (string vacío, key presente)? Ese matiz (REJECT_UNVERSIONED vs REQUEST) es el que cierra el handoff a S33.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",
@@ -1720,7 +1878,11 @@ assert results == ["CONTINUE", "REJECT_UNVERSIONED", "REQUEST_STATE_JSON"]
         id: "S32-T4-A-E1",
         subtopicId: "S32-T4-A",
         kind: "guided",
-        instruction: "Ejercicio E1 · A partir de filas con ts/entity y cutoff '2026-02-01', calcula n_train, n_test y overlap de entidades. El starter hardcodea tamaños. Pasa si n_train=1, n_test=1, overlap=0. Salida: `S32-T4-A PASS`.",
+        title: "Split por tiempo y overlap de entidades",
+        preamble:
+          "- **Contexto:** el informe de split de CP-N3-B debe derivarse de filas, no de constantes de pizarra.\n- **Meta:** train = ts < cut; overlap = intersección de entity; n_train=1, n_test=1, overlap=0.\n- **Éxito:** `S32-T4-A PASS`.\n- **Límites:** no hardcodees tamaños; deriva de las listas.",
+        instruction:
+          "1. DEFECT: `n_train, n_test, overlap = 1, 1, 0` fijos.\n2. Filtra train/test por cut.\n3. Calcula len y len(intersección de entity).\n4. Imprime `S32-T4-A` y el status.",
         hint: "train = ts < cut; overlap = set(entity train) ∩ set(entity test).",
         hints: [
           "train = ts < cut; overlap = set(entity train) ∩ set(entity test).",
@@ -1728,7 +1890,10 @@ assert results == ["CONTINUE", "REJECT_UNVERSIONED", "REQUEST_STATE_JSON"]
         ],
         edgeCases: ["falta overlap/keys", "fixture adverso: misma entity en train y test (overlap>0)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T4-A PASS` con overlap 0 calculado.",
-        feedback: "El overlap de entidades infla métricas. El gate exige cero intersección.",
+        feedback:
+          "El gate exige cero intersección de entidades. Reportar n_train/n_test/overlap es parte del informe auditable antes del baseline, no un detalle opcional: hardcodear `1,1,0` engaña al promote.",
+        retrospective:
+          "Overlap se mide desde las filas, no se inventa en la pizarra. El error clásico es “ya sé que es cero en este fixture”. Pregunta: si mañana agregas una fila de e1 en febrero, ¿qué debe cambiar en el informe? Siguiente (E2): assess con entity repetida.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e1.py",
@@ -1769,7 +1934,11 @@ assert meets is True
         id: "S32-T4-A-E2",
         subtopicId: "S32-T4-A",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` recibe `rows` y `cut`: calcula n_train, n_test y overlap de entidades (no uses flags precomputados). Válido: e1/e2 sin overlap; adverso: misma entity en ambos lados; sin rows → `MISSING:rows`.",
+        title: "Assess isolation de entidades en split",
+        preamble:
+          "- **Contexto:** e1 en train y test (mismo entity, distinto ts) es el fallo clásico de group leakage.\n- **Meta:** PASS sin overlap; REJECT con intersección; MISSING sin rows.\n- **Éxito:** `PASS REJECT_ENTITY_OVERLAP MISSING:rows`.\n- **Límites:** no uses flags precomputados; intersección real de entity.",
+        instruction:
+          "1. DEFECT: PASS si train y test no vacíos, sin medir overlap.\n2. Calcula intersección de entity.\n3. PASS solo si lados no vacíos y len(overlap)==0.\n4. Imprime las tres rutas.",
         hint: "train = [r for r in rows if r['ts'] < cut]; overlap = set(entity train) ∩ set(entity test).",
         hints: [
           "train = [r for r in rows if r['ts'] < cut]; overlap = set(entity train) ∩ set(entity test).",
@@ -1777,7 +1946,10 @@ assert meets is True
         ],
         edgeCases: ["falta rows", "fixture adverso: misma entity en train y test (overlap>0)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_ENTITY_OVERLAP MISSING:rows`.",
-        feedback: "El overlap se deriva de las filas. Reportarlo es parte del informe de split, no un detalle opcional.",
+        feedback:
+          "El overlap se deriva de las filas. Reportarlo es parte del informe de split: sin números, la cola de revisión no puede auditar leakage de identidad.",
+        retrospective:
+          "e1 en train y test (mismo entity, distinto ts) es group leakage: PASS solo si lados no vacíos y la intersección de entity es vacía. Confiar en “ambos lados tienen filas” sin medir overlap aprueba el fallo clásico. Pregunta: ¿por qué el invalid con e1/e1 no puede ser PASS aunque n_train y n_test sean ≥1? Luego (E3): `REQUEST_SPLIT_KEYS`.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e2.py",
@@ -1855,7 +2027,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T4-A-E3",
         subtopicId: "S32-T4-A",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed de split. A partir de `rows` y `cut`, calcula n_train, n_test y overlap de entidades. Lados no vacíos y overlap 0 → `CONTINUE`. Overlap > 0 → `REJECT_ENTITY_OVERLAP`. Sin rows → `REQUEST_SPLIT_KEYS`. El informe de split es obligatorio antes del baseline.",
+        title: "Fail-closed: REQUEST_SPLIT_KEYS antes del baseline",
+        preamble:
+          "- **Contexto:** sin filas de split no se puede auditar leakage de identidad antes del baseline.\n- **Meta:** overlap 0 y lados no vacíos → CONTINUE; overlap > 0 → REJECT; sin rows → REQUEST_SPLIT_KEYS.\n- **Éxito:** `CONTINUE REJECT_ENTITY_OVERLAP REQUEST_SPLIT_KEYS`.\n- **Límites:** no confíes en n_train prebakeado; recalcula intersección.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; no mide intersección.\n2. Sin rows → REQUEST_SPLIT_KEYS.\n3. Con rows: CONTINUE solo si overlap 0 y lados no vacíos.\n4. Imprime las tres decisiones.",
         hint: "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
         hints: [
           "Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.",
@@ -1863,7 +2039,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta rows", "fixture adverso: misma entity en train y test (overlap>0)", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_ENTITY_OVERLAP REQUEST_SPLIT_KEYS`.",
-        feedback: "Sin filas de split no se puede auditar el leakage de identidad. El overlap se recalcula, no se inventa.",
+        feedback:
+          "Sin filas de split no se puede auditar el leakage de identidad. El overlap se recalcula, no se inventa: un “ok” sin números no pasa el gate hacia S33.",
+        retrospective:
+          "El informe de split es obligatorio antes del baseline: sin filas no se audita leakage de identidad. El error clásico es “ok” sin n_train/n_test/overlap o confiar en tamaños prebakeados. Pregunta: ¿qué sale si e1 está en train y test? Ese REJECT protege el AUC que verá S33.",
         starterCode: {
           language: 'python',
           title: "s32-t4-a-e3.py",
@@ -1940,7 +2119,11 @@ assert results == ["CONTINUE", "REJECT_ENTITY_OVERLAP", "REQUEST_SPLIT_KEYS"]
         id: "S32-T4-B-E1",
         subtopicId: "S32-T4-B",
         kind: "guided",
-        instruction: "Ejercicio E1 · Escanea names con 'label'/'decision', calcula skew |serve_mean-train_mean|>0.5 y valida feature_set fs-v*. El starter invierte el gate. Con names limpios, means iguales y fs-v2 → PASS. Salida: `S32-T4-B PASS`.",
+        title: "Gate limpio: scan, skew y fs-vN",
+        preamble:
+          "- **Contexto:** el promote hacia S33 solo avanza con catálogo limpio, skew bajo tolerancia e id versionado.\n- **Meta:** names sin label/decision, |serve−train| ≤ tol, feature_set `fs-v*`.\n- **Éxito:** `S32-T4-B PASS`.\n- **Límites:** no inviertas el gate; no ignores feature_set.",
+        instruction:
+          "1. DEFECT: `meets = bool(leaky) or skew`.\n2. Cambia a not leaky and not skew and startswith('fs-v').\n3. Status PASS/REJECT_LEAKAGE.\n4. Imprime `S32-T4-B` y el status.",
         hint: "leaky = [n for n in names if 'label' in n or 'decision' in n].",
         hints: [
           "leaky = [n for n in names if 'label' in n or 'decision' in n].",
@@ -1948,7 +2131,10 @@ assert results == ["CONTINUE", "REJECT_ENTITY_OVERLAP", "REQUEST_SPLIT_KEYS"]
         ],
         edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o skew True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Imprime `S32-T4-B PASS` con scan limpio y fs-v2.",
-        feedback: "El scan de nombres y el skew cierran el promote antes del baseline S33.",
+        feedback:
+          "El scan de nombres y el skew cierran el promote. Un gate invertido “premia” el leakage y deja el baseline S33 sobre un espejismo de AUC.",
+        retrospective:
+          "Promote limpio = sin leaky, sin skew, con fs-vN. El error clásico es invertir el booleano del gate y “pasar” cuando hay basura en el catálogo. Pregunta: ¿qué pasa si names trae `label_decision` y skew es False? (REJECT). Siguiente (E2): assess con label_decision.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e1.py",
@@ -1984,7 +2170,11 @@ assert meets is True
         id: "S32-T4-B-E2",
         subtopicId: "S32-T4-B",
         kind: "independent",
-        instruction: "Ejercicio E2 · `assess` escanea `names` (label/decision), calcula skew con means+tol y valida `feature_set`. Válido: names limpios y means cercanos; adverso: label_decision o |serve−train|>tol; sin feature_set → `MISSING:feature_set`.",
+        title: "Assess leakage, skew y feature_set",
+        preamble:
+          "- **Contexto:** `label_decision` en names y |serve−train| > tol son rechazo de promote, no “features útiles”.\n- **Meta:** PASS limpio; REJECT_LEAKAGE en adverso; MISSING sin feature_set.\n- **Éxito:** `PASS REJECT_LEAKAGE MISSING:feature_set`.\n- **Límites:** recalcula leaky y skew; no uses listas prebakeadas de “ya sé que pasa”.",
+        instruction:
+          "1. DEFECT: PASS si leaky o skew.\n2. Missing feature_set → MISSING:feature_set.\n3. PASS solo si not leaky, not skew y fs-v*.\n4. Imprime las tres rutas.",
         hint: "leaky = [n for n in names if 'label' in n or 'decision' in n]; skew = abs(serve-train) > tol.",
         hints: [
           "leaky = [n for n in names if 'label' in n or 'decision' in n]; skew = abs(serve-train) > tol.",
@@ -1992,7 +2182,10 @@ assert meets is True
         ],
         edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o skew True", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `PASS REJECT_LEAKAGE MISSING:feature_set`.",
-        feedback: "`label_decision` en el catálogo es red flag de leakage, no una feature útil. El skew se mide, no se intuye.",
+        feedback:
+          "`label_decision` en el catálogo es red flag de leakage, no una feature útil. El skew se mide con umbral: intuición no sustituye el cálculo antes del promote.",
+        retrospective:
+          "`label_decision` en names y |serve−train| > tol son rechazo de promote, no “features útiles”. El skew se mide con umbral; la intuición no sustituye el cálculo. Pregunta: en el fixture adverso, ¿falla por leaky, por skew, o por ambos? Luego (E3): `REQUEST_FEATURE_SET_ID`.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e2.py",
@@ -2068,7 +2261,11 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         id: "S32-T4-B-E3",
         subtopicId: "S32-T4-B",
         kind: "transfer",
-        instruction: "Ejercicio E3 · Fail-closed final del pipeline hacia S33. Escanea `names`, mide skew con means+tol y valida `feature_set`. Scan limpio + sin skew + fs-v* → `CONTINUE`. Leaky o skew → `REJECT_LEAKAGE`. Sin feature_set → `REQUEST_FEATURE_SET_ID`.",
+        title: "Fail-closed: REQUEST_FEATURE_SET_ID hacia S33",
+        preamble:
+          "- **Contexto:** el feature_set id es el contrato que el baseline S33 debe citar; sin id no se entrena.\n- **Meta:** limpio → CONTINUE; leaky/skew → REJECT; sin feature_set → REQUEST_FEATURE_SET_ID.\n- **Éxito:** `CONTINUE REJECT_LEAKAGE REQUEST_FEATURE_SET_ID`.\n- **Límites:** no promotes ciego; recalcula scan y skew.",
+        instruction:
+          "1. DEFECT: missing→CONTINUE; always CONTINUE.\n2. Sin feature_set → REQUEST_FEATURE_SET_ID.\n3. Con id: CONTINUE solo si scan limpio, sin skew y fs-v*.\n4. Imprime las tres decisiones.",
         hint: "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
         hints: [
           "Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.",
@@ -2076,7 +2273,10 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         ],
         edgeCases: ["falta feature_set", "fixture adverso: label_decision en names o |serve−train|>tol", "Caso sintético Red Andina (sin PII real)"],
         tests: "Salida: `CONTINUE REJECT_LEAKAGE REQUEST_FEATURE_SET_ID`.",
-        feedback: "El feature_set id es el contrato que S33 debe citar. El promote se gana midiendo scan y skew, no leyendo un booleano previo.",
+        feedback:
+          "El feature_set id es el contrato que S33 debe citar. El promote se gana midiendo scan y skew, no con CONTINUE ciego: sin id no se entrena el baseline.",
+        retrospective:
+          "El promote se gana midiendo scan y skew, no leyendo un booleano previo: el id `fs-v*` es el contrato que S33 citará. El error clásico es CONTINUE ciego o entrenar sin feature_set. Pregunta: ¿qué sale si falta `feature_set` en el record? Ese REQUEST cierra el handoff de la tabla versionada.",
         starterCode: {
           language: 'python',
           title: "s32-t4-b-e3.py",
@@ -2243,6 +2443,8 @@ if __name__ == "__main__":
       { criterion: "Documentación en español profesional", weight: "10%" },
       { criterion: "fs-vN + ventana half-open + zero entity overlap + traspaso a S33", weight: "bonus" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con print o assert — ventana half-open, overlap 0, o leaky vacío? (2) ¿qué harías distinto con datos reales vs. sintéticos Red Andina (PII, ventanas legales, labels de decisión)? (3) Escribe en el README una frase de impacto medible (p. ej. “mismo state `fs-vN` en train y serve; overlap entity = 0”) que puedas defender en 30 segundos ante quien entrena el baseline S33.",
   },
   selfCheck: {
     questions: [

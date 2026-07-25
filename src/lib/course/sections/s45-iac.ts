@@ -361,6 +361,8 @@ currency PEN`,
         subtopicId: "S45-T1-A",
         environment: "local-python",
         description: "ADR de persistencia: object para artefactos, relacional para status, cache no autoritativo",
+        preamble:
+          "Antes de encolar un reintento del job de reportes en Iquitos (`CASO-IQU-045`), el ingeniero de plataforma debe **declarar dónde vive la verdad**. En esta demo un worker sintético escribe el artefacto `reports/iqu-1.json` al object store, el status `done` a relacional y una copia descartable al cache. No escribas aún: predice si el artefacto queda en object, qué imprime `status` y por qué `cache_authoritative` es `False`. Si confundes el TTL del cache con el registro autoritativo, el revisor del gate CP-N4-B verá un estado fantasma.",
         code: {
           language: 'python',
           title: "demo_object_relational_cache.py",
@@ -379,13 +381,17 @@ print("adr", meta)`,
 status done
 adr {'truth': 'relational+object', 'cache_authoritative': False}`,
         },
-        why: "Pienso en voz alta el ADR: el blob del reporte va al object store, el status del job a relacional, y el cache solo espeja lecturas. Un reintento relee la verdad durable, no el TTL.",
+        why: "El object store guarda el blob del reporte por key; la tabla relacional guarda el status transaccional del job; el cache solo acelera lecturas del dashboard y **nunca** es fuente de verdad. Un reintento relee object + relacional, no el TTL. Si `cache_authoritative` fuera True, el revisor del gate vería un estado que puede expirar. En We Do repararás el predicado que aprueba cache autoritativo, la tabla PASS/REDESIGN/MISSING y la decisión CONTINUE/WRITE_STORE_ADR.",
+        retrospective:
+          "Si puedes explicar por qué un status solo en cache miente al reintento sin mirar el código, ya tienes el hábito de ADR de persistencia. El error clásico es «el cache es más rápido, usémoslo de verdad». En We Do practicarás el predicado object+relacional y el rechazo del ADR roto.",
       },
       {
         demoId: "S45-T1-B-DEMO",
         subtopicId: "S45-T1-B",
         environment: "local-python",
         description: "Restore sintético: RPO/RTO y consistencia read-after-write del status",
+        preamble:
+          "Un backup en el job de reportes de Iquitos solo es evidencia si el **restore medido** cabe en RPO y RTO. En esta demo el status del job se declara *read-after-write*; un drill con backup de 12 h (RPO 24) y restore de 25 min (RTO 30) pasa; uno de 24 h con restore de 90 min frente a RPO 6 / RTO 30 falla de forma explícita. No escribas: predice `restore_tested` y `restore_breach` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "demo_consistency_lifecycle_backups.py",
@@ -401,13 +407,17 @@ backup daily
 restore_tested True
 restore_breach False`,
         },
-        why: "El backup solo cuenta si el restore medido cabe en RPO/RTO. Aquí un drill de 25 min con RTO 30 y backup fresco pasa; uno viejo y lento falla de forma explícita.",
+        why: "RPO limita la **edad** del backup (horas); RTO limita los **minutos** del restore. La consistencia se declara por operación: el status del job pide read-after-write, un índice de búsqueda puede ser eventual. Un drill de 25 min con RTO 30 y backup fresco pasa; uno viejo y lento falla de forma explícita — no un warning opcional. En We Do invertirás desigualdades, clasificarás MISSING:rto_minutes y enrutarás RUN_RESTORE_DRILL.",
+        retrospective:
+          "Backup sin drill medido no es evidencia de recovery: RPO acota la **edad** del backup y RTO los **minutos** de restore. El error clásico es enseñar una captura «backup daily» sin números. Pregunta: si el restore real midiera 45 min con RTO 30, ¿qué token declararías antes de promover el status del job? We Do: desigualdades correctas, tres rutas y rama RUN_RESTORE_DRILL.",
       },
       {
         demoId: "S45-T2-A-DEMO",
         subtopicId: "S45-T2-A",
         environment: "local-python",
         description: "At-least-once: efecto durable antes del ack; reentrega sin segundo side-effect",
+        preamble:
+          "En colas gestionadas la semántica realista es **at-least-once**: el mensaje puede reaparecer si el worker muere antes del ack (p. ej. tras un visibility timeout). En esta demo del job de Iquitos la key `job-iqu-1` deja un solo efecto; la segunda entrega es `SKIP_DUP`; un job lento (45 s > VT 30) aún escribe el efecto y devuelve `ACK_AFTER_REDELIVERY_WINDOW`. No escribas: predice las cuatro salidas y por qué `effects` solo tiene dos keys.",
         code: {
           language: 'python',
           title: "demo_queue_event_delivery.py",
@@ -436,13 +446,17 @@ ACK_AFTER_REDELIVERY_WINDOW
 effects ['job-iqu-1', 'job-slow']
 delivery at_least_once vt 30`,
         },
-        why: "At-least-once + visibility timeout: el ack va después del efecto durable; si el worker tarda más que el VT, el mensaje pudo reaparecer y la key impide un segundo side-effect. Eso es el contrato de cola del job de reportes.",
+        why: "El efecto durable (status/artefacto) va **antes** del ack. La idempotency key evita un segundo side-effect si el mensaje reaparece tras el visibility timeout. At-least-once sin key es reimpresión del PDF del reporte. El job lento (45 s > VT 30) aún escribe el efecto y marca redelivery window — el consumer debe ser idempotente. En We Do: predicado de política, assess NACK_AND_RETRY y decide VERIFY_DELIVERY_SEMANTICS.",
+        retrospective:
+          "At-least-once sin idempotency key es reimpresión del PDF del reporte. El error clásico es acker al leer el mensaje «para liberar la cola» y perder el efecto durable si el worker muere. Pregunta: si processing_s=45 y VT=30, ¿por qué igual se escribe el efecto y se marca redelivery window? We Do: política completa con backoff y key no vacía.",
       },
       {
         demoId: "S45-T2-B-DEMO",
         subtopicId: "S45-T2-B",
         environment: "local-python",
         description: "Dedup por clave y poison → DLQ tras max attempts",
+        preamble:
+          "La deduplicación usa un store durable de claves; la DLQ recibe *poison* tras N intentos con evidencia. En esta demo del job de Iquitos, `m1` dos veces da `new` y luego `dup`; `poison` con attempts≥3 va a DLQ (`dlq_len 1`). El orden se declara por partición, no se inventa en el consumer. No escribas: predice las tres líneas y por qué `m1` no cuenta dos veces. Si «limpias» el poison sin terminal, el revisor del gate CP-N4-B no ve contención.",
         code: {
           language: 'python',
           title: "demo_dedup_ordering_dlq.py",
@@ -468,13 +482,17 @@ dup
 dlq
 dlq_len 1 order per_partition`,
         },
-        why: "Primera clave es new, reentrega es dup, poison con attempts>=3 termina en DLQ con evidencia. El orden se declara por partición; no se inventa en el consumer.",
+        why: "El set de claves es dedup real: primera vez `new`, reentrega `dup`. Contar con `len(messages)==len(processed)` miente cuando hay duplicados. Poison con attempts≥3 termina en DLQ con evidencia — evita bucle infinito y borrar el mensaje sin audit trail. El orden se declara por partición. En We Do: predicado set(message_ids)==processed_ids, assess y decide INSPECT_MESSAGE_ORDER.",
+        retrospective:
+          "Poison sin estado terminal es reintento eterno. El error clásico es borrar el mensaje «para limpiar la cola» sin audit trail. Pregunta: ¿por qué `len(messages)==len(processed)` miente cuando hay dos `m1`? We Do: conjuntos + flag `terminal_in_dlq` auditado.",
       },
       {
         demoId: "S45-T3-A-DEMO",
         subtopicId: "S45-T3-A",
         environment: "local-python",
         description: "Señal de escala por lag de cola y capacidad dentro de cuota",
+        preamble:
+          "El autoscaling del worker de reportes en Iquitos debe anclarse a **lag de cola**, no a CPU ociosa: un pico sintético encola trabajo y la señal de negocio manda. En esta demo lag 50 (umbral 100) observa `cpu`; lag 150 escala por `lag`. Con backlog 80 y 4 workers (target 25, cuota 6) la capacidad cabe en red privada. No escribas: predice las dos señales y `capacity_ok` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "demo_compute_autoscale_net.py",
@@ -494,13 +512,17 @@ scale_on lag
 capacity_ok True
 network private`,
         },
-        why: "La señal correcta es backlog vs. umbral (no `lag` para cualquier valor ≥ 0). Con lag 50 → cpu; con 150 → lag. La capacidad se valida contra cuota y target por worker en red privada.",
+        why: "La señal de escala es backlog vs. umbral de negocio (no `lag` para cualquier valor ≥ 0). Con lag 50 → cpu; con 150 → lag. Capacidad sana: workers ≤ cuota y lag/worker ≤ target, en red privada. Sin backpressure el SLO de status se rompe antes de que el dashboard lo note. En We Do: predicado de capacidad, assess APPLY_BACKPRESSURE y decide REQUEST_CAPACITY.",
+        retrospective:
+          "Escala por señal de negocio del job (lag de cola sobre umbral), no por CPU ociosa. El error clásico es scale-out por CPU al 20% con cola a 500 mensajes. Pregunta: con backlog 80 y 4 workers (target 25), ¿por qué `capacity_ok` es True y qué rompe quitar backpressure? We Do: cuota + red privada + flag de contención.",
       },
       {
         demoId: "S45-T3-B-DEMO",
         subtopicId: "S45-T3-B",
         environment: "local-python",
         description: "Least privilege + egress allowlist con prueba negativa",
+        preamble:
+          "Least privilege se demuestra con **allowlist de acciones y hosts** más prueba negativa — no con un print decorativo. En esta demo el worker de Iquitos puede `object:get` hacia `api.internal` en path privado; `iam:admin` y `unknown.example` se deniegan. No escribas: predice `ok`, `deny_admin` y `deny_egress`. Si solo ves `least_privilege=True` sin denegaciones, el revisor de seguridad del gate CP-N4-B no tiene evidencia.",
         code: {
           language: 'python',
           title: "demo_iam_private_egress.py",
@@ -518,13 +540,17 @@ deny_admin False
 deny_egress False
 path private`,
         },
-        why: "Least privilege no es un print True: se prueba la acción permitida y se niega admin y hosts fuera de allowlist. Path privado y egress restringido son evidencia de T3-B.",
+        why: "La acción debe estar en allowed, el path ser privado y el host de egress en allowlist. Un booleano decorativo `least_privilege=True` sin denegaciones no pasa T3-B: la evidencia es la denegación de admin y de host desconocido. Path privado y egress restringido son el contrato del worker de reportes. En We Do: predicado, assess DENY y decide REQUEST_SCOPED_POLICY.",
+        retrospective:
+          "La evidencia es la denegación, no el print de éxito. El error clásico es «abrimos admin para el demo». Pregunta: ¿qué dos pruebas negativas llevarías al portfolio (acción y host)? We Do: policy con MISSING:egress_allow y REQUEST_SCOPED_POLICY.",
       },
       {
         demoId: "S45-T4-A-DEMO",
         subtopicId: "S45-T4-A",
         environment: "local-python",
         description: "Plan IaC: paridad declared/planned, sin secretos ni destroy sorpresa",
+        preamble:
+          "IaC declara cola y bucket del job de reportes por entorno; el plan se **revisa** antes del apply — no «aplicar y ver». En esta demo staging con declared==planned y cero destroys pasa; un plan con secretos o destroy de la cola se rechaza. No escribas: predice `staging_ok`, `secret_plan` y `drift_destroy` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "demo_declarative_config_envs.py",
@@ -541,13 +567,17 @@ secret_plan False
 drift_destroy False
 declared ['bucket', 'queue']`,
         },
-        why: "El plan se acepta solo si coincide con lo declarado, el entorno es válido (dev/staging/prod) y no hay secretos ni destrucciones inesperadas. Rechazar el plan malo es el contrato de T4-A.",
+        why: "El plan se acepta solo si declared == planned, el entorno es dev/staging/prod, no hay secretos en claro y destroys == 0. Un plan que elimina la cola o imprime un token se rechaza en revisión humana — «aplicar y ver» no es el contrato. En We Do: predicado, assess REJECT_IAC_PLAN y decide REVIEW_DRIFT.",
+        retrospective:
+          "Rechazar un plan malo es éxito de ingeniería, no fricción. El error clásico es apply ciego «porque el demo urge». Pregunta: si declared={queue,bucket} y planned={bucket}, ¿qué recurso desaparece y por qué no basta «el plan corrió sin error de syntax»? We Do: drift medido y entorno válido (no `shared`).",
       },
       {
         demoId: "S45-T4-B-DEMO",
         subtopicId: "S45-T4-B",
         environment: "local-python",
         description: "Presupuesto PEN, cuota y drill de recovery/portability",
+        preamble:
+          "El presupuesto del job se mide en **PEN sintéticos** (soles) y recovery solo es listo si restore y export portable están ensayados. En esta demo forecast 820 / budget 1000 da ratio 0.82 y under_budget; recovery sin restore queda bloqueado. No escribas: predice ratio, under_budget y las dos líneas de recovery.",
         code: {
           language: 'python',
           title: "demo_cost_quotas_recovery_portability.py",
@@ -569,7 +599,9 @@ under_budget True
 recovery_ready True
 recovery_blocked False`,
         },
-        why: "El forecast en PEN sintéticos se compara con el budget; recovery solo es listo si el drill de restore y el export portable están ambos ensayados — no basta un `print` decorativo.",
+        why: "Forecast ≤ budget y cuota bajo límite son controles operativos en PEN sintéticos, no decoración. Recovery solo es listo si restore_tested y portable_export están ambos ensayados; FREEZE_SCALE_OUT cuando el forecast rompe el presupuesto. Un print «bajo presupuesto» sin export no cierra T4-B. En We Do: predicado, assess FREEZE y decide COST_OWNER_REVIEW.",
+        retrospective:
+          "Costo y recovery se demuestran con números y drills, no con promesas. El error clásico es «está bajo budget, listo» sin `portable_export` ni restore ensayado. Pregunta: si forecast=820 y budget=1000 pero restore_tested=False, ¿el job está listo para scale-out? We Do: FREEZE y COST_OWNER_REVIEW.",
       },
     ],
   },
@@ -580,7 +612,11 @@ recovery_blocked False`,
         id: "S45-T1-A-E1",
         subtopicId: "S45-T1-A",
         kind: "guided",
-        instruction: "S45-T1-A-E1 · Decide la fuente de verdad del job de reportes en Iquitos (`CASO-IQU-045-1A`). El starter marca PASS cuando el cache es autoritativo o las transacciones viven en cache (DEFECT invertido). Corrige el predicado para exigir blob en object, transacciones en relacional, `cache_authoritative=false` y `cache_ttl_s > 0`. No toques los datos ni el assert. Salida exacta: `S45-T1-A PASS`.",
+        title: "ADR: object y relacional, no cache",
+        preamble:
+          "- **Contexto:** en `CASO-IQU-045-1A` el job de reportes de Iquitos solo puede promoverse si el ADR de stores es correcto.\n- **Meta:** corregir el predicado `meets_contract` (blob→object, transacciones→relacional, cache no autoritativo, TTL > 0).\n- **Éxito:** imprimes exactamente `S45-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes stores; no toques el assert; el DEFECT está en el booleano, no en los datos.",
+        instruction:
+          "1. Abre el starter: `meets_contract` da PASS con cache autoritativo (DEFECT invertido).\n2. Exige `blob_store == \"object\"` y `transactions == \"relational\"`.\n3. Añade `not cache_authoritative` y `cache_ttl_s > 0`.\n4. Conserva el print `S45-T1-A` y el status PASS/REDESIGN_PERSISTENCE.",
         hint: "El starter marca PASS cuando el cache es la verdad: invierte ese criterio. El blob del reporte va a object; el status, a relacional.",
         hints: [
           "Si `cache_authoritative` o `transactions == \"cache\"` dan PASS, el predicado está al revés del ADR de T1-A.",
@@ -588,7 +624,10 @@ recovery_blocked False`,
         ],
         edgeCases: ["falta cache_ttl_s", "fixture adverso: cache_authoritative=true o transactions=cache", "CASO-IQU-045-1A es sintético"],
         tests: "El fixture `CASO-IQU-045-1A` satisface un predicado de dominio real; imprime `S45-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S45-T1-A-E1: el ADR correcto es blob→object, transacciones→relacional y cache no autoritativo con TTL > 0. Si el cache es la verdad, el reintento del job miente al revisor.",
+        feedback:
+          "Cache como verdad o transacciones en cache es `REDESIGN_PERSISTENCE`: el reintento del job relee un TTL que miente al revisor de Iquitos. Object + relacional con cache descartable es el único ADR que pasa T1-A.",
+        retrospective:
+          "Fuente de verdad = medio durable según patrón de acceso. El error clásico es marcar `cache_authoritative=true` «porque el dashboard es más rápido». Siguiente (E2): tres rutas válido / adverso / sin TTL.",
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e1.py",
@@ -617,7 +656,11 @@ assert meets_contract is True` ,
         id: "S45-T1-A-E2",
         subtopicId: "S45-T1-A",
         kind: "independent",
-        instruction: "S45-T1-A-E2 · Clasifica tres fixtures de persistencia: ADR válido (object+relacional, cache no autoritativo), adverso (cache como verdad) y registro sin `cache_ttl_s`. Primero `MISSING:…` si falta el campo; luego PASS o `REDESIGN_PERSISTENCE`. El starter invierte el PASS/breach: corrige solo la decisión de dominio. Salidas exactas: `PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s`.",
+        title: "Tres rutas de stores (PASS / REDESIGN / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de persistencia en Iquitos no trata igual un ADR limpio, uno con cache como verdad y un registro incompleto.\n- **Meta:** implementar `assess` que distinga PASS, REDESIGN_PERSISTENCE y MISSING:cache_ttl_s.\n- **Éxito:** imprime `PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s` en ese orden.\n- **Límites:** si falta `cache_ttl_s`, no evalúes el ADR; no inventes el campo; missing ≠ «aceptar».",
+        instruction:
+          "1. Revisa el starter: con datos completos aprueba cache autoritativo (bug).\n2. Primero: claves required; si falta alguna → `MISSING:…`.\n3. Luego: object + relacional + cache no autoritativo + TTL > 0 → PASS; si no → REDESIGN_PERSISTENCE.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Orden de ramas: schema primero (`MISSING:…`), contenido después. No leas `cache_ttl_s` si el campo no está.",
         hints: [
           "Si falta `cache_ttl_s`, devuelve `MISSING:cache_ttl_s` sin evaluar el ADR.",
@@ -625,7 +668,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta cache_ttl_s", "fixture adverso: cache_authoritative=true o transactions=cache", "CASO-IQU-045-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `cache_ttl_s` ausente y produce exactamente `PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s`.",
-        feedback: "S45-T1-A-E2: primero MISSING (schema), luego contenido. Cache como fuente de verdad es breach; sin cache_ttl_s no puedes auditar el hot-path.",
+        feedback:
+          "Primero schema (`MISSING:cache_ttl_s`): sin TTL no auditas el hot-path del dashboard. Luego contenido: object + relacional + cache no autoritativo → PASS; cache como verdad o transacciones en cache → REDESIGN_PERSISTENCE. Missing no es «aceptar con fe» ni un ataque inventado.",
+        retrospective:
+          "Incertidumbre de evidencia (falta TTL) y breach de diseño (cache como verdad) piden respuestas distintas: una rellena el ADR, la otra rediseña stores. El error clásico es marcar «sin TTL» como PASS porque el resto «se ve bien». Pregunta: si el revisor de Iquitos solo ve un status en cache, ¿qué falla en el reintento? Luego (E3): CONTINUE / REDESIGN / WRITE_STORE_ADR.",
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e2.py",
@@ -671,7 +717,11 @@ print(*results)
         id: "S45-T1-A-E3",
         subtopicId: "S45-T1-A",
         kind: "transfer",
-        instruction: "S45-T1-A-E3 · Enruta con cierre por defecto (`fail-closed`) el ADR de stores: válido → `CONTINUE`, cache autoritativo o transactions=cache → `REDESIGN_PERSISTENCE`, sin `cache_ttl_s` → `WRITE_STORE_ADR`. El starter confunde incertidumbre con éxito y usa el predicado invertido: repara ambas ramas sin inventar campos. Salida exacta: `CONTINUE REDESIGN_PERSISTENCE WRITE_STORE_ADR`.",
+        title: "Decide stores: CONTINUE o WRITE_STORE_ADR",
+        preamble:
+          "- **Contexto:** el control plane del job decide si el ADR **sigue** o se detiene: no hay «seguir con warning».\n- **Meta:** `decide` → CONTINUE (ADR válido), REDESIGN_PERSISTENCE (cache autoritativo), WRITE_STORE_ADR (sin TTL).\n- **Éxito:** `CONTINUE REDESIGN_PERSISTENCE WRITE_STORE_ADR`.\n- **Límites:** no inventes `cache_ttl_s`; no conviertas missing en CONTINUE; no toques los fixtures.",
+        instruction:
+          "1. Corrige missing: sin `cache_ttl_s` → `WRITE_STORE_ADR` (no CONTINUE).\n2. Con registro completo, reutiliza el predicado object/relacional de E1/E2.\n3. Solo el ADR limpio es CONTINUE; el de cache como verdad es REDESIGN_PERSISTENCE.\n4. Imprime los tres códigos en orden.",
         hint: "Sin `cache_ttl_s` no auditas el hot-path: enruta a `WRITE_STORE_ADR` antes de mirar object/relational.",
         hints: [
           "Missing no es breach: primero schema, luego diseño. Solo el ADR object+relacional con cache no autoritativo devuelve `CONTINUE`.",
@@ -679,7 +729,10 @@ print(*results)
         ],
         edgeCases: ["falta cache_ttl_s", "fixture adverso: cache_authoritative=true o transactions=cache", "CASO-IQU-045-1A es sintético"],
         tests: "Fixtures `CASO-IQU-045-1A`, adverso y sin `cache_ttl_s` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T1-A-E3: cierre por defecto — ausencia → WRITE_STORE_ADR (inspección), diseño roto → REDESIGN_PERSISTENCE, solo el ADR válido → CONTINUE.",
+        feedback:
+          "Cierre por defecto: ausencia → WRITE_STORE_ADR (inspección humana), diseño roto → REDESIGN_PERSISTENCE, solo el ADR válido → CONTINUE. Promover con campos faltantes no es opción en el job de Iquitos.",
+        retrospective:
+          "Un ADR incompleto es inspección humana (`WRITE_STORE_ADR`), no un allow optimista. El error clásico es promover con «faltan campos, igual pasa». Pregunta: ¿por qué REDESIGN_PERSISTENCE no es lo mismo que WRITE_STORE_ADR, y cuál reutilizas en el youDo si el starter aún no declara `cache_authoritative`?",
         starterCode: {
           language: 'python',
           title: "s45-t1-a-e3.py",
@@ -726,7 +779,11 @@ assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]
         id: "S45-T1-B-E1",
         subtopicId: "S45-T1-B",
         kind: "guided",
-        instruction: "S45-T1-B-E1 · Comprueba el drill de restore de Iquitos (`CASO-IQU-045-1B`). El DEFECT marca PASS cuando el backup es viejo o el restore supera el RTO. Corrige: consistencia explícita del status, `backup_age_h ≤ rpo_h` y `restore_minutes ≤ rto_minutes`. Sin tocar datos ni assert. Salida exacta: `S45-T1-B PASS`.",
+        title: "Restore dentro de RPO y RTO",
+        preamble:
+          "- **Contexto:** en `CASO-IQU-045-1B` el status relacional del job solo se promueve si el drill de restore cabe en los SLO.\n- **Meta:** corregir el predicado (consistencia read-after-write, backup_age ≤ rpo, restore ≤ rto).\n- **Éxito:** `S45-T1-B PASS`.\n- **Límites:** no mutes el fixture; no inviertas las desigualdades a propósito; no toques el assert.",
+        instruction:
+          "1. Abre el starter: `meets_contract` usa `>` en RPO/RTO (DEFECT).\n2. Cámbialo a `backup_age_h <= rpo_h` y `restore_minutes <= rto_minutes`.\n3. Exige `consistency == \"read-after-write\"`.\n4. Conserva print PASS / DECLARE_DATA_LOSS_RISK.",
         hint: "El starter pasa cuando el backup es viejo o el restore es lento: las desigualdades de RPO/RTO están invertidas.",
         hints: [
           "PASS exige `backup_age_h ≤ rpo_h` y `restore_minutes ≤ rto_minutes`, más consistencia del status declarada.",
@@ -734,7 +791,10 @@ assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]
         ],
         edgeCases: ["falta rto_minutes", "fixture adverso: backup_age>rpo o restore>rto o consistency eventual", "CASO-IQU-045-1B es sintético"],
         tests: "El fixture `CASO-IQU-045-1B` satisface un predicado de dominio real; imprime `S45-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S45-T1-B-E1: backup sin restore medido no cuenta. Pasa solo si backup_age ≤ RPO y restore ≤ RTO con consistencia del status declarada.",
+        feedback:
+          "Backup sin restore medido o con restore fuera de RTO es `DECLARE_DATA_LOSS_RISK`, no un warning opcional. El revisor de Iquitos pide minutos y edad, no un checkbox «backup daily».",
+        retrospective:
+          "RPO y RTO son números de drill, no promesas de marketing. El error clásico es invertir las desigualdades al «arreglar» el starter. Siguiente: tres fixtures con y sin `rto_minutes`.",
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e1.py",
@@ -763,7 +823,11 @@ assert meets_contract is True` ,
         id: "S45-T1-B-E2",
         subtopicId: "S45-T1-B",
         kind: "independent",
-        instruction: "S45-T1-B-E2 · Clasifica restore sintético: drill dentro de RPO/RTO (PASS), backup viejo o restore lento (`DECLARE_DATA_LOSS_RISK`), sin `rto_minutes` (`MISSING:rto_minutes`). Corrige el predicado invertido; no omitas la rama missing. Salidas exactas: `PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes`.",
+        title: "Tres rutas de restore (PASS / RIESGO / MISSING)",
+        preamble:
+          "- **Contexto:** el auditor de recovery no confunde un drill lento con un campo ausente.\n- **Meta:** `assess` → PASS, DECLARE_DATA_LOSS_RISK, MISSING:rto_minutes.\n- **Éxito:** `PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes`.\n- **Límites:** sin `rto_minutes` no compares RPO/RTO; no declares pérdida por un campo faltante.",
+        instruction:
+          "1. Schema primero: required keys; missing → `MISSING:…`.\n2. Con datos: read-after-write + backup fresco + restore ≤ RTO → PASS.\n3. Breach de edad/minutos o consistencia eventual → DECLARE_DATA_LOSS_RISK.\n4. Imprime los tres en orden.",
         hint: "Orden de ramas: sin `rto_minutes` no hay drill; devuelve MISSING antes de comparar RPO/RTO.",
         hints: [
           "Si falta `rto_minutes`, `MISSING:rto_minutes` — no declares pérdida de datos por un campo ausente.",
@@ -771,7 +835,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta rto_minutes", "fixture adverso: backup_age>rpo o restore>rto o consistency eventual", "CASO-IQU-045-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `rto_minutes` ausente y produce exactamente `PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes`.",
-        feedback: "S45-T1-B-E2: sin rto_minutes no hay drill auditable (MISSING). Restore lento o backup viejo es riesgo de pérdida de datos, no un warning opcional.",
+        feedback:
+          "Sin `rto_minutes` no hay drill auditable (MISSING). Restore lento o backup viejo es riesgo de pérdida de datos, no un warning opcional para el revisor de recovery.",
+        retrospective:
+          "Sin `rto_minutes` no hay drill auditable: es incertidumbre de evidencia, no pérdida declarada. El error clásico es marcar MISSING como DECLARE_DATA_LOSS_RISK «por precaución». Pregunta: ¿qué haría el auditor si el backup está fresco pero nadie midió el restore? Luego (E3): CONTINUE / DECLARE / RUN_RESTORE_DRILL.",
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e2.py",
@@ -817,7 +884,11 @@ print(*results)
         id: "S45-T1-B-E3",
         subtopicId: "S45-T1-B",
         kind: "transfer",
-        instruction: "S45-T1-B-E3 · Enruta recovery: restore OK → `CONTINUE`; breach de RPO/RTO → `DECLARE_DATA_LOSS_RISK`; sin `rto_minutes` → `RUN_RESTORE_DRILL`. El starter confunde missing con éxito y usa el predicado al revés: repara ambas ramas. Salida exacta: `CONTINUE DECLARE_DATA_LOSS_RISK RUN_RESTORE_DRILL`.",
+        title: "Decide recovery: drill o riesgo",
+        preamble:
+          "- **Contexto:** en producción no «pasas con warning» un restore sin minutos.\n- **Meta:** CONTINUE (OK), DECLARE_DATA_LOSS_RISK (breach), RUN_RESTORE_DRILL (sin rto).\n- **Éxito:** `CONTINUE DECLARE_DATA_LOSS_RISK RUN_RESTORE_DRILL`.\n- **Límites:** no inventes rto; no conviertas incertidumbre en éxito.",
+        instruction:
+          "1. Missing → `RUN_RESTORE_DRILL`.\n2. Completo: reutiliza predicado de E1/E2.\n3. Solo drill dentro de SLO es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Sin `rto_minutes` no hay drill auditable: enruta a `RUN_RESTORE_DRILL` antes de comparar RPO/RTO.",
         hints: [
           "Missing ≠ breach. Primero schema; luego backup fresco y restore dentro del RTO.",
@@ -825,7 +896,10 @@ print(*results)
         ],
         edgeCases: ["falta rto_minutes", "fixture adverso: backup_age>rpo o restore>rto o consistency eventual", "CASO-IQU-045-1B es sintético"],
         tests: "Fixtures `CASO-IQU-045-1B`, adverso y sin `rto_minutes` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T1-B-E3: incertidumbre de drill → RUN_RESTORE_DRILL; breach de RPO/RTO → DECLARE_DATA_LOSS_RISK; solo restore dentro de SLO → CONTINUE.",
+        feedback:
+          "Incertidumbre de drill → RUN_RESTORE_DRILL (ensaya minutos); breach de RPO/RTO o consistencia eventual → DECLARE_DATA_LOSS_RISK; solo restore dentro de SLO → CONTINUE. No hay promote silencioso de recovery: «backup daily» sin números no cierra el gate.",
+        retrospective:
+          "Incertidumbre de drill ≠ pérdida declarada: una pide ensayo, la otra admite riesgo. Pregunta: ¿qué harías si el restore real midiera 45 min con RTO 30?",
         starterCode: {
           language: 'python',
           title: "s45-t1-b-e3.py",
@@ -872,7 +946,11 @@ assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]
         id: "S45-T2-A-E1",
         subtopicId: "S45-T2-A",
         kind: "guided",
-        instruction: "S45-T2-A-E1 · Valida la política at-least-once del worker (`CASO-IQU-045-2A`). El DEFECT aprueba cuando falta ack post-efecto o la key está vacía. Corrige el predicado: `delivery=at-least-once`, efecto durable, `acked_after_effect`, key no vacía y backoff. Conserva datos y assert. Salida exacta: `S45-T2-A PASS` (el adverso de E2 debe caer en `NACK_AND_RETRY`).",
+        title: "At-least-once con ack post-efecto",
+        preamble:
+          "- **Contexto:** el worker de reportes (`CASO-IQU-045-2A`) solo puede acker si la política de entrega es sana.\n- **Meta:** predicado delivery at-least-once + efecto durable + acked_after_effect + key no vacía + backoff.\n- **Éxito:** `S45-T2-A PASS`.\n- **Límites:** no mutes el fixture; no borres el assert; el DEFECT está en el booleano.",
+        instruction:
+          "1. Starter: PASS si `not acked_after_effect` o key vacía (DEFECT).\n2. Invierte: exige los cinco campos de la política correcta.\n3. Status PASS vs NACK_AND_RETRY.\n4. Conserva el print.",
         hint: "El DEFECT aprueba si falta ack post-efecto o la key está vacía: at-least-once sin key es side-effect duplicado en reentrega.",
         hints: [
           "Ack solo después del efecto durable; `idempotency_key` no puede ser cadena vacía y el backoff debe estar activo.",
@@ -880,7 +958,10 @@ assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]
         ],
         edgeCases: ["falta backoff", "fixture adverso: acked_after_effect=false o idempotency_key vacía", "CASO-IQU-045-2A es sintético"],
         tests: "El fixture `CASO-IQU-045-2A` satisface un predicado de dominio real; imprime `S45-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S45-T2-A-E1: at-least-once exige efecto durable, ack después del efecto, key no vacía y backoff. Ack temprano duplica side-effects en reentrega.",
+        feedback:
+          "Ack antes del efecto o key vacía permite un segundo PDF en reentrega. NACK_AND_RETRY es la contención correcta, no un warning en logs del worker de Iquitos.",
+        retrospective:
+          "El orden es efecto → ack, no al revés. El error clásico es «ack primero para liberar la cola». Siguiente: tabla PASS / NACK / MISSING:backoff.",
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e1.py",
@@ -909,7 +990,11 @@ assert meets_contract is True` ,
         id: "S45-T2-A-E2",
         subtopicId: "S45-T2-A",
         kind: "independent",
-        instruction: "S45-T2-A-E2 · Evalúa delivery del worker: mensaje con ack post-efecto + key + backoff (PASS), ack prematuro o key vacía (`NACK_AND_RETRY`), y registro sin `backoff` (`MISSING:backoff`). Repara el predicado invertido del starter; no elimine la rama missing. Salidas exactas: `PASS NACK_AND_RETRY MISSING:backoff`.",
+        title: "Tres rutas de delivery (PASS / NACK / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de colas distingue política rota de política incompleta.\n- **Meta:** `assess` → PASS, NACK_AND_RETRY, MISSING:backoff.\n- **Éxito:** `PASS NACK_AND_RETRY MISSING:backoff`.\n- **Límites:** sin backoff no afirmes breach; no inventes el campo.",
+        instruction:
+          "1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o NACK_AND_RETRY.\n3. No trates ausencia de backoff como NACK.\n4. Imprime los tres.",
         hint: "Orden de ramas: sin `backoff` no afirmas la política de entrega; MISSING antes del predicado de breach.",
         hints: [
           "Si falta `backoff`, `MISSING:backoff`. No trates la ausencia como NACK.",
@@ -917,7 +1002,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta backoff", "fixture adverso: acked_after_effect=false o idempotency_key vacía", "CASO-IQU-045-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `backoff` ausente y produce exactamente `PASS NACK_AND_RETRY MISSING:backoff`.",
-        feedback: "S45-T2-A-E2: sin backoff no puedes afirmar la política de entrega (MISSING). Key vacía o ack-before-effect es breach de delivery.",
+        feedback:
+          "Sin `backoff` no puedes afirmar la política de reintentos (MISSING): el revisor de colas no inventa el campo. Key vacía o ack-before-effect es breach de delivery y abre un segundo PDF en reentrega, no un log suave.",
+        retrospective:
+          "Ausencia de `backoff` es incertidumbre de política de reintentos, no un NACK automático. El error clásico es tratar «falta un campo» como breach de delivery. Pregunta: ¿qué riesgo operativo abres si asumes backoff=True sin verlo en el fixture? Luego (E3): CONTINUE / NACK / VERIFY_DELIVERY_SEMANTICS.",
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e2.py",
@@ -963,7 +1051,11 @@ print(*results)
         id: "S45-T2-A-E3",
         subtopicId: "S45-T2-A",
         kind: "transfer",
-        instruction: "S45-T2-A-E3 · Decide la acción del consumer ante reentrega: política at-least-once correcta → `CONTINUE`; ack antes de efecto / key vacía → `NACK_AND_RETRY`; sin `backoff` → `VERIFY_DELIVERY_SEMANTICS`. El starter trata incertidumbre como éxito y tiene el predicado al revés: corrige ambas fallas. Salida exacta: `CONTINUE NACK_AND_RETRY VERIFY_DELIVERY_SEMANTICS`.",
+        title: "Decide delivery: CONTINUE o VERIFY",
+        preamble:
+          "- **Contexto:** ante reentrega, el consumer enruta o se detiene a inspeccionar — no «sigue con suerte».\n- **Meta:** CONTINUE / NACK_AND_RETRY / VERIFY_DELIVERY_SEMANTICS.\n- **Éxito:** `CONTINUE NACK_AND_RETRY VERIFY_DELIVERY_SEMANTICS`.\n- **Límites:** missing de backoff ≠ éxito; no inventes key.",
+        instruction:
+          "1. Missing → VERIFY_DELIVERY_SEMANTICS.\n2. Completo: predicado sano → CONTINUE; roto → NACK_AND_RETRY.\n3. Imprime en orden de fixtures.\n4. No toques los datos del starter.",
         hint: "Sin `backoff` no puedes afirmar la política de entrega: enruta a `VERIFY_DELIVERY_SEMANTICS` antes del predicado de breach.",
         hints: [
           "Missing primero. Con datos completos, ack post-efecto + key no vacía + efecto durable → `CONTINUE`; si no → `NACK_AND_RETRY`.",
@@ -971,7 +1063,10 @@ print(*results)
         ],
         edgeCases: ["falta backoff", "fixture adverso: acked_after_effect=false o idempotency_key vacía", "CASO-IQU-045-2A es sintético"],
         tests: "Fixtures `CASO-IQU-045-2A`, adverso y sin `backoff` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T2-A-E3: dato faltante → VERIFY_DELIVERY_SEMANTICS; contrato roto → NACK_AND_RETRY; solo delivery sano → CONTINUE.",
+        feedback:
+          "Dato faltante → VERIFY_DELIVERY_SEMANTICS (inspección humana de la política); contrato roto (ack temprano, key vacía, sin efecto durable) → NACK_AND_RETRY; solo delivery sano → CONTINUE. Verificar semántica no es fail silencioso ni «seguir con suerte» en reentrega.",
+        retrospective:
+          "Verificar semántica es una ruta humana, no un fail silencioso. Pregunta: ¿por qué at-most-once del fixture adverso no es «más seguro» aquí?",
         starterCode: {
           language: 'python',
           title: "s45-t2-a-e3.py",
@@ -1018,7 +1113,11 @@ assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]
         id: "S45-T2-B-E1",
         subtopicId: "S45-T2-B",
         kind: "guided",
-        instruction: "S45-T2-B-E1 · Verifica dedup + DLQ en `CASO-IQU-045-2B`. El DEFECT aprueba cuando processed es incompleto o falta terminal en DLQ. Corrige el predicado: ids procesados completos, orden por partición declarado y `terminal_in_dlq=true`. Datos y assert intactos. Salida exacta: `S45-T2-B PASS`.",
+        title: "Dedup real y poison en DLQ",
+        preamble:
+          "- **Contexto:** en `CASO-IQU-045-2B`, `m1,m1,m2` deben dejar processed={m1,m2} y poison con terminal en DLQ.\n- **Meta:** predicado set(message_ids)==processed_ids, len==2, ordered_partition, terminal_in_dlq.\n- **Éxito:** `S45-T2-B PASS`.\n- **Límites:** no mutes ids; no «cuentes» m1 dos veces; no toques el assert.",
+        instruction:
+          "1. Starter: PASS si len(processed)==len(messages) o no terminal (DEFECT).\n2. Usa igualdad de conjuntos y exige terminal_in_dlq.\n3. Exige ordered_partition.\n4. Conserva print PASS/DEDUP_OR_DLQ.",
         hint: "El DEFECT confunde `len(processed)` con dedup real: `m1` dos veces no son dos procesados. Poison sin `terminal_in_dlq` tampoco pasa.",
         hints: [
           "Compara conjuntos: `set(message_ids) == processed_ids`. Luego exige orden por partición y terminal en DLQ.",
@@ -1026,7 +1125,10 @@ assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]
         ],
         edgeCases: ["falta terminal_in_dlq", "fixture adverso: processed incompleto, sin orden o sin DLQ terminal", "CASO-IQU-045-2B es sintético"],
         tests: "El fixture `CASO-IQU-045-2B` satisface un predicado de dominio real; imprime `S45-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S45-T2-B-E1: dedup real usa set(message_ids)==processed_ids (m1 duplicado no cuenta dos veces) y poison termina en DLQ, no en bucle.",
+        feedback:
+          "`m1` duplicado no son dos procesados: el set es la prueba de dedup. Sin `terminal_in_dlq` el poison no está contenido y el revisor de mensajería rechaza el job.",
+        retrospective:
+          "Dedup se demuestra con conjuntos, no con longitudes de lista. El error clásico es len(processed)==3 con dos m1. Siguiente: tres rutas con MISSING:terminal_in_dlq.",
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e1.py",
@@ -1055,7 +1157,11 @@ assert meets_contract is True` ,
         id: "S45-T2-B-E2",
         subtopicId: "S45-T2-B",
         kind: "independent",
-        instruction: "S45-T2-B-E2 · Audita new/dup/DLQ: processed completo + orden + terminal DLQ (PASS); processed incompleto o sin DLQ (`DEDUP_OR_DLQ`); sin campo `terminal_in_dlq` (`MISSING:terminal_in_dlq`). Repara el criterio invertido del starter. Salidas exactas: `PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq`.",
+        title: "Tres rutas dedup/DLQ (PASS / DEDUP / MISSING)",
+        preamble:
+          "- **Contexto:** el auditor de mensajería no confunde «no hay flag de DLQ» con «poison mal manejado».\n- **Meta:** PASS, DEDUP_OR_DLQ, MISSING:terminal_in_dlq.\n- **Éxito:** `PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq`.\n- **Límites:** sin terminal_in_dlq no evalúes dedup; missing ≠ breach.",
+        instruction:
+          "1. Schema primero.\n2. Completo: set + orden + terminal → PASS.\n3. Incompleto/sin orden/sin DLQ → DEDUP_OR_DLQ.\n4. Imprime los tres.",
         hint: "Orden de ramas: sin `terminal_in_dlq` no sabes si el poison terminó; MISSING antes de dedup.",
         hints: [
           "Si falta `terminal_in_dlq`, `MISSING:terminal_in_dlq`. Inspección ≠ DEDUP_OR_DLQ.",
@@ -1063,7 +1169,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta terminal_in_dlq", "fixture adverso: processed incompleto, sin orden o sin DLQ terminal", "CASO-IQU-045-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `terminal_in_dlq` ausente y produce exactamente `PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq`.",
-        feedback: "S45-T2-B-E2: sin terminal_in_dlq no sabes si el poison tiene terminal (MISSING). Processed incompleto o sin orden declarado es DEDUP_OR_DLQ.",
+        feedback:
+          "Sin `terminal_in_dlq` no sabes si el poison tiene terminal (MISSING). Processed incompleto o sin orden declarado es DEDUP_OR_DLQ — no un reintento silencioso.",
+        retrospective:
+          "Falta de flag `terminal_in_dlq` es incertidumbre de contención, no prueba de que el poison se manejó mal. El error clásico es marcar MISSING como DEDUP_OR_DLQ «por si acaso». Pregunta: ¿qué evidencia pedirías antes de replay controlado desde DLQ? Luego (E3): CONTINUE / DEDUP_OR_DLQ / INSPECT_MESSAGE_ORDER.",
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e2.py",
@@ -1109,7 +1218,11 @@ print(*results)
         id: "S45-T2-B-E3",
         subtopicId: "S45-T2-B",
         kind: "transfer",
-        instruction: "S45-T2-B-E3 · Decide contención de mensajes: dedup+DLQ OK → `CONTINUE`; poison/dup sin terminal → `DEDUP_OR_DLQ`; falta `terminal_in_dlq` → `INSPECT_MESSAGE_ORDER`. Corrige predicado invertido e incertidumbre mal enrutada. Salida exacta: `CONTINUE DEDUP_OR_DLQ INSPECT_MESSAGE_ORDER`.",
+        title: "Decide contención: CONTINUE o INSPECT",
+        preamble:
+          "- **Contexto:** el worker enruta poison y dups; si falta evidencia de terminal, **inspecciona** — no promueve.\n- **Meta:** CONTINUE / DEDUP_OR_DLQ / INSPECT_MESSAGE_ORDER.\n- **Éxito:** `CONTINUE DEDUP_OR_DLQ INSPECT_MESSAGE_ORDER`.\n- **Límites:** no conviertas missing en CONTINUE; no inventes terminal_in_dlq.",
+        instruction:
+          "1. Missing del flag → INSPECT_MESSAGE_ORDER.\n2. Completo: predicado de E1 → CONTINUE o DEDUP_OR_DLQ.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `terminal_in_dlq` no sabes si el poison terminó: enruta a `INSPECT_MESSAGE_ORDER` antes de evaluar dedup.",
         hints: [
           "Missing del flag de DLQ ≠ breach. Con datos completos, set(message_ids)==processed_ids + orden + terminal → `CONTINUE`.",
@@ -1117,7 +1230,10 @@ print(*results)
         ],
         edgeCases: ["falta terminal_in_dlq", "fixture adverso: processed incompleto, sin orden o sin DLQ terminal", "CASO-IQU-045-2B es sintético"],
         tests: "Fixtures `CASO-IQU-045-2B`, adverso y sin `terminal_in_dlq` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T2-B-E3: ausencia de terminal → INSPECT_MESSAGE_ORDER; breach de dedup/DLQ → DEDUP_OR_DLQ; solo new/dup/DLQ correctos → CONTINUE.",
+        feedback:
+          "Ausencia de terminal → INSPECT_MESSAGE_ORDER; breach de dedup/DLQ (processed incompleto, sin orden, sin terminal) → DEDUP_OR_DLQ; solo new/dup/DLQ correctos → CONTINUE. Contención sin evidencia de terminal es riesgo operativo, no un reintento «hasta que funcione».",
+        retrospective:
+          "Contención sin evidencia de terminal es riesgo operativo. Pregunta: ¿por qué un bucle de reintentos «hasta que funcione» no es recovery?",
         starterCode: {
           language: 'python',
           title: "s45-t2-b-e3.py",
@@ -1164,7 +1280,11 @@ assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]
         id: "S45-T3-A-E1",
         subtopicId: "S45-T3-A",
         kind: "guided",
-        instruction: "S45-T3-A-E1 · Dimensiona el pool del worker de colas (`CASO-IQU-045-3A`). El DEFECT marca PASS si workers superan cuota o el lag por worker es alto. Corrige: workers ≤ cuota, backlog/workers ≤ target, red privada y backpressure activo. Salida exacta: `S45-T3-A PASS`.",
+        title: "Capacidad en cuota con backpressure",
+        preamble:
+          "- **Contexto:** pico de reportes sintéticos en `CASO-IQU-045-3A`: el pool del worker debe caber en cuota y SLO.\n- **Meta:** workers ≤ cuota, backlog/workers ≤ target, red privada, backpressure activo.\n- **Éxito:** `S45-T3-A PASS`.\n- **Límites:** no mutes números del fixture; no «subas cuota» en el código; corrige solo el predicado.",
+        instruction:
+          "1. Starter aprueba sobrecapacidad (DEFECT).\n2. Invierte a workers ≤ quota y lag por worker ≤ target.\n3. Exige private_network y backpressure.\n4. Conserva print PASS/APPLY_BACKPRESSURE.",
         hint: "El DEFECT aprueba sobrecapacidad: workers sobre cuota o sin backpressure no son carga sana.",
         hints: [
           "Capacidad OK: workers ≤ cuota, backlog/workers ≤ target, red privada y backpressure activo.",
@@ -1172,7 +1292,10 @@ assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]
         ],
         edgeCases: ["falta backpressure", "fixture adverso: workers>quota, lag alto, red pública o sin backpressure", "CASO-IQU-045-3A es sintético"],
         tests: "El fixture `CASO-IQU-045-3A` satisface un predicado de dominio real; imprime `S45-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S45-T3-A-E1: capacidad sana = workers ≤ cuota, backlog/workers ≤ target, red privada y backpressure. Escala por lag, no por CPU ociosa.",
+        feedback:
+          "Workers sobre cuota o sin backpressure rompen el SLO de status antes de que el dashboard lo note. APPLY_BACKPRESSURE es contención, no un log opcional.",
+        retrospective:
+          "Capacidad sana es cuota + target + red + backpressure juntos. El error clásico es solo mirar workers. Siguiente: tres rutas con MISSING:backpressure.",
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e1.py",
@@ -1201,7 +1324,11 @@ assert meets_contract is True` ,
         id: "S45-T3-A-E2",
         subtopicId: "S45-T3-A",
         kind: "independent",
-        instruction: "S45-T3-A-E2 · Clasifica capacidad: workers y lag dentro de objetivo con red privada y backpressure (PASS); sobrecarga o red pública (`APPLY_BACKPRESSURE`); sin `backpressure` (`MISSING:backpressure`). Corrige el predicado invertido. Salidas exactas: `PASS APPLY_BACKPRESSURE MISSING:backpressure`.",
+        title: "Tres rutas de capacidad (PASS / APPLY / MISSING)",
+        preamble:
+          "- **Contexto:** el operador de plataforma no confunde «falta el flag» con «ya estás saturado».\n- **Meta:** PASS, APPLY_BACKPRESSURE, MISSING:backpressure.\n- **Éxito:** `PASS APPLY_BACKPRESSURE MISSING:backpressure`.\n- **Límites:** sin backpressure no apliques contención a ciegas; no inventes el flag.",
+        instruction:
+          "1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o APPLY_BACKPRESSURE.\n3. Imprime los tres.\n4. Conserva fixtures (backlog 500 adverso).",
         hint: "Orden de ramas: sin flag de backpressure no afirmas control de carga; MISSING primero.",
         hints: [
           "Si falta `backpressure`, `MISSING:backpressure` — pide capacidad, no apliques backpressure a ciegas.",
@@ -1209,7 +1336,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta backpressure", "fixture adverso: workers>quota, lag alto, red pública o sin backpressure", "CASO-IQU-045-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `backpressure` ausente y produce exactamente `PASS APPLY_BACKPRESSURE MISSING:backpressure`.",
-        feedback: "S45-T3-A-E2: sin flag backpressure no hay política de contención (MISSING). Workers sobre cuota o lag alto es APPLY_BACKPRESSURE.",
+        feedback:
+          "Sin flag backpressure no hay política de contención (MISSING). Workers sobre cuota, lag alto o red pública es APPLY_BACKPRESSURE — contención inmediata.",
+        retrospective:
+          "Pedir capacidad (MISSING de flag) no es lo mismo que aplicar backpressure (breach de carga o red pública). El error clásico es APPLY a ciegas cuando solo falta evidencia del control. Pregunta: si workers están en cuota pero `private_network=False`, ¿qué token debe ganar? Luego (E3): CONTINUE / APPLY / REQUEST_CAPACITY.",
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e2.py",
@@ -1255,7 +1385,11 @@ print(*results)
         id: "S45-T3-A-E3",
         subtopicId: "S45-T3-A",
         kind: "transfer",
-        instruction: "S45-T3-A-E3 · Enruta escala: capacidad OK → `CONTINUE`; workers/cuota/red rotos → `APPLY_BACKPRESSURE`; sin flag de backpressure → `REQUEST_CAPACITY`. Repara ambas ramas del starter defectuoso. Salida exacta: `CONTINUE APPLY_BACKPRESSURE REQUEST_CAPACITY`.",
+        title: "Decide escala: CONTINUE o REQUEST_CAPACITY",
+        preamble:
+          "- **Contexto:** el control plane no escala a ciegas ni promueve con flag ausente.\n- **Meta:** CONTINUE / APPLY_BACKPRESSURE / REQUEST_CAPACITY.\n- **Éxito:** `CONTINUE APPLY_BACKPRESSURE REQUEST_CAPACITY`.\n- **Límites:** missing ≠ CONTINUE; no inventes backpressure=true.",
+        instruction:
+          "1. Missing → REQUEST_CAPACITY.\n2. Completo: predicado sano → CONTINUE; roto → APPLY_BACKPRESSURE.\n3. Imprime en orden.\n4. No toques datos.",
         hint: "Sin flag de backpressure no puedes afirmar el control de carga: enruta a `REQUEST_CAPACITY` antes del predicado de sobrecarga.",
         hints: [
           "Missing primero. Con datos completos, workers en cuota + lag por worker OK + red privada + backpressure → `CONTINUE`.",
@@ -1263,7 +1397,10 @@ print(*results)
         ],
         edgeCases: ["falta backpressure", "fixture adverso: workers>quota, lag alto, red pública o sin backpressure", "CASO-IQU-045-3A es sintético"],
         tests: "Fixtures `CASO-IQU-045-3A`, adverso y sin `backpressure` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T3-A-E3: capacidad incierta → REQUEST_CAPACITY; sobrecarga/red pública → APPLY_BACKPRESSURE; carga dentro de SLO → CONTINUE.",
+        feedback:
+          "Capacidad incierta (falta backpressure) → REQUEST_CAPACITY; sobrecarga, lag alto o red pública → APPLY_BACKPRESSURE; carga dentro de SLO y red privada → CONTINUE. Solicitar capacidad es planificación humana; APPLY es contención inmediata antes de romper el status del job.",
+        retrospective:
+          "Solicitar capacidad es ruta humana de planificación; APPLY es contención inmediata. Pregunta: ¿por qué red pública en el adverso fuerza APPLY aunque hubiera «CPU libre»?",
         starterCode: {
           language: 'python',
           title: "s45-t3-a-e3.py",
@@ -1310,7 +1447,11 @@ assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]
         id: "S45-T3-B-E1",
         subtopicId: "S45-T3-B",
         kind: "guided",
-        instruction: "S45-T3-B-E1 · Prueba least-privilege del rol del job (`CASO-IQU-045-3B`). El DEFECT aprueba admin abierto o egress a host desconocido. Corrige: `requested_action` ∈ `allowed_actions`, path privado y `egress_host` en allowlist. Salida exacta: `S45-T3-B PASS`.",
+        title: "Least privilege con egress allowlist",
+        preamble:
+          "- **Contexto:** el rol del worker (`CASO-IQU-045-3B`) solo puede promoverse con prueba negativa.\n- **Meta:** requested_action ∈ allowed, private_path, egress_host ∈ egress_allow.\n- **Éxito:** `S45-T3-B PASS`.\n- **Límites:** no amplíes allowed_actions; no inventes hosts; corrige el predicado.",
+        instruction:
+          "1. Starter: PASS en denegación (DEFECT).\n2. Invierte a membership + private_path.\n3. Status PASS vs DENY_IAM_OR_EGRESS.\n4. Conserva print.",
         hint: "El DEFECT invierte la allowlist: admin o host desconocido no pueden dar PASS. La prueba negativa es la evidencia.",
         hints: [
           "PASS solo si la acción pedida está en allowlist, el path es privado y el host de egress está listado.",
@@ -1318,7 +1459,10 @@ assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]
         ],
         edgeCases: ["falta egress_allow", "fixture adverso: acción no permitida, path público o egress desconocido", "CASO-IQU-045-3B es sintético"],
         tests: "El fixture `CASO-IQU-045-3B` satisface un predicado de dominio real; imprime `S45-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S45-T3-B-E1: least privilege = acción en allowlist + path privado + host en egress. Admin abierto o unknown.example es denegación, no atajo.",
+        feedback:
+          "Admin abierto o host desconocido es DENY, no un atajo de laboratorio. La prueba negativa es lo que el revisor de seguridad lee en el portfolio de Iquitos.",
+        retrospective:
+          "Allowlist cerrada + denegaciones explícitas. El error clásico es invertir el predicado «para que pase el assert». Siguiente: tres rutas con MISSING:egress_allow.",
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e1.py",
@@ -1347,7 +1491,11 @@ assert meets_contract is True` ,
         id: "S45-T3-B-E2",
         subtopicId: "S45-T3-B",
         kind: "independent",
-        instruction: "S45-T3-B-E2 · Evalúa policy negativa: acción permitida + path privado + host allowlisted (PASS); admin o egress desconocido (`DENY_IAM_OR_EGRESS`); sin `egress_allow` (`MISSING:egress_allow`). Corrige el PASS/breach invertido. Salidas exactas: `PASS DENY_IAM_OR_EGRESS MISSING:egress_allow`.",
+        title: "Tres rutas IAM (PASS / DENY / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de seguridad no confunde política incompleta con breach de acción.\n- **Meta:** PASS, DENY_IAM_OR_EGRESS, MISSING:egress_allow.\n- **Éxito:** `PASS DENY_IAM_OR_EGRESS MISSING:egress_allow`.\n- **Límites:** sin egress_allow no deniegues a ciegas; no inventes la allowlist.",
+        instruction:
+          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o DENY.\n3. Imprime los tres.\n4. Conserva fixture admin/unknown.example.",
         hint: "Orden de ramas: sin `egress_allow` la política está incompleta; MISSING antes de DENY.",
         hints: [
           "Si falta `egress_allow`, `MISSING:egress_allow` — no conviertas incertidumbre en denegación.",
@@ -1355,7 +1503,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta egress_allow", "fixture adverso: acción no permitida, path público o egress desconocido", "CASO-IQU-045-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `egress_allow` ausente y produce exactamente `PASS DENY_IAM_OR_EGRESS MISSING:egress_allow`.",
-        feedback: "S45-T3-B-E2: sin egress_allow no hay prueba negativa de red (MISSING). Acción fuera de scope o path público es DENY_IAM_OR_EGRESS.",
+        feedback:
+          "Sin egress_allow no hay prueba negativa de red (MISSING). Acción fuera de scope o path público es DENY_IAM_OR_EGRESS — breach, no incertidumbre.",
+        retrospective:
+          "Pedir policy scoped (falta `egress_allow`) no es denegar (breach de acción o host). El error clásico es DENY a ciegas cuando solo falta la allowlist. Pregunta: ¿qué pedirías al equipo de seguridad antes de promover el rol del worker? Luego (E3): CONTINUE / DENY / REQUEST_SCOPED_POLICY.",
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e2.py",
@@ -1401,7 +1552,11 @@ print(*results)
         id: "S45-T3-B-E3",
         subtopicId: "S45-T3-B",
         kind: "transfer",
-        instruction: "S45-T3-B-E3 · Decide IAM/egress: least privilege OK → `CONTINUE`; breach de acción/path/host → `DENY_IAM_OR_EGRESS`; allowlist ausente → `REQUEST_SCOPED_POLICY`. No conviertas incertidumbre en éxito. Salida exacta: `CONTINUE DENY_IAM_OR_EGRESS REQUEST_SCOPED_POLICY`.",
+        title: "Decide IAM: CONTINUE o REQUEST_SCOPED_POLICY",
+        preamble:
+          "- **Contexto:** sin allowlist de egress el job no se promueve «con fe».\n- **Meta:** CONTINUE / DENY_IAM_OR_EGRESS / REQUEST_SCOPED_POLICY.\n- **Éxito:** `CONTINUE DENY_IAM_OR_EGRESS REQUEST_SCOPED_POLICY`.\n- **Límites:** missing ≠ CONTINUE; no inventes egress_allow.",
+        instruction:
+          "1. Missing → REQUEST_SCOPED_POLICY.\n2. Completo: predicado sano → CONTINUE; roto → DENY.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `egress_allow` la política está incompleta: enruta a `REQUEST_SCOPED_POLICY` antes de denegar o aprobar.",
         hints: [
           "Missing de allowlist ≠ breach. Con datos completos, acción en set + path privado + host listado → `CONTINUE`.",
@@ -1409,7 +1564,10 @@ print(*results)
         ],
         edgeCases: ["falta egress_allow", "fixture adverso: acción no permitida, path público o egress desconocido", "CASO-IQU-045-3B es sintético"],
         tests: "Fixtures `CASO-IQU-045-3B`, adverso y sin `egress_allow` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T3-B-E3: política incompleta → REQUEST_SCOPED_POLICY; breach IAM/egress → DENY_IAM_OR_EGRESS; solo allowlist + private → CONTINUE.",
+        feedback:
+          "Política incompleta → REQUEST_SCOPED_POLICY; breach IAM/egress (admin, path público, host desconocido) → DENY_IAM_OR_EGRESS; solo allowlist + private → CONTINUE. Solicitar policy scoped es trabajo de seguridad, no un skip para «desbloquear el demo».",
+        retrospective:
+          "Solicitar policy scoped es trabajo de seguridad, no un skip. Pregunta: ¿qué prueba negativa mostrarías en el portfolio de CP-N4-B?",
         starterCode: {
           language: 'python',
           title: "s45-t3-b-e3.py",
@@ -1456,7 +1614,11 @@ assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]
         id: "S45-T4-A-E1",
         subtopicId: "S45-T4-A",
         kind: "guided",
-        instruction: "S45-T4-A-E1 · Revisa el plan de IaC de staging (`CASO-IQU-045-4A`). El DEFECT aprueba planes con secretos, entorno inválido o destroys. Corrige: declared == planned, env ∈ {dev,staging,prod}, sin secretos y `destructive_changes == 0`. Salida exacta: `S45-T4-A PASS`.",
+        title: "Plan IaC limpio en staging",
+        preamble:
+          "- **Contexto:** en `CASO-IQU-045-4A` la cola y el bucket de reportes solo aplican si el plan es limpio.\n- **Meta:** declared==planned, env dev|staging|prod, sin secretos, destructive_changes==0.\n- **Éxito:** `S45-T4-A PASS`.\n- **Límites:** no mutes recursos; no «aceptes shared»; corrige el predicado.",
+        instruction:
+          "1. Starter: PASS con secretos o destroys (DEFECT).\n2. Invierte y añade paridad de sets y entorno válido.\n3. Status PASS vs REJECT_IAC_PLAN.\n4. Conserva print.",
         hint: "El DEFECT aprueba planes con secretos, entorno `shared` o destroys: un plan limpio es paridad declared==planned sin sorpresas.",
         hints: [
           "Rechaza si el entorno no es dev/staging/prod, hay secretos en el plan o `destructive_changes > 0` sin control.",
@@ -1464,7 +1626,10 @@ assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]
         ],
         edgeCases: ["falta destructive_changes", "fixture adverso: secretos en plan, entorno inválido o destroy inesperado", "CASO-IQU-045-4A es sintético"],
         tests: "El fixture `CASO-IQU-045-4A` satisface un predicado de dominio real; imprime `S45-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S45-T4-A-E1: plan aceptable = declared==planned, env dev|staging|prod, sin secretos y zero destroys inesperados. Apply ciego no es evidencia.",
+        feedback:
+          "Secretos en el plan o destroy de la cola son REJECT_IAC_PLAN. Apply sin revisión no es evidencia de T4-A para el job de reportes de Iquitos.",
+        retrospective:
+          "Plan aceptable = paridad + entorno + sin secretos + cero destroys. El error clásico es solo mirar «no hay error de syntax». Siguiente: MISSING:destructive_changes.",
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e1.py",
@@ -1493,7 +1658,11 @@ assert meets_contract is True` ,
         id: "S45-T4-A-E2",
         subtopicId: "S45-T4-A",
         kind: "independent",
-        instruction: "S45-T4-A-E2 · Clasifica planes IaC: paridad declared/planned en staging sin secretos ni destroys (PASS); secretos/env inválido/destroy (`REJECT_IAC_PLAN`); sin `destructive_changes` (`MISSING:destructive_changes`). Repara el predicado invertido. Salidas exactas: `PASS REJECT_IAC_PLAN MISSING:destructive_changes`.",
+        title: "Tres rutas de plan (PASS / REJECT / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de IaC no confunde «no sé cuántos destroys» con «plan con secretos».\n- **Meta:** PASS, REJECT_IAC_PLAN, MISSING:destructive_changes.\n- **Éxito:** `PASS REJECT_IAC_PLAN MISSING:destructive_changes`.\n- **Límites:** sin conteo de destroys no rechaces a ciegas; no inventes el campo.",
+        instruction:
+          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o REJECT.\n3. Imprime los tres.\n4. Conserva env `shared` adverso.",
         hint: "Orden de ramas: sin `destructive_changes` no mides drift; MISSING antes de reject/accept.",
         hints: [
           "Si falta `destructive_changes`, `MISSING:destructive_changes` → revisión de drift, no rechazo ciego.",
@@ -1501,7 +1670,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta destructive_changes", "fixture adverso: secretos en plan, entorno inválido o destroy inesperado", "CASO-IQU-045-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `destructive_changes` ausente y produce exactamente `PASS REJECT_IAC_PLAN MISSING:destructive_changes`.",
-        feedback: "S45-T4-A-E2: sin destructive_changes no puedes auditar drift (MISSING). Secretos en plan o env inventado es REJECT_IAC_PLAN.",
+        feedback:
+          "Sin destructive_changes no puedes auditar drift (MISSING). Secretos en plan o env inventado es REJECT_IAC_PLAN — no un warning de linter.",
+        retrospective:
+          "Drift no medido (falta `destructive_changes`) es incertidumbre de revisión, no un REJECT automático ni un PASS. El error clásico es rechazar a ciegas o aplicar igual. Pregunta: ¿qué mirarías en el plan además del conteo de destroys (secretos, entorno inventado)? Luego (E3): CONTINUE / REJECT / REVIEW_DRIFT.",
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e2.py",
@@ -1547,7 +1719,11 @@ print(*results)
         id: "S45-T4-A-E3",
         subtopicId: "S45-T4-A",
         kind: "transfer",
-        instruction: "S45-T4-A-E3 · Decide apply vs. rechazo: plan limpio → `CONTINUE`; drift/secretos/entorno malo → `REJECT_IAC_PLAN`; falta conteo de destroys → `REVIEW_DRIFT`. Corrige predicado e incertidumbre mal enrutada. Salida exacta: `CONTINUE REJECT_IAC_PLAN REVIEW_DRIFT`.",
+        title: "Decide apply: CONTINUE o REVIEW_DRIFT",
+        preamble:
+          "- **Contexto:** sin conteo de destroys no hay apply silencioso en el job de Iquitos.\n- **Meta:** CONTINUE / REJECT_IAC_PLAN / REVIEW_DRIFT.\n- **Éxito:** `CONTINUE REJECT_IAC_PLAN REVIEW_DRIFT`.\n- **Límites:** missing ≠ CONTINUE; no inventes destructive_changes=0.",
+        instruction:
+          "1. Missing → REVIEW_DRIFT.\n2. Completo: predicado limpio → CONTINUE; plan malo → REJECT.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `destructive_changes` no mides drift destructivo: enruta a `REVIEW_DRIFT` antes de accept/reject.",
         hints: [
           "Missing del conteo de destroys ≠ plan malo. Con datos completos, declared==planned + entorno válido + sin secretos + 0 destroys → `CONTINUE`.",
@@ -1555,7 +1731,10 @@ print(*results)
         ],
         edgeCases: ["falta destructive_changes", "fixture adverso: secretos en plan, entorno inválido o destroy inesperado", "CASO-IQU-045-4A es sintético"],
         tests: "Fixtures `CASO-IQU-045-4A`, adverso y sin `destructive_changes` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T4-A-E3: drift no medido → REVIEW_DRIFT; plan inseguro → REJECT_IAC_PLAN; solo paridad limpia → CONTINUE.",
+        feedback:
+          "Drift no medido → REVIEW_DRIFT; plan inseguro (secretos, env `shared`, destroy inesperado) → REJECT_IAC_PLAN; solo paridad limpia en dev/staging/prod → CONTINUE. Revisar drift es trabajo humano **previo** al apply, no un warning post-mortem.",
+        retrospective:
+          "Revisar drift es trabajo humano previo al apply. Pregunta: ¿qué destruiría un plan que deja solo `bucket` cuando se declaró `queue+bucket`?",
         starterCode: {
           language: 'python',
           title: "s45-t4-a-e3.py",
@@ -1602,7 +1781,11 @@ assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]
         id: "S45-T4-B-E1",
         subtopicId: "S45-T4-B",
         kind: "guided",
-        instruction: "S45-T4-B-E1 · Cierra el presupuesto del job en PEN sintéticos (`CASO-IQU-045-4B`). El DEFECT marca PASS si forecast > budget o la cuota se rebosa. Corrige: `forecast_pen ≤ budget_pen`, cuota bajo límite, `restore_tested` y `portable_export`. Salida exacta: `S45-T4-B PASS`.",
+        title: "Presupuesto PEN y recovery listos",
+        preamble:
+          "- **Contexto:** en `CASO-IQU-045-4B` el responsable de costo congela scale-out si el forecast sintético rompe el presupuesto.\n- **Meta:** forecast_pen ≤ budget_pen, cuota OK, restore_tested y portable_export.\n- **Éxito:** `S45-T4-B PASS`.\n- **Límites:** no mutes montos PEN; no inventes restore=true; corrige el predicado.",
+        instruction:
+          "1. Starter: PASS con sobrepresupuesto (DEFECT).\n2. Invierte desigualdades y exige restore + export.\n3. Status PASS vs FREEZE_SCALE_OUT.\n4. Conserva print.",
         hint: "El DEFECT aprueba forecast > budget o cuota rota: en PEN sintéticos eso congela scale-out, no lo celebra.",
         hints: [
           "PASS: forecast_pen ≤ budget_pen, cuota bajo límite, restore ensayado y export portable.",
@@ -1610,7 +1793,10 @@ assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]
         ],
         edgeCases: ["falta portable_export", "fixture adverso: forecast>budget PEN, cuota rebasada o restore no probado", "CASO-IQU-045-4B es sintético"],
         tests: "El fixture `CASO-IQU-045-4B` satisface un predicado de dominio real; imprime `S45-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S45-T4-B-E1: en PEN sintéticos, forecast ≤ budget, cuota bajo límite y restore+export portable. Sobrepresupuesto congela scale-out.",
+        feedback:
+          "Forecast > budget o cuota rota es FREEZE_SCALE_OUT en PEN sintéticos. Recovery incompleto (sin restore o sin export portable) también bloquea: un print «bajo presupuesto» no cierra T4-B ni el gate CP-N4-B.",
+        retrospective:
+          "FinOps del job = presupuesto + cuota + drill de recovery juntos. El error clásico es invertir desigualdades «para que el assert pase» sin leer forecast/budget. Pregunta: ¿qué congela scale-out primero, el monto o la falta de export? Siguiente: MISSING:portable_export.",
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e1.py",
@@ -1639,7 +1825,11 @@ assert meets_contract is True` ,
         id: "S45-T4-B-E2",
         subtopicId: "S45-T4-B",
         kind: "independent",
-        instruction: "S45-T4-B-E2 · Audita costo en PEN y recovery: forecast ≤ budget + cuota OK + restore/export (PASS); sobre-presupuesto o cuota rota (`FREEZE_SCALE_OUT`); sin `portable_export` (`MISSING:portable_export`). Corrige el criterio invertido. Salidas exactas: `PASS FREEZE_SCALE_OUT MISSING:portable_export`.",
+        title: "Tres rutas de costo (PASS / FREEZE / MISSING)",
+        preamble:
+          "- **Contexto:** el auditor de costo no confunde «falta export» con «ya rebasaste el budget».\n- **Meta:** PASS, FREEZE_SCALE_OUT, MISSING:portable_export.\n- **Éxito:** `PASS FREEZE_SCALE_OUT MISSING:portable_export`.\n- **Límites:** sin portable_export no congeles a ciegas; no inventes el flag.",
+        instruction:
+          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o FREEZE.\n3. Imprime los tres.\n4. Conserva forecast 1500 adverso.",
         hint: "Orden de ramas: sin `portable_export` no demuestras portabilidad; MISSING antes de FREEZE.",
         hints: [
           "Si falta `portable_export`, `MISSING:portable_export` → revisión de responsable de costo, no freeze automático.",
@@ -1647,7 +1837,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta portable_export", "fixture adverso: forecast>budget PEN, cuota rebasada o restore no probado", "CASO-IQU-045-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `portable_export` ausente y produce exactamente `PASS FREEZE_SCALE_OUT MISSING:portable_export`.",
-        feedback: "S45-T4-B-E2: sin portable_export no hay recovery portable (MISSING). Forecast > budget o cuota rota es FREEZE_SCALE_OUT.",
+        feedback:
+          "Sin `portable_export` no hay recovery portable (MISSING): el auditor de costo pide evidencia de export, no un freeze inventado. Forecast > budget o cuota rota es FREEZE_SCALE_OUT — el dueño congela scale-out ya roto.",
+        retrospective:
+          "Revisión de dueño (falta export) no es freeze (breach de monto o cuota). El error clásico es FREEZE automático cuando solo falta evidencia de portabilidad. Pregunta: si forecast=820 pero no hay `portable_export`, ¿quién debe actuar y con qué token? Luego (E3): CONTINUE / FREEZE / COST_OWNER_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e2.py",
@@ -1693,7 +1886,11 @@ print(*results)
         id: "S45-T4-B-E3",
         subtopicId: "S45-T4-B",
         kind: "transfer",
-        instruction: "S45-T4-B-E3 · Enruta FinOps del job: presupuesto/cuota/recovery OK → `CONTINUE`; breach de costo o cuota → `FREEZE_SCALE_OUT`; falta export portable → `COST_OWNER_REVIEW`. Repara ambas ramas defectuosas del starter. Salida exacta: `CONTINUE FREEZE_SCALE_OUT COST_OWNER_REVIEW`.",
+        title: "Decide FinOps: CONTINUE o COST_OWNER_REVIEW",
+        preamble:
+          "- **Contexto:** sin export portable el scale-out no se «aprueba con fe» en el portfolio.\n- **Meta:** CONTINUE / FREEZE_SCALE_OUT / COST_OWNER_REVIEW.\n- **Éxito:** `CONTINUE FREEZE_SCALE_OUT COST_OWNER_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no inventes portable_export=true.",
+        instruction:
+          "1. Missing → COST_OWNER_REVIEW.\n2. Completo: predicado sano → CONTINUE; roto → FREEZE_SCALE_OUT.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `portable_export` no demuestras portabilidad: enruta a `COST_OWNER_REVIEW` antes de congelar o aprobar.",
         hints: [
           "Missing de export ≠ sobrepresupuesto. Con datos completos, forecast ≤ budget PEN + cuota OK + restore + export → `CONTINUE`.",
@@ -1701,7 +1898,10 @@ print(*results)
         ],
         edgeCases: ["falta portable_export", "fixture adverso: forecast>budget PEN, cuota rebasada o restore no probado", "CASO-IQU-045-4B es sintético"],
         tests: "Fixtures `CASO-IQU-045-4B`, adverso y sin `portable_export` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S45-T4-B-E3: evidencia de recovery incompleta → COST_OWNER_REVIEW; costo/cuota rota → FREEZE_SCALE_OUT; presupuesto sano + drill → CONTINUE.",
+        feedback:
+          "Evidencia de recovery incompleta → COST_OWNER_REVIEW; costo/cuota rota → FREEZE_SCALE_OUT; presupuesto sano + drill → CONTINUE. Dueño de costo revisa; freeze detiene scale-out ya roto.",
+        retrospective:
+          "Dueño de costo revisa evidencia de recovery; freeze detiene scale-out ya roto. Pregunta de cierre: ¿qué tres números (forecast, budget, restore min) defenderías en 30 s ante el revisor de CP-N4-B?",
         starterCode: {
           language: 'python',
           title: "s45-t4-b-e3.py",
@@ -1831,6 +2031,8 @@ print(CASE_ID, "skeleton", STORE_ADR["artifact"], "budget_ok", gate_budget_ok())
       { criterion: "Operación: SLO, costo/cuota, observabilidad y rollback", weight: "15%" },
       { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras — ack solo tras object_store + job_status, y SKIP_DUP en la segunda entrega de `job-iqu-1`? (2) ¿qué harías distinto con cola/cloud real vs. este modelo stdlib (credenciales, egress, PII)? (3) En el README, una frase de impacto medible (p. ej. «reintento no reimprime PDF; poison a DLQ; forecast 820 ≤ budget 1000 PEN») que puedas defender en 30 segundos ante el gate CP-N4-B.",
   },
   selfCheck: {
     questions: [

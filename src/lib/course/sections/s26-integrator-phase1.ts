@@ -370,6 +370,8 @@ n2_regression pass value_min 45`,
         subtopicId: "S26-T1-A",
         environment: "local/cloud controlado",
         description: "Derivo el path canónico de 7 steps desde edges (ai_assist + draft_email). Pensando en voz alta: el orden sale de las dependencias de negocio, no de una lista inventada.",
+        preamble:
+          "El cierre CP-N2-C no «elige un orden a gusto»: el path del VP sale de dependencias de negocio. En esta demo recorres aristas `a→b` desde `ingest` hasta `draft_email`, con `ai_assist` (traspaso de S25) y `approve` **antes** del borrador. No escribas aún: predice la lista de 7 nodos y por qué omitir `validate` o poner `draft_email` antes de `approve` rompería el contrato. Observa `n_steps` y el `ok` final.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -401,13 +403,18 @@ print("ok", True)
 n_steps 7
 ok True`,
         },
-        why: "El orden del VP es el contrato del flow: se deriva de edges; omitir ai_assist rompe el traspaso de S25.",
+        why:
+          "El orden se deriva de edges, no de una lista hardcodeada. `ai_assist` es el handoff de la IA que solo propone; el gate HITL (`approve` antes de `draft_email`) es dependencia de negocio, no preferencia de UX. Un ciclo o un salto (omitir `validate`) impide arrancar el flow con evidencia auditable. En We Do derivarás un tramo parcial, armarás aristas con `zip` y agregarás el estado global del flow.",
+        retrospective:
+          "Si puedes explicar por qué `approve` precede a `draft_email` sin mirar el código, ya internalizaste el contrato del VP. El error clásico es inventar el orden o «ahorrar» `validate`. En We Do derivarás un tramo parcial y agregarás el estado del flow.",
       },
       {
         demoId: "S26-T1-B-DEMO",
         subtopicId: "S26-T1-B",
         environment: "local/cloud controlado",
         description: "Metadata de run con límites y zona America/Lima (pensando en voz alta). Versión didáctica: en producción añade trigger, git_sha y data_cutoff.",
+        preamble:
+          "Antes de habilitar un schedule en un escritorio de ops (p. ej. San Isidro), el run necesita metadata mínima: `run_id`, límite de `api_rpm` y zona `America/Lima`. En esta demo construyes esa foto y un preflight didáctico que marca `too_high` si el rpm supera 60. No escribas: predice el dict impreso y por qué un burst sin límite tumbaría el export sintético.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -426,13 +433,18 @@ print("ok", True)
 preflight ok
 ok True`,
         },
-        why: "Sin metadata (run_id, límites, tz) no hay auditoría ni schedule defendible; el preflight evita tumbar el export.",
+        why:
+          "El `run_id` une logs, HITL y artefactos; la metadata es inmutable al start (no reescribir a mitad del batch). El preflight protege el endpoint compartido del export. En prod se suman `trigger`, `git_sha` y `data_cutoff`. Sin metadata no hay auditoría ni schedule defendible. En We Do: snapshot de dos claves, umbral 60 y cron con tz Lima.",
+        retrospective:
+          "Metadata + límites son el contrato del schedule, no adornos del dict. El error clásico es «subir el rpm y ver qué pasa» o reescribir `run_id` a mitad del batch. Pregunta: ¿qué uniría logs y cola HITL si la foto del start no fuera inmutable? We Do: snapshot de dos claves, preflight 60 y cron con tz Lima.",
       },
       {
         demoId: "S26-T2-A-DEMO",
         subtopicId: "S26-T2-A",
         environment: "local/cloud controlado",
         description: "Checkpoint de reanudación + reintentos hasta max_attempts y DLQ con owner.",
+        preamble:
+          "Un crash a mitad de `analyze` no debe rehacer el ingest: el checkpoint marca lo ya OK y solo reanuda pendientes. En esta demo `a` ya está en ckpt, `b` es flaky y agota 3 intentos hacia DLQ con `owner=ops_rpa`, y `c` se completa. No escribas: predice `resume_from` y el contenido de `dlq` (razón + attempts). Observa que flaky **no** cae a DLQ en el primer intento.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -461,13 +473,18 @@ print("ok", True)
           output: `resume_from ['a', 'c'] dlq [{'id': 'b', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]
 ok True`,
         },
-        why: "Reanudar sin rehacer lo exitoso; reintentar hasta max_attempts y solo entonces DLQ con owner — no basurero silencioso ni DLQ al primer fallo.",
+        why:
+          "Skip si id ∈ ckpt; retry hasta `max_attempts`; solo entonces DLQ con reason y owner (no basurero silencioso). Schema inválido de negocio no se reintenta como timeout. Reanudar sin duplicar y escalar a humano con owner es el núcleo de resiliencia del VP. En We Do: fórmula de backoff, append a DLQ y filtro de pendientes.",
+        retrospective:
+          "Reanudar sin duplicar y escalar a humano con owner es el núcleo de resiliencia del VP. El error clásico es reprocess-all o una DLQ silenciosa sin razón ni dueño. Pregunta: ¿por qué un schema inválido de negocio no debe seguir el mismo camino de retry que un timeout de export? We Do: backoff, mensaje de DLQ y lista de pendientes.",
       },
       {
         demoId: "S26-T2-B-DEMO",
         subtopicId: "S26-T2-B",
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: create-once no pisa; si falla el draft, pop draft y report → superseded.",
+        preamble:
+          "Un reintento exitoso dos veces no debe pisar un informe ya materializado, y un fallo de `draft_email` no borra la evidencia del report. En esta demo `put_once` deja `v1` aunque llegue `v2`, y la compensación quita el draft y marca report `superseded`. No escribas: predice ambas salidas y por qué no haces `del` del report.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -498,13 +515,18 @@ print("ok", True)
 {'report': 'superseded'}
 ok True`,
         },
-        why: "Create-once evita drafts duplicados; compensación parcial deja report superseded (no borra evidencia).",
+        why:
+          "Create-once evita drafts duplicados bajo reentrega del mensaje; la compensación no es ACID mágica sino un grafo explícito (draft fuera, report `superseded` para defensa del historial). Idempotencia y compensación parcial protegen el rastro del VP cuando falla un step tardío. En We Do: `put` condicional, pop+superseded y lock fail-closed entre workers.",
+        retrospective:
+          "Idempotencia y compensación parcial protegen el historial del VP sin «wipe» del informe. El error clásico es sobrescribir en cada put o borrar el report como si fuera rollback de base de datos. Pregunta: ¿qué evidencia perderías en el capstone si hicieras `del` del report? We Do: create-once, rollback parcial y busy cuando locked.",
       },
       {
         demoId: "S26-T3-A-DEMO",
         subtopicId: "S26-T3-A",
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: cuento pending en analysis/report/recipient y demuestro que un solo pending bloquea draft_email.",
+        preamble:
+          "El VP no materializa correo con colas humanas abiertas. En esta demo hay tres contadores (`analysis`, `report`, `recipient`): con analysis=1 y report=1, `blocked` es True; con las tres en 0, `all_clear` es True. No escribas: predice ambas líneas y por qué un solo pending basta. Recuerda: la IA solo propone; no cierra el caso.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -523,13 +545,18 @@ print("ok", True)
 all_clear True
 ok True`,
         },
-        why: "Triple revisión antes del correo: un solo pending basta para bloquear; all_clear solo con las tres en 0.",
+        why:
+          "`any(v>0)` es el gate, no `all`: basta un pending para bloquear. Scores de matching alimentan analysis como evidencia, nunca como fraude. Sin triple verde no hay `draft_email`. Triple revisión antes del correo es el control anti «correo con narrativa alucinada». En We Do: contar pending, any blocked y checklist de claves.",
+        retrospective:
+          "Triple gate es el control anti «correo con narrativa alucinada»: basta un pending para bloquear `draft_email`. El error clásico es exigir las tres colas llenas (`all`) o ignorar un solo pending. Pregunta: ¿por qué un score de matching no puede «saltar» analysis a cero pendientes? We Do: conteo, `any` y lista de colas pendientes.",
       },
       {
         demoId: "S26-T3-B-DEMO",
         subtopicId: "S26-T3-B",
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: reject sin reason es invalid; approve append-only deja rastro defendible.",
+        preamble:
+          "Sin audit, CP-N2-C no se defiende en el capstone. En esta demo un `reject` sin `reason` devuelve `invalid` (fail-closed) y un `approve` se append al log sin reescribir historia. No escribas: predice la primera línea y el `action`/`events` del approve. Observa que el sistema **no envía** correo: solo registra la decisión.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -550,13 +577,18 @@ print("ok", True)
 approve events 1
 ok True`,
         },
-        why: "Reject sin reason se rechaza; approve deja audit append-only — sin eso el capstone no es defendible.",
+        why:
+          "Reject exige reason no vacío; audit es append-only; actor sintético (`r1`), no correo personal. Reject con reason code reabre cola según runbook. Decisiones humanas dejan rastro append-only o no existen para defensa. En We Do: tupla de approve, invalid sin reason y edit versionado.",
+        retrospective:
+          "Decisiones humanas dejan rastro append-only o no existen para defensa en CP-N2-C. El error clásico es reject «sin justificación» o reescribir el log como si fuera el último estado de un dict. Pregunta: ¿qué no podrías demostrar en el capstone si el approve no incrementara `events`? We Do: approve con len, gate de reason y edit 1→2.",
       },
       {
         demoId: "S26-T4-A-DEMO",
         subtopicId: "S26-T4-A",
         environment: "local/cloud controlado",
         description: "Pensando en voz alta: evalúo success_rate y sends_without_approve; nombro alertas como en el runbook.",
+        preamble:
+          "En operación del VP, el nombre de la alerta **es** el contrato del runbook: si el dashboard dice otra cosa, la página on-call se confunde. En esta demo evalúas `success_rate` bajo 0.95 y un envío sin approve. No escribas: predice las dos listas de alertas. Observa que unapproved send es P0 aunque el rate esté bien.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -577,13 +609,18 @@ print("ok", True)
 ['P0_unapproved_send']
 ok True`,
         },
-        why: "alert_success_rate y P0_unapproved_send son contratos de runbook; un alias informal rompe la página on-call.",
+        why:
+          "Umbral 0.95 diario/7d didáctico; `P0_unapproved_send` es violación de control, no warning suave. No inventes `fraud_rate` en el dashboard. `alert_success_rate` y `P0_unapproved_send` son contratos de runbook; un alias informal rompe la página on-call. En We Do: string de alerta, P0 de envíos y secuencia disable→drain→page.",
+        retrospective:
+          "Nombres de alerta estables unen lab, prosa y runbook: si el dashboard inventa un alias, la página on-call se confunde. El error clásico es «alert genérico» o tratar unapproved send como ok en sandbox. Pregunta: ¿por qué un rate sano no cancela un P0 de envío sin approve? We Do: umbral, P0 y secuencia de contención.",
       },
       {
         demoId: "S26-T4-B-DEMO",
         subtopicId: "S26-T4-B",
         environment: "local/cloud controlado",
         description: "Mini-runner E2E: estados nodo a nodo, fallo en analyze, gate approve→draft, regresión pass. Pensando en voz alta: un solo lifecycle une path, crash y gate HITL.",
+        preamble:
+          "El cierre de nivel exige un solo lifecycle: path de 7, gate HITL, evidencia de regresión y cero fraude automático. En esta demo el camino feliz marca 7 `success` y un approve en audit; el camino con `fail_at=analyze` deja analyze `failed` y report `pending`. No escribas: predice ambas salidas y por qué `n2_regression` es `pass` (re-run real) y no `planned`. Observa `fraud_labels 0`.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -622,7 +659,10 @@ audit 1 fraud_labels 0 n2_regression pass
 fail_at_analyze failed report pending
 ok True`,
         },
-        why: "Un solo run lifecycle une path, crash observable, gate HITL, fraud_labels=0 y regresión N2 con evidencia pass (no planned).",
+        why:
+          "Un runner une path, crash observable y gate approve→draft; `fraud_labels=0` es política de producto. La regresión N2 revalida CP-N2-A/B/C + E2E + privacy + CF-2 con evidencia, no con promesa (`planned`). Un solo lifecycle defendible muestra success, blocked y failed con la misma máquina de estados. En We Do: all+approve, fraud_labels+approved y paquete de cierre.",
+        retrospective:
+          "Un lifecycle defendible muestra success, blocked y failed con la misma máquina de estados. El error clásico es «todo success hardcodeado» o regresión «planned». We Do: all+approve, fraud_labels+approved y paquete de cierre.",
       },
     ],
   },
@@ -633,8 +673,11 @@ ok True`,
         id: "S26-T1-A-E1",
         subtopicId: "S26-T1-A",
         kind: "guided",
+        title: "Derivar path parcial desde edges",
+        preamble:
+          "- **Contexto:** en el lab del VP a veces trabajas un tramo base (sin AI ni email) para validar dependencias antes del path completo.\n- **Meta:** derivar el orden lineal de `partial_edges` empezando en `ingest`, sin inventar nodos.\n- **Éxito:** `['ingest', 'validate', 'analyze', 'report']`.\n- **Límites:** no hardcodees la lista; no omitas `validate`; no inserts aún `ai_assist` ni `draft_email` (vista parcial declarada).",
         instruction:
-          "Vista parcial del path (sin AI ni email): a partir de partial_edges=[('ingest', 'validate'), ('validate', 'analyze'), ('analyze', 'report')], deriva el orden lineal empezando en 'ingest' y recorriendo cada arista a→b. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base. Pass: ['ingest', 'validate', 'analyze', 'report'].",
+          "1. Abre el starter: imprime una lista que salta `validate` (DEFECT).\n2. Inicializa `order` con el primer nodo de la primera arista.\n3. Recorre cada `(a, b)` y, si `a` es el último de `order`, haz `append(b)`.\n4. Imprime solo `order`.",
         hint: "parte de first=edges[0][0] y append b si a==último",
         hints: [
           "order = [partial_edges[0][0]]; luego for a,b in partial_edges: si a==order[-1], append b.",
@@ -643,7 +686,10 @@ ok True`,
         ],
         edgeCases: ["draft_email solo tras approve en el path completo", "vista parcial declarada ≠ full path"],
         tests: "orden derivado de partial_edges (4 steps) sin hardcodear la lista a ciegas",
-        feedback: "Si falta validate, el DAG de negocio se rompe antes de llegar a AI o email; derivar de edges evita inventar el orden.",
+        feedback:
+          "Saltar `validate` rompe el DAG de negocio antes de AI o correo. Derivar de edges evita inventar el orden y deja evidencia auditable en el dashboard del run.",
+        retrospective:
+          "El path se *lee* de dependencias; hardcodear es un atajo que falla al cambiar el grafo. El error clásico es omitir un nodo «obvio». Siguiente (E2): construir aristas consecutivas con `zip`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -676,8 +722,11 @@ print(order)`,
         id: "S26-T1-A-E2",
         subtopicId: "S26-T1-A",
         kind: "independent",
+        title: "Aristas lineales con zip de nodos",
+        preamble:
+          "- **Contexto:** un path lineal del flow sintético necesita aristas consecutivas para el grafo, no solo una lista de nombres.\n- **Meta:** con `nodes=['a','b','c']`, construir edges con `zip` y reportar cuántas hay y cuáles son.\n- **Éxito:** `2 [('a', 'b'), ('b', 'c')]`.\n- **Límites:** solo path lineal (sin ciclos); no imprimas solo el `len`.",
         instruction:
-          "Dado nodes=['a', 'b', 'c'] como path lineal del flow sintético, construye edges (a, b), (b, c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output '2 [(...) ]' con pares ordenados. Ciclos prohibidos en producción; aquí solo path. Pass: 2 [('a', 'b'), ('b', 'c')].",
+          "1. Revisa el starter: calcula `edges` bien pero imprime solo `len` (DEFECT).\n2. Deja `list(zip(nodes, nodes[1:]))`.\n3. Imprime `len(edges)` y `edges` en la misma línea.\n4. No inventes aristas hacia atrás ni ciclos.",
         hint: "zip(nodes, nodes[1:])",
         hints: [
           "edges = list(zip(nodes, nodes[1:])) produce pares consecutivos.",
@@ -686,7 +735,10 @@ print(order)`,
         ],
         edgeCases: ["ciclos prohibidos"],
         tests: "salida '2 [(\\'a\\', \\'b\\'), (\\'b\\', \\'c\\')]' o equivalente al solution output",
-        feedback: "Imprimir solo len pierde la evidencia de qué dependencias modelaste.",
+        feedback:
+          "Imprimir solo `len` pierde la evidencia de qué dependencias modelaste. El audit del grafo necesita los pares consecutivos, no solo el número de edges.",
+        retrospective:
+          "Modelar el grafo es dejar *pares* auditables, no un contador suelto: el dashboard del run y un revisor de CF-2 deben ver qué depende de qué. Si confundes «hay 2 aristas» con «el contrato de orquestación está modelado», el audit del path queda incompleto. Pregunta: ¿qué arista faltaría si mañana insertas `ai_assist` entre analyze y report? Luego (E3) agregas el estado global del flow.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -709,8 +761,11 @@ print(len(edges), edges)`,
         id: "S26-T1-A-E3",
         subtopicId: "S26-T1-A",
         kind: "transfer",
+        title: "Estado global del flow si hay failed",
+        preamble:
+          "- **Contexto:** el dashboard del VP no muestra solo nodos sueltos: necesita un estado agregado del flow.\n- **Meta:** con `tasks={'a':'success','b':'failed'}`, decidir `failed` o `success` con `any`.\n- **Éxito:** la cadena exacta `failed`.\n- **Límites:** `skipped` no cuenta como failed en este lab; no hardcodees `success`.",
         instruction:
-          "Agregación de estado global del flow: tasks={'a': 'success', 'b': 'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str] → 'failed'|'success'. Skipped no cuenta como failed en este lab. Pass string exacto: failed.",
+          "1. Lee el DEFECT: siempre imprime `success`.\n2. Evalúa si algún valor es `'failed'`.\n3. Imprime `'failed'` o `'success'` según el resultado.\n4. No mutes el dict de tasks.",
         hint: "any(...) sobre values",
         hints: [
           "Usa any(v == 'failed' for v in tasks.values()).",
@@ -719,7 +774,10 @@ print(len(edges), edges)`,
         ],
         edgeCases: ["skipped frente a failed"],
         tests: "agregación failed|success según any failed en values",
-        feedback: "Un solo nodo failed debe tumbar el estado global del flow.",
+        feedback:
+          "Un solo nodo failed debe tumbar el estado global del flow. «Casi todo OK ⇒ success» es el error clásico del dashboard.",
+        retrospective:
+          "El estado global del flow es un contrato de dashboard: un nodo crítico en `failed` debe tumbar el agregado aunque el resto diga success. El error clásico es promediar «casi todo OK» o tratar `skipped` como fallo de negocio. Pregunta: si `b` estuviera `skipped` y `a` en success, ¿qué imprimirías aquí y por qué? Ese hábito te sirve al reanudar un run con nodos omitidos a propósito.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -740,8 +798,11 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         id: "S26-T1-B-E1",
         subtopicId: "S26-T1-B",
         kind: "guided",
+        title: "Snapshot inmutable run_id y api_rpm",
+        preamble:
+          "- **Contexto:** ops necesita una foto legible del start del run para unir logs y límites, no el dict completo con ruido.\n- **Meta:** armar un snapshot de solo lectura con `run_id` y `api_rpm` e imprimir tupla con el tamaño.\n- **Éxito:** `('cpn2c-1', 30, 2)`.\n- **Límites:** no mutes `m`; no reescribas claves tras el start; no imprimas el dict entero.",
         instruction:
-          "Metadata inmutable de run: m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}. Construye un snapshot de solo lectura con las claves run_id y api_rpm e imprime (run_id, api_rpm, n_keys) donde n_keys es el tamaño del snapshot. No mutes m. Pass: ('cpn2c-1', 30, 2).",
+          "1. Abre el starter: imprime `m` completo (DEFECT).\n2. Crea `snap` solo con `run_id` y `api_rpm`.\n3. Imprime `(snap['run_id'], snap['api_rpm'], len(snap))`.\n4. Deja `tz` fuera del snapshot de este ejercicio.",
         hint: "snapshot con dos claves + len",
         hints: [
           "snap = {'run_id': m['run_id'], 'api_rpm': m['api_rpm']}.",
@@ -750,7 +811,10 @@ print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
         ],
         edgeCases: ["uuid en prod", "metadata no se reescribe tras start"],
         tests: "tupla (run_id, api_rpm, 2) desde snapshot de dos claves",
-        feedback: "Imprimir el dict entero no sirve como llave de join; el ops necesita run_id + límite en un snapshot legible.",
+        feedback:
+          "El dict entero no sirve como llave de join. Un snapshot de dos claves deja `run_id` + límite legibles para el dashboard y el audit del start.",
+        retrospective:
+          "La foto del start es inmutable: versionas un nuevo `run_id` si cambia la foto de datos. El error clásico es reescribir metadata a mitad del batch. Siguiente (E2): preflight del umbral de rpm.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -772,8 +836,11 @@ print((snap['run_id'], snap['api_rpm'], len(snap)))`,
         id: "S26-T1-B-E2",
         subtopicId: "S26-T1-B",
         kind: "independent",
+        title: "Preflight api_rpm sobre umbral 60",
+        preamble:
+          "- **Contexto:** en el adapter sintético de Lima, un `api_rpm` demasiado alto tumba el export compartido.\n- **Meta:** clasificar `api_rpm=90` como `too_high` o `ok` con umbral 60.\n- **Éxito:** la etiqueta exacta `too_high`.\n- **Límites:** umbral didáctico 60 (no 100); este gate bloquearía `enable` del schedule.",
         instruction:
-          "Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de gate. En ops Lima esto bloquearía enable del schedule. Pass: too_high.",
+          "1. Revisa el starter: compara contra 100 (DEFECT).\n2. Cambia a `api_rpm > 60`.\n3. Imprime `'too_high'` o `'ok'`.\n4. No alteres el valor 90 del fixture.",
         hint: "umbral 60",
         hints: [
           "Compara api_rpm > 60, no > 100.",
@@ -782,7 +849,10 @@ print((snap['run_id'], snap['api_rpm'], len(snap)))`,
         ],
         edgeCases: ["burst frente a sustained"],
         tests: "etiqueta too_high|ok según umbral 60",
-        feedback: "Con umbral 100 el preflight deja pasar un rpm que tumba el export.",
+        feedback:
+          "Con umbral 100 el preflight deja pasar un rpm que tumba el export. El gate de Lima es fail-closed: mejor bloquear el schedule que tumbar el endpoint.",
+        retrospective:
+          "El umbral didáctico 60 es política de capacidad del export compartido, no un número «generoso por comodidad». Confundir holgura con seguridad es un bug de ops: el preflight debe bloquear `enable` del schedule antes de que el burst tumbe el endpoint. Pregunta: si midieras rpm real en un cierre de mes, ¿bajarías el umbral o subirías capacidad con revisión humana? Luego (E3) armarás el cron con zona Lima.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -803,8 +873,11 @@ print('too_high' if api_rpm>60 else 'ok')`,
         id: "S26-T1-B-E3",
         subtopicId: "S26-T1-B",
         kind: "transfer",
+        title: "Schedule 06:00 America/Lima listo",
+        preamble:
+          "- **Contexto:** el batch del escritorio PE corre a las 06:00 en días hábiles en zona Lima, no en UTC «por defecto de servidor».\n- **Meta:** fijar cron + tz correctos y un preflight `ready`/`blocked`.\n- **Éxito:** dos líneas — `ready` y `0 6 * * 1-5 America/Lima`.\n- **Límites:** no uses UTC; el cron debe empezar por `0 6`; enable solo si ready.",
         instruction:
-          "Schedule del escritorio PE: arma schedule={'cron':'0 6 * * 1-5','tz':'America/Lima'} y un preflight que imprime 'ready' solo si tz=='America/Lima' y el cron empieza por '0 6'; si no, 'blocked'. Luego imprime en una línea cron y tz. Contrato: no uses UTC. Pass exacto en dos líneas: ready / 0 6 * * 1-5 America/Lima.",
+          "1. Corrige el DEFECT: `tz` está en UTC.\n2. Deja `America/Lima` y el cron `0 6 * * 1-5`.\n3. Calcula `ready` con tz correcta y prefijo del cron.\n4. Imprime la etiqueta y luego `cron` y `tz`.",
         hint: "preflight tz + prefijo de cron; luego print cron tz",
         hints: [
           "Condición ready: schedule['tz']=='America/Lima' y schedule['cron'].startswith('0 6').",
@@ -813,7 +886,10 @@ print('too_high' if api_rpm>60 else 'ok')`,
         ],
         edgeCases: ["DST", "enable schedule solo si ready"],
         tests: "línea ready y línea 0 6 * * 1-5 America/Lima",
-        feedback: "UTC o un cron sin 06:00 local desplaza el batch fuera del horario operativo de Lima.",
+        feedback:
+          "UTC o un cron sin 06:00 local desplaza el batch fuera del horario operativo de Lima. El «servidor ya está en UTC» no es argumento de negocio.",
+        retrospective:
+          "El horario del batch es un contrato de negocio en America/Lima, no un default del host. El error clásico es dejar UTC «porque el servidor ya lo usa» y descubrir el desfase en el primer lunes operativo. Pregunta: ¿qué harías antes de un deploy que cambia el schema del informe? (disable schedule → drain workers → luego cutover). Ese orden evita mezclar versiones a mitad del batch.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -839,8 +915,11 @@ print(schedule["cron"], schedule["tz"])`,
         id: "S26-T2-A-E1",
         subtopicId: "S26-T2-A",
         kind: "guided",
+        title: "Backoff exponencial attempt 3 base 100",
+        preamble:
+          "- **Contexto:** un 429 o timeout de export no se resuelve reintentando a ritmo fijo; el lab usa espera creciente.\n- **Meta:** calcular `base * 2**(attempt-1)` con attempt=3 y base=100.\n- **Éxito:** el entero `400`.\n- **Límites:** no uses `base*attempt` (lineal); este ejercicio no aplica cap ni jitter.",
         instruction:
-          "Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo la fórmula. Pass: 400. (En prod añadirías jitter y cap.)",
+          "1. Abre el starter: `base * attempt` (DEFECT lineal).\n2. Cambia a `base * (2 ** (attempt - 1))`.\n3. Imprime solo el entero de milisegundos.\n4. No inventes un sleep real en el lab.",
         hint: "base * 2**(attempt-1)",
         hints: [
           "attempt=3 → 2**(3-1) = 4; 100*4 = 400.",
@@ -849,7 +928,10 @@ print(schedule["cron"], schedule["tz"])`,
         ],
         edgeCases: ["cap"],
         tests: "entero 400 según fórmula de backoff",
-        feedback: "Backoff lineal no da el respiro creciente que absorbe 429/timeout.",
+        feedback:
+          "Con attempt=3, `2**(3-1)=4` y `100*4=400`. El backoff lineal (`base*attempt`) martilla el export sintético ante 429/timeout; el exponencial da el respiro creciente que el lab modela sin cap ni jitter.",
+        retrospective:
+          "Exponencial da aire al servicio compartido; lineal confunde «número de intento» con multiplicador seguro. El error clásico es copiar un sleep fijo o un `base*attempt` «porque se ve simple». Pregunta: ¿dónde pondrías un `cap` en prod sin perder el crecimiento inicial? Siguiente (E2): materializar la DLQ con owner.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -870,8 +952,11 @@ print(base * (2 ** (attempt - 1)))`,
         id: "S26-T2-A-E2",
         subtopicId: "S26-T2-A",
         kind: "independent",
+        title: "DLQ con owner tras agotar intentos",
+        preamble:
+          "- **Contexto:** cuando un ítem agota reintentos de timeout, no se borra: va a DLQ con dueño y razón.\n- **Meta:** si `attempts >= max_attempts`, append el dict de evidencia e imprimir la lista.\n- **Éxito:** `[{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}]`.\n- **Límites:** no envíes a DLQ en el primer fallo si aún hay cupo; incluye `attempts` en el dict.",
         instruction:
-          "Dead-letter tras agotar reintentos: attempts=3, max_attempts=3, item id='x'. Si attempts>=max_attempts, append a dlq el dict {'id':'x','reason':'timeout_exhausted','owner':'ops_rpa','attempts':3} e imprime la lista. Si aún quedan reintentos, imprime []. Pass: [{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}].",
+          "1. Revisa el starter: imprime `dlq` vacía aunque attempts=3 (DEFECT).\n2. Compara `attempts` con `max_attempts`.\n3. Append id, reason, owner y attempts.\n4. Imprime la lista `dlq`.",
         hint: "append solo si attempts >= max_attempts",
         hints: [
           "Compara attempts con max_attempts antes de append.",
@@ -880,7 +965,10 @@ print(base * (2 ** (attempt - 1)))`,
         ],
         edgeCases: ["owner DLQ", "no DLQ prematura"],
         tests: "lista con un dict id/reason/owner/attempts tras agotar",
-        feedback: "Una DLQ sin owner o sin attempts no es defendible; DLQ al primer fallo contradice el retry.",
+        feedback:
+          "Una DLQ sin owner o sin attempts no es defendible; DLQ al primer fallo contradice el retry. El runbook necesita dueño humano y evidencia de intentos.",
+        retrospective:
+          "La DLQ es una cola de trabajo con dueño y SLA, no un basurero: reason + attempts permiten al runbook decidir reintento, fix de adapter o abandono controlado. El error clásico es DLQ prematura (primer fallo) o append sin `owner`. Pregunta: ¿quién reabre el ítem si `ops_rpa` no mira la cola en 24 h? Luego (E3) filtras pendientes del checkpoint.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -910,8 +998,11 @@ print(dlq)`,
         id: "S26-T2-A-E3",
         subtopicId: "S26-T2-A",
         kind: "transfer",
+        title: "Pendientes del checkpoint tras crash",
+        preamble:
+          "- **Contexto:** tras un crash, solo quieres reprocesar lo que no está en el checkpoint.\n- **Meta:** con `ckpt={'a'}` e `items=['a','b']`, imprimir solo pendientes.\n- **Éxito:** `['b']`.\n- **Límites:** no reimprimas `items` completo; no mutes `ckpt` en este lab.",
         instruction:
-          "Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension que filtra solo pendientes (skip si id ya está en ckpt). Pass: ['b'].",
+          "1. Lee el DEFECT: imprime todos los items.\n2. Filtra con `i not in ckpt`.\n3. Imprime la lista de pendientes.\n4. No hardcodees `['b']` sin mirar ckpt.",
         hint: "i not in ckpt",
         hints: [
           "Filtra: [i for i in items if i not in ckpt].",
@@ -920,7 +1011,10 @@ print(dlq)`,
         ],
         edgeCases: ["persistencia"],
         tests: "lista de pendientes no presentes en ckpt",
-        feedback: "Reprocesar todo tras un crash desperdicia ingest y rompe el checkpoint.",
+        feedback:
+          "Reprocesar todo tras un crash desperdicia ingest y rompe el checkpoint. Skip si id ∈ ckpt es el contrato de reanudación del VP.",
+        retrospective:
+          "Skip si id ∈ ckpt es el contrato de reanudación. El error clásico es rehacer ingest costoso. Pregunta: ¿dónde persistirías el ckpt fuera del lab en memoria?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -941,8 +1035,11 @@ print([i for i in items if i not in ckpt])`,
         id: "S26-T2-B-E1",
         subtopicId: "S26-T2-B",
         kind: "guided",
+        title: "Write create-once sin pisar valor",
+        preamble:
+          "- **Contexto:** un mensaje de cola puede reentregarse; la segunda escritura no debe pisar el report ya creado.\n- **Meta:** implementar `put(k,v)` que solo escribe si la clave no existe.\n- **Éxito:** tras `v1` y `v2`, imprimir `v1`.\n- **Límites:** no hagas upsert versionado aquí; no borres el store entre puts.",
         instruction:
-          "Write idempotente create-once: implementa put(k, v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir v1). Contrato: segunda escritura no pisa. Pass: v1.",
+          "1. Abre el starter: `put` siempre asigna (DEFECT).\n2. Escribe solo si `k not in store`.\n3. Ejecuta las dos llamadas y imprime `store['r']`.\n4. No cambies el orden de las puts.",
         hint: "if k not in store",
         hints: [
           "Dentro de put: escribe solo si k no está en store.",
@@ -951,7 +1048,10 @@ print([i for i in items if i not in ckpt])`,
         ],
         edgeCases: ["upsert versioned"],
         tests: "store['r'] permanece v1 tras dos puts",
-        feedback: "Sobrescribir en cada put duplica drafts bajo reentrega del mensaje.",
+        feedback:
+          "Sobrescribir en cada put duplica o corrompe drafts bajo reentrega de cola. Create-once deja la primera materialización estable: el segundo mensaje con la misma clave de negocio no pisa `v1`.",
+        retrospective:
+          "Create-once es el hábito de idempotencia del lab: la clave de negocio gana al «último write». El error clásico es un upsert silencioso «para no fallar». Pregunta: ¿cuándo sí querrías un write versionado en lugar de create-once? Siguiente (E2): compensación cuando falla el draft.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -982,8 +1082,11 @@ print(store['r'])`,
         id: "S26-T2-B-E2",
         subtopicId: "S26-T2-B",
         kind: "independent",
+        title: "Compensar draft y report superseded",
+        preamble:
+          "- **Contexto:** falló `draft_email` después de materializar el informe; hay que revertir el side-effect del draft sin borrar evidencia.\n- **Meta:** `pop` del draft y marcar `report='superseded'`.\n- **Éxito:** `{'report': 'superseded'}`.\n- **Límites:** no borres el report; no dejes el draft huérfano.",
         instruction:
-          "Compensación/rollback parcial: state={'report': 'ok', 'draft': 'ok'}. Elimina draft (pop) y marca report='superseded' (no lo borres). Imprime state. Contrato: draft side-effect revertido; report queda para defensa. Pass: {'report': 'superseded'}.",
+          "1. Revisa el starter: imprime el state intacto (DEFECT).\n2. Haz `state.pop('draft', None)`.\n3. Asigna `state['report'] = 'superseded'`.\n4. Imprime `state`.",
         hint: "pop draft + superseded",
         hints: [
           "state.pop('draft', None) quita el borrador.",
@@ -992,7 +1095,10 @@ print(store['r'])`,
         ],
         edgeCases: ["compensar side effects"],
         tests: "state sin draft y report superseded",
-        feedback: "Borrar el report pierde la evidencia; superseded es la compensación correcta.",
+        feedback:
+          "Borrar el report pierde la evidencia del run; `superseded` es la compensación correcta para defensa del capstone. El draft se saca con `pop`; el informe se marca, no se elimina del historial.",
+        retrospective:
+          "Compensar no es «dejar el state como si nada hubiera pasado»: es un grafo de side-effects (draft fuera, report superseded). El error clásico es `del` del report o dejar el draft huérfano. Pregunta: ¿qué dirías en un postmortem si el dashboard ya no muestra el informe fallido? Luego (E3) el lock de concurrencia.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1015,8 +1121,11 @@ print(state)`,
         id: "S26-T2-B-E3",
         subtopicId: "S26-T2-B",
         kind: "transfer",
+        title: "Lock fail-closed: busy si locked",
+        preamble:
+          "- **Contexto:** dos workers no deben editar el mismo informe; si `locked=True`, reencolas.\n- **Meta:** imprimir `('busy', id)` o `('enter', id)` según el flag.\n- **Éxito:** `('busy', 'report-1')`.\n- **Límites:** fail-closed (ante duda, no entras); sin busy-loop en el lab.",
         instruction:
-          "Lock optimista de concurrencia: entity={'id':'report-1','locked':True}. Si locked, imprime ('busy', entity['id']) y no entres; si no, ('enter', entity['id']). Contrato: fail-closed (ante duda, no entras); sin busy-loop en el lab. Pass: ('busy', 'report-1').",
+          "1. Lee el DEFECT: la condición está invertida (enter cuando locked).\n2. Si locked → `busy` + id; si no → `enter` + id.\n3. Imprime la tupla.\n4. No ignores el `id` en la salida.",
         hint: "busy + id si locked; enter + id si libre",
         hints: [
           "Lee entity['locked'] y entity['id'].",
@@ -1025,7 +1134,10 @@ print(state)`,
         ],
         edgeCases: ["ttl del lock", "reencolar cuando busy"],
         tests: "tupla (busy, report-1) cuando locked=True",
-        feedback: "Entrar con locked=True permite dos workers sobre el mismo informe; el id en la tupla deja evidencia para el runbook.",
+        feedback:
+          "Entrar con locked=True permite dos workers sobre el mismo informe; el id en la tupla deja evidencia para el runbook.",
+        retrospective:
+          "Busy + id deja evidencia para el runbook; entrar con lock permite corrupción. El error clásico es invertir el booleano «para probar». Pregunta: ¿qué TTL de lease usarías en prod?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1046,8 +1158,11 @@ print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
         id: "S26-T3-A-E1",
         subtopicId: "S26-T3-A",
         kind: "guided",
+        title: "Contar pendientes en cola analysis",
+        preamble:
+          "- **Contexto:** la cola HITL de analysis muestra ítems aún por revisar; el dashboard necesita el conteo de `pending`.\n- **Meta:** con dos ítems (pending y done), imprimir cuántos están pending.\n- **Éxito:** el entero `1`.\n- **Límites:** solo la cola analysis; no mutes la lista; no cuentes `done`.",
         instruction:
-          "Cola HITL analysis: analysis=[{'status': 'pending'}, {'status': 'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este step; no mutes la lista. Pass: 1.",
+          "1. Abre el starter: filtra `status=='done'` (DEFECT).\n2. Cambia a `status=='pending'`.\n3. Imprime el `sum`/conteo.\n4. No alteres los dicts de la lista.",
         hint: "sum status==pending",
         hints: [
           "Filtra x['status']=='pending', no 'done'.",
@@ -1056,7 +1171,10 @@ print(("busy", entity["id"]) if entity["locked"] else ("enter", entity["id"]))`,
         ],
         edgeCases: ["done frente a approved"],
         tests: "entero de pendientes en analysis",
-        feedback: "Contar 'done' en vez de 'pending' subestima la cola HITL.",
+        feedback:
+          "Contar `done` subestima la cola HITL y puede liberar el gate antes de tiempo. El revisor necesita pendientes reales, no «lo ya cerrado».",
+        retrospective:
+          "Pending es el único status que bloquea avance en este lab. El error clásico es mezclar done/approved en el conteo. Siguiente (E2): gate multi-cola con `any`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1077,8 +1195,11 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         id: "S26-T3-A-E2",
         subtopicId: "S26-T3-A",
         kind: "independent",
+        title: "Gate blocked si alguna cola > 0",
+        preamble:
+          "- **Contexto:** el borrador del VP se bloquea si **cualquier** cola HITL tiene trabajo pendiente.\n- **Meta:** con `analysis=1` y las otras en 0, decidir blocked con `any`.\n- **Éxito:** `True`.\n- **Límites:** no uses `all` (exigiría las tres llenas); no inventes un cuarto gate.",
         instruction:
-          "Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (aún no se puede draft_email).",
+          "1. Revisa el starter: usa `all(v>0)` (DEFECT).\n2. Cambia a `any(v>0 ...)`.\n3. Imprime el booleano.\n4. No hardcodees `True` sin mirar `q`.",
         hint: "any(v > 0 ...)",
         hints: [
           "blocked = any(v > 0 for v in q.values()).",
@@ -1087,7 +1208,10 @@ print(sum(1 for x in analysis if x['status']=='pending'))`,
         ],
         edgeCases: ["triple gate"],
         tests: "True si any queue > 0",
-        feedback: "Usar all exige las tres colas llenas; el gate real bloquea con una sola.",
+        feedback:
+          "Usar `all` exige las tres colas llenas; el gate real bloquea con una sola. Confundir `all` con `any` es un bug silencioso de cumplimiento.",
+        retrospective:
+          "Fail-closed de correo: un solo pending debe bastar para bloquear el borrador, aunque report y recipient estén en cero. Confundir `all` con `any` es un bug silencioso de cumplimiento (parece «estricto» pero libera el gate con colas a medias). Pregunta: con analysis=0, report=2, recipient=0, ¿qué booleano esperas y por qué? Luego (E3) listas las claves aún pending.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1108,8 +1232,11 @@ print(any(v>0 for v in q.values()))`,
         id: "S26-T3-A-E3",
         subtopicId: "S26-T3-A",
         kind: "transfer",
+        title: "Checklist de colas aún pending",
+        preamble:
+          "- **Contexto:** el revisor del VP necesita saber **qué** colas siguen pending, no un checklist genérico de nombres de negocio.\n- **Meta:** derivar las claves con status `pending` en orden analysis → report → recipient.\n- **Éxito:** `['analysis', 'recipient']`.\n- **Límites:** no hardcodees metrics/narrative; no incluyas `report` si está done.",
         instruction:
-          "Checklist HITL del VP: given queues={'analysis':'pending','report':'done','recipient':'pending'}, construye la lista de claves aún pending e imprime solo esas (orden: analysis, report, recipient). Contrato: no hardcodees el checklist fijo; deriva de status. Pass: ['analysis', 'recipient'].",
+          "1. Lee el DEFECT: imprime una lista fija de labels.\n2. Define el orden canónico de las tres colas.\n3. Incluye solo claves cuyo value sea `'pending'`.\n4. Imprime esa lista.",
         hint: "filtra keys con status pending",
         hints: [
           "Recorre el orden canónico analysis → report → recipient.",
@@ -1118,7 +1245,10 @@ print(any(v>0 for v in q.values()))`,
         ],
         edgeCases: ["evidencia adjunta"],
         tests: "lista de colas pending en orden canónico",
-        feedback: "Hardcodear metrics/narrative/recipient no enseña a leer el estado de las colas.",
+        feedback:
+          "Hardcodear metrics/narrative/recipient no enseña a leer el estado de las colas. El checklist se *lee* del status, no se memoriza.",
+        retrospective:
+          "El checklist se *lee* del estado, no se memoriza. El error clásico es UI con labels desactualizados. Pregunta: ¿por qué report done no debe aparecer aunque «suene» a revisión?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1140,8 +1270,11 @@ print([k for k in order if queues[k]=='pending'])`,
         id: "S26-T3-B-E1",
         subtopicId: "S26-T3-B",
         kind: "guided",
+        title: "Audit append-only de un approve",
+        preamble:
+          "- **Contexto:** cada approve del VP debe dejar decisión y prueba de que el log creció sin reescritura.\n- **Meta:** append `action=approve` / `actor=rev` e imprimir `(action, len(audit))`.\n- **Éxito:** `('approve', 1)`.\n- **Límites:** no reasignes `audit` a otra lista; no imprimas solo el actor.",
         instruction:
-          "Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor 'rev'; imprime (action, len(audit)). Contrato: no reescribir historial. Pass: ('approve', 1).",
+          "1. Abre el starter: imprime solo `actor` (DEFECT).\n2. Tras el append, lee `action` y `len(audit)`.\n3. Imprime la tupla.\n4. No mutes el dict del evento ya appendeado.",
         hint: "print (action, len)",
         hints: [
           "Tras append, lee audit[0]['action'] y len(audit).",
@@ -1150,7 +1283,10 @@ print([k for k in order if queues[k]=='pending'])`,
         ],
         edgeCases: ["timestamp", "no reescritura"],
         tests: "tupla (approve, 1) del primer evento append-only",
-        feedback: "Imprimir solo el actor no demuestra la decisión; len(audit) prueba que no se reescribió el log.",
+        feedback:
+          "El actor solo no demuestra la decisión. La tupla `(action, len)` prueba qué se aprobó y que hay exactamente un evento append-only.",
+        retrospective:
+          "Append-only es el hábito de audit del cierre. El error clásico es «log = último estado». Siguiente (E2): reject sin reason → invalid.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1173,8 +1309,11 @@ print((audit[0]['action'], len(audit)))`,
         id: "S26-T3-B-E2",
         subtopicId: "S26-T3-B",
         kind: "independent",
+        title: "Reject sin reason es invalid",
+        preamble:
+          "- **Contexto:** un rechazo humano sin justificación no es defendible ni operable (¿qué cola reabrir?).\n- **Meta:** con `action='reject'` y `reason=None`, imprimir `invalid` o `ok`.\n- **Éxito:** `invalid`.\n- **Límites:** reason vacío o None son inválidos; no imprimas `ok` a ciegas.",
         instruction:
-          "Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin justificación. Pass: invalid.",
+          "1. Revisa el starter: imprime `ok` siempre (DEFECT).\n2. Si reject y no hay reason → `invalid`.\n3. En cualquier otro caso → `ok`.\n4. No inventes un reason en este ejercicio.",
         hint: "reject and not reason",
         hints: [
           "Condición: action=='reject' and not reason → 'invalid'.",
@@ -1183,7 +1322,10 @@ print((audit[0]['action'], len(audit)))`,
         ],
         edgeCases: ["reason codes"],
         tests: "invalid cuando reject sin reason",
-        feedback: "Reject sin reason se rechaza a nivel API; el lab lo modela como 'invalid'.",
+        feedback:
+          "Reject sin reason se rechaza a nivel API; el lab lo modela como `invalid`. Fail-closed protege el runbook de reencolado sin justificación.",
+        retrospective:
+          "Fail-closed en reject protege el runbook de reencolado. El error clásico es aceptar reject «mudo». Luego (E3) versionas un edit con evento de audit.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1204,8 +1346,11 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
         id: "S26-T3-B-E3",
         subtopicId: "S26-T3-B",
         kind: "transfer",
+        title: "Edit versionado con evento de audit",
+        preamble:
+          "- **Contexto:** una edición de narrativa del informe no borra historia: sube versión y deja evento.\n- **Meta:** de `ver=1` pasar a 2 y append `{action, actor, from, to}`.\n- **Éxito:** `(2, 1, 'edit')`.\n- **Límites:** no borres eventos previos; un solo append en este lab.",
         instruction:
-          "Edit con audit append-only: parte de ver=1 y audit=[]. Al editar, incrementa ver y append {'action':'edit','actor':'ana','from':1,'to':2}. Imprime (ver, len(audit), audit[-1]['action']). Contrato: no borrar eventos previos. Pass: (2, 1, 'edit').",
+          "1. Lee el DEFECT: imprime ver=1 y sin acción.\n2. Guarda `from`, incrementa `ver`, append el dict de edit.\n3. Imprime `(ver, len(audit), audit[-1]['action'])`.\n4. Usa actor sintético `ana`.",
         hint: "ver += 1 luego audit.append",
         hints: [
           "Primero ver += 1; luego audit.append(...).",
@@ -1214,7 +1359,10 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
         ],
         edgeCases: ["diff store"],
         tests: "tupla (2, 1, 'edit') con audit append-only",
-        feedback: "El versionado sin evento de audit no es defendible en CP-N2-C.",
+        feedback:
+          "El versionado sin evento de audit no es defendible en CP-N2-C. Mutar el texto «en el mismo ver» borra historia.",
+        retrospective:
+          "Un edit de narrativa debe subir versión **y** dejar evento con `from`/`to`: el revisor ve el salto, no solo el texto final. El error clásico es mutar el cuerpo «en el mismo ver» o append sin actor sintético. Pregunta: ¿por qué `from`/`to` ayudan más al audit que un contador suelto de ediciones? Ese rastro es lo que defiende el cierre CP-N2-C.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1240,8 +1388,11 @@ print((ver, len(audit), audit[-1]['action']))`,
         id: "S26-T4-A-E1",
         subtopicId: "S26-T4-A",
         kind: "guided",
+        title: "Alerta alert_success_rate bajo 0.95",
+        preamble:
+          "- **Contexto:** el SLO del VP exige `success_rate ≥ 0.95`; por debajo se dispara la alerta del runbook.\n- **Meta:** con `rate=0.9`, emitir el nombre canónico de alerta o `ok`.\n- **Éxito:** `alert_success_rate`.\n- **Límites:** compara `rate < 0.95` (no `>`); no uses un alias genérico `alert`.",
         instruction:
-          "SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert_success_rate', si no 'ok'. Contrato: nombre de alerta alineado al runbook (no un alias genérico). Pass: alert_success_rate.",
+          "1. Abre el starter: condición invertida y string `alert` (DEFECT).\n2. Corrige a `rate < 0.95`.\n3. Imprime `'alert_success_rate'` o `'ok'`.\n4. No cambies el fixture 0.9.",
         hint: "rate < 0.95 → alert_success_rate",
         hints: [
           "Compara rate < 0.95 (no >).",
@@ -1250,7 +1401,10 @@ print((ver, len(audit), audit[-1]['action']))`,
         ],
         edgeCases: ["ventana 7d"],
         tests: "print alert_success_rate cuando rate bajo umbral",
-        feedback: "Invertir la comparación o usar un nombre informal rompe el contrato del runbook.",
+        feedback:
+          "Con 0.9 debes alertar con el nombre del runbook. Invertir la comparación o usar un alias informal rompe la página on-call y el playbook.",
+        retrospective:
+          "El string de alerta es contrato, no cosmético. El error clásico es «cualquier alert sirve». Siguiente (E2): P0 de envíos sin approve.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1271,8 +1425,11 @@ print('alert_success_rate' if rate < 0.95 else 'ok')`,
         id: "S26-T4-A-E2",
         subtopicId: "S26-T4-A",
         kind: "independent",
+        title: "P0 si hay envío sin approve",
+        preamble:
+          "- **Contexto:** cero envíos sin approve humano es control de cumplimiento del VP (incluso en sandbox mal configurado).\n- **Meta:** con `n=1`, emitir `P0_unapproved_send` o `ok`.\n- **Éxito:** `P0_unapproved_send`.\n- **Límites:** un solo envío ya es P0; no inviertas la lógica «ok si n>0».",
         instruction:
-          "Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapproved_send.",
+          "1. Revisa el starter: imprime `ok` cuando `n>0` (DEFECT).\n2. Si `n>0` → `P0_unapproved_send`.\n3. Si no → `ok`.\n4. No trates sandbox como excepción en este lab.",
         hint: "n > 0 es P0",
         hints: [
           "Si n>0 → 'P0_unapproved_send'; si no → 'ok'.",
@@ -1281,7 +1438,10 @@ print('alert_success_rate' if rate < 0.95 else 'ok')`,
         ],
         edgeCases: ["sandbox misconfig"],
         tests: "P0_unapproved_send cuando n>0",
-        feedback: "Tratar unapproved send como ok en sandbox sigue siendo P0 en el VP.",
+        feedback:
+          "Tratar unapproved send como ok en sandbox sigue siendo P0 en el VP. Es incidente de control, no de latencia.",
+        retrospective:
+          "Cero envíos sin approve es control de cumplimiento del VP, no un warning de latencia: un solo `n>0` ya es P0 aunque el rate de success esté impecable. El error clásico es «era sandbox, da igual» o invertir el booleano «para ver el camino feliz». Pregunta: ¿qué evidencia pedirías en el audit si la alerta P0 se dispara a las 06:10 Lima? Luego (E3) el runbook de contención.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1302,8 +1462,11 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         id: "S26-T4-A-E3",
         subtopicId: "S26-T4-A",
         kind: "transfer",
+        title: "Runbook P0 disable drain page",
+        preamble:
+          "- **Contexto:** ante un P0 del VP, el on-call necesita severidad explícita y el orden de contención, no solo «avisar».\n- **Meta:** unir `parts` con ` -> ` e imprimir severity + secuencia.\n- **Éxito:** `P0 disable_schedule -> drain -> page`.\n- **Límites:** orden fijo; no omitas severity; no saltes drain.",
         instruction:
-          "Runbook de incidente P0: parts=['disable_schedule','drain','page'] y severity='P0'. Une parts con ' -> ' e imprime severity y la secuencia en una línea (p. ej. P0 disable_schedule -> drain -> page). Contrato: orden fijo de contención + severidad explícita para on-call. Pass: P0 disable_schedule -> drain -> page.",
+          "1. Lee el DEFECT: solo imprime `page`.\n2. Haz `join` de las tres partes con `' -> '`.\n3. Imprime `severity` y la secuencia en una línea.\n4. No reordenes disable/drain/page.",
         hint: "print severity y join(parts)",
         hints: [
           "seq = ' -> '.join(parts).",
@@ -1312,7 +1475,10 @@ print('P0_unapproved_send' if n>0 else 'ok')`,
         ],
         edgeCases: ["oncall roster", "severidad P0 frente a warning"],
         tests: "línea P0 disable_schedule -> drain -> page",
-        feedback: "Saltar disable_schedule/drain o no declarar severidad deja al on-call sin contención clara.",
+        feedback:
+          "Saltar disable_schedule/drain o no declarar severidad deja al on-call sin contención clara. Contención antes de página: primero paras el cron y drenas, luego avisas.",
+        retrospective:
+          "El on-call necesita severidad explícita **y** el orden de contención: primero paras el cron (`disable_schedule`), drenas workers, luego paginas. Page-first sin drenar deja jobs a medias y mezcla versiones de informe. Pregunta: ¿qué riesgos hay si cambias el schema del report sin `disable_schedule`? Ese playbook es el mismo que documentarás en el runbook del cierre.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1335,8 +1501,11 @@ print(severity, ' -> '.join(parts))`,
         id: "S26-T4-B-E1",
         subtopicId: "S26-T4-B",
         kind: "guided",
+        title: "E2E: 7 steps success y approve",
+        preamble:
+          "- **Contexto:** el gate E2E del cierre CP-N2-C no se contenta con «algo pasó»: exige el path canónico completo y approve en audit.\n- **Meta:** True solo si los 7 steps están success **y** hay al menos un approve.\n- **Éxito:** `True`.\n- **Límites:** path de 7 (no tres); no uses solo `any(success)`; draft no se defiende sin approve.",
         instruction:
-          "Gate E2E del path canónico: steps con los 7 nodos del VP y status success en todos; audit=[{'action':'approve'}]. Imprime True solo si all(status[s]=='success' for s in steps) **y** hay al menos un action=='approve' en audit. Contrato: draft_email no se defiende sin approve. Pass: True.",
+          "1. Abre el starter: path corto y `any` (DEFECT).\n2. Lista los 7 nodos canónicos.\n3. Combina `all(... success)` con `any(... approve)`.\n4. Imprime el booleano.",
         hint: "all success AND any approve",
         hints: [
           "steps debe ser el path de 7: ingest…draft_email.",
@@ -1345,7 +1514,10 @@ print(severity, ' -> '.join(parts))`,
         ],
         edgeCases: ["fallo parcial", "success sin approve"],
         tests: "True solo con full path success + approve en audit",
-        feedback: "Un E2E de tres steps sin approve no demuestra el gate draft del VP.",
+        feedback:
+          "Un E2E de tres steps o sin approve no demuestra el gate `draft_email` del VP. El cierre exige path completo **y** decisión humana en audit.",
+        retrospective:
+          "Success sin approve es un falso positivo de cierre. El error clásico es acortar el path «para la demo». Siguiente (E2): fraud_labels=0 y approved juntos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1371,8 +1543,11 @@ print(ok)`,
         id: "S26-T4-B-E2",
         subtopicId: "S26-T4-B",
         kind: "independent",
+        title: "Gate fraud_labels 0 y approved",
+        preamble:
+          "- **Contexto:** matching/OCR/RPA no generan etiquetas de fraude; el draft no se defiende sin approve.\n- **Meta:** con `fraud_labels=0` y `approved=True`, emitir `ok` o `fail`.\n- **Éxito:** `ok`.\n- **Límites:** ambas condiciones con `and`; no inviertas «fail si labels==0».",
         instruction:
-          "Paquete de defensa contra el auto-fraude: pkg={'fraud_labels': 0, 'approved': True}. Imprime 'ok' solo si fraud_labels==0 **y** approved es True; si no, 'fail'. Matching/OCR no generan etiquetas de fraude; el draft no se defiende sin approve. Pass: ok.",
+          "1. Revisa el starter: invierte e ignora `approved` (DEFECT).\n2. Exige `fraud_labels==0` **y** `approved`.\n3. Imprime `'ok'` o `'fail'`.\n4. No eleves labels por score de matching.",
         hint: "ambas condiciones del gate",
         hints: [
           "Combina fraud_labels==0 y approved con and.",
@@ -1381,7 +1556,10 @@ print(ok)`,
         ],
         edgeCases: ["no auto-fraude", "success sin approve"],
         tests: "ok solo con fraud_labels=0 y approved True",
-        feedback: "fraud_labels=0 sin approve no cierra el E2E; ambas condiciones son obligatorias.",
+        feedback:
+          "`fraud_labels=0` sin approve no cierra el E2E: ambas condiciones son obligatorias e independientes. Matching/score nunca justifican labels automáticos ni «ok» si el humano no firmó.",
+        retrospective:
+          "Cero auto-fraude y approve humano son independientes y ambos obligatorios. El error clásico es «labels en 0 ya basta». Luego (E3) el paquete de defensa con value y CF-2.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1402,8 +1580,11 @@ print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
         id: "S26-T4-B-E3",
         subtopicId: "S26-T4-B",
         kind: "transfer",
+        title: "Paquete de defensa N2 value y CF-2",
+        preamble:
+          "- **Contexto:** el paquete de cierre del VP une regresión N2, estimación de valor y nota CF-2; sin value no hay métrica de impacto.\n- **Meta:** implementar `defense_package(...)` con las tres claves y llamar con los fixtures del lab.\n- **Éxito:** el dict con `n2_regression`, `value_minutes_saved_est=45` y `cf2` de interfaces.\n- **Límites:** no omitas value; no dejes `cf2` vacío; evidencia real ≠ string `planned`.",
         instruction:
-          "Paquete de defensa del cierre: implementa defense_package(n2_status, value_min, cf2_note) que devuelve dict con claves n2_regression, value_minutes_saved_est y cf2. Llama con n2_status='CP-N2-A/B/C critical+privacy', value_min=45, cf2_note='interfaces Familiarity-reporting-automation' e imprime el dict. Contrato: las tres claves son obligatorias (sin value no hay métrica de valor). Pass debe coincidir el dict de solution output.",
+          "1. Lee el DEFECT: el return omite `value_minutes_saved_est`.\n2. Incluye las tres claves mapeando los argumentos.\n3. Llama con los tres argumentos del fixture.\n4. Imprime el dict completo.",
         hint: "def que arma las tres claves; no omitas value_min",
         hints: [
           "return {'n2_regression': n2_status, 'value_minutes_saved_est': value_min, 'cf2': cf2_note}.",
@@ -1412,7 +1593,10 @@ print('ok' if pkg['fraud_labels']==0 and pkg['approved'] else 'fail')`,
         ],
         edgeCases: ["gate ≥80% no crítica; 0 fallas críticas", "evidencia real ≠ 'planned'"],
         tests: "dict completo vía función (n2_regression + value + CF-2)",
-        feedback: "Sin value estimate o CF-2 el paquete de cierre no es defendible; hardcodear solo dos claves es una demo incompleta, no evidencia de regresión.",
+        feedback:
+          "Sin value estimate o CF-2 el paquete de cierre no es defendible; hardcodear solo dos claves es una demo incompleta, no evidencia de regresión.",
+        retrospective:
+          "Cierre defendible = regresión re-ejecutada + valor estimado + interfaces CF-2. El error clásico es un dict de dos claves «para la demo». Pregunta: ¿qué pondrías en `n2_regression` si un test crítico falló?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1541,6 +1725,8 @@ print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_sa
       { criterion: "Documentación en español profesional (es-PE): runbook y mensajes de UI", weight: "10%" },
       { criterion: "Notas de regresión N2 y CF-2 con: lista de tests re-ejecutados, resultado, e interfaces CF-2 verificadas", weight: "bonus checklist" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante del gate demuestras con print o test (approve en audit, triple cola en 0, o blocked sin approve)? (2) ¿qué harías distinto con datos reales vs sintéticos (PII, secretos, cero envíos reales)? (3) En el README, una frase de impacto medible (p. ej. minutos estimados o regresión N2 pass) que puedas defender en 30 segundos sin abrir el código. Si no puedes explicar por qué `fraud_labels` debe quedar en 0, el cierre CP-N2-C aún no está listo.",
   },
   selfCheck: {
     questions: [

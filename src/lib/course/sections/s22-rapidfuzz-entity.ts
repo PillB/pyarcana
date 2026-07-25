@@ -435,6 +435,8 @@ audit_events ['create', 'retry_hit', 'create']`,
         subtopicId: "S22-T1-A",
         environment: "local/sandbox proveedor",
         description: "Construir mensaje MIME multi-parte seguro (text+HTML+adjunto sintético).",
+        preamble:
+          "Antes de encolar un borrador de CP-N2-C, el analista debe *ver* un mensaje como árbol MIME, no como un string suelto. En esta demo se arma `mixed` con `alternative` (texto plano + HTML) y un adjunto de meta del run (`run.json`, sin secretos). No escribas aún: sigue los `print` y comprueba que el serializado contiene el adjunto y UTF-8. Si confundes “pegar HTML” con un correo multiparte, el revisor de la mesa no puede auditar el `.eml` con claridad.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -462,13 +464,18 @@ s22_ido_1()`,
           output: `ok True
 n_headers_subj 1`,
         },
-        why: "Decisión: plain+HTML+meta del run en un solo árbol MIME, sin secretos en el cuerpo — el revisor de la mesa puede inspeccionar el `.eml` antes de aprobar.",
+        why:
+          "Decisión: plain+HTML+meta del run en un solo árbol MIME, sin secretos en el cuerpo. Plain y HTML cubren clientes y filtros anti-spam; el adjunto de meta enlaza el run de S21 sin tokens ni DNI; `as_string()` permite inspeccionar el `.eml` antes de guardar. El revisor de la mesa audita el árbol completo, no un string HTML suelto. En We Do corregirás subtype, Disposition y anidado.",
+        retrospective:
+          "Si puedes explicar por qué un correo de mesa lleva plain y HTML en `alternative` dentro de `mixed`, ya tienes el hábito de árbol MIME. El error clásico es un solo `MIMEText` HTML sin meta del run. En We Do practicarás plain UTF-8, filename legible y el conteo de `Content-Type`.",
       },
       {
         demoId: "S22-T1-B-DEMO",
         subtopicId: "S22-T1-B",
         environment: "local/sandbox proveedor",
         description: "Sanitizar HTML de templates de correo con escape y allowlist de host real.",
+        preamble:
+          "Un template de correo interpola datos de negocio; cualquier fragmento no confiable es un vector. En esta demo se escapa HTML y se valida el **host real** de cada URL (no un substring). Observa tres destinos: un host malicioso, `example.pe` legítimo y el bypass `example.pe.evil.test`. No escribas: predice qué queda como enlace y qué se bloquea. Si confías en `'example.pe' in url`, el phishing interno gana.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -493,13 +500,18 @@ n_headers_subj 1`,
 s22_ido_2()`,
           output: `&lt;b&gt;Hola&lt;/b&gt; [blocked] https://example.pe/ok [blocked]`,
         },
-        why: "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — bypass de phishing que el curso rechaza como solución.",
+        why:
+          "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). El escape contextual es el primer control; parsear el host evita el bypass de subdominio malicioso. Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo rechaza como solución. En We Do practicarás escape, interpolación segura y allowlist con `urlparse`.",
+        retrospective:
+          "Host real + escape es el hábito anti-XSS del canal de correo. El error clásico es confiar en substring del dominio. Pregunta: sin mirar el código, ¿por qué `example.pe.evil.test` engaña a un `in` y no a igualdad de host? We Do: escapar script, saludar con nombre seguro y clasificar URLs con `urlparse`.",
       },
       {
         demoId: "S22-T2-A-DEMO",
         subtopicId: "S22-T2-A",
         environment: "local/sandbox proveedor",
         description: "Configurar scopes mínimos en sandbox y detectar exceso de privilegios.",
+        preamble:
+          "Un bot de notificaciones de CP-N2-C solo necesita crear drafts, no enviar ni administrar. En esta demo se piden scopes sintéticos (`mail.draft`, `mail.send`, `mail.full`) y una política máxima de laboratorio filtra lo concedido. No escribas: predice qué queda en `granted` y qué se deniega. Si dejas `mail.full` “por si acaso”, un token filtrado multiplica el daño en la mesa de control.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -517,13 +529,18 @@ s22_ido_3()`,
 denied ['mail.send', 'mail.full']
 least_ok True`,
         },
-        why: "Decisión: si el producto solo crea drafts, denegar `mail.send` y `mail.full` reduce el impacto de un token filtrado. Least privilege es diseño, no un flag opcional.",
+        why:
+          "Decisión: si el producto solo crea drafts, denegar `mail.send` y `mail.full` reduce el impacto de un token filtrado. Least privilege es diseño de producto, no un flag opcional. En Gmail real los URI de scope no magizan “solo draft”; el fail-closed de envío sigue siendo HITL + política de aplicación. En We Do filtrarás a allowed y comprobarás scopes peligrosos.",
+        retrospective:
+          "Granted debe ser la intersección con lo permitido, no la lista soñada. El error clásico es pedir `mail.full` “para no fallar después”. Pregunta: si el token se filtra, ¿qué daño extra abre `mail.send` frente a solo `mail.draft`? We Do: filtrar a allowed, `isdisjoint` con peligrosos y clasificar por `expires_at`.",
       },
       {
         demoId: "S22-T2-B-DEMO",
         subtopicId: "S22-T2-B",
         environment: "local/sandbox proveedor",
         description: "Crear drafts vía adaptador con expiración.",
+        preamble:
+          "El workflow de aprobación no debe acoplarse al SDK de Gmail: llama `create_draft` y pregunta si el borrador sigue usable. En esta demo un adaptador en memoria crea un draft con expiración y reporta si ya caducó. No escribas: observa id, `expired` y el tamaño del store. Si promueves un draft viejo, la revisora aprueba cifras del informe que ya no existen en S21.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -550,13 +567,18 @@ s22_ido_4()`,
           output: `id D1 expired False
 n 1`,
         },
-        why: "Decisión: la expiración fuerza regenerar y reaprobar contenido viejo (cifras del informe de S21 pueden haber cambiado). Un draft caducado no se promueve a envío.",
+        why:
+          "Decisión: la expiración fuerza regenerar y reaprobar contenido viejo (cifras del informe de S21 pueden haber cambiado). El adaptador es dueño del ciclo de vida; el workflow solo pregunta si el draft sigue usable. En este curso solo `.eml` o sandbox: cero SMTP real. Un draft caducado no se promueve a envío.",
+        retrospective:
+          "Draft usable = status `draft` y `now < expires_at`. El error clásico es reutilizar un id caducado “porque ya está en el store”. Pregunta: si las cifras de S21 cambiaron, ¿qué debe regenerarse antes de un nuevo `pending_review`? We Do: status vs key, usable y mini adaptador con ids secuenciales.",
       },
       {
         demoId: "S22-T3-A-DEMO",
         subtopicId: "S22-T3-A",
         environment: "local/sandbox proveedor",
         description: "Resolver y verificar destinatarios sintéticos (match ≠ fraude).",
+        preamble:
+          "Antes de poner un `To:` en el borrador, el pipeline resuelve y verifica al destinatario sintético. En esta demo tres ids: dominio allowlisted, dominio externo y no encontrado. Observa los estados `verified` / `rejected` / `unresolved` y el disclaimer final. No escribas: predice qué id puede entrar al draft. Matching de nombres o emails no prueba fraude ni parentesco — solo prioriza entrega correcta.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -581,13 +603,18 @@ u2 rejected
 u9 unresolved
 disclaimer: verificación de entrega, no de fraude`,
         },
-        why: "Decisión: solo contactos verificados entran al To del draft. Matching de nombres o emails no prueba fraude ni parentesco — solo prioriza revisión de entrega correcta.",
+        why:
+          "Decisión: solo contactos verificados entran al To del draft. Sin `verified`, fail-closed: no se encola aprobación. El dominio allowlisted es gate de laboratorio; el disclaimer anti-claim es parte del producto, no un comentario opcional. Matching de nombres o emails no prueba fraude ni parentesco — solo prioriza revisión de entrega correcta.",
+        retrospective:
+          "Solo contactos verificados entran al `To`. El error clásico es tratar un match alto como prueba de identidad o fraude. Pregunta: sin `verified`, ¿el pipeline encola `pending_review` o hace fail-closed? We Do: formato, dominio allowlisted y score con nota `match_no_es_fraude`.",
       },
       {
         demoId: "S22-T3-B-DEMO",
         subtopicId: "S22-T3-B",
         environment: "local/sandbox proveedor",
         description: "Aplicar mínima divulgación: externos a BCC y dedupe.",
+        preamble:
+          "En operaciones, un CC masivo **expone** quién trabaja el caso; BCC oculta la lista a los demás. En esta demo hay duplicados de `ana@example.pe` y un partner externo en CC. Observa cómo queda la lista limpia y por qué el externo termina en BCC. No escribas: predice el orden y los roles finales. Datos sintéticos, sin PII real.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -610,13 +637,18 @@ disclaimer: verificación de entrega, no de fraude`,
 s22_ido_6()`,
           output: `[('ana@example.pe', 'to'), ('partner@other.test', 'bcc')]`,
         },
-        why: "Decisión: todo lo que no es @example.pe va a BCC. Un CC masivo expone la lista de trabajo del caso; BCC o tickets internos protegen la privacidad operativa.",
+        why:
+          "Decisión: todo lo que no es @example.pe va a BCC. Dedupe preserva la primera aparición; dominio externo fuerza BCC. Un CC masivo expone la lista de trabajo del caso; mínima divulgación es hábito diario de la mesa, no checklist de cumplimiento olvidable. BCC o tickets internos protegen la privacidad operativa.",
+        retrospective:
+          "Higiene de listas = dedupe + BCC a externos + contar visibles. El error clásico es CC “por comodidad” cuando hay partners. Pregunta: BCC oculta la lista a los demás — ¿cifra el cuerpo? We Do: orden estable, forzar BCC y conteo de visibles tras la política.",
       },
       {
         demoId: "S22-T4-A-DEMO",
         subtopicId: "S22-T4-A",
         environment: "local/sandbox proveedor",
         description: "Modelar cola de aprobación con estados canónicos (pending_review) y actor en el audit.",
+        preamble:
+          "La cola de aprobación es el corazón human-in-the-loop de CP-N2-C: `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. En esta demo el analista hace `submit` y la revisora `rev1` hace `approve`; el log guarda from/to/action/actor. No escribas: sigue el trail y el último actor. Si alguien “aprueba” desde draft sin pasar por la tabla, no hay audit ni fail-closed — y el destinatario sintético queda desprotegido.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -644,13 +676,18 @@ s22_ido_7()`,
 trail ['pending_review', 'approved']
 last_actor rev1`,
         },
-        why: "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
+        why:
+          "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. El actor es accountability; los estados canónicos son `pending_review`/`needs_edit` (nunca el atajo `pending`). `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
+        retrospective:
+          "El estado es la verdad; el botón no envía sin la máquina. El error clásico es hardcodear `approved` o el atajo `pending`. Pregunta: ¿quién aparece como actor en el último evento del trail de la demo? We Do: transición submit, fail-closed invalid y apply con actor en el log.",
       },
       {
         demoId: "S22-T4-B-DEMO",
         subtopicId: "S22-T4-B",
         environment: "local/sandbox proveedor",
         description: "Reintentar sin duplicar drafts con idempotency key de 16 hex.",
+        preamble:
+          "Un reintento de red o un doble clic del operador no debe spamear al destinatario sintético. En esta demo la key es `sha256(...).hexdigest()[:16]` del payload del run; la segunda llamada a `once` devuelve el mismo draft y marca duplicado. No escribas: predice si `a==b` y qué flags de duplicado salen. Si cada reintento crea un draft nuevo, la mesa multiplica notificaciones y rompe el contrato de CP-N2-C.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -672,7 +709,10 @@ last_actor rev1`,
 s22_ido_8()`,
           output: `draft-001 draft-001 True False True`,
         },
-        why: "Decisión: la key de 16 hex es el contrato de reintento; el segundo `once` devuelve el mismo draft_id y marca duplicado — no spamea al cliente.",
+        why:
+          "Decisión: la key de 16 hex es el contrato único de S22 (teoría, ejercicios y You Do); el segundo `once` devuelve el mismo draft_id y marca duplicado. Retry no es reenviar: no spamea al cliente. Cambiar `body_ver` genera una key nueva y un draft distinto. En We Do construirás la key, el create idempotente y el audit create/retry_hit.",
+        retrospective:
+          "Misma key → mismo draft_id. El error clásico es “crear siempre” por miedo a un KeyError y spamear al destinatario sintético. Pregunta: si el segundo `once` devolviera `draft-002`, ¿qué gate de CP-N2-C se rompió? We Do: construir la key de 16 hex, create idempotente y audit create/retry_hit.",
       },
     ],
   },
@@ -683,8 +723,11 @@ s22_ido_8()`,
         id: "S22-T1-A-E1",
         subtopicId: "S22-T1-A",
         kind: "guided",
+        title: "MIMEText plain con charset UTF-8",
+        preamble:
+          "- **Contexto:** el cuerpo mínimo de un borrador de Caso 22 debe ser legible en español peruano y auditable en el `.eml`.\n- **Meta:** construir un `MIMEText` en texto plano con charset UTF-8 (no HTML ni ascii inventado).\n- **Éxito:** dos líneas exactas: `text/plain` y `utf-8`.\n- **Límites:** no uses subtype `html` en este ejercicio; no hardcodees el charset en el segundo print.",
         instruction:
-          "E1 (guiado) — Construye un `MIMEText` en texto plano con charset UTF-8 (Caso 22). El starter usa subtype html y un charset incorrecto en la segunda línea: corrígelo. Salida esperada (dos líneas):\ntext/plain\nutf-8",
+          "1. Abre el starter: `MIMEText(..., 'html', ...)` e imprime `'ascii'` (bug nombrado).\n2. Cambia el subtype a `'plain'`.\n3. Imprime `get_content_type()` y `str(get_charset())`.\n4. No alteres el cuerpo `'Hola'`.",
         hint: "from email.mime.text import MIMEText",
         hints: [
           "from email.mime.text import MIMEText",
@@ -693,7 +736,9 @@ s22_ido_8()`,
         edgeCases: ["charset None en algunos builds — usa utf-8 explícito"],
         tests: "salida coincide con solution output",
         feedback:
-          "text/plain + utf-8 es el cuerpo mínimo legible en español peruano. Si dejas html o ascii, el revisor ve mojibake o un tipo incorrecto en el .eml.",
+          "`text/plain` + `utf-8` es el cuerpo mínimo legible en español peruano. Si dejas `html` o imprimes `ascii`, el revisor ve un tipo incorrecto o mojibake en el `.eml` de laboratorio.",
+        retrospective:
+          "El cuerpo plain con UTF-8 es la base del árbol multiparte que la mesa audita en el `.eml`. “Solo HTML” o un charset inventado en el print miente al revisor. Pregunta: si el cuerpo tiene acentos peruanos, ¿qué falla primero — el subtype o el charset? Siguiente (E2): adjunto con `Content-Disposition` y filename legible.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -721,8 +766,11 @@ utf-8`,
         id: "S22-T1-A-E2",
         subtopicId: "S22-T1-A",
         kind: "independent",
+        title: "Adjunto con filename en Disposition",
+        preamble:
+          "- **Contexto:** la revisora abre el `.eml` y espera un adjunto con nombre legible, no bytes anónimos.\n- **Meta:** armar `MIMEMultipart('mixed')` con adjunto y `Content-Disposition` que declare `filename=\"a.txt\"`.\n- **Éxito:** un solo `True` al buscar `filename=\"a.txt\"` en `as_string()`.\n- **Límites:** el parámetro `Name` del Content-Type no sustituye la disposición; no inventes otro filename.",
         instruction:
-          "E2 (independiente) — Arma un `MIMEMultipart('mixed')` con un adjunto y declara el nombre con `Content-Disposition: attachment; filename=\"a.txt\"` (Caso 22). El starter adjunta bytes sin ningún nombre de archivo. Comprueba si el serializado contiene `filename=\"a.txt\"` (no basta el parámetro `Name` del Content-Type: los clientes de correo leen la disposición). Salida esperada:\nTrue",
+          "1. Revisa el starter: `MIMEApplication(b'x')` sin nombre (bug).\n2. Pasa `Name='a.txt'` al construir el adjunto.\n3. Asigna `Content-Disposition` con `filename=\"a.txt\"`.\n4. Deja el print de contención en el serializado.",
         hint: "MIMEMultipart + attach",
         hints: [
           "MIMEApplication(b'x', Name='a.txt') y luego Content-Disposition",
@@ -733,7 +781,9 @@ utf-8`,
         ],
         tests: "salida coincide con solution output",
         feedback:
-          "El revisor de la mesa abre el .eml y espera un adjunto con nombre legible. Content-Disposition con filename es lo que ven los clientes; el Name del Content-Type no basta como contrato de entrega.",
+          "El revisor de la mesa abre el `.eml` y espera un adjunto con nombre legible. `Content-Disposition` con filename es lo que ven los clientes; el `Name` del Content-Type no basta como contrato de entrega.",
+        retrospective:
+          "Los clientes leen el filename en la disposición; el `Name` del Content-Type no es el contrato de entrega. Confundir ambos deja adjuntos “sin nombre” en la mesa. Pregunta: si el revisor solo ve `application/octet-stream`, ¿qué header mirarías primero? Luego (E3) anidas `alternative` y cuentas los `Content-Type`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -768,8 +818,11 @@ print('filename="a.txt"' in msg.as_string())`,
         id: "S22-T1-A-E3",
         subtopicId: "S22-T1-A",
         kind: "transfer",
+        title: "Contar Content-Type del árbol anidado",
+        preamble:
+          "- **Contexto:** un borrador profesional no pega plain suelto en `mixed`; anida `alternative` para plain+HTML.\n- **Meta:** construir mixed → alternative → plain+html y validar el árbol contando headers `Content-Type:`.\n- **Éxito:** un entero `4`.\n- **Límites:** no adjuntes solo plain al mixed; orden plain antes de html recomendado; no envíes SMTP.",
         instruction:
-          "E3 (transferencia) — Anida `MIMEMultipart('alternative')` (plain + html) dentro de un `mixed` y cuenta cuántos headers `Content-Type:` genera el árbol (Caso 22). El starter adjunta solo plain sin capa alternative. Salida esperada:\n4",
+          "1. El starter adjunta solo plain al mixed (bug).\n2. Crea `MIMEMultipart('alternative')` y adjunta plain + html.\n3. Adjunta `alt` al `mixed`.\n4. Imprime `as_string().count('Content-Type:')`.",
         hint: "alternative dentro de mixed",
         hints: [
           "alternative dentro de mixed",
@@ -778,7 +831,9 @@ print('filename="a.txt"' in msg.as_string())`,
         edgeCases: ["orden plain antes de html recomendado"],
         tests: "salida coincide con solution output",
         feedback:
-          "Un árbol mixed → alternative → plain+html produce 4 Content-Type (raíz, alt, plain, html). Contarlos es la prueba rápida de que el anidado quedó bien.",
+          "Un árbol mixed → alternative → plain+html produce 4 Content-Type (raíz, alt, plain, html). Contarlos es la prueba rápida de que el anidado quedó bien antes de encolar el draft.",
+        retrospective:
+          "Contar `Content-Type` es la prueba rápida de que el anidado quedó bien (raíz, alt, plain, html). El error clásico es un solo attach sin capa alternative. Pregunta de cierre: ¿qué faltaría para el adjunto de meta del run en el You Do?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -811,8 +866,11 @@ print(msg.as_string().count('Content-Type:'))`,
         id: "S22-T1-B-E1",
         subtopicId: "S22-T1-B",
         kind: "guided",
+        title: "Escapar fragmento con html.escape",
+        preamble:
+          "- **Contexto:** un fragmento de usuario o de OCR no debe convertirse en markup activo dentro del correo de Caso 22.\n- **Meta:** aplicar `html.escape` antes de mostrar el fragmento.\n- **Éxito:** una línea `&lt;script&gt;x&lt;/script&gt;`.\n- **Límites:** no imprimes el crudo; no uses un sanitizador inventado; datos sintéticos.",
         instruction:
-          "E1 (guiado) — Escapa un fragmento con etiqueta script usando `html.escape` antes de interpolarlo en un template de correo (Caso 22). El starter imprime el crudo. Salida esperada:\n&lt;script&gt;x&lt;/script&gt;",
+          "1. El starter imprime `raw` sin escape (bug).\n2. Importa `html` (ya está).\n3. Imprime `html.escape` del fragmento con script.\n4. No alteres el string de prueba.",
         hint: "import html",
         hints: [
           "import html",
@@ -821,7 +879,9 @@ print(msg.as_string().count('Content-Type:'))`,
         edgeCases: ["quote=True por defecto en atributos"],
         tests: "salida coincide con solution output",
         feedback:
-          "Sin escape, un fragmento de usuario se convierte en markup activo dentro del correo. html.escape es el primer control obligatorio antes del template.",
+          "Sin escape, un fragmento de usuario se convierte en markup activo dentro del correo. `html.escape` es el primer control obligatorio antes del template — sin él, XSS en el cuerpo del borrador.",
+        retrospective:
+          "`html.escape` es el primer control obligatorio del template: sin él, un fragmento de OCR o directorio se vuelve markup activo. El error clásico es confiar en el string “porque viene del sistema”. Pregunta: ¿escape sustituye a un sanitizador de producción, o solo es el primer gate? Siguiente (E2): interpolar el nombre solo después de escapar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -845,8 +905,11 @@ print(html.escape('<script>x</script>'))`,
         id: "S22-T1-B-E2",
         subtopicId: "S22-T1-B",
         kind: "independent",
+        title: "Saludar con nombre ya escapado",
+        preamble:
+          "- **Contexto:** el nombre del destinatario puede traer tags de un OCR o de un campo sucio; el saludo no debe activar markup.\n- **Meta:** interpolar `<b>Ana</b>` solo después de `html.escape`.\n- **Éxito:** `Hola &lt;b&gt;Ana&lt;/b&gt;`.\n- **Límites:** no concatenes el name crudo; evita doble escape si el template ya escapa (aquí no).",
         instruction:
-          "E2 (independiente) — Interpola el nombre sintético `<b>Ana</b>` en un saludo solo después de `html.escape` (Caso 22). El starter concatena sin escapar. Salida esperada:\nHola &lt;b&gt;Ana&lt;/b&gt;",
+          "1. Revisa el starter: `'Hola ' + name` sin escape (bug).\n2. Escapa `name` con `html.escape`.\n3. Concatena e imprime solo la línea pedida.\n4. No uses f-string con HTML crudo.",
         hint: "escape antes de format",
         hints: [
           "escape antes de format",
@@ -855,7 +918,9 @@ print(html.escape('<script>x</script>'))`,
         edgeCases: ["doble escape si el template ya escapa"],
         tests: "salida coincide con solution output",
         feedback:
-          "El nombre del destinatario llega del directorio o de un OCR: trátarlo como no confiable. Escapa primero, saluda después.",
+          "El nombre del destinatario llega del directorio o de un OCR: trátarlo como no confiable. Escapa primero, saluda después — el orden del hábito evita XSS en el cuerpo.",
+        retrospective:
+          "Un nombre “del directorio” no es confiable: el hábito es tratar todo campo de negocio como no confiable hasta escaparlo. El error clásico es un f-string con HTML crudo “porque se ve bien en la consola”. Pregunta: si el template del motor ya autoescape, ¿qué riesgo introduce un segundo `html.escape`? Luego (E3) clasificas URLs con host real, no con substring.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -880,8 +945,11 @@ print('Hola ' + html.escape(name))`,
         id: "S22-T1-B-E3",
         subtopicId: "S22-T1-B",
         kind: "transfer",
+        title: "Allowlist de host real con urlparse",
+        preamble:
+          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URLs aceptando solo host exactamente `example.pe` vía `urlparse`.\n- **Éxito:** dos líneas — `https://example.pe/a ok` y `https://evil.test blocked`.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
         instruction:
-          "E3 (transferencia) — Clasifica dos URL con allowlist de **host real** (no substring): usa `urlparse` y acepta solo host exactamente `example.pe` (Caso 22). El starter marca todo ok. Incluye en la prueba mental el bypass `example.pe.evil.test` (no debe pasar). Salida esperada (dos líneas):\nhttps://example.pe/a ok\nhttps://evil.test blocked",
+          "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'`; si no, `blocked`.\n4. No uses substring del URL completo.",
         hint: "urlparse(u).hostname",
         hints: [
           "from urllib.parse import urlparse",
@@ -890,7 +958,9 @@ print('Hola ' + html.escape(name))`,
         edgeCases: ["Subdominios maliciosos como example.pe.evil.test: el host real no es example.pe."],
         tests: "salida coincide con solution output",
         feedback:
-          "Parsea el host real (`urlparse.hostname`). Un substring `'example.pe' in url` aceptaría example.pe.evil.test — el curso lo trata como bypass, no como solución.",
+          "Parsea el host real (`urlparse.hostname`). Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo trata como bypass de phishing interno, no como solución de allowlist.",
+        retrospective:
+          "Parsear el host real cierra el bypass de subdominio malicioso en el cuerpo del correo. El error clásico es substring del dominio “porque parece más simple”. Pregunta de cierre: ¿por qué `example.pe.evil.test` engañaría a un `in url` y no a `hostname ==`? Lleva ese hábito al You Do al armar el HTML del `.eml`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -919,8 +989,11 @@ https://evil.test blocked`,
         id: "S22-T2-A-E1",
         subtopicId: "S22-T2-A",
         kind: "guided",
+        title: "Filtrar scopes a la intersección allowed",
+        preamble:
+          "- **Contexto:** el pipeline de Caso 22 pidió scopes de más; la política de laboratorio debe dejar solo lo permitido.\n- **Meta:** filtrar `requested` a la intersección con `allowed`.\n- **Éxito:** una línea `['mail.draft']`.\n- **Límites:** no imprimes la lista completa; no inventes scopes; datos sintéticos (no OAuth real).",
         instruction:
-          "E1 (guiado) — Filtra `requested` a la intersección con `allowed` (scopes mínimos) en Caso 22. El starter imprime la lista completa sin filtrar. Salida esperada:\n['mail.draft']",
+          "1. El starter imprime `requested` sin filtrar (bug).\n2. Construye la lista de scopes que están en `allowed`.\n3. Imprime solo esa lista.\n4. No borres `mail.full` del requested a mano: filtra con membership.",
         hint: "list comprehension",
         hints: [
           "list comprehension",
@@ -929,7 +1002,9 @@ https://evil.test blocked`,
         edgeCases: ["mail.send no siempre necesario"],
         tests: "salida coincide con solution output",
         feedback:
-          "Least privilege: la lista granted debe ser la intersección con allowed. mail.full en un bot de drafts es un hallazgo de diseño, no un detalle menor.",
+          "Least privilege: la lista granted debe ser la intersección con allowed. `mail.full` en un bot de drafts es un hallazgo de diseño de seguridad, no un detalle menor de configuración.",
+        retrospective:
+          "Least privilege se demuestra con la intersección impresa, no con un comentario en el README. El error clásico es devolver `requested` completo “porque el proveedor ya filtrará”. Pregunta: ¿quién debe aplicar el filtro — el adaptador, la política de app, o ambos? Siguiente (E2): comprobar que granted no toca scopes peligrosos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -954,8 +1029,11 @@ print([s for s in requested if s in allowed])`,
         id: "S22-T2-A-E2",
         subtopicId: "S22-T2-A",
         kind: "independent",
+        title: "isdisjoint frente a scopes peligrosos",
+        preamble:
+          "- **Contexto:** un hallazgo de seguridad del diseño es `mail.full` o `admin` en `granted` de un bot de drafts.\n- **Meta:** comprobar con `set.isdisjoint` que `granted` no solapa el conjunto peligroso.\n- **Éxito:** un solo `True`.\n- **Límites:** no inviertas la lógica con `not`; no mutes `granted`.",
         instruction:
-          "E2 (independiente) — Comprueba que `granted` no solapa scopes peligrosos (`mail.full`, `admin`) con `set.isdisjoint` (Caso 22). El starter invierte la lógica. Salida esperada:\nTrue",
+          "1. El starter usa `not bad.isdisjoint(granted)` (bug).\n2. Imprime `bad.isdisjoint(granted)` sin negar.\n3. Deja los sets del fixture.\n4. Interpreta True = sin intersección peligrosa.",
         hint: "all(x not in granted for x in ...)",
         hints: [
           "all(x not in granted for x in ...)",
@@ -964,7 +1042,9 @@ print([s for s in requested if s in allowed])`,
         edgeCases: ["scopes custom del proveedor"],
         tests: "salida coincide con solution output",
         feedback:
-          "isdisjoint True significa que granted no toca scopes peligrosos. Invertir la lógica te da un falso 'seguro' cuando hay intersección.",
+          "`isdisjoint True` significa que granted no toca scopes peligrosos. Invertir la lógica te da un falso “seguro” cuando hay intersección — el hallazgo de seguridad desaparece del radar.",
+        retrospective:
+          "`isdisjoint True` es evidencia de least privilege en el paquete de auditoría. Invertir con `not` da un falso “seguro” cuando hay solape con `mail.full`/`admin`. Pregunta: si granted incluye `mail.send` y el producto es draft-only, ¿qué imprime el gate y qué haces en la mesa? Luego (E3) clasificas credenciales por `expires_at` vs now.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -989,8 +1069,11 @@ print(bad.isdisjoint(granted))`,
         id: "S22-T2-A-E3",
         subtopicId: "S22-T2-A",
         kind: "transfer",
+        title: "Clasificar expires_at: refresh o valid",
+        preamble:
+          "- **Contexto:** un token OAuth o un draft caducado no debe entrar a la cola de envío simulada de CP-N2-C; el mismo reloj aplica a ambos (puente a T2-B).\n- **Meta:** clasificar dos `expires_at` sintéticos frente a `now` UTC: caducado → `refresh`, vigente → `valid`.\n- **Éxito:** dos líneas `refresh` luego `valid`.\n- **Límites:** `exp < now` → refresh; no inviertas la comparación; sin SMTP.",
         instruction:
-          "E3 (transferencia) — Clasifica dos `expires_at` sintéticos frente a `now` UTC: caducado → `refresh`, vigente → `valid` (Caso 22). El starter invierte la comparación. Salida esperada (dos líneas):\nrefresh\nvalid",
+          "1. El starter imprime `valid` cuando `exp < now` (bug).\n2. Invierte la condición: caducado → `refresh`.\n3. Conserva el orden del for (pasado, futuro).\n4. No hardcodees las dos strings fuera del if.",
         hint: "compara con now UTC",
         hints: [
           "exp < now → refresh",
@@ -999,7 +1082,9 @@ print(bad.isdisjoint(granted))`,
         edgeCases: ["fromisoformat con Z en 3.11+"],
         tests: "salida coincide con solution output",
         feedback:
-          "Token o draft caducado → refresh; vigente → valid. Comparar al revés deja pasar credenciales expiradas a la cola de envío (simulada).",
+          "Token o draft caducado → `refresh`; vigente → `valid`. Comparar al revés deja pasar credenciales expiradas a la cola de envío simulada — el reloj es el mismo gate en T2-B.",
+        retrospective:
+          "El reloj es un gate de producto: caducado = refresh (o regenerar draft), no “valid por existir en el store”. Pregunta de cierre: ¿por qué un draft caducado no se promueve aunque el token OAuth siga vivo? Eso enlaza T2-A con el adaptador de T2-B.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1027,8 +1112,11 @@ valid`,
         id: "S22-T2-B-E1",
         subtopicId: "S22-T2-B",
         kind: "guided",
+        title: "Status de workflow, no la key del store",
+        preamble:
+          "- **Contexto:** la cola de aprobación lee el **status** del draft (`draft`, `pending_review`…), no el id del diccionario.\n- **Meta:** registrar un borrador sintético e imprimir status y subject del valor, no las keys.\n- **Éxito:** dos líneas — `draft` y `Informe sintético CP-N2-C`.\n- **Límites:** no imprimes `list(store.keys())`; no inventes otro id.",
         instruction:
-          "E1 (guiado) — Registra un borrador sintético en un store (id `d001`, status `draft`, subject del run de CP-N2-C) e imprime el **status de workflow** del registro — no la clave del dict (Caso 22). El starter confunde id del store con estado del draft. Salida esperada (dos líneas):\ndraft\nInforme sintético CP-N2-C",
+          "1. El starter imprime dos veces la key del store (bug).\n2. Lee `store['d001']['status']` y `['subject']`.\n3. Imprime en ese orden.\n4. No borres el dict del starter.",
         hint: "dict assignment",
         hints: [
           "store['d001'] = {'status': 'draft', 'subject': '...'}",
@@ -1036,7 +1124,10 @@ valid`,
         ],
         edgeCases: ["Colisiones de id: status es el campo de workflow, no el id del dict."],
         tests: "salida coincide con solution output",
-        feedback: "El id (d001) identifica el registro; el status (draft) es lo que lee la cola de aprobación.",
+        feedback:
+          "El id (`d001`) identifica el registro; el status (`draft`) es lo que lee la cola de aprobación. Confundir key del store con estado del workflow rompe el HITL.",
+        retrospective:
+          "El id identifica el registro en el store; el status mueve la máquina de estados que lee la cola humana. Confundirlos rompe el HITL: la UI creería “todo draft” o imprimiría keys en el audit. Pregunta: si ves `d001` en consola, ¿sabes si está en `pending_review`? Siguiente (E2): decidir usable con `now < expires_at`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1064,8 +1155,11 @@ Informe sintético CP-N2-C`,
         id: "S22-T2-B-E2",
         subtopicId: "S22-T2-B",
         kind: "independent",
+        title: "Draft usable solo si no expiró",
+        preamble:
+          "- **Contexto:** el draft de Caso 22 expiró hace 1 s; no debe promoverse a envío simulado.\n- **Meta:** decidir usable con `now < expires_at`.\n- **Éxito:** un solo `False`.\n- **Límites:** no uses `now > expires_at` como “usable”; no regeneres el draft aquí.",
         instruction:
-          "E2 (independiente) — Decide si un draft sigue usable: `now < expires_at` (Caso 22). El draft ya expiró hace 1s; el starter invierte la comparación. Salida esperada:\nFalse",
+          "1. El starter imprime `now > expires_at` (bug: True cuando ya expiró).\n2. Cambia a `now < expires_at`.\n3. Deja el fixture de 1 s en el pasado.\n4. Imprime solo el booleano.",
         hint: "timedelta",
         hints: [
           "timedelta",
@@ -1074,7 +1168,9 @@ Informe sintético CP-N2-C`,
         edgeCases: ["clock skew"],
         tests: "salida coincide con solution output",
         feedback:
-          "usable solo si now < expires_at. Un draft caducado no se promueve: regenera y vuelve a la cola humana con cifras frescas del informe.",
+          "Usable solo si `now < expires_at`. Un draft caducado no se promueve: regeneras el mensaje y vuelves a la cola humana con cifras frescas del informe de S21 — no “aprovechas” el id viejo.",
+        retrospective:
+          "Usable es una pregunta de reloj y de status, no de existencia del id. El error clásico es invertir la comparación y “validar” lo caducado. Pregunta: ¿qué imprime el gate si `expires_at` está 1 s en el pasado? Luego (E3) implementas create con ids secuenciales y expires_at.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1101,17 +1197,22 @@ print(now < expires_at)`,
         id: "S22-T2-B-E3",
         subtopicId: "S22-T2-B",
         kind: "transfer",
+        title: "Adaptador: ids d001/d002 y usable",
+        preamble:
+          "- **Contexto:** el adaptador es el único dueño del ciclo de vida del draft en el laboratorio de CP-N2-C.\n- **Meta:** implementar `create_draft()` con ids `d{len+1:03d}`, status `draft` y `expires_at = now+1h`; reportar usable del segundo.\n- **Éxito:** `d001 d002` y `usable True`.\n- **Límites:** no reutilices siempre `d001`; no inventes SMTP; thread-safety fuera de alcance.",
         instruction:
-          "E3 (transferencia) — Mini adaptador de drafts (Caso 22): implementa `create_draft()` con ids secuenciales `d001`, `d002` (`f\"d{len(store)+1:03d}\"`), status `draft` y `expires_at = now + 1h`. Luego imprime los dos ids y si el segundo sigue usable (`now < expires_at`). El starter reutiliza siempre `d001`, no guarda expiración y reporta usable al revés. Salida esperada (dos líneas):\nd001 d002\nusable True",
+          "1. El starter fija `d001`, no guarda expiración e imprime usable False (bugs).\n2. Genera id con `f\"d{len(store)+1:03d}\"`.\n3. Guarda status y expires_at.\n4. Imprime ambos ids y `usable` del segundo con `now < expires_at` y status draft.",
         hint: "len(store)+1 y timedelta",
         hints: [
-          "i = f\"d{len(store)+1:03d}\"",
-          "usable = now < store[i]['expires_at']",
+          "id secuencial a partir de len(store); no reutilices un literal fijo",
+          "guarda expires_at; usable combina reloj y status draft",
         ],
         edgeCases: ["draft caducado no se promueve; thread-safety fuera de alcance"],
         tests: "salida coincide con solution output",
         feedback:
-          "Ids secuenciales (d001, d002) + expires_at en el store: el adaptador es el único dueño del ciclo de vida del draft; el workflow solo pregunta is_usable.",
+          "Ids secuenciales (`d001`, `d002`) + `expires_at` en el store: el adaptador es el único dueño del ciclo de vida del draft; el workflow solo pregunta `is_usable`.",
+        retrospective:
+          "Ids secuenciales + `expires_at` en el store separan adaptador de workflow: el job pregunta, el adaptador responde. El error clásico es un id fijo que colisiona al reintentar. Pregunta de cierre: ¿quién debe llamar `is_usable`, el job de envío o el adaptador?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1156,8 +1257,11 @@ usable True`,
         id: "S22-T3-A-E1",
         subtopicId: "S22-T3-A",
         kind: "guided",
+        title: "Validar formato básico de email",
+        preamble:
+          "- **Contexto:** sin `@` y dominio no hay `To:` que verificar en Caso 22.\n- **Meta:** validar formato con `re.match` sobre `ana@example.pe` y `bad`.\n- **Éxito:** dos líneas `… True` y `… False`.\n- **Límites:** no valida DNS real; no marques siempre True; datos sintéticos.",
         instruction:
-          "E1 (guiado) — Valida formato de email con `re.match` sobre `ana@example.pe` y `bad` (Caso 22). El starter siempre imprime True. Salida esperada (dos líneas):\nana@example.pe True\nbad False",
+          "1. El starter imprime siempre True (bug).\n2. Usa el patrón ya definido con `re.match`.\n3. Imprime email y `bool` del match.\n4. No cambies las dos direcciones de prueba.",
         hint: "re.match",
         hints: [
           "re.match",
@@ -1166,7 +1270,9 @@ usable True`,
         edgeCases: ["no valida DNS real"],
         tests: "salida coincide con solution output",
         feedback:
-          "Formato básico primero: sin @ y dominio no hay To: que verificar. Luego vendrá dominio allowlisted y estado del directorio.",
+          "Formato básico primero: sin `@` y dominio no hay `To:` que verificar. Luego vendrá dominio allowlisted y estado del directorio — este es solo el primer filtro.",
+        retrospective:
+          "Formato básico es el primer filtro, no la verificación completa ni DNS real. El error clásico es hardcodear `True` “porque el fixture se ve bien”. Pregunta: ¿`bad` falla por dominio o por forma? Siguiente (E2): resolver id y chequear dominio allowlisted.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1194,8 +1300,11 @@ bad False`,
         id: "S22-T3-A-E2",
         subtopicId: "S22-T3-A",
         kind: "independent",
+        title: "Verificar dominio allowlisted de C001",
+        preamble:
+          "- **Contexto:** resolver el id del directorio no basta: el email debe vivir en `@example.pe` de laboratorio.\n- **Meta:** marcar `verified` solo si existe y el dominio está allowlisted.\n- **Éxito:** una línea `verified`.\n- **Límites:** no marques verified solo por `dict.get`; sin PII real.",
         instruction:
-          "E2 (independiente) — Resuelve `C001` en el directorio sintético y verifica dominio `@example.pe` antes de marcar `verified` (Caso 22). El starter no chequea dominio. Salida esperada:\nverified",
+          "1. El starter verifica solo existencia de email (bug).\n2. Exige `endswith('@example.pe')` (o split del dominio).\n3. Imprime `verified` o `rejected`.\n4. No inventes otros contactos.",
         hint: "dict.get",
         hints: [
           "dict.get",
@@ -1204,7 +1313,9 @@ bad False`,
         edgeCases: ["subdominios"],
         tests: "salida coincide con solution output",
         feedback:
-          "Resolver el id no basta: el dominio debe estar en la allowlist de laboratorio (@example.pe). Sin eso, fail-closed y no creas draft.",
+          "Resolver el id no basta: el dominio debe estar en la allowlist de laboratorio (`@example.pe`). Sin eso, fail-closed y no creas draft para un To incorrecto.",
+        retrospective:
+          "Resolve + dominio allowlisted es el contrato de entrega del lab. El error clásico es “si está en el directorio, ya está”. Pregunta: si `C001` existiera con dominio externo, ¿qué estado imprimirías? Luego (E3) un score de similitud con nota ética obligatoria.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1229,8 +1340,11 @@ print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
         id: "S22-T3-A-E3",
         subtopicId: "S22-T3-A",
         kind: "transfer",
+        title: "Score de match con nota no-fraude",
+        preamble:
+          "- **Contexto:** dos emails sintéticos se parecen; un score alto solo prioriza revisión de **entrega**, nunca claims de fraude.\n- **Meta:** calcular prefijo común, redondear a 2 decimales y anexar siempre `match_no_es_fraude`.\n- **Éxito:** `0.86 match_no_es_fraude`.\n- **Límites:** nunca `fraude_probable`; score alto ≠ identidad legal ni parentesco.",
         instruction:
-          "E3 (transferencia) — Calcula un score de prefijo común entre dos emails sintéticos y **siempre** anexa la nota `match_no_es_fraude` (Caso 22). El starter etiqueta `fraude_probable` (incorrecto éticamente). Salida esperada:\n0.86 match_no_es_fraude",
+          "1. El starter etiqueta `fraude_probable` (bug ético).\n2. Conserva el cálculo del prefijo con `zip`.\n3. Imprime `round(score, 2)` y la nota correcta.\n4. No cambies los dos emails del fixture.",
         hint: "loop zip + round",
         hints: [
           "prefix común con zip hasta divergencia",
@@ -1239,7 +1353,9 @@ print('verified' if em and em.endswith('@example.pe') else 'rejected')`,
         edgeCases: ["score alto ≠ identidad legal"],
         tests: "salida coincide con solution output",
         feedback:
-          "Un score 0.86 solo prioriza revisión de entrega. Etiquetarlo como fraude_probable es un error ético y de producto: matching ≠ investigación de fraude.",
+          "Un score 0.86 (y el 0.92 del self-check ético) solo prioriza revisión de entrega. Etiquetarlo como `fraude_probable` es un error ético y de producto: matching ≠ investigación de fraude.",
+        retrospective:
+          "Matching alimenta prioridad de entrega, no investigación de fraude. El error clásico es automatizar un claim con un umbral. Pregunta de cierre: ¿qué gate humano sigue siendo obligatorio aunque el score sea 0.99? (HITL + verified + draft-only.) Mantén la etiqueta `match_no_es_fraude` en el print canónico.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1274,8 +1390,11 @@ print(round(score, 2), 'match_no_es_fraude')`,
         id: "S22-T3-B-E1",
         subtopicId: "S22-T3-B",
         kind: "guided",
+        title: "Deduplicar emails preservando orden",
+        preamble:
+          "- **Contexto:** en una lista To/CC de Caso 22, el orden de primera aparición es parte del contrato de higiene.\n- **Meta:** deduplicar sin perder ese orden.\n- **Éxito:** `['a@x', 'b@x']`.\n- **Límites:** no uses `set` como solución final; no reordenes a mano.",
         instruction:
-          "E1 (guiado) — Deduplica una lista de emails preservando el orden de primera aparición (Caso 22). El starter usa `set` y pierde orden estable. Salida esperada:\n['a@x', 'b@x']",
+          "1. El starter usa `list(set(xs))` (bug de orden).\n2. Aplica `dict.fromkeys` (o equivalente estable).\n3. Imprime la lista resultante.\n4. No alteres el fixture de tres elementos.",
         hint: "dict.fromkeys",
         hints: [
           "dict.fromkeys",
@@ -1284,7 +1403,9 @@ print(round(score, 2), 'match_no_es_fraude')`,
         edgeCases: ["case folding opcional"],
         tests: "salida coincide con solution output",
         feedback:
-          "dict.fromkeys preserva la primera aparición; set no garantiza orden. En una lista de To/CC el orden es parte del contrato de higiene.",
+          "`dict.fromkeys` preserva la primera aparición; `set` no garantiza orden. En una lista de To/CC el orden es parte del contrato de higiene de la mesa.",
+        retrospective:
+          "En To/CC el orden de primera aparición es parte del contrato de higiene de la mesa, no un detalle cosmético. El error clásico es “un set ya quita duplicados” y perder quién era el primer `to`. Pregunta: si el fixture es a, b, a, ¿qué lista defiendes en el audit? Siguiente (E2): forzar BCC a un externo que vino en CC.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1307,8 +1428,11 @@ print(list(dict.fromkeys(xs)))`,
         id: "S22-T3-B-E2",
         subtopicId: "S22-T3-B",
         kind: "independent",
+        title: "Forzar BCC a destinatarios externos",
+        preamble:
+          "- **Contexto:** un partner en `@other.test` no debe ver ni exponer la lista de trabajo en CC.\n- **Meta:** forzar `role='bcc'` cuando el email es externo.\n- **Éxito:** una línea `bcc`.\n- **Límites:** no dejes `pass` sin mutar; BCC no es cifrado, solo oculta la lista a los demás.",
         instruction:
-          "E2 (independiente) — Fuerza `role='bcc'` cuando el email es externo (`@other.test`) (Caso 22). El starter detecta el dominio, pero no muta el role. Salida esperada:\nbcc",
+          "1. El starter detecta el dominio pero hace `pass` (bug).\n2. Asigna `r['role'] = 'bcc'`.\n3. Imprime el role final.\n4. No cambies el email del fixture.",
         hint: "endswith",
         hints: [
           "endswith",
@@ -1317,7 +1441,9 @@ print(list(dict.fromkeys(xs)))`,
         edgeCases: ["múltiples dominios externos"],
         tests: "salida coincide con solution output",
         feedback:
-          "Externos en CC exponen la lista de trabajo del caso. Forzar BCC (o envíos individuales) es mínima divulgación operativa.",
+          "Externos en CC exponen la lista de trabajo del caso. Forzar BCC (o envíos individuales) es mínima divulgación operativa — no es cifrado del cuerpo.",
+        retrospective:
+          "Detectar el dominio externo sin mutar el role deja el partner en CC: el bug del starter. Mínima divulgación operativa es cambiar el role (o enviar individual), no solo “saber” que es externo. Pregunta: si imprimes el role y sigue `cc`, ¿el test de privacidad pasó? Luego (E3) mueves externos y cuentas solo visibles to+cc.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1346,8 +1472,11 @@ print(rows[0]['role'])`,
         id: "S22-T3-B-E3",
         subtopicId: "S22-T3-B",
         kind: "transfer",
+        title: "Contar visibles tras política BCC",
+        preamble:
+          "- **Contexto:** el audit del run debe registrar cuántos emails quedan **visibles** (to+cc) después de la política de privacidad.\n- **Meta:** mover externos a bcc y contar solo visibles.\n- **Éxito:** `1 ['a@example.pe']`.\n- **Límites:** si el externo sigue en cc, el conteo miente; BCC no cifra el cuerpo.",
         instruction:
-          "E3 (transferencia) — Aplica política de privacidad: mueve externos a bcc y cuenta solo visibles `to`+`cc` (Caso 22). El starter cuenta el externo en cc. Salida esperada:\n1 ['a@example.pe']",
+          "1. El starter cuenta el externo en cc (bug de política).\n2. Si el dominio es externo, reasigna role a `bcc` antes de contar.\n3. Visibles = to + cc tras la política.\n4. Imprime `len(vis)` y la lista.",
         hint: "filtrar roles",
         hints: [
           "si dominio externo → role bcc",
@@ -1356,7 +1485,9 @@ print(rows[0]['role'])`,
         edgeCases: ["BCC no es cifrado"],
         tests: "salida coincide con solution output",
         feedback:
-          "Tras la política, solo to+cc cuentan como visibles. Si el externo sigue en cc, el conteo miente y la privacidad se rompe.",
+          "Tras la política, solo to+cc cuentan como visibles. Si el externo sigue en cc, el conteo miente y la privacidad se rompe — hallazgo de mesa, no detalle de UI.",
+        retrospective:
+          "Tras la política, solo to+cc son visibles. El error clásico es contar antes de reasignar roles. Pregunta de cierre: ¿por qué un conteo de 2 con un externo en cc es un hallazgo de privacidad y no un “detalle de UI”?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1389,8 +1520,11 @@ print(len(vis), vis)`,
         id: "S22-T4-A-E1",
         subtopicId: "S22-T4-A",
         kind: "guided",
+        title: "submit de draft a pending_review",
+        preamble:
+          "- **Contexto:** en Caso 22, el analista no puede autoaprobar: debe encolar revisión humana.\n- **Meta:** aplicar la transición `submit` desde `draft` usando la tabla.\n- **Éxito:** una línea `pending_review`.\n- **Límites:** no hardcodees `approved`; no inventes atajos `pending`.",
         instruction:
-          "E1 (guiado) — Aplica la transición `submit` desde `draft` hacia `pending_review` usando la tabla de transiciones (Caso 22). El starter salta a `approved`. Salida esperada:\npending_review",
+          "1. El starter asigna `state = 'approved'` (bug).\n2. Lee `T[state]['submit']` (o equivalente).\n3. Imprime el estado final.\n4. Conserva la tabla del starter.",
         hint: "dict de dicts",
         hints: [
           "dict de dicts",
@@ -1399,7 +1533,9 @@ print(len(vis), vis)`,
         edgeCases: ["KeyError si acción inválida"],
         tests: "salida coincide con solution output",
         feedback:
-          "submit es la única puerta de draft a pending_review. Saltar a approved en el código es el anti-patrón que la mesa de control no puede auditar.",
+          "`submit` es la única puerta de draft a `pending_review`. Saltar a `approved` en el código es el anti-patrón que la mesa de control no puede auditar.",
+        retrospective:
+          "La tabla `TRANSITIONS` es la única fuente de verdad: `submit` mueve `draft` → `pending_review`. Asignar `approved` a mano borra el rastro y salta el HITL. Pregunta: si el starter “pasa” con un string hardcodeado, ¿qué falla en el audit del portfolio? Siguiente (E2): approve desde draft debe ser `invalid`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1426,8 +1562,11 @@ print(state)`,
         id: "S22-T4-A-E2",
         subtopicId: "S22-T4-A",
         kind: "independent",
+        title: "approve inválido desde draft",
+        preamble:
+          "- **Contexto:** fail-closed protege al destinatario cuando la acción no existe en la tabla.\n- **Meta:** intentar `approve` desde `draft` y obtener `invalid`.\n- **Éxito:** una línea `invalid`.\n- **Límites:** no inventes un `ok` cuando `nxt` es None; no silencies el hallazgo.",
         instruction:
-          "E2 (independiente) — Intenta `approve` desde `draft`: debe resultar `invalid` (fail-closed) (Caso 22). Usa `.get` en la tabla. El starter imprime `ok` cuando falta la transición. Salida esperada:\ninvalid",
+          "1. El starter imprime `'ok'` si falta la transición (bug).\n2. Usa `.get` en la tabla.\n3. Si no hay `nxt`, imprime `invalid`.\n4. No agregues approve a draft “para que pase”.",
         hint: "try/except o .get",
         hints: [
           "try/except o .get",
@@ -1436,7 +1575,9 @@ print(state)`,
         edgeCases: ["no silencies errores de auditoría en prod"],
         tests: "salida coincide con solution output",
         feedback:
-          "Fail-closed: approve desde draft no existe en la tabla → invalid. Nunca inventes un 'ok' cuando falta la transición.",
+          "Fail-closed: `approve` desde draft no existe en la tabla → `invalid`. Nunca inventes un “ok” cuando falta la transición: el audit debe registrar el rechazo de la acción.",
+        retrospective:
+          "Falta de transición = `invalid`, no éxito silencioso. El error clásico es un else amable que miente al audit. Pregunta: ¿agregarías `approve` a `draft` “para que el test pase”, o dejas el fail-closed? Luego (E3) implementas `apply` con actor y filtras el evento de approve.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1469,17 +1610,22 @@ print(nxt if nxt else 'invalid')`,
         id: "S22-T4-A-E3",
         subtopicId: "S22-T4-A",
         kind: "transfer",
+        title: "apply con audit y actor en approve",
+        preamble:
+          "- **Contexto:** el portfolio de CP-N2-C adjunta el audit: quién aprobó, desde qué estado, con qué acción.\n- **Meta:** implementar `apply` sobre la máquina canónica; ejecutar submit y approve; imprimir solo el evento de approve.\n- **Éxito:** lista con un dict `from pending_review → approved`, action `approve`, actor `rev1`.\n- **Límites:** consulta TRANSITIONS; no hardcodees approved en apply; estados canónicos.",
         instruction:
-          "E3 (transferencia) — Implementa `apply(state, action, actor, log)` sobre la máquina canónica (`pending_review`, `needs_edit`). Ejecuta `submit` (draft→pending_review, actor `analyst`) y luego `approve` (pending_review→approved, actor `rev1`). Filtra e imprime **solo** el evento de `approve` con actor (Caso 22). El starter no registra actor ni usa la tabla. Salida esperada:\n[{'from': 'pending_review', 'to': 'approved', 'action': 'approve', 'actor': 'rev1'}]",
+          "1. El starter no usa TRANSITIONS ni guarda actor/action (bug).\n2. Completa `apply`: resuelve `nxt`, falla si no hay, append con from/to/action/actor.\n3. Ejecuta submit (analyst) y approve (rev1).\n4. Imprime la lista filtrada por action == approve.",
         hint: "apply + log con actor",
         hints: [
           "TRANSITIONS con pending_review y request_edit → needs_edit",
-          "append {from, to, action, actor}; imprime [e for e in log if e['action']=='approve']",
+          "resuelve nxt con la tabla; append from/to/action/actor; filtra el approve al imprimir",
         ],
         edgeCases: ["approve desde draft debe ser invalid; el audit es inmutable en producción."],
         tests: "salida coincide con solution output",
         feedback:
-          "El audit del approve debe llevar from/to/action/actor. Sin actor no hay accountability en la mesa de control; sin TRANSITIONS no hay fail-closed.",
+          "El audit del approve debe llevar from/to/action/actor. Sin actor no hay accountability en la mesa de control; sin TRANSITIONS no hay fail-closed ni rastro defendible.",
+        retrospective:
+          "Sin actor no hay accountability en la mesa; sin `TRANSITIONS` no hay fail-closed ni rastro defendible. El error clásico es un log incompleto que “solo guarda el to”. Pregunta de cierre: ¿qué imprimirías si alguien intenta `approve` desde `draft`? Eso se defiende en el portfolio del You Do.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1532,8 +1678,11 @@ print([e for e in log if e['action'] == 'approve'])`,
         id: "S22-T4-B-E1",
         subtopicId: "S22-T4-B",
         kind: "guided",
+        title: "Idempotency key sha256 de 16 hex",
+        preamble:
+          "- **Contexto:** la key firma el triple run | destinatario | versión del cuerpo en Caso 22 y en el You Do.\n- **Meta:** unir con `|`, codificar, sha256 y tomar **16** hex.\n- **Éxito:** `0da400d6c9b3f756`.\n- **Límites:** separador es `|` (no `-`); slice `[:16]` (no 6 ni 8).",
         instruction:
-          "E1 (guiado) — Construye la idempotency key del curso a partir de `run_id`, `to` y `body_ver`: une con `|`, codifica a bytes, `sha256` y toma **16** hex (mismo contrato que el You Do y la teoría) (Caso 22). El starter usa un separador incorrecto y corta en 6 caracteres. Salida esperada:\n0da400d6c9b3f756",
+          "1. El starter usa `-` y `[:6]` (bugs).\n2. Arma `f'{run_id}|{to}|{body_ver}'.encode()`.\n3. Imprime `sha256(...).hexdigest()[:16]`.\n4. No cambies los valores del fixture (`run`, `to`, `v1`).",
         hint: "f'{run}|{to}|{ver}'.encode() + sha256[:16]",
         hints: [
           "raw = f'{run_id}|{to}|{body_ver}'.encode()",
@@ -1541,7 +1690,10 @@ print([e for e in log if e['action'] == 'approve'])`,
         ],
         edgeCases: ["Codifica en UTF-8; cambiar body_ver debe cambiar la key."],
         tests: "salida coincide con solution output",
-        feedback: "La key firma el triple (run, destinatario, versión del cuerpo): 16 hex es el contrato único de S22.",
+        feedback:
+          "La key firma el triple (run, destinatario, versión del cuerpo): 16 hex es el contrato único de S22 en teoría, ejercicios y You Do. Acortarla rompe la idempotencia del reintento.",
+        retrospective:
+          "16 hex es el contrato único de S22 (teoría, ejercicios y You Do). El error clásico es acortar la key “para que se lea mejor” o cambiar el separador. Pregunta: si usas `-` en vez de `|`, ¿puedes reutilizar el hash del contrato? Siguiente (E2): create que reutiliza el id cuando la key ya existe.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1568,8 +1720,11 @@ print(hashlib.sha256(raw).hexdigest()[:16])`,
         id: "S22-T4-B-E2",
         subtopicId: "S22-T4-B",
         kind: "independent",
+        title: "create idempotente por la misma key",
+        preamble:
+          "- **Contexto:** la segunda llamada con la misma key no debe inventar un segundo draft.\n- **Meta:** `create(key)` reutiliza el draft_id existente; solo la primera crea.\n- **Éxito:** `True` y `1` (same id y un solo registro).\n- **Límites:** no pises el store en cada llamada; condiciones de carrera fuera del lab.",
         instruction:
-          "E2 (independiente) — Haz `create(key)` idempotente: la segunda llamada con la misma key reutiliza el **mismo** draft_id; solo la primera lo crea (Caso 22). El starter siempre pisa el store y genera un id nuevo. Salida esperada (dos líneas):\nTrue\n1",
+          "1. El starter siempre asigna un id nuevo (bug).\n2. Si `key in store`, devuelve el guardado.\n3. Si no, crea y guarda.\n4. Deja los dos `create('k')` y los prints.",
         hint: "if key in store: return store[key]",
         hints: [
           "cache dict: if key in store → devolver el id guardado",
@@ -1577,7 +1732,10 @@ print(hashlib.sha256(raw).hexdigest()[:16])`,
         ],
         edgeCases: ["Las condiciones de carrera quedan fuera del lab; en producción usa un store atómico."],
         tests: "salida coincide con solution output",
-        feedback: "Misma key → mismo draft_id y un solo registro en el store; eso evita spam al reintentar.",
+        feedback:
+          "Misma key → mismo draft_id y un solo registro en el store. Eso evita spam al reintentar: un doble clic del operador no multiplica notificaciones.",
+        retrospective:
+          "Misma key → mismo draft_id y un solo registro en el store. El error clásico es “siempre factory()” y pisar el mapa. Pregunta: tras dos `create('k')`, ¿cuántos ids distintos y qué `len(store)` defiendes? Luego (E3) el reintento se registra como `retry_hit` en el audit.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1615,16 +1773,22 @@ print(len(store))`,
         id: "S22-T4-B-E3",
         subtopicId: "S22-T4-B",
         kind: "transfer",
+        title: "Audit create y retry_hit sin duplicar",
+        preamble:
+          "- **Contexto:** en la mesa de control el reintento es evidencia de cumplimiento, no un segundo mensaje al destinatario.\n- **Meta:** mini `create_once`: primer intento `create`, segundo `retry_hit` reutilizando el id.\n- **Éxito:** `['create', 'retry_hit']` y `True`.\n- **Límites:** no borres el audit al reintentar; no crees un segundo draft; timestamp/actor en prod (fuera de este drill).",
         instruction:
-          "E3 (transferencia) — Mini `create_once(key)` con audit: el primer intento registra `create` y guarda el draft; el segundo con la **misma** key registra `retry_hit` y reutiliza el id (Caso 22). El starter solo agrega `create`. Imprime la lista de eventos y si ambos ids son iguales. Salida esperada (dos líneas):\n['create', 'retry_hit']\nTrue",
+          "1. El starter siempre hace append `create` y pisa el store (bug).\n2. Si la key ya está, append `retry_hit` y reutiliza el id.\n3. Si no, guarda draft y append `create`.\n4. Imprime eventos y igualdad de ids.",
         hint: "si key ya en store → retry_hit",
         hints: [
-          "si key ya en store → audit retry_hit y devolver store[key]",
-          "si no → guardar draft, audit create",
+          "reintento: no inventes un segundo draft; registra el evento correcto en audit",
+          "primera vez create; segunda vez reutiliza id y marca el hit — sin borrar el log",
         ],
         edgeCases: ["En producción añade timestamp y actor al evento; no borres el audit al reintentar."],
         tests: "salida coincide con solution output",
-        feedback: "El reintento es un evento de auditoría, no un segundo draft: evidencia de cumplimiento en la mesa de control.",
+        feedback:
+          "El reintento es un evento de auditoría, no un segundo draft: evidencia de cumplimiento en la mesa de control y cierre del inicio de CP-N2-C.",
+        retrospective:
+          "El reintento es un evento de auditoría (`retry_hit`), no un segundo draft al destinatario. El error clásico es duplicar notificaciones “porque el job falló a medias”. Pregunta de cierre: ¿qué cambia en la key si actualizas el cuerpo del informe de S21? Eso cierra el inicio de CP-N2-C.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1771,7 +1935,9 @@ print("audit_n", len(audit))
 # Al terminar: verified True, key_len 16, draft_id d001, state pending_review, audit_n ≥ 1
 `,
     portfolioNote:
-      "Entregable inicio CP-N2-C: borrador sandbox (.eml o string MIME) + audit de aprobación; listo para web adapter (S23). Aceptación mínima: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1 con actor en el evento de submit.",
+      "Entregable inicio CP-N2-C: borrador sandbox (.eml o string MIME) + audit de aprobación; listo para web adapter (S23). Aceptación mínima: verified True, key_len 16, draft_id no nulo, state pending_review, audit_n ≥ 1 con actor en el evento de submit. Defiende en 30 s: cero envíos automáticos y 100 % de drafts por pending_review.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué gate demuestras con los prints de aceptación (verified, key_len 16, pending_review, audit con actor)? (2) ¿qué harías distinto con destinatarios reales vs. `@example.pe` (PII, opt-out, BCC)? (3) Escribe en el README una frase de impacto medible — p. ej. “cero envíos automáticos; 100 % de drafts pasan por `pending_review`” — que puedas defender en 30 segundos ante la mesa. En S23 el canal web reutilizará este contrato; no reabras el paquete de S21 ni relajes el fail-closed.",
     rubric: [
       { criterion: "Gates de seguridad: draft-only, aprobación humana, destinatario verificado, sin SMTP real", weight: "25%" },
       { criterion: "MIME multiparte (plain+HTML+adjunto meta) y draft con expires_at + idempotency key [:16]", weight: "20%" },

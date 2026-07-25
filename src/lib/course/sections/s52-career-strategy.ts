@@ -324,6 +324,8 @@ cp_final independent_of_cpn4c`,
         subtopicId: "S52-T1-A",
         environment: "local-python",
         description: "Demo: revalidar CF-1 con matriz stakeholder/job/métrica y baseline congelado",
+        preamble:
+          "Antes de cablear la plataforma final multi-región, el portfolio debe defender **esta** versión de stakeholders, jobs y métricas — no la de S01. En esta demo un fixture sintético `CASO-PER-052` calcula el delta (`latency` se retira, entra `review_precision`) y el predicado CF-1. No escribas aún: predice `PASS` para el válido y `REOPEN_CF1` para el que solo tiene `ops` y jobs=0. Si reutilizas la matriz vieja sin baseline congelado, el revisor de graduación ve un producto fantasma.",
         code: {
           language: 'python',
           title: "demo_stakeholders_jobs_success_cf1.py",
@@ -342,13 +344,18 @@ print("adverse", revalidate({"ops"}, 0, set(), False))`,
 valid PASS
 adverse REOPEN_CF1`,
         },
-        why: "Modela el delta de métricas y el predicado CF-1 (stakeholders + jobs + baseline). En weDo repararás el mismo criterio invertido sobre `CASO-PER-052-1A`.",
+        why:
+          "`cf1_delta` hace visible el change_log: qué se retiró y qué se añadió. `revalidate` exige el conjunto mínimo de stakeholders (ops, relationship, privacy), jobs≥3, métricas ttr+review_precision y `baseline_frozen`. El adverso no es «casi listo»: fuerza reabrir CF-1. Orden: matriz viva antes de firmar no-go. En We Do repararás el predicado invertido, la tabla PASS/REOPEN/MISSING y el decide INTERVIEW_STAKEHOLDER.",
+        retrospective:
+          "Si puedes explicar por qué un fixture solo con `ops` y jobs=0 reabre CF-1 sin mirar el print, ya tienes el hábito de matriz viva. El error clásico es tratar el baseline de S01 como eterno. En We Do practicarás el predicado, las tres rutas y la rama de incertidumbre sin `baseline_frozen`.",
       },
       {
         demoId: "S52-T1-B-DEMO",
         subtopicId: "S52-T1-B",
         environment: "local-python",
         description: "Demo: firmar constraints, riesgos con owner y no-go ético",
+        preamble:
+          "Con CF-1 vivo, el siguiente sello es **ético y operativo**: constraints, riesgos con dueño y no-go firmado. En esta demo un registro sintético exige synthetic-only + human-review, no-go de real-pii y auto-risk-decision, y residual aceptado. No escribas: predice PASS para el válido y DECLARE_NO_GO para el vacío. Observa también `match_is_fraud False`: matching/ER proponen; no condenan.",
         code: {
           language: 'python',
           title: "demo_changes_constraints_risks_nogo.py",
@@ -365,13 +372,18 @@ print("match_is_fraud", False)  # ER/score propone; no prueba fraude`,
 DECLARE_NO_GO
 match_is_fraud False`,
         },
-        why: "Calcula PASS vs. DECLARE_NO_GO a partir de constraints, responsables y residual; deja explícito que ER/score ≠ fraude. Prepara E1–E3 de T1-B.",
+        why:
+          "Hard-block de PII real y auto-riesgo: sin esos no-go el predicado no pasa. Cada riesgo lleva owner; residual debe ser explícito. `match_is_fraud False` deja claro que ER/score proponen, no condenan. Orden: no-go firmado antes de mapear contexts. En We Do repararás el predicado invertido, la tabla PASS/DECLARE/MISSING y el decide INDEPENDENT_RISK_REVIEW.",
+        retrospective:
+          "No-go firmado es gate de despliegue, no párrafo de README. Matching/ER proponen; no condenan. Pregunta: si residual_ok es False pero el no-go lista real-pii, ¿qué imprime el predicado y por qué no es PASS? We Do: predicado invertido, tres rutas y INDEPENDENT_RISK_REVIEW.",
       },
       {
         demoId: "S52-T2-A-DEMO",
         subtopicId: "S52-T2-A",
         environment: "local-python",
         description: "Demo: seis bounded contexts con contratos versionados y sin DB compartida",
+        preamble:
+          "Tras el no-go, la plataforma se descompone en **seis bounded contexts** integrados por API y eventos versionados — no por una base compartida. En esta demo el fixture válido trae intake, er, relationship, triage, reporting y copilot con 12 contract tests. No escribas: predice PASS y STOP_INTEGRATION_RELEASE para el monólito `all-in-one`. Si omites relationship, el nombre de la plataforma es teatro.",
         code: {
           language: 'python',
           title: "demo_bounded_apis_events.py",
@@ -389,13 +401,18 @@ print(contract_gate({"all-in-one"}, False, False, True, 0))`,
 PASS
 STOP_INTEGRATION_RELEASE`,
         },
-        why: "Enumera los seis contexts (incluye relationship) y falla el monólito con DB compartida. Alinea iDo con el predicado de weDo T2-A.",
+        why:
+          "REQUIRED es el mapa mínimo (incluye relationship). `shared_db` prohíbe acoplamiento oculto; n_tests≥10 hace fallar al productor, no al consumidor en silencio. El monólito `all-in-one` es breach de integración, no atajo legítimo. Orden: mapa de contexts antes de la cadena HITL. En We Do: predicado invertido, tres rutas y MAP_BOUNDED_CONTEXTS.",
+        retrospective:
+          "Contexts + API/eventos versionados + sin DB compartida + ≥10 contract tests. El monólito con shared DB no es atajo legítimo: es breach de integración. Pregunta: si omites `relationship` pero tienes 12 tests, ¿PASS o STOP? We Do: predicado, assess y MAP_BOUNDED_CONTEXTS.",
       },
       {
         demoId: "S52-T2-B-DEMO",
         subtopicId: "S52-T2-B",
         environment: "local-python",
         description: "Demo: cadena ER→triage→RPA→RAG con humano que decide",
+        preamble:
+          "Con los seis contexts cableados, datos/modelos/RPA/RAG **apoyan** un human workflow; no lo sustituyen. En esta demo la cadena completa con `infers_fraud=False` pasa; la que omite humano e infiere fraude se bloquea. No escribas: predice PASS y BLOCK_AUTOMATED_RISK_DECISION. Observa `rag_mode cited`: citar no es condenar.",
         code: {
           language: 'python',
           title: "demo_data_models_rpa_rag_human.py",
@@ -412,13 +429,18 @@ print("rag_mode", "cited")`,
           output: `PASS BLOCK_AUTOMATED_RISK_DECISION
 rag_mode cited`,
         },
-        why: "Modela la cadena propose-not-decide y bloquea el autofraude. El weDo T2-B invierte el mismo predicado.",
+        why:
+          "`all(chain)` y `not infers_fraud` son el contrato HITL: proponer no es decidir. Autofraude es no-go de graduación, no un warning. RAG en modo cita documenta; no emite veredicto. Orden: cadena completa antes de cualquier claim de riesgo. En We Do: predicado invertido, tres rutas y REQUEST_HUMAN_REVIEW.",
+        retrospective:
+          "HITL = propose-not-decide. El error clásico es autoetiquetar fraude porque el score «se ve alto». Pregunta: si human_decides=True pero infers_fraud=True, ¿qué imprime y por qué no es PASS? We Do: predicado, assess y decide de la cadena.",
       },
       {
         demoId: "S52-T3-A-DEMO",
         subtopicId: "S52-T3-A",
         environment: "local-python",
         description: "Demo: matriz de seis capas de verificación con cero P0/P1",
+        preamble:
+          "Integración cableada no basta: la **matriz de verificación** (unit, contract, integration, evals, red_team, performance) debe estar en verde con cero P0/P1 abiertos. En esta demo el suite limpio pasa; el que tiene red_team roto y open_p0=1 se bloquea. No escribas: predice PASS y BLOCK_FINAL_ON_P0_P1. Un print de «todo ok» no es regresión S1–S52.",
         code: {
           language: 'python',
           title: "demo_tests_evals_redteam_perf.py",
@@ -436,13 +458,18 @@ print("layers", list(LAYERS))`,
           output: `PASS BLOCK_FINAL_ON_P0_P1
 layers ['unit', 'contract', 'integration', 'evals', 'red_team', 'performance']`,
         },
-        why: "Calcula el gate de calidad desde las capas y contadores P0/P1; no imprime True precomputado.",
+        why:
+          "`all(layers)` y contadores en 0 son el gate: no basta con unit/contract verdes si red_team o performance fallan. Un hallazgo P0/P1 deja regression test permanente; demo bonita no compensa CP-N4-C. Orden: matriz en verde antes del drill de DR. En We Do: predicado invertido, tres rutas y FIX_AND_RERUN_REGRESSION.",
+        retrospective:
+          "Calidad medible = seis capas verdes + open_p0=open_p1=0. El error clásico es graduar con P0 abierto «porque el video se ve bien». Pregunta: si red_team=False y open_p0=0, ¿PASS o BLOCK_FINAL_ON_P0_P1? We Do: predicado, assess y FIX_AND_RERUN_REGRESSION.",
       },
       {
         demoId: "S52-T3-B-DEMO",
         subtopicId: "S52-T3-B",
         environment: "local-python",
         description: "Demo: RPO/RTO medidos y restore verificado en disaster drill",
+        preamble:
+          "Con la matriz en verde, toca demostrar **resiliencia con reloj**: availability ≥ SLO, edad de backup ≤ RPO, rollback ≤ RTO y restore verificado. En esta demo el drill 0.999/3h/8min pasa; el de avail 0.7 y rollback 120 min se bloquea. No escribas: predice PASS y NO_GO_RESILIENCE. Un tabletop verbal sin números no reduce el riesgo operativo.",
         code: {
           language: 'python',
           title: "demo_slo_backup_rollback_disaster.py",
@@ -457,13 +484,18 @@ print("measured", {"rpo_h": 4, "rto_min": 15})`,
 NO_GO_RESILIENCE
 measured {'rpo_h': 4, 'rto_min': 15}`,
         },
-        why: "Mide availability/SLO, edad de backup vs. RPO y rollback vs. RTO con restore verificado — alineado al weDo T3-B.",
+        why:
+          "Cuatro predicados medibles: availability≥slo, backup_age≤rpo, rollback≤rto y `restored`. El reloj cierra el loop del drill; un PDF de runbook no cuenta. Orden: matriz de tests en verde (T3-A) antes de narrar DR. En We Do: predicado invertido, tres rutas y RUN_DISASTER_EXERCISE.",
+        retrospective:
+          "DR medido, no promesa de runbook. El error clásico es tabletop verbal sin reloj. Pregunta: con rollback_min=120 y rto_min=15, ¿qué token imprime y por qué no es PASS? We Do: predicado, assess y decide de resiliencia.",
       },
       {
         demoId: "S52-T4-A-DEMO",
         subtopicId: "S52-T4-A",
         environment: "local-python",
         description: "Demo: guion de demo ≤10 min con TTR antes/después y contribución personal",
+        preamble:
+          "Con la plataforma verificada y resiliente, la **demo de entrevista** narra problema → baseline → decisión → métrica → límite en ≤10 minutos. En esta demo el TTR sintético 90→42 min, claims sourced y contribución personal (`blocking + contract tests en triage API`) arman el guion. No escribas: predice el dict y `cv_ok True`. Si no hay mejora vs. baseline, no hay claim.",
         code: {
           language: 'python',
           title: "demo_demo_cv_narrative.py",
@@ -483,13 +515,18 @@ print("cv_ok", plan["claims_sourced"] and bool(plan["personal_contribution"]))`,
           output: `demo {'minutes': 10, 'before_after': (90, 42), 'personal_contribution': 'blocking + contract tests en triage API', 'claims_sourced': True, 'synthetic_only': True}
 cv_ok True`,
         },
-        why: "Construye el guion de portfolio a partir de baseline/result y contribución personal; rechazo implícito si no hay mejora.",
+        why:
+          "`assert result < baseline` es el contrato de honestidad: sin mejora no hay claim de portfolio. `personal_contribution` distingue tu trabajo de plantillas del curso; claims sourced cierran la trazabilidad. Orden: mejora medible antes del evidence bundle. En We Do: predicado invertido, tres rutas y RECORD_PERSONAL_CONTRIBUTION.",
+        retrospective:
+          "Portfolio = números + fuente + contribución personal. El error clásico es inflar ownership o demo sin baseline. Pregunta: si result_ttr=120 y baseline=90, ¿el assert del demo_script pasa? We Do: predicado, assess y RECORD_PERSONAL_CONTRIBUTION.",
       },
       {
         demoId: "S52-T4-B-DEMO",
         subtopicId: "S52-T4-B",
         environment: "local-python",
         description: "Demo: evidence bundle de 8 artefactos y flag cpn4c_independent",
+        preamble:
+          "Cierre del capstone: **ocho artefactos** permiten a un revisor ejecutar y cuestionar el sistema sin conocimiento tribal. En esta demo el set completo (architecture, README, ADR, system/model cards, LICENSE, video, defense) con comando reproducible y trade-offs pasa; un bundle solo con README se bloquea. No escribas: predice n=8, PASS y BLOCK_INCOMPLETE_EVIDENCE_BUNDLE. CP-FINAL no se compensa con demos parciales ni con CP-N4-C.",
         code: {
           language: 'python',
           title: "demo_arch_readme_cards_license_video_defense.py",
@@ -510,7 +547,10 @@ print(bundle_ok({"README"}, False, False, False))`,
 PASS
 BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
         },
-        why: "Cuenta y valida los **8** artefactos del CP-FINAL (no 6). Alinea theory/iDo/weDo del evidence bundle.",
+        why:
+          "REQUIRED es el set de **8** (no 6). `reproducible` + `tradeoffs` + `cpn4c_independent` cierran el predicado: el revisor externo debe poder ejecutar sin tu laptop y sin compensar CP-N4-C. Orden: bundle completo antes de la defensa oral. En We Do: predicado invertido, tres rutas y SCHEDULE_TECHNICAL_DEFENSE.",
+        retrospective:
+          "Bundle de 8 + reproducible + trade-offs + independencia de CP-N4-C. El error clásico es «mi laptop corre, listo». Pregunta: con 7 artefactos y cpn4c_independent=True, ¿PASS o BLOCK_INCOMPLETE_EVIDENCE_BUNDLE? We Do: predicado, assess y SCHEDULE_TECHNICAL_DEFENSE.",
       },
     ],
   },
@@ -521,7 +561,11 @@ BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
         id: "S52-T1-A-E1",
         subtopicId: "S52-T1-A",
         kind: "guided",
-        instruction: "S52-T1-A-E1 · Calcula el contrato de `stakeholders, jobs y success metrics de CF-1` sobre `CASO-PER-052-1A`. La entrada es el dict completo del starter; la operación debe demostrar stakeholders/jobs/métricas y baseline revalidados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REOPEN_CF1` en E2.",
+        title: "Revalidar CF-1 con baseline congelado",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-1A`, ops, relationship y privacy deben estar en la matriz viva; el baseline sintético de TTR y review_precision está congelado.\n- **Meta:** corregir `meets_contract` (stakeholders mínimos + jobs≥3 + métricas + `baseline_frozen`).\n- **Éxito:** imprimes exactamente `S52-T1-A PASS` con el fixture válido.\n- **Límites:** no borres el assert; no inventes stakeholders; no toques los datos del fixture; sin PII real.",
+        instruction:
+          "1. Abre el starter: `meets_contract` aprueba si jobs==0 o baseline no frozen (bug).\n2. Exige `{\"ops\",\"relationship\",\"privacy\"} <= stakeholders`, `jobs >= 3`, `{\"ttr\",\"review_precision\"} <= metrics` y `baseline_frozen`.\n3. Conserva el print `S52-T1-A` y el status PASS/REOPEN_CF1.\n4. No rellenes campos ni mutes el record.",
         hint: "Relaciona los campos `stakeholders`, `jobs`, `metrics`, `baseline_frozen` con la regla explicada en S52-T1-A.",
         hints: [
           "Relaciona los campos `stakeholders`, `jobs`, `metrics`, `baseline_frozen` con la regla explicada en S52-T1-A.",
@@ -529,7 +573,10 @@ BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
         ],
         edgeCases: ["falta baseline_frozen", "fixture adverso: solo ops, jobs=0, métricas vacías, baseline no frozen", "CASO-PER-052-1A es sintético"],
         tests: "El fixture `CASO-PER-052-1A` satisface un predicado de dominio real; imprime `S52-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T1-A-E1: el predicado exige ops+relationship+privacy, jobs≥3, ttr+review_precision y baseline_frozen. Sin delta ni baseline, el portfolio defiende un producto fantasma (REOPEN_CF1). Falta de baseline_frozen en schema → INTERVIEW_STAKEHOLDER antes de seguir a no-go.",
+        feedback:
+          "El predicado exige ops+relationship+privacy, jobs≥3, ttr+review_precision y baseline_frozen. Sin delta ni baseline, el portfolio defiende un producto fantasma (`REOPEN_CF1`). Si el schema no trae `baseline_frozen`, no improvises: en E3 verás `INTERVIEW_STAKEHOLDER`.",
+        retrospective:
+          "CF-1 vivo = matriz stakeholder/job/métrica + `baseline_frozen`, no nostalgia de S01. El starter aprueba lo incompleto (jobs==0 o baseline suelto): el revisor multi-región vería un portfolio fantasma. Pregunta: si el print dice PASS con solo `ops` y jobs=0, ¿falló el assert o el contrato? Siguiente (E2): PASS / REOPEN_CF1 / MISSING:baseline_frozen.",
         starterCode: {
           language: 'python',
           title: "s52-t1-a-e1.py",
@@ -557,7 +604,11 @@ assert meets_contract is True` ,
         id: "S52-T1-A-E2",
         subtopicId: "S52-T1-A",
         kind: "independent",
-        instruction: "S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, fixture adverso y registro sin `baseline_frozen`. Entrada: dict con case_id, stakeholders, jobs, metrics, baseline_frozen. Salidas exactas: `PASS`, `REOPEN_CF1`, `MISSING:baseline_frozen`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de CF-1 (PASS / REOPEN / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de CF-1 en la plataforma multi-región no trata igual una matriz limpia, una incompleta de contenido y una sin campo de baseline.\n- **Meta:** implementar `assess` que distinga PASS, REOPEN_CF1 y MISSING:baseline_frozen.\n- **Éxito:** imprime `PASS REOPEN_CF1 MISSING:baseline_frozen` en ese orden.\n- **Límites:** si falta `baseline_frozen`, no evalúes el contenido; no inventes el campo; missing ≠ «aceptar».",
+        instruction:
+          "1. Revisa el starter: assess aprueba con jobs==0 (mismo defecto de E1).\n2. Primero: campos required; si falta `baseline_frozen` → `MISSING:baseline_frozen`.\n3. Luego: predicado de stakeholders/jobs/métricas/baseline → PASS o REOPEN_CF1.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a baseline_frozen debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a baseline_frozen debe ocurrir antes de esa rama.",
@@ -565,7 +616,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta baseline_frozen", "fixture adverso: solo ops, jobs=0, métricas vacías, baseline no frozen", "CASO-PER-052-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `baseline_frozen` ausente y produce exactamente `PASS REOPEN_CF1 MISSING:baseline_frozen`.",
-        feedback: "S52-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_CF1 y por qué faltar baseline_frozen exige INTERVIEW_STAKEHOLDER.",
+        feedback:
+          "Missing es incertidumbre de schema; matriz vacía o jobs=0 es breach de CF-1. El revisor multi-región no rankea contenido sin el campo de baseline. En E3 enrutarás CONTINUE / REOPEN_CF1 / INTERVIEW_STAKEHOLDER.",
+        retrospective:
+          "Un `baseline_frozen` ausente no es una matriz rota: es evidencia de schema incompleto. Solo ops + jobs=0 sí es breach de CF-1. El error clásico es rankear contenido sin el campo para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs predicado de stakeholders, y por qué? Luego (E3): CONTINUE / REOPEN_CF1 / INTERVIEW_STAKEHOLDER.",
         starterCode: {
           language: 'python',
           title: "s52-t1-a-e2.py",
@@ -611,7 +665,11 @@ print(*results)
         id: "S52-T1-A-E3",
         subtopicId: "S52-T1-A",
         kind: "transfer",
-        instruction: "S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixtures distintos. `CASO-PER-052-1A` debe continuar, el adverso debe devolver `REOPEN_CF1` y la ausencia de `baseline_frozen` debe devolver `INTERVIEW_STAKEHOLDER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide CF-1: CONTINUE o INTERVIEW",
+        preamble:
+          "- **Contexto:** el gate de ensamblaje decide si CF-1 **sigue** o se detiene: no hay «continuar con warning de baseline».\n- **Meta:** `decide` → CONTINUE (matriz viva), REOPEN_CF1 (contenido roto), INTERVIEW_STAKEHOLDER (sin baseline_frozen).\n- **Éxito:** `CONTINUE REOPEN_CF1 INTERVIEW_STAKEHOLDER`.\n- **Límites:** no inventes baseline_frozen; no conviertas missing en CONTINUE; no toques los fixtures.",
+        instruction:
+          "1. Corrige missing: sin `baseline_frozen` → `INTERVIEW_STAKEHOLDER` (no CONTINUE).\n2. Con schema completo, aplica el predicado de stakeholders/jobs/métricas/baseline.\n3. Solo el válido es CONTINUE; el adverso es REOPEN_CF1.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INTERVIEW_STAKEHOLDER` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INTERVIEW_STAKEHOLDER` antes de evaluar el contenido.",
@@ -619,7 +677,10 @@ print(*results)
         ],
         edgeCases: ["falta baseline_frozen", "fixture adverso: solo ops, jobs=0, métricas vacías, baseline no frozen", "CASO-PER-052-1A es sintético"],
         tests: "Fixtures `CASO-PER-052-1A`, adverso y sin `baseline_frozen` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REOPEN_CF1 y por qué faltar baseline_frozen exige INTERVIEW_STAKEHOLDER.",
+        feedback:
+          "Un campo de baseline ausente es entrevista a stakeholder, no un allow optimista. El adverso con jobs=0 reabre CF-1. El revisor de graduación no promueve portfolio sin matriz viva.",
+        retrospective:
+          "Un campo de baseline ausente es entrevista a stakeholder, no un allow optimista. El error clásico es promover portfolio sin matriz viva. Pregunta: ¿por qué REOPEN_CF1 no es lo mismo que INTERVIEW_STAKEHOLDER?",
         starterCode: {
           language: 'python',
           title: "s52-t1-a-e3.py",
@@ -665,7 +726,11 @@ assert results == ["CONTINUE", "REOPEN_CF1", "INTERVIEW_STAKEHOLDER"]` ,
         id: "S52-T1-B-E1",
         subtopicId: "S52-T1-B",
         kind: "guided",
-        instruction: "S52-T1-B-E1 · Compara el contrato de `cambios, constraints, riesgos y no-go` sobre `CASO-PER-052-1B`. La entrada es el dict completo del starter; la operación debe demostrar constraints, riesgos con owner y no-go explícitos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `DECLARE_NO_GO` en E2.",
+        title: "Firmar no-go con riesgos con dueño",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-1B`, la plataforma multi-región no despliega si falta no-go de PII real o de decisión automática de riesgo.\n- **Meta:** corregir `meets_contract` (synthetic-only + human-review, risks_with_owner≥1, no-go real-pii+auto-risk-decision, residual aceptado).\n- **Éxito:** imprimes exactamente `S52-T1-B PASS`.\n- **Límites:** no borres el assert; no «gestiones» el breach con un disclaimer; sin PII real en fixtures.",
+        instruction:
+          "1. Abre el starter: `meets_contract` aprueba cuando el no-go está vacío o el residual no se aceptó (bug).\n2. Exige subsets de constraints y no_go, `risks_with_owner >= 1` y `residual_risk_accepted`.\n3. Conserva print `S52-T1-B` y status PASS/DECLARE_NO_GO.\n4. No mutes los sets del fixture.",
         hint: "Relaciona los campos `constraints`, `risks_with_owner`, `no_go`, `residual_risk_accepted` con la regla explicada en S52-T1-B.",
         hints: [
           "Relaciona los campos `constraints`, `risks_with_owner`, `no_go`, `residual_risk_accepted` con la regla explicada en S52-T1-B.",
@@ -673,7 +738,10 @@ assert results == ["CONTINUE", "REOPEN_CF1", "INTERVIEW_STAKEHOLDER"]` ,
         ],
         edgeCases: ["falta residual_risk_accepted", "fixture adverso: sin constraints ni no-go, risks_with_owner=0, residual no aceptado", "CASO-PER-052-1B es sintético"],
         tests: "El fixture `CASO-PER-052-1B` satisface un predicado de dominio real; imprime `S52-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T1-B-E1: constraints synthetic-only+human-review, risks_with_owner≥1, no-go real-pii+auto-risk-decision y residual aceptado. Violación → DECLARE_NO_GO (no se «gestiona con disclaimer»). Schema sin residual_risk_accepted → INDEPENDENT_RISK_REVIEW. ER/score nunca prueba fraude.",
+        feedback:
+          "Constraints synthetic-only+human-review, risks con owner, no-go real-pii+auto-risk-decision y residual aceptado. Violación → DECLARE_NO_GO (no se «arregla» con disclaimer). ER/score nunca prueba fraude; schema sin residual → INDEPENDENT_RISK_REVIEW en E3.",
+        retrospective:
+          "Constraints synthetic-only+human-review, risks con owner, no-go real-pii+auto-risk-decision y residual explícito son el contrato. El starter invierte y «aprueba» la ausencia. Pregunta: ¿un disclaimer en el README puede convertir DECLARE_NO_GO en PASS? Siguiente: PASS / DECLARE_NO_GO / MISSING:residual_risk_accepted.",
         starterCode: {
           language: 'python',
           title: "s52-t1-b-e1.py",
@@ -701,7 +769,11 @@ assert meets_contract is True` ,
         id: "S52-T1-B-E2",
         subtopicId: "S52-T1-B",
         kind: "independent",
-        instruction: "S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixture adverso y registro sin `residual_risk_accepted`. Entrada: dict con case_id, constraints, risks_with_owner, no_go, residual_risk_accepted. Salidas exactas: `PASS`, `DECLARE_NO_GO`, `MISSING:residual_risk_accepted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de no-go (PASS / DECLARE / MISSING)",
+        preamble:
+          "- **Contexto:** el comité de riesgo no confunde un registro firmado, uno vacío de no-go y uno sin flag de residual.\n- **Meta:** `assess` → PASS, DECLARE_NO_GO, MISSING:residual_risk_accepted.\n- **Éxito:** `PASS DECLARE_NO_GO MISSING:residual_risk_accepted`.\n- **Límites:** calcula `missing` antes de leer residual; no rellenes evidencia; el adverso falla por contenido.",
+        instruction:
+          "1. Corrige assess: deja de aprobar ausencia de no-go.\n2. Primero required keys; si falta residual → MISSING.\n3. Luego predicado completo de T1-B.\n4. Imprime los tres resultados en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a residual_risk_accepted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a residual_risk_accepted debe ocurrir antes de esa rama.",
@@ -709,7 +781,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta residual_risk_accepted", "fixture adverso: sin constraints ni no-go, risks_with_owner=0, residual no aceptado", "CASO-PER-052-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `residual_risk_accepted` ausente y produce exactamente `PASS DECLARE_NO_GO MISSING:residual_risk_accepted`.",
-        feedback: "S52-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DECLARE_NO_GO y por qué faltar residual_risk_accepted exige INDEPENDENT_RISK_REVIEW.",
+        feedback:
+          "Residual ausente es incertidumbre de firma, no «seguir con fe». El adverso sin constraints es breach ético. El revisor no confunde schema incompleto con no-go vacío.",
+        retrospective:
+          "Residual ausente es incertidumbre de firma; constraints vacíos son breach ético — no «seguir con fe». El error clásico es inventar residual_ok=True para forzar PASS. Pregunta: ¿por qué MISSING no se trata igual que DECLARE_NO_GO? Luego (E3): CONTINUE / DECLARE_NO_GO / INDEPENDENT_RISK_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s52-t1-b-e2.py",
@@ -755,7 +830,11 @@ print(*results)
         id: "S52-T1-B-E3",
         subtopicId: "S52-T1-B",
         kind: "transfer",
-        instruction: "S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures distintos. `CASO-PER-052-1B` debe continuar, el adverso debe devolver `DECLARE_NO_GO` y la ausencia de `residual_risk_accepted` debe devolver `INDEPENDENT_RISK_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide no-go: CONTINUE o REVIEW",
+        preamble:
+          "- **Contexto:** el release gate no «sigue con warning» si falta residual o se violó el no-go.\n- **Meta:** CONTINUE (firmado), DECLARE_NO_GO (breach), INDEPENDENT_RISK_REVIEW (schema incompleto).\n- **Éxito:** `CONTINUE DECLARE_NO_GO INDEPENDENT_RISK_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no inventes residual; no toques fixtures.",
+        instruction:
+          "1. Missing → INDEPENDENT_RISK_REVIEW.\n2. Completo: predicado T1-B → CONTINUE o DECLARE_NO_GO.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INDEPENDENT_RISK_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INDEPENDENT_RISK_REVIEW` antes de evaluar el contenido.",
@@ -763,7 +842,10 @@ print(*results)
         ],
         edgeCases: ["falta residual_risk_accepted", "fixture adverso: sin constraints ni no-go, risks_with_owner=0, residual no aceptado", "CASO-PER-052-1B es sintético"],
         tests: "Fixtures `CASO-PER-052-1B`, adverso y sin `residual_risk_accepted` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DECLARE_NO_GO y por qué faltar residual_risk_accepted exige INDEPENDENT_RISK_REVIEW.",
+        feedback:
+          "Ausencia de residual es revisión independiente; no-go vacío es breach. Un disclaimer en el README no sustituye DECLARE_NO_GO ante el revisor de ethics.",
+        retrospective:
+          "Ausencia de residual es revisión independiente; no-go vacío es breach. Pregunta: ¿por qué un disclaimer en el README no sustituye DECLARE_NO_GO?",
         starterCode: {
           language: 'python',
           title: "s52-t1-b-e3.py",
@@ -809,7 +891,11 @@ assert results == ["CONTINUE", "DECLARE_NO_GO", "INDEPENDENT_RISK_REVIEW"]` ,
         id: "S52-T2-A-E1",
         subtopicId: "S52-T2-A",
         kind: "guided",
-        instruction: "S52-T2-A-E1 · Filtra el contrato de `bounded contexts, API y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis contexts (intake, er, relationship, triage, reporting, copilot), contratos versionados y sin DB compartida. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_INTEGRATION_RELEASE` en E2.",
+        title: "Seis contexts sin base compartida",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-2A`, el ensamblaje multi-región exige mapa de contexts, OpenAPI/eventos versionados y ≥10 contract tests.\n- **Meta:** corregir `meets_contract` (seis contexts, apis/events versionados, not shared_database, contract_tests≥10).\n- **Éxito:** `S52-T2-A PASS`.\n- **Límites:** no borres el assert; no apruebes monólito; no inventes tests.",
+        instruction:
+          "1. Starter: PASS si shared_database o APIs no versionadas (bug).\n2. Exige subset de los seis contexts (incluye relationship).\n3. `not shared_database` y `contract_tests >= 10`.\n4. Conserva print y status STOP_INTEGRATION_RELEASE.",
         hint: "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
         hints: [
           "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
@@ -817,7 +903,10 @@ assert results == ["CONTINUE", "DECLARE_NO_GO", "INDEPENDENT_RISK_REVIEW"]` ,
         ],
         edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "El fixture `CASO-PER-052-2A` satisface un predicado de dominio real; imprime `S52-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T2-A-E1: nombra los seis contexts (incluye relationship). Explica por qué shared_database o API sin versionar activan STOP_INTEGRATION_RELEASE. Faltar contract_tests exige MAP_BOUNDED_CONTEXTS antes de seguir el ensamblaje.",
+        feedback:
+          "Nombra los seis contexts (incluye relationship). shared_database o API sin versionar → STOP_INTEGRATION_RELEASE. Faltar el contador de tests en schema → MAP_BOUNDED_CONTEXTS antes de seguir el cableado real del youDo.",
+        retrospective:
+          "Integración por contrato, no por tabla compartida. El starter premia el monólito. Pregunta: con shared_database=True y 12 tests, ¿el print es PASS o STOP_INTEGRATION_RELEASE? Siguiente: PASS / STOP / MISSING:contract_tests.",
         starterCode: {
           language: 'python',
           title: "s52-t2-a-e1.py",
@@ -846,7 +935,11 @@ assert meets_contract is True` ,
         id: "S52-T2-A-E2",
         subtopicId: "S52-T2-A",
         kind: "independent",
-        instruction: "S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, API y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, contexts, apis_versioned, events_versioned, shared_database, contract_tests. Salidas exactas: `PASS`, `STOP_INTEGRATION_RELEASE`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de contexts (PASS / STOP / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de arquitectura no iguala un mapa limpio, un monólito con DB compartida y un registro sin contador de contract tests.\n- **Meta:** `assess` → PASS, STOP_INTEGRATION_RELEASE, MISSING:contract_tests.\n- **Éxito:** `PASS STOP_INTEGRATION_RELEASE MISSING:contract_tests`.\n- **Límites:** missing antes de leer contract_tests; adverso falla por contenido; no inventes el campo.",
+        instruction:
+          "1. Corrige assess (deja de premiar shared_database).\n2. Required keys primero.\n3. Predicado completo de T2-A.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
@@ -854,7 +947,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS STOP_INTEGRATION_RELEASE MISSING:contract_tests`.",
-        feedback: "S52-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa STOP_INTEGRATION_RELEASE y por qué faltar contract_tests exige MAP_BOUNDED_CONTEXTS.",
+        feedback:
+          "Sin contador de tests no hay evidencia de contrato; monólito es breach de integración. El revisor de arquitectura no confunde schema incompleto con shared_database.",
+        retrospective:
+          "Sin contador de tests no hay evidencia de contrato; monólito es breach de integración. El error clásico es inventar contract_tests=10 para «completar» el schema. Pregunta: ¿por qué missing de contract_tests no es lo mismo que shared_database=True? Luego (E3): CONTINUE / STOP / MAP_BOUNDED_CONTEXTS.",
         starterCode: {
           language: 'python',
           title: "s52-t2-a-e2.py",
@@ -900,7 +996,11 @@ print(*results)
         id: "S52-T2-A-E3",
         subtopicId: "S52-T2-A",
         kind: "transfer",
-        instruction: "S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, API y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar, el adverso debe devolver `STOP_INTEGRATION_RELEASE` y la ausencia de `contract_tests` debe devolver `MAP_BOUNDED_CONTEXTS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide integración: CONTINUE o MAP",
+        preamble:
+          "- **Contexto:** el release de integración falla cerrado: no hay «seguir y arreglar el consumidor después».\n- **Meta:** CONTINUE, STOP_INTEGRATION_RELEASE, MAP_BOUNDED_CONTEXTS.\n- **Éxito:** `CONTINUE STOP_INTEGRATION_RELEASE MAP_BOUNDED_CONTEXTS`.\n- **Límites:** missing ≠ CONTINUE; no rellenes contract_tests; no toques fixtures.",
+        instruction:
+          "1. Missing → MAP_BOUNDED_CONTEXTS.\n2. Completo: predicado de contexts/API/eventos/DB/tests.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
@@ -908,7 +1008,10 @@ print(*results)
         ],
         edgeCases: ["falta contract_tests", "fixture adverso: monólito all-in-one, shared_database=True, api/eventos sin versionar, 0 tests.", "CASO-PER-052-2A es sintético"],
         tests: "Fixtures `CASO-PER-052-2A`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa STOP_INTEGRATION_RELEASE y por qué faltar contract_tests exige MAP_BOUNDED_CONTEXTS.",
+        feedback:
+          "Sin mapa de tests no se integra a ciegas. shared_database no se «arregla» con un disclaimer en el README: el gate de release corta el promote.",
+        retrospective:
+          "Sin mapa de tests no se integra a ciegas. Pregunta: ¿por qué shared_database no se «arregla» con un disclaimer en el README?",
         starterCode: {
           language: 'python',
           title: "s52-t2-a-e3.py",
@@ -954,7 +1057,11 @@ assert results == ["CONTINUE", "STOP_INTEGRATION_RELEASE", "MAP_BOUNDED_CONTEXTS
         id: "S52-T2-B-E1",
         subtopicId: "S52-T2-B",
         kind: "guided",
-        instruction: "S52-T2-B-E1 · Modela el contrato de `datos, modelos, RPA, RAG y human workflow` sobre `CASO-PER-052-2B`. La entrada es el dict completo del starter; la operación debe demostrar que ER/triage/RPA/RAG apoyan y la persona decide. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_AUTOMATED_RISK_DECISION` en E2.",
+        title: "Cadena HITL sin autofraude",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-2B`, ER propone, triage prioriza, RPA prepara draft, RAG cita y **el humano decide**.\n- **Meta:** corregir `meets_contract` (toda la cadena en True y `infers_fraud` en False).\n- **Éxito:** `S52-T2-B PASS`.\n- **Límites:** no borres el assert; no apruebes autofraude; sin PII real.",
+        instruction:
+          "1. Starter: PASS si infers_fraud o sin human_decides (bug).\n2. Exige all de er/triage/rpa/rag/human y `not infers_fraud`.\n3. Conserva print y BLOCK_AUTOMATED_RISK_DECISION.\n4. No mutes el record.",
         hint: "Relaciona los campos `er_proposes_match`, `triage_prioritizes`, `rpa_prepares_draft`, `rag_cites`, `human_decides`, `infers_fraud` con la regla explicada en S52-T2-B.",
         hints: [
           "Relaciona los campos `er_proposes_match`, `triage_prioritizes`, `rpa_prepares_draft`, `rag_cites`, `human_decides`, `infers_fraud` con la regla explicada en S52-T2-B.",
@@ -962,7 +1069,10 @@ assert results == ["CONTINUE", "STOP_INTEGRATION_RELEASE", "MAP_BOUNDED_CONTEXTS
         ],
         edgeCases: ["falta infers_fraud", "fixture adverso: infers_fraud=True, human_decides=False (auto-riesgo)", "CASO-PER-052-2B es sintético"],
         tests: "El fixture `CASO-PER-052-2B` satisface un predicado de dominio real; imprime `S52-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_AUTOMATED_RISK_DECISION y por qué faltar infers_fraud exige REQUEST_HUMAN_REVIEW.",
+        feedback:
+          "La cadena completa y `infers_fraud=False` son el contrato. Omitir humano o autoetiquetar riesgo → BLOCK_AUTOMATED_RISK_DECISION. Schema sin flag de fraude → REQUEST_HUMAN_REVIEW (incertidumbre, no «seguir optimista»).",
+        retrospective:
+          "Señales proponen; humanos deciden. El starter invierte y premia el autofraude. Pregunta: ¿omitir human_decides es lo mismo que infers_fraud=True en el print del status? Siguiente: PASS / BLOCK / MISSING:infers_fraud.",
         starterCode: {
           language: 'python',
           title: "s52-t2-b-e1.py",
@@ -990,7 +1100,11 @@ assert meets_contract is True` ,
         id: "S52-T2-B-E2",
         subtopicId: "S52-T2-B",
         kind: "independent",
-        instruction: "S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixture adverso y registro sin `infers_fraud`. Entrada: dict con case_id, er_proposes_match, triage_prioritizes, rpa_prepares_draft, rag_cites, human_decides, infers_fraud. Salidas exactas: `PASS`, `BLOCK_AUTOMATED_RISK_DECISION`, `MISSING:infers_fraud`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas HITL (PASS / BLOCK / MISSING)",
+        preamble:
+          "- **Contexto:** el auditor de riesgo no trata igual una cadena limpia, una con autofraude y una sin el flag `infers_fraud`.\n- **Meta:** PASS, BLOCK_AUTOMATED_RISK_DECISION, MISSING:infers_fraud.\n- **Éxito:** `PASS BLOCK_AUTOMATED_RISK_DECISION MISSING:infers_fraud`.\n- **Límites:** missing antes de leer infers_fraud; no inventes el flag; adverso falla por contenido.",
+        instruction:
+          "1. Corrige assess (deja de premiar autofraude).\n2. Required keys primero.\n3. Predicado de cadena + not infers_fraud.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a infers_fraud debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a infers_fraud debe ocurrir antes de esa rama.",
@@ -998,7 +1112,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta infers_fraud", "fixture adverso: infers_fraud=True, human_decides=False (auto-riesgo)", "CASO-PER-052-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `infers_fraud` ausente y produce exactamente `PASS BLOCK_AUTOMATED_RISK_DECISION MISSING:infers_fraud`.",
-        feedback: "S52-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_AUTOMATED_RISK_DECISION y por qué faltar infers_fraud exige REQUEST_HUMAN_REVIEW.",
+        feedback:
+          "Flag ausente es incertidumbre de schema; autofraude es breach ético. El auditor de riesgo no confunde missing con BLOCK ni al revés.",
+        retrospective:
+          "Flag `infers_fraud` ausente es incertidumbre de schema; autofraude es breach ético de graduación. El error clásico es rellenar False «para que pase» sin demostrar la cadena. Pregunta: ¿por qué missing no se imprime como BLOCK_AUTOMATED_RISK_DECISION? Luego (E3): CONTINUE / BLOCK / REQUEST_HUMAN_REVIEW.",
         starterCode: {
           language: 'python',
           title: "s52-t2-b-e2.py",
@@ -1044,7 +1161,11 @@ print(*results)
         id: "S52-T2-B-E3",
         subtopicId: "S52-T2-B",
         kind: "transfer",
-        instruction: "S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtures distintos. `CASO-PER-052-2B` debe continuar, el adverso debe devolver `BLOCK_AUTOMATED_RISK_DECISION` y la ausencia de `infers_fraud` debe devolver `REQUEST_HUMAN_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide HITL: CONTINUE o REQUEST_REVIEW",
+        preamble:
+          "- **Contexto:** el workflow sensible no «sigue con warning» si falta el flag de fraude o se omite el humano.\n- **Meta:** CONTINUE, BLOCK_AUTOMATED_RISK_DECISION, REQUEST_HUMAN_REVIEW.\n- **Éxito:** `CONTINUE BLOCK_AUTOMATED_RISK_DECISION REQUEST_HUMAN_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no rellenes infers_fraud; no toques fixtures.",
+        instruction:
+          "1. Missing → REQUEST_HUMAN_REVIEW.\n2. Completo: cadena + not infers_fraud.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_REVIEW` antes de evaluar el contenido.",
@@ -1052,7 +1173,10 @@ print(*results)
         ],
         edgeCases: ["falta infers_fraud", "fixture adverso: infers_fraud=True, human_decides=False (auto-riesgo)", "CASO-PER-052-2B es sintético"],
         tests: "Fixtures `CASO-PER-052-2B`, adverso y sin `infers_fraud` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_AUTOMATED_RISK_DECISION y por qué faltar infers_fraud exige REQUEST_HUMAN_REVIEW.",
+        feedback:
+          "Incertidumbre de schema pide humano; autofraude bloquea. Un draft de RPA no autoriza la decisión final del youDo hitl_chain_ok.",
+        retrospective:
+          "Incertidumbre de schema pide humano; autofraude bloquea. Pregunta: ¿por qué un draft de RPA no autoriza la decisión final?",
         starterCode: {
           language: 'python',
           title: "s52-t2-b-e3.py",
@@ -1098,7 +1222,11 @@ assert results == ["CONTINUE", "BLOCK_AUTOMATED_RISK_DECISION", "REQUEST_HUMAN_R
         id: "S52-T3-A-E1",
         subtopicId: "S52-T3-A",
         kind: "guided",
-        instruction: "S52-T3-A-E1 · Verifica el contrato de tests, evals, red team y performance sobre `CASO-PER-052-3A`. La entrada es el dict completo del starter; la operación debe demostrar seis capas de verificación y cero P0/P1. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_FINAL_ON_P0_P1` en E2. En el ensamblaje real (youDo) cada P0/P1 cerrado deja un regression test permanente en la suite S1–S52.",
+        title: "Seis capas con cero P0/P1",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-3A`, la graduación exige unit/contract/integration/evals/red_team/performance en True y open_p0=open_p1=0.\n- **Meta:** corregir `meets_contract` (seis capas + contadores en cero).\n- **Éxito:** `S52-T3-A PASS`.\n- **Límites:** no borres el assert; no «compenses» un P0 con demo; sin PII en red team.",
+        instruction:
+          "1. Starter: PASS si red_team falso o contadores >0 (bug).\n2. `all` de las seis capas y `open_p0 == 0` y `open_p1 == 0`.\n3. Conserva print y BLOCK_FINAL_ON_P0_P1.\n4. No mutes el suite del fixture.",
         hint: "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
         hints: [
           "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
@@ -1106,7 +1234,10 @@ assert results == ["CONTINUE", "BLOCK_AUTOMATED_RISK_DECISION", "REQUEST_HUMAN_R
         ],
         edgeCases: ["falta open_p1", "fixture adverso: open_p0≥1 o capas red_team/contract en False", "CASO-PER-052-3A es sintético"],
         tests: "El fixture `CASO-PER-052-3A` satisface un predicado de dominio real; imprime `S52-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T3-A-E1: las seis capas (unit, contract, integration, evals, red_team, performance) deben estar en True y open_p0=open_p1=0. Un open_p0≥1 o red_team en False fuerza BLOCK_FINAL_ON_P0_P1; schema sin open_p1 → FIX_AND_RERUN_REGRESSION. Demo bonita no compensa CP-N4-C ni P0 abiertos.",
+        feedback:
+          "Las seis capas en True y open_p0=open_p1=0. open_p0≥1 o red_team en False → BLOCK_FINAL_ON_P0_P1. Schema sin open_p1 → FIX_AND_RERUN_REGRESSION. Demo bonita no compensa CP-N4-C ni P0 abiertos.",
+        retrospective:
+          "Gate de calidad = capas + severidad contada. El starter premia el suite roto. Pregunta: ¿un open_p0=1 con unit/contract verdes puede ser PASS? Siguiente: PASS / BLOCK / MISSING:open_p1.",
         starterCode: {
           language: 'python',
           title: "s52-t3-a-e1.py",
@@ -1134,7 +1265,11 @@ assert meets_contract is True` ,
         id: "S52-T3-A-E2",
         subtopicId: "S52-T3-A",
         kind: "independent",
-        instruction: "S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adverso y registro sin `open_p1`. Entrada: dict con case_id, unit, contract, integration, evals, red_team, performance, open_p0, open_p1. Salidas exactas: `PASS`, `BLOCK_FINAL_ON_P0_P1`, `MISSING:open_p1`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de calidad (PASS / BLOCK / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de release no confunde suite limpio, suite con P0 y schema sin contador open_p1.\n- **Meta:** PASS, BLOCK_FINAL_ON_P0_P1, MISSING:open_p1.\n- **Éxito:** `PASS BLOCK_FINAL_ON_P0_P1 MISSING:open_p1`.\n- **Límites:** missing antes de leer open_p1; adverso falla por contenido; no inventes contadores.",
+        instruction:
+          "1. Corrige assess (deja de premiar P0 abiertos).\n2. Required keys primero.\n3. Predicado de capas + ceros.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a open_p1 debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a open_p1 debe ocurrir antes de esa rama.",
@@ -1142,7 +1277,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta open_p1", "fixture adverso: open_p0≥1 o capas red_team/contract en False", "CASO-PER-052-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `open_p1` ausente y produce exactamente `PASS BLOCK_FINAL_ON_P0_P1 MISSING:open_p1`.",
-        feedback: "S52-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_FINAL_ON_P0_P1 y por qué faltar open_p1 exige FIX_AND_RERUN_REGRESSION.",
+        feedback:
+          "Contador ausente es incertidumbre de evidencia; P0 abierto es breach de graduación. Un hallazgo deja regresión permanente en la suite S1–S52.",
+        retrospective:
+          "Contador ausente es incertidumbre de evidencia; P0 abierto es breach de graduación. El error clásico es inventar open_p1=0 sin re-ejecutar la suite. Pregunta: ¿por qué MISSING:open_p1 no es lo mismo que BLOCK_FINAL_ON_P0_P1? Luego (E3): CONTINUE / BLOCK / FIX_AND_RERUN_REGRESSION.",
         starterCode: {
           language: 'python',
           title: "s52-t3-a-e2.py",
@@ -1188,7 +1326,11 @@ print(*results)
         id: "S52-T3-A-E3",
         subtopicId: "S52-T3-A",
         kind: "transfer",
-        instruction: "S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures distintos. `CASO-PER-052-3A` debe continuar, el adverso debe devolver `BLOCK_FINAL_ON_P0_P1` y la ausencia de `open_p1` debe devolver `FIX_AND_RERUN_REGRESSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide calidad: CONTINUE o RERUN",
+        preamble:
+          "- **Contexto:** el gate final no promociona con contadores de severidad faltantes ni con P0 abiertos.\n- **Meta:** CONTINUE, BLOCK_FINAL_ON_P0_P1, FIX_AND_RERUN_REGRESSION.\n- **Éxito:** `CONTINUE BLOCK_FINAL_ON_P0_P1 FIX_AND_RERUN_REGRESSION`.\n- **Límites:** missing ≠ CONTINUE; no rellenes open_p1; no toques fixtures.",
+        instruction:
+          "1. Missing → FIX_AND_RERUN_REGRESSION.\n2. Completo: capas + ceros.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `FIX_AND_RERUN_REGRESSION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `FIX_AND_RERUN_REGRESSION` antes de evaluar el contenido.",
@@ -1196,7 +1338,10 @@ print(*results)
         ],
         edgeCases: ["falta open_p1", "fixture adverso: open_p0≥1 o capas red_team/contract en False", "CASO-PER-052-3A es sintético"],
         tests: "Fixtures `CASO-PER-052-3A`, adverso y sin `open_p1` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_FINAL_ON_P0_P1 y por qué faltar open_p1 exige FIX_AND_RERUN_REGRESSION.",
+        feedback:
+          "Sin contador no hay promote; P0 fuerza bloqueo. Un video de demo no cierra un P0 de red_team ante el curriculum_gate del youDo.",
+        retrospective:
+          "Sin contador no hay promote; P0 fuerza bloqueo. Pregunta: ¿por qué un video de demo no cierra un P0 de red_team?",
         starterCode: {
           language: 'python',
           title: "s52-t3-a-e3.py",
@@ -1242,7 +1387,11 @@ assert results == ["CONTINUE", "BLOCK_FINAL_ON_P0_P1", "FIX_AND_RERUN_REGRESSION
         id: "S52-T3-B-E1",
         subtopicId: "S52-T3-B",
         kind: "guided",
-        instruction: "S52-T3-B-E1 · Clasifica el contrato de `SLO, backup, rollback y disaster exercise` sobre `CASO-PER-052-3B`. La entrada es el dict completo del starter; la operación debe demostrar SLO/RPO/RTO y disaster drill aprobados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `NO_GO_RESILIENCE` en E2.",
+        title: "RPO/RTO medidos con restore",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-3B`, el drill sintético exige avail≥slo, backup_age≤rpo, rollback≤rto y disaster_exercise True.\n- **Meta:** corregir `meets_contract` con comparadores en la dirección correcta + flag de restore.\n- **Éxito:** `S52-T3-B PASS`.\n- **Límites:** no borres el assert; no apruebes tabletop sin reloj; no inventes números.",
+        instruction:
+          "1. Starter: PASS si availability < slo o rollback > rto (bug).\n2. `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise`.\n3. Conserva print y NO_GO_RESILIENCE.\n4. No mutes el fixture.",
         hint: "Relaciona los campos `availability`, `slo`, `backup_age_h`, `rpo_h`, `rollback_min`, `rto_min`, `disaster_exercise` con la regla explicada en S52-T3-B.",
         hints: [
           "Relaciona los campos `availability`, `slo`, `backup_age_h`, `rpo_h`, `rollback_min`, `rto_min`, `disaster_exercise` con la regla explicada en S52-T3-B.",
@@ -1250,7 +1399,10 @@ assert results == ["CONTINUE", "BLOCK_FINAL_ON_P0_P1", "FIX_AND_RERUN_REGRESSION
         ],
         edgeCases: ["falta disaster_exercise", "fixture adverso: availability bajo SLO, backup_age>RPO, rollback>RTO, restore no verificado", "CASO-PER-052-3B es sintético"],
         tests: "El fixture `CASO-PER-052-3B` satisface un predicado de dominio real; imprime `S52-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T3-B-E1: muestra con números del fixture por qué pasan availability/SLO, backup vs. RPO y rollback vs. RTO + restore. Contrasta con el adverso (p. ej. rollback 120 min) que fuerza `NO_GO_RESILIENCE`. Sin flag de drill, emite `RUN_DISASTER_EXERCISE`.",
+        feedback:
+          "Con los números del fixture válido (0.999, 3 h, 8 min) el predicado pasa. El adverso (p. ej. rollback 120 min) fuerza NO_GO_RESILIENCE. Sin flag de drill, emite RUN_DISASTER_EXERCISE — un PDF de procedimientos no cuenta.",
+        retrospective:
+          "RPO/RTO se miden con reloj y restore verificado. El starter invierte comparadores y «aprueba» el fallo. Pregunta: si disaster_exercise=False pero los números de RPO/RTO cumplen, ¿PASS o NO_GO? Siguiente: PASS / NO_GO / MISSING:disaster_exercise.",
         starterCode: {
           language: 'python',
           title: "s52-t3-b-e1.py",
@@ -1278,7 +1430,11 @@ assert meets_contract is True` ,
         id: "S52-T3-B-E2",
         subtopicId: "S52-T3-B",
         kind: "independent",
-        instruction: "S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fixture adverso y registro sin `disaster_exercise`. Entrada: dict con case_id, availability, slo, backup_age_h, rpo_h, rollback_min, rto_min, disaster_exercise. Salidas exactas: `PASS`, `NO_GO_RESILIENCE`, `MISSING:disaster_exercise`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de DR (PASS / NO_GO / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de operación no confunde drill limpio, breach de SLO/RTO y registro sin flag de ejercicio.\n- **Meta:** PASS, NO_GO_RESILIENCE, MISSING:disaster_exercise.\n- **Éxito:** `PASS NO_GO_RESILIENCE MISSING:disaster_exercise`.\n- **Límites:** missing antes de leer disaster_exercise; adverso falla por números; no inventes el flag.",
+        instruction:
+          "1. Corrige assess (deja de premiar breach).\n2. Required keys primero.\n3. Predicado de resiliencia.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a disaster_exercise debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a disaster_exercise debe ocurrir antes de esa rama.",
@@ -1286,7 +1442,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta disaster_exercise", "fixture adverso: availability bajo SLO, backup_age>RPO, rollback>RTO, restore no verificado", "CASO-PER-052-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `disaster_exercise` ausente y produce exactamente `PASS NO_GO_RESILIENCE MISSING:disaster_exercise`.",
-        feedback: "S52-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa NO_GO_RESILIENCE y por qué faltar disaster_exercise exige RUN_DISASTER_EXERCISE.",
+        feedback:
+          "Flag ausente es «corre el drill»; números rotos son no-go de resiliencia. El drill incompleto del youDo no se aprueba con tabletop verbal.",
+        retrospective:
+          "Flag ausente es «corre el drill»; números rotos son no-go de resiliencia. El error clásico es marcar disaster_exercise=True sin restore verificado en disco. Pregunta: ¿por qué MISSING no se imprime como NO_GO_RESILIENCE? Luego (E3): CONTINUE / NO_GO / RUN_DISASTER_EXERCISE.",
         starterCode: {
           language: 'python',
           title: "s52-t3-b-e2.py",
@@ -1332,7 +1491,11 @@ print(*results)
         id: "S52-T3-B-E3",
         subtopicId: "S52-T3-B",
         kind: "transfer",
-        instruction: "S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fixtures distintos. `CASO-PER-052-3B` debe continuar, el adverso debe devolver `NO_GO_RESILIENCE` y la ausencia de `disaster_exercise` debe devolver `RUN_DISASTER_EXERCISE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide DR: CONTINUE o RUN_DRILL",
+        preamble:
+          "- **Contexto:** el gate de resiliencia no promociona con drill no corrido ni con RTO incumplido.\n- **Meta:** CONTINUE, NO_GO_RESILIENCE, RUN_DISASTER_EXERCISE.\n- **Éxito:** `CONTINUE NO_GO_RESILIENCE RUN_DISASTER_EXERCISE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes disaster_exercise; no toques fixtures.",
+        instruction:
+          "1. Missing → RUN_DISASTER_EXERCISE.\n2. Completo: predicado de availability/SLO/RPO/RTO + restore.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `RUN_DISASTER_EXERCISE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RUN_DISASTER_EXERCISE` antes de evaluar el contenido.",
@@ -1340,7 +1503,10 @@ print(*results)
         ],
         edgeCases: ["falta disaster_exercise", "fixture adverso: availability bajo SLO, backup_age>RPO, rollback>RTO, restore no verificado", "CASO-PER-052-3B es sintético"],
         tests: "Fixtures `CASO-PER-052-3B`, adverso y sin `disaster_exercise` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa NO_GO_RESILIENCE y por qué faltar disaster_exercise exige RUN_DISASTER_EXERCISE.",
+        feedback:
+          "Sin flag de drill no hay evidencia; breach de reloj es no-go. Un tabletop de 30 minutos no sustituye restore verificado del youDo.",
+        retrospective:
+          "Sin flag de drill no hay evidencia; breach de reloj es no-go. Pregunta: ¿por qué un tabletop de 30 minutos no sustituye restore verificado?",
         starterCode: {
           language: 'python',
           title: "s52-t3-b-e3.py",
@@ -1386,7 +1552,11 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         id: "S52-T4-A-E1",
         subtopicId: "S52-T4-A",
         kind: "guided",
-        instruction: "S52-T4-A-E1 · Audita el contrato de demo y narrativa de CV sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación debe demostrar mejora vs. baseline sintético y narrativa atribuible (contribución personal). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` en E2. En youDo el mismo claim alimenta el guion de defensa oral ≤10 min.",
+        title: "Claim de TTR con contribución personal",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-4A`, el revisor de CV exige result_ttr < baseline, benchmark sintético, demo≤10 min, claims sourced y personal_contribution.\n- **Meta:** corregir `meets_contract` con esas cinco condiciones.\n- **Éxito:** `S52-T4-A PASS`.\n- **Límites:** no borres el assert; no inventes mejora; sin PII real en el guion.",
+        instruction:
+          "1. Starter: PASS si result ≥ baseline o claims no sourced (bug).\n2. Exige result < baseline, benchmark_synthetic, demo_minutes ≤ 10, cv_claims_sourced y personal_contribution.\n3. Conserva print y REJECT_UNSUPPORTED_PORTFOLIO_CLAIM.\n4. No mutes el fixture.",
         hint: "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
         hints: [
           "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
@@ -1394,7 +1564,10 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "El fixture `CASO-PER-052-4A` satisface un predicado de dominio real; imprime `S52-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S52-T4-A-E1: claim válido exige result_ttr < baseline_ttr, benchmark sintético, demo≤10 min, claims sourced y personal_contribution. Teatro de video sin números → REJECT_UNSUPPORTED_PORTFOLIO_CLAIM; schema sin contribución personal → RECORD_PERSONAL_CONTRIBUTION.",
+        feedback:
+          "Claim válido = mejora medible + sintético + ≤10 min + fuentes + contribución personal. Teatro de video sin números → REJECT_UNSUPPORTED_PORTFOLIO_CLAIM. Schema sin contribución → RECORD_PERSONAL_CONTRIBUTION.",
+        retrospective:
+          "Honestidad de portfolio es gate de carrera: mejora medible + sintético + ≤10 min + fuentes + contribución personal. El starter premia el claim vacío. Pregunta: ¿demo_minutes=30 con TTR mejorado es PASS? Siguiente: PASS / REJECT / MISSING:personal_contribution.",
         starterCode: {
           language: 'python',
           title: "s52-t4-a-e1.py",
@@ -1422,7 +1595,11 @@ assert meets_contract is True` ,
         id: "S52-T4-A-E2",
         subtopicId: "S52-T4-A",
         kind: "independent",
-        instruction: "S52-T4-A-E2 · Compara tres rutas de `demo y narrativa de CV`: fixture válido, fixture adverso y registro sin `personal_contribution`. Entrada: dict con case_id, baseline_ttr_min, result_ttr_min, benchmark_synthetic, demo_minutes, cv_claims_sourced, personal_contribution. Salidas exactas: `PASS`, `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM`, `MISSING:personal_contribution`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de demo (PASS / REJECT / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de portfolio no confunde un claim limpio, uno sin mejora/fuentes y uno sin contribución personal documentada.\n- **Meta:** PASS, REJECT_UNSUPPORTED_PORTFOLIO_CLAIM, MISSING:personal_contribution.\n- **Éxito:** `PASS REJECT_UNSUPPORTED_PORTFOLIO_CLAIM MISSING:personal_contribution`.\n- **Límites:** missing antes de leer personal_contribution; adverso falla por contenido; no inventes el campo.",
+        instruction:
+          "1. Corrige assess (deja de premiar claims sin fuente).\n2. Required keys primero.\n3. Predicado de T4-A.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
@@ -1430,7 +1607,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `personal_contribution` ausente y produce exactamente `PASS REJECT_UNSUPPORTED_PORTFOLIO_CLAIM MISSING:personal_contribution`.",
-        feedback: "S52-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNSUPPORTED_PORTFOLIO_CLAIM y por qué faltar personal_contribution exige RECORD_PERSONAL_CONTRIBUTION.",
+        feedback:
+          "Contribución ausente es «regístrala»; TTR peor o sin fuente es reject de claim. El defense_script del youDo exige la misma honestidad de baseline.",
+        retrospective:
+          "Contribución ausente es «regístrala»; TTR peor o sin fuente es reject de claim. El error clásico es rellenar personal_contribution=True sin frase en defense_notes. Pregunta: ¿por qué MISSING no se imprime como REJECT_UNSUPPORTED_PORTFOLIO_CLAIM? Luego (E3): CONTINUE / REJECT / RECORD_PERSONAL_CONTRIBUTION.",
         starterCode: {
           language: 'python',
           title: "s52-t4-a-e2.py",
@@ -1476,7 +1656,11 @@ print(*results)
         id: "S52-T4-A-E3",
         subtopicId: "S52-T4-A",
         kind: "transfer",
-        instruction: "S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa de CV` con tres fixtures distintos. `CASO-PER-052-4A` debe continuar, el adverso debe devolver `REJECT_UNSUPPORTED_PORTFOLIO_CLAIM` y la ausencia de `personal_contribution` debe devolver `RECORD_PERSONAL_CONTRIBUTION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide portfolio: CONTINUE o RECORD",
+        preamble:
+          "- **Contexto:** el gate de CV no «sigue con warning» si falta contribución personal o el claim no se sostiene.\n- **Meta:** CONTINUE, REJECT_UNSUPPORTED_PORTFOLIO_CLAIM, RECORD_PERSONAL_CONTRIBUTION.\n- **Éxito:** `CONTINUE REJECT_UNSUPPORTED_PORTFOLIO_CLAIM RECORD_PERSONAL_CONTRIBUTION`.\n- **Límites:** missing ≠ CONTINUE; no rellenes personal_contribution; no toques fixtures.",
+        instruction:
+          "1. Missing → RECORD_PERSONAL_CONTRIBUTION.\n2. Completo: predicado de mejora/demo/fuentes.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
@@ -1484,7 +1668,10 @@ print(*results)
         ],
         edgeCases: ["falta personal_contribution", "fixture adverso: result_ttr ≥ baseline, claims sin fuente, sin contribución personal", "CASO-PER-052-4A es sintético"],
         tests: "Fixtures `CASO-PER-052-4A`, adverso y sin `personal_contribution` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNSUPPORTED_PORTFOLIO_CLAIM y por qué faltar personal_contribution exige RECORD_PERSONAL_CONTRIBUTION.",
+        feedback:
+          "Sin contribución personal no hay defensa ética de ownership. Un demo de 30 minutos sin baseline no es PASS ante el revisor de entrevista.",
+        retrospective:
+          "Sin contribución personal no hay defensa ética de ownership. Pregunta: ¿por qué un demo de 30 minutos sin baseline no es PASS?",
         starterCode: {
           language: 'python',
           title: "s52-t4-a-e3.py",
@@ -1530,7 +1717,11 @@ assert results == ["CONTINUE", "REJECT_UNSUPPORTED_PORTFOLIO_CLAIM", "RECORD_PER
         id: "S52-T4-B-E1",
         subtopicId: "S52-T4-B",
         kind: "guided",
-        instruction: "S52-T4-B-E1 · Decide el contrato de `arquitectura, READMEs, cards, licencia, video y defensa` sobre `CASO-PER-052-4B`. La entrada es el dict completo del starter; la operación debe demostrar ocho artefactos, ejecución, trade-offs y rúbrica independiente. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S52-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_INCOMPLETE_EVIDENCE_BUNDLE` en E2.",
+        title: "Evidence bundle de ocho artefactos",
+        preamble:
+          "- **Contexto:** en `CASO-PER-052-4B`, la graduación exige los 8 nombres + comando reproducible + trade-offs defendidos + cpn4c_independent.\n- **Meta:** corregir `meets_contract` con subset de artefactos y los tres flags en True.\n- **Éxito:** `S52-T4-B PASS`.\n- **Límites:** no borres el assert; no apruebes monorepo solo con README; no compenses CP-N4-C.",
+        instruction:
+          "1. Starter: PASS si len(artifacts)<8 o no cpn4c_independent (bug).\n2. Exige subset de los 8 nombres y all de reproducible/tradeoffs/cpn4c_independent.\n3. Conserva print y BLOCK_INCOMPLETE_EVIDENCE_BUNDLE.\n4. No mutes el set del fixture.",
         hint: "Relaciona los campos `artifacts`, `reproducible_command`, `tradeoffs_defended`, `cpn4c_independent` con la regla explicada en S52-T4-B.",
         hints: [
           "Relaciona los campos `artifacts`, `reproducible_command`, `tradeoffs_defended`, `cpn4c_independent` con la regla explicada en S52-T4-B.",
@@ -1538,7 +1729,10 @@ assert results == ["CONTINUE", "REJECT_UNSUPPORTED_PORTFOLIO_CLAIM", "RECORD_PER
         ],
         edgeCases: ["falta cpn4c_independent", "fixture adverso: solo README, sin comando reproducible ni trade-offs defendidos", "CASO-PER-052-4B es sintético"],
         tests: "El fixture `CASO-PER-052-4B` satisface un predicado de dominio real; imprime `S52-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S52-T4-B-E1: el bundle de graduación son **8** artefactos (architecture, README, ADR, system_card, model_card, LICENSE, video, defense) + comando reproducible + trade-offs + cpn4c_independent. Un monorepo solo con README se bloquea; sin independencia de CP-N4-C → SCHEDULE_TECHNICAL_DEFENSE.",
+        feedback:
+          "Bundle de graduación = 8 artefactos (architecture, README, ADR, system_card, model_card, LICENSE, video, defense) + reproducible + trade-offs + cpn4c_independent. Solo README se bloquea; sin independencia de CP-N4-C → SCHEDULE_TECHNICAL_DEFENSE.",
+        retrospective:
+          "Paquete defendible = 8 nombres + comando + trade-offs + cpn4c_independent; no la laptop del autor. El starter premia bundle incompleto. Pregunta: ¿solo README con reproducible_command=True es PASS? Siguiente: PASS / BLOCK / MISSING:cpn4c_independent.",
         starterCode: {
           language: 'python',
           title: "s52-t4-b-e1.py",
@@ -1566,7 +1760,11 @@ assert meets_contract is True` ,
         id: "S52-T4-B-E2",
         subtopicId: "S52-T4-B",
         kind: "independent",
-        instruction: "S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixture válido, fixture adverso y registro sin `cpn4c_independent`. Entrada: dict con case_id, artifacts, reproducible_command, tradeoffs_defended, cpn4c_independent. Salidas exactas: `PASS`, `BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`, `MISSING:cpn4c_independent`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de bundle (PASS / BLOCK / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor externo no confunde bundle completo, monorepo solo con README y registro sin flag cpn4c_independent.\n- **Meta:** PASS, BLOCK_INCOMPLETE_EVIDENCE_BUNDLE, MISSING:cpn4c_independent.\n- **Éxito:** `PASS BLOCK_INCOMPLETE_EVIDENCE_BUNDLE MISSING:cpn4c_independent`.\n- **Límites:** missing antes de leer cpn4c_independent; adverso falla por contenido; no inventes el flag.",
+        instruction:
+          "1. Corrige assess (deja de premiar bundle corto).\n2. Required keys primero.\n3. Predicado de T4-B (subset de 8 + flags).\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a cpn4c_independent debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a cpn4c_independent debe ocurrir antes de esa rama.",
@@ -1574,7 +1772,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta cpn4c_independent", "fixture adverso: solo README, sin comando reproducible ni trade-offs defendidos", "CASO-PER-052-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `cpn4c_independent` ausente y produce exactamente `PASS BLOCK_INCOMPLETE_EVIDENCE_BUNDLE MISSING:cpn4c_independent`.",
-        feedback: "S52-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_INCOMPLETE_EVIDENCE_BUNDLE y por qué faltar cpn4c_independent exige SCHEDULE_TECHNICAL_DEFENSE.",
+        feedback:
+          "Flag de independencia ausente es incertidumbre de rúbrica; README solo es breach de evidencia. artifact_paths del youDo exige los mismos 8 nombres.",
+        retrospective:
+          "Flag de independencia ausente es incertidumbre de rúbrica; README solo es breach de evidencia. El error clásico es inventar cpn4c_independent=True sin declarar en curriculum_gate. Pregunta: ¿por qué MISSING no es lo mismo que BLOCK_INCOMPLETE_EVIDENCE_BUNDLE? Luego (E3): CONTINUE / BLOCK / SCHEDULE_TECHNICAL_DEFENSE.",
         starterCode: {
           language: 'python',
           title: "s52-t4-b-e2.py",
@@ -1620,7 +1821,11 @@ print(*results)
         id: "S52-T4-B-E3",
         subtopicId: "S52-T4-B",
         kind: "transfer",
-        instruction: "S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa` con tres fixtures distintos. `CASO-PER-052-4B` debe continuar, el adverso debe devolver `BLOCK_INCOMPLETE_EVIDENCE_BUNDLE` y la ausencia de `cpn4c_independent` debe devolver `SCHEDULE_TECHNICAL_DEFENSE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide bundle: CONTINUE o DEFENSE",
+        preamble:
+          "- **Contexto:** el gate senior-master no promociona con independencia de CP-N4-C no declarada ni con bundle incompleto.\n- **Meta:** CONTINUE, BLOCK_INCOMPLETE_EVIDENCE_BUNDLE, SCHEDULE_TECHNICAL_DEFENSE.\n- **Éxito:** `CONTINUE BLOCK_INCOMPLETE_EVIDENCE_BUNDLE SCHEDULE_TECHNICAL_DEFENSE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes cpn4c_independent; no toques fixtures.",
+        instruction:
+          "1. Missing → SCHEDULE_TECHNICAL_DEFENSE.\n2. Completo: subset de 8 + reproducible + tradeoffs + cpn4c_independent.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `SCHEDULE_TECHNICAL_DEFENSE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SCHEDULE_TECHNICAL_DEFENSE` antes de evaluar el contenido.",
@@ -1628,7 +1833,10 @@ print(*results)
         ],
         edgeCases: ["falta cpn4c_independent", "fixture adverso: solo README, sin comando reproducible ni trade-offs defendidos", "CASO-PER-052-4B es sintético"],
         tests: "Fixtures `CASO-PER-052-4B`, adverso y sin `cpn4c_independent` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S52-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_INCOMPLETE_EVIDENCE_BUNDLE y por qué faltar cpn4c_independent exige SCHEDULE_TECHNICAL_DEFENSE.",
+        feedback:
+          "Sin independencia de CP-N4-C no hay defensa técnica válida. Un video convincente sin LICENSE y sin ADR no es PASS ante el revisor externo.",
+        retrospective:
+          "Sin independencia de CP-N4-C no hay defensa técnica válida. Pregunta: ¿por qué un video convincente sin LICENSE y sin ADR no es PASS?",
         starterCode: {
           language: 'python',
           title: "s52-t4-b-e3.py",
@@ -1842,6 +2050,8 @@ assert status in {"READY", "BLOCKED"}
       { criterion: "Operación: SLO, observabilidad, RPO/RTO y rollback probado", weight: "15%" },
       { criterion: "Comunicación de trade-offs, límites y contribución personal", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar READY: (1) ¿qué invariante del gate demuestras con un path real del bundle de 8 y un número de drill (RPO/RTO o TTR antes/después)? (2) ¿qué harías distinto con datos reales vs. sintéticos multi-región (PII, autofraude, shared DB)? (3) En defense_notes, una frase de contribución personal y un trade-off defendible en 30 segundos. Si el revisor externo no puede ejecutar sin tu laptop, no es graduación: es teatro.",
   },
   selfCheck: {
     questions: [

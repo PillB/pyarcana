@@ -316,6 +316,8 @@ no_audit False`,
         subtopicId: "S47-T1-A",
         environment: "local-python",
         description: "Demo: tracking y reproducibilidad — delta dentro de tolerancia",
+        preamble:
+          "Antes de comparar un candidato con el baseline en el ranker de Tacna, el run debe ser **re-ejecutable**. En esta demo un experiment sintético (`depth=4`, metric 0.81, rerun 0.805, tol 0.01) exige seed presente, params no vacíos y delta dentro de tolerancia. No escribas aún: predice `run_ok`, el `seed` y el `delta` antes de mirar la salida. Si crees que «semilla fija» basta sin params ni rerun, el dashboard miente y el promote se basa en anécdota.",
         code: {
           language: 'python',
           title: "demo_tracking_reproducibility.py",
@@ -331,13 +333,17 @@ print("delta", round(abs(run["metric"] - run["rerun"]), 3))`,
 seed 42
 delta 0.005`,
         },
-        why: "Corrige la idea de que «seed=42» basta: el demo exige seed presente, params no vacíos y |metric−rerun| ≤ tolerancia antes de tratar el run como evidencia.",
+        why: "`within_tol` modela el contrato de re-ejecución: el delta 0.005 ≤ 0.01 es evidencia, no magia del dashboard. `bool(params)` y `seed is not None` cierran el caso de run vacío o sin ancla aleatoria. Orden: tracking reproducible antes de lineage comparable. En We Do repararás el comparador invertido (`>` vs `≤`), la tabla PASS/MARK/MISSING y decide CONTINUE/MARK/INVESTIGATE.",
+        retrospective:
+          "Si puedes explicar por qué un F1 alto sin seed o con params vacíos no es promote, ya tienes el hábito de evidencia de run. El error clásico es confiar en un score de una sola corrida. En We Do practicarás el predicado, las tres rutas y la rama de incertidumbre cuando falta `tolerance`.",
       },
       {
         demoId: "S47-T1-B-DEMO",
         subtopicId: "S47-T1-B",
         environment: "local-python",
         description: "Demo: lineage completo y comparación candidato > baseline",
+        preamble:
+          "Habiendo fijado el rerun, el riesgo es **comparar manzanas con naranjas**. En esta demo un candidato 0.82 en holdout-v1 con lineage `ds-v3` / `git:abc` / `locked` supera al baseline 0.78; un run con split=train o code=latest se invalida aunque el score sea 0.90. No escribas: predice `ok`, `invalid` y el `delta` 0.04. Si promueves por score sin anclas de data/code/env/split/métrica, el registry recibe basura comparable solo en el papel.",
         code: {
           language: 'python',
           title: "demo_data_code_env_lineage_compare.py",
@@ -355,13 +361,17 @@ print("delta", round(0.82 - 0.78, 2))`,
 invalid False
 delta 0.04`,
         },
-        why: "Muestra por qué un score alto en train con code=latest no valida promote: sin lineage completo la comparación se invalida aunque candidate > baseline en el papel.",
+        why: "`lineage` exige campos no vacíos; `versioned` bloquea `latest`, `train` y `unknown`; solo entonces `candidate > baseline` cuenta. Un score alto en train no es evidencia de promote: la comparación se invalida aunque el número «gane» en el papel. En We Do corregirás el predicado invertido, assess INVALIDATE/MISSING y decide RESTORE_LINEAGE.",
+        retrospective:
+          "Comparación honesta = mismas anclas + holdout + métrica definida. Un F1 0.90 en train no gana al baseline: la comparación se invalida. Pregunta: si `code=latest` y el score es 0.85, ¿qué falta para que el delta cuente en el registry? We Do: predicado, tres rutas y rama RESTORE_LINEAGE.",
       },
       {
         demoId: "S47-T2-A-DEMO",
         subtopicId: "S47-T2-A",
         environment: "local-python",
         description: "Demo: firma vs. SERVICE_SIG + staging + approved",
+        preamble:
+          "Con un candidato que ya ganó en holdout, el **registry** exige otra capa. En esta demo la firma `age:int`, `region:str` → `priority:float` solo promueve en `staging` con `approved=True`. Un fixture en production sin approve o con firma rota se deniega. No escribas: predice `staging_ok`, `prod_no_approve` y `bad_sig`. Si confundes digest válido con permiso de promote, el entorno de producción se abre sin gobernanza.",
         code: {
           language: 'python',
           title: "demo_signatures_stages_approvals.py",
@@ -378,13 +388,17 @@ print("bad_sig", can_promote("staging", True, {"age": "str"}, {}))`,
 prod_no_approve False
 bad_sig False`,
         },
-        why: "Separa el digest del gate de gobernanza: la firma se compara con el contrato del servicio (SERVICE_SIG); production sin approved o firma rota deniegan promote.",
+        why: "La igualdad es contra `SERVICE_SIG` (contrato del servicio), no contra «lo que el run diga». `approved` es independiente del hash: un digest correcto sin aprobación no autoriza production. En lab `staging` modela el gate pre-producción (alias/tag en MLflow moderno). En We Do repararás el predicado, assess DENY/MISSING y REQUEST_MODEL_APPROVAL.",
+        retrospective:
+          "Promote = firma exacta al servicio + stage gobernado + aprobación explícita. Un digest válido no es permiso. Pregunta: si el JSON ya dice `stage=production` sin `approved`, ¿qué imprime `prod_no_approve` y por qué? We Do: predicado, tres rutas y REQUEST_MODEL_APPROVAL.",
       },
       {
         demoId: "S47-T2-B-DEMO",
         subtopicId: "S47-T2-B",
         environment: "local-python",
         description: "Demo: digest sha256, features alineadas y card mínima",
+        preamble:
+          "El registry no solo guarda un pickle: el artefacto del ranker de Tacna necesita **digest versionado**, **misma feature version** en train y serving, y **model card** con uso, límites, métricas y riesgos. Observa `ok`, `skew` y `thin`: latest, skew o card solo con `use` son rechazo. No escribas aún. Si publicas sin card, producto no sabe cuándo el score no aplica.",
         code: {
           language: 'python',
           title: "demo_artifacts_card_compat.py",
@@ -400,13 +414,17 @@ print("thin", card_ok("latest", "features-v3", "features-v3", {"use"}))`,
 skew False
 thin False`,
         },
-        why: "Enseña que digest `latest`, skew train/serve o card incompleta son rechazo de artefacto, no detalles cosméticos.",
+        why: "`startswith(\"sha256:\")` modela digest real; la igualdad train/serve evita skew silencioso; `REQUIRED <= sections` exige card mínima (use/limits/metrics/risks). Thin card y `latest` no son cosméticos: bloquean el artefacto antes del canary. El revisor de registry no promociona un pickle sin card. En We Do practicarás predicado, REJECT/MISSING y COMPLETE_MODEL_CARD.",
+        retrospective:
+          "Artefacto gobernado = digest + paridad de features + card completa. Promote con `latest` es el error clásico del registry. Pregunta: si la card solo tiene `use`, ¿qué sección falta para que producto sepa cuándo el score no aplica? We Do: tres capas hasta COMPLETE_MODEL_CARD.",
       },
       {
         demoId: "S47-T3-A-DEMO",
         subtopicId: "S47-T3-A",
         environment: "local-python",
         description: "Demo: paridad batch/online y anti-leakage",
+        preamble:
+          "Habiendo registrado el modelo, el riesgo clásico de production es el **training-serving skew**. En esta demo batch y online emiten `[0.1, 0.4, 0.8]` con leakage=False y 3 contract tests; si online diverge o hay leakage, el predicado falla. No escribas: predice `ok`, `skew` y `leak`. Si sirves con features distintas, el F1 de laboratorio no describe el tráfico de Tacna.",
         code: {
           language: 'python',
           title: "demo_batch_online_feature_consistency.py",
@@ -420,13 +438,17 @@ print("leak", parity([0.1, 0.4, 0.8], [0.1, 0.4, 0.8], True, 0))`,
 skew False
 leak False`,
         },
-        why: "Hace visible el training-serving skew: si online diverge o hay leakage, el serving se deshabilita aunque el laboratorio luzca bien.",
+        why: "La igualdad de vectores modela paridad batch/online; `not leakage` bloquea información del futuro o del label; `tests >= 3` exige contract tests mínimos antes del canary. Un F1 alto en lab no salva features inconsistentes. En We Do repararás predicado, DISABLE/MISSING y TRACE_FEATURE_PIPELINE.",
+        retrospective:
+          "Paridad + anti-leakage + contract tests = permiso de servir. «Online es casi igual» no es paridad: un float distinto en el vector es skew real. Pregunta: con vectores idénticos pero `leakage=True`, ¿por qué el predicado sigue en False? We Do: DISABLE / TRACE_FEATURE_PIPELINE.",
       },
       {
         demoId: "S47-T3-B-DEMO",
         subtopicId: "S47-T3-B",
         environment: "local-python",
         description: "Demo: p95 bajo SLO, batch acotado y fallback probado",
+        preamble:
+          "Con features alineadas, el serving aún puede fallar por **latencia y capacidad**. En esta demo p95 120 ms con SLO 180, batch 16 y `rules-v2` ensayado pasa; p95 900 o batch 512 con fallback `none` falla. No escribas: predice `ok`, `slow` y `no_fb`. Si no hay fallback probado, el timeout del ranker de Tacna se convierte en caída silenciosa del producto.",
         code: {
           language: 'python',
           title: "demo_latency_batching_fallback.py",
@@ -440,13 +462,17 @@ print("no_fb", serving_ready(120, 180, 512, "none", False))`,
 slow False
 no_fb False`,
         },
-        why: "Conecta latencia, batch y fallback en un solo predicado: sin fallback probado el timeout no tiene salida segura.",
+        why: "p95≤slo es presupuesto de experiencia del ranker; batch acotado (1–64) evita sobrecarga; `fallback.startswith(\"rules-\")` y `tested` exigen salida tipada y ensayada. Sin fallback el timeout no tiene salida segura y el producto de Tacna cae en silencio. En We Do practicarás predicado, ACTIVATE/MISSING y TUNE_BATCH_OR_CAPACITY.",
+        retrospective:
+          "SLO + batch + fallback ensayado = permiso de tráfico real. «Luego medimos p95» es el error clásico del serving. Pregunta: con p95 120 y fallback `none`, ¿por qué `no_fb` es False aunque la latencia esté bien? We Do: tres capas hasta TUNE.",
       },
       {
         demoId: "S47-T4-A-DEMO",
         subtopicId: "S47-T4-A",
         environment: "local-python",
         description: "Demo: canary ≤10% con quality_delta, error budget y hooks",
+        preamble:
+          "El modelo ya sirve con SLO; ahora el tráfico se abre con cuidado. En esta demo canary al 5% con error 0.4%, quality dentro de presupuesto y hooks activos devuelve `gates_green`; mode `full` al 100% o quality drop fuerte devuelve `stop`. No escribas: predice las tres salidas. Si abres al 100% sin hooks, no es canary: es deploy a ciegas del ranker de Tacna.",
         code: {
           language: 'python',
           title: "demo_shadow_canary_monitoring.py",
@@ -467,13 +493,17 @@ print("quality_drop", canary_ok("canary", 5, -0.2, 0.05, 0.004, 0.01, True))`,
 over stop
 quality_drop stop`,
         },
-        why: "Modela presupuesto de tráfico, caída de calidad y hooks: mode full al 100%, quality_delta fuera de presupuesto o hooks apagados detienen el canary aunque el digest sea válido.",
+        why: "mode ∈ {shadow, canary}, traffic≤10, quality_delta ≥ −max_drop, error≤max y hooks unen presupuesto y observabilidad. `full` no es modo válido de canary: es deploy a ciegas del ranker. Sin hooks no hay criterio promote/stop. En We Do repararás predicado, STOP/MISSING y COLLECT_MORE_SHADOW_EVIDENCE.",
+        retrospective:
+          "Canary = presupuesto de tráfico + calidad + errores + hooks. Full rollout «porque el digest es bueno» no es canary. Pregunta: con canary 5% y quality_delta −0.2 bajo max_drop 0.05, ¿por qué `quality_drop` es stop? We Do: tres capas hasta COLLECT.",
       },
       {
         demoId: "S47-T4-B-DEMO",
         subtopicId: "S47-T4-B",
         environment: "local-python",
         description: "Demo: rollback a last-good con retirement auditado",
+        preamble:
+          "Si el canary falla — o una versión envejeció — CF-4 exige **rollback al last-known-good** con features compatibles y **retirement** auditado. En esta demo `1.2.0` → `1.1.0` con retired `1.0.0` y audit pasa; incompat o sin audit falla. No escribas: predice `ok`, `incompat` y `no_audit`. Borrar el trace para «limpiar el tablero» destruye el gate de auditoría del ranker de Tacna.",
         code: {
           language: 'python',
           title: "demo_rollback_retire_audit.py",
@@ -487,7 +517,9 @@ print("no_audit", restore_ok("1.2.0", "1.1.0", True, True, {"1.0.0"}, False))`,
 incompat False
 no_audit False`,
         },
-        why: "Demuestra que rollback y retirement son predicados de seguridad: sin features compatibles ni audit entry no hay cierre CF-4.",
+        why: "current≠last_good, compatible, tested, retired no vacío y audit son predicados de seguridad del cierre CF-4; no son checklist cosmético. Sin features compatibles ni audit entry no hay restauración defendible ante el revisor. En We Do practicarás predicado, ROLLBACK/MISSING y REVIEW_RETIREMENT.",
+        retrospective:
+          "Rollback sin audit no cierra CF-4: «ya volvimos a la versión anterior» sin evidencia es anécdota. Borrar el trace para limpiar el tablero destruye el gate. Pregunta: con features incompatibles, ¿por qué `incompat` es False aunque exista last_good? We Do: ROLLBACK / REVIEW_RETIREMENT.",
       },
     ],
   },
@@ -498,7 +530,11 @@ no_audit False`,
         id: "S47-T1-A-E1",
         subtopicId: "S47-T1-A",
         kind: "guided",
-        instruction: "S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/parámetros. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `MARK_RUN_NONREPRODUCIBLE` en E2.",
+        title: "Rerun dentro de tolerancia con seed",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-1A`, el equipo de priorización en Tacna solo acepta un run si el rerun cae dentro de tolerancia con seed y params.\n- **Meta:** corregir `meets_contract` (seed presente + params no vacíos + `|metric−rerun| ≤ tol`).\n- **Éxito:** imprimes exactamente `S47-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes métricas; no borres el assert; no toques los datos del fixture.",
+        instruction:
+          "1. Abre el starter: `meets_contract` usa `>` (bug: aprueba lo no reproducible).\n2. Exige `record.get(\"seed\") is not None` y `bool(record[\"params\"])`.\n3. Cambia a `abs(metric - rerun_metric) <= tolerance`.\n4. Conserva el print `S47-T1-A` y el status PASS/MARK_RUN_NONREPRODUCIBLE.",
         hint: "El starter usa `>` en lugar de `≤`: invierte la dirección del comparador de tolerancia y exige seed presente + params no vacíos.",
         hints: [
           "Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.",
@@ -506,7 +542,10 @@ no_audit False`,
         ],
         edgeCases: ["Falta `tolerance` → MISSING / INVESTIGATE_RANDOMNESS", "Adverso: params vacíos y/o |metric−rerun| > tolerance (seed nulo también falla) → MARK_RUN_NONREPRODUCIBLE", "CASO-TAC-047-1A es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-1A` satisface un predicado de dominio real; imprime `S47-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S47-T1-A-E1: la dirección del comparador es ≤ tolerancia (no >). Di qué delta produce PASS en 0.81 vs. 0.805 y por qué seed presente + params no vacíos son parte del contrato.",
+        feedback:
+          "PASS exige las tres anclas a la vez: seed, params y delta ≤ tol. Un delta 0.005 con tol 0.01 es reproducible; invertir el comparador marca PASS justo cuando el run es basura. El revisor de experiments lo exige antes del registry.",
+        retrospective:
+          "Reproducibilidad = re-ejecución controlada, no un score bonito. El starter marca PASS justo cuando el delta **supera** la tol. El error clásico es solo mirar el número grande. Pregunta: con delta 0.005 y tol 0.01, ¿por qué `>` es exactamente el anti-predicado del promote? Siguiente (E2): tres rutas válido / adverso / missing `tolerance`.",
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e1.py",
@@ -535,7 +574,11 @@ assert meets_contract is True` ,
         id: "S47-T1-A-E2",
         subtopicId: "S47-T1-A",
         kind: "independent",
-        instruction: "S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, params, metric, rerun_metric, tolerance. Salidas exactas: `PASS`, `MARK_RUN_NONREPRODUCIBLE`, `MISSING:tolerance`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de tracking (PASS / MARK / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de experiments en Tacna no trata igual un run limpio, uno divergente y uno sin tolerancia declarada.\n- **Meta:** implementar `assess` que distinga PASS, MARK_RUN_NONREPRODUCIBLE y MISSING:tolerance.\n- **Éxito:** imprime `PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance` en ese orden.\n- **Límites:** si falta `tolerance`, no evalúes el delta; no inventes el campo; missing ≠ «marcar no reproducible».",
+        instruction:
+          "1. Revisa el starter: con campos presentes devuelve PASS si el delta es *mayor* que tol (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: seed + params + delta ≤ tol → PASS; si no → MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.",
@@ -543,7 +586,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `tolerance` → MISSING / INVESTIGATE_RANDOMNESS", "Adverso: params vacíos y/o |metric−rerun| > tolerance (seed nulo también falla) → MARK_RUN_NONREPRODUCIBLE", "CASO-TAC-047-1A es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `tolerance` ausente y produce exactamente `PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance`.",
-        feedback: "S47-T1-A-E2: el orden importa — missing primero; luego contenido. ¿Por qué el adverso falla por params vacíos/delta y no por schema?",
+        feedback:
+          "El orden importa: missing primero; luego contenido. Params vacíos o delta alto son breach de métrica; falta de tolerancia es incertidumbre de protocolo, no lo mismo para el revisor de promote.",
+        retrospective:
+          "Missing es incertidumbre de protocolo; params vacíos o delta alto son breach de métrica. El error clásico es tratar «falta tolerancia» como fallo de score. Pregunta: si el revisor ve `MISSING:tolerance`, ¿pide un rerun o un MARK? Luego (E3): CONTINUE / MARK / INVESTIGATE_RANDOMNESS.",
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e2.py",
@@ -589,7 +635,11 @@ print(*results)
         id: "S47-T1-A-E3",
         subtopicId: "S47-T1-A",
         kind: "transfer",
-        instruction: "S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia de `tolerance` debe devolver `INVESTIGATE_RANDOMNESS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide tracking: CONTINUE o INVESTIGATE",
+        preamble:
+          "- **Contexto:** en producción del ranker de Tacna, un run incompleto no «sigue con warning»: o continúa con evidencia o se investiga.\n- **Meta:** `decide` → CONTINUE (reproducible), MARK_RUN_NONREPRODUCIBLE (adverso), INVESTIGATE_RANDOMNESS (sin tolerance).\n- **Éxito:** `CONTINUE MARK_RUN_NONREPRODUCIBLE INVESTIGATE_RANDOMNESS`.\n- **Límites:** no inventes `tolerance`; no conviertas missing en CONTINUE; no toques los fixtures.",
+        instruction:
+          "1. Corrige missing: sin `tolerance` → `INVESTIGATE_RANDOMNESS` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (seed + params + delta ≤ tol).\n3. Solo el limpio es CONTINUE; el de params vacíos/delta alto es MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.",
@@ -597,7 +647,10 @@ print(*results)
         ],
         edgeCases: ["Falta `tolerance` → MISSING / INVESTIGATE_RANDOMNESS", "Adverso: params vacíos y/o |metric−rerun| > tolerance (seed nulo también falla) → MARK_RUN_NONREPRODUCIBLE", "CASO-TAC-047-1A es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-1A`, adverso y sin `tolerance` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T1-A-E3: missing ≠ breach. Justifica CONTINUE vs. MARK_RUN_NONREPRODUCIBLE vs. INVESTIGATE_RANDOMNESS con un campo cada uno.",
+        feedback:
+          "Missing ≠ breach. CONTINUE exige seed+params+delta≤tol; MARK es contenido adverso; INVESTIGATE es incertidumbre de protocolo. No promociones con «falta tolerancia, igual se ve estable».",
+        retrospective:
+          "Un campo ausente es investigación, no un allow optimista. El error clásico es promover con «falta tolerancia, igual se ve estable». Pregunta: ¿por qué MARK no es lo mismo que INVESTIGATE?",
         starterCode: {
           language: 'python',
           title: "s47-t1-a-e3.py",
@@ -643,7 +696,11 @@ assert results == ["CONTINUE", "MARK_RUN_NONREPRODUCIBLE", "INVESTIGATE_RANDOMNE
         id: "S47-T1-B-E1",
         subtopicId: "S47-T1-B",
         kind: "guided",
-        instruction: "S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data, code, env, split y métrica versionados, y un candidato mejor. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `INVALIDATE_COMPARISON` en E2.",
+        title: "Lineage completo y candidato > baseline",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-1B`, el ranker de Tacna solo entra a la tabla de comparación si data/code/env/split/métrica están versionados y el candidato gana en holdout.\n- **Meta:** completar `meets_contract` (lineage + no latest/train/unknown + candidate > baseline).\n- **Éxito:** `S47-T1-B PASS`.\n- **Límites:** no cambies scores del fixture; no aceptes `code=latest` «por conveniencia».",
+        instruction:
+          "1. Abre el starter: `not record[\"data\"] or candidate <= baseline` (bug: aprueba lo inválido).\n2. Calcula `lineage_ok` con `all(...)` sobre data/code/env/split/metric_definition.\n3. Añade `versioned` (code ≠ latest, split ≠ train, metric ≠ unknown).\n4. Exige `candidate > baseline` y conserva print/status.",
         hint: "El DEFECT niega el data o exige candidate ≤ baseline: invierte a lineage completo + versionado (no latest/train/unknown) + candidate > baseline.",
         hints: [
           "Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.",
@@ -651,7 +708,10 @@ assert results == ["CONTINUE", "MARK_RUN_NONREPRODUCIBLE", "INVESTIGATE_RANDOMNE
         ],
         edgeCases: ["Falta `baseline` → MISSING / RESTORE_LINEAGE", "Adverso: data/env vacíos, code=latest, split=train o metric unknown → INVALIDATE_COMPARISON", "CASO-TAC-047-1B es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-1B` satisface un predicado de dominio real; imprime `S47-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S47-T1-B-E1: la comparación exige lineage completo y candidate > baseline. ¿Qué campo del adverso (code=latest, split=train) invalida primero?",
+        feedback:
+          "Un candidate 0.90 con split=train se invalida aunque «gane» al baseline: no hay comparación homogénea. El holdout y la definición de métrica son parte del contrato, no adornos del revisor de promote.",
+        retrospective:
+          "Lineage completo es el ticket de entrada a la tabla; `candidate > baseline` solo cuenta después. El starter invierte y «aprueba» lo no comparable. Pregunta: con candidate 0.90 y split=train, ¿PASS o INVALIDATE aunque gane al 0.78? Siguiente: PASS / INVALIDATE / MISSING:baseline.",
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e1.py",
@@ -682,7 +742,11 @@ assert meets_contract is True` ,
         id: "S47-T1-B-E2",
         subtopicId: "S47-T1-B",
         kind: "independent",
-        instruction: "S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id, data, code, env, split, metric_definition, candidate, baseline. Salidas exactas: `PASS`, `INVALIDATE_COMPARISON`, `MISSING:baseline`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de comparación (PASS / INVALIDATE / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de comparación en Tacna separa run limpio, run no comparable y registro sin baseline.\n- **Meta:** `assess` → PASS, INVALIDATE_COMPARISON, MISSING:baseline.\n- **Éxito:** `PASS INVALIDATE_COMPARISON MISSING:baseline`.\n- **Límites:** sin baseline no evalúes candidate; no rellenes lineage vacío.",
+        instruction:
+          "1. Starter: PASS si falta data o candidate ≤ baseline (bug: aprueba lo no comparable).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…` (sin tocar baseline).\n3. Luego: `lineage_ok` + `versioned` + `candidate > baseline` → PASS; si no → INVALIDATE_COMPARISON.\n4. Imprime `PASS INVALIDATE_COMPARISON MISSING:baseline` con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.",
@@ -690,7 +754,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `baseline` → MISSING / RESTORE_LINEAGE", "Adverso: data/env vacíos, code=latest, split=train o metric unknown → INVALIDATE_COMPARISON", "CASO-TAC-047-1B es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `baseline` ausente y produce exactamente `PASS INVALIDATE_COMPARISON MISSING:baseline`.",
-        feedback: "S47-T1-B-E2: missing de baseline es RESTORE_LINEAGE, no INVALIDATE. Di por qué un candidate 0.90 con split=train sigue siendo INVALIDATE.",
+        feedback:
+          "Missing de baseline es incertidumbre (luego RESTORE); un candidate 0.90 con split=train sigue siendo INVALIDATE por contenido. El revisor no confunde «sin baseline» con «trampa de score».",
+        retrospective:
+          "Missing de baseline es incertidumbre (luego RESTORE), no trampa de score. Un 0.90 con train sigue siendo INVALIDATE por contenido. Pregunta: ¿por qué no rellenar `baseline` inventado para forzar PASS? Luego (E3): CONTINUE / INVALIDATE / RESTORE_LINEAGE.",
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e2.py",
@@ -738,7 +805,11 @@ print(*results)
         id: "S47-T1-B-E3",
         subtopicId: "S47-T1-B",
         kind: "transfer",
-        instruction: "S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la ausencia de `baseline` debe devolver `RESTORE_LINEAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide comparación: CONTINUE o RESTORE",
+        preamble:
+          "- **Contexto:** sin baseline o con lineage roto, el promote del ranker no «sigue con fe».\n- **Meta:** `decide` → CONTINUE / INVALIDATE_COMPARISON / RESTORE_LINEAGE.\n- **Éxito:** esa tripleta exacta.\n- **Límites:** no inventes baseline; no conviertas uncertainty en CONTINUE.",
+        instruction:
+          "1. Missing → RESTORE_LINEAGE (no CONTINUE).\n2. Completo: reutiliza predicado de E1/E2.\n3. Adverso (latest/train/unknown) → INVALIDATE_COMPARISON.\n4. Imprime en orden valid/invalid/uncertain.",
         hint: "Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.",
@@ -746,7 +817,10 @@ print(*results)
         ],
         edgeCases: ["Falta `baseline` → MISSING / RESTORE_LINEAGE", "Adverso: data/env vacíos, code=latest, split=train o metric unknown → INVALIDATE_COMPARISON", "CASO-TAC-047-1B es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-1B`, adverso y sin `baseline` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T1-B-E3: justifica CONTINUE / INVALIDATE_COMPARISON / RESTORE_LINEAGE. Un score alto no salva lineage incompleto.",
+        feedback:
+          "CONTINUE exige lineage versionado y candidate > baseline; INVALIDATE es contenido no comparable; RESTORE es baseline ausente. Un score alto no salva lineage incompleto ante el revisor de promote.",
+        retrospective:
+          "Restaurar lineage es trabajo de evidencia, no castigo por score bajo. El error clásico es invalidar un run incompleto como si fuera trampa. Pregunta: ¿qué ancla falta más a menudo en tu equipo — data, code o env?",
         starterCode: {
           language: 'python',
           title: "s47-t1-b-e3.py",
@@ -794,7 +868,11 @@ assert results == ["CONTINUE", "INVALIDATE_COMPARISON", "RESTORE_LINEAGE"]` ,
         id: "S47-T2-A-E1",
         subtopicId: "S47-T2-A",
         kind: "guided",
-        instruction: "S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_MODEL_PROMOTION` en E2.",
+        title: "Firma, staging y approved=True",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-2A`, el ranker de Tacna solo entra a staging con firma exacta al servicio y aprobación explícita.\n- **Meta:** `meets_contract` con SERVICE_SIG + stage=staging + approved.\n- **Éxito:** `S47-T2-A PASS`.\n- **Límites:** no saltes a production; no aflojes la firma «por demo».",
+        instruction:
+          "1. Starter: `not approved or stage == \"production\"` (bug: aprueba promote ilegal).\n2. Compara `input_signature` y `output_signature` con `SERVICE_SIG` del servicio.\n3. Exige `stage == \"staging\"` y `approved` truthy a la vez.\n4. Conserva el print `S47-T2-A` y el status PASS o DENY_MODEL_PROMOTION.",
         hint: "El DEFECT aprueba cuando falta approved o stage=production: exige firma igual al contrato del servicio, stage=staging y approved=True.",
         hints: [
           "Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.",
@@ -802,7 +880,10 @@ assert results == ["CONTINUE", "INVALIDATE_COMPARISON", "RESTORE_LINEAGE"]` ,
         ],
         edgeCases: ["Falta `approved` → MISSING / REQUEST_MODEL_APPROVAL", "Adverso: production + approved=False + firma rota → DENY_MODEL_PROMOTION", "CASO-TAC-047-2A es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-2A` satisface un predicado de dominio real; imprime `S47-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S47-T2-A-E1: stage=staging + approved + firma exacta. ¿Por qué production sin approve es DENY y no PASS?",
+        feedback:
+          "Production sin approve es DENY, no «casi listo». La firma rota (age:str, output vacío) también deniega aunque el stage sea staging: el registry no confunde digest con gobernanza.",
+        retrospective:
+          "Aprobación y firma son gates distintos del digest. El starter da luz verde justo cuando production no está aprobada. Pregunta: con firma `age:str` y stage staging, ¿PASS o DENY aunque approved=True? Siguiente (E2): PASS / DENY / MISSING:approved.",
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e1.py",
@@ -837,7 +918,11 @@ assert meets_contract is True` ,
         id: "S47-T2-A-E2",
         subtopicId: "S47-T2-A",
         kind: "independent",
-        instruction: "S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_signature, output_signature, stage, approved. Salidas exactas: `PASS`, `DENY_MODEL_PROMOTION`, `MISSING:approved`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de promote (PASS / DENY / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor del registry en Tacna separa promote limpio, promote ilegal y registro sin flag de aprobación.\n- **Meta:** `assess` → PASS, DENY_MODEL_PROMOTION, MISSING:approved.\n- **Éxito:** esa tripleta exacta.\n- **Límites:** sin approved no evalúes stage; no rellenes el booleano.",
+        instruction:
+          "1. Starter invierte PASS/DENY cuando el record está completo.\n2. Primero `missing` de required; sin `approved` → `MISSING:approved` (no evalúes stage).\n3. Luego `sig_ok` + staging + approved → PASS; si no → DENY_MODEL_PROMOTION.\n4. Imprime la tripleta con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.",
@@ -845,7 +930,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `approved` → MISSING / REQUEST_MODEL_APPROVAL", "Adverso: production + approved=False + firma rota → DENY_MODEL_PROMOTION", "CASO-TAC-047-2A es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `approved` ausente y produce exactamente `PASS DENY_MODEL_PROMOTION MISSING:approved`.",
-        feedback: "S47-T2-A-E2: missing approved → REQUEST, no DENY. El adverso combina firma rota y production sin approve.",
+        feedback:
+          "Missing approved es REQUEST en E3, no DENY. El adverso combina firma y stage ilegal: breach de contenido. El revisor del registry no inventa el flag de aprobación.",
+        retrospective:
+          "Missing approved es REQUEST en E3, no DENY. El adverso combina firma rota y production: breach de contenido. Pregunta: ¿por qué no inventar `approved=True` para «desbloquear» el lab? Luego (E3): CONTINUE / DENY / REQUEST.",
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e2.py",
@@ -894,7 +982,11 @@ print(*results)
         id: "S47-T2-A-E3",
         subtopicId: "S47-T2-A",
         kind: "transfer",
-        instruction: "S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `approved` debe devolver `REQUEST_MODEL_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide promote: CONTINUE o REQUEST",
+        preamble:
+          "- **Contexto:** en el camino CF-4, falta de aprobación es trabajo humano, no luz verde silenciosa.\n- **Meta:** CONTINUE / DENY_MODEL_PROMOTION / REQUEST_MODEL_APPROVAL.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes approved; no sirvas production «mientras piden el OK».",
+        instruction:
+          "1. Missing → REQUEST_MODEL_APPROVAL.\n2. Completo: predicado de E1/E2.\n3. Adverso → DENY_MODEL_PROMOTION.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.",
@@ -902,7 +994,10 @@ print(*results)
         ],
         edgeCases: ["Falta `approved` → MISSING / REQUEST_MODEL_APPROVAL", "Adverso: production + approved=False + firma rota → DENY_MODEL_PROMOTION", "CASO-TAC-047-2A es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-2A`, adverso y sin `approved` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T2-A-E3: CONTINUE / DENY_MODEL_PROMOTION / REQUEST_MODEL_APPROVAL. La aprobación es independiente del digest.",
+        feedback:
+          "CONTINUE exige firma + staging + approved; DENY es promote ilegal; REQUEST es incertidumbre humana. La aprobación es independiente del digest: el artefacto existe no basta para production.",
+        retrospective:
+          "La aprobación es independiente del digest. El error clásico es «el artefacto existe, listo». Pregunta: ¿qué pedirías en la card de aprobación antes de tocar production?",
         starterCode: {
           language: 'python',
           title: "s47-t2-a-e3.py",
@@ -951,7 +1046,11 @@ assert results == ["CONTINUE", "DENY_MODEL_PROMOTION", "REQUEST_MODEL_APPROVAL"]
         id: "S47-T2-B-E1",
         subtopicId: "S47-T2-B",
         kind: "guided",
-        instruction: "S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de features y card completa. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_MODEL_ARTIFACT` en E2.",
+        title: "Digest, features alineadas y card completa",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-2B`, el artefacto del ranker solo pasa si hay sha256, features-v3 en train y serve, y card de cuatro secciones.\n- **Meta:** corregir `meets_contract` (digest + igualdad features + card ⊇ REQUIRED).\n- **Éxito:** `S47-T2-B PASS`.\n- **Límites:** no uses `latest`; no recortes la card a «use».",
+        instruction:
+          "1. Starter: PASS si hay skew o card corta (bug).\n2. Exige `artifact_digest.startswith(\"sha256:\")`.\n3. `feature_version == serving_feature_version`.\n4. card ⊇ {use, limits, metrics, risks} y print PASS/REJECT.",
         hint: "El DEFECT aprueba con skew o card incompleta: exige digest sha256:, train_fv==serve_fv y card ⊇ {use,limits,metrics,risks}.",
         hints: [
           "Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.",
@@ -959,7 +1058,10 @@ assert results == ["CONTINUE", "DENY_MODEL_PROMOTION", "REQUEST_MODEL_APPROVAL"]
         ],
         edgeCases: ["Falta `card_sections` → MISSING / COMPLETE_MODEL_CARD", "Adverso: digest latest, feature skew o card incompleta → REJECT_MODEL_ARTIFACT", "CASO-TAC-047-2B es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-2B` satisface un predicado de dominio real; imprime `S47-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S47-T2-B-E1: digest sha256 + features alineadas + card de 4 secciones. ¿Qué falla primero en el adverso: latest, skew o card thin?",
+        feedback:
+          "En el adverso fallan latest, skew y card thin a la vez; cualquiera basta para REJECT. Contar `len < 4` es un proxy; el contrato real es el conjunto de secciones. Sin card, producto no defiende límites del score.",
+        retrospective:
+          "Card incompleta es riesgo de producto, no de formato markdown. El starter aprueba justo cuando hay skew o secciones de menos. Pregunta: con digest sha256 y features alineadas pero card solo `{use}`, ¿PASS o REJECT? Siguiente: PASS / REJECT / MISSING:card_sections.",
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e1.py",
@@ -988,7 +1090,11 @@ assert meets_contract is True` ,
         id: "S47-T2-B-E2",
         subtopicId: "S47-T2-B",
         kind: "independent",
-        instruction: "S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con case_id, artifact_digest, feature_version, serving_feature_version, card_sections. Salidas exactas: `PASS`, `REJECT_MODEL_ARTIFACT`, `MISSING:card_sections`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de artefacto (PASS / REJECT / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de artefactos en Tacna distingue card completa, artefacto basura y ausencia de secciones.\n- **Meta:** PASS / REJECT_MODEL_ARTIFACT / MISSING:card_sections.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin card_sections no evalúes digest; no inventes secciones.",
+        instruction:
+          "1. Starter: con campos presentes devuelve PASS si hay skew o `len(card) < 4` (bug: aprueba basura).\n2. Primero calcula `missing`; si falta `card_sections` → `MISSING:card_sections` sin mirar digest.\n3. Luego exige `startswith(\"sha256:\")`, train==serve y card ⊇ {use, limits, metrics, risks}.\n4. Imprime `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections` con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.",
@@ -996,7 +1102,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `card_sections` → MISSING / COMPLETE_MODEL_CARD", "Adverso: digest latest, feature skew o card incompleta → REJECT_MODEL_ARTIFACT", "CASO-TAC-047-2B es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `card_sections` ausente y produce exactamente `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections`.",
-        feedback: "S47-T2-B-E2: missing card_sections → COMPLETE_MODEL_CARD. El adverso rechaza por digest/skew/card, no por schema.",
+        feedback:
+          "Missing card es COMPLETE en E3; skew/latest es REJECT de contenido. No rellenes la card con placeholders ante el revisor de artefactos del registry.",
+        retrospective:
+          "Missing card es COMPLETE en E3; skew o digest `latest` es REJECT de contenido. Rellenar secciones inventadas no es gobernanza del registry. Pregunta: en el invalid, ¿basta una de latest/skew/thin para REJECT aunque las otras estuvieran bien? Luego: CONTINUE / REJECT / COMPLETE.",
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e2.py",
@@ -1042,7 +1151,11 @@ print(*results)
         id: "S47-T2-B-E3",
         subtopicId: "S47-T2-B",
         kind: "transfer",
-        instruction: "S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la ausencia de `card_sections` debe devolver `COMPLETE_MODEL_CARD`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide artefacto: CONTINUE o COMPLETE",
+        preamble:
+          "- **Contexto:** sin card no se inventan límites: se deriva a completar evidencia.\n- **Meta:** CONTINUE / REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes secciones; no promote con latest.",
+        instruction:
+          "1. Missing → COMPLETE_MODEL_CARD.\n2. Completo: predicado de E1/E2.\n3. Adverso → REJECT_MODEL_ARTIFACT.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.",
@@ -1050,7 +1163,10 @@ print(*results)
         ],
         edgeCases: ["Falta `card_sections` → MISSING / COMPLETE_MODEL_CARD", "Adverso: digest latest, feature skew o card incompleta → REJECT_MODEL_ARTIFACT", "CASO-TAC-047-2B es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-2B`, adverso y sin `card_sections` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T2-B-E3: CONTINUE / REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD. Sin card no inventes secciones: deriva a completar.",
+        feedback:
+          "CONTINUE exige digest sha256, features alineadas y card de 4 secciones; REJECT es basura de artefacto; COMPLETE es trabajo de gobernanza. Sin card no inventes secciones.",
+        retrospective:
+          "Completar card es trabajo de gobernanza, no un «warning de markdown». El error clásico es copiar un README de una línea. Pregunta: ¿qué sección de la card fallaría primero en tu ranker sintético?",
         starterCode: {
           language: 'python',
           title: "s47-t2-b-e3.py",
@@ -1096,7 +1212,11 @@ assert results == ["CONTINUE", "REJECT_MODEL_ARTIFACT", "COMPLETE_MODEL_CARD"]` 
         id: "S47-T3-A-E1",
         subtopicId: "S47-T3-A",
         kind: "guided",
-        instruction: "S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin leakage y contract tests. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DISABLE_INCONSISTENT_SERVING` en E2.",
+        title: "Paridad batch/online sin leakage",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-3A`, el path batch y online del ranker de Tacna deben emitir el mismo vector sin leakage y con ≥3 contract tests.\n- **Meta:** `meets_contract` = batch==online y not leakage y tests≥3.\n- **Éxito:** `S47-T3-A PASS`.\n- **Límites:** no «promuevas con fe»; no bajes el umbral de tests.",
+        instruction:
+          "1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Invierte a igualdad de features batch/online.\n3. Añade `not leakage` y `contract_tests >= 3`.\n4. Conserva print PASS/DISABLE_INCONSISTENT_SERVING.",
         hint: "El DEFECT aprueba skew o leakage: exige batch==online, leakage=False y contract_tests ≥ 3.",
         hints: [
           "Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.",
@@ -1104,7 +1224,10 @@ assert results == ["CONTINUE", "REJECT_MODEL_ARTIFACT", "COMPLETE_MODEL_CARD"]` 
         ],
         edgeCases: ["Falta `contract_tests` → MISSING / TRACE_FEATURE_PIPELINE", "Adverso: online features ≠ batch, leakage=True o contract_tests=0 → DISABLE_INCONSISTENT_SERVING", "CASO-TAC-047-3A es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-3A` satisface un predicado de dominio real; imprime `S47-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S47-T3-A-E1: batch==online, leakage=False y ≥3 contract tests. El adverso tiene skew y leakage a la vez.",
+        feedback:
+          "El adverso combina skew y leakage: el serving se deshabilita aunque el laboratorio luzca bien. Online distinto del batch es skew real, no «ruido de float» ante el revisor de features.",
+        retrospective:
+          "Training-serving skew se corta **antes** del canary. El starter da PASS cuando batch≠online o hay leakage. Pregunta: con vectores iguales, leakage=False y `contract_tests=2`, ¿PASS o DISABLE aunque el F1 de lab sea alto? Siguiente (E2): PASS / DISABLE / MISSING:contract_tests.",
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e1.py",
@@ -1133,7 +1256,11 @@ assert meets_contract is True` ,
         id: "S47-T3-A-E2",
         subtopicId: "S47-T3-A",
         kind: "independent",
-        instruction: "S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, batch_features, online_features, leakage, contract_tests. Salidas exactas: `PASS`, `DISABLE_INCONSISTENT_SERVING`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de features (PASS / DISABLE / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de features en Tacna separa paridad limpia, skew/leakage y ausencia de contract tests.\n- **Meta:** PASS / DISABLE_INCONSISTENT_SERVING / MISSING:contract_tests.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin contract_tests no evalúes paridad; no inventes tests.",
+        instruction:
+          "1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Primero `missing` de required; sin `contract_tests` → `MISSING:contract_tests` sin mirar paridad.\n3. Luego batch==online y not leakage y tests≥3 → PASS; si no → DISABLE_INCONSISTENT_SERVING.\n4. Imprime `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
@@ -1141,7 +1268,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `contract_tests` → MISSING / TRACE_FEATURE_PIPELINE", "Adverso: online features ≠ batch, leakage=True o contract_tests=0 → DISABLE_INCONSISTENT_SERVING", "CASO-TAC-047-3A es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.",
-        feedback: "S47-T3-A-E2: missing contract_tests → TRACE, no DISABLE. ¿Por qué online distinto del batch es skew aunque el F1 de lab sea alto?",
+        feedback:
+          "Missing tests es TRACE en E3; skew es DISABLE de contenido. Un F1 alto no salva online divergente: el gate de features falla cerrado antes del canary.",
+        retrospective:
+          "Missing tests es TRACE en E3; skew o leakage es DISABLE de contenido. Un F1 de lab no salva online divergente. Pregunta: ¿por qué no inventar `contract_tests=3` para forzar PASS? Luego (E3): CONTINUE / DISABLE / TRACE.",
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e2.py",
@@ -1187,7 +1317,11 @@ print(*results)
         id: "S47-T3-A-E3",
         subtopicId: "S47-T3-A",
         kind: "transfer",
-        instruction: "S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y la ausencia de `contract_tests` debe devolver `TRACE_FEATURE_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide features: CONTINUE o TRACE",
+        preamble:
+          "- **Contexto:** sin contract tests no se sirve «a ciegas»: se traza el pipeline.\n- **Meta:** CONTINUE / DISABLE_INCONSISTENT_SERVING / TRACE_FEATURE_PIPELINE.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes tests; no ignores leakage.",
+        instruction:
+          "1. Missing → TRACE_FEATURE_PIPELINE.\n2. Completo: predicado de E1/E2.\n3. Adverso → DISABLE_INCONSISTENT_SERVING.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.",
@@ -1195,7 +1329,10 @@ print(*results)
         ],
         edgeCases: ["Falta `contract_tests` → MISSING / TRACE_FEATURE_PIPELINE", "Adverso: online features ≠ batch, leakage=True o contract_tests=0 → DISABLE_INCONSISTENT_SERVING", "CASO-TAC-047-3A es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-3A`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T3-A-E3: CONTINUE / DISABLE_INCONSISTENT_SERVING / TRACE_FEATURE_PIPELINE. Training-serving skew no se «promueve con fe».",
+        feedback:
+          "CONTINUE exige paridad + anti-leakage + tests≥3; DISABLE corta serving inconsistente; TRACE es pipeline sin evidencia. Training-serving skew no se «promueve con fe».",
+        retrospective:
+          "Training-serving skew no se «promueve con fe». El error clásico es seguir sirviendo mientras «revisan el drift». Pregunta: ¿qué contract test escribirías primero para el vector de prioridad?",
         starterCode: {
           language: 'python',
           title: "s47-t3-a-e3.py",
@@ -1241,7 +1378,11 @@ assert results == ["CONTINUE", "DISABLE_INCONSISTENT_SERVING", "TRACE_FEATURE_PI
         id: "S47-T3-B-E1",
         subtopicId: "S47-T3-B",
         kind: "guided",
-        instruction: "S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fallback probado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ACTIVATE_SAFE_FALLBACK` en E2.",
+        title: "p95 bajo SLO y fallback probado",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-3B`, el ranker de Tacna solo sirve si p95≤SLO, batch 1–64 y fallback rules-* ensayado.\n- **Meta:** corregir `meets_contract` con esos cuatro chequeos.\n- **Éxito:** `S47-T3-B PASS`.\n- **Límites:** no aceptes fallback `none`; no subas batch «para ir más rápido».",
+        instruction:
+          "1. Starter: PASS si p95>slo o not tested (bug).\n2. Invierte a p95 ≤ slo.\n3. Añade `1 <= batch_size <= 64` y `fallback.startswith(\"rules-\")` y tested.\n4. Conserva print PASS/ACTIVATE_SAFE_FALLBACK.",
         hint: "El DEFECT aprueba p95 alto o fallback none: exige p95≤slo, batch 1–64, fallback tipado (p. ej. rules-*) y fallback_tested=True.",
         hints: [
           "Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.",
@@ -1249,7 +1390,10 @@ assert results == ["CONTINUE", "DISABLE_INCONSISTENT_SERVING", "TRACE_FEATURE_PI
         ],
         edgeCases: ["Falta `fallback_tested` → MISSING / TUNE_BATCH_OR_CAPACITY", "Adverso: p95>slo, batch 512, fallback none o untested → ACTIVATE_SAFE_FALLBACK", "CASO-TAC-047-3B es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-3B` satisface un predicado de dominio real; imprime `S47-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S47-T3-B-E1: p95≤slo, batch 1–64 y fallback rules-* probado. El adverso viola los tres a la vez.",
+        feedback:
+          "El adverso viola latencia, batch y fallback a la vez: ACTIVATE_SAFE_FALLBACK, no «intentar otra vez». Fallback none nunca es PASS ante el revisor de SLO.",
+        retrospective:
+          "Fallback no ensayado es deuda operativa, no un TODO del README. El starter aprueba justo cuando el serving no está listo. Pregunta: con p95 OK, batch 16 y fallback `rules-v2` pero `tested=False`, ¿PASS o ACTIVATE? Siguiente: PASS / ACTIVATE / MISSING:fallback_tested.",
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e1.py",
@@ -1278,7 +1422,11 @@ assert meets_contract is True` ,
         id: "S47-T3-B-E2",
         subtopicId: "S47-T3-B",
         kind: "independent",
-        instruction: "S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id, p95_ms, slo_ms, batch_size, fallback, fallback_tested. Salidas exactas: `PASS`, `ACTIVATE_SAFE_FALLBACK`, `MISSING:fallback_tested`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de SLO (PASS / ACTIVATE / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de latencia en Tacna separa serving listo, breach de SLO/fallback y ausencia de evidencia de prueba de fallback.\n- **Meta:** PASS / ACTIVATE_SAFE_FALLBACK / MISSING:fallback_tested.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin fallback_tested no evalúes p95; no inventes el booleano.",
+        instruction:
+          "1. Starter invierte PASS/ACTIVATE con campos presentes.\n2. Primero `missing`; sin `fallback_tested` → `MISSING:fallback_tested` (no evalúes p95).\n3. Luego p95≤slo, batch 1–64, fallback `rules-*` y tested → PASS; si no → ACTIVATE_SAFE_FALLBACK.\n4. Imprime la tripleta canónica.",
         hint: "Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.",
@@ -1286,7 +1434,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `fallback_tested` → MISSING / TUNE_BATCH_OR_CAPACITY", "Adverso: p95>slo, batch 512, fallback none o untested → ACTIVATE_SAFE_FALLBACK", "CASO-TAC-047-3B es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `fallback_tested` ausente y produce exactamente `PASS ACTIVATE_SAFE_FALLBACK MISSING:fallback_tested`.",
-        feedback: "S47-T3-B-E2: missing fallback_tested → TUNE_BATCH_OR_CAPACITY. Sin fallback ensayado el timeout no tiene salida segura.",
+        feedback:
+          "Missing tested es TUNE en E3; p95 900 con batch 512 es ACTIVATE de contenido. Sin fallback ensayado el timeout no tiene salida segura para el producto de Tacna.",
+        retrospective:
+          "Missing tested es TUNE en E3; p95 900 con batch 512 es ACTIVATE de contenido. Pregunta: ¿por qué «falta evidencia de prueba» no es lo mismo que «activar fallback ya»? Luego (E3): CONTINUE / ACTIVATE / TUNE.",
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e2.py",
@@ -1332,7 +1483,11 @@ print(*results)
         id: "S47-T3-B-E3",
         subtopicId: "S47-T3-B",
         kind: "transfer",
-        instruction: "S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausencia de `fallback_tested` debe devolver `TUNE_BATCH_OR_CAPACITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide SLO: CONTINUE o TUNE",
+        preamble:
+          "- **Contexto:** sin evidencia de prueba de fallback se tunear capacidad, no se abre tráfico.\n- **Meta:** CONTINUE / ACTIVATE_SAFE_FALLBACK / TUNE_BATCH_OR_CAPACITY.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes tested; no ignores batch 512.",
+        instruction:
+          "1. Missing → TUNE_BATCH_OR_CAPACITY.\n2. Completo: predicado de E1/E2.\n3. Adverso → ACTIVATE_SAFE_FALLBACK.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.",
@@ -1340,7 +1495,10 @@ print(*results)
         ],
         edgeCases: ["Falta `fallback_tested` → MISSING / TUNE_BATCH_OR_CAPACITY", "Adverso: p95>slo, batch 512, fallback none o untested → ACTIVATE_SAFE_FALLBACK", "CASO-TAC-047-3B es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-3B`, adverso y sin `fallback_tested` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T3-B-E3: CONTINUE / ACTIVATE_SAFE_FALLBACK / TUNE_BATCH_OR_CAPACITY. Fallback none nunca es PASS.",
+        feedback:
+          "CONTINUE exige p95≤SLO, batch acotado y fallback rules-* ensayado; ACTIVATE es breach de latencia/capacidad; TUNE es incertidumbre de prueba. Fallback none nunca es PASS.",
+        retrospective:
+          "Fallback none nunca es PASS. El error clásico es «subimos batch y ya». Pregunta: ¿qué p95 y batch declararías en el README del canary de Tacna?",
         starterCode: {
           language: 'python',
           title: "s47-t3-b-e3.py",
@@ -1386,7 +1544,11 @@ assert results == ["CONTINUE", "ACTIVATE_SAFE_FALLBACK", "TUNE_BATCH_OR_CAPACITY
         id: "S47-T4-A-E1",
         subtopicId: "S47-T4-A",
         kind: "guided",
-        instruction: "S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error gates y hooks. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_CANARY` en E2.",
+        title: "Canary ≤10% con hooks activos",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-4A`, el equipo abre canary al 5% del tráfico de priorización en Tacna solo si mode, quality, error y hooks están en presupuesto.\n- **Meta:** `meets_contract` con shadow/canary, traffic≤10, quality y error OK, hooks True.\n- **Éxito:** `S47-T4-A PASS`.\n- **Límites:** no uses mode full; no apagues hooks «para ir más rápido».",
+        instruction:
+          "1. Starter: PASS si traffic>10 o error>max (bug).\n2. Exige mode in {shadow, canary}.\n3. traffic≤10, quality_delta ≥ −max_quality_drop, error≤max, hooks.\n4. Conserva print PASS/STOP_CANARY.",
         hint: "El DEFECT aprueba mode full u over-traffic: exige mode shadow/canary, traffic≤10%, quality_delta ≥ −max_drop, error≤max y hooks=True.",
         hints: [
           "Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.",
@@ -1394,7 +1556,10 @@ assert results == ["CONTINUE", "ACTIVATE_SAFE_FALLBACK", "TUNE_BATCH_OR_CAPACITY
         ],
         edgeCases: ["Falta `hooks` → MISSING / COLLECT_MORE_SHADOW_EVIDENCE", "Adverso: mode full, traffic 100%, quality drop o hooks false → STOP_CANARY", "CASO-TAC-047-4A es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-4A` satisface un predicado de dominio real; imprime `S47-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S47-T4-A-E1: mode shadow/canary, traffic≤10%, quality y error dentro de presupuesto, hooks on. Mode full al 100% es STOP.",
+        feedback:
+          "Mode full al 100% es STOP aunque el digest sea válido. Hooks apagados también detienen: sin señales no hay criterio promote/stop para el revisor de rollout.",
+        retrospective:
+          "Canary sin hooks es teatro de despliegue. El starter aprueba justo cuando hay over-traffic o error alto y además omite mode/quality/hooks. Pregunta: con traffic 5% y hooks=False, ¿PASS o STOP aunque el error esté bajo? Siguiente: PASS / STOP / MISSING:hooks.",
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e1.py",
@@ -1423,7 +1588,11 @@ assert meets_contract is True` ,
         id: "S47-T4-A-E2",
         subtopicId: "S47-T4-A",
         kind: "independent",
-        instruction: "S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode, traffic_pct, quality_delta, max_quality_drop, error_rate, max_error_rate, hooks. Salidas exactas: `PASS`, `STOP_CANARY`, `MISSING:hooks`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de canary (PASS / STOP / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de tráfico en Tacna separa canary sano, over-traffic y ausencia de hooks.\n- **Meta:** PASS / STOP_CANARY / MISSING:hooks.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin hooks no evalúes traffic; no inventes métricas.",
+        instruction:
+          "1. Starter: PASS si traffic>10 o error>max (bug: invierte y omite mode/quality/hooks).\n2. Primero `missing`; sin `hooks` → `MISSING:hooks`.\n3. Luego mode in {shadow, canary}, traffic≤10, quality_delta ≥ −max_drop, error≤max y hooks → PASS; si no → STOP_CANARY.\n4. Imprime `PASS STOP_CANARY MISSING:hooks`.",
         hint: "Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.",
@@ -1431,7 +1600,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `hooks` → MISSING / COLLECT_MORE_SHADOW_EVIDENCE", "Adverso: mode full, traffic 100%, quality drop o hooks false → STOP_CANARY", "CASO-TAC-047-4A es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `hooks` ausente y produce exactamente `PASS STOP_CANARY MISSING:hooks`.",
-        feedback: "S47-T4-A-E2: missing hooks → COLLECT_MORE_SHADOW_EVIDENCE. El adverso viola mode, traffic, quality y error a la vez.",
+        feedback:
+          "Missing hooks es COLLECT en E3; mode full es STOP de contenido. No inventes quality_delta: el revisor de canary exige evidencia de paneles, no chat.",
+        retrospective:
+          "Missing hooks es COLLECT en E3; mode `full` al 100% es STOP de contenido. Inventar `quality_delta` en el chat no es panel de monitoreo. Pregunta: en el invalid, ¿basta hooks=False para STOP aunque bajaras traffic a 5%? Luego: CONTINUE / STOP / COLLECT.",
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e2.py",
@@ -1477,7 +1649,11 @@ print(*results)
         id: "S47-T4-A-E3",
         subtopicId: "S47-T4-A",
         kind: "transfer",
-        instruction: "S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks` debe devolver `COLLECT_MORE_SHADOW_EVIDENCE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide canary: CONTINUE o COLLECT",
+        preamble:
+          "- **Contexto:** sin hooks se recolecta más evidencia de shadow, no se inventan paneles.\n- **Meta:** CONTINUE / STOP_CANARY / COLLECT_MORE_SHADOW_EVIDENCE.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes hooks; no abras al 100%.",
+        instruction:
+          "1. Missing → COLLECT_MORE_SHADOW_EVIDENCE.\n2. Completo: predicado de E1/E2.\n3. Adverso → STOP_CANARY.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.",
@@ -1485,7 +1661,10 @@ print(*results)
         ],
         edgeCases: ["Falta `hooks` → MISSING / COLLECT_MORE_SHADOW_EVIDENCE", "Adverso: mode full, traffic 100%, quality drop o hooks false → STOP_CANARY", "CASO-TAC-047-4A es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-4A`, adverso y sin `hooks` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T4-A-E3: CONTINUE / STOP_CANARY / COLLECT_MORE_SHADOW_EVIDENCE. Sin hooks no inventes métricas: recolecta evidencia.",
+        feedback:
+          "CONTINUE exige mode shadow/canary, traffic≤10, quality/error en presupuesto y hooks; STOP corta over-traffic o quality drop; COLLECT es incertidumbre de observabilidad. Sin hooks no inventes métricas.",
+        retrospective:
+          "Sin hooks no inventes métricas: recolecta. El error clásico es «ya medimos a mano en el chat». Pregunta: ¿qué hook de drift o calidad pedirías antes del promote?",
         starterCode: {
           language: 'python',
           title: "s47-t4-a-e3.py",
@@ -1531,7 +1710,11 @@ assert results == ["CONTINUE", "STOP_CANARY", "COLLECT_MORE_SHADOW_EVIDENCE"]` ,
         id: "S47-T4-B-E1",
         subtopicId: "S47-T4-B",
         kind: "guided",
-        instruction: "S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback y retiro auditado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_TO_LAST_GOOD` en E2.",
+        title: "Rollback a last-good con audit",
+        preamble:
+          "- **Contexto:** en `CASO-TAC-047-4B`, el equipo restaura de `1.2.0` a `1.1.0` solo si hay features compatibles, rollback ensayado, retiro de `1.0.0` y audit entry.\n- **Meta:** `meets_contract` con current≠last_good, compatible, tested, retired y audit.\n- **Éxito:** `S47-T4-B PASS`.\n- **Límites:** no borres el trace; no marques PASS sin retired.",
+        instruction:
+          "1. Starter: PASS si not compatible o not tested (bug).\n2. Exige current ≠ last_good.\n3. Añade compatible, rollback_tested, `\"1.0.0\" in retired`, audit_entry.\n4. Conserva print PASS/ROLLBACK_TO_LAST_GOOD.",
         hint: "El DEFECT ignora last-good o retired: exige current≠last_good, features compatibles, rollback_tested, retired no vacío y audit_entry.",
         hints: [
           "Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.",
@@ -1539,7 +1722,10 @@ assert results == ["CONTINUE", "STOP_CANARY", "COLLECT_MORE_SHADOW_EVIDENCE"]` ,
         ],
         edgeCases: ["Falta `audit_entry` → MISSING / REVIEW_RETIREMENT", "Adverso: compatible_features false, rollback untested o retired vacío → ROLLBACK_TO_LAST_GOOD", "CASO-TAC-047-4B es sintético (sin PII)"],
         tests: "El fixture `CASO-TAC-047-4B` satisface un predicado de dominio real; imprime `S47-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S47-T4-B-E1: current≠last_good, features compatibles, rollback_tested, retired y audit. ¿Qué rompe el adverso primero?",
+        feedback:
+          "El adverso rompe compat, tested, retired y audit a la vez. Cualquiera basta para no dar PASS; el verbo de breach en el flujo es ROLLBACK_TO_LAST_GOOD. Exige retiro explícito de `1.0.0`.",
+        retrospective:
+          "Retirement auditado es parte del rollback, no un extra de cleanup. El starter aprueba cuando compatible o tested fallan. Pregunta: con todo OK salvo `retired` vacío, ¿PASS o ROLLBACK_TO_LAST_GOOD? Siguiente (E2): PASS / ROLLBACK / MISSING:audit_entry.",
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e1.py",
@@ -1568,7 +1754,11 @@ assert meets_contract is True` ,
         id: "S47-T4-B-E2",
         subtopicId: "S47-T4-B",
         kind: "independent",
-        instruction: "S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, current, last_good, compatible_features, rollback_tested, retired, audit_entry. Salidas exactas: `PASS`, `ROLLBACK_TO_LAST_GOOD`, `MISSING:audit_entry`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de rollback (PASS / ROLLBACK / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de restauración en Tacna separa path seguro, breach de compat/tested y ausencia de audit.\n- **Meta:** PASS / ROLLBACK_TO_LAST_GOOD / MISSING:audit_entry.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin audit_entry no evalúes compatible; no inventes el flag.",
+        instruction:
+          "1. Starter invierte PASS/ROLLBACK con campos presentes (bug: aprueba lo no restaurable).\n2. Primero `missing`; sin `audit_entry` → `MISSING:audit_entry` (no evalúes compatible).\n3. Luego current≠last_good, compatible, tested, `\"1.0.0\" in retired` y audit → PASS; si no → ROLLBACK_TO_LAST_GOOD.\n4. Imprime la tripleta canónica con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.",
@@ -1576,7 +1766,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["Falta `audit_entry` → MISSING / REVIEW_RETIREMENT", "Adverso: compatible_features false, rollback untested o retired vacío → ROLLBACK_TO_LAST_GOOD", "CASO-TAC-047-4B es sintético (sin PII)"],
         tests: "La tabla cubre válido/adverso/campo `audit_entry` ausente y produce exactamente `PASS ROLLBACK_TO_LAST_GOOD MISSING:audit_entry`.",
-        feedback: "S47-T4-B-E2: missing audit_entry → REVIEW_RETIREMENT. Compatible=False o rollback no tested es breach, no uncertainty.",
+        feedback:
+          "Missing audit es REVIEW en E3; compatible=False es ROLLBACK de contenido. Compatible=False o untested no es uncertainty: es breach que el revisor de CF-4 no confunde con «falta evidencia».",
+        retrospective:
+          "Missing audit es REVIEW en E3; compatible=False o untested es ROLLBACK de contenido — no uncertainty. Pregunta: ¿por qué untested no se «arregla» inventando `rollback_tested=True` en el lab? Luego decides CONTINUE / ROLLBACK / REVIEW.",
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e2.py",
@@ -1622,7 +1815,11 @@ print(*results)
         id: "S47-T4-B-E3",
         subtopicId: "S47-T4-B",
         kind: "transfer",
-        instruction: "S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia de `audit_entry` debe devolver `REVIEW_RETIREMENT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Decide rollback: CONTINUE o REVIEW",
+        preamble:
+          "- **Contexto:** sin audit entry el retiro se revisa con humanos; no se borra el trace ni se da CONTINUE.\n- **Meta:** CONTINUE / ROLLBACK_TO_LAST_GOOD / REVIEW_RETIREMENT.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes audit; no limpies el tablero borrando evidencia.",
+        instruction:
+          "1. Missing → REVIEW_RETIREMENT.\n2. Completo: predicado de E1/E2.\n3. Adverso → ROLLBACK_TO_LAST_GOOD.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.",
@@ -1630,7 +1827,10 @@ print(*results)
         ],
         edgeCases: ["Falta `audit_entry` → MISSING / REVIEW_RETIREMENT", "Adverso: compatible_features false, rollback untested o retired vacío → ROLLBACK_TO_LAST_GOOD", "CASO-TAC-047-4B es sintético (sin PII)"],
         tests: "Fixtures `CASO-TAC-047-4B`, adverso y sin `audit_entry` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S47-T4-B-E3: CONTINUE / ROLLBACK_TO_LAST_GOOD / REVIEW_RETIREMENT. Borrar el trace no es rollback: es pérdida de evidencia.",
+        feedback:
+          "CONTINUE exige last-good distinto, features compatibles, rollback ensayado, retired y audit; ROLLBACK es breach de restauración; REVIEW es incertidumbre de retiro. Borrar el trace no es rollback: es pérdida de evidencia CF-4.",
+        retrospective:
+          "Borrar el trace no es rollback: es pérdida de evidencia. El error clásico es «ya restauramos, borramos el ruido». Pregunta de cierre CF-4: ¿qué campo del audit defenderías en 30 segundos ante un revisor?",
         starterCode: {
           language: 'python',
           title: "s47-t4-b-e3.py",
@@ -1740,7 +1940,9 @@ print("residual_risk", residual_risk)
 # Completa: un segundo breach (p. ej. skew batch/online) y un missing de hooks o approved;
 # no marques READY sin que los predicados fallen o pasen de forma explícita.
 `,
-    portfolioNote: "Evidencia de CP-N4-B + CF-4 · modelo promovible y reversible: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. Parte del scaffold con predicados reales; no pases a READY solo flipando flags sin evidencia.",
+    portfolioNote: "Evidencia de CP-N4-B + CF-4 · modelo promovible y reversible: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. Parte del scaffold con predicados reales; no pases a READY solo flipando flags sin evidencia. Checklist READY: missing ≠ breach (p. ej. REVIEW_RETIREMENT sin inventar audit) y rollback sin borrar evidencia.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante de CF-4 demuestras con un caso normal, un breach (`STOP_CANARY` / `ROLLBACK_TO_LAST_GOOD`) y un incierto (`REVIEW_RETIREMENT`)? (2) ¿qué harías distinto con datos reales vs. sintéticos de Tacna (PII, secretos, servicios externos)? (3) Escribe en el README una frase de impacto medible (antes/después del gate de promote) que puedas defender en 30 segundos sin flipar flags a mano.",
     rubric: [
       { criterion: "Corrección técnica del contrato y del gate.", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación.", weight: "20%" },

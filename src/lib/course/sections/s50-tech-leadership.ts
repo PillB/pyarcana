@@ -386,6 +386,8 @@ cache prompt_prefix+acl`,
         subtopicId: "S50-T1-A",
         environment: "local-python",
         description: "Demo: task dataset y rúbrica con anclas 0–3",
+        preamble:
+          "Antes de comparar baseline y candidato del copiloto de Ica, el **dataset de tareas** debe cerrar contrato: slices que suman, rúbrica anclada 0–3 y holdout no vacío. En esta demo un manifiesto sintético `cite_sla@v1` (normal 25 / edge 10 / adversarial 5, holdout 10) valida cobertura. No escribas aún: predice `coverage_ok`, el `manifest` y el texto de `anchor_3`. Si crees que «más filas» bastan sin anclas ni holdout sellado, el scorecard miente y el promote se basa en train contaminado.",
         code: {
           language: 'python',
           title: "demo_task_dataset_rubric.py",
@@ -408,13 +410,18 @@ print("anchor_3", "cita + claim alineado")`,
 manifest cite_sla@v1
 anchor_3 cita + claim alineado`,
         },
-        why: "Muestra por qué el dataset solo es válido si slices suman tasks, la rúbrica usa {0,1,2,3} y el holdout es no vacío: sin eso no hay comparación baseline/candidato honesta.",
+        why:
+          "`dataset_ok` exige tres predicados a la vez: suma de slices, set de rúbrica exacto {0,1,2,3} y holdout en (0, tasks). El manifiesto versionado es la unidad de comparación, no un dump de chats. Sin ancla 3 observable («cita + claim alineado») la rúbrica es adjetivo. En We Do repararás `!=` y holdout siempre True, la tabla PASS/REBUILD/MISSING y el decide CONTINUE/REBUILD/CALIBRATE.",
+        retrospective:
+          "Si puedes explicar por qué 40 tasks sin holdout o con rúbrica {1,2} no son un eval comparable, ya tienes el hábito de manifiesto. El error clásico es versionar el modelo y no el dataset. En We Do practicarás el predicado, las tres rutas y la rama cuando falta `holdout`.",
       },
       {
         demoId: "S50-T1-B-DEMO",
         subtopicId: "S50-T1-B",
         environment: "local-python",
         description: "Demo: trajectory fail-closed aunque outcome sea 3",
+        preamble:
+          "Habiendo cerrado el dataset, el riesgo es **calificar solo el párrafo final**. En esta demo un agente limpio con `get_case` pasa; el mismo outcome 3 con `export_csv` y `forbidden_used=True` es P0 de proceso. No escribas: predice `clean`, `p0_export` y por qué `not_only_final_text` es True. Si promueves por respuesta fluida tras tool prohibida, el puente S49 se rompe en el scorecard.",
         code: {
           language: 'python',
           title: "demo_outcome_process_trajectory_recovery.py",
@@ -430,13 +437,18 @@ print("not_only_final_text", True)`,
 p0_export False
 not_only_final_text True`,
         },
-        why: "Demuestra que un tool fuera de allowlist falla el gate de proceso aunque la respuesta final parezca correcta — puente directo con el agente de S49.",
+        why:
+          "`trajectory_ok` exige cero tools fuera de allowlist y `not forbidden_used`; el outcome no entra en este predicado a propósito. Un export fuera de scope es FAIL aunque el texto cite el SLA — puente directo con el agente de S49. En We Do corregirás «solo outcome==3», assess FAIL_UNSAFE/MISSING y decide HUMAN_REVIEW_PROCESS.",
+        retrospective:
+          "Trajectory eval = proceso y tools, no estética del mensaje. Outcome 3 con `export_csv` sigue siendo P0. Pregunta: si el usuario «quedó contento» tras tool prohibida, ¿qué imprime el gate y por qué no basta el párrafo final? We Do: predicado, tres rutas y HUMAN_REVIEW_PROCESS.",
       },
       {
         demoId: "S50-T2-A-DEMO",
         subtopicId: "S50-T2-A",
         environment: "local-python",
         description: "Demo: acuerdo humano-LLM y desacuerdos",
+        preamble:
+          "Con trajectory auditable, el volumen se escala con **jueces**. En esta demo human=[2,3,2,1] y llm=[2,3,1,1] dan agreement 0.75 (en umbral) y un desacuerdo en el índice 2. No escribas: predice `agreement`, si está `calibrated` y la lista `adjudicate`. Si confías en el LLM-judge sin medir acuerdo ni mandar desacuerdos a humano, el scorecard baseline/candidato se sesga en silencio.",
         code: {
           language: 'python',
           title: "demo_graders_det_human_llm.py",
@@ -454,13 +466,18 @@ print("adjudicate", [i for i, (h, l) in enumerate(zip(human, llm)) if h != l])`,
 calibrated True
 adjudicate [2]`,
         },
-        why: "Calcula la tasa de acuerdo real entre humano y LLM-judge y señala el índice en desacuerdo: el ensemble no es un oráculo sin calibración.",
+        why:
+          "`agreement_rate` es coincidencias/n, no promedio de scores; el umbral 0.75 es política de lab, no magia. Los índices en desacuerdo van a adjudicación, no a promote silencioso: el ensemble no es un oráculo sin calibración. En We Do invertirás matches, assess RECALIBRATE/MISSING y decide ADJUDICATE.",
+        retrospective:
+          "Ensemble = det + humano + LLM con acuerdo medible, no un oráculo. Coincidencias/n ≠ promedio de scores. Pregunta: con agreement 0.75 y un índice en conflicto, ¿promote silencioso o adjudicación? We Do: tasa, tres rutas y ADJUDICATE_DISAGREEMENT.",
       },
       {
         demoId: "S50-T2-B-DEMO",
         subtopicId: "S50-T2-B",
         environment: "local-python",
         description: "Demo: order bias AB/BA invalida al juez",
+        preamble:
+          "Calibrado el acuerdo, aún queda el **sesgo de orden**. En esta demo rate_AB=0.60 y rate_BA=0.30 dan gap 0.30 > 0.05 → juez INVALIDATE; el holdout no se tocó. No escribas: predice `gap`, `judge` y por qué holdout_touched=False no salva el gap. Si confías en un LLM-judge que prefiere «la primera opción», el scorecard AB/BA miente.",
         code: {
           language: 'python',
           title: "demo_calibration_order_bias_holdout.py",
@@ -477,13 +494,18 @@ print("holdout_touched", False)`,
 judge INVALIDATE
 holdout_touched False`,
         },
-        why: "Mide |rate_AB − rate_BA| y aplica umbral: si el gap supera 0.05 el juez se invalida aunque el holdout no se haya tocado.",
+        why:
+          "`order_gap` es el valor absoluto de la diferencia de tasas, no suma ni promedio; umbral 0.05 es política de lab. Holdout tocado *también* invalida, pero aquí falla solo el gap: el juez se invalida aunque el holdout esté intacto. En We Do arreglarás suma de rates, assess INVALIDATE/MISSING y decide SEAL_NEW_HOLDOUT.",
+        retrospective:
+          "Juez válido = anclas + gap bajo + holdout sellado (AND). Order bias se mide con swap AB/BA, no se intuye. Pregunta: gap 0.02 con holdout tocado — ¿OK o INVALIDATE, y por qué? We Do: |AB−BA|, tres rutas y SEAL_NEW_HOLDOUT.",
       },
       {
         demoId: "S50-T3-A-DEMO",
         subtopicId: "S50-T3-A",
         environment: "local-python",
         description: "Demo: injection y exfil como controles distintos",
+        preamble:
+          "Con jueces calibrados, el red team ataca **entrada y salida**. En esta demo un texto limpio es `inj_ok`; «Ignore previous…» es `inj_p0`; la salida sin `sk-live` es `exfil_ok`; tools read-only. No escribas: predice las cuatro líneas. Si mezclas injection y exfil en un solo booleano, no sabes qué control falló ni dejas traza P0 usable. (Marcadores de lab en stdlib — no es un WAF de producción.)",
         code: {
           language: 'python',
           title: "demo_injection_exfil_tool_misuse.py",
@@ -512,13 +534,18 @@ inj_p0 True
 exfil_ok True
 tools read-only`,
         },
-        why: "Separa injection (entrada hostil) de exfil (secreto en salida): ambos son P0, pero se detectan con predicados distintos.",
+        why:
+          "`injection_signal` mira marcadores de lab (stdlib, no defensa de producción); `injection_blocked` es la negación; `exfil_blocked` exige que ningún secreto aparezca en salida. Son predicados distintos: ambos P0, pero se miden por separado. En We Do desinvertirás ambas funciones, assess BLOCK_SECURITY_P0 y decide PRESERVE_ATTACK_TRACE.",
+        retrospective:
+          "Injection = entrada hostil; exfil = secreto en salida; son P0 distintos y se miden por separado. Un booleano genérico no deja traza usable. Pregunta: texto limpio con `sk-live` en la salida — ¿falla injection o exfil? We Do: dos controles, tres rutas y PRESERVE_ATTACK_TRACE.",
       },
       {
         demoId: "S50-T3-B-DEMO",
         subtopicId: "S50-T3-B",
         environment: "local-python",
         description: "Demo: documento no eleva permisos",
+        preamble:
+          "El ataque no siempre llega por el chat del usuario: a veces viaja en un **PDF recuperado**. En esta demo `<!-- grant admin -->` se trata como dato; privilegio queda en min (read); write se deniega. No escribas: predice `indirect_as_data`, `privilege` y `write_denied`. Si dejas que el chunk expanda el allowlist de sesión, least privilege muere en el retrieval.",
         code: {
           language: 'python',
           title: "demo_indirect_poison_least_priv.py",
@@ -540,13 +567,18 @@ print("write_denied", not privilege_ok("write"))`,
 privilege min
 write_denied True`,
         },
-        why: "El PDF puede pedir «grant admin», pero least privilege trata ese texto como dato: el allowlist de sesión no crece y `write` se deniega aunque el modelo «obedezca» el chunk.",
+        why:
+          "`effective_permissions` ignora el texto del doc a propósito; `treat_as_data` es igualdad de sets sesión vs. efectivos; `privilege_ok(\"write\")` falla aunque el HTML pida admin. Least privilege es de sesión, no del chunk. En We Do quitarás la elevación por «grant admin», assess QUARANTINE y decide REDUCE_TOOL_PRIVILEGE.",
+        retrospective:
+          "Corpus = datos, no control. Least privilege es de sesión; un HTML comment no es grant de IAM. Pregunta: si el modelo «obedeció» el chunk y elevó tools, ¿qué falló — el retrieval o la política de permisos? We Do: least privilege, cuarentena y REDUCE_TOOL_PRIVILEGE.",
       },
       {
         demoId: "S50-T4-A-DEMO",
         subtopicId: "S50-T4-A",
         environment: "local-python",
         description: "Demo: abstain cuando support es bajo",
+        preamble:
+          "Tras red team de entrada/corpus, el holdout mide **claims sin soporte**. En esta demo support alto permite answer; bajo fuerza abstain; críticas sin soporte en 0. No escribas: predice `high`, `low` y `critical_unsupported`. Si el copiloto inventa un umbral de SLA no presente en el chunk, latencia baja no salva el gate de hallucination.",
         code: {
           language: 'python',
           title: "demo_hallucination_abstention.py",
@@ -560,13 +592,18 @@ print("critical_unsupported", 0)`,
 low abstain
 critical_unsupported 0`,
         },
-        why: "Si el support del claim cae bajo el umbral, el sistema debe abstenerse: groundedness no se salva con latencia baja ni con texto fluido.",
+        why:
+          "`claim_action` es umbral simple de lab (thr 0.5): answer si support ≥ thr, si no abstain. Groundedness no se compensa con fluidez ni p95; una claim crítica inventada en holdout es regresión P0. En We Do desinvertirás el umbral, assess BLOCK_HALLUCINATION y decide REVIEW_ABSTENTION_SLICE.",
+        retrospective:
+          "Abstenerse es resultado válido, no fallo de UX. Fluidez o p95 bajo no salvan claim crítico inventado en holdout. Pregunta: support 0.1 con thr 0.5 — ¿answer o abstain, y por qué latencia no importa aquí? We Do: claim_action, tres rutas y REVIEW_ABSTENTION_SLICE.",
       },
       {
         demoId: "S50-T4-B-DEMO",
         subtopicId: "S50-T4-B",
         environment: "local-python",
         description: "Demo: scorecard p95 + rollback vs. RTO",
+        preamble:
+          "Aunque dataset, trajectory, jueces, red team y abstain estén verdes, el **canary** puede romper el SLO. En esta demo p95 850 y rollback 8 min pasan; p95 2500 o rollback 60 vs. RTO 10 activan ROLLBACK_AI_RELEASE. No escribas: predice healthy, slow y rto_breach. Si «reinicias el pod» sin evidencia ni RTO, no hay fiabilidad operativa.",
         code: {
           language: 'python',
           title: "demo_latency_cost_cache_incident_rollback.py",
@@ -580,7 +617,10 @@ print("rto_breach", ops_ok(800, 1000, 60, 10))`,
 slow ROLLBACK_AI_RELEASE
 rto_breach ROLLBACK_AI_RELEASE`,
         },
-        why: "El gate operativo falla si p95 supera el SLO o si el rollback no cabe en el RTO — no basta con «reiniciar el pod».",
+        why:
+          "`ops_ok` es conjunción p95≤slo y rollback≤rto; en el lab se omiten costo/ACL para foco visual, pero theory y We Do los exigen. Rollback no es «restart hope»: el gate operativo falla si p95 supera el SLO o si el rollback no cabe en el RTO. En We Do: gate multi-eje, assess ROLLBACK/MISSING rto y decide ACTIVATE_INCIDENT_RESPONSE.",
+        retrospective:
+          "Fiabilidad operativa = p95 + costo + ACL + rollback en RTO (We Do multi-eje). Restart hope no es rollback medido. Pregunta: p95 800 y rollback 60 vs RTO 10 — ¿qué token y por qué task_pass no salva? We Do: reliability_gate, tres rutas e ACTIVATE_INCIDENT_RESPONSE.",
       },
     ],
   },
@@ -591,7 +631,11 @@ rto_breach ROLLBACK_AI_RELEASE`,
         id: "S50-T1-A-E1",
         subtopicId: "S50-T1-A",
         kind: "guided",
-        instruction: "S50-T1-A-E1 · **Construye** el manifiesto de dataset para `CASO-ICA-050-1A`: suma de slices, rúbrica {0,1,2,3}, holdout no vacío y ancla 3 observable. El starter calcula mal `coverage_ok` y salta la validación de holdout. Corrige el cálculo (no los datos). Salidas exactas: líneas `coverage`, `anchor_3` y `S50-T1-A PASS`.",
+        title: "Manifiesto de dataset con anclas 0–3",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-1A`, el equipo de operaciones de Ica solo acepta un eval si el manifiesto cierra slices, rúbrica y holdout.\n- **Meta:** corregir `coverage_ok`, `holdout_ok` y el gate que imprime PASS o `REBUILD_EVAL_DATASET`.\n- **Éxito:** imprimes `coverage 40 / 40`, la ancla 3 y `S50-T1-A PASS`.\n- **Límites:** no inventes slices; no fuerces PASS a mano; no toques los datos del fixture.",
+        instruction:
+          "1. Abre el starter: `coverage_ok` usa `!=` (bug: aprueba cobertura rota) y `holdout_ok` es siempre True.\n2. Cambia a `sum(slices.values()) == tasks`.\n3. Exige `0 < holdout < tasks` y `rubric_levels == {0,1,2,3}`.\n4. Conserva prints de coverage, `anchor_3` y status PASS/REBUILD_EVAL_DATASET.",
         hint: "coverage_ok exige sum(slices)==tasks; holdout_ok exige 0 < holdout < tasks; imprime ANCHORS[3].",
         hints: [
           "coverage_ok exige sum(slices)==tasks; holdout_ok exige 0 < holdout < tasks; imprime ANCHORS[3].",
@@ -599,7 +643,10 @@ rto_breach ROLLBACK_AI_RELEASE`,
         ],
         edgeCases: ["slices que no suman tasks", "holdout=0 o holdout>=tasks", "rúbrica con niveles fuera de 0–3", "CASO-ICA-050-1A es sintético"],
         tests: "Imprime `coverage 40 / 40`, el texto de ancla 3 y `S50-T1-A PASS`.",
-        feedback: "S50-T1-A-E1: el manifiesto es evidencia de dataset versionado; en E2 verás el adverso `REBUILD_EVAL_DATASET` y el MISSING de holdout.",
+        feedback:
+          "PASS exige las tres anclas a la vez: cobertura, rúbrica 0–3 y holdout vivo. Un `!=` o holdout «siempre ok» marca verde justo cuando el dataset es basura comparable.",
+        retrospective:
+          "Manifiesto = evidencia versionada de slices + rúbrica 0–3 + holdout vivo, no un conteo informal de filas. El starter aprueba con `!=` y holdout «siempre ok» justo cuando el dataset es basura comparable. Pregunta: si `coverage 39 / 40` y el print dice PASS, ¿falló el assert o el contrato del eval? Siguiente (E2): válido / adverso / missing `holdout`.",
         starterCode: {
           language: 'python',
           title: "s50-t1-a-e1.py",
@@ -658,7 +705,11 @@ meets_contract True` ,
         id: "S50-T1-A-E2",
         subtopicId: "S50-T1-A",
         kind: "independent",
-        instruction: "S50-T1-A-E2 · Modela tres rutas de `Task dataset y rúbrica`: fixture válido (slices suman 40, rúbrica {0,1,2,3}, holdout 10), adverso (un solo slice y rúbrica incompleta) y registro sin clave `holdout`. Entrada: dict con case_id, tasks, slices, rubric_levels, holdout. Salidas exactas: `PASS`, `REBUILD_EVAL_DATASET`, `MISSING:holdout`. El starter da PASS al adverso y castiga al válido: reutiliza el predicado de cobertura/holdout de E1 y conserva el chequeo de campos ausentes.",
+        title: "Tres rutas de dataset (PASS / REBUILD / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de evals en Ica no trata igual un manifiesto limpio, uno roto y uno sin clave `holdout`.\n- **Meta:** implementar `assess` que distinga PASS, `REBUILD_EVAL_DATASET` y `MISSING:holdout`.\n- **Éxito:** imprime `PASS REBUILD_EVAL_DATASET MISSING:holdout` en ese orden.\n- **Límites:** si falta `holdout`, no evalúes cobertura; no inventes el campo; missing ≠ rebuild.",
+        instruction:
+          "1. Revisa el starter: con campos presentes da PASS cuando la cobertura es *inconsistente* (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: slices suman + rúbrica {0,1,2,3} + holdout en rango → PASS; si no → REBUILD_EVAL_DATASET.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.",
@@ -666,7 +717,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta holdout", "fixture adverso: slices no cubren tasks, rúbrica incompleta u holdout=0", "CASO-ICA-050-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `holdout` ausente y produce exactamente `PASS REBUILD_EVAL_DATASET MISSING:holdout`.",
-        feedback: "S50-T1-A-E2: el adverso activa `REBUILD_EVAL_DATASET`; un campo ausente devuelve `MISSING:holdout` (no inventes PASS). En E3 la incertidumbre se enruta a `CALIBRATE_RUBRIC`.",
+        feedback:
+          "El adverso activa `REBUILD_EVAL_DATASET`; un campo ausente devuelve `MISSING:holdout` (no inventes PASS). Missing es schema; slices rotos son breach de contenido — el revisor de scorecard lo distingue.",
+        retrospective:
+          "Un holdout ausente no es un slice mal balanceado: es eval incompleto (schema). Slices que no suman o rúbrica {1,2} sí son breach de contenido. El error clásico es rellenar `holdout=10` a mano para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs suma de slices, y por qué? Luego (E3): CONTINUE / REBUILD / CALIBRATE_RUBRIC.",
         starterCode: {
           language: 'python',
           title: "s50-t1-a-e2.py",
@@ -715,7 +769,11 @@ meets_contract True` ,
         id: "S50-T1-A-E3",
         subtopicId: "S50-T1-A",
         kind: "transfer",
-        instruction: "S50-T1-A-E3 · Simula fallo cerrado para `Task dataset y rúbrica`. `CASO-ICA-050-1A` completo → `CONTINUE`; slices/rúbrica rotos → `REBUILD_EVAL_DATASET`; sin `holdout` → `CALIBRATE_RUBRIC` (incertidumbre, no breach). El starter trata la ausencia como CONTINUE y vuelve a invertir el predicado de cobertura: corrige ambas ramas sin inventar holdout ni forzar PASS. Salida: imprime el valor de meets_contract.",
+        title: "Decide dataset: CONTINUE o CALIBRATE",
+        preamble:
+          "- **Contexto:** en el scorecard del copiloto de Ica, un manifiesto incompleto no «sigue con warning»: o continúa con evidencia o se calibra la rúbrica.\n- **Meta:** `decide` → CONTINUE (válido), REBUILD_EVAL_DATASET (adverso), CALIBRATE_RUBRIC (sin holdout).\n- **Éxito:** `CONTINUE REBUILD_EVAL_DATASET CALIBRATE_RUBRIC`.\n- **Límites:** no inventes `holdout`; no conviertas missing en CONTINUE; no toques los fixtures.",
+        instruction:
+          "1. Corrige missing: sin `holdout` → `CALIBRATE_RUBRIC` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (slices + rúbrica + holdout).\n3. Solo el limpio es CONTINUE; el de slice único/holdout 0 es REBUILD_EVAL_DATASET.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.",
@@ -723,7 +781,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta holdout", "fixture adverso: slices no cubren tasks, rúbrica incompleta u holdout=0", "CASO-ICA-050-1A es sintético"],
         tests: "Fixtures `CASO-ICA-050-1A`, adverso y sin `holdout` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa `REBUILD_EVAL_DATASET` y por qué faltar `holdout` exige `CALIBRATE_RUBRIC`.",
+        feedback:
+          "Explica qué campo cambió la decisión: el adverso activa `REBUILD_EVAL_DATASET` (contenido roto); faltar `holdout` exige `CALIBRATE_RUBRIC` (incertidumbre de política, no breach).",
+        retrospective:
+          "Un campo ausente es calibración, no un allow optimista. El error clásico es promover con «falta holdout, igual se ve balanceado». Pregunta: ¿por qué REBUILD no es lo mismo que CALIBRATE?",
         starterCode: {
           language: 'python',
           title: "s50-t1-a-e3.py",
@@ -773,7 +834,11 @@ meets_contract True` ,
         id: "S50-T1-B-E1",
         subtopicId: "S50-T1-B",
         kind: "guided",
-        instruction: "S50-T1-B-E1 · **Califica** la trayectoria del agente (puente S49): scores por dimensión, allowlist de tools y `min_dim`. El starter solo mira `outcome==3` e ignora process/trajectory/recovery y tools. Implementa el gate real. Salidas: `min_dim`, `tools` y `S50-T1-B PASS`.",
+        title: "Gate de trajectory con allowlist",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-1B`, el copiloto de Ica reanudó `get_case` (puente S49); debes calificar dims y tools, no solo el texto.\n- **Meta:** implementar `trajectory_ok` con min de scores ≥ `min_dim` y tools ∈ ALLOWED.\n- **Éxito:** imprimes `min_dim 2`, la lista de tools y `S50-T1-B PASS`.\n- **Límites:** no ignores process/trajectory/recovery; no borres ALLOWED; no apruebes solo por outcome 3.",
+        instruction:
+          "1. Abre el starter: `trajectory_ok` solo mira `scores[\"outcome\"] == 3`.\n2. Exige `min(scores.values()) >= min_dim`.\n3. Exige `all(t in ALLOWED for t in tools)`.\n4. Conserva prints de min_dim, tools y status PASS/FAIL_UNSAFE_TRAJECTORY.",
         hint: "min(scores.values()) >= min_dim y todas las tools ∈ ALLOWED; outcome 3 no salva una tool prohibida.",
         hints: [
           "min(scores.values()) >= min_dim y todas las tools ∈ ALLOWED; outcome 3 no salva una tool prohibida.",
@@ -781,7 +846,10 @@ meets_contract True` ,
         ],
         edgeCases: ["tool fuera de allowlist", "dimensión bajo umbral con outcome 3", "CASO-ICA-050-1B es sintético"],
         tests: "Imprime min de dims, lista de tools y `S50-T1-B PASS`.",
-        feedback: "S50-T1-B-E1: trajectory eval mide proceso, no solo texto final; E2 ensaya `FAIL_UNSAFE_TRAJECTORY` con export_csv.",
+        feedback:
+          "Outcome 3 no salva process bajo o tool fuera de allowlist. El min de las cuatro dims y la allowlist son el mismo gate de promote del agente de S49.",
+        retrospective:
+          "Cuatro dims con umbral y tools ∈ ALLOWED son el mismo gate de promote del agente de S49. El starter celebra outcome 3 e ignora process/trajectory/recovery. Pregunta: con process=1 y tools limpios, ¿PASS o FAIL_UNSAFE? Siguiente: válido / export prohibido / missing `min_dimension`.",
         starterCode: {
           language: 'python',
           title: "s50-t1-b-e1.py",
@@ -830,7 +898,11 @@ meets_contract True` ,
         id: "S50-T1-B-E2",
         subtopicId: "S50-T1-B",
         kind: "independent",
-        instruction: "S50-T1-B-E2 · Verifica tres rutas de `Resultado, proceso, trajectory y recovery`: válido (dims ≥2, sin tool prohibida), adverso (outcome 3 pero process/trajectory bajos y `forbidden_tool_used=True`) y sin `min_dimension`. Entrada: dict con case_id, outcome, process, trajectory, recovery, forbidden_tool_used, min_dimension. Salidas exactas: `PASS`, `FAIL_UNSAFE_TRAJECTORY`, `MISSING:min_dimension`. El starter premia outcome==3 aunque haya tool prohibida: exige min(dims) y `not forbidden_tool_used` como en E1.",
+        title: "Tres rutas de trajectory (PASS / FAIL / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de proceso en Ica distingue run seguro, run con tool prohibida y registro sin umbral de dimensión.\n- **Meta:** `assess` → PASS, FAIL_UNSAFE_TRAJECTORY, MISSING:min_dimension.\n- **Éxito:** `PASS FAIL_UNSAFE_TRAJECTORY MISSING:min_dimension`.\n- **Límites:** no evalúes dims si falta `min_dimension`; outcome 3 no absuelve `forbidden_tool_used`.",
+        instruction:
+          "1. Starter da PASS cuando hay tool prohibida y outcome 3 (bug).\n2. Primero missing de required.\n3. Luego min de cuatro dims ≥ min_dimension y `not forbidden_tool_used`.\n4. Imprime la terna exacta.",
         hint: "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.",
@@ -838,7 +910,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta min_dimension", "fixture adverso: dim bajo umbral o forbidden_tool_used=True (outcome 3 no salva)", "CASO-ICA-050-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `min_dimension` ausente y produce exactamente `PASS FAIL_UNSAFE_TRAJECTORY MISSING:min_dimension`.",
-        feedback: "S50-T1-B-E2: el adverso activa `FAIL_UNSAFE_TRAJECTORY`; un campo ausente devuelve `MISSING:min_dimension`. En E3 la incertidumbre se enruta a `HUMAN_REVIEW_PROCESS`.",
+        feedback:
+          "El adverso activa `FAIL_UNSAFE_TRAJECTORY`; un campo ausente devuelve `MISSING:min_dimension`. Outcome 3 no absuelve tool prohibida: el revisor de proceso lo ve en la traza.",
+        retrospective:
+          "Forbidden tool es breach de contenido; falta `min_dimension` es schema de umbral. El error clásico es «el usuario recibió la respuesta correcta». Pregunta: ¿por qué outcome 3 no absuelve `forbidden_tool_used`? Luego (E3): CONTINUE / FAIL / HUMAN_REVIEW_PROCESS.",
         starterCode: {
           language: 'python',
           title: "s50-t1-b-e2.py",
@@ -887,7 +962,11 @@ meets_contract True` ,
         id: "S50-T1-B-E3",
         subtopicId: "S50-T1-B",
         kind: "transfer",
-        instruction: "S50-T1-B-E3 · Extiende fallo cerrado para trajectory (puente S49). Completo y seguro → `CONTINUE`; tool prohibida o dims bajo umbral → `FAIL_UNSAFE_TRAJECTORY`; sin `min_dimension` → `HUMAN_REVIEW_PROCESS`. El starter sigue con CONTINUE ante campos faltantes y confunde outcome bonito con proceso seguro: separa incertidumbre de breach sin rellenar scores. Salida: imprime el valor de meets_contract.",
+        title: "Decide trajectory: CONTINUE o HUMAN_REVIEW",
+        preamble:
+          "- **Contexto:** en promote del copiloto de Ica, un run sin `min_dimension` no «pasa con asterisco»: o continúa seguro o va a revisión humana de proceso.\n- **Meta:** CONTINUE (seguro), FAIL_UNSAFE_TRAJECTORY (adverso), HUMAN_REVIEW_PROCESS (incertidumbre).\n- **Éxito:** `CONTINUE FAIL_UNSAFE_TRAJECTORY HUMAN_REVIEW_PROCESS`.\n- **Límites:** no inventes scores; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → HUMAN_REVIEW_PROCESS.\n2. Completo: reutiliza min(dims) y not forbidden.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.",
@@ -895,7 +974,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta min_dimension", "fixture adverso: dim bajo umbral o forbidden_tool_used=True (outcome 3 no salva)", "CASO-ICA-050-1B es sintético"],
         tests: "Fixtures `CASO-ICA-050-1B`, adverso y sin `min_dimension` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa `FAIL_UNSAFE_TRAJECTORY` y por qué faltar `min_dimension` exige `HUMAN_REVIEW_PROCESS`.",
+        feedback:
+          "Explica qué campo cambió la decisión: tool prohibida o dims bajos → `FAIL_UNSAFE_TRAJECTORY`; faltar `min_dimension` → `HUMAN_REVIEW_PROCESS` (incertidumbre, no breach silencioso).",
+        retrospective:
+          "Incertidumbre de umbral ≠ breach de tool. El error clásico es promover sin min_dimension «porque el outcome era 3». Pregunta: ¿por qué HUMAN_REVIEW no es FAIL_UNSAFE?",
         starterCode: {
           language: 'python',
           title: "s50-t1-b-e3.py",
@@ -945,7 +1027,11 @@ meets_contract True` ,
         id: "S50-T2-A-E1",
         subtopicId: "S50-T2-A",
         kind: "guided",
-        instruction: "S50-T2-A-E1 · **Calcula** la tasa de acuerdo humano–LLM y lista índices en desacuerdo. El starter cuenta *desacuerdos* como si fueran acuerdo. Corrige `agreement_rate` y el umbral ≥ 0.75. Salidas: `agreement`, `disagree_idx` y `S50-T2-A PASS`.",
+        title: "Acuerdo humano–LLM y desacuerdos",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-2A`, tres jueces puntúan `cite_sla` en Ica; debes medir si el ensemble es confiable.\n- **Meta:** corregir `agreement_rate` (coincidencias, no desacuerdos) y listar índices en conflicto.\n- **Éxito:** `agreement 0.75`, `disagree_idx [2]`, `S50-T2-A PASS`.\n- **Límites:** no inventes pares; no bajes el umbral a mano; no uses un solo score como oráculo.",
+        instruction:
+          "1. Starter: `sum(a != b …)` (bug: cuenta desacuerdos).\n2. Cambia a `a == b`.\n3. Construye `disagree` con índices donde difieren.\n4. PASS si rate ≥ 0.75; imprime agreement, disagree_idx y status.",
         hint: "agreement = coincidencias / n; disagree_idx = índices donde human[i] != llm[i].",
         hints: [
           "agreement = coincidencias / n; disagree_idx = índices donde human[i] != llm[i].",
@@ -953,7 +1039,10 @@ meets_contract True` ,
         ],
         edgeCases: ["listas de distinta longitud", "acuerdo bajo umbral → RECALIBRATE_GRADERS en E2", "CASO-ICA-050-2A es sintético"],
         tests: "Imprime agreement 0.75, disagree_idx [2] y `S50-T2-A PASS`.",
-        feedback: "S50-T2-A-E1: el ensemble no es oráculo; mides acuerdo y adjudicas. E2 usa el gate con scores fuera de rango.",
+        feedback:
+          "Acuerdo 0.75 con un índice en conflicto es calibrado en el lab, no unánime. Contar desacuerdos como matches marca PASS cuando el ensemble está roto.",
+        retrospective:
+          "Acuerdo = coincidencias / n; desacuerdos van a lista de adjudicación, no se promedian. El starter marca PASS cuando el ensemble está roto. Pregunta: con human=[2,3,2,1] y llm=[2,3,1,1], ¿por qué disagree_idx es [2] y no «casi bien»? Siguiente: scores fuera de [0,1] y missing umbral.",
         starterCode: {
           language: 'python',
           title: "s50-t2-a-e1.py",
@@ -1004,7 +1093,11 @@ meets_contract True` ,
         id: "S50-T2-A-E2",
         subtopicId: "S50-T2-A",
         kind: "independent",
-        instruction: "S50-T2-A-E2 · Clasifica tres rutas del ensemble de jueces: válido (scores en [0,1] y acuerdo ≥ umbral), adverso (score 1.2 y acuerdo 0.3) y sin `min_agreement`. Entrada: dict con case_id, deterministic, human, llm, human_llm_agreement, min_agreement. Salidas exactas: `PASS`, `RECALIBRATE_GRADERS`, `MISSING:min_agreement`. El starter da PASS cuando el acuerdo es bajo: exige rango válido y `human_llm_agreement >= min_agreement` como en el cálculo de E1.",
+        title: "Tres rutas de graders (PASS / RECALIBRATE / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de jueces en Ica no confía en un ensemble con score 1.2 o acuerdo 0.3.\n- **Meta:** `assess` → PASS, RECALIBRATE_GRADERS, MISSING:min_agreement.\n- **Éxito:** `PASS RECALIBRATE_GRADERS MISSING:min_agreement`.\n- **Límites:** si falta `min_agreement`, no compares; scores deben estar en [0,1].",
+        instruction:
+          "1. Starter da PASS cuando el acuerdo es *bajo* (bug).\n2. Primero missing.\n3. Luego all scores en [0,1] y agreement ≥ min.\n4. Imprime la terna exacta.",
         hint: "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.",
@@ -1012,7 +1105,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta min_agreement", "fixture adverso: score fuera de [0,1] o human_llm_agreement bajo umbral", "CASO-ICA-050-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `min_agreement` ausente y produce exactamente `PASS RECALIBRATE_GRADERS MISSING:min_agreement`.",
-        feedback: "S50-T2-A-E2: el adverso activa `RECALIBRATE_GRADERS`; un campo ausente devuelve `MISSING:min_agreement`. En E3 la incertidumbre se enruta a `ADJUDICATE_DISAGREEMENT`.",
+        feedback:
+          "El adverso activa `RECALIBRATE_GRADERS`; un campo ausente devuelve `MISSING:min_agreement`. Score 1.2 o acuerdo 0.3 no se «clippean» en silencio: el revisor de scorecard recalibra.",
+        retrospective:
+          "Score 1.2 o acuerdo 0.3 es ensemble roto (RECALIBRATE); falta umbral es política ausente (MISSING). El error clásico es clippear 1.2 a 1.0 en silencio. Pregunta: ¿por qué no «arreglar» el score fuera de rango sin recalibrar? Luego (E3): CONTINUE / RECALIBRATE / ADJUDICATE.",
         starterCode: {
           language: 'python',
           title: "s50-t2-a-e2.py",
@@ -1061,7 +1157,11 @@ meets_contract True` ,
         id: "S50-T2-A-E3",
         subtopicId: "S50-T2-A",
         kind: "transfer",
-        instruction: "S50-T2-A-E3 · Defiende fallo cerrado del ensemble. Calibrado → `CONTINUE`; scores fuera de rango o acuerdo bajo → `RECALIBRATE_GRADERS`; sin umbral `min_agreement` → `ADJUDICATE_DISAGREEMENT` (no inventes el umbral). El starter sigue en CONTINUE sin umbral y premia desacuerdo: corrige enrutamiento y predicado sin rellenar scores de jueces. Salida: imprime el valor de meets_contract.",
+        title: "Decide graders: CONTINUE o ADJUDICATE",
+        preamble:
+          "- **Contexto:** sin umbral de acuerdo declarado, el promote del copiloto de Ica no puede «seguir verde»: debe adjudicar desacuerdos.\n- **Meta:** CONTINUE / RECALIBRATE_GRADERS / ADJUDICATE_DISAGREEMENT.\n- **Éxito:** `CONTINUE RECALIBRATE_GRADERS ADJUDICATE_DISAGREEMENT`.\n- **Límites:** no inventes `min_agreement`; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → ADJUDICATE_DISAGREEMENT.\n2. Completo: scores en [0,1] y agreement ≥ min.\n3. Solo el calibrado es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.",
@@ -1069,7 +1169,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta min_agreement", "fixture adverso: score fuera de [0,1] o human_llm_agreement bajo umbral", "CASO-ICA-050-2A es sintético"],
         tests: "Fixtures `CASO-ICA-050-2A`, adverso y sin `min_agreement` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa `RECALIBRATE_GRADERS` y por qué faltar `min_agreement` exige `ADJUDICATE_DISAGREEMENT`.",
+        feedback:
+          "Explica qué campo cambió la decisión: score fuera de rango o acuerdo bajo → `RECALIBRATE_GRADERS`; faltar `min_agreement` → `ADJUDICATE_DISAGREEMENT` (no inventes el umbral).",
+        retrospective:
+          "Adjudicar no es lo mismo que recalibrar: uno es incertidumbre de política, el otro es ensemble roto. Pregunta: ¿por qué un score 1.2 no se «clippea» a 1.0 en silencio?",
         starterCode: {
           language: 'python',
           title: "s50-t2-a-e3.py",
@@ -1119,7 +1222,11 @@ meets_contract True` ,
         id: "S50-T2-B-E1",
         subtopicId: "S50-T2-B",
         kind: "guided",
-        instruction: "S50-T2-B-E1 · **Mide** order bias como |rate_AB − rate_BA| y aplica umbral + holdout intacto. El starter suma las rates en vez de restarlas. Corrige `order_gap` y la política del juez. Salidas: `order_gap`, `judge` y `S50-T2-B PASS`.",
+        title: "Order gap AB/BA del juez",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-2B`, el LLM-judge de Ica se mide con swap de opciones; un gap alto invalida.\n- **Meta:** corregir `order_gap` a valor absoluto y aplicar política OK/INVALIDATE con holdout intacto.\n- **Éxito:** `order_gap 0.02`, `judge OK`, `S50-T2-B PASS`.\n- **Límites:** no inventes rates; no subas MAX_GAP; no ignores `holdout_touched`.",
+        instruction:
+          "1. Starter: `return ab + ba` (bug).\n2. Cambia a `abs(ab - ba)`.\n3. Juez OK solo si gap ≤ MAX_GAP y not holdout_touched.\n4. Imprime gap, judge y status.",
         hint: "gap = abs(rate_ab - rate_ba); juez OK solo si gap ≤ MAX_GAP y holdout_touched es False.",
         hints: [
           "gap = abs(rate_ab - rate_ba); juez OK solo si gap ≤ MAX_GAP y holdout_touched es False.",
@@ -1127,7 +1234,10 @@ meets_contract True` ,
         ],
         edgeCases: ["gap > max → INVALIDATE_JUDGE", "holdout tocado aunque gap bajo", "CASO-ICA-050-2B es sintético"],
         tests: "Imprime order_gap 0.02, judge OK y `S50-T2-B PASS`.",
-        feedback: "S50-T2-B-E1: order bias se mide con swap AB/BA; no se inventa el gap. E2/E3 cubren holdout y MISSING.",
+        feedback:
+          "Gap 0.02 ≤ 0.05 con holdout intacto es OK; sumar rates inventa un «gap» 1.2 y mata el juez sano. En E2 un gap 0.30 + holdout tocado invalida de verdad.",
+        retrospective:
+          "Order bias = |rate_AB − rate_BA|, no suma ni «se siente sesgado». Sumar rates mata un juez sano (0.61/0.59). Pregunta: con gap 0.02 y holdout intacto, ¿qué token imprime y qué cambiaría si holdout_touched=True? Siguiente: válido / gap 0.30+holdout tocado / missing flag.",
         starterCode: {
           language: 'python',
           title: "s50-t2-b-e1.py",
@@ -1178,7 +1288,11 @@ meets_contract True` ,
         id: "S50-T2-B-E2",
         subtopicId: "S50-T2-B",
         kind: "independent",
-        instruction: "S50-T2-B-E2 · Audita tres rutas de calibración: válido (anclas altas, gap 0.02, holdout intacto), adverso (gap 0.30 y holdout tocado) y sin flag `holdout_touched`. Entrada: dict con case_id, anchor_accuracy, min_anchor_accuracy, order_gap, max_order_gap, holdout_touched. Salidas exactas: `PASS`, `INVALIDATE_JUDGE`, `MISSING:holdout_touched`. El starter da PASS al juez sesgado: exige accuracy≥min, gap≤max y holdout_touched=False como en E1.",
+        title: "Tres rutas de calibración (PASS / INVALIDATE / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de calibración en Ica sella el holdout: si se tocó o el gap es 0.30, el juez no sirve.\n- **Meta:** PASS / INVALIDATE_JUDGE / MISSING:holdout_touched.\n- **Éxito:** `PASS INVALIDATE_JUDGE MISSING:holdout_touched`.\n- **Límites:** no asumas holdout intacto si falta el flag; no ignores anclas bajas.",
+        instruction:
+          "1. Starter da PASS cuando gap es alto u holdout tocado (bug).\n2. Primero missing.\n3. Luego accuracy≥min, gap≤max y not holdout_touched.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.",
@@ -1186,7 +1300,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta holdout_touched", "fixture adverso: order_gap>max o holdout_touched=True (juez inválido)", "CASO-ICA-050-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `holdout_touched` ausente y produce exactamente `PASS INVALIDATE_JUDGE MISSING:holdout_touched`.",
-        feedback: "S50-T2-B-E2: el adverso activa `INVALIDATE_JUDGE`; un campo ausente devuelve `MISSING:holdout_touched`. En E3 la incertidumbre se enruta a `SEAL_NEW_HOLDOUT`.",
+        feedback:
+          "El adverso activa `INVALIDATE_JUDGE`; un campo ausente devuelve `MISSING:holdout_touched`. Holdout tocado es P0 de metodología: no se «compensa» con anclas altas.",
+        retrospective:
+          "Holdout tocado o gap alto invalidan al juez; falta flag es schema (no asumas intacto). El error clásico es retunear temperatura con el holdout «un ratito». Pregunta: ¿anclas 0.92 salvan un holdout tocado? Luego (E3): CONTINUE / INVALIDATE / SEAL_NEW_HOLDOUT.",
         starterCode: {
           language: 'python',
           title: "s50-t2-b-e2.py",
@@ -1235,7 +1352,11 @@ meets_contract True` ,
         id: "S50-T2-B-E3",
         subtopicId: "S50-T2-B",
         kind: "transfer",
-        instruction: "S50-T2-B-E3 · Recupera fallo cerrado de calibración. Juez válido → `CONTINUE`; gap alto u holdout tocado → `INVALIDATE_JUDGE`; sin `holdout_touched` → `SEAL_NEW_HOLDOUT` (sella de nuevo, no asumas intacto). El starter confunde ausencia con OK y acepta order bias: corrige ambas ramas sin inventar el flag de sellado. Salida: imprime el valor de meets_contract.",
+        title: "Decide calibración: CONTINUE o SEAL",
+        preamble:
+          "- **Contexto:** sin flag de sellado, el pipeline de Ica no asume holdout limpio: sella uno nuevo y re-evalúa.\n- **Meta:** CONTINUE / INVALIDATE_JUDGE / SEAL_NEW_HOLDOUT.\n- **Éxito:** `CONTINUE INVALIDATE_JUDGE SEAL_NEW_HOLDOUT`.\n- **Límites:** no inventes `holdout_touched=False`; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → SEAL_NEW_HOLDOUT.\n2. Completo: anclas + gap + not touched.\n3. Solo el válido es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.",
@@ -1243,7 +1364,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta holdout_touched", "fixture adverso: order_gap>max o holdout_touched=True (juez inválido)", "CASO-ICA-050-2B es sintético"],
         tests: "Fixtures `CASO-ICA-050-2B`, adverso y sin `holdout_touched` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa `INVALIDATE_JUDGE` y por qué faltar `holdout_touched` exige `SEAL_NEW_HOLDOUT`.",
+        feedback:
+          "Explica qué campo cambió la decisión: gap alto u holdout tocado → `INVALIDATE_JUDGE`; faltar `holdout_touched` → `SEAL_NEW_HOLDOUT` (sella de nuevo, no asumas intacto).",
+        retrospective:
+          "Sellar holdout nuevo no es castigo: es honestidad metodológica antes de volver a comparar baseline/candidato. Missing del flag no es CONTINUE optimista. Pregunta: ¿por qué un gap 0.02 con holdout tocado igual invalida, y por qué SEAL no es lo mismo que INVALIDATE? El scorecard del youDo hereda este hábito.",
         starterCode: {
           language: 'python',
           title: "s50-t2-b-e3.py",
@@ -1293,7 +1417,11 @@ meets_contract True` ,
         id: "S50-T3-A-E1",
         subtopicId: "S50-T3-A",
         kind: "guided",
-        instruction: "S50-T3-A-E1 · **Implementa** dos controles distintos: `injection_signal`/`injection_blocked` (marcadores de entrada hostil en el lab) y `exfil_blocked` (secreto en salida). El starter tiene ambas lógicas invertidas. Corrige y demuestra texto limpio + ataque + salida sin secreto. Salidas: `inj_ok`, `atk_caught`, `exfil_ok` y `S50-T3-A PASS`.",
+        title: "Injection y exfil como controles distintos",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-3A`, el red team sintético de Ica prueba entrada hostil y leak de token (marcadores de lab, no WAF real).\n- **Meta:** corregir `injection_signal`/`exfil_blocked` invertidos y demostrar limpio + ataque + sin secreto.\n- **Éxito:** `inj_ok True`, `atk_caught True`, `exfil_ok True`, `S50-T3-A PASS`.\n- **Límites:** no unifiques en un solo bool; no borres ATTACK_MARKERS; no uses secretos vivos.",
+        instruction:
+          "1. Starter: signal devuelve `not any(…)` y exfil devuelve `any(…)` (ambos invertidos).\n2. Signal = any marcador en lower.\n3. Exfil blocked = not any secreto en salida.\n4. Imprime inj_ok, atk_caught, exfil_ok y status.",
         hint: "`injection_signal` detecta marcadores del lab (p. ej. «ignore previous»); `exfil_blocked` exige que ningún secreto aparezca en la salida.",
         hints: [
           "`injection_signal` detecta marcadores del lab (p. ej. «ignore previous»); `exfil_blocked` exige que ningún secreto aparezca en la salida.",
@@ -1301,7 +1429,10 @@ meets_contract True` ,
         ],
         edgeCases: ["ataque con mayúsculas Ignore Previous", "secreto parcial en logs", "CASO-ICA-050-3A es sintético"],
         tests: "Imprime inj_ok True, atk_caught True, exfil_ok True y `S50-T3-A PASS`.",
-        feedback: "S50-T3-A-E1: red team mide contención, no suerte del prompt. E2 ensaya `BLOCK_SECURITY_P0` con flags de fixture.",
+        feedback:
+          "Contención medible: texto limpio pasa, ataque se detecta, salida sin secreto. Invertir predicados marca PASS cuando el ataque gana.",
+        retrospective:
+          "Red team mide contención medible (limpio pasa, ataque se detecta, salida sin secreto), no suerte del system prompt. Invertir predicados marca PASS cuando el ataque gana. Pregunta: ¿por qué no unificar injection y exfil en un solo `security_ok`? Siguiente: PASS / BLOCK_SECURITY_P0 / MISSING severity.",
         starterCode: {
           language: 'python',
           title: "s50-t3-a-e1.py",
@@ -1386,7 +1517,11 @@ meets_contract True` ,
         id: "S50-T3-A-E2",
         subtopicId: "S50-T3-A",
         kind: "independent",
-        instruction: "S50-T3-A-E2 · Decide tres rutas de red team directo: válido (injection bloqueada, 0 bytes de exfil, tools read-only), adverso (injection libre, 2048 B de leak, scope admin) y sin `severity`. Entrada: dict con case_id, injection_blocked, exfiltration_bytes, tool_scope, tool_args_valid, severity. Salidas exactas: `PASS`, `BLOCK_SECURITY_P0`, `MISSING:severity`. El starter pasa cuando la inyección no se bloqueó: exige contención + cero exfil + tool_args_valid, reutilizando la separación injection/exfil de E1.",
+        title: "Tres rutas de red team (PASS / BLOCK / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de seguridad de Ica no promueve si hay injection libre, bytes de leak o tools admin.\n- **Meta:** PASS / BLOCK_SECURITY_P0 / MISSING:severity.\n- **Éxito:** `PASS BLOCK_SECURITY_P0 MISSING:severity`.\n- **Límites:** sin severity no inventes P0/P1; exige contención + cero exfil + read-only + args válidos.",
+        instruction:
+          "1. Starter da PASS cuando injection no se bloqueó (bug).\n2. Primero missing de severity.\n3. Luego injection_blocked y exfil==0 y scope read-only y tool_args_valid y severity P0.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.",
@@ -1394,7 +1529,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta severity", "fixture adverso: injection no bloqueada, exfil>0 o tool fuera de read-only", "CASO-ICA-050-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `severity` ausente y produce exactamente `PASS BLOCK_SECURITY_P0 MISSING:severity`.",
-        feedback: "S50-T3-A-E2: el adverso activa `BLOCK_SECURITY_P0`; un campo ausente devuelve `MISSING:severity`. En E3 la incertidumbre se enruta a `PRESERVE_ATTACK_TRACE`.",
+        feedback:
+          "El adverso activa `BLOCK_SECURITY_P0`; un campo ausente devuelve `MISSING:severity`. Task_pass alto no «compensa» un leak de 2048 B en el scorecard de seguridad.",
+        retrospective:
+          "Breach de seguridad es BLOCK con evidencia; falta severity es schema para preservar traza de incidente. El error clásico es «mejoró el scorecard de tasks, igual promote». Pregunta: injection libre + task_pass alto — ¿qué token gana y por qué? Luego (E3): CONTINUE / BLOCK / PRESERVE_ATTACK_TRACE.",
         starterCode: {
           language: 'python',
           title: "s50-t3-a-e2.py",
@@ -1443,7 +1581,11 @@ meets_contract True` ,
         id: "S50-T3-A-E3",
         subtopicId: "S50-T3-A",
         kind: "transfer",
-        instruction: "S50-T3-A-E3 · Contrasta fallo cerrado de seguridad. Controles OK → `CONTINUE`; injection/exfil/tool misuse → `BLOCK_SECURITY_P0`; sin `severity` → `PRESERVE_ATTACK_TRACE` (guarda la traza, no inventes severidad). El starter sigue sin severity y confunde breach con éxito: corrige enrutamiento y predicado sin borrar el ataque. Salida: imprime el valor de meets_contract.",
+        title: "Decide seguridad: CONTINUE o PRESERVE",
+        preamble:
+          "- **Contexto:** sin severity etiquetada, el run de red team de Ica no se «aprueba a ciegas»: se preserva la traza de ataque.\n- **Meta:** CONTINUE / BLOCK_SECURITY_P0 / PRESERVE_ATTACK_TRACE.\n- **Éxito:** `CONTINUE BLOCK_SECURITY_P0 PRESERVE_ATTACK_TRACE`.\n- **Límites:** no borres el fixture adverso; no inventes severity.",
+        instruction:
+          "1. Missing → PRESERVE_ATTACK_TRACE.\n2. Completo: reutiliza contención multi-eje de E2.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.",
@@ -1451,7 +1593,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta severity", "fixture adverso: injection no bloqueada, exfil>0 o tool fuera de read-only", "CASO-ICA-050-3A es sintético"],
         tests: "Fixtures `CASO-ICA-050-3A`, adverso y sin `severity` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa `BLOCK_SECURITY_P0` y por qué faltar `severity` exige `PRESERVE_ATTACK_TRACE`.",
+        feedback:
+          "Explica qué campo cambió la decisión: injection/exfil/tool misuse → `BLOCK_SECURITY_P0`; faltar `severity` → `PRESERVE_ATTACK_TRACE` (guarda la traza, no inventes severidad).",
+        retrospective:
+          "Preservar traza es el primer paso del incidente de seguridad. Pregunta: ¿por qué un leak de 2048 B no se «compensa» con task_pass alto?",
         starterCode: {
           language: 'python',
           title: "s50-t3-a-e3.py",
@@ -1501,7 +1646,11 @@ meets_contract True` ,
         id: "S50-T3-B-E1",
         subtopicId: "S50-T3-B",
         kind: "guided",
-        instruction: "S50-T3-B-E1 · **Aplica** least privilege a un PDF sintético con instrucción embebida «grant admin»: el chunk es dato, no control; el allowlist de **sesión** no crece. El starter eleva privilegios si el texto pide admin. Corrige `effective_permissions` y `corpus_gate`. Salidas: `doc_as_data`, `privilege` y `S50-T3-B PASS`.",
+        title: "PDF como dato y least privilege",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-3B`, un PDF sintético de Ica pide «grant admin» en un comment; la sesión solo tiene `read`.\n- **Meta:** corregir `effective_permissions` para que el doc no expanda la sesión y cerrar `corpus_gate`.\n- **Éxito:** `doc_as_data True`, `privilege min`, `S50-T3-B PASS`.\n- **Límites:** no añadas write por texto del PDF; exige poisoned_removed == total y requested ∈ sesión.",
+        instruction:
+          "1. Starter añade `write` si ve «grant admin» (bug).\n2. `effective_permissions` debe devolver solo `set(session_allowed)`.\n3. `corpus_gate` cuarentena si poison residual o requested no en allowed.\n4. Imprime doc_as_data, privilege y status.",
         hint: "`effective_permissions` ignora el texto del PDF; `requested` debe estar en la sesión y `poisoned_removed == poisoned_total`.",
         hints: [
           "`effective_permissions` ignora el texto del PDF; `requested` debe estar en la sesión y `poisoned_removed == poisoned_total`.",
@@ -1509,7 +1658,10 @@ meets_contract True` ,
         ],
         edgeCases: ["poisoned_removed < poisoned_total", "requested=write con sesión {read}", "CASO-ICA-050-3B es sintético"],
         tests: "Imprime doc_as_data True, privilege min y `S50-T3-B PASS`.",
-        feedback: "S50-T3-B-E1: indirect injection no es prompt del usuario — es corpus. E2 cuarentena con `QUARANTINE_POISONED_CORPUS`.",
+        feedback:
+          "Least privilege es de sesión, no del chunk. Un HTML comment no es grant de IAM. En E2 el adverso eleva y deja poison sin remover.",
+        retrospective:
+          "`effective_permissions` devuelve solo la sesión; el PDF nunca expande el allowlist. Indirect injection se mitiga tratando el corpus como dato. Pregunta: con sesión {read} y doc «grant admin», ¿write_denied debe ser True o False? Siguiente: PASS / QUARANTINE / MISSING permission.",
         starterCode: {
           language: 'python',
           title: "s50-t3-b-e1.py",
@@ -1595,7 +1747,11 @@ meets_contract True` ,
         id: "S50-T3-B-E2",
         subtopicId: "S50-T3-B",
         kind: "independent",
-        instruction: "S50-T3-B-E2 · Calcula tres rutas de corpus/privilegios: válido (instrucción como datos, 3 chunks envenenados removidos, `read` ∈ allowlist), adverso (instrucción eleva permisos, 0 removidos, pide `write`) y sin `requested_permission`. Entrada: dict con case_id, document_instruction_treated_as_data, poisoned_chunks_removed, tool_permissions, requested_permission. Salidas exactas: `PASS`, `QUARANTINE_POISONED_CORPUS`, `MISSING:requested_permission`. El starter da PASS cuando el PDF eleva privilegios: exige treat-as-data + poison removido + permiso ⊆ allowlist como en E1.",
+        title: "Tres rutas de corpus (PASS / QUARANTINE / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de corpus de Ica cuarentena si la instrucción eleva, queda poison o se pide write sin permiso.\n- **Meta:** PASS / QUARANTINE_POISONED_CORPUS / MISSING:requested_permission.\n- **Éxito:** `PASS QUARANTINE_POISONED_CORPUS MISSING:requested_permission`.\n- **Límites:** sin requested no asumas read; exige treat-as-data y poison removido.",
+        instruction:
+          "1. Starter da PASS cuando no se trata como datos o el permiso no está (bug).\n2. Primero missing de requested_permission.\n3. Luego treat-as-data y poisoned_removed≥1 y requested in tool_permissions.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.",
@@ -1603,7 +1759,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta requested_permission", "fixture adverso: instrucción eleva permisos, poisoning sin remover o permiso fuera de allowlist", "CASO-ICA-050-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `requested_permission` ausente y produce exactamente `PASS QUARANTINE_POISONED_CORPUS MISSING:requested_permission`.",
-        feedback: "S50-T3-B-E2: el adverso activa `QUARANTINE_POISONED_CORPUS`; un campo ausente devuelve `MISSING:requested_permission`. En E3 la incertidumbre se enruta a `REDUCE_TOOL_PRIVILEGE`.",
+        feedback:
+          "El adverso activa `QUARANTINE_POISONED_CORPUS`; un campo ausente devuelve `MISSING:requested_permission`. Indexar «igual y filtrar en el prompt» no cierra el gate de corpus.",
+        retrospective:
+          "Cuarentena es breach de corpus (elevación, poison residual, permiso fuera); falta `requested_permission` es schema. El error clásico es «filtramos en el prompt y listo». Pregunta: ¿por qué missing de requested no se asume como read? Luego (E3): CONTINUE / QUARANTINE / REDUCE.",
         starterCode: {
           language: 'python',
           title: "s50-t3-b-e2.py",
@@ -1652,7 +1811,11 @@ meets_contract True` ,
         id: "S50-T3-B-E3",
         subtopicId: "S50-T3-B",
         kind: "transfer",
-        instruction: "S50-T3-B-E3 · Instrumenta fallo cerrado de least privilege. Corpus limpio y permiso mínimo → `CONTINUE`; elevación o poison residual → `QUARANTINE_POISONED_CORPUS`; sin `requested_permission` → `REDUCE_TOOL_PRIVILEGE`. El starter confunde permiso ausente con OK y acepta over-privilege: no inventes el permiso pedido; cuarentena o reduce scope. Salida: imprime el valor de meets_contract.",
+        title: "Decide corpus: CONTINUE o REDUCE",
+        preamble:
+          "- **Contexto:** sin `requested_permission` declarado, el pipeline de Ica no asume el mínimo: reduce privilegio de tools y revisa.\n- **Meta:** CONTINUE / QUARANTINE_POISONED_CORPUS / REDUCE_TOOL_PRIVILEGE.\n- **Éxito:** `CONTINUE QUARANTINE_POISONED_CORPUS REDUCE_TOOL_PRIVILEGE`.\n- **Límites:** no inventes requested=read; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → REDUCE_TOOL_PRIVILEGE.\n2. Completo: reutiliza treat-as-data + poison + permiso.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.",
@@ -1660,7 +1823,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta requested_permission", "fixture adverso: instrucción eleva permisos, poisoning sin remover o permiso fuera de allowlist", "CASO-ICA-050-3B es sintético"],
         tests: "Fixtures `CASO-ICA-050-3B`, adverso y sin `requested_permission` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa `QUARANTINE_POISONED_CORPUS` y por qué faltar `requested_permission` exige `REDUCE_TOOL_PRIVILEGE`.",
+        feedback:
+          "Explica qué campo cambió la decisión: elevación o poison residual → `QUARANTINE_POISONED_CORPUS`; faltar `requested_permission` → `REDUCE_TOOL_PRIVILEGE` (no inventes el permiso).",
+        retrospective:
+          "Reducir privilegio responde a incertidumbre de scope (no inventes requested=read). Cuarentena responde a corpus envenenado o elevación demostrada. No son el mismo incidente. Pregunta: sin `requested_permission`, ¿por qué REDUCE y no CONTINUE «con fe» de que la sesión es mínima? El least privilege del youDo se defiende con este hábito.",
         starterCode: {
           language: 'python',
           title: "s50-t3-b-e3.py",
@@ -1710,7 +1876,11 @@ meets_contract True` ,
         id: "S50-T4-A-E1",
         subtopicId: "S50-T4-A",
         kind: "guided",
-        instruction: "S50-T4-A-E1 · **Implementa** `claim_action(support)`: answer si support≥umbral, si no abstain. El starter invierte el umbral. Demuestra high=0.9 → answer, low=0.1 → abstain y cero claims críticas sin soporte. Salidas: `high`, `low`, `critical_unsupported` y `S50-T4-A PASS`.",
+        title: "Abstain cuando support es bajo",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-4A`, el copiloto de Ica no debe inventar un SLA ausente del chunk recuperado.\n- **Meta:** corregir `claim_action` (answer si support≥thr, si no abstain) y mantener critical_unsupported=0.\n- **Éxito:** `high answer`, `low abstain`, `critical_unsupported 0`, `S50-T4-A PASS`.\n- **Límites:** no inviertas el umbral; no inventes claims; no borres el conteo crítico.",
+        instruction:
+          "1. Starter: `answer if support < thr` (bug).\n2. Cambia a `support >= thr`.\n3. Verifica high/low y critical==0.\n4. Imprime high, low, critical_unsupported y status.",
         hint: "return `\"answer\"` si support >= thr else `\"abstain\"`; thr por defecto 0.5.",
         hints: [
           "return `\"answer\"` si support >= thr else `\"abstain\"`; thr por defecto 0.5.",
@@ -1718,7 +1888,10 @@ meets_contract True` ,
         ],
         edgeCases: ["support exacto en el umbral", "critical>0 aunque el texto sea fluido", "CASO-ICA-050-4A es sintético"],
         tests: "Imprime high answer, low abstain, critical_unsupported 0 y `S50-T4-A PASS`.",
-        feedback: "S50-T4-A-E1: groundedness es abstenerse, no inventar. E2 bloquea con BLOCK_HALLUCINATION_REGRESSION.",
+        feedback:
+          "Groundedness es abstenerse sin evidencia, no inventar fluidez. Invertir el umbral responde justo cuando el support es basura.",
+        retrospective:
+          "Claim sin soporte → abstain. El starter responde justo cuando el support es basura. Pregunta: support exacto 0.5 con thr 0.5 — ¿answer o abstain (y por qué el `>=` importa)? Siguiente: tasa de soporte, críticas y missing flag de abstain.",
         starterCode: {
           language: 'python',
           title: "s50-t4-a-e1.py",
@@ -1768,7 +1941,11 @@ meets_contract True` ,
         id: "S50-T4-A-E2",
         subtopicId: "S50-T4-A",
         kind: "independent",
-        instruction: "S50-T4-A-E2 · Compara tres rutas de groundedness: válido (18/20 soporte, 0 críticas, abstain cuando vacío), adverso (10/20, 2 críticas, no abstiene) y sin `abstained_when_empty`. Entrada: dict con case_id, supported_claims, total_claims, min_support_rate, unsupported_critical, abstained_when_empty. Salidas exactas: `PASS`, `BLOCK_HALLUCINATION_REGRESSION`, `MISSING:abstained_when_empty`. El starter da PASS con claims críticas inventadas: exige rate≥umbral, critical==0 y abstain correcto, alineado a `claim_action` de E1.",
+        title: "Tres rutas de groundedness (PASS / BLOCK / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de holdout de Ica bloquea si hay críticas sin soporte o no se abstiene cuando falta evidencia.\n- **Meta:** PASS / BLOCK_HALLUCINATION_REGRESSION / MISSING:abstained_when_empty.\n- **Éxito:** `PASS BLOCK_HALLUCINATION_REGRESSION MISSING:abstained_when_empty`.\n- **Límites:** sin flag de abstain no asumas True; rate≥min y critical==0.",
+        instruction:
+          "1. Starter da PASS cuando critical>0 o no abstiene (bug).\n2. Primero missing de abstained_when_empty.\n3. Luego supported/total ≥ min y critical==0 y abstained_when_empty.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.",
@@ -1776,7 +1953,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta abstained_when_empty", "fixture adverso: unsupported_critical>0 o support bajo sin abstain", "CASO-ICA-050-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `abstained_when_empty` ausente y produce exactamente `PASS BLOCK_HALLUCINATION_REGRESSION MISSING:abstained_when_empty`.",
-        feedback: "S50-T4-A-E2: el adverso activa `BLOCK_HALLUCINATION_REGRESSION`; un campo ausente devuelve `MISSING:abstained_when_empty`. En E3 la incertidumbre se enruta a `REVIEW_ABSTENTION_SLICE`.",
+        feedback:
+          "El adverso activa `BLOCK_HALLUCINATION_REGRESSION`; un campo ausente devuelve `MISSING:abstained_when_empty`. Task_pass alto no absuelve inventar un claim crítico en holdout.",
+        retrospective:
+          "Hallucination crítica es breach de contenido; falta flag de abstain es schema de evidencia. El error clásico es promediar 2 críticas malas con 18 buenas. Pregunta: unsupported_critical=2 y rate 0.9 — ¿PASS o BLOCK? Luego (E3): CONTINUE / BLOCK / REVIEW_ABSTENTION_SLICE.",
         starterCode: {
           language: 'python',
           title: "s50-t4-a-e2.py",
@@ -1825,7 +2005,11 @@ meets_contract True` ,
         id: "S50-T4-A-E3",
         subtopicId: "S50-T4-A",
         kind: "transfer",
-        instruction: "S50-T4-A-E3 · Aísla fallo cerrado de abstención. Grounded → `CONTINUE`; críticas sin soporte o sin abstain → `BLOCK_HALLUCINATION_REGRESSION`; sin flag de abstain → `REVIEW_ABSTENTION_SLICE`. El starter sigue sin el flag y premia inventar claims: no rellenes `abstained_when_empty`; revisa el slice o bloquea regresión. Salida: imprime el valor de meets_contract.",
+        title: "Decide abstención: CONTINUE o REVIEW",
+        preamble:
+          "- **Contexto:** sin evidencia de que el sistema se abstuvo en vacío, el revisor de Ica no asume groundedness: revisa el slice de abstención.\n- **Meta:** CONTINUE / BLOCK_HALLUCINATION_REGRESSION / REVIEW_ABSTENTION_SLICE.\n- **Éxito:** `CONTINUE BLOCK_HALLUCINATION_REGRESSION REVIEW_ABSTENTION_SLICE`.\n- **Límites:** no inventes abstained_when_empty=True; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → REVIEW_ABSTENTION_SLICE.\n2. Completo: rate + critical==0 + abstain flag.\n3. Solo el grounded es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.",
@@ -1833,7 +2017,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta abstained_when_empty", "fixture adverso: unsupported_critical>0 o support bajo sin abstain", "CASO-ICA-050-4A es sintético"],
         tests: "Fixtures `CASO-ICA-050-4A`, adverso y sin `abstained_when_empty` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa `BLOCK_HALLUCINATION_REGRESSION` y por qué faltar `abstained_when_empty` exige `REVIEW_ABSTENTION_SLICE`.",
+        feedback:
+          "Explica qué campo cambió la decisión: críticas sin soporte o sin abstain → `BLOCK_HALLUCINATION_REGRESSION`; faltar el flag → `REVIEW_ABSTENTION_SLICE` (no rellenes `abstained_when_empty`).",
+        retrospective:
+          "Revisar el slice de abstención es incertidumbre metodológica, no un «casi PASS». Pregunta: ¿por qué 2 críticas unsupported no se «promedian» con 18 claims buenas?",
         starterCode: {
           language: 'python',
           title: "s50-t4-a-e3.py",
@@ -1883,7 +2070,11 @@ meets_contract True` ,
         id: "S50-T4-B-E1",
         subtopicId: "S50-T4-B",
         kind: "guided",
-        instruction: "S50-T4-B-E1 · **Construye** el scorecard operativo: p95≤SLO, costo≤cap, cache ACL y rollback≤RTO. El starter solo revisa p95 y olvida costo/ACL/RTO. Completa `reliability_gate` y evalúa un snapshot sano. Salidas: `healthy`, `p95_ok` y `S50-T4-B PASS`.",
+        title: "Scorecard p95, costo, ACL y RTO",
+        preamble:
+          "- **Contexto:** en `CASO-ICA-050-4B`, el canary del copiloto de Ica solo se acepta si p95, costo, cache ACL y rollback caben en política.\n- **Meta:** completar `reliability_gate` multi-eje (no solo p95).\n- **Éxito:** `healthy PASS`, `p95_ok True`, `S50-T4-B PASS`.\n- **Límites:** no ignores costo/ACL/RTO; no fuerces PASS; snapshot sano del starter se conserva.",
+        instruction:
+          "1. Starter: PASS solo si p95≤slo (bug: incompleto).\n2. Añade cost≤cap y cache_acl_safe y rollback_min≤rto_min.\n3. Evalúa snapshot 850/0.07/True/8/10.\n4. Imprime healthy, p95_ok y status.",
         hint: "PASS solo si p95≤slo y cost≤cap y cache_acl_safe y rollback_min≤rto_min.",
         hints: [
           "PASS solo si p95≤slo y cost≤cap y cache_acl_safe y rollback_min≤rto_min.",
@@ -1891,7 +2082,10 @@ meets_contract True` ,
         ],
         edgeCases: ["p95 alto con costo OK", "rollback 60 min vs. RTO 10", "CASO-ICA-050-4B es sintético"],
         tests: "Imprime healthy PASS, p95_ok True y `S50-T4-B PASS`.",
-        feedback: "S50-T4-B-E1: fiabilidad operativa es multi-eje; E2 fuerza ROLLBACK_AI_RELEASE en canary roto.",
+        feedback:
+          "Un p95 sano con rollback de 60 min sigue siendo ROLLBACK. Multi-eje cierra el scorecard operativo del Tú haces.",
+        retrospective:
+          "Multi-eje cierra el scorecard operativo del Tú haces: latencia, costo, cache ACL y RTO. Un p95 sano no absuelve rollback fuera de política. Pregunta: snapshot 850/0.07/True/60/10 — ¿PASS o ROLLBACK, y por qué el starter no lo veía? Siguiente: canary sano / roto / missing RTO.",
         starterCode: {
           language: 'python',
           title: "s50-t4-b-e1.py",
@@ -1944,7 +2138,11 @@ meets_contract True` ,
         id: "S50-T4-B-E2",
         subtopicId: "S50-T4-B",
         kind: "independent",
-        instruction: "S50-T4-B-E2 · Filtra tres rutas del canary operativo: válido (p95 850≤1000, costo bajo, ACL ok, rollback 8≤10), adverso (p95 2500, costo alto, ACL roto, rollback 60) y sin `rto_minutes`. Entrada: dict con case_id, p95_ms, slo_ms, cost_pen, cost_cap_pen, cache_acl_safe, rollback_minutes, rto_minutes. Salidas exactas: `PASS`, `ROLLBACK_AI_RELEASE`, `MISSING:rto_minutes`. El starter da PASS al canary roto: aplica el `reliability_gate` multi-eje de E1 (no solo p95).",
+        title: "Tres rutas de canary (PASS / ROLLBACK / MISSING)",
+        preamble:
+          "- **Contexto:** el on-call de Ica distingue canary sano, canary con p95/ACL/RTO rotos y registro sin RTO documentado.\n- **Meta:** PASS / ROLLBACK_AI_RELEASE / MISSING:rto_minutes.\n- **Éxito:** `PASS ROLLBACK_AI_RELEASE MISSING:rto_minutes`.\n- **Límites:** sin rto_minutes no compares rollback; no apruebes p95 2500 ni ACL False.",
+        instruction:
+          "1. Starter da PASS cuando p95>slo o ACL rota (bug).\n2. Primero missing de rto_minutes.\n3. Luego p95≤slo, cost≤cap, ACL safe, rollback≤rto.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
@@ -1952,7 +2150,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta rto_minutes", "fixture adverso: p95>SLO, costo>cap, cache ACL inseguro o rollback>RTO", "CASO-ICA-050-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `rto_minutes` ausente y produce exactamente `PASS ROLLBACK_AI_RELEASE MISSING:rto_minutes`.",
-        feedback: "S50-T4-B-E2: el adverso activa `ROLLBACK_AI_RELEASE`; un campo ausente devuelve `MISSING:rto_minutes`. En E3 la incertidumbre se enruta a `ACTIVATE_INCIDENT_RESPONSE`.",
+        feedback:
+          "El adverso activa `ROLLBACK_AI_RELEASE`; un campo ausente devuelve `MISSING:rto_minutes`. Subir task_pass no pospone un p95 roto en canary.",
+        retrospective:
+          "Canary roto es rollback con evidencia; falta `rto_minutes` es schema de incidente (no compares rollback sin RTO). El error clásico es «el p95 ya se verá en prod». Pregunta: ¿por qué missing RTO no se trata igual que p95 2500? Luego (E3): CONTINUE / ROLLBACK / ACTIVATE_INCIDENT_RESPONSE.",
         starterCode: {
           language: 'python',
           title: "s50-t4-b-e2.py",
@@ -2001,7 +2202,11 @@ meets_contract True` ,
         id: "S50-T4-B-E3",
         subtopicId: "S50-T4-B",
         kind: "transfer",
-        instruction: "S50-T4-B-E3 · Demuestra fallo cerrado operativo. Canary sano → `CONTINUE`; violación de SLO/costo/ACL/RTO → `ROLLBACK_AI_RELEASE`; sin `rto_minutes` → `ACTIVATE_INCIDENT_RESPONSE` (abre incidente, no asumas RTO). El starter sigue sin RTO y acepta p95 alto: no inventes minutos de rollback; declara incidente o revierte al baseline. Salida: imprime el valor de meets_contract.",
+        title: "Decide ops: CONTINUE o INCIDENT",
+        preamble:
+          "- **Contexto:** sin RTO documentado, el release de IA en Ica no «sigue con fe»: se activa respuesta a incidente.\n- **Meta:** CONTINUE / ROLLBACK_AI_RELEASE / ACTIVATE_INCIDENT_RESPONSE.\n- **Éxito:** `CONTINUE ROLLBACK_AI_RELEASE ACTIVATE_INCIDENT_RESPONSE`.\n- **Límites:** no inventes rto_minutes=10; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → ACTIVATE_INCIDENT_RESPONSE.\n2. Completo: reutiliza reliability multi-eje de E1/E2.\n3. Solo el canary sano es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.",
@@ -2009,7 +2214,10 @@ meets_contract True` ,
         ],
         edgeCases: ["falta rto_minutes", "fixture adverso: p95>SLO, costo>cap, cache ACL inseguro o rollback>RTO", "CASO-ICA-050-4B es sintético"],
         tests: "Fixtures `CASO-ICA-050-4B`, adverso y sin `rto_minutes` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S50-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa `ROLLBACK_AI_RELEASE` y por qué faltar `rto_minutes` exige `ACTIVATE_INCIDENT_RESPONSE`.",
+        feedback:
+          "Explica qué campo cambió la decisión: violación de SLO/costo/ACL/RTO → `ROLLBACK_AI_RELEASE`; faltar `rto_minutes` → `ACTIVATE_INCIDENT_RESPONSE` (abre incidente, no asumas RTO).",
+        retrospective:
+          "Incidente sin RTO no es lo mismo que rollback medido. Pregunta: ¿por qué un rollback de 60 min con RTO 10 no se «arregla» reiniciando el pod?",
         starterCode: {
           language: 'python',
           title: "s50-t4-b-e3.py",
@@ -2184,6 +2392,8 @@ assert card["decision"] == "BLOCK" or not any(
       { criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" },
       { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar READY: (1) ¿qué invariante del gate CP-N4-C demuestras con el print del scorecard (P0 bloquea promote)? (2) ¿qué harías distinto con datos reales vs. sintéticos de Ica (PII, secretos, holdout sellado)? (3) En el README, una frase de impacto medible (antes/después de bloquear regresión P0) que puedas defender en 30 segundos ante un revisor de plataforma.",
   },
   selfCheck: {
     questions: [

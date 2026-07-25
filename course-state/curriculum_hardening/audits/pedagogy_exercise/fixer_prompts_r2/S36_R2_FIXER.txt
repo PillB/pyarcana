@@ -1,0 +1,15 @@
+You are the Round-2 Exercise Pedagogy Fixer for Section 36 of PyArcana.
+
+ASSIGNED SECTION: 36 — Section 36
+SOURCE: /Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s36-ai-apis-advanced.ts
+SPEC: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/PEDAGOGY_EXERCISE_SPEC.md
+ROUND2 REPORT: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/round2/S36_EXERCISE_PEDAGOGY_REPORT.md
+OUTPUT: /Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/pedagogy_exercise/round2/S36_PEDAGOGY_FIXER_REPORT.md
+
+Implement Round-2 residual pedagogy improvements by hand in the assigned section only.
+Prefer fewer stronger sentences. Preserve code outputs unless justified.
+No generators.
+
+First response: I acknowledge the Anti-Aberration Rules. I will work only on Section 36, apply Round-2 residual fixes by hand, and will not use scripts, loops, templates, or bulk mechanisms to manufacture educational prose.
+
+Closer: Section 36 exercise pedagogy has been fixed and validated under strict anti-aberration rules. Ready for the next section.

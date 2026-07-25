@@ -400,6 +400,8 @@ allow_deploy True`,
         subtopicId: "S43-T1-A",
         environment: "local-python",
         description: "Demo: Dockerfile, layers y caché",
+        preamble:
+          "En la plataforma ficticia de Trujillo (CASO-TRU-043) un commit que solo toca `src/` no debe invalidar la capa de `pip install`. Esta demo ordena steps `base → deps → app → user → cmd` y calcula si el lock produce el mismo digest lógico de deps. No escribas aún: predice `pip_before_app`, `digest_stable` y el valor de `cache`. Observa por qué un orden invertido dejaría el caché “invalid” aunque el lock no cambie.",
         code: {
           language: 'python',
           title: "demo_dockerfile_layers_cache.py",
@@ -421,13 +423,18 @@ print("cache", r["cache"])`,
 digest_stable True
 cache stable_layers_first`,
         },
-        why: "Deriva `deps_before_app` y digest lógico estable a partir del orden de layers y el lock; evidencia de T1-A sin daemon Docker.",
+        why:
+          "`index(\"deps\") < index(\"app\")` es el contrato de caché: el digest se construye solo desde el lock cuando deps va primero. Sin daemon Docker, el modelo stdlib basta para auditar el orden. Copiar source antes del lock es el error clásico de CI lento. Deriva `pip_before_app` y digest estable sin hardcodear el veredicto.",
+        retrospective:
+          "Si puedes explicar por qué dos builds con el mismo lock deben compartir digest de deps sin mirar el código, ya tienes el hábito de layers de estable a cambiante. El error clásico es culpar al registry en vez de reordenar el Dockerfile. Pregunta: si solo cambia `src/`, ¿qué capa debe reutilizarse? En We Do practicarás el gate `REORDER_DOCKERFILE`.",
       },
       {
         demoId: "S43-T1-B-DEMO",
         subtopicId: "S43-T1-B",
         environment: "local-python",
         description: "Demo: bases, usuarios no root y tamaño",
+        preamble:
+          "Antes de publicar la imagen de la API de Trujillo, el equipo audita base, usuario y tamaño — no el “look and feel” del tag. En esta demo `python:3.12-slim@sha256:demo` corre como UID 10001 sin capabilities y bajo techo de 150 MB. No escribas: predice `nonroot`, `uid` y si `ok` es True. Observa por qué `latest` o UID 0 tumbarían el gate aunque el servicio “arranque”.",
         code: {
           language: 'python',
           title: "demo_bases_nonroot_size.py",
@@ -446,13 +453,18 @@ print("ok", r["ok"])`,
 uid 10001
 ok True`,
         },
-        why: "Audita base fijada, UID ≥1000, capabilities vacías y techo de MB: evidencia real de proceso non-root, no solo elección de imagen por tamaño.",
+        why:
+          "Base pinned ≠ `latest`: el digest o tag fijo hace parchable y auditable la imagen. UID ≥1000 sin capabilities extras es privilegio mínimo real. `runtime_mb ≤ max_mb` es presupuesto de superficie, no vanity metric. El breach se nombra `REBUILD_NONROOT`; sin techo de MB no hay criterio de base (`SELECT_PATCHABLE_BASE`).",
+        retrospective:
+          "Non-root + base fijada + techo de MB es el trío mínimo de runtime: privilegio, parchabilidad y superficie. El error clásico es aceptar UID 0 “porque en local funciona” o `latest` “porque siempre actualiza”. Pregunta: si el tag flota, ¿qué evidencia de parche pierdes ante un CVE? We Do: predicado de non-root y tamaño.",
       },
       {
         demoId: "S43-T2-A-DEMO",
         subtopicId: "S43-T2-A",
         environment: "local-python",
         description: "Demo: config, secrets y volumes",
+        preamble:
+          "Con la imagen non-root lista, la plataforma de Trujillo separa lo que va en la capa de lo que va en runtime. Esta demo inspecciona layers `ENV=prod` / `CMD=api` (sin secretos) y clasifica `db` durable frente a `cache` efímero. No escribas: predice `no_hardcoded`, `db_durable` y `ok`. Observa por qué un `ENV SECRET=` en una capa rompería la rotación sin rebuild.",
         code: {
           language: 'python',
           title: "demo_config_secrets_volumes.py",
@@ -472,13 +484,18 @@ print("ok", r["ok"])`,
 db_durable True
 ok True`,
         },
-        why: "Inspecciona capas en busca de secretos horneados y clasifica volumes durable/efímero; evidencia de imagen limpia.",
+        why:
+          "Un secret horneado se detecta por substring en capas (`SECRET=`/`PASSWORD=`). Durable vs efímero no se improvisa en prod: rotar una clave no debe exigir rebuild de app. La DB en volume durable y el caché en efímero son el contrato de recovery de Trujillo.",
+        retrospective:
+          "Imagen limpia + mounts clasificados = rotación y recovery posibles sin rebuild de app. El error clásico es copiar `.env` al build o montar la DB como tmp “para ir más rápido”. Pregunta: si rotas la clave de DB, ¿qué falla si el valor quedó en una capa de history? We Do: gate `REMOVE_BAKED_SECRET`.",
       },
       {
         demoId: "S43-T2-B-DEMO",
         subtopicId: "S43-T2-B",
         environment: "local-python",
         description: "Demo: networking, health checks y signals",
+        preamble:
+          "Con secretos fuera de la imagen, la API de Trujillo debe decir cuándo puede servir y cómo se apaga. Esta demo calcula HTTP de readiness (200 si ready y live; 503 si DB caída) y un SIGTERM con cola vacía y grace ≥20. No escribas: predice `ready`, `not_ready` y el dict de `sigterm`. Observa la diferencia entre “proceso vivo” y “listo para tráfico”.",
         code: {
           language: 'python',
           title: "demo_net_health_signals.py",
@@ -498,13 +515,18 @@ print("sigterm", on_sigterm(0, 30))`,
 not_ready 503
 sigterm {'graceful': True, 'grace_seconds': 30}`,
         },
-        why: "Calcula códigos HTTP de readiness y el resultado de drain en SIGTERM a partir de grace y cola; no hardcodea graceful=True.",
+        why:
+          "Readiness ≠ liveness: un proceso puede estar vivo y aún no listo para tráfico. El grace medible evita trabajo a medias en redeploy. No hardcodees `graceful=True`: se deriva de cola vacía y `grace_seconds ≥ 20`. Un 200 con DB caída miente al orquestador.",
+        retrospective:
+          "503 con DB caída es honestidad operativa: el orquestador deja de enviar tráfico. El error clásico es `/readyz` siempre 200 o kill abrupto sin drain. Pregunta: si `live=true` pero `ready=false`, ¿qué probe debe fallar y por qué no matas el proceso aún? We Do: gate `DRAIN_AND_ISOLATE`.",
       },
       {
         demoId: "S43-T3-A-DEMO",
         subtopicId: "S43-T3-A",
         environment: "local-python",
         description: "Demo: API/worker/DB/cache",
+        preamble:
+          "Con probes claros, Compose declara el stack local de Trujillo: cuatro servicios, redes segmentadas y retries de aplicación a DB. Esta demo valida conjuntos healthy==services, retries True y redes front/back. No escribas: predice `api_deps`, `stack_healthy` y `retries`. Observa por qué solo listar servicios en YAML no demuestra un stack sano.",
         code: {
           language: 'python',
           title: "demo_api_worker_db_cache.py",
@@ -531,13 +553,18 @@ print("retries", r["retries"])`,
 stack_healthy True
 retries True`,
         },
-        why: "Valida el conjunto Compose (servicios, healthy, retries, redes front/back); misma forma que el mini-compose de la teoría T3-A.",
+        why:
+          "`depends_on` ordena el arranque, no reintentos: los retries de aplicación son código de la API. Redes front/back acotan la exposición de la DB. `healthy` debe igualar `services`; un stack “half healthy” no es un comando limpio.",
+        retrospective:
+          "Stack sano = healthy == services + retries de app + redes segmentadas, no “compose up sin error en la consola”. El error clásico es confiar solo en `depends_on` cuando DB reinicia a mitad de tráfico. Pregunta: si api y cache están healthy pero worker no, ¿es stack limpio? We Do: `STOP_UNHEALTHY_STACK`.",
       },
       {
         demoId: "S43-T3-B-DEMO",
         subtopicId: "S43-T3-B",
         environment: "local-python",
         description: "Demo: dependencias, migraciones y datos efímeros",
+        preamble:
+          "El stack de Trujillo necesita orden de datos: migrar antes de servir, expand compatible con código viejo, recrear efímeros y probar restore. Esta demo deriva strategy `expand_contract` y ok True solo con expand + flags verdes. No escribas: predice strategy, data y ok. Observa por qué un contract incompatible no es “más limpio”, es bloqueo de release.",
         code: {
           language: 'python',
           title: "demo_deps_migraciones_efimeros.py",
@@ -558,13 +585,18 @@ print("ok", r["ok"])`,
 data ephemeral_ok
 ok True`,
         },
-        why: "Deriva estrategia expand/contract y OK de restore desde flags de migración; evidencia de rollback de prueba.",
+        why:
+          "Expand primero y solo contract cuando el código viejo ya no lo necesita. El restore drill es evidencia, no un checkbox. tmp/cache se recrean; la DB no. Un contract sin compat bloquea el release con `ROLL_BACK_MIGRATION`.",
+        retrospective:
+          "Migración sin restore drill es fe en el vacío: el rollback no se ha ensayado. El error clásico es tratar la DB como efímero o hacer contract con código viejo vivo. Pregunta: si el backup nunca se restauró en lab, ¿qué afirmas en el release notes? We Do: `ROLL_BACK_MIGRATION`.",
       },
       {
         demoId: "S43-T4-A-DEMO",
         subtopicId: "S43-T4-A",
         environment: "local-python",
         description: "Demo: locks y multi-stage builds",
+        preamble:
+          "Con migraciones seguras, Trujillo fija *qué* se instala y *dónde* se compila. Esta demo parsea un multi-stage (builder + runtime + COPY --from) y un lock `sha256:abc` sin compiler en runtime. No escribas: predice `builder_has_compilers`, `runtime_slim` y `lock`. Observa por qué un solo stage con gcc en la imagen final rompe el gate de reproducibilidad y superficie.",
         code: {
           language: 'python',
           title: "demo_locks_multistage.py",
@@ -598,13 +630,18 @@ print("lock", s["lock"])`,
 runtime_slim True
 lock pinned`,
         },
-        why: "Parsea un multi-stage real (builder/runtime, COPY --from) y un lock hasheado; evidencia de imagen reducida reproducible, no solo un set de nombres de stage.",
+        why:
+          "El pin `sha256:` congela la resolución de deps. El builder no viaja a prod: `COPY --from=builder` es el puente. Un lock `latest` o gcc en runtime fallan `BLOCK_UNPINNED_BUILD`. Evidencia de imagen reducida reproducible, no solo un set de nombres de stage.",
+        retrospective:
+          "Runtime mínimo + lock hasheado = build repetible entre máquinas y días. El error clásico es tag `latest` en deps o dejar `gcc` “por si depuramos” en la imagen final. Pregunta: si el lock flota, ¿qué garantiza el digest de mañana vs hoy? We Do: `BLOCK_UNPINNED_BUILD`.",
       },
       {
         demoId: "S43-T4-B-DEMO",
         subtopicId: "S43-T4-B",
         environment: "local-python",
         description: "Demo: scanning, resource limits y debugging",
+        preamble:
+          "Cierra el camino a S44: la imagen multi-stage de Trujillo entra a política de scan y límites. Esta demo bloquea deploy si hay CVE crítico, mem/cpu ≤0 o shell de debug. No escribas: predice `block_deploy`, `mem_mb` y `scan`. Observa por qué “memoria 0” no es generosidad: es unlimited disfrazado y no pasa el gate.",
         code: {
           language: 'python',
           title: "demo_scan_limits_debug.py",
@@ -625,7 +662,10 @@ print("scan", r["scan"])`,
 mem_mb 512
 scan ci_gate`,
         },
-        why: "Bloquea deploy si hay CVE crítico, límites ≤0 o shell de debug; evidencia de scan + límites, no solo conteo de CVE.",
+        why:
+          "El contrato es `0 < mem ≤ 512` y `0 < cpu ≤ 1.0`: el valor 0 no es “sin tope válido”, es unlimited disfrazado. Un shell de debug permanente es breach. Scan limpio no basta sin límites acotados; el gate se llama `QUARANTINE_IMAGE` cuando falla.",
+        retrospective:
+          "Scan + límites + sin shell root = permiso de deploy hacia S44. El error clásico es CVE “después lo parcheamos” o mem 0 “para no OOM en lab”. Pregunta: ¿por qué mem 0 y CRITICAL>0 comparten el mismo no-go? We Do: `QUARANTINE_IMAGE`.",
       },
     ],
   },
@@ -636,7 +676,11 @@ scan ci_gate`,
         id: "S43-T1-A-E1",
         subtopicId: "S43-T1-A",
         kind: "guided",
-        instruction: "S43-T1-A-E1 · Calcula el contrato de `Dockerfile, layers y caché` sobre `CASO-TRU-043-1A`. La entrada es el dict completo del starter; la operación debe demostrar layer de dependencias reutilizable y digest estable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REORDER_DOCKERFILE` en E2.",
+        title: "Caché de deps antes del source",
+        preamble:
+          "- **Contexto:** en CASO-TRU-043-1A la API de Trujillo debe reutilizar la capa de dependencias cuando solo cambia el código.\n- **Meta:** corregir el predicado de contrato (lock antes de source, capa reusada, un rebuild de source, digest estable).\n- **Éxito:** una línea `S43-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes secretos; el DEFECT está en la condición booleana, no en los datos.",
+        instruction:
+          "1. Abre el starter: `meets_contract` usa `not dependency_layer_reused` y `rebuilds > 3` (DEFECT).\n2. Cámbialo a lock antes de source, capa reusada, `source_change_rebuilds == 1` y `digest_stable`.\n3. Conserva el print de status.\n4. Debe imprimir `S43-T1-A PASS`.",
         hint: "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
         hints: [
           "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
@@ -644,7 +688,10 @@ scan ci_gate`,
         ],
         edgeCases: ["falta digest_stable → INSPECT_CACHE_INVALIDATION", "adverso: source antes de lock / deps no reutilizadas / rebuilds altos → REORDER_DOCKERFILE", "CASO-TRU-043-1A es sintético"],
         tests: "El fixture `CASO-TRU-043-1A` satisface un predicado de dominio real; imprime `S43-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S43-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REORDER_DOCKERFILE y por qué faltar digest_stable exige INSPECT_CACHE_INVALIDATION.",
+        feedback:
+          "Con rebuilds=1 y capa reusada el contrato es True solo si dejas de premiar el desorden. Si dejas el predicado invertido, el happy path falla y el adverso de E2 «parece» válido: el gate de caché se vuelve inútil en la plataforma de Trujillo.",
+        retrospective:
+          "Deps antes de app es el mínimo de un Dockerfile cacheable: el lock fija la capa; el source no debe invalidarla. El error clásico es invertir el predicado o exigir rebuilds altos como “éxito”. Pregunta: si solo cambia `src/`, ¿qué capa debe reutilizarse y por qué el digest de deps no cambia? Siguiente (E2): enrutar válido, desorden y `digest_stable` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e1.py",
@@ -673,7 +720,11 @@ assert meets_contract is True` ,
         id: "S43-T1-A-E2",
         subtopicId: "S43-T1-A",
         kind: "independent",
-        instruction: "S43-T1-A-E2 · Modela tres rutas de `Dockerfile, layers y caché`: fixture válido, fixture adverso y registro sin `digest_stable`. Entrada: dict con case_id, lock_copied_before_source, dependency_layer_reused, source_change_rebuilds, digest_stable. Salidas exactas: `PASS`, `REORDER_DOCKERFILE`, `MISSING:digest_stable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de orden de layers",
+        preamble:
+          "- **Contexto:** el gate de build no solo mira el dict: primero exige campos, luego el orden de layers.\n- **Meta:** implementar `assess` que separe válido, adverso (source antes de lock) y sin `digest_stable`.\n- **Éxito:** `PASS REORDER_DOCKERFILE MISSING:digest_stable`.\n- **Límites:** calcula `missing` antes de leer digest; no rellenes el campo; datos sintéticos CASO-TRU-043-1A.",
+        instruction:
+          "1. Revisa el starter: PASS si no reusa capa y rebuilds > 3 (DEFECT).\n2. Corrige al predicado de T1-A (lock, reuso, rebuilds==1, digest).\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
@@ -681,7 +732,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta digest_stable → INSPECT_CACHE_INVALIDATION", "adverso: source antes de lock / deps no reutilizadas / rebuilds altos → REORDER_DOCKERFILE", "CASO-TRU-043-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `digest_stable` ausente y produce exactamente `PASS REORDER_DOCKERFILE MISSING:digest_stable`.",
-        feedback: "S43-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REORDER_DOCKERFILE y por qué faltar digest_stable exige INSPECT_CACHE_INVALIDATION.",
+        feedback:
+          "Schema (MISSING) se evalúa antes que contenido (REORDER). Si lees `digest_stable` antes del check de campos, tumba el flujo. El adverso falla por desorden de layers, no por schema.",
+        retrospective:
+          "Un gate de build honesto primero exige el schema y solo después juzga el orden de layers. El error clásico no es solo KeyError: es mezclar “falta evidencia” con “breach de orden” y mandar al equipo al runbook equivocado. Pregunta: si `digest_stable` falta, ¿por qué no inventar `True` “porque el lock se ve igual”? Luego (E3): CONTINUE / REORDER / INSPECT sobre texto de Dockerfile.",
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e2.py",
@@ -727,7 +781,11 @@ print(*results)
         id: "S43-T1-A-E3",
         subtopicId: "S43-T1-A",
         kind: "transfer",
-        instruction: "S43-T1-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-Dockerfile (stdlib, sin daemon). Orden correcto: `COPY requirements` (lock/deps) **antes** de `COPY src`. Tres entradas: Dockerfile bueno → `CONTINUE`, Dockerfile con source antes de deps → `REORDER_DOCKERFILE`, `None` (sin artefacto) → `INSPECT_CACHE_INVALIDATION`. El starter trata ausencia como CONTINUE y aprueba el orden invertido: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Auditar texto de Dockerfile",
+        preamble:
+          "- **Contexto:** en Trujillo no se inventa un Dockerfile vacío: se pide inspección de caché (texto sintético, sin daemon).\n- **Meta:** decidir CONTINUE / REORDER_DOCKERFILE / INSPECT_CACHE_INVALIDATION sobre el texto.\n- **Éxito:** `CONTINUE REORDER_DOCKERFILE INSPECT_CACHE_INVALIDATION`.\n- **Límites:** None/vacío → INSPECT (no CONTINUE); `COPY requirements` debe ir antes de `COPY src`; sin daemon real.",
+        instruction:
+          "1. Lee el DEFECT: None devuelve CONTINUE y el orden usa `src < req`.\n2. En `decide`, vacío → `INSPECT_CACHE_INVALIDATION`.\n3. Completos: CONTINUE solo si `req < src` y ambos existen.\n4. Imprime las tres decisiones en orden.",
         hint: "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
         hints: [
           "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
@@ -735,7 +793,10 @@ print(*results)
         ],
         edgeCases: ["dockerfile None/vacío → INSPECT_CACHE_INVALIDATION", "adverso: COPY src antes de COPY requirements → REORDER_DOCKERFILE", "CASO-TRU-043-1A es sintético"],
         tests: "Artefacto bueno, reordenado y ausente prueban CONTINUE / REORDER_DOCKERFILE / INSPECT_CACHE_INVALIDATION.",
-        feedback: "S43-T1-A-E3: explica en qué líneas del texto falló el orden, por qué REORDER_DOCKERFILE y por qué la ausencia exige INSPECT_CACHE_INVALIDATION sin rellenar el Dockerfile.",
+        feedback:
+          "INSPECT_* pide evidencia cuando no hay Dockerfile; REORDER cierra el breach de orden. Si tratas None como CONTINUE, el portfolio de Trujillo “aprueba” ausencia de artefacto.",
+        retrospective:
+          "INSPECT_* pide evidencia; REORDER_* cierra el breach de orden; CONTINUE solo con deps antes de app. El error clásico es tratar “sin Dockerfile” como OK. Pregunta: ¿por qué no rellenar un Dockerfile mínimo por defecto en silencio?",
         starterCode: {
           language: 'python',
           title: "s43-t1-a-e3.py",
@@ -802,7 +863,11 @@ assert results == ["CONTINUE", "REORDER_DOCKERFILE", "INSPECT_CACHE_INVALIDATION
         id: "S43-T1-B-E1",
         subtopicId: "S43-T1-B",
         kind: "guided",
-        instruction: "S43-T1-B-E1 · Compara el contrato de `bases, usuarios no root y tamaño` sobre `CASO-TRU-043-1B`. La entrada es el dict completo del starter; la operación debe demostrar base fijada, UID non-root, cero capabilities y tamaño límite. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REBUILD_NONROOT` en E2.",
+        title: "Non-root con base fijada",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-1B exige imagen parchable, proceso non-root y runtime bajo presupuesto.\n- **Meta:** corregir el predicado (base pinned, UID ≥1000, caps vacías, runtime ≤ max).\n- **Éxito:** `S43-T1-B PASS`.\n- **Límites:** no mutes el fixture; no uses `latest`; el DEFECT premia root o caps extras.",
+        instruction:
+          "1. Revisa: `meets_contract` es True con uid 0 o capabilities no vacías (DEFECT).\n2. Cámbialo a base pinned, uid ≥ 1000, `not capabilities`, runtime ≤ max.\n3. Conserva el print.\n4. Debe salir `S43-T1-B PASS`.",
         hint: "Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.",
         hints: [
           "Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.",
@@ -810,7 +875,10 @@ assert results == ["CONTINUE", "REORDER_DOCKERFILE", "INSPECT_CACHE_INVALIDATION
         ],
         edgeCases: ["falta max_mb → SELECT_PATCHABLE_BASE", "adverso: uid=0 / base no pinned / capabilities extras / runtime > max → REBUILD_NONROOT", "CASO-TRU-043-1B es sintético"],
         tests: "El fixture `CASO-TRU-043-1B` satisface un predicado de dominio real; imprime `S43-T1-B PASS` y el assert booleano pasa.",
-        feedback: "S43-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REBUILD_NONROOT y por qué faltar max_mb exige SELECT_PATCHABLE_BASE.",
+        feedback:
+          "UID 10001 con caps vacías solo pasa si dejas de premiar root. Si el predicado queda invertido, el happy path imprime breach y el adverso de E2 parece “seguro” en la API de Trujillo.",
+        retrospective:
+          "Privilegio mínimo se audita con números (UID, MB, caps), no con “confiamos en el equipo”. El error clásico es `USER root` o base flotante disfrazada de “arranque OK”. Pregunta: ¿por qué `capabilities` no vacías fallan aunque el UID sea 10001? E2: válido / root+caps / `max_mb` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e1.py",
@@ -839,7 +907,11 @@ assert meets_contract is True` ,
         id: "S43-T1-B-E2",
         subtopicId: "S43-T1-B",
         kind: "independent",
-        instruction: "S43-T1-B-E2 · Verifica tres rutas de `bases, usuarios no root y tamaño`: fixture válido, fixture adverso y registro sin `max_mb`. Entrada: dict con case_id, base_pinned, uid, capabilities, runtime_mb, max_mb. Salidas exactas: `PASS`, `REBUILD_NONROOT`, `MISSING:max_mb`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de runtime non-root",
+        preamble:
+          "- **Contexto:** sin techo de tamaño no se puede elegir base parchable con criterio.\n- **Meta:** `assess` que separe válido, adverso (uid 0, latest, SYS_ADMIN) y sin `max_mb`.\n- **Éxito:** `PASS REBUILD_NONROOT MISSING:max_mb`.\n- **Límites:** missing antes de leer max_mb; no inventes techo; fixture sintético.",
+        instruction:
+          "1. Corrige el PASS que premia root/caps.\n2. Aplica base pinned + uid ≥1000 + caps vacías + runtime ≤ max.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.",
@@ -847,7 +919,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta max_mb → SELECT_PATCHABLE_BASE", "adverso: uid=0 / base no pinned / capabilities extras / runtime > max → REBUILD_NONROOT", "CASO-TRU-043-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `max_mb` ausente y produce exactamente `PASS REBUILD_NONROOT MISSING:max_mb`.",
-        feedback: "S43-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REBUILD_NONROOT y por qué faltar max_mb exige SELECT_PATCHABLE_BASE.",
+        feedback:
+          "Falta de `max_mb` es incertidumbre de selección de base, no “pass silencioso”. El adverso (root + caps + latest) cierra con REBUILD_NONROOT por contenido, no por schema.",
+        retrospective:
+          "Sin techo de tamaño eliges base “a ojo”: SELECT no es castigo, es pedir criterio. El error clásico es rellenar 150 en silencio porque el lab lo usó. Pregunta: si el runtime mide 490 MB, ¿es breach de presupuesto o incertidumbre de schema? Luego (E3): parsear `USER`/`FROM` en texto de Dockerfile.",
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e2.py",
@@ -893,7 +968,11 @@ print(*results)
         id: "S43-T1-B-E3",
         subtopicId: "S43-T1-B",
         kind: "transfer",
-        instruction: "S43-T1-B-E3 · Transferencia de artefacto: parsea un mini-Dockerfile y un presupuesto de runtime. Criterio non-root: base con digest (`@sha256:`), `USER` con UID ≥1000, sin `USER 0`/`root`. Tres entradas: fragmento bueno + max_mb → `CONTINUE`, root/`latest` → `REBUILD_NONROOT`, `max_mb is None` → `SELECT_PATCHABLE_BASE`. Corrige missing→CONTINUE y el predicado invertido. Salida: imprime el valor de meets_contract.",
+        title: "Parsear USER y base en Dockerfile",
+        preamble:
+          "- **Contexto:** el artefacto real del portfolio es el Dockerfile (texto sintético), no el dict de lab.\n- **Meta:** CONTINUE / REBUILD_NONROOT / SELECT_PATCHABLE_BASE desde texto + presupuesto.\n- **Éxito:** `CONTINUE REBUILD_NONROOT SELECT_PATCHABLE_BASE`.\n- **Límites:** max_mb None → SELECT; USER ≥1000 y digest en FROM; sin shell root inventado.",
+        instruction:
+          "1. None de max_mb → `SELECT_PATCHABLE_BASE` (no CONTINUE).\n2. Extrae UID de `USER `; exige `@sha256:` y runtime ≤ max.\n3. BAD (latest + USER 0) → REBUILD_NONROOT.\n4. Imprime las tres decisiones.",
         hint: "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
         hints: [
           "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
@@ -901,7 +980,10 @@ print(*results)
         ],
         edgeCases: ["max_mb None → SELECT_PATCHABLE_BASE", "adverso: USER 0 o FROM …:latest → REBUILD_NONROOT", "CASO-TRU-043-1B es sintético"],
         tests: "Dockerfile non-root, Dockerfile root/latest y max_mb ausente prueban CONTINUE / REBUILD_NONROOT / SELECT_PATCHABLE_BASE.",
-        feedback: "S43-T1-B-E3: explica qué token del Dockerfile (USER/FROM) activó REBUILD_NONROOT y por qué la ausencia de max_mb exige SELECT_PATCHABLE_BASE.",
+        feedback:
+          "SELECT_* pide criterio de base cuando no hay techo; REBUILD cierra root o latest. Aprobar root “porque el servicio arranca” rompe CP-N4-A en Trujillo.",
+        retrospective:
+          "SELECT_* pide criterio de base; REBUILD_* cierra root/latest. Error clásico: aprobar root “porque el servicio arranca”. Pregunta: ¿por qué `latest` no es parchable de forma auditable?",
         starterCode: {
           language: 'python',
           title: "s43-t1-b-e3.py",
@@ -976,7 +1058,11 @@ assert results == ["CONTINUE", "REBUILD_NONROOT", "SELECT_PATCHABLE_BASE"]` ,
         id: "S43-T2-A-E1",
         subtopicId: "S43-T2-A",
         kind: "guided",
-        instruction: "S43-T2-A-E1 · Filtra el contrato de `config, secrets y volumes` sobre `CASO-TRU-043-2A`. La entrada es el dict completo del starter; la operación debe demostrar secretos runtime y estado durable/efímero separado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REMOVE_BAKED_SECRET` en E2.",
+        title: "Secretos solo en runtime",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-2A exige imagen e inspección sin secreto y DB fuera del efímero.\n- **Meta:** corregir predicado (no baked, runtime_secret, config declarada, db durable, cache efímero).\n- **Éxito:** `S43-T2-A PASS`.\n- **Límites:** no mutes fixtures; no pongas PII/secretos reales en el código.",
+        instruction:
+          "1. El DEFECT premia `secret_baked` o `\"db\" in ephemeral`.\n2. Invierte a no baked + runtime_secret + config_declared + mounts correctos.\n3. Conserva print y status.\n4. `S43-T2-A PASS`.",
         hint: "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
         hints: [
           "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
@@ -984,7 +1070,10 @@ assert results == ["CONTINUE", "REBUILD_NONROOT", "SELECT_PATCHABLE_BASE"]` ,
         ],
         edgeCases: ["falta ephemeral_volumes → CLASSIFY_VOLUME", "adverso: secret_baked o db en ephemeral → REMOVE_BAKED_SECRET", "CASO-TRU-043-2A es sintético"],
         tests: "El fixture `CASO-TRU-043-2A` satisface un predicado de dominio real; imprime `S43-T2-A PASS` y el assert booleano pasa.",
-        feedback: "S43-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REMOVE_BAKED_SECRET y por qué faltar ephemeral_volumes exige CLASSIFY_VOLUME.",
+        feedback:
+          "Con secret_baked=False el happy path solo pasa si dejas de premiar el horneado. Si no, REMOVE_BAKED_SECRET se convierte en la “ruta normal” y la rotación de claves en Trujillo exige rebuild de app.",
+        retrospective:
+          "Runtime injection es el hábito que permite rotar sin reempaquetar la API de Trujillo. El error clásico es `ENV KEY=valor` en Dockerfile o DB en volume efímero. Pregunta: ¿qué se rompe primero al redeploy si `db` está en ephemeral: la app o los datos? E2: válido / secret+db efímero / `ephemeral_volumes` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e1.py",
@@ -1013,7 +1102,11 @@ assert meets_contract is True` ,
         id: "S43-T2-A-E2",
         subtopicId: "S43-T2-A",
         kind: "independent",
-        instruction: "S43-T2-A-E2 · Clasifica tres rutas de `config, secrets y volumes`: fixture válido, fixture adverso y registro sin `ephemeral_volumes`. Entrada: dict con case_id, secret_baked, runtime_secret, config_declared, durable_volumes, ephemeral_volumes. Salidas exactas: `PASS`, `REMOVE_BAKED_SECRET`, `MISSING:ephemeral_volumes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de secrets y volumes",
+        preamble:
+          "- **Contexto:** sin clasificación de efímeros no se sabe qué se puede borrar al redeploy.\n- **Meta:** assess válido, adverso (secret horneado, db en ephemeral) e incomplete.\n- **Éxito:** `PASS REMOVE_BAKED_SECRET MISSING:ephemeral_volumes`.\n- **Límites:** missing primero; no inventes mounts; sintético.",
+        instruction:
+          "1. Corrige el predicado invertido del starter.\n2. Exige no baked + runtime + config + db durable + cache efímero.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
@@ -1021,7 +1114,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta ephemeral_volumes → CLASSIFY_VOLUME", "adverso: secret_baked o db en ephemeral → REMOVE_BAKED_SECRET", "CASO-TRU-043-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `ephemeral_volumes` ausente y produce exactamente `PASS REMOVE_BAKED_SECRET MISSING:ephemeral_volumes`.",
-        feedback: "S43-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REMOVE_BAKED_SECRET y por qué faltar ephemeral_volumes exige CLASSIFY_VOLUME.",
+        feedback:
+          "CLASSIFY_VOLUME es incertidumbre de mounts; REMOVE es breach de contenido (secret o DB efímera). No rellenes ephemeral en silencio: en redeploy borrarías la DB de Trujillo.",
+        retrospective:
+          "Separar incertidumbre de mounts (CLASSIFY) de breach de contenido (REMOVE) evita dos runbooks confusos en el mismo incidente. El error clásico es “inventar” `{\"cache\"}` para no ver MISSING. Pregunta: en un redeploy agresivo, ¿qué volume puedes borrar sin pedir backup? Luego (E3): inspeccionar strings de history sintético.",
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e2.py",
@@ -1067,7 +1163,11 @@ print(*results)
         id: "S43-T2-A-E3",
         subtopicId: "S43-T2-A",
         kind: "transfer",
-        instruction: "S43-T2-A-E3 · Transferencia de artefacto: inspecciona **historial de capas** (strings de `docker history` sintético) y clasificación de volumes. Sin `SECRET=`/`PASSWORD=` en capas; `db` durable y `cache` efímero. Tres entradas: capas limpias + mounts correctos → `CONTINUE`, capa con secret o DB en efímero → `REMOVE_BAKED_SECRET`, `ephemeral is None` → `CLASSIFY_VOLUME`. El starter trata ausencia como CONTINUE y aprueba capas con secret: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Inspeccionar capas y mounts",
+        preamble:
+          "- **Contexto:** el portfolio pedirá evidencia de history sin secretos, no un dict de lab.\n- **Meta:** CONTINUE / REMOVE_BAKED_SECRET / CLASSIFY_VOLUME.\n- **Éxito:** `CONTINUE REMOVE_BAKED_SECRET CLASSIFY_VOLUME`.\n- **Límites:** ephemeral None → CLASSIFY; busca SECRET=/PASSWORD=; db no puede ser efímero.",
+        instruction:
+          "1. None de ephemeral → CLASSIFY_VOLUME.\n2. ok = no baked + db durable + cache ephemeral + db no en ephemeral.\n3. BAD layers/mounts → REMOVE.\n4. Imprime las tres decisiones.",
         hint: "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
         hints: [
           "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
@@ -1075,7 +1175,10 @@ print(*results)
         ],
         edgeCases: ["ephemeral None → CLASSIFY_VOLUME", "adverso: SECRET= en capa o db en ephemeral → REMOVE_BAKED_SECRET", "CASO-TRU-043-2A es sintético"],
         tests: "Capas limpias, capas con secret y mounts ausentes prueban CONTINUE / REMOVE_BAKED_SECRET / CLASSIFY_VOLUME.",
-        feedback: "S43-T2-A-E3: explica qué token de capa o mount activó REMOVE_BAKED_SECRET y por qué la ausencia de ephemeral exige CLASSIFY_VOLUME sin rellenar volúmenes.",
+        feedback:
+          "History legible es evidencia de rotación. Aprobar `SECRET=sk-demo` “porque es demo” deja el mismo patrón que un secret real en capas de la API de Trujillo.",
+        retrospective:
+          "Un `SECRET=sk-demo` “porque es lab” enseña el mismo reflejo que un secret real en capas: history lo delata y rotar exige rebuild. El error clásico es CONTINUE con db en ephemeral “si no hay SECRET=”. Pregunta: ¿por qué rotar un secret horneado siempre es más caro que un mount de runtime? Ese hábito se reutiliza en el You Do al firmar el artefacto de secrets.",
         starterCode: {
           language: 'python',
           title: "s43-t2-a-e3.py",
@@ -1136,7 +1239,11 @@ assert results == ["CONTINUE", "REMOVE_BAKED_SECRET", "CLASSIFY_VOLUME"]` ,
         id: "S43-T2-B-E1",
         subtopicId: "S43-T2-B",
         kind: "guided",
-        instruction: "S43-T2-B-E1 · Modela el contrato de `networking, health checks y signals` sobre `CASO-TRU-043-2B`. La entrada es el dict completo del starter; la operación debe demostrar network privada, health semántico y drain de SIGTERM. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DRAIN_AND_ISOLATE` en E2.",
+        title: "Readiness y drain en SIGTERM",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-2B exige red privada, probes semánticos y grace ≥20 s.\n- **Meta:** corregir predicado (private, readiness_db, liveness, drains, grace≥20).\n- **Éxito:** `S43-T2-B PASS`.\n- **Límites:** no mutes fixture; no simules red pública como “ok”.",
+        instruction:
+          "1. DEFECT: PASS cuando falta readiness o no drena.\n2. Exige los cinco campos del contrato T2-B.\n3. Conserva print.\n4. `S43-T2-B PASS`.",
         hint: "Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.",
         hints: [
           "Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.",
@@ -1144,7 +1251,10 @@ assert results == ["CONTINUE", "REMOVE_BAKED_SECRET", "CLASSIFY_VOLUME"]` ,
         ],
         edgeCases: ["falta grace_seconds → DIAGNOSE_HEALTH_SIGNAL", "adverso: readiness falsa / sin drain SIGTERM / red pública → DRAIN_AND_ISOLATE", "CASO-TRU-043-2B es sintético"],
         tests: "El fixture `CASO-TRU-043-2B` satisface un predicado de dominio real; imprime `S43-T2-B PASS` y el assert booleano pasa.",
-        feedback: "S43-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DRAIN_AND_ISOLATE y por qué faltar grace_seconds exige DIAGNOSE_HEALTH_SIGNAL.",
+        feedback:
+          "Con grace 30 y drains True el happy path solo pasa si dejas de premiar el apagado sucio. Si no, DRAIN_AND_ISOLATE se vuelve la norma en cada redeploy de Trujillo.",
+        retrospective:
+          "Drain ensayado es parte del deploy, no un “nice to have”: sin él el redeploy deja trabajo a medias. El error clásico es un kill -9 mental en prod. Pregunta: ¿grace 15 s es suficiente para tu SLO de requests en vuelo? E2: válido / red pública sin drain / grace ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e1.py",
@@ -1173,7 +1283,11 @@ assert meets_contract is True` ,
         id: "S43-T2-B-E2",
         subtopicId: "S43-T2-B",
         kind: "independent",
-        instruction: "S43-T2-B-E2 · Audita tres rutas de `networking, health checks y signals`: fixture válido, fixture adverso y registro sin `grace_seconds`. Entrada: dict con case_id, private_network, readiness_db, liveness_loop, sigterm_drains, grace_seconds. Salidas exactas: `PASS`, `DRAIN_AND_ISOLATE`, `MISSING:grace_seconds`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de health y señales",
+        preamble:
+          "- **Contexto:** sin grace documentado no se puede diagnosticar un apagado limpio.\n- **Meta:** assess válido, adverso (red pública, readiness falsa, grace 0) e incomplete.\n- **Éxito:** `PASS DRAIN_AND_ISOLATE MISSING:grace_seconds`.\n- **Límites:** missing antes de grace; no inventes 30 s por defecto.",
+        instruction:
+          "1. Corrige predicado invertido.\n2. Exige private + readiness + liveness + drains + grace≥20.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.",
@@ -1181,7 +1295,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta grace_seconds → DIAGNOSE_HEALTH_SIGNAL", "adverso: readiness falsa / sin drain SIGTERM / red pública → DRAIN_AND_ISOLATE", "CASO-TRU-043-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `grace_seconds` ausente y produce exactamente `PASS DRAIN_AND_ISOLATE MISSING:grace_seconds`.",
-        feedback: "S43-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DRAIN_AND_ISOLATE y por qué faltar grace_seconds exige DIAGNOSE_HEALTH_SIGNAL.",
+        feedback:
+          "DIAGNOSE_HEALTH_SIGNAL pide evidencia de grace; DRAIN cierra breach de red pública o readiness falsa. No inventes 30 s por defecto: el runbook debe documentarlo.",
+        retrospective:
+          "Sin grace documentado no sabes si el apagado fue limpio o un kill con otro nombre. El error clásico es inventar 30 s “porque el demo lo usó”. Pregunta: ¿qué evidencia pedirías en el runbook además del número de grace? Luego (E3): parsear log de probes sintético.",
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e2.py",
@@ -1227,7 +1344,11 @@ print(*results)
         id: "S43-T2-B-E3",
         subtopicId: "S43-T2-B",
         kind: "transfer",
-        instruction: "S43-T2-B-E3 · Transferencia de artefacto: audita un **log de probes/señales** (texto sintético, stdlib). Criterio: `network=private`, readiness con `db_ok=true` y 200 (nunca 200 si `db_ok=false`), `/healthz` presente, y SIGTERM con `drained=true` y `grace_seconds` ≥ 20. Tres entradas: log bueno → `CONTINUE`, log con readiness falsa / red pública / sin drain → `DRAIN_AND_ISOLATE`, `None` → `DIAGNOSE_HEALTH_SIGNAL`. El starter trata ausencia como CONTINUE y aprueba el log adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Auditar log de probes y SIGTERM",
+        preamble:
+          "- **Contexto:** en incidentes el artefacto es el log, no el dict del lab.\n- **Meta:** CONTINUE / DRAIN_AND_ISOLATE / DIAGNOSE_HEALTH_SIGNAL.\n- **Éxito:** `CONTINUE DRAIN_AND_ISOLATE DIAGNOSE_HEALTH_SIGNAL`.\n- **Límites:** log vacío → DIAGNOSE; readiness 200 con db caída es breach; grace numérico ≥20.",
+        instruction:
+          "1. None/vacío → DIAGNOSE_HEALTH_SIGNAL.\n2. Exige network=private, ready_ok, /healthz, drained y grace≥20.\n3. BAD_LOG → DRAIN_AND_ISOLATE.\n4. Imprime las tres decisiones.",
         hint: "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
         hints: [
           "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
@@ -1235,7 +1356,10 @@ print(*results)
         ],
         edgeCases: ["log None/vacío → DIAGNOSE_HEALTH_SIGNAL", "adverso: readiness 200 con db caída / sin drain / red pública → DRAIN_AND_ISOLATE", "CASO-TRU-043-2B es sintético"],
         tests: "Log bueno, log adverso y ausencia prueban CONTINUE / DRAIN_AND_ISOLATE / DIAGNOSE_HEALTH_SIGNAL.",
-        feedback: "S43-T2-B-E3: explica qué línea del log (network, /readyz o SIGTERM) activó DRAIN_AND_ISOLATE y por qué la ausencia exige DIAGNOSE_HEALTH_SIGNAL sin rellenar el log.",
+        feedback:
+          "Un 200 con db caída es mentira operativa: el orquestador envía tráfico a una API que no puede servir. grace 0 no cuenta como drain aunque digas “live=true”.",
+        retrospective:
+          "Un 200 con `db_ok=false` es mentira operativa: el orquestador llena de tráfico una API ciega. El error clásico es confiar en `live=true` como ready o en grace 0 como “drain simbólico”. Pregunta: ¿por qué grace 0 no cuenta aunque `drained=true` esté hardcodeado en el log? Ese criterio viaja al You Do al documentar SIGTERM.",
         starterCode: {
           language: 'python',
           title: "s43-t2-b-e3.py",
@@ -1312,7 +1436,11 @@ assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
         id: "S43-T3-A-E1",
         subtopicId: "S43-T3-A",
         kind: "guided",
-        instruction: "S43-T3-A-E1 · Verifica el contrato de `API/worker/DB/cache` sobre `CASO-TRU-043-3A`. La entrada es el dict completo del starter; la operación debe demostrar cuatro servicios sanos, retries y redes segmentadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_UNHEALTHY_STACK` en E2.",
+        title: "Stack sano con retries de app",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-3A exige api/worker/db/cache healthy, retries a DB y redes front/back.\n- **Meta:** corregir predicado de stack.\n- **Éxito:** `S43-T3-A PASS`.\n- **Límites:** no mutes sets del fixture; no sustituyas retries por depends_on en la cabeza del learner.",
+        instruction:
+          "1. DEFECT: PASS cuando el stack está roto.\n2. Exige REQUIRED ⊆ services, healthy==services, api_retries_db, front/back ⊆ networks.\n3. Conserva print.\n4. `S43-T3-A PASS`.",
         hint: "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
         hints: [
           "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
@@ -1320,7 +1448,10 @@ assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
         ],
         edgeCases: ["falta networks → WAIT_FOR_DEPENDENCY", "adverso: healthy≠services / sin retries / red única → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
         tests: "El fixture `CASO-TRU-043-3A` satisface un predicado de dominio real; imprime `S43-T3-A PASS` y el assert booleano pasa.",
-        feedback: "S43-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa STOP_UNHEALTHY_STACK y por qué faltar networks exige WAIT_FOR_DEPENDENCY.",
+        feedback:
+          "Con los cuatro servicios healthy el happy path solo pasa si dejas de premiar el stack roto. Si no, STOP_UNHEALTHY_STACK se vuelve el “éxito” del print y el comando limpio de Trujillo miente.",
+        retrospective:
+          "Retries de aplicación son código de la API (backoff), no magia de Compose ni `restart_policy` del orquestador. El error clásico es healthy solo en db y declarar el stack “OK”. Pregunta: ¿qué token en el YAML demuestra retries de app y no solo orden de arranque? E2: válido / half healthy / networks ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e1.py",
@@ -1349,7 +1480,11 @@ assert meets_contract is True` ,
         id: "S43-T3-A-E2",
         subtopicId: "S43-T3-A",
         kind: "independent",
-        instruction: "S43-T3-A-E2 · Decide tres rutas de `API/worker/DB/cache`: fixture válido, fixture adverso y registro sin `networks`. Entrada: dict con case_id, services, healthy, api_retries_db, networks. Salidas exactas: `PASS`, `STOP_UNHEALTHY_STACK`, `MISSING:networks`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de stack Compose",
+        preamble:
+          "- **Contexto:** sin mapa de redes no se espera a dependencias con criterio.\n- **Meta:** assess válido, adverso (solo db healthy, sin retries, red default) e incomplete.\n- **Éxito:** `PASS STOP_UNHEALTHY_STACK MISSING:networks`.\n- **Límites:** missing primero; no inventes front/back.",
+        instruction:
+          "1. Corrige predicado invertido.\n2. Aplica regla de cuatro servicios + retries + redes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.",
@@ -1357,7 +1492,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta networks → WAIT_FOR_DEPENDENCY", "adverso: healthy≠services / sin retries / red única → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `networks` ausente y produce exactamente `PASS STOP_UNHEALTHY_STACK MISSING:networks`.",
-        feedback: "S43-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa STOP_UNHEALTHY_STACK y por qué faltar networks exige WAIT_FOR_DEPENDENCY.",
+        feedback:
+          "WAIT_FOR_DEPENDENCY es incertidumbre de topología (sin mapa de redes no sabes a quién esperar). STOP cierra stack half-healthy o sin retries. No inventes `front`/`back`: el compose debe declararlas o el “un comando limpio” de Trujillo es teatro.",
+        retrospective:
+          "Schema de redes antes de contenido evita perseguir un worker “unhealthy” cuando en realidad no sabes la topología. El error clásico es rellenar redes default y aprobar. Pregunta: si solo existe la red `default`, ¿qué exposición de DB no puedes acotar? Luego (E3): auditar texto de compose.yaml.",
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e2.py",
@@ -1403,7 +1541,11 @@ print(*results)
         id: "S43-T3-A-E3",
         subtopicId: "S43-T3-A",
         kind: "transfer",
-        instruction: "S43-T3-A-E3 · Transferencia de artefacto: audita el **texto** de un mini-`compose.yaml` (stdlib). Debe declarar `api`, `worker`, `db`, `cache`, redes `front` y `back`, y **retries de aplicación** en la API (`DB_MAX_ATTEMPTS` o equivalente — no basta un `depends_on` solo). Tres entradas: YAML bueno → `CONTINUE`, YAML sin redes/sin worker/sin retries de app → `STOP_UNHEALTHY_STACK`, `None` → `WAIT_FOR_DEPENDENCY`. El starter trata ausencia como CONTINUE y aprueba el YAML incompleto: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Auditar texto de compose.yaml",
+        preamble:
+          "- **Contexto:** el artefacto del portfolio es el YAML (texto sintético), no el set de Python.\n- **Meta:** CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.\n- **Éxito:** `CONTINUE STOP_UNHEALTHY_STACK WAIT_FOR_DEPENDENCY`.\n- **Límites:** compose vacío → WAIT; retries de app (`DB_MAX_ATTEMPTS` o `retries`), no solo depends_on.",
+        instruction:
+          "1. None/vacío → WAIT_FOR_DEPENDENCY.\n2. Exige api/worker/db/cache + front/back + token de retries de app.\n3. BAD_COMPOSE → STOP.\n4. Imprime las tres decisiones.",
         hint: "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
         hints: [
           "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
@@ -1411,7 +1553,10 @@ print(*results)
         ],
         edgeCases: ["compose None/vacío → WAIT_FOR_DEPENDENCY", "adverso: falta worker o redes front/back o DB_MAX_ATTEMPTS → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
         tests: "Compose bueno, incompleto y ausente prueban CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.",
-        feedback: "S43-T3-A-E3: explica qué faltó (servicio, red o DB_MAX_ATTEMPTS), por qué STOP_UNHEALTHY_STACK y por qué la ausencia exige WAIT_FOR_DEPENDENCY sin rellenar el compose.",
+        feedback:
+          "depends_on no sustituye backoff de la app. Aprobar YAML con solo api deja worker/DB/cache fuera del “un comando limpio” de CP-N4-A.",
+        retrospective:
+          "El YAML del portfolio es el artefacto auditado, no el set de Python del lab: `DB_MAX_ATTEMPTS` debe verse en el texto. El error clásico es confiar en `depends_on` o en `restart_policy` del orquestador como si reintentaran la conexión a DB. Pregunta: ¿por qué un stack con solo `api:` y red `default` no es un comando limpio de CP-N4-A?",
         starterCode: {
           language: 'python',
           title: "s43-t3-a-e3.py",
@@ -1503,7 +1648,11 @@ assert results == ["CONTINUE", "STOP_UNHEALTHY_STACK", "WAIT_FOR_DEPENDENCY"]` ,
         id: "S43-T3-B-E1",
         subtopicId: "S43-T3-B",
         kind: "guided",
-        instruction: "S43-T3-B-E1 · Clasifica el contrato de `dependencias, migraciones y datos efímeros` sobre `CASO-TRU-043-3B`. La entrada es el dict completo del starter; la operación debe demostrar expand compatible, efímero recreable y restore aprobado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLL_BACK_MIGRATION` en E2.",
+        title: "Expand compatible y restore",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-3B exige expand, compat con código viejo, reset de efímeros y backup restaurado.\n- **Meta:** corregir predicado de migración.\n- **Éxito:** `S43-T3-B PASS`.\n- **Límites:** no mutes fixture; no marques restore True sin entender el drill.",
+        instruction:
+          "1. DEFECT premia contract incompatible.\n2. Exige expand + old_ok + ephemeral_reset + backup_restored.\n3. Conserva print.\n4. `S43-T3-B PASS`.",
         hint: "Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.",
         hints: [
           "Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.",
@@ -1511,7 +1660,10 @@ assert results == ["CONTINUE", "STOP_UNHEALTHY_STACK", "WAIT_FOR_DEPENDENCY"]` ,
         ],
         edgeCases: ["falta backup_restored → RUN_RESTORE_DRILL", "adverso: contract sin compat / sin restore / efímero mal clasificado → ROLL_BACK_MIGRATION", "CASO-TRU-043-3B es sintético"],
         tests: "El fixture `CASO-TRU-043-3B` satisface un predicado de dominio real; imprime `S43-T3-B PASS` y el assert booleano pasa.",
-        feedback: "S43-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLL_BACK_MIGRATION y por qué faltar backup_restored exige RUN_RESTORE_DRILL.",
+        feedback:
+          "Con expand y restore True el happy path solo pasa si dejas de premiar el contract peligroso. Si no, ROLL_BACK_MIGRATION se imprime como “éxito” del status y el release de Trujillo avanza a ciegas.",
+        retrospective:
+          "Expand/contract es disciplina de compat con código en producción, no jerga de DBA. El error clásico es borrar columnas con código viejo vivo o marcar restore True sin drill. Pregunta: ¿qué pasa si `migration==\"contract\"` y `old_code_compatible` es False en un rolling deploy? E2: válido / contract malo / `backup_restored` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e1.py",
@@ -1540,7 +1692,11 @@ assert meets_contract is True` ,
         id: "S43-T3-B-E2",
         subtopicId: "S43-T3-B",
         kind: "independent",
-        instruction: "S43-T3-B-E2 · Calcula tres rutas de `dependencias, migraciones y datos efímeros`: fixture válido, fixture adverso y registro sin `backup_restored`. Entrada: dict con case_id, migration, old_code_compatible, ephemeral_reset, backup_restored. Salidas exactas: `PASS`, `ROLL_BACK_MIGRATION`, `MISSING:backup_restored`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de migración y restore",
+        preamble:
+          "- **Contexto:** sin flag de restore no se puede aprobar el drill de recuperación.\n- **Meta:** assess válido, adverso (contract, sin compat, sin reset, sin restore) e incomplete.\n- **Éxito:** `PASS ROLL_BACK_MIGRATION MISSING:backup_restored`.\n- **Límites:** missing primero; no inventes PASS de restore.",
+        instruction:
+          "1. Corrige predicado invertido.\n2. Aplica expand + flags verdes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.",
@@ -1548,7 +1704,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta backup_restored → RUN_RESTORE_DRILL", "adverso: contract sin compat / sin restore / efímero mal clasificado → ROLL_BACK_MIGRATION", "CASO-TRU-043-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `backup_restored` ausente y produce exactamente `PASS ROLL_BACK_MIGRATION MISSING:backup_restored`.",
-        feedback: "S43-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLL_BACK_MIGRATION y por qué faltar backup_restored exige RUN_RESTORE_DRILL.",
+        feedback:
+          "RUN_RESTORE_DRILL es incertidumbre: sin flag no apruebas recuperación. ROLL_BACK cierra contract sin compat o sin reset de efímeros. No inventes PASS de restore: el drill debe ejecutarse y documentarse en el runbook de Trujillo.",
+        retrospective:
+          "Un release con restore “asumido” no es reproducible: no hay evidencia de recovery. El error clásico es leer `backup_restored` antes del check de schema y tumbar el assess. Pregunta: si el adverso trae `ephemeral_reset=False`, ¿qué datos estás a punto de tratar como desechables? Luego (E3): auditar runbook de texto.",
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e2.py",
@@ -1594,7 +1753,11 @@ print(*results)
         id: "S43-T3-B-E3",
         subtopicId: "S43-T3-B",
         kind: "transfer",
-        instruction: "S43-T3-B-E3 · Transferencia de artefacto: audita un **runbook de migración** (texto sintético). Criterio: `strategy: expand`, `old_code_compatible: yes`, `backup_restore_drill: PASS`, y efímeros sin montar `db` como efímero. Tres entradas: runbook bueno → `CONTINUE`, contract sin compat / restore SKIPPED / db efímero → `ROLL_BACK_MIGRATION`, `None` → `RUN_RESTORE_DRILL`. El starter trata ausencia como CONTINUE y aprueba el runbook adverso: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Auditar runbook de migración",
+        preamble:
+          "- **Contexto:** el portfolio pide runbook legible, no un bool en Python.\n- **Meta:** CONTINUE / ROLL_BACK_MIGRATION / RUN_RESTORE_DRILL.\n- **Éxito:** `CONTINUE ROLL_BACK_MIGRATION RUN_RESTORE_DRILL`.\n- **Límites:** runbook vacío → RUN_RESTORE_DRILL; rechaza ephemeral: db y restore SKIPPED.",
+        instruction:
+          "1. None/vacío → RUN_RESTORE_DRILL.\n2. Exige strategy expand, old_code_compatible yes, restore PASS, sin ephemeral: db.\n3. BAD_RB → ROLL_BACK.\n4. Imprime las tres decisiones.",
         hint: "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
         hints: [
           "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
@@ -1602,7 +1765,10 @@ print(*results)
         ],
         edgeCases: ["runbook None/vacío → RUN_RESTORE_DRILL", "adverso: contract sin compat / restore SKIPPED / db efímero → ROLL_BACK_MIGRATION", "CASO-TRU-043-3B es sintético"],
         tests: "Runbook bueno, runbook adverso y ausencia prueban CONTINUE / ROLL_BACK_MIGRATION / RUN_RESTORE_DRILL.",
-        feedback: "S43-T3-B-E3: explica qué línea del runbook (strategy, compat o restore) activó ROLL_BACK_MIGRATION y por qué la ausencia exige RUN_RESTORE_DRILL sin rellenar el archivo.",
+        feedback:
+          "Un restore SKIPPED no es “después lo vemos”: es no-go. DB en ephemeral rompe el rollback y el recovery de la plataforma de Trujillo.",
+        retrospective:
+          "Un restore SKIPPED no es deuda menor: es no-go de promoción. El error clásico es aprobar contract sin compat o `ephemeral: db` “porque el compose es de lab”. Pregunta: ¿por qué db en ephemeral rompe el rollback aunque el strategy diga expand? Ese criterio se defiende en el You Do del runbook.",
         starterCode: {
           language: 'python',
           title: "s43-t3-b-e3.py",
@@ -1671,7 +1837,11 @@ assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
         id: "S43-T4-A-E1",
         subtopicId: "S43-T4-A",
         kind: "guided",
-        instruction: "S43-T4-A-E1 · Audita el contrato de `locks y multi-stage builds` sobre `CASO-TRU-043-4A`. La entrada es el dict completo del starter; la operación debe demostrar lock con hash y runtime sin toolchain. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNPINNED_BUILD` en E2.",
+        title: "Lock hasheado y runtime slim",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-4A exige lock `sha256:…`, stages builder+runtime, sin compiler en runtime y deps locked.\n- **Meta:** corregir predicado multi-stage.\n- **Éxito:** `S43-T4-A PASS`.\n- **Límites:** no mutes fixture; no aceptes lock `latest` como pin.",
+        instruction:
+          "1. DEFECT premia unlock o compiler en runtime.\n2. Exige startswith sha256, stages ⊇ {builder,runtime}, not compiler, runtime_deps_locked.\n3. Conserva print.\n4. `S43-T4-A PASS`.",
         hint: "Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.",
         hints: [
           "Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.",
@@ -1679,7 +1849,10 @@ assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
         ],
         edgeCases: ["falta runtime_deps_locked → REGENERATE_LOCK", "adverso: lock flotante / compiler en runtime / sin builder → BLOCK_UNPINNED_BUILD", "CASO-TRU-043-4A es sintético"],
         tests: "El fixture `CASO-TRU-043-4A` satisface un predicado de dominio real; imprime `S43-T4-A PASS` y el assert booleano pasa.",
-        feedback: "S43-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNPINNED_BUILD y por qué faltar runtime_deps_locked exige REGENERATE_LOCK.",
+        feedback:
+          "Con lock sha256 y runtime sin compiler el happy path solo pasa si dejas de premiar el build flotante. Si no, BLOCK_UNPINNED_BUILD se imprime como “PASS” y la supply chain de Trujillo no es reproducible.",
+        retrospective:
+          "Pin + multi-stage es disciplina de supply chain local: el builder no viaja a prod. El error clásico es gcc en la imagen final “por si depuramos”. Pregunta: ¿qué viaja a prod si solo hay stage runtime con `apt install gcc`? E2: válido / latest+compiler / `runtime_deps_locked` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e1.py",
@@ -1708,7 +1881,11 @@ assert meets_contract is True` ,
         id: "S43-T4-A-E2",
         subtopicId: "S43-T4-A",
         kind: "independent",
-        instruction: "S43-T4-A-E2 · Compara tres rutas de `locks y multi-stage builds`: fixture válido, fixture adverso y registro sin `runtime_deps_locked`. Entrada: dict con case_id, lock_hash, stages, compiler_in_runtime, runtime_deps_locked. Salidas exactas: `PASS`, `BLOCK_UNPINNED_BUILD`, `MISSING:runtime_deps_locked`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de lock multi-stage",
+        preamble:
+          "- **Contexto:** sin flag de deps locked no se regenera el lock con criterio.\n- **Meta:** assess válido, adverso (latest, solo runtime, compiler) e incomplete.\n- **Éxito:** `PASS BLOCK_UNPINNED_BUILD MISSING:runtime_deps_locked`.\n- **Límites:** missing primero; no inventes sha256.",
+        instruction:
+          "1. Corrige predicado invertido.\n2. Aplica regla de pin + stages + no compiler + locked.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.",
@@ -1716,7 +1893,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta runtime_deps_locked → REGENERATE_LOCK", "adverso: lock flotante / compiler en runtime / sin builder → BLOCK_UNPINNED_BUILD", "CASO-TRU-043-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `runtime_deps_locked` ausente y produce exactamente `PASS BLOCK_UNPINNED_BUILD MISSING:runtime_deps_locked`.",
-        feedback: "S43-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNPINNED_BUILD y por qué faltar runtime_deps_locked exige REGENERATE_LOCK.",
+        feedback:
+          "REGENERATE_LOCK es incertidumbre de pin: sin `runtime_deps_locked` no inventes `sha256:`. BLOCK cierra latest, un solo stage o compiler en runtime. En Trujillo un build flotante hoy no es el de mañana aunque el Dockerfile “se vea igual”.",
+        retrospective:
+          "Regenerar el lock con evidencia es distinto de bloquear un breach de toolchain en la imagen final. El error clásico es hardcodear `sha256:abc` del demo. Pregunta: si solo existe stage `runtime` con gcc, ¿qué superficie y qué reproducibilidad pierdes? Luego (E3): parsear multi-stage real en texto.",
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e2.py",
@@ -1762,7 +1942,11 @@ print(*results)
         id: "S43-T4-A-E3",
         subtopicId: "S43-T4-A",
         kind: "transfer",
-        instruction: "S43-T4-A-E3 · Transferencia de artefacto: audita un **Dockerfile multi-stage** (texto) y un `lock_hash`. Criterio: stages `AS builder` y `AS runtime`, `COPY --from=builder`, lock con prefijo `sha256:`, y **sin** `gcc`/`g++` en el stage runtime. Tres entradas: bueno + lock pinned → `CONTINUE`, runtime con compiler o lock `latest` → `BLOCK_UNPINNED_BUILD`, `lock_hash is None` → `REGENERATE_LOCK`. El starter trata lock ausente como CONTINUE y aprueba el Dockerfile malo: corrige ambas ramas. Salida: imprime el valor de meets_contract.",
+        title: "Auditar multi-stage y lock",
+        preamble:
+          "- **Contexto:** el Dockerfile del portfolio es el artefacto auditado en CI (texto sintético, sin daemon).\n- **Meta:** CONTINUE / BLOCK_UNPINNED_BUILD / REGENERATE_LOCK.\n- **Éxito:** `CONTINUE BLOCK_UNPINNED_BUILD REGENERATE_LOCK`.\n- **Límites:** lock None → REGENERATE; busca gcc solo en el tramo runtime; exige COPY --from=builder.",
+        instruction:
+          "1. lock_hash None → REGENERATE_LOCK.\n2. ok = pin sha256 + builder + runtime + COPY --from + sin gcc/g++ en runtime.\n3. BAD_DF + latest → BLOCK.\n4. Imprime las tres decisiones.",
         hint: "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
         hints: [
           "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
@@ -1770,7 +1954,10 @@ print(*results)
         ],
         edgeCases: ["lock_hash None → REGENERATE_LOCK", "adverso: lock latest / gcc en runtime / sin builder → BLOCK_UNPINNED_BUILD", "CASO-TRU-043-4A es sintético"],
         tests: "Dockerfile multi-stage limpio, Dockerfile con compiler en runtime y lock ausente prueban CONTINUE / BLOCK_UNPINNED_BUILD / REGENERATE_LOCK.",
-        feedback: "S43-T4-A-E3: explica qué token del Dockerfile o del lock activó BLOCK_UNPINNED_BUILD y por qué la ausencia de lock exige REGENERATE_LOCK.",
+        feedback:
+          "Toolchain en runtime infla superficie y rompe slim. Un solo stage “para ir más rápido” deja gcc en la imagen final que promociona Trujillo.",
+        retrospective:
+          "`COPY --from=builder` es el puente: el toolchain se queda en el stage de build. El error clásico es un solo stage “para ir más rápido” o lock `latest` disfrazado de pin. Pregunta: ¿por qué un tag flotante no es auditable entre dos builds del mismo día?",
         starterCode: {
           language: 'python',
           title: "s43-t4-a-e3.py",
@@ -1847,7 +2034,11 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         id: "S43-T4-B-E1",
         subtopicId: "S43-T4-B",
         kind: "guided",
-        instruction: "S43-T4-B-E1 · Decide el contrato de `scanning, resource limits y debugging` sobre `CASO-TRU-043-4B`. La entrada es el dict completo del starter; la operación debe demostrar scan limpio, **límites estrictamente positivos** (0 < mem ≤ 512, 0 < cpu ≤ 1.0) y debugging sin shell root. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S43-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_IMAGE` en E2.",
+        title: "Scan limpio y límites > 0",
+        preamble:
+          "- **Contexto:** CASO-TRU-043-4B exige 0 CVE crítico, 0<mem≤512, 0<cpu≤1.0, sin debug shell y logs redactados.\n- **Meta:** corregir el gate invertido de deploy.\n- **Éxito:** `S43-T4-B PASS`.\n- **Límites:** no mutes fixture; límite 0 no es válido; sin secretos/PII en logs de demo.",
+        instruction:
+          "1. DEFECT: `meets_contract` es True en estados de quarantine.\n2. Cámbialo a CVE==0 y límites estrictamente positivos en rango + not debug_shell + logs_redacted.\n3. Conserva print.\n4. `S43-T4-B PASS`.",
         hint: "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
         hints: [
           "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
@@ -1855,7 +2046,10 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         ],
         edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "El fixture `CASO-TRU-043-4B` satisface un predicado de dominio real; imprime `S43-T4-B PASS` y el assert booleano pasa.",
-        feedback: "S43-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
+        feedback:
+          "Con CVE 0 y 512/1.0 el happy path solo pasa si dejas de premiar el mal estado. Si no, QUARANTINE_IMAGE se imprime como si fuera PASS y el gate de promoción de Trujillo se vacía.",
+        retrospective:
+          "Límite 0 es unlimited disfrazado: no hay presupuesto que auditar. El error clásico es shell root “solo para debug” en la imagen de prod. Pregunta: ¿por qué un CVE crítico y mem 0 comparten el mismo no-go de deploy? E2: válido / CVE+límites 0 / `logs_redacted` ausente.",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e1.py",
@@ -1890,7 +2084,11 @@ assert meets_contract is True` ,
         id: "S43-T4-B-E2",
         subtopicId: "S43-T4-B",
         kind: "independent",
-        instruction: "S43-T4-B-E2 · Filtra tres rutas de `scanning, resource limits y debugging`: fixture válido, fixture adverso y registro sin `logs_redacted`. Entrada: dict con case_id, critical_cves, memory_limit_mb, cpu_limit, debug_shell, logs_redacted. Salidas exactas: `PASS`, `QUARANTINE_IMAGE`, `MISSING:logs_redacted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos. Recuerda: límites en 0 no son válidos.",
+        title: "Tres rutas de scan y límites",
+        preamble:
+          "- **Contexto:** sin evidencia de logs redactados no se tria un finding de scan con ética.\n- **Meta:** assess válido, adverso (3 CVE, mem/cpu 0, shell, logs crudos) e incomplete.\n- **Éxito:** `PASS QUARANTINE_IMAGE MISSING:logs_redacted`.\n- **Límites:** missing primero; no inventes CRITICAL: 0.",
+        instruction:
+          "1. Corrige el bad_ok invertido del starter.\n2. Aplica CVE==0 + límites en rango + not shell + logs_redacted.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
@@ -1898,7 +2096,10 @@ assert meets_contract is True` ,
         ],
         edgeCases: ["falta logs_redacted → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `logs_redacted` ausente y produce exactamente `PASS QUARANTINE_IMAGE MISSING:logs_redacted`.",
-        feedback: "S43-T4-B-E2: explica qué campo cambió la decisión (CVE, límite 0, shell o logs), por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING.",
+        feedback:
+          "TRIAGE_SCAN_FINDING es incertidumbre de logs; QUARANTINE es breach de CVE, límite 0 o shell. No inventes CRITICAL: 0: el reporte debe medirlo.",
+        retrospective:
+          "Sin evidencia de logs redactados no trias un finding sin filtrar secretos/PII. El error clásico es inventar `logs_redacted=True` para pasar el assess. Pregunta: si el adverso trae mem=0 y 3 CVE, ¿por qué un solo código de breach basta? Luego (E3): parsear reporte de scan en texto.",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e2.py",
@@ -1952,7 +2153,11 @@ print(*results)
         id: "S43-T4-B-E3",
         subtopicId: "S43-T4-B",
         kind: "transfer",
-        instruction: "S43-T4-B-E3 · Transferencia de artefacto: audita un **reporte de scan + límites** (texto sintético tipo CI). Criterio: `CRITICAL: 0`, `0 < memory_limit_mb ≤ 512`, `0 < cpu_limit ≤ 1.0`, `debug_shell: false`, `logs_redacted: true`. Tres entradas: reporte bueno → `CONTINUE`, CVE>0 / límites 0 / shell root / logs crudos → `QUARANTINE_IMAGE`, `None` → `TRIAGE_SCAN_FINDING`. El starter trata ausencia como CONTINUE y aprueba el reporte adverso: corrige ambas ramas. Límites en 0 no son «sin tope válido». Salida: imprime el valor de meets_contract.",
+        title: "Auditar reporte de scan y límites",
+        preamble:
+          "- **Contexto:** el gate de promoción en Trujillo lee un reporte de CI, no un dict de lab.\n- **Meta:** CONTINUE / QUARANTINE_IMAGE / TRIAGE_SCAN_FINDING.\n- **Éxito:** `CONTINUE QUARANTINE_IMAGE TRIAGE_SCAN_FINDING`.\n- **Límites:** reporte vacío → TRIAGE; parsea números; límite 0 no es “sin tope válido”.",
+        instruction:
+          "1. None/vacío → TRIAGE_SCAN_FINDING.\n2. Parsea CRITICAL, memory_limit_mb, cpu_limit; exige 0 CVE, límites en rango, debug false, logs true.\n3. BAD_SCAN → QUARANTINE.\n4. Imprime las tres decisiones.",
         hint: "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
         hints: [
           "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
@@ -1960,7 +2165,10 @@ print(*results)
         ],
         edgeCases: ["reporte None/vacío → TRIAGE_SCAN_FINDING", "adverso: CVE crítico / límites 0 / debug shell / logs crudos → QUARANTINE_IMAGE", "CASO-TRU-043-4B es sintético"],
         tests: "Reporte bueno, reporte adverso y ausencia prueban CONTINUE / QUARANTINE_IMAGE / TRIAGE_SCAN_FINDING.",
-        feedback: "S43-T4-B-E3: explica qué línea del reporte (CRITICAL, límites o debug_shell) activó QUARANTINE_IMAGE y por qué la ausencia exige TRIAGE_SCAN_FINDING sin rellenar el scan.",
+        feedback:
+          "Cuarentena es la respuesta correcta a CVE crítico o shell root. CONTINUE con CRITICAL: 3 rompe el puente a S44: el pipeline promocionaría basura.",
+        retrospective:
+          "El reporte de CI es el artefacto que S44 leerá: parsear números, no confiar en el “look” del texto. El error clásico es CONTINUE con CRITICAL: 3 o mem 0 “para no OOM en lab”. Pregunta: ¿por qué mem 0 y un CVE crítico fallan el mismo gate de deploy?",
         starterCode: {
           language: 'python',
           title: "s43-t4-b-e3.py",
@@ -2101,7 +2309,7 @@ print("uncertain", gate_case("uncertain"))
 assert status in {"READY", "BLOCKED"}
 # Extiende: no marques True en evidence sin Dockerfile/compose/runbook firmados.
 `,
-    portfolioNote: "Evidencia de CP-N4-A · servicio reproducible en contenedores: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. La checklist inicia en BLOCKED por diseño; conviértela en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo.",
+    portfolioNote: "Evidencia de CP-N4-A · servicio reproducible en contenedores: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. La checklist inicia en BLOCKED por diseño; conviértela en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo. READY exige esos tres artefactos firmados, no booleans mágicos.",
     rubric: [
       { criterion: "Corrección técnica del contrato y gate.", weight: "25%" },
       { criterion: "Pruebas normal/breach/uncertain y recuperación.", weight: "20%" },
@@ -2110,6 +2318,8 @@ assert status in {"READY", "BLOCKED"}
       { criterion: "Operación: SLO, observabilidad y rollback.", weight: "15%" },
       { criterion: "Comunicación de trade-offs y límites.", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué evidencia demuestra build repetible + non-root + límites > 0 + shutdown limpio en entorno nuevo? (2) ¿qué harías distinto con secretos reales vs. sintéticos (inyección runtime, nunca capas)? (3) Escribe en el README una frase de impacto medible (p. ej. “rebuild de app sin re-resolver deps; restore drill PASS”) defendible en 30 segundos ante un lead de plataforma. Residual: sin cluster k8s, el Compose local no prueba autoscaling — documenta el límite.",
   },
   selfCheck: {
     questions: [

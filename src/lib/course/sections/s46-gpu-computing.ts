@@ -382,6 +382,8 @@ recovery replay_partition`,
         subtopicId: "S46-T1-A",
         environment: "local-python",
         description: "Clasifica tres event_time (on-time, late, allowed-late) bajo un watermark avanzado",
+        preamble:
+          "Antes de materializar una ventana de atenciones en Huancayo, el pipeline debe decidir con **event time**, no con el reloj del worker. En esta demo un stream sintético `[100, 108, 115]` avanza el watermark a 110 (lag 5) y clasifica tres eventos de prueba. No escribas aún: predice por qué 112 es ON_TIME, por qué 100 es LATE (`wm − et = 10 > gracia 5`) y por qué 105 aún entra por `allowed_lateness`. Si confundes *processing time* con *event time*, el dashboard miente o descarta partes en silencio.",
         code: {
           language: 'python',
           title: "demo_windows_event_time_watermarks.py",
@@ -408,13 +410,17 @@ print("watermark", wm)`,
 105 ALLOWED_LATE
 watermark 110`,
         },
-        why: "Sin un *timeline* calculado, el watermark es solo vocabulario. Este demo muestra por qué 100 es LATE (`wm − et = 10 > gracia 5`) y por qué 105 aún entra por `allowed_lateness`. Es el *trade-off completeness* vs. *latencia* de Flink/Beam en miniatura, base del gate `CP-N4-B`.",
+        why: "El watermark es una aserción de progreso en event time, no un atraso suelto. `allowed_lateness` es la franja de gracia post-watermark (*completeness* vs. *latencia*), no un bound inferior inventado. Sin un *timeline* calculado, 100 y 105 se confunden: 100 es LATE (`wm − et = 10 > 5`); 105 aún entra. Misma regla en theory, iDo y weDo. En We Do repararás el predicado de aceptación, la tabla PASS/SIDE_OUTPUT/MISSING y la rama WAIT_FOR_WATERMARK.",
+        retrospective:
+          "Si puedes explicar por qué 100 es LATE y 105 ALLOWED_LATE sin mirar el código, ya tienes el hábito de etiquetar por event time. El error clásico es “llegó tarde al worker ⇒ drop”. En We Do practicarás el predicado, la tabla de tres rutas y la rama WAIT_FOR_WATERMARK.",
       },
       {
         demoId: "S46-T1-B-DEMO",
         subtopicId: "S46-T1-B",
         environment: "local-python",
         description: "Aplica sink idempotente y enruta un late event según política",
+        preamble:
+          "Exactly-once end-to-end no es un switch del middleware: es sink idempotente + dedup + checkpoint + late policy. En esta demo el reintento de `e1` no reescribe y el late `e2` se enruta con política explícita, sin colarse al agregado. No escribas: predice first/retry y las keys del sink. Si el retry devolviera True, el dashboard de Huancayo contaría doble la misma atención.",
         code: {
           language: 'python',
           title: "demo_late_data_exactly_once.py",
@@ -435,13 +441,17 @@ retry False
 late side-output e2
 sink_keys ['e1']`,
         },
-        why: "Exactly-once compuesto se demuestra con reintento que no reescribe y late event que no se cuela al agregado sin política. Si el retry devolviera True, el dashboard de atenciones contaría doble el mismo evento.",
+        why: "La cadena at-least-once de la fuente obliga a sink por clave, checkpoint y `late_policy` documentada: juntos forman el exactly-once *compuesto*, no un flag del broker. El reintento de `e1` debe devolver False; el late `e2` no entra al agregado sin side-output. Si el retry reescribiera, el dashboard de atenciones contaría doble. En We Do practicarás set equality (no `len`), tres rutas y CHOOSE_LATE_POLICY.",
+        retrospective:
+          "Exactly-once compuesto se demuestra con reintento que no reescribe y late que no se mezcla en silencio — no con un flag del broker. El error clásico es “la cola dice exactly-once ⇒ el dashboard no duplica”. Pregunta: si `retry` devolviera True sobre `e1`, ¿qué métrica de atenciones se infla? We Do: set equality (no `len`), tres rutas y CHOOSE_LATE_POLICY.",
       },
       {
         demoId: "S46-T2-A-DEMO",
         subtopicId: "S46-T2-A",
         environment: "local-python",
         description: "Detecta grafo acíclico vs. ciclo raw→clean→raw con Kahn",
+        preamble:
+          "Un orquestador no puede planificar backfill si el grafo de assets no tiene orden topológico. En esta demo Kahn valida raw→clean→report y rechaza raw→clean→raw. No escribas: predice `line` y `cycle`. Si solo miras self-loops (`a==b`), el ciclo de dos nodos pasa y el plan de Huancayo se cuelga en reejecuciones infinitas.",
         code: {
           language: 'python',
           title: "demo_dag_assets_dependency.py",
@@ -471,13 +481,17 @@ print("cycle", is_acyclic(nodes, {("raw", "clean"), ("clean", "raw")}))`,
           output: `line True
 cycle False`,
         },
-        why: "Afirmar “DAG acíclico” sin detectar ciclos A→B→A es falsa maestría. Kahn cuenta nodos alcanzables desde indegree 0; si sobran nodos, hay ciclo — requisito real de Airflow/Dagster antes del backfill.",
+        why: "`seen == len(nodes)` es la prueba de aciclicidad en Kahn: nodos no declarados y self-loops también fallan. Afirmar “DAG acíclico” sin detectar ciclos A→B→A es falsa maestría — requisito real de Airflow/Dagster antes del backfill. En We Do combinarás `typed_io` con `is_acyclic`, REJECT_DAG y DECLARE_ASSET_DEPENDENCY.",
+        retrospective:
+          "Acíclico se **calcula** (p. ej. Kahn: `seen == len(nodes)`), no se afirma. El error clásico es “no hay self-loop ⇒ DAG OK” y dejar pasar raw↔clean. Pregunta: si el plan de backfill de Huancayo entra en reejecuciones infinitas, ¿qué miras primero en el grafo? We Do: typed_io + is_acyclic, REJECT_DAG y DECLARE_ASSET_DEPENDENCY.",
       },
       {
         demoId: "S46-T2-B-DEMO",
         subtopicId: "S46-T2-B",
         environment: "local-python",
         description: "Valida intervalos de backfill sin solape y resume = checkpoint",
+        preamble:
+          "Un schedule horario no autoriza a reprocesar el mismo rango dos veces. En esta demo se calcula solape half-open y se exige `resume_from == checkpoint`. No escribas: predice ok / overlap / bad_resume. Si el backfill de las 3 h perdidas en Huancayo solapa con el job vivo, corrompes la partición aunque “el cron diga que toca”.",
         code: {
           language: 'python',
           title: "demo_schedules_backfills_state.py",
@@ -495,13 +509,17 @@ print("bad_resume", backfill_ok([[1, 3], [4, 6]], "cp-1", "start"))`,
 overlap False
 bad_resume False`,
         },
-        why: "Un *schedule* horario no autoriza a **reprocesar** el mismo rango dos veces. El demo calcula solape y alinea `resume` con *checkpoint* — sin eso, el backfill de las 3 h perdidas corrompe la partición viva.",
+        why: "El solape se deriva de intervalos half-open ordenados; el resume alineado al checkpoint evita double-write. Un *schedule* no autoriza a reprocesar el mismo rango dos veces: sin eso, el backfill de las 3 h perdidas corrompe la partición viva. En We Do calcularás solape (no un flag), STOP_OVERLAPPING_BACKFILL y RECOVER_CHECKPOINT.",
+        retrospective:
+          "Backfill seguro = intervalos half-open **sin solape** + `resume_from == checkpoint`. El error clásico es confiar en un flag `overlap` del ticket. Pregunta: si solapas con el job de las 12:00, ¿qué partición de atenciones se corrompe aunque el schedule “diga que toca”? We Do: solape calculado, STOP y RECOVER_CHECKPOINT.",
       },
       {
         demoId: "S46-T3-A-DEMO",
         subtopicId: "S46-T3-A",
         environment: "local-python",
         description: "Evalúa schema exacto y freshness frente al SLO",
+        preamble:
+          "Un contrato de datos une schema, owner y SLO de frescura — y falla cerrado. En esta demo el mismo schema pasa con lag 30/60, cuarentena por `case_id:int` y cuarentena por lag 90/60. No escribas: predice las tres salidas. Si “arreglas freshness” cuando el tipo de columna ya está roto, publicas basura al dashboard de operaciones de Huancayo.",
         code: {
           language: 'python',
           title: "demo_contracts_freshness.py",
@@ -522,13 +540,17 @@ print(evaluate(schema, schema, 90, 60, "data-ops"))`,
 QUARANTINE_DATASET
 QUARANTINE_DATASET`,
         },
-        why: "El contrato falla cerrado por dos motivos distintos (*drift* de schema vs. *lag*). Separarlos evita “arreglar *freshness*” cuando el tipo de columna ya está roto — patrón dbt / Great Expectations en stdlib.",
+        why: "Hay dos motivos distintos de QUARANTINE: *drift* de schema vs. *lag* sobre el SLO. Owner vacío pagina al dueño en vez de adivinar. Separarlos evita “arreglar freshness” cuando el tipo de columna ya está roto — patrón dbt / Great Expectations en stdlib. En We Do practicarás el predicado, MISSING:owner y PAGE_DATA_OWNER.",
+        retrospective:
+          "Schema correcto con dato de ayer sigue siendo breach de frescura. Drift y lag son dos QUARANTINE distintos; un solo `if` que los mezcla “arregla” lo incorrecto. El error clásico es publicar con warning. Pregunta: si el tipo de `case_id` ya está roto, ¿sirve bajar el lag a 10 min? We Do: fail-closed, tres rutas y PAGE_DATA_OWNER.",
       },
       {
         demoId: "S46-T3-B-DEMO",
         subtopicId: "S46-T3-B",
         environment: "local-python",
         description: "Construye facet de lineage y decide si se pagina al owner",
+        preamble:
+          "Lineage conecta la fila del dashboard con el run que la produjo. En esta demo un facet de `run-hyo-46` une raw-v2→clean-v3 con null_rate 0.01 y owner analytics; no se pagina. No escribas: predice el dict y `page False`. Si el run_id está vacío o faltan inputs, el post mortem de Huancayo no puede responder “qué corrida produjo esta fila”.",
         code: {
           language: 'python',
           title: "demo_lineage_obs_ownership.py",
@@ -552,13 +574,17 @@ print("page", should_page(f))`,
           output: `{'run': 'run-hyo-46', 'inputs': ['raw-v2'], 'outputs': ['clean-v3'], 'null_rate': 0.01, 'owner': 'analytics'}
 page False`,
         },
-        why: "Lineage no es un *print* de listas sueltas: es un *facet* run / inputs / outputs / métricas / owner. Solo con eso un incidente de calidad es reconstruible en el **post mortem** de Huancayo.",
+        why: "El facet mínimo une run/IO/métricas/owner: no es un *print* de listas sueltas. `should_page` se activa por owner vacío, run mal formado o null_rate alto. Solo con ese facet un incidente de calidad es reconstruible en el **post mortem** de Huancayo. En We Do practicarás el predicado completo, OPEN_QUALITY_INCIDENT y TRACE_LINEAGE.",
+        retrospective:
+          "Lineage es un facet reconstruible (run + IO + métricas + owner), no un log suelto. El error clásico es “arreglar a ciegas” sin inputs ni run_id. Pregunta: si `null_rate` es 0.01 pero `run` no empieza por `run-`, ¿por qué igual se pagina? We Do: PASS / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE.",
       },
       {
         demoId: "S46-T4-A-DEMO",
         subtopicId: "S46-T4-A",
         environment: "local-python",
         description: "Merge incremental: primera corrida escribe, segunda deja cero cambios",
+        preamble:
+          "El gate CP-N4-B exige que retry y backfill no dupliquen filas. En esta demo el merge por `id` escribe 2 cambios en la primera corrida y **cero** en la segunda con el mismo batch. No escribas: predice first/second/keys. Si el segundo run reescribiera, el reporte diario de Huancayo infla conteos y costos de storage.",
         code: {
           language: 'python',
           title: "demo_partitions_incremental.py",
@@ -580,13 +606,17 @@ print("keys", sorted(sink))`,
 second 0
 keys ['a', 'b']`,
         },
-        why: "El gate CP-N4-B exige que retry y backfill no dupliquen. Contar cambios del merge prueba idempotencia de verdad — no un booleano hardcodeado `no_dup_rerun True`.",
+        why: "Contar cambios del merge prueba idempotencia de verdad: el segundo run con el mismo batch debe dejar delta 0. Keys alineadas y small files entran en el contrato de partición — no un booleano hardcodeado `no_dup_rerun True`. En We Do practicarás `second_run_changes==0`, REBUILD_PARTITION y REVIEW_INCREMENTAL_KEY.",
+        retrospective:
+          "Idempotencia se **mide** en cambios del segundo run, no en un flag `no_dup_rerun`. Full rewrite ciego infla conteos y storage del reporte diario. Pregunta: si second_run_changes=2 con el mismo batch, ¿qué prueba del gate CP-N4-B falló? We Do: predicado de partición, REBUILD y REVIEW_INCREMENTAL_KEY.",
       },
       {
         demoId: "S46-T4-B-DEMO",
         subtopicId: "S46-T4-B",
         environment: "local-python",
         description: "Compara SLI vs. SLO y RTO vs. target para decidir incidente",
+        preamble:
+          "Un SLO de datos une un SLI medido con un objetivo y un RTO de recuperación. En esta demo el simulacro sano (sli 0.995, rto 25, 3 acciones, owner) pasa; el de sli 0.80 / rto 90 / sin acciones declara incidente. No escribas: predice PASS y DECLARE. Si confundes SLI con SLO, el runbook de Huancayo no sabe cuándo activarse.",
         code: {
           language: 'python',
           title: "demo_slo_incidents_data_recovery.py",
@@ -604,7 +634,9 @@ print("sli_vs_slo", "medida vs. objetivo")`,
 DECLARE_DATA_INCIDENT
 sli_vs_slo medida vs. objetivo`,
         },
-        why: "SLI es la medición; SLO es el objetivo. El demo obliga a comparar ambos y el RTO — vocabulario SRE que el self-check y el youDo reutilizan al declarar incidentes de datos.",
+        why: "SLI es la medición; SLO es el objetivo. El contrato de ops exige sli ≥ slo, rto ≤ target, ≥1 acción de post mortem y owner; sin owner se activa el runbook. Vocabulario SRE que el self-check y el youDo reutilizan al declarar incidentes de datos. En We Do practicarás el predicado, MISSING:owner y ACTIVATE_RECOVERY_RUNBOOK.",
+        retrospective:
+          "SLI es la **medida**; SLO es el **objetivo**. El error clásico es prometer frescura en el README sin simulacro de RTO y post mortem. Pregunta: si sli=0.995 y rto=90 con target 30, ¿qué código de ops debe salir y por qué no basta el SLI “bonito”? We Do: predicado, DECLARE y ACTIVATE_RECOVERY_RUNBOOK.",
       },
     ],
   },
@@ -615,7 +647,11 @@ sli_vs_slo medida vs. objetivo`,
         id: "S46-T1-A-E1",
         subtopicId: "S46-T1-A",
         kind: "guided",
-        instruction: "S46-T1-A-E1 · Sobre `CASO-HYO-046-1A`, implementa el predicado de aceptación de ventana: ON_TIME o ALLOWED_LATE. Regla: si event_time > window_end → rechazo; si event_time > watermark → ON_TIME (PASS); si watermark − event_time ≤ allowed_lateness → ALLOWED_LATE (PASS); si no → LATE. El starter acepta lo contrario. Salida exacta: `S46-T1-A PASS`.",
+        title: "Aceptar ventana: ON_TIME o ALLOWED_LATE",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-1A`, un evento de atención solo entra al sink si está en ventana y es ON_TIME o ALLOWED_LATE.\n- **Meta:** corregir el predicado `meets_contract` (in_window ∧ (on_time ∨ allowed_late)).\n- **Éxito:** imprimes exactamente `S46-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes un bound inferior; no mutes el fixture; no uses processing time.",
+        instruction:
+          "1. Abre el starter: `meets_contract` aprueba late/out-of-window (bug invertido).\n2. Extrae `et`, `we`, `wm`, `al` del record.\n3. `in_window = et <= we`; `on_time = et > wm`; `allowed_late = et <= wm and (wm - et) <= al`.\n4. PASS solo si `in_window and (on_time or allowed_late)`; conserva el print `S46-T1-A`.",
         hint: "Dibuja una recta: watermark a la izquierda de los on-time; allowed_lateness es la franja a la izquierda del watermark que aún se acepta.",
         hints: [
           "Orden mental: primero ventana (et ≤ window_end), luego on-time (et > wm), luego gracia (wm − et ≤ allowed_lateness).",
@@ -627,7 +663,10 @@ sli_vs_slo medida vs. objetivo`,
           "eventos sintéticos CASO-HYO-046-1A (sin PII)",
         ],
         tests: "El fixture `CASO-HYO-046-1A` satisface el predicado de dominio; imprime `S46-T1-A PASS` y el assert booleano pasa.",
-        feedback: "E1 guiado: el defecto invertía late/out-of-window como éxito. La regla alineada a Flink es watermark-as-progress + gracia, no un bound inferior inventado.",
+        feedback:
+          "PASS es ON_TIME o ALLOWED_LATE dentro de ventana. El starter invertía late/out-of-window: eso materializaría basura o silencios en el dashboard de Huancayo. Watermark + gracia, no un “mínimo inventado”.",
+        retrospective:
+          "Aceptación de ventana = en ventana y no demasiado late (ON_TIME o ALLOWED_LATE). El starter trataba late/out-of-window como éxito: eso materializa basura. El error clásico es mezclar *processing time* o inventar un “mínimo” de event time. Pregunta: con et=105, wm=110 y gracia=5, ¿por qué aún es ALLOWED_LATE y no LATE? Siguiente (E2): tres rutas válido / late / missing de gracia.",
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e1.py",
@@ -680,7 +719,11 @@ assert meets_contract is True` ,
         id: "S46-T1-A-E2",
         subtopicId: "S46-T1-A",
         kind: "independent",
-        instruction: "S46-T1-A-E2 · Tres rutas: válido (PASS), late (SIDE_OUTPUT_LATE_EVENT), sin `allowed_lateness` (MISSING:allowed_lateness). Entrada: case_id, event_time, window_end, watermark, allowed_lateness. Corrige el assess defectuoso; no rellenes campos faltantes. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de watermark (PASS / SIDE_OUTPUT / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de stream en Huancayo no trata igual un evento limpio, uno demasiado late y uno sin política de gracia.\n- **Meta:** implementar `assess` que distinga PASS, SIDE_OUTPUT_LATE_EVENT y MISSING:allowed_lateness.\n- **Éxito:** imprime `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness` (y el booleano de contrato del scaffold).\n- **Límites:** si falta `allowed_lateness`, no evalúes late; no inventes la gracia; missing ≠ “aceptar”.",
+        instruction:
+          "1. Revisa el starter: missing está bien; el predicado de dominio está invertido.\n2. Primero: campos required; si falta alguno → `MISSING:…`.\n3. Luego: `et <= we` y (`et > wm` o `wm - et <= al`) → PASS; si no → SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres resultados en ese orden.",
         hint: "Calcula `missing` antes de leer allowed_lateness; un KeyError no es un token de incertidumbre.",
         hints: [
           "Si falta un campo requerido, devuelve MISSING:… sin evaluar el predicado de late.",
@@ -692,7 +735,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-1A (sin PII)",
         ],
         tests: "Produce exactamente `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness`.",
-        feedback: "E2 independiente: separaste schema incompleto (MISSING) de contenido late (SIDE_OUTPUT). No inventes allowed_lateness por defecto: WAIT/MISSING es la rama correcta.",
+        feedback:
+          "Separaste schema incompleto (MISSING) de contenido late (SIDE_OUTPUT). No inventes `allowed_lateness` por defecto: el revisor de stream en Huancayo no “rellena” la gracia para forzar un PASS.",
+        retrospective:
+          "Missing es incertidumbre de **política** (aún no sabes la gracia); late es breach de frescura de evento ya medible. El error clásico es rellenar `allowed_lateness=∞` para forzar PASS y “no perder filas”. Pregunta: si el revisor inventa la gracia, ¿qué miente en el dashboard de Huancayo? Luego (E3): CONTINUE / SIDE_OUTPUT / WAIT_FOR_WATERMARK.",
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e2.py",
@@ -750,7 +796,11 @@ meets_contract True` ,
         id: "S46-T1-A-E3",
         subtopicId: "S46-T1-A",
         kind: "transfer",
-        instruction: "S46-T1-A-E3 · Transfer: decide rutas operativas CONTINUE / SIDE_OUTPUT_LATE_EVENT / WAIT_FOR_WATERMARK sobre los mismos tres fixtures. Ausencia ≠ breach: falta `allowed_lateness` → WAIT_FOR_WATERMARK. El starter devuelve CONTINUE en missing y tiene el predicado invertido. Salida: imprime el valor de meets_contract.",
+        title: "Decide late data: CONTINUE o WAIT",
+        preamble:
+          "- **Contexto:** el worker de atenciones decide si el evento **sigue** al sink, va a side-output o espera política de watermark.\n- **Meta:** `decide` → CONTINUE (limpio), SIDE_OUTPUT_LATE_EVENT (late), WAIT_FOR_WATERMARK (sin gracia).\n- **Éxito:** `CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK`.\n- **Límites:** no inventes `allowed_lateness`; no conviertas missing en CONTINUE; no toques los fixtures.",
+        instruction:
+          "1. Corrige missing: sin `allowed_lateness` → `WAIT_FOR_WATERMARK` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2.\n3. Solo el limpio es CONTINUE; el de et=80 es SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres códigos en orden.",
         hint: "Enruta missing primero a WAIT_FOR_WATERMARK; solo con campos completos evalúa on-time/allowed-late.",
         hints: [
           "WAIT_FOR_WATERMARK es incertidumbre operativa, no un PASS disfrazado ni un SIDE_OUTPUT.",
@@ -762,7 +812,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-1A (sin PII)",
         ],
         tests: "Fixtures válido/adverso/sin allowed_lateness → CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK.",
-        feedback: "E3 transfer: fail-closed con vocabulario operativo. CONTINUE solo cuando el evento es ON_TIME o ALLOWED_LATE; no conviertas incertidumbre en éxito silencioso.",
+        feedback:
+          "Fail-closed con vocabulario operativo: CONTINUE solo si el evento es ON_TIME o ALLOWED_LATE. Convertir missing en éxito silencioso promovería late data al dashboard de Huancayo.",
+        retrospective:
+          "Un evento sin política de gracia es espera operativa, no un allow optimista. El error clásico es promover late data “para no perder el dashboard”. Pregunta: ¿por qué WAIT no es lo mismo que SIDE_OUTPUT?",
         starterCode: {
           language: 'python',
           title: "s46-t1-a-e3.py",
@@ -823,7 +876,11 @@ meets_contract True` ,
         id: "S46-T1-B-E1",
         subtopicId: "S46-T1-B",
         kind: "guided",
-        instruction: "S46-T1-B-E1 · Exactly-once compuesto sobre `CASO-HYO-046-1B`: set(event_ids)==sink_ids, checkpoint==2 y late_policy ∈ {update, side-output, quarantine}. El starter aprueba si longitudes coinciden o falta policy. Salida: `S46-T1-B PASS`.",
+        title: "Exactly-once: set, checkpoint y policy",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-1B`, el sink de atenciones solo es “exactly-once compuesto” si keys, checkpoint y late_policy cierran juntos.\n- **Meta:** corregir `meets_contract` a set(event_ids)==sink_ids ∧ checkpoint==2 ∧ policy ∈ catálogo.\n- **Éxito:** `S46-T1-B PASS`.\n- **Límites:** no uses longitudes; no apruebes policy vacía; no mutes el fixture.",
+        instruction:
+          "1. Abre el starter: compara `len` o aprueba sin policy (bug).\n2. Compara `set(record[\"event_ids\"])` con `sink_ids`.\n3. Exige `checkpoint == 2` y `late_policy in {\"update\", \"side-output\", \"quarantine\"}`.\n4. Conserva print `S46-T1-B` y assert.",
         hint: "Compara conjuntos, no longitudes: [e1,e1,e2] tiene len 3 pero set size 2.",
         hints: [
           "checkpoint y late_policy son eslabones del compuesto exactly-once, no decoración del record.",
@@ -835,7 +892,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-1B (sin PII)",
         ],
         tests: "Imprime `S46-T1-B PASS` y assert True.",
-        feedback: "E1: dedup por set, no por len. Exactly-once compuesto exige sink, checkpoint y policy a la vez.",
+        feedback:
+          "`[e1,e1,e2]` tiene len 3 y set size 2: solo el set prueba dedup. Checkpoint y policy son eslabones del compuesto; sin ellos el “exactly-once” de marketing es doble conteo en Huancayo.",
+        retrospective:
+          "Dedup por set + checkpoint + policy es una **cadena**, no un booleano mágico. Confiar en `len(event_ids)==len(sink_ids)` aprueba reintentos como si fueran eventos nuevos. El error clásico es policy vacía “porque el sink ya se ve lleno”. Pregunta: ¿qué eslabón falla si checkpoint=0 aunque las keys coincidan? Siguiente (E2): PASS / REPLAY / MISSING:late_policy.",
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e1.py",
@@ -878,7 +938,11 @@ assert meets_contract is True` ,
         id: "S46-T1-B-E2",
         subtopicId: "S46-T1-B",
         kind: "independent",
-        instruction: "S46-T1-B-E2 · Tres rutas: PASS / REPLAY_IDEMPOTENTLY / MISSING:late_policy. Conserva validación de campos; corrige solo la decisión de dominio. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de sink (PASS / REPLAY / MISSING)",
+        preamble:
+          "- **Contexto:** el on-call de datos distingue sink limpio, sink a reprocesar e incertidumbre de política.\n- **Meta:** `assess` → PASS / REPLAY_IDEMPOTENTLY / MISSING:late_policy.\n- **Éxito:** `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy`.\n- **Límites:** missing primero; no inventes late_policy; no uses len para dedup.",
+        instruction:
+          "1. Conserva el bloque missing.\n2. Corrige la decisión: set equality + checkpoint==2 + policy en catálogo.\n3. Cualquier fallo de dominio → REPLAY_IDEMPOTENTLY.\n4. Imprime las tres rutas en orden.",
         hint: "Missing primero; luego set(event_ids)==sink_ids y policy en el catálogo permitido.",
         hints: [
           "PASS solo si set equality AND checkpoint==2 AND policy ∈ {update, side-output, quarantine}.",
@@ -890,7 +954,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-1B (sin PII)",
         ],
         tests: "Salida exacta: `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy`.",
-        feedback: "E2: el adverso falla por contenido (dedup/checkpoint/policy), no por KeyError. Missing es otra rama.",
+        feedback:
+          "El adverso falla por contenido (dedup/checkpoint/policy), no por KeyError. Missing de policy es otra rama: no la colapses en REPLAY o el on-call reprocesa sin reglas.",
+        retrospective:
+          "REPLAY asume que ya conoces la política y el sink está roto; MISSING es “aún no hay regla de late”. Colapsar ambas en un solo “falló” manda al on-call a reprocesar sin política. Pregunta: el viernes a las 18:00, ¿abres replay o eliges policy primero? Luego (E3): CHOOSE_LATE_POLICY vs REPLAY.",
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e2.py",
@@ -944,7 +1011,11 @@ meets_contract True` ,
         id: "S46-T1-B-E3",
         subtopicId: "S46-T1-B",
         kind: "transfer",
-        instruction: "S46-T1-B-E3 · CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY. Sin late_policy no es breach de contenido: elige política antes de reprocesar. Salida: imprime el valor de meets_contract.",
+        title: "Decide sink: CONTINUE o elige policy",
+        preamble:
+          "- **Contexto:** antes de un replay de atenciones, el operador elige política de late o detiene el reproceso.\n- **Meta:** `decide` → CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY.\n- **Éxito:** `CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY`.\n- **Límites:** sin late_policy no es breach de contenido; no uses CONTINUE en missing.",
+        instruction:
+          "1. Missing → CHOOSE_LATE_POLICY.\n2. Con campos completos, predicado de E1/E2.\n3. CONTINUE solo si set+checkpoint+policy OK; si no REPLAY.\n4. Imprime los tres códigos.",
         hint: "Missing → CHOOSE_LATE_POLICY; no uses CONTINUE ni REPLAY para campos ausentes.",
         hints: [
           "Tres salidas distintas: CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY — no colapses incertidumbre en breach.",
@@ -956,7 +1027,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-1B (sin PII)",
         ],
         tests: "CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY.",
-        feedback: "E3: distinguir “no sé la política” de “el sink está corrupto” evita **reprocesar** a ciegas.",
+        feedback:
+          "Distinguir “no sé la política” (CHOOSE_LATE_POLICY) de “el sink está corrupto” (REPLAY_IDEMPOTENTLY) evita reprocesar a ciegas el viernes a las 18:00 en Huancayo. CONTINUE solo con set + checkpoint + policy en catálogo.",
+        retrospective:
+          "“No sé la política” y “el sink está corrupto” son runbooks distintos. El error clásico es REPLAY a ciegas el viernes a las 18:00. Pregunta: ¿qué harías en Huancayo si falta `late_policy` antes de tocar el sink?",
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e3.py",
@@ -1012,7 +1086,11 @@ meets_contract True` ,
         id: "S46-T2-A-E1",
         subtopicId: "S46-T2-A",
         kind: "guided",
-        instruction: "S46-T2-A-E1 · Valida DAG de `CASO-HYO-046-2A`: typed_io True, sin self-loops, todos los endpoints de edges ∈ nodes, y **sin ciclos** (orden topológico completo). El starter aprueba lo inverso. Salida: `S46-T2-A PASS`.",
+        title: "DAG tipado y sin ciclos (Kahn)",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-2A`, raw→clean→report debe ser acíclico y con I/O tipado antes de cualquier backfill.\n- **Meta:** `meets_contract = typed_io and is_acyclic(nodes, edges)`.\n- **Éxito:** `S46-T2-A PASS`.\n- **Límites:** no apruebes solo “sin self-loop”; implementa Kahn o DFS; no mutes nodos/edges.",
+        instruction:
+          "1. Revisa el starter: predicado invertido y sin detección de ciclos.\n2. Implementa `is_acyclic` (endpoints en nodes, sin self-loop, Kahn con seen == len(nodes)).\n3. PASS solo si `typed_io` y acíclico.\n4. Conserva print `S46-T2-A`.",
         hint: "Self-loop es necesario, pero no suficiente: implementa Kahn o DFS para rechazar raw→clean→raw.",
         hints: [
           "Cuenta nodos procesados por Kahn: si seen < len(nodes), hay ciclo residual.",
@@ -1024,7 +1102,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-2A (sin PII)",
         ],
         tests: "Imprime `S46-T2-A PASS` con grafo acíclico real.",
-        feedback: "E1: acíclico ≠ “sin self-loop”. Un ciclo de 2 nodos pasaba el predicado viejo y rompía el gate no_cyclic_dag.",
+        feedback:
+          "Un ciclo raw↔clean pasaba el predicado viejo: acíclico ≠ “sin self-loop”. Sin orden topológico el gate `no_cyclic_dag` falla y el backfill de Huancayo no tiene ancestros bien definidos.",
+        retrospective:
+          "`typed_io` y aciclicidad son condiciones **independientes**: un grafo “tipado” con ciclo A→B→A sigue sin orden topológico. El error clásico es confiar en el dibujo del grafo o solo en `a != b`. Pregunta: ¿por qué `seen < len(nodes)` en Kahn prueba un ciclo residual? Siguiente (E2): PASS / REJECT_DAG / MISSING:typed_io con ciclo real.",
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e1.py",
@@ -1087,7 +1168,11 @@ assert meets_contract is True` ,
         id: "S46-T2-A-E2",
         subtopicId: "S46-T2-A",
         kind: "independent",
-        instruction: "S46-T2-A-E2 · PASS / REJECT_DAG / MISSING:typed_io. El adverso es un **ciclo** raw→clean→raw con typed_io True (no solo self-loop). Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de DAG (PASS / REJECT / MISSING)",
+        preamble:
+          "- **Contexto:** el planificador de assets en Huancayo rechaza ciclos aunque el I/O diga “tipado”.\n- **Meta:** `assess` → PASS / REJECT_DAG / MISSING:typed_io.\n- **Éxito:** `PASS REJECT_DAG MISSING:typed_io`.\n- **Límites:** missing de typed_io antes de edges; typed_io True no perdona el ciclo.",
+        instruction:
+          "1. Conserva missing.\n2. Importa/define `is_acyclic` como en el demo.\n3. ok = typed_io and is_acyclic(...); si no → REJECT_DAG.\n4. Imprime las tres rutas.",
         hint: "Reutiliza is_acyclic; el ciclo de 2 nodos debe devolver REJECT_DAG aunque typed_io sea True.",
         hints: [
           "typed_io True no salva un ciclo: acíclico y tipado son condiciones independientes.",
@@ -1099,7 +1184,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-2A (sin PII)",
         ],
         tests: "`PASS REJECT_DAG MISSING:typed_io`.",
-        feedback: "E2: el adverso ya no es self-loop decorativo; es un ciclo real que el orquestador no puede ordenar.",
+        feedback:
+          "El adverso ya no es self-loop decorativo: es un ciclo real que el orquestador de Huancayo no puede ordenar, aunque typed_io diga True. MISSING:typed_io es otra rama (incertidumbre de diseño).",
+        retrospective:
+          "Tipado no salva el ciclo: el planificador de Huancayo necesita orden topológico, no solo I/O declarado. El error clásico es “typed_io True ⇒ confío y materializo”. Pregunta: si raw→clean→raw, ¿qué asset “termina primero” en el backfill? Luego (E3): DECLARE_ASSET_DEPENDENCY vs REJECT_DAG.",
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e2.py",
@@ -1172,7 +1260,11 @@ meets_contract True` ,
         id: "S46-T2-A-E3",
         subtopicId: "S46-T2-A",
         kind: "transfer",
-        instruction: "S46-T2-A-E3 · CONTINUE / REJECT_DAG / DECLARE_ASSET_DEPENDENCY. Sin typed_io declara dependencia; no continúes a ciegas. Salida: imprime el valor de meets_contract.",
+        title: "Decide DAG: CONTINUE o declara dependencia",
+        preamble:
+          "- **Contexto:** el orquestador no materializa a ciegas: o el grafo es válido, o se rechaza, o se declara la dependencia faltante.\n- **Meta:** `decide` → CONTINUE / REJECT_DAG / DECLARE_ASSET_DEPENDENCY.\n- **Éxito:** `CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY`.\n- **Límites:** missing de typed_io ≠ grafo inválido; no uses solo `a != b`.",
+        instruction:
+          "1. Missing → DECLARE_ASSET_DEPENDENCY.\n2. Con record completo, Kahn + typed_io.\n3. Ciclo → REJECT_DAG; línea limpia → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → DECLARE_ASSET_DEPENDENCY; ciclo → REJECT_DAG; línea acíclica tipada → CONTINUE.",
         hints: [
           "No conviertas DECLARE en REJECT: missing de typed_io ≠ grafo inválido.",
@@ -1184,7 +1276,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-2A (sin PII)",
         ],
         tests: "CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY.",
-        feedback: "E3: DECLARE_ASSET_DEPENDENCY es incertidumbre de diseño; REJECT_DAG es breach de topología. No los mezcles.",
+        feedback:
+          "DECLARE_ASSET_DEPENDENCY es incertidumbre de diseño (falta tipado); REJECT_DAG es breach de topología. Mezclarlos publica un plan de backfill sin edges tipados o rechaza cuando aún falta declarar la dependencia. CONTINUE solo con grafo limpio.",
+        retrospective:
+          "DECLARE es incertidumbre de diseño; REJECT es breach de topología — runbooks distintos. El error clásico es CONTINUAR sin typed_io. Pregunta: ¿por qué un self-loop no es el único ciclo peligroso en el plan de Huancayo?",
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e3.py",
@@ -1259,7 +1354,11 @@ meets_contract True` ,
         id: "S46-T2-B-E1",
         subtopicId: "S46-T2-B",
         kind: "guided",
-        instruction: "S46-T2-B-E1 · Backfill de `CASO-HYO-046-2B`: intervalos half-open [start, end) sin solape (end_i ≤ start_{i+1}) y checkpoint == resume_from. **Calcula** el solape desde los números; no confíes en un flag. Starter invierte la regla. Salida: `S46-T2-B PASS`.",
+        title: "Backfill sin solape y resume = checkpoint",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-2B`, el plan de backfill de atenciones solo es seguro si los intervalos half-open no se pisan y el resume coincide con el checkpoint.\n- **Meta:** invertir el bug: PASS si **no** hay solape y checkpoint == resume_from.\n- **Éxito:** `S46-T2-B PASS`.\n- **Límites:** calcula solape desde números; no confíes en un flag; half-open: tocar en el borde está bien.",
+        instruction:
+          "1. Ordena intervalos por start.\n2. `computed_overlap = any(end_i > start_{i+1})`.\n3. `meets_contract = not computed_overlap and checkpoint == resume_from`.\n4. Conserva print `S46-T2-B`.",
         hint: "Ordena por start; hay solape si algún fin es > inicio del siguiente (half-open: tocar en el borde está bien).",
         hints: [
           "computed_overlap = any(ordered[i][1] > ordered[i+1][0] …). PASS solo si not computed_overlap y resume == checkpoint.",
@@ -1271,7 +1370,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-2B (sin PII)",
         ],
         tests: "`S46-T2-B PASS` con intervalos [1,3) y [4,6).",
-        feedback: "E1: el solape se **deriva** de los intervalos half-open; un flag `overlap` en el record es solo una pista, no la verdad del plan.",
+        feedback:
+          "El solape se **deriva** de los intervalos half-open; un flag en el record es pista, no verdad del plan. Resume ≠ checkpoint es double-write disfrazado de “reintento”.",
+        retrospective:
+          "Plan de backfill = intervalos no solapados + resume consistente. El starter aprobaba lo que debería STOP: double-write disfrazado de reintento. El error clásico es leer un booleano del payload. Pregunta: en half-open, ¿por qué tocar en el borde (`end==start` siguiente) es OK y `end > start` siguiente no? Siguiente (E2): solape 3–4 y resume “start”.",
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e1.py",
@@ -1320,7 +1422,11 @@ assert meets_contract is True` ,
         id: "S46-T2-B-E2",
         subtopicId: "S46-T2-B",
         kind: "independent",
-        instruction: "S46-T2-B-E2 · PASS / STOP_OVERLAPPING_BACKFILL / MISSING:resume_from. Adverso: intervals [[1,4],[3,6]] (solape en 3–4) y resume_from='start'. Calcula solape half-open; no uses un flag `overlap`. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de backfill (PASS / STOP / MISSING)",
+        preamble:
+          "- **Contexto:** el planificador no puede confiar en un booleano del ticket: debe medir solape y alinear resume.\n- **Meta:** `assess` → PASS / STOP_OVERLAPPING_BACKFILL / MISSING:resume_from.\n- **Éxito:** `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from`.\n- **Límites:** calcula half-open; resume “start” no es checkpoint; missing primero.",
+        instruction:
+          "1. Conserva missing de resume_from.\n2. Calcula `computed_overlap` sobre intervals ordenados.\n3. PASS solo si not overlap y resume == checkpoint.\n4. Imprime las tres rutas.",
         hint: "Missing de resume_from antes de comparar con checkpoint; el solape se calcula sobre intervals ordenados.",
         hints: [
           "resume_from 'start' no es un checkpoint real: debe igualar el id de checkpoint del run.",
@@ -1332,7 +1438,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-2B (sin PII)",
         ],
         tests: "`PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from`.",
-        feedback: "E2: el adverso solapa 3–4 en half-open; mirar solo un booleano del record es print-theater de orquestación.",
+        feedback:
+          "El adverso solapa 3–4 en half-open; mirar solo un booleano del ticket es print-theater de orquestación y corrompe la partición viva de atenciones.",
+        retrospective:
+          "El solape se **mide** en los números half-open; mirar solo `resume_from` o un flag del ticket es teatro de orquestación. STOP_OVERLAPPING_BACKFILL protege la partición viva de Huancayo. El error clásico es “el ticket dice no overlap”. Pregunta: ¿qué rango se pisa entre [1,4] y [3,6]? Luego (E3): RECOVER_CHECKPOINT cuando falta estado.",
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e2.py",
@@ -1387,7 +1496,11 @@ meets_contract True` ,
         id: "S46-T2-B-E3",
         subtopicId: "S46-T2-B",
         kind: "transfer",
-        instruction: "S46-T2-B-E3 · CONTINUE / STOP_OVERLAPPING_BACKFILL / RECOVER_CHECKPOINT. Sin resume_from recupera estado; no continúes. Calcula solape half-open desde intervals. Salida: imprime el valor de meets_contract.",
+        title: "Decide backfill: CONTINUE o recupera checkpoint",
+        preamble:
+          "- **Contexto:** sin `resume_from` no hay plan ejecutable; con solape no hay plan seguro.\n- **Meta:** `decide` → CONTINUE / STOP_OVERLAPPING_BACKFILL / RECOVER_CHECKPOINT.\n- **Éxito:** `CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT`.\n- **Límites:** no trates resume_from=\"start\" como checkpoint; calcula solape siempre.",
+        instruction:
+          "1. Missing → RECOVER_CHECKPOINT.\n2. Calcula solape half-open.\n3. Plan limpio → CONTINUE; solape o resume roto → STOP.\n4. Imprime en orden.",
         hint: "Missing → RECOVER_CHECKPOINT; solape o resume roto → STOP; plan limpio → CONTINUE.",
         hints: [
           "RECOVER_CHECKPOINT cuando falta resume; STOP_OVERLAPPING_BACKFILL cuando computed_overlap o resume ≠ checkpoint.",
@@ -1399,7 +1512,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-2B (sin PII)",
         ],
         tests: "CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT.",
-        feedback: "E3: RECOVER_CHECKPOINT es incertidumbre de estado; STOP es breach de planificación calculada. Distintos runbooks.",
+        feedback:
+          "RECOVER_CHECKPOINT es incertidumbre de **estado** (no hay resume ejecutable); STOP es breach de **plan** (solape o resume ≠ checkpoint). CONTINUAR sin resume reescribe la partición de las 12:00 en Huancayo como si fuera un reintento limpio.",
+        retrospective:
+          "RECOVER es incertidumbre de estado; STOP es breach de planificación — distintos runbooks. El error clásico es CONTINUAR sin resume. Pregunta: ¿qué partición de atenciones corrompes si solapas con el job de las 12:00?",
         starterCode: {
           language: 'python',
           title: "s46-t2-b-e3.py",
@@ -1456,7 +1572,11 @@ meets_contract True` ,
         id: "S46-T3-A-E1",
         subtopicId: "S46-T3-A",
         kind: "guided",
-        instruction: "S46-T3-A-E1 · Contract+freshness en `CASO-HYO-046-3A`: schema==observed_schema, freshness_min≤slo_min y owner no vacío. Starter invierte. Salida: `S46-T3-A PASS`.",
+        title: "Contrato schema + freshness + owner",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-3A`, `atenciones_diarias` solo publica si schema exacto, lag ≤ SLO y hay owner.\n- **Meta:** `meets_contract` con las tres conjunciones (no las inversas).\n- **Éxito:** `S46-T3-A PASS`.\n- **Límites:** no publiques “casi bien”; owner vacío es breach; no mutes el fixture.",
+        instruction:
+          "1. Abre el starter: predicado invertido (y sin owner).\n2. Exige schema == observed_schema.\n3. Exige freshness_min ≤ slo_min y bool(owner).\n4. PASS → print `S46-T3-A PASS`; si no QUARANTINE_DATASET.",
         hint: "Igualdad de dicts de schema (tipos) y comparación numérica de lag vs. SLO.",
         hints: [
           "PASS exige schema exacto (dict igual) AND lag_min ≤ slo_min AND owner no vacío.",
@@ -1468,7 +1588,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-3A (sin PII)",
         ],
         tests: "`S46-T3-A PASS`.",
-        feedback: "E1: fail closed de contrato — drift o frescura rota no se publican.",
+        feedback:
+          "Fail closed: drift o frescura rota no se publican. Owner vacío es breach de ownership aunque el schema coincida — el on-call no debe adivinar a quién paginar.",
+        retrospective:
+          "Contrato publicable = schema exacto **y** lag ≤ SLO **y** owner real. El starter invertía igualdad/lag y olvidaba el dueño: publicar “casi bien” manda basura al dashboard de operaciones. El error clásico es warning en vez de fail-closed. Pregunta: si el schema coincide pero owner=\"\", ¿a quién pagina el on-call? Siguiente (E2): cuarentena vs MISSING:owner.",
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e1.py",
@@ -1512,7 +1635,11 @@ assert meets_contract is True` ,
         id: "S46-T3-A-E2",
         subtopicId: "S46-T3-A",
         kind: "independent",
-        instruction: "S46-T3-A-E2 · PASS / QUARANTINE_DATASET / MISSING:owner. Adverso: observed_schema con case_id:int y lag 80. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de contrato (PASS / QUARANTINE / MISSING)",
+        preamble:
+          "- **Contexto:** el gate de calidad separa dataset roto de record de control incompleto.\n- **Meta:** `assess` → PASS / QUARANTINE_DATASET / MISSING:owner.\n- **Éxito:** `PASS QUARANTINE_DATASET MISSING:owner`.\n- **Límites:** en E2 no uses PAGE_DATA_OWNER; missing primero; no inventes owner.",
+        instruction:
+          "1. Conserva missing.\n2. ok = schema exacto ∧ lag ≤ slo ∧ owner.\n3. Si no ok → QUARANTINE_DATASET.\n4. Imprime las tres rutas.",
         hint: "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner).",
         hints: [
           "Adverso típico: case_id tipado como int y lag 80 con slo 15 → QUARANTINE_DATASET.",
@@ -1524,7 +1651,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-3A (sin PII)",
         ],
         tests: "`PASS QUARANTINE_DATASET MISSING:owner`.",
-        feedback: "E2: cuarentena es breach de contenido; MISSING es schema incompleto del record de control.",
+        feedback:
+          "Cuarentena es breach de contenido (drift o frescura); MISSING:owner es control incompleto. No inventes “data-ops por defecto” ni publiques al dashboard de Huancayo sin accountability.",
+        retrospective:
+          "Cuarentena es breach de **contenido** (drift o frescura); MISSING:owner es schema de **control** incompleto. Tratar owner ausente como “data-ops por defecto” inventa un dueño y publica sin accountability. Pregunta: ¿por qué no conviertes MISSING en QUARANTINE automáticamente? Luego (E3): PAGE_DATA_OWNER.",
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e2.py",
@@ -1578,7 +1708,11 @@ meets_contract True` ,
         id: "S46-T3-A-E3",
         subtopicId: "S46-T3-A",
         kind: "transfer",
-        instruction: "S46-T3-A-E3 · CONTINUE / QUARANTINE_DATASET / PAGE_DATA_OWNER. Sin owner se pagina; no se asume data-ops por defecto. Salida: imprime el valor de meets_contract.",
+        title: "Decide contrato: CONTINUE o page al owner",
+        preamble:
+          "- **Contexto:** sin owner no se cuarentena a ciegas ni se publica: se pagina.\n- **Meta:** `decide` → CONTINUE / QUARANTINE_DATASET / PAGE_DATA_OWNER.\n- **Éxito:** `CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER`.\n- **Límites:** no inventes owner por defecto; no conviertas missing en CONTINUE.",
+        instruction:
+          "1. Missing → PAGE_DATA_OWNER.\n2. Predicado de E1/E2 con campos completos.\n3. Breach → QUARANTINE; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → PAGE_DATA_OWNER; breach de schema/lag → QUARANTINE_DATASET.",
         hints: [
           "PAGE_DATA_OWNER es la rama de incertidumbre; no inventes owner por defecto (p. ej. data-ops).",
@@ -1590,7 +1724,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-3A (sin PII)",
         ],
         tests: "CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER.",
-        feedback: "E3: PAGE_DATA_OWNER es incertidumbre de ownership; QUARANTINE es breach de contrato. Runbooks distintos.",
+        feedback:
+          "PAGE_DATA_OWNER es incertidumbre de ownership; QUARANTINE_DATASET es breach de contrato. Asumir `data-ops` publica basura al dashboard sin dueño real. CONTINUE solo con schema exacto, lag ≤ SLO y owner presente.",
+        retrospective:
+          "PAGE es incertidumbre de ownership; QUARANTINE es breach de contrato — runbooks distintos. El error clásico es asumir `data-ops` por defecto. Pregunta: ¿qué publicas si lag=80 y schema drift a la vez en atenciones_diarias?",
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e3.py",
@@ -1646,7 +1783,11 @@ meets_contract True` ,
         id: "S46-T3-B-E1",
         subtopicId: "S46-T3-B",
         kind: "guided",
-        instruction: "S46-T3-B-E1 · Lineage en `CASO-HYO-046-3B`: run_id empieza con 'run-', inputs y outputs no vacíos, null_rate≤0.02 y owner. Starter invierte. Salida: `S46-T3-B PASS`.",
+        title: "Lineage: run, IO, null_rate y owner",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-3B`, un run de clean solo es trazable si el facet está completo y la calidad bajo umbral.\n- **Meta:** `meets_contract` con run- + inputs + outputs + null_rate≤0.02 + owner.\n- **Éxito:** `S46-T3-B PASS`.\n- **Límites:** null_rate bajo no basta sin IO y run_id; no mutes el fixture.",
+        instruction:
+          "1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OPEN_QUALITY_INCIDENT; print `S46-T3-B`.",
         hint: "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner.",
         hints: [
           "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-).",
@@ -1658,7 +1799,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-3B (sin PII)",
         ],
         tests: "`S46-T3-B PASS`.",
-        feedback: "E1: lineage mínimo = run trazable + IO + calidad + owner. Sin uno, el incidente no se reconstruye.",
+        feedback:
+          "Lineage mínimo = run trazable + IO + calidad + owner. Sin un eslabón, el incidente no se reconstruye y el post mortem de Huancayo queda a ciegas.",
+        retrospective:
+          "Un solo eslabón roto basta para abrir incidente: run mal formado, IO vacío, null_rate alto u owner vacío. El error clásico es mirar solo `null_rate` y declarar “calidad OK”. Pregunta: ¿qué pones en el ticket de Huancayo si no hay inputs? Siguiente (E2): adverso multi-eslabón vs MISSING:owner.",
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e1.py",
@@ -1704,7 +1848,11 @@ assert meets_contract is True` ,
         id: "S46-T3-B-E2",
         subtopicId: "S46-T3-B",
         kind: "independent",
-        instruction: "S46-T3-B-E2 · PASS / OPEN_QUALITY_INCIDENT / MISSING:owner. Adverso: run_id '', inputs vacíos, null_rate 0.3. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de lineage (PASS / INCIDENT / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de calidad no confunde record incompleto con facet roto documentado.\n- **Meta:** `assess` → PASS / OPEN_QUALITY_INCIDENT / MISSING:owner.\n- **Éxito:** `PASS OPEN_QUALITY_INCIDENT MISSING:owner`.\n- **Límites:** missing primero; cualquiera de los eslabones del adverso basta para incidente.",
+        instruction:
+          "1. Conserva missing.\n2. Aplica predicado completo de E1.\n3. Si no ok → OPEN_QUALITY_INCIDENT.\n4. Imprime las tres rutas.",
         hint: "Missing primero; luego el predicado completo de lineage.",
         hints: [
           "MISSING:owner ≠ OPEN_QUALITY_INCIDENT: separa schema incompleto de facet roto.",
@@ -1716,7 +1864,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-3B (sin PII)",
         ],
         tests: "`PASS OPEN_QUALITY_INCIDENT MISSING:owner`.",
-        feedback: "E2: el adverso rompe varios eslabones a la vez; cualquiera basta para abrir incidente.",
+        feedback:
+          "El adverso rompe varios eslabones a la vez; cualquiera basta para abrir incidente. MISSING:owner no es lo mismo que OPEN_QUALITY_INCIDENT.",
+        retrospective:
+          "MISSING:owner es incertidumbre de **control** (aún no sabes a quién paginar); OPEN_QUALITY_INCIDENT asume un facet documentado pero roto. El adverso rompe varios eslabones a la vez: cualquiera basta. El error clásico es abrir un incidente vacío de ownership. Pregunta: si solo falta owner, ¿por qué no abres OPEN de inmediato? Luego (E3): TRACE_LINEAGE recupera contexto.",
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e2.py",
@@ -1772,7 +1923,11 @@ meets_contract True` ,
         id: "S46-T3-B-E3",
         subtopicId: "S46-T3-B",
         kind: "transfer",
-        instruction: "S46-T3-B-E3 · CONTINUE / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE. Sin owner se traza lineage; no abras incidente de calidad por campo ausente. Salida: imprime el valor de meets_contract.",
+        title: "Decide lineage: CONTINUE o traza",
+        preamble:
+          "- **Contexto:** sin owner se traza lineage; con facet roto se abre incidente de calidad.\n- **Meta:** `decide` → CONTINUE / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE.\n- **Éxito:** `CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE`.\n- **Límites:** no abras incidente por missing; no uses CONTINUE en incertidumbre.",
+        instruction:
+          "1. Missing → TRACE_LINEAGE.\n2. Predicado completo si hay campos.\n3. Facet roto → OPEN_QUALITY_INCIDENT; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → TRACE_LINEAGE; facet roto → OPEN_QUALITY_INCIDENT.",
         hints: [
           "TRACE_LINEAGE recupera contexto; OPEN_QUALITY_INCIDENT asume que ya conoces el facet roto.",
@@ -1784,7 +1939,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-3B (sin PII)",
         ],
         tests: "CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE.",
-        feedback: "E3: TRACE_LINEAGE recupera contexto; OPEN_QUALITY_INCIDENT asume que ya sabes qué se rompió.",
+        feedback:
+          "TRACE recupera contexto; OPEN asume que ya sabes qué se rompió. Un incidente vacío de ownership no sirve en el post mortem de Huancayo — no lo disfraces de CONTINUE.",
+        retrospective:
+          "TRACE_LINEAGE es el runbook cuando falta evidencia de ownership; OPEN_QUALITY_INCIDENT es cuando ya sabes qué se rompió en el facet. El error clásico es ticket de incidente sin run_id ni inputs. Pregunta: ¿qué tres campos del facet copias al post mortem antes de “arreglar” clean-v3? Ese hábito alimenta el youDo y CP-N4-B.",
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e3.py",
@@ -1842,7 +2000,11 @@ meets_contract True` ,
         id: "S46-T4-A-E1",
         subtopicId: "S46-T4-A",
         kind: "guided",
-        instruction: "S46-T4-A-E1 · Incremental en `CASO-HYO-046-4A`: source_keys==target_keys, second_run_changes==0 y small_files≤max_small_files. Starter invierte. Salida: `S46-T4-A PASS`.",
+        title: "Merge incremental: keys y cero delta",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-4A`, la partición `2026-07-22` solo es sana si keys alinean, el re-run no cambia filas y los small files están bajo techo.\n- **Meta:** tres conjunciones: source_keys==target_keys ∧ second_run_changes==0 ∧ small_files≤max.\n- **Éxito:** `S46-T4-A PASS`.\n- **Límites:** no ignores small_files; no mutes el fixture.",
+        instruction:
+          "1. Abre el starter: predicado invertido e incompleto.\n2. Exige equality de keys.\n3. Exige second_run_changes == 0 y small_files ≤ max_small_files.\n4. PASS o REBUILD_PARTITION; print `S46-T4-A`.",
         hint: "Tres conjunciones: keys iguales, cero cambios en re-run y small files bajo techo.",
         hints: [
           "source_keys == target_keys AND second_run_changes == 0 AND small_files ≤ max_small_files.",
@@ -1854,7 +2016,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-4A (sin PII)",
         ],
         tests: "`S46-T4-A PASS`.",
-        feedback: "E1: idempotencia de partición = keys alineadas + segundo run sin delta + higiene de archivos.",
+        feedback:
+          "Idempotencia de partición = keys alineadas + segundo run sin delta + higiene de archivos. second_run_changes > 0 implica que el merge no es función del batch de entrada.",
+        retrospective:
+          "El segundo run con cero cambios es la prueba del gate de partición. Solo mirar keys deja pasar delta>0 o small files fuera de techo. El error clásico es “las keys coinciden ⇒ merge OK”. Pregunta: ¿por qué small_files también entra al contrato y no solo el conteo de filas? Siguiente (E2): drift + delta + small files altos.",
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e1.py",
@@ -1900,7 +2065,11 @@ assert meets_contract is True` ,
         id: "S46-T4-A-E2",
         subtopicId: "S46-T4-A",
         kind: "independent",
-        instruction: "S46-T4-A-E2 · PASS / REBUILD_PARTITION / MISSING:max_small_files. Adverso: keys drift, second_run_changes=3, small_files=30. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de merge (PASS / REBUILD / MISSING)",
+        preamble:
+          "- **Contexto:** el revisor de particiones reconstruye cuando el sink ya no es función del batch; no adivina el techo de small files.\n- **Meta:** `assess` → PASS / REBUILD_PARTITION / MISSING:max_small_files.\n- **Éxito:** `PASS REBUILD_PARTITION MISSING:max_small_files`.\n- **Límites:** missing de max antes de comparar; cualquier condición rota basta para REBUILD.",
+        instruction:
+          "1. Conserva missing.\n2. ok = keys iguales ∧ changes==0 ∧ small_files ≤ max.\n3. Si no → REBUILD_PARTITION.\n4. Imprime las tres rutas.",
         hint: "Missing de max_small_files antes de comparar small_files.",
         hints: [
           "Keys drift o second_run_changes > 0 o small_files alto → REBUILD_PARTITION.",
@@ -1912,7 +2081,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-4A (sin PII)",
         ],
         tests: "`PASS REBUILD_PARTITION MISSING:max_small_files`.",
-        feedback: "E2: rebuild es la respuesta a un sink que ya no es función del batch de entrada.",
+        feedback:
+          "Rebuild es la respuesta a un sink que ya no es función del batch de entrada: keys drift, delta en re-run o small files fuera de techo.",
+        retrospective:
+          "REBUILD_PARTITION responde a un sink que ya no es función del batch (keys drift, delta en re-run o higiene rota). MISSING:max_small_files es incertidumbre de **diseño** del techo, no un rebuild automático. El error clásico es reconstruir sin saber el límite. Pregunta: ¿qué evidencia imprime el revisor antes de REBUILD? Luego (E3): REVIEW_INCREMENTAL_KEY.",
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e2.py",
@@ -1966,7 +2138,11 @@ meets_contract True` ,
         id: "S46-T4-A-E3",
         subtopicId: "S46-T4-A",
         kind: "transfer",
-        instruction: "S46-T4-A-E3 · CONTINUE / REBUILD_PARTITION / REVIEW_INCREMENTAL_KEY. Sin max_small_files se revisa la clave/límite; no rebuild automático. Salida: imprime el valor de meets_contract.",
+        title: "Decide merge: CONTINUE o revisa la clave",
+        preamble:
+          "- **Contexto:** sin `max_small_files` se revisa el diseño del merge; con delta en re-run se reconstruye.\n- **Meta:** `decide` → CONTINUE / REBUILD_PARTITION / REVIEW_INCREMENTAL_KEY.\n- **Éxito:** `CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY`.\n- **Límites:** no rebuild automático por missing; no CONTINUAR en incertidumbre.",
+        instruction:
+          "1. Missing → REVIEW_INCREMENTAL_KEY.\n2. Predicado de E1/E2.\n3. Merge roto → REBUILD; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → REVIEW_INCREMENTAL_KEY; merge roto → REBUILD_PARTITION.",
         hints: [
           "REVIEW_INCREMENTAL_KEY es missing de diseño de clave; REBUILD es merge/higiene rota.",
@@ -1978,7 +2154,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-4A (sin PII)",
         ],
         tests: "CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY.",
-        feedback: "E3: REVIEW_INCREMENTAL_KEY es incertidumbre de diseño del merge; REBUILD es breach ya materializado.",
+        feedback:
+          "REVIEW no es un rebuild automático: primero cierras el límite de diseño. REBUILD asume que el merge ya corrompió o dejó basura de small files. CONTINUE solo con keys alineadas, delta 0 y techo respetado.",
+        retrospective:
+          "REVIEW_INCREMENTAL_KEY es incertidumbre de diseño (falta max_small_files o clave mal elegida); REBUILD es breach **materializado** en el sink. Rebuild a ciegas no arregla el contrato del portfolio ni el gate CP-N4-B. Pregunta: ¿qué prueba el `second_run_changes==0` en 30 segundos de defensa? Ese número es la evidencia del youDo.",
         starterCode: {
           language: 'python',
           title: "s46-t4-a-e3.py",
@@ -2034,7 +2213,11 @@ meets_contract True` ,
         id: "S46-T4-B-E1",
         subtopicId: "S46-T4-B",
         kind: "guided",
-        instruction: "S46-T4-B-E1 · Ops en `CASO-HYO-046-4B`: freshness_sli≥freshness_slo, rto≤target_rto, postmortem_actions≥1 y owner. Starter invierte. Salida: `S46-T4-B PASS`.",
+        title: "SLI, RTO, post mortem y owner",
+        preamble:
+          "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `S46-T4-B PASS`.\n- **Límites:** no apruebes con postmortem_actions=0; no ignores owner.",
+        instruction:
+          "1. Abre el starter: predicado invertido e incompleto.\n2. Compara sli con slo (≥) y rto con target (≤).\n3. Exige postmortem_actions ≥ 1 y bool(owner).\n4. PASS o DECLARE_DATA_INCIDENT; print `S46-T4-B`.",
         hint: "SLI es la medida (≥ objetivo); RTO es tiempo de recuperación (≤ target).",
         hints: [
           "PASS si sli ≥ slo AND rto ≤ target_rto AND postmortem_actions ≥ 1 AND owner no vacío.",
@@ -2046,7 +2229,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-4B (sin PII)",
         ],
         tests: "`S46-T4-B PASS`.",
-        feedback: "E1: SLO de datos se demuestra con desigualdad SLI/SLO + RTO + dueño + acciones — no con un README.",
+        feedback:
+          "SLO de datos se demuestra con desigualdades y dueño, no con un README. Un simulacro sin acciones de post mortem o con RTO por encima del target es teatro: el on-call de Huancayo no tiene runbook ejecutable.",
+        retrospective:
+          "Cuatro eslabones: sli ≥ slo, rto ≤ target, ≥1 acción de post mortem y owner. Mirar solo el porcentaje de frescura es teatro operativo. El error clásico es PASS con `postmortem_actions=0`. Pregunta: ¿qué demuestra un simulacro sin acciones concretas? Siguiente (E2): adverso multi-indicador.",
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e1.py",
@@ -2093,7 +2279,11 @@ assert meets_contract is True` ,
         id: "S46-T4-B-E2",
         subtopicId: "S46-T4-B",
         kind: "independent",
-        instruction: "S46-T4-B-E2 · PASS / DECLARE_DATA_INCIDENT / MISSING:owner. Adverso: sli=0.8, rto=90, actions=0. Salida: imprime el valor de meets_contract.",
+        title: "Tres rutas de ops (PASS / INCIDENT / MISSING)",
+        preamble:
+          "- **Contexto:** el on-call declara incidente por evidencia numérica, no por “anda lento”.\n- **Meta:** `assess` → PASS / DECLARE_DATA_INCIDENT / MISSING:owner.\n- **Éxito:** `PASS DECLARE_DATA_INCIDENT MISSING:owner`.\n- **Límites:** missing primero; un solo indicador roto basta para DECLARE.",
+        instruction:
+          "1. Conserva missing.\n2. ok = sli≥slo ∧ rto≤target ∧ actions≥1 ∧ owner.\n3. Si no → DECLARE_DATA_INCIDENT.\n4. Imprime las tres rutas.",
         hint: "Missing de owner antes de comparar SLI; el adverso falla por varios indicadores a la vez.",
         hints: [
           "Un solo indicador roto basta para DECLARE_DATA_INCIDENT (no esperes que fallen todos).",
@@ -2105,7 +2295,10 @@ assert meets_contract is True` ,
           "eventos sintéticos CASO-HYO-046-4B (sin PII)",
         ],
         tests: "`PASS DECLARE_DATA_INCIDENT MISSING:owner`.",
-        feedback: "E2: el incidente se declara por evidencia numérica, no por sensación de “anda lento”.",
+        feedback:
+          "El incidente se declara por evidencia numérica (SLI, RTO, acciones), no por sensación de “anda lento” en el dashboard de Huancayo. Un solo indicador roto basta.",
+        retrospective:
+          "El incidente se declara con **evidencia numérica** (SLI, RTO, acciones), no por “anda lento”. Un solo indicador roto basta para DECLARE. MISSING:owner es otra rama: no abras un incidente vacío de ownership. Pregunta: si sli=0.8 y actions=0 a la vez, ¿necesitas dos tickets o uno con ambos hechos? Luego (E3): ACTIVATE_RECOVERY_RUNBOOK.",
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e2.py",
@@ -2160,7 +2353,11 @@ meets_contract True` ,
         id: "S46-T4-B-E3",
         subtopicId: "S46-T4-B",
         kind: "transfer",
-        instruction: "S46-T4-B-E3 · CONTINUE / DECLARE_DATA_INCIDENT / ACTIVATE_RECOVERY_RUNBOOK. Sin owner se activa runbook; no declares incidente vacío de ownership. Salida: imprime el valor de meets_contract.",
+        title: "Decide ops: CONTINUE o activa runbook",
+        preamble:
+          "- **Contexto:** sin owner se activa el runbook de recovery; con métricas rotas se declara incidente.\n- **Meta:** `decide` → CONTINUE / DECLARE_DATA_INCIDENT / ACTIVATE_RECOVERY_RUNBOOK.\n- **Éxito:** `CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK`.\n- **Límites:** no declares incidente vacío de ownership; no CONTINUAR en missing.",
+        instruction:
+          "1. Missing → ACTIVATE_RECOVERY_RUNBOOK.\n2. Predicado de E1/E2.\n3. Métricas/acciones rotas → DECLARE; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → ACTIVATE_RECOVERY_RUNBOOK; métricas rotas → DECLARE_DATA_INCIDENT.",
         hints: [
           "ACTIVATE_RECOVERY_RUNBOOK solo por missing de owner; SLI/RTO bajos son DECLARE_DATA_INCIDENT.",
@@ -2172,7 +2369,10 @@ meets_contract True` ,
           "eventos sintéticos CASO-HYO-046-4B (sin PII)",
         ],
         tests: "CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK.",
-        feedback: "E3: el runbook es la respuesta a incertidumbre operativa; el incidente asume que ya hay owner y métricas.",
+        feedback:
+          "El runbook no es un incidente vacío: es la rama cuando falta ownership. DECLARE sin dueño no activa recovery real. CONTINUE solo si sli, RTO, acciones y owner cierran el simulacro.",
+        retrospective:
+          "ACTIVATE_RECOVERY_RUNBOOK responde a incertidumbre operativa (sin owner); DECLARE_DATA_INCIDENT asume owner y métricas rotas. El error clásico es DECLARE sin dueño — nadie ejecuta el recovery. Pregunta de cierre: ¿qué RTO mides en el simulacro de Huancayo y dónde lo dejas escrito para el portfolio CP-N4-B?",
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e3.py",
@@ -2325,6 +2525,8 @@ print("ops_uncertain", ops_status(True, 8, 15, ""))
       { criterion: "Reproducibilidad stdlib y evidencia legible", weight: "10%" },
       { criterion: "Trade-offs (completeness vs. latencia, costo de backfill)", weight: "10%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante del gate CP-N4-B demuestras con second_run_changes==0 y con is_acyclic? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, late policy en producción)? (3) Escribe en el README una frase de impacto medible (antes/después: late silencioso → side-output; re-run → 0 cambios) que puedas defender en 30 segundos. Riesgo residual: el lab es stdlib — no simula cluster ni watermark de Flink completo.",
   },
   selfCheck: {
     questions: [

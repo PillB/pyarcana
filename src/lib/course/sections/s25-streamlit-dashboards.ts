@@ -376,6 +376,8 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
         subtopicId: "S25-T1-A",
         environment: "local/cloud aprobado",
         description: "Árbol de decisión rules / specialized_model / llm_structured sobre tres tickets sintéticos.",
+        preamble:
+          "En el desk sintético Lima, cada ticket del assist decide un stack *antes* de gastar tokens. En esta demo el árbol evalúa tres casos: uno determinista con patrones conocidos, uno con label set fijo y 800 ejemplos, y uno que necesita lenguaje con validador de schema. No escribas aún: predice las tres cadenas de salida y nota el orden de las ramas — si el ticket es determinista, no pagas un LLM. El path nunca elige “fraude automático”.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -396,13 +398,18 @@ print(choose_stack({"deterministic": False, "needs_language": True, "has_schema_
 specialized_model
 llm_structured`,
         },
-        why: "Decisión profesional: si el ticket es determinista, no pagas un LLM; el árbol deja rastro auditable del stack elegido.",
+        why:
+          "`choose_stack` deja rastro auditable del stack elegido. Las ramas son mutuamente prioritarias: rules primero (determinista + patrones conocidos); specialized exige label fijo y n_train≥500; llm_structured solo con schema validator; si nada calza, human. Un ticket determinista no paga LLM. En We Do implementarás el árbol, corregirás el umbral specialized y fijarás metadata sin autofraude.",
+        retrospective:
+          "Si puedes explicar por qué un ticket determinista no va a LLM sin mirar el código, ya tienes el hábito de selección de stack. El error clásico es saltar a `llm_structured` por moda. En We Do practicarás el árbol completo, el umbral 500 y la política `auto_fraud=False`.",
       },
       {
         demoId: "S25-T1-B-DEMO",
         subtopicId: "S25-T1-B",
         environment: "local/cloud aprobado",
         description: "Política de despliegue a partir de model card: host, bloqueo de fraude y licencia.",
+        preamble:
+          "Antes de llamar al modelo, el analista del desk Lima lee la model card: licencia, intended use y `not_for`. En esta demo `hosting_policy` elige host local, marca si se bloquea adjudicación de fraude y expone la licencia apache-2.0. No escribas: predice el dict de salida y nota que `blocks_fraud` viene de membership en `not_for`, no de la licencia. Apache-2.0 no te autoriza a saltarte `not_for`.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -415,13 +422,18 @@ print(hosting_policy({"license": "apache-2.0", "not_for": ["fraud adjudication"]
 `,
           output: `{'host': 'local', 'blocks_fraud': True, 'license': 'apache-2.0'}`,
         },
-        why: "Antes de llamar al modelo lees la card: licencia y not_for deciden el host y los usos bloqueados (p. ej. fraude).",
+        why:
+          "Host local por default en el lab. `not_for` es política de uso, no decoración: si lista fraud adjudication, ese uso queda bloqueado aunque la licencia sea permisiva. Licencia y ética son ejes distintos. En We Do practicarás reuso de licencia, host con PII y un gate combinado de la card.",
+        retrospective:
+          "Si puedes explicar por qué una licencia permisiva no anula `not_for`, ya tienes el hábito de gobernanza de modelos. El error clásico es “Apache-2.0 = uso libre de fraude”. Pregunta: ¿de dónde sale `blocks_fraud` en el dict — de la licencia o de membership en `not_for`? We Do: reuso de licencia, host con PII y gate combinado de la card.",
       },
       {
         demoId: "S25-T2-A-DEMO",
         subtopicId: "S25-T2-A",
         environment: "local/cloud aprobado",
         description: "Mock estilo HF: dos textos, contrato model/label/score.",
+        preamble:
+          "En producción un `pipeline` de HF o un Inference Endpoint devuelven label/score; tu adapter añade `model` y fija el contrato. En esta demo un mock por keyword (“factura” → billing) procesa dos textos sintéticos. No escribas: predice model, label y score de cada línea y nota que el case-insensitive y la clave `model` son parte del contract test del lab, no adornos.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -435,13 +447,18 @@ print(pipe("Hola mundo"))
           output: `{'model': 'demo-cls', 'label': 'billing', 'score': 0.9}
 {'model': 'demo-cls', 'label': 'other', 'score': 0.6}`,
         },
-        why: "Mock y endpoint real deben devolver la misma forma (model/label/score) para que el contract test no mienta.",
+        why:
+          "Mock HF y HTTP real deben pasar el mismo contract test con forma `{model, label, score}`. El score no es veredicto de fraude. El borrador narrativo del You Do usa otro schema (`hallazgo`, `evidence_ids`, …): no confundas ambas formas. En We Do normalizarás case, completarás keys y armarás el batch completo.",
+        retrospective:
+          "Si puedes explicar por qué el dict lleva `model` en cada item, ya entiendes el contract test del adapter. El error clásico es confiar en el label suelto o confundir este schema con el narrativo del You Do. Pregunta: ¿qué label y score predices para “Hola mundo”? We Do: normalizar case, completar keys y batch con score.",
       },
       {
         demoId: "S25-T2-B-DEMO",
         subtopicId: "S25-T2-B",
         environment: "local/cloud aprobado",
         description: "Cache miss/hit, tres timeouts que abren el circuit breaker y fallback sin martillar el endpoint.",
+        preamble:
+          "Operar el assist no es solo llamar al modelo: es caché, contador de fallas y circuit breaker. En esta demo ves un miss y un hit de caché, luego tres timeouts que dejan `failures=3` y una llamada que ya no martilla el endpoint (`circuit_open`). No escribas: predice el orden de las tres líneas de salida y por qué el fallback es `rules_or_human`, no un JSON inventado de éxito.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -478,13 +495,18 @@ print(call_endpoint(fail=True))
 fallback rules_or_human failures 3
 circuit_open`,
         },
-        why: "Operación real del assist: caché, contador de fallas y circuito abierto (no reintentar a ciegas).",
+        why:
+          "La caché evita refacturar el mismo ticket. OPEN_AFTER=3 es el umbral didáctico del lab: tras N fallas consecutivas abres el circuito y enrutas a fallback sin inventar un JSON de “éxito”. En We Do escribirás caché miss/hit, estimarás costo por 1k tokens y abrirás el circuit breaker.",
+        retrospective:
+          "Si puedes explicar por qué tras 3 fallas no reintentas el LLM, ya tienes el hábito de ops de inferencia. We Do: escribir caché, estimar costo por 1k tokens y abrir el circuito.",
       },
       {
         demoId: "S25-T3-A-DEMO",
         subtopicId: "S25-T3-A",
         environment: "local/cloud aprobado",
         description: "Construir payload JSON y validar keys required del schema.",
+        preamble:
+          "El borrador narrativo del assist solo entra al informe del VP si el JSON cumple keys requeridas. En esta demo se construye un payload con hallazgo/n/mediana/limite, se serializa y se valida con un set de required. No escribas: predice la línea del JSON y por qué `json_schema` es True. Si falta una key, en el flujo real no “arreglas” en silencio: fail-closed.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -504,13 +526,18 @@ print("json_schema", ok)
           output: `{"hallazgo": "x", "n": 1, "mediana": 2.0, "limite": "web"}
 json_schema True`,
         },
-        why: "Sin schema válido no hay promote: el assist falla cerrado aunque el texto “se vea bien”.",
+        why:
+          "Este gate es presencia de keys required (no un motor JSON Schema completo). Constrained decoding del proveedor no sustituye validación en código. Sin schema no hay promote. En We Do parsearás raw, comprobarás subset y fallarás cerrado cuando falte mediana.",
+        retrospective:
+          "Schema first: sin keys required no hay promote, aunque el texto “se vea bien”. El error clásico es publicar el string crudo o confiar en constrained decoding del proveedor. Pregunta: si falta `mediana` en el JSON, ¿qué debe pasar en el desk del VP? We Do: parsear raw, comprobar subset y fallar cerrado.",
       },
       {
         demoId: "S25-T3-B-DEMO",
         subtopicId: "S25-T3-B",
         environment: "local/cloud aprobado",
         description: "Allowlist de tools (calc_sum, lookup_metric) y stop en denegación dentro del plan.",
+        preamble:
+          "Cada tool del assist es un privilegio (red, FS, shell). En esta demo un plan con think → calc_sum → shell_rm se corta en denegación: el log muestra stop y no continúa ciego. No escribas: predice el log final y por qué shell_rm no aparece como paso ok. El asistente solo propone borradores; el humano aprueba acciones externas.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -529,13 +556,18 @@ print(run_plan(["think", "calc_sum", "shell_rm"]))
 `,
           output: `['think', 'calc_sum', 'stop']`,
         },
-        why: "Checkpoint con allowlist: el plan no continúa ciego tras deny.",
+        why:
+          "Allowlist didáctica: calc_sum y lookup_metric están permitidos; shell_rm no. Deny corta el plan (stop + break). El log es evidencia del checkpoint, no un print cosmético. En We Do armarás dict de auditoría, len(log) y stop en plan.",
+        retrospective:
+          "Si puedes explicar por qué deny corta el plan, ya tienes el hábito de checkpoints. El error clásico es loguear `shell_rm` como ok o seguir el plan ciego. Pregunta: ¿qué tools del lab están en allow y por qué `think` es excepción? We Do: dict de auditoría, len(log) y break al denegar.",
       },
       {
         demoId: "S25-T4-A-DEMO",
         subtopicId: "S25-T4-A",
         environment: "local/cloud aprobado",
         description: "Eval exact, schema_ok y field_match_rate (acierto por campo) sobre filas sintéticas.",
+        preamble:
+          "El assist de CP-N2-C no se promociona sin eval vs. baseline: exact match, schema_ok y acierto por campo. En esta demo dos filas sintéticas muestran perfect match (1.0) y match parcial (0.5) con schema aún True. No escribas: predice por qué la segunda fila no es exact y por qué field_match_rate no es F1 estadístico. El score del clasificador no se convierte en etiqueta de fraude aquí.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -561,13 +593,18 @@ print(eval_row({"a": 1, "b": 0}, {"a": 2, "b": 0}, ["a", "b"]))
           output: `{'exact': True, 'schema_ok': True, 'field_match_rate': 1.0}
 {'exact': False, 'schema_ok': True, 'field_match_rate': 0.5}`,
         },
-        why: "Promote del assist exige exact, schema y acierto por campo — no solo 'se ve bien'.",
+        why:
+          "Schema y exact son gates distintos: schema_ok True con exact False sigue siendo útil al revisor. field_match_rate promedia igualdad por key en la unión pred∪gold; no es F1. En We Do calcularás exact/schema, field_match_rate y el gate de promote a human_review.",
+        retrospective:
+          "Si puedes explicar por qué schema_ok True con exact False es útil para el revisor, ya usas métricas con juicio. We Do: calcular exact/schema, field_match_rate y el gate de promote.",
       },
       {
         demoId: "S25-T4-B-DEMO",
         subtopicId: "S25-T4-B",
         environment: "local/cloud aprobado",
         description: "Request segura (tools vacíos + HITL) y minimización de payload.",
+        preamble:
+          "El documento OCR o el email sintético pueden intentar dar órdenes (“ignore previous instructions”). En esta demo la request deja el texto en `untrusted_document`, tools vacíos, tope de chars y aprobación humana; luego minimize quita `api_key` del payload. No escribas: predice las dos líneas de salida y por qué el control real no es el regex, sino privilegio mínimo + HITL + minimización.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -590,7 +627,10 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
           output: `[] True
 {'ruc': '201', 'notes': 'x'}`,
         },
-        why: "Privilegio mínimo y minimización son el control real; el regex es solo telemetría.",
+        why:
+          "Regex de injection es telemetría, no control. Nunca eleves el doc a system. Secretos (api_key) fuera del contexto del modelo. Tools vacíos + HITL + minimize son el diseño. En We Do armarás request completa, minimize y decisión sin fraud por score.",
+        retrospective:
+          "Si puedes explicar por qué tools=[] y HITL importan más que detectar una frase, ya tienes el hábito de injection-by-design. We Do: request completa, minimize y score≠fraude.",
       },
     ],
   },
@@ -601,8 +641,11 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
         id: "S25-T1-A-E1",
         subtopicId: "S25-T1-A",
         kind: "guided",
+        title: "Árbol choose_stack: rama rules primero",
+        preamble:
+          "- **Contexto:** en CP-N2-C un ticket determinista con patrones conocidos no debe ir al LLM: el VP quiere auditabilidad barata.\n- **Meta:** implementar `choose_stack` con las cuatro ramas de la teoría (rules → specialized → llm_structured → human).\n- **Éxito:** imprime exactamente `rules` para el ticket del fixture.\n- **Límites:** no dejes el return fijo a `llm_structured`; no inventes una quinta rama; no etiquetes fraude.",
         instruction:
-          "S25-T1-A-E1 · Implementa el árbol completo de `choose_stack(task)` de la teoría: (1) deterministic y patterns_known → `rules`; (2) label_set_fixed y n_train≥500 → `specialized_model`; (3) needs_language y has_schema_validator → `llm_structured`; (4) si no, `human`. El starter devuelve siempre `llm_structured`. Evalúa el ticket determinista del fixture e imprime el stack. Salida exacta: rules.",
+          "1. Abre el starter: `choose_stack` ignora flags y devuelve siempre `llm_structured`.\n2. Implementa las cuatro ramas en orden (deterministic+patterns_known → rules; fixed+n≥500 → specialized; language+schema → llm_structured; else human).\n3. Evalúa el ticket del fixture e imprime solo el stack.\n4. No mutes el ticket ni agregues texto extra.",
         hint: "Primera rama: deterministic y patterns_known → rules (antes de mirar LLM)",
         hints: [
           "if task.get('deterministic') and task.get('patterns_known'): return 'rules'",
@@ -610,7 +653,10 @@ print(minimize({"ruc": "201", "notes": "x", "api_key": "SECRET"}, ["ruc", "notes
         ],
         edgeCases: ["solo un flag True no basta", "metadata del run debe registrar el stack"],
         tests: "salida coincide con solution output",
-        feedback: "Si imprimiste llm_structured, la rama determinista no se evaluó antes del fallback.",
+        feedback:
+          "Si salió `llm_structured`, la rama determinista no se evaluó antes del fallback. Un ticket con `deterministic` y `patterns_known` es `rules`: barato, reproducible y auditable en el desk Lima.",
+        retrospective:
+          "El orden de ramas es el control de costo y auditoría del desk: determinista primero, LLM solo con schema. El error clásico es “siempre LLM”. Pregunta: ¿qué imprime el árbol si solo `needs_language` es True y no hay validator? Siguiente (E2): umbral de specialized con n_train realista.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -658,16 +704,22 @@ print(choose_stack(ticket))`,
         id: "S25-T1-A-E2",
         subtopicId: "S25-T1-A",
         kind: "independent",
+        title: "Specialized model con n_train ≥ 500",
+        preamble:
+          "- **Contexto:** el desk elige modelo especializado cuando el label set es fijo y hay volumen de train suficiente (≥500 en el lab).\n- **Meta:** corregir el umbral de `choose_stack` para devolver `specialized_model` con n_train=800.\n- **Éxito:** imprime exactamente `specialized_model`.\n- **Límites:** umbral 500 (no 1000); no inventes otra rama; ticket no determinista.",
         instruction:
-          "S25-T1-A-E2 · Ticket con label set fijo y n_train=800 (no determinista). Implementa `choose_stack` con la rama specialized: si `label_set_fixed` y `n_train >= 500` → `specialized_model` (el starter usa umbral 1000 y cae a `other`). Imprime el stack del ticket. Salida exacta: specialized_model.",
-        hint: "Umbral de la teoría: n_train >= 500 cuando el label set es fijo",
+          "1. Revisa el starter: umbral `n_train >= 1000` (bug).\n2. Baja el umbral a `>= 500` como en la teoría T1-A.\n3. Imprime solo el stack del ticket.\n4. No cambies los flags del ticket.",
+        hint: "Compara el umbral del starter con el de la demo/teoría T1-A (no inventes otro número).",
         hints: [
-          "if task.get('label_set_fixed') and task.get('n_train', 0) >= 500: return 'specialized_model'",
+          "Compara el umbral del starter con el de la demo/teoría T1-A (no inventes otro número).",
           "Con n=800 el umbral 1000 del starter es demasiado alto; no inventes otra rama",
         ],
         edgeCases: ["n_train=499 con fixed → no specialized", "datos insuficientes documentados en metadata"],
         tests: "salida coincide con solution output",
-        feedback: "Con n=800 el umbral correcto es 500 (teoría T1-A), no 1000.",
+        feedback:
+          "Con n=800 el umbral de la teoría T1-A es 500, no 1000. Si salió `other`, el starter sigue con el umbral inventado: el desk excluye specialized aunque el train sea suficiente.",
+        retrospective:
+          "El umbral documentado es contrato de lab, no un número “de moda”. Confundir 1000 con 500 cambia el stack sin que el test de negocio lo grite. Luego (E3) fijas metadata sin autofraude aunque el stack sea LLM.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -699,8 +751,11 @@ print(choose_stack(ticket))`,
         id: "S25-T1-A-E3",
         subtopicId: "S25-T1-A",
         kind: "transfer",
+        title: "Metadata de run sin autofraude",
+        preamble:
+          "- **Contexto:** en CP-N2-C ningún stack (ni `llm_structured`) etiqueta fraude solo: el modelo emite señales; el humano decide.\n- **Meta:** `run_meta(stack)` debe fijar `auto_fraud=False` y `policy='no_auto_fraud'` para cualquier stack.\n- **Éxito:** `{'stack': 'llm_structured', 'auto_fraud': False, 'policy': 'no_auto_fraud'}`.\n- **Límites:** no pongas `auto_fraud=True` si el stack es LLM; no inventes otras keys.",
         instruction:
-          "S25-T1-A-E3 · Metadata de run del assist: `run_meta(stack)` debe devolver un dict con `stack`, `auto_fraud=False` y `policy='no_auto_fraud'` para **cualquier** stack (incluido `llm_structured`). El starter pone auto_fraud=True cuando el stack es LLM. Imprime el dict de `run_meta('llm_structured')`. Salida exacta: {'stack': 'llm_structured', 'auto_fraud': False, 'policy': 'no_auto_fraud'}.",
+          "1. Lee el DEFECT: el starter pone `auto_fraud` según `stack == 'llm_structured'`.\n2. Devuelve siempre `auto_fraud=False` y `policy='no_auto_fraud'`.\n3. Imprime el dict de `run_meta('llm_structured')`.\n4. Conserva la key `stack`.",
         hint: "Ningún stack del lab autoetiqueta fraude; el dict fija la política en metadata.",
         hints: [
           "return {'stack': stack, 'auto_fraud': False, 'policy': 'no_auto_fraud'}",
@@ -708,7 +763,10 @@ print(choose_stack(ticket))`,
         ],
         edgeCases: ["HITL obligatorio aunque stack sea rules", "metadata se audita junto al golden en T4"],
         tests: "salida coincide con solution output",
-        feedback: "llm_structured también lleva auto_fraud=False y policy no_auto_fraud: el modelo emite señales, no veredictos.",
+        feedback:
+          "Si `auto_fraud` salió True, el starter aún amarra el flag a `stack == 'llm_structured'`. En CP-N2-C **ningún** stack autoetiqueta: metadata fija `auto_fraud=False` y `policy='no_auto_fraud'` para el path del assist.",
+        retrospective:
+          "La metadata del run es evidencia de política: LLM ≠ veredicto. El error clásico es “score alto → fraude en metadata”. Pregunta: ¿por qué HITL sigue obligatorio aunque el stack sea `rules`?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -742,8 +800,11 @@ print(run_meta('llm_structured'))`,
         id: "S25-T1-B-E1",
         subtopicId: "S25-T1-B",
         kind: "guided",
+        title: "Licencia reutilizable: mit y apache-2.0",
+        preamble:
+          "- **Contexto:** el desk registra si la licencia de la card permite reuso comercial básico en el lab.\n- **Meta:** `license_reuse(lic)` → `reuse_ok` si lic ∈ {mit, apache-2.0}; si no, `review`.\n- **Éxito:** imprime exactamente `reuse_ok` con lic='mit'.\n- **Límites:** no inviertas el set; reuse_ok no anula `not_for`.",
         instruction:
-          "S25-T1-B-E1 · Implementa `license_reuse(lic)`: si la licencia está en {mit, apache-2.0} devuelve `reuse_ok`; si no, `review`. Con lic='mit' el starter invierte la lógica. Imprime el resultado. Salida exacta: reuse_ok.",
+          "1. Abre el starter: devuelve `review` cuando lic está en permisivas (bug invertido).\n2. Corrige a `reuse_ok` si lic ∈ {mit, apache-2.0}, si no `review`.\n3. Imprime el resultado de `license_reuse('mit')`.\n4. No agregues otras licencias al set del lab.",
         hint: "reuse_ok cuando lic ∈ {mit, apache-2.0}",
         hints: [
           "return 'reuse_ok' if lic in {'mit','apache-2.0'} else 'review'",
@@ -751,7 +812,10 @@ print(run_meta('llm_structured'))`,
         ],
         edgeCases: ["licencias copyleft → review", "licencia permisiva no anula not_for"],
         tests: "salida coincide con solution output",
-        feedback: "Si salió review, el set de permisivas está invertido: mit/apache-2.0 son reuse_ok.",
+        feedback:
+          "Si salió `review`, el set de permisivas está invertido: mit y apache-2.0 son `reuse_ok` en el lab; no anulan `not_for`.",
+        retrospective:
+          "MIT/Apache son reuse_ok en el lab; copyleft u otras van a review legal. El error clásico es invertir el set. Siguiente (E2): PII viva fuerza host local.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -777,8 +841,11 @@ print(license_reuse('mit'))`,
         id: "S25-T1-B-E2",
         subtopicId: "S25-T1-B",
         kind: "independent",
+        title: "PII viva: host local o VPC privada",
+        preamble:
+          "- **Contexto:** si hay PII viva, el curso prohíbe endpoint público: local o VPC privada.\n- **Meta:** `deploy_choice(has_pii=True)` → `local_or_private_vpc`.\n- **Éxito:** imprime exactamente `local_or_private_vpc`.\n- **Límites:** no envíes PII a cloud_ok; sintéticos sin PII pueden ser cloud_ok si licencia e intended use lo permiten.",
         instruction:
-          "S25-T1-B-E2 · Implementa `deploy_choice(has_pii)`: con PII viva (`True`) debe devolver `local_or_private_vpc`; si no, `cloud_ok`. El starter envía a cloud cuando hay PII. Imprime el resultado con has_pii=True. Salida exacta: local_or_private_vpc.",
+          "1. Revisa el starter: con PII devuelve `cloud_ok` (bug).\n2. Invierte: PII → `local_or_private_vpc`; sin PII → `cloud_ok`.\n3. Imprime `deploy_choice(True)`.\n4. No inventes un tercer host.",
         hint: "PII viva → local o VPC privada (nunca endpoint público en el curso)",
         hints: [
           "return 'local_or_private_vpc' if has_pii else 'cloud_ok'",
@@ -786,7 +853,10 @@ print(license_reuse('mit'))`,
         ],
         edgeCases: ["sintéticos sin PII", "DPA y minimización aún obligatorios en cloud"],
         tests: "salida coincide con solution output",
-        feedback: "PII viva fuerza local/VPC: el starter elige cloud_ok al revés.",
+        feedback:
+          "Si imprimiste `cloud_ok` con `has_pii=True`, la rama del starter está invertida: con PII viva el curso prohíbe endpoint público. Debe salir `local_or_private_vpc` (control de exfiltración, no “preferencia de cloud”).",
+        retrospective:
+          "PII viva fuerza local o VPC: el desk no “elige infra por gusto”. Sintéticos sin PII pueden ser `cloud_ok` si licencia e intended use lo permiten. Pregunta: ¿por qué DPA y minimización siguen obligatorios aunque el host sea cloud_ok? Luego (E3) unes licencia y `not_for` en un solo `card_gate`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -812,8 +882,11 @@ print(deploy_choice(True))`,
         id: "S25-T1-B-E3",
         subtopicId: "S25-T1-B",
         kind: "transfer",
+        title: "card_gate: licencia y not_for",
+        preamble:
+          "- **Contexto:** la model card del lab (apache-2.0, not_for con fraud adjudication) debe producir un gate auditable antes del deploy.\n- **Meta:** `card_gate(card)` → `reuse_ok` por licencia y `blocks_fraud` por membership en not_for.\n- **Éxito:** `{'reuse_ok': True, 'blocks_fraud': True}`.\n- **Límites:** no hardcodes False; licencia permisiva no anula not_for.",
         instruction:
-          "S25-T1-B-E3 · A partir de la model card (licencia apache-2.0, not_for con fraud adjudication), implementa `card_gate(card)` que devuelva un dict con `reuse_ok` (licencia en {mit, apache-2.0}) y `blocks_fraud` (membership de 'fraud adjudication' en not_for). El starter fija ambos en False. Imprime el dict. Salida exacta: {'reuse_ok': True, 'blocks_fraud': True}.",
+          "1. Lee la card del starter (license + not_for).\n2. Calcula `reuse_ok` con set {mit, apache-2.0}.\n3. Calcula `blocks_fraud` con `'fraud adjudication' in not_for`.\n4. Imprime el dict (sin keys extra).",
         hint: "reuse_ok por licencia; blocks_fraud por membership en not_for",
         hints: [
           "reuse_ok = card['license'] in {'mit', 'apache-2.0'}",
@@ -821,7 +894,10 @@ print(deploy_choice(True))`,
         ],
         edgeCases: ["intended use distinto de not_for", "licencia permisiva no anula not_for"],
         tests: "salida coincide con solution output",
-        feedback: "No hardcodes False: consulta licencia y not_for reales de la card.",
+        feedback:
+          "Si ambos flags salieron False, hardcodeaste el gate: lee `card['license']` (set mit/apache-2.0) y membership de `'fraud adjudication'` en `not_for`. Licencia permisiva no apaga el bloqueo de fraude.",
+        retrospective:
+          "El error clásico es hardcodear False o confundir intended use con not_for. Un gate compuesto es lo que auditas en metadata del run. Pregunta: ¿por qué biometric id en not_for también bloquearía un uso fuera de scope?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -860,8 +936,11 @@ print(card_gate(card))`,
         id: "S25-T2-A-E1",
         subtopicId: "S25-T2-A",
         kind: "guided",
+        title: "Primer item mock HF con model y lower",
+        preamble:
+          "- **Contexto:** el mock del desk clasifica tickets sintéticos; “Factura” debe matchear en minúsculas y el contrato exige clave `model`.\n- **Meta:** devolver `{model, label}` para t='Factura X' y model='demo'.\n- **Éxito:** `{'model': 'demo', 'label': 'billing'}`.\n- **Límites:** usa `t.lower()`; no imprimas solo el string label; no omitas model.",
         instruction:
-          "S25-T2-A-E1 · Primer item del mock HF: con t='Factura X' y model='demo', devuelve un dict `{model, label}` donde label es `billing` si 'factura' aparece en t en minúsculas (si no, `other`). El starter es case-sensitive y omite `model`. Salida exacta: {'model': 'demo', 'label': 'billing'}.",
+          "1. Abre el starter: compara sin `.lower()` e imprime un string suelto.\n2. Calcula label con `'factura' in t.lower()`.\n3. Imprime el dict `{model, label}`.\n4. No agregues score todavía (eso viene en E3).",
         hint: "Normaliza con t.lower(); incluye siempre la clave model del contrato",
         hints: [
           "label = 'billing' if 'factura' in t.lower() else 'other'",
@@ -869,7 +948,10 @@ print(card_gate(card))`,
         ],
         edgeCases: ["case-insensitive en Factura", "label solo no basta para el adapter"],
         tests: "salida coincide con solution output",
-        feedback: "Sin `.lower()` no detectas 'Factura'; sin clave `model` el test de contrato del mock falla.",
+        feedback:
+          "Sin `.lower()` no detectas 'Factura'; sin clave `model` el test de contrato del mock falla y el artefacto no es auditable.",
+        retrospective:
+          "Case-insensitive evita falsos “other”; la clave `model` hace auditable el artefacto del mock. El error clásico es imprimir solo el string label. Siguiente (E2): completar el dict mínimo del contrato sin confundir `model_id` (variable) con `model` (key).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -894,16 +976,22 @@ print({'model': model, 'label': label})`,
         id: "S25-T2-A-E2",
         subtopicId: "S25-T2-A",
         kind: "independent",
+        title: "Dict de contrato: model y label",
+        preamble:
+          "- **Contexto:** el contract test del lab exige las keys `model` y `label` en la salida del mock (no `model_id` en el JSON).\n- **Meta:** imprimir `{'model': 'demo', 'label': 'other'}`.\n- **Éxito:** el dict exacto anterior.\n- **Límites:** no omitas model; la variable puede llamarse model_id, la clave de salida es `model`.",
         instruction:
-          "S25-T2-A-E2 · Contrato del mock HF: imprime un dict con claves `model` y `label` (no uses otra clave). Valores: model='demo', label='other'. El starter omite `model`. Salida exacta: {'model': 'demo', 'label': 'other'}.",
-        hint: "Dict con keys model y label del contrato de teoría",
+          "1. Revisa el starter: solo imprime `{'label': label}`.\n2. Añade la clave `model` con el valor de model_id.\n3. Imprime el dict completo.\n4. No renombres la clave a model_id en la salida.",
+        hint: "El contract test exige dos keys en el dict de salida; una ya está, falta la del identificador del modelo.",
         hints: [
-          "print({'model': model_id, 'label': label})",
+          "El contract test exige dos keys en el dict de salida; una ya está, falta la del identificador del modelo.",
           "La clave del artefacto se llama model en el mock (no model_id en el JSON de salida)",
         ],
         edgeCases: ["version pin"],
         tests: "salida coincide con solution output",
-        feedback: "Falta la key `model` en el dict de salida (variable model_id → clave model).",
+        feedback:
+          "Falta la key `model` en el dict de salida: la variable puede ser `model_id`, la clave del contrato es `model`.",
+        retrospective:
+          "Naming de variable ≠ naming de contrato: la key de salida es `model`, aunque el parámetro se llame `model_id`. El error clásico es omitir la key o publicarla como `model_id` en el JSON. Luego (E3) el batch añade score y lista de dicts como en teoría.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -927,8 +1015,11 @@ print({'model': model_id, 'label': label})`,
         id: "S25-T2-A-E3",
         subtopicId: "S25-T2-A",
         kind: "transfer",
+        title: "Batch mock HF: model, label y score",
+        preamble:
+          "- **Contexto:** el adapter del assist procesa batches; cada item debe llevar model, label y score para el contract test.\n- **Meta:** implementar `mock_pipeline` sobre ['Factura X','hola'] con billing/0.9 y other/0.6.\n- **Éxito:** lista de dos dicts exacta de la solución.\n- **Límites:** no devuelvas lista de strings; case-insensitive; orden = orden del input.",
         instruction:
-          "S25-T2-A-E3 · Mock de batch estilo HF: implementa `mock_pipeline(texts, model_id='demo-cls')` que por cada texto devuelva `{model, label, score}` (billing/0.9 si contiene 'factura' case-insensitive; other/0.6 si no). Textos: ['Factura X','hola']. El starter devuelve solo labels. Imprime la lista de dicts. Salida exacta: [{'model': 'demo-cls', 'label': 'billing', 'score': 0.9}, {'model': 'demo-cls', 'label': 'other', 'score': 0.6}].",
+          "1. Lee el DEFECT: solo devuelve `['other', ...]`.\n2. Por cada texto calcula label y score.\n3. Append `{model, label, score}`.\n4. Imprime la lista completa.",
         hint: "Misma forma que el mock de teoría: lista de dicts con model, label y score",
         hints: [
           "label = 'billing' if 'factura' in t.lower() else 'other'",
@@ -936,7 +1027,10 @@ print({'model': model_id, 'label': label})`,
         ],
         edgeCases: ["orden estable = orden del input", "case-insensitive en Factura", "contract test exige model en cada item"],
         tests: "salida coincide con solution output",
-        feedback: "No colapses a una lista de strings: el contract test del lab exige model/label/score por item.",
+        feedback:
+          "No colapses a una lista de strings: el contract test del lab exige model/label/score por item. El score del mock no es etiqueta de fraude.",
+        retrospective:
+          "El batch con contrato estable es lo que reutilizas en CP-N2-C. El error clásico es colapsar a labels sueltos. Pregunta: ¿por qué el score del mock no se convierte en etiqueta de fraude?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -967,8 +1061,11 @@ print(mock_pipeline(['Factura X', 'hola']))`,
         id: "S25-T2-B-E1",
         subtopicId: "S25-T2-B",
         kind: "guided",
+        title: "Caché: miss luego hit",
+        preamble:
+          "- **Contexto:** re-procesar el mismo ticket sin caché multiplica la factura cloud del desk.\n- **Meta:** `get(x)` devuelve (valor, cached); primera 'a' → miss, segunda → hit.\n- **Éxito:** `('ok', False) ('ok', True)`.\n- **Límites:** en el miss debes escribir `cache[x]`; no imprimas solo True/False sueltos.",
         instruction:
-          "S25-T2-B-E1 · Cache miss luego hit: implementa get(x) que devuelve (valor, cached). Primera llamada a get('a') → ('ok', False); segunda → ('ok', True). Imprime ambas en una línea como en el I Do. Salida exacta: ('ok', False) ('ok', True).",
+          "1. Abre el starter: siempre `('ok', False)` sin escribir cache.\n2. Si x en cache → return valor, True; si no, guarda 'ok' y return 'ok', False.\n3. Imprime `get('a'), get('a')` en una línea.\n4. No uses otra key distinta de 'a'.",
         hint: "En el fallo de caché (miss) escribes el valor; en el acierto (hit) devuelves True.",
         hints: [
           "if x in cache: return cache[x], True; si no, guarda 'ok' y return 'ok', False",
@@ -976,7 +1073,10 @@ print(mock_pipeline(['Factura X', 'hola']))`,
         ],
         edgeCases: ["invalidación"],
         tests: "salida coincide con solution output",
-        feedback: "En el miss debes escribir cache[x]; si no, la segunda llamada nunca marca cached=True.",
+        feedback:
+          "En el miss debes escribir `cache[x]`; si no, la segunda llamada nunca marca cached=True y el desk paga el mismo ticket dos veces.",
+        retrospective:
+          "Escribir en el miss es lo que habilita el hit y evita pagar dos veces el mismo ticket. El error clásico es devolver flags fijos sin mutar `cache`. Pregunta: ¿qué devuelve la tercera llamada a `get('a')` tras un miss+hit correctos? Siguiente (E2): estimar costo por mil tokens.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1005,8 +1105,11 @@ print(get('a'), get('a'))`,
         id: "S25-T2-B-E2",
         subtopicId: "S25-T2-B",
         kind: "independent",
+        title: "Costo por 1k tokens con /1000",
+        preamble:
+          "- **Contexto:** el desk estima costo de un batch antes de promover un prompt largo con tools.\n- **Meta:** `estimate_cost(500, 0.002)` = cost_per_1k * n_tokens / 1000.\n- **Éxito:** imprime el float `0.001`.\n- **Límites:** no omitas la división por 1000; no redondees a int.",
         instruction:
-          "S25-T2-B-E2 · Estima costo de un batch: `estimate_cost(n_tokens, cost_per_1k=0.002)` devuelve `cost_per_1k * n_tokens / 1000`. Con n_tokens=500 el starter olvida dividir por 1000. Imprime el float. Salida exacta: 0.001.",
+          "1. Revisa el starter: multiplica sin `/1000` (devuelve 1.0).\n2. Corrige la fórmula a `cost_per_1k * n_tokens / 1000`.\n3. Imprime `estimate_cost(500)`.\n4. No cambies el default 0.002.",
         hint: "Fórmula por mil tokens: cost_per_1k * n_tokens / 1000",
         hints: [
           "return cost_per_1k * n_tokens / 1000",
@@ -1014,7 +1117,10 @@ print(get('a'), get('a'))`,
         ],
         edgeCases: ["batch de varios textos suma tokens antes de estimar", "redondeo de billing en prod"],
         tests: "salida coincide con solution output",
-        feedback: "0.002*500=1.0 sin /1000; el costo por 1k tokens exige dividir.",
+        feedback:
+          "0.002×500=1.0 sin `/1000`; el costo por 1k tokens exige dividir o inflas la factura mil veces ante el VP.",
+        retrospective:
+          "Sin `/1000` confundes “precio por mil tokens” con “precio por token” y la factura del VP miente. El error clásico es multiplicar y redondear a int. Luego (E3) cuentas fallas y abres el circuit breaker sin inventar JSON de éxito.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1040,8 +1146,11 @@ print(estimate_cost(500))`,
         id: "S25-T2-B-E3",
         subtopicId: "S25-T2-B",
         kind: "transfer",
+        title: "Timeout: contar fallas y abrir circuito",
+        preamble:
+          "- **Contexto:** con failures=2 y un timeout más, el assist debe abrir el circuito (OPEN_AFTER=3) y no reintentar el LLM.\n- **Meta:** en el except, incrementar failures e imprimir `circuit_open` o `rules`.\n- **Éxito:** imprime exactamente `circuit_open`.\n- **Límites:** no imprimas 'llm'; no inventes JSON de éxito; cuenta antes de decidir.",
         instruction:
-          "S25-T2-B-E3 · Tras TimeoutError incrementa `failures` y, si `failures >= OPEN_AFTER` (3), imprime `circuit_open`; si no, imprime `rules` (fallback). El starter reintenta 'llm' y no cuenta fallas. Con failures partiendo en 2 y un timeout, la salida es circuit_open. Salida exacta: circuit_open.",
+          "1. Lee el starter: en except imprime 'llm' (bug).\n2. Haz `failures += 1`.\n3. Si failures >= OPEN_AFTER imprime `circuit_open`; si no, `rules`.\n4. No rellames al endpoint dentro del except.",
         hint: "failures += 1 en except; luego circuit_open si failures >= 3 else rules",
         hints: [
           "OPEN_AFTER = 3; con failures=2 y un timeout más → 3 → circuit_open",
@@ -1049,7 +1158,10 @@ print(estimate_cost(500))`,
         ],
         edgeCases: ["circuit breaker tras N fallas", "primer timeout aún es rules"],
         tests: "salida coincide con solution output",
-        feedback: "Cuenta la falla (failures+=1) antes de decidir circuit_open vs. rules.",
+        feedback:
+          "Si imprimiste `llm`, no contaste la falla: en el `except` haz `failures += 1` y decide `circuit_open` si `failures >= OPEN_AFTER` (aquí 3). Reintentar el LLM a ciegas multiplica costo y latencia del desk.",
+        retrospective:
+          "Contar fallas y abrir el circuito evita cascadas de costo y latencia. El error clásico es reintentar LLM a ciegas. Pregunta: ¿por qué el fallback no puede ser un JSON inventado de “éxito”?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1080,8 +1192,11 @@ except TimeoutError:
         id: "S25-T3-A-E1",
         subtopicId: "S25-T3-A",
         kind: "guided",
+        title: "Parse JSON y flag de schema",
+        preamble:
+          "- **Contexto:** el modelo devuelve un string; el gate del assist opera sobre un dict parseado.\n- **Meta:** `json.loads` + comprobar REQUIRED ⊆ keys; imprimir `n` y el booleano.\n- **Éxito:** `1 True` en una línea.\n- **Límites:** no imprimas el string raw; no omitas issubset.",
         instruction:
-          "S25-T3-A-E1 · El modelo devuelve el string crudo `raw` con hallazgo/n/mediana/limite. Parsea con `json.loads`, comprueba que REQUIRED={'hallazgo','n','mediana','limite'} ⊆ keys del objeto e imprime en una línea el entero `n` y el booleano de schema. El starter imprime el string sin parsear. Salida exacta: 1 True.",
+          "1. Abre el starter: imprime `raw` sin parsear.\n2. Haz `obj = json.loads(raw)`.\n3. Imprime `obj['n']` y `REQUIRED.issubset(obj)`.\n4. No mutes REQUIRED.",
         hint: "obj = json.loads(raw); print(obj['n'], REQUIRED.issubset(obj))",
         hints: [
           "Sin loads no hay contrato: el schema y las métricas operan sobre dicts.",
@@ -1089,7 +1204,10 @@ except TimeoutError:
         ],
         edgeCases: ["JSON inválido → no publiques", "n ausente → schema False en la misma línea"],
         tests: "salida coincide con solution output",
-        feedback: "Si ves el JSON completo o un solo número sin True, falta loads + issubset en el mismo print.",
+        feedback:
+          "Si ves el JSON completo o un solo número sin True, falta `loads` + `issubset` en el mismo print. Las métricas operan sobre dicts, no sobre strings “bonitos”.",
+        retrospective:
+          "Sin `loads` no hay contrato ni métricas: el gate opera sobre dicts. El error clásico es imprimir el string “bonito” o solo `n` sin el flag. Siguiente (E2): issubset con keys extra permitidas (dirección required ⊆ keys).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1116,16 +1234,22 @@ print(obj['n'], REQUIRED.issubset(obj))`,
         id: "S25-T3-A-E2",
         subtopicId: "S25-T3-A",
         kind: "independent",
+        title: "Required ⊆ keys (no issuperset al revés)",
+        preamble:
+          "- **Contexto:** el schema del lab permite keys extra; solo falla si falta una required.\n- **Meta:** parsear raw y comprobar REQUIRED={'h','n'} ⊆ keys del objeto.\n- **Éxito:** imprime `True`.\n- **Límites:** no uses issuperset sobre el string; no falles por la key `extra`.",
         instruction:
-          "S25-T3-A-E2 · El modelo devuelve `raw` (string JSON). Parsea con `json.loads` y comprueba que REQUIRED={'h','n'} ⊆ keys del objeto (keys extra están permitidas). El starter usa issuperset sobre el string y falla. Imprime el booleano. Salida exacta: True.",
-        hint: "Primero loads; luego REQUIRED.issubset(obj) o REQUIRED <= set(obj)",
+          "1. Revisa el starter: `REQUIRED.issuperset(raw)` sin loads (bug).\n2. Parsea a dict.\n3. Imprime `REQUIRED.issubset(obj)` (o `REQUIRED <= set(obj)`).\n4. No elimines `extra` del JSON.",
+        hint: "Parsea primero; la dirección del set es required respecto de las keys del objeto, no al revés.",
         hints: [
-          "obj = json.loads(raw); print(REQUIRED.issubset(obj))",
+          "Parsea primero; la dirección del set es required respecto de las keys del objeto, no al revés.",
           "Keys extra en obj están permitidas; faltantes fallan — nunca issuperset al revés",
         ],
         edgeCases: ["JSON con keys extra ok", "sin loads no hay contrato de dict"],
         tests: "salida coincide con solution output",
-        feedback: "Parsea el string a dict y usa issubset (required ⊆ keys), no issuperset ni validación sobre el string crudo.",
+        feedback:
+          "Parsea el string a dict y usa `issubset` (required ⊆ keys), no `issuperset` ni validación sobre el string crudo. Keys extra no rompen el gate.",
+        retrospective:
+          "issubset (required ⊆ keys) es la dirección correcta; issuperset o validar el string mienten y pueden fallar con keys extra legítimas. El error clásico es “el JSON se ve completo”. Luego (E3) el gate publica `schema_fail` si falta mediana.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1152,8 +1276,11 @@ print(REQUIRED.issubset(obj))`,
         id: "S25-T3-A-E3",
         subtopicId: "S25-T3-A",
         kind: "transfer",
+        title: "Schema gate: ok o schema_fail",
+        preamble:
+          "- **Contexto:** el prompt del lab pide hallazgo/n/mediana/limite; un raw sin mediana no se publica al informe del VP.\n- **Meta:** loads + issubset → `ok` o `schema_fail`.\n- **Éxito:** imprime exactamente `schema_fail`.\n- **Límites:** no hardcodes 'ok'; keys extra no salvan una required faltante.",
         instruction:
-          "S25-T3-A-E3 · Arma el prompt con Objetivo/Contexto/Restricciones y valida la salida JSON. `raw` es un string JSON sin `mediana`. Parsea con `json.loads`, comprueba que REQUIRED={'hallazgo','n','mediana','limite'} ⊆ keys del objeto; si falta alguna key imprime `schema_fail`, si no `ok`. El starter no valida. Salida exacta: schema_fail.",
+          "1. Lee el starter: imprime 'ok' sin validar.\n2. Parsea raw.\n3. Si REQUIRED ⊆ obj imprime `ok`; si no, `schema_fail`.\n4. No inventes la key mediana en el JSON.",
         hint: "loads + REQUIRED.issubset(obj) → ok o schema_fail",
         hints: [
           "obj = json.loads(raw); print('ok' if REQUIRED.issubset(obj) else 'schema_fail')",
@@ -1161,7 +1288,10 @@ print(REQUIRED.issubset(obj))`,
         ],
         edgeCases: ["JSON inválido → no publiques", "keys extra no salvan una required faltante"],
         tests: "salida coincide con solution output",
-        feedback: "Sin mediana en REQUIRED el gate es schema_fail; parsea y usa issubset, no un ternario al revés sobre un solo campo.",
+        feedback:
+          "Sin mediana en REQUIRED el gate es `schema_fail`; parsea y usa issubset. No publiques texto que “se vea bien” sin schema.",
+        retrospective:
+          "Fail-closed es el gate CP-N2-C: sin schema no hay promote. El error clásico es publicar texto que “se ve bien”. Pregunta: ¿qué harías si el JSON ni siquiera parsea?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1190,8 +1320,11 @@ print('ok' if REQUIRED.issubset(obj) else 'schema_fail')`,
         id: "S25-T3-B-E1",
         subtopicId: "S25-T3-B",
         kind: "guided",
+        title: "Tool deny con dict de auditoría",
+        preamble:
+          "- **Contexto:** el checkpoint del assist registra denegaciones con status y name para auditar el stop.\n- **Meta:** `gate('shell_rm')` → `{'status': 'deny', 'name': 'shell_rm'}` con allow={calc_sum, lookup_metric}.\n- **Éxito:** el dict exacto anterior.\n- **Límites:** default deny; no devuelvas un string suelto; no inviertas ok/deny.",
         instruction:
-          "S25-T3-B-E1 · Allowlist didáctica allow={'calc_sum','lookup_metric'}; name='shell_rm'. Implementa `gate(name)`: si el tool no está en allow, devuelve `{'status': 'deny', 'name': name}`; si sí, `{'status': 'ok', 'name': name}`. El starter invierte el sentido y omite el dict. Imprime el resultado de gate('shell_rm'). Salida exacta: {'status': 'deny', 'name': 'shell_rm'}.",
+          "1. Abre el starter: devuelve strings e invierte la lógica.\n2. Si name not in allow → dict status deny + name.\n3. Si está en allow → status ok + name.\n4. Imprime `gate('shell_rm')`.",
         hint: "Default deny: name not in allow → status deny (con name en el dict de auditoría)",
         hints: [
           "if name not in allow: return {'status': 'deny', 'name': name}",
@@ -1199,7 +1332,10 @@ print('ok' if REQUIRED.issubset(obj) else 'schema_fail')`,
         ],
         edgeCases: ["default deny", "calc_sum devolvería status ok con el mismo shape"],
         tests: "salida coincide con solution output",
-        feedback: "shell_rm no está en allow: status deny y name en el dict — no un string suelto ni ok invertido.",
+        feedback:
+          "`shell_rm` no está en allow: status deny y name en el dict — no un string suelto ni ok invertido. El dict es evidencia del checkpoint.",
+        retrospective:
+          "El dict de deny (status + name) es evidencia del checkpoint, no un print cosmético. El error clásico es devolver un string suelto o invertir ok/deny. Siguiente (E2): registrar pasos permitidos en un log con `len(log)`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1231,8 +1367,11 @@ print(gate('shell_rm'))`,
         id: "S25-T3-B-E2",
         subtopicId: "S25-T3-B",
         kind: "independent",
+        title: "Log de checkpoints permitidos",
+        preamble:
+          "- **Contexto:** el plan del assist deja rastro de qué pasos se intentaron y pasaron.\n- **Meta:** con steps=['think','calc_sum'] y allow={calc_sum}, append dicts ok y imprimir len(log)=2.\n- **Éxito:** imprime el entero `2`.\n- **Límites:** no dejes log vacío; tool denegado no sumaría ok (aquí no hay deny).",
         instruction:
-          "S25-T3-B-E2 · Checkpoint auditable: con steps=['think','calc_sum'] y allow={'calc_sum'}, construye un log de dicts {'step': s, 'ok': True} por cada paso permitido. Imprime len(log). El starter no registra. Salida exacta: 2.",
+          "1. Revisa el starter: `pass` en el for y print(0).\n2. Por cada paso, si es think o está en allow, append `{'step': s, 'ok': True}`.\n3. Imprime `len(log)`.\n4. No hardcodes 2 sin recorrer steps.",
         hint: "Por cada paso en allow (o think), append un dict y al final print(len(log))",
         hints: [
           "if s == 'think' or s in allow: log.append({'step': s, 'ok': True})",
@@ -1240,7 +1379,10 @@ print(gate('shell_rm'))`,
         ],
         edgeCases: ["ids de paso", "tool denegado no suma ok"],
         tests: "salida coincide con solution output",
-        feedback: "Registra think y calc_sum en el log; print(len(log)) debe ser 2, no 0.",
+        feedback:
+          "Si imprimiste `0`, el `for` no appendeó: registra `think` y los pasos en `allow` como dicts `{step, ok}` y al final `print(len(log))`. No hardcodes `2` sin recorrer `steps`.",
+        retrospective:
+          "El log es evidencia del plan: el VP puede auditar qué se intentó. El error clásico es un contador mágico o un `pass` vacío. Pregunta: si `steps` incluyera `shell_rm`, ¿sumaría un ok? Luego (E3) detienes el plan al denegar.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1271,8 +1413,11 @@ print(len(log))`,
         id: "S25-T3-B-E3",
         subtopicId: "S25-T3-B",
         kind: "transfer",
+        title: "Stop y break al denegar shell_rm",
+        preamble:
+          "- **Contexto:** un tool fuera de allowlist no se ejecuta y corta el plan del assist.\n- **Meta:** con steps=['think','calc_sum','shell_rm'], append 'stop' y break al denegar.\n- **Éxito:** `['think', 'calc_sum', 'stop']`.\n- **Límites:** no dejes shell_rm como paso ok; no continúes tras deny.",
         instruction:
-          "S25-T3-B-E3 · Plan steps=['think','calc_sum','shell_rm'] con allow={'calc_sum','lookup_metric'}. Al encontrar un paso que no es think y no está en allow, append 'stop' y break. Imprime el log final. Salida exacta: ['think', 'calc_sum', 'stop'].",
+          "1. Lee el starter: append de todos los steps sin filtro.\n2. Si el paso no es think y no está en allow → append 'stop' y break.\n3. Si no, append el paso.\n4. Imprime el log final.",
         hint: "break al denegar; no continúes el plan tras shell_rm",
         hints: [
           "if s != 'think' and s not in allow: log.append('stop'); break",
@@ -1280,7 +1425,10 @@ print(len(log))`,
         ],
         edgeCases: ["no continuar ciego", "tool denegado no se ejecuta"],
         tests: "salida coincide con solution output",
-        feedback: "Al denegar shell_rm, append 'stop' y break — no dejes shell_rm en el log como paso ok.",
+        feedback:
+          "Al denegar shell_rm, append 'stop' y break — no dejes shell_rm en el log como paso ok. Deny corta el plan; no hay shell libre en el sandbox.",
+        retrospective:
+          "Deny = stop: no hay shell libre en el sandbox del curso. El error clásico es loguear shell_rm como ok. Pregunta: ¿qué tool del lab sí está en allow y por qué calc_sum no basta como “todo permitido”?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1313,8 +1461,11 @@ print(log)`,
         id: "S25-T4-A-E1",
         subtopicId: "S25-T4-A",
         kind: "guided",
+        title: "Exact y schema_ok sobre una fila golden",
+        preamble:
+          "- **Contexto:** el gate de promote del lab exige al menos exact y schema_ok sobre filas golden.\n- **Meta:** calcular `exact=pred==gold` y `schema_ok=all(k in pred for k in required)`.\n- **Éxito:** `{'exact': True, 'schema_ok': True}`.\n- **Límites:** no hardcodes False; un solo print del dict.",
         instruction:
-          "S25-T4-A-E1 · Evalúa una fila golden: pred y gold son `{'a':1}`; required=`['a']`. Devuelve un dict `{'exact': pred==gold, 'schema_ok': todas las required en pred}` e imprímelo. El starter solo marca exact=False. Salida exacta: {'exact': True, 'schema_ok': True}.",
+          "1. Abre el starter: imprime dict con False fijos.\n2. Calcula exact y schema_ok.\n3. Imprime el dict de métricas.\n4. No alteres pred/gold.",
         hint: "exact = pred==gold; schema_ok = all(k in pred for k in required)",
         hints: [
           "Un solo print del dict de métricas (no booleans sueltos)",
@@ -1322,7 +1473,10 @@ print(log)`,
         ],
         edgeCases: ["schema_ok True con exact False", "keys extra en pred no rompen schema_ok"],
         tests: "salida coincide con solution output",
-        feedback: "Si exact es False con dicts idénticos, no uses un literal: compara pred==gold.",
+        feedback:
+          "Si exact o schema_ok salieron False con dicts idénticos, no uses literales: calcula `exact = pred == gold` y `schema_ok = all(k in pred for k in required)`. Un dict de métricas inventado miente en el gate de promote.",
+        retrospective:
+          "Comparar pred/gold es el hábito; hardcodear booleans engaña al VP y al golden. El error clásico es “el test ya sabe la respuesta”. Pregunta: ¿schema_ok puede ser True con exact False? Siguiente (E2): acierto por campo cuando n discrepa.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1348,16 +1502,22 @@ print({'exact': exact, 'schema_ok': schema_ok})`,
         id: "S25-T4-A-E2",
         subtopicId: "S25-T4-A",
         kind: "independent",
+        title: "field_match_rate: acierto por campo",
+        preamble:
+          "- **Contexto:** el revisor necesita saber *qué* campos fallan, no solo un booleano global.\n- **Meta:** promedio de igualdad por key en pred∪gold con h igual y n distinto → 0.5.\n- **Éxito:** imprime el float `0.5`.\n- **Límites:** no uses F1 de precisión/recall; no imprimas 1.0 por “casi igual”.",
         instruction:
-          "S25-T4-A-E2 · Tasa de acierto por campo (`field_match_rate`, no F1 estadístico): pred={'h':'a','n':1}, gold={'h':'a','n':2}. Por cada key en la unión de keys, 1 si pred[k]==gold[k] else 0; imprime el promedio (float). Un campo coincide y otro no → 0.5. Salida exacta: 0.5.",
-        hint: "hits / len(set(pred)|set(gold)).",
+          "1. Revisa el starter: imprime 1.0 sin calcular.\n2. Arma la unión de keys.\n3. Suma hits donde pred.get(k)==gold.get(k).\n4. Imprime hits / len(keys).",
+        hint: "Promedia igualdad por key en la unión pred∪gold (no F1 de precisión/recall).",
         hints: [
-          "keys = set(pred) | set(gold); hits = sum(1 for k in keys if pred.get(k)==gold.get(k))",
+          "Promedia igualdad por key en la unión pred∪gold (no F1 de precisión/recall).",
           "print(hits / len(keys)) → 0.5 con estos fixtures.",
         ],
         edgeCases: ["keys solo en pred o solo en gold"],
         tests: "salida coincide con solution output",
-        feedback: "h coincide y n no: promedio 0.5, no 1.0 ni exact match global. Esto no es F1 de precisión/recall.",
+        feedback:
+          "h coincide y n no: promedio 0.5, no 1.0 ni exact match global. Esto no es F1 de precisión/recall; es acierto por campo del lab.",
+        retrospective:
+          "field_match_rate es un proxy de lab para ver campos rotos; no es F1. Luego (E3) el gate promote envía a human_review si falta una key required.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1383,8 +1543,11 @@ print(hits / len(keys))`,
         id: "S25-T4-A-E3",
         subtopicId: "S25-T4-A",
         kind: "transfer",
+        title: "Promote: human_review si falta required",
+        preamble:
+          "- **Contexto:** sin keys required (aquí falta mediana), el assist no es auto_candidate: va a human_review.\n- **Meta:** `promote(pred, required)` fail-closed.\n- **Éxito:** imprime exactamente `human_review`.\n- **Límites:** no promociones siempre; auto_candidate no es fraude ni autoenvío.",
         instruction:
-          "S25-T4-A-E3 · Gate de promote: `promote(pred, required)` devuelve `human_review` si falta alguna key de required en pred; si no, `auto_candidate` (aún sujeto a golden en el You Do). pred={'h':'a','n':1}, required=['h','n','mediana']. El starter promociona siempre. Salida exacta: human_review.",
+          "1. Lee el starter: siempre `auto_candidate`.\n2. Si falta alguna required en pred → `human_review`.\n3. Si no → `auto_candidate`.\n4. Imprime el resultado con el fixture dado.",
         hint: "Fail-closed: missing required key → human_review",
         hints: [
           "if not all(k in pred for k in required): return 'human_review'",
@@ -1392,7 +1555,10 @@ print(hits / len(keys))`,
         ],
         edgeCases: ["keys extra no salvan una required faltante", "schema_ok ≠ exact match"],
         tests: "salida coincide con solution output",
-        feedback: "Si salió auto_candidate, no validaste 'mediana' en required.",
+        feedback:
+          "Si salió `auto_candidate`, no validaste que **todas** las required (incluido `mediana`) estén en pred. Con el fixture incompleto el path correcto es `human_review`, no promover y “revisar después”.",
+        retrospective:
+          "El error clásico es “promover siempre y revisar después”. Fail-closed al schema es el gate de CP-N2-C. Pregunta: ¿por qué auto_candidate aún requiere golden en el You Do?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1424,8 +1590,11 @@ print(promote(pred, required))`,
         id: "S25-T4-B-E1",
         subtopicId: "S25-T4-B",
         kind: "guided",
+        title: "Signal case-insensitive y request segura",
+        preamble:
+          "- **Contexto:** un doc hostil sintético pide “IGNORE previous instructions”; el assist debe detectar la señal *y* armar request con tools vacíos + HITL.\n- **Meta:** regex case-insensitive + request_for con untrusted_document, tools=[], max 160, approval True.\n- **Éxito:**\n  `True []`\n  `160 True`\n- **Límites:** no eleves el doc a system; no bastes con print(signal) solo.",
         instruction:
-          "S25-T4-B-E1 · Documento hostil sintético: construye request segura (texto en untrusted_document, allowed_tools=[], max_output_chars=160, requires_human_approval=True). Señala injection con regex case-insensitive. Imprime en dos líneas: (signal, tools) y (max_output_chars, requires_human_approval). Salida exacta:\nTrue []\n160 True",
+          "1. Abre el starter: membership case-sensitive y sin request.\n2. Implementa signal con `re.search` y `(?i)`.\n3. Arma request_for con las cuatro keys de política.\n4. Imprime las dos líneas como en la solución.",
         hint: "Devuelve un dict de política; no eleves el documento a system",
         hints: [
           "Usa re.search con (?i) para ignore previous instructions|system prompt",
@@ -1433,7 +1602,10 @@ print(promote(pred, required))`,
         ],
         edgeCases: ["texto indirecto sin frase obvia", "encoding", "secreto ausente del contexto"],
         tests: "tools=[], aprobación=True, límite=160 y el texto permanece bajo untrusted_document",
-        feedback: "Signal case-insensitive + request con tools=[] y HITL; no basta con print(signal) solo.",
+        feedback:
+          "Dos fallas típicas del starter: (1) membership case-sensitive no ve “IGNORE”; (2) no armas `request_for` con tools vacíos, max 160 y HITL. Imprime las dos líneas de política; no basta un solo `print(signal)`.",
+        retrospective:
+          "Signal es telemetría; tools=[] + HITL + untrusted_document son el control real. El error clásico es confiar solo en el regex o elevar el doc a system. Pregunta: si el regex no dispara, ¿la request sigue siendo segura? Siguiente (E2): minimize sin secretos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1476,8 +1648,11 @@ print(request['max_output_chars'], request['requires_human_approval'])`,
         id: "S25-T4-B-E2",
         subtopicId: "S25-T4-B",
         kind: "independent",
+        title: "Minimize: solo keys permitidas",
+        preamble:
+          "- **Contexto:** enviar `api_key` al contexto del modelo es un incidente de exfiltración.\n- **Meta:** `minimize` devuelve solo keys en allow presentes en el payload.\n- **Éxito:** `{'ruc': '1', 'total': 2}`.\n- **Límites:** no reimprimas p entero; api_key no debe aparecer.",
         instruction:
-          "S25-T4-B-E2 · Implementa `minimize(payload, allow_keys)` que devuelve solo las keys permitidas presentes en el payload (nunca reenvíes secretos). Con p={'ruc':'1','total':2,'api_key':'S'} y allow=('ruc','total'), el starter reimprime p entero. Imprime el dict minimizado. Salida exacta: {'ruc': '1', 'total': 2}.",
+          "1. Revisa el starter: `return payload` (bug).\n2. Filtra con comprehension sobre allow_keys si k in payload.\n3. Imprime el dict minimizado.\n4. No agregues keys fuera de allow.",
         hint: "Comprehension sobre allow_keys; si k in payload, copia el valor",
         hints: [
           "return {k: payload[k] for k in allow_keys if k in payload}",
@@ -1485,7 +1660,10 @@ print(request['max_output_chars'], request['requires_human_approval'])`,
         ],
         edgeCases: ["key permitida ausente se omite", "nunca envíes api_key al LLM"],
         tests: "salida coincide con solution output",
-        feedback: "api_key no debe aparecer: filtra por allowlist de keys en minimize(), no reimprimes p entero.",
+        feedback:
+          "Si `api_key` aparece en la salida, `minimize` aún hace `return payload`. Filtra: solo keys de `allow` que existan en el payload. El secreto no debe llegar al contexto del modelo.",
+        retrospective:
+          "Minimización es control de exfiltración, no estética del JSON. El error clásico es reenviar el payload completo “por si el modelo lo necesita”. Pregunta: ¿qué pasa con una key permitida ausente del payload? Luego (E3) la decisión nunca devuelve `fraud` por score alto.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1517,8 +1695,11 @@ print(minimize(p, allow))`,
         id: "S25-T4-B-E3",
         subtopicId: "S25-T4-B",
         kind: "transfer",
+        title: "Score alto: signal_only, nunca fraud",
+        preamble:
+          "- **Contexto:** en CP-N2-C el score prioriza revisión humana; nunca autoetiqueta fraude.\n- **Meta:** `decision(score, schema_ok)` → human_review si schema falla; si no, `signal_only`.\n- **Éxito:** imprime `signal_only` con score=0.99 y schema_ok=True.\n- **Límites:** ninguna rama retorna `fraud`; score alto ≠ veredicto legal.",
         instruction:
-          "S25-T4-B-E3 · Política de promote: `decision(score, schema_ok)` nunca devuelve `fraud`. Si schema_ok es False → `human_review`; si no → `signal_only` (el score solo prioriza). Con score=0.99 y schema_ok=True imprime el resultado. El starter etiqueta fraude por score alto. Salida exacta: signal_only.",
+          "1. Lee el starter: score≥0.9 → fraud (bug de política).\n2. Si not schema_ok → human_review.\n3. Si no → signal_only.\n4. Imprime `decision(0.99, True)`.",
         hint: "Ninguna rama retorna fraud; score alto ≠ veredicto",
         hints: [
           "if not schema_ok: return 'human_review'; return 'signal_only'",
@@ -1526,7 +1707,10 @@ print(minimize(p, allow))`,
         ],
         edgeCases: ["schema_fail con score alto", "score bajo no implica inocencia legal"],
         tests: "salida coincide con solution output",
-        feedback: "Si imprimiste fraud, relee la política del curso: score y matching no son veredicto.",
+        feedback:
+          "Si imprimiste `fraud`, relee la política del curso: score y matching no son veredicto. El path del assist es señal + HITL.",
+        retrospective:
+          "Matching o score no son veredicto de fraude: es la política del roadmap del curso. El error clásico es umbral de score → etiqueta automática. Pregunta: ¿qué imprime decision(0.99, False) y por qué?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1557,7 +1741,7 @@ print(decision(0.99, True))`,
   youDo: {
     title: "Asistente JSON evaluado (asistente de IA · CP-N2-C)",
     context:
-      "Tras S24 (campos OCR como contexto no confiable), implementa el asistente de IA de CP-N2-C: adapter HTTP local (fixture) u opcionalmente mock de pipeline. Distingue el contrato del clasificador (`model`/`label`/`score`) del borrador narrativo (`hallazgo`/`n`/`mediana`/`evidence_ids`/`model`). Incluye validación de keys, caché/timeout, golden (exact + schema_rate + field_match_rate) e injection-by-design. Ninguna salida sin evidencia; ninguna etiqueta de fraude autónoma.",
+      "Tras S24 (campos OCR como contexto no confiable), implementa el asistente de IA de CP-N2-C: adapter HTTP local (fixture) u opcionalmente mock de pipeline. Distingue el contrato del clasificador (`model`/`label`/`score`) del borrador narrativo (`hallazgo`/`n`/`mediana`/`evidence_ids`/`model`). Incluye validación de keys, caché/timeout, golden (exact + schema_rate + field_match_rate) e injection-by-design. Ninguna salida sin evidencia; ninguna etiqueta de fraude autónoma. Éxito observable del run local: `eval_golden` sobre ≥3 filas imprime schema_rate/exact/field_match_rate; injection_signal → human_review.",
     objectives: [
       "Decisión rule/specialized/LLM documentada en metadata del run",
       "Inferencia con caché por hash(input+model), timeout y fallback a rules_or_human",
@@ -1639,7 +1823,9 @@ def eval_golden(rows):
 # 6) README es-PE: límites del fixture, baseline y por qué score no es fraude
 `,
     portfolioNote:
-      "Componente de asistente de IA de CP-N2-C con eval (exact/schema/field_match_rate) y controles de seguridad; listo para orquestación en S26.",
+      "Componente de asistente de IA de CP-N2-C con eval (exact/schema/field_match_rate) y controles de seguridad; listo para orquestación en S26. Defensa oral en 30 s: sin schema no se publica; score nunca es fraude; golden hace auditable el promote.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con `eval_golden` (exact, schema_rate, field_match_rate) frente a un baseline de reglas o mock previo? (2) ¿dónde el path es fail-closed (`schema_fail` / injection → human_review) y por qué score nunca es fraude? (3) En el README, una frase de impacto medible (antes/después: p. ej. “sin schema no se publica; con golden el promote es auditable”) que puedas defender en 30 segundos ante el VP del desk. Puente a S26: este adapter y contrato alimentan la orquestación Excel→…→modelo/IA→informe→correo.",
     rubric: [
       { criterion: "Contrato narrativo HTTP/mock: JSON con hallazgo, n, mediana, evidence_ids y model (distinto del clasificador label/score)", weight: "25%" },
       { criterion: "Caché, timeout/fallback y métricas golden (exact, schema_rate, field_match_rate) correctas", weight: "20%" },

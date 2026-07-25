@@ -445,7 +445,9 @@ level1_regression S01-S13 checklist required`,
         demoId: "S13-T1-A-DEMO",
         subtopicId: "S13-T1-A",
         environment: "local-python",
-        description: "Emparejar 2 registros sintéticos por documento normalizado + bloque región.",
+        description: "Emparejar dos registros sintéticos: doc normalizado + bloque paterno|región",
+        preamble:
+          "En la mesa de onboarding sintético, la primera pregunta es *¿son la misma persona en dos filas?*, no *¿son familia?*. Observa cómo `norm_doc` unifica `D-7788` y `d7788`, y cómo `block_key` toma el **segundo** token del nombre + región. No escribas aún: predice `block`, `match` y el score antes de mirar la salida. Solo datos sintéticos; stdlib.",
         code: {
           language: 'python',
           title: "er_pair_demo.py",
@@ -469,13 +471,17 @@ print("entity_resolution_score", 1.0 if match else 0.0)`,
 match True
 entity_resolution_score 1.0`,
         },
-        why: "Reglas deterministas transparentes antes de cualquier modelo probabilístico.",
+        why: "Las reglas deterministas son auditables: un revisor puede recalcular el score a mano. Blocking (paterno|región) acota pares antes de reglas finas; el `entity_resolution_score` no se mezcla con señales de relación — viajan en campos separados en la ficha.",
+        retrospective:
+          "Si puedes explicar por qué `D-7788` y `d7788` son el mismo doc sin mirar el código, ya tienes el hábito de normalizar antes de comparar. El error clásico es usar el apellido materno (último token) como bloque. En We Do arreglarás `norm_*`, `blocking_key` y el score 1.0/0.5/0.0.",
       },
       {
         demoId: "S13-T1-B-DEMO",
         subtopicId: "S13-T1-B",
         environment: "local-python",
         description: "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
+        preamble:
+          "Sin etiquetas sintéticas no sabes si tu regla de ER ayuda o daña. Esta demo arma 20 pares con seed fijo, calcula precision/recall y lista la **cola clerical** (scores en [0.4, 0.7]). Observa que precision alta no borra los FN, y que la banda gris va a humano — no a auto-merge. Predice la cola antes de leer la salida.",
         code: {
           language: 'python',
           title: "eval_clerical_demo.py",
@@ -511,13 +517,17 @@ precision 1.0
 recall 0.714
 clerical_queue ['P4', 'P9', 'P15']`,
         },
-        why: "Métricas + cola clerical cierran el loop de calidad de ER.",
+        why: "Métricas + cola clerical cierran el loop de calidad de ER. Un FP es colisión de matching, no fraude; la banda intermedia nunca auto-mergea. En crédito/compliance priorizas precision y empujas la duda al humano.",
+        retrospective:
+          "Si puedes decir por qué un score 0.55 no debe auto-aceptarse, ya internalizaste human-in-the-loop. Un FP es colisión de matching, no delito. Pregunta de auto-chequeo: ¿precision 1.0 borra los FN de la cola? We Do: formulas precision/recall, cola inclusive y reporte ético `fp_not_fraud`.",
       },
       {
         demoId: "S13-T2-A-DEMO",
         subtopicId: "S13-T2-A",
         environment: "local-python",
-        description: "Dos entidades: shared phone + 1.2 km → señales con explicación.",
+        description: "Señales phone + geo + surname y score de relación sin veredicto de parentesco",
+        preamble:
+          "La segunda pregunta del dashboard es *¿hay indicios de familiaridad operativa?*, no *¿son parientes?*. Sigue cómo se arman las señales (teléfono compartido, km≤2 bilateral, apellido) y el peso canónico 0.5/0.3/0.2. Observa `kinship_verdict=None` al final: el producto **no** cierra parentesco. Predice el score antes de la salida.",
         code: {
           language: 'python',
           title: "shared_geo_demo.py",
@@ -550,13 +560,17 @@ relationship_signal_score 1.0
 explanation ['shared_phone', 'geo_distance_km=1.2', 'surname_match']
 kinship_verdict None`,
         },
-        why: "Explicación lista para la ficha sin veredicto de parentesco.",
+        why: "La lista de señales es la traza legible de la ficha: pesos fijos del memo N1 (0.5/0.3/0.2). Si falta km, fail-closed (geo=0), no inventes distancia. El score de relación nunca autoriza `is_family=true`.",
+        retrospective:
+          "Si puedes listar las tres señales sin mirar el código, ya tienes traza legible. We Do: email compartido sin vacíos, variante geo+apellido, y disclaimer adjunto al score.",
       },
       {
         demoId: "S13-T2-B-DEMO",
         subtopicId: "S13-T2-B",
         environment: "local-python",
         description: "Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.",
+        preamble:
+          "En el grafo sintético de txs, el producto **organiza evidencia** (quién pagó a quién) y **nunca** acusa de colusión. Observa el graphlet: arista directa A–B y contraparte común D entre A y C. Predice la lista de objetos y el flag `collusion_claim False`. Sin redes ni sklearn; solo listas de triples.",
         code: {
           language: 'python',
           title: "graphlet_demo.py",
@@ -582,13 +596,17 @@ print("collusion_claim", False)`,
           output: `[{'type': 'direct_tx', 'nodes': ['A', 'B']}, {'type': 'common_counterparty', 'nodes': ['A', 'C'], 'via': ['D']}]
 collusion_claim False`,
         },
-        why: "Graphlet mínimo con disclaimers operativos.",
+        why: "Graphlet mínimo con disclaimers operativos: reutiliza el espíritu de RelationshipEvidence de S11. El campo `via` nombra la contraparte compartida sin ambigüedad; `collusion_claim` queda en False de forma fija.",
+        retrospective:
+          "Si puedes decir por qué common counterparty no prueba cartel, ya internalizaste el límite de N1. We Do: txs bidireccionales, intersección de vecinos y disclaimers de no colusión/no parentesco.",
       },
       {
         demoId: "S13-T3-A-DEMO",
         subtopicId: "S13-T3-A",
         environment: "local-python",
         description: "Ficha con score, uncertainty low/med/high y 3 bullets de por qué.",
+        preamble:
+          "La ficha de caso es lo que lee un humano en cinco minutos. Observa la combinación 0.6·ER + 0.4·REL, la banda de uncertainty (falta `email` → med) y los tres bullets. No escribas aún: predice si el gap |0.88−0.45| dispara high (no: el umbral es >0.5). Solo stdlib; sin maquillar el score.",
         code: {
           language: 'python',
           title: "case_card_demo.py",
@@ -608,13 +626,17 @@ collusion_claim False`,
 print(build_case_card(0.88, 0.45, ["email"]))`,
           output: `{'evidence_score': 0.708, 'uncertainty': 'med', 'bullets': ['entity_resolution_score=0.88', 'relationship_signal_score=0.45', "missing_fields=['email']"]}`,
         },
-        why: "La ficha es el artefacto humano del dashboard.",
+        why: "Tres salidas viajan juntas: evidence_score, uncertainty y bullets. Si faltan campos, elevas uncertainty (fail-closed); no inventes un email «promedio». Un score sin bullets es teatro, no evidencia.",
+        retrospective:
+          "Si puedes recalcular 0.708 a mano y decir por qué falta `email` pone uncertainty en med (no high), confías en la ficha. El error clásico es esconder missing o maquillar el score. We Do: plantilla de tres bullets, bandas low/med/high y caso conflictivo ER vs REL sin cosméticos.",
       },
       {
         demoId: "S13-T3-B-DEMO",
         subtopicId: "S13-T3-B",
         environment: "local-python",
         description: "Scores en zona gris → status=needs_review; nunca auto_fraud=true.",
+        preamble:
+          "El dashboard no decide culpables: clasifica el **par de evidencia** (invalidar, abstenerse, revisar, aceptar par). Sigue el orden: input inválido → high unc → abstain <0.4 → review <0.8 → accept. Observa que 0.85 con high **no** acepta, y que NaN es `invalid_input`. Predice cada línea; nunca `auto_fraud`/`is_family` true.",
         code: {
           language: 'python',
           title: "review_threshold_demo.py",
@@ -641,13 +663,17 @@ for sc, u in samples:
 {'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}
 {'score': nan, 'uncertainty': 'low', 'status': 'invalid_input', 'auto_fraud': False, 'is_family': False}`,
         },
-        why: "Política de abstención y revisión protege al estudiante y al usuario final.",
+        why: "Política de abstención y revisión protege al estudiante y al usuario final. Los límites 0.40 y 0.80 son exactos; la matriz es total (sin huecos). Estados de par de datos, no veredictos legales ni lista negra.",
+        retrospective:
+          "Si puedes explicar por qué 0.4 es review y 0.399 abstain, ya tienes el contrato de umbrales. We Do: config externalizable, `decide_ops_status` completo y strip de claves prohibidas.",
       },
       {
         demoId: "S13-T4-A-DEMO",
         subtopicId: "S13-T4-A",
         environment: "local-python",
         description: "Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.",
+        preamble:
+          "El gate de producto N1 no pide un design system: pide **tres fichas** + puntos de mapa sintéticos con scores **etiquetados**. Observa CASE-1/2/3: ER y REL viajan separados; el nombre se muestra como `A*** Q***`. Predice los tres prints. Sin geocoder público ni PII real.",
         code: {
           language: 'python',
           title: "three_cases_demo.py",
@@ -671,13 +697,17 @@ for cid, name, er, rel, lat, lon in cases:
 {'case_id': 'CASE-2', 'display': 'L*** H***', 'entity_resolution_score': 0.52, 'relationship_signal_score': 0.66, 'map': (-16.409, -71.5375)}
 {'case_id': 'CASE-3', 'display': 'M*** R***', 'entity_resolution_score': 0.77, 'relationship_signal_score': 0.22, 'map': (-12.05, -77.12)}`,
         },
-        why: "Producto mínimo: ficha + mapa con scores separados.",
+        why: "Producto mínimo auditable: tres casos + mapa. Fusionar ER y REL en un solo número sin etiqueta rompe el gate ético — el revisor ya no sabe si «0.7» es identidad o familiaridad operativa.",
+        retrospective:
+          "Si puedes decir qué historia cuenta CASE-2 (ER medio, REL alto) sin autoetiqueta de parentesco, ya lees la ficha como revisor. We Do: pseudonimizar, case_sheet con claves canónicas y tooltip con `source=`.",
       },
       {
         demoId: "S13-T4-B-DEMO",
         subtopicId: "S13-T4-B",
         environment: "local-python",
         description: "Runbook: setup → load synthetic → run ER → open dashboard → review queue (+ regresión N1).",
+        preamble:
+          "Sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. Observa el runbook: setup, fixtures sintéticos, ER+señales, dashboard, cola, regresión S01–S13 y artefactos CF-1. Nota el comando de un solo shot y que la demo **no** escribe «aprobado» en el ledger del curso. Predice las líneas finales.",
         code: {
           language: 'python',
           title: "runbook_demo.py",
@@ -706,7 +736,9 @@ print("demo_writes_course_progress", False)`,
 demo_cmd: python -m demo_n1_dashboard --synthetic
 demo_writes_course_progress False`,
         },
-        why: "Operación N1 completa: la demo evidencia el producto; el gate formal del curso registra el progreso.",
+        why: "CF-1 = privacy sheet + demo de un comando + runbook. La regresión level-1 (S01–S13) se anota en ~30 min. La demo evidencia el producto; el gate formal del curso es un proceso aparte y no se escribe desde el script.",
+        retrospective:
+          "Si puedes listar los artefactos CF-1 sin mirar el código, ya sabes qué entregar. We Do: privacy sheet, demo command sintético y playbook de incidente + nota de regresión.",
       },
     ],
   },
@@ -718,8 +750,11 @@ demo_writes_course_progress False`,
         id: "S13-T1-A-E1",
         subtopicId: "S13-T1-A",
         kind: "guided",
+        title: "Normalizar nombre y documento sintético",
+        preamble:
+          "- **Contexto:** en el pipeline de ER del dashboard, sin normalización ` Ana  QUISPE ` y `D-12.34` no se unen a su par.\n- **Meta:** implementar `norm_name` y `norm_doc` estables (casefold, espacios, solo alfanuméricos en doc).\n- **Éxito:** dos líneas — `ana quispe` y `d1234`.\n- **Límites:** solo stdlib + `re`; no borres el fixture; sin PII real.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `norm_name` y `norm_doc`: casefold, colapsar espacios; doc solo [a-z0-9]. Prueba ' Ana  QUISPE ' y 'D-12.34'. Salida/pass: `ana quispe | d1234`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Abre el starter: `norm_name` solo hace `strip`; `norm_doc` devuelve el string crudo — ese es el DEFECT.\n2. En nombre: `casefold`, colapsa espacios con `re.sub`.\n3. En doc: `casefold` y deja solo `[a-z0-9]`.\n4. Imprime las dos salidas (sin texto extra que tape el valor).",
         hint: "re.sub para espacios y no alfanuméricos",
         hints: [
           "re.sub para espacios y no alfanuméricos",
@@ -727,7 +762,10 @@ demo_writes_course_progress False`,
         ],
         edgeCases: ["guiones en doc"],
         tests: "ana quispe / d1234",
-        feedback: "Normalización estable es el 80% del ER por reglas.",
+        feedback:
+          "Si `D-12.34` y `d1234` siguen distintos, la normalización no limpia puntuación o no hace casefold. Sin esta base, el score ER miente aunque el blocking sea correcto.",
+        retrospective:
+          "Normalizar *antes* de comparar es el 80 % del ER por reglas: casefold + colapsar espacios + doc solo alfanumérico. El error clásico es `strip` solo o dejar `D-12.34` «bonito». El mismo hábito aplica a emails y teléfonos en T2. Siguiente: armar la clave de blocking paterno|región.",
         starterCode: {
           language: 'python',
           title: "normalize_ids.py",
@@ -760,8 +798,11 @@ d1234`,
         id: "S13-T1-A-E2",
         subtopicId: "S13-T1-A",
         kind: "independent",
+        title: "Blocking key paterno y región",
+        preamble:
+          "- **Contexto:** el producto cartesiano de pares es inviable; blocking acota candidatos en el fixture sintético.\n- **Meta:** construir `apellido_paterno|region` en casefold (segundo token; si hay uno solo, ese).\n- **Éxito:** una línea `huamán|cusco` para `Luis Huamán Soto` / Cusco.\n- **Límites:** no uses el último token (materno); solo stdlib; no inventes tokens.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T1-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `blocking_key(rec)` = apellido_paterno|region en casefold (segundo token del nombre; si solo hay un token, usa ese). Nombre 'Luis Huamán Soto', region 'Cusco'. Salida/pass: `huamán|cusco`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter devuelve `rec[\"name\"]` crudo — corrige a clave de bloque.\n2. Parte el nombre en casefold; toma `parts[1]` si hay ≥2 tokens.\n3. Concatena con `region` en casefold y `|`.\n4. Imprime solo la clave.",
         hint: "Apellido paterno = parts[1] si len(parts)>=2 else parts[0]. No uses el último token (materno).",
         hints: [
           "Apellido paterno = parts[1] si len(parts)>=2 else parts[0]. No uses el último token (materno).",
@@ -769,7 +810,10 @@ d1234`,
         ],
         edgeCases: ["un solo token de nombre"],
         tests: "huamán|cusco",
-        feedback: "Blocking reduce el espacio de pares antes de reglas finas.",
+        feedback:
+          "Si la salida es el nombre completo o `soto|cusco`, estás usando el string crudo o el materno (último token). En nombres sintéticos N1 el paterno es el **segundo** token; sin casefold en región tampoco matcheas el fixture de la demo.",
+        retrospective:
+          "Blocking no es veredicto de identidad: solo reduce el espacio de pares. Confundir paterno con materno rompe el contrato N1 del memo y desalineas el dashboard con el I Do. Pregunta de auto-chequeo: ¿qué clave sale con un solo token de nombre? Siguiente: combinar doc + bloque en score 1.0/0.5/0.0.",
         starterCode: {
           language: 'python',
           title: "blocking_key.py",
@@ -795,8 +839,11 @@ print(blocking_key({"name": "Luis Huamán Soto", "region": "Cusco"}))`,
         id: "S13-T1-A-E3",
         subtopicId: "S13-T1-A",
         kind: "transfer",
+        title: "Score ER 1.0, 0.5 o 0.0",
+        preamble:
+          "- **Contexto:** en la ficha del dashboard el revisor necesita un `entity_resolution_score` auditable, no un «siempre match».\n- **Meta:** implementar `er_score(a,b)` con el contrato N1: doc+block → 1.0; solo doc → 0.5; resto → 0.0.\n- **Éxito:** tres números en una línea — `1.0 0.5 0.0` (pares A-B, A-C, A-D del fixture).\n- **Límites:** solo stdlib; blocking paterno `parts[1]`; no inventes evidencia fuera del fixture.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T1-A. Implementa `er_score(a,b)`: 1.0 si `norm_doc` igual y mismo `blocking_key` (apellido paterno|región); 0.5 si solo el documento coincide (bloques distintos); 0.0 en otro caso. Imprime los tres scores del fixture (A-B, A-C, A-D). Salida/pass: `1.0 0.5 0.0`. Solo stdlib + reglas S01–S13; no inventes evidencia fuera del fixture sintético.",
+          "1. El starter siempre devuelve `1.0` — ese es el DEFECT.\n2. Compara `norm_doc` y `bkey` (ya dados).\n3. Aplica la cascada 1.0 / 0.5 / 0.0.\n4. Imprime los tres scores del fixture sin reescribir los dicts.",
         hint: "Combina igualdad de doc y block (parts[1] paterno)",
         hints: [
           "Combina igualdad de doc y block (parts[1] paterno)",
@@ -804,7 +851,10 @@ print(blocking_key({"name": "Luis Huamán Soto", "region": "Cusco"}))`,
         ],
         edgeCases: ["doc match sin block → 0.5"],
         tests: "1.0 0.5 0.0",
-        feedback: "Score ER documentado y auditable.",
+        feedback:
+          "Si los tres pares imprimen `1.0`, no estás mirando `same_doc` y `same_block` por separado. Doc igual + bloque distinto debe ser 0.5 (migración/error de región), no auto-match; doc distinto es 0.0 aunque el nombre se parezca.",
+        retrospective:
+          "Un score de tres niveles documenta *por qué* un par es dudoso sin inventar parentesco ni fraude. Es identidad estimada en el fixture. En T1-B medirás si la regla ayuda con precision/recall y empujarás la banda gris a la cola clerical.",
         starterCode: {
           language: 'python',
           title: "er_score_rules.py",
@@ -856,8 +906,11 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
         id: "S13-T1-B-E1",
         subtopicId: "S13-T1-B",
         kind: "guided",
+        title: "Precision y recall sin invertir",
+        preamble:
+          "- **Contexto:** en el gate N1 reportas si el matching sintético es confiable antes de ensanchar reglas.\n- **Meta:** calcular precision y recall a partir de tp/fp/fn (sin invertir denominadores).\n- **Éxito:** `precision 0.8` y `recall 0.8` con tp=8, fp=2, fn=2.\n- **Límites:** solo stdlib; redondeo a 3 decimales; no uses sklearn.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: a partir de tp, fp, fn calcula precision y recall; imprime redondeado a 3 decimales. Valores: tp=8, fp=2, fn=2. Salida/pass: `precision 0.8 | recall 0.8`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter invierte las formulas — ese es el DEFECT.\n2. precision = tp/(tp+fp); recall = tp/(tp+fn).\n3. Imprime con `round(..., 3)` y las etiquetas del solution.\n4. No cambies los conteos del fixture.",
         hint: "precision = tp/(tp+fp)",
         hints: [
           "precision = tp/(tp+fp)",
@@ -865,7 +918,10 @@ print(er_score(A, B), er_score(A, C), er_score(A, D))`,
         ],
         edgeCases: ["división por cero: no aplica en este fixture"],
         tests: "0.8 y 0.8",
-        feedback: "Métricas simples bastan para gate N1.",
+        feedback:
+          "Si precision «baja» al subir FN o recall al subir FP, invertiste los denominadores. Precision castiga falsos match; recall castiga matches perdidos — en alto riesgo sueles priorizar precision y empujar duda a la cola.",
+        retrospective:
+          "Métricas simples bastan para N1 si son correctas y auditables. El error clásico es confiar en «accuracy alto» sin TP/FP/FN, o invertir denominadores bajo presión. En alto riesgo priorizas precision y empujas duda a la cola. Siguiente: la cola clerical de la banda gris.",
         starterCode: {
           language: 'python',
           title: "precision_recall.py",
@@ -890,8 +946,11 @@ recall 0.8`,
         id: "S13-T1-B-E2",
         subtopicId: "S13-T1-B",
         kind: "independent",
+        title: "Cola clerical en banda de duda",
+        preamble:
+          "- **Contexto:** el dashboard no decide solo: la **cola clerical** es la bandeja humana de scores intermedios.\n- **Meta:** devolver ids con score en [0.4, 0.7] **inclusive**.\n- **Éxito:** `['P2', 'P3']` (P1=0.2 fuera; P4=0.9 fuera).\n- **Límites:** no encoles la banda de accept; orden estable del fixture; solo stdlib.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `clerical_queue(pairs, low=0.4, high=0.7)` devuelve ids con score en [low, high] inclusive. Salida/pass: `['P2', 'P3']`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter encola la banda de accept (`score >= high`) — ese es el DEFECT.\n2. Cambia el filtro a la **banda de duda** inclusiva definida en la meta (low…high).\n3. Conserva el orden de aparición de `pairs`.\n4. Imprime la lista de ids; no borres P1–P4.",
         hint: "list comprehension con filtro de banda",
         hints: [
           "list comprehension con filtro de banda",
@@ -899,7 +958,10 @@ recall 0.8`,
         ],
         edgeCases: ["inclusive bounds"],
         tests: "['P2','P3']",
-        feedback: "La cola clerical es el human-in-the-loop de ER.",
+        feedback:
+          "Si ves `['P4']` o `['P3','P4']`, estás encolando accept o el borde alto mal. Si falta `P3` (0.7), el bound no es inclusive. La cola es para duda humana, no para celebrar scores altos.",
+        retrospective:
+          "Human-in-the-loop es un **filtro de banda**, no «todo lo alto». Encolar accept desperdicia al revisor; ignorar 0.7 pierde el borde que el humano debe ver. Siguiente: unir métricas y límites éticos en un mismo report (FP ≠ fraude).",
         starterCode: {
           language: 'python',
           title: "clerical_queue.py",
@@ -935,8 +997,11 @@ print(clerical_queue(pairs))`,
         id: "S13-T1-B-E3",
         subtopicId: "S13-T1-B",
         kind: "transfer",
+        title: "Reporte PR sin convertir FP en fraude",
+        preamble:
+          "- **Contexto:** un revisor de compliance lee el reporte de evaluación del matching sintético; un FP no es veredicto de delito.\n- **Meta:** calcular precision/recall (tp=5, fp=1, fn=2) y adjuntar disclaimer + `ops_action=needs_review`.\n- **Éxito:** cuatro líneas — precision 0.833, recall 0.714, frase exacta `fp_not_fraud`, y `ops_action: needs_review`.\n- **Límites:** no `auto_fraud`; texto exacto del solution; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T1-B (Familiarity Evidence Dashboard). Entrada: métricas sintéticas del starter (tp=5, fp=1, fn=2). Tarea: calcula precision y recall; arma un dict `report` con `precision`, `recall`, `fp_not_fraud` (texto exacto: 'False positive de matching no es evidencia de delito') y `ops_action` = `needs_review`. Imprime las cuatro líneas en ese orden. Salida/pass: `precision 0.833`, `recall 0.714`, `fp_not_fraud: False positive de matching no es evidencia de delito`, `ops_action: needs_review`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter deja PR en 0.0 y trata FP como delito — corrige ambos.\n2. Calcula PR con round 3.\n3. Texto exacto: *False positive de matching no es evidencia de delito*.\n4. `ops_action` debe ser `needs_review`, no `auto_fraud`.",
         hint: "precision=tp/(tp+fp); recall=tp/(tp+fn); round 3; adjunta límites éticos al mismo report",
         hints: [
           "tp=5,fp=1 → precision 0.833; tp=5,fn=2 → recall 0.714",
@@ -944,7 +1009,10 @@ print(clerical_queue(pairs))`,
         ],
         edgeCases: ["métricas y ética viajan juntas en el mismo artefacto de gate"],
         tests: "precision/recall + texto + needs_review",
-        feedback: "El reporte de evaluación une números y límites éticos: un FP no autoriza auto_fraud.",
+        feedback:
+          "Si precision/recall siguen en 0.0, no calculaste desde tp/fp/fn. Si `ops_action` queda `auto_fraud` o el texto dice que el FP «implica delito», estás convirtiendo un error de matching en acusación — el harness y el revisor de portfolio lo rechazan.",
+        retrospective:
+          "El artefacto de gate une **número** y **límite ético** en el mismo reporte. Tratar FP como fraude es el error más grave de N1. Pregunta de auto-chequeo: ¿qué `ops_action` defiendes en la demo si hay un FP? En T2 practicarás señales de relación con el mismo espíritu: señal ≠ parentesco.",
         starterCode: {
           language: 'python',
           title: "fp_limits.py",
@@ -987,8 +1055,11 @@ ops_action: needs_review`,
         id: "S13-T2-A-E1",
         subtopicId: "S13-T2-A",
         kind: "guided",
+        title: "Email compartido sin vacíos",
+        preamble:
+          "- **Contexto:** en señales de relación, un email igual y no vacío empuja familiaridad operativa en el fixture sintético.\n- **Meta:** `shared_email(a,b)` con casefold y rechazo de strings vacíos.\n- **Éxito:** tres booleanos — `True`, `False`, `False` (match, vacío-vacío, distintos).\n- **Límites:** solo stdlib; `''` no es shared; sin PII real.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `shared_email(a,b)` True si emails casefold iguales y no vacíos. Salida/pass: `True | False | False`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter usa `a == b` y trata `''==''` como True — DEFECT.\n2. Si falta o está vacío cualquiera de los dos, retorna False.\n3. Compara en casefold.\n4. Imprime los tres casos del starter.",
         hint: "a and b and a.casefold()==b.casefold()",
         hints: [
           "a and b and a.casefold()==b.casefold()",
@@ -996,7 +1067,10 @@ ops_action: needs_review`,
         ],
         edgeCases: ["vacío False"],
         tests: "True False False",
-        feedback: "Shared contact es señal fuerte pero no identidad legal.",
+        feedback:
+          "Dos vacíos iguales no son un contacto real: son ausencia de dato. Si no filtras `''` o no haces casefold, inflas señales (`True` espurio) y engañas la ficha del revisor aunque el email «parezca» match.",
+        retrospective:
+          "Shared contact es señal fuerte, no identidad legal ni parentesco. El mismo rigor (no inventar True) aplica a teléfono y dirección. Siguiente: combinar geo + apellido con pesos documentados.",
         starterCode: {
           language: 'python',
           title: "shared_email.py",
@@ -1028,8 +1102,11 @@ False`,
         id: "S13-T2-A-E2",
         subtopicId: "S13-T2-A",
         kind: "independent",
+        title: "Combinar geo y apellido (variante)",
+        preamble:
+          "- **Contexto:** en práctica de T2 usas una **variante** geo+apellido (0.6/0.4); el canónico de tres señales queda para la ficha y E3.\n- **Meta:** `rel_score(km, surname_jaccard)` con geo si km≤2.0 inclusive.\n- **Éxito:** `0.8` (km=1.2, j=0.5) y `0.2` (km=5.0, j=0.5).\n- **Límites:** no uses la fórmula de tres señales aquí; documenta pesos; solo stdlib.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Variante de práctica (sin teléfono): `rel_score(km, surname_jaccard)` = 0.6*(1 if km<=2 else 0)+0.4*jaccard; round 3. El canónico N1 de teoría es 0.5/0.3/0.2 con tres señales; aquí practicas solo geo+apellido con el mismo umbral inclusivo km≤2.0. Salida/pass: `0.8 | 0.2`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter solo devuelve el jaccard — añade el término geo.\n2. geo = 1.0 si km ≤ 2, si no 0.0.\n3. score = round(0.6*geo + 0.4*jaccard, 3).\n4. Imprime ambos casos del fixture.",
         hint: "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2",
         hints: [
           "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2",
@@ -1037,7 +1114,10 @@ False`,
         ],
         edgeCases: ["km lejos anula geo; km=2.0 sigue contando como geo_close"],
         tests: "0.8 y 0.2",
-        feedback: "Pesos documentados permiten auditar el score de relación.",
+        feedback:
+          "Si ambos casos imprimen `0.5`, ignoraste km y solo devolviste el jaccard. Si `km=5.0` no baja el score, el término geo no está en cero. Esta es **variante de práctica**, no el canónico 0.5/0.3/0.2 de la ficha.",
+        retrospective:
+          "Pesos documentados permiten auditar el score; confundir variante de práctica con canónico de producto rompe el memo del curso. El revisor debe poder decir *qué* pesos usaste. Siguiente: score canónico de tres señales + disclaimer de no parentesco.",
         starterCode: {
           language: 'python',
           title: "combine_signals.py",
@@ -1065,8 +1145,11 @@ print(rel_score(5.0, 0.5))`,
         id: "S13-T2-A-E3",
         subtopicId: "S13-T2-A",
         kind: "transfer",
+        title: "Score de relación con disclaimer",
+        preamble:
+          "- **Contexto:** la ficha de caso muestra `relationship_signal_score` **junto** a un disclaimer; el revisor no debe leer «1.0» como parentesco.\n- **Meta:** calcular rel canónico 0.5·phone + 0.3·geo + 0.2·surname y adjuntar el disclaimer exacto.\n- **Éxito:** `score 1.0` y la frase *relationship_signal_score no implica parentesco ni colusión*.\n- **Límites:** no hardcodees parentesco legal; pesos fijos; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T2-A (Familiarity Evidence Dashboard). Tarea: calcula un score de relación con la fórmula canónica N1 (0.5 phone + 0.3 geo + 0.2 surname_match binario) sobre el fixture sintético del starter. Arma un dict de ficha con `relationship_signal_score` y `disclaimer` (texto exacto: 'relationship_signal_score no implica parentesco ni colusión'). Imprime score y disclaimer en dos líneas. Salida/pass: `score 1.0` y `disclaimer relationship_signal_score no implica parentesco ni colusión`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Calcula `rel` con los tres factores del starter (todos 1.0).\n2. Arma el dict de ficha con score y disclaimer.\n3. Texto exacto del solution (tests de portfolio).\n4. Imprime score y disclaimer en dos líneas.",
         hint: "Calcula rel con 0.5/0.3/0.2; adjunta disclaimer al dict; no infieras parentesco",
         hints: [
           "phone=geo=surname=1.0 → rel 1.0 con pesos canónicos",
@@ -1074,7 +1157,10 @@ print(rel_score(5.0, 0.5))`,
         ],
         edgeCases: ["disclaimer UI debe viajar junto al score, no reemplazarlo"],
         tests: "score 1.0 + frase exacta de disclaimer",
-        feedback: "Score calculado + disclaimer adjunto: el revisor ve número y límite ético juntos.",
+        feedback:
+          "Score calculado + disclaimer adjunto: el revisor ve número y límite ético juntos. Si el disclaimer afirma parentesco, rompes el gate ético de N1 aunque el score sea correcto.",
+        retrospective:
+          "Señal ≠ parentesco: si el disclaimer no viaja con el número, la UI miente por omisión. En T2-B el mismo principio aplica a contrapartes comunes y colusión.",
         starterCode: {
           language: 'python',
           title: "disclaimer.py",
@@ -1109,8 +1195,11 @@ disclaimer relationship_signal_score no implica parentesco ni colusión`,
         id: "S13-T2-B-E1",
         subtopicId: "S13-T2-B",
         kind: "guided",
+        title: "Transferencias directas en ambas direcciones",
+        preamble:
+          "- **Contexto:** en la ficha de relación operativa, A→B y B→A son la misma evidencia de par.\n- **Meta:** listar montos de txs directas entre a y b sin importar el sentido.\n- **Éxito:** `[10, 5]` sobre el fixture del starter.\n- **Límites:** no inventes txs; conserva orden de aparición; solo stdlib.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `direct_txs(txs, a, b)` lista montos de transferencias directas entre a y b (cualquier dirección). Salida/pass: `[10, 5]`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. El filtro `x == a and y == b` es el DEFECT (pierde B→A).\n2. Usa igualdad de conjuntos de endpoints `{x,y} == {a,b}`.\n3. Devuelve los montos en orden del fixture.\n4. Imprime la lista.",
         hint: "set equality de endpoints",
         hints: [
           "set equality de endpoints",
@@ -1118,7 +1207,10 @@ disclaimer relationship_signal_score no implica parentesco ni colusión`,
         ],
         edgeCases: ["bidireccional"],
         tests: "[10, 5]",
-        feedback: "Txs directas son RelationshipEvidence tipo direct_tx.",
+        feedback:
+          "Si solo ves `[10]`, estás modelando dirección, no par. La evidencia `direct_tx` es simétrica en N1: A→B y B→A cuentan juntas.",
+        retrospective:
+          "El patrón de sets de endpoints modela el **par**, no la dirección del wire. El error clásico es filtrar solo A→B y perder B→A en la ficha. Reaparece en tests de grafo y en el You Do. Siguiente: contrapartes comunes por **intersección** de vecinos (no unión).",
         starterCode: {
           language: 'python',
           title: "direct_txs.py",
@@ -1144,8 +1236,11 @@ print(direct_txs(txs, "A", "B"))`,
         id: "S13-T2-B-E2",
         subtopicId: "S13-T2-B",
         kind: "independent",
+        title: "Contrapartes comunes por intersección",
+        preamble:
+          "- **Contexto:** A y C «se tocan» si comparten un nodo D en el grafo sintético de pagos.\n- **Meta:** devolver la lista ordenada de contrapartes comunes (intersección de vecinos).\n- **Éxito:** `['D']` (E y F no son comunes).\n- **Límites:** intersección, no unión; solo stdlib; no inventes nodos.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: `common_counterparties(txs, a, c)` devuelve sorted set de nodos que transan con ambos. Salida/pass: `['D']`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter arma un conjunto de vecinos «demasiado amplio» — lee el DEFECT y el resultado esperado.\n2. Reutiliza `neighbors` del starter.\n3. Devuelve solo nodos que son vecinos de **ambos** extremos; ordena con `sorted`.\n4. Imprime el resultado para A y C (no inventes nodos).",
         hint: "Intersección de vecinos",
         hints: [
           "Intersección de vecinos",
@@ -1153,7 +1248,10 @@ print(direct_txs(txs, "A", "B"))`,
         ],
         edgeCases: ["solo D común"],
         tests: "['D']",
-        feedback: "Top-k se obtiene ordenando por conteo; aquí k=all del set.",
+        feedback:
+          "Si la lista incluye E y F, usaste unión (o listaste todo lo tocado por A o C). Intersección responde *quién es puente entre ambos* — ese es el `via` de la ficha. No hardcodees `['D']`.",
+        retrospective:
+          "Common counterparty es traza operativa, no cartel. El error clásico es unión o hardcodear `via` sin calcular. Pregunta de auto-chequeo: ¿qué imprime si A y C no comparten nodos? Siguiente: adjuntar disclaimers de no colusión/no parentesco al objeto de evidencia.",
         starterCode: {
           language: 'python',
           title: "common_cp.py",
@@ -1195,8 +1293,11 @@ print(common_counterparties(txs, "A", "C"))`,
         id: "S13-T2-B-E3",
         subtopicId: "S13-T2-B",
         kind: "transfer",
+        title: "Evidencia de grafo sin acusación",
+        preamble:
+          "- **Contexto:** el revisor ve `via` y debe leer al lado que **no** prueba acuerdo ilícito ni parentesco.\n- **Meta:** calcular `via` = vecinos(A) ∩ vecinos(C) y adjuntar dos disclaimers exactos.\n- **Éxito:** `via ['D']` más las dos frases `no_collusion` / `no_kinship` del solution.\n- **Límites:** no hardcodees colusión; textos exactos; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T2-B (Familiarity Evidence Dashboard). Tarea: a partir del graphlet del starter, calcula la contraparte común A∩C (`via`); arma un dict de evidencia con `type='common_counterparty'`, `via`, y campos `no_collusion` / `no_kinship` (textos exactos de la solution). Imprime `via`, luego las dos líneas de disclaimer. Salida/pass: `via ['D']`, `no_collusion: contraparte común no prueba acuerdo ilícito` y `no_kinship: contraparte común no prueba parentesco`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Corrige `neighbors(\"B\")` → `neighbors(\"C\")`.\n2. Arma el dict `type=common_counterparty` con `via` y disclaimers.\n3. Textos: *no prueba acuerdo ilícito* / *no prueba parentesco*.\n4. Imprime via y las dos líneas de disclaimer.",
         hint: "Calcula via con intersección de vecinos; adjunta disclaimers al dict de evidencia",
         hints: [
           "neighbors(A) & neighbors(C) → via; no hardcodees colusión",
@@ -1204,7 +1305,10 @@ print(common_counterparties(txs, "A", "C"))`,
         ],
         edgeCases: ["evidencia de grafo y límites de inferencia viajan juntos"],
         tests: "via ['D'] + dos disclaimers",
-        feedback: "El revisor ve la traza (via) y el límite ético en el mismo objeto de evidencia.",
+        feedback:
+          "El revisor ve la traza (`via`) y el límite ético en el mismo objeto. Si afirmas colusión o parentesco, conviertes evidencia operativa en acusación — fuera de N1.",
+        retrospective:
+          "Evidencia de grafo y límites de inferencia viajan juntos: si solo imprimes `via`, alguien «completa» la acusación. En T3 pasarás a ficha con uncertainty y bullets honestos.",
         starterCode: {
           language: 'python',
           title: "no_infer.py",
@@ -1262,8 +1366,11 @@ no_kinship: contraparte común no prueba parentesco`,
         id: "S13-T3-A-E1",
         subtopicId: "S13-T3-A",
         kind: "guided",
+        title: "Tres bullets de explicación de ficha",
+        preamble:
+          "- **Contexto:** sin bullets el revisor ve un número huérfano en el dashboard.\n- **Meta:** devolver exactamente 3 strings: ER, REL y missing.\n- **Éxito:** lista con `entity_resolution_score=0.9`, `relationship_signal_score=0.4` y `missing=['phone']`.\n- **Límites:** no omitas missing; no inventes campos; solo stdlib.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: `explanation_bullets(er, rel, missing)` devuelve lista de 3 strings formateados. Salida/pass: `['entity_resolution_score=0.9', 'relationship_signal_score=0.4', \"missing=['phone']\"]`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter devuelve solo 2 bullets — añade missing.\n2. Usa f-strings con los tres inputs.\n3. No reformatees nombres de claves.\n4. Imprime la lista completa.",
         hint: "f-strings con los tres inputs",
         hints: [
           "f-strings con los tres inputs",
@@ -1271,7 +1378,10 @@ no_kinship: contraparte común no prueba parentesco`,
         ],
         edgeCases: ["3 bullets"],
         tests: "lista len 3",
-        feedback: "Plantilla reutilizable en la ficha de caso.",
+        feedback:
+          "Si la lista tiene len 2, omitiste `missing`. El revisor confía en un score incompleto cuando no ve `phone`/`email` ausentes. No reformatees los nombres de claves del f-string.",
+        retrospective:
+          "Plantilla de tres bullets es reutilizable en el You Do y en el portfolio. El error clásico es esconder missing para «verse más limpio». Siguiente: la banda de uncertainty.",
         starterCode: {
           language: 'python',
           title: "explain_template.py",
@@ -1299,8 +1409,11 @@ print(explanation_bullets(0.9, 0.4, ["phone"]))`,
         id: "S13-T3-A-E2",
         subtopicId: "S13-T3-A",
         kind: "independent",
+        title: "Banda de incertidumbre low/med/high",
+        preamble:
+          "- **Contexto:** un evidence_score sin uncertainty engaña al revisor en la cola.\n- **Meta:** `uncertainty_band(missing, conflict)` — high si conflicto o ≥2 missing; med si hay missing; low si no.\n- **Éxito:** cuatro líneas — `low`, `med`, `high`, `high`.\n- **Límites:** conflicto gana aunque missing esté vacío; solo stdlib.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: `uncertainty_band(missing, conflict)` → high si conflict o len(missing)>=2; med si missing; low si no. Salida/pass: `low | med | high | high`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Reemplaza el return fijo `\"low\"`.\n2. Implementa la cascada de la meta: conflicto y/o muchos missing elevan la banda; un missing eleva a med; vacío y sin conflicto → low.\n3. Imprime los cuatro casos del starter.\n4. No cambies los argumentos de prueba.",
         hint: "Orden de ifs: conflict primero",
         hints: [
           "Orden de ifs: conflict primero",
@@ -1308,7 +1421,10 @@ print(explanation_bullets(0.9, 0.4, ["phone"]))`,
         ],
         edgeCases: ["conflict fuerza high"],
         tests: "low med high high",
-        feedback: "Incertidumbre honestifica el evidence_score.",
+        feedback:
+          "Si un conflicto queda en low, el orden de ifs está mal o ignoras el flag. Uncertainty high fuerza revisión aunque el número se vea «bonito».",
+        retrospective:
+          "Incertidumbre es honestidad operativa, no un adorno. El mismo contrato alimenta `decide_ops_status` en T3-B. Siguiente: caso conflictivo ER vs REL sin maquillar el score.",
         starterCode: {
           language: 'python',
           title: "uncertainty.py",
@@ -1345,8 +1461,11 @@ high`,
         id: "S13-T3-A-E3",
         subtopicId: "S13-T3-A",
         kind: "transfer",
+        title: "Conflicto ER vs REL sin maquillaje",
+        preamble:
+          "- **Contexto:** identidad fuerte y relación muy débil es una **tensión** que el revisor debe ver, no un promedio cosmético.\n- **Meta:** imprimir evidence_score 0.6/0.4, uncertainty high si |er−rel|>0.5, y note `señales conflictivas`.\n- **Éxito:** `evidence_score 0.58`, `uncertainty high`, `note señales conflictivas`.\n- **Límites:** no inventes campos; no suavices el score; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T3-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: caso conflictivo er=0.9 rel=0.1: imprime evidence_score ponderado 0.6/0.4, uncertainty high si abs(er-rel)>0.5, y note 'señales conflictivas'. Salida/pass: `evidence_score 0.58`, `uncertainty high`, `note señales conflictivas`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Mantén el cálculo del score del starter.\n2. Detecta conflicto con `abs(er - rel) > 0.5`.\n3. Cambia uncertainty y note según el solution.\n4. Imprime las tres líneas etiquetadas.",
         hint: "abs(er-rel)>0.5 → conflict",
         hints: [
           "abs(er-rel)>0.5 → conflict",
@@ -1354,7 +1473,10 @@ high`,
         ],
         edgeCases: ["conflicto honesto"],
         tests: "score 0.58 high",
-        feedback: "Explicación honesta > score cosmético.",
+        feedback:
+          "Si uncertainty queda en `low` o la note dice `ok`, no detectaste `|er−rel| > 0.5`. El score 0.58 puede «verse normal»; sin high + note de conflicto el revisor no ve la tensión 0.9 vs 0.1.",
+        retrospective:
+          "Explicación honesta > score cosmético: no suavices hacia 0.5 ni escondas el gap. La ficha debe hacer visible la tensión ER vs REL. En T3-B traducirás score+uncertainty a estados operativos sin `auto_fraud` ni `is_family`.",
         starterCode: {
           language: 'python',
           title: "conflict_case.py",
@@ -1385,8 +1507,11 @@ note señales conflictivas`,
         id: "S13-T3-B-E1",
         subtopicId: "S13-T3-B",
         kind: "guided",
+        title: "Umbrales review_low y accept_min",
+        preamble:
+          "- **Contexto:** umbrales mágicos enterrados en ifs no se auditan en el portfolio N1.\n- **Meta:** config dict con `review_low=0.4` y `accept_min=0.8` (orden correcto).\n- **Éxito:** `sorted(items)` → `[('accept_min', 0.8), ('review_low', 0.4)]` y assert de orden.\n- **Límites:** review_low < accept_min; sin huecos conceptuales; solo stdlib.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: config dict thresholds: review_low=0.4 y accept_min=0.8. Imprime sorted items; no dejes un hueco entre review y accept. Salida/pass: `[('accept_min', 0.8), ('review_low', 0.4)]`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter tiene los valores intercambiados — DEFECT.\n2. Corrige a accept_min=0.8 y review_low=0.4.\n3. Conserva el assert de orden.\n4. Imprime `sorted(thresholds.items())`.",
         hint: "Dos límites forman tres intervalos contiguos",
         hints: [
           "Dos límites forman tres intervalos contiguos",
@@ -1394,7 +1519,10 @@ note señales conflictivas`,
         ],
         edgeCases: ["review_low < accept_min", "config externalizable"],
         tests: "Contrato exacto: sorted items es [('accept_min', 0.8), ('review_low', 0.4)]; assert 0 <= review_low < accept_min <= 1.",
-        feedback: "Umbrales fuera de código mágico facilitan auditoría.",
+        feedback:
+          "Si `review_low > accept_min`, el assert falla y la matriz queda con huecos o intervalos invertidos. Dos límites bien ordenados forman tres bandas: abstain / review / accept.",
+        retrospective:
+          "Dos límites forman tres intervalos (abstain / review / accept). Config fuera de «números sueltos» facilita el You Do. Siguiente: implementar la matriz completa con validación de input.",
         starterCode: {
           language: 'python',
           title: "thresholds_cfg.py",
@@ -1424,8 +1552,11 @@ print(sorted(thresholds.items()))`,
         id: "S13-T3-B-E2",
         subtopicId: "S13-T3-B",
         kind: "independent",
+        title: "Matriz decide_ops_status sin huecos",
+        preamble:
+          "- **Contexto:** el runbook N1 exige que todo score finito y toda uncertainty caigan en **exactamente un** estado operativo.\n- **Meta:** implementar `decide_ops_status(score, unc, th)` con validación, high→review, y umbrales del dict.\n- **Éxito:** las 7 líneas del solution (de invalid_input a nan invalid_input).\n- **Límites:** sin `auto_fraud`/`is_family`; bool no es score válido; solo stdlib + `isfinite`.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter con thresholds `review_low=0.4` y `accept_min=0.8`. Tarea: implementa `decide_ops_status(score, unc, th)` con matriz total y sin huecos. Orden: input inválido (tipo, bool, no finito, fuera de [0,1], unc ∉ {low, med, high}) → `invalid_input`; unc `high` → `needs_review`; score < review_low → `abstain`; score < accept_min → `needs_review`; resto → `accept_pair`. Imprime cada fila del loop del starter. Sin labels `auto_fraud`/`is_family`. Salida/pass: las 7 líneas del solution. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter no valida y prioriza accept — reescribe la cascada.\n2. Orden: invalid (tipo/bool/rango/unc) → high → score < review_low → score < accept_min → accept_pair.\n3. Imprime cada fila del loop del starter.\n4. No cambies `th` ni la lista de casos.",
         hint: "Valida tipo/isfinite/unc antes de comparar umbrales; high unc gana sobre score alto",
         hints: [
           "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar",
@@ -1433,7 +1564,10 @@ print(sorted(thresholds.items()))`,
         ],
         edgeCases: ["0.4", "0.8", "NaN", "bool", "unc desconocida", "high unc → review"],
         tests: "Matriz exacta: -0.1 invalid_input; 0.399 abstain; 0.4 y 0.799 needs_review; 0.8 accept_pair (low); 0.9/high needs_review; NaN invalid_input.",
-        feedback: "Estados operativos de par, no veredictos legales.",
+        feedback:
+          "Si 0.9/high acepta, high no gana sobre el score. Si NaN cae en abstain, falta `isfinite`. Los bordes 0.4 y 0.8 son exactos (`score <` en el código canónico): no «aproximes» 0.799 a accept.",
+        retrospective:
+          "Estados operativos de par ≠ veredictos legales. Esta función es el corazón del You Do (`DECISION_MATRIX` de 9 filas). Siguiente: auditoría que borra `is_family`/`auto_fraud` de la salida.",
         starterCode: {
           language: 'python',
           title: "decide_ops.py",
@@ -1485,8 +1619,11 @@ nan low invalid_input`,
         id: "S13-T3-B-E3",
         subtopicId: "S13-T3-B",
         kind: "transfer",
+        title: "Quitar is_family y auto_fraud de la salida",
+        preamble:
+          "- **Contexto:** en auditoría de portfolio N1, cualquier path que emita `is_family` o `auto_fraud` cierra mal el gate.\n- **Meta:** limpiar un dict de salida dejando solo claves permitidas.\n- **Éxito:** `['score', 'status']` (sorted keys).\n- **Límites:** elimina ambas claves si existen; no inventes campos; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T3-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: auditoría: dado un dict de campos de salida, elimina claves is_family y auto_fraud si existen; imprime sorted keys restantes. Salida/pass: `['score', 'status']`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter copia `out` sin filtrar — DEFECT.\n2. Filtra con set de forbidden o `pop`.\n3. Imprime `sorted(clean.keys())`.\n4. No dejes rastros de las claves prohibidas.",
         hint: "pop o dict comprehension",
         hints: [
           "pop o dict comprehension",
@@ -1494,7 +1631,10 @@ nan low invalid_input`,
         ],
         edgeCases: ["strip policy fields"],
         tests: "['score','status']",
-        feedback: "Auditoría de paths prohibidos es requisito de política N1.",
+        feedback:
+          "Si `sorted(keys)` aún muestra `is_family` o `auto_fraud`, copiaste el dict sin filtrar. `pop` o un set `forbidden` deben dejar solo lo permitido (`score`, `status` en este fixture). Un status correcto no salva claves prohibidas.",
+        retrospective:
+          "Política N1 se demuestra en código ejecutable, no solo en el README. El mismo checklist de «grep de portfolio» aparece en el You Do y en CF-1. En T4 pasarás a UI pseudonimizada y artefactos de ops (privacy, demo, incidente).",
         starterCode: {
           language: 'python',
           title: "audit_strip.py",
@@ -1519,8 +1659,11 @@ print(sorted(clean.keys()))`,
         id: "S13-T4-A-E1",
         subtopicId: "S13-T4-A",
         kind: "guided",
+        title: "Pseudonimizar nombre en la vista",
+        preamble:
+          "- **Contexto:** en demos y capturas de portfolio, el nombre completo no debe lucir en pantalla.\n- **Meta:** `pseudonymize` → primer carácter + `***` por token.\n- **Éxito:** `A*** Q*** R***` para `Ana Quispe Rojas`.\n- **Límites:** solo stdlib; no inventes un nombre real; no dejes el string crudo.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `pseudonymize('Ana Quispe Rojas')` → 'A*** Q*** R***'. Salida/pass: `A*** Q*** R***`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. El starter devuelve `name` intacto — DEFECT.\n2. Parte por espacios y transforma cada token.\n3. Une con espacio.\n4. Imprime el resultado.",
         hint: "primer char + *** por token",
         hints: [
           "primer char + *** por token",
@@ -1528,7 +1671,10 @@ print(sorted(clean.keys()))`,
         ],
         edgeCases: ["multi token"],
         tests: "A*** Q*** R***",
-        feedback: "Vista pseudonimizada reduce exposición en demos.",
+        feedback:
+          "Vista pseudonimizada reduce exposición en capturas de portfolio. Si dejas el nombre completo, la demo viola el contrato de privacidad aunque el score sea correcto.",
+        retrospective:
+          "Vista pseudonimizada reduce exposición en capturas. El mismo helper alimenta el You Do y CASE-1/2/3. Siguiente: ficha con dos scores etiquetados (no `er`/`rel` opacos ni `is_family`).",
         starterCode: {
           language: 'python',
           title: "pseudo_names.py",
@@ -1552,8 +1698,11 @@ print(pseudonymize("Ana Quispe Rojas"))`,
         id: "S13-T4-A-E2",
         subtopicId: "S13-T4-A",
         kind: "independent",
+        title: "Ficha con ER y REL separados",
+        preamble:
+          "- **Contexto:** si la UI muestra un solo «0.7» sin etiqueta, el revisor no sabe si es identidad o familiaridad.\n- **Meta:** `case_sheet(er, rel)` con claves canónicas y **sin** `is_family`.\n- **Éxito:** dict exacto con `entity_resolution_score` 0.9 y `relationship_signal_score` 0.4.\n- **Límites:** no fusionar; no añadir veredictos; solo stdlib.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: `case_sheet(er, rel)` dict con ambos scores (claves `entity_resolution_score` y `relationship_signal_score`); imprime sheet. Salida/pass: `{'entity_resolution_score': 0.9, 'relationship_signal_score': 0.4}`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Sustituye claves `er`/`rel` por nombres canónicos.\n2. Elimina `is_family`.\n3. Imprime el dict.\n4. No inventes campos extra.",
         hint: "Claves entity_resolution_score y relationship_signal_score",
         hints: [
           "Claves entity_resolution_score y relationship_signal_score",
@@ -1561,7 +1710,10 @@ print(pseudonymize("Ana Quispe Rojas"))`,
         ],
         edgeCases: ["scores separados"],
         tests: "dos claves distintas",
-        feedback: "La ficha educa al revisor sobre dos constructos distintos.",
+        feedback:
+          "Claves cortas y un booleano de parentesco son el anti-patrón de producto N1. La ficha educa al revisor solo si los dos scores se leen por separado.",
+        retrospective:
+          "Dos scores, dos historias: el mismo principio del callout de teoría. En el You Do la ficha y el mapa deben respetarlo. Siguiente: tooltip de mapa con provenance.",
         starterCode: {
           language: 'python',
           title: "case_sheet.py",
@@ -1588,8 +1740,11 @@ print(case_sheet(0.9, 0.4))`,
         id: "S13-T4-A-E3",
         subtopicId: "S13-T4-A",
         kind: "transfer",
+        title: "Tooltip de mapa con source",
+        preamble:
+          "- **Contexto:** el mapa del dashboard hereda la política de egress de S12: geoseñal **trazable**, no PII cruda a geocoders públicos.\n- **Meta:** `map_tooltip(lat, lon, km, source)` en una línea legible.\n- **Éxito:** `lat=-12.04,lon=-77.04,geo_distance_km=1.2,source=mock`.\n- **Límites:** incluye `source=`; no inventes coords reales de domicilio; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T4-A (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: `map_tooltip(lat, lon, km, source)` string con coords y geoseñal trazable (conecta mapa con provenance S12). Salida/pass: `lat=-12.04,lon=-77.04,geo_distance_km=1.2,source=mock`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Amplía el f-string del starter con km y source.\n2. Formato exacto del solution (orden de campos).\n3. Imprime una sola línea.\n4. No llames APIs externas.",
         hint: "Incluye source=",
         hints: [
           "Incluye source=",
@@ -1597,7 +1752,10 @@ print(case_sheet(0.9, 0.4))`,
         ],
         edgeCases: ["trazabilidad"],
         tests: "source=mock en tooltip",
-        feedback: "Tooltip trazable conecta mapa con provenance S12.",
+        feedback:
+          "Si la línea solo tiene lat/lon, faltan `geo_distance_km` y `source`. Sin `source=mock` el revisor no distingue geoseñal de curso de un egress real a geocoder público (política S12).",
+        retrospective:
+          "Provenance en el tooltip cierra el puente S12→S13: el mapa es auditable, no decorativo. En T4-B cierras el nivel con privacy sheet, demo de un comando y playbook de incidente + regresión S01–S13.",
         starterCode: {
           language: 'python',
           title: "map_tooltip.py",
@@ -1621,8 +1779,11 @@ print(map_tooltip(-12.04, -77.04, 1.2, "mock"))`,
         id: "S13-T4-B-E1",
         subtopicId: "S13-T4-B",
         kind: "guided",
+        title: "Privacy sheet: synthetic_only y pii_real",
+        preamble:
+          "- **Contexto:** CF-1 exige declarar clase de datos y que no hay PII real en el demo N1.\n- **Meta:** dict con `data_class=synthetic_only`, `pii_real=False`, roles viewer/reviewer.\n- **Éxito:** keys ordenadas + `False` en pii_real.\n- **Límites:** no marques production; no roles inventados; solo stdlib.",
         instruction:
-          "E1 (guiado) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: completa privacy sheet dict: data_class=synthetic_only, pii_real=False, roles=['viewer','reviewer']. Imprime sorted keys y el valor de pii_real. Salida/pass: `['data_class', 'pii_real', 'roles']` y `False`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Corrige `data_class` y `pii_real` del starter.\n2. Conserva roles canónicos.\n3. Imprime `sorted(keys)` y el valor de pii_real.\n4. No borres campos del contrato.",
         hint: "Tres campos mínimos CF-1",
         hints: [
           "Tres campos mínimos CF-1",
@@ -1630,7 +1791,10 @@ print(map_tooltip(-12.04, -77.04, 1.2, "mock"))`,
         ],
         edgeCases: ["CF-1 privacy"],
         tests: "keys + False",
-        feedback: "Privacy sheet es artefacto CF-1 obligatorio.",
+        feedback:
+          "Si imprimes `True` o `data_class` es `production`, no corregiste el DEFECT. CF-1 exige `synthetic_only` + `pii_real=False` + roles viewer/reviewer; un score «bonito» no compensa privacy roto.",
+        retrospective:
+          "Privacy sheet es artefacto de gate, no un print decorativo. Si `pii_real` queda True, el portfolio N1 se rechaza. Pregunta de auto-chequeo: ¿qué roles listas en el sheet? Siguiente: el comando de demo reproducible con `--synthetic`.",
         starterCode: {
           language: 'python',
           title: "privacy_sheet.py",
@@ -1663,8 +1827,11 @@ False`,
         id: "S13-T4-B-E2",
         subtopicId: "S13-T4-B",
         kind: "independent",
+        title: "Demo de un comando sintético",
+        preamble:
+          "- **Contexto:** el revisor de nivel debe reproducir el producto en máquina limpia con un solo comando.\n- **Meta:** `demo_command()` → string fijo con `--synthetic`.\n- **Éxito:** `python -m demo_n1_dashboard --synthetic`.\n- **Límites:** nunca `--live-pii`; no inventes flags; solo stdlib.",
         instruction:
-          "E2 (independiente) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x) en entity resolution y evidencia. Tarea: `demo_command()` devuelve 'python -m demo_n1_dashboard --synthetic'. Salida/pass: `python -m demo_n1_dashboard --synthetic`. Conserva el contrato del starter (no borres asserts ni datos); no ML sklearn, no NumPy/Pandas de S14–S15; solo stdlib + reglas deterministas S01–S13.",
+          "1. Sustituye el flag del starter.\n2. Conserva el módulo `demo_n1_dashboard`.\n3. Imprime el string exacto.\n4. No añadas argumentos extra.",
         hint: "String fijo documentado en runbook",
         hints: [
           "String fijo documentado en runbook",
@@ -1672,7 +1839,10 @@ False`,
         ],
         edgeCases: ["reproducibilidad"],
         tests: "comando único",
-        feedback: "Demo de un comando reduce fricción de revisión de nivel.",
+        feedback:
+          "Un demo con PII real no es «más realista»: es un fail de CF-1. El flag `--synthetic` es contrato de runbook y de gate.",
+        retrospective:
+          "Reproducibilidad de un comando reduce fricción de revisión de nivel. El mismo string aparece en el I Do y en el You Do. Siguiente: incidente PII en log + regresión S01–S13.",
         starterCode: {
           language: 'python',
           title: "demo_cmd.py",
@@ -1696,8 +1866,11 @@ print(demo_command())`,
         id: "S13-T4-B-E3",
         subtopicId: "S13-T4-B",
         kind: "transfer",
+        title: "Incidente PII y regresión N1",
+        preamble:
+          "- **Contexto:** si un token o nombre aparece en un log del demo, la respuesta es playbook — no «seguir como si nada».\n- **Meta:** tres acciones en orden (`rotate_secret`, `redact_logs`, `postmortem`) y nota de re-check S01–S13.\n- **Éxito:** `rotate_secret|redact_logs|postmortem` y la línea exacta de `level1_regression`.\n- **Límites:** orden fijo; no `ignore`; solo stdlib.",
         instruction:
-          "E3 (transferencia) — Concepto: S13-T4-B (Familiarity Evidence Dashboard). Entrada: fixture sintético del starter (`CASO`/ids C00x). Tarea: runbook de incidente PII en log: lista de 3 acciones rotate_secret, redact_logs, postmortem; imprime joined por '|'. Segundo print: nota de level-1 regression. Salida/pass: `rotate_secret|redact_logs|postmortem` y `level1_regression: re-check S01-S13 critical paths after incident`. Conserva el contrato del starter (no borres asserts ni datos); solo stdlib + reglas deterministas S01–S13.",
+          "1. Reemplaza la lista `ignore/continue`.\n2. Une con `|` en el orden del solution.\n3. Segundo print: texto exacto de regresión level-1.\n4. No inventes pasos extra.",
         hint: "Orden fijo de respuesta",
         hints: [
           "Orden fijo de respuesta",
@@ -1705,7 +1878,10 @@ print(demo_command())`,
         ],
         edgeCases: ["incidente + regresión"],
         tests: "3 acciones + nota regresión",
-        feedback: "Incidente y regresión level-1 forman parte del cierre N1.",
+        feedback:
+          "Si ves `ignore|continue` o `level1_regression: skip`, no implementaste el playbook. El orden fijo es rotate → redact → postmortem; el segundo print debe re-checkear S01–S13, no «saltar» la regresión.",
+        retrospective:
+          "Incidente y regresión forman parte del cierre N1: no basta con que el dashboard «corra otra vez». En el You Do ensamblas ER, REL, matriz de decisión, privacy y las 13 filas de regresión en un solo entregable que puedas defender en el gate.",
         starterCode: {
           language: 'python',
           title: "incident_runbook.py",
@@ -1888,6 +2064,8 @@ if __name__ == "__main__":
       { criterion: "Los 3 casos del dashboard están pseudonimizados; ficha y mapa no exponen PII raw", weight: "15%" },
       { criterion: "CF-1 incluye privacy/access/tests/demo/runbook y 13 filas S01–S13 con pass/fail+evidencia", weight: "25%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con las 9 filas de `DECISION_MATRIX` y los scores ER≠REL del par demo? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, egress, roles viewer/reviewer)? (3) En el README, una frase de impacto medible (antes/después: cola clerical, precision reportada, demo de un comando) que puedas defender en 30 segundos en el gate N1. No declares el nivel cerrado solo porque `main()` imprime `decision_matrix_ok`.",
   },
   selfCheck: {
     questions: [

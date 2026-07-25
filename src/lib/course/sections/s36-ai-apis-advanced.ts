@@ -456,6 +456,8 @@ auto_guilt False`,
  subtopicId: "S36-T1-A",
  environment: "local-python",
  description: "Demo: z-score, assign–update 1D y núcleos density en espacio escalado.",
+ preamble:
+  "Antes de encolar casos del workbench sintético Red Andina, el analista necesita **segmentar por geometría**, no por culpa. En esta demo una serie `raw=[1.0,1.2,5.0,5.2,5.1]` se escala con z-score; un paso assign–update con k=2 separa bajo/alto; density (`eps=0.5`, `min_samples=3`, contando el propio punto) marca núcleos locales. No escribas aún: predice `labels`, los centroides y `core_density`, y compara con la salida. Si saltas el scale, la magnitud miente; si lees el `0`/`1` como «culpable», rompes el contrato del triage.",
  code: {
  language: 'python',
  title: "s36_t1_a_demo.py",
@@ -506,13 +508,17 @@ c1 -1.22 c2 0.82
 core_density [False, False, True, True, True]
 scaled True`,
  },
- why: "El scale se calcula; assign–update y density marcan geometría en z; sin veredicto de conducta.",
+ why: "El z-score pone features en escala comparable antes de distancias. Assign etiqueta cada punto al centroide más cercano y update recalcula medias: ese ciclo es el núcleo de k-means 1D. Density marca densidad local con la convención sklearn de DBSCAN (min_samples cuenta el propio punto). Ningún print es veredicto moral: solo geometría para priorizar la cola. En We Do repararás media, z-score con `sd=0` y el ciclo assign–update+density con `verdict False`.",
+ retrospective:
+  "Si puedes explicar por qué el centroide y el núcleo density son resúmenes geométricos y no «prueba de fraude», ya tienes el hábito de señales auxiliares. El error clásico es publicar el id de cluster como sanción. En We Do practicarás media, scale y un ciclo assign–update con defecto ético deliberado.",
  },
  {
  demoId: "S36-T1-B-DEMO",
  subtopicId: "S36-T1-B",
  environment: "local-python",
  description: "Demo: argmax de k en dos seeds y bool de acuerdo de k (no ARI).",
+ preamble:
+  "Elegir **k** en el lab multi-seed no es maximizar un número mágico ni sancionar un segmento. En esta demo dos mapas sintéticos k→score eligen el mismo k=3 y `stable True` solo significa **acuerdo de k**, no que las particiones sean idénticas (eso pediría ARI). No escribas: predice `k`, `score` y `stable` antes de mirar la salida. Si fijas k con un solo seed, el «óptimo» puede ser ruido de inicialización.",
  code: {
  language: 'python',
  title: "s36_t1_b_demo.py",
@@ -531,13 +537,17 @@ print("stable", k_a == k_b)
 score 0.5
 stable True`,
  },
- why: "Multi-seed del lab = acuerdo de k elegido; no compara particiones (ARI) ni sanciona personas.",
+ why: "`max(scores, key=scores.get)` elige k por seed según el score reportado. La igualdad de k entre seeds es un acuerdo de hiperparámetro, no estabilidad de etiquetas (ARI o jitter de centroides). Un silhouette alto no legitima sanción: solo sugiere una partición útil para priorizar revisión. En We Do corregirás `min` por `max`, reportarás multi-seed y no sancionarás por métrica.",
+ retrospective:
+  "Acuerdo de k ≠ ARI ni particiones idénticas: solo dice que dos seeds eligieron el mismo entero. El error clásico es vender un k inestable o sancionar por silhouette. Pregunta: si seed A elige 3 y seed B elige 4, ¿qué reportas al negocio? (sensibilidad a seed, no un «óptimo» fingido.) We Do: argmax, `stable` y `sanction_from_metric False`.",
  },
  {
  demoId: "S36-T2-A-DEMO",
  subtopicId: "S36-T2-A",
  environment: "local-python",
  description: "Demo: scale por eje y proyección ponderada exploratoria.",
+ preamble:
+  "PCA en este lab es una **lupa** para explorar el espacio de features sintéticas, no el modelo de decisión del triage. En la demo escalas un par (x,y) y proyectas con pesos fijos `w0,w1` documentados a mano — no son autovectores de sklearn. Observa `project_pc`, `scaled True` y `exploratory True`. Si proyectas sin scale o clasificas culpa en el eje, rompes el contrato exploratorio.",
  code: {
  language: 'python',
  title: "s36_t2_a_demo.py",
@@ -558,13 +568,17 @@ print("exploratory", True)
 scaled True
 exploratory True`,
  },
- why: "Scale antes de proyectar; PCA toy es lupa, no juez.",
+ why: "Scale por coordenada evita que un eje en soles aplaste a otro en conteos. La proyección lineal `w0*x+w1*y` es didáctica: pesos fijos documentados, no autovectores de producción. `decision_model` / `exploratory` dejan claro que el scatter no dispara autorrechazo. En We Do practicarás pesos, batch de pc y weight_share sin auto-reject.",
+ retrospective:
+  "Pesos fijos ≠ PCA de producción (sklearn aprende autovectores); scale por eje evita que soles aplasten conteos. El error clásico es narrar «eje de riesgo moral» en el scatter. Pregunta: ¿por qué `exploratory True` debe convivir con `decision_model False`? We Do: pc, batch de proyecciones y weight_share sin auto-reject.",
  },
  {
  demoId: "S36-T2-B-DEMO",
  subtopicId: "S36-T2-B",
  environment: "local-python",
  description: "Demo: far-from-mean en PC + guard de nombre de eje.",
+ preamble:
+  "Un punto lejos en el eje PC puede ser escala mala, error de datos o un segmento legítimo raro — no un villano. En esta demo calculas `far` respecto a la media de `pc`, eliges `review_queue` (nunca auto_block) y verificas que el nombre del eje no contenga tokens de culpa. Observa `far True`, `axis_named_by_business False` y `guilt False` antes de tocar teclado.",
  code: {
  language: 'python',
  title: "s36_t2_b_demo.py",
@@ -583,13 +597,17 @@ action review_queue
 axis_named_by_business False
 guilt False`,
  },
- why: "Distancia en PC se calcula; encola revisión sin autoculpa ni nombre mágico.",
+ why: "La distancia en el eje encola revisión humana; no prueba conducta. El guard de nombre corta narrativa mágica («fraude»/«culpa» en el label del eje). Fail-closed del lab: duda → humano, nunca auto_block. En We Do: tokens prohibidos, higiene pre-review y far sin autoculpa.",
+ retrospective:
+  "Far en PC → cola de revisión, no culpa automática. El error clásico es bautizar el eje como «fraude» o disparar `auto_block`. Pregunta: si far es True pero las features originales son un segmento legítimo raro, ¿qué haces? (HITL + evidencia original.) We Do: guards de nombre, ready de features y action ética.",
  },
  {
  demoId: "S36-T3-A-DEMO",
  subtopicId: "S36-T3-A",
  environment: "local-python",
  description: "Demo: flags σ con ref + path length toy (idea IF).",
+ preamble:
+  "Isolation Forest y LOF en producción generan scores de rareza; aquí ves el **contrato** con regla σ (`ref` explícito) y un path length toy: el 50 se aísla en menos cortes que un 10 típico. Observa `flags`, `path_rare` y `misconduct False`. No escribas: predice por qué el path del raro es más corto y por qué eso **no** autoriza un despido.",
  code: {
  language: 'python',
  title: "s36_t3_a_demo.py",
@@ -622,13 +640,17 @@ print("misconduct", False)
 path_rare 1
 misconduct False`,
  },
- why: "σ + path corto marcan rareza para review; misconduct False es política.",
+ why: "μ y σ se estiman solo sobre `ref` (normalidad limpia); path corto sugiere rareza geométrica (idea IF), no moral. `misconduct False` es política del triage: la señal encola revisión. En We Do: umbral z=3, lados correctos del corte y ruta `human_review`.",
+ retrospective:
+  "σ + path son señales legibles para el humano. El error clásico es estimar normalidad contaminando el fit con el outlier o moralizar el path. We Do: regla, path y enrutamiento.",
  },
  {
  demoId: "S36-T3-B-DEMO",
  subtopicId: "S36-T3-B",
  environment: "local-python",
  description: "Demo: expected_flags vs. capacity (overflow de cola).",
+ preamble:
+  "**contamination** es una hipótesis de fracción a marcar para controlar la cola, no la tasa de fraude del negocio. En la demo, n=100 y contamination=0.05 esperan 5 flags; con capacity=3 hay overflow y la acción es bajar contamination. Observa `is_fraud_rate False` y el print de action. Si lees «5% de fraude», el lab falló en comunicación de riesgo.",
  code: {
  language: 'python',
  title: "s36_t3_b_demo.py",
@@ -648,13 +670,17 @@ overflow True
 action lower_contamination
 is_fraud_rate False`,
  },
- why: "La contamination calibra la carga frente a la capacity; no es tasa de fraude.",
+ why: "`int(n*contamination)` estima la carga de la cola; overflow frente a capacity fuerza recalibrar (bajar contamination o priorizar), nunca «descubrir más fraude». `is_fraud_rate` queda False a propósito: el parámetro no es prevalencia de ilícitos. En We Do: producto n×contamination, overflow y novelty vs ref.",
+ retrospective:
+  "Contamination calibra rareza y carga de revisores, no la tasa de ilícitos del negocio. El error clásico es vender «contamination=0.05 ⇒ 5% de fraude». Pregunta: con overflow, ¿subes contamination «para cazar más»? (no — bajas o priorizas.) We Do: expected_flags, overflow y kind novelty.",
  },
  {
  demoId: "S36-T4-A-DEMO",
  subtopicId: "S36-T4-A",
  environment: "local-python",
  description: "Demo: fit μ/σ en train, score en future y mean_flag_rate de ventanas.",
+ preamble:
+  "Un backtest temporal honesto **ajusta normalidad solo en el pasado** y marca el futuro. En la demo, train=[10,11,10,12] y future con un 50 producen flags `[0,0,1]`; las ventanas de flag_rate promedian ≈0.103; el mes de test no está en train (`leakage False`). No escribas: predice qué pasa si metes el 50 en el fit (el umbral se ensancha y el experimento miente).",
  code: {
  language: 'python',
  title: "s36_t4_a_demo.py",
@@ -683,13 +709,17 @@ mean_flag_rate 0.103
 leakage False
 backtest True`,
  },
- why: "Fit solo en pasado; score en futuro; la media de la tasa de flags y el leakage se computan.",
+ why: "Fit-past / score-future es el contrato del backtest: μ y σ solo en train; flags en future. La media de tasas por ventana resume estabilidad operativa; el chequeo de mes duplicado detecta leakage barato. En We Do: quitar leakage de magnitud, arreglar train_months y detectar spikes.",
+ retrospective:
+  "El reloj del caso manda el split. El error clásico es barajar filas o meter el mes evaluado al fit. We Do: flags, leakage de meses y spike de tasas.",
  },
  {
  demoId: "S36-T4-B-DEMO",
  subtopicId: "S36-T4-B",
  environment: "local-python",
  description: "Demo: precision@k con ranking de utilidad.",
+ preamble:
+  "Con pocas etiquetas de utilidad, **precision@k** y el humano importan más que un ROC inventado. En la demo, ranking `[1,0]` con k=2 da P@k=0.5; `human True` y `auto_guilt False` son política del triage. Observa que 1 significa «el revisor dijo que sirvió», no «culpable». No escribas: predice el cociente y por qué no optimizas accuracy global aquí.",
  code: {
  language: 'python',
  title: "s36_t4_b_demo.py",
@@ -704,7 +734,9 @@ print("auto_guilt", False)
 human True
 auto_guilt False`,
  },
- why: "P@k + HITL miden utilidad de cola con labels escasos.",
+ why: "P@k mide utilidad en el top de la cola: de los k primeros, cuántos ayudaron al revisor. Con labels escasos la accuracy global engaña. HITL es obligatorio; `auto_guilt False` cierra el gate ético. En We Do: k del contrato, HITL por escasez y elegir métrica según régimen de labels.",
+ retrospective:
+  "P@k + humano miden si la señal ahorra tiempo. El error clásico es accuracy global con labels ralos o apagar HITL «para ir más rápido». We Do: k, human_in_loop y choose_metric.",
  }
  ],
  },
@@ -715,12 +747,19 @@ auto_guilt False`,
  id: "S36-T1-A-E1",
  subtopicId: "S36-T1-A",
  kind: "guided",
- instruction: "S36-T1-A-E1 · Centroide 1D: media de xs=[1,2] debe ser 1.5. Si vals está vacío, lanza ValueError (no dividas por cero). Imprime la media, n 2 y ok True. El starter suma sin dividir (defect). Fixture CASO-LIM-036-1A; no es veredicto de conducta.",
+ title: "Centroide 1D como media del grupo",
+ preamble:
+  "- **Contexto:** en el lab CASO-LIM-036, el primer ladrillo de k-means 1D es resumir un grupo con su media (centroide), no con la suma.\n- **Meta:** implementar `centroid(vals)` = media aritmética, con `ValueError` si el grupo está vacío.\n- **Éxito:** con `xs=[1,2]` imprimes `1.5`, luego `n 2` y `ok True`.\n- **Límites:** no uses la suma cruda; no inventes `0.0` en vacío; no es veredicto de conducta.",
+ instruction:
+  "1. Abre el starter: `return sum(vals)` (bug: falta dividir y guard).\n2. Si `not vals`, lanza `ValueError(\"empty group\")`.\n3. Si no, devuelve `sum(vals) / len(vals)`.\n4. Conserva los tres prints del contrato.",
  hint: "Si not vals: raise ValueError; si no, sum(xs)/len(xs).",
  hints: ["Si not vals: raise ValueError; si no, sum(xs)/len(xs).", "No uses la suma cruda como centroide."],
  edgeCases: ["grupo vacío", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-A-E1 (CASO-LIM-036).",
- feedback: "S36-T1-A-E1: el centroide resume geometría; guarda el grupo vacío; no etiqueta culpa.",
+ feedback:
+  "El centroide es la media del grupo: resume geometría para segmentar la cola. Usar la suma infla el «centro» y rompe assign–update. El guard de vacío evita división por cero cuando un cluster queda sin puntos.",
+ retrospective:
+  "Media = centroide 1D: resume el grupo para el siguiente assign, no para culpar. Vacío = `ValueError`, no un `0.0` inventado que mueve el centroide al origen. El error clásico del starter es tratar la suma como posición. Pregunta: si un cluster queda sin puntos tras assign, ¿qué debe devolver `update`? (conservar prev o error — no inventar cero.) Siguiente (E2): z-score con protección de `sd=0`.",
  starterCode: {
  language: 'python',
  title: "s36-t1-a-e1.py",
@@ -760,12 +799,19 @@ ok True`,
  id: "S36-T1-A-E2",
  subtopicId: "S36-T1-A",
  kind: "independent",
- instruction: "S36-T1-A-E2 · z-score seguro: (x-mu)/sd con x=4, mu=0, sd=2 → 2.0. Si sd=0, usa 1.0. Imprime 2.0, safe_sd 2, ok True. Starter olvida dividir y no protege sd=0 (defect). CASO-LIM-036-1A.",
+ title: "Z-score seguro con sd cero",
+ preamble:
+  "- **Contexto:** sin scale, en Red Andina gana la feature con mayor magnitud (soles vs. conteos). Aquí practicas el z-score atómico antes del assign.\n- **Meta:** calcular `(x-mu)/safe_sd` con `safe_sd = sd if sd else 1.0`.\n- **Éxito:** con `x=4, mu=0, sd=2` imprimes `2.0`, `safe_sd 2` y `ok True`.\n- **Límites:** no omitas la división; si `sd=0` no divides por cero; solo sintético.",
+ instruction:
+  "1. Revisa el starter: `return x - mu` (bug: falta dividir y el guard).\n2. Define `safe_sd = sd if sd else 1.0` y devuelve `(z, safe_sd)` con `z = (x - mu) / safe_sd`.\n3. Desempaqueta e imprime `z`, luego el `safe_sd` **devuelto** por la función (no el `sd` crudo) y `ok True`.\n4. No hardcodees `2.0` sin calcular.",
  hint: "safe_sd = sd if sd else 1.0; z = (x - mu) / safe_sd.",
  hints: ["safe_sd = sd if sd else 1.0; z = (x - mu) / safe_sd.", "Sin scale, gana la magnitud de la feature."],
  edgeCases: ["sd=0", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-A-E2 (CASO-LIM-036).",
- feedback: "S36-T1-A-E2: scale-first con guard de sd=0.",
+ feedback:
+  "Scale-first salva distancias en la cola: soles y conteos dejan de competir por magnitud. El guard de `sd=0` evita división por cero cuando no hay dispersión. Imprime el `safe_sd` que devuelve la función, no solo el `sd` de entrada.",
+ retrospective:
+  "Scale-first es el hábito que salva distancias en la cola: soles y conteos dejan de competir por magnitud. «Restar y ya» o dividir por cero distorsiona el assign. Pregunta: si `sd=0` en un batch monótono, ¿por qué `safe_sd=1.0` y no un crash? Luego (E3): unes assign–update y density con `verdict False`.",
  starterCode: {
  language: 'python',
  title: "s36-t1-a-e2.py",
@@ -774,10 +820,12 @@ ok True`,
 x, mu, sd = 4, 0, 2
 
 def zscore(x, mu, sd):
- return x - mu # DEFECT: falta /sd y guard sd=0
+ # DEFECT: debe devolver (z, safe_sd) con z=(x-mu)/safe_sd y safe_sd=sd or 1.0
+ return x - mu
 
-print(zscore(x, mu, sd))
-print("safe_sd", sd)
+z = zscore(x, mu, sd)  # DEFECT: desempaca (z, safe_sd); no uses sd crudo abajo
+print(z)
+print("safe_sd", sd)  # DEFECT: imprime el safe_sd devuelto, no el sd de entrada
 print("ok", True)
 `,
  },
@@ -804,12 +852,19 @@ ok True`,
  id: "S36-T1-A-E3",
  subtopicId: "S36-T1-A",
  kind: "transfer",
- instruction: "S36-T1-A-E3 · Assign–update + density: xs=[2,4,10,12], cents0=[2,12]. Asigna al centroide más cercano; actualiza medias → c1=3.0, c2=11.0; labels=[0,0,1,1]. Luego density_core_1d(xs, eps=8, min_samples=2) → core todo True (min_samples cuenta el propio punto, como sklearn). Imprime labels, c1/c2, core_density y verdict False. El starter fija labels mal, no actualiza y omite density (defecto). Transfer: segmentar cola por geometría, no por culpa (CASO-LIM-036-1A).",
+ title: "Assign–update y density sin veredicto",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-1A segmentas la cola por geometría 1D: centroides + núcleos density, nunca por «culpa».\n- **Meta:** assign al centroide más cercano, update de medias, `density_core_1d` con `min_samples` contando el propio punto, y `verdict False`.\n- **Éxito:** `labels [0,0,1,1]`, `c1 3.0 c2 11.0`, `core_density` todo `True`, `verdict False` con `xs=[2,4,10,12]`, `cents0=[2,12]`, `eps=8`, `min_samples=2`.\n- **Límites:** no dejes labels fijos; no imprimas `cents0` sin update; no marques `verdict True`.",
+ instruction:
+  "1. Corrige labels con `argmin |x − c_i|` (nearest centroid).\n2. Agrupa por label y calcula medias `c1`/`c2`.\n3. Implementa density: `n_inc >= min_samples` (incluye el propio punto).\n4. Imprime labels, c1/c2, core_density y `verdict False`.",
  hint: "label = argmin |x-c|; media por label; núcleo si n_inc (incluye el punto) >= min_samples; verdict False.",
  hints: ["label = argmin |x-c|; media por label; núcleo si n_inc (incluye el punto) >= min_samples; verdict False.", "Un ciclo assign–update + máscara density basta para el núcleo de k-means y de DBSCAN 1D."],
  edgeCases: ["grupo vacío tras assign", "eps demasiado chico (todo borde)", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-A-E3 (CASO-LIM-036).",
- feedback: "S36-T1-A-E3: assign–update y density segmentan geometría; no sancionan.",
+ feedback:
+  "Un ciclo assign–update + máscara density segmenta geometría para priorizar la cola. `verdict True` convertiría el cluster en sanción y rompe el gate ético de CASO-LIM-036. Los labels son índices de grupo, no culpables.",
+ retrospective:
+  "Un ciclo assign–update + máscara density basta para ver el núcleo de k-means y DBSCAN 1D. El error clásico es fijar labels a mano o convertir el cluster en sanción. Pregunta: ¿por qué `min_samples` cuenta el propio punto? (convención sklearn.)",
  starterCode: {
  language: 'python',
  title: "s36-t1-a-e3.py",
@@ -861,12 +916,19 @@ verdict False`,
  id: "S36-T1-B-E1",
  subtopicId: "S36-T1-B",
  kind: "guided",
- instruction: "S36-T1-B-E1 · Elige k con argmax en seed_a={2:0.2,3:0.6,4:0.5} y seed_b={2:0.22,3:0.58,4:0.51}. Imprime k 3, score 0.6 y multi_seed True si ambos seeds eligen el mismo k. Starter usa min en seed_a (defect). CASO-LIM-036-1B.",
+ title: "Argmax de k en dos seeds",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-1B eliges k comparando dos seeds sintéticos de score interno, no con un solo run.\n- **Meta:** `k = max(scores, key=scores.get)` en cada seed; `multi_seed = (k_a == k_b)`.\n- **Éxito:** imprime `k 3`, `score 0.6` y `multi_seed True` con los mapas del fixture.\n- **Límites:** no uses `min` sobre scores de calidad; no inventes k a ojo.",
+ instruction:
+  "1. Abre el starter: `k_a = min(seed_a, key=seed_a.get)` (bug).\n2. Cámbialo a `max` (seed_b ya está bien).\n3. Imprime k de seed_a, su score y el bool de acuerdo.\n4. No reordenes los diccionarios a mano.",
  hint: "k = max(scores, key=scores.get) por seed; multi_seed = (k_a == k_b).",
  hints: ["k = max(scores, key=scores.get) por seed; multi_seed = (k_a == k_b).", "No uses min sobre scores de calidad interna."],
  edgeCases: ["empate de scores", "seeds divergen", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-B-E1 (CASO-LIM-036).",
- feedback: "S36-T1-B-E1: argmax del score y multi_seed computado, no inventado.",
+ feedback:
+  "Argmax elige el k con mejor score reportado; multi_seed exige el mismo k en ambos seeds. Usar `min` confunde «menor error» con score de calidad: el k del lab se va al peor valor y la cola de segmentación se arma mal.",
+ retrospective:
+  "`max(..., key=scores.get)` elige el k con mejor score **reportado** en ese seed; `multi_seed` solo comprueba igualdad del entero k. Confundir con «menor error» y usar `min` manda la cola al peor k del mapa. Pregunta: ¿por qué seed_b ya en `max` no basta solo? (un seed es ruido de inicialización.) Siguiente (E2): misma idea + bandera `sanction_from_metric False`.",
  starterCode: {
  language: 'python',
  title: "s36-t1-b-e1.py",
@@ -901,12 +963,19 @@ multi_seed True`,
  id: "S36-T1-B-E2",
  subtopicId: "S36-T1-B",
  kind: "independent",
- instruction: "S36-T1-B-E2 · Multi-seed computado: seed_a={2:0.4,3:0.55,4:0.52}, seed_b={2:0.41,3:0.54,4:0.50}. Elige k por argmax en cada seed; imprime k, stable (k_a==k_b), sanction_from_metric False. Starter usa min en seed_a (defect). CASO-LIM-036-1B.",
+ title: "Multi-seed sin sancionar por métrica",
+ preamble:
+  "- **Contexto:** un silhouette sintético alto no autoriza bloquear un segmento de la cola Red Andina. Aquí consolidas argmax multi-seed **y** la bandera ética.\n- **Meta:** elegir k por argmax en cada seed; reportar `stable` y `sanction_from_metric False`.\n- **Éxito:** `k 3`, `stable True`, `sanction_from_metric False` con los mapas del fixture.\n- **Límites:** no uses min; no pongas `sanction_from_metric True`; métrica interna ≠ verdad de negocio.",
+ instruction:
+  "1. El **objetivo** aquí es el gate ético: `stable` + `sanction_from_metric False` (métrica ≠ sanción), no redescubrir solo el argmax.\n2. Corrige `min` → `max` en seed_a para que k sea el del score más alto (seed_b ya está en max).\n3. Imprime k, stable y la bandera ética en False.\n4. No calcules ARI; no pongas `sanction_from_metric True`.",
  hint: "k = max(scores, key=scores.get) en cada seed; stable = k_a == k_b.",
  hints: ["k = max(scores, key=scores.get) en cada seed; stable = k_a == k_b.", "sanction_from_metric siempre False: métrica ≠ sanción."],
  edgeCases: ["seeds divergen", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-B-E2 (CASO-LIM-036).",
- feedback: "S36-T1-B-E2: estabilidad multi-seed + métrica sin sanción.",
+ feedback:
+  "Estabilidad de k y rechazo de sanción por métrica son el mismo gate: la señal prioriza revisión, no castiga. `sanction_from_metric True` convertiría un score geométrico en política punitiva y rompe el contrato del triage.",
+ retrospective:
+  "Un silhouette alto no autoriza bloquear un segmento: la métrica interna prioriza revisión. `sanction_from_metric False` es política del triage, no un print decorativo. El error clásico es copiar E1 y olvidar que aquí el gate es ético. Pregunta: si `stable False`, ¿sancionarías al cluster 0 «por si acaso»? (no.) Luego (E3): el bool `stable` se compara con `==`, no `!=`.",
  starterCode: {
  language: 'python',
  title: "s36-t1-b-e2.py",
@@ -941,12 +1010,19 @@ sanction_from_metric False`,
  id: "S36-T1-B-E3",
  subtopicId: "S36-T1-B",
  kind: "transfer",
- instruction: "S36-T1-B-E3 · Estabilidad: a partir de scores seed_a={2:0.2,3:0.6} y seed_b={2:0.25,3:0.58}, imprime stable True, k 3, ok True. Starter compara mal los k (defect). CASO-LIM-036-1B multi-seed.",
+ title: "Acuerdo de k entre seeds",
+ preamble:
+  "- **Contexto:** antes de fijar k en el notebook de señales, verificas si dos seeds coinciden en el entero k.\n- **Meta:** `stable = (best_k(a) == best_k(b))` e imprimir k acordado.\n- **Éxito:** `stable True`, `k 3`, `ok True` con seed_a/seed_b del fixture.\n- **Límites:** no inviertas la comparación; no digas que las particiones son idénticas.",
+ instruction:
+  "1. Lee el starter: `stable = k_a != k_b` (bug).\n2. Cámbialo a `k_a == k_b`.\n3. Conserva prints de stable, k y ok.\n4. Los argmax ya están correctos.",
  hint: "stable = (best_k(a) == best_k(b)).",
  hints: ["stable = (best_k(a) == best_k(b)).", "Transfiere argmax a dos seeds."],
  edgeCases: ["seeds divergen", "sintético"],
  tests: "Salida alinea con solution output de S36-T1-B-E3 (CASO-LIM-036).",
- feedback: "S36-T1-B-E3: estabilidad entre seeds antes de fijar k.",
+ feedback:
+  "Stable de k es un acuerdo de hiperparámetro, no ARI de particiones. Invertir `==` a `!=` reporta inestabilidad falsa y empuja a fijar k a ciegas en el notebook de la cola.",
+ retrospective:
+  "Stable de k es un acuerdo de hiperparámetro, no ARI. El error clásico es negar la igualdad o confundir k con etiquetas. Pregunta: si seeds divergen, ¿qué reportas al negocio? (sensibilidad a seed, no un k «óptimo» fingido.)",
  starterCode: {
  language: 'python',
  title: "s36-t1-b-e3.py",
@@ -983,12 +1059,19 @@ ok True`,
  id: "S36-T2-A-E1",
  subtopicId: "S36-T2-A",
  kind: "guided",
- instruction: "S36-T2-A-E1 · Proyección pc=0.5*x+0.5*y con (x,y)=(4,6) → 5.0. Imprime 5.0, exploratory True, decision_model False. Starter suma sin pesos (defect). CASO-LIM-036-2A.",
+ title: "Proyección ponderada exploratoria",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-2A comprimes un punto sintético a un eje con pesos documentados solo para explorar.\n- **Meta:** `pc = w0*x + w1*y` con `decision_model False`.\n- **Éxito:** con `(4,6)` y pesos `0.5,0.5` imprimes `5.0`, `exploratory True`, `decision_model False`.\n- **Límites:** no ignores los pesos; no uses el pc como auto-rechazo.",
+ instruction:
+  "1. Abre el starter: `pc = x + y` (bug).\n2. Multiplica cada coordenada por su peso.\n3. Conserva los tres prints.\n4. No normalices pesos salvo que el enunciado lo pida (aquí no).",
  hint: "pc = w0*x + w1*y.",
  hints: ["pc = w0*x + w1*y.", "decision_model False en exploración."],
  edgeCases: ["pesos mal normalizados", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-A-E1 (CASO-LIM-036).",
- feedback: "S36-T2-A-E1: proyección ponderada exploratoria.",
+ feedback:
+  "La proyección ponderada es un producto punto didáctico para el scatter del lab. Omitir pesos es un bug de fórmula, no «otra PCA». `decision_model False` deja claro que el eje no dispara autorrechazo en la cola.",
+ retrospective:
+  "La proyección ponderada es un producto punto con cargas **documentadas**, no «otra PCA mágica». Omitir pesos es bug de fórmula: el eje ya no refleja el contrato del lab. Pregunta: con `w0=w1=0.5` y `(4,6)`, ¿por qué 5.0 y no 10? Siguiente (E2): el mismo w sobre un **batch** de puntos.",
  starterCode: {
  language: 'python',
  title: "s36-t2-a-e1.py",
@@ -1021,12 +1104,19 @@ decision_model False`,
  id: "S36-T2-A-E2",
  subtopicId: "S36-T2-A",
  kind: "independent",
- instruction: "S36-T2-A-E2 · Lista pc para pts=[(1,1),(3,1)] y w=(1,0) → [1, 3]. Imprime pc, n 2, decision_model False. Starter usa w invertido (defect). CASO-LIM-036-2A.",
+ title: "Batch de proyecciones con el mismo w",
+ preamble:
+  "- **Contexto:** el scatter exploratorio del lab proyecta **varios** puntos con el mismo vector de pesos documentado.\n- **Meta:** aplicar `w[0]*x + w[1]*y` a cada par sin invertir w.\n- **Éxito:** `pc [1, 3]`, `n 2`, `decision_model False` con `pts=[(1,1),(3,1)]` y `w=(1,0)`.\n- **Límites:** no inviertas los pesos; no mutes la lista de puntos.",
+ instruction:
+  "1. Revisa el starter: usa `w[1]*x + w[0]*y` (bug).\n2. Corrige el orden de pesos.\n3. Imprime pc, n y decision_model.\n4. No hardcodees `[1,3]`.",
  hint: "Aplica el mismo w a cada punto.",
  hints: ["Aplica el mismo w a cada punto.", "No inviertas los pesos."],
  edgeCases: ["lista vacía", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-A-E2 (CASO-LIM-036).",
- feedback: "S36-T2-A-E2: batch de proyecciones exploratorias.",
+ feedback:
+  "Invertir w rota el significado del eje y engaña la exploración visual de la cola. El batch debe reutilizar el mismo contrato de pesos documentados que un solo punto.",
+ retrospective:
+  "Invertir `w` rota el significado del eje y engaña la exploración visual de la cola. El batch debe reutilizar el **mismo** vector documentado que un solo punto; no reordenar cargas «porque se ve mejor». Pregunta: con `w=(1,0)`, ¿qué coordenada debe dominar `pc`? Luego (E3): weight_share del primer eje sin auto_reject.",
  starterCode: {
  language: 'python',
  title: "s36-t2-a-e2.py",
@@ -1059,12 +1149,19 @@ decision_model False`,
  id: "S36-T2-A-E3",
  subtopicId: "S36-T2-A",
  kind: "transfer",
- instruction: "S36-T2-A-E3 · Transfer: con w=(0.8,0.2) calcula weight_share_pc1 = |w0|/(|w0|+|w1|) → 0.8. Imprime use exploratory, weight_share_pc1 0.8, auto_reject False. Starter invierte la fracción (defect). CASO-LIM-036-2A.",
+ title: "Masa del componente sin auto-rechazo",
+ preamble:
+  "- **Contexto:** en el toy PCA de Red Andina reportas cuánto «pesa» el primer eje como `|w0|/(|w0|+|w1|)`, no como varianza real de autovalores.\n- **Meta:** calcular weight_share_pc1 y mantener `auto_reject False`.\n- **Éxito:** `use exploratory`, `weight_share_pc1 0.8`, `auto_reject False` con `w=(0.8,0.2)`.\n- **Límites:** no uses `|w1|` en el numerador; no presentes pesos fijos como autovectores; no auto-rechaces.",
+ instruction:
+  "1. Lee el starter: `share = abs(w1)/mass` (bug).\n2. Usa `abs(w0)/mass`.\n3. Conserva use, share y auto_reject.\n4. No hardcodees 0.8 sin fórmula.",
  hint: "share = abs(w0) / (abs(w0)+abs(w1)); PCA no auto-rechaza.",
  hints: ["share = abs(w0) / (abs(w0)+abs(w1)); PCA no auto-rechaza.", "Pesos fijos ≠ autovectores de producción."],
  edgeCases: ["w=(0,0)", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-A-E3 (CASO-LIM-036).",
- feedback: "S36-T2-A-E3: masa del componente + scatter no juez.",
+ feedback:
+  "weight_share es un proxy de masa del componente documentado, no la varianza explicada de sklearn. Un share alto no autoriza auto_reject: el scatter sigue siendo lupa para la cola HITL.",
+ retrospective:
+  "weight_share es un proxy de masa del componente documentado, no la varianza explicada de sklearn. El error clásico es invertir ejes o convertir el scatter en juez. Pregunta: ¿por qué `auto_reject` debe ser False aunque share sea alto?",
  starterCode: {
  language: 'python',
  title: "s36-t2-a-e3.py",
@@ -1097,12 +1194,19 @@ auto_reject False`,
  id: "S36-T2-B-E1",
  subtopicId: "S36-T2-B",
  kind: "guided",
- instruction: "S36-T2-B-E1 · Guard de nombre de eje: axis_name='PC1_feature_mix'. Si el nombre contiene 'fraude' o 'culpa', axis_named_by_business True; si no, False. Imprime axis_named_by_business False, use exploratory, auto_label False. Starter marca True sin chequear (defect). CASO-LIM-036-2B.",
+ title: "Guard de tokens en el nombre del eje",
+ preamble:
+  "- **Contexto:** en el dossier de señales, un eje llamado con «fraude» o «culpa» empuja a lectura mágica del scatter.\n- **Meta:** detectar tokens prohibidos en `axis_name` (casefold).\n- **Éxito:** con `PC1_feature_mix` imprimes `axis_named_by_business False`, `use exploratory`, `auto_label False`.\n- **Límites:** no marques True sin chequear; `auto_label` siempre False en este lab.",
+ instruction:
+  "1. Abre el starter: `named = True` (bug).\n2. Calcula `any(tok in axis_name.lower() for tok in (\"fraude\",\"culpa\"))`.\n3. Conserva los tres prints.\n4. No cambies el nombre del fixture para «pasar».",
  hint: "named = any(tok in axis_name.lower() for tok in ('fraude','culpa')).",
  hints: ["named = any(tok in axis_name.lower() for tok in ('fraude','culpa')).", "auto_label False siempre en este lab."],
  edgeCases: ["PC2=fraude", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-B-E1 (CASO-LIM-036).",
- feedback: "S36-T2-B-E1: detecta narrativa mágica en el nombre del eje.",
+ feedback:
+  "El guard de nombre es higiene narrativa del dossier, no un modelo. Forzar True inventa una historia de negocio falsa y empuja al revisor a leer el scatter como culpa.",
+ retrospective:
+  "El guard de nombre es higiene del dossier: corta lectura mágica del scatter, no es un modelo de riesgo. Forzar `True` inventa una historia de negocio falsa. Pregunta: ¿por qué `auto_label` debe ser False aunque el eje se llame «feature_mix»? Siguiente (E2): ready a partir de missingness y dispersión.",
  starterCode: {
  language: 'python',
  title: "s36-t2-b-e1.py",
@@ -1134,12 +1238,19 @@ auto_label False`,
  id: "S36-T2-B-E2",
  subtopicId: "S36-T2-B",
  kind: "independent",
- instruction: "S36-T2-B-E2 · Higiene pre-review: features=[2.0, 4.0, 6.0] (sin None). missing_ok = no hay None; scale_ok = pstdev(features)>0 (hay dispersión para estandarizar). ready = scale_ok and missing_ok. Imprime ready True, scale_ok True, missing_ok True. Starter ignora los datos y fuerza scale_ok False (defect). CASO-LIM-036-2B.",
+ title: "Ready por missing y dispersión",
+ preamble:
+  "- **Contexto:** antes de encolar un scatter del lab, verificas que no hay `None` y que hay dispersión para estandarizar.\n- **Meta:** `missing_ok` y `scale_ok = pstdev(features) > 0`; `ready` es la conjunción.\n- **Éxito:** con `[2.0,4.0,6.0]` imprimes `ready True`, `scale_ok True`, `missing_ok True`.\n- **Límites:** no hardcodees `scale_ok False`; deriva de los datos.",
+ instruction:
+  "1. Revisa el starter: `scale_ok = False` (bug).\n2. Usa `statistics.pstdev(features) > 0`.\n3. `ready = scale_ok and missing_ok`.\n4. Conserva los tres prints.",
  hint: "missing_ok = all(x is not None for x in features); scale_ok = statistics.pstdev(features) > 0.",
  hints: ["missing_ok = all(x is not None for x in features); scale_ok = statistics.pstdev(features) > 0.", "ready = scale_ok and missing_ok antes de encolar el scatter."],
  edgeCases: ["missing silencioso", "sd=0"],
  tests: "Salida alinea con solution output de S36-T2-B-E2 (CASO-LIM-036).",
- feedback: "S36-T2-B-E2: ready se deriva de missingness y dispersión, no de un bool inventado.",
+ feedback:
+  "Ready se **deriva** de missingness y dispersión: un bool inventado miente al revisor y bloquea o libera el scatter sin base en los datos de la cola.",
+ retrospective:
+  "`ready` se **deriva** de missingness y dispersión (`pstdev > 0`); un bool inventado miente al revisor y libera o bloquea el scatter sin base en los datos. El error clásico del starter es hardcodear `scale_ok False` «por precaución». Pregunta: con features constantes `[3,3,3]`, ¿`scale_ok` debería ser True? (no — no hay dispersión para estandarizar.) Luego (E3): far en PC encola revisión sin guilt.",
  starterCode: {
  language: 'python',
  title: "s36-t2-b-e2.py",
@@ -1176,12 +1287,19 @@ missing_ok True`,
  id: "S36-T2-B-E3",
  subtopicId: "S36-T2-B",
  kind: "transfer",
- instruction: "S36-T2-B-E3 · Transfer: pc_vals=[1.2,1.8,8.2]; far = max(pc)-sum(pc)/len(pc) > 3.0. Si far, action review_queue y guilt False. Imprime guilt False, action review_queue, far True. Starter marca guilt True y auto_block (defect). CASO-LIM-036-2B.",
+ title: "Far en PC encola, no culpa",
+ preamble:
+  "- **Contexto:** un punto lejano en pc del CASO-LIM-036-2B es candidato a **revisión humana**, nunca a auto-bloqueo moral.\n- **Meta:** `far = max(pc)-mean(pc) > 3`; action `review_queue` si far; `guilt` siempre False.\n- **Éxito:** `guilt False`, `action review_queue`, `far True` con `pc=[1.2,1.8,8.2]`.\n- **Límites:** no imprimas `auto_block` ni `guilt True`; no uses PII real.",
+ instruction:
+  "1. Deja el cálculo de `far` (ya correcto).\n2. Cambia `guilt` a False.\n3. Action: `review_queue` si far, si no `pass`.\n4. Conserva el print de far.",
  hint: "far = max(pc) - mean(pc) > 3; guilt siempre False; action review_queue si far.",
  hints: ["far = max(pc) - mean(pc) > 3; guilt siempre False; action review_queue si far.", "Distancia en PC ≠ conducta indebida."],
  edgeCases: ["sancionar por scatter", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-B-E3 (CASO-LIM-036).",
- feedback: "S36-T2-B-E3: outlier en PC encola revisión; nunca autoculpa.",
+ feedback:
+  "Geometría en PC prioriza la cola HITL; no prueba conducta. `auto_block` por scatter es el anti-patrón que el gate ético de Red Andina corta de raíz.",
+ retrospective:
+  "Geometría en PC prioriza la cola; no prueba conducta. El error clásico es auto_block por scatter. Pregunta: ¿qué harías si far es True pero las features originales son legítimas? (HITL y evidencia original.)",
  starterCode: {
  language: 'python',
  title: "s36-t2-b-e3.py",
@@ -1214,12 +1332,19 @@ far True`,
  id: "S36-T3-A-E1",
  subtopicId: "S36-T3-A",
  kind: "guided",
- instruction: "S36-T3-A-E1 · Regla σ: xs=[1,1,1,10], z=3 con ref=xs[:3] (normales explícitos). Imprime flags con 1 solo al final, method rule_sigma, misconduct False. Starter usa z=0 (defect). CASO-LIM-036-3A.",
+ title: "Flags σ con z=3 y ref explícito",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-3A marcas rareza respecto a una referencia limpia, no asumiendo que «el último índice es el malo».\n- **Meta:** flag si `x > mu + 3*sd` con μ/σ solo sobre `ref`.\n- **Éxito:** `flags [0,0,0,1]`, `method rule_sigma`, `misconduct False` con `xs=[1,1,1,10]`, `ref=xs[:3]`.\n- **Límites:** no dejes z=0; no uses future en el fit (aquí ref es el pasado sintético).",
+ instruction:
+  "1. Abre el starter: `z = 0` (bug).\n2. Cámbialo a `3`.\n3. Conserva mu/sd sobre ref y los prints.\n4. No hardcodees la lista de flags.",
  hint: "flag si x > mu + z*sd con z=3 y μ,σ solo sobre ref.",
  hints: ["flag si x > mu + z*sd con z=3 y μ,σ solo sobre ref.", "No asumas que el outlier es el último índice; usa ref explícito."],
  edgeCases: ["sd=0", "ref vacío", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-A-E1 (CASO-LIM-036).",
- feedback: "S36-T3-A-E1: rareza legible con regla σ y ref explícito.",
+ feedback:
+  "z=3 es el umbral didáctico de rareza; z=0 marca casi todo y satura la cola de revisión. μ/σ solo sobre ref evita contaminar la normalidad con el outlier sintético.",
+ retrospective:
+  "z=3 es el umbral didáctico de rareza respecto a `ref` limpia; z=0 marca casi todo y satura la cola. El error clásico es meter el outlier en el fit de μ/σ o asumir «el último índice es el malo». Pregunta: ¿por qué `ref=xs[:3]` y no `xs` completo en este fixture? Siguiente (E2): path length toy con lados correctos del corte.",
  starterCode: {
  language: 'python',
  title: "s36-t3-a-e1.py",
@@ -1260,12 +1385,19 @@ misconduct False`,
  id: "S36-T3-A-E2",
  subtopicId: "S36-T3-A",
  kind: "independent",
- instruction: "S36-T3-A-E2 · Path length toy (idea IF): pool=[10,11,10,12,50], cuts=[15,30,40]. path_length_toy(50, pool, cuts) debe ser 1 y path_length_toy(10, ...) 3. Imprime path_rare 1, path_normal 3, misconduct False. Starter corta mal el lado activo (defect). CASO-LIM-036-3A.",
+ title: "Path length toy (idea Isolation Forest)",
+ preamble:
+  "- **Contexto:** el toy IF del lab cuenta cuántos cortes bastan para aislar un punto; path corto sugiere rareza geométrica en la cola sintética.\n- **Meta:** tras cada umbral t, `active = left if x < t else right`; profundidad al aislar.\n- **Éxito:** `path_rare 1`, `path_normal 3`, `misconduct False` con pool y cuts del fixture.\n- **Límites:** no inviertas left/right; no imprimas culpa.",
+ instruction:
+  "1. Revisa el starter: `active = left if x >= t else right` (bug).\n2. Usa `x < t` para left.\n3. Imprime path_rare, path_normal y misconduct.\n4. No cambies los cuts fijos del lab.",
  hint: "Tras cada corte t, active = left si x<t else right; depth cuando len(active)<=1.",
  hints: ["Tras cada corte t, active = left si x<t else right; depth cuando len(active)<=1.", "Path corto ⇒ más fácil de aislar, no culpa."],
  edgeCases: ["pool unitario", "cuts vacíos", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-A-E2 (CASO-LIM-036).",
- feedback: "S36-T3-A-E2: path length toy mide facilidad de aislamiento, no moralidad.",
+ feedback:
+  "Path corto = más fácil de aislar geométricamente, no prueba moral. Invertir lados miente el ranking de rareza y prioriza mal la cola HITL del workbench.",
+ retrospective:
+  "Path corto = más fácil de aislar, no prueba moral. Invertir lados miente el ranking de rareza. Luego (E3): flags σ + ruta human_review sin auto_sanction.",
  starterCode: {
  language: 'python',
  title: "s36-t3-a-e2.py",
@@ -1320,12 +1452,19 @@ misconduct False`,
  id: "S36-T3-A-E3",
  subtopicId: "S36-T3-A",
  kind: "transfer",
- instruction: "S36-T3-A-E3 · Transfer: xs=[10,11,10,50], ref=xs[:3], z=3. Calcula flags σ; route = human_review si any(flags) else pass; auto_sanction False. Imprime flags, route human_review, auto_sanction False. Starter usa z=0 y auto_fire (defect). CASO-LIM-036-3A.",
+ title: "Flag σ encola human_review",
+ preamble:
+  "- **Contexto:** un flag de rareza en Red Andina debe **encolar revisión**, nunca disparar sanción automática.\n- **Meta:** calcular flags con z=3 sobre ref; `route = human_review` si hay flags; `auto_sanction False`.\n- **Éxito:** `flags [0,0,0,1]`, `route human_review`, `auto_sanction False` con `xs=[10,11,10,50]`.\n- **Límites:** no uses z=0 ni `auto_fire`; no moralices el flag.",
+ instruction:
+  "1. Deja μ/σ solo sobre `ref` (ya correcto en el starter).\n2. Asegura umbral de rareza z=3 (el starter tiene z=0).\n3. Route: `human_review` si `any(flags)` else `pass` — **nunca** `auto_fire` (meta de transfer).\n4. `auto_sanction` False; conserva print de flags.",
  hint: "mu/sd solo sobre ref; flag si x > mu+3*sd; route según any(flags); nunca auto_sanction.",
  hints: ["mu/sd solo sobre ref; flag si x > mu+3*sd; route según any(flags); nunca auto_sanction.", "Flag σ encola review, no despido."],
  edgeCases: ["sd=0", "despido automático", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-A-E3 (CASO-LIM-036).",
- feedback: "S36-T3-A-E3: flags se calculan; la ruta es review, no auto-sanción.",
+ feedback:
+  "Señal → ruta humana. `auto_fire` por rareza es el anti-patrón fail-open: sin revisor, fail-closed no emite sanción automática. El umbral z=3 alimenta la cola, no el veredicto.",
+ retrospective:
+  "Señal → ruta humana. El error clásico es auto_fire por rareza. Pregunta: si no hay revisor disponible, ¿qué hace fail-closed? (no emitir sanción automática.)",
  starterCode: {
  language: 'python',
  title: "s36-t3-a-e3.py",
@@ -1368,12 +1507,19 @@ auto_sanction False`,
  id: "S36-T3-B-E1",
  subtopicId: "S36-T3-B",
  kind: "guided",
- instruction: "S36-T3-B-E1 · expected_flags: n=200, contamination=0.1 → 20. Imprime 20, is_fraud_rate False, use capacity_tuning. Starter multiplica mal (defect). CASO-LIM-036-3B.",
+ title: "expected_flags por contamination",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-3B estimas cuántos flags generará el batch sintético para no saturar revisores.\n- **Meta:** `expected_flags = int(n * contamination)`.\n- **Éxito:** con n=200 y contamination=0.1 imprimes `20`, `is_fraud_rate False`, `use capacity_tuning`.\n- **Límites:** multiplica, no sumes; no digas que 0.1 es fraude.",
+ instruction:
+  "1. Abre el starter: `int(n + contamination)` (bug).\n2. Cambia a `int(n * contamination)`.\n3. Conserva los tres prints.\n4. No redondees distinto de `int`.",
  hint: "expected_flags = int(n * contamination).",
  hints: ["expected_flags = int(n * contamination).", "is_fraud_rate False."],
  edgeCases: ["contamination>1", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-B-E1 (CASO-LIM-036).",
- feedback: "S36-T3-B-E1: contamination calibra carga, no fraude.",
+ feedback:
+  "El producto n×contamination es control de cola, no prevalencia de ilícitos. Sumar es un bug trivial con impacto de negocio: la capacidad de revisores se planifica mal y la cola se desborda o se subutiliza.",
+ retrospective:
+  "El producto `n × contamination` es control de **carga** de cola, no prevalencia de ilícitos. Sumar es un bug trivial con impacto de negocio: planificas mal la capacidad de revisores. Pregunta: con n=200 y contamination=0.1, ¿por qué 20 y no 200.1? Siguiente (E2): overflow vs capacity real de slots.",
  starterCode: {
  language: 'python',
  title: "s36-t3-b-e1.py",
@@ -1402,12 +1548,19 @@ use capacity_tuning`,
  id: "S36-T3-B-E2",
  subtopicId: "S36-T3-B",
  kind: "independent",
- instruction: "S36-T3-B-E2 · Capacidad: capacity=8, expected=10 → overflow True, action lower_contamination, ok True. Starter overflow False (defect). CASO-LIM-036-3B.",
+ title: "Overflow de cola vs capacity",
+ preamble:
+  "- **Contexto:** si esperas 10 flags y solo hay 8 slots de revisor, la cola de Red Andina se desborda.\n- **Meta:** `overflow = expected > capacity` y action de bajar contamination.\n- **Éxito:** `overflow True`, `action lower_contamination`, `ok True` con capacity=8, expected=10.\n- **Límites:** no inviertas la desigualdad; no «descubras más fraude» al overflow.",
+ instruction:
+  "1. Revisa: `overflow = expected < capacity` (bug).\n2. Usa `>`.\n3. Conserva action y ok.\n4. No cambies capacity del fixture.",
  hint: "overflow = expected > capacity.",
  hints: ["overflow = expected > capacity.", "Si overflow, baja contamination o prioriza."],
  edgeCases: ["capacity 0", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-B-E2 (CASO-LIM-036).",
- feedback: "S36-T3-B-E2: alinea flags esperados a capacidad real.",
+ feedback:
+  "Overflow es un problema de **capacidad**, no de «más delincuentes». Invertir la comparación oculta el desborde y deja a los revisores sin cupo real en la cola HITL.",
+ retrospective:
+  "Overflow es un problema de **capacidad de revisor**, no de «más delincuentes en el batch». Invertir `>` a `<` oculta el desborde y deja la cola HITL sin cupo real. Pregunta: si expected=10 y capacity=8, ¿la action es «subir contamination»? (no — `lower_contamination` o priorizar.) Luego (E3): novelty calculada vs ref, sin culpa.",
  starterCode: {
  language: 'python',
  title: "s36-t3-b-e2.py",
@@ -1438,12 +1591,19 @@ ok True`,
  id: "S36-T3-B-E3",
  subtopicId: "S36-T3-B",
  kind: "transfer",
- instruction: "S36-T3-B-E3 · Novelty: ref=[10,11,10,12], x_new=50. kind='novelty' si abs(x_new-mu)/sd > 3 con μ,σ de ref; misconduct False. Imprime kind novelty, misconduct False, ok True. Starter usa kind outlier_as_guilt sin calcular z (defect). CASO-LIM-036-3B.",
+ title: "Novelty frente a ref, sin culpa",
+ preamble:
+  "- **Contexto:** un valor nuevo se compara con un modelo de normalidad **ya fijado** (ref); rareza alta ⇒ kind novelty, no culpa.\n- **Meta:** z = |x_new−μ|/σ sobre ref; `kind = novelty` si z>3; `misconduct False`.\n- **Éxito:** `kind novelty`, `misconduct False`, `ok True` con ref=[10,11,10,12], x_new=50.\n- **Límites:** no hardcodees culpa; calcula z; no uses PII real.",
+ instruction:
+  "1. Calcula mu, sd y z sobre ref.\n2. Asigna kind novelty o in_distribution.\n3. misconduct False siempre.\n4. Imprime kind, misconduct, ok.",
  hint: "z = abs(x_new - mean(ref)) / (pstdev(ref) or 1); kind = novelty si z>3.",
  hints: ["z = abs(x_new - mean(ref)) / (pstdev(ref) or 1); kind = novelty si z>3.", "Nunca guilt automático."],
  edgeCases: ["confundir novelty con fraude", "sintético"],
  tests: "Salida alinea con solution output de S36-T3-B-E3 (CASO-LIM-036).",
- feedback: "S36-T3-B-E3: novelty se calcula frente a ref; sin moralizar.",
+ feedback:
+  "Novelty es rareza frente a normalidad fijada; no es veredicto. `outlier_as_guilt` moraliza el score y rompe el gate ético del triage CP-N3-C.",
+ retrospective:
+  "Novelty es rareza frente a normalidad fijada; no es veredicto. El error clásico es `outlier_as_guilt`. Pregunta: ¿en qué se diferencia novelty de «outlier en el mismo batch de train»? (modelo ya fijado vs. rareza en el conjunto de ajuste.)",
  starterCode: {
  language: 'python',
  title: "s36-t3-b-e3.py",
@@ -1480,12 +1640,19 @@ ok True`,
  id: "S36-T4-A-E1",
  subtopicId: "S36-T4-A",
  kind: "guided",
- instruction: "S36-T4-A-E1 · Fit pasado / score futuro: train=[10,11,10,12], future=[11,10,50], z=3. Calcula μ y σ solo en train; flags = 1 si x > μ+3σ en future → [0,0,1]. Imprime flags, backtest True, leakage False. Starter mezcla future en el fit (defect). CASO-LIM-036-4A.",
+ title: "Fit solo en el pasado",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-4A validas la señal σ con backtest: la normalidad se aprende en train y se aplica a future.\n- **Meta:** μ/σ solo con train; flags en future con z=3; `backtest True`, `leakage False`.\n- **Éxito:** `flags [0,0,1]` con train/future del fixture.\n- **Límites:** no concatenes future al fit; no barajes el tiempo.",
+ instruction:
+  "1. Abre el starter: `pool = train + future` (bug).\n2. Calcula mu/sd solo con train.\n3. Score future con umbral 3σ.\n4. Conserva prints de flags, backtest y leakage.",
  hint: "mu, sd = mean(train), pstdev(train) or 1; no uses future en el fit.",
  hints: ["mu, sd = mean(train), pstdev(train) or 1; no uses future en el fit.", "leakage False: el mes de test no entra al train."],
  edgeCases: ["sd=0 en train", "future vacío", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-A-E1 (CASO-LIM-036).",
- feedback: "S36-T4-A-E1: normalidad solo en el pasado; score en el futuro.",
+ feedback:
+  "Meter el futuro en el fit ensancha σ y esconde el outlier: leakage de magnitud. El hábito del lab es split temporal estricto — el reloj manda el experimento de la cola.",
+ retrospective:
+  "Meter el futuro en el fit ensancha σ y **esconde** el outlier: leakage de magnitud. El hábito del lab es split temporal estricto — el reloj manda el experimento de la cola. Pregunta: si el 50 entra al train, ¿el flag del future sigue siendo 1? (a menudo no.) Siguiente (E2): predicado de meses train/test.",
  starterCode: {
  language: 'python',
  title: "s36-t4-a-e1.py",
@@ -1526,12 +1693,19 @@ leakage False`,
  id: "S36-T4-A-E2",
  subtopicId: "S36-T4-A",
  kind: "independent",
- instruction: "S36-T4-A-E2 · Anti-leakage: train_months=['2026-01'] y test_month='2026-02'. has_leakage = test_month in train_months. Imprime leakage False, order temporal, ok True. Starter mete el test en train (defect). CASO-LIM-036-4A.",
+ title: "Mes de test fuera del train",
+ preamble:
+  "- **Contexto:** el chequeo de leakage del lab es simple y duro: el mes evaluado no puede aparecer en train.\n- **Meta:** `has_leakage = test_month in train_months` con train limpio.\n- **Éxito:** `leakage False`, `order temporal`, `ok True` con train `['2026-01']` y test `2026-02`.\n- **Límites:** no dejes el test dentro de train; no mientas el bool a mano.",
+ instruction:
+  "1. Revisa: train incluye `\"2026-02\"` (bug).\n2. Quita el mes de test del train.\n3. Deja la función has_leakage.\n4. Conserva los tres prints.",
  hint: "has_leakage(train, test) es True solo si test ∈ train.",
  hints: ["has_leakage(train, test) es True solo si test ∈ train.", "No mezcles futuro en el fit."],
  edgeCases: ["test dentro de train", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-A-E2 (CASO-LIM-036).",
- feedback: "S36-T4-A-E2: split temporal honesto con predicado computado.",
+ feedback:
+  "Leakage de mes es el anti-patrón más barato de detectar y el más caro de ignorar: el backtest de la cola se vuelve optimista y miente al revisor sobre la utilidad de la señal.",
+ retrospective:
+  "Leakage de mes es el anti-patrón más barato de detectar y el más caro de ignorar: el backtest se vuelve optimista y miente al revisor sobre la utilidad de la señal. El error clásico es dejar el test dentro de `train_months` «por completitud». Pregunta: con train `['2026-01']` y test `2026-02`, ¿qué imprime `has_leakage`? Luego (E3): spike de flag_rate entre ventanas.",
  starterCode: {
  language: 'python',
  title: "s36-t4-a-e2.py",
@@ -1570,12 +1744,19 @@ ok True`,
  id: "S36-T4-A-E3",
  subtopicId: "S36-T4-A",
  kind: "transfer",
- instruction: "S36-T4-A-E3 · Spike: rates=[0.1,0.5] → spike True si max-min>=0.3, action investigate, ok True. Starter umbral mal (defect). CASO-LIM-036-4A.",
+ title: "Spike de flag_rate entre ventanas",
+ preamble:
+  "- **Contexto:** si la tasa de flags salta de 0.1 a 0.5 entre ventanas sintéticas, no amplíes la cola a ciegas: investigas drift o bug de scale.\n- **Meta:** `spike` si `max(rates)-min(rates) >= 0.3`; action `investigate`.\n- **Éxito:** `spike True`, `action investigate`, `ok True` con rates=[0.1,0.5].\n- **Límites:** no dejes umbral 0.9; no ignores el spike.",
+ instruction:
+  "1. Corrige el umbral a 0.3.\n2. Conserva action investigate y ok.\n3. No hardcodees spike True sin fórmula.\n4. Con rates constantes, spike debe ser False (no lo hardcodees True).",
  hint: "spike si max(rates)-min(rates) >= 0.3.",
  hints: ["spike si max(rates)-min(rates) >= 0.3.", "Investiga antes de ampliar cola."],
  edgeCases: ["rates constantes", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-A-E3 (CASO-LIM-036).",
- feedback: "S36-T4-A-E3: estabilidad de la tasa de flags entre ventanas.",
+ feedback:
+  "Estabilidad de la tasa de flags es parte del backtest operativo. Umbral 0.9 es ceguera: no ves el salto y amplías la cola sin investigar scale, leakage o cambio de población.",
+ retrospective:
+  "Estabilidad de la tasa de flags es parte del backtest. Umbral demasiado alto es ceguera operativa. Pregunta: ¿qué miras primero ante un spike? (scale, leakage, cambio de población.)",
  starterCode: {
  language: 'python',
  title: "s36-t4-a-e3.py",
@@ -1606,12 +1787,19 @@ ok True`,
  id: "S36-T4-B-E1",
  subtopicId: "S36-T4-B",
  kind: "guided",
- instruction: "S36-T4-B-E1 · P@k: ranked=[1,0,1,0], k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter usa k=4 (defect). CASO-LIM-036-4B.",
+ title: "Precision@k con k del contrato",
+ preamble:
+  "- **Contexto:** en CASO-LIM-036-4B mides qué fracción del top-k del ranking de utilidad ayudó al revisor.\n- **Meta:** `P@k = sum(ranked[:k]) / k` con el k del contrato (2).\n- **Éxito:** imprime `0.5`, `k 2`, `auto_guilt False` con ranked=[1,0,1,0].\n- **Límites:** no uses k=4; no traduzcas 1 a «culpable».",
+ instruction:
+  "1. Abre el starter: `k = 4` (bug).\n2. Cámbialo a `2`.\n3. Conserva la fórmula y los prints.\n4. No reordenes el ranking.",
  hint: "P@k = sum(ranked[:k])/k.",
  hints: ["P@k = sum(ranked[:k])/k.", "auto_guilt False."],
  edgeCases: ["k=0", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-B-E1 (CASO-LIM-036).",
- feedback: "S36-T4-B-E1: precision@k con labels de utilidad.",
+ feedback:
+  "k es parte del contrato de evaluación de cola. Cambiar k a escondidas miente el P@k y falsea la utilidad reportada al revisor HITL. El 1 del ranking es «sirvió», no «culpable».",
+ retrospective:
+  "k es parte del contrato de evaluación de cola: cambiarlo a escondidas miente el P@k reportado al revisor. El 1 del ranking es «sirvió», no «culpable». Pregunta: con ranked=`[1,0,1,0]` y k=2, ¿qué discriminante importa además del float 0.5? (el print `k 2` del contrato.) Siguiente (E2): HITL cuando labels son escasos frente a flags.",
  starterCode: {
  language: 'python',
  title: "s36-t4-b-e1.py",
@@ -1642,12 +1830,19 @@ auto_guilt False`,
  id: "S36-T4-B-E2",
  subtopicId: "S36-T4-B",
  kind: "independent",
- instruction: "S36-T4-B-E2 · HITL por escasez: n_labels=5, n_flags=40. human_in_loop = n_labels < n_flags (o True si labels scarce). Imprime True, ok True, labels scarce. Starter apaga HITL con False fijo (defect). CASO-LIM-036-4B.",
+ title: "HITL cuando labels son escasos",
+ preamble:
+  "- **Contexto:** con 5 etiquetas y 40 flags, el régimen es scarce: no puedes apagar al humano «para ir más rápido».\n- **Meta:** `human_in_loop = n_labels < n_flags` (y etiquetar scarce).\n- **Éxito:** imprime `True`, `ok True`, `labels scarce`.\n- **Límites:** no hardcodees False; no automatizes sanción.",
+ instruction:
+  "1. Revisa: `human_in_loop = False` (bug).\n2. Derívalo de `n_labels < n_flags`.\n3. Conserva labels scarce/dense.\n4. Imprime en el orden del contrato.",
  hint: "human_in_loop = True cuando n_labels < n_flags (régimen scarce).",
  hints: ["human_in_loop = True cuando n_labels < n_flags (régimen scarce).", "Sin humano no hay gate responsable."],
  edgeCases: ["automatizar sanción", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-B-E2 (CASO-LIM-036).",
- feedback: "S36-T4-B-E2: HITL se deriva de la escasez de labels.",
+ feedback:
+  "HITL se **deriva** de la escasez de labels frente a flags, no se apaga a gusto. False fijo rompe el gate responsable del triage y empuja a sanción automática sin evidencia humana.",
+ retrospective:
+  "HITL se **deriva** de la escasez, no se apaga a gusto. El error clásico es False fijo. Luego (E3): elegir precision_at_k cuando la prevalencia de labels es baja.",
  starterCode: {
  language: 'python',
  title: "s36-t4-b-e2.py",
@@ -1680,12 +1875,19 @@ labels scarce`,
  id: "S36-T4-B-E3",
  subtopicId: "S36-T4-B",
  kind: "transfer",
- instruction: "S36-T4-B-E3 · Elige métrica: n_labels=3, n_total=100. Si n_labels/n_total < 0.1 usa precision_at_k; si no, global_accuracy. Imprime precision_at_k, ok True, n 1. Starter siempre devuelve global_accuracy (defect). CASO-LIM-036-4B.",
+ title: "Elegir P@k con labels ralos",
+ preamble:
+  "- **Contexto:** con 3 labels en 100 casos sintéticos, la accuracy global engaña; el lab exige `precision_at_k`.\n- **Meta:** si `n_labels/n_total < 0.1` → `precision_at_k`; si no, `global_accuracy`.\n- **Éxito:** imprime `precision_at_k`, `ok True`, `n 1`.\n- **Límites:** no devuelvas siempre global_accuracy; no inventes ROC con labels ralos.",
+ instruction:
+  "1. Abre choose_metric: return fijo (bug).\n2. Implementa el umbral 0.1 (y guard n_total<=0).\n3. Conserva los prints del contrato.\n4. No hardcodees el string sin condición.",
  hint: "choose_metric = 'precision_at_k' si n_labels/n_total < 0.1.",
  hints: ["choose_metric = 'precision_at_k' si n_labels/n_total < 0.1.", "global_accuracy engaña con labels ralos."],
  edgeCases: ["ROC fantasma", "sintético"],
  tests: "Salida alinea con solution output de S36-T4-B-E3 (CASO-LIM-036).",
- feedback: "S36-T4-B-E3: la métrica se elige por escasez de labels.",
+ feedback:
+  "La métrica se elige por régimen de labels, no por moda del dashboard. Accuracy global con datos ralos inventa un «99%» que no mide si la señal ahorra tiempo al revisor de la cola.",
+ retrospective:
+  "La métrica se elige por régimen de labels, no por moda del dashboard. El error clásico es accuracy global con datos ralos. Pregunta: ¿qué defiendes en 30 segundos ante un gerente que pide «accuracy 99%»? (P@k + HITL + utilidad de cola.)",
  starterCode: {
  language: 'python',
  title: "s36-t4-b-e3.py",
@@ -1728,7 +1930,7 @@ n 1`,
  youDo: {
  title: "Señales auxiliares de rareza con backtest (CP-N3-C señales)",
  context:
- "Construye un mini-pipeline de clustering y anomalías sobre `CASO-LIM-036` (sintético): scale → assign–update o centroides → PCA toy → flags σ + path length → fit-past/score-future → P@k con HITL. Sin concluir conducta indebida.",
+ "Construye un mini-pipeline de clustering y anomalías sobre `CASO-LIM-036` (sintético): scale → assign–update o centroides → PCA toy → flags σ + path length → fit-past/score-future → P@k con HITL. Sin concluir conducta indebida. Antes de marcar listo, podrás defender tres invariantes en 30 segundos (scale-first, fit solo en pasado, auto_guilt False).",
  objectives: [
  "Scale + assign–update/centroides 1D + núcleos density (eps/min_samples, contando el propio punto) con aviso ético.",
  "PCA exploratoria prudente (decision_model=False; pesos fijos, no autovectores).",
@@ -1832,7 +2034,9 @@ if __name__ == "__main__":
  print("auto_guilt", False)
 `,
  portfolioNote:
- "Señales CP-N3-C; evidencia de utilidad de cola (P@k + HITL). No PASS automático de carrera ni veredicto moral.",
+ "Señales CP-N3-C; evidencia de utilidad de cola (P@k en top-k de la cola sintética + HITL obligatorio). En el README, una frase de impacto medible que puedas defender en 30 s — no «detectamos fraude». No PASS automático de carrera ni veredicto moral.",
+ retrospective:
+  "Antes de marcar listo: (1) ¿qué invariante demuestras — scale antes de distancias, fit solo en pasado, o `auto_guilt False` en cada flag? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, capacidad real de revisor)? (3) En el README, una frase de impacto medible que puedas defender en 30 segundos: utilidad de cola (P@k + HITL), no «detectamos fraude». El error clásico es un notebook bonito que publica rareza como culpa.",
  rubric: [
  { criterion: "Señales auxiliares al triage (cola de revisión, sin autoculpa)", weight: "25%" },
  { criterion: "Correctitud técnica (scale, centroides/density, σ/path, P@k, backtest)", weight: "20%" },

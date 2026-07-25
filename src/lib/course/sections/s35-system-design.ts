@@ -332,13 +332,15 @@ audit_portfolio True`,
     }
   ],
   iDo: {
-    intro: "S35 · Te muestro explicación, equidad, incertidumbre y gobernanza de la ficha de caso sobre fixtures sintéticos de Red Andina (Lima).",
+    intro: "S35 · Te muestro explicación, equidad, incertidumbre y gobernanza de la ficha de caso sobre fixtures sintéticos de Red Andina (Lima). Observa cada demo; en We Do reparas el mismo contrato.",
     steps: [
       {
         demoId: "S35-T1-A-DEMO",
         subtopicId: "S35-T1-A",
         environment: "local-python",
         description: "Ranking de importancia por drop en precision@k sobre features sintéticas del workbench (shared_phone, amount_7d).",
+        preamble:
+          "En la cola sintética de Red Andina, el mapa global de sensibilidad orienta qué features barajar primero, no a quién acusar. En esta demo tres drops ficticios (`shared_phone`, `amount_7d`, `region`) se ordenan por caída de `precision_at_k`. No escribas aún: predice el top y el flag `means_fraud`, y comprueba por qué un drop de 0.1 no es prueba de fraude. Si confundes ranking con veredicto, la ficha de caso se vuelve acusación.",
         code: {
           language: 'python',
           title: "imp_demo.py",
@@ -354,13 +356,17 @@ print("ok", True)`,
 means_fraud False
 ok True`,
         },
-        why: "La importancia global orienta sensibilidad del modelo sobre la métrica de cola; nunca se traduce a veredicto de fraude en la ficha de caso.",
+        why: "`max(drops, key=drops.get)` elige la feature cuya permutación daña más la métrica de cola; la misma métrica debe usarse en baseline y en drop. `means_fraud=False` es contrato ético del lab, no un booleano decorativo: un drop alto mide sensibilidad, no culpa. En We Do corregirás `min` invertido y el assert que exige `means_fraud=True`.",
+        retrospective:
+          "Si puedes explicar por qué `shared_phone` gana el ranking *sin* decir «es fraude», ya separas sensibilidad del modelo de la decisión humana. El error clásico es traducir top_feature a label. En We Do repararás dirección del ranking y el flag ético.",
       },
       {
         demoId: "S35-T1-B-DEMO",
         subtopicId: "S35-T1-B",
         environment: "local-python",
         description: "Contribuciones locales value×weight de shared_phone/amount_z y marca causal=False en la ficha.",
+        preamble:
+          "Después del mapa global, la ficha necesita contribución **local** al score de este caso. En la demo, `shared_phone` y `amount_z` se multiplican valor×peso; la suma es 1.0 y el flag `causal` queda en False. No escribas: predice contrib y suma, y fíjate que el lab no afirma causa legal ni implementa SHAP. Si omites `causal=False`, la capa modelo se confunde con veredicto.",
         code: {
           language: 'python',
           title: "loc_demo.py",
@@ -375,13 +381,17 @@ print("ok", True)`,
 causal False
 ok True`,
         },
-        why: "La explicación local resume el score del caso en un aditivo de lab (baseline=0); correlación o contribución no demuestran causalidad legal ni equivalen a SHAP.",
+        why: "El aditivo `v*w` con baseline 0 es andamiaje de lab; correlación o contribución no demuestran causalidad legal ni equivalen a SHAP. Las 4 capas de la ficha (evidencia|modelo|incertidumbre|humano) se preparan aquí con el flag ético. En We Do reescribirás `local_contrib` y el predicado de capas.",
+        retrospective:
+          "Explicar el score no es acusar a la persona. El error clásico es leer el top local como fraude. Pregunta: si `shared_phone` aporta 0.9, ¿qué frase de la ficha sigue siendo falsa si escribes «causó el riesgo»? We Do: calcular contrib, armar capas y rechazar `causal=True`.",
       },
       {
         demoId: "S35-T2-A-DEMO",
         subtopicId: "S35-T2-A",
         environment: "local-python",
         description: "Flag low_n en slice AQP (n=8) frente a LIM (n=100) para no afirmar inequidad con muestra chica.",
+        preamble:
+          "Cortar por región revela daño diferencial potencial, pero sin n el reporte de equidad miente. En esta demo LIM (n=100) y AQP (n=8) se marcan con `ok_n` / `low_n` bajo `min_n=30` (política del lab). No escribas: predice los flags y explica por qué un precision 0.9 en AQP no autoriza gritar paridad. Si omites n, el slice es marketing, no auditoría.",
         code: {
           language: 'python',
           title: "slice_demo.py",
@@ -396,13 +406,17 @@ print("ok", True)`,
 AQP 8 low_n
 ok True`,
         },
-        why: "Reportar n por cohorte evita afirmaciones de equidad estadísticamente vacías en regiones con poco tráfico. min_n=30 es política del lab, no un umbral universal.",
+        why: "Reportar n por cohorte evita afirmaciones vacías; `low_n` no prueba inequidad ni paridad a favor del slice chico. `min_n=30` es política del ejercicio, no un estándar universal. En We Do invertirás el umbral del flag y rechazarás claims con n bajo.",
+        retrospective:
+          "Métrica sin n no es equidad defendible. El error clásico es celebrar precision alta en muestra chica. Pregunta: con AQP n=8 y precision 0.9, ¿qué puedes afirmar y qué no? We Do: flag desde n, tri-ruta y reporte de slice.",
       },
       {
         demoId: "S35-T2-B-DEMO",
         subtopicId: "S35-T2-B",
         environment: "local-python",
         description: "Deriva tag high desde gaps de evidencia (district_code) y acción review sin emitir fraud label.",
+        preamble:
+          "Un proxy (p. ej. `district_code`) puede correlacionar con grupos y elevar FP en la cola sin ser prueba de culpa. En esta demo se deriva tag high desde gaps sintéticos y se elige `action=review` con `means_fraud=False`. No escribas: predice la lista high y por qué no aparece `auto_label`. Si conviertes proxy en etiqueta, rompes el contrato de daño diferencial.",
         code: {
           language: 'python',
           title: "proxy_demo.py",
@@ -425,13 +439,17 @@ action review
 means_fraud False
 ok True`,
         },
-        why: "El tag high se justifica con evidencia de gap; la mitigación es retirar o auditar, no acusar.",
+        why: "El tag high se justifica con evidencia de gap (asociación o FP entre grupos sintéticos); mitigar es review, mitigate o drop — nunca auto_label. `means_fraud=False` cierra el contrato ético: el proxy documenta daño diferencial potencial, no culpa individual. En We Do filtrarás high bien y prohibirás auto_label.",
+        retrospective:
+          "Mitigar proxy documenta daño potencial; no acusa al individuo. Pregunta: ¿por qué `district_code` high + review es compatible con `means_fraud=False`? We Do: lista high, gate de action y audit desde tags crudos.",
       },
       {
         demoId: "S35-T3-A-DEMO",
         subtopicId: "S35-T3-A",
         environment: "local-python",
         description: "Banda ilustrativa p±q (coverage_claim=False); conformal real queda en recursos.",
+        preamble:
+          "Un score puntual de 0.6 en la ficha se ve «seguro» hasta que publicas el ancho. En esta demo `p=0.6`, `q=0.1` producen [0.5, 0.7] con `level=toy` y `coverage_claim=False`. No escribas: predice lo/hi y por qué no puedes afirmar cobertura conformal del lab. Si publicas solo el punto, el analista no ve inestabilidad antes del override.",
         code: {
           language: 'python',
           title: "int_demo.py",
@@ -448,13 +466,17 @@ level toy
 coverage_claim False
 ok True`,
         },
-        why: "Un punto sin ancho oculta inestabilidad; la banda toy no afirma cobertura real, pero prepara abstención y override.",
+        why: "La banda toy entrena el hábito de no publicar solo p; conformal real (MAPIE/cobertura empírica) queda en recursos y **no** se afirma con `level=toy`. `q==0` o `level=point` es REJECT_POINT_ONLY. En We Do calcularás lo/hi de verdad, no inventarás el punto.",
+        retrospective:
+          "Intervalo honesto (aunque toy) prepara abstención y override. El error clásico es vender «conformal calibrado» con banda ilustrativa. Pregunta: si q=0.1 y level=toy, ¿qué puedes decir al analista y qué no? We Do: score_band y fail-closed por q.",
       },
       {
         demoId: "S35-T3-B-DEMO",
         subtopicId: "S35-T3-B",
         environment: "local-python",
         description: "Heurística OOD univariante (max |z|>3, scaler de train) y abstención fail-closed.",
+        preamble:
+          "Aunque la banda esté bien, un z extremo o canal nuevo puede salir del soporte de train. En esta demo `z=[1,2,3.5]` con thr=3 dispara OOD; la acción es `abstain`, nunca `auto_fraud`. No escribas: predice ood y action, y nota que el detector es univariante de lab (no OOD multivariante de producción). Si fuerzas label en OOD, la ficha miente.",
         code: {
           language: 'python',
           title: "ood_demo.py",
@@ -474,13 +496,17 @@ auto_fraud False
 detector univariate_z_range
 ok True`,
         },
-        why: "Fuera de distribución no se fuerza label; se abstiene y se escala con razón ood en uncertainty.",
+        why: "Fail-closed hacia humano con `reason=ood`; z debe venir de scaler fit en train. `auto_fraud` en OOD es REJECT_AUTO_LABEL. La banda *dentro* del dominio no basta si el caso cambió de soporte. En We Do detectarás OOD y corregirás la política de acción.",
+        retrospective:
+          "OOD cambia de dominio; no se «arregla» con más confianza en el score. Pregunta: si z max=3.5 y thr=3, ¿por qué `auto_fraud` miente aunque el score «se vea seguro»? We Do: abstain obligatorio y capa uncertainty ensamblada.",
       },
       {
         demoId: "S35-T4-A-DEMO",
         subtopicId: "S35-T4-A",
         environment: "local-python",
         description: "Model card mínima con owner, out_of_scope=fraud_label y use=queue_rank para contestabilidad.",
+        preamble:
+          "Sin model card, la ficha flota: no hay límite escrito de lo que el score *no* puede hacer. En esta demo `use=queue_rank`, `out_of_scope` incluye `fraud_label`, `owner=risk_ops` y `contestability=True`. No escribas: predice por qué `card_ok` es True y qué fallaría si use fuera fraud_label. Si omites out_of_scope, el score se cuela como etiqueta automática.",
         code: {
           language: 'python',
           title: "card_demo.py",
@@ -501,13 +527,17 @@ print("card", card_ok(card))`,
 use queue_rank
 card True`,
         },
-        why: "Documentar usos prohibidos y dueño evita que el score se convierta en etiqueta automática de fraude.",
+        why: "Keys mínimas + fraud_label fuera de scope + contestability habilitan apelación sin borrar histórico. `use=queue_rank` es el único uso permitido del ranker de cola en este lab: si use fuera fraud_label, el score se cuela como etiqueta automática. En We Do validarás la card y la construirás desde `prohibited` crudo.",
+        retrospective:
+          "La card es contrato de producto, no un README decorativo. Pregunta: si `contestability=False`, ¿qué derecho del caso se pierde aunque out_of_scope esté bien? We Do: card_ok, gate de scope y build_card.",
       },
       {
         demoId: "S35-T4-B-DEMO",
         subtopicId: "S35-T4-B",
         environment: "local-python",
         description: "Override audit mínimo (case/human/by) más ts y reason de portfolio.",
+        preamble:
+          "Un override sin actor no se puede reconstruir: no hay gobernanza. En esta demo `analyst_7` hace `override_skip` con case, human, by, reason y ts; `audit_min` y `audit_portfolio` deben ser True. No escribas: predice por qué by vacío rompería el lab y por qué ts/reason importan al portfolio. Si omites by, la decisión humana desaparece del audit trail.",
         code: {
           language: 'python',
           title: "gov_demo.py",
@@ -531,18 +561,24 @@ print("ok", True)`,
 audit_portfolio True
 ok True`,
         },
-        why: "Sin by no hay gobernanza; el override silencioso es breach. ts y reason habilitan reconstrucción real en portfolio.",
+        why: "Mínimo case/human/by no vacío; portfolio añade ts, reason y model_version para reconstrucción forense. Sin by el override es silencioso aunque el score se vea «correcto»: no hay gobernanza reconstruible. En We Do corregirás el validador que acepta by vacío.",
+        retrospective:
+          "Sin by no hay gobernanza. El error clásico es «el score ya era bueno, no hace falta actor». Pregunta: ¿qué falla de audit_min si by=\"\" y qué añade ts al portfolio? We Do: audit_event, tri-ruta y fail-closed de override silencioso.",
       }
     ],
   },
   weDo: {
-    intro: "S35 · Laboratorio de ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales sobre el hilo sintético CASO-LIM-035.\n\n**E1** repara una operación de dominio (ranking, contrib, flag n, proxy, banda, OOD, card o audit).\n**E2** separa válido / inválido / missing.\n**E3** entrena fail-closed; en T1-B, T2-A, T2-B, T3-B y T4-A hay **transferencia real**: construyes ficha, reporte de slice, audit de proxies, capa de incertidumbre o model card desde campos crudos.\n\nLos ocho componentes del caso (1A…4B) se reutilizan en E1–E3: no son 24 historias de negocio distintas, sino 24 predicados de política sobre el mismo hilo.",
+    intro: "S35 · Laboratorio de ficha de caso responsable para Red Andina (organización ficticia): 24 retos locales sobre el hilo sintético CASO-LIM-035.\n\nLee el **preamble** (contexto, meta, éxito, límites), ejecuta solo la **instruction**, y cierra con la **retrospective** junto a la solución.\n\n**E1** repara una operación de dominio (ranking, contrib, flag n, proxy, banda, OOD, card o audit).\n**E2** separa válido / inválido / missing.\n**E3** entrena fail-closed; en T1-B, T2-A, T2-B, T3-B y T4-A hay **transferencia real**: construyes ficha, reporte de slice, audit de proxies, capa de incertidumbre o model card desde campos crudos.\n\nLos ocho componentes del caso (1A…4B) se reutilizan en E1–E3: no son 24 historias de negocio distintas, sino 24 predicados de política sobre el mismo hilo.",
     steps: [
       {
         id: "S35-T1-A-E1",
         subtopicId: "S35-T1-A",
         kind: "guided",
-        instruction: "S35-T1-A-E1 · Sobre `CASO-LIM-035-1A`, calcula el **ranking por drop** (top_feature = argmax del dict `drops`) con `metric=precision_at_k` y `means_fraud=False`. El starter elige el drop mínimo y trata la importancia como fraude: corrige la dirección del ranking y el flag ético, sin cambiar los datos. Salida exacta: `S35-T1-A PASS`. El adverso con means_fraud=True activa `REJECT_CAUSAL_CLAIM` en E2.",
+        title: "Ranking por drop, no por min",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-1A` el workbench publica drops de permutación; el ranking debe elegir la feature más sensible a `precision_at_k`.\n- **Meta:** calcular `top_feature` con argmax de drops y dejar `means_fraud=False`.\n- **Éxito:** una línea `S35-T1-A PASS` (assert del contrato).\n- **Límites:** no uses `min`; no trates importancia como prueba de fraude; solo datos sintéticos.",
+        instruction:
+          "1. Abre el starter: `top_feature` usa `min` y el predicado exige `means_fraud is True` (doble DEFECT).\n2. Cambia a `max(drops, key=drops.get)`.\n3. Exige `top == \"shared_phone\"`, drop 0.1, métrica `precision_at_k` y `means_fraud is False`.\n4. Imprime `S35-T1-A` y el status; el assert debe pasar.",
         hint: "top_feature = max(drops, key=drops.get); shared_phone debe ganar a amount_7d; means_fraud debe quedar False.",
         hints: [
           "top_feature = max(drops, key=drops.get); shared_phone debe ganar a amount_7d; means_fraud debe quedar False.",
@@ -550,7 +586,10 @@ ok True`,
         ],
         edgeCases: ["falta drops", "fixture adverso: means_fraud=True (interpreta importancia como fraude)", "CASO-LIM-035-1A es sintético"],
         tests: "El fixture `CASO-LIM-035-1A` satisface ranking real + flags éticos; imprime `S35-T1-A PASS` y el assert booleano pasa.",
-        feedback: "S35-T1-A-E1: el ranking se calcula (argmax de drops), no se inventa; means_fraud=False evita convertir importancia en acusación.",
+        feedback:
+          "El ranking se calcula (argmax), no se inventa. Un drop alto mide sensibilidad de la métrica de cola; marcarlo como fraude convierte el mapa global en acusación y rompe la ficha CP-N3-C.",
+        retrospective:
+          "Dirección del ranking + flag ético son el primer ladrillo de explicación **global**. Un drop alto no «demuestra» culpa: solo mide sensibilidad de la métrica de cola. Pregunta: si `amount_7d` tuviera drop 0.2, ¿cambiaría el top y seguirías con `means_fraud=False`? Siguiente (E2): tres rutas schema / contenido / missing.",
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e1.py",
@@ -606,7 +645,11 @@ assert meets_contract is True
         id: "S35-T1-A-E2",
         subtopicId: "S35-T1-A",
         kind: "independent",
-        instruction: "S35-T1-A-E2 · Tres rutas para importancia por permutación: válido (argmax de drops + means_fraud=False + metric), adverso (means_fraud=True) y sin `drops`. Salidas exactas: `PASS`, `REJECT_CAUSAL_CLAIM`, `MISSING:drops`. Primero valida schema; luego exige top_feature calculable y flag ético — no basta un booleano suelto.",
+        title: "Tres rutas de importancia ética",
+        preamble:
+          "- **Contexto:** el gate de T1-A debe rechazar importancia leída como fraude y pedir drops si faltan, sin confundir schema con breach de contenido.\n- **Meta:** implementar `assess` con missing primero, luego ranking usable y `means_fraud is False`.\n- **Éxito:** una línea `PASS REJECT_CAUSAL_CLAIM MISSING:drops`.\n- **Límites:** no des PASS al adverso; no evalúes ranking sin `drops`.",
+        instruction:
+          "1. Revisa el starter: PASS si `means_fraud is True` (bug de contenido).\n2. Si faltan keys → `MISSING:…`.\n3. Con datos: top calculable, métrica de cola y `means_fraud is False` → PASS; si no → `REJECT_CAUSAL_CLAIM`.\n4. Imprime las tres rutas en una línea.",
         hint: "Primero `missing`; solo con drops presentes calcula top = max(drops, key=drops.get) y exige means_fraud is False.",
         hints: [
           "Primero `missing`; solo con drops presentes calcula top = max(drops, key=drops.get) y exige means_fraud is False.",
@@ -614,7 +657,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta drops", "fixture adverso: means_fraud=True (interpreta importancia como fraude)", "CASO-LIM-035-1A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `drops` ausente y produce exactamente `PASS REJECT_CAUSAL_CLAIM MISSING:drops`.",
-        feedback: "S35-T1-A-E2: schema primero, ranking después; means_fraud=True es breach de contenido, no de keys.",
+        feedback:
+          "Schema primero, ética después: en la cola de Lima, `means_fraud=True` es breach de contenido que convierte el mapa en acusación; faltar drops es otro código.",
+        retrospective:
+          "Faltar `drops` es incertidumbre de schema; `means_fraud=True` con drops presentes es breach de **contenido**. No son el mismo ticket en la cola. Pregunta: ¿por qué un drop de 0.1 con flag malo no se «arregla» inventando un `MISSING`? Luego (E3): REQUEST vs REJECT en fail-closed de cola.",
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e2.py",
@@ -686,7 +732,11 @@ print(*results)
         id: "S35-T1-A-E3",
         subtopicId: "S35-T1-A",
         kind: "transfer",
-        instruction: "S35-T1-A-E3 · Contrasta fallo cerrado para `Coeficientes e importancia por permutación` con tres fixtures distintos. `CASO-LIM-035-1A` debe continuar, el adverso debe devolver `REJECT_CAUSAL_CLAIM` y la ausencia de `drops` debe devolver `REQUEST_METRIC_DROP`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed: CONTINUE o pedir drops",
+        preamble:
+          "- **Contexto:** en la cola de revisión, un caso sin drops no se «aprueba en silencio»: se pide la métrica; un caso con `means_fraud=True` se rechaza.\n- **Meta:** enrutar ausencia a `REQUEST_METRIC_DROP` y breach ético a `REJECT_CAUSAL_CLAIM`.\n- **Éxito:** `CONTINUE REJECT_CAUSAL_CLAIM REQUEST_METRIC_DROP`.\n- **Límites:** no trates missing como CONTINUE; no rellenes drops inventados.",
+        instruction:
+          "1. Lee el starter: missing devuelve CONTINUE y el pred está invertido.\n2. Missing → `REQUEST_METRIC_DROP`.\n3. Completo y ético (`means_fraud=False`, métrica de cola, drop > 0) → `CONTINUE`; si no → `REJECT_CAUSAL_CLAIM`.\n4. Imprime las tres decisiones en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.",
@@ -694,7 +744,10 @@ print(*results)
         ],
         edgeCases: ["falta drops", "fixture adverso: means_fraud=True (interpreta importancia como fraude)", "CASO-LIM-035-1A es sintético"],
         tests: "Fixtures `CASO-LIM-035-1A`, adverso y sin `drops` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_CAUSAL_CLAIM y por qué faltar drops exige REQUEST_METRIC_DROP.",
+        feedback:
+          "REQUEST no es PASS disfrazado: sin drops la cola de Red Andina pide la métrica. El adverso con flag de fraude activa REJECT, no un CONTINUE optimista.",
+        retrospective:
+          "REQUEST no es PASS disfrazado: es «no decido sin evidencia». El error clásico es continuar cuando faltan drops. En T1-B pasarás del mapa global a la ficha local de *este* caso.",
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e3.py",
@@ -741,7 +794,11 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_METRIC_DROP"]
         id: "S35-T1-B-E1",
         subtopicId: "S35-T1-B",
         kind: "guided",
-        instruction: "S35-T1-B-E1 · Sobre `CASO-LIM-035-1B`, **calcula** contribuciones locales value×weight desde pares (valor, peso), arma las 4 capas y exige `causal=False`. El starter ya trae contrib inventada y marca causal=True como si bastara: reescribe `local_contrib` y el predicado (capas + causal), sin inventar fraude. Salida exacta: `S35-T1-B PASS`. El adverso con causal=True o layers incompletas activa `REJECT_CAUSAL_CLAIM` en E2.",
+        title: "Contrib local y causal=False",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-1B` el analista arma la capa modelo con contribuciones value×weight y cuatro capas de ficha.\n- **Meta:** implementar `local_contrib`, exigir capas completas y `causal is False`.\n- **Éxito:** `S35-T1-B PASS`.\n- **Límites:** no hardcodees contrib; no marques causal=True; no inventes fraude.",
+        instruction:
+          "1. Abre el starter: `local_contrib` devuelve ceros y el predicado exige `causal is True`.\n2. Calcula `{k: v * w for k, (v, w) in feats.items()}`.\n3. Exige set de 4 capas, `shared_phone==0.9` y suma ≈ 1.0.\n4. Imprime `S35-T1-B` y el status.",
         hint: "local_contrib: {k: v*w for k, (v, w) in feats.items()}. layers debe ser el set de 4 capas; causal is False.",
         hints: [
           "local_contrib: {k: v*w for k, (v, w) in feats.items()}. layers debe ser el set de 4 capas; causal is False.",
@@ -749,7 +806,10 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_METRIC_DROP"]
         ],
         edgeCases: ["falta layers", "fixture adverso: causal=True o layers incompletas", "CASO-LIM-035-1B es sintético"],
         tests: "El fixture `CASO-LIM-035-1B` obtiene contrib calculada, 4 capas y causal=False; imprime `S35-T1-B PASS`.",
-        feedback: "S35-T1-B-E1: la contribución se calcula (value×weight); causal=False evita convertir la explicación local en acusación.",
+        feedback:
+          "La contribución se calcula (value×weight); `causal=False` evita que el analista de Lima lea el top local como veredicto de fraude en la ficha.",
+        retrospective:
+          "La contribución se **calcula** (value×weight); `causal=False` evita que la capa modelo se confunda con veredicto. El error clásico del starter es «arreglar» el PASS invirtiendo solo el booleano y dejar contrib en cero. Pregunta: ¿por qué `shared_phone==0.9` y suma ≈1.0 demuestran cálculo, no hardcode? Siguiente (E2): PASS/REJECT/MISSING sobre layers.",
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e1.py",
@@ -803,7 +863,11 @@ assert meets_contract is True
         id: "S35-T1-B-E2",
         subtopicId: "S35-T1-B",
         kind: "independent",
-        instruction: "S35-T1-B-E2 · Modela tres rutas de `Explicación local, correlación y límites`: fixture válido, fixture adverso y registro sin `layers`. Entrada: dict con case_id, contrib, layers, causal. Salidas exactas: `PASS`, `REJECT_CAUSAL_CLAIM`, `MISSING:layers`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Gate local: capas y no-causal",
+        preamble:
+          "- **Contexto:** el gate de explicación local debe aceptar ficha completa con `causal=False`, rechazar claim causal y reportar layers ausentes.\n- **Meta:** `assess` con missing primero y predicado de 4 capas + causal.\n- **Éxito:** `PASS REJECT_CAUSAL_CLAIM MISSING:layers`.\n- **Límites:** no des PASS si `causal=True` o layers incompletas.",
+        instruction:
+          "1. Starter da PASS con `causal is True`.\n2. Missing → `MISSING:…`.\n3. PASS solo si `causal is False` y set(layers) es el de 4 capas.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.",
@@ -811,7 +875,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta layers", "fixture adverso: causal=True o layers incompletas", "CASO-LIM-035-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `layers` ausente y produce exactamente `PASS REJECT_CAUSAL_CLAIM MISSING:layers`.",
-        feedback: "S35-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_CAUSAL_CLAIM y por qué faltar layers exige REQUEST_LAYER_FIELDS.",
+        feedback:
+          "Capas incompletas o `causal=True` son breach de la ficha CP-N3-C: el adverso falla por contenido, no por keys ausentes.",
+        retrospective:
+          "Capas incompletas no se «arreglan» con un booleano suelto. El adverso falla por contenido (causal/layers), no por schema. Luego (E3) **construyes** la ficha desde campos crudos.",
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e2.py",
@@ -857,7 +924,11 @@ print(*results)
         id: "S35-T1-B-E3",
         subtopicId: "S35-T1-B",
         kind: "transfer",
-        instruction: "S35-T1-B-E3 · Transferencia: a partir de campos crudos (evidence, contrib, causal, decision, by) **construye** la ficha de 4 capas y decide.\n1) `build_ficha` devuelve un dict con keys evidence|model|uncertainty|human.\n2) `decide` → `CONTINUE` solo si las cuatro capas existen y `model.causal is False`.\n3) Adverso (causal=True) → `REJECT_CAUSAL_CLAIM`; sin evidence → `REQUEST_LAYER_FIELDS`.\nNo rellenes evidencia inventada.",
+        title: "Armar ficha de 4 capas",
+        preamble:
+          "- **Contexto:** el portfolio no recibe un record ya armado: llegan campos crudos del caso y debes montar la ficha.\n- **Meta:** `build_ficha` con evidence|model|uncertainty|human; `decide` con CONTINUE / REJECT_CAUSAL_CLAIM / REQUEST_LAYER_FIELDS.\n- **Éxito:** `CONTINUE REJECT_CAUSAL_CLAIM REQUEST_LAYER_FIELDS`.\n- **Límites:** no rellenes evidence inventada; no dejes causal=True en CONTINUE.",
+        instruction:
+          "1. Si falta evidence → ficha None → `REQUEST_LAYER_FIELDS`.\n2. Monta las 4 claves; model lleva contrib y causal.\n3. Si causal no es False → `REJECT_CAUSAL_CLAIM`.\n4. Si no, `CONTINUE`. Imprime las tres rutas.",
         hint: "Primero monta la ficha con las cuatro claves; después evalúa causal y presencia de capas — no inviertas el orden.",
         hints: [
           "Primero monta la ficha con las cuatro claves; después evalúa causal y presencia de capas — no inviertas el orden.",
@@ -865,7 +936,10 @@ print(*results)
         ],
         edgeCases: ["falta layers", "fixture adverso: causal=True o layers incompletas", "CASO-LIM-035-1B es sintético"],
         tests: "Tres entradas crudas: válida → CONTINUE; causal=True → REJECT_CAUSAL_CLAIM; sin evidence → REQUEST_LAYER_FIELDS.",
-        feedback: "S35-T1-B-E3: la transferencia no es solo flip de PASS/REJECT — debes ensamblar la ficha 4 capas desde campos crudos y luego aplicar el gate.",
+        feedback:
+          "Transferir es ensamblar el producto y luego aplicar el gate: la ficha de Red Andina no se «aprueba» con un flip de booleano sobre un dict ya listo.",
+        retrospective:
+          "Transferir es montar evidence|model|uncertainty|human **antes** de aplicar el gate. El error clásico es flip de CONTINUE/REJECT sobre un dict ya listo. Pregunta: sin `evidence` en raw, ¿por qué REQUEST y no inventar `[\"shared_phone\"]`? En el You Do reutilizarás este hábito en `fill_*`.",
         starterCode: {
           language: 'python',
           title: "s35-t1-b-e3.py",
@@ -944,7 +1018,11 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_LAYER_FIELDS"]
         id: "S35-T2-A-E1",
         subtopicId: "S35-T2-A",
         kind: "guided",
-        instruction: "S35-T2-A-E1 · Sobre `CASO-LIM-035-2A` (LIM n=100, precision=0.6), calcula `slice_flag` (`ok_n` si n≥min_n else `low_n`) y solo da PASS si el flag es `ok_n` y la precision está en [0,1]. El starter invierte el umbral (pasa con low_n). Salida exacta: `S35-T2-A PASS`. Claim con n bajo → `REJECT_LOW_N_CLAIM` en E2.",
+        title: "Flag low_n desde n y min_n",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-2A` (LIM n=100, precision=0.6) el reporte de slice debe marcar si la muestra basta para hablar.\n- **Meta:** implementar `slice_flag` y PASS solo con `ok_n` y precision en [0,1].\n- **Éxito:** `S35-T2-A PASS`.\n- **Límites:** no pases con low_n; `min_n` es política del lab.",
+        instruction:
+          "1. Starter: `ok_n` si n < min_n (invertido).\n2. Corrige a `low_n` si n < min_n, si no `ok_n`.\n3. PASS si flag es `ok_n` y precision ∈ [0,1].\n4. Imprime `S35-T2-A` y el status.",
         hint: "Implementa slice_flag como en theory/iDo: low_n si n < min_n. El fixture válido es LIM con n=100.",
         hints: [
           "Implementa slice_flag como en theory/iDo: low_n si n < min_n. El fixture válido es LIM con n=100.",
@@ -952,7 +1030,10 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_LAYER_FIELDS"]
         ],
         edgeCases: ["falta slice_n", "fixture adverso: slice_n < min_n con claim de precisión alta", "CASO-LIM-035-2A es sintético"],
         tests: "El fixture `CASO-LIM-035-2A` obtiene ok_n e imprime `S35-T2-A PASS`.",
-        feedback: "S35-T2-A-E1: el flag se calcula desde n; no afirmes equidad con low_n aunque precision se vea alta.",
+        feedback:
+          "El flag se calcula desde n; precision alta no salva low_n. En equity de cola, un n chico no autoriza paridad ni inequidad a gritos.",
+        retrospective:
+          "El flag se deriva de **n vs min_n**, no del brillo de la precision. Un n chico con 0.95 no «mejora» el reporte: lo vuelve `low_n`. Pregunta: con n=100 y precision 0.6, ¿por qué PASS no es un juicio de «buena equity» sino de muestra usable? Siguiente (E2): rechazar claim con n=5.",
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e1.py",
@@ -999,7 +1080,11 @@ assert meets_contract is True
         id: "S35-T2-A-E2",
         subtopicId: "S35-T2-A",
         kind: "independent",
-        instruction: "S35-T2-A-E2 · Modela tres rutas de `Cohortes y métricas por slice`: fixture válido, fixture adverso y registro sin `slice_n`. Entrada: dict con case_id, slice_n, precision, min_n. Salidas exactas: `PASS`, `REJECT_LOW_N_CLAIM`, `MISSING:slice_n`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Rechazar claim con n insuficiente",
+        preamble:
+          "- **Contexto:** un slice AQP sintético con n=5 y precision 0.95 no autoriza afirmación fuerte de equidad.\n- **Meta:** `assess` → PASS / REJECT_LOW_N_CLAIM / MISSING:slice_n.\n- **Éxito:** `PASS REJECT_LOW_N_CLAIM MISSING:slice_n`.\n- **Límites:** schema primero; no des PASS al adverso de n bajo.",
+        instruction:
+          "1. Starter da PASS si slice_n < min_n (invertido).\n2. Missing → MISSING.\n3. PASS si n ≥ min_n y precision en [0,1]; si no REJECT_LOW_N_CLAIM.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.",
@@ -1007,7 +1092,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta slice_n", "fixture adverso: slice_n < min_n con claim de precisión alta", "CASO-LIM-035-2A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `slice_n` ausente y produce exactamente `PASS REJECT_LOW_N_CLAIM MISSING:slice_n`.",
-        feedback: "S35-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_LOW_N_CLAIM y por qué faltar slice_n exige REQUEST_SLICE_N.",
+        feedback:
+          "low_n + claim fuerte es breach de equity reportable en Red Andina: no celebres precision 0.95 con n=5.",
+        retrospective:
+          "low_n + claim fuerte = breach de equity reportable. Faltar n es REQUEST en E3, no REJECT silencioso. Luego montarás el reporte desde campos crudos.",
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e2.py",
@@ -1053,7 +1141,11 @@ print(*results)
         id: "S35-T2-A-E3",
         subtopicId: "S35-T2-A",
         kind: "transfer",
-        instruction: "S35-T2-A-E3 · Transferencia: a partir de campos crudos (`region`, `n`, `precision`, `min_n`, `claim`) **construye** un reporte de slice y decide.\n1) `build_slice_report` → `{region, n, precision, flag, claim}` con `flag=low_n` si `n < min_n`, si no `ok_n`.\n2) `decide` → `CONTINUE` solo si flag es `ok_n` y precision ∈ [0,1].\n3) Adverso (n bajo + `claim=parity`) → `REJECT_LOW_N_CLAIM`; sin `n` → `REQUEST_SLICE_N`.\nNo inventes n ni afirmes paridad con muestra chica. `min_n` es política del lab.",
+        title: "Reporte de slice con flag y claim",
+        preamble:
+          "- **Contexto:** el portfolio pide un mini-reporte de equity: región, n, precision, flag y claim.\n- **Meta:** construir el reporte y enrutar CONTINUE / REJECT_LOW_N_CLAIM / REQUEST_SLICE_N.\n- **Éxito:** `CONTINUE REJECT_LOW_N_CLAIM REQUEST_SLICE_N`.\n- **Límites:** no inventes n; no afirmes parity con low_n.",
+        instruction:
+          "1. Sin n → None → REQUEST_SLICE_N.\n2. flag = low_n si n < min_n else ok_n; retiene claim.\n3. low_n + claim parity → REJECT; ok_n + precision válida → CONTINUE.\n4. Imprime las tres decisiones.",
         hint: "Primero monta el reporte con flag desde n/min_n; después evalúa claim y precision — no inviertas el orden.",
         hints: [
           "Primero monta el reporte con flag desde n/min_n; después evalúa claim y precision — no inviertas el orden.",
@@ -1061,7 +1153,10 @@ print(*results)
         ],
         edgeCases: ["falta slice_n", "fixture adverso: slice_n < min_n con claim de precisión alta", "CASO-LIM-035-2A es sintético"],
         tests: "Tres entradas crudas: LIM n=100 → CONTINUE; AQP n=5 claim=parity → REJECT_LOW_N_CLAIM; sin n → REQUEST_SLICE_N.",
-        feedback: "S35-T2-A-E3: la transferencia ensambla el reporte de equity (n + flag + claim) desde campos crudos; no basta flip de PASS/REJECT sobre un record ya armado.",
+        feedback:
+          "El reporte de slice es un producto de portfolio: n + flag + claim se ensamblan desde campos crudos, no con un flip de PASS/REJECT.",
+        retrospective:
+          "El reporte de slice es un producto, no un flip de booleano. El error clásico es gritar paridad con n=5. En T2-B preguntas qué proxies empujan el daño.",
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e3.py",
@@ -1158,7 +1253,11 @@ assert results == ["CONTINUE", "REJECT_LOW_N_CLAIM", "REQUEST_SLICE_N"]
         id: "S35-T2-B-E1",
         subtopicId: "S35-T2-B",
         kind: "guided",
-        instruction: "S35-T2-B-E1 · Sobre `CASO-LIM-035-2B`, **lista** proxies high-risk con `high_risk_proxies` y exige `action` en `{review, mitigate, drop}` (nunca `auto_label`). El starter marca high mal (risk==\"low\") y da PASS con `auto_label`: corrige la detección y la acción de mitigación. Salida exacta: `S35-T2-B PASS`. El adverso con action=auto_label activa `REJECT_PROXY_FEATURE` en E2.",
+        title: "Proxy high y action de mitigación",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-2B`, `district_code` llega con tag high; la acción no puede ser auto_label.\n- **Meta:** listar high-risk correctamente y exigir action ∈ {review, mitigate, drop}.\n- **Éxito:** `S35-T2-B PASS`.\n- **Límites:** no filtres por `\"low\"`; no auto-etiquetes fraude.",
+        instruction:
+          "1. Starter: high_risk usa `\"low\"` y action es auto_label.\n2. Filtra `v == \"high\"`.\n3. Cambia action a review (u otra de mitigación).\n4. PASS si district_code ∈ high y action válida.",
         hint: "high_risk_proxies: return [k for k, v in feats.items() if v == \"high\"]. district_code debe salir en la lista; action no puede ser auto_label.",
         hints: [
           "high_risk_proxies: return [k for k, v in feats.items() if v == \"high\"]. district_code debe salir en la lista; action no puede ser auto_label.",
@@ -1166,7 +1265,10 @@ assert results == ["CONTINUE", "REJECT_LOW_N_CLAIM", "REQUEST_SLICE_N"]
         ],
         edgeCases: ["falta action", "fixture adverso: action=auto_label sobre proxy high", "CASO-LIM-035-2B es sintético"],
         tests: "El fixture `CASO-LIM-035-2B` lista district_code como high, usa action=review e imprime `S35-T2-B PASS`.",
-        feedback: "S35-T2-B-E1: el proxy se detecta (tag high) y se mitiga con review/mitigate/drop; auto_label sobre proxy es breach.",
+        feedback:
+          "Detectar high y mitigar son dos mitades: auto_label sobre proxy convierte daño diferencial en acusación y rompe la ficha.",
+        retrospective:
+          "Detectar high y elegir acción de mitigación son mitades distintas: listar mal el proxy deja `district_code` fuera; auto_label lo convierte en acusación. Pregunta: si filtras `\"med\"`, ¿qué falla del contrato? Siguiente (E2): tres rutas de action.",
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e1.py",
@@ -1222,7 +1324,11 @@ assert meets_contract is True
         id: "S35-T2-B-E2",
         subtopicId: "S35-T2-B",
         kind: "independent",
-        instruction: "S35-T2-B-E2 · Modela tres rutas de `Proxies, tamaño muestral y daño diferencial`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, feature, risk, action. Salidas exactas: `PASS`, `REJECT_PROXY_FEATURE`, `MISSING:action`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Gate de proxy: review, no auto_label",
+        preamble:
+          "- **Contexto:** el gate de T2-B acepta proxy high con mitigación y rechaza auto_label o action ausente.\n- **Meta:** `assess` → PASS / REJECT_PROXY_FEATURE / MISSING:action.\n- **Éxito:** `PASS REJECT_PROXY_FEATURE MISSING:action`.\n- **Límites:** schema primero; auto_label siempre REJECT.",
+        instruction:
+          "1. Starter da PASS si action == auto_label.\n2. Missing → MISSING.\n3. PASS si risk high y action en {review, mitigate, drop}.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
@@ -1230,7 +1336,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta action", "fixture adverso: action=auto_label sobre proxy high", "CASO-LIM-035-2B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `action` ausente y produce exactamente `PASS REJECT_PROXY_FEATURE MISSING:action`.",
-        feedback: "S35-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_PROXY_FEATURE y por qué faltar action exige REQUEST_PROXY_AUDIT.",
+        feedback:
+          "auto_label es breach de producto en la cola, no un atajo de recall: el proxy se mitiga, no se convierte en label de fraude.",
+        retrospective:
+          "auto_label es breach de producto, no un atajo de recall. Faltar action pide audit (REQUEST en E3). Luego construirás el audit desde features crudas.",
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e2.py",
@@ -1276,7 +1385,11 @@ print(*results)
         id: "S35-T2-B-E3",
         subtopicId: "S35-T2-B",
         kind: "transfer",
-        instruction: "S35-T2-B-E3 · Transferencia: a partir de campos crudos (`features` con risk tags y `proposed_action`) **construye** el audit de proxies y decide.\n1) `build_proxy_audit` → `{high_risk, action, means_fraud}` con high-risk = keys cuyo tag es `\"high\"`.\n2) `decide` → `CONTINUE` si hay high-risk, action ∈ {review, mitigate, drop} y means_fraud is False.\n3) Adverso (`action=auto_label`) → `REJECT_PROXY_FEATURE`; sin `features` → `REQUEST_PROXY_AUDIT`.\nNo conviertas proxy en label de fraude. En teoría ya viste cómo se deriva el tag desde gaps; aquí el contrato opera sobre tags ya etiquetados.",
+        title: "Audit de proxies desde tags",
+        preamble:
+          "- **Contexto:** el portfolio documenta proxies con lista high-risk y acción de mitigación, no con un tag inventado a mano.\n- **Meta:** construir audit y enrutar CONTINUE / REJECT_PROXY_FEATURE / REQUEST_PROXY_AUDIT.\n- **Éxito:** `CONTINUE REJECT_PROXY_FEATURE REQUEST_PROXY_AUDIT`.\n- **Límites:** means_fraud=False; no auto_label; no inventes features.",
+        instruction:
+          "1. Sin features → REQUEST_PROXY_AUDIT.\n2. high_risk = keys con tag high; means_fraud=False.\n3. auto_label o means_fraud True → REJECT; high + action válida → CONTINUE.\n4. Imprime las tres decisiones.",
         hint: "Primero lista high_risk desde features; después evalúa action y means_fraud — no inviertas el orden.",
         hints: [
           "Primero lista high_risk desde features; después evalúa action y means_fraud — no inviertas el orden.",
@@ -1284,7 +1397,10 @@ print(*results)
         ],
         edgeCases: ["falta action", "fixture adverso: action=auto_label sobre proxy high", "CASO-LIM-035-2B es sintético"],
         tests: "Tres entradas crudas: district_code high + review → CONTINUE; auto_label → REJECT_PROXY_FEATURE; sin features → REQUEST_PROXY_AUDIT.",
-        feedback: "S35-T2-B-E3: la transferencia construye la lista high-risk y la acción de mitigación desde tags crudos; no basta flip de booleano sobre un record ya armado.",
+        feedback:
+          "El audit se arma desde tags y luego se gatea: el portfolio de Red Andina no acepta un flip de booleano sobre un record prearmado.",
+        retrospective:
+          "El audit se arma desde tags; el gate viene después. El error clásico es devolver CONTINUE sin listar `high_risk` o con `means_fraud=True`. Pregunta: sin `features` en raw, ¿por qué REQUEST_PROXY_AUDIT y no inventar `district_code`? En T3 comunicas incertidumbre del score restante tras mitigar proxies.",
         starterCode: {
           language: 'python',
           title: "s35-t2-b-e3.py",
@@ -1363,7 +1479,11 @@ assert results == ["CONTINUE", "REJECT_PROXY_FEATURE", "REQUEST_PROXY_AUDIT"]
         id: "S35-T3-A-E1",
         subtopicId: "S35-T3-A",
         kind: "guided",
-        instruction: "S35-T3-A-E1 · Sobre `CASO-LIM-035-3A`, **calcula** la banda simétrica toy `lo=p-q`, `hi=p+q` y solo da PASS si `q>0`, `level != \"point\"` y el ancho de banda es positivo. El starter publica solo el punto (`lo=hi=p`, level=point) aunque `q` esté en el record: corrige el cálculo de la banda (no solo el booleano). Salida exacta: `S35-T3-A PASS`. El adverso con q==0 y level=point activa `REJECT_POINT_ONLY` en E2.",
+        title: "Banda p±q, no solo el punto",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-3A` el score 0.6 debe salir con ancho q=0.1 en la ficha.\n- **Meta:** implementar `score_band` simétrica y PASS si q>0, level ≠ point e hi > lo.\n- **Éxito:** `S35-T3-A PASS` (banda [0.5, 0.7]).\n- **Límites:** no publiques solo el punto; no digas cobertura real en level toy.",
+        instruction:
+          "1. Starter: lo=hi=p, level=point.\n2. lo, hi = round(p±q, 2); level del record si q>0.\n3. Exige hi>lo y valores 0.5/0.7.\n4. Imprime `S35-T3-A` y el status.",
         hint: "Banda: lo = round(p - q, 2), hi = round(p + q, 2). PASS solo si q>0, level distinto de point e hi > lo.",
         hints: [
           "Banda: lo = round(p - q, 2), hi = round(p + q, 2). PASS solo si q>0, level distinto de point e hi > lo.",
@@ -1371,7 +1491,10 @@ assert results == ["CONTINUE", "REJECT_PROXY_FEATURE", "REQUEST_PROXY_AUDIT"]
         ],
         edgeCases: ["falta q", "fixture adverso: q==0 y level=point (solo score puntual)", "CASO-LIM-035-3A es sintético"],
         tests: "El fixture `CASO-LIM-035-3A` obtiene banda [0.5, 0.7] e imprime `S35-T3-A PASS`.",
-        feedback: "S35-T3-A-E1: la banda se calcula (p±q), no se inventa; level=toy es honesto — no digas 'conformal calibrado' en el lab.",
+        feedback:
+          "La banda se calcula (p±q); level=toy es honesto. Publicar solo el punto oculta inestabilidad al analista antes del override.",
+        retrospective:
+          "La banda se **calcula** (p±q); `level=toy` es honesto, no un atajo para afirmar cobertura. El error clásico del starter es dejar lo=hi=p aunque q>0. Pregunta: con p=0.6 y q=0.1, ¿por qué hi debe ser 0.7 y no «cualquier número mayor»? Siguiente (E2): tri-ruta con q==0 adverso.",
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e1.py",
@@ -1426,7 +1549,11 @@ assert meets_contract is True
         id: "S35-T3-A-E2",
         subtopicId: "S35-T3-A",
         kind: "independent",
-        instruction: "S35-T3-A-E2 · Modela tres rutas de `Calibración e intervalos (conformal a alto nivel)`: fixture válido, fixture adverso y registro sin `q`. Entrada: dict con case_id, p, q, level. Salidas exactas: `PASS`, `REJECT_POINT_ONLY`, `MISSING:q`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Tres rutas de intervalo",
+        preamble:
+          "- **Contexto:** el gate de incertidumbre debe rechazar punto solo y pedir q si falta.\n- **Meta:** `assess` con missing primero y q>0 + level ≠ point.\n- **Éxito:** `PASS REJECT_POINT_ONLY MISSING:q`.\n- **Límites:** no des PASS si q==0 o level=point.",
+        instruction:
+          "1. Starter da PASS si q==0.\n2. Missing → MISSING.\n3. PASS si q>0, level ≠ point y p en [0,1].\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.",
@@ -1434,7 +1561,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta q", "fixture adverso: q==0 y level=point (solo score puntual)", "CASO-LIM-035-3A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `q` ausente y produce exactamente `PASS REJECT_POINT_ONLY MISSING:q`.",
-        feedback: "S35-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_POINT_ONLY y por qué faltar q exige REQUEST_INTERVAL.",
+        feedback:
+          "q==0 es breach de contenido en la ficha; faltar q es schema. No confundas ambos al auditar la cola de Lima.",
+        retrospective:
+          "Un punto solo (q==0, level=point) es breach de **contenido** de la ficha; faltar la key `q` es schema. Pregunta: si alguien hardcodea q=0.1 en el adverso, ¿qué invariante rompes? En E3 la misma lógica se enruta a CONTINUE/REJECT/REQUEST para la cola.",
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e2.py",
@@ -1480,7 +1610,11 @@ print(*results)
         id: "S35-T3-A-E3",
         subtopicId: "S35-T3-A",
         kind: "transfer",
-        instruction: "S35-T3-A-E3 · Contrasta fallo cerrado para `Calibración e intervalos (conformal a alto nivel)` con tres fixtures distintos. `CASO-LIM-035-3A` debe continuar, el adverso debe devolver `REJECT_POINT_ONLY` y la ausencia de `q` debe devolver `REQUEST_INTERVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed de banda en cola",
+        preamble:
+          "- **Contexto:** en la cola, un caso sin q no se scorea a ciegas; un caso punto-solo se rechaza.\n- **Meta:** CONTINUE / REJECT_POINT_ONLY / REQUEST_INTERVAL.\n- **Éxito:** `CONTINUE REJECT_POINT_ONLY REQUEST_INTERVAL`.\n- **Límites:** missing → REQUEST, no CONTINUE; no rellenes q.",
+        instruction:
+          "1. Starter: missing→CONTINUE y pred invertido.\n2. Missing → REQUEST_INTERVAL.\n3. Completo con q>0 y level ≠ point → CONTINUE; si no REJECT_POINT_ONLY.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.",
@@ -1488,7 +1622,10 @@ print(*results)
         ],
         edgeCases: ["falta q", "fixture adverso: q==0 y level=point (solo score puntual)", "CASO-LIM-035-3A es sintético"],
         tests: "Fixtures `CASO-LIM-035-3A`, adverso y sin `q` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_POINT_ONLY y por qué faltar q exige REQUEST_INTERVAL.",
+        feedback:
+          "Sin q la cola pide intervalo; con punto solo rechaza. Distinto de pedir drops (T1-A): aquí la evidencia es el ancho de banda.",
+        retrospective:
+          "La banda comunica incertidumbre *dentro* del dominio. En T3-B, si el caso es OOD, ni la mejor banda basta: se abstiene.",
         starterCode: {
           language: 'python',
           title: "s35-t3-a-e3.py",
@@ -1535,7 +1672,11 @@ assert results == ["CONTINUE", "REJECT_POINT_ONLY", "REQUEST_INTERVAL"]
         id: "S35-T3-B-E1",
         subtopicId: "S35-T3-B",
         kind: "guided",
-        instruction: "S35-T3-B-E1 · Sobre `CASO-LIM-035-3B`, **detecta OOD** con `max(|z|) > threshold` y solo da PASS si hay OOD y `action=abstain` (sin auto-label). El starter fuerza `action=auto_fraud` cuando detecta OOD: corrige la política fail-closed. Salida exacta: `S35-T3-B PASS`. El adverso con action=auto_fraud activa `REJECT_AUTO_LABEL` en E2.",
+        title: "OOD implica abstain, no auto_fraud",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-3B` el vector z supera el umbral; la política de ficha es abstener.\n- **Meta:** PASS solo si ood y action=abstain.\n- **Éxito:** `S35-T3-B PASS`.\n- **Límites:** no fuerces auto_fraud; no inventes zs.",
+        instruction:
+          "1. Starter: action=auto_fraud y predicado lo exige.\n2. Cambia action a abstain.\n3. meets_contract = ood and action == \"abstain\".\n4. Imprime `S35-T3-B` y el status.",
         hint: "is_ood = max(abs(z) for z in zs) > thr. Si ood → action debe ser abstain, nunca auto_fraud.",
         hints: [
           "is_ood = max(abs(z) for z in zs) > thr. Si ood → action debe ser abstain, nunca auto_fraud.",
@@ -1543,7 +1684,10 @@ assert results == ["CONTINUE", "REJECT_POINT_ONLY", "REQUEST_INTERVAL"]
         ],
         edgeCases: ["falta action", "fixture adverso: OOD con action=auto_fraud", "CASO-LIM-035-3B es sintético"],
         tests: "El fixture `CASO-LIM-035-3B` detecta OOD, usa abstain e imprime `S35-T3-B PASS`.",
-        feedback: "S35-T3-B-E1: OOD se calcula (max |z|); la política correcta es abstain hacia humano, no auto_fraud.",
+        feedback:
+          "Detectar OOD no basta: en la cola de Red Andina la acción correcta es fail-closed hacia humano, no auto_fraud.",
+        retrospective:
+          "Detectar OOD no basta: la **acción** de ficha es fail-closed hacia humano (`abstain`). El starter ya calcula ood bien y aún falla el contrato por `auto_fraud`. Pregunta: ¿qué capa de la ficha mientes si fuerzas label fuera de soporte? Siguiente (E2): tri-ruta de action.",
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e1.py",
@@ -1590,7 +1734,11 @@ assert meets_contract is True
         id: "S35-T3-B-E2",
         subtopicId: "S35-T3-B",
         kind: "independent",
-        instruction: "S35-T3-B-E2 · Modela tres rutas de `Out-of-distribution y abstención`: fixture válido, fixture adverso y registro sin `action`. Entrada: dict con case_id, zs, threshold, action. Salidas exactas: `PASS`, `REJECT_AUTO_LABEL`, `MISSING:action`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Gate OOD: abstain o breach",
+        preamble:
+          "- **Contexto:** el gate de T3-B acepta OOD+abstain, rechaza auto_fraud y reporta action ausente.\n- **Meta:** `assess` con missing primero y predicado de OOD+abstain.\n- **Éxito:** `PASS REJECT_AUTO_LABEL MISSING:action`.\n- **Límites:** schema primero; auto_fraud siempre REJECT.",
+        instruction:
+          "1. Starter da PASS si action == auto_fraud.\n2. Missing → MISSING.\n3. PASS si max|z| > thr y action == abstain.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
@@ -1598,7 +1746,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta action", "fixture adverso: OOD con action=auto_fraud", "CASO-LIM-035-3B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `action` ausente y produce exactamente `PASS REJECT_AUTO_LABEL MISSING:action`.",
-        feedback: "S35-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_AUTO_LABEL y por qué faltar action exige REQUEST_OOD_POLICY.",
+        feedback:
+          "auto_fraud en OOD es breach de la ficha: la capa uncertainty debe registrar abstain, no un label inventado.",
+        retrospective:
+          "Faltar action es REQUEST de política en E3, no un PASS silencioso. Luego armarás la capa uncertainty desde zs crudos.",
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e2.py",
@@ -1644,7 +1795,11 @@ print(*results)
         id: "S35-T3-B-E3",
         subtopicId: "S35-T3-B",
         kind: "transfer",
-        instruction: "S35-T3-B-E3 · Transferencia: a partir de campos crudos (`zs`, `threshold`, `proposed_action`) **construye** la capa `uncertainty` y decide.\n1) `build_uncertainty` → `{ood, action, reason}` con `ood = max(|z|) > thr` (heurística univariante de lab).\n2) Si ood y action=abstain → `CONTINUE`.\n3) Si ood y proposed_action no es abstain → `REJECT_AUTO_LABEL`; sin `zs` → `REQUEST_OOD_POLICY`.\nNo fuerces label de fraude ni rellenes zs inventados.",
+        title: "Capa uncertainty desde z-scores",
+        preamble:
+          "- **Contexto:** la ficha CP-N3-C guarda incertidumbre como capa, no como print suelto.\n- **Meta:** construir `{ood, action, reason}` y enrutar CONTINUE / REJECT_AUTO_LABEL / REQUEST_OOD_POLICY.\n- **Éxito:** `CONTINUE REJECT_AUTO_LABEL REQUEST_OOD_POLICY`.\n- **Límites:** no rellenes zs; no dejes auto_fraud en OOD.",
+        instruction:
+          "1. Sin zs → REQUEST_OOD_POLICY.\n2. ood = max|z| > thr; reason='ood' si aplica.\n3. ood y action ≠ abstain → REJECT; ood y abstain → CONTINUE.\n4. Imprime las tres decisiones.",
         hint: "Primero monta uncertainty desde zs/threshold/proposed_action; después evalúa ood y action — no inviertas el orden.",
         hints: [
           "Primero monta uncertainty desde zs/threshold/proposed_action; después evalúa ood y action — no inviertas el orden.",
@@ -1652,7 +1807,10 @@ print(*results)
         ],
         edgeCases: ["falta action", "fixture adverso: OOD con action=auto_fraud", "CASO-LIM-035-3B es sintético"],
         tests: "Tres entradas crudas: OOD+abstain → CONTINUE; OOD+auto_fraud → REJECT_AUTO_LABEL; sin zs → REQUEST_OOD_POLICY.",
-        feedback: "S35-T3-B-E3: la transferencia ensambla uncertainty desde z-scores crudos y aplica fail-closed; no basta flip de PASS/REJECT sobre un record ya armado.",
+        feedback:
+          "reason=ood hace auditable la abstención en el portfolio; ensamblar la capa es el hábito que reutilizas en fill_uncertainty.",
+        retrospective:
+          "`reason=ood` hace auditable la abstención: no es un print suelto, es capa de ficha. El error clásico es CONTINUE con action≠abstain en OOD. Pregunta: sin `zs`, ¿por qué REQUEST_OOD_POLICY y no inventar z=0? En T4 documentas usos permitidos (card) y el rastro del override humano.",
         starterCode: {
           language: 'python',
           title: "s35-t3-b-e3.py",
@@ -1727,7 +1885,11 @@ assert results == ["CONTINUE", "REJECT_AUTO_LABEL", "REQUEST_OOD_POLICY"]
         id: "S35-T4-A-E1",
         subtopicId: "S35-T4-A",
         kind: "guided",
-        instruction: "S35-T4-A-E1 · Sobre `CASO-LIM-035-4A`, implementa `card_ok`: exige keys mínimas, `use=queue_rank`, `fraud_label` en `out_of_scope` y `contestability=True`. El starter acepta `use=fraud_label` y contestability=False: corrige el validador (no solo un booleano suelto). Salida exacta: `S35-T4-A PASS`. El adverso con use=fraud_label y contestability=False activa `REJECT_SCOPE_BREACH` en E2.",
+        title: "Card válida: queue_rank y scope",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-4A` la card del ranker de cola debe prohibir fraud_label y permitir contestabilidad.\n- **Meta:** implementar `card_ok` con keys, use, out_of_scope y contestability.\n- **Éxito:** `S35-T4-A PASS`.\n- **Límites:** no aceptes use=fraud_label ni contestability=False.",
+        instruction:
+          "1. Starter: card_ok True solo si use==fraud_label.\n2. need = {use, out_of_scope, owner, contestability}.\n3. Exige queue_rank, fraud_label en out_of_scope y contestability True.\n4. Imprime `S35-T4-A` y el status.",
         hint: "need = {use, out_of_scope, owner, contestability}; card_ok = need ⊆ card y \"fraud_label\" en out_of_scope y contestability is True y use == queue_rank.",
         hints: [
           "need = {use, out_of_scope, owner, contestability}; card_ok = need ⊆ card y \"fraud_label\" en out_of_scope y contestability is True y use == queue_rank.",
@@ -1735,7 +1897,10 @@ assert results == ["CONTINUE", "REJECT_AUTO_LABEL", "REQUEST_OOD_POLICY"]
         ],
         edgeCases: ["falta out_of_scope", "fixture adverso: use=fraud_label y contestability=False", "CASO-LIM-035-4A es sintético"],
         tests: "El fixture `CASO-LIM-035-4A` pasa card_ok e imprime `S35-T4-A PASS`.",
-        feedback: "S35-T4-A-E1: la card se valida por scope y contestabilidad; use=fraud_label es breach de producto.",
+        feedback:
+          "out_of_scope no es decorativo: es el límite de producto. use=fraud_label convierte el ranker de cola en etiqueta automática.",
+        retrospective:
+          "`out_of_scope` fija el límite de producto: fraud_label **fuera** del ranker de cola. El error clásico del starter es invertir el predicado y «aceptar» el uso prohibido. Pregunta: ¿por qué hace falta **también** contestability=True, no solo el set de keys? Siguiente (E2): tri-ruta de scope.",
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e1.py",
@@ -1788,7 +1953,11 @@ assert meets_contract is True
         id: "S35-T4-A-E2",
         subtopicId: "S35-T4-A",
         kind: "independent",
-        instruction: "S35-T4-A-E2 · Modela tres rutas de `Model card y contestabilidad`: fixture válido, fixture adverso y registro sin `out_of_scope`. Entrada: dict con case_id, use, out_of_scope, contestability. Salidas exactas: `PASS`, `REJECT_SCOPE_BREACH`, `MISSING:out_of_scope`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Gate de scope de model card",
+        preamble:
+          "- **Contexto:** el gate de T4-A acepta card de cola con contestabilidad y rechaza use=fraud_label o scope vacío.\n- **Meta:** `assess` → PASS / REJECT_SCOPE_BREACH / MISSING:out_of_scope.\n- **Éxito:** `PASS REJECT_SCOPE_BREACH MISSING:out_of_scope`.\n- **Límites:** schema primero; adverso por contenido.",
+        instruction:
+          "1. Starter da PASS si use==fraud_label.\n2. Missing → MISSING.\n3. PASS si queue_rank, fraud_label en out_of_scope y contestability True.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.",
@@ -1796,7 +1965,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta out_of_scope", "fixture adverso: use=fraud_label y contestability=False", "CASO-LIM-035-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `out_of_scope` ausente y produce exactamente `PASS REJECT_SCOPE_BREACH MISSING:out_of_scope`.",
-        feedback: "S35-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCOPE_BREACH y por qué faltar out_of_scope exige REQUEST_CARD_KEYS.",
+        feedback:
+          "use=fraud_label es breach de producto aunque el score sea «preciso»: la card de Red Andina fija queue_rank como único uso de cola.",
+        retrospective:
+          "use=fraud_label es breach de producto aunque el score sea «preciso». Faltar `out_of_scope` es schema, no un «casi PASS». Pregunta: con out_of_scope=[] y use=queue_rank, ¿PASS o REJECT y por qué? Luego construirás la card desde `prohibited` crudo.",
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e2.py",
@@ -1842,7 +2014,11 @@ print(*results)
         id: "S35-T4-A-E3",
         subtopicId: "S35-T4-A",
         kind: "transfer",
-        instruction: "S35-T4-A-E3 · Transferencia: a partir de campos crudos (`use`, `prohibited`, `owner`, `contestability`) **construye** la model card y decide.\n1) `build_card` → dict con `use`, `out_of_scope` (desde prohibited), `owner` y `contestability`.\n2) `decide` → `CONTINUE` solo si `use==queue_rank`, `fraud_label` ∈ out_of_scope y contestability es True.\n3) Adverso (use=fraud_label) → `REJECT_SCOPE_BREACH`; sin `prohibited` → `REQUEST_CARD_KEYS`.\nNo inventes out_of_scope vacío como válido.",
+        title: "Construir card desde usos prohibidos",
+        preamble:
+          "- **Contexto:** el portfolio no recibe out_of_scope listo: llega `prohibited` y debes armar la card.\n- **Meta:** build_card + decide CONTINUE / REJECT_SCOPE_BREACH / REQUEST_CARD_KEYS.\n- **Éxito:** `CONTINUE REJECT_SCOPE_BREACH REQUEST_CARD_KEYS`.\n- **Límites:** no inventes out_of_scope vacío como válido; no dejes use=fraud_label en CONTINUE.",
+        instruction:
+          "1. Sin prohibited → REQUEST_CARD_KEYS.\n2. out_of_scope = list(prohibited); copia use/owner/contestability.\n3. Gate: queue_rank + fraud_label en scope + contestability.\n4. Imprime las tres decisiones.",
         hint: "Primero arma la card con out_of_scope = list(prohibited); después valida scope y contestability.",
         hints: [
           "Primero arma la card con out_of_scope = list(prohibited); después valida scope y contestability.",
@@ -1850,7 +2026,10 @@ print(*results)
         ],
         edgeCases: ["falta out_of_scope", "fixture adverso: use=fraud_label y contestability=False", "CASO-LIM-035-4A es sintético"],
         tests: "Tres entradas crudas: card válida → CONTINUE; use=fraud_label → REJECT_SCOPE_BREACH; sin prohibited → REQUEST_CARD_KEYS.",
-        feedback: "S35-T4-A-E3: la transferencia construye la card desde keys crudas (estilo Mitchell mínimo) y luego aplica el gate de scope — no solo flip de booleano.",
+        feedback:
+          "Construir la card y validar scope son dos pasos: saltar el build deja la ficha de Red Andina sin contrato de producto.",
+        retrospective:
+          "Construir la card (`out_of_scope = list(prohibited)`) y validar scope son dos pasos: saltar el build deja la ficha sin contrato. Pregunta: si prohibited=[], ¿por qué no puedes «inventar» fraud_label en out_of_scope para forzar CONTINUE? En T4-B cierras con audit del override humano.",
         starterCode: {
           language: 'python',
           title: "s35-t4-a-e3.py",
@@ -1926,7 +2105,11 @@ assert results == ["CONTINUE", "REJECT_SCOPE_BREACH", "REQUEST_CARD_KEYS"]
         id: "S35-T4-B-E1",
         subtopicId: "S35-T4-B",
         kind: "guided",
-        instruction: "S35-T4-B-E1 · Sobre `CASO-LIM-035-4B`, implementa `audit_event`: exige keys `case`, `human`, `by` y `by` no vacío. El starter da PASS cuando `by` está vacío (override silencioso): corrige el validador. Salida exacta: `S35-T4-B PASS`. El adverso con by vacío activa `REJECT_SILENT_OVERRIDE` en E2. Timestamp es recomendado en portfolio; no se exige en este demo mínimo.",
+        title: "Override con by no vacío",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-035-4B` el override debe dejar actor reconstruible.\n- **Meta:** `audit_event` exige case, human y by no vacío.\n- **Éxito:** `S35-T4-B PASS`.\n- **Límites:** no des PASS con by vacío; ts es portfolio, no gate mínimo de este E1.",
+        instruction:
+          "1. Starter: return True cuando by está vacío.\n2. Exige keys case/human/by y bool(by), bool(case), bool(human).\n3. Imprime `S35-T4-B` y el status; el assert debe pasar con by=analyst_7.",
         hint: "audit_event: all(k in event for k in (\"case\", \"human\", \"by\")) and bool(event.get(\"by\")).",
         hints: [
           "audit_event: all(k in event for k in (\"case\", \"human\", \"by\")) and bool(event.get(\"by\")).",
@@ -1934,7 +2117,10 @@ assert results == ["CONTINUE", "REJECT_SCOPE_BREACH", "REQUEST_CARD_KEYS"]
         ],
         edgeCases: ["falta by", "fixture adverso: by vacío (override silencioso)", "CASO-LIM-035-4B es sintético"],
         tests: "El fixture `CASO-LIM-035-4B` pasa audit_event con by=analyst_7 e imprime `S35-T4-B PASS`.",
-        feedback: "S35-T4-B-E1: el audit se valida con case/human/by; by vacío es override silencioso.",
+        feedback:
+          "by vacío es override silencioso aunque el score se vea «correcto»: sin actor no hay gobernanza en la cola de Lima.",
+        retrospective:
+          "by vacío es override silencioso: no hay actor reconstruible aunque el score se vea «correcto». El error clásico del starter es premiar la ausencia de by. Pregunta: ¿por qué bool(by) no es lo mismo que `\"by\" in event`? Siguiente (E2): tres rutas de audit.",
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e1.py",
@@ -1984,7 +2170,11 @@ assert meets_contract is True
         id: "S35-T4-B-E2",
         subtopicId: "S35-T4-B",
         kind: "independent",
-        instruction: "S35-T4-B-E2 · Modela tres rutas de `Aprobación, override, apelación y retiro`: fixture válido, fixture adverso y registro sin `by`. Entrada: dict con case_id, case, human, by. Salidas exactas: `PASS`, `REJECT_SILENT_OVERRIDE`, `MISSING:by`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        title: "Gate de audit de override",
+        preamble:
+          "- **Contexto:** el gate de T4-B acepta override con actor, rechaza by vacío y reporta by ausente.\n- **Meta:** `assess` → PASS / REJECT_SILENT_OVERRIDE / MISSING:by.\n- **Éxito:** `PASS REJECT_SILENT_OVERRIDE MISSING:by`.\n- **Límites:** schema primero; by vacío es breach de contenido.",
+        instruction:
+          "1. Starter da PASS si not by.\n2. Missing → MISSING.\n3. PASS si by, case y human son truthy.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.",
@@ -1992,7 +2182,10 @@ assert meets_contract is True
         ],
         edgeCases: ["falta by", "fixture adverso: by vacío (override silencioso)", "CASO-LIM-035-4B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `by` ausente y produce exactamente `PASS REJECT_SILENT_OVERRIDE MISSING:by`.",
-        feedback: "S35-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SILENT_OVERRIDE y por qué faltar by exige REQUEST_AUDIT_FIELDS.",
+        feedback:
+          "Faltar by (MISSING) no es lo mismo que by=\"\" (REJECT): el audit trail de Red Andina distingue schema de override silencioso.",
+        retrospective:
+          "Faltar la key `by` (MISSING) no es lo mismo que `by=\"\"` (REJECT): schema vs override silencioso. Pregunta: ¿qué código devuelve cada uno y por qué la cola no los trata igual? En E3 enrutas missing a REQUEST_AUDIT_FIELDS.",
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e2.py",
@@ -2038,7 +2231,11 @@ print(*results)
         id: "S35-T4-B-E3",
         subtopicId: "S35-T4-B",
         kind: "transfer",
-        instruction: "S35-T4-B-E3 · Contrasta fallo cerrado para `Aprobación, override, apelación y retiro` con tres fixtures distintos. `CASO-LIM-035-4B` debe continuar, el adverso debe devolver `REJECT_SILENT_OVERRIDE` y la ausencia de `by` debe devolver `REQUEST_AUDIT_FIELDS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        title: "Fail-closed de override en cola",
+        preamble:
+          "- **Contexto:** en la cola de Red Andina, un override sin by no se «aprueba»: se pide audit; un by vacío se rechaza.\n- **Meta:** CONTINUE / REJECT_SILENT_OVERRIDE / REQUEST_AUDIT_FIELDS.\n- **Éxito:** `CONTINUE REJECT_SILENT_OVERRIDE REQUEST_AUDIT_FIELDS`.\n- **Límites:** missing → REQUEST, no CONTINUE; no inventes by.",
+        instruction:
+          "1. Starter: missing→CONTINUE y pred invertido.\n2. Missing → REQUEST_AUDIT_FIELDS.\n3. Completo con by/case/human truthy → CONTINUE; si no REJECT_SILENT_OVERRIDE.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.",
@@ -2046,7 +2243,10 @@ print(*results)
         ],
         edgeCases: ["falta by", "fixture adverso: by vacío (override silencioso)", "CASO-LIM-035-4B es sintético"],
         tests: "Fixtures `CASO-LIM-035-4B`, adverso y sin `by` prueban continue/breach/uncertainty en ese orden.",
-        feedback: "S35-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SILENT_OVERRIDE y por qué faltar by exige REQUEST_AUDIT_FIELDS.",
+        feedback:
+          "Sin by la cola pide campos de audit; con by vacío rechaza override silencioso. Distinto de pedir drops o q: aquí la evidencia es el actor humano.",
+        retrospective:
+          "Con card + audit, la ficha CP-N3-C queda lista para el portfolio. Pregunta: ¿qué añadirías (ts, reason, model_version) para reconstrucción forense real?",
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e3.py",
@@ -2178,6 +2378,8 @@ if __name__ == "__main__":
 `,
     portfolioNote:
       "Inicio CP-N3-C: no des por cerrada la sección sin ficha 4 capas + card out_of_scope + audit de override. Portfolio: repara los tres fill_* hasta portfolio_ready True; documenta un caso adverso (OOD o by vacío); incluye mini-reporte de slice (n/flag) y un proxy con gap o acción de mitigación.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante de la ficha demuestras con `portfolio_ready` (capas + ética + OOD + card/by)? (2) ¿qué caso adverso documentas en la nota (OOD, by vacío, low_n o proxy) y por qué no rellenas evidencia inventada? (3) Escribe una frase de impacto medible para el README: *antes* el score se leía como veredicto; *después* la cola separa evidencia, modelo, incertidumbre y humano con audit. ¿Puedes defender en 30 segundos por qué explicar no es acusar?",
     rubric: [
       { criterion: "Ficha CP-N3-C: cuatro capas + límites causal/means_fraud", weight: "25%" },
       { criterion: "Correctitud técnica (contrib, banda toy sin coverage_claim, OOD)", weight: "20%" },

@@ -484,6 +484,8 @@ test_db :memory:`,
         environment: "local-python",
         description:
           "Crea entities y candidate_pairs con CHECK de score, orden entity_a < entity_b y PRAGMA foreign_keys; imprime count de pares y score del par p1.",
+        preamble:
+          "Antes de armar la cola de review del ER, el almacén debe rechazar basura en el insert. En esta demo creas `entities` y `candidate_pairs` con score entre 0 y 1, orden canónico `entity_a < entity_b` y `PRAGMA foreign_keys = ON`. No escribas aún: predice el `score` del par `p1`, el conteo de pares y el valor del PRAGMA; luego contrasta con la salida. Si el PRAGMA queda en 0, el `REFERENCES` es solo decoración y el almacén miente.",
         code: {
           language: 'python',
           title: "keys_demo.py",
@@ -517,7 +519,9 @@ print("fk_pragma", c.execute("PRAGMA foreign_keys").fetchone()[0])
 pairs 1
 fk_pragma 1`,
         },
-        why: "Constraints y FK habilitadas (PRAGMA=1) protegen el almacén ER desde el primer insert. Sin el PRAGMA, REFERENCES no falla: el almacén mentiría.",
+        why: "Constraints y FK habilitadas (PRAGMA=1) protegen el almacén ER desde el primer insert. Sin el PRAGMA, un `entity_id` fantasma se inserta sin error: el REFERENCES es solo documentación. El CHECK de score impide confianza inventada fuera de [0, 1]; el orden A<B evita el espejo del mismo candidato. En We Do practicarás PRIMARY KEY, rechazo de score inválido y FK real con par huérfano.",
+        retrospective:
+          "Si puedes explicar por qué `PRAGMA foreign_keys` debe ejecutarse en *cada* conexión antes de confiar en REFERENCES, ya tienes el hábito de integridad del lab. El error clásico es asumir que el DDL solo basta. En We Do practicarás PK, CHECK y rechazo de FK rota.",
       },
       {
         demoId: "S29-T1-B-DEMO",
@@ -525,6 +529,8 @@ fk_pragma 1`,
         environment: "local-python",
         description:
           "Inserta dos decisiones append-only para el mismo par y lista labels en orden de id.",
+        preamble:
+          "En el almacén ER, “quién cambió de review a match y cuándo” es requisito de auditoría, no un detalle cosmético. Esta demo inserta dos filas de decisión para el mismo `pair_id` y lista los labels en orden. No escribas: predice la lista y el booleano `append_only`; luego contrasta. Si en su lugar hicieras UPDATE del label, el martes desaparece de la historia.",
         code: {
           language: 'python',
           title: "prov_demo.py",
@@ -552,7 +558,9 @@ print("append_only", True)
           output: `['review', 'match']
 append_only True`,
         },
-        why: "Historia de decisiones sin overwrite: dos filas, no un UPDATE destructivo.",
+        why: "Historia de decisiones sin overwrite: dos filas, no un UPDATE destructivo del label. Cada cambio conserva el rastro de actor y evidence_ref por fila; puedes reconstruir qué veía el revisor el martes. En We Do practicarás COUNT de historia, dict de provenance y ventana abierta con `valid_to IS NULL`.",
+        retrospective:
+          "Append-only = nueva fila por cambio de label, no un UPDATE del valor. El error clásico es “arreglar” el martes y borrar el rastro de auditoría. Pregunta: con dos INSERT, ¿qué lista verías si ordenas por `id`? We Do: COUNT de historia, provenance source/record y ventana `valid_to IS NULL`.",
       },
       {
         demoId: "S29-T2-A-DEMO",
@@ -560,6 +568,8 @@ append_only True`,
         environment: "local-python",
         description:
           "CTE de candidatos + anti-join (LEFT JOIN … IS NULL): lista ids de pares sin decisión (cola de review).",
+        preamble:
+          "La cola de review del ER no son los pares ya decididos: son los que aún no tienen label humano. En esta demo una CTE nombra los candidatos y un anti-join (LEFT JOIN … IS NULL) deja solo `p2`. No escribas: predice la lista; luego imagina qué devolvería un INNER JOIN (solo `p1`). Observa también los flags `cte` y `antijoin`.",
         code: {
           language: 'python',
           title: "cte_demo.py",
@@ -591,7 +601,9 @@ print("antijoin", True)
 cte True
 antijoin True`,
         },
-        why: "Cola de review: la CTE nombra el paso; el anti-join (LEFT JOIN … IS NULL) deja solo p2. Predice: con INNER JOIN solo verías p1.",
+        why: "Cola de review: la CTE nombra el paso intermedio; el anti-join seguro (LEFT JOIN … IS NULL o NOT EXISTS) deja solo pendientes. INNER JOIN solo devuelve ya decididos — no es la cola. Prefiere NOT EXISTS frente a NOT IN con NULL. En We Do practicarás anti-join, top-1 global con ROW_NUMBER y top-1 por bloque con PARTITION BY.",
+        retrospective:
+          "Cola de review = anti-join, no INNER: INNER solo devuelve ya decididos. El error clásico es “unir y ver lo resuelto” pensando que eso es la cola. Pregunta: con p1 decidido y p2 libre, ¿qué lista da INNER y cuál anti-join? We Do: NOT EXISTS, ROW_NUMBER global y PARTITION BY block_key.",
       },
       {
         demoId: "S29-T2-B-DEMO",
@@ -599,6 +611,8 @@ antijoin True`,
         environment: "local-python",
         description:
           "COUNT(*) vs. COUNT(col) y cardinalidad de self-join sobre grp (NULL no empareja).",
+        preamble:
+          "Antes de unir entidades por un atributo, estima filas y entiende NULL. En esta demo hay tres filas (`grp` a, a, NULL): `COUNT(*)` cuenta filas, `COUNT(grp)` ignora NULL, y el self-join con `a.grp = b.grp` y `a.id < b.id` produce un solo par. No escribas: predice `star`, `col` y `pairs`; luego contrasta. La fila con `grp` NULL no se empareja consigo misma.",
         code: {
           language: 'python',
           title: "card_demo.py",
@@ -625,7 +639,9 @@ print("pairs", pairs)
 col 2
 pairs 1`,
         },
-        why: "NULL y cardinalidad evitan sorpresas: COUNT(col) ignora NULL; igualdad no une filas con grp NULL.",
+        why: "NULL y cardinalidad evitan sorpresas de fan-out en el almacén. COUNT(col) ignora NULL; COUNT(*) no. La igualdad SQL no une filas con grp NULL (NULL=NULL no es TRUE). En We Do practicarás C(n,2) con a.id < b.id, predicado IS NULL y lectura de EXPLAIN SCAN.",
+        retrospective:
+          "Si puedes explicar por qué `pairs` es 1 y no 3, ya respetas NULL en joins. El error clásico es asumir n×n o que NULL=NULL es TRUE. We Do: cardinalidad canónica, IS NULL y planes.",
       },
       {
         demoId: "S29-T3-A-DEMO",
@@ -633,6 +649,8 @@ pairs 1`,
         environment: "local-python",
         description:
           "Transacción con ROLLBACK deja decisions y evidence en 0 filas (atomicidad).",
+        preamble:
+          "En el almacén de verdad, una decisión sin evidencia es basura de auditoría. Esta demo abre transacción, inserta en `decisions`, fuerza un fallo antes de `evidence` y hace ROLLBACK. No escribas: predice los dos counts y el booleano `acid`; luego contrasta. Si hubiera COMMIT parcial, quedaría una decisión huérfana.",
         code: {
           language: 'python',
           title: "acid_demo.py",
@@ -658,7 +676,9 @@ print("acid", n_d == 0 and n_e == 0)
           output: `0 0
 acid True`,
         },
-        why: "Atomicidad decisión+evidencia: si falla el segundo write, no queda basura en la primera tabla.",
+        why: "Atomicidad decisión+evidencia: si falla el segundo write, no queda basura en la primera tabla. El lab enfoca atomicidad en una conexión; isolation multi-conexión se retoma en S38. En We Do practicarás ROLLBACK simple, ambos counts en 0 y la política `evidence_ok`.",
+        retrospective:
+          "ROLLBACK es la red de seguridad: todo o nada en decisión+evidencia. El error clásico es commitear la decisión “y la evidencia después” — basura de auditoría. Pregunta: si el raise ocurre *después* del insert de evidence, ¿qué counts quedarían sin ROLLBACK? We Do: rollback simple, atomicidad y abort por flag.",
       },
       {
         demoId: "S29-T3-B-DEMO",
@@ -666,6 +686,8 @@ acid True`,
         environment: "local-python",
         description:
           "Upsert actualiza name de entidad e1 a 'Ana L' y lo imprime.",
+        preamble:
+          "Re-ingerir el mismo `external_id` del CRM no debe crear otra entidad ni borrar labels pasados. En esta demo un upsert actualiza el `name` de `e1` a `Ana L` y lo imprime. No escribas: predice el name final y el flag `upsert`; luego contrasta. Observa que no hay tabla de decisions en el demo: a propósito, para no confundir políticas.",
         code: {
           language: 'python',
           title: "upsert_demo.py",
@@ -692,7 +714,9 @@ print("upsert", True)
           output: `Ana L
 upsert True`,
         },
-        why: "Upsert de atributos con id estable; no toca la historia de decisiones.",
+        why: "Upsert de atributos con id estable: ON CONFLICT DO UPDATE reescribe el name mutable y conserva la PK. No toca la historia de decisiones — eso es otra política (append-only). En We Do practicarás name final B, job `pending` tras crash y orden canónico A<B con rechazo del espejo.",
+        retrospective:
+          "Upsert reescribe atributos mutables y conserva el id. El error clásico es tratar el upsert de entidad como “corregir” un label de decisión. We Do: upsert, recuperación de job y CHECK de orden.",
       },
       {
         demoId: "S29-T4-A-DEMO",
@@ -700,6 +724,8 @@ upsert True`,
         environment: "local-python",
         description:
           "Migration v1 + índice en block_key; imprime version y si el plan usa índice.",
+        preamble:
+          "Evolucionar el esquema del almacén sin rastro es tan peligroso como un DROP sin backup. En esta demo registras la migration v1, creas índice en `block_key` y lees si el plan menciona índice. No escribas: predice `version` e `indexed`; luego contrasta con la salida. El texto del plan es diagnóstico, no magia.",
         code: {
           language: 'python',
           title: "mig_demo.py",
@@ -734,7 +760,9 @@ print("indexed", indexed)
           output: `1
 indexed True`,
         },
-        why: "Evolución de esquema versionada y evidencia del índice en el plan.",
+        why: "Evolución versionada en `schema_migrations` y evidencia del índice en EXPLAIN: no adivines “ya hay índice”. MAX(v) dice hasta qué versión llegó el esquema; el plan confirma si el filtro por block_key usa el objeto. En We Do practicarás MAX(version), CREATE INDEX real y la política no_drop_without_backup.",
+        retrospective:
+          "Versionar en `schema_migrations` y pedir el plan es el hábito de evolución segura. El error clásico es crear el índice y no mirar EXPLAIN (o imprimir “indexed” de memoria). Pregunta: si `MAX(v)` devuelve 1 y el plan no menciona INDEX, ¿qué falló primero? We Do: MAX(v), sqlite_master y guard de DROP.",
       },
       {
         demoId: "S29-T4-B-DEMO",
@@ -742,6 +770,8 @@ indexed True`,
         environment: "local-python",
         description:
           "Repository.pending() lista pares sin decisión (anti-join encapsulado).",
+        preamble:
+          "El matching y el scoring no deben armar SQL crudo por toda la app: piden intenciones como `pending()`. En esta demo un repository encapsula el anti-join y devuelve solo el par sin decisión. No escribas: predice la lista de filas y el flag `repo`; luego contrasta. Observa que el SQL vive *dentro* del método.",
         code: {
           language: 'python',
           title: "repo_demo.py",
@@ -775,7 +805,9 @@ print("repo", True)
           output: `[('p2',)]
 repo True`,
         },
-        why: "SQL encapsulado y testeable: la app pide pending() con anti-join seguro (LEFT JOIN / NOT EXISTS), no arma SQL suelto ni NOT IN frágil.",
+        why: "SQL encapsulado y testeable: la app pide `pending()`; el repo traduce a anti-join seguro (LEFT JOIN / NOT EXISTS), no NOT IN frágil. Inyectas la conexión para tests en `:memory:`. En We Do practicarás `get(id)`, ciclo de conexiones con PRAGMA y `pending_count` real.",
+        retrospective:
+          "La app pide `pending()`; el repo traduce a anti-join. El error clásico es esparcir SQL y usar NOT IN con NULL. We Do: get, ciclo open→pragma→close y count de pendientes.",
       },
     ],
   },
@@ -787,8 +819,11 @@ repo True`,
         id: "S29-T1-A-E1",
         subtopicId: "S29-T1-A",
         kind: "guided",
+        title: "PRIMARY KEY en entities (sin duplicar e1)",
+        preamble:
+          "- **Contexto:** en el almacén ER de CP-N3-A, cada entidad canónica tiene un id estable; dos filas con el mismo id no son “dos vistas”, son corrupción de identidad.\n- **Meta:** declarar `PRIMARY KEY` en `entities(id)` y dejar un solo insert válido.\n- **Éxito:** una sola línea con el entero `1`.\n- **Límites:** no dejes el segundo insert; no imprimas etiquetas extra; SQLite `:memory:` de lab.",
         instruction:
-          "S29-T1-A-E1 · En SQLite `:memory:`, crea `entities(id TEXT PRIMARY KEY)`, inserta solo `'e1'` y muestra `SELECT COUNT(*)`. Salida esperada: una línea `1`. El starter inserta el id dos veces porque falta la PRIMARY KEY: corrige el DEFECT (añade PK y deja un solo insert válido).",
+          "1. Abre el starter: tabla sin PK e insert duplicado de `'e1'` (count 2).\n2. Añade `primary key` en la columna `id`.\n3. Deja un solo `INSERT` de `'e1'`.\n4. Imprime solo `COUNT(*)`.",
         hint: "PRIMARY KEY impide el segundo insert",
         hints: [
           "PRIMARY KEY en id",
@@ -798,7 +833,9 @@ repo True`,
         edgeCases: ["IntegrityError si reinsertas el mismo id con PK"],
         tests: "salida coincide con solution output",
         feedback:
-          "Con PRIMARY KEY el motor rechaza el duplicado. Un solo `e1` y COUNT(*) = 1 es el contrato mínimo de identidad en el almacén ER.",
+          "Con PRIMARY KEY el motor rechaza el duplicado. Un solo `e1` y COUNT(*) = 1 es el contrato mínimo de identidad: sin id único, joins y decisiones apuntan a filas ambiguas.",
+        retrospective:
+          "La PK es el ancla de todo el grafo ER. El error clásico es insertar “otra vez por si acaso” sin constraint. Siguiente (E2): CHECK de score fuera de [0, 1].",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -828,8 +865,11 @@ print(c.execute('select count(*) from entities').fetchone()[0])
         id: "S29-T1-A-E2",
         subtopicId: "S29-T1-A",
         kind: "independent",
+        title: "CHECK score 0..1 y bad_score",
+        preamble:
+          "- **Contexto:** la cola de candidatos del ER no debe arrastrar un score de 1.5 como si fuera confianza real.\n- **Meta:** forzar un insert inválido, capturar `IntegrityError` e imprimir `bad_score`.\n- **Éxito:** una línea exacta `bad_score`.\n- **Límites:** CHECK `BETWEEN 0 AND 1` (0 y 1 son válidos); no silencies el error sin imprimir; no uses un score inventado “arreglado”.",
         instruction:
-          "S29-T1-A-E2 · Tabla `p(score REAL CHECK(score BETWEEN 0 AND 1))`. Intenta insertar `1.5`, captura `IntegrityError` e imprime exactamente `bad_score`. Una línea de salida.",
+          "1. Revisa el starter: imprime `skipped_check` sin probar el CHECK.\n2. Intenta `INSERT` de `1.5` en `p(score)`.\n3. En el `except IntegrityError`, imprime `bad_score`.\n4. No alteres el rango del CHECK.",
         hint: "try/except IntegrityError",
         hints: [
           "CHECK score 0..1",
@@ -840,6 +880,8 @@ print(c.execute('select count(*) from entities').fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "El CHECK no es documentación: un score fuera de [0, 1] debe fallar con IntegrityError. Así la cola de candidatos no arrastra confianza inventada.",
+        retrospective:
+          "Validar el score en el motor (CHECK + IntegrityError) no es lo mismo que confiar en un guard de Python: alguien puede escribir SQL directo y meter basura en la cola. El error clásico es “arreglar” el insert a 1.0 en silencio. Pregunta: ¿0 y 1 son válidos con `BETWEEN 0 AND 1`? Luego (E3): FK real con PRAGMA.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -869,13 +911,16 @@ except sqlite3.IntegrityError:
         id: "S29-T1-A-E3",
         subtopicId: "S29-T1-A",
         kind: "transfer",
+        title: "FK real con PRAGMA foreign_keys",
+        preamble:
+          "- **Contexto:** un par que apunta a `e_missing` no puede vivir en el almacén de verdad: rompe la cola y la auditoría.\n- **Meta:** habilitar FK en la conexión, intentar el insert huérfano y reportar rechazo.\n- **Éxito:** una línea `fk_rejected`.\n- **Límites:** `PRAGMA foreign_keys = ON` en *esta* conexión; no borres el `REFERENCES`; no dejes `fk_ignored`.",
         instruction:
-          "S29-T1-A-E3 · Transferencia de integridad: con `PRAGMA foreign_keys = ON`, crea `entities` y `pairs(entity_id REFERENCES entities(id))`, inserta solo `e1`, intenta un par que referencia `e_missing`, captura `IntegrityError` e imprime `fk_rejected`. Salida: `fk_rejected`.",
-        hint: "PRAGMA foreign_keys = ON en esta conexión",
+          "1. Lee el DEFECT: falta el PRAGMA; el insert de `e_missing` “pasa”.\n2. Ejecuta `PRAGMA foreign_keys = ON` antes del `executescript` o del insert de prueba.\n3. Mantén el try/except de IntegrityError.\n4. Debe imprimirse `fk_rejected`, no `fk_ignored`.",
+        hint: "Habilita FK en esta conexión *antes* del insert de prueba",
         hints: [
-          "c.execute('PRAGMA foreign_keys = ON')",
-          "REFERENCES entities(id) en pairs",
-          "try insert e_missing → except IntegrityError → print fk_rejected",
+          "PRAGMA foreign_keys en la conexión actual, antes del insert huérfano",
+          "REFERENCES entities(id) en pairs se mantiene",
+          "IntegrityError del insert → print fk_rejected (no fk_ignored)",
         ],
         edgeCases: [
           "Sin PRAGMA el REFERENCES no falla en SQLite",
@@ -884,6 +929,8 @@ except sqlite3.IntegrityError:
         tests: "salida coincide con solution output",
         feedback:
           "En SQLite la FK solo se exige con PRAGMA foreign_keys=ON por conexión. Sin eso, un par huérfano se inserta en silencio y rompe el almacén de verdad.",
+        retrospective:
+          "El REFERENCES del DDL no basta: el motor solo lo aplica si el PRAGMA está ON en *esta* conexión. El error clásico es confiar en el CREATE y dejar pares huérfanos. Pregunta: ¿por qué un pool o un script nuevo vuelve a necesitar el mismo PRAGMA?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -938,8 +985,11 @@ except sqlite3.IntegrityError:
         id: "S29-T1-B-E1",
         subtopicId: "S29-T1-B",
         kind: "guided",
+        title: "Append-only: review y match sin UPDATE",
+        preamble:
+          "- **Contexto:** un revisor sintético de Red Andina cambia `review` → `match` para el par `p1`; el almacén debe conservar ambas filas.\n- **Meta:** insertar dos labels (no sobrescribir) y contar la historia del par.\n- **Éxito:** el entero `2`.\n- **Límites:** no uses UPDATE del label; imprime solo el count, no la lista.",
         instruction:
-          "S29-T1-B-E1 · Tabla de decisiones append-only: inserta para `p1` los labels `review` y `match` (dos filas) e imprime `COUNT(*)` de historia del par. Salida: `2`.",
+          "1. Abre el starter: hace UPDATE y deja una fila.\n2. Reemplaza el UPDATE por un segundo INSERT con label `match`.\n3. Mantén el `COUNT(*)` filtrado por `pair='p1'`.\n4. Imprime solo el entero.",
         hint: "dos INSERT al mismo pair_id; COUNT filtrado",
         hints: [
           "append-only: dos filas, no UPDATE",
@@ -950,6 +1000,8 @@ except sqlite3.IntegrityError:
         tests: "salida coincide con solution output",
         feedback:
           "Append-only = dos INSERT, no un UPDATE del label. COUNT(*) = 2 prueba que la historia del par sigue viva para auditoría.",
+        retrospective:
+          "COUNT=2 no es “más datos”: es prueba de que el revisor puede reconstruir el camino review→match. El error clásico es UPDATE “limpio” que deja una sola fila y borra el martes. Pregunta: si mañana cambian a non_match, ¿cuántas filas deberían quedar? Siguiente (E2): provenance source/record leída de tabla.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -980,8 +1032,11 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])
         id: "S29-T1-B-E2",
         subtopicId: "S29-T1-B",
         kind: "independent",
+        title: "Provenance mínima source y record",
+        preamble:
+          "- **Contexto:** un match sin rastro al CRM sintético es una opinión: no sabes qué payload alimentó el par.\n- **Meta:** leer `source` y `record` de la tabla e imprimir el dict completo.\n- **Éxito:** `{'source': 'crm_synth', 'record': 'r9'}` (orden de keys como en la solución).\n- **Límites:** no inventes el dict a medias; no omitas `record`; datos sintéticos del fixture.",
         instruction:
-          "S29-T1-B-E2 · Provenance mínima: lee de una tabla `src(source, record)` la fila insertada e imprime el dict `{'source': 'crm_synth', 'record': 'r9'}` (orden de keys como en el solution).",
+          "1. Revisa el starter: imprime solo `{'source': ...}`.\n2. Incluye `'record': row[1]` en el dict.\n3. Imprime el dict completo.\n4. No hardcodes el record si la fila ya lo tiene.",
         hint: "INSERT + SELECT → dict",
         hints: [
           "insert source y record",
@@ -991,6 +1046,8 @@ print(c.execute("select count(*) from d where pair='p1'").fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "Provenance mínima es source + record leídos de la tabla, no un dict a medias. Sin record no hay rastro al payload fuente.",
+        retrospective:
+          "Un match sin `record` es una opinión: no sabes qué payload del CRM sintético alimentó el par. El error clásico es imprimir solo `source` “porque ya se ve”. Pregunta: ¿dónde pondrías `ingested_at` sin romper el contrato mínimo de este ejercicio? Luego (E3): ventana abierta con `valid_to IS NULL`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1021,8 +1078,11 @@ print({'source': row[0], 'record': row[1]})
         id: "S29-T1-B-E3",
         subtopicId: "S29-T1-B",
         kind: "transfer",
+        title: "Ventana abierta con valid_to IS NULL",
+        preamble:
+          "- **Contexto:** en el lab, una fila con `valid_to` NULL es la versión vigente de la entidad; un cierre con timestamp deja de ser vigente.\n- **Meta:** contar filas abiertas con el predicado correcto de NULL en SQL.\n- **Éxito:** el entero `1`.\n- **Límites:** usa `IS NULL`, no `= NULL`; no inventes fechas; no borres la fila cerrada.",
         instruction:
-          "S29-T1-B-E3 · Temporalidad en SQL: fila con `valid_to` NULL = vigente. Cuenta filas abiertas con `WHERE valid_to IS NULL` e imprime el entero. Salida: `1`.",
+          "1. Lee el DEFECT: `where valid_to = null` devuelve 0.\n2. Cambia el predicado a `valid_to is null`.\n3. Imprime el count.\n4. No alteres los inserts del fixture.",
         hint: "IS NULL marca ventana abierta",
         hints: [
           "insert con valid_to null",
@@ -1032,6 +1092,8 @@ print({'source': row[0], 'record': row[1]})
         tests: "salida coincide con solution output",
         feedback:
           "`valid_to IS NULL` marca la ventana abierta. `= NULL` no devuelve filas: es el mismo error conceptual que en la teoría de T2-B.",
+        retrospective:
+          "Una ventana vigente se filtra con `IS NULL`, no con igualdad. El error clásico es copiar `= null` desde un print de Python. Pregunta: ¿qué imprime `COUNT(*)` vs `COUNT(valid_to)` sobre este fixture?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1068,8 +1130,11 @@ print(n)
         id: "S29-T2-A-E1",
         subtopicId: "S29-T2-A",
         kind: "guided",
+        title: "Anti-join: pares sin decisión",
+        preamble:
+          "- **Contexto:** el revisor de CP-N3-A necesita la cola de pares aún sin label, no la lista de ya resueltos.\n- **Meta:** listar ids sin decisión con `NOT EXISTS` o `LEFT JOIN … IS NULL`.\n- **Éxito:** `['p2']`.\n- **Límites:** no uses `NOT IN` (falla si la subconsulta tiene NULL); no uses INNER JOIN; ordena por id si hace falta.",
         instruction:
-          "S29-T2-A-E1 · Con pairs `p1`,`p2` y decisión solo en `p1`, lista ids sin decisión con anti-join seguro: `NOT EXISTS` o `LEFT JOIN … IS NULL`. No uses `NOT IN` (falla si la subconsulta tiene NULL). Salida: `['p2']`.",
+          "1. Abre el starter: INNER JOIN devuelve solo `p1`.\n2. Reescribe con `NOT EXISTS (SELECT 1 FROM dec d WHERE d.pair_id = p.id)` (o LEFT JOIN + IS NULL).\n3. Imprime la lista de ids.\n4. No mutes las tablas del fixture.",
         hint: "INNER JOIN solo devuelve p1",
         hints: [
           "NOT EXISTS (SELECT 1 FROM dec d WHERE d.pair_id = p.id)",
@@ -1081,6 +1146,8 @@ print(n)
         tests: "salida coincide con solution output",
         feedback:
           "INNER JOIN solo devuelve pares ya decididos. La cola de review es anti-join: `NOT EXISTS` o `LEFT JOIN … IS NULL` → `['p2']`. Evita `NOT IN` cuando el subconjunto puede contener NULL.",
+        retrospective:
+          "La cola del revisor son los pares *sin* label; INNER JOIN los borra de la vista. Prefiere NOT EXISTS (o LEFT JOIN…IS NULL) frente a NOT IN con NULL. Pregunta: si `dec` tuviera un `pair_id` NULL, ¿qué le pasaría a un NOT IN? Siguiente (E2): top-1 con ROW_NUMBER.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1141,8 +1208,11 @@ print(
         id: "S29-T2-A-E2",
         subtopicId: "S29-T2-A",
         kind: "independent",
+        title: "Top-1 global con ROW_NUMBER DESC",
+        preamble:
+          "- **Contexto:** la cola prioriza el candidato de mayor score antes de llamar al revisor.\n- **Meta:** rankear con `ROW_NUMBER() OVER (ORDER BY score DESC)` y devolver el id con `rn=1`.\n- **Éxito:** `p2` (score 0.9).\n- **Límites:** no uses ASC; no resuelvas el top en Python omitiendo la window; imprime solo el id.",
         instruction:
-          "S29-T2-A-E2 · Con SQL window: tabla pairs (id, score) con tres filas; usa `ROW_NUMBER() OVER (ORDER BY score DESC)` y devuelve el id con rn=1. Salida: `p2` (score 0.9).",
+          "1. Revisa el starter: `order by score asc` elige el peor.\n2. Cambia a `order by score desc`.\n3. Mantén el filtro `where rn = 1`.\n4. Imprime el id.",
         hint: "ROW_NUMBER en SQLite",
         hints: [
           "WITH o subconsulta con ROW_NUMBER",
@@ -1152,6 +1222,8 @@ print(
         tests: "salida coincide con solution output",
         feedback:
           "ROW_NUMBER() OVER (ORDER BY score DESC) con rn=1 es el top-1 SQL. ASC elegía el peor score; el oráculo pide p2 (0.9).",
+        retrospective:
+          "ROW_NUMBER DESC con rn=1 es el top-1 SQL. ASC elegía basura de score bajo. Luego (E3): top-1 *por bloque* con PARTITION BY.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1198,12 +1270,15 @@ print(c.execute(q).fetchone()[0])
         id: "S29-T2-A-E3",
         subtopicId: "S29-T2-A",
         kind: "transfer",
+        title: "Top-1 por bloque con PARTITION BY",
+        preamble:
+          "- **Contexto:** en ER real, el ranking no es global: reinicia por cubeta de *blocking* (`block_key`) para no mezclar colas ajenas.\n- **Meta:** `ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)` y ids con `rn=1`.\n- **Éxito:** `['p1', 'p3']` ordenados por id.\n- **Límites:** no dejes ranking global; no omitas ORDER BY id externo; empates de score: ROW_NUMBER no empata (documenta en prod).",
         instruction:
-          "S29-T2-A-E3 · Transferencia window: con pairs y `block_key`, usa `ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)` y devuelve los ids con rn=1 (top-1 por bloque), ordenados por id. Datos: p1/0.9/A, p2/0.4/A, p3/0.7/B, p4/0.5/B. Salida: `['p1', 'p3']`.",
+          "1. Lee el DEFECT: window sin PARTITION BY (un solo ganador).\n2. Añade `PARTITION BY block_key` y `ORDER BY score DESC`.\n3. Filtra `rn = 1` y ordena por id.\n4. Imprime la lista de ids.",
         hint: "PARTITION BY reinicia el ranking por bloque",
         hints: [
-          "ROW_NUMBER() OVER (PARTITION BY block_key ORDER BY score DESC)",
-          "WHERE rn = 1 y ORDER BY id en el SELECT externo",
+          "La window debe particionar por block_key y ordenar score DESC",
+          "Filtra rn = 1 y ordena por id en el SELECT externo",
         ],
         edgeCases: [
           "Sin PARTITION BY el top-1 global deja un solo id",
@@ -1212,6 +1287,8 @@ print(c.execute(q).fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "PARTITION BY block_key reinicia ROW_NUMBER en cada cubeta de blocking: top-1 por bloque (p1 en A, p3 en B). Un ORDER BY global sin partición no modela la cola de review por bloque.",
+        retrospective:
+          "PARTITION BY reinicia el contador por bloque: p1 en A, p3 en B. Un ORDER BY global no modela la cola de review por cubeta. Pregunta: ¿qué lista obtienes sin partición con estos datos?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1272,8 +1349,11 @@ print([r[0] for r in c.execute(q)])
         id: "S29-T2-B-E1",
         subtopicId: "S29-T2-B",
         kind: "guided",
+        title: "Cardinalidad C(n,2) con a.id < b.id",
+        preamble:
+          "- **Contexto:** sin orden canónico ni *blocking*, el self-join de entidades explota y la cola de candidatos se vuelve inviable.\n- **Meta:** contar pares no ordenados con `a.id < b.id` (C(5,2)=10).\n- **Éxito:** el entero `10`.\n- **Límites:** no dejes el join sin filtro (25); no cuentes en Python omitiendo el SQL; lab con n=5.",
         instruction:
-          "S29-T2-B-E1 · Con 5 entidades en SQLite, cuenta pares no ordenados con self-join `a.id < b.id` (equivale a C(5,2)=10). El starter une sin filtro de orden y explota a 25. Salida: `10`.",
+          "1. Abre el starter: `join` sin `on` cuenta n×n=25.\n2. Añade `on a.id < b.id`.\n3. Imprime `COUNT(*)`.\n4. No cambies el número de entidades del fixture.",
         hint: "self-join con a.id < b.id",
         hints: [
           "from e a join e b on a.id < b.id",
@@ -1283,6 +1363,8 @@ print([r[0] for r in c.execute(q)])
         tests: "salida coincide con solution output",
         feedback:
           "Self-join con `a.id < b.id` da C(5,2)=10 pares no ordenados. Sin el filtro, n×n=25 incluye diagonales y dobles sentidos — inviable en ER.",
+        retrospective:
+          "`a.id < b.id` da C(5,2)=10: sin diagonal ni doble sentido. Sin el filtro, 25 incluye basura de pares. Siguiente (E2): `= NULL` vs `IS NULL`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1317,8 +1399,11 @@ print(n)
         id: "S29-T2-B-E2",
         subtopicId: "S29-T2-B",
         kind: "independent",
+        title: "NULL en SQL: = NULL vs IS NULL",
+        preamble:
+          "- **Contexto:** filtrar filas abiertas o claves nulas en el almacén exige el predicado SQL correcto, no la intuición de Python.\n- **Meta:** comparar `WHERE x = NULL` vs `WHERE x IS NULL` sobre una fila NULL.\n- **Éxito:** `0 1` (eq e isn separados por espacio).\n- **Límites:** no uses `None is None` de Python para razonar; no “arregles” el NULL con COALESCE aquí.",
         instruction:
-          "S29-T2-B-E2 · En SQL, `NULL = NULL` no es TRUE. Inserta una fila con x NULL; imprime `COUNT` con `WHERE x = NULL` y con `WHERE x IS NULL` separados por espacio. Salida: `0 1`.",
+          "1. Revisa el starter: el segundo predicado también usa `= null`.\n2. Cambia el segundo a `x is null`.\n3. Imprime `eq` e `isn` en una línea.\n4. No alteres el insert NULL.",
         hint: "IS NULL vs = NULL",
         hints: [
           "eq = ... where x = null → 0",
@@ -1329,6 +1414,8 @@ print(n)
         tests: "salida coincide con solution output",
         feedback:
           "En SQL, `x = NULL` no es TRUE (count 0); `x IS NULL` sí (count 1). No uses la analogía Python `None is None` para razonar NULL.",
+        retrospective:
+          "En SQL la igualdad con NULL no es TRUE ni FALSE “útil”: el predicado correcto de ausencia es `IS NULL`. Confundirlo con `None is None` de Python te deja ventanas “abiertas” con count 0. Pregunta: ¿qué devolvería un LEFT JOIN que filtre con `= NULL` en la columna de la derecha? Luego (E3): leer SCAN en el plan real.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1361,8 +1448,11 @@ print(eq, isn)
         id: "S29-T2-B-E3",
         subtopicId: "S29-T2-B",
         kind: "transfer",
+        title: "EXPLAIN: SCAN sin índice en block_key",
+        preamble:
+          "- **Contexto:** antes de “ya tengo índice”, el lab pide el plan real de SQLite sobre un filtro por `block_key`.\n- **Meta:** correr `EXPLAIN QUERY PLAN` y reportar `SCAN` si el texto del plan lo contiene (mayúsculas).\n- **Éxito:** `SCAN` en tabla mínima sin índice.\n- **Límites:** no imprimas `INDEX` de memoria; no crees índice en este ejercicio (eso es T4); lee el plan.",
         instruction:
-          "S29-T2-B-E3 · Sin índice en `block_key`, corre `EXPLAIN QUERY PLAN` de un SELECT filtrado e imprime `SCAN` si el plan contiene esa palabra (mayúsculas), si no `OTHER`. En tabla mínima sin índice esperamos `SCAN`.",
+          "1. Lee el DEFECT: imprime `INDEX` sin mirar el plan.\n2. Une las filas del plan a string.\n3. Imprime `SCAN` si `'SCAN' in plan.upper()`, si no `OTHER`.\n4. No inventes el texto del plan.",
         hint: "EXPLAIN QUERY PLAN + str del plan",
         hints: [
           "join de filas del plan a string",
@@ -1372,6 +1462,8 @@ print(eq, isn)
         tests: "salida coincide con solution output",
         feedback:
           "Lee el plan real: sin índice en block_key, EXPLAIN QUERY PLAN suele mostrar SCAN. No imprimas INDEX de memoria.",
+        retrospective:
+          "Sin índice, el plan suele mostrar SCAN. El error clásico es imprimir la palabra mágica. Pregunta: ¿qué cambia en T4 cuando creas `idx_pairs_block` y vuelves a pedir el plan?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1412,8 +1504,11 @@ print('SCAN' if 'SCAN' in plan.upper() else 'OTHER')
         id: "S29-T3-A-E1",
         subtopicId: "S29-T3-A",
         kind: "guided",
+        title: "ROLLBACK deja la tabla en 0",
+        preamble:
+          "- **Contexto:** en el lab ACID, un insert de prueba dentro de transacción debe poder deshacerse por completo.\n- **Meta:** tras BEGIN + insert, usar ROLLBACK y verificar count 0.\n- **Éxito:** el entero `0`.\n- **Límites:** no uses COMMIT; imprime solo el count.",
         instruction:
-          "S29-T3-A-E1 · Tras `BEGIN`, insert y `ROLLBACK`, el count de la tabla debe ser `0`. El starter hace COMMIT por error: corrige el DEFECT.",
+          "1. Abre el starter: hace `commit` y deja 1 fila.\n2. Cambia a `rollback`.\n3. Imprime `COUNT(*)`.\n4. No omitas el `begin`.",
         hint: "rollback en lugar de commit",
         hints: [
           "c.execute('rollback')",
@@ -1423,6 +1518,8 @@ print('SCAN' if 'SCAN' in plan.upper() else 'OTHER')
         tests: "salida coincide con solution output",
         feedback:
           "ROLLBACK deshace el INSERT de la transacción abierta: COUNT(*) vuelve a 0. COMMIT dejaría basura que el lab prohíbe.",
+        retrospective:
+          "ROLLBACK devuelve el almacén al estado pre-BEGIN; COMMIT dejaría la fila de prueba como si fuera dato real. El error clásico es “commit para ver si se insertó” y olvidar limpiar. Pregunta: sin `begin`, ¿rollback deshace el insert en SQLite de lab? Siguiente (E2): atomicidad decisión+evidencia juntas.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1455,8 +1552,11 @@ print(c.execute('select count(*) from t').fetchone()[0])
         id: "S29-T3-A-E2",
         subtopicId: "S29-T3-A",
         kind: "independent",
+        title: "Atomicidad: decisión y evidencia o nada",
+        preamble:
+          "- **Contexto:** cerrar un par en CP-N3-A exige decisión *y* evidencia en la misma transacción lógica.\n- **Meta:** insertar decisión, simular fallo de evidencia, ROLLBACK e imprimir ambos counts.\n- **Éxito:** `0 0` en una línea.\n- **Límites:** no hagas commit parcial; no dejes decisión huérfana; lab de una conexión.",
         instruction:
-          "S29-T3-A-E2 · Atomicidad decisión+evidencia: en una transacción inserta en `decisions` y luego simula fallo (no insertes evidence); haz ROLLBACK e imprime counts `decisions evidence` en una línea. Salida: `0 0`.",
+          "1. Revisa el starter: commit de la decisión sin evidence.\n2. Envuelve en try/except: raise simulado → `rollback`.\n3. Imprime counts de `decisions` y `evidence`.\n4. No insertes evidence en el camino feliz de este ejercicio (el fallo es intencional).",
         hint: "BEGIN + ROLLBACK en except",
         hints: [
           "insert decision",
@@ -1467,6 +1567,8 @@ print(c.execute('select count(*) from t').fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "Decisión y evidencia son atómicas: si la evidencia falla, ROLLBACK deja ambas tablas en 0. Un commit parcial crea decisión huérfana.",
+        retrospective:
+          "Si la evidencia falla, ambas tablas quedan en 0. Un commit parcial crea decisión huérfana. Luego (E3): política con flag `evidence_ok`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1511,17 +1613,22 @@ print(nd, ne)
         id: "S29-T3-A-E3",
         subtopicId: "S29-T3-A",
         kind: "transfer",
+        title: "Abort si evidence_ok es False",
+        preamble:
+          "- **Contexto:** la política operativa del almacén es fail-closed: sin evidencia confirmada no hay decisión confirmada.\n- **Meta:** insertar decisión; si `evidence_ok` es False, ROLLBACK e imprimir `abort`.\n- **Éxito:** `abort`.\n- **Límites:** no dejes la decisión con COMMIT; no inviertas el if; imprime solo la palabra de política.",
         instruction:
-          "S29-T3-A-E3 · Política de commit: inserta decisión; si `evidence_ok` es False haz ROLLBACK y imprime `abort` (no dejes la decisión). Salida: `abort`.",
+          "1. Lee el DEFECT: el if está invertido (abort cuando evidence_ok es True).\n2. Corrige a `if not evidence_ok: rollback; print('abort')`.\n3. El else (commit) queda para el camino feliz no ejercitado aquí.\n4. Verifica la salida exacta.",
         hint: "rollback + print abort cuando evidence falla",
         hints: [
           "begin → insert decision",
-          "if not evidence_ok: rollback; print('abort')",
+          "Si evidence no está ok: rollback y reporta abort (no commit)",
         ],
         edgeCases: ["decisión+evidencia van juntas"],
         tests: "salida coincide con solution output",
         feedback:
           "Política de commit: si `evidence_ok` es False, ROLLBACK y `abort`. No dejes la decisión confirmada sin evidencia.",
+        retrospective:
+          "Si `evidence_ok` es False, ROLLBACK y `abort`. No dejes la decisión sin evidencia. Pregunta: ¿dónde reaparece esta política en el You Do (`insert_decision_with_evidence`)?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1564,8 +1671,11 @@ else:
         id: "S29-T3-B-E1",
         subtopicId: "S29-T3-B",
         kind: "guided",
+        title: "Upsert ON CONFLICT: name final B",
+        preamble:
+          "- **Contexto:** el CRM sintético reenvía la entidad `1` con un name corregido; el id no cambia.\n- **Meta:** segundo insert con `ON CONFLICT DO UPDATE` del name.\n- **Éxito:** `B`.\n- **Límites:** no borres la fila; no ignores el IntegrityError sin upsert; imprime solo el name.",
         instruction:
-          "S29-T3-B-E1 · Upsert: inserta id `'1'` name `'A'`, luego `ON CONFLICT DO UPDATE` a name `'B'`; imprime el name final. Salida: `B`.",
+          "1. Abre el starter: segundo insert sin ON CONFLICT deja `A`.\n2. Reescribe el segundo insert con `on conflict(id) do update set name=excluded.name`.\n3. Imprime el name de id `'1'`.\n4. No cambies la PK.",
         hint: "ON CONFLICT(id) DO UPDATE",
         hints: [
           "insert ... on conflict(id) do update set name=excluded.name",
@@ -1574,6 +1684,8 @@ else:
         tests: "salida coincide con solution output",
         feedback:
           "ON CONFLICT DO UPDATE reescribe el name mutable y conserva el id. El segundo INSERT sin upsert reventaba; el name final debe ser B.",
+        retrospective:
+          "ON CONFLICT reescribe el name mutable y conserva el id. El segundo INSERT sin upsert reventaba. Siguiente (E2): devolver el job a `pending` tras crash.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1609,8 +1721,11 @@ print(c.execute("select name from e where id='1'").fetchone()[0])
         id: "S29-T3-B-E2",
         subtopicId: "S29-T3-B",
         kind: "independent",
+        title: "Job er_block: running a pending",
+        preamble:
+          "- **Contexto:** tras un crash del job de *blocking* del ER, el estado no puede quedar colgado en `running` o nadie lo reintenta.\n- **Meta:** UPDATE a `pending` y releer el status.\n- **Éxito:** `pending`.\n- **Límites:** no dupliques filas del job; no inventes un status intermedio; lab de una conexión.",
         instruction:
-          "S29-T3-B-E2 · Recuperación tras crash: el job `er_block` quedó en `running`; actualízalo a `pending` con UPDATE y léelo con SELECT. Imprime el status. Salida: `pending`.",
+          "1. Revisa el starter: imprime `running` sin UPDATE.\n2. Ejecuta `UPDATE jobs SET status='pending' WHERE id='er_block'`.\n3. SELECT e imprime el status.\n4. No alteres el id del job.",
         hint: "UPDATE status='pending' WHERE id=...",
         hints: [
           "update jobs set status='pending' where id='er_block'",
@@ -1620,6 +1735,8 @@ print(c.execute("select name from e where id='1'").fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "Tras un crash, el job vuelve a `pending` con UPDATE y se relee. Así el reintento es idempotente sin duplicar lógica de matching.",
+        retrospective:
+          "Un job en `running` eterno es un dead letter: nadie lo reintenta. UPDATE a `pending` + releer status es el contrato mínimo post-crash; no crees una segunda fila del mismo job. Pregunta: ¿por qué no “delete + insert” del job en este lab? Luego (E3): CHECK de orden canónico del par.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1651,8 +1768,11 @@ print(c.execute("select status from jobs where id='er_block'").fetchone()[0])
         id: "S29-T3-B-E3",
         subtopicId: "S29-T3-B",
         kind: "transfer",
+        title: "Orden canónico A<B rechaza el espejo",
+        preamble:
+          "- **Contexto:** dos workers no deben crear el mismo par como (e1,e2) y (e2,e1); el almacén exige un solo candidato canónico.\n- **Meta:** tabla con `CHECK(entity_a < entity_b)` + UNIQUE; insertar (e1,e2) y rechazar el espejo.\n- **Éxito:** `order_rejected`.\n- **Límites:** UNIQUE solo no basta si el orden está invertido; no elimines el try/except; no imprimas `ok`.",
         instruction:
-          "S29-T3-B-E3 · Orden canónico + reintento: tabla con `CHECK(entity_a < entity_b)` y `UNIQUE(entity_a, entity_b)`. Inserta (`e1`,`e2`); luego intenta el espejo (`e2`,`e1`). Captura `IntegrityError` e imprime `order_rejected`. Salida: `order_rejected`.",
+          "1. Lee el DEFECT: sin CHECK el espejo se inserta.\n2. Añade `check(entity_a < entity_b)` al CREATE.\n3. Mantén UNIQUE y el segundo insert del espejo.\n4. En IntegrityError imprime `order_rejected`.",
         hint: "CHECK(entity_a < entity_b) rechaza el par invertido",
         hints: [
           "create table con check(entity_a < entity_b) y unique(entity_a, entity_b)",
@@ -1665,6 +1785,8 @@ print(c.execute("select status from jobs where id='er_block'").fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "CHECK(entity_a < entity_b) rechaza el espejo (e2,e1). UNIQUE evita el duplicado en el mismo orden. El worker captura IntegrityError y reporta `order_rejected` (o `retry` en el flujo de reintento).",
+        retrospective:
+          "CHECK A<B rechaza el espejo; UNIQUE evita el duplicado en el mismo orden. El error clásico es confiar solo en UNIQUE. Pregunta: ¿qué reportaría un worker en reintento tras este IntegrityError?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1709,8 +1831,11 @@ except sqlite3.IntegrityError:
         id: "S29-T4-A-E1",
         subtopicId: "S29-T4-A",
         kind: "guided",
+        title: "Última migration con MAX(version)",
+        preamble:
+          "- **Contexto:** el lab (y prod) necesita saber *hasta qué versión* del esquema ya se aplicó, no la primera.\n- **Meta:** registrar v1 y v2 e imprimir `MAX(v)`.\n- **Éxito:** el entero `2`.\n- **Límites:** no uses MIN; no hardcodes el 2 sin leer la tabla.",
         instruction:
-          "S29-T4-A-E1 · Tabla `schema_migrations(v, name)`: registra version 1 `init` y 2 `add_index`; imprime `MAX(v)`. Salida: `2`.",
+          "1. Abre el starter: `select min(v)` devuelve 1.\n2. Cambia a `max(v)`.\n3. Imprime el resultado.\n4. No borres las filas de migration.",
         hint: "MAX no MIN",
         hints: [
           "insert (2,'add_index')",
@@ -1720,6 +1845,8 @@ except sqlite3.IntegrityError:
         tests: "salida coincide con solution output",
         feedback:
           "schema_migrations versiona con MAX(v): la última migration aplicada. MIN(v) te deja en el origen y miente sobre el estado del esquema.",
+        retrospective:
+          "MAX(v) es la última migration aplicada. MIN te deja en el origen y miente sobre el estado. Siguiente (E2): crear el índice y leerlo en sqlite_master.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1751,8 +1878,11 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])
         id: "S29-T4-A-E2",
         subtopicId: "S29-T4-A",
         kind: "independent",
+        title: "Crear índice real idx_pairs_block_key",
+        preamble:
+          "- **Contexto:** la cola filtrada por `block_key` no se acelera con un string en un print: hace falta el índice y evidencia.\n- **Meta:** crear `idx_pairs_block_key`, confirmarlo en `sqlite_master` y verificar INDEX en el plan.\n- **Éxito:** `idx_pairs_block_key`.\n- **Límites:** no imprimas el nombre si falta en sqlite_master; no asumas INDEX sin EXPLAIN.",
         instruction:
-          "S29-T4-A-E2 · Crea el índice `idx_pairs_block_key` sobre `pairs(block_key)`, confírmalo en `sqlite_master` y verifica con `EXPLAIN QUERY PLAN` que el plan menciona INDEX. Imprime el nombre del índice. Salida: `idx_pairs_block_key`.",
+          "1. Revisa el DEFECT: falta `CREATE INDEX`.\n2. Crea `idx_pairs_block_key on pairs(block_key)`.\n3. Lee el name en `sqlite_master` (si falta, no inventes el string).\n4. Imprime solo el name del índice (el plan debe poder confirmar INDEX; no hardcodes el print).",
         hint: "CREATE INDEX + sqlite_master + EXPLAIN",
         hints: [
           "create index idx_pairs_block_key on pairs(block_key)",
@@ -1763,6 +1893,8 @@ print(c.execute('select max(v) from schema_migrations').fetchone()[0])
         tests: "salida coincide con solution output",
         feedback:
           "CREATE INDEX + lectura en sqlite_master + EXPLAIN con INDEX en el plan: evidencia triple de que el índice existe y se usa.",
+        retrospective:
+          "CREATE INDEX + sqlite_master + EXPLAIN: evidencia triple. El error clásico es “ya puse el nombre” sin crear el objeto. Luego (E3): política de no DROP sin backup.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1813,8 +1945,11 @@ print(row[0])
         id: "S29-T4-A-E3",
         subtopicId: "S29-T4-A",
         kind: "transfer",
+        title: "Sin backup no hagas DROP de pairs",
+        preamble:
+          "- **Contexto:** una migration agresiva que dropea `pairs` sin backup borra evidencia del almacén ER; el lab entrena el guard antes de tocar prod.\n- **Meta:** con `has_backup=False`, no DROP; reportar count y la política.\n- **Éxito:** dos líneas — `1` y `no_drop_without_backup`.\n- **Límites:** no ejecutes DROP en el camino de este fixture; no imprimas solo `drop_ok`.",
         instruction:
-          "S29-T4-A-E3 · Política de migración: con `has_backup=False` **no** ejecutes `DROP TABLE pairs`. Lee `COUNT(*)` de pairs (debe seguir en 1) e imprime dos líneas: el count y la política `no_drop_without_backup`. Salida:\n`1`\n`no_drop_without_backup`",
+          "1. Lee el DEFECT: DROP aunque has_backup sea False.\n2. Si `not has_backup`: COUNT, print count, print política.\n3. Else (no ejercitado): DROP y `drop_ok`.\n4. Verifica las dos líneas exactas.",
         hint: "guard + COUNT; no DROP si no hay backup",
         hints: [
           "if not has_backup: n = COUNT(*); print(n); print('no_drop_without_backup')",
@@ -1827,6 +1962,8 @@ print(row[0])
         tests: "salida coincide con solution output",
         feedback:
           "Con has_backup=False no hay DROP: COUNT(*) sigue en 1 y se imprime la política. La evidencia del almacén ER no se borra por “agilidad” de migración.",
+        retrospective:
+          "Con has_backup=False no hay DROP: la evidencia sobrevive. El error clásico es “agilidad de schema” sin respaldo. Pregunta: ¿dónde documentas esta política en el README del You Do?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1866,8 +2003,11 @@ no_drop_without_backup`,
         id: "S29-T4-B-E1",
         subtopicId: "S29-T4-B",
         kind: "guided",
+        title: "EntityRepo.get: devolver Ana con e1",
+        preamble:
+          "- **Contexto:** el repository es el borde de persistencia: `get(id)` oculta el SELECT y se prueba con datos sintéticos.\n- **Meta:** insertar e1→Ana e imprimir `get('e1')` (el método ya es correcto; el skill es *usarlo* con el id insertado).\n- **Éxito:** `Ana`.\n- **Límites:** no pidas e2 (no existe); no armes el SELECT fuera del método; no hardcodes el print omitiendo get.",
         instruction:
-          "S29-T4-B-E1 · Mini-repository: clase con `get(id)` sobre tabla entities; inserta e1→Ana y imprime `get('e1')`. Salida: `Ana`.",
+          "1. Abre el starter: `get('e2')` devuelve None.\n2. Cambia la llamada a `get('e1')`.\n3. Imprime el resultado.\n4. No reescribas el método (ya es correcto).",
         hint: "SELECT name WHERE id=?",
         hints: [
           "método get con fetchone",
@@ -1877,6 +2017,8 @@ no_drop_without_backup`,
         tests: "salida coincide con solution output",
         feedback:
           "El repository expone get(id): el SQL vive dentro del método. Con e1 insertado, get('e1') devuelve Ana; e2 no existe.",
+        retrospective:
+          "El repo expone get(id); el SQL vive dentro. Con e1 insertado, get('e1') es Ana. Siguiente (E2): ciclo de tres conexiones con PRAGMA y close.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1925,8 +2067,11 @@ print(EntityRepo(c).get('e1'))
         id: "S29-T4-B-E2",
         subtopicId: "S29-T4-B",
         kind: "independent",
+        title: "Tres conexiones con PRAGMA y close",
+        preamble:
+          "- **Contexto:** en SQLite de lab no hace falta un pool corporativo, pero sí el hábito: cada conexión configura FK y se cierra.\n- **Meta:** abrir 3 conexiones `:memory:`, `PRAGMA foreign_keys=ON` en cada una, cerrar e imprimir el conteo.\n- **Éxito:** el entero `3`.\n- **Límites:** el PRAGMA no es global del proceso; no dejes conexiones abiertas sin close en el loop.",
         instruction:
-          "S29-T4-B-E2 · Ciclo de conexión del repository: abre 3 conexiones `:memory:`, ejecuta `PRAGMA foreign_keys=ON` en cada una, cierra todas e imprime cuántas se abrieron. Salida: `3`. (En SQLite de lab no hace falta un pool de servidor; sí el hábito de configurar cada conexión.)",
+          "1. Revisa el starter: solo una apertura.\n2. Loop `for _ in range(3)`: connect → pragma → opened += 1 → close.\n3. Imprime `opened`.\n4. No reutilices una sola conexión para “simular” 3.",
         hint: "loop open → pragma → close",
         hints: [
           "for _ in range(3): connect, pragma, close",
@@ -1936,6 +2081,8 @@ print(EntityRepo(c).get('e1'))
         tests: "salida coincide con solution output",
         feedback:
           "Cada conexión necesita su PRAGMA foreign_keys=ON y su close. Contar 3 aperturas entrena el ciclo open→config→close del lab.",
+        retrospective:
+          "Cada conexión necesita su PRAGMA y su close. Contar 3 aperturas entrena el ciclo del lab. Luego (E3): `pending_count` con anti-join real (no literal).",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1968,8 +2115,11 @@ print(opened)
         id: "S29-T4-B-E3",
         subtopicId: "S29-T4-B",
         kind: "transfer",
+        title: "pending_count real con NOT EXISTS",
+        preamble:
+          "- **Contexto:** un test del repository no debe hardcodear el resultado: tiene que ejercer el anti-join de la cola.\n- **Meta:** COUNT de pares sin decisión con `NOT EXISTS` e imprimir el entero calculado.\n- **Éxito:** `1` (p2 pendiente).\n- **Límites:** no imprimas un literal; no uses NOT IN; no mutes el fixture p1 decidido / p2 pendiente.",
         instruction:
-          "S29-T4-B-E3 · Test de repo: pairs p1/p2, decisión solo p1; `pending_count` = COUNT de pares sin decisión con `NOT EXISTS`. Imprime el entero. Salida: `1`.",
+          "1. Lee el DEFECT: el SQL ya cuenta bien pero `print(0)`.\n2. Cambia a `print(pending_count)`.\n3. No reescribas el anti-join si ya es correcto.\n4. Verifica mentalmente: un pendiente → 1.",
         hint: "anti-join + count",
         hints: [
           "COUNT con NOT EXISTS sobre decisions",
@@ -1981,6 +2131,8 @@ print(opened)
         tests: "salida coincide con solution output",
         feedback:
           "pending_count se calcula con anti-join real (`NOT EXISTS`), no con un literal ni con `NOT IN`. Con p2 pendiente el oráculo es 1.",
+        retrospective:
+          "Un assert que hardcodea 0 “pasa” sin ejercer el SQL del repo. El error clásico es imprimir el oráculo a mano. Pregunta: ¿cómo reutilizas este count en `test_store.py` del You Do?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -2131,7 +2283,9 @@ if __name__ == "__main__":
     print("fk_pragma", con.execute("PRAGMA foreign_keys").fetchone()[0])
 `,
     portfolioNote:
-      "Publica un mini-repo o carpeta de portafolio con: (1) el DDL del almacén ER; (2) un script de seed sintético CASO-LIM-029; (3) tests de constraints, anti-join, append-only y rollback; y (4) un README breve en español profesional que explique el esquema y los límites del lab.",
+      "Publica un mini-repo o carpeta de portafolio con: (1) el DDL del almacén ER; (2) un script de seed sintético CASO-LIM-029; (3) tests de constraints, anti-join, append-only y rollback; y (4) un README breve en español profesional que explique el esquema, los límites del lab y un invariante medible que puedas defender (p. ej. pending + rollback en `:memory:`).",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con un test en `:memory:` (IntegrityError de FK/CHECK, `pending` con NOT EXISTS, o ROLLBACK de decisión+evidencia)? (2) ¿qué harías distinto con un almacén corporativo (PostgreSQL, pooling, migraciones reales) vs. este lab SQLite? (3) En el README, una frase de impacto medible (antes/después: p. ej. “cola de review sin pares huérfanos; 0 decisiones sin evidencia”) que puedas defender en 30 segundos. No etiquetes match como fraude ni parentesco.",
     rubric: [
       {
         criterion:

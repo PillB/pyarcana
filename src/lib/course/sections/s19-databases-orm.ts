@@ -363,6 +363,8 @@ evita Lima es la región má...`,
  subtopicId: "S19-T1-A",
  environment: "local-python",
  description: "Elegir chart alineado a pregunta ejecutiva de comparación regional",
+ preamble:
+ "Antes de abrir Matplotlib, el analista del dashboard CP-N2-B debe *elegir* el chart por la pregunta, no por la librería de moda. En esta demo un VP de operaciones pide comparar ticket mediano entre pocas regiones (datos sintéticos CASO-LIM-019). Observa el dict de scores: `bar` suma 3, `pie_3d` suma 0. No escribas aún; predice qué tipo gana y por qué se imprime `rechaza_pie_3d True`. Si eliges el gráfico “bonito” sin anclar la pregunta, el comité malinterpreta magnitudes.",
  code: {
  language: 'python',
  title: "demo_chart_choice.py",
@@ -379,13 +381,17 @@ s19_ido_1()`,
  output: `{'pregunta': 'Comparar ticket mediano entre regiones', 'audiencia': 'VP de operaciones', 'chart': 'bar'}
 rechaza_pie_3d True`,
  },
- why: "La elección de chart se documenta como decisión de diseño, no estética.",
+ why: "La elección se documenta como decisión de diseño (`pregunta`, `audiencia`, `chart`), no como preferencia estética. Comparar magnitudes absolutas entre pocas categorías se lee en barras; pie 3D distorsiona áreas y no sirve para ranking regional. El score didáctico es un gate testeable, no un modelo ML: fuerza a rechazar encodings que mienten. En We Do alinearás tipo, brief y una función `elige_chart` reutilizable.",
+ retrospective:
+ "Si puedes explicar por qué “comparar ticket mediano entre regiones” no es un pie 3D sin mirar el código, ya tienes el hábito de chart choice. El error clásico es copiar un template de marketing. En We Do T1-A practicarás alinear tipo, brief y una función `elige_chart`.",
  },
  {
  demoId: "S19-T1-B-DEMO",
  subtopicId: "S19-T1-B",
  environment: "local-python",
  description: "Cuantificar distorsión de un eje Y recortado en barras",
+ preamble:
+ "Un eje Y que empieza cerca del mínimo infla la brecha percibida entre barras de PEN absolutas. En esta demo comparas 100 vs 92: la diferencia absoluta es 8 en ambos casos, pero con baseline 90 la “altura relativa” del truco es diez veces la del baseline 0. No escribas aún; predice `factor_inflacion` y decide si ese chart pasaría el gate de integridad de CP-N2-B. Mentir en el origen es mentir en la longitud percibida.",
  code: {
  language: 'python',
  title: "demo_axes.py",
@@ -406,13 +412,17 @@ fraccion_altura_honesta 0.08
 fraccion_altura_truco 0.8
 factor_inflacion 10.0`,
  },
- why: "Mostrar el factor de inflación educa sobre encodings deshonestos.",
+ why: "El baseline es un encoding: el factor de inflación educa al comité antes de exportar. Misma diferencia absoluta, distinta historia visual si el span del eje se recorta. En barras de magnitudes absolutas el default ético es ylim bottom=0 o justificación escrita en el caption. En We Do calcularás el factor, implementarás `gate_baseline` y rechazarás dual-axis.",
+ retrospective:
+ "Misma diferencia absoluta, distinta historia visual: el truco multiplica la percepción. Si puedes explicar el factor 10 sin el código, ya desconfías del eje recortado. Pregunta de auto-chequeo: ¿por qué el denominador honesto es el máximo (100) y no la brecha 8? We Do: calcular factor, `gate_baseline` y rechazo de dual-axis.",
  },
  {
  demoId: "S19-T2-A-DEMO",
  subtopicId: "S19-T2-A",
  environment: "local-python",
  description: "Componer barra Matplotlib con ylim desde 0, unidad y canal no-color (hatch)",
+ preamble:
+ "El contrato visual del portfolio no es “se ve bonito en mi laptop”: es `ylim0==0`, ylabel con unidad y un canal no-color (hatch) para categorías. En esta demo Matplotlib (backend Agg) dibuja Lima/Arequipa/Cusco con patrones `//`, `\\\\`, `..`. Observa los tres prints booleanos/listas antes de copiar código: si el color fuera el único canal, un lector daltónico pierde el ranking. Cierra siempre con `plt.close(fig)` en scripts y CI.",
  code: {
  language: 'python',
  title: "demo_mpl.py",
@@ -442,13 +452,17 @@ s19_ido_3()`,
 ylabel PEN
 hatches ['//', '\\\\', '..']`,
  },
- why: "Figura mínima viable: baseline 0, unidad y hatch como canal no-color (a11y).",
+ why: "Agg evita display interactivo en servidor y CI. Hatch complementa color (WCAG 1.4.1): el ranking no depende solo del tono. `bar_label` no sustituye la tabla de paridad; `get_ylim`/`get_ylabel` son lo que el grader puede assertar. Cierra con `plt.close` para no filtrar memoria. En We Do forzarás ylim, armarás el dict de meta y casteas float nativo.",
+ retrospective:
+ "Figura mínima viable = baseline 0 + unidad + segundo canal. Si puedes listar los tres checks sin mirar la salida, ya piensas en contrato, no en screenshot. We Do: forzar ylim, armar dict de meta y castear float nativo.",
  },
  {
  demoId: "S19-T2-B-DEMO",
  subtopicId: "S19-T2-B",
  environment: "local-python",
  description: "Anotar, guardar PNG real (BytesIO) y exportar metadata multi-panel",
+ preamble:
+ "El dashboard CP-N2-B no se entrega con un dict de intenciones: se entrega un PNG real (o buffer) versionado. En esta demo ves un 1×2 (n por región + mediana horizontal), `savefig` a `BytesIO` a 120 dpi y un check `png_bytes_ok`. Observa que `panels` y `dpi` salen de la figura real, no de un hardcode. Predice si `bytes > 1000` será True antes de mirar la salida. Sin binario, S20/S21 no pueden re-renderizar ni archivar.",
  code: {
  language: 'python',
  title: "demo_compose.py",
@@ -483,13 +497,17 @@ s19_ido_4()`,
  output: `{'file': 'cp_n2b_dashboard_v1.png', 'fmt': 'png', 'dpi': 120, 'panels': 2, 'seed_data': 19}
 png_bytes_ok True`,
  },
- why: "savefig real (no solo dict) + nombre versionado habilita re-render del portfolio.",
+ why: "savefig real habilita re-render y archivo del portfolio; un dict de intenciones no basta. El nombre versionado evita sobrescribir el histórico. `seed_data` documenta reproducibilidad del lote sintético. `close` libera memoria en CI. En We Do corregirás panels inventados, versionarás el filename y titularás cada panel.",
+ retrospective:
+ "Metadata miente si no hay bytes. Si puedes decir por qué un dict con `panels: 2` sin savefig no es entrega, ya pasaste el gate de export. We Do: corregir panels inventados, versionar el nombre y titular cada panel.",
  },
  {
  demoId: "S19-T3-A-DEMO",
  subtopicId: "S19-T3-A",
  environment: "local-python",
  description: "Vista interactiva lógica con filtro y tooltip honesto",
+ preamble:
+ "Antes de instalar Plotly o Streamlit, modelamos la vista interactiva como datos: filtro activo, plantilla de tooltip, unidad y n. En esta demo `view(\"Lima\")` y `view(\"Cusco\")` devuelven tooltips distintos con PEN y tamaño muestral. Observa que al cambiar el filtro **cambia** el texto: no se reutiliza el párrafo global de “Lima lidera”. Predice el string de Cusco antes de mirar la salida. Un tooltip sin n invita a leer el KPI como censo.",
  code: {
  language: 'python',
  title: "demo_tooltip.py",
@@ -512,13 +530,17 @@ s19_ido_5()`,
  output: `{'tooltip': 'Lima: 28.0 PEN (n=40)', 'filtro': 'Lima', 'unidad': 'PEN'}
 Cusco: 22.5 PEN (n=32)`,
  },
- why: "Tooltip con unidad y n evita lecturas superficiales.",
+ why: "Unidad y n son contrato a11y del viewport: sin ellos el KPI se vende como censo o queda ambiguo. El lookup O(n) basta para el lab y deja la spec migrable a Plotly/Streamlit después. Cada filtro debe recalcular el tooltip; reutilizar un párrafo global es defecto de producto. En We Do corregirás lookup, incluirás n y generalizarás la función.",
+ retrospective:
+ "Filtro sin recálculo es defecto de producto. Si puedes escribir de memoria el patrón `región: valor PEN (n=…)`, ya tienes la plantilla del portfolio. Pregunta de auto-chequeo: ¿qué cambia en el tooltip al pasar de Lima a Cusco? We Do: corregir lookup, incluir n y generalizar la función.",
  },
  {
  demoId: "S19-T3-B-DEMO",
  subtopicId: "S19-T3-B",
  environment: "local-python",
  description: "Ofrecer alternativa tabular/textual con paridad al chart",
+ preamble:
+ "El gate de accesibilidad de CP-N2-B exige alternativa no visual con **los mismos números** que el chart. En esta demo el dict de medianas se convierte en tabla y en un texto `Lima=28.0 PEN; Cusco=22.5 PEN`, y `parity` es True. Observa que no se “redondea bonito” en la tabla a 27.5. Predice el booleano de paridad. Sin tabla hermana, un lector de pantalla (o un auditor) no puede reconstruir el hallazgo.",
  code: {
  language: 'python',
  title: "demo_a11y.py",
@@ -535,13 +557,17 @@ s19_ido_6()`,
 Lima=28.0 PEN; Cusco=22.5 PEN
 parity True`,
  },
- why: "La versión no visual es requisito del gate de dashboard accesible.",
+ why: "Paridad a la precisión publicada: 27.5 en tabla y 28.0 en chart es un fail de integridad. Alt/texto no es “imagen más grande”; es el mismo contrato en otro canal. El join de filas con unidad es el patrón del alt del portfolio. En We Do alinearás números, serializarás estado con universe_n y generarás alt con PEN.",
+ retrospective:
+ "Misma precisión, mismos valores, dos canales (visual y no visual). Si puedes explicar por qué 27.5 en tabla y 28.0 en chart es un fail, ya piensas en integridad. We Do: alinear números, serializar estado con universe_n y generar alt con PEN.",
  },
  {
  demoId: "S19-T4-A-DEMO",
  subtopicId: "S19-T4-A",
  environment: "local-python",
  description: "Etiquetar unidades, fuente y limitaciones en caption estructurado",
+ preamble:
+ "Sin fuente y limitación, el gráfico no entra al portfolio CP-N2-B: un “28” huérfano no se puede auditar ni re-renderizar con confianza. En esta demo el caption se empaqueta en un pie estable `Unidad | Fuente | Corte | Límite` con datos sintéticos y canal web. Observa el orden y el contenido de `limitacion` (“n bajo en Cusco”). Predice el string del pie antes de mirar la salida. El mismo pie viaja a S21 para que el DOCX no invente otra fuente.",
  code: {
  language: 'python',
  title: "demo_caption.py",
@@ -558,13 +584,17 @@ parity True`,
 s19_ido_7()`,
  output: `pie Unidad: PEN | Fuente: sintético CP-N2-B | Corte: 2024-06-30 | Límite: canal web; n bajo en Cusco`,
  },
- why: "Caption completo es parte del entregable, no un extra.",
+ why: "Caption es entregable, no un extra de diseño: unidad omitida es defecto de reporte. La limitación acota el claim del título (“todo el canal”, “todo el Perú”) al marco real del EDA. El pie estructurado viaja a S21 sin reinventar la fuente. En We Do completarás fuente, validarás claves e implementarás el join `k: v`.",
+ retrospective:
+ "Trazabilidad = unidad + fuente + marco. Si puedes redactar un pie de cuatro piezas sin copiar, ya cierras el loop ético antes de S20/S21. We Do: completar fuente, validar claves e implementar el join `k: v`.",
  },
  {
  demoId: "S19-T4-B-DEMO",
  subtopicId: "S19-T4-B",
  environment: "local-python",
  description: "Validar alt text y rechazar sobreclaim causal/nacional",
+ preamble:
+ "El color y el contraste no redimen un sobreclaim en el título. En esta demo un claim acotado a la muestra web es PERMITIDO y “Lima es la mejor región del Perú” es RECHAZADO. El alt describe hallazgo + marco sintético, no “imagen de barras”. Observa las dos clasificaciones y el conteo de palabras del alt. Predice cuál claim falla y por qué. El lenguaje del dashboard no puede exceder la evidencia del EDA de S18.",
  code: {
  language: 'python',
  title: "demo_claims.py",
@@ -583,7 +613,9 @@ s19_ido_8()`,
 Lima es la mejor región del Perú => RECHAZADO
 alt_words 12`,
  },
- why: "Contraste de claims entrena el lenguaje del dashboard.",
+ why: "El marco muestral debe vivir en el claim: muestra ≠ población. El alt con n y hallazgo es canal no visual, no “descripción genérica de imagen”. El contraste PERMITIDO/RECHAZADO entrena el hábito antes del export. En We Do implementarás la regla “del Perú” sin “muestra”, completarás alt+hatch y generalizarás `classify_claim`.",
+ retrospective:
+ "Muestra ≠ población. Si puedes reescribir el claim rechazado en una frase permitida sin mirar el código, ya cierras el loop ético. We Do: implementar la regla, completar alt/hatch y generalizar el clasificador.",
  }
  ],
  },
@@ -594,8 +626,11 @@ alt_words 12`,
  id: "S19-T1-A-E1",
  subtopicId: "S19-T1-A",
  kind: "guided",
+ title: "Barras para comparar regiones",
+ preamble:
+ "- **Contexto:** el comité de operaciones quiere **comparar** ticket mediano entre pocas regiones (magnitudes absolutas), no una serie temporal.\n- **Meta:** corregir la elección de chart cuando el starter elige un tipo inadecuado.\n- **Éxito:** imprimes una sola línea con el texto `bar`.\n- **Límites:** no uses pie 3D ni line para esta pregunta; no imprimas frases extra; solo el tipo de chart.",
  instruction:
- "E1 (guiado) — El comité quiere **comparar** el ticket mediano entre regiones (pocas categorías, magnitud absoluta). El starter elige un tipo de chart inadecuado para esa pregunta. Corrige la elección e imprime solo el tipo de chart resultante.",
+ "1. Abre el starter: `chart = \"line\"` es el bug (serie temporal para comparación).\n2. Cambia el tipo a barras (`\"bar\"`).\n3. Imprime solo la variable `chart`.\n4. Verifica mentalmente: pocas categorías + magnitud absoluta → barras.",
  hint: "Comparar magnitudes entre categorías se lee mejor en barras.",
  hints: [
  "Pregunta de comparación → barras (bar), no serie temporal.",
@@ -604,7 +639,9 @@ alt_words 12`,
  edgeCases: ["serie temporal mal clasificada como bar"],
  tests: "salida coincide con solution output",
  feedback:
- "Si elegiste línea o pie, recuerda: comparar magnitudes entre pocas categorías se lee mejor en barras con baseline 0.",
+ "Si imprimiste `line` o un pie, confundes tendencia con comparación. Barras con baseline 0 comunican magnitudes entre regiones; la línea es para series temporales. El brief del dashboard se rompe si el encoding no responde a la pregunta.",
+ retrospective:
+ "Pregunta de comparación → barras; pregunta de tendencia → línea. El error clásico es “siempre uso el chart del último tutorial” o un pie “bonito”. Pregunta de auto-chequeo: ¿qué chart elegirías para “tendencia semanal de tickets”? Siguiente (E2): el brief (`pregunta`, `audiencia`, `chart`) debe viajar con la figura.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -627,8 +664,11 @@ print(chart)`,
  id: "S19-T1-A-E2",
  subtopicId: "S19-T1-A",
  kind: "independent",
+ title: "Brief de diseño con tres claves",
+ preamble:
+ "- **Contexto:** la figura del portfolio no viaja sola: el informe (S21) necesita saber *por qué* ese encoding.\n- **Meta:** completar un brief con `pregunta`, `audiencia` y `chart` para totales por región ante un ejecutivo.\n- **Éxito:** un dict impreso con las tres claves y valores alineados (ejecutivo + bar).\n- **Límites:** no inventes claves extra; no uses audiencia “técnica” para este brief de comité.",
  instruction:
- "E2 (independiente) — Un brief de diseño debe viajar con la figura: pregunta, audiencia y chart. Completa el dict del starter (faltan claves) para un ejecutivo que necesita totales por región, e imprímelo completo.",
+ "1. Revisa el starter: solo imprime `pregunta` (bug: omitió audiencia y chart).\n2. Completa el dict para totales por región, audiencia ejecutivo, chart bar.\n3. Imprime el dict completo en una sola línea.\n4. No hardcodees otro chart “más moderno”.",
  hint: "Tres claves: pregunta, audiencia, chart.",
  hints: [
  "Audiencia típica del comité: ejecutivo.",
@@ -637,7 +677,9 @@ print(chart)`,
  edgeCases: ["audiencia técnica puede preferir table"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin audiencia y chart en el brief, el informe S21 no sabe por qué se eligió ese encoding.",
+ "Sin audiencia y chart en el brief, el DOCX de S21 no puede defender la decisión de diseño. Un dict con solo la pregunta es un hallazgo huérfano, no un contrato de visualización.",
+ retrospective:
+ "Tres claves mínimas: qué se pregunta, a quién se habla, cómo se encode. Un dict solo con `pregunta` es hallazgo huérfano. Pregunta de auto-chequeo: ¿qué clave faltaría si el informe S21 no puede defender “por qué barras”? Luego (E3) automatizarás la elección con una regla legible sobre el texto de la pregunta.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -656,8 +698,11 @@ print({"pregunta": "totales por región"})`,
  id: "S19-T1-A-E3",
  subtopicId: "S19-T1-A",
  kind: "transfer",
+ title: "Función elige_chart por keyword",
+ preamble:
+ "- **Contexto:** en el lab, la elección de chart no es un modelo opaco: es una regla legible que puedes testear en CI.\n- **Meta:** implementar `elige_chart(pregunta)` que devuelve `line` si aparece “tendencia” (ignorando mayúsculas) y `bar` en caso contrario.\n- **Éxito:** dos líneas de salida — `line` y luego `bar` — para “tendencia mensual” y “comparar regiones”.\n- **Límites:** no uses ML ni librerías extra; no hardcodees solo un return fijo.",
  instruction:
- "E3 (transferencia) — Implementa `elige_chart(pregunta)` con una regla legible: si la pregunta menciona tendencia (sin importar mayúsculas), devuelve line; en caso contrario, bar para comparación. Prueba con “tendencia mensual” y “comparar regiones” (un resultado por línea).",
+ "1. Lee el DEFECT: la función siempre devuelve `\"bar\"`.\n2. Normaliza la pregunta con `.lower()` y busca la subcadena `\"tendencia\"`.\n3. Devuelve `\"line\"` o `\"bar\"` según la regla.\n4. Deja los dos `print` de prueba en el orden dado.",
  hint: "Usa `in` sobre `pregunta.lower()`.",
  hints: [
  "Normaliza a minúsculas antes de buscar la palabra clave.",
@@ -666,7 +711,9 @@ print({"pregunta": "totales por región"})`,
  edgeCases: ["mayúsculas en TENDENCIA"],
  tests: "salida coincide con solution output",
  feedback:
- "La regla debe ser testeable: keywords en la pregunta, no un modelo opaco. Si “tendencia” no está, asume comparación → bar.",
+ "Si ambas líneas salen `bar`, la función aún ignora la pregunta. Busca la subcadena `\"tendencia\"` sobre `pregunta.lower()`; sin normalizar, `TENDENCIA` fallaría en producción. Keywords legibles se auditan en CI; un return fijo no.",
+ retrospective:
+ "Una regla explícita se audita; un “modelo de chart” sin tests no. Pregunta de cierre: ¿qué devolverías si la pregunta dice “TENDENCIA” en mayúsculas? Puente a T1-B: aunque elijas bar, un eje recortado puede mentir igual.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -692,8 +739,11 @@ bar`,
  id: "S19-T1-B-E1",
  subtopicId: "S19-T1-B",
  kind: "guided",
+ title: "Factor de inflación del eje recortado",
+ preamble:
+ "- **Contexto:** valores 50 y 45 con baseline truco 40 vs baseline honesto 0: el comité ve “brechas” distintas.\n- **Meta:** calcular el factor de inflación visual (altura relativa truco ÷ altura relativa honesta).\n- **Éxito:** una línea `factor 5.0` (redondeado a 2 decimales).\n- **Límites:** no uses el span entre barras como denominador honesto; no imprimas solo el truco.",
  instruction:
- "E1 (guiado) — Valores 50 y 45 con eje recortado en 40 vs. baseline 0. Calcula el factor de inflación visual (altura relativa del truco ÷ altura relativa honesta) y muestra `factor` redondeado a 2 decimales. El starter tiene el denominador honesto mal planteado.",
+ "1. Revisa el starter: `hon` divide por `(50-45)` (bug: denominador 1).\n2. Corrige la altura honesta a `(50-45)/50` (span desde 0).\n3. Mantén truco como `(50-45)/(50-40)`.\n4. Imprime `factor` con `round(truco/hon, 2)`.",
  hint: "Altura truco = (50-45)/(50-40); altura honesta = (50-45)/50.",
  hints: [
  "Con baseline 0 el span es el valor máximo (50), no la diferencia entre barras.",
@@ -702,7 +752,9 @@ bar`,
  edgeCases: ["baseline > min de la serie"],
  tests: "salida coincide con solution output",
  feedback:
- "Si el factor es >1, el eje recortado exagera la brecha. El gate del dashboard exige baseline 0 o justificación escrita.",
+ "Si el factor es 1.0 o absurdo, el denominador honesto sigue mal. Con baseline 0 el span es el máximo (50), no la diferencia entre barras. Un factor >1 es señal de que el eje recortado no pasa el gate sin justificación escrita.",
+ retrospective:
+ "Altura percibida = diff / span del eje. Recortar el span multiplica la historia aunque la diferencia absoluta sea la misma. El error clásico es usar la brecha entre barras como “denominador honesto”. Pregunta de auto-chequeo: con baseline 0 y máx 50, ¿cuál es el span? Siguiente (E2): automatizar el veredicto con `gate_baseline`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -725,17 +777,22 @@ print("factor", round(truco / hon, 2))`,
  id: "S19-T1-B-E2",
  subtopicId: "S19-T1-B",
  kind: "independent",
+ title: "Gate de baseline en barras absolutas",
+ preamble:
+ "- **Contexto:** no todo encoding exige y=0 (una línea de índice puede partir de otro valor si se documenta); las barras de PEN absolutas sí.\n- **Meta:** implementar `gate_baseline(ylim_bottom, encoding)` con tres salidas: `honesto`, `revisar`, `ok_con_nota`.\n- **Éxito:** con `(40, \"bar_absolute\")` imprime exactamente `revisar`.\n- **Límites:** no devuelvas siempre `ok_con_nota`; no trates `line_index` como `bar_absolute`.",
  instruction:
- "E2 (independiente) — Implementa `gate_baseline(ylim_bottom, encoding)`: devuelve `honesto` si encoding es `bar_absolute` y ylim_bottom es 0; si encoding es `bar_absolute` y bottom ≠ 0, `revisar`; otros encodings (p. ej. `line_index`) → `ok_con_nota`. El starter siempre devuelve `ok_con_nota`: corrige la lógica y prueba con (40, \"bar_absolute\").",
+ "1. Abre el starter: la función ignora argumentos y devuelve siempre `ok_con_nota` (bug).\n2. Implementa tres veredictos según encoding y `ylim_bottom` (revisa el I Do y el contrato de barras absolutas).\n3. Deja el print de prueba con bottom 40 y `bar_absolute`.\n4. No trates `line_index` como si fuera barra de montos absolutos.",
  hint: "Prioriza el caso bar_absolute; solo entonces miras el bottom.",
  hints: [
  "if encoding == \"bar_absolute\": … elif …",
- "Para la prueba del lab, con bottom=40 y bar_absolute el resultado es revisar.",
+ "Mira primero el encoding; el bottom solo decide honesto vs revisar en bar_absolute.",
  ],
  edgeCases: ["líneas de índice pueden no empezar en 0 (ok_con_nota)"],
  tests: "salida coincide con solution output",
  feedback:
- "ylim_bottom=0 es el valor por defecto ético en barras de PEN absolutas. Truncar sin nota es defecto; una línea de índice puede no partir de 0 si lo documentas.",
+ "ylim_bottom=0 es el default ético en barras de montos PEN. Truncar sin nota es defecto de integridad; una línea de índice puede no partir de 0 **si** lo documentas en el caption.",
+ retrospective:
+ "El gate mira primero el tipo de encoding, luego el número. Pregunta de cierre: ¿qué devuelve `gate_baseline(0, \"bar_absolute\")`? Luego (E3) el riesgo de dual-axis, otro encoding engañoso.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -760,8 +817,11 @@ print(gate_baseline(40, "bar_absolute"))`,
  id: "S19-T1-B-E3",
  subtopicId: "S19-T1-B",
  kind: "transfer",
+ title: "Marcar dual-axis como riesgo alto",
+ preamble:
+ "- **Contexto:** dos escalas Y en un solo panel mezclan unidades y engañan al ejecutivo que “ve correlación” donde solo hay superposición visual.\n- **Meta:** clasificar el encoding `dual_axis` como `riesgo_alto` (no “ok”).\n- **Éxito:** imprime una línea con `riesgo_alto`.\n- **Límites:** no apruebes dual_axis por defecto; prefiere paneles separados en el diseño real del dashboard.",
  instruction:
- "E3 (transferencia) — Clasifica el riesgo del encoding `dual_axis` para un dashboard ejecutivo: debe reportar `riesgo_alto` (no “ok”). El starter invierte la lógica y aprueba dual-axis: corrígela para proteger al comité de dos escalas Y mezcladas.",
+ "1. Lee el DEFECT: el ternario imprime `ok` cuando encoding es dual_axis.\n2. Invierte la lógica: dual_axis → `riesgo_alto`; otro → `ok`.\n3. Imprime solo el string del veredicto.\n4. No cambies el valor de `encoding` en este lab.",
  hint: "dual_axis es el caso de alto riesgo didáctico.",
  hints: [
  "Si encoding es dual_axis → riesgo_alto; si no → ok.",
@@ -770,7 +830,9 @@ print(gate_baseline(40, "bar_absolute"))`,
  edgeCases: ["color-only sin segundo canal"],
  tests: "salida coincide con solution output",
  feedback:
- "Dual-axis mezcla dos escalas Y; suele engañar al comité. Prefiere paneles separados o un solo encoding de posición.",
+ "Si imprimiste `ok`, el ternario sigue al revés: estás aprobando el encoding de riesgo. Dual-axis mezcla dos escalas Y y finge correlación por superposición. Preferir paneles separados (1×2) es el antídoto de diseño del dashboard.",
+ retrospective:
+ "Dual-axis no es “más datos en menos espacio”: es dos historias con reglas distintas. Preferir 1×2 subplots (T2-B) es el antídoto. Puente a T2-A: construir barras con ylim desde 0 en código real.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -791,8 +853,11 @@ print("riesgo_alto" if encoding == "dual_axis" else "ok")`,
  id: "S19-T2-A-E1",
  subtopicId: "S19-T2-A",
  kind: "guided",
+ title: "Forzar ylim desde cero",
+ preamble:
+ "- **Contexto:** en barras de magnitud absoluta el bottom del eje Y debe ser 0; el starter lo deja en 1 y “recorta aire”.\n- **Meta:** construir un bar chart Agg de dos barras y verificar `get_ylim()[0] == 0`.\n- **Éxito:** imprime el booleano `True`.\n- **Límites:** backend Agg antes de pyplot; cierra la figura; no imprimas el tuple completo del ylim.",
  instruction:
- "E1 (guiado) — Construye un bar chart Matplotlib (backend Agg) con dos barras y fuerza el eje Y desde 0. Imprime si `get_ylim()[0] == 0`. El starter trunca en 1: corrige el ylim y cierra la figura.",
+ "1. Abre el starter: `set_ylim(1, 3)` es el bug.\n2. Cambia a `set_ylim(0, …)` (p. ej. 0, 3).\n3. Imprime `ax.get_ylim()[0] == 0`.\n4. Mantén `plt.close(fig)`.",
  hint: "ax.set_ylim(0, …) y plt.close(fig).",
  hints: [
  "Backend Agg antes de importar pyplot.",
@@ -801,7 +866,9 @@ print("riesgo_alto" if encoding == "dual_axis" else "ok")`,
  edgeCases: ["olvidar close y fugas de memoria en CI"],
  tests: "salida coincide con solution output",
  feedback:
- "Si imprime False, el ylim aún no empieza en 0. Barras de magnitud absoluta no deben “recortar aire” bajo el mínimo.",
+ "Si imprime `False`, el bottom aún no es 0. Barras de magnitud absoluta no deben “empezar cerca del mínimo” para dramatizar la brecha: el gate del dashboard lo rechaza.",
+ retrospective:
+ "Un booleano de `ylim0` es el test más barato de honestidad visual en CI. El error clásico es “empezar cerca del mínimo” para dramatizar la brecha. Pregunta de auto-chequeo: ¿qué imprime el check si bottom sigue en 1? Siguiente (E2): el contrato también exige ylabel con unidad PEN.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -834,8 +901,11 @@ plt.close(fig)`,
  id: "S19-T2-A-E2",
  subtopicId: "S19-T2-A",
  kind: "independent",
+ title: "Ylabel con PEN y baseline 0",
+ preamble:
+ "- **Contexto:** “28” sin unidad es un defecto de reporte; el comité no puede escalar ni comparar.\n- **Meta:** dibujar Lima=28 y Cusco=22.5 con ylabel `Ticket mediano (PEN)`, ylim desde 0, e imprimir el dict de contrato.\n- **Éxito:** `{'ylabel': 'Ticket mediano (PEN)', 'ylim0': 0.0}`.\n- **Límites:** convierte ylim0 a `float` nativo; cierra la figura; no dejes ylabel vacío.",
  instruction:
- "E2 (independiente) — Dibuja dos barras (Lima=28, Cusco=22.5) con backend Agg, etiqueta el eje Y como `Ticket mediano (PEN)`, fija ylim desde 0 e imprime un dict `{\"ylabel\": …, \"ylim0\": float(...)}`. El starter omite ylabel y deja el ylim por defecto: corrígelo y cierra la figura.",
+ "1. Revisa el starter: imprime ylabel vacío y ylim por defecto (bug).\n2. Fija ylabel con unidad PEN y fuerza baseline 0 (elige un top razonable, p. ej. por encima de 28).\n3. Arma el dict con `get_ylabel()` y `float(get_ylim()[0])`.\n4. Imprime el dict y cierra la figura.",
  hint: "set_ylabel + set_ylim(0, …) + float(get_ylim()[0]).",
  hints: [
  "La unidad va en el eje (PEN dentro del ylabel), no solo en el título de la diapositiva.",
@@ -844,7 +914,9 @@ plt.close(fig)`,
  edgeCases: ["ylabel vacío o solo espacios"],
  tests: "salida coincide con solution output",
  feedback:
- "“28” sin unidad es defecto. Un ylabel con PEN y baseline 0 hacen honesto el encoding de longitud del ticket mediano.",
+ "Un ylabel con PEN y baseline 0 hacen honesto el encoding de longitud del ticket mediano. Sin unidad, el número de la barra es ilegible fuera del contexto del notebook.",
+ retrospective:
+ "Unidad en el eje, no solo en el título de la diapositiva. Sin PEN, el “28” no escala fuera del notebook. Pregunta de auto-chequeo: ¿por qué casteamos ylim0 a `float` nativo? Luego (E3) empaquetarás `n_bars` + `ylim0` en `meta_bar`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -877,8 +949,11 @@ plt.close(fig)`,
  id: "S19-T2-A-E3",
  subtopicId: "S19-T2-A",
  kind: "transfer",
+ title: "meta_bar con n_bars y ylim0",
+ preamble:
+ "- **Contexto:** el portfolio reusa builders; el test no mira el PNG píxel a píxel, mira un dict estable.\n- **Meta:** implementar `meta_bar(labels, values)` que dibuja barras, fija ylim 0…max*1.2 y devuelve `n_bars` y `ylim0` como float de Python.\n- **Éxito:** para Lima/Cusco y 28/22.5 imprime `{'n_bars': 2, 'ylim0': 0.0}`.\n- **Límites:** no devuelvas tipos numpy en ylim0; cierra la figura dentro de la función.",
  instruction:
- "E3 (transferencia) — Implementa `meta_bar(labels, values)` que dibuja barras regionales, fija ylim desde 0 hasta max(values)*1.2, y devuelve un dict con `n_bars` y `ylim0` como **float** de Python (no tipo numpy). Imprime el meta para Lima/Cusco y valores 28/22.5 (mismo contrato visual del portfolio: baseline 0 y conteo de categorías).",
+ "1. Lee el DEFECT: no hay `set_ylim` y ylim0 no se caste a float.\n2. Dentro de `meta_bar`, dibuja, fuerza ylim y arma el dict.\n3. Usa `float(ax.get_ylim()[0])` y `len(values)`.\n4. Deja el print de prueba con las dos regiones.",
  hint: "Usa float(ax.get_ylim()[0]) para salida estable.",
  hints: [
  "Cuenta barras con len(values).",
@@ -888,6 +963,8 @@ plt.close(fig)`,
  tests: "salida coincide con solution output",
  feedback:
  "Convierte ylim0 a float nativo de Python para una salida estable entre entornos. n_bars debe coincidir con las categorías dibujadas; baseline 0 es el gate de honestidad del dashboard.",
+ retrospective:
+ "Contrato estable = tipos nativos + conteos + baseline. Pregunta de cierre: ¿qué pasa si `values` está vacío? Puente a T2-B: export real y metadata de paneles.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -927,8 +1004,11 @@ print(meta_bar(["Lima", "Cusco"], [28.0, 22.5]))`,
  id: "S19-T2-B-E1",
  subtopicId: "S19-T2-B",
  kind: "guided",
+ title: "Export PNG real y meta de paneles",
+ preamble:
+ "- **Contexto:** un dict de export inventado no viaja a la factoría Excel ni a los reportes: hace falta `savefig` y paneles contados de la figura.\n- **Meta:** subplots 1×2, PNG a BytesIO dpi=120, dict con `fmt`, `dpi`, `panels`, `png_ok`.\n- **Éxito:** `{'fmt': 'png', 'dpi': 120, 'panels': 2, 'png_ok': True}`.\n- **Límites:** no hardcodees `panels=1`; buffer > 500 bytes; cierra la figura.",
  instruction:
- "E1 (guiado) — Crea subplots 1×2 (Agg), guarda un PNG real a un `BytesIO` con dpi=120 y construye el dict de export: `fmt`, `dpi`, `panels` (contado desde `len(axes)`) y `png_ok` (True si el buffer tiene más de 500 bytes). El starter declara panels=1 y no hace savefig: corrígelo. Cierra la figura.",
+ "1. Abre el starter: no hay savefig y panels=1 (bugs).\n2. Crea `io.BytesIO()`, llama `fig.savefig(..., format=\"png\", dpi=120)`.\n3. Cuenta paneles con `len(axes)` y `png_ok` con `len(buf.getvalue()) > 500`.\n4. Imprime el dict y cierra la figura.",
  hint: "savefig al buffer; panels = len(axes.flat) o 2 en 1×2.",
  hints: [
  "import io; buf = io.BytesIO(); fig.savefig(buf, format='png', dpi=120).",
@@ -937,7 +1017,9 @@ print(meta_bar(["Lima", "Cusco"], [28.0, 22.5]))`,
  edgeCases: ["buffer vacío si olvidaste savefig"],
  tests: "salida coincide con solution output",
  feedback:
- "El metadata de export debe reflejar la figura real (panels, dpi) y un PNG no vacío. Un dict inventado sin savefig no viaja a S20/S21.",
+ "El metadata debe reflejar la figura real. Un dict bonito sin bytes no es entregable: S20/S21 necesitan el PNG (o un buffer no vacío) y el conteo honesto de paneles.",
+ retrospective:
+ "`savefig` primero, metadata después: un dict con `panels: 2` sin bytes no es entrega. El error clásico es hardcodear `png_ok` o inventar el conteo de paneles. Pregunta de auto-chequeo: ¿qué falla si olvidas `BytesIO`? Siguiente (E2): el nombre de archivo versionado es parte del mismo contrato de re-render.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -981,8 +1063,11 @@ plt.close(fig)`,
  id: "S19-T2-B-E2",
  subtopicId: "S19-T2-B",
  kind: "independent",
+ title: "Nombre versionado del PNG",
+ preamble:
+ "- **Contexto:** si todas las figuras se llaman `fig_cpn2b.png`, el re-render borra el histórico del portfolio.\n- **Meta:** generar `fig_cpn2b_v{version}.png` con `version = 3`.\n- **Éxito:** imprime exactamente `fig_cpn2b_v3.png`.\n- **Límites:** usa f-string; no omitas el prefijo acordado `fig_cpn2b`.",
  instruction:
- "E2 (independiente) — Genera el nombre versionado `fig_cpn2b_v{version}.png` con `version = 3`. El starter omite la versión en el nombre: corrígelo con f-string.",
+ "1. Revisa el starter: imprime `fig_cpn2b.png` sin versión (bug).\n2. Usa `f\"fig_cpn2b_v{version}.png\"` con version=3.\n3. Imprime solo ese string.\n4. No insertes espacios ni mayúsculas distintas.",
  hint: "Incluye _v y el número de versión antes de .png.",
  hints: [
  "f-string con {version}.",
@@ -991,7 +1076,9 @@ plt.close(fig)`,
  edgeCases: ["version como string no numérica"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin versión en el filename, la factoría no distingue re-renders. Un solo nombre sobrescribe el histórico del portfolio.",
+ "Si imprimiste `fig_cpn2b.png`, aún falta `_v{version}` antes de la extensión. Un solo nombre sobrescribe el histórico en la factoría y rompe la trazabilidad hacia S21. Usa f-string con el `version` del fixture (3).",
+ retrospective:
+ "Versionar el binario es tan importante como versionar el código del builder. El error clásico es “un PNG para todos los re-renders”. Pregunta de auto-chequeo: ¿qué nombre esperas con `version = 1`? Luego (E3) cada panel necesita título propio (Vol vs Med).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1012,8 +1099,11 @@ print(f"fig_cpn2b_v{version}.png")`,
  id: "S19-T2-B-E3",
  subtopicId: "S19-T2-B",
  kind: "transfer",
+ title: "Títulos de panel Vol y Med",
+ preamble:
+ "- **Contexto:** un `suptitle` “Dashboard” no dice qué lee cada panel; el comité necesita “Vol” vs “Med” sin ambigüedad.\n- **Meta:** subplots 1×2 con `set_title` en cada axes e imprimir la lista de títulos.\n- **Éxito:** `['Vol', 'Med']`.\n- **Límites:** no confíes solo en `fig.suptitle`; cierra la figura.",
  instruction:
- "E3 (transferencia) — Crea subplots 1×2, pon títulos de panel “Vol” y “Med” (no solo un suptitle), e imprime la lista de títulos con `get_title()` por axes. Cierra la figura.",
+ "1. Lee el DEFECT: solo hay suptitle; `get_title()` de cada ax queda vacío.\n2. Asigna `axes[0].set_title(\"Vol\")` y `axes[1].set_title(\"Med\")`.\n3. Imprime la lista por comprehension sobre axes.\n4. Mantén el close.",
  hint: "axes[0].set_title y axes[1].set_title.",
  hints: [
  "suptitle no reemplaza títulos de panel en el contrato del grader.",
@@ -1022,7 +1112,9 @@ print(f"fig_cpn2b_v{version}.png")`,
  edgeCases: ["orientación 2×1"],
  tests: "salida coincide con solution output",
  feedback:
- "Cada panel necesita título propio para que el comité lea Vol vs. Med sin ambigüedad. suptitle es opcional; get_title del axes no lo hereda.",
+ "Si la lista sale `['', '']`, solo hay `suptitle`: `get_title()` del axes no lo hereda. Asigna título en cada panel y vuelve a listar. El grader (y el comité) leen el axes, no el adorno de figura.",
+ retrospective:
+ "Suptitle es opcional; el título del axes es el contrato del panel. El error clásico es un “Dashboard” global sin Vol/Med. Pregunta de auto-chequeo: ¿qué lee un lector si ambos `get_title()` están vacíos? Puente a T3-A: la vista interactiva también debe recalcular el valor al filtrar región.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1054,8 +1146,11 @@ plt.close(fig)`,
  id: "S19-T3-A-E1",
  subtopicId: "S19-T3-A",
  kind: "guided",
+ title: "Lookup de mediana filtrada a Lima",
+ preamble:
+ "- **Contexto:** si el filtro del dashboard es Lima, el valor mostrado no puede ser el de Cusco: rompe la paridad con el tooltip y la tabla.\n- **Meta:** recuperar la mediana de la fila cuya región es Lima.\n- **Éxito:** imprime el entero `28`.\n- **Límites:** no hardcodees 28 sin filtrar; no imprimas el dict completo.",
  instruction:
- "E1 (guiado) — Dada una lista de filas con región y mediana, recupera la mediana de **Lima** (no de Cusco). El starter consulta la región equivocada: corrige el filtro e imprime el valor numérico.",
+ "1. Abre el starter: el `next(...)` filtra `\"Cusco\"` (bug).\n2. Cambia la comparación a `\"Lima\"`.\n3. Imprime solo el campo `median` de la fila.\n4. Verifica mentalmente: 28, no 22.",
  hint: "next(...) o list comprehension filtrando region == \"Lima\".",
  hints: [
  "Compara r[\"region\"] con la cadena Lima.",
@@ -1064,7 +1159,9 @@ plt.close(fig)`,
  edgeCases: ["sin match → StopIteration"],
  tests: "salida coincide con solution output",
  feedback:
- "El viewport filtrado debe recalcular el valor mostrado. Mostrar Cusco cuando el filtro es Lima rompe la paridad con el tooltip.",
+ "Mostrar Cusco cuando el filtro es Lima es un bug de viewport, no un detalle cosmético. El valor filtrado debe recalcularse; si no, el comité decide con el KPI equivocado.",
+ retrospective:
+ "Lookup correcto = filtro honesto. El error clásico es dejar hardcodeado el valor de “otra región” o el KPI global de Lima. Pregunta de auto-chequeo: con filtro Lima, ¿por qué 22 sería un fail? Siguiente (E2): el tooltip de esa celda debe llevar unidad y n, no solo el número.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1085,8 +1182,11 @@ print(next(r for r in rows if r["region"] == "Lima")["median"])`,
  id: "S19-T3-A-E2",
  subtopicId: "S19-T3-A",
  kind: "independent",
+ title: "Tooltip con unidad y n",
+ preamble:
+ "- **Contexto:** un tooltip que dice solo “Lima: 28 PEN” invita a leer 28 como población completa.\n- **Meta:** formatear el tooltip de Lima con valor, unidad PEN y n=40.\n- **Éxito:** imprime exactamente `Lima: 28 PEN (n=40)`.\n- **Límites:** no omitas la unidad ni el n; no uses otro orden de tokens.",
  instruction:
- "E2 (independiente) — El tooltip de Lima debe incluir valor, unidad PEN y tamaño muestral n=40 para no vender el KPI como censo. El starter omite n: corrige el formato a `Lima: 28 PEN (n=40)`.",
+ "1. Revisa el starter: el tooltip tiene valor y unidad pero omite el tamaño muestral (bug).\n2. Completa el f-string para incluir `n` en el formato acordado del contrato a11y (mismo orden de tokens que el I Do).\n3. Imprime una sola línea.\n4. No redondees ni insertes espacios extra.",
  hint: "Incluye (n=…) en el f-string.",
  hints: [
  "Unidad PEN va después del valor.",
@@ -1095,7 +1195,9 @@ print(next(r for r in rows if r["region"] == "Lima")["median"])`,
  edgeCases: ["sin unidad"],
  tests: "salida coincide con solution output",
  feedback:
- "Tooltip sin n invita a leer 28 como si fuera población completa. Unidad + n son parte del contrato a11y del viewport.",
+ "Unidad + n son parte del contrato a11y del viewport. Sin n, el KPI se vende como censo; sin unidad, el número es ambiguo en un comité multi-métrica.",
+ retrospective:
+ "El hover es un canal de honestidad, no solo de “detalle cosmético”. Sin n, 28 se lee como censo. Pregunta de auto-chequeo: ¿qué token falta si el string termina en `PEN` sin paréntesis? Luego (E3) generalizas la plantilla a cualquier fila con una función pura.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1114,8 +1216,11 @@ print(f"Lima: {28} PEN")`,
  id: "S19-T3-A-E3",
  subtopicId: "S19-T3-A",
  kind: "transfer",
+ title: "Plantilla tooltip reutilizable por fila",
+ preamble:
+ "- **Contexto:** tooltips distintos “a mano” por región divergen y fallan el gate de a11y.\n- **Meta:** escribir `tooltip(row)` que devuelva `\"{region}: {median} PEN (n={n})\"`.\n- **Éxito:** para Cusco 22.5 n=32 imprime `Cusco: 22.5 PEN (n=32)`.\n- **Límites:** función pura solo con claves del dict; no hardcodees solo Lima.",
  instruction:
- "E3 (transferencia) — Escribe `tooltip(row)` que devuelva `\"{region}: {median} PEN (n={n})\"` para cualquier fila. Prueba con Cusco 22.5 y n=32. El starter omite n en la plantilla.",
+ "1. Lee el DEFECT: la plantilla omite n.\n2. Incluye `(n={row['n']})` en el f-string.\n3. Deja el print de prueba con Cusco.\n4. No capturas KeyError en este lab (keys completas).",
  hint: "Función pura: solo usa claves del dict row.",
  hints: [
  "Incluye la unidad PEN de forma fija en la plantilla.",
@@ -1124,7 +1229,9 @@ print(f"Lima: {28} PEN")`,
  edgeCases: ["keys faltantes → KeyError"],
  tests: "salida coincide con solution output",
  feedback:
- "La plantilla reutilizable evita tooltips distintos por región. Si falta n en el string, el gate de a11y falla.",
+ "Si falta `(n=…)`, la plantilla aún es incompleta aunque la región y el valor estén bien. Una función pura sobre `row` evita tooltips distintos “a mano” por región y pasa el gate de a11y del portfolio.",
+ retrospective:
+ "Una plantilla = un contrato. Pregunta de cierre: ¿qué falla si falta la clave `n` en el row? Puente a T3-B: paridad chart↔tabla y sampling honesto del estado.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1147,8 +1254,11 @@ print(tooltip({"region": "Cusco", "median": 22.5, "n": 32}))`,
  id: "S19-T3-B-E1",
  subtopicId: "S19-T3-B",
  kind: "guided",
+ title: "Paridad chart y tabla a 28.0",
+ preamble:
+ "- **Contexto:** la alternativa accesible miente si la tabla muestra 27.5 y la barra 28.0 “porque se veía mejor en la slide”.\n- **Meta:** alinear el ticket mediano de Lima a la precisión publicada e imprimir el booleano de igualdad.\n- **Éxito:** imprime `True`.\n- **Límites:** misma precisión (un decimal); no uses redondeos distintos entre canales.",
  instruction:
- "E1 (guiado) — Paridad chart↔tabla con KPI sintético: el ticket mediano de Lima en el chart (28.0 PEN) debe igualar el de la fila de tabla. El starter dejó la tabla en 27.5 (redondeo “de diapositiva”): alinea a la precisión publicada e imprime el booleano de igualdad.",
+ "1. Abre el starter: tabla en 27.5 vs chart 28.0 (bug).\n2. Corrige la tabla a `28.0` (o alinea ambos a la precisión publicada).\n3. Imprime `chart[\"Lima\"] == table[0][\"ticket_mediano_pen\"]`.\n4. No imprimas texto extra.",
  hint: "chart['Lima'] == table[0]['ticket_mediano_pen'].",
  hints: [
  "La precisión publicada es un decimal: 28.0, no 27.5 ni 28.",
@@ -1157,7 +1267,9 @@ print(tooltip({"region": "Cusco", "median": 22.5, "n": 32}))`,
  edgeCases: ["float con redondeos distintos entre chart y tabla"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin paridad numérica, la alternativa accesible miente. El gate del portfolio exige los mismos números a la precisión publicada (aquí 28.0), no un “casi igual” de diseño.",
+ "Sin paridad numérica, la alternativa accesible miente. El gate del portfolio exige los mismos números a la precisión publicada, no un “casi igual” de diseño de diapositiva.",
+ retrospective:
+ "Chart y tabla son dos vistas del mismo contrato a la precisión publicada. El error clásico es “redondear bonito” solo en la diapositiva. Pregunta de auto-chequeo: ¿28 vs 28.0 fallan igualdad en este lab? Siguiente (E2): el estado del viewport también declara `sample_n` y `universe_n`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1180,8 +1292,11 @@ print(chart["Lima"] == table[0]["ticket_mediano_pen"])`,
  id: "S19-T3-B-E2",
  subtopicId: "S19-T3-B",
  kind: "independent",
+ title: "Estado JSON con sample y universo",
+ preamble:
+ "- **Contexto:** si el viewport muestra 5 000 filas de un universo de 50 000, ocultar el universo vende un sample como censo.\n- **Meta:** serializar estado con filtro Lima, `sample_n=5000`, `universe_n=50000` y `ensure_ascii=False`.\n- **Éxito:** el JSON impreso incluye las tres claves de negocio con esos valores.\n- **Límites:** no dejes el estado solo con sample_n; no uses objetos no serializables.",
  instruction:
- "E2 (independiente) — El estado del viewport debe ser JSON serializable **y** declarar honestidad de sampling: filtro Lima, `sample_n=5000`, `universe_n=50000`. Serializa con `json.dumps(..., ensure_ascii=False)`. El starter omite el universo y usa ensure_ascii=True: corrígelo.",
+ "1. Revisa el starter: falta `universe_n` y ensure_ascii=True (bugs).\n2. Completa el dict de state.\n3. Serializa con `json.dumps(state, ensure_ascii=False)`.\n4. Imprime el string JSON resultante.",
  hint: "Incluye sample_n y universe_n; ensure_ascii=False.",
  hints: [
  "Sin universe_n el lector cree que 5000 es el censo.",
@@ -1190,7 +1305,9 @@ print(chart["Lima"] == table[0]["ticket_mediano_pen"])`,
  edgeCases: ["estado no serializable (sets, objetos)"],
  tests: "salida coincide con solution output",
  feedback:
- "Estado no serializable no se audita. sample_n sin universe_n oculta el sesgo del viewport: documenta ambos para no vender un sample como censo.",
+ "Estado no serializable no se audita. `sample_n` sin `universe_n` oculta el sesgo del viewport: documenta ambos para no vender un sample como censo ante el comité.",
+ retrospective:
+ "Transparencia de sampling es integridad, no un “extra técnico”. El error clásico es mostrar 5000 y callarlo censo. Pregunta de auto-chequeo: ¿qué oculta un estado solo con `sample_n`? Luego (E3) el alt desde tabla lleva unidad PEN en cada par región=valor.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1213,8 +1330,11 @@ print(json.dumps(state, ensure_ascii=False))`,
  id: "S19-T3-B-E3",
  subtopicId: "S19-T3-B",
  kind: "transfer",
+ title: "Alt text con unidad desde tabla",
+ preamble:
+ "- **Contexto:** el alt text es la versión no visual del chart; sin unidad el lector de pantalla recibe números ambiguos.\n- **Meta:** unir cada fila como `region=v PEN` con separador `\"; \"`.\n- **Éxito:** `Lima=28 PEN; Cusco=22 PEN`.\n- **Límites:** no omitas PEN; mantén el orden de la tabla.",
  instruction:
- "E3 (transferencia) — Genera alt text desde una tabla: une cada fila como `region=v PEN` con separador `\"; \"`. El starter omite la unidad PEN: corrígelo para Lima=28 y Cusco=22.",
+ "1. Lee el DEFECT: el f-string une región=valor sin unidad.\n2. Añade ` PEN` dentro del f-string.\n3. Deja el `\"; \".join(...)`.\n4. Imprime el string completo.",
  hint: "join con f-string que incluya PEN.",
  hints: [
  "Recorre cada r en table.",
@@ -1223,7 +1343,9 @@ print(json.dumps(state, ensure_ascii=False))`,
  edgeCases: ["tabla vacía → string vacío"],
  tests: "salida coincide con solution output",
  feedback:
- "El alt text es la versión no visual del chart. Sin unidad, el lector de pantalla recibe números ambiguos.",
+ "Si el string es `Lima=28; Cusco=22`, aún falta la unidad en cada par. El lector de pantalla recibe números ambiguos en un comité multi-métrica. Añade ` PEN` dentro del f-string del join, sin cambiar el separador `\"; \"`.",
+ retrospective:
+ "Alt sin unidad es incompleto; alt sin n (T4-B) también. Puente a T4-A: el pie de figura (caption) aporta fuente y limitación que el alt no siempre detalla.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1244,8 +1366,11 @@ print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
  id: "S19-T4-A-E1",
  subtopicId: "S19-T4-A",
  kind: "guided",
+ title: "Pie mínimo con unidad y fuente",
+ preamble:
+ "- **Contexto:** unidad sola no basta para trazabilidad; el portfolio exige al menos unidad y fuente en el pie.\n- **Meta:** completar el string al formato `unidad=PEN | fuente=sintetico`.\n- **Éxito:** esa línea exacta.\n- **Límites:** orden unidad luego fuente; no inventes un pie distinto por diapositiva.",
  instruction:
- "E1 (guiado) — El pie de figura mínimo del portfolio debe declarar unidad y fuente para trazabilidad. Completa el string del starter (falta fuente) al formato `unidad=PEN | fuente=sintetico`.",
+ "1. Abre el starter: solo imprime unidad (bug).\n2. Completa con ` | fuente=sintetico`.\n3. Imprime una sola línea.\n4. No cambies el token `sintetico` en este lab.",
  hint: "Une con \" | \" unidad y fuente.",
  hints: [
  "No omitas la clave fuente aunque sea sintético.",
@@ -1254,7 +1379,9 @@ print("; ".join(f"{r['region']}={r['v']} PEN" for r in table))`,
  edgeCases: ["fuente vacía"],
  tests: "salida coincide con solution output",
  feedback:
- "Sin fuente, el gráfico no entra al portfolio CP-N2-B. Unidad sola no basta para trazabilidad.",
+ "Si solo ves `unidad=PEN`, falta la fuente: no hay trazabilidad para auditar ni re-renderizar con el mismo marco. Completa el pie en el orden unidad luego fuente; el token `sintetico` del lab no se inventa por diapositiva.",
+ retrospective:
+ "Pie mínimo = qué mide + de dónde sale. El error clásico es dejar la unidad suelta en el título y olvidar la fuente. Pregunta de auto-chequeo: ¿entra al portfolio un pie sin `fuente=`? Siguiente (E2): el dict de caption también exige la clave `limitacion`.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1273,8 +1400,11 @@ print("unidad=PEN")`,
  id: "S19-T4-A-E2",
  subtopicId: "S19-T4-A",
  kind: "independent",
+ title: "Caption con unidad, fuente y limitación",
+ preamble:
+ "- **Contexto:** sin `limitacion`, el título del chart puede sobre-extenderse (“todo el canal”, “todo el Perú”) sin marco.\n- **Meta:** completar el dict de caption y validar que incluye `unidad`, `fuente` y `limitacion`.\n- **Éxito:** imprime `True`.\n- **Límites:** valor de limitacion no vacío (p. ej. `web`); no typos en el nombre de la clave.",
  instruction:
- "E2 (independiente) — Valida que el dict de caption contenga al menos las claves `unidad`, `fuente` y `limitacion`. El starter omite `limitacion`: complétalo e imprime el booleano del superset de claves.",
+ "1. Revisa el starter: faltan la clave y el valor de `limitacion` (bug).\n2. Añade `limitacion` al dict.\n3. Deja el print del superset de claves.\n4. No borres unidad ni fuente.",
  hint: "set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"}.",
  hints: [
  "Añade limitacion con un valor no vacío (p. ej. web).",
@@ -1283,7 +1413,9 @@ print("unidad=PEN")`,
  edgeCases: ["typo en clave limitacion"],
  tests: "salida coincide con solution output",
  feedback:
- "limitacion documenta el marco (solo canal web, n bajo, etc.). Sin ella el claim del título puede sobre-extenderse.",
+ "`limitacion` documenta el marco (solo canal web, n bajo, etc.). Sin ella el claim del título puede vender generalizaciones que el EDA de S18 no soporta.",
+ retrospective:
+ "Tres claves mínimas del pie estructurado: `unidad`, `fuente`, `limitacion`. Sin la tercera, el título puede vender “todo el canal” o “todo el Perú”. Pregunta de auto-chequeo: ¿`set(cap)` con typo `limitación` pasa el gate? Luego (E3) un formatter reutilizable une `k: v` para S21.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1304,8 +1436,11 @@ print(set(cap) >= {"unidad", "fuente", "limitacion"})`,
  id: "S19-T4-A-E3",
  subtopicId: "S19-T4-A",
  kind: "transfer",
+ title: "Formatter pie k: v",
+ preamble:
+ "- **Contexto:** un pie que solo lista nombres de clave (“unidad | n”) no comunica nada al lector del informe.\n- **Meta:** implementar `pie(cap)` que une `k: v` con `\" | \"`.\n- **Éxito:** `unidad: PEN | n: 10` para el dict de prueba.\n- **Límites:** usa `.items()`; respeta el orden de inserción del dict.",
  instruction:
- "E3 (transferencia) — Implementa `pie(cap)` que une `k: v` de cada item del dict con `\" | \"`. El starter solo une las keys: corrige el formatter y pruébalo con unidad=PEN y n=10.",
+ "1. Lee el DEFECT: join solo sobre keys.\n2. Cambia a `f\"{k}: {v}\"` sobre `cap.items()`.\n3. Deja el print de prueba.\n4. No hardcodees el string de salida.",
  hint: "join de f\"{k}: {v}\" sobre cap.items().",
  hints: [
  "Usa .items() para no perder los valores.",
@@ -1314,7 +1449,9 @@ print(set(cap) >= {"unidad", "fuente", "limitacion"})`,
  edgeCases: ["valores None"],
  tests: "salida coincide con solution output",
  feedback:
- "Un pie solo con nombres de clave no comunica nada al lector. k: v es el contrato estable hacia S21.",
+ "Si la salida es `unidad | n`, el join aún recorre solo keys: perdiste los valores. Usa `.items()` y formatea `k: v`. Un pie de nombres de clave no comunica nada al lector del informe.",
+ retrospective:
+ "`k: v` es el contrato estable hacia S21: el DOCX no debe reinventar el string por figura. El error clásico es listar solo claves o hardcodear el pie. Pregunta de auto-chequeo: ¿qué imprime si añades `fuente` al dict de prueba? Puente a T4-B: el lenguaje del claim y el alt con n cierran la integridad ética.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1337,17 +1474,22 @@ print(pie({"unidad": "PEN", "n": 10}))`,
  id: "S19-T4-B-E1",
  subtopicId: "S19-T4-B",
  kind: "guided",
+ title: "Rechazar sobreclaim nacional sin muestra",
+ preamble:
+ "- **Contexto:** generalizar de una muestra web a “todo el Perú” es el sobreclaim típico del dashboard ejecutivo.\n- **Meta:** clasificar el claim “Lima es la mejor del Perú”: RECHAZADO si menciona “del Perú” y no menciona “muestra”.\n- **Éxito:** imprime `RECHAZADO`.\n- **Límites:** no apruebes el claim por “sonar confiado”; no uses NLP externo.",
  instruction:
- "E1 (guiado) — Clasifica el claim “Lima es la mejor del Perú”: si menciona “del Perú” y no menciona “muestra”, imprime RECHAZADO; si no, OK. El starter aprueba todo: implementa la regla.",
+ "1. Abre el starter: imprime `OK` a mano (bug).\n2. Implementa la regla con substrings `\"del Perú\"` y `\"muestra\"`.\n3. Imprime `RECHAZADO` u `OK` según la condición.\n4. Deja el claim del fixture sin editarlo para “hacerlo pasar”.",
  hint: "Chequea substrings \"del Perú\" y \"muestra\".",
  hints: [
  "Sobreclaim típico: generaliza al país sin marco muestral.",
- "RECHAZADO es el resultado esperado para este claim.",
+ "Condiciona con substrings; no edites el claim del fixture para forzar el pass.",
  ],
  edgeCases: ["claims legítimos locales con muestra"],
  tests: "salida coincide con solution output",
  feedback:
- "Generalizar de una muestra web a “todo el Perú” es sobreclaim. Exige el marco muestral en el lenguaje del dashboard.",
+ "Generalizar de una muestra web a “todo el Perú” es sobreclaim. Exige el marco muestral en el lenguaje del dashboard; el contraste de color no lo arregla.",
+ retrospective:
+ "La regla didáctica es dura a propósito: entrena el hábito antes de la política fina. Siguiente (E2): alt con `n=` y hatch como canal no-color (doble gate a11y).",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1368,8 +1510,11 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
  id: "S19-T4-B-E2",
  subtopicId: "S19-T4-B",
  kind: "independent",
+ title: "Alt con n= y hatch no-color",
+ preamble:
+ "- **Contexto:** alt sin tamaño muestral es incompleto; categorías solo por color fallan a lectores daltónicos (WCAG 1.4.1).\n- **Meta:** (1) alt con patrón `n=`; (2) hatch distinto de `None`. Imprimir dos booleanos, uno por línea.\n- **Éxito:**\n  `True`\n  `True`\n- **Límites:** hatch real (p. ej. `//`); no uses string vacío como hatch.",
  instruction:
- "E2 (independiente) — Alternativa no visual y canal no-color: (1) el alt debe incluir el patrón `n=`; (2) las barras de categorías deben declarar un `hatch` distinto de `None` (no solo color). El starter falla ambos gates: corrígelos e imprime dos booleanos, uno por línea (`has_n`, luego `has_hatch`).",
+ "1. Revisa el starter: alt sin n y hatch=None (bugs).\n2. Completa el alt (p. ej. incluye `n=40`).\n3. Asigna un patrón de hatch y verifica `hatch is not None`.\n4. Imprime primero el check de n, luego el de hatch.",
  hint: "Completa el alt con n=…; asigna hatch (p. ej. '//') al primer patch o al dict de estilo.",
  hints: [
  "Primero arregla el string alt para que contenga n=.",
@@ -1378,7 +1523,9 @@ print("RECHAZADO" if ("del Perú" in claim and "muestra" not in claim) else "OK"
  edgeCases: ["hatch vacío '' cuenta como falsy — usa un patrón real."],
  tests: "salida coincide con solution output",
  feedback:
- "Alt sin n= es incompleto. Hatch (o etiqueta/posición) evita que el daltonismo pierda la categoría: color solo no basta (WCAG 1.4.1).",
+ "Alt sin `n=` es incompleto. Hatch (o etiqueta/posición) evita que el daltonismo pierda la categoría: color solo no basta para el gate de a11y del portfolio.",
+ retrospective:
+ "Dos canales de honestidad: texto no visual con `n=` y encoding no solo-color (hatch). El error clásico es confiar en el contraste del azul. Pregunta de auto-chequeo: ¿`hatch = \"\"` pasa el check `is not None`? Luego (E3) un clasificador reutilizable de claims cierra el subtema.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1404,8 +1551,11 @@ True`,
  id: "S19-T4-B-E3",
  subtopicId: "S19-T4-B",
  kind: "transfer",
+ title: "classify_claim por marco muestral",
+ preamble:
+ "- **Contexto:** el gate didáctico del portfolio: sin la palabra “muestra” (u otro marco explícito en producción), el claim no pasa.\n- **Meta:** implementar `classify_claim(text)` → PERMITIDO si contiene “muestra”, si no RECHAZADO; clasificar dos frases.\n- **Éxito:**\n  `PERMITIDO`\n  `RECHAZADO`\n- **Límites:** regla de substring, no NLP; dos prints en el orden de las frases dadas.",
  instruction:
- "E3 (transferencia) — Implementa `classify_claim(text)`: PERMITIDO si el texto contiene “muestra”, RECHAZADO en caso contrario. Clasifica “lidera en la muestra web” y “es la mejor del país” (un resultado por línea). El starter siempre devuelve PERMITIDO.",
+ "1. Lee el DEFECT: siempre devuelve PERMITIDO.\n2. Condiciona con `\"muestra\" in text`.\n3. Deja los dos prints de prueba.\n4. No edites las frases para forzar el pass.",
  hint: "Regla binaria didáctica con `\"muestra\" in text`.",
  hints: [
  "No intentes NLP: substring basta para el lab.",
@@ -1415,6 +1565,8 @@ True`,
  tests: "salida coincide con solution output",
  feedback:
  "El gate didáctico entrena el hábito: sin marco muestral, el claim no pasa. En producción refinarías la política; aquí la regla es explícita y testeable.",
+ retrospective:
+ "En producción refinarías la política; aquí la regla es explícita y testeable. Pregunta de cierre: ¿cómo reescribirías “es la mejor del país” para que pase? Puente al You Do: el dashboard completo aplica chart choice, baseline, export, a11y y claims juntos.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1568,7 +1720,9 @@ print("paridad", tabla_paridad(df).to_dict(orient="records"))
 plt.close(fig)
 `,
  portfolioNote:
- "Dashboard de la factoría CP-N2-B; se integra con Excel (S20) y reportes (S21). Entrega figuras versionadas + specs JSON + alts/tabla de paridad. Completa los builders pendientes y documenta limitaciones (canal web, n regional).",
+ "Dashboard de la factoría CP-N2-B; se integra con Excel (S20) y reportes (S21). Entrega figuras versionadas + specs JSON + alts/tabla de paridad. Completa los builders pendientes y documenta limitaciones (canal web, n regional). En el README, lista los 4 PNG y un claim permitido vs uno rechazado para la defensa oral.",
+ retrospective:
+ "Antes de marcar listo: (1) ¿qué assert o print demuestra baseline 0 y ylabel con PEN en cada barra de magnitudes absolutas? (2) ¿la tabla de paridad y cada alt usan la misma precisión y el mismo n que el chart? (3) Elige un claim del dashboard y reescríbelo en 15 segundos acotado a la muestra web sintética — si suena a “todo el Perú”, aún no entregas. (4) En el README, una frase de impacto medible (antes: eje recortado / sin alt; después: contrato visual + a11y) que puedas defender en 30 segundos ante operaciones.",
  rubric: [
  { criterion: "Charts honestos (baseline 0 en barras, unidades visibles) + alt/tabla con paridad numérica", weight: "25%" },
  { criterion: "Cuatro figuras estáticas + una spec de vista interactiva (filtro/tooltip)", weight: "20%" },

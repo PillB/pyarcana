@@ -385,6 +385,8 @@ ci_policy no_flakes_on_gate`,
         environment: "local-python",
         description:
           "Función estilo pytest: con seed=1 genera 15 strings y aserta que normalize es idempotente (f(f(s))==f(s)).",
+        preamble:
+          "En el desk de QA del motor ER, un solo nombre feliz no caza encoding ni espacios dobles. Esta demo modela una función estilo pytest: con `seed=1` genera 15 strings y aserta que `norm` es idempotente (`f(f(s))==f(s)`). No escribas aún: predice por qué imprimir `seed` y `n` es evidencia útil cuando un assert falla en CI, y por qué una tautología tipo `len>=0` no cuenta como propiedad.",
         code: {
           language: "python",
           title: "inv_demo.py",
@@ -409,7 +411,9 @@ print("seed", 1)`,
 n 15
 seed 1`,
         },
-        why: "Modelo I Do de propiedad no trivial: generator + assert de idempotencia (en CI real, pytest descubre test_*). Evita tautologías tipo len>=0.",
+        why: "La propiedad se genera desde la invariante, no desde un ejemplo feliz: seed fija + bucle + assert de idempotencia. En CI real, pytest descubre `test_*`; al fallar imprime seed e input para reproducir al primer intento. Evita tautologías tipo `len>=0`. En We Do practicarás re-seed por muestra, rango de scores e idempotencia con N casos generados.",
+        retrospective:
+          "Si puedes explicar por qué un solo literal no es pensamiento basado en propiedades, ya tienes el hábito de T1-A. El error clásico es hardcodear `True` o mirar un caso. En We Do practicarás seed reproducible, rango de scores e idempotencia con N casos.",
       },
       {
         demoId: "S28-T1-B-DEMO",
@@ -417,6 +421,8 @@ seed 1`,
         environment: "local-python",
         description:
           "Comprueba simetría de Jaccard de tokens (casefold) y metamórfica de padding de espacios.",
+        preamble:
+          "No siempre conoces el score “correcto” absoluto del matcher, pero sí relaciones: simetría de Jaccard, padding que no cambia `normalize`. Esta demo imprime tres booleanos de propiedades. No escribas aún: predice por qué `j(\"a b\",\"b a\")` debe igualar el orden invertido y por qué rellenar espacios no debe mover el texto canónico.",
         code: {
           language: "python",
           title: "meta_demo.py",
@@ -434,13 +440,17 @@ print("idemp", pad_norm(pad_norm("  a  ")) == pad_norm("  a  "))`,
 meta True
 idemp True`,
         },
-        why: "Propiedades sin oráculo absoluto de score aún fallan si hay bugs de normalización o asimetría accidental.",
+        why: "Propiedades sin oráculo absoluto de score aún fallan si hay asimetría accidental o normalización rota. Metamórfica no es igualdad casefold a secas: transformas el input y predices el movimiento de la salida. We Do: corregir j dirigido, relación under upper y simetría all-pairs.",
+        retrospective:
+          "Si puedes nombrar la *relación* que usas como oráculo, ya no dependes de un número mágico de score. El error clásico es confundir simetría con idempotencia (reordenar args ≠ componer `f` consigo misma). Pregunta: ¿qué nombre de test documentaría la simetría de Jaccard en pytest? We Do: j simétrico, metamórfica under upper y all-pairs.",
       },
       {
         demoId: "S28-T2-A-DEMO",
         subtopicId: "S28-T2-A",
         environment: "local-python",
         description: "Valida schema de tres registros sintéticos y cuenta errores de id/score.",
+        preamble:
+          "En el borde de ingest del ER, un registro sucio no entra en silencio: necesitas *qué* falló. Esta demo valida tres filas sintéticas y cuenta errores de id/score. No escribas aún: predice cuántos errores suma el batch y por qué la primera fila limpia imprime `ok_first True` sin inventar parentesco.",
         code: {
           language: "python",
           title: "schema_demo.py",
@@ -469,7 +479,9 @@ print("ok_first", val(rows[0]) == [])`,
           output: `errors 2
 ok_first True`,
         },
-        why: "Contratos de calidad en ingest del ER: fail-closed con lista de errores, no booleano opaco.",
+        why: "Contratos de calidad en ingest = fail-closed con lista de errores, no booleano opaco. El revisor ve `id`/`score` y detiene el batch con evidencia. We Do: contrato de id, polaridad de score y contador de dirty rows.",
+        retrospective:
+          "Lista de errores legible > `False` mudo: el revisor ve *qué* rompió el contrato y detiene el batch. El error clásico es “arreglar” filas en silencio o devolver un booleano opaco. Pregunta: ¿qué dos etiquetas esperas en la fila sucia del demo? We Do: id requerido, polaridad de score y contador de dirty rows.",
       },
       {
         demoId: "S28-T2-B-DEMO",
@@ -477,6 +489,8 @@ ok_first True`,
         environment: "local-python",
         description:
           "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
+        preamble:
+          "Un golden es el snapshot versionado de salida esperada del pipeline de pares. Si actualizas el golden sin mirar el diff, escondes regresiones de matching. Esta demo compara golden vs. current y devuelve `blocked` ante drift. Observa: no hay “pass” silencioso cuando `n` cambia de 2 a 3.",
         code: {
           language: "python",
           title: "drift_demo.py",
@@ -492,7 +506,9 @@ print("ok", True)`,
 action blocked
 ok True`,
         },
-        why: "Drift visible y bloqueado > golden actualizado en silencio.",
+        why: "Drift visible y bloqueado > golden actualizado en silencio. El PR del desk PE debe explicar *por qué* cambió el contrato de pares; un job verde sin diff legible esconde matching roto. We Do: etiqueta `drift`, `blocked` sin approved y par versión+acción como evidencia de revisión.",
+        retrospective:
+          "Si el golden se reescribe solo, la suite deja de proteger el matching: el contrato se mueve con el bug. El error clásico es “actualizar snapshot para poner CI en verde”. Pregunta: ¿quién debe firmar un cambio de golden? We Do: `drift`, `blocked` sin aprobación y versión+acción.",
       },
       {
         demoId: "S28-T3-A-DEMO",
@@ -500,6 +516,8 @@ ok True`,
         environment: "local-python",
         description:
           "Fake HTTP + reloj fijo devuelven JSON y timestamp deterministas en ISO.",
+        preamble:
+          "La suite del ER no debe depender de red ni de `datetime.now()`. Esta demo usa un fake HTTP y un reloj fijo: JSON `ok` y fecha ISO corta. No escribas aún: predice por qué `.date().isoformat()` es el oráculo del contrato y no `str(datetime)`.",
         code: {
           language: "python",
           title: "fake_demo.py",
@@ -516,7 +534,9 @@ class C:
 print(H().get()["body"]["ok"], C().now().date().isoformat())`,
           output: `True 2026-01-01`,
         },
-        why: "Dobles controlados eliminan red y tiempo real de la suite.",
+        why: "Dobles controlados eliminan red y tiempo real de la suite: el oráculo es JSON `ok` y fecha ISO corta, no el wall clock. En código de producción inyecta clock/http al constructor; no parchees globales. We Do: fake DB por id, ISO corta y política retry ante 5xx/timeout sin `sleep`.",
+        retrospective:
+          "Fakes rápidos y deterministas son el corazón de T3. El error clásico es parchear `datetime.now` global o imprimir el datetime crudo como contrato. Pregunta: ¿por qué `.date().isoformat()` es más estable en asserts que `str(d)`? We Do: lectura del borde, fecha ISO y retry.",
       },
       {
         demoId: "S28-T3-B-DEMO",
@@ -524,6 +544,8 @@ print(H().get()["body"]["ok"], C().now().date().isoformat())`,
         environment: "local-python",
         description:
           "Contrato de borde sobre match real (casefold) vs. overmock que oculta bug.",
+        preamble:
+          "Si mockeas el comparador y solo asertas que “se llamó”, no pruebas matching: ocultas bugs con un `True` mágico. Esta demo contrasta igualdad casefold real con un overmock que acepta pares distintos. Observa `overmock_false_pos True` — eso es un falso positivo de la suite.",
         code: {
           language: "python",
           title: "contract_demo.py",
@@ -538,7 +560,9 @@ print("prefer_real", True)`,
 overmock_false_pos True
 prefer_real True`,
         },
-        why: "No mockees la lógica que quieres probar; el overmock marca True en pares distintos.",
+        why: "No mockees lógica pura barata; prefiere contratos de borde (input → output/efecto). El overmock marca True en pares distintos y engaña al desk. We Do: casefold bilateral, detector `weak` y efecto de estado del writer.",
+        retrospective:
+          "Preferir lógica real bajo prueba cuando es pura y barata: mockear el comparador esconde bugs con un `True` mágico. El error clásico es asertar “se llamó” en vez de “el par distinto no matchea”. Pregunta: ¿qué prueba el flag `overmock_false_pos` al desk? We Do: casefold bilateral, detector `weak` y filas escritas como oráculo.",
       },
       {
         demoId: "S28-T4-A-DEMO",
@@ -546,6 +570,8 @@ prefer_real True`,
         environment: "local-python",
         description:
           "Integración sqlite en memoria: inserta dos entidades homónimas y cuenta el par candidato (id_a < id_b).",
+        preamble:
+          "Una prueba de integración del ER ejerce schema + query reales, no un `print(True)`. Esta demo inserta dos entidades “Ana” en sqlite `:memory:` y materializa el par candidato con `id_a < id_b`. Observa: `pairs [('1','2')]` sale del join, no de un hardcode.",
         code: {
           language: "python",
           title: "integ_demo.py",
@@ -566,7 +592,9 @@ print("integration", True)`,
 pairs [('1', '2')]
 integration True`,
         },
-        why: "Integración mínima del pipeline de candidatos: schema + join real, no print teatral.",
+        why: "Integración mínima del pipeline de candidatos: schema + join real, no un booleano teatral. sqlite `:memory:` es análogo honesto a testcontainers (S29 Postgres); el par sale del motor. We Do: SELECT COUNT, cardinalidad C(n,2) y reanudación+NFC de tildes Latam.",
+        retrospective:
+          "Si el par no sale del motor, no es integración: hardcodear `pairs` esconde un JOIN roto. El error clásico es “el test pasó porque imprimí lo esperado”. Pregunta: ¿por qué `id_a < id_b` evita auto-pares y dobles? We Do: COUNT, C(n,2) y pending con encoding Unicode.",
       },
       {
         demoId: "S28-T4-B-DEMO",
@@ -574,6 +602,8 @@ integration True`,
         environment: "local-python",
         description:
           "Orden estable + seed: dos corridas CI producen la misma lista y el mismo random.",
+        preamble:
+          "Un flake pasa o falla sin cambio de código: random sin seed, reloj real, orden de sets. Esta demo fija seed y ordena: dos corridas CI producen la misma lista. Observa el `True` de igualdad entre corridas — eso es requisito del gate de merge, no un lujo.",
         code: {
           language: "python",
           title: "ci_demo.py",
@@ -588,7 +618,9 @@ print(run(3)[0])`,
           output: `True
 ['a', 'b', 'c']`,
         },
-        why: "Determinismo es requisito de la suite que bloquea merge.",
+        why: "Determinismo es requisito de la suite que bloquea merge: seed + sorted. Retry sin root-cause no es fix. We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que re-siembra.",
+        retrospective:
+          "Si dos corridas con la misma seed divergen, el diseño es incorrecto — no “mala suerte de CI”. El error clásico es subir retries sin root-cause y llamar a eso un fix. Pregunta: ¿qué tres controles (seed, reloj, sort) fijarías antes del gate de merge? We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que re-siembra.",
       },
     ],
   },
@@ -600,8 +632,11 @@ print(run(3)[0])`,
         id: "S28-T1-A-E1",
         subtopicId: "S28-T1-A",
         kind: "guided",
+        title: "Re-sembrar seed antes de cada muestra",
+        preamble:
+          "- **Contexto:** en CI del matcher, dos “mismas” muestras con seed distinta son un flake disfrazado de dato.\n- **Meta:** con `seed=0` **antes de cada** `random.random()`, obtener el mismo valor dos veces.\n- **Éxito:** una sola línea booleana `True`.\n- **Límites:** no compares floats a mano; no dejes el PRNG avanzar sin re-seed; sin PII real.",
         instruction:
-          "S28-T1-A-E1 · El starter genera dos `random.random()` pero solo fija la semilla una vez. Corrige para que, con `seed=0` **antes de cada** muestra, ambos valores sean iguales. Imprime una sola línea: `True` o `False`.",
+          "1. Abre el starter: `seed(0)` solo una vez; `a` y `b` divergen.\n2. Llama `random.seed(0)` otra vez antes de `b`.\n3. Imprime solo `a == b`.\n4. No hardcodees `True`.",
         hint: "Vuelve a llamar random.seed(0) antes de b",
         hints: [
           "Vuelve a llamar random.seed(0) antes de b",
@@ -610,7 +645,9 @@ print(run(3)[0])`,
         edgeCases: ["sin seed no es CI-safe"],
         tests: "Una línea booleana: True solo si a y b se regeneran con la misma seed.",
         feedback:
-          "Sin re-seed, el generador pseudoaleatorio (PRNG) avanza: el segundo random no es la misma muestra. Seed antes de cada muestra = reproducible en CI.",
+          "Sin re-seed, el generador avanza: el segundo `random` no es la misma muestra. Seed antes de cada muestra = reproducible en CI del ER; sin eso el gate de merge miente.",
+        retrospective:
+          "Re-seed por muestra es el hábito mínimo de determinismo. El error clásico es sembrar una vez y asumir que dos lecturas son “la misma”. Siguiente (E2): medir la invariante de scores del batch, no inventar `True`.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -638,8 +675,11 @@ print(a == b)`,
         id: "S28-T1-A-E2",
         subtopicId: "S28-T1-A",
         kind: "independent",
+        title: "Invariante de scores en [0, 1]",
+        preamble:
+          "- **Contexto:** un score 1.2 en el batch de matching no es “casi 1”: rompe el dominio del contrato y puede contaminar el ranking.\n- **Meta:** con `scores = [0, 0.5, 1.2]`, calcular si **todos** están en [0, 1].\n- **Éxito:** imprime exactamente `False` (el 1.2 falla).\n- **Límites:** usa `all(...)`; no hardcodees `True`; 0 y 1 sí son válidos.",
         instruction:
-          "S28-T1-A-E2 · Invariante de dominio: todo score del batch debe estar en [0, 1]. El starter hardcodea `True` sin mirar los datos. Con `scores = [0, 0.5, 1.2]` calcula `all(0 <= s <= 1 for s in scores)` e imprime el booleano (una línea). El 1.2 debe fallar el contrato.",
+          "1. Revisa el starter: imprime `True` sin mirar los datos.\n2. Escribe `all(0 <= s <= 1 for s in scores)`.\n3. Imprime solo el booleano.\n4. No mutes la lista.",
         hint: "Usa all(...) sobre el rango inclusivo; 1.2 está fuera",
         hints: [
           "Usa all(...) sobre el rango inclusivo",
@@ -648,7 +688,9 @@ print(a == b)`,
         edgeCases: ["NaN no es válido en suites reales"],
         tests: "Una línea: False porque 1.2 rompe el contrato [0, 1]",
         feedback:
-          "Hardcodear True oculta el score 1.2. La invariante se mide con all(...), no con un booleano de teatro.",
+          "Hardcodear True oculta el score 1.2. La invariante se mide con all(...) sobre los datos del batch, no con un booleano de teatro que pone verde al merge.",
+        retrospective:
+          "El dominio [0, 1] se **mide** sobre el batch; un `True` de teatro pone verde al merge con basura en el ranking. El error clásico es “el test ya pasaba, no toqué los datos”. Pregunta: ¿qué reportarías al revisor si el único fallo es 1.2? Luego (E3) generas N inputs con seed y asertas idempotencia de `normalize`.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -669,8 +711,11 @@ print(all(0 <= s <= 1 for s in scores))`,
         id: "S28-T1-A-E3",
         subtopicId: "S28-T1-A",
         kind: "transfer",
+        title: "test_normalize_idempotent con seed y N casos",
+        preamble:
+          "- **Contexto:** en la suite del ER, la propiedad de `normalize` debe resistir un batch generado, no un solo “Ana”.\n- **Meta:** escribir `test_normalize_idempotent` con seed=42, 10 strings del alfabeto `'a bÁé'` y assert `f(f(s))==f(s)`.\n- **Éxito:** dos líneas: `idempotent_ok True` y `n_cases 10`.\n- **Límites:** no dejes `n_cases=1`; no hardcodees sin bucle; datos sintéticos.",
         instruction:
-          "S28-T1-A-E3 · Transferencia (estilo pytest de S27): escribe `test_normalize_idempotent()` que, con seed=42, genere 10 strings del alfabeto `'a bÁé'` (longitud 0..8) y haga `assert` de idempotencia `normalize(s)==normalize(normalize(s))` en cada uno. El starter solo mira un literal y no genera casos. Invoca el test y imprime dos líneas: `idempotent_ok True` y `n_cases 10`.",
+          "1. Lee el DEFECT: un literal y `return 1`.\n2. Dentro del test: `random.seed(42)`; genera 10 strings; assert de idempotencia.\n3. Devuelve `n_cases` real.\n4. Imprime `idempotent_ok True` y `n_cases` con el valor devuelto.",
         hint: "Función test_* con assert; bucle seed; al final resume con print",
         hints: [
           "def test_normalize_idempotent(): random.seed(42); for … assert once == normalize(once)",
@@ -679,7 +724,9 @@ print(all(0 <= s <= 1 for s in scores))`,
         edgeCases: ["string vacío; solo espacios; tildes; assert falla → bug real"],
         tests: "Dos líneas: idempotent_ok True y n_cases 10 tras asserts del batch",
         feedback:
-          "Una propiedad real genera muchos inputs (seed + bucle) y aserta f(f(x))==f(x). Un solo literal no es pensamiento basado en propiedades (*property-based thinking*).",
+          "Una propiedad real genera muchos inputs (seed + bucle) y aserta `f(f(x))==f(x)`. Un solo literal no es pensamiento basado en propiedades; al fallar, imprime seed e input.",
+        retrospective:
+          "Property-based thinking = invariante + generación + assert, no un caso “Ana”. El error clásico es devolver `n_cases=1` o hardcodear el print final. Pregunta: al fallar un assert, ¿qué tres datos (seed, input, expected/actual) harían reproducible el bug al primer intento? Ese hábito alimenta el You Do `test_normalize_idempotent`.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -730,8 +777,11 @@ n_cases 10`,
         id: "S28-T1-B-E1",
         subtopicId: "S28-T1-B",
         kind: "guided",
+        title: "Jaccard simétrico con unión en el denominador",
+        preamble:
+          "- **Contexto:** en el matcher de tokens del ER, un score dirigido rompe la expectativa `sim(a,b)==sim(b,a)` y confunde al revisor.\n- **Meta:** corregir `j` a Jaccard simétrico (casefold, unión en el denominador).\n- **Éxito:** una línea `True` para `j(a,b)==j(b,a)` con a=`'ana pe xx'`, b=`'pe ana'`.\n- **Límites:** no dividas solo por `len(ta)`; unión vacía → 1.0; no etiquetes fraude.",
         instruction:
-          "S28-T1-B-E1 · Simetría de un score Jaccard de tokens: el starter usa un j **dirigido** (divide por `len(ta)`, no por la unión) y con a='ana pe xx', b='pe ana' eso hace `j(a,b) != j(b,a)`. Corrige j a Jaccard simétrico `|∩|/|∪|` (casefold ambos lados) e imprime `j(a,b) == j(b,a)` (una línea booleana).",
+          "1. Abre el starter: divide por `len(ta)` (dirigido).\n2. Cambia a `len(ta & tb) / len(ta | tb)` (y empty→1.0).\n3. Imprime `j(a,b) == j(b,a)`.\n4. No hardcodees `True`.",
         hint: "Jaccard simétrico: len(ta & tb) / len(ta | tb); no dividas solo por len(ta)",
         hints: [
           "casefold + split en ambos lados; unión vacía → 1.0",
@@ -740,7 +790,9 @@ n_cases 10`,
         edgeCases: ["distancias dirigidas no son simétricas — aquí Jaccard sí"],
         tests: "Una línea True: j(a,b)==j(b,a) con Jaccard |∩|/|∪|",
         feedback:
-          "Dividir solo por len(ta) es un score dirigido: j(a,b)≠j(b,a). Jaccard simétrico usa la unión en el denominador.",
+          "Dividir solo por `len(ta)` es score dirigido: `j(a,b)≠j(b,a)`. Jaccard simétrico usa la unión; el revisor del matcher espera simetría documentada en el nombre del test, no un número mágico de score.",
+        retrospective:
+          "Un score dirigido rompe la expectativa del revisor (`sim(a,b)==sim(b,a)`) aunque el happy path “se vea bien”. Jaccard canónico usa |∩|/|∪|; empty→1.0. Pregunta: ¿cómo documentarías una distancia *dirigida* para que nadie asuma simetría? Siguiente (E2): metamórfica — transformar el input y predecir la relación.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -773,8 +825,11 @@ print(j(a, b) == j(b, a))`,
         id: "S28-T1-B-E2",
         subtopicId: "S28-T1-B",
         kind: "independent",
+        title: "Metamórfica: upper no rompe eq casefold",
+        preamble:
+          "- **Contexto:** si tu igualdad de texto es casefold, pasar `x` a mayúsculas no debe cambiar el veredicto de match.\n- **Meta:** con `eq` casefold, verificar que `eq(x,y) == eq(x.upper(), y)` para x=`'Ana'`, y=`'ana'`.\n- **Éxito:** una línea `True`.\n- **Límites:** no uses `==` crudo; no hardcodees; la transformación es el punto pedagógico.",
         instruction:
-          "S28-T1-B-E2 · Prueba metamórfica: si `eq(x,y)` es igualdad casefold, entonces `eq(x.upper(), y)` debe coincidir con `eq(x, y)` para x='Ana', y='ana'. El starter usa `==` sensible a mayúsculas. Imprime el booleano de la relación metamórfica (una línea).",
+          "1. Revisa el starter: imprime `x == y` (False y no es metamórfica).\n2. Define `eq` con `casefold` en ambos lados.\n3. Imprime `eq(x,y) == eq(x.upper(), y)`.\n4. No alteres x/y.",
         hint: "eq = lambda u,v: u.casefold()==v.casefold(); compara eq(x,y) con eq(x.upper(), y)",
         hints: [
           "eq = lambda u,v: u.casefold()==v.casefold()",
@@ -783,7 +838,9 @@ print(j(a, b) == j(b, a))`,
         edgeCases: ["upper no es la única transformación; padding es otra metamórfica"],
         tests: "Una línea True: eq(x,y) == eq(x.upper(), y) bajo igualdad casefold",
         feedback:
-          "Metamórfica ≠ 'casefold equality' a secas: transformas el input (upper) y predices que la relación de igualdad se conserva.",
+          "Metamórfica ≠ casefold equality a secas: transformas el input (upper) y predices que la relación de igualdad se conserva — oráculo sin score mágico.",
+        retrospective:
+          "Metamórfica = transformar el input y predecir cómo se mueve la salida. No es “casefold equality” a secas. Luego (E3): simetría all-pairs, sin mezclar con idempotencia.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -807,8 +864,11 @@ print(eq(x, y) == eq(x.upper(), y))`,
         id: "S28-T1-B-E3",
         subtopicId: "S28-T1-B",
         kind: "transfer",
+        title: "Simetría all-pairs de eq casefold",
+        preamble:
+          "- **Contexto:** el revisor de la suite espera que `eq` sea simétrica en *todos* los pares del lote, incluidos negativos y vacíos.\n- **Meta:** con `eq` casefold, verificar `eq(a,b)==eq(b,a)` en tres pares.\n- **Éxito:** una línea `True`.\n- **Límites:** no mires solo el primer par; no inviertas la polaridad; simetría ≠ idempotencia (`f(f(x))`).",
         instruction:
-          "S28-T1-B-E3 · Transferencia de **simetría** (no confundir con idempotencia): con `eq(u,v)=u.casefold()==v.casefold()`, verifica que en *todos* los pares `[('Ana','ana'), ('x','Y'), ('','')]` se cumple `eq(a,b)==eq(b,a)`. El starter solo mira el primer par y usa polaridad invertida. Imprime un booleano (una línea).",
+          "1. Corrige el DEFECT: solo `pairs[0]` y `!=`.\n2. Usa `all(eq(a,b)==eq(b,a) for a,b in pairs)`.\n3. Imprime el booleano.\n4. Deja el par `('x','Y')` — sigue siendo simétrico bajo casefold.",
         hint: "all(eq(a,b)==eq(b,a) for a,b in pairs) — simetría es reordenar args, no f(f(x))",
         hints: [
           "all(eq(a, b) == eq(b, a) for a, b in pairs)",
@@ -820,7 +880,9 @@ print(eq(x, y) == eq(x.upper(), y))`,
         ],
         tests: "Una línea True: simetría all-pairs de eq, no f(f(x))",
         feedback:
-          "Simetría es reordenar args (eq(a,b)==eq(b,a)). Idempotencia es f(f(x))==f(x). No mezcles los nombres en el test.",
+          "Simetría es reordenar args (`eq(a,b)==eq(b,a)`); idempotencia es `f(f(x))==f(x)`. Mezclar los nombres confunde al desk al leer el test y al revisar fallos en CI del matcher.",
+        retrospective:
+          "All-pairs evita el anti-patrón de mirar solo el happy path (`pairs[0]`). El error clásico es invertir `!=` “para que falle algo” o mezclar el nombre del test con `f(f(x))`. Pregunta: con el par `('x','Y')`, ¿por qué la simetría sigue siendo True bajo casefold? Documenta la propiedad en el nombre del test antes del You Do.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -848,8 +910,11 @@ print(all(eq(a, b) == eq(b, a) for a, b in pairs))`,
         id: "S28-T2-A-E1",
         subtopicId: "S28-T2-A",
         kind: "guided",
+        title: "id requerido en el borde de ingest",
+        preamble:
+          "- **Contexto:** un dict vacío en el batch de contactos sintéticos no puede pasar como “ok” al almacén ER.\n- **Meta:** si no hay `id` usable, imprimir `id requerido`; si no, `ok`.\n- **Éxito:** una línea `id requerido` con `r = {}`.\n- **Límites:** `not r.get('id')` cubre clave ausente y cadena vacía; no hardcodees `ok`.",
         instruction:
-          "S28-T2-A-E1 · Contrato de schema en el borde de ingest: si el dict no tiene `id` usable (clave ausente o cadena vacía), imprime `id requerido`; si no, `ok`. El starter siempre imprime `ok` aunque `r = {}`. Una línea con la etiqueta del contrato.",
+          "1. Abre el starter: siempre `ok`.\n2. Condiciona con `not r.get(\"id\")`.\n3. Imprime la etiqueta del contrato.\n4. No inventes un id.",
         hint: "not r.get('id') cubre clave ausente y cadena vacía",
         hints: [
           "not r.get('id') cubre clave ausente y cadena vacía",
@@ -858,7 +923,9 @@ print(all(eq(a, b) == eq(b, a) for a, b in pairs))`,
         edgeCases: ["id vacío vs None; fail-closed en ingest"],
         tests: "Una línea: id requerido cuando el dict no trae id usable",
         feedback:
-          "Fail-closed en el borde: r={} no es 'ok'. not r.get('id') cubre clave ausente y cadena vacía — el batch se detiene con mensaje legible.",
+          "Fail-closed en el borde: `r={}` no es ok. `not r.get('id')` cubre clave ausente y vacía — el batch se detiene con mensaje legible para el revisor.",
+        retrospective:
+          "En el borde de ingest, un dict vacío no es “casi válido”: sin `id` usable el almacén ER no recibe la fila. El mensaje `id requerido` es evidencia para el revisor, no un castigo cosmético. Pregunta: ¿`id=\"\"` y clave ausente deben fallar igual? Siguiente (E2): etiqueta de score fuera de [0,1].",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -879,8 +946,11 @@ print("id requerido" if not r.get("id") else "ok")`,
         id: "S28-T2-A-E2",
         subtopicId: "S28-T2-A",
         kind: "independent",
+        title: "Etiqueta score fuera de [0, 1]",
+        preamble:
+          "- **Contexto:** score=1.2 en matching no es “casi perfecto”: está fuera del dominio y debe etiquetarse como error de calidad.\n- **Meta:** imprimir `score` si está fuera de [0,1]; si no, `ok`.\n- **Éxito:** una línea `score`.\n- **Límites:** 0 y 1 son válidos; no inviertas la polaridad; una línea.",
         instruction:
-          "S28-T2-A-E2 · Contrato de calidad: score=1.2 está fuera del dominio [0, 1]. Imprime la etiqueta de error `score`; si estuviera en rango, `ok`. El starter invierte la polaridad (dice ok cuando debería fallar). Una línea.",
+          "1. Revisa el starter: imprime `ok` cuando debería fallar.\n2. Invierte la lógica: error si `not (0 <= score <= 1)`.\n3. Imprime solo la etiqueta.\n4. No cambies el valor 1.2.",
         hint: "print('score' if not (0 <= score <= 1) else 'ok')",
         hints: [
           "print('score' if not (0 <= score <= 1) else 'ok')",
@@ -889,7 +959,9 @@ print("id requerido" if not r.get("id") else "ok")`,
         edgeCases: ["bounds inclusivos; NaN en suites reales"],
         tests: "Una línea: score (etiqueta de error) para 1.2 fuera de [0,1]",
         feedback:
-          "Polaridad invertida es un bug clásico de contratos: 1.2 debe etiquetarse 'score', no 'ok'. 0 y 1 sí son válidos en el dominio del matching.",
+          "Polaridad invertida es un bug silencioso de contratos: 1.2 debe etiquetarse `score`, no `ok`. El job se pone verde con basura si inviertes el bounds.",
+        retrospective:
+          "0 y 1 son válidos; 1.2 no es “casi perfecto”. Invertir el `if` es un bug silencioso de contratos: el gate se pone verde y el ranking se contamina. Pregunta: ¿por qué el éxito del ejercicio es la etiqueta `score` y no un booleano? Luego (E3): cuenta filas con al menos un error, no el tamaño del batch.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -910,8 +982,11 @@ print("score" if not (0 <= score <= 1) else "ok")`,
         id: "S28-T2-A-E3",
         subtopicId: "S28-T2-A",
         kind: "transfer",
+        title: "Contar filas con errores de validate",
+        preamble:
+          "- **Contexto:** el reporte de ingest del desk no pregunta “¿cuántas filas llegaron?” sino “¿cuántas rompen el contrato?”.\n- **Meta:** con `validate` (id no vacío + score en [0,1]), contar filas con `len(errores)>0`.\n- **Éxito:** el entero `1` (solo la segunda fila falla).\n- **Límites:** no uses `len(rows)`; define `validate` con lista de errores; sin PII real.",
         instruction:
-          "S28-T2-A-E3 · Transferencia: con `validate` que revisa id no vacío y score en [0,1], cuenta cuántos de dos registros fallan (len(errores)>0). El starter cuenta filas totales. Imprime el entero (una línea).",
+          "1. Lee el DEFECT: imprime 2 (todas las filas).\n2. Implementa `validate` → lista de errores.\n3. `sum(1 for r in rows if validate(r))`.\n4. Imprime solo el entero.",
         hint: "sum(1 for r in rows if validate(r))",
         hints: [
           "Define validate que devuelve lista de errores",
@@ -920,7 +995,9 @@ print("score" if not (0 <= score <= 1) else "ok")`,
         edgeCases: ["quality contract multi-campo"],
         tests: "Una línea entera: cuántas filas tienen al menos un error de validate",
         feedback:
-          "len(rows) mide el batch; el contrato de calidad mide filas sucias (len(errores)>0). Aquí solo la segunda fila falla.",
+          "`len(rows)` mide el batch; el contrato de calidad mide dirty rows (`len(errores)>0`). Aquí solo la segunda fila falla — métrica de calidad, no de volumen.",
+        retrospective:
+          "Volumen del batch ≠ calidad del batch: aquí solo la segunda fila rompe id/score. El error clásico es imprimir `2` porque “hay dos filas”. Pregunta: ¿por qué `validate` devuelve lista de errores y no un booleano opaco cuando el desk debe fallar cerrado? Ese contador alimenta el reporte de ingest del You Do.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -950,8 +1027,11 @@ print(sum(1 for r in rows if validate(r)))`,
         id: "S28-T2-B-E1",
         subtopicId: "S28-T2-B",
         kind: "guided",
+        title: "Detectar drift golden vs current",
+        preamble:
+          "- **Contexto:** el primer paso de la regresión de matching es *ver* que el snapshot cambió.\n- **Meta:** si `golden != current`, imprimir `drift`; si no, `ok`.\n- **Éxito:** una línea `drift` con n=1 vs n=2.\n- **Límites:** compara dicts; no hardcodees `ok`; sin PII real.",
         instruction:
-          "S28-T2-B-E1 · Detección de drift de golden: compara el snapshot versionado (`golden`) con la salida actual (`current`). Si difieren, imprime `drift`; si son iguales, `ok`. El starter ignora el diff y siempre dice ok. Una línea.",
+          "1. Abre el starter: siempre `ok`.\n2. Condiciona con `golden != current`.\n3. Imprime `drift` u `ok`.\n4. No mutes los dicts.",
         hint: "Compara dicts con !=",
         hints: [
           "Compara dicts con != (en prod: JSON canónico ordenado)",
@@ -960,7 +1040,9 @@ print(sum(1 for r in rows if validate(r)))`,
         edgeCases: ["deep compare JSON canónico en prod"],
         tests: "Una línea: drift si golden != current",
         feedback:
-          "Siempre imprimir 'ok' esconde el diff del golden. Drift visible (expected vs. actual) es el primer paso de la regresión de matching.",
+          "Siempre imprimir `ok` esconde el diff del golden. Drift visible (expected vs. actual) es el primer paso de la regresión de matching en el desk.",
+        retrospective:
+          "Ver el diff es el primer paso de la regresión: sin etiqueta `drift`, el desk no sabe que el snapshot de pares cambió. El error clásico es hardcodear `ok` “porque el pipeline corrió”. Pregunta: ¿qué mostrarías en expected vs. actual en el log de CI? Siguiente (E2): reconciliar solo con revisión humana.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -981,8 +1063,11 @@ print("drift" if golden != current else "ok")`,
         id: "S28-T2-B-E2",
         subtopicId: "S28-T2-B",
         kind: "independent",
+        title: "Bloquear reconcile sin approved",
+        preamble:
+          "- **Contexto:** en el desk PE, actualizar el golden sin nota de cambio esconde un matching roto hasta producción de revisión.\n- **Meta:** si hay diff y `approved=False` → `blocked`; solo con aprobación o sin diff → `ok`.\n- **Éxito:** una línea `blocked`.\n- **Límites:** no digas `ok` con drift sin firma; no inventes `approved=True`.",
         instruction:
-          "S28-T2-B-E2 · Reconciliación de golden con revisión: si hay diff y `approved=False` → imprime `blocked`; solo con aprobación o sin diff → `ok`. El starter siempre dice ok aunque haya drift sin aprobación. Una línea.",
+          "1. Revisa el starter: siempre `ok`.\n2. `blocked` si `diff and not approved`.\n3. Imprime solo la acción.\n4. No cambies los booleanos del fixture.",
         hint: "blocked si diff and not approved",
         hints: [
           "blocked si diff and not approved",
@@ -991,7 +1076,9 @@ print("drift" if golden != current else "ok")`,
         edgeCases: ["review humana obligatoria; changelog en el PR"],
         tests: "Una línea: blocked si hay diff y approved=False",
         feedback:
-          "Reconciliar sin aprobación actualiza el contrato en silencio y esconde regresiones. `blocked_drift` fuerza revisión humana antes de tocar el golden.",
+          "Reconciliar sin aprobación actualiza el contrato en silencio y esconde regresiones. `blocked` fuerza revisión humana antes de tocar el golden del matching.",
+        retrospective:
+          "`blocked_drift` fuerza revisión antes de tocar el contrato. Reconciliar en silencio no es velocidad: es regresión oculta. Luego (E3): versión del meta + acción en dos líneas de evidencia.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1012,8 +1099,11 @@ print("blocked" if diff and not approved else "ok")`,
         id: "S28-T2-B-E3",
         subtopicId: "S28-T2-B",
         kind: "transfer",
+        title: "Versión del golden y acción blocked",
+        preamble:
+          "- **Contexto:** el revisor del PR necesita la versión del golden y si el drift quedó bloqueado, no un `0` inventado.\n- **Meta:** leer `meta['golden_version']` y decidir `blocked` si hay diff sin aprobación.\n- **Éxito:** dos líneas: `3` y `blocked`.\n- **Límites:** no hardcodees 0/ok; lee el meta; no actualices el golden en el código.",
         instruction:
-          "S28-T2-B-E3 · Transferencia de golden versionado: meta tiene golden_version=3 y approved=False; current difiere del golden embebido. Imprime dos líneas: la versión leída del meta y la acción (`blocked` sin aprobación). El starter fija 0 y ok a mano.",
+          "1. Corrige el DEFECT: imprime 0 y ok a mano.\n2. `diff = meta[\"golden\"] != current`.\n3. Imprime versión y acción.\n4. Deja `approved=False`.",
         hint: "Lee meta['golden_version']; acción = blocked si diff y not approved",
         hints: [
           "Lee meta['golden_version'] del dict",
@@ -1022,7 +1112,9 @@ print("blocked" if diff and not approved else "ok")`,
         edgeCases: ["changelog de versión en el PR"],
         tests: "Dos líneas: golden_version del meta y blocked sin aprobación.",
         feedback:
-          "Versión del golden + acción de reconciliación son evidencia del PR. Fijar 0/ok a mano no es el flujo de drift.",
+          "Versión del golden + acción de reconciliación son evidencia del PR del desk. Fijar 0/ok a mano no es el flujo de drift con revisión humana.",
+        retrospective:
+          "El revisor del PR necesita la versión del golden y la acción real, no un `0` inventado. El error clásico es “arreglar” el test imprimiendo lo esperado a mano. Pregunta: si `approved` pasara a True, ¿qué una línea de changelog pondrías en el PR? Eso es el flujo de reconcile del You Do.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1057,8 +1149,11 @@ blocked`,
         id: "S28-T3-A-E1",
         subtopicId: "S28-T3-A",
         kind: "guided",
+        title: "Fake DB: leer name de e1",
+        preamble:
+          "- **Contexto:** un fake de DB es un dict con estado real; la clave incorrecta no prueba el borde de lectura del matcher.\n- **Meta:** implementar/usar `get_name` para la entidad `e1`.\n- **Éxito:** una línea `Ana`.\n- **Límites:** sin red ni sqlite aún; no busques `e2`; no mockees call-order.",
         instruction:
-          "S28-T3-A-E1 · Fake de DB en memoria (dict): implementa la lectura del borde `get_name(db, entity_id)` y úsala para la entidad `e1`. El starter busca `e2` (clave ausente → None). Imprime el name: `Ana`. Sin red ni sqlite aún — solo el doble con estado real.",
+          "1. Abre el starter: llama con `\"e2\"`.\n2. Cambia a `\"e1\"`.\n3. Imprime el name devuelto.\n4. Deja el helper del borde.",
         hint: "db[entity_id]['name'] con entity_id='e1'",
         hints: [
           "def get_name(db, eid): return db[eid]['name']",
@@ -1067,7 +1162,9 @@ blocked`,
         edgeCases: ["missing key; fake con estado real no es mock de call-order"],
         tests: "Una línea: Ana (name de la entidad e1 en el fake DB)",
         feedback:
-          "Un fake de DB es un dict con estado real: la clave incorrecta (e2) no prueba el borde. Lee e1['name'] vía el helper del borde.",
+          "Un fake de DB es un dict con estado real: la clave incorrecta (`e2`) no prueba el borde del matcher. Lee `e1` vía el helper — sin mock de orden de llamadas.",
+        retrospective:
+          "Fake con estado real ≠ mock de orden de llamadas. Clave incorrecta no ejercita el contrato. Siguiente (E2): fecha ISO corta del reloj fake.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1096,8 +1193,11 @@ print(get_name(db, "e1"))`,
         id: "S28-T3-A-E2",
         subtopicId: "S28-T3-A",
         kind: "independent",
+        title: "Fecha ISO corta con FakeClock",
+        preamble:
+          "- **Contexto:** el reporte del ER pide fecha corta `YYYY-MM-DD`, no el dump completo del datetime con hora y tz.\n- **Meta:** con `datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)`, imprimir la fecha ISO corta.\n- **Éxito:** una línea `2026-07-20`.\n- **Límites:** usa `d.date().isoformat()`; no uses `str(d)`; timezone aware se mantiene en el objeto.",
         instruction:
-          "S28-T3-A-E2 · Fake clock: `datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)`. El starter imprime `str(d)` (no es fecha ISO corta). Imprime la fecha ISO corta con `d.date().isoformat()` → `2026-07-20`.",
+          "1. Revisa el starter: `print(str(d))`.\n2. Cambia a `d.date().isoformat()`.\n3. Imprime solo la fecha.\n4. No reescribas el datetime a mano.",
         hint: "d.date().isoformat() — str(datetime) incluye hora y no es el contrato",
         hints: [
           "d.date().isoformat()",
@@ -1106,7 +1206,9 @@ print(get_name(db, "e1"))`,
         edgeCases: ["timezone aware en prod"],
         tests: "Una línea ISO corta: 2026-07-20 vía date().isoformat()",
         feedback:
-          "str(datetime) incluye hora y tz; el contrato de fecha corta del ER es d.date().isoformat(). No es el mismo oráculo.",
+          "`str(datetime)` incluye hora y tz; el contrato de fecha corta del ER es `d.date().isoformat()`. Oráculos distintos = asserts frágiles en CI.",
+        retrospective:
+          "`str(datetime)` no es el contrato de fecha corta. El oráculo del lab es ISO. Luego (E3): política de retry ante 5xx o timeout sin red real.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1129,8 +1231,11 @@ print(d.date().isoformat())`,
         id: "S28-T3-A-E3",
         subtopicId: "S28-T3-A",
         kind: "transfer",
+        title: "Retry por 5xx o timeout del fake HTTP",
+        preamble:
+          "- **Contexto:** el cliente del ER no debe marcar `ok` ante 503 o timeout largo: la política de borde es reintentar (sin `sleep` real en CI).\n- **Meta:** si `status >= 500` o `timeout_ms > 2000` → `retry`; si no, `ok`.\n- **Éxito:** una línea `retry` con 503 y 3000 ms.\n- **Límites:** no inviertas 5xx; no ignores timeout; sin red real.",
         instruction:
-          "S28-T3-A-E3 · Fake HTTP: si status >= 500 imprime `retry`, si no `ok`. Incluye política de timeout conceptual: si `timeout_ms` > 2000 también `retry`. El starter invierte 5xx y ignora timeout. status=503, timeout_ms=3000 → una línea `retry`.",
+          "1. Corrige el DEFECT: polaridad 5xx invertida e ignora timeout.\n2. `retry` si `status >= 500 or timeout_ms > 2000`.\n3. Imprime solo la etiqueta.\n4. No uses `time.sleep`.",
         hint: "retry si status>=500 o timeout_ms>2000",
         hints: [
           "retry si status>=500 o timeout_ms>2000",
@@ -1139,7 +1244,9 @@ print(d.date().isoformat())`,
         edgeCases: ["timeouts + 5xx"],
         tests: "Una línea: retry cuando 5xx o timeout_ms > 2000",
         feedback:
-          "503 y timeout largo piden retry, no ok. El fake HTTP modela política de borde sin red real ni sleep.",
+          "503 y timeout largo piden `retry`, no `ok`. El fake modela la política de borde sin sockets ni `sleep` — un sleep real en CI es flake en potencia.",
+        retrospective:
+          "La política de borde se prueba con un fake: sin sockets y sin `time.sleep`. El error clásico es marcar `ok` ante 503 o ignorar timeout “porque a veces responde”. Pregunta: ¿por qué un `sleep` real en CI es un flake en potencia aunque “arregle” un caso local? Ese hábito alimenta FakeHTTP del You Do.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1162,8 +1269,11 @@ print("retry" if status >= 500 or timeout_ms > 2000 else "ok")`,
         id: "S28-T3-B-E1",
         subtopicId: "S28-T3-B",
         kind: "guided",
+        title: "casefold en ambos lados del match",
+        preamble:
+          "- **Contexto:** el contrato de igualdad de texto del ER usa `casefold` en **ambos** operandos; `lower` a un lado rompe el match.\n- **Meta:** comparar `'Ana'` y `'ANA'` con casefold bilateral.\n- **Éxito:** una línea `True`.\n- **Límites:** no uses lower solo a un lado; no overmockees el comparador; una línea.",
         instruction:
-          "S28-T3-B-E1 · Contrato de borde: igualdad de match entre `'Ana'` y `'ANA'` con `casefold` en **ambos** lados → True. El starter aplica `lower` solo al primer operando (`'Ana'.lower() == 'ANA'`), que falla. Una línea booleana.",
+          "1. Abre el starter: `\"Ana\".lower() == \"ANA\"` (False).\n2. Aplica `casefold()` a ambos.\n3. Imprime el booleano.\n4. No hardcodees `True`.",
         hint: "casefold() en ambos operandos",
         hints: [
           "casefold() en ambos operandos",
@@ -1172,7 +1282,9 @@ print("retry" if status >= 500 or timeout_ms > 2000 else "ok")`,
         edgeCases: ["no overmock del comparador; casefold > lower para Unicode"],
         tests: "Una línea True: casefold en ambos lados del comparador",
         feedback:
-          "lower solo a un lado rompe el contrato ('ana'=='ANA' es False). casefold ambos lados es el borde de igualdad de texto del ER.",
+          "`lower` solo a un lado rompe el contrato (`'ana'=='ANA'` es False). casefold en ambos lados es el borde de igualdad de texto del ER — sin overmock del comparador.",
+        retrospective:
+          "Contrato asimétrico (`lower` a un lado) es un bug de borde. casefold ambos lados es el hábito del ER. Siguiente (E2): detectar cuando el doble acepta cualquier par.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1191,8 +1303,11 @@ print("Ana".lower() == "ANA")
         id: "S28-T3-B-E2",
         subtopicId: "S28-T3-B",
         kind: "independent",
+        title: "Detectar overmock débil (weak)",
+        preamble:
+          "- **Contexto:** si el “matcher” de la suite acepta `('x','y')` y `('1','2')`, no estás probando matching: estás midiendo un lambda.\n- **Meta:** si `f` devuelve True en ambos pares distintos → `weak`; si no, `ok`.\n- **Éxito:** una línea `weak`.\n- **Límites:** no imprimas `ok` por defecto; usa la heurística de pares negativos.",
         instruction:
-          "S28-T3-B-E2 · Detecta overmock: si la función devuelve True para pares distintos ('x','y') y ('1','2'), imprime `weak`; si no, `ok`. El starter imprime ok. Una línea.",
+          "1. Revisa el starter: imprime `ok` sin mirar `f`.\n2. `weak` si `f(\"x\",\"y\") and f(\"1\",\"2\")`.\n3. Imprime solo la etiqueta.\n4. Deja el lambda que siempre True (es el sujeto del test).",
         hint: "weak si f('x','y') and f('1','2')",
         hints: [
           "weak si f('x','y') and f('1','2')",
@@ -1201,7 +1316,9 @@ print("Ana".lower() == "ANA")
         edgeCases: ["tests de borde con negativos"],
         tests: "Una línea: weak si el doble acepta cualquier par distinto",
         feedback:
-          "Si f('x','y') y f('1','2') son True, el matcher es un overmock débil. Detectarlo es parte del contrato de borde.",
+          "Si `f('x','y')` y `f('1','2')` son True, el matcher es un overmock débil. Detectarlo es parte del contrato de borde: la suite no debe auto-engañarse.",
+        retrospective:
+          "Detectar overmock es parte del contrato de borde. Un matcher real no acepta cualquier par. Luego (E3): aserta efecto de estado (filas + name), no orden de métodos.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1222,8 +1339,11 @@ print("weak" if f("x", "y") and f("1", "2") else "ok")`,
         id: "S28-T3-B-E3",
         subtopicId: "S28-T3-B",
         kind: "transfer",
+        title: "Efecto de estado, no orden de calls",
+        preamble:
+          "- **Contexto:** el revisor de la suite prefiere “¿se escribió la fila?” a “¿se llamaron tres métodos en este orden?”.\n- **Meta:** tras un insert sintético, imprimir `rows_written` real y el name escrito.\n- **Éxito:** dos líneas: `1` y `Ana`.\n- **Límites:** no inventes métricas de `calls`; lee `result` y `store`; sin red.",
         instruction:
-          "S28-T3-B-E3 · Contrato de borde observable (no call-order): un fake writer hace append al store. El starter hardcodea 0 y `calls`. Tras un insert sintético, imprime dos líneas: `rows_written` real y el nombre escrito (`Ana`). Aserta efecto de estado, no el orden de métodos internos.",
+          "1. Corrige el DEFECT: 0 y `\"calls\"`.\n2. Imprime `result[\"rows_written\"]`.\n3. Imprime `store[-1][\"name\"]`.\n4. No mockees el orden de métodos internos.",
         hint: "result['rows_written'] y store[-1]['name'] (o result de un get)",
         hints: [
           "Efecto observable: filas en el store + campo name",
@@ -1232,7 +1352,9 @@ print("weak" if f("x", "y") and f("1", "2") else "ok")`,
         edgeCases: ["no asserts de call order; estado del fake es el oráculo"],
         tests: "Dos líneas: rows_written y name escrito (efecto de estado)",
         feedback:
-          "Contrato de borde = efecto observable (filas + name), no el orden de métodos internos. Sobre-mocking aserta 'calls'.",
+          "Contrato de borde = efecto observable (filas + name), no el orden de métodos internos. Sobre-mocking aserta `calls` y se rompe en refactors inocuos.",
+        retrospective:
+          "El oráculo del writer es el store, no el contador de métodos internos. Sobre-mocking se rompe en refactors inocuos y da falsa confianza. Pregunta: ¿cuándo sí haría falta un mock de interacción (HTTP de terceros) y cuándo basta el fake con estado? Lleva ese criterio al `test_doubles` del You Do.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1268,8 +1390,11 @@ Ana`,
         id: "S28-T4-A-E1",
         subtopicId: "S28-T4-A",
         kind: "guided",
+        title: "SELECT COUNT real en sqlite :memory:",
+        preamble:
+          "- **Contexto:** inventar la métrica de filas no prueba que el INSERT funcionó: es teatro de integración.\n- **Meta:** tras CREATE + INSERT, leer `COUNT(*)` del motor.\n- **Éxito:** el entero `1`.\n- **Límites:** no hardcodees 0; cuenta antes de close (`:memory:` se pierde); una línea.",
         instruction:
-          "S28-T4-A-E1 · Integración sqlite en memoria: CREATE de la tabla, INSERT de un row y **SELECT COUNT(*)** real. El starter hardcodea `0` sin consultar el motor. Imprime el entero `1`. Integración honesta = leer el store, no inventar la métrica.",
+          "1. Abre el starter: imprime 0.\n2. Ejecuta `select count(*) from t` y toma `fetchone()[0]`.\n3. Imprime el entero.\n4. No cierres antes de contar.",
         hint: "c.execute('select count(*) from t').fetchone()[0]",
         hints: [
           "c.execute('select count(*) from t').fetchone()[0]",
@@ -1278,7 +1403,9 @@ Ana`,
         edgeCases: [":memory: se pierde al close; no hardcodear métricas de integración"],
         tests: "Una línea: 1 (COUNT(*) real tras INSERT en sqlite :memory:)",
         feedback:
-          "Integración honesta lee el motor (SELECT COUNT), no hardcodea 0. :memory: se pierde al close — cuenta antes de cerrar.",
+          "Integración honesta lee el motor (`SELECT COUNT`), no hardcodea 0. `:memory:` se pierde al close — cuenta antes de cerrar o el assert miente.",
+        retrospective:
+          "Integración honesta lee el store con SQL, no inventa la métrica. Hardcodear `0` esconde un INSERT roto o un close prematuro de `:memory:`. Pregunta: ¿en qué momento del script debes contar para no perder la base en memoria? Siguiente (E2): cardinalidad de pares C(n,2).",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1305,8 +1432,11 @@ print(c.execute("select count(*) from t").fetchone()[0])`,
         id: "S28-T4-A-E2",
         subtopicId: "S28-T4-A",
         kind: "independent",
+        title: "Cardinalidad C(n,2) de pares candidatos",
+        preamble:
+          "- **Contexto:** el join con `id_a < id_b` materializa pares no ordenados sin auto-pares; `n*n` infla el universo.\n- **Meta:** con n=4, calcular C(4,2)=n*(n-1)//2.\n- **Éxito:** una línea `6`.\n- **Límites:** no uses `n*n`; blocking en prod reduce pares, pero aquí mides la cota ingenua.",
         instruction:
-          "S28-T4-A-E2 · Cardinalidad de pares candidatos del ER: con n entidades, los pares no ordenados sin auto-pares son C(n,2)=n*(n-1)//2. Para n=4 debe dar 6. El starter usa n*n (incluye diagonal y dobles). Una línea: `6`.",
+          "1. Revisa el starter: `n * n` → 16.\n2. Cambia a `n * (n - 1) // 2`.\n3. Imprime solo el entero.\n4. No inventes un join sqlite aquí (eso fue E1).",
         hint: "n * (n - 1) // 2",
         hints: [
           "n * (n - 1) // 2",
@@ -1315,7 +1445,9 @@ print(c.execute("select count(*) from t").fetchone()[0])`,
         edgeCases: ["blocking reduce pares en prod; C(n,2) es cota superior ingenua"],
         tests: "Una línea: 6 = C(4,2) = n*(n-1)//2",
         feedback:
-          "n*n incluye diagonal y dobles. Cardinalidad de pares candidatos no ordenados es n*(n-1)//2 — el join con id_a < id_b lo materializa.",
+          "`n*n` incluye diagonal y dobles. Cardinalidad de pares candidatos no ordenados es `n*(n-1)//2` — el join con `id_a < id_b` lo materializa en integración.",
+        retrospective:
+          "El join con `id_a < id_b` materializa pares no ordenados; `n*n` infla el universo con diagonal y dobles. C(n,2) es la cota ingenua antes de blocking en prod. Pregunta: con n=4, ¿por qué 16 engaña al revisor de cardinalidad? Luego (E3): reanudación de ids + NFC de tildes Latam.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1336,8 +1468,11 @@ print(n * (n - 1) // 2)`,
         id: "S28-T4-A-E3",
         subtopicId: "S28-T4-A",
         kind: "transfer",
+        title: "Reanudación y encoding NFC de tildes",
+        preamble:
+          "- **Contexto:** un batch reanudado no debe reprocesar ids en `done`; y tildes Latam en NFD deben unificarse a NFC antes de igualar nombres.\n- **Meta:** pendientes en orden original + `encoding_ok True` tras NFC.\n- **Éxito:** dos líneas: `['b', 'c']` y `encoding_ok True`.\n- **Límites:** no imprimas `items` completo; no compares NFD crudo con “María”; sin PII real.",
         instruction:
-          "S28-T4-A-E3 · Reanudación + encoding Unicode: `done={'a'}`, `items=['a','b','c']`. El starter reprocesa todo y marca encoding_ok False. Imprime dos líneas: pendientes en orden original, y `encoding_ok True` solo si la forma NFD de “María” (`'Mari\\u0301a'`) se iguala a `'María'` tras `unicodedata.normalize('NFC', …)`.",
+          "1. Corrige el DEFECT: imprime todos los items y compara NFD crudo.\n2. `pending = [i for i in items if i not in done]`.\n3. `unicodedata.normalize(\"NFC\", nfd) == \"María\"`.\n4. Imprime pending y `encoding_ok` con el booleano.",
         hint: "pending = [i for i in items if i not in done]; NFC unifica tildes precompuestas",
         hints: [
           "list comp filtrando done",
@@ -1346,7 +1481,9 @@ print(n * (n - 1) // 2)`,
         edgeCases: ["timeout + resume; NFD vs NFC en fuentes Latam"],
         tests: "Dos líneas: pendientes ['b','c'] y encoding_ok True tras NFC",
         feedback:
-          "Reanudación salta ids en done; NFC unifica NFD de tildes Latam. Reprocesar todo + comparar NFD crudo falla ambos contratos.",
+          "Reanudación salta ids en `done`; NFC unifica NFD de tildes Latam. Reprocesar todo + comparar NFD crudo falla ambos contratos del tagline de la sección.",
+        retrospective:
+          "Un batch reanudado salta `done`; NFC unifica tildes Latam antes de igualar nombres. Reprocesar todo + comparar NFD crudo falla ambos contratos a la vez. Pregunta: ¿por qué encoding y reanudación aparecen juntos en el tagline de S28 (no solo en un test aislado)? Llévalos al `test_integration` del portfolio.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1378,8 +1515,11 @@ encoding_ok True`,
         id: "S28-T4-B-E1",
         subtopicId: "S28-T4-B",
         kind: "guided",
+        title: "sorted antes de comparar con golden",
+        preamble:
+          "- **Contexto:** el orden de un set o de una lista de inserción no es contrato estable entre corridas de CI.\n- **Meta:** ordenar ids antes de comparar con un golden.\n- **Éxito:** una línea `['a', 'b']`.\n- **Límites:** usa `sorted`; no imprimas la lista cruda; una línea.",
         instruction:
-          "S28-T4-B-E1 · Orden estable del batch para CI: antes de comparar con un golden, ordena los ids. Imprime `sorted(['b','a'])` → `['a', 'b']`. El starter imprime la lista cruda (orden de inserción / set no es contrato). Una línea.",
+          "1. Abre el starter: imprime `[\"b\",\"a\"]`.\n2. Aplica `sorted(...)`.\n3. Imprime solo la lista ordenada.\n4. Cualquier expresión que imprima `['a', 'b']` es OK.",
         hint: "sorted(ids)",
         hints: [
           "sorted(ids) fija el orden antes del assert de golden",
@@ -1388,7 +1528,9 @@ encoding_ok True`,
         edgeCases: ["set order no es estable; sort antes de serializar golden"],
         tests: "Una línea: ['a', 'b'] con sorted del batch",
         feedback:
-          "Orden de sets/listas crudas es flake en CI. sorted fija el orden del batch antes de comparar goldens o reportes de pares.",
+          "Orden de sets/listas crudas es flake en CI. `sorted` fija el orden del batch antes de comparar goldens o reportes de pares del matching.",
+        retrospective:
+          "El orden de un set o de inserción no es contrato estable entre corridas. `sorted` fija el batch antes del assert de golden de pares. El error clásico es culpar a “Python no determinista” sin ordenar. Pregunta: ¿serializarías el golden con keys ordenadas en JSON? Siguiente (E2): política de merge con flake_rate > 0.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1408,8 +1550,11 @@ print(ids)
         id: "S28-T4-B-E2",
         subtopicId: "S28-T4-B",
         kind: "independent",
+        title: "fail_job si flake_rate > 0",
+        preamble:
+          "- **Contexto:** en la suite que bloquea merge del ER, cualquier flake_rate > 0 debe fallar el job; no “promediar a verde”.\n- **Meta:** con `flake_rate=0.01`, imprimir `fail_job` (si es 0, `ok`).\n- **Éxito:** una línea `fail_job`.\n- **Límites:** no inviertas la polaridad; no subas retries sin root-cause; cuarentena documentada ≠ ocultar.",
         instruction:
-          "S28-T4-B-E2 · Política de la suite que bloquea merge: si `flake_rate > 0` imprime `fail_job`; si es 0, `ok`. El starter invierte la polaridad. Con flake_rate=0.01 → una línea `fail_job`. Retry sin root-cause no es fix.",
+          "1. Revisa el starter: imprime `ok` cuando hay flakes.\n2. `fail_job` si `flake_rate > 0`.\n3. Imprime solo la etiqueta.\n4. No cambies 0.01 a 0 para “arreglar” el test.",
         hint: "fail_job si flake_rate > 0",
         hints: [
           "fail_job si flake_rate > 0",
@@ -1418,7 +1563,9 @@ print(ids)
         edgeCases: ["cuarentena documentada con ticket; no borrar el test molesto"],
         tests: "Una línea: fail_job si flake_rate > 0 en la suite de merge",
         feedback:
-          "Cualquier flake_rate > 0 debe fallar el job de merge. Invertir polaridad o subir retries sin root-cause no es política de CI del ER.",
+          "Cualquier `flake_rate > 0` debe fallar el job de merge del ER. Invertir polaridad o subir retries sin root-cause no es política de CI — enmascara el flake.",
+        retrospective:
+          "Invertir polaridad o subir retries sin causa no es política de CI. Luego (E3): `run(seed)` que re-siembra y ordena para igualdad entre corridas.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1439,8 +1586,11 @@ print("fail_job" if flake_rate > 0 else "ok")`,
         id: "S28-T4-B-E3",
         subtopicId: "S28-T4-B",
         kind: "transfer",
+        title: "run(seed) determinista con sorted",
+        preamble:
+          "- **Contexto:** dos “mismas” corridas de CI deben producir el mismo batch; si no, el gate de merge es un flake.\n- **Meta:** `run(seed)` fija seed, genera 5 letras de `'abc'` y devuelve `sorted(...)`.\n- **Éxito:** dos líneas: `True` (`run(7)==run(7)`) y la lista ordenada de `run(7)`.\n- **Límites:** re-siembra **dentro** de cada `run`; no dejes el PRNG avanzar entre llamadas; sin reloj real.",
         instruction:
-          "S28-T4-B-E3 · Transferencia CI determinista: implementa `run(seed)` que fije seed, genere 5 letras de `'abc'` y devuelva `sorted(...)`. El starter no re-siembra entre corridas y no ordena. Imprime dos líneas: si `run(7)==run(7)` (debe ser True) y el resultado de `run(7)`.",
+          "1. Corrige el DEFECT: sin seed ni sorted.\n2. Dentro de `run`: `random.seed(seed)`; genera; `return sorted(...)`.\n3. Imprime igualdad de dos corridas y el resultado.\n4. No muevas el seed al módulo fuera de `run`.",
         hint: "Dentro de run: random.seed(seed); return sorted([...])",
         hints: [
           "Cada llamada a run debe re-sembrar la seed — si no, la 2.ª corrida diverge",
@@ -1449,7 +1599,9 @@ print("fail_job" if flake_rate > 0 else "ok")`,
         edgeCases: ["sin seed la igualdad entre corridas es flake"],
         tests: "Dos líneas: True (run(7)==run(7)) y la lista ordenada de run(7).",
         feedback:
-          "Cada `run` debe re-sembrar la seed y ordenar. Sin `seed`+`sorted`, dos 'mismas' corridas de CI divergen: eso es un flake.",
+          "Cada `run` debe re-sembrar la seed y ordenar. Sin `seed`+`sorted`, dos “mismas” corridas de CI divergen: eso es un flake del gate de merge.",
+        retrospective:
+          "Cada llamada a `run` debe re-sembrar *dentro* de la función y devolver orden estable; si no, el gate de merge es un flake disfrazado de test. El error clásico es sembrar una vez a nivel de módulo. Pregunta de cierre: ¿qué tres controles (seed, reloj, sort) documentarías en el README de la suite del You Do antes de pedir review?",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1591,6 +1743,8 @@ if __name__ == "__main__":
 `,
     portfolioNote:
       "Suite de QA para CP-N3-A: propiedades, contratos de datos e integración determinista. Documenta límites y evidencia en README_suite.md; no uses PII real ni auto-etiquetes fraude o parentesco.",
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con seed + assert (idempotencia u otra) y qué imprimirías al fallar? (2) ¿por qué un golden con `blocked_drift` sin aprobación protege mejor al desk que un job siempre verde? (3) En el README, una frase de impacto medible (p. ej. “cero flakes en gate / drift visible”) y una línea de **límite** (matching ≠ fraude/parentesco; sin PII real). Defensa en 30 segundos: propiedades → schema/golden → dobles → integración sqlite → determinismo.",
     rubric: [
       {
         criterion:

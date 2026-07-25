@@ -420,6 +420,8 @@ scalable_view subgraph_only`,
         subtopicId: "S31-T1-A",
         environment: "local-python",
         description: "Modela nodos entidad/cuenta y aristas owns, shared_phone y transfer con dirección y peso.",
+        preamble:
+          "En el desk de investigación relacional, un grafo sin tipos estables no se puede filtrar ni auditar. Esta demo arma el contrato mínimo de CP-N3-B: nodos entidad/cuenta y aristas `owns`, `shared_phone` y `transfer` con dirección y peso. No escribas aún: predice por qué `transfer` debe ser dirigida y `shared_phone` no, y por qué el peso `99.5` es evidencia cuantitativa y no una etiqueta de culpa.",
         code: {
           language: 'python',
           title: "model_demo.py",
@@ -446,13 +448,17 @@ types ['owns', 'shared_phone', 'transfer']
 directed_tx True
 weight 99.5`,
         },
-        why: "Dirección y peso son parte del contrato del grafo, no adornos.",
+        why: "Dirección y peso son campos del schema, no adornos de layout. Un `etype` estable permite filtrar el path del revisor; las unidades de peso (PEN, count, score) deben declararse por etype. Mezclar convenciones de dirección en el mismo tipo rompe el filtro. We Do: completar el modelo literal, medir out-strength y clasificar directed vs. undirected.",
+        retrospective:
+          "Si puedes explicar por qué `transfer` dirigida y `shared_phone` no dirigida no son intercambiables, ya tienes el hábito de schema primero. El error clásico es tratar el peso como veredicto. En We Do practicarás modelar aristas, medir fuerza saliente y clasificar dirección.",
       },
       {
         demoId: "S31-T1-B-DEMO",
         subtopicId: "S31-T1-B",
         environment: "local-python",
         description: "Multiaristas con timestamps y provenance por record_id.",
+        preamble:
+          "Entre el mismo par pueden coexistir varias transferencias o contactos: eso es un multigrafo. Esta demo guarda cada `record_id` y source, y además elige la arista más reciente por `ts` sin borrar el resto. No escribas aún: predice por qué `prov_ok` debe ser True solo si *todas* tienen `rid` y `src`, y por qué `latest` es r1 (2026-03-01).",
         code: {
           language: 'python',
           title: "multi_demo.py",
@@ -479,13 +485,17 @@ rids ['r0', 'r1']
 prov_ok True
 latest r1`,
         },
-        why: "Multigrafo + provenance habilita auditoría del camino.",
+        why: "Multigrafo + provenance habilita la auditoría del camino: cada hop debe saltar al registro fuente. «Latest» es una vista de prioridad, no un reemplazo del detalle. Sin `record_id` el hop del revisor es decoración. We Do: contar multi-pares, filtrar por ventana temporal y validar provenance.",
+        retrospective:
+          "Si puedes distinguir «agregar o filtrar por tiempo» de «borrar el detalle», ya tienes el hábito de T1-B. El error clásico es quedarte solo con `latest` y perder `record_id` del resto. Pregunta: ¿qué audita el revisor si el hop solo muestra la última transferencia? We Do: multi-count, filtro temporal y gate de provenance.",
       },
       {
         demoId: "S31-T2-A-DEMO",
         subtopicId: "S31-T2-A",
         environment: "local-python",
         description: "Construye nodos y aristas owns / shared_phone desde tablas sintéticas.",
+        preamble:
+          "Tras el ER de S30, las tablas de entidades, cuentas y contactos se proyectan a grafo. Esta demo construye nodos (incluidos valores de teléfono) y aristas `owns` / `has_phone`. Observa que e1 y e2 comparten el valor `900`: es un **hecho de contacto**, no parentesco. No escribas aún; sigue la unión de ids y el conteo de aristas.",
         code: {
           language: 'python',
           title: "build_demo.py",
@@ -516,13 +526,17 @@ n_nodes 4
 n_edges 3
 shared_phone_value 900`,
         },
-        why: "Tablas → grafo con tipos estables del schema canónico.",
+        why: "Tablas → grafo con tipos del schema canónico (`owns`, `has_phone`). El contacto como nodo intermedio facilita el path `E1 → 900 → E2` sin inventar parentesco. Ids sintéticos estables hacen la construcción idempotente. Sin el valor de teléfono como nodo, el hop de contacto compartido no se dibuja. We Do: proyectar owns ordenadas, detectar shared y armar el set de nodos.",
+        retrospective:
+          "Si puedes dibujar el hop por teléfono compartido sin inventar parentesco, ya internalizaste T2-A. El error clásico es modelar solo personas y omitir el nodo de contacto. Pregunta: ¿qué ve el revisor si el teléfono no es nodo de primera clase? We Do: proyectar owns, detectar shared y unir el set de nodos.",
       },
       {
         demoId: "S31-T2-B-DEMO",
         subtopicId: "S31-T2-B",
         environment: "local-python",
         description: "Agrega montos por par conservando lista de record_id.",
+        preamble:
+          "El revisor filtra con sumas, pero audita con `record_id`. Esta demo agrega montos por par **y** conserva la lista de ids. No escribas aún: predice por qué `detail_n 2` debe coincidir con la longitud de `ids`, y qué pregunta del revisor fallaría si solo imprimieras `sum 15`.",
         code: {
           language: 'python',
           title: "agg_demo.py",
@@ -552,13 +566,17 @@ print("detail_n", g["n"])
 ids ['t1', 't2']
 detail_n 2`,
         },
-        why: "Agregado y detalle conviven: el revisor puede pedir los records.",
+        why: "Agregado y detalle conviven: el workbench prioriza con `sum` y explica con `records`. Borrar ids rompe la auditoría del path aunque la suma sea correcta. La clave de agregado debe incluir al menos `(src, dst, etype)` cuando el schema lo exija. We Do: colapso canónico post-ER, agregar conservando records e invariante de no-pérdida.",
+        retrospective:
+          "Si puedes defender por qué el path necesita la capa de detalle además del total, ya tienes T2-B. El error clásico es imprimir solo `sum 15` y creer que el hop es auditable. Pregunta: ¿qué pide el revisor al hacer clic en el hop E1→E2? We Do: reescribir aristas canónicas, agregar conservando records y verificar el invariante.",
       },
       {
         demoId: "S31-T3-A-DEMO",
         subtopicId: "S31-T3-A",
         environment: "local-python",
         description: "BFS path reproducible entre dos entidades con hop limit.",
+        preamble:
+          "El revisor necesita un camino **reproducible** y acotado, no una exploración infinita. Esta demo hace BFS de A a D con vecinos ordenados y muestra `hops` y `repro`. No escribas aún: predice por qué sorted de vecinos hace que dos ejecuciones den el mismo path, y por qué un hop limit protege al workbench.",
         code: {
           language: 'python',
           title: "path_demo.py",
@@ -595,13 +613,17 @@ print("repro", p1 == p2)
 hops 3
 repro True`,
         },
-        why: "Camino acotado y ordenado = reproducible.",
+        why: "Camino acotado y con vecinos ordenados = reproducible entre re-runs del revisor. El hop limit controla costo y ruido de paths largos poco accionables; en producción NetworkX cubre el mismo contrato sobre MultiGraph. Un path sin orden estable no se puede auditar ni comparar en tests. We Do: grado, componentes conexas y BFS A→D con hops.",
+        retrospective:
+          "Si puedes explicar por qué vecinos `sorted` implica `repro True`, ya tienes el hábito de paths auditables. El error clásico es BFS con orden de `set` no determinista o tratar cualquier camino como «el» path del caso. Pregunta: ¿qué pondrías junto al path en la UI del revisor? We Do: degree, componentes y path con hops.",
       },
       {
         demoId: "S31-T3-B-DEMO",
         subtopicId: "S31-T3-B",
         environment: "local-python",
         description: "Calcula degree centrality y emite disclaimer de no-culpabilidad.",
+        preamble:
+          "Un hub puede ser un procesador de pagos legítimo o un teléfono de call center. Esta demo calcula el nodo de mayor grado y emite `interpretation structure_only` con `guilt_label False`. No escribas aún: predice por qué un score alto solo ordena la cola humana y nunca cierra el caso.",
         code: {
           language: 'python',
           title: "cent_demo.py",
@@ -625,13 +647,17 @@ print("guilt_label", False)
 interpretation structure_only
 guilt_label False`,
         },
-        why: "Métrica estructural con interpretación limitada.",
+        why: "Métrica estructural con interpretación limitada: reporta siempre el disclaimer y no automatices fraude. Un hub de infraestructura no implica culpa de las personas conectadas. Degree centrality ordena la cola humana; el revisor decide con path, records y contexto. We Do: normalizar deg/(n−1), clasificar infra vs. persona e interpretar con tipos de arista.",
+        retrospective:
+          "Si puedes decir en una frase por qué centralidad ≠ culpabilidad, ya tienes el gate ético de T3-B. El error clásico es auto-label «hub = sospechoso» sin mirar tipo de nodo ni etypes. Pregunta: ¿qué disclaimer pondrías junto al score en la UI? We Do: degree centrality estándar, hub INF-/PER- y high-degree con etypes.",
       },
       {
         demoId: "S31-T4-A-DEMO",
         subtopicId: "S31-T4-A",
         environment: "local-python",
         description: "Extrae ego-subgraph k=1 y valida nodos esperados.",
+        preamble:
+          "El revisor no navega 100k nodos: arranca del seed del caso y expande k hops. Esta demo extrae ego k=1 desde S y aserta el conjunto esperado. No escribas aún: predice por qué C (a 2 hops) no entra en k=1 y por qué un assert de membresía es un test de regresión útil.",
         code: {
           language: 'python',
           title: "ego_demo.py",
@@ -663,13 +689,17 @@ print("test_ok", ego1 == ["A", "B", "S"])
 k 1
 test_ok True`,
         },
-        why: "Subgrafo de caso testeable.",
+        why: "Subgrafo de caso testeable: ego-k acota el workbench al radio del seed y hace el assert de membresía un test de regresión útil. El path del seed es hipótesis con evidencia, no veredicto. Devolver el grafo entero del «banco» no es más transparente: es ruido. We Do: ego k=1/2, invariantes de calidad e idempotencia del builder.",
+        retrospective:
+          "Si puedes decir qué entra y qué no en k=1 vs k=2, ya tienes el hábito de subgrafos de caso. El error clásico es devolver el grafo entero o un solo vecino. Pregunta: ¿por qué un assert `ego1 == [...]` es mejor que solo imprimir el set? We Do: ego, invariantes y build idempotente.",
       },
       {
         demoId: "S31-T4-B-DEMO",
         subtopicId: "S31-T4-B",
         environment: "local-python",
         description: "Redacta labels y adjunta evidencia de arista al path view.",
+        preamble:
+          "Un layout con PII completa es un incidente de compliance, no un entregable de portafolio. Esta demo redacta teléfonos en el path view y adjunta `records` del hop. No escribas aún: predice por qué `pii_full False` es parte del contrato y qué ve el revisor al hacer clic en el hop.",
         code: {
           language: 'python',
           title: "viz_demo.py",
@@ -684,7 +714,9 @@ print("pii_full", False)`,
 evidence_records ['c-1', 'c-2']
 pii_full False`,
         },
-        why: "Vista de path con privacidad y evidencia.",
+        why: "Vista de path con privacidad y evidencia: redact por defecto; records solo al revisor autorizado. Un layout bonito con PII completa no es portafolio: es un incidente de compliance. El hop del path debe mostrar `records` sin exponer labels crudos. We Do: redact email, records por hop del path y política summarize/render.",
+        retrospective:
+          "Si puedes defender redact + records por hop, ya tienes el storyboard del revisor. El error clásico es capturar PII completa «porque se ve mejor» en el portafolio. Pregunta: ¿quién puede ver el teléfono sin máscara y bajo qué rol? We Do: redact, evidence por hop y umbral de escala.",
       },
     ],
   },
@@ -695,8 +727,11 @@ pii_full False`,
         id: "S31-T1-A-E1",
         subtopicId: "S31-T1-A",
         kind: "guided",
+        title: "Modelo mínimo: owns y shared_phone",
+        preamble:
+          "- **Contexto:** en `CASO-LIM-031`, el revisor necesita un grafo tipado antes de cargar filas reales del ledger.\n- **Meta:** completar dict `nodes` (ya dado) y lista `edges` con `owns` E1→A1 (dirigida) y `shared_phone` E1–E2 (no dirigida).\n- **Éxito:** `n_nodes 3` / `n_edges 2` / `n_directed 1`.\n- **Límites:** no inventes etypes fuera del schema; sin PII real; no etiquetes fraude ni parentesco.",
         instruction:
-          "S31-T1-A-E1 · Completa el modelo mínimo: dict `nodes` (3 ids) y lista `edges` con `src`, `dst`, `etype`, `weight`, `directed`. Imprime `n_nodes`, `n_edges` y cuántas aristas tienen `directed=True`. Fixture sintético `CASO-LIM-031` (run_id=cpn3b-01, @example.pe); sin PII real; sin etiquetar fraude ni parentesco.",
+          "1. Revisa el starter: `nodes` listo, `edges` vacío.\n2. Agrega arista `owns` E1→A1 con `directed=True` y peso 1.0.\n3. Agrega `shared_phone` E1–E2 con `directed=False`.\n4. Imprime `n_nodes`, `n_edges` y `n_directed` (cuenta `directed=True`).",
         hint: "Usa literales de dict/list y cuenta con sum(1 for e in edges if e['directed']).",
         hints: [
           "Completa la lista edges con owns (dirigida) y shared_phone (no dirigida).",
@@ -704,7 +739,10 @@ pii_full False`,
         ],
         edgeCases: ["nodo sin aristas es válido", "weight puede ser float"],
         tests: "salida: n_nodes 3 / n_edges 2 / n_directed 1",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Sin aristas tipadas no hay filtro de path. `n_directed` debe ser 1: solo `owns` es dirigida; `shared_phone` no cuenta. Si `n_edges` es 0, el starter quedó sin completar. Compara con la salida canónica.",
+        retrospective:
+          "El modelo mínimo fija tipos, dirección y peso antes de la carga masiva. El error clásico es dejar `edges=[]` o mezclar convenciones de dirección en el mismo etype. Siguiente (E2): medir fuerza saliente por nodo.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -737,8 +775,11 @@ n_directed 1`,
         id: "S31-T1-A-E2",
         subtopicId: "S31-T1-A",
         kind: "independent",
+        title: "Out-strength: peso saliente por nodo",
+        preamble:
+          "- **Contexto:** en un grafo de transferencias, el revisor a veces prioriza nodos por **flujo saliente**, no solo por conteo de vecinos.\n- **Meta:** con aristas `(src, dst, weight)`, calcular out-strength (suma de pesos por `src`) y reportar el top.\n- **Éxito:** `top B` / `value 5.0` / `n 2`.\n- **Límites:** acumula solo por `src`; nodos solo-destino no aparecen; datos sintéticos.",
         instruction:
-          "S31-T1-A-E2 · Dada una lista de aristas dirigidas (`src`, `dst`, `weight` en PEN), calcula el **peso total saliente** por nodo (*out-strength*: la suma de pesos de las aristas que salen del nodo). Imprime el nodo con mayor out-strength, su valor y cuántos nodos tienen salida. Fixture `CASO-LIM-031`; datos sintéticos solo; sin fraude automático.",
+          "1. Implementa `out_strength(edges)` → dict `src → suma`.\n2. Elige `top = max(out, key=out.get)`.\n3. Imprime `top`, `value` y `n = len(out)`.\n4. No uses el `dst` para el total saliente.",
         hint: "Acumula en un dict solo por `src`; usa max(out, key=out.get).",
         hints: [
           "Acumula out[s] += w por cada arista saliente (ignora dst para el total).",
@@ -746,7 +787,10 @@ n_directed 1`,
         ],
         edgeCases: ["nodos solo destino no aparecen en out", "empates: max estable por primer max"],
         tests: "salida: top B / value 5.0 / n 2",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Out-strength suma pesos por `src`, no cuenta vecinos. Si `top` es A, probablemente sumaste también destinos o invertiste el par. Compara con `top B` / `value 5.0`.",
+        retrospective:
+          "Out-strength es evidencia de *flujo saliente*, no de culpa ni de popularidad de vecinos. Si confundes «cuántos destinos toca B» con «cuánto peso sale de B», el revisor prioriza mal la cola de hops. Pregunta: ¿por qué un nodo solo-destino no aparece en el dict de out-strength? Luego (E3) clasificarás directed vs. undirected con etypes del schema.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -788,8 +832,11 @@ n 2`,
         id: "S31-T1-A-E3",
         subtopicId: "S31-T1-A",
         kind: "transfer",
+        title: "Clasificar directed, undirected y etypes",
+        preamble:
+          "- **Contexto:** el revisor del path filtra por dirección y por tipo; si mezclas convenciones en un mismo `etype`, el filtro miente.\n- **Meta:** de una lista de aristas con `directed` y `etype`, devolver conteos y etypes ordenados.\n- **Éxito:** `directed 2` / `undirected 1` / `etypes ['shared_phone', 'transfer']`.\n- **Límites:** schema canónico; no inventes labels de fraude; datos sintéticos.",
         instruction:
-          "S31-T1-A-E3 · Clasifica aristas en directed vs. undirected y devuelve dos conteos; imprime también los `etype` únicos ordenados. Usa el schema canónico (`transfer` dirigida, `shared_phone` no dirigida). Esta clasificación es el filtro que el revisor aplica al path. Fixture `CASO-LIM-031`.",
+          "1. Completa `counts(edges)`: suma directed True y False por separado.\n2. Construye `etypes = sorted({e['etype'] for e in edges})`.\n3. Imprime `directed`, `undirected` y `etypes`.\n4. No hardcodees los conteos.",
         hint: "sets para etypes; sorted(set(...)).",
         hints: [
           "Cuenta directed=True y directed=False por separado (no mezcles convenciones en el mismo etype).",
@@ -797,7 +844,10 @@ n 2`,
         ],
         edgeCases: ["etype repetido colapsa en set.", "misma etype no debe mezclar directed True/False en producción."],
         tests: "salida: directed 2 / undirected 1 / etypes ['shared_phone', 'transfer']",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Dos contadores distintos (directed / undirected) + set de etypes. Si unificas en un solo total, el filtro del revisor pierde el semáforo de dirección. Compara con la salida canónica.",
+        retrospective:
+          "Clasificar dirección y etype es el primer filtro auditable del path. El error clásico es colapsar todo en un solo contador. Pregunta: ¿qué harías si un mismo etype aparece a veces directed y a veces no?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -848,8 +898,11 @@ etypes ['shared_phone', 'transfer']`,
         id: "S31-T1-B-E1",
         subtopicId: "S31-T1-B",
         kind: "guided",
+        title: "Contar multi-aristas por par",
+        preamble:
+          "- **Contexto:** en el multigrafo de `CASO-LIM-031`, dos transferencias E1→E2 son dos hechos, no uno.\n- **Meta:** con filas `(src, dst)`, contar ocurrencias por par y reportar el top.\n- **Éxito:** `pair E1 E2` / `n 2` / `pairs 2`.\n- **Límites:** el orden `src,dst` importa; no colapses a undirected sin documentarlo; sin PII.",
         instruction:
-          "S31-T1-B-E1 · A partir de aristas crudas (src, dst), construye el conteo multi-arista por par e imprime el par con más eventos, su conteo y cuántos pares distintos hay. Fixture `CASO-LIM-031`.",
+          "1. Arma `Counter(rows)`.\n2. Obtén el par más frecuente con `most_common(1)`.\n3. Imprime `pair` (dos ids), `n` y `pairs = len(c)`.\n4. No hardcodees `n 2`.",
         hint: "tuple (src, dst) como clave; Counter o dict de enteros.",
         hints: [
           "from collections import Counter; c = Counter(rows).",
@@ -857,7 +910,10 @@ etypes ['shared_phone', 'transfer']`,
         ],
         edgeCases: ["orden src,dst importa"],
         tests: "salida: pair E1 E2 / n 2 / pairs 2",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Si usas `set(rows)` pierdes la frecuencia: el revisor vería un solo hecho entre E1–E2. `Counter` + `most_common` es el patrón. Compara con `n 2` / `pairs 2`.",
+        retrospective:
+          "Multi-count hace visible la *densidad de hechos* entre el mismo par: dos transferencias E1→E2 son dos filas auditables, no un «mismo hop». El error clásico es colapsar con `set` antes de medir frecuencia. Pregunta: si el revisor pregunta «¿cuántos eventos hay entre E1 y E2?», ¿qué número defiendes? Siguiente (E2): filtrar por ventana temporal sin borrar provenance.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -888,8 +944,11 @@ pairs 2`,
         id: "S31-T1-B-E2",
         subtopicId: "S31-T1-B",
         kind: "independent",
+        title: "Filtrar aristas por ventana temporal",
+        preamble:
+          "- **Contexto:** el caso no debe mezclar 2019 con 2026 sin documentarlo; el workbench filtra por `ts`.\n- **Meta:** conservar aristas con `ts >= '2026-02-01'` y verificar provenance.\n- **Éxito:** `n 2` / `prov True` / `first b`.\n- **Límites:** límite inclusivo; no mutes la lista original si puedes evitarlo; datos sintéticos.",
         instruction:
-          "S31-T1-B-E2 · Filtra aristas con `ts >= '2026-02-01'` e imprime cuántas quedan, si todas tienen `record_id`, y el primer `record_id` del filtro. Fixture `CASO-LIM-031`.",
+          "1. Filtra `edges` con `ts >= '2026-02-01'`.\n2. Comprueba que todas tienen `record_id`.\n3. Imprime `n`, `prov` y el primer `record_id` del filtro.\n4. No hardcodees `first`.",
         hint: "Strings ISO de fecha son ordenables lexicográficamente.",
         hints: [
           "f = [e for e in edges if e['ts'] >= '2026-02-01'].",
@@ -897,7 +956,10 @@ pairs 2`,
         ],
         edgeCases: ["límite inclusivo"],
         tests: "salida: n 2 / prov True / first b",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El umbral es inclusivo (`>=`). Si `first` no es `b`, revisa el orden del filtro o si excluiste el 2026-02-10. Provenance sigue siendo obligatoria tras el recorte.",
+        retrospective:
+          "La ventana temporal acota el grafo al caso: mezclar 2019 con 2026 sin documentarlo contamina el path. Filtrar no dispensa de provenance: cada arista que sobrevive debe seguir saltando al ledger. Pregunta: si una arista cae fuera de la ventana, ¿la borras del detalle fuente o solo de la vista del caso? Luego (E3): validar source y record_id no vacíos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -932,8 +994,11 @@ first b`,
         id: "S31-T1-B-E3",
         subtopicId: "S31-T1-B",
         kind: "transfer",
+        title: "Validar provenance en cada arista",
+        preamble:
+          "- **Contexto:** sin `source` y `record_id`, el revisor no puede saltar del hop al ledger; el builder debe fallar de forma tipificada.\n- **Meta:** `all_ok` solo si cada arista tiene source y record_id no vacíos; reportar `n_bad` y `n`.\n- **Éxito:** `all_ok False` / `n_bad 1` / `n 3`.\n- **Límites:** string vacío cuenta como mal; no «arregles» el fixture a mano; sin fraude automático.",
         instruction:
-          "S31-T1-B-E3 · Valida provenance: imprime `all_ok` True solo si cada arista tiene `source` y `record_id` no vacíos; imprime también `n_bad` y `n`. Fixture `CASO-LIM-031`.",
+          "1. Completa `ok(e)`: `bool(e.get('source') and e.get('record_id'))`.\n2. Cuenta `n_bad` con las que fallan.\n3. Imprime `all_ok`, `n_bad` y `n`.\n4. No hardcodees `False`.",
         hint: "bool(e.get('source') and e.get('record_id')); cuenta los que fallan.",
         hints: [
           "n_bad = sum(1 for e in edges if not ok(e)).",
@@ -941,7 +1006,10 @@ first b`,
         ],
         edgeCases: ["source vacío exacto cuenta como mal"],
         tests: "salida: all_ok False / n_bad 1 / n 3",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Un `source` vacío (`''`) es fail-closed: cuenta como bad. Si `all_ok` sale True, tu `ok` acepta strings vacíos o no mira `record_id`. No «arregles» el fixture a mano: el punto es detectar la arista huérfana. Compara con `n_bad 1`.",
+        retrospective:
+          "Provenance es el contrato de auditoría del multigrafo. El error clásico es aceptar source vacío o inventar un rid. Pregunta: ¿rechazarías la carga o crearías aristas «huérfanas» silenciosas?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -979,8 +1047,11 @@ n 3`,
         id: "S31-T2-A-E1",
         subtopicId: "S31-T2-A",
         kind: "guided",
+        title: "Proyectar aristas owns desde cuentas",
+        preamble:
+          "- **Contexto:** entity —`owns`→ account es la primera arista del schema canónico en el caso.\n- **Meta:** desde `accounts[{id, owner}]`, generar pares (owner, id) ordenados y etiquetar etype.\n- **Éxito:** `owns [('e1', 'a1'), ('e2', 'a2')]` / `n 2` / `etype owns`.\n- **Límites:** orden lexicográfico; no inventes owners; datos sintéticos.",
         instruction:
-          "S31-T2-A-E1 · Desde `accounts[{id, owner}]` genera aristas `owns` e imprime la lista de (owner, id) ordenada, el conteo y el etype. Fixture `CASO-LIM-031`.",
+          "1. Construye tuples `(owner, id)` desde cada cuenta.\n2. Ordénalos con `sorted`.\n3. Imprime `owns`, `n` y `etype` como `\"owns\"`.\n4. No hardcodees la lista final.",
         hint: "list comprehension + sorted por owner luego id.",
         hints: [
           "owns = sorted((a['owner'], a['id']) for a in accounts).",
@@ -988,7 +1059,10 @@ n 3`,
         ],
         edgeCases: ["orden lexicográfico"],
         tests: "salida: owns [('e1', 'a1'), ('e2', 'a2')] / n 2 / etype owns",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El fixture llega desordenado (a2 antes que a1). Sin `sorted`, la salida no es idempotente y el test falla. `src` es el owner, no la cuenta.",
+        retrospective:
+          "`owns` ancla la entidad a la cuenta antes de las transferencias. El error clásico es invertir src/dst o omitir el sort (rompe idempotencia visual). Siguiente (E2): detectar contactos compartidos sin inferir parentesco.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1015,8 +1089,11 @@ etype owns`,
         id: "S31-T2-A-E2",
         subtopicId: "S31-T2-A",
         kind: "independent",
+        title: "Detectar contactos compartidos (≥2)",
+        preamble:
+          "- **Contexto:** dos entidades con el mismo teléfono sintético generan un hecho de contacto compartido para la cola humana.\n- **Meta:** agrupar por valor y listar los que tienen ≥2 entidades; imprimir la nota `not_parentesco`.\n- **Éxito:** `shared ['900', '901']` / `n_shared 2` / `note not_parentesco`.\n- **Límites:** no etiquetes parentesco ni fraude; solo datos sintéticos.",
         instruction:
-          "S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime la lista sorted de valores shared, el conteo y la nota `not_parentesco`. Fixture `CASO-LIM-031`.",
+          "1. Acumula entidades por valor de contacto en un `defaultdict(set)`.\n2. Filtra valores con `len(es) >= 2`.\n3. Imprime `shared` sorted, `n_shared` y `note not_parentesco`.\n4. No inventes labels de conducta.",
         hint: "groupby por value con defaultdict(set); filtra len(entities) >= 2.",
         hints: [
           "m[v].add(e) por cada (e, v).",
@@ -1024,7 +1101,10 @@ etype owns`,
         ],
         edgeCases: ["shared contact ≠ parentesco"],
         tests: "salida: shared ['900', '901'] / n_shared 2 / note not_parentesco",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Shared contact = hipótesis con evidencia, no veredicto. Si omites la nota `not_parentesco` o inventas «familia», rompes el gate ético de CP-N3-B. Compara con la salida canónica.",
+        retrospective:
+          "Detectar shared es el *disparador* de la cola humana, no la sentencia. El error clásico es saltar a «familia» o «colusión» cuando solo tienes un valor de contacto repetido. Pregunta: si mañana el mismo teléfono es de un call center legítimo, ¿qué cambia en tu modelo y qué no? Luego (E3): unir entidades, cuentas y contactos en un solo set de nodos.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1057,8 +1137,11 @@ note not_parentesco`,
         id: "S31-T2-A-E3",
         subtopicId: "S31-T2-A",
         kind: "transfer",
+        title: "Unión de nodos: entidades, cuentas, contactos",
+        preamble:
+          "- **Contexto:** el grafo del caso incluye personas, cuentas y valores de contacto como nodos de primera clase.\n- **Meta:** `nodes = entities ∪ accounts ∪ contact_values`; reportar cardinalidad y membresía.\n- **Éxito:** `n_nodes 5` / `has_contact True` / `has_ent True`.\n- **Límites:** no dupliques a mano; usa sets; fixture sintético.",
         instruction:
-          "S31-T2-A-E3 · Construye el conjunto de nodos del grafo como unión `entities ∪ accounts ∪ contact_values`. Imprime `|nodes|`, si el contacto `900` está en el set y si la entidad `e1` está en el set. Fixture sintético `CASO-LIM-031`.",
+          "1. Une los tres conjuntos con el operador `|`.\n2. Imprime `n_nodes`, si `\"900\"` está y si `\"e1\"` está.\n3. No hardcodees `5`.\n4. No conviertas contactos en aristas sin nodos aquí.",
         hint: "Union de tres sets.",
         hints: [
           "nodes = set(entities) | set(accounts) | set(contacts).",
@@ -1066,7 +1149,10 @@ note not_parentesco`,
         ],
         edgeCases: [],
         tests: "salida: n_nodes 5 / has_contact True / has_ent True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Si `has_contact` es False, olvidaste el valor de teléfono como nodo: el path `E1 → 900 → E2` se rompe. La unión de sets evita duplicados sin hardcodear 5.",
+        retrospective:
+          "El set de nodos es la base de paths y ego-k. El error clásico es olvidar el valor de contacto y luego no poder dibujar el hop. Pregunta: ¿qué path se pierde si el teléfono no es nodo?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1097,8 +1183,11 @@ has_ent True`,
         id: "S31-T2-B-E1",
         subtopicId: "S31-T2-B",
         kind: "guided",
+        title: "Colapsar raw_id a canónico post-ER",
+        preamble:
+          "- **Contexto:** tras S30, dos raw del mismo canónico no deben generar aristas fantasmas en el grafo.\n- **Meta:** con mapa `canon` y aristas raw, reescribir a ids canónicos únicos y ordenados.\n- **Éxito:** `canonical_edges [('E1', 'E2')]` / `n 1` / `collapsed True`.\n- **Límites:** usa el mapa; no inventes canónicos; sin PII real.",
         instruction:
-          "S31-T2-B-E1 · Tras el ER de S30, colapsa `raw_id` → id canónico con un mapa y reescribe las aristas. Imprime las aristas canónicas únicas (sorted), el conteo y `collapsed=True`. Fixture `CASO-LIM-031`.",
+          "1. Reescribe cada arista con `canon[a]` y `canon[b]`.\n2. Colapsa con un `set` de tuples y ordena.\n3. Imprime `canonical_edges`, `n` y `collapsed True`.\n4. No dejes las aristas raw en el grafo final.",
         hint: "canon.get(x, x); set de tuples.",
         hints: [
           "ce = sorted({(canon[a], canon[b]) for a, b in edges}).",
@@ -1106,7 +1195,10 @@ has_ent True`,
         ],
         edgeCases: ["dos raw del mismo canónico colapsan"],
         tests: "salida: canonical_edges [('E1', 'E2')] / n 1 / collapsed True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Sin el mapa, r1 y r2 quedan como nodos distintos y el revisor ve hops fantasma. El set colapsa las dos aristas raw a una canónica E1–E2. Compara con `n 1`.",
+        retrospective:
+          "El mapa raw→canónico es el puente S30→S31: sin él, dos raw del mismo cliente generan aristas fantasmas y el path del revisor se fragmenta. El error clásico es copiar ids raw al grafo «para no perder información» y duplicar hops. Pregunta: ¿dónde guardas el mapa para reescribir aristas sin rehacer el matching? Siguiente (E2): agregar montos sin borrar `record_id`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1135,8 +1227,11 @@ collapsed True`,
         id: "S31-T2-B-E2",
         subtopicId: "S31-T2-B",
         kind: "independent",
+        title: "Agregar montos conservando record_id",
+        preamble:
+          "- **Contexto:** el hop A→B del revisor muestra suma **y** lista de transacciones fuente.\n- **Meta:** por par `(src, dst)`, sumar `amount` y append de cada `record_id`.\n- **Éxito:** `sum 7` / `records ['1', '2']` / `detail_kept True`.\n- **Límites:** no descartes records al agregar; clave al menos `(src, dst)`; datos sintéticos.",
         instruction:
-          "S31-T2-B-E2 · Agrega `amount` por par `(src, dst)` y **conserva** la lista de `record_id` (capa de detalle). Imprime `sum`, `records` y `detail_kept` para el par `('A', 'B')`. Fixture `CASO-LIM-031`.",
+          "1. Para cada fila, clave `(src, dst)`.\n2. Suma `amount` y haz `append` del `record_id`.\n3. Imprime sum, records y `detail_kept True` del par A–B.\n4. No reemplaces la lista de records por un solo id.",
         hint: "defaultdict con sum y lista; append record_id.",
         hints: [
           "agg[k]['sum'] += amount; agg[k]['records'].append(record_id).",
@@ -1144,7 +1239,10 @@ collapsed True`,
         ],
         edgeCases: [],
         tests: "salida: sum 7 / records ['1', '2'] / detail_kept True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Si solo imprimes `sum 7` sin `records`, el revisor no puede abrir las transacciones del hop. Append cada `record_id`; no lo sobrescribas. Compara con la salida canónica.",
+        retrospective:
+          "Agregado acelera filtros; detalle responde «muéstrame las transacciones de este hop». Si solo dejas el total, el path es un número opaco y el workbench deja de ser auditable. El error clásico es sobrescribir la lista de records con un solo id. Pregunta: ¿qué imprimirías si `detail_kept` fuera False en CI? Luego (E3): probar el invariante `sum(n) == len(detail)`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1184,8 +1282,11 @@ detail_kept True`,
         id: "S31-T2-B-E3",
         subtopicId: "S31-T2-B",
         kind: "transfer",
+        title: "Invariante: suma de n igual a detail",
+        preamble:
+          "- **Contexto:** un bug silencioso es agregar y «perder» filas: el path deja de ser auditable.\n- **Meta:** construir capa agregada (`n` y `records` por par) y verificar `sum(n) == len(detail)`.\n- **Éxito:** `ok True` / `total 5` / `detail_n 5`.\n- **Límites:** no hardcodees `ok True`; construye desde `detail`; sin PII.",
         instruction:
-          "S31-T2-B-E3 · Desde filas de detalle, construye la capa agregada (`n` y `records` por par) y verifica el invariante: suma de `n` == `len(detail)`. Imprime `ok`, `total` y `detail_n`. Fixture `CASO-LIM-031`.",
+          "1. Acumula `n` y `records` por `(src, dst)`.\n2. Calcula `total = sum(a['n'] for a in aggs.values())`.\n3. Imprime `ok`, `total` y `detail_n`.\n4. No borres filas del detalle original.",
         hint: "Primero agrega; luego total = sum(a['n'] for a in aggs.values()); ok = total == detail_n.",
         hints: [
           "Acumula n y records por (src, dst) a partir de detail.",
@@ -1193,7 +1294,10 @@ detail_kept True`,
         ],
         edgeCases: [],
         tests: "salida: ok True / total 5 / detail_n 5",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El invariante es un test de regresión de auditoría: si `total != detail_n`, perdiste filas al agregar. No hardcodees `ok True` sin construir `aggs`. Compara con `total 5`.",
+        retrospective:
+          "Contrastar cardinalidades (`sum(n)` vs `len(detail)`) es el hábito que evita bugs silenciosos de agregación. El error clásico es confiar en el dict agregado porque «las sumas se ven bien». Pregunta: si `total != detail_n` en CI, ¿fallas el build o solo logueas un warning? Ese gate te sirve en el You Do y en el workbench real.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1242,8 +1346,11 @@ detail_n 5`,
         id: "S31-T3-A-E1",
         subtopicId: "S31-T3-A",
         kind: "guided",
+        title: "Grado no dirigido por nodo",
+        preamble:
+          "- **Contexto:** el grado ayuda a filtrar hubs y priorizar exploración en el grafo del caso.\n- **Meta:** en un grafo no dirigido, contar vecinos por nodo (ambos extremos).\n- **Éxito:** `deg {'a': 2, 'b': 2, 'c': 2}` / `max 2` / `n 3`.\n- **Límites:** cuenta u y v por arista; no uses grado como culpa; datos sintéticos.",
         instruction:
-          "S31-T3-A-E1 · Calcula el grado de cada nodo en un grafo **no dirigido**; imprime el dict de grados (keys sorted), el máximo y n. Fixture `CASO-LIM-031`.",
+          "1. Por cada arista, `deg[u] += 1` y `deg[v] += 1`.\n2. Imprime el dict con keys sorted, el máximo y `n`.\n3. No hardcodees los 2.\n4. No conviertas el grado en etiqueta de conducta.",
         hint: "En no dirigido, cuenta ambos extremos de cada arista.",
         hints: [
           "deg[u] += 1; deg[v] += 1.",
@@ -1251,7 +1358,10 @@ detail_n 5`,
         ],
         edgeCases: [],
         tests: "salida: deg {'a': 2, 'b': 2, 'c': 2} / max 2 / n 3",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "En no dirigido, cada arista suma 1 a ambos extremos. Si solo cuentas `u`, los grados salen a la mitad. Grado prioriza exploración; no sentencia. Compara con el dict canónico.",
+        retrospective:
+          "Grado es estructura: filtra hubs y prioriza exploración, nunca etiqueta conducta. El error clásico es contar solo un extremo (como si el grafo fuera dirigido) o convertir el máximo en «sospechoso». Pregunta: en un triángulo a–b–c, ¿por qué todos los grados salen 2? Siguiente (E2): componentes conexas del grafo del caso.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1284,8 +1394,11 @@ n 3`,
         id: "S31-T3-A-E2",
         subtopicId: "S31-T3-A",
         kind: "independent",
+        title: "Componentes conexas del grafo",
+        preamble:
+          "- **Contexto:** un caso de revisión suele vivir en un subgrafo acotado; las islas irrelevantes no deben mezclarse en la misma vista.\n- **Meta:** listar componentes (cada una sorted) ordenadas por el primer nodo.\n- **Éxito:** `comps [['a', 'b'], ['c', 'd', 'e']]` / `n_comp 2` / `ok True`.\n- **Límites:** grafo no dirigido; no hardcodees las listas; datos sintéticos.",
         instruction:
-          "S31-T3-A-E2 · Encuentra componentes conexas e imprime la lista de componentes (cada una sorted) ordenada por el primer nodo, más `n_comp`. Fixture `CASO-LIM-031`.",
+          "1. Construye adj no dirigido (ya en starter).\n2. DFS o BFS desde cada nodo no visitado; ordena cada comp.\n3. Ordena la lista de comps por el primer id.\n4. Imprime `comps`, `n_comp` y `ok True`.",
         hint: "DFS o BFS desde cada nodo no visitado; sort componentes.",
         hints: [
           "Construye adj no dirigido con defaultdict(set).",
@@ -1293,7 +1406,10 @@ n 3`,
         ],
         edgeCases: [],
         tests: "salida: comps [['a', 'b'], ['c', 'd', 'e']] / n_comp 2 / ok True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Dos islas: {a,b} y {c,d,e}. Si mezclas nodos entre islas, el `seen` no está marcando bien. Ordena cada comp y la lista por el primer id para salida estable.",
+        retrospective:
+          "Las componentes conexas acotan el caso y evitan mezclar islas irrelevantes en la misma vista del revisor. El error clásico es un `seen` incompleto que «puentea» islas o hardcodear las listas en vez de recorrer el adj. Pregunta: si mañana aparece un puente sintético entre las dos islas, ¿qué cambia en `n_comp` y en la cola de revisión? Luego (E3): BFS path A→D con hops y found.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1344,8 +1460,11 @@ ok True`,
         id: "S31-T3-A-E3",
         subtopicId: "S31-T3-A",
         kind: "transfer",
+        title: "BFS path reproducible A→D",
+        preamble:
+          "- **Contexto:** el path del revisor es una hipótesis con evidencia, no un auto-veredicto de fraude.\n- **Meta:** BFS de A a D con vecinos sorted; reportar path, hops y found.\n- **Éxito:** `path ['A', 'B', 'C', 'D']` / `hops 3` / `found True`.\n- **Límites:** vecinos sorted; no inventes atajos; sin etiquetas de culpa.",
         instruction:
-          "S31-T3-A-E3 · Implementa BFS reproducible del path de `'A'` a `'D'` en la cadena A–B–C–D (vecinos sorted). Imprime `path`, `hops` (len−1) y `found`. Fixture `CASO-LIM-031`; camino = hipótesis, no veredicto.",
+          "1. BFS con `deque` desde A; `seen` evita revisitas.\n2. Explora `sorted(adj[n])` para reproducibilidad.\n3. Al llegar a D, guarda el path y calcula hops = len−1.\n4. Imprime `path`, `hops` y `found`.",
         hint: "deque BFS; hops = len(path) - 1.",
         hints: [
           "q = deque([('A', ['A'])]); seen = {'A'}.",
@@ -1353,7 +1472,10 @@ ok True`,
         ],
         edgeCases: [],
         tests: "salida: path ['A', 'B', 'C', 'D'] / hops 3 / found True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Sin `sorted(adj[n])` el path puede variar entre corridas y el revisor pierde reproducibilidad. Path + hops es hipótesis, no veredicto. Compara con la salida canónica.",
+        retrospective:
+          "Path + hops es el contrato del workbench. El error clásico es orden no determinista o confundir path con veredicto. Pregunta: ¿qué disclaimer pondrías junto al path en la UI del revisor?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1399,8 +1521,11 @@ found True`,
         id: "S31-T3-B-E1",
         subtopicId: "S31-T3-B",
         kind: "guided",
+        title: "Degree centrality deg/(n−1) sin culpa",
+        preamble:
+          "- **Contexto:** en redes simples no dirigidas, la centrality estándar normaliza por `n−1`, no por el máximo observado del lote.\n- **Meta:** acumular grado, normalizar, reportar top y score; siempre `guilt=False`.\n- **Éxito:** `top H` / `score 1.0` / `guilt False`.\n- **Límites:** no uses max_observed como denominador; no etiquetes fraude; datos sintéticos.",
         instruction:
-          "S31-T3-B-E1 · Desde aristas no dirigidas, calcula el grado de cada nodo y la **degree centrality** estándar `deg / (n - 1)` (n = nodos del grafo). Imprime el nodo top, el score redondeado a 2 decimales y `guilt=False`. Fixture `CASO-LIM-031`.",
+          "1. Acumula deg en ambos extremos.\n2. `n = len(deg)`; `norm = deg / (n - 1)`.\n3. Elige top y redondea score a 2 decimales.\n4. Imprime top, score y `guilt False`.",
         hint: "Acumula deg desde ambos extremos; n = len(deg); score = deg / (n - 1).",
         hints: [
           "deg[u] += 1; deg[v] += 1 por cada arista.",
@@ -1408,7 +1533,10 @@ found True`,
         ],
         edgeCases: ["guilt siempre False en enunciado pedagógico"],
         tests: "salida: top H / score 1.0 / guilt False",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Denominador es `n - 1` (nodos), no el max grado del lote. H conectado a A,B,C da score 1.0. `guilt` siempre False: la métrica ordena la cola, no cierra el caso.",
+        retrospective:
+          "La fórmula correcta evita inflar rankings con lotes chicos mal normalizados. El error clásico es deg/max o convertir score en culpa. Siguiente (E2): clasificar el hub como infra o persona.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1444,8 +1572,11 @@ guilt False`,
         id: "S31-T3-B-E2",
         subtopicId: "S31-T3-B",
         kind: "independent",
+        title: "Hub infra vs. persona por prefijo",
+        preamble:
+          "- **Contexto:** un hub `INF-PAY` de pagos no implica culpa de las personas `PER-` conectadas.\n- **Meta:** calcular grado desde aristas, elegir hub y clasificar por prefijo `INF-` / `PER-`.\n- **Éxito:** `kind infra` / `disclaimer centrality_not_guilt` / `hub INF-PAY`.\n- **Límites:** grado desde aristas (no ranking pre-horneado); sin fraude automático.",
         instruction:
-          "S31-T3-B-E2 · Desde aristas no dirigidas del fixture, calcula el grado de cada nodo, elige el hub de mayor grado y clasifícalo como `infra` o `person` por prefijo de id (`INF-` vs. `PER-`). Imprime kind, disclaimer `centrality_not_guilt` y hub. Un hub de pagos no implica culpa de las personas conectadas. Fixture `CASO-LIM-031`.",
+          "1. Acumula deg en ambos extremos.\n2. `hub = max(deg, key=deg.get)`.\n3. `kind = 'infra' if hub.startswith('INF-') else 'person'`.\n4. Imprime kind, disclaimer y hub.",
         hint: "Acumula deg desde ambos extremos; hub = max(deg, key=deg.get); startswith('INF-').",
         hints: [
           "for u, v in edges: deg[u] += 1; deg[v] += 1.",
@@ -1453,7 +1584,10 @@ guilt False`,
         ],
         edgeCases: ["grado se calcula desde aristas, no desde un ranking pre-horneado"],
         tests: "salida: kind infra / disclaimer centrality_not_guilt / hub INF-PAY",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "INF-PAY es infraestructura de pagos: alto grado esperado y no es culpa. Si hardcodeas el hub sin calcular grado, el ejercicio pierde el punto. Siempre emite el disclaimer.",
+        retrospective:
+          "Interpretar el hub con tipo de nodo evita castigar infraestructura legítima (procesador de pagos, call center). El error clásico es hardcodear el ranking o tratar alto grado de `INF-` como culpa de las `PER-` conectadas. Pregunta: si el hub fuera `PER-99` con el mismo grado, ¿qué cambia en la cola humana y qué disclaimer se mantiene? Luego (E3): high-degree **y** etypes incidentes del hub.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1503,8 +1637,11 @@ hub INF-PAY`,
         id: "S31-T3-B-E3",
         subtopicId: "S31-T3-B",
         kind: "transfer",
+        title: "High-degree e interpretación por etypes",
+        preamble:
+          "- **Contexto:** un hub con `shared_phone` y `transfer` no se interpreta igual que un hub solo de transferencias.\n- **Meta:** calcular degree y etypes desde aristas; filtrar degree ≥ 3; ver si H es solo `transfer`.\n- **Éxito:** `high ['H']` / `only_transfer False` / `interpret_with_types True`.\n- **Límites:** no uses dict pre-horneado de incidentes; sin labels de fraude; sintético.",
         instruction:
-          "S31-T3-B-E3 · A partir de aristas tipadas, calcula el grado de cada nodo y los etypes incidentes. Filtra nodos con degree ≥ 3; imprime `high` sorted y si el hub H tiene solo `transfer` (`only_transfer`). Interpreta siempre con tipos de arista. Fixture `CASO-LIM-031` (run_id=cpn3b-01, @example.pe); datos sintéticos solo; sin fraude ni parentesco.",
+          "1. Acumula deg y sets de etype por extremo.\n2. `high = sorted` nodos con deg ≥ 3.\n3. `only_transfer` si etypes de H son solo `{'transfer'}`.\n4. Imprime high, only_transfer e `interpret_with_types True`.",
         hint: "Construye degree y etypes desde la lista de aristas; no uses un dict pre-horneado.",
         hints: [
           "Acumula deg y sets de etype por extremo de cada arista.",
@@ -1512,7 +1649,10 @@ hub INF-PAY`,
         ],
         edgeCases: ["shared_phone en el hub fuerza only_transfer False"],
         tests: "salida: high ['H'] / only_transfer False / interpret_with_types True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "H tiene `shared_phone` además de `transfer`: `only_transfer` debe ser False. Rankear solo por grado sin mirar etypes es un número ciego para el revisor.",
+        retrospective:
+          "Centralidad sin tipos de arista es un número ciego. El error clásico es rankear solo por grado. Pregunta: ¿cómo cambiaría la cola si H fuera solo `transfer`?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1559,8 +1699,11 @@ interpret_with_types True`,
         id: "S31-T4-A-E1",
         subtopicId: "S31-T4-A",
         kind: "guided",
+        title: "Ego k-hop desde la semilla del caso",
+        preamble:
+          "- **Contexto:** el workbench arranca en la entidad seed y expande con hop limit configurable.\n- **Meta:** implementar expansión por capas; comparar k=1 y k=2 desde A en A–B–C–D.\n- **Éxito:** `k1 ['A', 'B']` / `k2 ['A', 'B', 'C']` / `has_D_k2 False`.\n- **Límites:** no incluyas D en k=2; no hardcodees sets; datos sintéticos.",
         instruction:
-          "S31-T4-A-E1 · Implementa `ego(seed, k)` (subgrafo de caso: semilla + k saltos) e imprime los nodos de ego k=1 y k=2 desde `'A'` en la cadena A–B–C–D. Verifica que k=2 **no** incluye `D`. Fixture `CASO-LIM-031`.",
+          "1. Completa `ego`: por cada hop, vecinos no vistos → nueva layer.\n2. Imprime sorted de k=1 y k=2.\n3. Imprime si D está en k=2 (debe ser False).\n4. No devuelvas solo `{seed}`.",
         hint: "Expansión por capas con sets.",
         hints: [
           "layer actual → vecinos no vistos → nueva layer.",
@@ -1568,7 +1711,10 @@ interpret_with_types True`,
         ],
         edgeCases: [],
         tests: "salida: k1 ['A', 'B'] / k2 ['A', 'B', 'C'] / has_D_k2 False",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El starter devuelve solo `{seed}`: hay que expandir por capas. En la cadena A–B–C–D, k=2 llega a C pero no a D. Si `has_D_k2` es True, el radio está mal contado.",
+        retrospective:
+          "Ego-k es el recorte operativo del caso. El error clásico es un solo paso o el grafo completo. Siguiente (E2): invariantes no_self / pesos / provenance.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1619,8 +1765,11 @@ has_D_k2 False`,
         id: "S31-T4-A-E2",
         subtopicId: "S31-T4-A",
         kind: "independent",
+        title: "Invariantes: self-loop, pesos, provenance",
+        preamble:
+          "- **Contexto:** cada bug de construcción (self-loop basura, peso negativo, rid faltante) merece un test de regresión.\n- **Meta:** evaluar `no_self`, `w_ok` y `prov` sobre un fixture con self-loop deliberado.\n- **Éxito:** `no_self False` / `w_ok True` / `prov True`.\n- **Límites:** no «arregles» el fixture; mide lo que hay; sintético.",
         instruction:
-          "S31-T4-A-E2 · Evalúa tres invariantes de calidad del grafo: sin self-loops, pesos `w ≥ 0`, y provenance (`rid`) presente en cada arista. Imprime `no_self`, `w_ok` y `prov`. El starter incluye un self-loop a propósito. Fixture `CASO-LIM-031`.",
+          "1. Calcula `no_self = all(src != dst)` sobre el fixture (incluye self-loop b→b).\n2. Calcula `w_ok = all(w >= 0)`.\n3. Calcula `prov = all(rid presente)`.\n4. Imprime los tres booleanos; no «arregles» el fixture.",
         hint: "any self-loop; all weights; all rid.",
         hints: [
           "no_self = all(e['src'] != e['dst'] for e in edges).",
@@ -1628,7 +1777,10 @@ has_D_k2 False`,
         ],
         edgeCases: ["self-loop falla no_self"],
         tests: "salida: no_self False / w_ok True / prov True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El self-loop b→b es intencional: `no_self` debe ser False. No «arregles» el fixture; el punto es detectar el defecto. Pesos y rid del fixture pasan.",
+        retrospective:
+          "Los invariantes convierten calidad del grafo en asserts de regresión: self-loop basura, peso negativo y rid faltante deben fallar de forma explícita. El error clásico es «arreglar» el fixture del test para que todo pase verde. Pregunta: ¿en qué orden reportarías los tres flags al revisor del builder? Luego (E3): build idempotente que conserve dirección.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1663,8 +1815,11 @@ prov True`,
         id: "S31-T4-A-E3",
         subtopicId: "S31-T4-A",
         kind: "transfer",
+        title: "Build idempotente conservando dirección",
+        preamble:
+          "- **Contexto:** el revisor re-ejecuta el builder; A→B no es B→A en un grafo dirigido de transferencias.\n- **Meta:** `build` determinista con `sorted(set(edges))` sin reordenar extremos de cada arista.\n- **Éxito:** `equal True` / `edges [('a', 'b'), ('b', 'c')]` / `idempotent True`.\n- **Límites:** no hagas `tuple(sorted(e))` por arista; orden de entrada no debe cambiar el grafo canónico.",
         instruction:
-          "S31-T4-A-E3 · Idempotencia del builder **dirigido**: construir el grafo dos veces desde las mismas filas debe producir la misma lista de aristas ordenada, **conservando dirección** (A→B ≠ B→A). Implementa `build` determinista e imprime `equal`, la lista `edges` y `idempotent`. Fixture `CASO-LIM-031`.",
+          "1. Implementa `build` como `sorted(set(edges))`.\n2. Compara dos builds del mismo raw y del raw invertido.\n3. Imprime `equal`, `edges` e `idempotent`.\n4. No simetrices pares dirigidos.",
         hint: "build → sorted(set(edges)); no uses sorted(e) por arista si el grafo es dirigido.",
         hints: [
           "Cada arista es un par ordenado (src, dst). set + sorted de la lista basta.",
@@ -1672,7 +1827,10 @@ prov True`,
         ],
         edgeCases: ["orden de entrada no debe cambiar el grafo canónico.", "no colapses A→B con B→A."],
         tests: "salida: equal True / edges [('a', 'b'), ('b', 'c')] / idempotent True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Si haces `tuple(sorted(e))` por arista, inviertes transferencias y el path miente. `sorted(set(edges))` conserva dirección y estabiliza el orden. Compara con la salida canónica.",
+        retrospective:
+          "Idempotencia + dirección = confianza en re-runs. El error clásico es colapsar A→B con B→A. Pregunta: ¿qué se rompe en auditoría si el path invierte un hop de transferencia?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1704,8 +1862,11 @@ idempotent True`,
         id: "S31-T4-B-E1",
         subtopicId: "S31-T4-B",
         kind: "guided",
+        title: "Redactar email en labels de la vista",
+        preamble:
+          "- **Contexto:** la vista del revisor muestra lo mínimo para decidir; el portafolio nunca lleva PII completa.\n- **Meta:** local[:2] + `***@` + domain para `ana@example.pe`.\n- **Éxito:** `redacted an***@example.pe` / `domain example.pe` / `full_pii False`.\n- **Límites:** solo datos `@example.pe`; no imprimas el local completo.",
         instruction:
-          "S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + `***@` + domain. Imprime redacted para ana@example.pe, domain y full_pii=False. Fixture `CASO-LIM-031`.",
+          "1. Ya tienes `partition('@')`.\n2. Arma `red = local[:2] + '***@' + domain`.\n3. Imprime redacted, domain y `full_pii False`.\n4. No hardcodees el string final sin usar local/domain.",
         hint: "partition('@'); local[:2].",
         hints: [
           "local, _, domain = email.partition('@').",
@@ -1713,7 +1874,10 @@ idempotent True`,
         ],
         edgeCases: [],
         tests: "salida: redacted an***@example.pe / domain example.pe / full_pii False",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Redact es el default de la vista, no un extra. Si imprimes `ana@example.pe` completo, fallas compliance del lab. Usa `local[:2]` + `***@` + domain.",
+        retrospective:
+          "La vista del revisor (y el portafolio) llevan lo mínimo necesario para decidir; el local completo no es «debug útil», es riesgo de compliance. El error clásico es hardcodear el string redactado sin usar `local`/`domain` o loguear PII «por si acaso». Pregunta: ¿qué cambia si el email real llegara fuera de `@example.pe`? Siguiente (E2): adjuntar records por hop del path.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1742,8 +1906,11 @@ full_pii False`,
         id: "S31-T4-B-E2",
         subtopicId: "S31-T4-B",
         kind: "independent",
+        title: "Evidencia de arista por hop del path",
+        preamble:
+          "- **Contexto:** al hacer clic en cada hop, el revisor debe ver `records` (y en prod ts/source).\n- **Meta:** dado un path y un dict de evidencia por par, listar records en orden del path.\n- **Éxito:** `records [['r1'], ['r2', 'r3']]` / `n_hops 2` / `explainable True`.\n- **Límites:** un hop sin evidence no es explicable; datos sintéticos.",
         instruction:
-          "S31-T4-B-E2 · Dado un path de nodos y un dict `edge_evidence` por par consecutivo, imprime la lista de record lists en orden del path. Fixture `CASO-LIM-031`.",
+          "1. Recorre pares consecutivos con `zip(path, path[1:])`.\n2. Busca cada par en `ev`.\n3. Imprime `records`, `n_hops` y `explainable True`.\n4. No inventes records.",
         hint: "zip(path, path[1:]); get evidence.",
         hints: [
           "records = [ev[(a, b)] for a, b in zip(path, path[1:])].",
@@ -1751,7 +1918,10 @@ full_pii False`,
         ],
         edgeCases: [],
         tests: "salida: records [['r1'], ['r2', 'r3']] / n_hops 2 / explainable True",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "Path sin records es layout; path con records es evidencia. `zip(path, path[1:])` alinea cada hop al dict `ev`. No inventes rids faltantes.",
+        retrospective:
+          "Cada hop del path debe mapear a evidencia (`records`, y en prod ts/source); si un par falta en el dict, el hop no es explicable. El error clásico es inventar rids o listar records en orden arbitrario. Pregunta: ¿qué mostraría la UI si `ev` no tuviera el par del segundo hop? Luego (E3): política de escala render vs. summarize.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1780,8 +1950,11 @@ explainable True`,
         id: "S31-T4-B-E3",
         subtopicId: "S31-T4-B",
         kind: "transfer",
+        title: "Política de escala: render o summarize",
+        preamble:
+          "- **Contexto:** dibujar 5000 nodos en el navegador del revisor no es «más transparente»: es ruido.\n- **Meta:** si `n_nodes > max_n` → `summarize`; si no → `render`. Probar 5000 y 50 con max_n=500.\n- **Éxito:** `n5000 summarize` / `n50 render` / `max_n 500`.\n- **Límites:** umbral ilustrativo del lab (no universal); sintético; sin PII.",
         instruction:
-          "S31-T4-B-E3 · Política de escala (intuición SNAP): si `n_nodes > max_n`, devuelve `'summarize'` (top hubs / componentes); si no, `'render'` el subgrafo. Imprime la decisión para 5000 y 50 con `max_n=500`. Fixture `CASO-LIM-031`.",
+          "1. Completa `decide(n)` con el umbral.\n2. Imprime decisión para 5000 y 50.\n3. Imprime `max_n`.\n4. No dejes siempre `\"render\"`.",
         hint: "decide(n) = 'summarize' if n > max_n else 'render'.",
         hints: [
           "No intentes dibujar 5000 nodos en el navegador del revisor.",
@@ -1789,7 +1962,10 @@ explainable True`,
         ],
         edgeCases: [],
         tests: "salida: n5000 summarize / n50 render / max_n 500",
-        feedback: "Compara tu salida con la solución.",
+        feedback:
+          "El starter siempre devuelve `render`: 5000 debe ir a `summarize`. El umbral 500 es del lab, no una constante universal. Compara con la salida canónica.",
+        retrospective:
+          "Escala es política de producto: ego-k o resumen, no «todo el banco». El error clásico es forzar render total. Pregunta: ¿qué resumen mostrarías (top hubs, tamaños de componentes, conteos por etype)?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1909,6 +2085,8 @@ if __name__ == "__main__":
       { criterion: "Path + provenance y disclaimer de centralidad (checklist de excelencia)", weight: "bonus" },
       { criterion: "Sin inferencia automática de fraude ni parentesco (gate obligatorio)", weight: "gate" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con un test (idempotencia, no self-loop, provenance, ego-k)? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, redacción, roles)? (3) En el README, una frase de impacto medible (p. ej. «path + records por hop sin auto-label») que puedas defender en 30 segundos ante un revisor de compliance. El grafo explica conexiones; no sentencia culpabilidad.",
   },
   selfCheck: {
     questions: [

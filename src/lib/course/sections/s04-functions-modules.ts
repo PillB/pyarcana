@@ -343,7 +343,9 @@ IndexError en len(xs): list index out of range`,
         demoId: "S04-T1-A-DEMO",
         subtopicId: "S04-T1-A",
         environment: "browser-pyodide",
-        description: "Recorrer lote de registros sintéticos con for y range",
+        description: "Recorrer lote sintético con for por valor y ver range(n)",
+        preamble:
+          "En el procesador de intake no validas una sola ficha: recorres un **lote**. Esta demo muestra el esqueleto más simple: un `for` por valor sobre tres registros sintéticos (`C001`…`C003`) y, al final, `range(n)` para ver los índices 0..n−1. No escribas aún. Observa que no hace falta `range(len(...))` para imprimir edades, y que `list(range(3))` termina en 2 (stop exclusivo). Datos ficticios; el `output` debe coincidir al pulsar Run.",
         code: {
           language: 'python',
           title: "S04-T1-A-DEMO — for_lote",
@@ -362,13 +364,17 @@ C002 edad= 17
 C003 edad= 45
 n= 3 range → [0, 1, 2]`,
         },
-        why: "Un for por valor es el esqueleto del procesador por lotes; range(len) solo si necesitas índices.",
+        why: "Prefiere `for reg in lote` cuando solo te importa el valor: menos índices, menos off-by-one. Usa `range(n)` solo si el índice es imprescindible (reportes, posiciones). El stop de `range` es exclusivo — `range(3)` produce 0,1,2 — y así evitas numerar de más al recorrer N filas del batch.",
+        retrospective:
+          "Si puedes decir sin mirar el código por qué `range(3)` no incluye el 3, ya internalizaste el stop exclusivo. El hábito del for por valor es el esqueleto del gate CP-N1-A. En We Do arreglarás un print incompleto y un contador mal actualizado sobre el mismo tipo de lote.",
       },
       {
         demoId: "S04-T1-B-DEMO",
         subtopicId: "S04-T1-B",
         environment: "browser-pyodide",
         description: "enumerate para reportar fila y zip strict para columnas",
+        preamble:
+          "Cuando el lote mezcla columnas (`ids`, `regiones`), dos peligros: numerar mal el reporte y emparejar columnas de distinta longitud. Esta demo recorre pares alineados con `enumerate(..., start=1)` y un helper `zip_strict` que lanza si las longitudes no coinciden. Observa el mensaje `desalineado detectado` al acortar `regiones`. No escribas; sigue el `output`.",
         code: {
           language: 'python',
           title: "S04-T1-B-DEMO — enumerate_zip",
@@ -392,13 +398,17 @@ fila 2: C002 @ Cusco
 fila 3: C003 @ Arequipa
 desalineado detectado`,
         },
-        why: "enumerate numera para humanos; validar len (o zip strict en 3.10+) evita emparejar mal columnas.",
+        why: "`start=1` numera para humanos (“fila 1…”); el índice interno de la lista sigue siendo 0-based. Validar `len(a)==len(b)` (o `zip(..., strict=True)` en 3.10+) evita el truncamiento silencioso de `zip`, que corrompe tasas de reject cuando una columna llega incompleta. Observa el try/except: el error ruidoso es el diseño correcto del pipeline.",
+        retrospective:
+          "Si puedes explicar por qué un zip corto “se ve bien” y aún así miente el resumen, ya tienes el gate de alineación. En We Do corregirás `start=0`, un producto cartesiano por nested loops, y un `zip_strict` incompleto.",
       },
       {
         demoId: "S04-T2-A-DEMO",
         subtopicId: "S04-T2-A",
         environment: "browser-pyodide",
         description: "while con centinela END sobre buffer de líneas",
+        preamble:
+          "Cuando el lote llega como stream de líneas, no siempre conoces el tamaño de antemano: usas `while` y un **centinela**. Aquí el buffer simula stdin: `\"Ana|Lima\"`, `\"Luis|Cusco\"`, `\"END\"`, y basura posterior. Observa que `i` avanza siempre y que `END` corta sin procesarse; la línea `\"ignorada\"` no entra al resultado. No escribas; compara con el `output`.",
         code: {
           language: 'python',
           title: "S04-T2-A-DEMO — while_end",
@@ -417,13 +427,17 @@ print("indice final", i)
           output: `['Ana|Lima', 'Luis|Cusco']
 indice final 3`,
         },
-        why: "El centinela corta el lote; lo posterior no se procesa. El índice i avanza siempre → no hay bucle infinito.",
+        why: "El centinela marca el fin del batch: `END` no se procesa y lo posterior no contamina contadores. Avanzar `i` en cada vuelta evita el bucle infinito; si la condición nunca cambia, el while no termina. El `indice final 3` es intencional: ya pasaste el END.",
+        retrospective:
+          "Antes de confiar en un while, responde: ¿qué variable cambia? ¿cuándo es falsa la condición o hay break? Si no puedes contestar, reescribe con for o añade un máximo. En We Do corregirás un `continue` que *no* corta el lote y un reintento sin prints.",
       },
       {
         demoId: "S04-T2-B-DEMO",
         subtopicId: "S04-T2-B",
         environment: "browser-pyodide",
         description: "continue salta vacíos; break corta en ERROR fatal",
+        preamble:
+          "En un lote de líneas, no todo error es igual: el vacío es ruido (sáltalo); un `ERROR` de configuración puede ser **fatal** (corta el lote). Esta demo mezcla `\"\"`, `ok:1`, `ok:2` y `ERROR` antes de un `ok:3` que no debe procesarse. Observa el orden: primero el mensaje fatal, luego `kept` solo con los ok previos. No escribas; verifica el `output`.",
         code: {
           language: 'python',
           title: "S04-T2-B-DEMO — break_continue",
@@ -441,13 +455,17 @@ print("kept", kept)
           output: `fatal, stop
 kept ['ok:1', 'ok:2']`,
         },
-        why: "continue limpia ruido; break detiene el lote ante error de configuración.",
+        why: "`continue` limpia ruido (filas vacías) y sigue con la siguiente. `break` detiene el lote ante un error fatal de configuración: las filas posteriores no deben inflar contadores de éxito. Confundir ambos deja pasar basura o corta demasiado pronto.",
+        retrospective:
+          "Si confundes continue y break, o dejas pasar filas fatales o cortas demasiado pronto. Control: ¿`ok:3` debía contarse? No. Principio: ruido ≠ fatal. En We Do limpiarás whitespace con continue y cortarás en 5xx con break — dos herramientas, dos intenciones.",
       },
       {
         demoId: "S04-T3-A-DEMO",
         subtopicId: "S04-T3-A",
         environment: "browser-pyodide",
         description: "Contadores accept/reject/review y tasa con denominador",
+        preamble:
+          "El gate CP-N1-A no se cierra listando filas: se cierra con un **resumen**. Esta demo recorre statuses sintéticos, llena contadores `accept`/`reject`/`review` en un pase, y calcula `tasa_reject` con denominador `n = len(statuses)`. Observa que el total es 5 y la tasa es 0.4 (2/5), no 2/3 de solo accepts. No escribas; verifica el `output`.",
         code: {
           language: 'python',
           title: "S04-T3-A-DEMO — contadores",
@@ -464,13 +482,17 @@ print("n", n, "tasa_reject", tasa_reject)
           output: `{'accept': 2, 'reject': 2, 'review': 1}
 n 5 tasa_reject 0.4`,
         },
-        why: "Un pase O(n) llena contadores; la tasa usa n total, no solo accepts.",
+        why: "Un solo pase O(n) llena los contadores del resumen. La tasa usa el total de registros **intentados**, no “solo accepts”. Si el lote estuviera vacío, `n` sería 0 y reportarías `None` en vez de dividir (eso lo practicas en We Do).",
+        retrospective:
+          "Si puedes defender por qué el denominador no es “solo aceptados”, ya evitas dashboards mentirosos. En We Do arreglarás un `n_total` que no sube y una división por cero en lista vacía.",
       },
       {
         demoId: "S04-T3-B-DEMO",
         subtopicId: "S04-T3-B",
         environment: "browser-pyodide",
         description: "Comprehensions para filtrar rejects del resumen",
+        preamble:
+          "Cuando el filtro del resumen es simple, una list comprehension legible reduce ruido. Esta demo construye `rejects` con ids en status reject y calcula la tasa con `len(rows)` como denominador. Observa que no hace I/O dentro de la comprehension. No escribas; el `output` muestra dos rejects y tasa 2/3.",
         code: {
           language: 'python',
           title: "S04-T3-B-DEMO — comp_rejects",
@@ -485,13 +507,17 @@ print(rejects, "tasa", tasa)
 `,
           output: `['C2', 'C3'] tasa 0.6666666666666666`,
         },
-        why: "Filtrar con comprehension es legible; el denominador sigue siendo len(rows).",
+        why: "Una comprehension legible filtra sin un for largo cuando el criterio es simple. El denominador de la tasa sigue siendo `len(rows)` del lote completo. Si hay varias ramas, try/except o efectos laterales, vuelve al for clásico.",
+        retrospective:
+          "Comprehension ≠ siempre mejor: contadores múltiples y try/except por fila piden for clásico. Principio: filtro simple + denominador `len(rows)`. En We Do: map/filter básico, set de categorías y mini-resumen id→status hacia el You Do.",
       },
       {
         demoId: "S04-T4-A-DEMO",
         subtopicId: "S04-T4-A",
         environment: "browser-pyodide",
         description: "Tabla TRACE de contador durante el lote",
+        preamble:
+          "Cuando el resumen “sale raro”, no adivines: **traza**. Esta demo imprime en cada paso `i`, el flag y el contador `n_ok` que solo sube si el flag es True. Sigue la fila donde `False` deja `n_ok` en 1. El `FINAL 3` debe cuadrar con la última fila de la tabla. No escribas; lee el `output` como si fuera tu libreta.",
         code: {
           language: 'python',
           title: "S04-T4-A-DEMO — traza",
@@ -511,13 +537,17 @@ print("FINAL", n_ok)
 3 True 3
 FINAL 3`,
         },
-        why: "La traza hace visible cuándo sube el contador; base del debugging de resúmenes.",
+        why: "La traza hace visible cuándo y por qué sube el contador. Si la tabla no cuadra con el print final, el bug está en la actualización del estado — no en “Python raro”. Es la base para depurar resúmenes del gate.",
+        retrospective:
+          "Si la traza no cuadra con el print final, el bug está en la actualización del estado. En We Do corregirás sumar negativos y un doble `n += 1` por fila — ambos se cazan con traza mental.",
       },
       {
         demoId: "S04-T4-B-DEMO",
         subtopicId: "S04-T4-B",
         environment: "browser-pyodide",
         description: "Detectar O(n²) ingenuo y off-by-one en range",
+        preamble:
+          "Dos enemigos del resumen a escala: el costo **cuadrático** disfrazado de “doble for inocente” y el **off-by-one** que se salta el primer registro. Esta demo cuenta pasos con n=4 (4 vs 16) y muestra `range(1, len(vals))` omitiendo el 10 inicial. No escribas; relaciona los números con “¿mi tasa miró todas las filas?”.",
         code: {
           language: 'python',
           title: "S04-T4-B-DEMO — costo_obo",
@@ -534,7 +564,9 @@ print("skipped_first", skipped_first)
           output: `linear 4 quad 16
 skipped_first [20, 30]`,
         },
-        why: "4 vs. 16 pasos; range(1,len) omite el primer registro — bug clásico de resúmenes incompletos.",
+        why: "Con n=4 ves 4 pasos lineales frente a 16 cuadráticos: el doble for no es “más rigor”, es más costo. `range(1, len(vals))` omite el índice 0 — off-by-one de negocio que deja el primer registro fuera del resumen. Prefiere un solo pase O(n) para tasas.",
+        retrospective:
+          "Si tu resumen anida dos fors solo para contar, reescribe a un pase. Si tu range “empieza en 1 por costumbre de Excel”, puedes estar botando la primera fila del intake. We Do te hace sentir 5 vs 25 y arreglar un IndexError.",
       },
     ],
   },
@@ -545,16 +577,22 @@ skipped_first [20, 30]`,
         id: "S04-T1-A-E1",
         subtopicId: "S04-T1-A",
         kind: "guided",
+        title: "Imprimir regiones y range(3)",
+        preamble:
+          "- **Contexto:** el primer paso de un lote de intake es recorrer cada fila y, a veces, numerar posiciones con `range`.\n- **Meta:** practicar `for` por valor y ver el stop exclusivo de `range`.\n- **Éxito:** tres líneas `Lima` / `Cusco` / `Piura` y luego `[0, 1, 2]`.\n- **Límites:** un for simple sin índices manuales; no mutes `regiones`; no dejes el `print('ok', True)` del starter.",
         instruction:
-          "E1 (guiado) — Concepto: `for` por valor y `range` con stop exclusivo. Fixture: `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`. Imprime cada región en su propia línea con un `for`; luego imprime `list(range(3))` (esperado: `[0, 1, 2]`). Contrato: un for simple sin índices; no mutes la lista.",
-        hint: "for r in regiones: print(r)",
+          "1. Revisa el starter: el for de regiones ya está bien.\n2. El DEFECT es no imprimir `list(range(3))` (hay un `print('ok', True)` de relleno).\n3. Sustituye ese print por `print(list(range(3)))`.\n4. Ejecuta y compara con la salida esperada (sin texto extra).",
+        hint: "El for sobre regiones ya imprime bien; el problema está en el print final de relleno.",
         hints: [
-          "for r in regiones: print(r)",
-          "range(3) produce 0,1,2 — stop exclusivo.",
+          "El for sobre regiones ya imprime bien; el problema está en el print final de relleno.",
+          "El stop de range es exclusivo: con 3 posiciones debes ver 0, 1 y 2 — no 1..3. Sustituye solo el print de relleno.",
         ],
         edgeCases: ["range stop exclusivo"],
         tests: "Lima / Cusco / Piura + [0,1,2]",
-        feedback: "El for por valor es el default del procesador de lotes.",
+        feedback:
+          "El for de regiones ya estaba bien: el fallo era el print de relleno. Si tu salida termina en `[0, 1, 2]` y no en `ok True`, cerraste el contrato del stop exclusivo.",
+        retrospective:
+          "Principio: listar con for por valor; `range(n)` solo si el índice importa. Malentendido: creer que `range(3)` es 1..3 (incluye el 3). Transfer: el mismo recorrido alimenta contadores del gate CP-N1-A. Self-check: ¿qué imprimiría `list(range(1, 4))` frente a `list(range(3))`?",
         starterCode: {
           language: 'python',
           title: "for_regiones.py",
@@ -583,16 +621,22 @@ Piura
         id: "S04-T1-A-E2",
         subtopicId: "S04-T1-A",
         kind: "independent",
+        title: "Contar adultos con for (sin comprehension)",
+        preamble:
+          "- **Contexto:** en el resumen de un lote necesitas tasas por condición, no solo listar filas.\n- **Meta:** practicar un contador manual en un `for` (base del gate de resúmenes).\n- **Éxito:** imprimes un solo entero; con `edades = [30, 17, 45, 22]` el valor es `3`.\n- **Límites:** no uses list comprehension; no mutes la lista; frontera `>= 18` inclusiva.",
         instruction:
-          "E2 (independiente) — Concepto: contador manual en un for (sin comprehension). Fixture: `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` e imprime solo el entero (esperado: 3). Contrato: no uses list comprehension todavía; el for + if entrena el resumen del gate.",
-        hint: "n = 0; for e in edades: if e >= 18: n += 1",
+          "1. El starter cuenta *todas* las edades (DEFECT).\n2. Dentro del for, incrementa solo si `e >= 18`.\n3. Imprime únicamente el contador (sin `ok True`).",
+        hint: "Inicializa n=0; dentro del for decide con if antes de incrementar.",
         hints: [
-          "n = 0; for e in edades: if e >= 18: n += 1",
-          "Resultado esperado: 3 (30,45,22).",
+          "Inicializa n=0; dentro del for decide con if antes de incrementar.",
+          "Frontera inclusiva: 18 cuenta. Esperado: 3 (30, 45, 22).",
         ],
         edgeCases: ["frontera 18 inclusiva"],
         tests: "assert n == 3",
-        feedback: "Contador manual prepara el resumen de tasas del gate.",
+        feedback:
+          "El contador manual en un pase entrena el mismo hábito que `n_accept`/`n_reject` del gate. Sin la condición, cuentas el tamaño de la lista y la tasa miente.",
+        retrospective:
+          "El contador en un pase O(n) es el mismo patrón de `n_accept` / `n_reject` del capstone. El error clásico es imprimir la lista entera o contar con un `sum` opaco antes de entender el bucle. ¿Cuántos quedarían si la frontera fuera `> 18`?",
         starterCode: {
           language: 'python',
           title: "contar_mayores.py",
@@ -622,16 +666,22 @@ print(n)`,
         id: "S04-T1-A-E3",
         subtopicId: "S04-T1-A",
         kind: "transfer",
+        title: "Reportar ids con monto positivo",
+        preamble:
+          "- **Contexto:** en auditoría de intake a veces reportas solo filas con monto usable, sin borrar el raw del lote.\n- **Meta:** filtrar al *imprimir* con `for` + `if` sobre dicts (misma lógica de T1, nueva superficie).\n- **Éxito:** líneas `C1` y `C4`; luego `n_original 4` (lista intacta).\n- **Límites:** no mutes `lote`; no imprimas montos 0 ni negativos; no uses comprehension si aún no la dominas aquí.",
         instruction:
-          "E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.",
-        hint: "for reg in lote: if reg['monto'] > 0: print(reg['id'])",
+          "1. El starter imprime todos los ids y montos (DEFECT).\n2. Imprime solo `reg[\"id\"]` cuando `reg[\"monto\"] > 0`.\n3. Al final imprime `n_original` con `len(lote)` para demostrar que no mutaste.",
+        hint: "Filtra con if sobre reg['monto']; no borres elementos de la lista.",
         hints: [
-          "for reg in lote: if reg['monto'] > 0: print(reg['id'])",
-          "0 no se imprime; negativos tampoco. Conserva lote intacto.",
+          "Filtra con if sobre reg['monto']; no borres elementos de la lista.",
+          "0 y negativos fuera. Al final: print(\"n_original\", len(lote)).",
         ],
         edgeCases: ["monto 0 excluido", "lista no mutada"],
         tests: "C1 y C4; len 4",
-        feedback: "Filtrar al reportar sin destruir el raw es hábito de auditoría.",
+        feedback:
+          "Si imprimiste C2 o C3, el filtro `> 0` no se aplicó. Si no ves `n_original 4`, no demostraste que el lote quedó intacto — el reporte y el almacenamiento no son el mismo acto.",
+        retrospective:
+          "Principio: filtrar al reportar no es borrar del lote. Malentendido: tratar 0 o negativo como “casi positivo”. Transfer: en el You Do el `raw` debe sobrevivir al pase. ¿Por qué imprimir `len(lote)` al final y no confiar en “no toqué nada”?",
         starterCode: {
           language: 'python',
           title: "filtrar_montos.py",
@@ -660,16 +710,22 @@ n_original 4`,
         id: "S04-T1-B-E1",
         subtopicId: "S04-T1-B",
         kind: "guided",
+        title: "Numerar filas con enumerate(start=1)",
+        preamble:
+          "- **Contexto:** al diagnosticar un reject, el humano lee “fila 1”, no “índice 0”.\n- **Meta:** usar `enumerate` con `start=1` sin armar el índice a mano.\n- **Éxito:** exactamente `fila 1: A`, `fila 2: B`, `fila 3: C`.\n- **Límites:** no uses `range(len(ids))`; no dejes `start` en 0.",
         instruction:
-          "E1 (guiado) — Concepto: `enumerate` con `start=1` para reportes legibles. Fixture: `ids = [\"A\", \"B\", \"C\"]`. Imprime exactamente `fila k: id` (k desde 1). Contrato: no armes el índice a mano con `range`; el índice interno de la lista sigue siendo 0-based.",
-        hint: "for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')",
+          "1. El starter usa `enumerate(ids)` sin `start` (DEFECT → fila 0).\n2. Cambia a `enumerate(ids, start=1)`.\n3. Mantén el f-string `fila {i}: {x}`; quita el print de relleno.",
+        hint: "enumerate acepta un segundo argumento start; por defecto es 0.",
         hints: [
-          "for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')",
-          "start=1 es para humanos; el índice interno de la lista sigue siendo 0-based.",
+          "enumerate acepta un segundo argumento start; por defecto es 0.",
+          "Pasa el start humano en el segundo argumento; quita el print de relleno al final.",
         ],
         edgeCases: ["start=1"],
         tests: "fila 1..3",
-        feedback: "Numerar filas acelera el diagnóstico de rejects en demos.",
+        feedback:
+          "Si ves `fila 0:`, el `start` no se pasó (default 0). Con `start=1` las tres líneas deben ser `fila 1: A` … `fila 3: C`, sin relleno.",
+        retrospective:
+          "Principio: el número del reporte es humano (`start=1`); el índice de la lista sigue siendo 0-based. Malentendido: mezclar ambos en el mismo cálculo de negocio. Transfer: en tickets de reject dirás “fila 2”, no “índice 1”. ¿Qué imprimiría `start=0` con el mismo f-string?",
         starterCode: {
           language: 'python',
           title: "enumerate_filas.py",
@@ -696,16 +752,22 @@ fila 3: C`,
         id: "S04-T1-B-E2",
         subtopicId: "S04-T1-B",
         kind: "independent",
+        title: "Emparejar columnas con zip (y ver el silencio)",
+        preamble:
+          "- **Contexto:** nombres y edades de un intake deben ir en paralelo, no en producto cartesiano.\n- **Meta:** emparejar con `zip` y observar el truncamiento silencioso al acortar una columna.\n- **Éxito:** `Ana=30`, `Luis=25`, `María=40` y luego `zip corto [('Ana', 30)]`.\n- **Límites:** un solo for sobre `zip`; no nested loops; aquí solo *observas* el silencio (en código real validarías `len`).",
         instruction:
-          "E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si acortas edades a 1 elemento (imprime list(zip(...))).",
-        hint: "zip se detiene en la más corta; el resto se pierde.",
+          "1. El starter anida dos fors (DEFECT: 9 líneas basura).\n2. Recorre `zip(nombres, edades)` e imprime `nombre=edad`.\n3. Imprime `zip corto` con `list(zip(nombres, edades[:1]))` para ver la pérdida.",
+        hint: "zip empareja en paralelo y se detiene en la secuencia más corta.",
         hints: [
-          "zip se detiene en la más corta; el resto se pierde.",
-          "Compara len antes en código real; aquí solo observa el silencio.",
+          "zip empareja en paralelo y se detiene en la secuencia más corta.",
+          "Tras los 3 pares, imprime zip corto con edades recortadas a un elemento.",
         ],
         edgeCases: ["truncamiento silencioso"],
         tests: "3 pares + 1 par en zip corto",
-        feedback: "Ver el truncamiento una vez evita bugs de columnas desalineadas.",
+        feedback:
+          "Nested loops multiplican pares (9 líneas); `zip` alinea en paralelo. Si viste `zip corto` con un solo par, ya sentiste el truncamiento silencioso que miente resúmenes.",
+        retrospective:
+          "Principio: emparejar columnas es `zip` (o validación de `len`), no doble for. Malentendido: “se ve bien” con zip corto = datos correctos. Transfer: el siguiente ejercicio te obliga a `ValueError` en vez de callar. ¿Qué tasa de reject se inventaría si se pierde la última edad de un lote real?",
         starterCode: {
           language: 'python',
           title: "zip_columnas.py",
@@ -737,16 +799,22 @@ zip corto [('Ana', 30)]`,
         id: "S04-T1-B-E3",
         subtopicId: "S04-T1-B",
         kind: "transfer",
+        title: "zip_strict: fallar si hay desalineación",
+        preamble:
+          "- **Contexto:** en un pipeline de calidad, desalineación de columnas debe ser error ruidoso, no pérdida silenciosa.\n- **Meta:** implementar validación de longitudes (equivalente pedagógico a `zip(..., strict=True)`).\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
         instruction:
-          "E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+). Prueba desalineado → `DESALINEADO` y alineado → `OK`.",
-        hint: "if len(a) != len(b): raise ValueError(...); return list(zip(a,b))",
+          "1. Completa `zip_strict`: si longitudes difieren, `raise ValueError`.\n2. Primer intento con listas 3 vs 2 → captura y `print(\"DESALINEADO\")`.\n3. Segundo intento con listas de longitud 2 → `print(\"OK\")` si no lanza.",
+        hint: "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
         hints: [
-          "if len(a) != len(b): raise ValueError(...); return list(zip(a,b))",
-          "Dos bloques try/except con prints distintos.",
+          "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
+          "Necesitas dos bloques try/except: uno que imprima DESALINEADO y otro OK.",
         ],
         edgeCases: ["strict alignment"],
         tests: "DESALINEADO luego OK",
-        feedback: "Validar longitudes es un assert de alineación barato en tests de pipeline.",
+        feedback:
+          "Si no sale `DESALINEADO` primero, el `raise` no corrió con longitudes 3 vs 2. Si no sale `OK` después, el segundo bloque no validó un par alineado. El silencio de `zip` sin assert es el bug a evitar.",
+        retrospective:
+          "Principio: desalineación debe ser error ruidoso. Malentendido: “casi igual longitud” es inocuo. Transfer: en el You Do no zipees columnas de fuentes distintas sin assert. Self-check: ¿qué imprime el segundo bloque si olvidas el `raise` y solo haces `zip` silencioso?",
         starterCode: {
           language: 'python',
           title: "zip_strict.py",
@@ -786,16 +854,22 @@ OK`,
         id: "S04-T2-A-E1",
         subtopicId: "S04-T2-A",
         kind: "guided",
+        title: "While hasta centinela vacío",
+        preamble:
+          "- **Contexto:** un archivo de intake a veces trae basura *después* de una línea en blanco que marca fin de lote.\n- **Meta:** con `while` e índice, cortar en string vacío **sin incluirlo**.\n- **Éxito:** imprime `['r1', 'r2']` (sin `r3`).\n- **Límites:** el blank es centinela → `break`, no `continue`; avanza `i` siempre.",
         instruction:
-          "E1 (guiado) — Concepto: while + centinela vacío. Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío **sin incluirlo**. Imprime la lista resultante (esperado: `['r1','r2']`). Contrato: `r3` no se procesa porque el centinela corta el lote.",
-        hint: "while i < len: leer, i+=1, if line=='': break else append",
+          "1. El starter hace `continue` en blank (DEFECT: sigue y se come `r3`).\n2. Cambia a `break` cuando `line == \"\"`.\n3. Imprime solo `out`.",
+        hint: "continue salta la fila y sigue; break cierra el lote. Aquí el blank es fin, no basura intermitente.",
         hints: [
-          "while i < len: leer, i+=1, if line=='': break else append",
-          "Resultado: ['r1','r2']; r3 queda fuera del lote.",
+          "continue salta la fila y sigue; break cierra el lote. Aquí el blank es fin, no basura intermitente.",
+          "Resultado: ['r1','r2']; r3 queda fuera porque el centinela cortó.",
         ],
         edgeCases: ["centinela vacío"],
         tests: "['r1','r2']",
-        feedback: "El centinela define el fin de lote aunque haya basura después.",
+        feedback:
+          "Si tu lista incluye `r3`, usaste `continue` (saltas el blank y sigues). Con `break` en `\"\"` el centinela cierra el lote y la basura posterior no entra.",
+        retrospective:
+          "Principio: blank como fin de lote = `break`, no `continue`. Malentendido: “saltar vacío” siempre es continue (eso es basura intermitente). Transfer: basura *después* del centinela no debe inflar contadores del batch. Self-check: ¿qué lista obtienes si dejas `continue` aquí?",
         starterCode: {
           language: 'python',
           title: "while_vacio.py",
@@ -834,16 +908,22 @@ print(out)`,
         id: "S04-T2-A-E2",
         subtopicId: "S04-T2-A",
         kind: "independent",
+        title: "Reintentos con tope MAX",
+        preamble:
+          "- **Contexto:** un reintento de red o de parseo no puede colgarse: siempre hay cota superior.\n- **Meta:** `while intentos < MAX` con variable de control que sube cada vuelta.\n- **Éxito:** `intento 1`, `intento 2`, `intento 3`, luego `done 3`.\n- **Límites:** incrementa *dentro* del while; no pongas `while True` aquí; no omitas los prints por intento.",
         instruction:
-          "E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor final de intentos.",
-        hint: "intentos += 1 dentro del while es la variable de control.",
+          "1. El starter ya incrementa y imprime `done`, pero no reporta cada intento (DEFECT).\n2. Dentro del while, tras `intentos += 1`, imprime `f\"intento {intentos}\"`.\n3. Mantén `print(\"done\", intentos)` al salir.",
+        hint: "intentos += 1 dentro del while es la variable de control que evita el infinito.",
         hints: [
-          "intentos += 1 dentro del while es la variable de control.",
-          "Si olvidas incrementar, bucle infinito (no lo hagas).",
+          "intentos += 1 dentro del while es la variable de control que evita el infinito.",
+          "Tras cada incremento, imprime el número de intento con f-string; al salir, done.",
         ],
         edgeCases: ["variable de control"],
         tests: "3 intentos + done 3",
-        feedback: "while con cota superior es el patrón de reintentos seguros.",
+        feedback:
+          "Si solo ves `done 3` sin `intento 1..3`, el contador sube pero no reportas cada vuelta. El f-string va **dentro** del while, tras el incremento.",
+        retrospective:
+          "Principio: reintentos con cota = variable de control que avanza. Malentendido: “el while se cuelga por magia” — casi siempre es estado que no cambia. Transfer: en streams reales combinas tope + timeout + log. Self-check: ¿qué pasa si mueves `intentos += 1` fuera del while?",
         starterCode: {
           language: 'python',
           title: "while_reintentos.py",
@@ -876,16 +956,22 @@ done 3`,
         id: "S04-T2-A-E3",
         subtopicId: "S04-T2-A",
         kind: "transfer",
+        title: "Cola con pause y break",
+        preamble:
+          "- **Contexto:** un worker saca jobs de una cola hasta una condición de negocio (pausa), no hasta vaciar siempre.\n- **Meta:** `while cola` + `pop(0)` + `break` condicional, dejando el resto visible.\n- **Éxito:** `job1`, `job2`, `PAUSE`, `rest ['job3']`.\n- **Límites:** no uses `for` sobre una copia si practicas while; no vacíes la cola tras el break.",
         instruction:
-          "E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es `job2` imprime `PAUSE` y break. Muestra la cola restante.",
-        hint: "while cola: job = cola.pop(0)",
+          "1. El starter imprime jobs y hace break en `job2`, pero no imprime `PAUSE` ni la cola restante (DEFECT parcial).\n2. Tras detectar `job2`, imprime `PAUSE` y `break`.\n3. Fuera del while, un solo print: `print(\"rest\", cola)` (debe quedar `['job3']`).",
+        hint: "while cola: saca con pop(0); el break deja el resto en la lista.",
         hints: [
-          "while cola: job = cola.pop(0)",
-          "Tras break debe quedar ['job3'].",
+          "while cola: saca con pop(0); el break deja el resto en la lista.",
+          "Un solo print al final: print(\"rest\", cola) — debe quedar ['job3'].",
         ],
         edgeCases: ["break deja resto"],
         tests: "job1 job2 PAUSE rest [job3]",
-        feedback: "while + cola modela procesamiento hasta condición de negocio.",
+        feedback:
+          "Si falta `PAUSE` o `rest ['job3']`, el break cortó sin reportar. Un print al final con la cola residual cierra el contrato de auditoría.",
+        retrospective:
+          "Principio: while + cola hasta condición de negocio, no hasta vaciar siempre. Malentendido: break “pierde” datos — en realidad deja residual auditable. Transfer: reportar resto es hábito de worker. ¿Qué pasa si en `job2` usas `continue` en vez de `break`?",
         starterCode: {
           language: 'python',
           title: "while_cola.py",
@@ -921,16 +1007,22 @@ rest ['job3']`,
         id: "S04-T2-B-E1",
         subtopicId: "S04-T2-B",
         kind: "guided",
+        title: "Saltar vacíos con continue",
+        preamble:
+          "- **Contexto:** archivos de intake traen filas en blanco o solo espacios que no son regiones.\n- **Meta:** filtrar con `continue` cuando `not x.strip()`.\n- **Éxito:** dos líneas: `Lima` y `Cusco`.\n- **Límites:** no uses `break` (no es fin de lote, solo basura); no mutes `raw`.",
         instruction:
-          "E1 (guiado) — Concepto: `continue` para saltar basura. Fixture: `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, si `not x.strip()` haz continue; imprime solo regiones válidas (Lima y Cusco, una por línea). Contrato: no uses break aquí — solo saltas filas vacías o de solo espacios.",
-        hint: "if not x.strip(): continue",
+          "1. El starter imprime también blanks (DEFECT).\n2. Si `not x.strip()`, `continue`.\n3. Si no, `print(x)`.",
+        hint: "strip quita espacios; si el resultado es vacío, salta con continue.",
         hints: [
-          "if not x.strip(): continue",
-          "Solo Lima y Cusco.",
+          "strip quita espacios; si el resultado es vacío, salta con continue.",
+          "Deben quedar solo dos líneas de región real; break aquí cerraría el lote por error.",
         ],
         edgeCases: ["whitespace only"],
         tests: "Lima\\nCusco",
-        feedback: "continue es el filtro de filas vacías del intake por líneas.",
+        feedback:
+          "Si aún imprime líneas en blanco, falta el `if not x.strip(): continue` **antes** del print. `break` aquí cerraría el lote por error.",
+        retrospective:
+          "Principio: basura intermitente = continue; fin de lote = break (otro ejercicio). Malentendido: `\"  \"` es región válida. Transfer: el siguiente We Do usa break en 5xx, no en vacíos. ¿Por qué `strip` y no solo `if not x`?",
         starterCode: {
           language: 'python',
           title: "continue_vacios.py",
@@ -958,16 +1050,22 @@ Cusco`,
         id: "S04-T2-B-E2",
         subtopicId: "S04-T2-B",
         kind: "independent",
+        title: "Cortar el lote en error fatal (5xx)",
+        preamble:
+          "- **Contexto:** un 5xx de configuración no es “otra fila más”: debe detener el procesamiento del lote.\n- **Meta:** `break` en `code >= 500`, contar solo los `ok` previos.\n- **Éxito:** `ok`, `ok`, `STOP`, `n_ok 2` (el 200 final no se procesa).\n- **Límites:** no solo imprimas error y sigas; no cuentes el 500 como ok.",
         instruction:
-          "E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.",
-        hint: "break no procesa el 200 final.",
+          "1. El starter imprime `ERR` y sigue (DEFECT: no break; el último 200 se cuenta).\n2. Si `c >= 500`: imprime `STOP`, `break`.\n3. Si no: imprime `ok` e incrementa `n_ok`.\n4. Al final imprime `n_ok` con etiqueta.",
+        hint: "break no procesa el 200 final; el 500 no es un ok.",
         hints: [
-          "break no procesa el 200 final.",
-          "n_ok debe ser 2.",
+          "break no procesa el 200 final; el 500 no es un ok.",
+          "Salida esperada: ok, ok, STOP, n_ok 2.",
         ],
         edgeCases: ["break corta el lote"],
         tests: "ok ok STOP n_ok 2",
-        feedback: "Errores fatales deben cortar el lote, no solo contarse.",
+        feedback:
+          "Si procesas el 200 final, no hubo `break`. Si imprimiste `ERR` en vez de `STOP`, el contrato de salida no cuadra aunque el conteo sea 2.",
+        retrospective:
+          "Principio: fatal de configuración corta el lote; no “marca y sigue”. Malentendido: contar el 500 o el 200 posterior como ok. Transfer: en el You Do un reject de fila ≠ abortar el batch — aquí el 5xx es otro nivel. ¿Por qué `n_ok` no es 3?",
         starterCode: {
           language: 'python',
           title: "break_fatal.py",
@@ -1007,16 +1105,22 @@ n_ok 2`,
         id: "S04-T2-B-E3",
         subtopicId: "S04-T2-B",
         kind: "transfer",
+        title: "while True con END y salvaguarda",
+        preamble:
+          "- **Contexto:** a veces el patrón natural es `while True` + break; es legítimo solo si la salida es obvia y hay red de seguridad.\n- **Meta:** leer buffer con índice, break en `END`, guard `i > 10`.\n- **Éxito:** imprime `['a', 'b']` (sin `END`).\n- **Límites:** no proceses END como dato; no quites la salvaguarda; avanza `i` siempre.",
         instruction:
-          "E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y una salvaguarda `if i > 10: raise RuntimeError('guard')`. Imprime los valores leídos.",
-        hint: "while True no es pecado si break y la salvaguarda están claros.",
+          "1. El starter agrega todo al `out`, incluido END (DEFECT).\n2. Tras leer `item`, si es `END` haz `break` *antes* de append.\n3. Mantén el `if i > 10: raise ...`.",
+        hint: "while True es aceptable si el break del centinela y la salvaguarda están claros.",
         hints: [
-          "while True no es pecado si break y la salvaguarda están claros.",
-          "No proceses END como dato.",
+          "while True es aceptable si el break del centinela y la salvaguarda están claros.",
+          "No proceses END como dato: break antes del append.",
         ],
         edgeCases: ["while True + break + max"],
         tests: "['a','b']",
-        feedback: "while True documentado + centinela + MAX es aceptable y testeable.",
+        feedback:
+          "Si `out` incluye `END`, el break llegó tarde (o no llegó). El centinela se chequea **antes** del append; la guard `i > 10` se mantiene intacta.",
+        retrospective:
+          "Principio: `while True` es legítimo solo con salida obvia + red de seguridad. Malentendido: “while True siempre es malo” — lo malo es no tener salida garantizada. Transfer: en el You Do prefiere for sobre listas en memoria; reserva while para streams.",
         starterCode: {
           language: 'python',
           title: "while_true_guard.py",
@@ -1057,16 +1161,22 @@ print(out)`,
         id: "S04-T3-A-E1",
         subtopicId: "S04-T3-A",
         kind: "guided",
+        title: "Contadores accept/reject/total en un pase",
+        preamble:
+          "- **Contexto:** el resumen del batch necesita tres números honestos: accept, reject y total intentado.\n- **Meta:** incrementar contadores en un solo `for` O(n).\n- **Éxito:** imprime `2 1 3` (accept, reject, total).\n- **Límites:** `n_total` sube en *cada* fila, no solo en accept; no uses comprehensions aquí.",
         instruction:
-          "E1 (guiado) — Concepto: contadores en un pase O(n). Fixture: `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa n_accept, n_reject, n_total e incrementa en un for. Imprime los tres en ese orden (esperado: `2 1 3`). Contrato: n_total cuenta cada fila intentada, no solo los accept.",
-        hint: "n_total = len o +=1 por fila",
+          "1. El starter no toca `n_total` (DEFECT → imprime 0 al final).\n2. Al inicio de cada iteración (o al final simétrico), `n_total += 1`.\n3. Mantén los if de accept/reject; imprime los tres en ese orden.",
+        hint: "n_total debe subir por cada fila del lote, no solo cuando hay accept.",
         hints: [
-          "n_total = len o +=1 por fila",
-          "2 accept, 1 reject, total 3",
+          "n_total debe subir por cada fila del lote, no solo cuando hay accept.",
+          "Esperado: 2 accept, 1 reject, total 3.",
         ],
         edgeCases: ["un pase"],
         tests: "2 1 3",
-        feedback: "Contadores en un pase son la base del resumen CP-N1-A.",
+        feedback:
+          "Si al final ves `2 1 0`, accept/reject van bien pero `n_total` nunca subió. El `+= 1` de total va en **cada** iteración, no solo en accept.",
+        retrospective:
+          "Principio: tres números honestos en un pase O(n). Malentendido: total = solo accepts. Transfer: sin `n_total` real, `tasa_reject` del You Do es basura o crash. Self-check: ¿qué imprimirías si olvidaras el `elif reject` con el fixture actual?",
         starterCode: {
           language: 'python',
           title: "contadores_base.py",
@@ -1102,27 +1212,33 @@ print(n_accept, n_reject, n_total)`,
         id: "S04-T3-A-E2",
         subtopicId: "S04-T3-A",
         kind: "independent",
+        title: "Tasa de reject sin división por cero",
+        preamble:
+          "- **Contexto:** un lote vacío no es tasa 0 automática ni crash: se reporta `None`.\n- **Meta:** `tasa_reject = n_reject / n_total` solo si `n_total > 0`.\n- **Éxito:** con `[\"accept\",\"reject\",\"accept\"]` imprime `0.3333`; con `[]` imprime `None`.\n- **Límites:** cuenta **reject**, no accept; no dejes que `[]` lance `ZeroDivisionError`.",
         instruction:
-          "E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).",
-        hint: "if n_total: tasa = n_rej/n_total else None",
+          "1. El starter divide siempre y además cuenta accepts como si fueran rejects (DEFECT doble).\n2. Si `n_total == 0`, retorna `None`.\n3. Si no, cuenta `status == \"reject\"` y divide.\n4. Imprime `round(..., 4)` del primer caso y el segundo caso crudo.",
+        hint: "Si n_total es 0, retorna None; si no, divide n_reject / n_total.",
         hints: [
-          "if n_total: tasa = n_rej/n_total else None",
-          "Primera tasa ~0.333…; segunda None.",
+          "Si n_total es 0, retorna None; si no, divide n_reject / n_total.",
+          "Cuenta status == \"reject\" (no accept). Primera tasa redondeada a 4 decimales: 0.3333.",
         ],
         edgeCases: ["división por cero"],
         tests: "0.3333 y None",
-        feedback: "Denominador cero se reporta, no se crashea.",
+        feedback:
+          "Si el vacío crashea, faltó el guard `n_total == 0 → None`. Si la primera tasa es `0.6667`, contaste accept en vez de reject: el numerador del gate es **reject**.",
+        retrospective:
+          "Principio: tasa = rejects / intentados, o `None` si no hubo intentados. Malentendido: vacío = 0 automático, o numerador invertido “que igual pasa”. Transfer: el dashboard del gate asume esta convención en el You Do.",
         starterCode: {
           language: 'python',
           title: "tasa_segura.py",
           code: `# CASO-LIM-004 · tasa_reject
 def tasa_reject(sts):
-    # DEFECT: división por cero no manejada; tasa accept
+    # DEFECT: división por cero no manejada; cuenta accept como reject
     n_total = len(sts)
     n_reject = sum(1 for s in sts if s == "accept")
     return n_reject / n_total
 
-print(tasa_reject(["accept", "reject"]))
+print(round(tasa_reject(["accept", "reject", "accept"]), 4))
 print(tasa_reject([]))
 print('ok', True)
 `,
@@ -1146,16 +1262,22 @@ None`,
         id: "S04-T3-A-E3",
         subtopicId: "S04-T3-A",
         kind: "transfer",
+        title: "Primer review con búsqueda y break",
+        preamble:
+          "- **Contexto:** en triaje de calidad a veces basta el *primer* registro en review, no el catálogo completo.\n- **Meta:** búsqueda lineal con `enumerate` + `break` (sin `.index()`).\n- **Éxito:** imprime `1 C2` (índice e id); si no hubiera review, `-1`.\n- **Límites:** no uses `.index()`; no sigas el bucle tras el primer match; no busques `accept`.",
         instruction:
-          "E3 (transferencia) — Concepto: búsqueda lineal con break. En una lista de dicts con `id` y `status`, halla el **primer** `status==\"review\"`. Si no hay, imprime -1; si hay, imprime el índice y el id (fixture del starter: índice 1, id C2). Contrato: no uses `.index()`; practicas el patrón manual del intake.",
-        hint: "first = None; for i,r in enumerate(...): if ...: first=i; break",
+          "1. El starter busca `accept` y solo imprime el índice (DEFECT).\n2. Cambia la condición a `status == \"review\"`.\n3. Si `idx == -1` imprime `-1`; si no, imprime índice e `id`.",
+        hint: "Recorre con enumerate; al primer review guarda el índice y break.",
         hints: [
-          "first = None; for i,r in enumerate(...): if ...: first=i; break",
-          "No uses index() si quieres practicar la búsqueda manual.",
+          "Recorre con enumerate; al primer review guarda el índice y break.",
+          "No uses .index(); imprime índice e id (esperado: 1 C2).",
         ],
         edgeCases: ["primer match", "break"],
         tests: "1 C2",
-        feedback: "Búsqueda lineal con break evita trabajo innecesario.",
+        feedback:
+          "Si imprimiste índice de `accept` o solo un número sin id, la condición o el print final no cuadra. Esperado: `1 C2` tras el primer `review` con break.",
+        retrospective:
+          "Principio: primer hallazgo = búsqueda lineal + `break` (sin `.index()` que lanza si falta). Malentendido: seguir el for “por si hay más”. Transfer: en triaje del batch a veces basta el primer review. Self-check: ¿por qué no imprimir también el segundo review C3?",
         starterCode: {
           language: 'python',
           title: "buscar_review.py",
@@ -1191,16 +1313,22 @@ else:
         id: "S04-T3-B-E1",
         subtopicId: "S04-T3-B",
         kind: "guided",
+        title: "Cuadrados y pares con list comprehension",
+        preamble:
+          "- **Contexto:** antes de filtrar rejects del batch, practicas map/filter corto con números sintéticos (misma forma que filtrar ids por status).\n- **Meta:** una comprehension de transformación y una de filtro.\n- **Éxito:** `[1, 4, 9, 16, 25]` y `[2, 4]`.\n- **Límites:** sin `for` explícito en este ejercicio; una comprehension por lista.",
         instruction:
-          "E1 (guiado) — Concepto: list comprehension para map y filter simples. Fixture: `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares (`x % 2 == 0`). Imprímelas en ese orden (esperado: `[1,4,9,16,25]` y `[2,4]`). Contrato: una comprehension por lista; sin for explícito en este ejercicio.",
-        hint: "[x*x for x in nums] y [x for x in nums if x%2==0]",
+          "1. El starter imprime la lista identidad y un filtro imposible `> 10` (DEFECT).\n2. Primera línea: cuadrados `x * x`.\n3. Segunda: pares con `x % 2 == 0`.",
+        hint: "Una comprehension transforma (x*x); otra filtra con if (pares).",
         hints: [
-          "[x*x for x in nums] y [x for x in nums if x%2==0]",
-          "Pares: 2,4",
+          "Una comprehension transforma (x*x); otra filtra con if (pares).",
+          "Pares esperados: 2 y 4.",
         ],
         edgeCases: ["filtro if"],
         tests: "cuadrados y pares",
-        feedback: "Comprehension corta para map/filter simple.",
+        feedback:
+          "Si ves la lista identidad o un `[]` del filtro `> 10`, aún no reescribiste las comprehensions. Map = expresión; filter = `if` al final.",
+        retrospective:
+          "Principio: comprehension corta para map/filter de una línea. Malentendido: anidar tres niveles o meter prints “porque cabe”. Transfer: cuando el filtro del intake tenga varias ramas, vuelve al for. Self-check: ¿dónde pondrías el `if` de pares en la sintaxis?",
         starterCode: {
           language: 'python',
           title: "comp_basica.py",
@@ -1226,16 +1354,22 @@ print([x for x in nums if x % 2 == 0])`,
         id: "S04-T3-B-E2",
         subtopicId: "S04-T3-B",
         kind: "independent",
+        title: "Categorías únicas con set comprehension",
+        preamble:
+          "- **Contexto:** el reporte de calidad lista qué statuses *aparecieron*, sin duplicar.\n- **Meta:** set comprehension + `sorted` para un catálogo estable.\n- **Éxito:** `['accept', 'reject', 'review']`.\n- **Límites:** no dejes la lista sucia con duplicados; no hardcodees las tres cadenas.",
         instruction:
-          "E2 (independiente) — Concepto: set comprehension + sorted. De `rows` con clave `status`, obtén el conjunto de statuses distintos y ordénalo alfabéticamente para el reporte. Imprime la lista ordenada (esperado: accept, reject, review). Contrato: set comprehension que elimine duplicados; no un for que deje la lista sucia.",
-        hint: "sorted({r['status'] for r in rows})",
+          "1. El starter hace list comprehension y repite `reject` (DEFECT).\n2. Usa `{r[\"status\"] for r in rows}` y envuélvelo en `sorted(...)`.\n3. Imprime esa lista ordenada.",
+        hint: "Un set elimina duplicados; sorted lo hace determinista para el reporte.",
         hints: [
-          "sorted({r['status'] for r in rows})",
-          "accept, reject, review",
+          "Un set elimina duplicados; sorted lo hace determinista para el reporte.",
+          "Esperado alfabético: accept, reject, review.",
         ],
         edgeCases: ["set comprehension"],
         tests: "['accept','reject','review']",
-        feedback: "Set comprehension resume categorías presentes en el lote.",
+        feedback:
+          "Si aún ves `reject` dos veces, usaste lista y no set. `sorted({...})` da el catálogo estable; hardcodear las tres cadenas “pasa” el fixture y miente con un status nuevo.",
+        retrospective:
+          "Principio: set = categorías presentes; `sorted` = reporte determinista. Malentendido: listar a mano accept/reject/review. Transfer: el You Do no debe fijar la taxonomía en un print. Self-check: ¿qué pasa si llega un status nuevo sin tocar ese hardcode?",
         starterCode: {
           language: 'python',
           title: "comp_set_status.py",
@@ -1258,22 +1392,33 @@ print(sorted({r["status"] for r in rows}))`,
         id: "S04-T3-B-E3",
         subtopicId: "S04-T3-B",
         kind: "transfer",
+        title: "Dict id→status y tasa de reject",
+        preamble:
+          "- **Contexto:** el resumen del gate combina un mapa por id y una tasa sobre el lote completo.\n- **Meta:** dict comprehension + lista de rejects + `len(rejects)/len(rows)`.\n- **Éxito:** imprime `reject ['C2', 'C4'] 0.5` (status de C2, lista, tasa).\n- **Límites:** denominador = `len(rows)`; no mutes `rows`; datos sintéticos del starter con 4 filas.",
         instruction:
-          "E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para rejects.",
-        hint: "by = {r['id']: r['status'] for r in rows}",
+          "1. El fixture ya trae cuatro filas (C1–C4); no lo reduzcas.\n2. Construye `by = {id: status ...}`.\n3. Arma `rejects` desde el dict o desde rows; calcula tasa; imprime `by[\"C2\"]`, rejects y tasa.",
+        hint: "Dict comprehension id→status; luego filtra rejects y divide por len(rows).",
         hints: [
-          "by = {r['id']: r['status'] for r in rows}",
-          "tasa 0.5 con 2 reject de 4",
+          "Dict comprehension id→status; luego filtra rejects y divide por len(rows).",
+          "Con 2 reject de 4, tasa 0.5. Imprime status de C2, lista de rejects y tasa.",
         ],
         edgeCases: ["dict comp + tasa"],
         tests: "reject [C2,C4] 0.5",
-        feedback: "Comprehensions + denominador len(rows) cierran el patrón de resumen.",
+        feedback:
+          "Con 2 reject de 4 filas la tasa es `0.5` y C2 debe salir como `reject`. Si el denominador no es `len(rows)`, el dashboard del batch miente aunque la lista de rejects se vea bien.",
+        retrospective:
+          "Principio: mapa id→status + tasa con denominador del lote completo. Malentendido: dividir solo entre rejects o solo entre accepts. Transfer: este mini-pipeline es el puente directo al You Do del gate CP-N1-A. Self-check: ¿por qué el denominador no es `len(rejects)`?",
         starterCode: {
           language: 'python',
           title: "comp_resumen.py",
           code: `# CASO-LIM-004 · dict id→status
-# DEFECT: solo ids
-rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}]
+# DEFECT: solo ids; fixture incompleto
+rows = [
+    {"id": "C1", "status": "accept"},
+    {"id": "C2", "status": "reject"},
+    {"id": "C3", "status": "accept"},
+    {"id": "C4", "status": "reject"},
+]
 print([r["id"] for r in rows])
 print('ok', True)
 `,
@@ -1293,16 +1438,22 @@ print(by["C2"], rejects, tasa)`,
         id: "S04-T4-A-E1",
         subtopicId: "S04-T4-A",
         kind: "guided",
+        title: "Traza de acumulador (solo positivos)",
+        preamble:
+          "- **Contexto:** depurar un acumulador del resumen exige ver el estado *por fila*.\n- **Meta:** sumar solo `val > 0` e imprimir traza `i, val, s`.\n- **Éxito:** filas `0 2 2`, `1 -1 2`, `2 3 5` y `final 5`.\n- **Límites:** el negativo no mueve `s`; imprime la traza en cada paso, no solo el final.",
         instruction:
-          "E1 (guiado) — Concepto: traza de estado paso a paso. Fixture: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso, suma solo si `val > 0` e imprime `i, val, s`. Contrato: el negativo no mueve `s`; al final `s` debe ser 5. La traza te entrena a depurar contadores del resumen.",
-        hint: "if val > 0: s += val; luego print",
+          "1. El starter suma todos los valores (DEFECT: en i=1, s baja a 1).\n2. Envuelve la suma en `if val > 0`.\n3. Mantén `print(i, val, s)` y `final`.",
+        hint: "Suma solo si val > 0; la traza se imprime siempre para ver que el negativo no movió s.",
         hints: [
-          "if val > 0: s += val; luego print",
-          "Final s=5",
+          "Suma solo si val > 0; la traza se imprime siempre para ver que el negativo no movió s.",
+          "Final s=5 con filas 0 2 2 / 1 -1 2 / 2 3 5.",
         ],
         edgeCases: ["no sumar negativos"],
         tests: "traza + final 5",
-        feedback: "La traza confirma que -1 no movió el acumulador.",
+        feedback:
+          "En la fila `i=1` el valor es -1: si `s` bajó, sumaste sin filtro. La traza debe mostrar `1 -1 2` (s sin moverse) y `final 5`.",
+        retrospective:
+          "Principio: traza por fila confirma la regla de actualización. Malentendido: “arreglar a ciegas el final”. Transfer: el mismo hábito caza el doble conteo del siguiente ejercicio. ¿Qué `final` sale si la condición es `>= 0`?",
         starterCode: {
           language: 'python',
           title: "traza_acum.py",
@@ -1337,16 +1488,22 @@ final 5`,
         id: "S04-T4-A-E2",
         subtopicId: "S04-T4-A",
         kind: "independent",
+        title: "Corregir doble conteo por fila",
+        preamble:
+          "- **Contexto:** un resumen que cuenta el doble destruye tasas del gate (parecen 200%).\n- **Meta:** localizar el DEFECT de incremento duplicado y dejar un solo `n += 1` por fila.\n- **Éxito:** imprime `3`.\n- **Límites:** no hardcodees `print(3)`; no borres el for.",
         instruction:
-          "E2 (independiente) — Concepto: contador doble por fila (bug de resumen). El starter incrementa `n` dos veces por cada elemento de `filas = [\"a\", \"b\", \"c\"]`. Traza mentalmente, corrige el DEFECT e imprime `n` (debe ser 3, no 6). Contrato: un solo `n += 1` por fila; sin hardcodear el resultado.",
-        hint: "Busca n += 1 duplicado",
+          "1. Traza mental: 3 filas × 2 incrementos = 6 (DEFECT visible en el starter).\n2. Elimina el segundo `n += 1`.\n3. Imprime solo `n`.",
+        hint: "Busca un segundo n += 1 en el cuerpo del for.",
         hints: [
-          "Busca n += 1 duplicado",
-          "Deja un solo incremento.",
+          "Busca un segundo n += 1 en el cuerpo del for.",
+          "Deja un solo incremento por fila; esperado: 3.",
         ],
         edgeCases: ["doble incremento"],
         tests: "3",
-        feedback: "Traza mental: si n sube 2 por fila, el resumen miente el doble.",
+        feedback:
+          "Con 3 filas y dos `n += 1`, el resultado es 6. Borra **una** de las dos líneas de incremento; no hardcodees `print(3)`.",
+        retrospective:
+          "Principio: un incremento por evento real. Malentendido: “si el test pide 3, imprimir 3 basta”. Transfer: traza mental (filas × pasos) caza el doble conteo antes de tocar el gate. Self-check: ¿dónde se cuela un segundo `+=` al copiar un bloque?",
         starterCode: {
           language: 'python',
           title: "fix_doble_count.py",
@@ -1376,16 +1533,22 @@ print(n)`,
         id: "S04-T4-A-E3",
         subtopicId: "S04-T4-A",
         kind: "transfer",
+        title: "Traza del dict de contadores",
+        preamble:
+          "- **Contexto:** cuando los contadores viven en un dict, un typo de clave o un “pisado” deja el resumen incoherente.\n- **Meta:** incrementar con `get` e imprimir TRACE del estado completo por registro.\n- **Éxito:** tres líneas `TRACE i status {...}` crecientes y `FINAL {'accept': 2, 'reject': 1}`.\n- **Límites:** no asignes `counts[st] = 1` (pisa); no omitas TRACE intermedias.",
         instruction:
-          "E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).",
-        hint: "counts = dict; al final de cada iter print TRACE",
+          "1. El starter pisa el contador a 1 (DEFECT).\n2. Usa `counts[st] = counts.get(st, 0) + 1`.\n3. Cada iteración: `print(\"TRACE\", i, st, dict(counts))`.\n4. Al final: `print(\"FINAL\", counts)`.",
+        hint: "Incrementa con get(st, 0)+1; imprime TRACE en cada paso, no solo al final.",
         hints: [
-          "counts = dict; al final de cada iter print TRACE",
-          "Debe verse el crecimiento paso a paso.",
+          "Incrementa con get(st, 0)+1; imprime TRACE en cada paso, no solo al final.",
+          "Formato: TRACE i status {dict}; al final FINAL con el dict completo.",
         ],
         edgeCases: ["estado completo por paso"],
         tests: "3 TRACE + FINAL",
-        feedback: "Trazar el dict entero evita bugs de clave mal escrita.",
+        feedback:
+          "Si `FINAL` muestra 1 y 1 con tres filas, el `= 1` pisó en vez de acumular. Con `get(st, 0) + 1` y TRACE por paso debes ver accept crecer a 2.",
+        retrospective:
+          "Principio: el dict no cuenta solo — tú defines la actualización. Malentendido: `counts[st] = 1` “reinicia bien”. Transfer: TRACE del estado completo se lleva al logging del procesador real. Self-check: ¿qué imprime la segunda TRACE si olvidas el `get`?",
         starterCode: {
           language: 'python',
           title: "traza_dict.py",
@@ -1418,16 +1581,22 @@ FINAL {'accept': 2, 'reject': 1}`,
         id: "S04-T4-B-E1",
         subtopicId: "S04-T4-B",
         kind: "guided",
+        title: "Contar pasos O(n) vs O(n²)",
+        preamble:
+          "- **Contexto:** con n chico el cuadrático no “se siente”, pero el conteo de pasos sí lo delata.\n- **Meta:** derivar pasos de un for simple y de un doble for con `n=5`.\n- **Éxito:** imprime `5 25`.\n- **Límites:** no inventes los números; cuéntalos con incrementos reales en bucles.",
         instruction:
-          "E1 (guiado) — Concepto: sentir O(n) vs. O(n²) con números chicos. Para `n=5`, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números en una línea (esperado: `5 25`). Contrato: no inventes los números — derívalos contando iteraciones reales.",
-        hint: "linear n, quad n*n",
+          "1. El starter sube `lin` y `quad` en el mismo for (DEFECT: ambos 5).\n2. Deja el for lineal como está.\n3. Añade doble for anidado solo para `quad`.\n4. Imprime `lin, quad`.",
+        hint: "Un for cuenta n pasos; dos fors anidados cuentan n*n.",
         hints: [
-          "linear n, quad n*n",
-          "5 y 25",
+          "Un for cuenta n pasos; dos fors anidados cuentan n*n.",
+          "Con n=5: 5 y 25.",
         ],
         edgeCases: ["n vs. n²"],
         tests: "5 25",
-        feedback: "Sentir n² con números chicos prepara el ojo para lotes grandes.",
+        feedback:
+          "Si ambos números son 5, `quad` se incrementó en el for lineal. Necesitas un **segundo** par de fors anidados solo para contar pasos cuadráticos; con `n=5` debes ver `5 25`.",
+        retrospective:
+          "Principio: contar pasos delata n² antes de que el lote “se sienta” lento. Malentendido: doble for = más rigor de calidad. Transfer: el gate CP-N1-A pide demos rápidas — resumen O(n²) es olor a rediseño. Self-check: ¿cuántos pasos tendría un triple for anidado con n=5?",
         starterCode: {
           language: 'python',
           title: "count_steps.py",
@@ -1460,16 +1629,22 @@ print(lin, quad)`,
         id: "S04-T4-B-E2",
         subtopicId: "S04-T4-B",
         kind: "independent",
+        title: "Corregir off-by-one en range",
+        preamble:
+          "- **Contexto:** un IndexError al final del lote suele ser stop exclusivo mal usado, no “lista rota”.\n- **Meta:** recorrer todos los índices válidos con `range(len(data))`.\n- **Éxito:** `r0`, `r1`, `r2` (una por línea).\n- **Límites:** corrige el `range`, no parches con `if i < len` sobre el range roto; no uses `range(1, len+1)`.",
         instruction:
-          "E2 (independiente) — Concepto: off-by-one con `range`. Fixture: `data = [\"r0\", \"r1\", \"r2\"]`. El starter usa `for i in range(1, len(data)+1)` y provoca **IndexError** en el último índice. Arréglalo para recorrer todos los índices válidos e imprimir cada elemento (r0, r1, r2). Contrato: `range(len(data))` → 0..n-1; no suavices el error con `if i < len` en el starter roto — corrige el range.",
-        hint: "range(len(data)) → 0..n-1",
+          "1. El starter usa `range(1, len(data)+1)` (DEFECT: intenta `data[3]`).\n2. Cámbialo a `range(len(data))`.\n3. Imprime `data[i]` en cada paso.",
+        hint: "range(len(data)) produce 0..n-1; el stop es exclusivo.",
         hints: [
-          "range(len(data)) → 0..n-1",
-          "No uses range(1, len+1).",
+          "range(len(data)) produce 0..n-1; el stop es exclusivo.",
+          "No uses range(1, len+1): el último índice no existe.",
         ],
         edgeCases: ["IndexError off-by-one"],
         tests: "r0 r1 r2",
-        feedback: "stop exclusivo de range es la fuente #1 de IndexError en lotes.",
+        feedback:
+          "Si hay `IndexError` en el último paso, el `range` llegó a `len` (stop mal puesto). Con `range(len(data))` salen `r0` `r1` `r2` sin parche de `if i < len`.",
+        retrospective:
+          "Principio: stop exclusivo de `range` → índices 0..n−1. Malentendido: “empieza en 1 y suma 1 al len”. Transfer: si no necesitas el índice, `for x in data` elimina el off-by-one de raíz. Self-check: ¿qué imprime `list(range(len([\"a\",\"b\"])))`?",
         starterCode: {
           language: 'python',
           title: "fix_range_obo.py",
@@ -1496,16 +1671,22 @@ r2`,
         id: "S04-T4-B-E3",
         subtopicId: "S04-T4-B",
         kind: "transfer",
+        title: "Reescribe conteo n² a O(n)",
+        preamble:
+          "- **Contexto:** alguien “contó pares reject-reject” con doble for para una tasa que solo necesita rejects.\n- **Meta:** reescribir a conteo O(n) de rejects y tasa `n_reject/n`.\n- **Éxito:** `3 0.6` y exactamente `nota: la tasa solo necesita conteo O(n), no pares O(n2)`.\n- **Límites:** no dejes el doble for; no inventes otra métrica de pares.",
         instruction:
-          "E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en un print por qué O(n) basta para la tasa.",
-        hint: "No necesitas combinar pares para la tasa de error.",
+          "1. El starter anida fors y cuenta mal (DEFECT).\n2. Calcula `n` y `n_reject` en un pase (o `sum` simple).\n3. Imprime `n_reject` y `round(n_reject/n, 2)`.\n4. Imprime **exactamente**: `print(\"nota: la tasa solo necesita conteo O(n), no pares O(n2)\")`.",
+        hint: "La tasa de reject no necesita combinar pares: basta un conteo O(n).",
         hints: [
-          "No necesitas combinar pares para la tasa de error.",
-          "tasa = n_reject/n",
+          "La tasa de reject no necesita combinar pares: basta un conteo O(n).",
+          "Tras 3 0.6, imprime la nota con el texto exacto del éxito (O(n) vs pares O(n2)).",
         ],
         edgeCases: ["evitar n² innecesario"],
         tests: "3 0.6 + nota",
-        feedback: "Elegir el algoritmo correcto es parte del gate de calidad.",
+        feedback:
+          "Si ves un número enorme (p. ej. 15), el doble for sigue contando pares. Con 5 filas y 3 rejects, un pase da `3 0.6`; la línea `nota:` debe coincidir **letra por letra** con el contrato.",
+        retrospective:
+          "Principio: la tasa del batch es conteo O(n), no combinatoria de pares. Malentendido: “más bucles = más rigor de calidad”. Transfer: lleva esta decisión de algoritmo al You Do del gate CP-N1-A. Self-check: ¿qué métrica *sí* pediría un doble for legítimo?",
         starterCode: {
           language: 'python',
           title: "rewrite_on.py",
@@ -1629,6 +1810,8 @@ if __name__ == "__main__":
       { criterion: "Sin infinito / sin n² innecesario", weight: "10%" },
       { criterion: "Documentación en español del resumen", weight: "5%" },
     ],
+    retrospective:
+      "Antes de marcar listo: (1) ¿puedes defender en 30 segundos por qué `tasa_reject` usa `n_total` y no solo accepts, y por qué el vacío es `None`? (2) ¿qué invariante demuestras con `_run_tests` (raw intacto, n_total, lote vacío)? (3) Si mañana el lote trae 100_000 filas, ¿tu `process_batch` sigue siendo un solo pase O(n)? Escribe en el README una frase de impacto medible (antes/después del gate) sin PII real.",
   },
   selfCheck: {
     questions: [
