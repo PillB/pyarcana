@@ -38,7 +38,7 @@ interface PdfReportProps {
 }
 
 const SECTION_NAMES: Record<string, string> = {
-  setup: '1. Setup',
+  setup: '1. Entorno',
   basics: '2. Basics',
   "data-structures": '3. Data Struct',
   "functions-modules": '4. Iteración',

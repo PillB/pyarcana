@@ -13,7 +13,7 @@ export const section01: CourseSection = {
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:
-    'El 90 % de los problemas en equipos de data science no son de código: son de **entorno** (la máquina, el Python y los paquetes con los que corres el proyecto). Un analista que sabe crear un **entorno virtual**, usar **Git** y un editor como VS Code ahorra horas al equipo. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un notebook. Si te trabas ahí, no pasas la semana de prueba. Esta sección te enseña cada una de esas palabras antes de usarlas a fondo.',
+    'El 90 % de los problemas en equipos de data science no son de código: son de **entorno** (la máquina, el Python y los paquetes con los que corres el proyecto). Un analista que sabe crear un **entorno virtual** (una carpeta aislada con el Python y los paquetes del proyecto), usar **Git** (el sistema que conserva el historial de cambios) y trabajar en un editor como VS Code ahorra horas al equipo. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un notebook. Si te trabas ahí, no pasas la semana de prueba. Esta sección te enseña cada una de esas palabras antes de usarlas a fondo.',
   learningOutcomes: [
     {
       text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida',
@@ -257,7 +257,7 @@ git version 2.43.0
       heading: 'Mapa rápido Windows · macOS/Linux (día 1)',
       paragraphs: [
         'Antes de crear el `.venv`, fíjate en esta tabla mental de **comandos por sistema**. No son lenguajes distintos: es la misma idea (intérprete → entorno → pip atado) con rutas y nombres que cambian. Si copias el bloque de un SO en otro, el error típico es “no se reconoce el comando” o “no such file or directory” — no es que Python “esté mal”, es la ruta o el nombre del binario.',
-        '**Interprete:** Windows suele responder a `python` o `py`; macOS/Linux a `python3` (a veces también `python`). **Activar venv:** Unix → `source .venv/bin/activate`; PowerShell → `.venv\\Scripts\\Activate.ps1`; cmd → `.venv\\Scripts\\activate.bat`. **Código de salida:** bash/zsh → `echo $?`; PowerShell → `echo $LASTEXITCODE` (en PowerShell `$?` es booleano, no el entero del programa). **Dónde estoy:** `pwd` vs `Get-Location`. Guarda esta correspondencia: la usarás en cada demo de esta sección.',
+        '**Intérprete:** Windows suele responder a `python` o `py`; macOS/Linux a `python3` (a veces también `python`). **Activar venv:** Unix → `source .venv/bin/activate`; PowerShell → `.venv\\Scripts\\Activate.ps1`; cmd → `.venv\\Scripts\\activate.bat`. **Código de salida:** bash/zsh → `echo $?`; PowerShell → `echo $LASTEXITCODE` (en PowerShell `$?` es booleano, no el entero del programa). **Dónde estoy:** `pwd` vs `Get-Location`. Guarda esta correspondencia: la usarás en cada demo de esta sección.',
         'Si un comando del I Do falla, pregunta en este orden: (1) ¿estoy en el SO correcto para ese snippet? (2) ¿el intérprete responde con `--version`? (3) ¿activé el venv antes de `pip`? (4) ¿leí el código de salida? Ese hábito reduce la carga cognitiva cuando el material muestra un camino y tu laptop usa el otro.',
       ],
       callout: {
@@ -339,7 +339,7 @@ python -c "import requests; print(requests.__version__)"
       code: {
         language: 'bash',
         title: 'init, commit Conventional Commits, show',
-        code: `git init
+        code: `git init -b main
 echo "# python-ds-journey" > README.md
 git add README.md
 git commit -m "docs: agregar README inicial"
@@ -375,15 +375,18 @@ docs: agregar README inicial
         code: `git switch main
 git switch -c feat/hello-env
 # edita, add, commit…
-git push -u origin feat/hello-env
-# PR: UI de GitHub o: gh pr create
+git branch --show-current
+
+# Si \`git remote -v\` muestra origin, publica y abre el PR:
+# git push -u origin feat/hello-env
+# gh pr create   # o abre el PR en la UI de GitHub
 
 # Recuperación no destructiva (sin force-push a main):
 # git restore archivo.md
 # git stash push -m "wip" && git stash pop
 `,
-        output: `branch 'feat/hello-env' set up to track 'origin/feat/hello-env'
-# PR se abre en la UI de GitHub (o: gh pr create)`,
+        output: `feat/hello-env
+# El push/PR requiere un remoto origin configurado`,
       },
       callout: {
         type: 'danger',
@@ -582,7 +585,7 @@ python -c "import sys; print(sys.version.split()[0])"
         code: {
           language: 'bash',
           title: 'Terminal — git init / commit / show',
-          code: `git init
+          code: `git init -b main
 echo "# python-ds-journey" > README.md
 git add README.md
 git commit -m "docs: agregar README inicial"
@@ -614,12 +617,14 @@ docs: agregar README inicial
           code: `git switch main
 git switch -c feat/hello-env
 # edita scripts/hello_env.py, add, commit con feat: …
-git push -u origin feat/hello-env
-# Abre el PR en la UI de GitHub (o: gh pr create)
+git branch --show-current
+# Con origin configurado:
+# git push -u origin feat/hello-env
+# gh pr create   # o abre el PR en la UI de GitHub
 # Nunca: git push --force origin main
 `,
-          output: `branch 'feat/hello-env' set up to track 'origin/feat/hello-env'
-# PR abierto en la UI de GitHub`,
+          output: `feat/hello-env
+# El push/PR requiere un remoto origin configurado`,
         },
         why: 'La rama de feature + PR es el circuito de confianza del equipo: el diff se revisa antes de tocar `main`. `git push -u` solo aplica si ya hay remoto; el hábito de la rama vale igual en local. `restore` / `stash` recuperan trabajo sin reescribir historial compartido. `git push --force` a `main` está prohibido en este curso: puede borrar commits ajenos y no “arregla” un push rechazado.',
         retrospective:
@@ -1465,25 +1470,28 @@ El módulo de terceros no está en el site-packages del intérprete actual.
           language: 'bash',
           title: 'lab_commit.sh',
           code: `# CASO-LIM-001 · git init commit
-# TAREA: completa git add y el mensaje Conventional Commits
-# Éxito: git log -1 muestra docs: o feat: …
+# TAREA: completa la rama inicial, git add y el mensaje Conventional Commits
+# Éxito: la rama es main y git log -1 muestra docs: o feat: …
 mkdir -p lab_git_t3a && cd lab_git_t3a
-git init
+git init -b ____
 echo "# lab" > README.md
 git ____ README.md
 git commit -m "____: agregar README de practica"
+git branch --show-current
 git log -1 --oneline`,
         },
         solutionCode: {
           language: 'bash',
           title: 'lab_commit.sh',
           code: `mkdir -p lab_git_t3a && cd lab_git_t3a
-git init
+git init -b main
 echo "# lab" > README.md
 git add README.md
 git commit -m "docs: agregar README de practica"
+git branch --show-current
 git log -1 --oneline`,
-          output: `abc1234 docs: agregar README de practica`,
+          output: `main
+abc1234 docs: agregar README de practica`,
         },
       },
       {
@@ -1892,9 +1900,11 @@ import sys
 import os
 from datetime import datetime
 
+
 def main():
     print("hola")
     print(datetime.now().date())
+
 
 if __name__ == "__main__":
     main()
@@ -1905,9 +1915,11 @@ if __name__ == "__main__":
           title: 'hello_lint.py',
           code: `from datetime import datetime
 
+
 def main():
     print("hola")
     print(datetime.now().date())
+
 
 if __name__ == "__main__":
     main()`,
@@ -2068,14 +2080,14 @@ __pycache__/
         feedback:
           'El example es el contrato de configuración. El malentendido: poner el secreto en el README “para que funcione”. El secreto vive solo en la máquina o en un gestor de secretos del equipo.',
         retrospective:
-          'Example versionado + `.env` local es el patrón de inducción. El malentendido: poner el secreto en el README “para que funcione”. Auto-chequeo: ¿qué archivo se commitea y cuál no? Transfer: rúbrica Responsible use del You Do (20%).',
+          'Archivo de ejemplo versionado + `.env` local es el patrón de inducción. El malentendido: poner el secreto en el README “para que funcione”. Auto-chequeo: ¿qué archivo se versiona y cuál no? Transfer: criterio de uso responsable del You Do (20 %).',
         starterCode: {
           language: 'dotenv',
           title: '.env.example',
           code: `# CASO-LIM-001 · .env.example sintético
 # TAREA: rellena placeholders de ejemplo (valores ficticios, sin secretos reales)
-# Éxito: ≥3 KEY= con ejemplos no sensibles; .env real no se commitea
-# Copia a .env y completa valores locales (nunca commitees .env)
+# Éxito: ≥3 KEY= con ejemplos no sensibles; .env real no se versiona
+# Copia a .env y completa valores locales (nunca versiones .env)
 API_URL=____
 DB_HOST=____
 LOG_LEVEL=____
@@ -2084,7 +2096,7 @@ LOG_LEVEL=____
         solutionCode: {
           language: 'dotenv',
           title: '.env.example',
-          code: `# Copia a .env y completa valores locales (nunca commitees .env)
+          code: `# Copia a .env y completa valores locales (nunca versiones .env)
 API_URL=https://example.com/api
 DB_HOST=localhost
 LOG_LEVEL=INFO
@@ -2265,8 +2277,8 @@ if __name__ == "__main__":
       },
       {
         question: '¿Por qué está prohibido hacer `git push --force` a `main`?',
-        options: ['Porque borra tu rama local', 'Porque puede borrar commits ajenos del historial compartido', 'Porque es lento', 'Porque GitHub no lo permite'],
-        correctIndex: 1,
+        options: ['Porque borra tu rama local', 'Porque es lento', 'Porque GitHub no lo permite', 'Porque puede borrar commits ajenos del historial compartido'],
+        correctIndex: 3,
         explanation:
           'Force-push a `main` reescribe el historial compartido y puede borrar commits de otras personas. La recuperación segura es restore/stash/PR, no force-push. Reescribir historial solo es aceptable en ramas personales no compartidas y con permiso del equipo.',
       },

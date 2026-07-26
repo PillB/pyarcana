@@ -27,12 +27,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En una laptop nueva ejecutas `python --version` y obtienes un error de comando no encontrado. ¿Cuál es la mejor primera acción?',
       options: [
-        'Instalar pandas globalmente para forzar que Python aparezca',
         'Verificar si el intérprete se llama `python3` o está fuera del PATH, e instalar Python 3.12+ si falta',
+        'Instalar pandas globalmente para forzar que Python aparezca',
         'Crear un archivo .py y abrirlo en el navegador',
         'Ejecutar `git init` para registrar el runtime',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'El síntoma es de intérprete/PATH, no de paquetes ni Git. Primero se confirma que Python 3 está instalado y accesible (`python3` o el instalador/PATH).',
     },
@@ -56,11 +56,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un colega reporta `Python 3.9.0` y tú `Python 3.12.2` con el mismo comando. ¿Qué implica para el proyecto?',
       options: [
         'Que Git está mal configurado en una de las máquinas',
-        'Que cada uno está usando un intérprete distinto; conviene alinear la versión mínima del equipo (p. ej. 3.12+)',
         'Que el REPL está dañado y hay que reinstalar el sistema operativo',
+        'Que cada uno está usando un intérprete distinto; conviene alinear la versión mínima del equipo (p. ej. 3.12+)',
         'Que `pip` ya no es necesario en 3.12',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'La versión del intérprete define sintaxis y comportamiento. Discrepancias se resuelven eligiendo y verificando el mismo runtime de referencia del equipo.',
     },
@@ -85,11 +85,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El comando `python mi_script.py` falla con "No such file or directory", pero el archivo existe en otra carpeta. ¿Cuál es el diagnóstico más probable?',
       options: [
         'Python no soporta archivos .py en macOS',
-        'El cwd (directorio de trabajo) no es el de ese archivo; PATH no busca scripts por nombre de proyecto',
         'Hay que ignorar el archivo en .gitignore',
+        'El cwd (directorio de trabajo) no es el de ese archivo; PATH no busca scripts por nombre de proyecto',
         'Falta un Pull Request antes de ejecutar scripts',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Rutas relativas se resuelven desde el cwd. PATH localiza ejecutables (python), no tus scripts de proyecto. Hay que `cd` al directorio correcto o usar la ruta completa.',
     },
@@ -99,11 +99,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En PowerShell, un comando termina y `$LASTEXITCODE` es `0`. ¿Qué conclusión es correcta?',
       options: [
         'El comando falló y hay que reinstalar Python',
-        'El comando terminó exitosamente según el código de salida',
         'El PATH está vacío',
         'Solo aplica a Git, no a Python',
+        'El comando terminó exitosamente según el código de salida',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'En PowerShell, `$LASTEXITCODE` (análogo a `$?` en bash) con valor 0 indica éxito del último proceso.',
     },
@@ -113,11 +113,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Para qué sirve un entorno virtual (`.venv`) en un proyecto Python?',
       options: [
         'Para acelerar la ejecución del código Python',
-        'Para aislar las dependencias por proyecto y evitar conflictos de versiones entre proyectos',
         'Para conectarse a internet más rápido al instalar paquetes',
+        'Para aislar las dependencias por proyecto y evitar conflictos de versiones entre proyectos',
         'Para compilar Python a código de máquina más eficiente',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         '`.venv` guarda un intérprete y paquetes locales del proyecto, evitando que un upgrade en un repo rompa otro.',
     },
@@ -127,25 +127,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es la práctica recomendada al crear el entorno virtual del proyecto de curso?',
       options: [
         'Instalar todos los paquetes en el Python global del sistema',
-        'Crear `.venv` en la raíz del repo (`python -m venv .venv`), activarlo y trabajar solo ahí',
         'Crear un venv distinto por cada archivo .py',
         'Usar el mismo venv compartido en OneDrive para todo el equipo sin requirements',
+        'Crear `.venv` en la raíz del repo (`python -m venv .venv`), activarlo y trabajar solo ahí',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Un proyecto = un entorno. El nombre `.venv` es el convención del curso; se regenera y no se versiona el contenido de la carpeta.',
+        'Un proyecto = un entorno. El nombre `.venv` es la convención del curso; se regenera y no se versiona el contenido de la carpeta.',
     },
     {
       concept: 'venv-purpose',
       question:
         'Tu colega tiene pandas 2.x y a ti te falla el mismo script con pandas 1.x instalado globalmente. ¿Qué explica mejor el problema y la solución?',
       options: [
-        'La laptop es más lenta; hay que comprar más RAM',
         'Sin `.venv` cada máquina/global puede tener versiones distintas; hay que usar un venv por proyecto y alinear dependencias',
+        'La laptop es más lenta; hay que comprar más RAM',
         'Python no es multiplataforma',
         'Git reescribe las versiones de pandas en cada clone',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'El clásico "a mí me funciona" suele ser desalineación de entornos. `.venv` + requirements pinneados aíslan y reproducen dependencias.',
     },
@@ -156,11 +156,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con el `.venv` activado, ¿qué comando es la forma más confiable de instalar las dependencias listadas por un colega?',
       options: [
         'pip install pandas numpy sin versiones',
-        'python -m pip install -r requirements.txt',
         'python -m venv .venv otra vez',
         'git clone del repositorio sin instalar nada',
+        'python -m pip install -r requirements.txt',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         '`python -m pip` usa el pip del mismo intérprete activo. `-r requirements.txt` instala las versiones documentadas del equipo.',
     },
@@ -168,12 +168,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'pip-install',
       question: '¿Para qué sirve `python -m pip freeze > requirements.txt`?',
       options: [
-        'Para congelar el intérprete y que no se actualice nunca',
         'Para exportar un snapshot de paquetes y versiones exactas instaladas en el entorno actual',
+        'Para congelar el intérprete y que no se actualice nunca',
         'Para borrar paquetes viejos del sistema',
-        'Para actualizar automáticamente a la última major de cada librería',
+        'Para actualizar automáticamente a la última versión mayor de cada librería',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'freeze lista `paquete==versión` del entorno activo. Guardarlo permite que otro clone reinstale con install -r.',
     },
@@ -196,12 +196,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'commit-message',
       question: '¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?',
       options: [
+        'feat: agregar cálculo de churn por segmento',
         'cambios',
         'wip',
-        'feat: agregar cálculo de churn por segmento',
         'arreglé el bug',
       ],
-      correctIndex: 2,
+      correctIndex: 0,
       explanation:
         'Conventional Commits usa prefijo (`feat:`, `fix:`, `docs:`) y descripción imperativa clara del cambio.',
     },
@@ -225,11 +225,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Corregiste un fallo que devolvía NaN en el total de una factura. ¿Qué mensaje es el más adecuado?',
       options: [
         'feat: nueva app de facturación completa',
-        'fix: corregir total NaN cuando el ítem viene vacío',
         'wip',
+        'fix: corregir total NaN cuando el ítem viene vacío',
         'update stuff',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         '`fix:` es para correcciones. El mensaje debe decir qué se arregló; `feat:` sería una funcionalidad nueva y `wip` no aporta historial útil.',
     },
@@ -239,8 +239,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Vas a implementar una feature nueva en un repo compartido. ¿Cuál es el flujo más seguro?',
       options: [
-        'Commitear directo en `main` y hacer force-push',
-        'Crear una rama (`git switch -c feat/...`), commitear ahí, pushear y abrir un Pull Request',
+        'Hacer commit directo en `main` y luego un force-push',
+        'Crear una rama (`git switch -c feat/...`), hacer commit ahí, publicarla y abrir un Pull Request',
         'Borrar el remoto y trabajar solo local para siempre',
         'Editar archivos en GitHub sin rama ni revisión',
       ],
@@ -253,11 +253,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Para qué sirve un Pull Request (PR) en GitHub en este curso?',
       options: [
         'Para instalar paquetes de pip más rápido',
-        'Para proponer e integrar cambios de una rama con descripción y revisión, sin pisar main a ciegas',
         'Para ocultar el historial de commits del equipo',
+        'Para proponer e integrar cambios de una rama con descripción y revisión, sin pisar main a ciegas',
         'Para reemplazar requirements.txt',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'El PR es el mecanismo de integración y revisión: resume cambios, permite comentarios y merge controlado.',
     },
@@ -267,11 +267,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Modificaste un archivo, aún no has hecho commit, y quieres descartar solo ese cambio de forma no destructiva para el historial remoto. ¿Qué opción es preferible como hábito seguro?',
       options: [
         'git push --force a main',
-        'git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main',
         'Borrar la carpeta .git y clonar de nuevo siempre',
         'Cambiar el mensaje del último commit ajeno con rebase público',
+        'git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         '`git restore` / `stash` recuperan el working tree sin reescribir historial compartido. Force-push a main está prohibido como práctica segura.',
     },
@@ -281,11 +281,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuál describe mejor el rol de Ruff en un proyecto Python de este curso?',
       options: [
         'Es un gestor de entornos virtuales que reemplaza a venv',
-        'Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples vía reglas configurables',
         'Es el cliente oficial de GitHub para abrir PRs',
+        'Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples mediante reglas configurables',
         'Es un REPL alternativo a python',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Ruff analiza código (`ruff check`) y puede formatear; no reemplaza venv ni Git. Se configura típicamente en pyproject.toml.',
     },
@@ -295,11 +295,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Dónde se declara normalmente la configuración mínima de Ruff en el repositorio?',
       options: [
         'En un archivo binario dentro de .venv',
-        'En `pyproject.toml` bajo la sección `[tool.ruff]` (p. ej. line-length y select de reglas)',
         'Solo en la configuración global del sistema operativo',
         'En `.env` junto a las API keys',
+        'En `pyproject.toml` bajo la sección `[tool.ruff]` (p. ej. line-length y select de reglas)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'La config versionable del linter vive en el repo (`pyproject.toml` → `[tool.ruff]`), no en secretos ni en el venv.',
     },
@@ -308,12 +308,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Ejecutas `ruff check` y reporta F401 por un `import os` sin usar. ¿Qué implica?',
       options: [
-        'Que hay que desactivar Git',
         'Que Ruff detectó un import no utilizado; conviene eliminarlo o usarlo, no ignorar ciegamente todas las reglas',
+        'Que hay que desactivar Git',
         'Que Python no está instalado',
         'Que el archivo debe listarse en .gitignore',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'F401 es import unused: señal de limpieza/calidad. El flujo es corregir el hallazgo (o un noqa justificado), no apagar Ruff por completo.',
     },
@@ -324,10 +324,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'requirements.txt',
         'README.md',
-        '.venv/',
         'src/main.py',
+        '.venv/',
       ],
-      correctIndex: 2,
+      correctIndex: 3,
       explanation:
         '`.venv/` es regenerable y pesado; no se versiona. El código y requirements/README sí van al repo.',
     },
@@ -336,12 +336,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Sobre secretos y plantillas de entorno, ¿cuál es la práctica correcta?',
       options: [
-        'Subir `.env` con API keys reales y no crear `.env.example`',
         'Ignorar `.env` (secretos locales) y versionar `.env.example` solo con claves/placeholders sin secretos',
+        'Subir `.env` con API keys reales y no crear `.env.example`',
         'Poner las contraseñas en el README para el equipo',
         'Commitear `.env` pero en una rama feature',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         '`.env` tiene secretos y no se sube. `.env.example` documenta las variables necesarias con valores vacíos o sintéticos.',
     },
@@ -350,14 +350,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un compañero casi sube un archivo con `API_KEY=sk-...` real. ¿Qué combinación protege mejor el repo?',
       options: [
-        'Incluir `.env` en `.gitignore`, usar `.env.example` sin secretos y nunca pegar keys en commits ni PRs',
         'Confiar en que GitHub borra secretos automáticamente al hacer push',
-        'Guardar la key en un comentario dentro de un .py trackeado',
+        'Incluir `.env` en `.gitignore`, usar `.env.example` sin secretos y nunca pegar keys en commits ni PRs',
+        'Guardar la clave en un comentario dentro de un .py versionado',
         'Nombrar el archivo `secrets.txt` y forzarlo con `git add -f`',
       ],
-      correctIndex: 0,
+      correctIndex: 1,
       explanation:
-        'Defensa en profundidad: ignore de `.env`, plantilla pública sin secretos, y disciplina de no commitear credenciales en ningún path.',
+        'Defensa en profundidad: exclusión de `.env`, plantilla pública sin secretos y disciplina de no versionar credenciales en ninguna ruta.',
     },
   ],
   basics: [

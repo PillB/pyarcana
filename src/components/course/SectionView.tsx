@@ -953,19 +953,23 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
   const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
     'setup': {
-      title: 'Tu primer programa en Python',
-      code: `# Tu primer programa en Python
-# Escribe tu nombre y ejecuta con Run
-nombre = "Estudiante"
-print(f"Hola {nombre}, bienvenido a PyArcana!")
+      title: 'Practica el intérprete y el entrypoint',
+      code: `# Primer script reproducible (usa un nombre sintético)
+import sys
 
-# Calcula tu edad en meses
-edad_anos = 25
-edad_meses = edad_anos * 12
-print(f"Tu edad en meses: {edad_meses}")`,
+nombre = "Estudiante"
+
+def main():
+    print(f"Hola {nombre}, bienvenido a PyArcana!")
+    print(f"Python mayor: {sys.version_info.major}")
+    print("Entrypoint ejecutado")
+
+if __name__ == "__main__":
+    main()`,
       expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
-Tu edad en meses: 300`,
-      hint: 'Cambia el valor de nombre y edad_anos por tus datos',
+Python mayor: 3
+Entrypoint ejecutado`,
+      hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
     },
     'basics': {
       title: 'Practica variables y tipos',
