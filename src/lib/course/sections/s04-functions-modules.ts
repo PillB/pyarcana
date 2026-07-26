@@ -1125,7 +1125,7 @@ n_ok 2`,
           language: 'python',
           title: "while_true_guard.py",
           code: `# CASO-LIM-004 · while True + END
-# DEFECT: no rompe en END
+# BUG intencional: no rompe en END
 buf = ["a", "b", "END"]
 i = 0
 out = []
@@ -1233,7 +1233,7 @@ print(n_accept, n_reject, n_total)`,
           title: "tasa_segura.py",
           code: `# CASO-LIM-004 · tasa_reject
 def tasa_reject(sts):
-    # DEFECT: división por cero no manejada; cuenta accept como reject
+    # BUG intencional: división por cero no manejada; cuenta accept como reject
     n_total = len(sts)
     n_reject = sum(1 for s in sts if s == "accept")
     return n_reject / n_total
@@ -1649,7 +1649,7 @@ print(lin, quad)`,
           language: 'python',
           title: "fix_range_obo.py",
           code: `# CASO-LIM-004 · off-by-one
-# DEFECT: range(1, len+1) provoca IndexError en el último índice
+# BUG intencional: range(1, len+1) provoca IndexError en el último índice
 data = ["r0", "r1", "r2"]
 for i in range(1, len(data) + 1):
     print(data[i])

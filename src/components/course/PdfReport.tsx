@@ -41,7 +41,7 @@ const SECTION_NAMES: Record<string, string> = {
   setup: '1. Setup',
   basics: '2. Basics',
   "data-structures": '3. Data Struct',
-  "functions-modules": '4. Functions',
+  "functions-modules": '4. Iteración',
   oop: '5. OOP',
   numpy: '6. NumPy',
   "data-acquisition": '7. Data Acq',

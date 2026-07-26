@@ -996,12 +996,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un lote de intake sintético `filas = [{...}, {...}, {...}]`, ¿cuál es el recorrido idiomático y más seguro para validar cada registro?',
       options: [
-        'for i in range(len(filas)+1): validate(filas[i])',
         'for reg in filas: validate(reg)',
+        'for i in range(len(filas)+1): validate(filas[i])',
         'while True: validate(filas[0]) sin avanzar índice',
         'for i in range(1, len(filas)): solo si i es par',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'for reg in filas recorre cada elemento una vez sin inventar índices. range(len+1) provoca IndexError (off-by-one).',
     },
@@ -1025,11 +1025,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo preferirías `for i in range(len(filas))` sobre `for reg in filas` en el script de calidad?',
       options: [
         'Siempre; el índice es obligatorio en Python',
-        'Solo cuando necesitas el índice (p. ej. reportar “fila i”) y no basta enumerate',
         'Nunca uses range con listas',
+        'Solo cuando necesitas el índice (p. ej. reportar “fila i”) y no basta enumerate',
         'Cuando quieras saltarte el último elemento por defecto',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'El índice manual solo se justifica si lo usas. En la mayoría de lotes, for reg in filas (o enumerate) reduce off-by-one.',
     },
@@ -1040,11 +1040,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para reportar “fila 1, fila 2…” al humano en un lote, ¿qué llamada es la más clara?',
       options: [
         'for i in filas: print(i)',
-        'for i, reg in enumerate(filas, start=1): print(f"fila {i}", reg)',
         'for i, reg in enumerate(filas, start=0): print(f"fila {i+0}") sin documentar',
         'zip(filas, filas) para numerar',
+        'for i, reg in enumerate(filas, start=1): print(f"fila {i}", reg)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'enumerate(..., start=1) da índice humano sin armar el contador a mano. start=0 es para índices de programación.',
     },
@@ -1053,12 +1053,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si `ids` tiene 3 elementos y `regiones` 2, ¿qué hace `list(zip(ids, regiones))` y por qué es un riesgo de calidad?',
       options: [
-        'Lanza ValueError siempre',
         'Empareja solo 2 pares y el tercer id se pierde en silencio',
+        'Lanza ValueError siempre',
         'Rellena con None automáticamente',
         'Invierte el orden de ids',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'zip se detiene en la secuencia más corta. Desalineación silenciosa infla/deflacta tasas del dashboard de intake.',
     },
@@ -1083,11 +1083,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo es más natural un `while` que un `for` en el script de lotes?',
       options: [
         'Cuando ya conoces exactamente el número de filas en una lista fija',
-        'Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)',
         'Siempre; for está deprecado',
+        'Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)',
         'Solo para sumar enteros',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'while brilla con condición de terminación dinámica. Si la secuencia ya está materializada, for suele ser más claro.',
     },
@@ -1097,25 +1097,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En `lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]`, si tratas `""` como centinela de fin de lote y haces break, ¿qué queda sin procesar?',
       options: [
         'Nada; el centinela no corta el lote',
-        'C003|Piura (y lo posterior al centinela)',
         'Solo C001',
         'Todo el archivo se borra',
+        'C003|Piura (y lo posterior al centinela)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'El centinela marca fin: lo que sigue no se lee en ese lote. Documenta si el vació es fin o “fila vacía a saltar”.',
+        'El centinela marca el fin: lo que sigue no se lee en ese lote. Documenta si el vacío es fin o una fila vacía que debes saltar.',
     },
     {
       concept: 'while-sentinels',
       question:
-        'Antes de escribir un while de intake, ¿qué debes poder responder para evitar un loop infinito?',
+        'Antes de escribir un while de intake, ¿qué debes poder responder para evitar un bucle infinito?',
       options: [
-        'Solo el color del prompt',
         'Qué variable de control cambia cada vuelta y cuándo la condición se vuelve falsa',
+        'Solo el color del prompt',
         'Si range es más lento',
         'Si el centinela es un int obligatorio',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin actualización de estado y condición de salida clara, el while no termina. Añade MAX_ITERS en prototipos.',
     },
@@ -1137,16 +1137,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'break-continue-guards',
       question:
-        '¿Cuál es una guardrail razonable contra loops infinitos en un while de prototipo de intake?',
+        '¿Cuál es una salvaguarda razonable contra bucles infinitos en un while de prototipo de intake?',
       options: [
         'No poner ninguna condición',
-        'Máximo de iteraciones (MAX) o centinela/break garantizado y testeado',
-        'Usar solo recursion infinita',
+        'Usar solo recursión infinita',
+        'Máximo de iteraciones (MAX) o centinela/break garantizado y probado',
         'while True sin break nunca falla en producción',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
-        'MAX_ITERS, centinela o excepción de escape evitan saturar CPU. while True solo es legítimo con salida obvia.',
+        'Una salvaguarda MAX_ITERS, un centinela o una excepción de escape evitan saturar la CPU. while True solo es legítimo con una salida obvia.',
     },
     {
       concept: 'break-continue-guards',
@@ -1154,11 +1154,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Procesas líneas; `END` debe cerrar el lote y `SKIP` ignorarse. ¿Qué combinación es correcta?',
       options: [
         'break en SKIP y continue en END',
-        'continue en SKIP (y vacíos); break en END',
         'return en cada línea vacía sin bucle',
         'zip(END, SKIP) para filtrar',
+        'continue en SKIP (y vacíos); break en END',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'continue salta basura; break corta en el centinela de fin. Invertirlos procesa de más o de menos.',
     },
@@ -1168,12 +1168,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En el gate CP-N1-A, ¿cómo defines la tasa de error de un lote con n_error rechazos y n_total registros intentados?',
       options: [
-        'n_error / n_accept (solo aceptados en el denominador)',
         'n_error / n_total si n_total > 0; si no, None o N/A (no dividir por cero)',
+        'n_error / n_accept (solo aceptados en el denominador)',
         'n_total / n_error siempre',
         'Siempre 0 porque el dashboard redondea',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Denominador = procesados/intentados. Usar solo aceptados infla la tasa y miente al dashboard de calidad.',
     },
@@ -1197,11 +1197,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Quieres el índice del primer `reject` en una lista de statuses. ¿Qué patrón O(n) es idiomático?',
       options: [
         'Dos bucles anidados comparando todos con todos',
-        'Un for con enumerate; guardar el primer índice y opcionalmente break',
         'Ordenar la lista y tomar el medio',
+        'Un for con enumerate; guardar el primer índice y opcionalmente break',
         'Usar range(len+1) y silenciar IndexError',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Un solo pase con flag/índice basta. Anidar bucles innecesarios complica y puede volverse cuadrático.',
     },
@@ -1212,11 +1212,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Dado `results` con dicts `{id, status}`, ¿cómo obtienes los ids en reject con una list comprehension legible?',
       options: [
         '[r for r in results] sin filtrar',
-        '[r["id"] for r in results if r["status"] == "reject"]',
         '{r["id"] for r in results if False}',
         'results.filter(status=reject) nativo sin librerías',
+        '[r["id"] for r in results if r["status"] == "reject"]',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'La forma [expr for x in xs if cond] filtra y proyecta. No hay .filter de listas en la stdlib como en JS.',
     },
@@ -1225,12 +1225,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Cuándo debes preferir un `for` explícito sobre una comprehension en el resumen de intake?',
       options: [
-        'Nunca; comprehension siempre gana',
         'Cuando hay multi-rama, try/except por fila, varios contadores o side effects',
+        'Nunca; comprehension siempre gana',
         'Solo si la lista está vacía',
         'Cuando el resultado es un dict',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Comprehensions para transformaciones simples. Lógica de validación multi-rama se lee mejor con for.',
     },
@@ -1255,11 +1255,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Al depurar un contador que “no cuadra”, ¿qué es trazar estado en el sentido del curso?',
       options: [
         'Borrar todos los prints y adivinar',
-        'Tabla iteración | inputs | variables | decisión/salida con valores concretos',
         'Solo mirar el tipado estático',
+        'Tabla iteración | inputs | variables | decisión/salida con valores concretos',
         'Reescribir en while True sin condición',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'La traza hace visible la actualización del estado. Si la tabla no cuadra con el print, el bug está en el cuerpo del bucle.',
     },
@@ -1269,11 +1269,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En la traza de montos `[10, 0, -5, 20]` sumando solo positivos, tras i=2 (m=-5), ¿cuál es total y n_pos esperados?',
       options: [
         'total=5, n_pos=2',
-        'total=10, n_pos=1 (el -5 no suma; 0 tampoco)',
         'total=25, n_pos=3',
         'total=0, n_pos=0',
+        'total=10, n_pos=1 (el -5 no suma; 0 tampoco)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Solo 10 entró al acumulador antes de -5. 0 y -5 no incrementan n_pos ni total. Luego 20 → total 30, n_pos 2.',
     },
@@ -1282,12 +1282,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Por qué el curso pide traza mínima antes de culpar a “Python raro” en un bucle de tasas?',
       options: [
-        'Porque print está prohibido',
         'Porque casi siempre el error está en la actualización de contadores/índices, no en el intérprete',
+        'Porque print está prohibido',
         'Porque for no actualiza variables',
         'Porque range es aleatorio',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Traza con datos sintéticos localiza off-by-one y denominadores mal puestos sin misterio de runtime.',
     },
@@ -1312,11 +1312,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con `xs = ["a","b","c"]`, ¿qué ocurre al evaluar `xs[len(xs)]`?',
       options: [
         'Devuelve "c"',
-        'IndexError: el último índice válido es len(xs)-1',
         'Devuelve None en silencio',
+        'IndexError: el último índice válido es len(xs)-1',
         'Recorta la lista a vacía',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Índices 0..n-1. Acceder a n es el off-by-one clásico que rompe demos del gate.',
     },
@@ -1326,13 +1326,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para contar rejects en un lote de resultados, ¿qué diseño alinea con el gate CP-N1-A?',
       options: [
         'Doble bucle que re-escanea todo el lote por cada fila',
-        'Un solo pase O(n) con contadores; tasa = rejects/procesados',
         'Comprehension de tres niveles anidados por estética',
         'Recalcular len(results) dentro de while True',
+        'Un solo pase O(n) con contadores; tasa = rejects/procesados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Un pase lineal con denominador correcto es demos rápidas y métricas honestas. Evita n² cosmético.',
+        'Un pase lineal con denominador correcto produce demostraciones rápidas y métricas honestas. Evita un O(n²) cosmético.',
     },
   ],
   // S05 V3 — Funciones, contratos y descomposición (platform id: oop)

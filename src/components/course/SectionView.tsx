@@ -1018,32 +1018,30 @@ Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
       hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
     },
     'functions-modules': {
-      title: 'Practica funciones y decorators',
-      code: `# Practica funciones y decorators
-import functools
-import time
+      title: 'Practica un resumen por lotes',
+      code: `# Resume un lote sintético en un solo pase O(n)
+statuses = ["accept", "reject", "review", "accept", "reject"]
+counts = {"accept": 0, "reject": 0, "review": 0}
 
-def timing(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        inicio = time.time()
-        result = func(*args, **kwargs)
-        elapsed = (time.time() - inicio) * 1000
-        print(f"⏱️  {func.__name__} tardó {elapsed:.2f}ms")
-        return result
-    return wrapper
+for status in statuses:
+    counts[status] += 1
 
-@timing
-def fibonacci(n):
-    """Calcula el n-ésimo número de Fibonacci."""
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
+n_total = len(statuses)
+tasa_reject = counts["reject"] / n_total if n_total else None
 
-# Probar
-resultado = fibonacci(10)
-print(f"fibonacci(10) = {resultado}")`,
-      hint: 'Intenta con fibonacci(15) o fibonacci(20) para ver cómo crece el tiempo',
+print("conteos", counts)
+print("n_total", n_total)
+print("tasa_reject", tasa_reject)
+
+# Caso borde del gate CP-N1-A: lote vacío
+empty = []
+empty_rate = 0 / len(empty) if empty else None
+print("tasa_lote_vacio", empty_rate)`,
+      expectedOutput: `conteos {'accept': 2, 'reject': 2, 'review': 1}
+n_total 5
+tasa_reject 0.4
+tasa_lote_vacio None`,
+      hint: 'Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.',
     },
     'oop': {
       title: 'Practica clases y herencia',
