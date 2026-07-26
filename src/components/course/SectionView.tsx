@@ -1167,31 +1167,72 @@ manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha
       hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },
     'visualization': {
-      title: 'Practica matplotlib',
-      code: `# Practica matplotlib (se carga automaticamente)
-import matplotlib.pyplot as plt
-import numpy as np
+      title: 'Practica un lote observable y sin PII',
+      code: `# Excepciones, cuarentena y logging seguro — solo datos sintéticos
+import io
+import logging
 
-# Datos
-meses = ["Ene", "Feb", "Mar", "Abr", "May"]
-ventas_2024 = [120, 145, 138, 165, 178]
-ventas_2025 = [135, 158, 162, 180, 195]
+class ConfigError(Exception):
+    pass
 
-# Crear grafico
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(meses, ventas_2024, marker='o', label='2024')
-ax.plot(meses, ventas_2025, marker='s', label='2025')
-ax.set_title('Ventas mensuales')
-ax.set_xlabel('Mes')
-ax.set_ylabel('Ventas')
-ax.legend()
-ax.grid(True, alpha=0.3)
+def mask_email(email):
+    local, separator, domain = email.partition("@")
+    if not separator or not local or not domain:
+        return "***"
+    return f"{local[0]}***@{domain}"
 
-plt.tight_layout()
-plt.savefig('plot.png', dpi=100)
-print("Grafico creado y guardado como plot.png")
-print(f"Crecimiento May: {((ventas_2025[-1] - ventas_2024[-1]) / ventas_2024[-1] * 100):.1f}%")`,
-      hint: 'Cambia los datos y vuelve a ejecutar para ver cómo cambia el gráfico',
+def process_batch(records, required_fields, correlation_id, log):
+    if not required_fields:
+        raise ConfigError("required_fields vacío")
+
+    ok = []
+    quarantined = []
+    for record in records:
+        missing = [field for field in required_fields if not record.get(field)]
+        if missing:
+            reason = "missing:" + ",".join(missing)
+            log.warning(
+                "correlation_id=%s record_id=%s event=quarantine reason=%s email=%s",
+                correlation_id,
+                record.get("id", "sin-id"),
+                reason,
+                mask_email(record.get("email", "")),
+            )
+            quarantined.append({"id": record.get("id"), "reason": reason})
+        else:
+            ok.append(record)
+
+    assert len(records) == len(ok) + len(quarantined)
+    return {"in": len(records), "ok": ok, "quarantined": quarantined}
+
+buffer = io.StringIO()
+logger = logging.getLogger("s09.playground")
+logger.handlers.clear()
+logger.setLevel(logging.WARNING)
+handler = logging.StreamHandler(buffer)
+handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+logger.addHandler(handler)
+logger.propagate = False
+
+rows = [
+    {"id": "C001", "email": "ana@ejemplo.pe"},
+    {"id": "C002", "email": ""},
+]
+result = process_batch(rows, ["id", "email"], "corr-demo", logger)
+print(buffer.getvalue().strip())
+print(
+    f"in={result['in']} ok={len(result['ok'])} "
+    f"quarantined={len(result['quarantined'])}"
+)
+
+try:
+    process_batch(rows, [], "corr-demo", logger)
+except ConfigError as error:
+    print("fatal:", error)`,
+      expectedOutput: `WARNING correlation_id=corr-demo record_id=C002 event=quarantine reason=missing:email email=***
+in=2 ok=1 quarantined=1
+fatal: required_fields vacío`,
+      hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
     },
     'sklearn': {
       title: 'Practica scikit-learn',

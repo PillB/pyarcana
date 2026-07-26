@@ -46,7 +46,7 @@ const SECTION_NAMES: Record<string, string> = {
   numpy: '6. Colecciones',
   "data-acquisition": '7. Texto & Unicode',
   pandas: '8. Archivos & ETL',
-  visualization: '9. Viz',
+  visualization: '9. Excepciones',
   sklearn: '10. sklearn',
   testing: '11. Testing',
   performance: '12. Perf',
