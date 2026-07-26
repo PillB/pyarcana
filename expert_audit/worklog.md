@@ -2750,3 +2750,32 @@ Stage Summary:
 - Timestamp: 2026-07-26
 
 Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-S07
+Agent: Independent Section 7 text owner
+Task: Fresh text-first review and remediation of active Section 7 only.
+
+Work Log:
+- Resolved canonical S07 as `Texto, Unicode y expresiones regulares` in
+  `s07-data-acquisition.ts`, preserving stable id `data-acquisition`.
+- Re-inspected map + 8 Theory lanes + closing bridge, 8 I Do, 24 We Do, You Do,
+  10 public self-checks, 24 authenticated questions and both live mappings.
+- Rewrote learner prose only: decision-first Theory, 8/8 predictions, 24/24
+  causal-transfer retrospectives, staged You Do and 10/10 distractor repairs.
+- Added `test_s07_text_first_quality.py`, including the exact active
+  learner-packet and locality implementations.
+- Proved all code/output payloads and stable identifiers byte-identical to
+  baseline; bank, mappings and assessment keys remained unchanged.
+- Passed 13 focused tests, TypeScript, ESLint, V3, exam, 54 Node tests, S07
+  runtime 64/64, static build, local HTTP 200 and offline Spanish 9.23/10.
+- Triaged 76 broad Python and 22 fleet-runtime failures as inherited,
+  untouched-section debt; no failure heading belongs to S07.
+
+Stage Summary:
+- Dedicated report: `expert_audit/S07_TEXT_FIRST_REPORT.md`.
+- Intended commit scope: S07 source, S07 text-first test, dedicated report and
+  the independent/shared worklog entries only.
+
+Ready for the next section.
