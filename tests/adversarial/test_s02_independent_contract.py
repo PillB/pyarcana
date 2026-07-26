@@ -6,10 +6,16 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
+import sys
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+
+
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s02-basics.ts"
 SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
@@ -95,6 +101,22 @@ class TestSection02IndependentContract(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.rstrip(), match.group("output").rstrip())
+
+    def test_newbie_packet_parser_sees_24_unique_exercise_ids(self) -> None:
+        manifest = active_manifest(parse_section_learner(SECTION))
+        exercise_ids = manifest["exercise_ids"]
+
+        self.assertEqual(len(exercise_ids), 24)
+        self.assertEqual(len(set(exercise_ids)), 24)
+        self.assertEqual(
+            exercise_ids,
+            [
+                f"S02-T{topic}-{side}-E{exercise}"
+                for topic in range(1, 5)
+                for side in ("A", "B")
+                for exercise in range(1, 4)
+            ],
+        )
 
     def test_pdf_label_matches_the_visible_spanish_identity(self) -> None:
         pdf = PDF_REPORT.read_text(encoding="utf-8")

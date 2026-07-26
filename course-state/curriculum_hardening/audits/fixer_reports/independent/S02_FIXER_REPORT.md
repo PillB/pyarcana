@@ -73,6 +73,7 @@ These current sources confirmed the active section's core technical contracts. N
 | S02-I04 | P2 | First-use gaps and avoidable code-switching: `intake`, I/O, `namespace`, `schema`, `singleton`, `round-trip`; malformed `*args/**kwargs` Markdown | Beginner readers had to infer vocabulary and assistive rendering could expose broken emphasis | Define or translate each first use; expand I/O; use code spans for `*args`/`**kwargs`; simplify the affected Spanish |
 | S02-I05 | P1 | No focused regression protected the full section graph, all runnable examples, mappings or attempt-level distribution | Broad fleet gates allowed the stale playground and position shortcut to pass | Add a six-test S02 contract suite covering identity, 8/8/24/You Do graph, 41 examples, playground execution, PDF and both assessment layers |
 | S02-I06 | P1 | The final We Do transfer starter was intentionally incomplete but lacked a recognized learner-completion marker | The runtime audit reported the expected failing starter as an accidental production defect | Add an explicit student instruction to complete both functions before running the fixed tests; do not fill in the learner solution |
+| S02-I07 | P1 | The learner-packet parser looks back 500 source characters from each `instruction`; 18 long-preamble exercises therefore inherited a neighboring id or `None` even though the 24 declared ids were unique | The exported S02 learner manifest exposed only 19 unique practice identifiers, so progress/audit evidence could conflate exercises | Move each existing `id` property immediately after its unchanged preamble and before `instruction`; add an assertion against the real packet parser |
 
 ## 5. Changes made
 
@@ -84,6 +85,7 @@ These current sources confirmed the active section's core technical contracts. N
 - Hand-reordered all 24 authenticated option arrays without changing the tested answers or the eight concept families.
 - Preserved the incomplete You Do and We Do starters. The final transfer starter now says explicitly that both functions must be completed before running its unchanged assertions.
 - Added `tests/adversarial/test_s02_independent_contract.py`.
+- Moved each existing We Do `id` property next to its `instruction` field. No identifier value or learner-facing instructional text changed; the packet parser now returns the canonical 24-id sequence with 24 unique values.
 - Did not bulk-rewrite the already coherent theory, I Do, We Do, You Do or public self-check.
 
 ## 6. Assessment integrity after repair
@@ -106,7 +108,8 @@ These current sources confirmed the active section's core technical contracts. N
 
 | Gate | Result |
 |---|---|
-| Focused S02 adversarial suite | **PASS** — 6/6 tests |
+| Focused S02 adversarial suite | **PASS** — 7/7 tests |
+| S02 learner-packet manifest | **PASS** — 24 exercises, 24 unique ids, exact `S02-T1-A-E1` … `S02-T4-B-E3` sequence |
 | All published S02 Python code/output pairs | **PASS** — 41/41 exact stdout matches |
 | Scoped Python content runtime audit | **PASS** — 65/65 artifacts, 0 failed, 0 skipped, P0=0, P1=0 |
 | S02 playground execution | **PASS** — normal, empty and invalid paths match the displayed oracle |
@@ -140,5 +143,23 @@ The Spanish and runtime validators rewrote campaign-level JSON summaries. Those 
 7. `expert_audit/independent_worklog/S02.md`
 
 No fleet-wide generated audit artifact is part of the section commit.
+
+## 10. CI follow-up — learner-packet identifiers
+
+The fleet adversarial test exposed a source-layout contract that the initial S02 test did not exercise. The active learner-packet builder associates an exercise id by scanning only the 500 characters before `instruction`. S02's long pedagogical preambles placed most valid `id` properties outside that window, producing five duplicated ids and one `None` in the exported manifest.
+
+The follow-up moved all 24 existing id properties from above each preamble to immediately below it. The instructional strings, exercise order, canonical id values, starters, solutions and outputs are byte-for-byte unchanged. Fresh parser output is now:
+
+- exercise entries: `24`;
+- unique ids: `24`;
+- duplicates / null ids: `0`;
+- ordered range: `S02-T1-A-E1` through `S02-T4-B-E3`.
+
+Validation:
+
+- `python3 -m unittest tests.adversarial.test_s02_independent_contract`: **PASS, 7/7**;
+- exact fleet newbie-packet test executed: S02 no longer appears in its failure list; this isolated recovery branch still reports pending identifier-layout failures for other section owners;
+- scoped Python runtime audit: **PASS, 65/65**, P0=0, P1=0;
+- generated runtime JSON side effects restored before staging.
 
 Section 2 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
