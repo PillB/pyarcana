@@ -24,9 +24,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | active | `0272f98` | — | Fresh owner commit preserved and now entering B03 serial integration. |
-| S08 | active | `0c06444` | — | Fresh owner commit preserved and now entering B03 serial integration. |
-| S09 | active | `3939741` | — | Fresh owner commit preserved; exact worklog-closer correction precedes B03 integration. |
+| S07 | integrated | `0272f98` + `279e8c0` | — | Fresh owner and packet-ID follow-up integrated as `9229218` + `890fdb7`. |
+| S08 | integrated | `0c06444` + `cb80d96` | — | Fresh owner and packet-ID follow-up integrated as `3031466` + `66b1d4f`. |
+| S09 | integrated | `3939741` + `e727205` + `b3f9bab` | — | Fresh owner, closer correction and packet-ID follow-up integrated as `370b1e4` + `ae83b3e` + `638d08d`. |
 | S10 | pending | — | — | |
 | S11 | pending | — | — | |
 | S12 | pending | — | — | |
@@ -77,7 +77,28 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 |---|---|---|---|---|---|
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
-| B03 | S07–S09 | active | `agent/independent-fixer-s07-s09-final` | — | Fresh owner commits restored after B01 deployment; exact scope review and serial integration active. |
+| B03 | S07–S09 | validating | `agent/independent-fixer-s07-s09-final` | — | Fresh owner commits and CI follow-ups integrated; combined gates pass and publication is next. |
+
+## Batch B03 validation note
+
+- Independent focused contracts after packet-ID follow-up: S07 `6/6`, S08
+  `6/6`, S09 `7/7`.
+- Scoped runtime audits report S07 `64/64`, S08 `65/65` and S09 `64/64`,
+  with P0=0 and P1=0.
+- Learner-packet manifests expose all `24/24` canonical practice identifiers
+  uniquely and in order for S07, S08 and S09.
+- Authenticated banks are `6/6/6/6` overall and `2/2/2/2` per attempt.
+- Fleet structure: 52 sections; V3 counts, structure and invariants pass with
+  zero warnings.
+- Authenticated assessment: 1,248 questions / 416 concepts; P0=0, P1=0.
+- TypeScript, ESLint and the Node adversarial suite (`54/54`) pass.
+- Full Python adversarial failures fall from the post-B01 baseline of `84` to
+  `81`; S07–S09 disappear from the packet failures. Remaining failures are
+  assigned to pending section owners.
+- Production export: static compilation, TypeScript validation and 3/3 page
+  generation pass; local exported site returns HTTP 200 and contains the
+  corrected S07/S08/S09 playground and PDF mappings while preserving S01–S06.
+- Generated validation JSON was restored before this inventory update.
 
 ## Batch B01 recovery validation note
 
