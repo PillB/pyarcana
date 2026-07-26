@@ -972,29 +972,30 @@ Entrypoint ejecutado`,
       hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
     },
     'basics': {
-      title: 'Practica variables y tipos',
-      code: `# Practica los tipos basicos de Python
-edad = 25
-altura = 1.75
-nombre = "Ana"
-es_alumno = True
+      title: 'Practica el contrato raw/clean',
+      code: `# Convierte texto de intake sin perder el valor original
+def safe_int(campo, valor):
+    raw = valor
+    texto = raw.strip()
+    if texto == "":
+        return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
+    try:
+        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
+    except ValueError:
+        return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
 
-# Imprime el tipo de cada variable
-print(f"edad: {edad} -> {type(edad).__name__}")
-print(f"altura: {altura} -> {type(altura).__name__}")
-print(f"nombre: {nombre} -> {type(nombre).__name__}")
-print(f"es_alumno: {es_alumno} -> {type(es_alumno).__name__}")
-
-# Operacion: lista comprehension
-numeros = [1, 2, 3, 4, 5]
-cuadrados = [n**2 for n in numeros]
-print(f"Cuadrados: {cuadrados}")`,
-      expectedOutput: `edad: 25 -> int
-altura: 1.75 -> float
-nombre: Ana -> str
-es_alumno: True -> bool
-Cuadrados: [1, 4, 9, 16, 25]`,
-      hint: 'Cambia los valores y observa cómo cambia el output',
+for edad_raw in [" 28 ", "  ", "abc"]:
+    resultado = safe_int("edad", edad_raw)
+    print(
+        repr(resultado["raw"]),
+        "->",
+        resultado["clean"],
+        resultado["error"],
+    )`,
+      expectedOutput: `' 28 ' -> 28 None
+'  ' -> None valor vacío
+'abc' -> None entero inválido`,
+      hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
     },
     'data-structures': {
       title: 'Practica dict y list',

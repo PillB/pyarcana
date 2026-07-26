@@ -365,8 +365,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'literals-types',
       question: '¿Cuál es el tipo de `None` en Python?',
-      options: ['null', 'NoneType', 'void', 'str vacío'],
-      correctIndex: 1,
+      options: ['NoneType', 'null', 'void', 'str vacío'],
+      correctIndex: 0,
       explanation:
         'None es la única instancia de NoneType. No es lo mismo que "" ni que 0.',
     },
@@ -388,11 +388,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Por qué el teléfono `999000111` de un cliente sintético se modela como `str` y no como `int`?',
       options: [
         'Porque int no existe en Python',
-        'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
         'Porque str es más rápido que int',
+        'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
         'Porque PEP 8 prohíbe int para dígitos',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Teléfonos, DNI y códigos son identificadores de texto, no cantidades para sumar o multiplicar.',
     },
@@ -402,19 +402,19 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Tras `edad_txt = "  19  "`, ¿cuál es la conversión segura a entero en un parser de intake?',
       options: [
         'eval(edad_txt)',
-        'int(edad_txt.strip())',
         'float(edad_txt) sin strip',
         'edad_txt + 0',
+        'int(edad_txt.strip())',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'strip elimina espacios; int convierte. eval sobre input es inaceptable por seguridad.',
     },
     {
       concept: 'type-inspect-convert',
       question: 'Si `int("abc")` falla al parsear el campo edad, ¿qué excepción debes capturar y reportar con nombre de campo?',
-      options: ['TypeError', 'ValueError', 'NameError', 'KeyError'],
-      correctIndex: 1,
+      options: ['ValueError', 'TypeError', 'NameError', 'KeyError'],
+      correctIndex: 0,
       explanation:
         'int() con texto no numérico lanza ValueError. El mensaje debe nombrar el campo y el valor recibido.',
     },
@@ -437,31 +437,31 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuál es la diferencia entre `=` y `==` en Python?',
       options: [
         'Son lo mismo',
-        '`=` es asignación, `==` es comparación de igualdad',
         '`=` es comparación, `==` es asignación',
+        '`=` es asignación, `==` es comparación de igualdad',
         '`==` solo funciona con números',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: '`x = 5` asigna. `x == 5` compara y devuelve True/False.',
     },
     {
       concept: 'assignment-naming',
-      question: 'Según PEP 8 básico, ¿cuál es el mejor nombre para el apellido paterno en un schema de intake?',
-      options: ['Apellido1', 'AP', 'apellido_paterno', 'apellidoPaterno'],
-      correctIndex: 2,
+      question: 'Según PEP 8 básico, ¿cuál es el mejor nombre para el apellido paterno en el esquema de intake?',
+      options: ['AP', 'apellidoPaterno', 'Apellido1', 'apellido_paterno'],
+      correctIndex: 3,
       explanation:
-        'Variables en snake_case. apellido_paterno es el nombre estable del schema S02.',
+        'Variables en snake_case. apellido_paterno es el nombre estable del esquema de S02.',
     },
     {
       concept: 'assignment-naming',
       question: '¿Qué ocurre si escribes `if edad = 18:` en Python moderno (sin walrus)?',
       options: [
-        'Asigna 18 y entra al if',
         'SyntaxError: = es asignación, no comparación',
+        'Asigna 18 y entra al if',
         'Compara en silencio',
         'Crea una constante EDAD',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'En el if se usa == para comparar. = solo asigna; Python reporta SyntaxError.',
     },
@@ -476,11 +476,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'identity-mutability',
-      question: '¿Cuál es el idioma correcto para comprobar ausencia de valor con el singleton None?',
-      options: ['if x == None:', 'if x is None:', 'if x === null:', 'if not x == None:'],
-      correctIndex: 1,
+      question: '¿Cuál es la forma correcta de comprobar ausencia de valor con el único objeto `None`?',
+      options: ['if x == None:', 'if x === null:', 'if x is None:', 'if not x == None:'],
+      correctIndex: 2,
       explanation:
-        'Se recomienda `is None` / `is not None` por identidad del singleton None.',
+        'Se recomienda `is None` / `is not None` por identidad del único objeto `None`.',
     },
     {
       concept: 'identity-mutability',
@@ -488,11 +488,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En un parser, `raw = "  Ana  "` y `clean = raw.strip()`. Luego mutas un dict limpio. ¿Qué práctica preserva auditoría?',
       options: [
         'Sobrescribir raw con clean en la misma variable',
-        'Guardar *_raw aparte y trabajar el clean en otro nombre/clave',
         'Usar eval para clonar el string',
         'Borrar raw si el parse falla',
+        'Guardar *_raw aparte y trabajar el clean en otro nombre/clave',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'El contrato de intake es conservar el original (*_raw) aunque el clean se normalice o falle.',
     },
@@ -500,24 +500,24 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'operators-precedence',
       question: '¿Cuánto vale la expresión `-3**2` en Python?',
-      options: ['9', '-9', '6', 'Error de sintaxis'],
-      correctIndex: 1,
+      options: ['-9', '9', '6', 'Error de sintaxis'],
+      correctIndex: 0,
       explanation:
         '** tiene mayor precedencia que el unario menos: se evalúa 3**2 = 9 y luego el signo → -9. Usa (-3)**2 para 9.',
     },
     {
       concept: 'operators-precedence',
       question: 'Con `a, b, c = 10, 3, 2`, ¿cuánto es `a + b * c` frente a `(a + b) * c`?',
-      options: ['16 y 26', '26 y 16', '15 y 15', '10 y 30'],
-      correctIndex: 0,
+      options: ['26 y 16', '16 y 26', '15 y 15', '10 y 30'],
+      correctIndex: 1,
       explanation:
         '* precede a +: 10+3*2=16. Con paréntesis (10+3)*2=26.',
     },
     {
       concept: 'operators-precedence',
       question: '¿Qué devuelven `17 // 5` y `17 % 5` respectivamente?',
-      options: ['3.4 y 2', '3 y 2', '2 y 3', '3 y 0'],
-      correctIndex: 1,
+      options: ['3.4 y 2', '2 y 3', '3 y 2', '3 y 0'],
+      correctIndex: 2,
       explanation:
         '// es división entera (3); % es el resto (2). / daría 3.4 float.',
     },
@@ -527,11 +527,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Para montos en soles, ¿cuál es la forma correcta de construir un Decimal de 0.1?',
       options: [
         'Decimal(0.1)',
-        'Decimal("0.1")',
         'float("0.1")',
         '0.1 + 0',
+        'Decimal("0.1")',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Decimal desde str evita heredar el error binario del float. Decimal(0.1) ya arrastra basura.',
     },
@@ -539,12 +539,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'decimal-money',
       question: '¿Por qué `0.1 + 0.2` no es confiable para dinero y qué usas en su lugar?',
       options: [
-        'Es confiable; float es exacto en base 10',
         'Por representación binaria; usa decimal.Decimal desde str y quantize a 2 decimales',
+        'Es confiable; float es exacto en base 10',
         'Porque Python prohíbe sumar floats',
         'Porque hay que usar int siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         '0.1+0.2 produce 0.30000000000000004. En soles: Decimal + quantize(Decimal("0.01")).',
     },
@@ -566,8 +566,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'io-fstrings',
       question: '¿Qué tipo devuelve siempre `input("Edad: ")` en Python?',
-      options: ['int si el usuario escribe dígitos', 'str', 'float', 'None'],
-      correctIndex: 1,
+      options: ['int si el usuario escribe dígitos', 'float', 'str', 'None'],
+      correctIndex: 2,
       explanation:
         'input siempre devuelve str. Hay que convertir después de strip si necesitas int/Decimal.',
     },
@@ -576,11 +576,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Con `nombre = "José"` y `monto = 150.5`, ¿cuál imprime el reporte con dos decimales?',
       options: [
         'print("José", monto)',
-        'print(f"Cliente: {nombre} | S/ {monto:.2f}")',
         'print(nombre + monto)',
         'print(format(nombre))',
+        'print(f"Cliente: {nombre} | S/ {monto:.2f}")',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Las f-strings interpolan expresiones; :.2f formatea el monto a dos decimales.',
     },
@@ -589,12 +589,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para tests del intake, ¿por qué es mejor `simular_intake(nombres, contacto)` que llamar `input()` real en la función de parse?',
       options: [
-        'Porque input no existe en Python 3',
         'Porque una función pura con parámetros es testeable sin consola interactiva',
+        'Porque input no existe en Python 3',
         'Porque f-strings no funcionan con input',
         'Porque str no puede venir de parámetros',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Separar captura de parse permite asserts reproducibles en CI/Pyodide.',
     },
@@ -615,14 +615,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'parse-error-messages',
-      question: 'Al parsear `apellido_materno = "  Ñahui  "`, ¿cuál es el resultado correcto del round-trip Unicode?',
+      question: 'Al parsear `apellido_materno = "  Ñahui  "`, ¿qué resultado conserva Unicode de ida y vuelta?',
       options: [
         'Fallar con UnicodeEncodeError',
-        'raw con espacios originales y clean "Ñahui" sin error ASCII',
         'Convertir Ñ a N automáticamente',
+        'raw con espacios originales y clean "Ñahui" sin error ASCII',
         'Guardar solo bytes latin-1',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Python 3 str es Unicode. strip no destruye Ñ; raw y clean coexisten.',
     },
@@ -633,10 +633,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Dejar que el programa termine con traceback no capturado',
         'except: pass y seguir en silencio',
-        'Agregar error que nombre el campo, conservar edad_raw="abc", no asignar edad limpia',
         'Asignar edad=0 por defecto sin avisar',
+        'Agregar error que nombre el campo, conservar edad_raw="abc", no asignar edad limpia',
       ],
-      correctIndex: 2,
+      correctIndex: 3,
       explanation:
         'ValueError se traduce a mensaje accionable; el raw permanece; no se inventa un 0 silencioso.',
     },

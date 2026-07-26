@@ -4,15 +4,15 @@ export const section02: CourseSection = {
   id: 'basics',
   index: 2,
   title: 'Valores, tipos, operadores e I/O',
-  shortTitle: 'Basics de Python',
-  tagline: 'Literales, nombres, operadores, Decimal e I/O para el parser de intake',
+  shortTitle: 'Valores y tipos',
+  tagline: 'Literales, nombres, operadores, Decimal e I/O para validar la captura inicial',
   estimatedHours: 18,
   level: 'Principiante',
   phase: 0,
   icon: 'Code2',
   accentColor: 'bg-gradient-to-br from-sky-500 to-cyan-600',
   jobRelevance:
-    'En el onboarding de data en bancos, fintech y retail en Perú, tu primer script “de verdad” no es un bucle sofisticado: es leer campos de un formulario o CSV, saber qué tipo tiene cada valor, convertir texto a número sin que el programa falle, y conservar el original para auditoría. Si confundes `42` con `"42"`, usas `float` para soles o sobrescribes el `raw` al normalizar, generas bugs de calidad de datos caros. Esta sección construye esa base: valores, nombres, operadores e I/O hacia el parser de intake del capstone CP-N1-A. Parte de tu entorno de S01: activa el `.venv`, crea un archivo `parse_client_intake.py` en tu repo de práctica y corre las demos en Pyodide o en local con el mismo Python del venv.',
+    'En la recepción de datos de clientes en bancos, fintech y retail en Perú, tu primer script “de verdad” no es un bucle sofisticado: es leer campos de un formulario o CSV, saber qué tipo tiene cada valor, convertir texto a número sin que el programa falle y conservar el original para auditoría. Si confundes `42` con `"42"`, usas `float` para soles o sobrescribes el `raw` al normalizar, generas errores costosos de calidad de datos. Esta sección construye esa base: valores, nombres, operadores y entrada/salida (I/O) para el parser de intake, es decir, el programa que valida la captura inicial de datos del capstone CP-N1-A. Parte de tu entorno de S01: activa el `.venv`, crea un archivo `parse_client_intake.py` en tu repositorio de práctica y ejecuta las demos en Pyodide o en local con el mismo Python del entorno virtual.',
   learningOutcomes: [
     { text: 'Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples' },
     { text: 'Inspeccionar con type/isinstance y convertir/validar valores de forma explícita' },
@@ -60,7 +60,7 @@ real_pii_ok False`,
         type: 'info',
         title: 'Qué NO es el foco de esta sección',
         content:
-          'No profundizamos aún en condicionales complejos, bucles como herramienta principal, *args/**kwargs ni comprehensions. La entrega de esta sección es el **esqueleto del parser de intake** (tipos, nombres, operadores, Decimal e I/O con raw/clean/errors), no una calculadora genérica de propinas.',
+          'No profundizamos aún en condicionales complejos, bucles como herramienta principal, `*args`/`**kwargs` ni comprensiones. La entrega de esta sección es el **esqueleto del parser de intake** (tipos, nombres, operadores, `Decimal` y entrada/salida con `raw`/`clean`/`errors`), no una calculadora genérica de propinas.',
       },
     },
     {
@@ -150,9 +150,9 @@ False`,
       heading: 'Asignación y convenciones de nombres',
       subtopicId: 'S02-T2-A',
       paragraphs: [
-        '**`=` asigna** un nombre a un valor en el namespace actual. **`==` compara** igualdad y devuelve un `bool`. `if x = 1:` es **SyntaxError** (asignación no es expresión). El operador morsa `:=` existe en Python reciente, pero **en esta sección** comparas siempre con `==`. Mezclar `=` y `==` es el bug de novato más citado en code review junior.',
+        '**`=` asigna** un nombre a un valor en el espacio de nombres (*namespace*) actual. **`==` compara** igualdad y devuelve un `bool`. `if x = 1:` es **SyntaxError** (asignación no es expresión). El operador morsa `:=` existe en Python reciente, pero **en esta sección** comparas siempre con `==`. Mezclar `=` y `==` es un error frecuente en revisiones de código junior.',
         'PEP 8 (guía de estilo): **`snake_case`** para variables y funciones (`apellido_paterno`, `parse_client`); **`UPPER_CASE`** para constantes (`EDAD_MINIMA`, `IGV_TASA`); **`CapWords`** para clases (más adelante). Evita nombres de una sola letra confusos: **`l`, `O`, `I`** se confunden con `1` y `0`. Prefiere `longitud`, `indice`, `columna`.',
-        'En el schema de intake usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si un nombre no existe aún, Python lanza **`NameError`** — señal de typo o de usar antes de asignar.',
+        'En el esquema (*schema*) de intake usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si un nombre no existe aún, Python lanza **`NameError`**: señala un error de escritura o el uso de un nombre antes de asignarlo.',
       ],
       code: {
         language: 'python',
@@ -301,7 +301,7 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       },
     },
     {
-      heading: 'input, print y f-strings',
+      heading: 'Entrada/salida: input, print y f-strings',
       subtopicId: 'S02-T4-A',
       paragraphs: [
         '**`input(prompt)`** siempre devuelve **`str`**, aunque el usuario escriba dígitos. En el browser/Pyodide a menudo **simulas input** con variables o parámetros de función (testeable). **`print(*args, sep=" ", end="\\n")`** controla separadores y fin de línea.',
@@ -336,7 +336,7 @@ campos | a | b`,
       subtopicId: 'S02-T4-B',
       paragraphs: [
         'Un **parser de intake** recibe un registro sintético, conserva **`*_raw`**, produce campos limpios (strip) y acumula **`errors: list[str]`** sin tragar excepciones. El raw **siempre** está, incluso si el clean es `None` o el campo está vacío.',
-        'Casos mínimos del gate CP-N1-A: **vacío** (mensaje accionable + raw `""`); **Unicode** (García, Ñahui, María — round-trip sin errores ASCII); **número inválido** (`edad="abc"` → error con nombre de campo, raw intacto). El helper **`safe_int`** usa un solo contrato en toda la sección: vacío tras `strip` → error de vacío; dígitos OK → `(True, n, None)`; letras → `ValueError` capturado con mensaje por campo. Las pruebas son **asserts** o pytest: no “mirar la consola y ya”.',
+        'Casos mínimos del gate CP-N1-A: **vacío** (mensaje accionable + raw `""`); **Unicode** (García, Ñahui, María se conservan de ida y vuelta, sin errores ASCII); **número inválido** (`edad="abc"` → error con nombre de campo, raw intacto). El helper **`safe_int`** usa un solo contrato en toda la sección: vacío tras `strip` → error de vacío; dígitos OK → `(True, n, None)`; letras → `ValueError` capturado con mensaje por campo. Las pruebas son **asserts** o pytest: no basta con “mirar la consola”.',
         'Mensaje accionable = **qué campo**, **qué valor se recibió** (`!r` / repr), **qué se esperaba**. Evita `except: pass`. No afirmes parentesco real por dos apellidos: son **campos de texto** del schema.',
       ],
       code: {
@@ -1998,10 +1998,11 @@ Unicode OK`,
           language: 'python',
           title: 'parse_client_suite.py',
           code: `# CASO-LIM-002 · T4-B-E3
-# Implementa safe_int (vacío + strip + int) y parse_client con schema completo.
+# Implementa safe_int (vacío + strip + int) y parse_client con el esquema completo.
 # Claves del dict: nombres_raw, apellido_paterno_raw, apellido_materno_raw,
 # contacto_raw, direccion_raw, edad_raw, nombres, apellido_paterno,
 # apellido_materno, contacto, direccion, edad, errors.
+# Completa ambas funciones antes de ejecutar los tres bloques de prueba.
 def safe_int(campo: str, valor: str):
     # vacío tras strip → error; int OK; ValueError → mensaje accionable
     pass
@@ -2235,7 +2236,7 @@ if __name__ == "__main__":
         options: ['null', 'NoneType', 'void', 'str vacío'],
         correctIndex: 1,
         explanation:
-          'None es la única instancia de NoneType. No es lo mismo que "" ni que 0. Para comparar identidad se usa `is None`.',
+          'None es la única instancia de NoneType. No es lo mismo que "" ni que 0. Para comprobar este único objeto de ausencia se usa `is None`.',
       },
       {
         question: '¿Qué imprime type("42").__name__ y la comparación 42 == "42"?',
@@ -2263,7 +2264,7 @@ if __name__ == "__main__":
         options: ['if x == None:', 'if x is None:', 'if x === null:', 'if not x == None:'],
         correctIndex: 1,
         explanation:
-          'PEP 8 y la comunidad recomiendan `is None` / `is not None` por identidad del singleton None.',
+          'PEP 8 recomienda `is None` / `is not None`: se comprueba la identidad del único objeto `None`.',
       },
       {
         question: '¿Qué imprime la expresión -3**2 en Python?',
