@@ -18,9 +18,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | active | `e12ac52` + `7627dc1` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
-| S02 | active | `ce8815c` + `1ab1cc3` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
-| S03 | active | `d8f1b4a` + `7bc21e5` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
+| S01 | integrated | `e12ac52` + `7627dc1` + `65afe87` | pending T01 | Text-first rewrite integrated with 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
+| S02 | integrated | `ce8815c` + `1ab1cc3` + `4680406` | pending T01 | Text-first rewrite integrated with 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 self-check explanations covered. |
+| S03 | integrated | `d8f1b4a` + `7bc21e5` + `a202d30` | pending T01 | Text-first rewrite integrated with 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
 | S04 | queued | `bf4111b` | `2e9fcd2` | Previously deployed correctness pass queued for text-first rewrite; its core lesson changed only 3 additions/3 deletions in the prior campaign. |
 | S05 | queued | `9b9cda4` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
 | S06 | queued | `03ee8e3` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
@@ -78,7 +78,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
-| T01 | S01–S03 | active | `agent/text-first-s01-s03` | — | Text-first reopening: sustained theory, narrative, guided-practice and retrospective improvements must be visibly material while preserving correctness gates. |
+| T01 | S01–S03 | integrated | `agent/text-first-s01-s03` | pending | Text-first rewrites and combined validation complete; awaiting GitHub PR/CI/merge/Pages/public verification. |
 | T02 | S04–S06 | queued | — | — | Starts after T01 is merged and publicly verified. |
 | T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
 
@@ -96,6 +96,36 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 - T01–T03 therefore require before/after prose evidence for every theory
   subtopic and for I Do, We Do, You Do and the closing retrospective. Existing
   technical and assessment gates remain mandatory and cannot be weakened.
+
+## Batch T01 integrated validation note
+
+- Independent owner coverage:
+  - S01: 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and
+    8/8 public self-check explanations.
+  - S02: 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 public
+    self-check explanations.
+  - S03: 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 public self-check
+    explanations.
+- Before/after evidence and source-specific research caveats are recorded in
+  the independent S01/S02/S03 reports and worklogs.
+- Combined focused regression: 38/38 pass, including the deployed correctness
+  contracts and the new text-first contracts.
+- Scoped runtime: S01 9 pass/0 fail; S02 65/65; S03 65/65; P0=0/P1=0.
+- Fleet gates: 52-section V3 counts/structure/invariants pass; first-use and
+  glossary pass; S01–S03 self-check cycles are unchanged.
+- Assessment: 1,248 authenticated questions / 416 concepts; P0=0/P1=0.
+- TypeScript and repository-wide ESLint pass.
+- Node adversarial: 54/54 pass.
+- Full Python adversarial: 134 tests, 81 inherited failures and 1 skip; no
+  S01–S03-owned failure heading. The failure count is unchanged from the
+  post-B03 baseline while ten new text-first tests now run.
+- Production static export compiles, type-checks and generates 3/3 pages.
+  Local exported-site HTTP is 200.
+- The built application bundle contains the new learner-visible S01
+  distributed-team opener, S02 value/type bridge and S03 international-aid
+  `0` versus `None` scenario.
+- Generated runtime, exam, Spanish and first-use audit snapshots were restored
+  before this inventory update.
 
 ## Batch B03 validation note
 
