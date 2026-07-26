@@ -6,10 +6,16 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
+import sys
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+
+
 SECTION = ROOT / "src" / "lib" / "course" / "sections" / "s08-pandas.ts"
 SEED = ROOT / "prisma" / "seed.ts"
 SECTION_VIEW = ROOT / "src" / "components" / "course" / "SectionView.tsx"
@@ -23,6 +29,18 @@ def _between(text: str, start: str, end: str) -> str:
 
 
 class TestS08IngestionContract(unittest.TestCase):
+    def test_newbie_manifest_exposes_canonical_exercise_ids_in_order(self) -> None:
+        manifest = active_manifest(parse_section_learner(SECTION))
+        expected = [
+            f"S08-T{topic}-{part}-E{exercise}"
+            for topic in range(1, 5)
+            for part in ("A", "B")
+            for exercise in range(1, 4)
+        ]
+
+        self.assertEqual(manifest["exercise_ids"], expected)
+        self.assertEqual(len(set(manifest["exercise_ids"])), 24)
+
     def test_canonical_identity_and_gradual_release_surface(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
 

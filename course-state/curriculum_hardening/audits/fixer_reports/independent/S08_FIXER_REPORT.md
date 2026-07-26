@@ -28,6 +28,7 @@ This was a fresh owner pass. Earlier Fixer reports and completion claims were no
 | EX-20 | Explorer | A visible typo (`reprocessar`) and imprecise `DecodeError` name remained. | Corrected `reprocesar` and named `UnicodeDecodeError` precisely. | Focused learner-text assertions pass; manual paragraph review complete. |
 | EX-22 | Explorer | Resource quality was a low-priority recommendation. | Current resources already point to relevant Python library documentation and responsible data guidance; no section-local change required. | Manual source review. |
 | New S08-A1 | Fresh independent audit | All 24 authenticated questions had `correctIndex: 1`, so one answer-position shortcut scored 100%. Several distractors were implausible, and the last item exposed `S08 V3` / platform-id archaeology. | Hand-reordered and edited all 24 questions. Overall positions are 6/6/6/6; each deterministic attempt is 2/2/2/2; each concept’s three variants use three different positions. Removed learner-facing archaeology and aligned `col_count`, datetime serialization, and provenance wording with the taught contracts. | Focused bank test and repository exam-pedagogy audit pass: 1,248 questions, 416 concepts, P0=0, P1=0. |
+| New S08-A2 | Combined B03 adversarial gate | The newbie-packet parser uses a 500-character lookback from each `instruction`. Seven long preambles placed their canonical `id` outside that window, so the 24 exercises resolved to only 21 set values through duplicate/fall-forward IDs and `None`. | Moved only those seven unchanged ID properties to the learner-manifest boundary immediately after `preamble` and before `instruction`. No instructional text, code, ordering, or runtime identifier changed. | S08 packet manifest now equals all 24 canonical IDs in exact T1-A→T4-B / E1→E3 order; 24/24 are unique. |
 | Expert I-01–I-07, I-09–I-12, I-14–I-17 | Expert | The expert report recorded voseo, long inline lists, agreement/punctuation defects, internal starter tags, and several wording defects. | Fresh inspection confirmed the current baseline already contains the tuteo forms, real Markdown lists, corrected agreement/punctuation, and cleaned starter scaffolds. The two remaining independent wording defects are covered by EX-20. | Manual theory/I Do/We Do/You Do/self-check review; Spanish baseline 9.82/10. |
 | Expert I-08 | Expert | Bare section codes remain in some prerequisite/forward links, although learner-facing first mentions now include descriptive titles for important forward references. | Retained the current cross-section convention to avoid a one-section-only rewrite of fleet navigation language. | Classified as a repository-wide convention, not a section-local correctness failure. |
 | Expert I-13 and I-16 | Expert | Automated grammar flags target conventional code identifiers and a false capitalization match. | No change; confirmed false positives. | Manual contextual review. |
@@ -93,8 +94,9 @@ The S08 PDF label changed from `8. Pandas` to `8. Archivos & ETL`.
 
 ### Section-specific validation
 
-`tests/adversarial/test_s08_ingestion_contract.py` adds five independent regressions for:
+`tests/adversarial/test_s08_ingestion_contract.py` adds six independent regressions for:
 
+- exact newbie-packet exposure of all 24 canonical exercise IDs in order;
 - canonical identity and the 8/8/24 gradual-release surface;
 - public self-check position coverage;
 - authenticated concept count, attempt equivalence, position balance, and archaeology removal;
@@ -105,7 +107,8 @@ The S08 PDF label changed from `8. Pandas` to `8. Archivos & ETL`.
 
 | Gate | Result |
 |---|---|
-| Focused S08 adversarial regression | 5/5 tests passed |
+| Focused S08 adversarial regression | 6/6 tests passed |
+| Newbie-packet S08 manifest | exact ordered list `S08-T1-A-E1` … `S08-T4-B-E3`; 24/24 unique |
 | Python content runtime audit (`--only s08-pandas --workers 1`) | 65/65 artifacts passed; fail=0, skip=0, P0=0, P1=0 |
 | TypeScript (`npx tsc --noEmit`) | passed |
 | ESLint (`npm run lint`) | passed |
@@ -129,6 +132,8 @@ Accessibility observations: the change introduces no new controls, focus paths, 
 No scripts, generators, loops, templates, or bulk-production mechanisms were used to manufacture the corrected educational content. Automation was used only for mechanical validation.
 
 Validation commands rewrote fleet-level JSON summaries. Those side effects were restored before staging and are not part of this section commit.
+
+The exact fleet test `TestPacketIsolation.test_active_contract_is_exact_and_unique_for_every_section` was also run in this isolated pre-integration fork. Its S08 subtest now passes and the aggregate failure count fell from 51 to 50. The command remains nonzero only because 50 other section branches are absent from this fork; those out-of-scope failures are not masked here. The parent’s combined integration branch is the authoritative all-section rerun.
 
 ## 5. Residual risks and later recommendations
 
