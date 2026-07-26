@@ -996,12 +996,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un lote de intake sintético `filas = [{...}, {...}, {...}]`, ¿cuál es el recorrido idiomático y más seguro para validar cada registro?',
       options: [
-        'for i in range(len(filas)+1): validate(filas[i])',
         'for reg in filas: validate(reg)',
+        'for i in range(len(filas)+1): validate(filas[i])',
         'while True: validate(filas[0]) sin avanzar índice',
         'for i in range(1, len(filas)): solo si i es par',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'for reg in filas recorre cada elemento una vez sin inventar índices. range(len+1) provoca IndexError (off-by-one).',
     },
@@ -1025,11 +1025,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo preferirías `for i in range(len(filas))` sobre `for reg in filas` en el script de calidad?',
       options: [
         'Siempre; el índice es obligatorio en Python',
-        'Solo cuando necesitas el índice (p. ej. reportar “fila i”) y no basta enumerate',
         'Nunca uses range con listas',
+        'Solo cuando necesitas el índice (p. ej. reportar “fila i”) y no basta enumerate',
         'Cuando quieras saltarte el último elemento por defecto',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'El índice manual solo se justifica si lo usas. En la mayoría de lotes, for reg in filas (o enumerate) reduce off-by-one.',
     },
@@ -1040,11 +1040,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para reportar “fila 1, fila 2…” al humano en un lote, ¿qué llamada es la más clara?',
       options: [
         'for i in filas: print(i)',
-        'for i, reg in enumerate(filas, start=1): print(f"fila {i}", reg)',
         'for i, reg in enumerate(filas, start=0): print(f"fila {i+0}") sin documentar',
         'zip(filas, filas) para numerar',
+        'for i, reg in enumerate(filas, start=1): print(f"fila {i}", reg)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'enumerate(..., start=1) da índice humano sin armar el contador a mano. start=0 es para índices de programación.',
     },
@@ -1053,12 +1053,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si `ids` tiene 3 elementos y `regiones` 2, ¿qué hace `list(zip(ids, regiones))` y por qué es un riesgo de calidad?',
       options: [
-        'Lanza ValueError siempre',
         'Empareja solo 2 pares y el tercer id se pierde en silencio',
+        'Lanza ValueError siempre',
         'Rellena con None automáticamente',
         'Invierte el orden de ids',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'zip se detiene en la secuencia más corta. Desalineación silenciosa infla/deflacta tasas del dashboard de intake.',
     },
@@ -1083,11 +1083,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo es más natural un `while` que un `for` en el script de lotes?',
       options: [
         'Cuando ya conoces exactamente el número de filas en una lista fija',
-        'Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)',
         'Siempre; for está deprecado',
+        'Cuando no sabes de antemano cuántas iteraciones habrá (stream, centinela, reintentos)',
         'Solo para sumar enteros',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'while brilla con condición de terminación dinámica. Si la secuencia ya está materializada, for suele ser más claro.',
     },
@@ -1097,25 +1097,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En `lineas = ["C001|Lima", "C002|Cusco", "", "C003|Piura"]`, si tratas `""` como centinela de fin de lote y haces break, ¿qué queda sin procesar?',
       options: [
         'Nada; el centinela no corta el lote',
-        'C003|Piura (y lo posterior al centinela)',
         'Solo C001',
         'Todo el archivo se borra',
+        'C003|Piura (y lo posterior al centinela)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'El centinela marca fin: lo que sigue no se lee en ese lote. Documenta si el vació es fin o “fila vacía a saltar”.',
+        'El centinela marca el fin: lo que sigue no se lee en ese lote. Documenta si el vacío es fin o una fila vacía que debes saltar.',
     },
     {
       concept: 'while-sentinels',
       question:
-        'Antes de escribir un while de intake, ¿qué debes poder responder para evitar un loop infinito?',
+        'Antes de escribir un while de intake, ¿qué debes poder responder para evitar un bucle infinito?',
       options: [
-        'Solo el color del prompt',
         'Qué variable de control cambia cada vuelta y cuándo la condición se vuelve falsa',
+        'Solo el color del prompt',
         'Si range es más lento',
         'Si el centinela es un int obligatorio',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin actualización de estado y condición de salida clara, el while no termina. Añade MAX_ITERS en prototipos.',
     },
@@ -1137,16 +1137,16 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'break-continue-guards',
       question:
-        '¿Cuál es una guardrail razonable contra loops infinitos en un while de prototipo de intake?',
+        '¿Cuál es una salvaguarda razonable contra bucles infinitos en un while de prototipo de intake?',
       options: [
         'No poner ninguna condición',
-        'Máximo de iteraciones (MAX) o centinela/break garantizado y testeado',
-        'Usar solo recursion infinita',
+        'Usar solo recursión infinita',
+        'Máximo de iteraciones (MAX) o centinela/break garantizado y probado',
         'while True sin break nunca falla en producción',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
-        'MAX_ITERS, centinela o excepción de escape evitan saturar CPU. while True solo es legítimo con salida obvia.',
+        'Una salvaguarda MAX_ITERS, un centinela o una excepción de escape evitan saturar la CPU. while True solo es legítimo con una salida obvia.',
     },
     {
       concept: 'break-continue-guards',
@@ -1154,11 +1154,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Procesas líneas; `END` debe cerrar el lote y `SKIP` ignorarse. ¿Qué combinación es correcta?',
       options: [
         'break en SKIP y continue en END',
-        'continue en SKIP (y vacíos); break en END',
         'return en cada línea vacía sin bucle',
         'zip(END, SKIP) para filtrar',
+        'continue en SKIP (y vacíos); break en END',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'continue salta basura; break corta en el centinela de fin. Invertirlos procesa de más o de menos.',
     },
@@ -1168,12 +1168,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En el gate CP-N1-A, ¿cómo defines la tasa de error de un lote con n_error rechazos y n_total registros intentados?',
       options: [
-        'n_error / n_accept (solo aceptados en el denominador)',
         'n_error / n_total si n_total > 0; si no, None o N/A (no dividir por cero)',
+        'n_error / n_accept (solo aceptados en el denominador)',
         'n_total / n_error siempre',
         'Siempre 0 porque el dashboard redondea',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Denominador = procesados/intentados. Usar solo aceptados infla la tasa y miente al dashboard de calidad.',
     },
@@ -1197,11 +1197,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Quieres el índice del primer `reject` en una lista de statuses. ¿Qué patrón O(n) es idiomático?',
       options: [
         'Dos bucles anidados comparando todos con todos',
-        'Un for con enumerate; guardar el primer índice y opcionalmente break',
         'Ordenar la lista y tomar el medio',
+        'Un for con enumerate; guardar el primer índice y opcionalmente break',
         'Usar range(len+1) y silenciar IndexError',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Un solo pase con flag/índice basta. Anidar bucles innecesarios complica y puede volverse cuadrático.',
     },
@@ -1212,11 +1212,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Dado `results` con dicts `{id, status}`, ¿cómo obtienes los ids en reject con una list comprehension legible?',
       options: [
         '[r for r in results] sin filtrar',
-        '[r["id"] for r in results if r["status"] == "reject"]',
         '{r["id"] for r in results if False}',
         'results.filter(status=reject) nativo sin librerías',
+        '[r["id"] for r in results if r["status"] == "reject"]',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'La forma [expr for x in xs if cond] filtra y proyecta. No hay .filter de listas en la stdlib como en JS.',
     },
@@ -1225,12 +1225,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Cuándo debes preferir un `for` explícito sobre una comprehension en el resumen de intake?',
       options: [
-        'Nunca; comprehension siempre gana',
         'Cuando hay multi-rama, try/except por fila, varios contadores o side effects',
+        'Nunca; comprehension siempre gana',
         'Solo si la lista está vacía',
         'Cuando el resultado es un dict',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Comprehensions para transformaciones simples. Lógica de validación multi-rama se lee mejor con for.',
     },
@@ -1255,11 +1255,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Al depurar un contador que “no cuadra”, ¿qué es trazar estado en el sentido del curso?',
       options: [
         'Borrar todos los prints y adivinar',
-        'Tabla iteración | inputs | variables | decisión/salida con valores concretos',
         'Solo mirar el tipado estático',
+        'Tabla iteración | inputs | variables | decisión/salida con valores concretos',
         'Reescribir en while True sin condición',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'La traza hace visible la actualización del estado. Si la tabla no cuadra con el print, el bug está en el cuerpo del bucle.',
     },
@@ -1269,11 +1269,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En la traza de montos `[10, 0, -5, 20]` sumando solo positivos, tras i=2 (m=-5), ¿cuál es total y n_pos esperados?',
       options: [
         'total=5, n_pos=2',
-        'total=10, n_pos=1 (el -5 no suma; 0 tampoco)',
         'total=25, n_pos=3',
         'total=0, n_pos=0',
+        'total=10, n_pos=1 (el -5 no suma; 0 tampoco)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Solo 10 entró al acumulador antes de -5. 0 y -5 no incrementan n_pos ni total. Luego 20 → total 30, n_pos 2.',
     },
@@ -1282,12 +1282,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Por qué el curso pide traza mínima antes de culpar a “Python raro” en un bucle de tasas?',
       options: [
-        'Porque print está prohibido',
         'Porque casi siempre el error está en la actualización de contadores/índices, no en el intérprete',
+        'Porque print está prohibido',
         'Porque for no actualiza variables',
         'Porque range es aleatorio',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Traza con datos sintéticos localiza off-by-one y denominadores mal puestos sin misterio de runtime.',
     },
@@ -1312,11 +1312,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con `xs = ["a","b","c"]`, ¿qué ocurre al evaluar `xs[len(xs)]`?',
       options: [
         'Devuelve "c"',
-        'IndexError: el último índice válido es len(xs)-1',
         'Devuelve None en silencio',
+        'IndexError: el último índice válido es len(xs)-1',
         'Recorta la lista a vacía',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Índices 0..n-1. Acceder a n es el off-by-one clásico que rompe demos del gate.',
     },
@@ -1326,13 +1326,13 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para contar rejects en un lote de resultados, ¿qué diseño alinea con el gate CP-N1-A?',
       options: [
         'Doble bucle que re-escanea todo el lote por cada fila',
-        'Un solo pase O(n) con contadores; tasa = rejects/procesados',
         'Comprehension de tres niveles anidados por estética',
         'Recalcular len(results) dentro de while True',
+        'Un solo pase O(n) con contadores; tasa = rejects/procesados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Un pase lineal con denominador correcto es demos rápidas y métricas honestas. Evita n² cosmético.',
+        'Un pase lineal con denominador correcto produce demostraciones rápidas y métricas honestas. Evita un O(n²) cosmético.',
     },
   ],
   // S05 V3 — Funciones, contratos y descomposición (platform id: oop)
@@ -1343,12 +1343,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un normalizador de intake, ¿qué devuelve una función Python si no hay `return` explícito?',
       options: [
-        '0',
         'None',
+        '0',
         'El último argumento',
         'Error de sintaxis siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin return, el resultado de la llamada es None. Un normalizador debe retornar el valor transformado, no depender de print.',
     },
@@ -1358,11 +1358,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál nombre de función alinea mejor con el estilo de normalizadores del curso?',
       options: [
         'email2',
-        'normalize_email',
         'Email',
+        'normalize_email',
         'x',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Verbos/acciones claras (normalize_*) documentan el contrato. PascalCase es para clases (S11); nombres opacos dificultan el review.',
     },
@@ -1372,11 +1372,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué los normalizadores deben `return` el valor en vez de solo `print` el resultado?',
       options: [
         'print es más rápido en CPython',
-        'El pipeline necesita el valor para componer y testear; print es efecto colateral de demo',
         'return está deprecado en 3.12',
         'print convierte a Decimal automáticamente',
+        'El pipeline necesita el valor para componer y testear; print es efecto colateral de demo',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'return habilita composición y asserts. print en el core puro ensucia stdout y rompe pureza.',
     },
@@ -1401,11 +1401,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es el patrón seguro para un acumulador opcional?',
       options: [
         'def f(x, acc={}): ...',
-        'def f(x, acc=None): if acc is None: acc = []; ...',
         'def f(x, acc=list): ...',
         'def f(x, acc=[]): siempre está bien',
+        'def f(x, acc=None): if acc is None: acc = []; ...',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'None + creación local evita compartir estado entre llamadas. dict/list defaults mutables son P1 en review.',
     },
@@ -1414,12 +1414,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En `def normalize_telefono(raw, *, country="PE")`, ¿qué indica el `*`?',
       options: [
-        'Que raw es opcional',
         'Que country es keyword-only: hay que pasarlo por nombre',
+        'Que raw es opcional',
         'Que la función es async',
         'Que country se evalúa en cada import del sistema',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Tras *, los parámetros solo aceptan keyword. Mejora legibilidad de políticas regionales en la llamada.',
     },
@@ -1430,11 +1430,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué es una precondición de `normalize_email` en el sentido del curso?',
       options: [
         'El valor ya normalizado que devuelve',
-        'Lo que debe cumplirse antes de llamar (p. ej. raw es str usable)',
         'Un assert que solo corre con -O',
+        'Lo que debe cumplirse antes de llamar (p. ej. raw es str usable)',
         'El color del banner en la UI',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Pre = entrada válida esperada. Post = garantía del return (p. ej. lower sin espacios extremos).',
     },
@@ -1443,12 +1443,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un docstring de normalizador debe principalmente…',
       options: [
-        'Copiar la firma sin añadir política',
         'Documentar qué hace, pre/post, retorno y errores de dominio (alineado al código)',
+        'Copiar la firma sin añadir política',
         'Listar todos los builtins de Python',
         'Prohibir type hints',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'PEP 257 + contrato de negocio. Si docstring y código discrepan, el revisor devuelve el PR.',
     },
@@ -1473,11 +1473,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Los type hints (`def f(x: str) -> str`) convierten el valor en runtime en CPython normal?',
       options: [
         'Sí; str("1") se aplica solo',
-        'No; son documentación/verificación estática (checkers), no coerción automática',
         'Solo si usas match/case',
         'Sí para int, no para str',
+        'No; son documentación/verificación estática (checkers), no coerción automática',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Hints graduales no castean. Sigue validando/parseando explícitamente en el cuerpo.',
     },
@@ -1501,11 +1501,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué evitar anotar `-> str` si la función puede devolver None en ausencia?',
       options: [
         'Porque None es str en Python',
-        'Porque el hint mentiría; usa Optional[str] / str | None',
         'Porque los hints prohíben None siempre en el bytecode',
+        'Porque el hint mentiría; usa Optional[str] / str | None',
         'Porque return None es ilegal',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Hints honestos documentan ausencia. str | None (o Optional) alinea contrato y checkers.',
     },
@@ -1515,12 +1515,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué hace un orquestador delgado `normalize_record` en el diseño de S05?',
       options: [
-        'Reimplementa strip en cada campo y escribe a disco',
         'Delega a normalizadores pequeños y arma el dict resultado',
+        'Reimplementa strip en cada campo y escribe a disco',
         'Hereda de una clase ABC obligatoria',
         'Abre un socket por campo',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Composición: el orquestador no duplica lógica. Un fix en strip_collapse beneficia a todos los campos.',
     },
@@ -1530,11 +1530,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Señal de que debes extraer otra función al descomponer un normalizador largo:',
       options: [
         'La función tiene un solo return',
-        'Necesitas un comentario de “sección” en medio del cuerpo para entender bloques distintos',
         'El nombre ya es un verbo',
+        'Necesitas un comentario de “sección” en medio del cuerpo para entender bloques distintos',
         'Hay un type hint',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Comentarios de sección suelen marcar otra unidad de abstracción. Extrae y nombra el paso.',
     },
@@ -1544,11 +1544,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Beneficio principal de funciones pequeñas en el inicio de CP-N1-B:',
       options: [
         'Obligan a usar clases de inmediato',
-        'Tests unitarios fáciles, reuso en CLI/ETL y orquestación clara',
         'Eliminan la necesidad de asserts',
         'Hacen mutables los defaults automáticamente',
+        'Tests unitarios fáciles, reuso en CLI/ETL y orquestación clara',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Descomposición es el puente a pipelines testeables. OOP de dominio llega en S11, no aquí.',
     },
@@ -1573,11 +1573,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Idempotencia de `normalize_telefono` significa que para entradas válidas…',
       options: [
         'f(x) != f(f(x)) siempre',
-        'f(f(x)) == f(x)',
         'f muta x in-place dos veces',
         'f lanza si se llama dos veces',
+        'f(f(x)) == f(x)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Aplicar dos veces no cambia el resultado canónico. Gate típico del inicio CP-N1-B.',
     },
@@ -1586,12 +1586,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué es inyección de I/O en el borde según S05?',
       options: [
-        'Hardcodear open("data.csv") dentro de normalize_email',
         'Pasar reader/path/función como argumento al orquestador; el core no toca disco',
+        'Hardcodear open("data.csv") dentro de normalize_email',
         'Usar global FILE obligatorio',
         'Prohibir tests con fakes',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Inyectar dependencias permite fakes en tests y mantiene normalizadores puros.',
     },
@@ -1602,11 +1602,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué significa LEGB al resolver un nombre en Python?',
       options: [
         'Lista, Entero, Generador, Bytes',
-        'Local → Enclosing → Global → Builtin (orden de búsqueda)',
         'Solo Global y Builtin',
+        'Local → Enclosing → Global → Builtin (orden de búsqueda)',
         'Un protocolo de red',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Python busca en ese orden; si no halla, NameError. Closures usan el enclosing scope.',
     },
@@ -1615,12 +1615,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un closure en el sentido del demo `make_phone_normalizer(prefix)` es…',
       options: [
-        'Una clase abstracta con MRO',
         'Una función interna que recuerda variables del scope que la envuelve',
+        'Una clase abstracta con MRO',
         'Un hilo del sistema operativo',
         'Un default mutable de lista',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'La factory devuelve norm configurado con prefix sin necesitar clases (S11) ni global mutable.',
     },
@@ -1645,11 +1645,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Antes de refactorizar `normalize_email`, ¿qué fija el curso como red de seguridad?',
       options: [
         'Borrar los tests para ir más rápido',
-        'Ejemplos/asserts ejecutables de la conducta actual (incl. idempotencia)',
         'Cambiar la política de negocio en el mismo commit sin asserts',
         'Renombrar a Email2 sin pruebas',
+        'Ejemplos/asserts ejecutables de la conducta actual (incl. idempotencia)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Rojo-verde-refactor: asserts primero; el refactor interno no debe cambiar resultados canónicos.',
     },
@@ -1658,14 +1658,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Tras extraer `strip` y `lower` en pasos internos, los asserts previos siguen verdes. ¿Qué concluimos?',
       options: [
-        'Que la conducta observable se preservó',
         'Que Python desactiva asserts en todos los modos',
+        'Que la conducta cubierta por esos asserts se preservó',
         'Que el docstring ya no importa',
         'Que hay que eliminar type hints',
       ],
       correctIndex: 1,
       explanation:
-        'Tests verdes tras el cambio de forma interna = refactor seguro. Actualiza docstring si la política sí cambió.',
+        'Los asserts respaldan solo la conducta que cubren. Si siguen verdes tras el cambio interno, esa conducta se preservó; añade casos para fronteras aún no cubiertas.',
     },
     {
       concept: 'examples-refactor',
@@ -1673,11 +1673,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué fronteras conviene cubrir al fijar ejemplos de un normalizador de texto sintético?',
       options: [
         'Solo el camino feliz con un email perfecto',
-        'Vacío/solo espacios, Unicode (Ñ/tildes), doble aplicación (idempotencia), None si el contrato lo admite',
         'Únicamente PII real de clientes',
+        'Vacío/solo espacios, Unicode (Ñ/tildes), doble aplicación (idempotencia), None si el contrato lo admite',
         'Solo números de tarjeta de crédito',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Fronteras y datos sintéticos; nunca PII real. Idempotencia y Unicode son gates típicos de calidad.',
     },
@@ -1689,12 +1689,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En el modelo en memoria de intake, ¿cuándo preferir una tuple sobre una list para headers de columnas?',
       options: [
-        'Siempre: list está deprecada',
         'Cuando el contrato de columnas debe ser inmutable (claves estables que no se mutan por accidente)',
+        'Siempre: list está deprecada',
         'Solo si hay más de 1000 columnas',
         'Nunca: tuple no soporta slicing',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'tuple es inmutable: ideal para contratos de headers. list es mutable y crece con append.',
     },
@@ -1718,11 +1718,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es el costo de `x in seq` cuando seq es una list de n filas de clientes?',
       options: [
         'O(1) siempre',
-        'O(n) — membership lineal; para lookups masivos preferir set/dict',
         'O(log n) por binary search automático',
+        'O(n) — membership lineal; para lookups masivos preferir set/dict',
         'O(n²) por hashing',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'in sobre list/tuple recorre. Sets/dicts dan membership amortizado O(1) en T2.',
     },
@@ -1746,11 +1746,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si `b = a` y a es una list de dicts de clientes, y mutas `b[0]["region"] = "Cusco"`, ¿qué pasa con a?',
       options: [
         'a queda intacto porque b es copia',
-        'a también cambia: b es alias del mismo objeto, no copia',
         'Python lanza IsolationError',
+        'a también cambia: b es alias del mismo objeto, no copia',
         'Solo cambia si usas deepcopy',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Asignación alias: ambas variables apuntan al mismo objeto. Mutar por un nombre afecta al otro.',
     },
@@ -1760,11 +1760,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo basta `list.copy()` / `seq[:]` (shallow) frente a `copy.deepcopy` en intake anidado?',
       options: [
         'Siempre shallow; deep es ilegal',
-        'Shallow si solo reordenas filas sin mutar campos de dicts compartidos; deep si mutas dicts anidados clonados',
         'Deep solo para strings',
         'Shallow copia también los dicts internos',
+        'Shallow si solo reordenas filas sin mutar campos de dicts compartidos; deep si mutas dicts anidados clonados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Shallow copia la lista pero reutiliza referencias a dicts. Mutar campos internos requiere deep o reconstrucción.',
     },
@@ -1774,11 +1774,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para lookup O(1) de cliente por id en un lote, ¿qué estructura alinea con el curso?',
       options: [
         'list y búsqueda lineal siempre',
-        'dict id→fila (índice) además o en lugar de solo list[dict]',
         'tuple de tuples sin claves',
+        'dict id→fila (índice) además o en lugar de solo list[dict]',
         'set de strings de id y luego adivinar la fila',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'dict indexa por clave. list de filas es orden de inserción; el índice id→fila da acceso directo.',
     },
@@ -1788,11 +1788,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cómo lees un campo opcional sin KeyError si puede faltar en el dict del registro?',
       options: [
         'reg[\'email\'] siempre',
-        'reg.get(\'email\') o \'email\' in reg antes de indexar',
         'reg.email como atributo nativo',
         'list(reg)[0]',
+        'reg.get(\'email\') o \'email\' in reg antes de indexar',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'get/in evitan KeyError. Indexación directa falla si la clave no existe.',
     },
@@ -1801,12 +1801,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un dict de conteos por región, ¿qué patrón es idiomático para incrementar?',
       options: [
-        'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts[r] = counts.get(r, 0) + 1  (o defaultdict/Counter)',
+        'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts.append(r)',
         'counts + r',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'get con default 0 (o Counter) evita KeyError en la primera ocurrencia.',
     },
@@ -1816,11 +1816,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Al deduplicar ids de clientes vistos, ¿qué ventaja tiene un set frente a list?',
       options: [
         'Preserva orden de inserción siempre mejor que dict',
-        'Membership e inserción amortizados O(1); ideal para “¿ya vimos este id?”',
         'Permite dicts como elementos sin hash',
         'Automáticamente resuelve conflictos de campos distintos',
+        'Membership e inserción amortizados O(1); ideal para “¿ya vimos este id?”',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'set hashea elementos inmutables. Detecta duplicados rápido; conflictos de contenido se reportan aparte.',
     },
@@ -1829,12 +1829,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Dos filas con mismo id pero distinta región: ¿qué debe hacer un pipeline de calidad según el curso?',
       options: [
-        'Borrar ambas en silencio',
         'Reportar conflicto (no tratarlo como “duplicado inocente” sin evidencia)',
+        'Borrar ambas en silencio',
         'Quedarse con la última y no loguear',
         'Convertir id a list',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Conflicto ≠ duplicado inocente. Se reporta para revisión; no se “promedia” identidad.',
     },
@@ -1857,12 +1857,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Modelo cliente→contactos→txs como list[dict] anidados. ¿Cómo recorres todos los montos de un cliente?',
       options: [
-        'Solo client["monto"] en la raíz',
-        'for c in contactos: for t in c.get("txs", []): usar t["monto"] (recorrido anidado seguro)',
+        'for t in cliente.get("txs", []): usar t["monto"] (recorrido anidado seguro)',
+        'Solo cliente["monto"] en la raíz',
         'zip(client, contactos, txs) obligatorio',
         'json.loads una sola vez elimina la necesidad de bucles',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Estructuras anidadas se recorren nivel a nivel; get con default evita fallar si falta la lista.',
     },
@@ -1886,11 +1886,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si un cliente no tiene contactos, ¿qué default evita TypeError al iterar?',
       options: [
         'for c in client["contactos"] sin chequear (siempre hay lista)',
-        'for c in client.get("contactos") or []',
         'for c in None',
+        'for c in client.get("contactos") or []',
         'contactos debe ser un int',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'get(...) or [] (o default []) da iterable vacío. Iterar None lanza TypeError.',
     },
@@ -1914,11 +1914,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál patrón “dig” seguro evita KeyError/TypeError en reg["a"]["b"] si a puede faltar?',
       options: [
         'reg["a"]["b"] siempre',
-        'Paso a paso: nivel = reg.get(\'a\'); luego nivel.get(\'b\') si nivel es dict',
         'reg.a.b como en JS',
+        'Paso a paso: nivel = reg.get(\'a\'); luego nivel.get(\'b\') si nivel es dict',
         'eval("reg.a.b")',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Acceso por niveles con get y chequeo de tipo. Encadenar [] explota en el primer miss.',
     },
@@ -1928,11 +1928,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un monto viene como None en el dict. ¿Qué NO debes hacer en el contador de aceptados?',
       options: [
         'Marcar review/reject según política',
-        'Hacer total += monto asumiendo que None es 0 sin documentar',
         'Separar missing de 0 legítimo',
         'Registrar el caso en evidencia',
+        'Hacer total += monto asumiendo que None es 0 sin documentar',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'None no es 0. Sumar sin política corrompe tasas y oculta datos faltantes.',
     },
@@ -1942,11 +1942,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cómo ordenas filas de clientes por región y luego por id de forma estable en Python?',
       options: [
         'filas.sort() sin key siempre usa región',
-        'sorted(filas, key=lambda r: (r[\'region\'], r[\'id\']))',
         'filas.order_by("region") nativo en list',
+        'sorted(filas, key=lambda r: (r[\'region\'], r[\'id\']))',
         'set(filas) ordena alfabéticamente',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'sorted(..., key=) con tupla define criterios sucesivos. sort de list muta; sorted devuelve nueva.',
     },
@@ -1956,11 +1956,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué el export determinista del modelo en memoria ordena antes de JSON?',
       options: [
         'JSON reordena keys al azar siempre',
-        'Mismo input → mismo orden de salida para diffs y hashes estables en el gate',
         'sorted borra duplicados',
         'Solo sirve para UI',
+        'Mismo input → mismo orden de salida para diffs y hashes estables en la entrega',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Orden estable hace salidas reproducibles para CP-N1-B y comparación de manifests.',
     },
@@ -1969,12 +1969,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'sorted es estable. Si dos filas tienen la misma key de región, ¿qué se preserva?',
       options: [
-        'Orden aleatorio garantizado',
         'El orden relativo original entre esas filas',
+        'Orden aleatorio garantizado',
         'Se convierten en set',
         'Se eliminan ambas',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Estabilidad: empates conservan orden previo. Útil al ordenar por criterios en cascada.',
     },
@@ -1984,32 +1984,32 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué estructura eliges para “conjunto de ids ya vistos” vs “lista ordenada de eventos”?',
       options: [
         'set para eventos ordenados; list para membership',
-        'set (o dict) para membership de ids; list para secuencia ordenada de eventos',
         'tuple mutable para ambos',
         'Solo str concatenado',
+        'set (o dict) para membership de ids; list para secuencia ordenada de eventos',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Elige por operación dominante: lookup → set/dict; orden/historial → list.',
     },
     {
       concept: 'structure-choice-determinism',
       question:
-        'Al serializar el modelo a JSON para el gate, ¿qué práctica favorece determinismo?',
+        'Al serializar el modelo a JSON para la entrega, ¿qué práctica favorece el determinismo?',
       options: [
-        'Dejar orden de dicts al azar del hash seed',
         'Ordenar listas por clave de negocio y usar keys estables; evitar timestamps no controlados en el payload canónico',
+        'Dejar orden de dicts al azar del hash seed',
         'Insertar uuid en cada fila siempre sin seed',
         'Usar set como tipo JSON nativo',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'JSON no tiene set; ordena y fija schema. Timestamps no canónicos rompen igualdad byte a byte.',
     },
     {
       concept: 'structure-choice-determinism',
       question:
-        'En S06 V3, ¿cuál es el target pedagógico correcto (id plataforma numpy conservado)?',
+        '¿Qué entrega demuestra mejor que sabes componer las colecciones de esta sección?',
       options: [
         'Broadcasting y axis de NumPy arrays',
         'Colecciones en memoria (list/dict/set anidados) para modelo tabular CP-N1-B',
@@ -2018,7 +2018,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation:
-        'V3 retarget: colecciones, no NumPy. NumPy se retoma en tramo DS posterior.',
+        'La entrega integra listas, diccionarios y conjuntos en un modelo tabular reproducible; NumPy se estudia en el bloque numérico posterior.',
     },
   ],
   // S08 V3 — Archivos, CSV, JSON y contratos de ingesta (platform id: pandas)

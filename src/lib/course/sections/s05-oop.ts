@@ -12,7 +12,7 @@ export const section05: CourseSection = {
   icon: "FunctionSquare",
   accentColor: "bg-gradient-to-br from-purple-500 to-fuchsia-600",
   jobRelevance:
-    "Tras cerrar CP-N1-A, el siguiente salto de calidad en data engineering junior es **descomponer** la lógica en funciones con contrato: normalizar nombre, email, teléfono y dirección **sin** mezclar lectura de archivos. En bancos, fintech y retail en Perú, un normalizador no idempotente —o con default mutable, o con `print` en el core— genera basura silenciosa en el ETL y hace imposible el test unitario del intake (inicio **CP-N1-B**). Aquí construyes el núcleo puro reutilizable; más adelante lo empaquetas en CLI y lo modelas con clases de dominio cuando el contrato ya sea confiable.",
+    "Tras cerrar CP-N1-A, el siguiente salto de calidad en data engineering junior es **descomponer** la lógica en funciones con contrato: normalizar nombre, email, teléfono y dirección **sin** mezclar lectura de archivos. En bancos, fintech y retail en Perú, un normalizador no idempotente —o con un default mutable, o con `print` en el núcleo— puede contaminar un ETL sin una excepción visible y dificulta sus pruebas unitarias (inicio **CP-N1-B**). Aquí construyes un núcleo puro y reutilizable; más adelante lo empaquetas en una CLI y lo modelas con clases de dominio cuando el contrato ya sea confiable.",
   learningOutcomes: [
     { text: "Definir funciones con def, llamarlas y retornar valores (no None accidental)" },
     { text: "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)" },
@@ -30,6 +30,7 @@ export const section05: CourseSection = {
         "**Diccionario de la sección** (léelo antes de T1):\n\n- **Función (`def`)**: bloque reutilizable con nombre de verbo.\n- **`return`**: entrega un valor a quien llama (sin `return` → `None`).\n- **Contrato**: precondiciones + postcondiciones documentadas (docstring) y alineadas al código.\n- **Default seguro**: no uses lista/dict mutable como valor por defecto.\n- **Función pura**: mismo input → mismo output, sin I/O ni `print`s.\n- **Idempotencia**: `f(f(x)) == f(x)` en el caso feliz.\n- **Orquestador delgado**: combina normalizadores sin reimplementar reglas.\n- **LEGB**: orden Local → Enclosing → Global → Builtin.\n- **Keyword-only**: parámetros tras `*` que obligan `nombre=` en la llamada.",
         "El hilo conductor es un conjunto de **funciones puras** `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` que transforman texto sintético **sin** tocar disco ni red. La I/O se inyecta o se deja en el borde. Datos ficticios únicamente (`example.com`); **nunca** PII real. Caso de lab: inicio **CP-N1-B**.",
         "**Políticas canónicas del gate** (no cambian a mitad de sección):\n\n- `normalize_nombre`: colapsa espacios + **title-case por palabra**.\n- `normalize_email`: `strip` + `lower` y `ValueError` si falta `@`.\n- `normalize_telefono`: solo dígitos (demo).\n- `normalize_direccion`: colapsa + `upper`.\n\nCada normalizador debe ser **idempotente** en el caso feliz: `f(f(x)) == f(x)`.",
+        "Estas políticas son deliberadamente pequeñas para practicar contratos. `.title()` **no** representa todos los nombres reales y comprobar que exista `@` **no** valida una dirección de correo completa: son reglas del laboratorio, no afirmaciones sobre identidad ni validadores listos para producción. En S07 ampliarás el tratamiento de texto y Unicode. Aquí importa que cada regla sea explícita, medible y consistente de principio a fin.",
         "Orden pedagógico:\n\n- **T1 Funciones**: `def`/`return` → params/defaults.\n- **T2 Contratos**: pre/post/docstrings → hints y errores de dominio.\n- **T3 Diseño**: funciones pequeñas → pureza/I/O.\n- **T4 Alcance**: LEGB/closures → tests y refactor.\n\nEn cada subtema: teoría, un demo I Do y tres prácticas We Do (guiada, independiente, transferencia). Más adelante empaquetarás esto en CLI y modelarás registros con clases de dominio. Hoy el objetivo es el **núcleo puro** que un ETL junior puede testear sin abrir archivos.",
       ],
       code: {
@@ -149,7 +150,7 @@ SR./SRA. QUISPE
       paragraphs: [
         "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email, title-case en nombre). Juntas son el **contrato** del normalizador.",
         "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. **No** copies la firma; explica la **política de negocio** (p. ej. colapsar espacios + title-case, o exigir `@` en email).",
-        "En intake sintético: pre = tipo str; post = forma canónica o `ValueError` de dominio. La política de email del gate es **strip+lower y raise si falta `@`** — la misma en demos, **Hacemos juntos** y **Tú haces**. Si docstring y código discrepan, el revisor devuelve el PR.",
+        "En el intake sintético: pre = tipo `str`; post = forma canónica o `ValueError` de dominio. La política mínima de email del laboratorio es **strip+lower y raise si falta `@`** — la misma en demos, **Hacemos juntos** y **Tú haces**. Esta regla detecta un fallo básico, pero no demuestra que la dirección exista ni que sea válida según todos los estándares. Si docstring y código discrepan, el revisor devuelve el PR.",
       ],
       code: {
         language: 'python',
@@ -163,7 +164,7 @@ SR./SRA. QUISPE
     """
     s = raw.strip().lower()
     if not s or "@" not in s:
-        raise ValueError("email inválido para normalizar")
+        raise ValueError("email sin @ (gate mínimo)")
     return s
 
 print(normalize_email("  Ana.Perez@Example.COM "))
@@ -172,7 +173,7 @@ try:
 except ValueError as e:
     print("err:", e)`,
         output: `ana.perez@example.com
-err: email inválido para normalizar`,
+err: email sin @ (gate mínimo)`,
       },
       callout: {
         type: "tip",
@@ -464,7 +465,7 @@ except ValueError as e:
 ValueError falta @`,
         },
         why:
-          "El `raise` es parte del contrato de negocio, no un adorno de Python. El docstring no sustituye al código, pero debe coincidir en pre, post y errores. Un junior que solo hace `lower` sin validar `@` deja pasar basura al matching; un revisor que lee el doc y ejecuta el caso `x` debe ver el mismo rechazo.",
+          "El `raise` es parte del contrato de negocio, no un adorno de Python. El docstring no sustituye al código, pero debe coincidir en pre, post y errores. Un junior que solo hace `lower` sin comprobar `@` incumple el gate mínimo; un revisor que lee el doc y ejecuta el caso `x` debe ver el mismo rechazo. Aun así, pasar este gate no demuestra que la dirección exista.",
         retrospective:
           "Si el docstring dice “exige `@`” y el código no valida, gana el código y el revisor devuelve el PR. El error clásico es documentar la política y olvidar el `raise`. En We Do convertirás un `#` en docstring real y alinearás pre/post con el cuerpo.",
       },
@@ -560,26 +561,31 @@ for s in samples:
         environment: "browser-pyodide",
         description: "Closure factory para prefijo de teléfono",
         preamble:
-          "A veces fijas una política regional (prefijo `+51`) **sin** clase ni global mutable. Observa `make_norm`: la función interna **cierra** `prefix` del enclosing scope y lo reutiliza en cada llamada. No hay `global`. Compara las dos salidas del mismo `pe` con raw distinto (con y sin guiones en dígitos).",
+          "A veces fijas una política regional (prefijo `+51`) **sin** clase ni global mutable. Observa `make_norm`: la función interna **cierra** `prefix` del ámbito envolvente y lo reutiliza en cada llamada. No hay `global`. Compara las tres salidas del mismo `pe`: dígitos limpios, dígitos con guiones y un valor que ya trae `+51`.",
         code: {
           language: 'python',
           title: "S05-T4-A-DEMO — closure",
           code: `def make_norm(prefix: str):
     def norm(raw: str) -> str:
         d = "".join(c for c in raw if c.isdigit())
+        country_digits = "".join(c for c in prefix if c.isdigit())
+        if country_digits and d.startswith(country_digits) and len(d) > 9:
+            d = d[len(country_digits):]
         return prefix + d
     return norm
 
 pe = make_norm("+51")
 print(pe("999000111"))
-print(pe("999-000-111"))`,
+print(pe("999-000-111"))
+print(pe("+51 999-000-111"))`,
           output: `+51999000111
++51999000111
 +51999000111`,
         },
         why:
-          "LEGB: la interna resuelve `prefix` en el enclosing scope. Eso supera un global de configuración porque cada factory cierra su propio valor y no se pisa con otra instancia. Sin clases prematuras.",
+          "LEGB: la interna resuelve `prefix` en el ámbito envolvente. Cada factory conserva su propia configuración y no se pisa con otra instancia. Antes de anteponer el prefijo, la demo retira el mismo código si ya venía en la entrada; así la política también es idempotente para los tres casos mostrados, sin recurrir a una clase ni a un global mutable.",
         retrospective:
-          "La interna recuerda el enclosing sin ensuciar el namespace global: cada factory cierra su propio `prefix`. El error clásico es mutar un `PREF` global y que dos normalizadores se pisen. En We Do verás primero que una asignación local no pisa el global, y luego armarás factories PE/CL.",
+          "La interna recuerda el ámbito envolvente sin ensuciar el espacio de nombres global: cada factory cierra su propio `prefix`. Comprueba la frontera ya prefijada: volver a normalizar `+51 999-000-111` no debe producir `+5151…`. En We Do verás primero que una asignación local no pisa el global y luego armarás factories PE/CL.",
       },
       {
         demoId: "S05-T4-B-DEMO",
@@ -663,7 +669,7 @@ print(n_palabras('  Ana   María  '))`,
         kind: "independent",
         title: "Normalizar nombre (colapsa + title)",
         preamble:
-          "- **Contexto:** el gate CP-N1-B exige nombres canónicos para matching y reportes en fintech/retail.\n- **Meta:** implementar `normalize_nombre` con la política completa del caso, no solo `strip`.\n- **Éxito:** imprime `Juan Pérez` y `Quispe` en dos líneas.\n- **Límites:** no uses regex; no mutes strings con side-effects; datos sintéticos.",
+          "- **Contexto:** el gate CP-N1-B exige una forma canónica didáctica para comparar resultados y producir reportes sintéticos.\n- **Meta:** implementar `normalize_nombre` con la política completa del caso, no solo `strip`.\n- **Éxito:** imprime `Juan Pérez` y `Quispe` en dos líneas.\n- **Límites:** no uses regex; no presentes `.title()` como regla universal de nombres; datos sintéticos.",
         instruction:
           "1. Revisa el fallo: solo `strip` deja dobles espacios y mayúsculas.\n2. Colapsa espacios con `split`/`join`.\n3. Aplica `.title()` por palabra (parte del contrato).\n4. Prueba los dos inputs del starter y compara salidas.",
         hint: "Solo strip no toca dobles espacios ni mayúsculas: ¿qué del I Do convierte basura de espacios en un solo espacio y title por palabra?",
@@ -674,9 +680,9 @@ print(n_palabras('  Ana   María  '))`,
         edgeCases: ["espacios múltiples", "MAYÚSCULAS → Title"],
         tests: "Juan Pérez / Quispe",
         feedback:
-          "Solo `strip` no basta: quedan dobles espacios y `QUISPE` en mayúsculas. La base del normalizador de nombres del capstone es colapsar **y** title; ambos fallos rompen matching del gate.",
+          "Solo `strip` no basta: quedan dobles espacios y `QUISPE` en mayúsculas. La política didáctica del capstone exige colapsar **y** aplicar `title`; omitir cualquiera de los dos pasos rompe el contrato ejecutable del gate.",
         retrospective:
-          "Title-case sin colapsar deja basura (`\"Juan  Pérez\"`). Colapsar sin title deja `\"QUISPE\"`. Ambos fallan matching del gate. Reusarás este contrato en el You Do y en cualquier orquestador que toque nombres.",
+          "Aplicar `title` sin colapsar deja basura (`\"Juan  Pérez\"`). Colapsar sin `title` deja `\"QUISPE\"`. Ambos fallan el contrato del laboratorio. Reusarás esta política —con sus límites documentados— en el You Do y en cualquier orquestador que toque nombres sintéticos.",
         starterCode: {
           language: 'python',
           title: "norm_nombre.py",
@@ -985,7 +991,7 @@ err email sin @`,
           language: 'python',
           title: "post_nombre.py",
           code: `# CASO-LIM-005 · postcondición nombre (colapsa + title)
-# FALLO: solo strip; deja dobles espacios (rompe post)
+# BUG intencional: solo strip; deja dobles espacios (rompe post)
 def normalize_nombre(raw: str) -> str:
     """Post: sin extremos ni dobles espacios; title-case por palabra."""
     return raw.strip()
@@ -1074,7 +1080,7 @@ hint no valida en runtime`,
           language: 'python',
           title: "parse_monto.py",
           code: `# CASO-LIM-005 · parse_monto dominio
-# FALLO: acepta negativos; no distingue no-entero
+# BUG intencional: acepta negativos; no distingue no-entero
 from typing import Optional, Tuple
 
 def parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
@@ -1651,7 +1657,7 @@ print('OK')`,
           language: 'python',
           title: "refactor_dir.py",
           code: `# CASO-LIM-005 · refactor preserva conducta
-# FALLO: segunda definición usa lower (rompe política upper)
+# BUG intencional: segunda definición usa lower (rompe política upper)
 def normalize_dir(raw):
     return ' '.join(raw.strip().split()).upper()
 assert normalize_dir('  av 1 ') == 'AV 1'
@@ -1732,17 +1738,17 @@ all PASS`,
       "Inicias **CP-N1-B** con el núcleo reutilizable: `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` como funciones **puras**, con docstring, hints graduales e **idempotencia** demostrada. Sin pathlib CSV todavía (S08) y sin clases de dominio (S11). Solo datos sintéticos.",
     objectives: [
       "Implementar 4 normalizadores puros + orquestador normalize_record",
-      "Demostrar idempotencia f(f(x))==f(x) en cada uno",
+      "Demostrar idempotencia f(f(x)) == f(x) en cada uno",
       "Docstrings con pre/post; ValueError o política explícita en email",
       "Sin I/O ni prints dentro del core",
       "Suite de ejemplos/asserts ejecutable en __main__",
     ],
     requirements: [
-      "normalize_nombre colapsa espacios y aplica title de palabras",
-      "normalize_email: strip+lower; error si no hay @",
-      "normalize_telefono: solo dígitos (política de demo)",
-      "normalize_direccion: colapsa + upper determinista",
-      "is_idempotent helper o asserts equivalentes",
+      "`normalize_nombre` colapsa espacios y aplica `title` por palabra (política del laboratorio, no regla universal de nombres)",
+      "`normalize_email`: `strip` + `lower`; error si no hay `@` (gate mínimo, no validación integral de email)",
+      "`normalize_telefono`: solo dígitos (política de demostración)",
+      "`normalize_direccion`: colapsa espacios + `upper` determinista",
+      "`is_idempotent` o asserts equivalentes para los cuatro normalizadores",
       "Datos sintéticos; sin PII real",
     ],
     starterCode: `"""normalizers_pure.py — inicio CP-N1-B (S05)
@@ -1763,7 +1769,9 @@ def normalize_nombre(raw: str) -> str:
 
 
 def normalize_email(raw: str) -> str:
-    """Strip + lower. ValueError si falta @.
+    """Aplica strip + lower. ValueError si falta @.
+
+    Es un gate mínimo del laboratorio, no una validación integral de email.
     """
     # Contrato: corrige el fallo del código inicial (no dejes NotImplemented)
     raise NotImplementedError
@@ -1799,11 +1807,23 @@ def _run_tests() -> None:
     assert is_idempotent(normalize_nombre, "  ana  ")
     assert normalize_email("  A@B.COM ") == "a@b.com"
     assert is_idempotent(normalize_email, "A@B.COM")
+    try:
+        normalize_email("sin-arroba")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("normalize_email debe rechazar entradas sin @")
     assert normalize_telefono("999-000-111") == "999000111"
     assert is_idempotent(normalize_telefono, "999-000-111")
     assert normalize_direccion("  av. larco 100 ") == "AV. LARCO 100"
+    assert is_idempotent(normalize_direccion, "  av. larco 100 ")
     r = normalize_record("  luis ", "L@E.COM", "(999)111222", " jr unión 1 ")
-    assert set(r) >= {"nombres", "email", "telefono", "direccion"}
+    assert r == {
+        "nombres": "Luis",
+        "email": "l@e.com",
+        "telefono": "999111222",
+        "direccion": "JR UNIÓN 1",
+    }
     print("tests OK")
 
 
@@ -1821,7 +1841,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "Documenta en español la política de cada normalizador y pega la salida de la suite. Menciona que la I/O de archivos llegará en S08; aquí solo el core puro.",
+      "Documenta en español la política y los límites de cada normalizador; luego pega la salida de la suite. Explica que `title` y “contiene `@`” son reglas didácticas, no validadores universales de identidad. Menciona que la I/O de archivos llegará en S08; aquí solo construyes el núcleo puro.",
     rubric: [
       { criterion: "Cuatro normalizadores correctos", weight: "25%" },
       { criterion: "Idempotencia demostrada", weight: "25%" },

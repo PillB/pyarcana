@@ -1018,110 +1018,104 @@ Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
       hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
     },
     'functions-modules': {
-      title: 'Practica funciones y decorators',
-      code: `# Practica funciones y decorators
-import functools
-import time
+      title: 'Practica un resumen por lotes',
+      code: `# Resume un lote sintético en un solo pase O(n)
+statuses = ["accept", "reject", "review", "accept", "reject"]
+counts = {"accept": 0, "reject": 0, "review": 0}
 
-def timing(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        inicio = time.time()
-        result = func(*args, **kwargs)
-        elapsed = (time.time() - inicio) * 1000
-        print(f"⏱️  {func.__name__} tardó {elapsed:.2f}ms")
-        return result
-    return wrapper
+for status in statuses:
+    counts[status] += 1
 
-@timing
-def fibonacci(n):
-    """Calcula el n-ésimo número de Fibonacci."""
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
+n_total = len(statuses)
+tasa_reject = counts["reject"] / n_total if n_total else None
 
-# Probar
-resultado = fibonacci(10)
-print(f"fibonacci(10) = {resultado}")`,
-      hint: 'Intenta con fibonacci(15) o fibonacci(20) para ver cómo crece el tiempo',
+print("conteos", counts)
+print("n_total", n_total)
+print("tasa_reject", tasa_reject)
+
+# Caso borde del gate CP-N1-A: lote vacío
+empty = []
+empty_rate = 0 / len(empty) if empty else None
+print("tasa_lote_vacio", empty_rate)`,
+      expectedOutput: `conteos {'accept': 2, 'reject': 2, 'review': 1}
+n_total 5
+tasa_reject 0.4
+tasa_lote_vacio None`,
+      hint: 'Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.',
     },
+    // `oop` is the stable S05 compatibility id; its learner content is Functions.
     'oop': {
-      title: 'Practica clases y herencia',
-      code: `# Practica OOP
-class Animal:
-    def __init__(self, nombre, edad):
-        self.nombre = nombre
-        self.edad = edad
+      title: 'Practica funciones con contrato',
+      code: `# Datos sintéticos: practica el núcleo puro de CP-N1-B
+def normalize_nombre(raw: str) -> str:
+    return " ".join(raw.strip().split()).title()
 
-    def hacer_sonido(self):
-        return "sonido generico"
+def normalize_email(raw: str) -> str:
+    email = raw.strip().lower()
+    if "@" not in email:
+        raise ValueError("email sin @")
+    return email
 
-    def __str__(self):
-        return f"{self.nombre} ({self.edad} años)"
+def normalize_telefono(raw: str) -> str:
+    return "".join(c for c in raw if c.isdigit())
 
-class Perro(Animal):
-    def __init__(self, nombre, edad, raza):
-        super().__init__(nombre, edad)
-        self.raza = raza
+print(normalize_nombre("  maría  josé "))
+print(normalize_email("  Ana@Example.COM "))
+print(normalize_telefono("(999) 000-111"))
 
-    def hacer_sonido(self):
-        return "Guau!"
+try:
+    normalize_email("sin-arroba")
+except ValueError as error:
+    print(error)
 
-    def __str__(self):
-        return f"{self.nombre}, {self.raza}, {self.edad} años"
-
-# Crear instancias
-animal = Animal("Generico", 5)
-fido = Perro("Fido", 3, "Labrador")
-
-print(animal)
-print(f"Sonido: {animal.hacer_sonido()}")
-print()
-print(fido)
-print(f"Sonido: {fido.hacer_sonido()}")`,
-      expectedOutput: `Generico (5 años)
-Sonido: sonido generico
-
-Fido, Labrador, 3 años
-Sonido: Guau!`,
-      hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
+nombre = normalize_nombre("  ANA ")
+print("idempotente", normalize_nombre(nombre) == nombre)`,
+      expectedOutput: `María José
+ana@example.com
+999000111
+email sin @
+idempotente True`,
+      hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
     'numpy': {
-      title: 'Practica NumPy vectorizado',
-      code: `# Practica NumPy (se carga automaticamente)
-import numpy as np
+      title: 'Practica colecciones y conflictos',
+      code: `# Modelo tabular en memoria: solo biblioteca estándar
+import json
 
-# Crear array
-arr = np.array([1, 2, 3, 4, 5])
-print(f"Array: {arr}")
-print(f"Shape: {arr.shape}")
-print(f"Mean: {arr.mean()}")
+def dedup_report(rows, key="id"):
+    """Conserva la primera fila y reporta payloads incompatibles."""
+    seen = {}
+    unique = []
+    conflicts = []
+    for row in rows:
+        value = row[key]
+        if value not in seen:
+            seen[value] = row
+            unique.append(row)
+        elif seen[value] != row:
+            conflicts.append({
+                "id": value,
+                "kept": seen[value],
+                "other": row,
+            })
+    return unique, conflicts
 
-# Operaciones vectorizadas
-print(f"Cuadrados: {arr ** 2}")
-print(f"Doble: {arr * 2}")
+rows = [
+    {"id": "C002", "region": "Cusco"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Piura"},
+]
+unique, conflicts = dedup_report(rows)
+unique = sorted(unique, key=lambda row: row["id"])
 
-# Boolean masking
-print(f"Mayores a 3: {arr[arr > 3]}")
-
-# Matriz 2D
-matriz = np.array([[1, 2, 3], [4, 5, 6]])
-print(f"\\nMatriz:\\n{matriz}")
-print(f"Suma por columnas: {matriz.sum(axis=0)}")
-print(f"Suma por filas: {matriz.sum(axis=1)}")`,
-      expectedOutput: `Array: [1 2 3 4 5]
-Shape: (5,)
-Mean: 3.0
-Cuadrados: [ 1  4  9 16 25]
-Doble: [ 2  4  6  8 10]
-Mayores a 3: [4 5]
-
-Matriz:
-[[1 2 3]
- [4 5 6]]
-Suma por columnas: [5 7 9]
-Suma por filas: [ 6 15]`,
-      hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
+print("ids únicos:", [row["id"] for row in unique])
+print("conflictos:", len(conflicts))
+print(json.dumps(unique, sort_keys=True, ensure_ascii=False))`,
+      expectedOutput: `ids únicos: ['C001', 'C002']
+conflictos: 1
+[{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}]`,
+      hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
     'pandas': {
       title: 'Practica pandas DataFrame',
