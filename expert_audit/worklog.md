@@ -2568,7 +2568,6 @@ Stage Summary:
 - Timestamp: 2026-07-25T18:13:14.724053+00:00
 
 ---
----
 Task ID: TEXT-FIRST-S01
 Agent: Independent Section 1 text-first owner
 Task: Rewrite Section 1 learner prose while preserving the deployed correctness contracts.
@@ -2638,4 +2637,116 @@ Stage Summary:
 - Section 3 text-first rewrite is complete, independently evidenced, and ready for serial integration.
 
 Section 3 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
 ---
+Task ID: TEXT-FIRST-R2-S04
+Agent: Independent Section 4 text-first owner
+Task: Rewrite and independently validate every learner-facing Section 4
+surface while preserving executable and assessment contracts.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S04.md
+- Report:
+  course-state/curriculum_hardening/audits/fixer_reports/independent/S04_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s04-functions-modules.ts only
+- Coverage: 9/9 Theory blocks, 8/8 I Do demos, 24/24 We Do exercises, complete
+  You Do and 8/8 public self-check explanations.
+- Assessment: 24/24 authenticated questions re-audited; 8 concepts × 3
+  variants and 6/6/6/6 answer-position balance preserved.
+- Contract repair: active learner manifest improved from 17/24 to 24/24
+  ordered unique practice IDs by moving existing IDs beside instructions.
+- Validation: focused 11/11 after locality coverage; runtime 64/64; V3, exam, TypeScript, ESLint,
+  Node 54/54, static export and local HTTP pass; Spanish 9.01 with no
+  high/critical finding.
+- Initial full Python suite: 80 failures / 1 skip. The follow-up below
+  correctly identifies and removes the one S04 locality failure, leaving 79
+  inherited failures.
+- Generated audit artifacts restored; no bulk-generated curriculum prose.
+
+Stage Summary:
+- S04 text-first rewrite is complete and independently evidenced for serial
+  integration by the parent.
+- Timestamp: 2026-07-26
+
+Ready for the next section.
+
+---
+Task ID: TEXT-FIRST-S05
+Agent: Independent Section 5 text-first owner
+Task: Reopen S05 after its correctness deployment and make the learner-visible
+educational rewrite sustained, causal and unmistakable.
+
+Work Log:
+- Dedicated independent evidence: `expert_audit/S05_TEXT_FIRST_REPORT.md`;
+  chronological reopening entry: `expert_audit/independent_worklog/S05.md`.
+- Canonical identity reconciled as learner-facing Functions under stable
+  compatibility id `oop`; current playground/PDF mappings verified.
+- Rewrote relevance/map; 8/8 Theory bridges and reasoning closes; 8/8 I Do
+  prediction prompts; 24/24 We Do misconception-repair retrospectives; the
+  complete You Do planning/evidence narrative; and 8/8 public self-check
+  explanations.
+- Preserved executable code/output, policies, stable ID values, counts,
+  authenticated questions/keys, 6/6/6/6 bank balance and live mappings.
+- Moved existing exercise ID metadata next to instructions so the expanded
+  prose remains fully visible to the bounded learner-packet parser: 20/24 →
+  24/24, reducing the broad inherited suite from 81 to 80 failures.
+- Validation: new text-first 6/6; S05 integrity 4/4; runtime 65/65; TypeScript,
+  ESLint, V3, exam audit and static export pass; Node adversarial 54/54; local
+  HTTP 200; Spanish 9.23 with no medium/high findings.
+- Generated audit snapshots restored before staging.
+
+Stage Summary:
+- S05 text-first rewrite complete under one-section anti-aberration scope and
+  ready for parent serial integration.
+- Timestamp: 2026-07-26
+
+Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-R2-S06
+Agent: Independent Section 6 text-first owner
+Task: Rewrite and independently validate every learner-facing S06 surface — theory, I Do, We Do, You Do, public self-check, and authenticated assessment.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S06.md
+- Report: course-state/curriculum_hardening/audits/fixer_reports/independent/S06_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s06-numpy.ts only
+- Canonical identity: Section 6 “Colecciones y estructuras de datos” under compatibility key `numpy`; playground and PDF mappings confirmed on-topic and unchanged.
+- Coverage: 1 map + 8 theory subtopics, 8 I Do demos, 24 We Do exercises, one You Do project, nine public self-check explanations, and 24 authenticated questions independently reviewed.
+- Rewrite: all theory surfaces, all I Do explanatory surfaces, all 24 We Do retrospectives, You Do framing/review, and all self-check explanations received hand-written causal, beginner-safe improvements.
+- Contract repairs: all 24 stable exercise IDs now parse uniquely in canonical order; locality density reduced from 57 to the fleet cap of 55 without changing fixtures or executable output.
+- Assessment: authenticated bank preserved after confirming 24 unique items, 8 concepts × 3, overall answer balance 6/6/6/6, and per-attempt balance 2/2/2/2.
+- Validation: 11/11 focused; 64/64 runtime; V3; exam P0=0/P1=0; Spanish 9.13/FH 86.7; TypeScript; ESLint; Node 54/54; static export. Full Python failures fell 81→79, with no remaining S06-owned failure.
+- Timestamp: 2026-07-26
+
+Stage Summary:
+- S06 text-first rewrite is complete, independently evidenced, and ready for serial integration.
+
+Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-R2-S04-LOCALITY-FOLLOWUP
+Agent: Independent Section 4 text-first owner
+Task: Correct the missed S04 active locality-density contract before
+publication.
+
+Work Log:
+- Reproduced S04 at 68 Peruvian city tokens against the fleet cap of 55.
+- Diversified the repeated T1-A-E1 fixture to Quito, Bogotá and Madrid,
+  preserving its region-loop purpose and synchronized starter/solution/output.
+- Added a focused assertion using the fleet's active `PE_CITIES` expression
+  and exact cap.
+- Final S04 count: 53.
+- Validation: focused 11/11; runtime 64/64; V3 and TypeScript pass.
+- Full locality test no longer names S04.
+- Full Python suite: 140 tests, 79 inherited failures / 1 skip, no S04 heading.
+- Corrected the earlier report's inaccurate 80-failure classification.
+- Generated runtime audit JSON restored before staging.
+
+Stage Summary:
+- S04 now clears both packet identity and locality-density global contracts.
+- Timestamp: 2026-07-26
+
+Ready for the next section.

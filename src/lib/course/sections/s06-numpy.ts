@@ -12,7 +12,7 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En pipelines de onboarding y calidad de datos en bancos, fintech y retail en Perú, antes de CSV/JSON necesitas un **modelo tabular en memoria**: clientes, contactos y transacciones como list/dict/set bien elegidos. La deduplicación debe **reportar conflictos** y las salidas deben ser **deterministas**. Aquí inicias el bloque de portafolio **CP-N1-B** (modelo en RAM) usando solo la biblioteca estándar — sin NumPy ni pandas. Si ya dominas listas y funciones de S04–S05, esta sección te enseña a **componerlas** como almacén confiable, no solo como ejercicios sueltos.",
+    "Antes de guardar un lote en CSV o enviarlo a una base de datos, un programa necesita una mesa de clasificación en memoria. Allí conserva el orden de llegada, localiza clientes por ID, detecta repeticiones y deja constancia de los desacuerdos. En esta sección conviertes las listas y funciones de S04–S05 en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding, logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
     { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
@@ -27,25 +27,25 @@ export const section06: CourseSection = {
     {
       heading: "Mapa de la sección: modelo tabular en memoria",
       paragraphs: [
-        "**Antes de T1, tres ideas base** (no memorices el resto aún). Una **secuencia** (`list`/`tuple`) ordena filas y ventanas. Un **dict** indexa por ID en tiempo casi constante. Un **set** responde “¿está en la cohorte?”, y alimenta la deduplicación. El resto de la sección enseña a **combinar** esas piezas en un mini almacén en RAM con datos sintéticos LATAM.",
-        "En esta sección construyes el **modelo tabular en memoria** que tu portafolio **CP-N1-B** necesita: listas, tuplas, dicts, sets y estructuras anidadas *cliente → contactos → transacciones*. Las salidas son **deterministas** y la deduplicación **reporta conflictos**. Partes de lo que ya practicaste en S04–S05 (listas, funciones con contrato); aquí el foco es **elegir y componer** estructuras, no reinventar bucles.",
-        "El hilo conductor es ese **mini almacén** (`example.com`, ids `C00x`). Trabajas solo con la **biblioteca estándar** — sin pandas ni NumPy (el cálculo vectorizado llega más adelante, p. ej. S14). En S08 ese modelo se conecta a CSV/JSON y cuarentena. **Nunca** PII real.",
-        "Orden pedagógico: **T1 Secuencias** (list/tuple/slicing → alias/copia) → **T2 Dicts/sets** (índices, dedup con conflictos) → **T3 Anidado y missing** → **T4 Orden y elección de estructura** (sorted estable, JSON determinista). En cada subtema: teoría, demo I Do y tres We Do (guiada → independiente → transferencia). Ritmo sugerido (~18 h): no intentes dominar conflictos y JSON el primer día; avanza T1→T4 en orden.",
+        "Imagina un centro internacional de ayuda que recibe fichas sintéticas de envíos. Tres preguntas aparecen antes de abrir un archivo: «¿en qué orden llegaron?», «¿dónde está la ficha C002?» y «¿ya vimos este ID?». Una secuencia conserva el orden; un `dict` actúa como índice; un `set` responde pertenencia. Esas estructuras no compiten: cada una resuelve una pregunta distinta.",
+        "En S04 aprendiste a recorrer datos y en S05 a encerrar reglas en funciones. Ahora compones ambas destrezas en un modelo tabular en memoria: clientes con contactos y transacciones, una tabla de acceso por ID y un registro separado de conflictos. Piensa en él como una mesa de clasificación temporal, no como una base de datos diminuta ni como una colección de trucos aislados.",
+        "La ruta sigue la vida de una fila. T1 conserva ventanas y evita copias accidentales; T2 permite buscar y deduplicar sin borrar evidencia; T3 representa relaciones y distingue ausencia de vacío; T4 ordena y serializa de forma reproducible. Antes de cada ejemplo, predice qué propiedad debe sobrevivir: orden, identidad, relación o igualdad de la salida.",
+        "Trabajarás solo con la biblioteca estándar y datos sintéticos (`example.com`, IDs `C00x`). El objetivo de CP-N1-B es poder explicar por qué elegiste cada estructura y demostrar sus límites con una salida observable. En S08 conectarás este modelo a CSV y JSON. Por ahora, una buena decisión en memoria vale más que una biblioteca potente usada sin criterio.",
       ],
       callout: {
         type: "info",
         title: "Alcance de S06",
         content:
-          "Trabajas solo con la **biblioteca estándar** (list, dict, set, copy, json). El objetivo es el **modelo tabular en memoria** (inicio CP-N1-B). NumPy y vectorización se retoman en el tramo de datos/DS. Solo datos sintéticos; nunca PII real.",
+          "Trabajas con list, tuple, dict, set, copy y json de la biblioteca estándar. El objetivo es construir y justificar un modelo tabular en memoria con datos sintéticos; nunca uses información personal real.",
       },
     },
     {
       heading: "Listas, tuplas y slicing",
       subtopicId: "S06-T1-A",
       paragraphs: [
-        "Una `list` es mutable y ordenada: ideal para filas que crecen (`append`, `extend`) — la cola de llegada de un lote de onboarding sintético. Una `tuple` es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente cuando varios helpers comparten el mismo esquema.",
-        "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones: el patrón de “últimos N movimientos” en un extracto. El **stop es exclusivo**, igual que en `range` — evita off-by-one al numerar N filas. En lista vacía, `[][-2:]` devuelve `[]` sin error. Atención al borde: `rows[-0:]` equivale a `rows[0:]` y devuelve todo; por eso un helper “últimas N” debe tratar `n == 0` de forma explícita y rechazar `n < 0`.",
-        "Membership `x in seq` es **O(n)** en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** (O(1) promedio) en T2. Caso de borde: no uses una lista de 100k ids para `in` dentro de un loop caliente — es la semilla del O(n²) que T4-B te hará medir conceptualmente.",
+        "Una secuencia se parece a una fila de vagones: la posición forma parte del significado. Una `list` permite añadir o retirar vagones, por eso sirve para una cola de registros que crece. Una `tuple` conserva un trayecto fijo; úsala para headers o claves que varios helpers deben leer sin modificarlas. La pregunta práctica no es «¿cuál es mejor?», sino «¿debe cambiar este contenedor?».",
+        "Un slice es una ventana sobre esa fila, no una operación sobre cada elemento. `txs[-3:]` crea una lista nueva con las tres últimas transacciones y deja intacta la original. Predice los bordes antes de ejecutar: una lista vacía produce `[]`; `n == 0` necesita tratamiento explícito porque `rows[-0:]` equivale a copiar todo; y `n < 0` contradice el contrato de «últimas N».",
+        "Buscar con `x in una_lista` obliga a avanzar hasta encontrar el valor o llegar al final: costo O(n). Para una comprobación ocasional es una decisión sencilla y legible. Repetirla miles de veces dentro de otro bucle transforma esa sencillez en trabajo cuadrático; T2 mostrará cómo un `set` o un `dict` cambia la pregunta de «recorrer» a «consultar un índice».",
       ],
       code: {
         language: 'python',
@@ -75,16 +75,16 @@ T2 in slice? True`,
         type: "tip",
         title: "Regla de ventana",
         content:
-          "Para reportes “últimos N” usa slicing negativo. No copies a mano con bucles salvo que necesites filtrar.",
+          "Para obtener los últimos N registros usa slicing negativo. Reserva el bucle para cuando también necesites filtrar o transformar cada fila.",
       },
     },
     {
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "Después de ventanas y contratos de columnas (T1-A), el siguiente riesgo del almacén es **confundir nombre con copia**. **Unpacking** `a, b = fila` desempaqueta sin índices ruidosos. Con `head, *rest = fila` capturas el primer valor y dejas el sobrante en una lista (útil cuando el lote trae columnas variables). Si el largo no calza con el patrón, Python lanza error: **eso es bueno** — detecta shape roto antes de contaminar el almacén.",
-        "**Aliasing**: `b = a` **no** copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug clásico aparece al “clonar” clientes en memoria sin copiar de verdad: un score de demo que se “arregla” en un helper y se corrompe en el store original.",
-        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir por fila (`dict(c)` o `{**c, 'tags': list(c['tags'])}`). En intake, shallow basta si solo reordenas filas **sin** mutar campos compartidos; si mutas tags o contactos anidados, usa deep o un dict nuevo por fila. Contrato: **aislar antes de mutar**.",
+        "El desempaquetado convierte la posición en nombres: `id_cliente, region, monto = fila` documenta el shape mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con `ValueError`. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. `head, *rest = fila` sirve cuando solo la primera columna es fija y el resto puede variar.",
+        "Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona `b = a`: `a` y `b` son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
+        "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores. Basta si solo reordenas filas; no basta si modificarás `tags`, contactos u otros campos anidados. `deepcopy` separa todo el grafo, aunque consume más memoria y puede ocultar una arquitectura demasiado mutable. Decide el nivel de aislamiento antes de mutar y prueba la identidad que esperas conservar.",
       ],
       code: {
         language: 'python',
@@ -126,16 +126,16 @@ original final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]`,
         type: "warning",
         title: "Bug clásico de intake",
         content:
-          "Lista de dicts + copy superficial: los dicts internos siguen compartidos. Si vas a mutar campos anidados, usa deepcopy o dict(...) nuevo por fila.",
+          "Una copia superficial de una lista de diccionarios aún comparte las filas internas. Si modificarás campos anidados, reconstruye esas filas o usa deepcopy con una razón explícita.",
       },
     },
     {
       heading: "Diccionarios y pertenencia",
       subtopicId: "S06-T2-A",
       paragraphs: [
-        "Con secuencias y copias bajo control, pasas al **índice del almacén**. Un `dict` modela registros y **índices** `id → cliente`. La búsqueda tiene costo promedio **O(1)**. Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave: buscar “¿dónde está C002?” no debe recorrer toda la lista en cada llamada. Si dos filas traen el mismo ID, la comprensión conservará la última sin avisar; detecta y reporta esos conflictos antes de construir el índice, como practicarás en T2-B.",
-        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor — no confundas con “¿el cliente tiene email?” si buscas en values. Caso: `\"email\" in cliente` no dice si el email es válido; solo si la clave existe en el `dict`.",
-        "`update` / merge fusiona configuraciones: el segundo `dict` **pisa** claves del primero. Documenta la precedencia (`override > base`) y **no mutes** el `dict` base compartido si varios helpers lo leen: prefiere `{**base, **override}` o una copia antes de `update`. Eso evita pisar sin querer políticas de normalización de S05.",
+        "Una lista responde «¿qué llegó primero?»; un diccionario responde «¿qué registro corresponde a esta clave?». Piensa en el catálogo de una biblioteca: nadie recorre todos los estantes para localizar un código conocido. `{c['id']: c for c in filas}` construye ese catálogo con acceso O(1) promedio. Pero hay una frontera peligrosa: si el ID se repite, la última fila reemplaza a la anterior sin ceremonia. Detecta el conflicto antes de indexar.",
+        "`d[k]` expresa un invariante: la clave debe existir, y un `KeyError` denuncia que el programa rompió esa promesa. `d.get(k, default)` expresa una ausencia esperada. No los uses como sinónimos. Además, `k in d` pregunta por claves, no por calidad: `\"email\" in cliente` confirma que el casillero existe; no confirma que contenga una dirección válida.",
+        "Al fusionar configuraciones, la precedencia es una regla de negocio disfrazada de sintaxis. `{**base, **override}` dice que el override gana y conserva intacto el original. `base.update(override)` puede ser correcto si la mutación es deliberada y local; sobre un diccionario compartido produce fallos distantes. Antes del merge, formula la pregunta que un test debe responder: ¿qué valor gana y qué objeto debe permanecer sin cambios?",
       ],
       code: {
         language: 'python',
@@ -167,16 +167,16 @@ merged: {'timeout': 30, 'retry': 3}`,
         type: "tip",
         title: "Índice vs. lista",
         content:
-          "Lista para orden de llegada; dict índice para lookup por ID. Ambos conviven en el modelo CP-N1-B.",
+          "Conserva la lista cuando importe el orden de llegada y añade un diccionario cuando necesites localizar filas por ID. Un mismo modelo puede necesitar ambas vistas.",
       },
     },
     {
       heading: "Deduplicación y operaciones de set",
       subtopicId: "S06-T2-B",
       paragraphs: [
-        "El `dict` te da lookup; el **set** te da **membership de cohorte** y deduplicación de ids/emails hashables. Ideal para **unión/intersección/diferencia** de dos lotes sintéticos (quién está en A y en B, quién solo en A). Elementos deben ser hashables: `str` e `int` sí; `list` o `dict` no van directo al `set`.",
-        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id`, pero payload distinto, deben **reportarse** en `conflicts`, no silenciarse. El patrón de calidad es `unique` + `conflicts`. **Política:** si el payload es **idéntico**, es un duplicado inocente (no entra a `conflicts`); si **difiere**, deja traza del choque. “El último gana” sin traza es un anti-patrón de calidad de datos.",
-        "Para exports **deterministas**, no dependas del orden del set: ordena con `sorted(...)` al exportar (JSON `sort_keys`, listas de ids ordenadas). Reproducibilidad > “orden de llegada mágico”. El mismo lote sintético debe producir el mismo reporte en cada corrida del demo.",
+        "Un `set` se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado. Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser hashables; strings y enteros sirven, mientras que listas y diccionarios mutables no pueden convertirse directamente en miembros.",
+        "La deduplicación de negocio exige una segunda pregunta: «¿la fila repetida cuenta la misma historia?». Dos copias idénticas pueden tratarse como ruido; el mismo ID con otra región o email es un conflicto. Un set de IDs detecta la repetición, pero no conserva suficiente evidencia para compararla. El patrón `unique + conflicts` guarda la primera vista y registra cualquier desacuerdo en vez de decretar en silencio que «la última gana».",
+        "Los sets tampoco prometen un orden apto para un informe. Ordena sus elementos al mostrar o serializar: el propósito no es embellecer la salida, sino hacerla reproducible. Si el mismo lote genera distinto texto en dos corridas, un diff no puede distinguir un cambio real de una casualidad de orden. Predice qué información perderías si redujeras todo el registro a `set(ids)`.",
       ],
       code: {
         language: 'python',
@@ -219,16 +219,16 @@ n_conflicts: 1`,
         type: "warning",
         title: "Conflicto ≠ duplicado inocente",
         content:
-          "Mismo id + payload distinto → conflicto de calidad. Reporta; no elijas “el último gana” sin dejar traza.",
+          "Un ID repetido con el mismo payload puede ser ruido. El mismo ID con datos distintos es un conflicto que debes conservar y explicar.",
       },
     },
     {
       heading: "Estructuras anidadas y recorridos",
       subtopicId: "S06-T3-A",
       paragraphs: [
-        "Hasta aquí modelaste filas planas e índices. El modelo **CP-N1-B** anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:` — bucles anidados **legibles** sobre el grafo en memoria. No hace falta una clase formal aún: un `list[dict]` bien documentado es un almacén suficiente para la **entrega de modelo en memoria** del portafolio.",
-        "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08: una fila por tx, no un JSON anidado opaco. **Contar** contactos por cliente (`len(c['contacts'])`) valida integridad del almacén en RAM antes de exportar.",
-        "Una estructura inconsistente (falta la clave `txs` o no es una lista) se detecta con `isinstance` y se envía a **revisión**. No asumas que todo `dict` llegó bien formado del lote sintético: una cadena `'oops'` donde debía haber una lista de transacciones pasa como basura silenciosa si solo haces `if c.get('txs'):`.",
+        "Un cliente no es una fila aislada: posee contactos y transacciones. Una estructura anidada representa esa relación como un árbol pequeño: el diccionario del cliente es el tronco y sus listas son ramas. El doble `for` no es complejidad accidental; sigue una arista real, cliente → transacción. Mientras el shape esté documentado, `list[dict]` basta para razonar sin introducir clases antes de necesitarlas.",
+        "Aplanar cambia la vista, no la verdad. Para producir una fila por transacción repites `client_id` junto a `tx_id` y `monto`; esa repetición deliberada conserva el vínculo cuando desaparece el árbol. Si omites `client_id`, obtienes montos huérfanos. Antes de exportar, cuenta contactos y transacciones: los totales son una prueba sencilla de que el recorrido no perdió ramas.",
+        "Forma y contenido son problemas diferentes. `txs: []` tiene la forma correcta y expresa cero transacciones; una clave ausente o `txs: 'oops'` rompe el contrato. `bool(txs)` mezcla ambos problemas porque una lista vacía es falsy. `isinstance(txs, list)` pregunta por el shape que realmente necesitas y permite enviar solo las filas estructuralmente inválidas a revisión.",
       ],
       code: {
         language: 'python',
@@ -268,16 +268,16 @@ flat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C0
         type: "tip",
         title: "Shape listo para S08",
         content:
-          "list[dict] plano es el puente natural a CSV. Mantén ids de cliente en cada fila aplanada.",
+          "Una lista plana de diccionarios es el puente natural hacia CSV. Conserva el ID del cliente en cada fila aplanada para no perder la relación.",
       },
     },
     {
       heading: "Acceso seguro y valores faltantes",
       subtopicId: "S06-T3-B",
       paragraphs: [
-        "Al anidar, el fallo típico es `KeyError` en un path incompleto (`profile` ausente, luego `phone`). Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita el crash: `(c.get('profile') or {}).get('phone')` o, mejor, un helper `get_nested` / `dig` reutilizable.",
-        "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige (eco de S03: `None≠0`). Caso: `if not phone` marcaría mal un monto `0` o un email vacío que aún es “presente pero inválido”.",
-        "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se **testean una vez**. No copies el mismo try/except de KeyError en 20 sitios del orquestador. Contrato del helper: si falta un nivel del path, devuelve `default`; si la clave existe con valor `None`, devuelve `None` (no sustituyas en silencio).",
+        "En un formulario internacional, «la página no llegó» y «la casilla llegó vacía» exigen respuestas distintas. Lo mismo ocurre en un diccionario anidado: puede faltar `profile`, faltar `phone` dentro del perfil o existir `phone` con valor vacío. Acceder con corchetes a cada nivel presupone que toda la ruta existe; un helper `dig` convierte esa suposición en una política visible.",
+        "Los valores falsy no significan automáticamente ausencia. `0` puede ser un monto legítimo; `''` puede ser un campo presente pero inválido; `[]` puede representar una colección válida sin elementos. Si usas `if not valor` para todo, borras esas distinciones y distorsionas el reporte. Decide primero qué significa missing en el dominio y después escribe la condición.",
+        "`get_nested` recorre la ruta nivel por nivel. Si falta una clave o aparece un objeto que ya no es diccionario, devuelve el sentinel acordado; si la clave existe con `None`, conserva `None`. Esa diferencia permite que la capa siguiente decida si rechaza, completa o acepta. Centralizarla evita veinte variantes de `try/except` y concentra los tests de borde en un solo contrato.",
       ],
       code: {
         language: 'python',
@@ -307,16 +307,16 @@ phone missing: MISSING`,
         type: "warning",
         title: "Falsy ≠ missing",
         content:
-          "No uses `if not value` para decidir missing si 0 o '' son valores válidos de negocio.",
+          "No uses una prueba de falsedad como definición universal de ausencia. Cero, cadena vacía y lista vacía pueden ser datos válidos según el contrato.",
       },
     },
     {
       heading: "Ordenamiento y key",
       subtopicId: "S06-T4-A",
       paragraphs: [
-        "Con el grafo en memoria legible, el export y los rankings piden **orden estable**. `sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)` y pierdes las filas (`x is None` y el store original ya cambió).",
-        "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena **estable** por región y luego nombre. Timsort preserva el orden relativo de empates — útil para audits reproducibles y para que el README del portafolio no “baile” entre corridas del mismo lote sintético.",
-        "Para montos, asegúrate de que el tipo sea **numérico** antes de ordenar; strings `'100' < '20'` rompen el ranking (orden lexicográfico). Normaliza tipos (S05) antes de `sorted`. Caso de lab: top por `monto` en txs sintéticas solo es confiable si `monto` es `int`/`float` (o `Decimal` más adelante), no `str` sucio del formulario.",
+        "Un tablero de salidas ordena vuelos sin alterar los registros que recibió. `sorted(seq, key=fn)` hace esa vista nueva; `list.sort(key=fn)` reorganiza la lista compartida y devuelve `None`. Ambos pueden ser correctos, pero responden a contratos distintos. El bug aparece al escribir `ordenadas = filas.sort(...)`: el original cambia y `ordenadas` queda sin lista.",
+        "La función `key` traduce una fila a su criterio de comparación. Una tupla como `(region, nombre)` se compara de izquierda a derecha: primero región y, solo en empate, nombre. El orden es estable, de modo que dos filas con la misma clave conservan su orden relativo previo. Esa propiedad permite encadenar decisiones sin inventar comparadores manuales.",
+        "Ordenar no corrige tipos. Los strings `'100'` y `'20'` se comparan carácter por carácter, por lo que `'100'` aparece antes que `'20'`. Normaliza el monto en S05 y ordena después; hacerlo al revés produce un ranking sintácticamente válido y semánticamente falso. Antes de confiar en un top, prueba un valor que revele la diferencia entre orden numérico y lexicográfico.",
       ],
       code: {
         language: 'python',
@@ -344,16 +344,16 @@ top monto: Ana 50`,
         type: "tip",
         title: "Export determinista",
         content:
-          "Ordena siempre antes de JSON/CSV de demos para que el diff del README sea estable.",
+          "Ordena filas por una clave de negocio y las claves del JSON al serializar. Así, la misma entrada produce una salida comparable.",
       },
     },
     {
       heading: "Estructura adecuada, complejidad y determinismo",
       subtopicId: "S06-T4-B",
       paragraphs: [
-        "Cierra el modelo eligiendo estructura por **operación dominante**: muchos appends → `list`; muchos lookups por ID → `dict`; membership de cohortes → `set`; contrato fijo inmutable → `tuple`. **No** uses `dict` “porque sí” si el orden de llegada importa y no indexas. Justificar la elección es parte del rubric del You Do.",
-        "Complejidad (solo ahora, con las cuatro estructuras en la mano): membership en `list` **O(n)**; en `set`/`dict` **O(1)** promedio. No hagas `if x in big_list` dentro de un loop de n si puedes **preindexar** con un `set` o `dict`. n búsquedas sobre `list` cuestan ~n×n chequeos conceptuales; sobre `set`, ~n. Eso es deuda de rendimiento en el almacén en RAM.",
-        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids/clientes produce la misma cadena en cada corrida. La reproducibilidad es un **criterio de entrega** de CP-N1-B: los ejemplos y las diferencias del README deben ser estables. Próximo paso natural: en S08 ese JSON/`list[dict]` se conecta a archivos CSV/JSON y cuarentena; aquí cierras la estructura en memoria.",
+        "Elegir una colección es elegir qué pregunta será barata y clara. Una `list` favorece secuencia y append; un `dict`, búsqueda por clave; un `set`, pertenencia y operaciones de cohorte; una `tuple`, un contrato posicional fijo. Ninguna es «la estructura profesional» en abstracto. Defiende la elección nombrando la operación dominante y la propiedad que no puedes perder.",
+        "Esa elección intercambia tiempo, memoria y legibilidad. Buscar n elementos dentro de una lista de n puede exigir n×n comparaciones; construir un set cuesta memoria adicional, pero reduce las consultas posteriores a O(1) promedio. Preindexar no siempre conviene para cinco filas y una sola búsqueda. Conviene cuando el número de consultas justifica el costo y cuando no necesitas conservar duplicados en ese índice.",
+        "El cierre del modelo es una salida determinista: ordenas clientes por ID y serializas con `sort_keys=True`. El objetivo no es fingir que los diccionarios son aleatorios, sino fijar un contrato canónico para tests, hashes y revisiones. Ejecuta dos veces con la misma entrada y exige igualdad exacta; después cambia una fila y comprueba que el diff señale el cambio de negocio, no ruido de presentación.",
       ],
       code: {
         language: 'python',
@@ -377,12 +377,12 @@ print(dump_deterministic(payload))`,
         type: "info",
         title: "Solo biblioteca estándar",
         content:
-          "Si tu solución de S06 importa numpy o pandas, está fuera de alcance. Vuelve a la biblioteca estándar (list, dict, set, copy, json).",
+          "Resuelve esta entrega con list, dict, set, copy y json. Las bibliotecas tabulares llegan después de que puedas justificar el modelo básico.",
       },
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema, orden T1→T4). Cada demo **muestra** el contrato del subtema antes de que lo practiques en We Do. Modelo en memoria del inicio CP-N1-B; datos sintéticos; solo biblioteca estándar (browser-pyodide).",
+    intro: "En estas ocho demostraciones no persigas la sintaxis línea por línea. Sigue un ciclo más útil: predice una salida, localiza la operación que la causa, ejecuta y explica qué propiedad quedó intacta. La demostración termina cuando puedes modificar una condición y anticipar el efecto sin volver a mirar el resultado.",
     steps: [
       {
         demoId: "S06-T1-A-DEMO",
@@ -390,7 +390,7 @@ print(dump_deterministic(payload))`,
         environment: "browser-pyodide",
         description: "Ventana de últimas txs con slicing y contrato de keys (tuple)",
         preamble:
-          "En un extracto de onboarding sintético (ids `T0x`, sin PII real) necesitas las **últimas N** transacciones y un contrato fijo de columnas. Observa la demo sin escribir aún: (1) `txs[-n:]` arma la ventana sin mutar la lista original; (2) la tupla `keys` fija qué campos se proyectan; (3) el `print` de `len(ventana)` confirma el tamaño. El stop del slicing es exclusivo como en `range`. Datos de demo únicamente.",
+          "Un centro de despacho quiere las tres operaciones más recientes sin alterar la cola original. Antes de ejecutar, anota qué IDs esperas ver y cuál debería ser el tamaño de `txs` después. Sigue tres decisiones: el guard para `n`, el slice que crea la ventana y la tupla que fija las columnas. Luego pregunta qué ocurriría con `n = 0` y con `n = -1`.",
         code: {
           language: 'python',
           title: "S06-T1-A-DEMO — ventana",
@@ -419,9 +419,9 @@ print("len ventana:", len(projected))`,
 ('T05', 22.0, 'app')
 len ventana: 3`,
         },
-        why: "Slicing da la ventana sin reescribir filas a mano. La tupla de keys proyecta solo las columnas del contrato: inmutable frente a un helper que haga `append` sobre una lista de headers. El `len` de la ventana es el éxito observable del extracto «últimos N».",
+        why: "El slice separa selección de transformación: primero elige las últimas filas y después proyecta sus campos. Como crea otra lista, la cola original conserva orden y tamaño. La tupla convierte los headers en un contrato que un helper no puede ampliar con `append`. `len(projected)` verifica el límite visible; comparar `len(txs)` antes y después verificaría la no mutación.",
         retrospective:
-          "Si puedes decir por qué `keys` es tuple y no list, ya internalizaste el contrato de columnas. El error clásico es copiar filas a mano con un `for` en vez de slicing. En We Do T1-A practicarás ventanas y el choque al mutar una tuple.",
+          "Explica la salida sin decir solo «porque funciona el slice»: ¿desde qué posición comienza `-3`, por qué el resultado sigue siendo lista y qué objeto permanece sin cambios? Después cambia mentalmente `keys` a lista. El programa aún corre, pero ¿qué riesgo de mantenimiento reaparece? Esa diferencia entre ejecución correcta y contrato resistente guiará T1-A.",
       },
       {
         demoId: "S06-T1-B-DEMO",
@@ -429,7 +429,7 @@ len ventana: 3`,
         environment: "browser-pyodide",
         description: "Bug de alias al 'copiar' lista de dicts de clientes",
         preamble:
-          "Antes de «clonar» clientes en el store en RAM, el riesgo es **confundir nombre con copia**. Sigue la demo: `mal = clientes` **es alias**; al mutar `score` el original cambia. Luego `dict(c)` por fila aísla el nivel 1 si los campos son planos; `deepcopy` aísla anidados. Datos sintéticos `C00x`. No reescribas; predice cada `print` y compáralo con la salida.",
+          "Tres equipos creen trabajar con copias del mismo lote. Antes de ejecutar, dibuja flechas desde `clientes`, `mal`, `bien_shallow` y `deep` hacia los objetos que imaginas en memoria. Predice los tres prints. La meta no es memorizar nombres de copia, sino relacionar cada mutación observable con las referencias que todavía comparten identidad.",
         code: {
           language: 'python',
           title: "S06-T1-B-DEMO — alias",
@@ -459,9 +459,9 @@ print("C002 original:", clientes[1]["score"], "deep:", deep[1]["score"])`,
 original tras shallow dict(): 99
 C002 original: 20 deep: 0`,
         },
-        why: "Alias muta el original porque comparte el mismo objeto. `dict(c)` por fila basta cuando los campos son planos (score, id); si hay tags o listas internas, shallow no aísla y necesitas `deepcopy` o reconstruir el campo anidado. Aislar antes de mutar es el contrato del store.",
+        why: "`mal = clientes` crea otro nombre para la misma lista, así que escribir mediante `mal` modifica la única fila existente. `[dict(c) for c in rows]` crea diccionarios exteriores nuevos y aísla campos planos como `score`. Si una fila contuviera `tags: []`, esa lista interior seguiría compartida; allí necesitas reconstruir el campo o usar `deepcopy`.",
         retrospective:
-          "Si `b = a` y mutas un campo, ambas variables ven el cambio: no hay «copia mágica». Shallow corta el contenedor; deep corta el grafo. We Do: unpack, alias vs `copy()`, y tags anidados.",
+          "Vuelve a tu dibujo y señala qué flecha explica cada número impreso. Luego añade mentalmente `tags: ['vip']` a C002 y modifica `bien_shallow[1]['tags']`. ¿Cambiaría el original? Si la respuesta es sí, has encontrado el límite de la copia por fila. En T1-B deberás justificar el nivel de aislamiento, no escoger `deepcopy` por reflejo.",
       },
       {
         demoId: "S06-T2-A-DEMO",
@@ -469,7 +469,7 @@ C002 original: 20 deep: 0`,
         environment: "browser-pyodide",
         description: "Índice id→cliente y lookup seguro",
         preamble:
-          "Cuando buscas «¿dónde está C002?» muchas veces, recorrer la lista es lento y ruidoso. La demo construye un índice `id → fila`, hace lookup de nombre con `get` anidado y muestra un id ausente → `\"N/A\"`. Observa también `sorted(idx)`: las keys del dict se ordenan al reportar. Solo datos sintéticos; no reescribas, sigue los `print`.",
+          "Un operador consulta cientos de veces clientes por ID. Predice qué estructura evita recorrer la lista en cada consulta y qué debería ocurrir con C999. Durante la demo distingue dos responsabilidades: `build_index` prepara el acceso rápido; `lookup_nombre` decide la política de ausencia. `sorted(idx)` solo ordena el informe, no el diccionario para buscar.",
         code: {
           language: 'python',
           title: "S06-T2-A-DEMO — index",
@@ -491,9 +491,9 @@ print("keys ordenadas:", sorted(idx))`,
 missing: N/A
 keys ordenadas: ['C001', 'C002']`,
         },
-        why: "El índice dict hace lookup O(1) promedio frente a escanear la lista. `get` encadenado evita KeyError cuando el id o el campo son opcionales en demos de intake; el acceso duro se reserva a invariantes que deben fallar fuerte.",
+        why: "La comprensión transforma la lista en un mapa ID → fila, pagando una pasada inicial para abaratar consultas repetidas. El primer `get` cubre un ID ausente con `{}` y el segundo cubre un nombre opcional con el default. Esa tolerancia es correcta solo porque la función promete una respuesta de presentación; una etapa que exige todos los IDs debería usar acceso duro y fallar.",
         retrospective:
-          "Lista = orden de llegada; dict = lookup. `get` evita KeyError en demos de intake; el acceso duro se reserva a invariantes. We Do: construir dict desde pares, `get` vs KeyError, y merge de configs sin mutar defaults.",
+          "Compara dos contratos: «si no existe, muestra N/A» y «si no existe, detén el pipeline». El mismo diccionario sirve para ambos, pero no la misma forma de acceso. ¿Qué prueba escribirías para evitar que un typo como C020 se convierta silenciosamente en N/A? En T2-A practicarás cuándo la ausencia es dato y cuándo es defecto.",
       },
       {
         demoId: "S06-T2-B-DEMO",
@@ -501,7 +501,7 @@ keys ordenadas: ['C001', 'C002']`,
         environment: "browser-pyodide",
         description: "ids únicos; intersección de lotes; conflictos = mismo id datos distintos",
         preamble:
-          "En calidad de datos, deduplicar **no** es borrar a ciegas. Observa: tres filas con `C001` — dos con el mismo email (duplicado inocente) y una con email distinto (conflicto reportado). La demo lista `unique`, cuenta conflictos y muestra intersección de dos lotes con sets. Predice `n_conflicts` antes de mirar el output. Solo emails `*@ex.com` sintéticos.",
+          "El lote contiene tres apariciones de C001, pero solo una contradicción. Antes de ejecutar, clasifica cada repetición como «idéntica» o «conflictiva» y predice `n_conflicts`. Después observa que el set resuelve otra pregunta —quién pertenece a ambas cohortes— mientras el diccionario `seen` conserva el payload necesario para comparar historias.",
         code: {
           language: 'python',
           title: "S06-T2-B-DEMO — dedup",
@@ -534,9 +534,9 @@ n_conflicts: 1
 conflict email pair: a@ex.com vs otro@ex.com
 intersección lotes: ['C002']`,
         },
-        why: "Dedup preserva la primera vista en `unique`. Payload idéntico no es conflicto; payload distinto se lista en `conflicts` sin borrar filas del reporte. «El último gana» sin traza es anti-patrón de calidad.",
+        why: "`seen` guarda la primera evidencia asociada a cada ID. Una fila idéntica no añade información; una distinta se conserva junto a la primera para revisión. Si usáramos solo `set(ids)`, sabríamos que C001 se repitió, pero no cuál campo discrepó. Separar `unique` de `conflicts` permite continuar el proceso sin fingir que la contradicción desapareció.",
         retrospective:
-          "Primera vista en `unique`; payload distinto → `conflicts` con traza. «El último gana» sin reporte es anti-patrón. We Do: emails ordenados, operaciones de set, y `dedup_report` completo.",
+          "Defiende la política de conservar la primera fila: ¿qué evidencia cambia si conservas la última? Ninguna política es neutral si no registras ambas versiones. Añade mentalmente una tercera fila distinta de C001: ¿esperas uno o dos conflictos y por qué? En T2-B usarás sets para pertenencia y diccionarios para explicar desacuerdos.",
       },
       {
         demoId: "S06-T3-A-DEMO",
@@ -544,7 +544,7 @@ intersección lotes: ['C002']`,
         environment: "browser-pyodide",
         description: "Modelo en memoria Client con contacts[] y txs[]",
         preamble:
-          "El núcleo de CP-N1-B es un grafo en memoria: cliente con `contacts[]` y `txs[]`. Observa `summarize_client` (conteo y total) y `flatten_store` (filas densas con `client_id`). No es una base de datos: es el almacén en RAM antes de CSV/JSON en S08. Sigue los prints; nombres sintéticos LATAM.",
+          "Un cliente contiene dos contactos y dos transacciones. Antes de ejecutar, predice el conteo, el total y cuántas filas aparecerán al aplanar. Sigue el recorrido como un árbol: primero el cliente, luego cada transacción. Observa qué dato debe repetirse en cada fila plana para que el vínculo sobreviva cuando desaparezca la estructura anidada.",
         code: {
           language: 'python',
           title: "S06-T3-A-DEMO — modelo",
@@ -584,9 +584,9 @@ contactos: 2
 total txs: 62
 flat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 12}]`,
         },
-        why: "El grafo cliente→contactos/txs es el núcleo del modelo tabular CP-N1-B en RAM. Resumir y aplanar son dos vistas del mismo store: una para negocio, otra para export densificado con `client_id`.",
+        why: "`summarize_client` reduce las ramas a métricas del cliente; `flatten_store` produce una fila por transacción. Son vistas del mismo almacén, no copias equivalentes: el resumen pierde detalle a propósito y la vista plana repite `client_id` para conservar la relación. El doble `for` refleja exactamente las dos aristas que recorre.",
         retrospective:
-          "Anidar es modelar; aplanar es exportar. Cada fila flat conserva `client_id` para no perder la relación. We Do: contar contactos, aplanar todas las txs, y validar shape roto.",
+          "Comprueba una conservación: la suma de montos del árbol debe coincidir con la suma de la lista plana. ¿Qué assert detectaría que olvidaste la segunda transacción? Luego imagina que una fila plana no incluye `client_id`: el monto existe, pero su dueño se perdió. En T3-A usarás conteos y shapes para demostrar que el recorrido conserva relaciones.",
       },
       {
         demoId: "S06-T3-B-DEMO",
@@ -594,7 +594,7 @@ flat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 
         environment: "browser-pyodide",
         description: "Extraer teléfono opcional de contacto anidado",
         preamble:
-          "Campos opcionales anidados (`profile.phone`) no se leen con `d['a']['b']` a ciegas. La demostración muestra un helper `dig` y clasifica: valor OK, **missing** (ruta incompleta) y **empty** (cadena vacía). Observa C003: el teléfono existe pero es `\"\"` — no es lo mismo que C004 sin `profile`. Solo datos sintéticos.",
+          "Cuatro fichas parecen carecer de teléfono por razones distintas. Antes de ejecutar, clasifica C001–C004 como valor, ruta ausente o campo vacío. Sigue `cur` en cada nivel de `dig`: la función devuelve el default cuando no puede continuar, pero conserva `''` cuando la clave existe. Esa distinción es la materia prima del reporte de calidad.",
         code: {
           language: 'python',
           title: "S06-T3-B-DEMO — dig",
@@ -624,9 +624,9 @@ C002 MISSING missing
 C003  empty
 C004 MISSING missing`,
         },
-        why: "`dig()` centraliza el acceso seguro por ruta. Etiquetar missing vs empty alimenta el reporte de completitud: una cadena vacía no es una «clave ausente», y `if not phone` confunde ambos casos.",
+        why: "`dig` separa navegación de interpretación. Navega hasta encontrar una ruta rota y devuelve un sentinel; después, la clasificación decide si el valor es missing, empty u ok. Si usáramos `if not phone`, tanto el sentinel mal elegido como `''` podrían caer en la misma rama. La política explícita evita esa pérdida de información.",
         retrospective:
-          "Missing ≠ empty ≠ ok. Centralizar el acceso evita KeyError y unifica el reporte de completitud. We Do: `get_nested`, marcar missing de email, y tabla falsy vs missing.",
+          "Explica por qué C002 y C004 reciben la misma etiqueta aunque su estructura difiera, y por qué C003 no debe acompañarlos. Después sustituye `phone: ''` por `phone: None`: ¿tu política lo llamaría vacío, ausente o inválido? No hay respuesta universal; en T3-B deberás declarar el contrato antes de escribir la condición.",
       },
       {
         demoId: "S06-T4-A-DEMO",
@@ -634,7 +634,7 @@ C004 MISSING missing`,
         environment: "browser-pyodide",
         description: "Ordenar clientes por región luego nombre",
         preamble:
-          "Los exports del almacén piden orden estable: primero región, luego nombre. Observa `sorted(..., key=lambda r: (región, nombre))` **sin** mutar la lista original. Después, el anti-patrón: `list.sort` muta y **retorna None**. Predice las líneas de salida antes de ejecutar. Datos sintéticos Lima/Cusco.",
+          "Un informe regional debe mostrar primero la región y resolver empates por nombre. Antes de ejecutar, escribe el orden esperado de los tres IDs. Luego predice dos hechos distintos: el valor de retorno de `sort_ids_inplace` y el estado final de `mutated`. La demo contrasta una vista ordenada con una mutación deliberada.",
         code: {
           language: 'python',
           title: "S06-T4-A-DEMO — sort",
@@ -664,9 +664,9 @@ Lima Zara C003
 sort in-place retorna: None
 ids mutados: ['C001', 'C002', 'C003']`,
         },
-        why: "`sorted` devuelve una lista nueva; `key` multi-campo da ranking lexicográfico región→nombre para exports. `list.sort` muta in-place y retorna `None`: no lo asignes a una variable esperando la lista ordenada.",
+        why: "La tupla de la `key` se compara de izquierda a derecha, de modo que nombre solo decide cuando región empata. `sorted` materializa otra lista y conserva la entrada; `.sort()` reorganiza el objeto recibido y devuelve `None` para recordar que su efecto está en el contenedor. Confundir retorno con efecto produce una variable vacía y una entrada alterada.",
         retrospective:
-          "`sorted` devuelve lista nueva; `.sort` muta y retorna `None` — no lo asignes. El `key` multi-campo ordena lexicográficamente región→nombre sin reescribir comparadores. We Do: monto, multi-campo, y el bug de asignar `.sort()`.",
+          "Señala qué líneas prueban cada contrato: una muestra el orden de la vista; otra, el retorno `None`; otra, la mutación. Si dos clientes compartieran región y nombre, la estabilidad conservaría su orden previo. ¿Cuándo sería preferible mutar con `.sort()`? En T4-A tendrás que justificar esa decisión según quién más comparte la lista.",
       },
       {
         demoId: "S06-T4-B-DEMO",
@@ -674,7 +674,7 @@ ids mutados: ['C001', 'C002', 'C003']`,
         environment: "browser-pyodide",
         description: "Mismo input → mismo JSON dump con sort_keys",
         preamble:
-          "Un artefacto de demo del modelo en memoria debe ser **reproducible**: misma entrada, mismo JSON. Observa ordenar `clients` por `id` y `json.dumps(..., sort_keys=True)`. La igualdad `a == b` en dos corridas es el test de determinismo. Sin PII real; `generated_by` es metadata sintética.",
+          "Un auditor compara dos ejecuciones del mismo lote y espera el mismo texto byte por byte. Antes de ejecutar, distingue los dos órdenes que debes controlar: el de la lista `clients` y el de las claves de cada diccionario. Predice `a == b`; luego identifica qué parte del código protege cada eje de determinismo.",
         code: {
           language: 'python',
           title: "S06-T4-B-DEMO — json",
@@ -700,22 +700,22 @@ print("determinista:", a == b)`,
           output: `{"clients": [{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}], "generated_by": "s06-demo"}
 determinista: True`,
         },
-        why: "Ordenar filas por `id` y serializar con `sort_keys=True` elimina el orden mágico de `dict`/`set`. Misma entrada → misma cadena: evidencia de portafolio y pruebas de regresión del modelo en memoria.",
+        why: "`sorted(..., key=id)` fija el orden de las filas; `sort_keys=True` fija el de las claves al serializar. Resolver solo uno deja ruido posible en el otro. La igualdad de dos dumps es una comprobación mínima; un test más fuerte construiría entradas equivalentes con distinto orden inicial y exigiría el mismo JSON canónico.",
         retrospective:
-          "Ordenar filas + `sort_keys` elimina el «orden mágico» de dict/set. Es evidencia de portafolio en el README del You Do. We Do: elegir list/dict/set, dumps determinista, y tradeoff de membership.",
+          "Cambia mentalmente el orden inicial de `clients`: la salida debe permanecer igual. Ahora cambia la región de C001: la salida debe diferir. Esa pareja de pruebas distingue determinismo de inmovilidad; el programa no oculta cambios reales, solo elimina ruido de representación. En T4-B conectarás esta propiedad con elección de estructura y costo.",
       },
     ],
   },
   weDo: {
-    intro: "Andamiaje por subtema: **E1 guiado** (arregla el bug del starter) → **E2 independiente** → **E3 transferencia**. Son 24 ejercicios (8×3) con 2 hints cada uno. Ejecuta, compara con la solución y solo entonces avanza. Sin NumPy/pandas; datos sintéticos.",
+    intro: "Cada trío reduce el apoyo de manera deliberada. En E1 localiza el defecto con una pista; en E2 elige la operación sin que el starter la nombre; en E3 transfiere la idea a un borde o tradeoff. Antes de abrir la solución, escribe una predicción y una razón. Después compara no solo la salida, sino también qué propiedad preserva tu código.",
     steps: [
       {
-        id: "S06-T1-A-E1",
         subtopicId: "S06-T1-A",
         kind: "guided",
         title: "Últimos 2 montos con slicing negativo",
         preamble:
           "- **Contexto:** en el mini almacén de txs sintéticas, el reporte «últimos movimientos» usa ventanas, no reescritura a mano.\n- **Meta:** practicar slicing negativo y el caso lista vacía.\n- **Éxito:** con `txs = [10,20,30,40,50]` imprimes `[40, 50]` y `2`; con lista vacía, `[]` y `0`.\n- **Límites:** solo biblioteca estándar; no mutes `txs`; no uses bucles para la ventana.",
+        id: "S06-T1-A-E1",
         instruction:
           "1. Abre el starter: `ventana = txs[:2]` toma el **inicio**, no el final.\n2. Cambia a `txs[-2:]` (y lo mismo en `empty`).\n3. Imprime la ventana y su `len` en ambos casos.\n4. No agregues texto extra en los `print`.",
         hint: "Usa txs[-2:] (funciona también si hay menos de 2).",
@@ -728,7 +728,7 @@ determinista: True`,
         feedback:
           "`[:2]` son los primeros dos; `[-2:]` son los últimos. En lista vacía el slicing devuelve `[]` sin `IndexError` — por eso el caso vacío se prueba junto a la ventana feliz.",
         retrospective:
-          "La ventana negativa es el mismo patrón de «últimos N» del extracto. No confundas índice `[-2]` (un elemento) con slice `[-2:]` (lista). Siguiente: contrato de columnas con tuple (E2).",
+          "Antes de mirar la solución, explica por qué `[-2]` devuelve un valor y `[-2:]` devuelve una lista. Luego predice qué ocurre con una entrada de un solo elemento y con `[]`. Si tu explicación depende de «Python lo permite», vuelve al modelo de ventana: el slice conserva el tipo de secuencia y tolera una ventana más grande que los datos disponibles.",
         starterCode: {
           language: 'python',
           title: "slice_n.py",
@@ -760,12 +760,12 @@ print(len(v0))`,
         },
       },
       {
-        id: "S06-T1-A-E2",
         subtopicId: "S06-T1-A",
         kind: "independent",
         title: "Headers a tuple y extensión sin mutar",
         preamble:
           "- **Contexto:** el esquema de columnas del almacén no debe mutarse si un helper hace `append` por error.\n- **Meta:** convertir headers a `tuple` y demostrar extensión con `+`.\n- **Éxito:** `KEYS` imprime `('id', 'monto')`; `more` es `('id', 'monto', 'canal')`; `KEYS` sigue igual después.\n- **Límites:** no uses `.append` sobre `KEYS`; no dejes `KEYS` como alias de la lista.",
+        id: "S06-T1-A-E2",
         instruction:
           "1. Parte de `headers = ['id', 'monto']`.\n2. Crea `KEYS` inmutable desde esa lista.\n3. Construye `more` agregando `'canal'` sin mutar `KEYS`.\n4. Imprime `KEYS`, `more` y de nuevo `KEYS` para verificar estabilidad.",
         hint: "tuple(lista) o keys = ('id','monto')",
@@ -778,7 +778,7 @@ print(len(v0))`,
         feedback:
           "Si dejas `KEYS = headers`, un `append` en otro helper muta el «contrato». `tuple(headers)` congela el esquema; `KEYS + ('canal',)` crea **otra** secuencia y deja el snapshot intacto.",
         retrospective:
-          "Tuple = snapshot de contrato; list = cola que crece. Si necesitas «agregar columna», creas **otra** secuencia. Luego (E3) verás el `AttributeError` al tratar la tuple como lista mutable.",
+          "Compara identidades, no solo valores: `more` contiene tres campos, pero `KEYS` sigue representando el contrato original. ¿Qué bug aparecería si `KEYS` fuera un alias de `headers` y otro helper hiciera `append`? Escribe una frase de decisión: usa lista cuando el esquema debe evolucionar y tupla cuando un cambio accidental sería una violación.",
         starterCode: {
           language: 'python',
           title: "list_tuple.py",
@@ -805,12 +805,12 @@ KEYS sigue ('id', 'monto')`,
         },
       },
       {
-        id: "S06-T1-A-E3",
         subtopicId: "S06-T1-A",
         kind: "transfer",
         title: "Diagnosticar append sobre tuple de ids",
         preamble:
           "- **Contexto:** a veces un snapshot de ids llega como tuple (inmutable); el pipeline intenta mutarlo como cola.\n- **Meta:** capturar `AttributeError`, convertir a `list` y mutar una **copia**.\n- **Éxito:** un `print` de diagnóstico con nombre `AttributeError` y luego `['C001', 'C002', 'C003']`.\n- **Límites:** no uses `except Exception` genérico en la solución; no mutes la tuple original (no se puede).",
+        id: "S06-T1-A-E3",
         instruction:
           "1. Intenta `ids.append('C003')` dentro de `try`.\n2. En `except AttributeError`, imprime tipo y mensaje.\n3. Convierte a lista, haz `append('C003')` e imprime el resultado.\n4. En el except usa solo AttributeError (no Exception genérico); la tuple original no se muta.",
         hint: "tuple no tiene append → AttributeError.",
@@ -823,7 +823,7 @@ KEYS sigue ('id', 'monto')`,
         feedback:
           "Si necesitas mutar, trabaja con `list`; guarda `tuple` solo como snapshot. Convertir todo a list «por si acaso» pierde el contrato de inmutabilidad: el error es la señal, no un fallo vergonzoso.",
         retrospective:
-          "Mutar exige list; el snapshot de ids puede seguir siendo tuple. El error es la señal, no un «fallo vergonzoso». En T1-B el riesgo sube: alias y copias en listas de dicts.",
+          "El `AttributeError` protege una decisión: esos IDs eran un snapshot, no una cola. Explica por qué convertir a lista y mutar la copia respeta esa decisión mejor que reemplazar la tupla original por una lista global. ¿En qué situación preferirías devolver una tupla nueva con `ids + ('C003',)`? La respuesta depende de quién comparte el contrato.",
         starterCode: {
           language: 'python',
           title: "fix_tuple_mut.py",
@@ -851,12 +851,12 @@ except AttributeError as e:
         },
       },
       {
-        id: "S06-T1-B-E1",
         subtopicId: "S06-T1-B",
         kind: "guided",
         title: "Desempaquetar fila en cid, región y monto",
         preamble:
           "- **Contexto:** filas sintéticas de intake llegan como tuplas posicionales; el unpack documenta el shape.\n- **Meta:** asignar `cid, region, monto` sin índices sueltos.\n- **Éxito:** una línea `C001 Lima 10` (en ese orden).\n- **Límites:** no uses índices `fila[i]` en la solución final; no fuerces el caso de largo incorrecto aquí.",
+        id: "S06-T1-B-E1",
         instruction:
           "1. Revisa el starter: `region` y `monto` están cruzados.\n2. Sustituye por unpack `cid, region, monto = fila`.\n3. Imprime los tres en un solo `print`.\n4. Confirma mentalmente que el largo de `fila` es 3.",
         hint: "a, b, c = fila",
@@ -869,7 +869,7 @@ except AttributeError as e:
         feedback:
           "Unpack documenta el shape esperado de la fila. Si el largo no calza, Python falla de inmediato — y eso es bueno para detectar filas rotas antes del almacén.",
         retrospective:
-          "Unpack es un contrato de shape: si el largo no calza, Python falla — y eso es bueno. Siguiente: alias vs `copy()` en listas (E2).",
+          "El unpack no solo ahorra índices: convierte el largo de la fila en una afirmación ejecutable. Predice el error si llega `('C001', 'Lima')` y explica por qué no conviene rellenar `monto` en silencio. Después decide cuándo usarías `cid, *rest`: flexibiliza el shape, pero también traslada a tu código la responsabilidad de validar cuánto contiene `rest`.",
         starterCode: {
           language: 'python',
           title: "unpack_row.py",
@@ -890,12 +890,12 @@ print(cid, region, monto)`,
         },
       },
       {
-        id: "S06-T1-B-E2",
         subtopicId: "S06-T1-B",
         kind: "independent",
         title: "Alias versus copy en lista de enteros",
         preamble:
           "- **Contexto:** al «duplicar» una cola de ids numéricos de demo, `=` no copia.\n- **Meta:** contrastar alias y `list.copy()` con mutaciones `append`.\n- **Éxito:** tras alias append 3 → `xs` y `copia` divergen (`[1,2,3]` vs `[1,2]`); tras append 4 solo a copia → `xs` sin 4.\n- **Límites:** no uses `deepcopy` aquí (ints inmutables; shallow basta).",
+        id: "S06-T1-B-E2",
         instruction:
           "1. Parte de `xs = [1, 2]`.\n2. Crea `alias` (mismo objeto) y `copia` (shallow).\n3. Mutar alias, imprimir; mutar copia, imprimir.\n4. Imprime en el orden del starter: tras alias, luego tras mutar la copia.",
         hint: "alias comparte objeto; copy es superficial de la lista de ints.",
@@ -908,7 +908,7 @@ print(cid, region, monto)`,
         feedback:
           "`copy()` corta el alias del contenedor lista. Con enteros inmutables, shallow basta; el bug aparece cuando crees que `=` ya «duplicó» la cola.",
         retrospective:
-          "`copy()` corta el alias del **contenedor**. Con objetos anidados el cuento cambia (E3). Pregunta de cierre: ¿por qué `copia` no vio el 3?",
+          "Dibuja dos listas después de `copia = xs.copy()`. Ambas contienen referencias a los mismos enteros, pero los enteros no se mutan y los contenedores sí son distintos. Esa es la razón por la que `copia` no ve el 3. ¿Cambiaría tu conclusión si cada elemento fuera un diccionario? Formula la predicción antes de E3.",
         starterCode: {
           language: 'python',
           title: "alias_copy.py",
@@ -936,12 +936,12 @@ tras copia [1, 2, 3] [1, 2, 4]`,
         },
       },
       {
-        id: "S06-T1-B-E3",
         subtopicId: "S06-T1-B",
         kind: "transfer",
         title: "Tags anidados: shallow no aísla",
         preamble:
           "- **Contexto:** clientes con `tags: list` en el store; un helper «copia» el lote y contamina el original.\n- **Meta:** demostrar que `list.copy()` comparte dicts internos y que `deepcopy` aísla.\n- **Éxito:** tras shallow, original tiene `'s'`; tras deep append `'d'`, original queda con `['a','s']` y deep con `['a','s','d']`.\n- **Límites:** `import copy`; no inventes otra estructura.",
+        id: "S06-T1-B-E3",
         instruction:
           "1. Ejecuta el starter y observa la fuga por tags.\n2. Reemplaza la «deep» falsa por `copy.deepcopy`.\n3. Mutar solo el deep e imprime original vs deep.\n4. No «arregles» borrando el experimento shallow: sirve de contraste.",
         hint: "import copy; deepcopy",
@@ -954,7 +954,7 @@ tras copia [1, 2, 3] [1, 2, 4]`,
         feedback:
           "En modelo cliente con listas internas, `list.copy()` **no** aísla dicts ni tags. «Ya hice copy, estoy a salvo» es el misconception: necesitas `deepcopy` o reconstruir el campo anidado.",
         retrospective:
-          "Shallow de `list[dict]` **no** aísla campos lista/dict. En el You Do, si mutas contactos de una copia, decide deep o reconstrucción por fila. Puente a T2: índices dict sin copiar de más.",
+          "Separa dos momentos del resultado: la mutación sobre `shallow` sí alcanza al original; la mutación sobre `deep` no. Explica cada uno siguiendo referencias, no usando la etiqueta «profundo» como magia. En el proyecto, ¿copiarías todo el store o reconstruirías solo `tags`? Considera memoria, claridad y qué campos planeas modificar.",
         starterCode: {
           language: 'python',
           title: "shallow_deep.py",
@@ -987,12 +987,12 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         },
       },
       {
-        id: "S06-T2-A-E1",
         subtopicId: "S06-T2-A",
         kind: "guided",
         title: "Dict desde pares id–región",
         preamble:
           "- **Contexto:** un lote sintético llega como pares `(id, región)` y necesitas un índice de lookup.\n- **Meta:** construir un `dict` real, no dejar la lista de pares.\n- **Éxito:** imprime `{'C001': 'Lima', 'C002': 'Cusco'}` y el lookup `Cusco` con clave `'C002'`.\n- **Límites:** claves hashables (`str`); no uses pandas.",
+        id: "S06-T2-A-E1",
         instruction:
           "1. El starter asigna `d = pares` (sigue siendo lista).\n2. Construye el dict con `dict(pares)` (o comprensión).\n3. Imprime el dict y `d['C002']`.\n4. No indexes por posición `d[1]` como si fuera lista.",
         hint: "dict(pares) o comprensión",
@@ -1005,7 +1005,7 @@ deep [{'id': 'C1', 'tags': ['a', 's', 'd']}]`,
         feedback:
           "`dict(pares)` es el constructor idiomático clave–valor. Indexar con `d[1]` como lista falla el lookup por id: el índice del almacén nace como mapa, no como cola de pares.",
         retrospective:
-          "Lista de pares ≠ índice. El almacén necesita mapa id→valor, no cola de tuplas. El error clásico es seguir indexando con `d[1]` como si fuera lista. Siguiente: `get` cuando el id puede faltar (E2).",
+          "La lista y el diccionario contienen los mismos pares, pero ofrecen preguntas distintas. En la lista, `1` significa posición; en el diccionario, una clave entera literal. Explica por qué `d['C002']` expresa mejor la intención. Después añade mentalmente un segundo par con clave C002: ¿qué información se perdería al construir el índice y dónde deberías detectarlo?",
         starterCode: {
           language: 'python',
           title: "dict_from_pairs.py",
@@ -1027,12 +1027,12 @@ Cusco`,
         },
       },
       {
-        id: "S06-T2-A-E2",
         subtopicId: "S06-T2-A",
         kind: "independent",
         title: "get con default frente a KeyError",
         preamble:
           "- **Contexto:** ids opcionales en intake sintético: a veces reportas «N/A», a veces un bug de programación debe fallar fuerte.\n- **Meta:** usar `get` para opcionales y capturar `KeyError` en acceso duro.\n- **Éxito:** tres líneas conceptuales: `Ana`, `N/A`, y un print de `KeyError 'C999'`.\n- **Límites:** no tragues todas las excepciones con `except Exception`.",
+        id: "S06-T2-A-E2",
         instruction:
           "1. Con `idx = {'C001': 'Ana'}`, imprime `get` de C001 y de C999 (default `'N/A'`).\n2. En un `try`, accede `idx['C999']`.\n3. En `except KeyError`, imprime el error.\n4. Compara con la solución: no omitas el `get` de C001.",
         hint: "idx.get('C999','N/A')",
@@ -1045,7 +1045,7 @@ Cusco`,
         feedback:
           "`get` con default cubre ausencia esperada (campo opcional). `KeyError` en acceso duro señala un invariante roto de programación — no lo envuelvas en `except Exception` genérico.",
         retrospective:
-          "`get` = ausencia esperada; `KeyError` = invariante roto. En el modelo anidado (T3-B) reutilizarás el mismo criterio con rutas de claves.",
+          "No concluyas que `get` es «más seguro» en toda situación. Es seguro cuando la ausencia forma parte del contrato; puede ocultar un typo cuando el ID debía existir. Escribe dos tests: uno donde C999 produce N/A de manera legítima y otro donde una clave obligatoria debe lanzar `KeyError`. Esa distinción reaparecerá en rutas anidadas.",
         starterCode: {
           language: 'python',
           title: "get_vs_keyerror.py",
@@ -1073,12 +1073,12 @@ KeyError 'C999'`,
         },
       },
       {
-        id: "S06-T2-A-E3",
         subtopicId: "S06-T2-A",
         kind: "transfer",
         title: "Fusionar config sin mutar defaults",
         preamble:
           "- **Contexto:** varios helpers comparten una config base de retry/timeout; un override no debe pisar el original en memoria.\n- **Meta:** merge con precedencia override > defaults, dejando `defaults` intacto.\n- **Éxito:** `merged` con `retry: 5` y `timeout: 30`; `defaults` sigue en `retry: 1`.\n- **Límites:** no dejes `defaults.update(override)` sobre el dict compartido.",
+        id: "S06-T2-A-E3",
         instruction:
           "1. Observa el starter: `update` muta `defaults`.\n2. Construye `merged` sin mutar el base.\n3. Imprime merged y defaults.\n4. Verifica que defaults sigue con `retry: 1`.",
         hint: "{**defaults, **override} o defaults | override (3.9+)",
@@ -1091,7 +1091,7 @@ KeyError 'C999'`,
         feedback:
           "Precedencia documentada (override gana) + no mutar config compartida evita bugs fantasmas entre helpers. `defaults.update(override)` pisa el base para todos los callers.",
         retrospective:
-          "Precedencia documentada + no mutar config compartida evita bugs fantasmas entre helpers. Puente a T2-B: sets y conflictos de dedup en el almacén.",
+          "Demuestra las dos invariantes por separado: `merged['retry'] == 5` prueba precedencia y `defaults['retry'] == 1` prueba aislamiento. Si solo verificas la primera, una mutación accidental podría pasar. Imagina dos callers que comparten `defaults`: ¿qué resultado observaría el segundo después de `update`? Esa distancia entre causa y síntoma hace peligroso mutar sin contrato.",
         starterCode: {
           language: 'python',
           title: "merge_config.py",
@@ -1120,12 +1120,12 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         },
       },
       {
-        id: "S06-T2-B-E1",
         subtopicId: "S06-T2-B",
         kind: "guided",
         title: "Emails únicos en lista ordenada",
         preamble:
           "- **Contexto:** cohorte de contactos sintéticos; el set deduplica, pero el print debe ser estable.\n- **Meta:** unicos como lista ordenada, no set crudo.\n- **Éxito:** `['a@ex.com', 'b@ex.com']` (una sola vez cada email).\n- **Límites:** no dependas del orden de inserción del set.",
+        id: "S06-T2-B-E1",
         instruction:
           "1. El starter imprime un `set` sin orden garantizado.\n2. Usa `sorted(set(emails))`.\n3. Imprime solo esa lista.\n4. Verifica que el duplicado no aparece dos veces.",
         hint: "sorted(set(emails))",
@@ -1138,7 +1138,7 @@ via copy+update {'retry': 5, 'timeout': 30}`,
         feedback:
           "Dedup con `set` + `sorted` da salida estable para demos y exports. Imprimir el set crudo hace fallar comparaciones de golden files entre corridas.",
         retrospective:
-          "Dedup + `sorted` = demo reproducible. El mismo hábito se reutiliza en JSON `sort_keys` (T4-B). Siguiente: intersección y diferencia simétrica (E2).",
+          "El set decide unicidad; `sorted` decide presentación. Quita mentalmente `sorted` y explica qué propiedad aún sería correcta y cuál dejaría de estar garantizada. Después añade un email nuevo: la salida debe cambiar por contenido, no por casualidad de orden. Esta separación entre verdad del dato y forma canónica reaparecerá al serializar JSON.",
         starterCode: {
           language: 'python',
           title: "dedup_emails.py",
@@ -1157,12 +1157,12 @@ print(unicos)`,
         },
       },
       {
-        id: "S06-T2-B-E2",
         subtopicId: "S06-T2-B",
         kind: "independent",
         title: "Intersección y diferencia simétrica de lotes",
         preamble:
           "- **Contexto:** dos lotes de emails de campaña sintética; necesitas «en ambos» y «solo en uno».\n- **Meta:** `a & b` y `a ^ b`, ambos ordenados.\n- **Éxito:** inter `b@…, c@…`; symdiff `a@…, d@…`.\n- **Límites:** no uses bucles O(n²) para membership; sets + `sorted`.",
+        id: "S06-T2-B-E2",
         instruction:
           "1. Corrige operadores del starter (unión/diferencia no son intersección/symdiff).\n2. Imprime `inter` y `symdiff` con `sorted`.\n3. No reordenes a mano con `sort` in-place del set (no aplica).",
         hint: "a & b ; a ^ b",
@@ -1175,7 +1175,7 @@ print(unicos)`,
         feedback:
           "Intersección (`&`) = cohorte compartida; diferencia simétrica (`^`) = exclusivo de un lado. Unión (`|`) y diferencia simple (`-`) no resuelven esas dos preguntas.",
         retrospective:
-          "Intersección = cohorte compartida; symdiff = exclusivo de un lado. En el You Do, el set de ids apoya membership de cohorte; los conflictos de payload van en dicts (E3).",
+          "Cuenta la historia de cada operador con un elemento: `b@ex.com` aparece en ambos y pertenece a la intersección; `a@ex.com` aparece solo en A y pertenece a la diferencia simétrica. ¿Dónde quedaría `a@ex.com` en `a - b` y por qué esa pregunta no es equivalente? Elige el operador desde la pregunta de negocio, no desde el símbolo recordado.",
         starterCode: {
           language: 'python',
           title: "set_inter.py",
@@ -1197,12 +1197,12 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         },
       },
       {
-        id: "S06-T2-B-E3",
         subtopicId: "S06-T2-B",
         kind: "transfer",
         title: "dedup_report con unique y conflicts",
         preamble:
           "- **Contexto:** en CP-N1-B, dos filas con el mismo `id` y datos distintos deben **reportarse**, no silenciarse.\n- **Meta:** devolver `{unique, conflicts}` con política de payload.\n- **Éxito:** unique con primera vista de C001 y C002; un solo conflicto C001 `v:1` vs `v:9`; la fila idéntica no entra a conflicts.\n- **Límites:** no borres filas del reporte; no uses «último gana» sin traza.",
+        id: "S06-T2-B-E3",
         instruction:
           "1. Cambia `seen` de set a dict id→fila.\n2. Si el id es nuevo, guarda en unique.\n3. Si ya existe y `seen[k] != r`, anexa a conflicts.\n4. Imprime el dict resultado del fixture del starter.",
         hint: "Usa un dict seen: si la clave ya existe y la fila difiere, anota conflicto.",
@@ -1215,7 +1215,7 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         feedback:
           "Patrón del You Do S06: `unique` + `conflicts`. Un set de ids solo no detecta choque de payload; necesitas guardar la fila vista y comparar. Idéntico ≠ conflicto de calidad.",
         retrospective:
-          "Idéntico = ruido; distinto = conflicto de calidad. Este es el mismo contrato del You Do. Pregunta: ¿por qué un set de ids solo no basta para detectar choque de payload?",
+          "Un set de IDs solo conserva «C001 ya apareció»; no conserva `v: 1`, así que no puede comparar la siguiente fila. Explica por qué `seen` debe ser diccionario y no set. Luego predice el resultado si aparecen dos versiones conflictivas adicionales: `unique` sigue con una primera vista, mientras `conflicts` acumula evidencia para revisión.",
         starterCode: {
           language: 'python',
           title: "dedup_report.py",
@@ -1263,12 +1263,12 @@ print(dedup_report(rows))`,
         },
       },
       {
-        id: "S06-T3-A-E1",
         subtopicId: "S06-T3-A",
         kind: "guided",
         title: "Contar contactos por cliente",
         preamble:
           "- **Contexto:** en el resumen del store CP-N1-B necesitas conteos por cliente, no volcar contactos crudos.\n- **Meta:** `len(c['contacts'])` por fila.\n- **Éxito:** `C001 → 2` y `C002 → 0` (lista vacía válida).\n- **Límites:** no imprimas la lista cruda; no inventes contactos.",
+        id: "S06-T3-A-E1",
         instruction:
           "1. El starter imprime `c['contacts']` completo.\n2. Cambia a `len(...)`.\n3. Formato `id → n`.\n4. C002 con `[]` debe ser 0, no «faltante».",
         hint: "len(c['contacts'])",
@@ -1281,7 +1281,7 @@ print(dedup_report(rows))`,
         feedback:
           "Conteo con `len` valida el grafo anidado. Imprimir la lista cruda no resume; lista vacía es shape OK con conteo 0, no un «cliente roto».",
         retrospective:
-          "Lista vacía es shape OK con conteo 0. Validar presencia de la clave es otro problema (E3 shape). Siguiente: aplanar txs (E2).",
+          "C002 produce cero, no error ni «missing», porque la lista existe y simplemente no contiene contactos. Explica la diferencia entre `contacts: []` y una fila sin clave `contacts`. ¿Qué debería hacer un resumen y qué debería hacer un validador de shape? Mantener esas responsabilidades separadas evita convertir ausencia de actividad en corrupción estructural.",
         starterCode: {
           language: 'python',
           title: "count_contacts.py",
@@ -1307,12 +1307,12 @@ C002 → 0`,
         },
       },
       {
-        id: "S06-T3-A-E2",
         subtopicId: "S06-T3-A",
         kind: "independent",
         title: "Aplanar txs con client_id",
         preamble:
           "- **Contexto:** para export tabular, cada tx necesita el id del cliente dueño.\n- **Meta:** filas densas `{client_id, tx_id, monto}` de **todas** las txs.\n- **Éxito:** lista de 3 filas (C001×1 + C002×2) como en la solución.\n- **Límites:** no te quedes solo con la primera tx de cada cliente.",
+        id: "S06-T3-A-E2",
         instruction:
           "1. Detecta el bug: `c['txs'][0]` ignora el resto.\n2. Recorre cada tx de cada cliente (doble `for` o comprehension).\n3. Incluye `client_id` en cada fila.\n4. Imprime `flat` completo.",
         hint: "doble for o comprehension anidada",
@@ -1325,7 +1325,7 @@ C002 → 0`,
         feedback:
           "Shape listo para CSV en S08. Denormalizar `client_id` en cada fila conserva la relación; tomar solo `txs[0]` pierde ingresos en un resumen.",
         retrospective:
-          "Denormalizar `client_id` es el puente a CSV en S08. El bug de «solo la primera tx» pierde ingresos en un resumen. Siguiente: shape inconsistente (E3).",
+          "Verifica una conservación: el número de filas planas debe ser la suma de las longitudes de `txs`. En este fixture, 1 + 2 = 3. Si usas siempre `[0]`, el programa produce una salida plausible de dos filas y pierde T3 sin lanzar error. ¿Qué assert convertiría esa pérdida silenciosa en un fallo visible?",
         starterCode: {
           language: 'python',
           title: "flatten_txs.py",
@@ -1356,12 +1356,12 @@ print(flat)`,
         },
       },
       {
-        id: "S06-T3-A-E3",
         subtopicId: "S06-T3-A",
         kind: "transfer",
         title: "Validar shape de txs (list o review)",
         preamble:
           "- **Contexto:** filas rotas llegan al almacén (falta una clave o aparece una cadena donde debía haber una lista).\n- **Meta:** marcar `ok` solo si `txs` es `list` (vacía permitida).\n- **Éxito:** `C001 ok`, `C002 review`, `C003 review`.\n- **Límites:** no uses `bool(txs)` (castiga la lista vacía legítima).",
+        id: "S06-T3-A-E3",
         instruction:
           "1. El starter trata falsy como review.\n2. Usa `isinstance(c.get('txs'), list)`.\n3. Imprime `id` y status.\n4. Lista vacía = ok.",
         hint: "isinstance(c.get('txs'), list)",
@@ -1374,7 +1374,7 @@ print(flat)`,
         feedback:
           "Validar shape en memoria evita basura silenciosa al exportar. `bool(txs)` manda a review la lista vacía legítima; `isinstance(..., list)` separa shape de contenido.",
         retrospective:
-          "Estructura ≠ contenido: `[]` es válido; una clave ausente o una cadena no lo son. En T3-B el foco pasa de la forma de los datos a los campos opcionales ausentes.",
+          "La prueba correcta pregunta «¿es una lista?», no «¿tiene elementos?». Por eso C001 es válido aunque `bool([])` sea falso. Explica por qué C003 no debe pasar aunque `bool('oops')` sea verdadero. Esta pareja revela un error común: usar truthiness para validar forma. En T3-B aplicarás la misma disciplina a ausencia y vacío.",
         starterCode: {
           language: 'python',
           title: "shape_check.py",
@@ -1407,12 +1407,12 @@ C003 review`,
         },
       },
       {
-        id: "S06-T3-B-E1",
         subtopicId: "S06-T3-B",
         kind: "guided",
         title: "get_nested seguro por ruta de claves",
         preamble:
           "- **Contexto:** `profile.phone` presente y `profile.email` ausente en un cliente sintético.\n- **Meta:** recorrer claves; si falta un nivel, devolver `default`.\n- **Éxito:** `999` y `N/A`.\n- **Límites:** no uses try/except como único diseño; chequea dict y pertenencia de clave.",
+        id: "S06-T3-B-E1",
         instruction:
           "1. El starter hace `cur = cur[k]` sin guardas.\n2. Si no es dict o falta `k`, retorna `default`.\n3. Prueba phone y email con default.\n4. No hardcodees los resultados sin la función.",
         hint: "Recorre keys; si falta retorna default.",
@@ -1425,7 +1425,7 @@ C003 review`,
         feedback:
           "Helper reutilizable del modelo anidado. Chequea `isinstance(cur, dict)` y pertenencia de clave; un try/except alrededor de todo el path oculta bugs de tipo.",
         retrospective:
-          "El helper es reutilizable en el You Do. Un try/except alrededor de todo el path oculta bugs de tipo. Siguiente: missing de negocio en email (E2).",
+          "Recorre a mano la ruta `profile → email`: el primer nivel existe y el segundo no, por eso aparece el default. Ahora imagina `profile: []`. El chequeo de tipo también debe detenerse. ¿Qué defecto podría ocultar un `except Exception` general? Un helper seguro no significa un helper que silencia cualquier error; significa un contrato preciso para rutas incompletas.",
         starterCode: {
           language: 'python',
           title: "get_nested.py",
@@ -1458,12 +1458,12 @@ N/A`,
         },
       },
       {
-        id: "S06-T3-B-E2",
         subtopicId: "S06-T3-B",
         kind: "independent",
         title: "Marcar email missing o present",
         preamble:
           "- **Contexto:** reporte de completitud de emails en un lote sintético.\n- **Meta:** missing solo si clave ausente o valor `None`.\n- **Éxito:** `C001: present`, `C002: missing`, `C003: missing`, `C004: present` (string vacío cuenta present).\n- **Límites:** no uses solo `if not c.get('email')` (trataría `''` como missing).",
+        id: "S06-T3-B-E2",
         instruction:
           "1. Revisa la política del enunciado.\n2. Corrige la condición del starter.\n3. Imprime `id: flag` por cliente.\n4. No borres C004: su email `''` debe quedar present.",
         hint: "'email' not in c or c['email'] is None → missing",
@@ -1476,7 +1476,7 @@ N/A`,
         feedback:
           "Completitud mide ausencia real, no «falsy». `if not c.get('email')` trata `''` como missing y distorsiona tasas de calidad. Documenta la política; no la improvises en cada `if`.",
         retrospective:
-          "Completitud mide ausencia real, no «falsy». La política se documenta; no se improvisa en cada `if`. E3 generaliza a varios falsy.",
+          "C004 es el caso que decide si entendiste la política: la clave existe y su valor es `''`, así que cuenta como presente aunque quizá falle otra validación de formato. Explica por qué una única etiqueta «missing» no debe absorber «presente pero vacío». ¿Qué métrica de calidad se distorsionaría si ambas categorías se mezclaran?",
         starterCode: {
           language: 'python',
           title: "mark_missing.py",
@@ -1516,12 +1516,12 @@ C004: present`,
         },
       },
       {
-        id: "S06-T3-B-E3",
         subtopicId: "S06-T3-B",
         kind: "transfer",
         title: "Falsy no es lo mismo que missing",
         preamble:
           "- **Contexto:** montos `0`, strings vacíos y listas vacías son datos; solo `None` es missing en esta política.\n- **Meta:** imprimir para cada valor si es falsy y si es missing.\n- **Éxito:** solo `None` con `missing=True`; `''`, `0`, `[]` con `missing=False`.\n- **Límites:** no uses `not v` como definición de missing.",
+        id: "S06-T3-B-E3",
         instruction:
           "1. Recorre `vals = [None, '', 0, []]`.\n2. Calcula falsy con `not bool(v)` (o equivalente).\n3. Missing solo con `v is None`.\n4. Imprime `repr(v)` y ambos flags.",
         hint: "bool(x) vs. x is None.",
@@ -1534,7 +1534,7 @@ C004: present`,
         feedback:
           "`if not value` es el bug silencioso de calidad: marca como missing montos 0, strings vacíos y listas vacías. Aquí solo `None` es missing; documenta la política del dominio.",
         retrospective:
-          "`if not value` es el bug silencioso de calidad. Documenta la política del dominio (aquí None = missing). Puente a T4: ordenar y exportar con reglas explícitas.",
+          "Todos los valores del fixture son falsy, pero solo uno es missing bajo este contrato. Esa es la prueba de que truthiness y semántica de negocio son capas distintas. Añade mentalmente `False`: ¿es ausencia o un booleano válido? No respondas por intuición; declara la política. En T4 ordenarás datos después de validar su significado.",
         starterCode: {
           language: 'python',
           title: "falsy_table.py",
@@ -1556,12 +1556,12 @@ for v in vals:
         },
       },
       {
-        id: "S06-T4-A-E1",
         subtopicId: "S06-T4-A",
         kind: "guided",
         title: "Ordenar txs por monto ascendente",
         preamble:
           "- **Contexto:** listar txs sintéticas de menor a mayor monto para un extracto.\n- **Meta:** `sorted` con `key` en `monto`.\n- **Éxito:** ids `['T1', 'T2']`.\n- **Límites:** no mutes con `.sort`; no ordenes por `id`.",
+        id: "S06-T4-A-E1",
         instruction:
           "1. El starter usa `key` sobre `id`.\n2. Cambia el key a `monto`.\n3. Imprime la lista de ids ordenados.\n4. Deja `rows` original sin mutar.",
         hint: "key=lambda r: r['monto']",
@@ -1574,7 +1574,7 @@ for v in vals:
         feedback:
           "El `key` extrae el criterio sin reescribir comparadores. Ordenar por `id` no responde al ranking por monto del extracto; `sorted` deja `rows` intacta.",
         retrospective:
-          "El `key` extrae el criterio de ranking sin mutar `rows`. Confundir orden por `id` con orden por monto da extractos «correctos» de forma y erróneos de negocio. Siguiente: dos criterios a la vez (región, nombre).",
+          "Ambas versiones imprimen IDs y parecen técnicamente ordenadas; solo una responde la pregunta de negocio. Explica cómo la `key` traduce cada fila a un monto comparable. Después verifica que `rows` conserva su orden original. ¿Qué test fallaría si alguien cambiara `sorted` por `.sort()` y otro módulo dependiera del orden de llegada?",
         starterCode: {
           language: 'python',
           title: "sort_monto.py",
@@ -1593,12 +1593,12 @@ print([r['id'] for r in ordered])`,
         },
       },
       {
-        id: "S06-T4-A-E2",
         subtopicId: "S06-T4-A",
         kind: "independent",
         title: "Orden multi-campo región y nombre",
         preamble:
-          "- **Contexto:** ranking de clientes sintéticos para un reporte regional.\n- **Meta:** ordenar por región y, en empate, por nombre.\n- **Éxito:** tres líneas `Cusco Bob` / `Lima Ana` / `Lima Zed`.\n- **Límites:** un solo `sorted`; no ordenes dos veces a mano.",
+          "- **Contexto:** ranking de clientes sintéticos para un reporte regional.\n- **Meta:** ordenar por región y, en empate, por nombre.\n- **Éxito:** tres líneas agrupadas por región y ordenadas por nombre dentro de cada grupo.\n- **Límites:** un solo `sorted`; no ordenes dos veces a mano.",
+        id: "S06-T4-A-E2",
         instruction:
           "1. El starter ordena solo por nombre.\n2. Usa una clave compuesta (tupla) región→nombre.\n3. Imprime `región nombre` por fila.\n4. No hardcodees el orden en prints fijos.",
         hint: "key=lambda r: (r['region'], r['nombre'])",
@@ -1611,7 +1611,7 @@ print([r['id'] for r in ordered])`,
         feedback:
           "Patrón de ranking estable multi-columna: la tupla en `key` compara de izquierda a derecha. Un solo `sorted` basta; no hace falta ordenar dos veces.",
         retrospective:
-          "La tupla en `key` compara de izquierda a derecha. Es el mismo patrón del demo y del export por `id` en T4-B.",
+          "La tupla funciona como dos preguntas consecutivas: «¿qué región?» y, si empatan, «¿qué nombre?». Predice dónde aparecería otra Ana de Cusco y justifica el resultado. Luego invierte la tupla a `(nombre, region)`: la sintaxis apenas cambia, pero la prioridad de negocio sí. Documenta esa prioridad para que el orden sea defendible.",
         starterCode: {
           language: 'python',
           title: "sort_multi.py",
@@ -1640,12 +1640,12 @@ Lima Zed`,
         },
       },
       {
-        id: "S06-T4-A-E3",
         subtopicId: "S06-T4-A",
         kind: "transfer",
         title: "list.sort retorna None; sorted no muta",
         preamble:
           "- **Contexto:** un helper «ordenó» la cola y devolvió `None` al código que lo llamó.\n- **Meta:** demostrar mutación in-place frente a una copia ordenada.\n- **Éxito:** `ret None`, `rows` ordenada, `base` intacta y `copy` ordenada.\n- **Límites:** no «arregles» omitiendo el experimento de `.sort` sobre `rows`.",
+        id: "S06-T4-A-E3",
         instruction:
           "1. Deja `rows.sort()` y muestra su retorno.\n2. Para `base`, usa `sorted(base)` en la variable de copia.\n3. Imprime base y copy.\n4. Confirma que base sigue `[3,1,2]`.",
         hint: "x = lst.sort() → x is None",
@@ -1658,7 +1658,7 @@ Lima Zed`,
         feedback:
           "Asignar `x = lst.sort()` es un bug clásico: muta y devuelve `None`. Si compartes la lista con otro módulo, prefiere `sorted` o documenta la mutación in-place.",
         retrospective:
-          "Asignar `x = lst.sort()` es un bug clásico en entrevistas técnicas y pipelines. Si compartes la lista con otro módulo, prefiere `sorted` o documenta la mutación. Puente a T4-B: elección de estructura y JSON estable.",
+          "Hay dos efectos que debes nombrar: `rows` cambia y `ret` vale `None`; `base` no cambia y `copy_sorted` contiene otra lista. ¿Cuándo aceptarías el primer contrato? Tal vez sobre una lista local que nadie comparte y donde ahorrar una copia importa. La elección correcta depende de propiedad y costo, no de una prohibición memorizada.",
         starterCode: {
           language: 'python',
           title: "sort_inplace.py",
@@ -1687,12 +1687,12 @@ base [3, 1, 2] copy [1, 2, 3]`,
         },
       },
       {
-        id: "S06-T4-B-E1",
         subtopicId: "S06-T4-B",
         kind: "guided",
         title: "Elegir list, dict o set por operación",
         preamble:
           "- **Contexto:** tres jobs del almacén en RAM con distinta carga.\n- **Meta:** asignar la estructura Python adecuada a cada job.\n- **Éxito:** cola → list; lookup id → dict; emails únicos → set.\n- **Límites:** una elección por línea; no inventes estructuras de terceros.",
+        id: "S06-T4-B-E1",
         instruction:
           "1. El starter marca todo como `list`.\n2. Corrige cada job según el rol (orden, lookup, membership).\n3. Imprime `job → estructura`.\n4. No uses pandas/NumPy.",
         hint: "list / dict / set",
@@ -1705,7 +1705,7 @@ base [3, 1, 2] copy [1, 2, 3]`,
         feedback:
           "Justificar la estructura es parte del rubric del You Do. Cola ordenada → list; lookup por id → dict; unicidad/membership → set. La «mejor» estructura depende de la pregunta.",
         retrospective:
-          "Justificar la estructura es parte del rubric del You Do. La «mejor» estructura depende de la pregunta (orden vs lookup vs unicidad). Siguiente: JSON determinista (E2).",
+          "Para cada elección, completa la frase «uso X porque necesito conservar Y o abaratar Z». Luego busca el costo oculto: el set pierde orden y duplicados; el diccionario exige claves únicas; la lista hace búsquedas lineales. Si no puedes nombrar una propiedad sacrificada, todavía estás eligiendo por costumbre y no por operación dominante.",
         starterCode: {
           language: 'python',
           title: "choose_struct.py",
@@ -1734,12 +1734,12 @@ emails únicos de un lote → set`,
         },
       },
       {
-        id: "S06-T4-B-E2",
         subtopicId: "S06-T4-B",
         kind: "independent",
         title: "JSON determinista con ids y sort_keys",
         preamble:
           "- **Contexto:** el mismo payload de demo debe producir el mismo string en cada corrida.\n- **Meta:** ordenar `ids` y serializar con `sort_keys=True`.\n- **Éxito:** exactamente `{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}`.\n- **Límites:** `ensure_ascii=False`; un solo `print` del string.",
+        id: "S06-T4-B-E2",
         instruction:
           "1. Ordena la lista `ids` del payload.\n2. Usa `json.dumps` con `sort_keys=True`.\n3. Imprime el string una vez.\n4. No dependas del orden de inserción de las claves del dict.",
         hint: "sorted ids; sort_keys=True",
@@ -1752,7 +1752,7 @@ emails únicos de un lote → set`,
         feedback:
           "Determinismo = confianza en tests y en el README del portafolio. Combina sort de colecciones **y** de claves JSON; sin ambos, el string cambia entre corridas.",
         retrospective:
-          "Ordenar ids y `sort_keys` son dos ejes distintos. Pregunta de cierre: ¿qué pasa si ordenas ids pero omites `sort_keys`? Siguiente: costo de membership list vs set (E3).",
+          "Ordenar `ids` estabiliza una colección interior; `sort_keys=True` estabiliza la representación de las claves del objeto. Explica por qué resolver solo una capa no constituye un contrato canónico completo. Después construye mentalmente el mismo payload con claves insertadas en otro orden: ¿qué test de igualdad exacta debería seguir pasando?",
         starterCode: {
           language: 'python',
           title: "deterministic_json.py",
@@ -1774,12 +1774,12 @@ print(s)`,
         },
       },
       {
-        id: "S06-T4-B-E3",
         subtopicId: "S06-T4-B",
         kind: "transfer",
         title: "Membership list vs set y costo de n búsquedas",
         preamble:
           "- **Contexto:** n búsquedas de un id en cohorte; list recorre, set hashea.\n- **Meta:** comprobar `in` en ambas y **derivar** costos `n*n` y `n` desde `len`.\n- **Éxito:** ambos `in` True; `costo_conceptual_list 25` y `costo_conceptual_set 5` con n=5.\n- **Límites:** no hardcodees 25/5 sin calcular desde `n`; no importes librerías de timing.",
+        id: "S06-T4-B-E3",
         instruction:
           "1. Construye `ids_set` desde la lista.\n2. Imprime `in list` e `in set` para `'C003'`.\n3. `n = len(ids_list)`; imprime `n*n` y `n`.\n4. Mantén los labels del solution para comparar.",
         hint: "list ~ n por chequeo; set ~ 1 promedio; n búsquedas → n*n vs. n.",
@@ -1792,7 +1792,7 @@ print(s)`,
         feedback:
           "Indexar con set/dict **antes** de bucles anidados evita el O(n²) silencioso del modelo en RAM. Memoria extra a cambio de tiempo: deriva `n*n` y `n` desde `len`, no slogans fijos.",
         retrospective:
-          "Indexar con set/dict **antes** de bucles anidados evita el O(n²) silencioso del modelo en RAM. Memoria extra a cambio de tiempo. Cierra T4 y prepara el You Do: componer list+dict+set con reglas de calidad.",
+          "Los números 25 y 5 no son una medición temporal; son un modelo del trabajo para n búsquedas sobre n elementos. Explica qué supuesto permite tratar la consulta al set como O(1) promedio. ¿Construirías el set para una sola búsqueda sobre cinco IDs? Probablemente no: preindexar intercambia memoria y preparación por consultas posteriores más baratas.",
         starterCode: {
           language: 'python',
           title: "tradeoff.py",
@@ -1826,7 +1826,7 @@ costo_conceptual_set 5`,
   youDo: {
     title: "Modelo tabular en memoria (CP-N1-B)",
     context:
-      "Inicias el capstone **CP-N1-B**: representas clientes, contactos y transacciones en estructuras Python puras (sin NumPy/pandas). La deduplicación por clave de negocio **reporta conflictos** (payload idéntico no es conflicto; payload distinto sí); aplanas las txs y exportas un JSON determinista. En S07–S08 se suma normalización LATAM e ingesta por archivos. Solo datos sintéticos. **Éxito de corrida:** `python memory_model.py` imprime flat, JSON estable y un `dedup_report` con al menos un conflicto en el fixture de `main`, sin dejar `NotImplementedError`.",
+      "Ahora diseñas la mesa de clasificación completa sin una solución para copiar. Trabaja en cuatro pasadas. Primero escribe los invariantes: la primera fila única se conserva, un payload distinto se reporta y ninguna transacción pierde su `client_id`. Después implementa cada helper y pruébalo por separado. En la tercera pasada compón el flujo de `main`; en la cuarta, ejecuta una matriz de bordes con duplicado idéntico, conflicto, ruta ausente, lista vacía y entrada desordenada. El éxito no es que el archivo «corra», sino que puedas relacionar cada salida con una promesa verificable.",
     objectives: [
       "Representar cliente/contacto/tx en list[dict] documentado",
       "Implementar dedup_report → unique + conflicts (idéntico ≠ conflicto)",
@@ -1913,7 +1913,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README muestra el shape del store, un ejemplo de conflicto de dedup y el JSON determinista de demo. Eso evidencia el modelo en memoria de CP-N1-B.",
+      "Presenta el proyecto como una decisión de diseño, no como una lista de funciones. Incluye el shape del store, el conflicto sintético que tu política conserva, dos dumps iguales obtenidos desde órdenes de entrada distintos y una breve justificación de cada colección. Un revisor debe poder reconstruir qué riesgo evita cada decisión sin abrir todo el código.",
     rubric: [
       { criterion: "Modelo completo cliente/contacto/tx", weight: "25%" },
       { criterion: "Dedup sin borrar conflictos", weight: "25%" },
@@ -1922,7 +1922,7 @@ if __name__ == "__main__":
       { criterion: "Elección de estructuras justificada", weight: "15%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante demuestras con un print o assert (unique vs conflicts, JSON idéntico en dos dumps)? (2) ¿qué harías distinto con datos reales vs sintéticos (PII, volúmenes)? (3) En el README, una frase de impacto medible (p. ej. «mismo input → mismo JSON; conflictos de id no se silencian») que puedas defender en 30 segundos ante un reclutador. Si mutas copias del store, ¿shallow o deep — y por qué?",
+      "Revisa el proyecto con tres voces. Como autor, demuestra cada invariante con un assert y explica por qué elegiste list, dict o set. Como operador, pregunta qué ocurre con un lote vacío, un ID repetido y una ruta incompleta, y confirma que ninguna excepción queda disfrazada de éxito. Como revisor, busca mutaciones compartidas y salidas dependientes del orden. Cierra con una decisión que cambiarías al crecer el volumen y otra que mantendrías porque protege la trazabilidad.",
   },
   selfCheck: {
     questions: [
@@ -1931,63 +1931,63 @@ if __name__ == "__main__":
         options: ["[1,2]", "[3,4]", "[4]", "Error"],
         correctIndex: 1,
         explanation:
-          "Slicing negativo toma desde el final: últimos 2 elementos [3,4].",
+          "`-2` señala el penúltimo elemento y `:` pide una ventana desde allí hasta el final, por eso obtienes `[3, 4]`. La opción `[4]` confunde slice con índice; `xs[-1]` sí devolvería un solo valor. El slice conserva una lista y no modifica `xs`.",
       },
       {
         question: "`b = a` (listas) y mutas `b.append(1)`. ¿Qué pasa con `a`?",
         options: ["a no cambia", "se lanza error", "a se convierte en tuple", "a también ve el append (alias)"],
         correctIndex: 3,
         explanation:
-          "Asignación alias: ambas variables apuntan al mismo objeto lista.",
+          "`b = a` crea otro nombre para la misma lista; no crea un contenedor nuevo. `append` muta ese objeto único, así que ambos nombres observan el cambio. Pensar que la asignación copia es el error tentador; para separar los contenedores necesitarías `a.copy()` o una estrategia más profunda si hay objetos anidados.",
       },
       {
         question: "Para reportar dos filas con mismo id y payload distinto debes…",
         options: ["Listar conflicto en conflicts sin silenciar", "Borrar ambas", "Quedarte con la última sin traza", "Convertir a set de dicts"],
         correctIndex: 0,
         explanation:
-          "CP-N1-B: unique + conflicts; no borrar la evidencia del choque.",
+          "El ID repetido detecta una posible colisión y el payload distinto confirma el conflicto. Debes conservar la versión elegida en `unique` y ambas evidencias en `conflicts`. Quedarte con la última sin traza produce una salida limpia a costa de borrar la discrepancia que un revisor necesita investigar.",
       },
       {
         question: "rows.sort(key=...) retorna…",
         options: ["la lista ordenada", "una tuple", "None (muta in-place)", "un set"],
         correctIndex: 2,
         explanation:
-          "list.sort muta y retorna None; usa sorted(...) para copia.",
+          "`.sort()` expresa su efecto modificando la lista y devuelve `None`; así evita sugerir que creó otra colección. La opción «la lista ordenada» confunde efecto con retorno y causa el bug `x = rows.sort()`. Usa `sorted(rows)` cuando necesites una lista nueva y conservar el orden original.",
       },
       {
         question: "json.dumps(..., sort_keys=True) ayuda a…",
         options: ["comprimir el archivo", "salidas deterministas/reproducibles", "validar schema JSON Schema", "encriptar PII"],
         correctIndex: 1,
         explanation:
-          "Orden estable de claves + sort de filas = demos reproducibles.",
+          "`sort_keys=True` fija el orden de las claves en el texto JSON, lo que facilita igualdad exacta, hashes y diffs reproducibles. No valida un schema, no comprime y no cifra. Para un contrato completamente estable también debes ordenar las listas de filas por una clave de negocio.",
       },
       {
         question: "Si haces `copia = rows.copy()` donde `rows` es `list[dict]` y mutas `copia[0]['tags']`, ¿el original queda aislado?",
         options: ["Sí: copy() hace deepcopy automático", "Solo si usas tuple", "Se lanza TypeError", "No: la copia es superficial; los dicts internos se comparten"],
         correctIndex: 3,
         explanation:
-          "list.copy() es shallow: las filas-dict siguen siendo los mismos objetos. Usa deepcopy o reconstruye por fila si mutas anidados.",
+          "`rows.copy()` crea otra lista exterior, pero ambas listas siguen apuntando a los mismos diccionarios y a la misma lista `tags`. Por eso una mutación interior alcanza al original. `tuple` no repara referencias compartidas; reconstruye el campo que mutarás o usa `deepcopy` cuando realmente necesites aislar todo el grafo.",
       },
       {
         question: "Para membership masivo de emails en un lote (¿está este email en la cohorte?), la estructura más adecuada es…",
         options: ["set de emails", "list de strings y `in` en un loop", "tuple de emails", "solo json.dumps"],
         correctIndex: 0,
         explanation:
-          "set/dict dan membership O(1) promedio; list es O(n) por chequeo y escala mal en bucles anidados.",
+          "Un set organiza valores hashables para responder pertenencia en O(1) promedio; una lista puede recorrer hasta n elementos por consulta. La lista conserva orden y duplicados, pero esas propiedades no son la pregunta aquí. Si las consultas se repiten, el costo de construir el set se amortiza.",
       },
       {
         question: "Si falta la clave `\"x\"` en el dict `d`, ¿qué diferencia hay entre `d.get(\"x\", \"N/A\")` y `d[\"x\"]`?",
         options: ["Ambos lanzan KeyError", "get lanza KeyError; d[\"x\"] devuelve None", "get devuelve \"N/A\"; d[\"x\"] lanza KeyError", "Ambos devuelven None siempre"],
         correctIndex: 2,
         explanation:
-          "get con default evita KeyError en campos opcionales; el acceso duro exige que la clave exista.",
+          "`d.get(\"x\", \"N/A\")` modela una ausencia esperada y devuelve el default. `d[\"x\"]` expresa que la clave es obligatoria y lanza `KeyError` si falta. Elegir siempre `get` no es automáticamente más seguro: podría ocultar un error de programación donde el contrato exigía la clave.",
       },
       {
         question: "Al aplanar txs anidadas a filas densas para export, ¿qué debe incluir cada fila plana?",
         options: ["Solo el monto, sin id de cliente", "client_id (denormalizado) junto a tx_id y monto", "El dict cliente completo embebido en cada tx", "Un set de ids sin montos"],
         correctIndex: 1,
         explanation:
-          "Denormalizar client_id en cada fila plana permite CSV/joins en S08 sin perder la relación cliente→tx.",
+          "Al aplanar desaparece el contenedor del cliente, así que cada transacción debe llevar `client_id` para conservar su dueño. Incluir solo monto y `tx_id` produce filas huérfanas; incrustar el cliente completo repite información innecesaria. La clave denormalizada mantiene la relación y prepara joins o CSV posteriores.",
       },
     ],
   },
