@@ -18,15 +18,15 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
-| S02 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
-| S03 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
+| S01 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
+| S02 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
+| S03 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | pending | — | — | |
-| S08 | pending | — | — | |
-| S09 | pending | — | — | |
+| S07 | parked | `0272f98` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
+| S08 | parked | `0c06444` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
+| S09 | parked | `3939741` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
 | S10 | pending | — | — | |
 | S11 | pending | — | — | |
 | S12 | pending | — | — | |
@@ -75,8 +75,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Batch | Sections | State | Branch/PR | Merge SHA | Pages evidence |
 |---|---|---|---|---|---|
-| B01 | S01–S03 | recovery_required | — | — | The independent ephemeral commits were not pushed before workspace loss. |
+| B01 | S01–S03 | active | `agent/independent-recovery-s01-s03` | — | Fresh recovery owner passes active; lost ephemeral commits remain inadmissible. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
+| B03 | S07–S09 | parked | local commits `0272f98`, `0c06444`, `3939741` | — | Fresh owner commits preserved locally; review, integration and deployment resume after B01. |
 
 ## Batch B02 validation note
 
