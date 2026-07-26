@@ -18,9 +18,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
-| S02 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
-| S03 | active | — | — | Fresh recovery owner pass in progress; lost ephemeral work is not accepted as evidence. |
+| S01 | integrated | `e12ac52` | — | Fresh recovery owner commit integrated as `63f5199`; lost ephemeral work was not accepted as evidence. |
+| S02 | integrated | `ce8815c` | — | Fresh recovery owner commit integrated as `105a691`; lost ephemeral work was not accepted as evidence. |
+| S03 | integrated | `d8f1b4a` | — | Fresh recovery owner commit integrated as `c410034`; lost ephemeral work was not accepted as evidence. |
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
@@ -75,9 +75,24 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Batch | Sections | State | Branch/PR | Merge SHA | Pages evidence |
 |---|---|---|---|---|---|
-| B01 | S01–S03 | active | `agent/independent-recovery-s01-s03` | — | Fresh recovery owner passes active; lost ephemeral commits remain inadmissible. |
+| B01 | S01–S03 | validating | `agent/independent-recovery-s01-s03` | — | Fresh recovery commits integrated; combined gates pass and publication is next. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | parked | local commits `0272f98`, `0c06444`, `3939741` | — | Fresh owner commits preserved locally; review, integration and deployment resume after B01. |
+
+## Batch B01 recovery validation note
+
+- Independent focused contracts: S01 `8/8`, S02 `6/6`, S03 `6/6`.
+- Reference execution: S02 and S03 each pass all `41` published code/output
+  pairs; scoped runtime audits report S01 `9/9`, S02 `65/65` and S03 `64/64`.
+- Fleet structure: 52 sections; V3 counts, structure and invariants pass with
+  zero warnings.
+- Authenticated assessment: 1,248 questions / 416 concepts; P0=0, P1=0.
+- S01 first-use and glossary checks pass with P0=0 and P1=0.
+- TypeScript and ESLint pass.
+- Production export: static compilation, TypeScript validation and 3/3 page
+  generation pass; local exported site returns HTTP 200 and contains all three
+  corrected playground and PDF mappings.
+- Generated validation JSON was restored before this inventory update.
 
 ## Batch B02 validation note
 
