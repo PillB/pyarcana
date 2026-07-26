@@ -58,6 +58,8 @@ The current source and live bundle were treated as the baseline. Earlier Fixer r
 | A-02 | Fresh live audit | Playground taught lists, averages and comprehensions | Replaced with tri-state amount/region rules over synthetic cases | Python execution equals expected output |
 | A-03 | Fresh live audit | PDF label was `3. Data Struct` | Changed S03-owned label to `3. Reglas` | Source and static-bundle assertion |
 | A-04 | Fresh You Do audit | Project oracle omitted schema, bad-type and several boundary paths | Added result-shape, type, 18/120, 50000/50001, missing, unknown and negative assertions | Focused You Do oracle test |
+| A-05 | Adversarial localization gate | S03 repeated 102 Peru city-name tokens, above the cap of 55 | Replaced repetitive introductory examples with neutral synthetic region codes while retaining Peru flavor in the advanced allowlist and project | Exact recount: 42 tokens; S03 absent from repository-wide gate failures |
+| A-06 | Learner-packet gate | The packet parser resolved only 21 unique IDs from 24 We Do exercises because long preambles pushed IDs outside its lookback | Relocated each existing S03 exercise ID beside its instruction without renaming or duplicating IDs | Source 24/24 unique; parsed manifest 24/24 unique and in canonical order |
 
 ## 3. Full corrected content or precise complete diffs
 
@@ -66,6 +68,8 @@ The section-scoped commit contains the complete reproducible diff. Its deliberat
 1. `src/lib/course/sections/s03-data-structures.ts`
    - Replaced unnecessary author/English phrasing in the opening, theory, I Do retrospectives and selected We Do blocks.
    - Preserved all 8 theory subtopics, 8 I Do demos and 24 We Do exercises.
+   - Reduced repetitive city-name tokens from 102 to 42 by using neutral region codes in introductory examples while retaining a bounded Peru case set.
+   - Relocated, without renaming, all 24 exercise IDs next to their instructions so the learner-packet parser resolves the canonical ordered set uniquely.
    - Added the You Do requirement that every result has exactly `status`, `code`, and `message`, and that invalid types return a result rather than raising `TypeError`.
    - Expanded `_run_tests` with `assert_result`, explicit MISSING/NOT_IN_ALLOWLIST/BAD_TYPE/OUT_OF_RANGE/NEEDS_REVIEW/OK checks, inclusive age/monto boundaries, and an above-threshold review case.
    - Reworded the portfolio note so its evidence list matches the executable oracle.
@@ -80,7 +84,7 @@ The section-scoped commit contains the complete reproducible diff. Its deliberat
 4. `src/components/course/PdfReport.tsx`
    - Changed only `"data-structures": '3. Data Struct'` to `"data-structures": '3. Reglas'`.
 5. `tests/adversarial/test_s03_independent_contract.py`
-   - Added six independent regression tests covering structure, 41 code/output pairs, playground execution, PDF mapping, public/authenticated position balance and You Do oracle breadth.
+   - Added seven independent regression tests covering structure, source/packet ID uniqueness, 41 code/output pairs, playground execution, PDF mapping, public/authenticated position balance and You Do oracle breadth.
 
 No other section’s curriculum, bank, playground block or PDF label was changed.
 
@@ -90,9 +94,13 @@ No other section’s curriculum, bank, playground block or PDF label was changed
 
 | Gate | Result |
 |---|---|
-| Focused S03 suite | 6/6 tests passed |
+| Focused S03 suite | 7/7 tests passed |
 | Embedded theory/I Do/We Do reference programs | 41/41 executed; stdout exactly matched declared output |
-| S03 runtime audit | 64 pass, 0 fail, 0 skip; P0=0, P1=0 |
+| S03 runtime audit | 65 pass, 0 fail, 0 skip; P0=0, P1=0 |
+| S03 place-name density | 42 tokens, below cap 55 |
+| S03 learner packet | 24 exercises; 24 unique canonical IDs in exact order |
+| Repository-wide localization gate | S03 passed; exact test remains red for 10 out-of-scope sections |
+| Repository-wide packet-ID gate | S03 passed; exact test remains red for 50 out-of-scope sections |
 | Authenticated bank size | 24 questions; 8 concepts × 3 variants |
 | Authenticated positions | 6/6/6/6 overall |
 | Attempt-equivalent positions | 2/2/2/2 in each of three attempts |
@@ -128,6 +136,7 @@ No scripts, generators, loops, templates, or bulk-production mechanisms were use
 ## 5. Residual risks and later recommendations
 
 - Section-local residual: none known after the fresh source, assessment and runtime checks.
+- Campaign-level gates remain red for other section owners: 10 sections exceed the city-token cap and 50 other sections still expose non-unique packet IDs. S03 is absent from both failure sets.
 - Compatibility constraint: `data-structures` and `s03-data-structures.ts` remain historical identifiers. Renaming them requires a repository-wide routing/data migration and is intentionally deferred.
 - Deployment constraint: the public bundle will retain the two pre-fix strings until the parent batch is merged and Pages finishes deploying. The local static artifact already contains the corrected strings.
 - Platform dependency: authenticated delivery still depends on the shared Prisma seed/deployment workflow; the S03 bank itself is now balanced and covered by a regression.

@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
+import sys
 import unittest
 
 
@@ -14,6 +15,9 @@ SECTION = ROOT / "src/lib/course/sections/s03-data-structures.ts"
 SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from newbie_packet_builder import active_manifest, parse_section_learner
 
 
 def _between(text: str, start: str, end: str) -> str:
@@ -37,9 +41,24 @@ class Section03IndependentContractTests(unittest.TestCase):
             len(re.findall(r"demoId: 'S03-T[1-4]-[AB]-DEMO'", source)),
             8,
         )
+        exercise_ids = re.findall(r"id: '(S03-T[1-4]-[AB]-E[1-3])'", source)
+        self.assertEqual(len(exercise_ids), 24)
+        self.assertEqual(len(set(exercise_ids)), 24)
+
+    def test_newbie_packet_resolves_all_exercise_ids_uniquely(self) -> None:
+        manifest = active_manifest(parse_section_learner(SECTION))
+        exercise_ids = manifest["exercise_ids"]
+
+        self.assertEqual(len(exercise_ids), 24)
+        self.assertEqual(len(set(exercise_ids)), 24)
         self.assertEqual(
-            len(re.findall(r"id: 'S03-T[1-4]-[AB]-E[1-3]'", source)),
-            24,
+            exercise_ids,
+            [
+                f"S03-T{topic}-{strand}-E{exercise}"
+                for topic in range(1, 5)
+                for strand in ("A", "B")
+                for exercise in range(1, 4)
+            ],
         )
 
     def test_all_embedded_reference_programs_match_their_output(self) -> None:
