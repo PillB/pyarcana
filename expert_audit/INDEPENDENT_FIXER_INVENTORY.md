@@ -18,13 +18,13 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | deployed | `e12ac52` + `7627dc1` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
-| S02 | deployed | `ce8815c` + `1ab1cc3` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
-| S03 | deployed | `d8f1b4a` + `7bc21e5` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
-| S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | deployed | `0272f98` + `279e8c0` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
+| S01 | active | `e12ac52` + `7627dc1` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
+| S02 | active | `ce8815c` + `1ab1cc3` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
+| S03 | active | `d8f1b4a` + `7bc21e5` | `8fd2f1d` | Previously deployed correctness pass reopened for visible text-first Theory/I Do/We Do/You Do improvement after learner feedback. |
+| S04 | queued | `bf4111b` | `2e9fcd2` | Previously deployed correctness pass queued for text-first rewrite; its core lesson changed only 3 additions/3 deletions in the prior campaign. |
+| S05 | queued | `9b9cda4` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
+| S06 | queued | `03ee8e3` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
+| S07 | queued | `0272f98` + `279e8c0` | `6f2a784` | Previously deployed correctness pass queued for visible text-first rewrite. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
 | S10 | pending | — | — | |
@@ -78,6 +78,24 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
+| T01 | S01–S03 | active | `agent/text-first-s01-s03` | — | Text-first reopening: sustained theory, narrative, guided-practice and retrospective improvements must be visibly material while preserving correctness gates. |
+| T02 | S04–S06 | queued | — | — | Starts after T01 is merged and publicly verified. |
+| T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
+
+## Text-first campaign diagnosis
+
+- Learner feedback reported that S01–S07 did not visibly read as improved.
+- The deployed site was current and healthy, so the primary defect was not a
+  missing Pages deployment.
+- Prior section work over-weighted assessment balance, practice identifiers,
+  runtime truthfulness, playground/PDF identity, Spanish defects and CI
+  contracts. Those fixes were necessary, but they did not guarantee a
+  sustained learner-visible rewrite of the lesson body.
+- The strongest quantitative warning is S04: its core lesson file changed by
+  only three insertions and three deletions in the previous campaign.
+- T01–T03 therefore require before/after prose evidence for every theory
+  subtopic and for I Do, We Do, You Do and the closing retrospective. Existing
+  technical and assessment gates remain mandatory and cannot be weakened.
 
 ## Batch B03 validation note
 
