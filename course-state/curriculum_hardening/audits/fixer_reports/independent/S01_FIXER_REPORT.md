@@ -81,12 +81,14 @@ The You Do consumes all eight nodes in a clonable CP-N1-A skeleton; it does not 
 
 | Gate | Result |
 |---|---|
-| `python3 -m unittest tests.adversarial.test_s01_independent_recovery -v` | **PASS** — 8/8 focused tests |
+| `python3 -m unittest tests.adversarial.test_s01_independent_recovery -v` | **PASS** — 9/9 focused tests |
 | `python3 scripts/s01_first_use_audit.py` | **PASS** — P0=0, P1=0, 12 tracked first uses |
 | `python3 scripts/s01_glossary_coverage.py` | **PASS** — 24/24 seed terms covered; 150 aliases |
 | `python3 scripts/python_content_runtime_audit.py --only s01-setup --workers 1` | **PASS** — 9 pass, 0 fail; P0=0, P1=0 (59 shell/markdown/static artifacts classified as non-Python skips) |
 | Authenticated distribution | **PASS** — 24 items, 8 concepts × 3, global `6/6/6/6`, every attempt `2/2/2/2`, three distinct positions per concept |
 | Public self-check distribution | **PASS** — 8 items, `2/2/2/2` |
+| `node scripts/rebalance_selfcheck_positions.mjs --from 1 --to 1` | **PASS** — exact S01 cycle `[0,2,3,1,0,2,3,1]`; no failures |
+| S01 newbie-packet manifest | **PASS** — all 24 canonical exercise IDs resolve uniquely and in source order |
 | Executable focused paths | **PASS** — playground exact stdout; clean temporary Git repo starts on `main` and commits successfully |
 | `npm run test:v3` | **PASS** — 52 sections; S01 remains 8 demos / 24 exercises; no invariant warnings |
 | `npm run test:exam-pedagogy` | **PASS** — 1,248 questions, 416 concepts; P0=0, P1=0 |
@@ -97,6 +99,17 @@ The You Do consumes all eight nodes in a clonable CP-N1-A skeleton; it does not 
 | Local static HTTP | **PASS** — exported root returned HTTP 200 with the PyArcana shell and S01 sidebar identity |
 
 Validation scripts regenerated five fleet-wide JSON artifacts. All five were restored before staging; their metrics are recorded here only.
+
+The exact repository-wide newbie-packet uniqueness test was also run. S01 no longer appears among its failing subtests; the command remains nonzero because 50 other sections on this isolated baseline still violate their own manifest-ID contract and are outside S01 scope. The focused static Playwright journey was attempted after a fresh static build, but this environment has no Playwright Chromium binary. The same generated page chunk was therefore inspected directly and contains both the `check_arg.py` title and `def main() -> None:` contract.
+
+### Follow-up: static entrypoint contract
+
+- GitHub CI exposed one S01-owned mismatch that the original focused suite did not cover: the learner-rendered `check_arg.py` demonstration used `def main():`, while the public static journey requires the pedagogical type-annotation preview `def main() -> None:`.
+- The demonstration now renders `def main() -> None:` and the surrounding theory names that exact example without implying that annotations are required at runtime.
+- The focused suite now protects the rendered block's typed entrypoint, `sys.executable` line and absence of the unannotated signature.
+- The same CI run exposed two further S01 source-contract misses: the newbie packet parser associated only 23 unique IDs with 24 exercises because long preambles separated each ID from its instruction, and the last three self-check positions broke S01's required `[0,2,3,1]` cycle.
+- Every exercise ID now sits immediately beside its own instruction, so the learner manifest resolves all 24 IDs in canonical order. The final three self-check option arrays were hand-reordered, preserving their correct answers while restoring `[0,2,3,1,0,2,3,1]`.
+- Focused coverage now compares the learner-manifest IDs with the 24 canonical IDs and asserts the complete self-check position cycle.
 
 ## 7. Residuals and deliberate non-changes
 

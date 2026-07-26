@@ -7,6 +7,8 @@ import subprocess
 import tempfile
 import unittest
 
+from scripts.newbie_packet_builder import active_manifest, parse_section_learner
+
 
 ROOT = Path(__file__).resolve().parents[2]
 INDEX = ROOT / "src" / "lib" / "course" / "index.ts"
@@ -38,6 +40,11 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
     def test_all_eight_subtopics_have_model_and_three_practices(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")
         subtopics = [f"S01-T{topic}-{part}" for topic in range(1, 5) for part in "AB"]
+        exercise_ids = [
+            f"{subtopic}-E{exercise}"
+            for subtopic in subtopics
+            for exercise in range(1, 4)
+        ]
 
         for subtopic in subtopics:
             self.assertIn(f"demoId: '{subtopic}-DEMO'", lesson)
@@ -46,7 +53,12 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
                 self.assertIn(f"id: '{subtopic}-E{exercise}'", lesson)
 
         self.assertEqual(len(re.findall(r"demoId: 'S01-T[1-4]-[AB]-DEMO'", lesson)), 8)
-        self.assertEqual(len(re.findall(r"id: 'S01-T[1-4]-[AB]-E[1-3]'", lesson)), 24)
+        self.assertEqual(
+            re.findall(r"id: '(S01-T[1-4]-[AB]-E[1-3])'", lesson),
+            exercise_ids,
+        )
+        manifest = active_manifest(parse_section_learner(SECTION))
+        self.assertEqual(manifest["exercise_ids"], exercise_ids)
 
     def test_first_use_definitions_are_inline_and_git_initializes_main(self) -> None:
         lesson = SECTION.read_text(encoding="utf-8")
@@ -110,6 +122,18 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
         self.assertIn("if __name__ == \"__main__\":", match.group("code"))
         self.assertNotIn("edad_meses", block)
 
+    def test_rendered_check_arg_demo_preserves_the_typed_entrypoint(self) -> None:
+        lesson = SECTION.read_text(encoding="utf-8")
+        block = _between(
+            lesson,
+            "title: 'check_arg.py — argv, len y exit codes'",
+            "output: `OK:hola",
+        )
+
+        self.assertIn("def main() -> None:", block)
+        self.assertNotIn("def main():", block)
+        self.assertIn('print("executable:", sys.executable)', block)
+
     def test_authenticated_bank_is_balanced_across_attempts_and_concepts(self) -> None:
         seed = SEED.read_text(encoding="utf-8")
         bank = _between(seed, "  setup: [", "  basics: [")
@@ -144,6 +168,7 @@ class Section01IndependentRecoveryTests(unittest.TestCase):
 
         self.assertEqual(len(positions), 8)
         self.assertEqual(Counter(positions), Counter({0: 2, 1: 2, 2: 2, 3: 2}))
+        self.assertEqual(positions, [0, 2, 3, 1, 0, 2, 3, 1])
         for term in ("entorno virtual", "código de salida", "commit", "Ruff"):
             self.assertIn(term, block)
 

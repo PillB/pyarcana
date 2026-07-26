@@ -81,7 +81,7 @@ secrets_in_repo_ok False`,
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice "ábrelo en el intérprete y mira el tipo", te está pidiendo el REPL. Cuando dice "corre el entrypoint", te está pidiendo un archivo. Confundir ambos genera la sensación de que "a mí me funciona" en la laptop y falla en el servidor.',
         'Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == "__main__":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f"Hola {nombre}")` — la `f` delante de las comillas permite `{expresiones}` dentro.',
-        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en material avanzado verás `def main() -> None:` («esta función no devuelve un valor útil»). Son **pistas** para editores y Ruff; en S01 Python **no** las exige en tiempo de ejecución. Los demos y ejercicios de esta sección usan `def main():` sin anotaciones; las reencontrarás cuando S02–S03 profundicen en tipos. Si las copias o las omites, la lógica del script no cambia.',
+        '**Anotaciones de tipo (opcional, no las necesitas hoy):** en la demostración `check_arg.py` verás `def main() -> None:` («esta función no devuelve un valor útil»). Es una **pista** para editores y Ruff; en S01 Python **no** la exige en tiempo de ejecución. Los demás demos y ejercicios pueden usar `def main():` sin anotaciones; las reencontrarás cuando S02–S03 profundicen en tipos. Si la copias o la omites, la lógica del script no cambia.',
       ],
       code: {
         language: 'python',
@@ -156,7 +156,7 @@ pip 24.0 from ... (python 3.12)`,
         title: 'check_arg.py — argv, len y exit codes',
         code: `import sys
 
-def main():
+def main() -> None:
     # sys.argv[0] = script; usuario desde [1]
     if len(sys.argv) != 2:
         print("uso: python check_arg.py <arg>", file=sys.stderr)
@@ -694,12 +694,12 @@ A  README.md
       'Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia**. Completa T1–T4 (24 ejercicios con id `S01-T*-E*`). Los demos del I Do ya te mostraron comandos reales; aquí rellenas huecos, diagnosticas y trasladas lo aprendido a escenarios de equipo. Usa las dos pistas si te trabas; solo entonces revisa la solución. Al final, el You Do cierra el **esqueleto CP-N1-A** (sin validador aún — solo repo clonable).',
     steps: [
       {
-        id: 'S01-T1-A-E1',
         subtopicId: 'S01-T1-A',
         kind: 'guided',
         title: 'Completar transcript REPL (suma, type, sys)',
         preamble:
           '- **Contexto:** en inducción te piden “ábrelo en el intérprete” antes de tocar el repo.\n- **Meta:** practicar una sesión REPL mínima (evaluar, inspeccionar tipo, leer versión) y salir bien.\n- **Éxito:** diálogo completo: `2+2 → 4`; `type("…")` es `str`; `sys.version.split()[0]` tipo `3.x.y`; `quit()` vuelve a la shell.\n- **Límites:** no crees un `.py`; no cierres la ventana de la terminal al salir del REPL; usa `python3` si `python` no responde.',
+        id: 'S01-T1-A-E1',
         instruction:
           '1. Abre el REPL con el mismo comando que usaste en el I Do.\n2. Completa los `____` del transcript (suma, `type`, `import sys`, versión corta, salida).\n3. Reproduce la sesión en tu terminal real.\n4. Verifica el checklist del ejercicio (no solo rellenar el archivo-guía).',
         hint: 'En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.',
@@ -755,12 +755,12 @@ A  README.md
         },
       },
       {
-        id: 'S01-T1-A-E2',
         subtopicId: 'S01-T1-A',
         kind: 'independent',
         title: 'Script `hello_sys.py` con entrypoint',
         preamble:
           '- **Contexto:** el smoke del entorno en equipos se entrega como archivo, no como chat del REPL.\n- **Meta:** escribir un script que imprima nombre sintético y versión de Python con `sys`.\n- **Éxito:** `python hello_sys.py` → exit 0; stdout con nombre y `Python 3.x…`; usa `if __name__ == "__main__":`.\n- **Límites:** no PII real; no `pip install`; no entregar solo líneas pegadas en el REPL.',
+        id: 'S01-T1-A-E2',
         instruction:
           '1. Completa los `____` en `main` (nombre sintético, `sys.version`).\n2. Completa el guardián `if __name__ == "__main__":` llamando a `main()`.\n3. Ejecuta `python hello_sys.py` (o `python3`) y confirma exit 0.',
         hint: 'Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().',
@@ -814,12 +814,12 @@ Python 3.12.3`,
         },
       },
       {
-        id: 'S01-T1-A-E3',
         subtopicId: 'S01-T1-A',
         kind: 'transfer',
         title: 'Diagnosticar intérprete ausente (Win/Unix)',
         preamble:
           '- **Contexto:** un compañero de inducción no puede correr `python --version` y te escribe por chat.\n- **Meta:** dejar un procedimiento de 4–6 pasos verificable (fuente oficial + OS).\n- **Éxito:** rúbrica del ejercicio: fuente oficial; verifica `--version`; distingue Windows vs Unix; 4–6 pasos claros; sin hacks inseguros.\n- **Límites:** solo python.org / instaladores oficiales; no “desactivar seguridad del SO”; no force-push ni trucos de admin innecesarios.',
+        id: 'S01-T1-A-E3',
         instruction:
           '1. Lee los casos A (Windows) y B (macOS/Linux) del starter.\n2. Completa los pasos numerados y la verificación final.\n3. Entrega el markdown; no hace falta instalar por el revisor si documentas comandos y resultado esperado.',
         hint: 'En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux suele bastar usar python3 de forma consistente.',
@@ -885,12 +885,12 @@ Python 3.12.3`,
         },
       },
       {
-        id: 'S01-T1-B-E1',
         subtopicId: 'S01-T1-B',
         kind: 'guided',
         title: 'Documentar exit 0 y exit 1 en tu shell',
         preamble:
           '- **Contexto:** CI y cron leen un entero al terminar tu script, no el emoji del log.\n- **Meta:** ejecutar salidas controladas `0` y `1` y **leer** el código en tu shell.\n- **Éxito:** documentas `codigo_ok=0` y `codigo_fail=1` (o equivalentes) y nombras la shell (bash/zsh/PowerShell).\n- **Límites:** sin rutas de usuario reales ni secretos; en PowerShell usa `$LASTEXITCODE`, no `$?`.',
+        id: 'S01-T1-B-E1',
         instruction:
           '1. Completa los `sys.exit(____)` del lab (0 luego 1).\n2. Tras cada comando, imprime el código de salida de tu shell.\n3. Anota `SHELL_USADA=…`.\n4. Guarda el transcript sin PII.',
         hint: 'Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LASTEXITCODE.',
@@ -949,12 +949,12 @@ codigo_fail=1`,
         },
       },
       {
-        id: 'S01-T1-B-E2',
         subtopicId: 'S01-T1-B',
         kind: 'independent',
         title: '`check_arg.py`: un arg → 0; si no → 1',
         preamble:
           '- **Contexto:** los jobs de intake fallan con código no cero cuando faltan argumentos.\n- **Meta:** implementar el contrato argc con `sys.argv` y `sys.exit`.\n- **Éxito:** `python check_arg.py hola` → exit 0 y `OK:hola`; sin args o con dos → exit 1 y uso en **stderr**.\n- **Límites:** no ignores args extra; no imprimas el uso solo en stdout.',
+        id: 'S01-T1-B-E2',
         instruction:
           '1. Completa `len(args)`, `sys.stderr` y los `sys.exit`.\n2. Prueba: un arg, cero args, dos args.\n3. Confirma códigos con `echo $?` / `$LASTEXITCODE`.',
         hint: 'sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].',
@@ -1018,12 +1018,12 @@ $ echo $?
         },
       },
       {
-        id: 'S01-T1-B-E3',
         subtopicId: 'S01-T1-B',
         kind: 'transfer',
         title: 'Clasificar fallo de pip: PATH vs intérprete',
         preamble:
           '- **Contexto:** ticket de inducción: “pip install pandas no me funciona”.\n- **Meta:** separar “la shell no encuentra `pip`” de “instalé en otro Python”.\n- **Éxito:** clasificas A y B; 3 pasos por escenario; priorizas `python -m pip` y `sys.executable`; sin reinstalls de SO innecesarios.\n- **Límites:** sin secretos; no culpes a pandas hasta verificar el intérprete.',
+        id: 'S01-T1-B-E3',
         instruction:
           '1. Clasifica escenario A y B en el markdown.\n2. Escribe 3 pasos de verificación por escenario.\n3. Completa el “comando preferido del curso”.',
         hint: 'Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pip al mismo intérprete.',
@@ -1091,12 +1091,12 @@ $ echo $?
         },
       },
       {
-        id: 'S01-T2-A-E1',
         subtopicId: 'S01-T2-A',
         kind: 'guided',
         title: 'Crear, activar y desactivar `.venv`',
         preamble:
           '- **Contexto:** un proyecto = un entorno aislado; no mezcles dependencias en el Python del sistema.\n- **Meta:** crear `.venv`, activarlo y probar que `sys.prefix` apunta a esa carpeta; luego `deactivate`.\n- **Éxito:** carpeta `.venv` existe; tras activate, `sys.prefix` contiene `.venv`; tras deactivate, sales del entorno del proyecto.\n- **Límites:** no instales paquetes aún; no uses el Python global a propósito; en PowerShell, si `Activate.ps1` falla por política, documenta `RemoteSigned` (CurrentUser) o `activate.bat`.',
+        id: 'S01-T2-A-E1',
         instruction:
           '1. Entra a la carpeta de práctica del starter.\n2. Completa create / activate / print `sys.prefix` / deactivate.\n3. Marca el checklist del ejercicio.',
         hint: 'Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .venv\\Scripts\\Activate.ps1',
@@ -1148,12 +1148,12 @@ deactivate`,
         },
       },
       {
-        id: 'S01-T2-A-E2',
         subtopicId: 'S01-T2-A',
         kind: 'independent',
         title: 'Recrear un `.venv` roto sin tocar el código',
         preamble:
           '- **Contexto:** un `site-packages` corrupto se repara recreando el entorno, no “a mano”.\n- **Meta:** borrar/recrear `.venv` limpio preservando scripts del proyecto.\n- **Éxito:** activate funciona; `sys.prefix` es el nuevo `.venv`; los `.py` del proyecto siguen existiendo.\n- **Límites:** no uses conda ni reinstales el Python del sistema; no borres la raíz del proyecto.',
+        id: 'S01-T2-A-E2',
         instruction:
           '1. `deactivate` si estás dentro del venv viejo.\n2. Elimina `.venv` y créalo de nuevo.\n3. Activa y verifica `sys.prefix`.\n4. Confirma que tu código fuente permanece.',
         hint: 'El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en la raíz del proyecto.',
@@ -1208,12 +1208,12 @@ ls hello.py 2>/dev/null || echo "(tu código fuente permanece en el proyecto)"`,
         },
       },
       {
-        id: 'S01-T2-A-E3',
         subtopicId: 'S01-T2-A',
         kind: 'transfer',
         title: 'Argumentar por qué no `pip` global',
         preamble:
           '- **Contexto:** un colega quiere `pip install pandas` en el Python global “para no perder tiempo”.\n- **Meta:** explicar el riesgo de versiones cruzadas y proponer el flujo `.venv`.\n- **Éxito:** conflicto de versiones A vs B; flujo create→activate→pip por proyecto; `venv` es stdlib; tono profesional; sin sudo ni install global.\n- **Límites:** sin afirmaciones salariales; conda/uv pueden mencionarse como opcionales, no como único camino.',
+        id: 'S01-T2-A-E3',
         instruction:
           '1. Completa el escenario de conflicto (dos proyectos, dos versiones).\n2. Lista el flujo recomendado en 3 pasos.\n3. Anota que `venv` es stdlib y el nombre canónico `.venv`.',
         hint: 'Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos.',
@@ -1272,12 +1272,12 @@ El Proyecto A (reporte legacy) necesita una API de pandas 1.x. El Proyecto B (pi
         },
       },
       {
-        id: 'S01-T2-B-E1',
         subtopicId: 'S01-T2-B',
         kind: 'guided',
         title: 'Pin, freeze y verificar `requirements.txt`',
         preamble:
           '- **Contexto:** el snapshot pinneado es lo que un colega o CI reinstala el día 1.\n- **Meta:** instalar un tercero pinneado, generar freeze y comprobar la línea `paquete==versión`.\n- **Éxito:** existe `requirements.txt` con al menos `requests==…` (o el paquete que uses); sin secretos ni rutas absolutas de usuario.\n- **Límites:** solo con `.venv` activado; siempre `python -m pip` (no `pip` suelto); no freezes del Python global.',
+        id: 'S01-T2-B-E1',
         instruction:
           '1. Activa el venv y confirma con `sys.prefix` (debe contener `.venv`).\n2. Completa install pinneado y `python -m pip freeze > requirements.txt`.\n3. Verifica con `grep` e `import` que la versión del paquete coincide con el archivo.',
         hint: 'Siempre: python -m pip install ... y python -m pip freeze > requirements.txt',
@@ -1323,12 +1323,12 @@ python -c "import requests; print(requests.__version__)"`,
         },
       },
       {
-        id: 'S01-T2-B-E2',
         subtopicId: 'S01-T2-B',
         kind: 'independent',
         title: 'Replicar deps con `install -r` en limpio',
         preamble:
           '- **Contexto:** un clon limpio no hereda tu carpeta `.venv`; hereda el archivo de contrato.\n- **Meta:** crear un segundo entorno e instalar solo desde `requirements.txt`.\n- **Éxito:** en el env limpio, import del paquete pinneado OK y versión alineada al archivo.\n- **Límites:** no copies `site-packages`; no verifiques en el venv viejo por error.',
+        id: 'S01-T2-B-E2',
         instruction:
           '1. Crea `.venv_replica` (o recrea limpio).\n2. Activa e `install -r requirements.txt`.\n3. Confirma con import / `pip list`.',
         hint: 'No copies site-packages a mano. El contrato es el archivo -r.',
@@ -1370,12 +1370,12 @@ python -c "import requests; print('ok', requests.__version__)"`,
         },
       },
       {
-        id: 'S01-T2-B-E3',
         subtopicId: 'S01-T2-B',
         kind: 'transfer',
         title: 'Forense de `ModuleNotFoundError`',
         preamble:
           '- **Contexto:** `import requests` falla; a veces nunca se instaló, a veces se instaló en otro Python.\n- **Meta:** protocolo de 5 pasos con `sys.executable` y `python -m pip`.\n- **Éxito:** hipótesis A/B; 5 pasos; clasifica stdlib vs terceros; sin reinstalls de SO.\n- **Límites:** no trates `datetime`/`sys` como paquetes de pip; no subas secretos en el informe.',
+        id: 'S01-T2-B-E3',
         instruction:
           '1. Completa hipótesis A y B.\n2. Rellena el protocolo de 5 pasos.\n3. Marca requests vs datetime (terceros vs stdlib).',
         hint: 'Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m pip en ese intérprete/venv.',
@@ -1443,12 +1443,12 @@ El módulo de terceros no está en el site-packages del intérprete actual.
         },
       },
       {
-        id: 'S01-T3-A-E1',
         subtopicId: 'S01-T3-A',
         kind: 'guided',
         title: 'Primer commit Conventional Commits',
         preamble:
           '- **Contexto:** el historial es la memoria del equipo; un mensaje vacío no sirve en review.\n- **Meta:** `git init`, un archivo, un commit con prefijo `docs:` o `feat:`.\n- **Éxito:** `git log -1` muestra un subject que cumple `feat|fix|docs|chore|refactor|test:` + descripción.\n- **Límites:** no “wip”, no mensaje vacío, no subas `.venv` ni secretos.',
+        id: 'S01-T3-A-E1',
         instruction:
           '1. Inicializa el repo de práctica.\n2. Crea el README y haz `git add`.\n3. Commit con mensaje Conventional Commits.\n4. Verifica con `git log -1 --oneline`.',
         hint: 'git add <archivo> && git commit -m "docs: ..." — el prefijo va en minúsculas seguido de dos puntos y espacio.',
@@ -1495,12 +1495,12 @@ abc1234 docs: agregar README de practica`,
         },
       },
       {
-        id: 'S01-T3-A-E2',
         subtopicId: 'S01-T3-A',
         kind: 'independent',
         title: 'Leer `git show` y narrar el diff',
         preamble:
           '- **Contexto:** en un PR pasas más tiempo leyendo `+`/`−` que escribiendo código nuevo.\n- **Meta:** hacer un segundo commit y explicar qué muestra `git show HEAD`.\n- **Éxito:** markdown con las 3 respuestas; menciona líneas `+`/`−`; el commit existe en el log.\n- **Límites:** no mires solo `git diff` vacío post-commit; no entregues sin `git add`.',
+        id: 'S01-T3-A-E2',
         instruction:
           '1. Modifica el README, stage y commit.\n2. Ejecuta `git show HEAD` (sin pager si hace falta).\n3. Responde las tres preguntas del starter.',
         hint: 'Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD.',
@@ -1558,12 +1558,12 @@ El commit documenta en el README que el setup usa venv.`,
         },
       },
       {
-        id: 'S01-T3-A-E3',
         subtopicId: 'S01-T3-A',
         kind: 'transfer',
         title: 'Elegir el mejor mensaje de commit',
         preamble:
           '- **Contexto:** tres mensajes candidatos para el mismo cambio (`scripts/hello_env.py` smoke).\n- **Meta:** elegir el más legible en historial de equipo y reescribir los otros al estilo Conventional Commits.\n- **Éxito:** una elección justificada en 3–5 oraciones; reescrituras de los rechazados con prefijos válidos (`feat`/`fix`/`docs`/`chore`/…); sin defender `wip` en `main`.\n- **Límites:** no defiendas `wip` en `main`; evita prefijos inventados tipo `update:`; la justificación debe hablar de legibilidad para un colega, no solo de “gusto”.',
+        id: 'S01-T3-A-E3',
         instruction:
           '1. Elige A, B o C y justifica.\n2. Reescribe los candidatos que rechaces como si fueran commits útiles.\n3. Entrega el markdown.',
         hint: 'El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.',
@@ -1626,12 +1626,12 @@ Informa el tipo (nueva capacidad), el artefacto y el propósito (smoke). Un cole
         },
       },
       {
-        id: 'S01-T3-B-E1',
         subtopicId: 'S01-T3-B',
         kind: 'guided',
         title: 'Crear rama `feat/practica-s01` y hacer commit',
         preamble:
           '- **Contexto:** el trabajo en curso no se mezcla a ciegas con `main`.\n- **Meta:** crear `feat/practica-s01`, un commit `feat:` y listar ramas.\n- **Éxito:** la rama existe; HEAD en esa rama; `git log -1` con prefijo `feat:`.\n- **Límites:** no force-push; no nombres con espacios; remoto opcional (flujo local basta).',
+        id: 'S01-T3-B-E1',
         instruction:
           '1. Parte de `main`.\n2. `git switch -c feat/practica-s01`.\n3. Añade archivo, commit `feat:…`, lista ramas.',
         hint: 'git switch -c feat/practica-s01  (equivalente moderno a checkout -b)',
@@ -1676,12 +1676,12 @@ git branch`,
         },
       },
       {
-        id: 'S01-T3-B-E2',
         subtopicId: 'S01-T3-B',
         kind: 'independent',
         title: 'Redactar descripción de Pull Request',
         preamble:
           '- **Contexto:** el diff no cuenta solo el “por qué”; el cuerpo del PR lo hace.\n- **Meta:** título + resumen (3 bullets) + plan de prueba + checklist de seguridad para `hello_env` + README.\n- **Éxito:** archivo con esos bloques; pasos de prueba concretos; mención `.env`/secretos; sin PII.\n- **Límites:** no tokens reales; no “ver commits” vacío; remoto no obligatorio para la entrega del markdown.',
+        id: 'S01-T3-B-E2',
         instruction:
           '1. Completa título al estilo Conventional Commits.\n2. Escribe 3 bullets de resumen orientados al revisor.\n3. Lista 3 comandos de prueba (venv, install -r, smoke).\n4. Cierra el checklist de seguridad.',
         hint: 'Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.',
@@ -1746,12 +1746,12 @@ feat: agregar smoke hello_env y documentar install
         },
       },
       {
-        id: 'S01-T3-B-E3',
         subtopicId: 'S01-T3-B',
         kind: 'transfer',
         title: 'Recuperar con `restore`/`stash` (sin force-push)',
         preamble:
           '- **Contexto:** editaste `README.md` sin commit y el cambio está mal; te proponen `reset --hard` o force-push a `main`.\n- **Meta:** procedimiento correcto no destructivo y por qué force-push a `main` no es opción.\n- **Éxito:** menciona `git restore`; `stash` como alternativa de guardado; prohíbe force-push a `main`; no pone `reset --hard` como default.\n- **Límites:** no reescribas historial compartido; distingue restore (working tree) de revert (commits hechos).',
+        id: 'S01-T3-B-E3',
         instruction:
           '1. Completa el procedimiento con `restore` (y staged si aplica).\n2. Explica cuándo usar `stash`.\n3. Justifica el no a force-push y el no a hard como primer reflejo.',
         hint: 'restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.',
@@ -1817,12 +1817,12 @@ Borra cambios sin commit de forma fácil de lamentar. Primero restore/stash; har
         },
       },
       {
-        id: 'S01-T4-A-E1',
         subtopicId: 'S01-T4-A',
         kind: 'guided',
         title: 'Config mínima de Ruff en `pyproject.toml`',
         preamble:
           '- **Contexto:** el linter del equipo debe ser el mismo en tu laptop y en CI.\n- **Meta:** completar `[tool.ruff]` y `select = ["E","F","I"]`.\n- **Éxito:** archivo con `line-length = 88`, `target-version`, y select E/F/I.\n- **Límites:** no pongas la config bajo `[tool.black]`; `select` es lista, no string `"E,F,I"`; no `ALL` el día 1.',
+        id: 'S01-T4-A-E1',
         instruction:
           '1. Completa `line-length` y `target-version`.\n2. Completa la lista `select`.\n3. Guarda en la raíz del proyecto de práctica.',
         hint: 'TOML usa secciones entre corchetes y listas con corchetes para select.',
@@ -1867,12 +1867,12 @@ select = ["E", "F", "I"]`,
         },
       },
       {
-        id: 'S01-T4-A-E2',
         subtopicId: 'S01-T4-A',
         kind: 'independent',
         title: 'Limpiar imports con `ruff check`',
         preamble:
           '- **Contexto:** CI fallará el PR por imports muertos antes de que un humano revise lógica.\n- **Meta:** instalar Ruff en el venv, chequear y corregir hasta exit 0.\n- **Éxito:** `python -m ruff check hello_lint.py` exit 0; el script sigue siendo Python válido y corre.\n- **Límites:** en S01 prefiere borrar imports sin usar; no abuses de `noqa`; no te limites a `format` sin arreglar F401.',
+        id: 'S01-T4-A-E2',
         instruction:
           '1. Con venv activo, instala `ruff`.\n2. Corre `python -m ruff check hello_lint.py`.\n3. Elimina imports no usados y re-corre hasta verde.',
         hint: 'F401 = imported but unused. La corrección habitual es borrar el import.',
@@ -1928,12 +1928,12 @@ if __name__ == "__main__":
         },
       },
       {
-        id: 'S01-T4-A-E3',
         subtopicId: 'S01-T4-A',
         kind: 'transfer',
         title: 'Defender `select` mínimo (no ALL día 1)',
         preamble:
           '- **Contexto:** un lead propone `select = ["ALL"]` el día 1 en un repo con notebooks.\n- **Meta:** justificar un set pequeño (E/F/I) y un plan de ampliación.\n- **Éxito:** propuesta acotada; argumento ruido vs señal; cuándo ampliar; tono profesional.\n- **Límites:** no desactives el linter por completo; no copies configs de web backends sin adaptar.',
+        id: 'S01-T4-A-E3',
         instruction:
           '1. Propón el `select`.\n2. Explica por qué no ALL el día 1.\n3. Resume qué cubren E, F e I.\n4. Define cuándo ampliar con acuerdo de equipo.',
         hint: 'ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y estilo básico (E/I).',
@@ -1993,12 +1993,12 @@ Cuando E/F/I pasan en verde de forma habitual y el equipo acuerda reglas extra (
         },
       },
       {
-        id: 'S01-T4-B-E1',
         subtopicId: 'S01-T4-B',
         kind: 'guided',
         title: 'Completar `.gitignore` mínimo Python/data',
         preamble:
           '- **Contexto:** un push accidental de `.venv` o `.env` es el error de higiene más caro del día 1.\n- **Meta:** ignore de entornos, bytecode, secretos y checkpoints Jupyter.\n- **Éxito:** `git check-ignore -v .env` confirma ignore; también cubre `.venv/` **y** `venv/`.\n- **Límites:** si un archivo ya estaba versionado, el ignore solo no lo saca (`git rm --cached`).',
+        id: 'S01-T4-B-E1',
         instruction:
           '1. Completa las entradas del starter.\n2. En un repo de prueba, crea `.env` dummy y corre `git check-ignore -v .env`.\n3. Confirma que ambos nombres de entorno están listados.',
         hint: 'Una entrada por línea. Las barras finales marcan directorios.',
@@ -2058,12 +2058,12 @@ __pycache__/
         },
       },
       {
-        id: 'S01-T4-B-E2',
         subtopicId: 'S01-T4-B',
         kind: 'independent',
         title: 'Crear `.env.example` sin secretos',
         preamble:
           '- **Contexto:** el example es el contrato de configuración; el secreto vive fuera del repo.\n- **Meta:** ≥3 claves de un intake sintético con valores vacíos o ficticios no sensibles.\n- **Éxito:** archivo versionable con `KEY=`; sin patrones de secreto reales; `.env` real ignorado.\n- **Límites:** prohibido `sk-…`, passwords reales, connection strings con password; no subas `.env` “un momentito”.',
+        id: 'S01-T4-B-E2',
         instruction:
           '1. Completa `API_URL`, `DB_HOST`, `LOG_LEVEL` (o equivalentes) con placeholders.\n2. Confirma que `.env` está en `.gitignore`.\n3. Revisa que no pegaste tokens de algún tutorial.',
         hint: 'Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero queda ignorado.',
@@ -2105,12 +2105,12 @@ LOG_LEVEL=INFO
         },
       },
       {
-        id: 'S01-T4-B-E3',
         subtopicId: 'S01-T4-B',
         kind: 'transfer',
         title: 'Checklist de máquina limpia CP-N1-A',
         preamble:
           '- **Contexto:** un revisor debe clonar y validar tu esqueleto en ~10 minutos.\n- **Meta:** 5 ítems verificables (clon → venv → install -r → smoke → ignore `.env`) + datos sintéticos/diccionario.\n- **Éxito:** ≥5 ítems con comando y resultado esperado; menciona diccionario y CSV sintético; sin secretos ni paths de tu usuario.\n- **Límites:** no asumas `/Users/tu_nombre`; no PII real en el dataset de ejemplo.',
+        id: 'S01-T4-B-E3',
         instruction:
           '1. Escribe 5 checkboxes observables del flujo de arranque.\n2. Completa la sección de datos (CSV + diccionario).\n3. Revisa que un desconocido podría tildarlos en otra laptop.',
         hint: 'Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.',
@@ -2263,22 +2263,22 @@ if __name__ == "__main__":
       },
       {
         question: '¿Qué significa un código de salida (exit code) igual a 1 en un script de Python?',
-        options: ['Éxito', 'Fallo controlado o error', 'Que el script está pausado', 'Que faltan paquetes por instalar'],
-        correctIndex: 1,
+        options: ['Éxito', 'Que el script está pausado', 'Fallo controlado o error', 'Que faltan paquetes por instalar'],
+        correctIndex: 2,
         explanation:
           'Por convención, exit 0 = éxito y cualquier valor distinto de 0 = fallo. `sys.exit(1)` señala a la shell, a CI o a un orquestador que el proceso falló y debe detenerse o reintentarse.',
       },
       {
         question: '¿En qué archivo se configura Ruff para un proyecto?',
-        options: ['ruff.json', '.ruffrc', 'pyproject.toml (sección [tool.ruff])', 'setup.cfg'],
-        correctIndex: 2,
+        options: ['ruff.json', '.ruffrc', 'setup.cfg', 'pyproject.toml (sección [tool.ruff])'],
+        correctIndex: 3,
         explanation:
           'Ruff lee su configuración de `pyproject.toml` bajo `[tool.ruff]` y `[tool.ruff.lint]`. Es el contrato del repo, no solo del editor: CI y tus compañeros usan el mismo archivo.',
       },
       {
         question: '¿Por qué está prohibido hacer `git push --force` a `main`?',
-        options: ['Porque borra tu rama local', 'Porque es lento', 'Porque GitHub no lo permite', 'Porque puede borrar commits ajenos del historial compartido'],
-        correctIndex: 3,
+        options: ['Porque borra tu rama local', 'Porque puede borrar commits ajenos del historial compartido', 'Porque es lento', 'Porque GitHub no lo permite'],
+        correctIndex: 1,
         explanation:
           'Force-push a `main` reescribe el historial compartido y puede borrar commits de otras personas. La recuperación segura es restore/stash/PR, no force-push. Reescribir historial solo es aceptable en ramas personales no compartidas y con permiso del equipo.',
       },
