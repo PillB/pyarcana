@@ -24,7 +24,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` + `53d09e4` + `ddaf978` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations; locality follow-up clears the fleet cap. |
 | S05 | deployed | `9b9cda4` + `e2c018a` | `5ead24b` | Text-first rewrite deployed across 8/8 Theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations. |
 | S06 | deployed | `03ee8e3` + `bc17c75` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 9/9 self-check explanations. |
-| S07 | queued | `0272f98` + `279e8c0` | `6f2a784` | Previously deployed correctness pass queued for visible text-first rewrite. |
+| S07 | active | `0272f98` + `279e8c0` | pending T03 | Fresh one-section owner assigned for the final learner-reported text-first rewrite. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
 | S10 | pending | — | — | |
@@ -80,7 +80,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 | T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
 | T02 | S04–S06 | deployed | [PR #11](https://github.com/PillB/pyarcana/pull/11) | `5ead24b` | [Pages run 30216970467](https://github.com/PillB/pyarcana/actions/runs/30216970467) succeeded; public HTTP and learner-content bundle verified. |
-| T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
+| T03 | S07 | active | `agent/text-first-s07` | pending | Started from deployed inventory head `97cbe63`; independent text-first owner active. |
 
 ## Text-first campaign diagnosis
 
