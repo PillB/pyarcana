@@ -24,9 +24,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | parked | `0272f98` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
-| S08 | parked | `0c06444` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
-| S09 | parked | `3939741` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
+| S07 | active | `0272f98` | — | Fresh owner commit preserved and now entering B03 serial integration. |
+| S08 | active | `0c06444` | — | Fresh owner commit preserved and now entering B03 serial integration. |
+| S09 | active | `3939741` | — | Fresh owner commit preserved; exact worklog-closer correction precedes B03 integration. |
 | S10 | pending | — | — | |
 | S11 | pending | — | — | |
 | S12 | pending | — | — | |
@@ -77,7 +77,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 |---|---|---|---|---|---|
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
-| B03 | S07–S09 | parked | local commits `0272f98`, `0c06444`, `3939741` | — | Fresh owner commits preserved locally; review, integration and deployment resume after B01. |
+| B03 | S07–S09 | active | `agent/independent-fixer-s07-s09-final` | — | Fresh owner commits restored after B01 deployment; exact scope review and serial integration active. |
 
 ## Batch B01 recovery validation note
 
