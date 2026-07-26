@@ -2566,3 +2566,76 @@ Stage Summary:
 - ROUND 2 FLEET COMPLETE: 52/52.
 - Summary: course-state/curriculum_hardening/audits/fixer_reports/ROUND2_FLEET_SUMMARY.md
 - Timestamp: 2026-07-25T18:13:14.724053+00:00
+
+---
+---
+Task ID: TEXT-FIRST-S01
+Agent: Independent Section 1 text-first owner
+Task: Rewrite Section 1 learner prose while preserving the deployed correctness contracts.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S01.md
+- Report: course-state/curriculum_hardening/audits/fixer_reports/independent/S01_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s01-setup.ts only
+- Coverage: 13/13 theory/nested blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 public self-check explanations
+- Assessment audit: 24/24 authenticated questions and four topic evaluations inspected; no bank edit required
+- Validation: 14/14 focused tests; first-use, glossary, runtime, self-check cycle, V3, exam pedagogy, TypeScript, ESLint and static build pass
+- Fleet comparison: 124 Python adversarial tests run; 81 inherited out-of-scope failures; no S01 failure
+- Generated audit JSON restored; no bulk content generation
+
+Stage Summary:
+- S01 text-first remediation complete with visible before/after evidence and preserved technical contracts.
+- Timestamp: 2026-07-26
+---
+
+---
+Task ID: TEXT-FIRST-S02
+Agent: Independent Section 2 text-first owner
+Task: Reopen Section 2 after the deployed correctness pass and make the
+learner-visible educational rewrite materially apparent.
+
+Work Log:
+- Full evidence and before/after report:
+  `expert_audit/independent_worklog/S02.md`.
+- Product edit: `src/lib/course/sections/s02-basics.ts` only.
+- Added 8/8 Theory use-case bridges and prediction/mental-model closes, 8/8 I
+  Do prediction prompts, 24/24 misconception-repair We Do retrospectives, a
+  staged You Do planning/evidence narrative, and 11/11 distractor-repair
+  self-check explanations.
+- Preserved all code/output blocks, IDs, public/authenticated assessment
+  structure, 6/6/6/6 bank balance, per-attempt 2/2/2/2 balance and stable
+  playground/PDF identity.
+- Validation: text-first + independent focused tests 12/12; published examples
+  41/41; runtime artifacts 65/65; TypeScript and ESLint pass; V3 structure,
+  counts and invariants pass; exam audit P0=0/P1=0; Node adversarial 54/54;
+  static build pass; Spanish heuristic 9.21 with no high findings.
+- Broad Python suite remains at the inherited 81 failures / 1 skip, all in
+  untouched sections; no S02 failure heading.
+- Generated audit JSON restored before staging.
+
+Stage Summary:
+- Section 2 text-first rewrite complete under one-section anti-aberration
+  scope; ready for serial integration by the parent.
+- Timestamp: 2026-07-26
+---
+
+---
+Task ID: TEXT-FIRST-R2-S03
+Agent: Independent Section 3 text-first owner
+Task: Rewrite and independently validate every learner-facing Section 3 surface — theory, I Do, We Do, You Do, self-check, and authenticated assessment.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S03.md
+- Report: course-state/curriculum_hardening/audits/fixer_reports/independent/S03_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s03-data-structures.ts only
+- Coverage: 9/9 theory surfaces, 8/8 I Do demonstrations, 24/24 We Do exercises, the complete You Do project, and 8/8 self-check explanations received independent text-first review and substantive instructional improvement.
+- Assessment: all 24 authenticated questions were independently audited and preserved because the deployed bank already satisfied uniqueness, specificity, concept coverage, and answer-position balance.
+- Validation: 12/12 focused tests; 65/65 runtime artifacts; V3 and exam/self-check gates; Spanish 9.22/10; TypeScript; ESLint; 54/54 Node adversarial tests; static production export. The full Python suite retained 81 inherited non-S03 failures and no S03-owned failure.
+- Commit: a202d308d16bee5e9b81fe91ebe2cfe84a7c5b76
+- Timestamp: 2026-07-26
+
+Stage Summary:
+- Section 3 text-first rewrite is complete, independently evidenced, and ready for serial integration.
+
+Section 3 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+---
