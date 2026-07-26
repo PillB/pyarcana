@@ -62,6 +62,7 @@ These sources confirm that NFC composes canonically equivalent sequences, `casef
 | S07-05 | P1 | The T3-B transfer starter rendered an apostrophe escape as invalid Python and failed before the learner could repair its intended misconception. | Rephrased the synthetic hostile-input line so the defective starter remains runnable; runtime status moved from 63/64 to 64/64. | `src/lib/course/sections/s07-data-acquisition.ts` |
 | S07-06 | P1 | The PDF progress label exposed the obsolete subject `7. Data Acq`. | Changed the S07-owned label to `7. Texto & Unicode`. | `src/components/course/PdfReport.tsx` |
 | S07-07 | P2 | One authenticated question exposed the authoring label “S07” instead of asking the technical decision directly; the block comment retained migration/version archaeology. | Reworded the question for learners and reduced the comment to the canonical title. | `prisma/seed.ts` |
+| S07-08 | P1 | The newbie-packet parser scans 500 characters backward from each instruction; 15 long S07 preambles put their canonical exercise IDs outside that boundary, so the manifest resolved only 17 unique IDs. | Moved each existing exercise `id` metadata field directly beside its instruction without changing instructional content, then asserted the exact 24-ID canonical order through the real packet parser. | `src/lib/course/sections/s07-data-acquisition.ts`, `tests/adversarial/test_s07_text_contract.py` |
 
 ## 4. Theory → I Do → We Do → You Do → assessment outcome
 
@@ -82,6 +83,7 @@ These sources confirm that NFC composes canonically equivalent sequences, `casef
 
 - Every subtopic retains E1 guided → E2 independent → E3 transfer.
 - All 24 starters and solutions execute. The freshly discovered T3-B starter syntax failure is fixed.
+- The learner-packet manifest now resolves all 24 canonical exercise IDs, uniquely and in source order.
 - Hints fade by exercise kind; edge/error reasoning is explicit for empty Unicode strings, incomplete names, malformed email, embedded regex matches, hostile patterns and empty token sets.
 
 ### You Do
@@ -114,7 +116,8 @@ No fleet-wide generated audit JSON is part of this change.
 
 | Gate | Result |
 |---|---|
-| Focused S07 adversarial regression | 5/5 tests passed |
+| Focused S07 adversarial regression | 6/6 tests passed, including exact packet-manifest order |
+| Newbie packet exact-contract test | S07 subtest passed with 24/24 unique canonical IDs; remaining failures are owned by other sections |
 | Python content runtime audit (`--only s07-data-acquisition`) | 64/64 artifacts passed; P0=0, P1=0 |
 | S07 playground execution | Output exactly matches all six displayed lines |
 | TypeScript (`npx tsc --noEmit`) | passed |

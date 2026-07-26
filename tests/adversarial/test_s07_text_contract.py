@@ -3,12 +3,18 @@
 from __future__ import annotations
 
 import re
+import sys
 import unittest
 from collections import Counter, defaultdict
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+
+
 SECTION = ROOT / "src/lib/course/sections/s07-data-acquisition.ts"
 SEED = ROOT / "prisma/seed.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
@@ -31,6 +37,17 @@ class TestS07TextContract(unittest.TestCase):
         self.assertEqual(len(re.findall(r'subtopicId:\s*"S07-T[1-4]-[AB]"', source)), 40)
         self.assertEqual(len(re.findall(r'demoId:\s*"S07-T[1-4]-[AB]-DEMO"', source)), 8)
         self.assertEqual(len(re.findall(r'id:\s*"S07-T[1-4]-[AB]-E[1-3]"', source)), 24)
+
+    def test_newbie_packet_resolves_all_canonical_practice_ids_in_order(self) -> None:
+        expected = [
+            f"S07-T{topic}-{lane}-E{exercise}"
+            for topic in range(1, 5)
+            for lane in ("A", "B")
+            for exercise in range(1, 4)
+        ]
+        manifest = active_manifest(parse_section_learner(SECTION))
+        self.assertEqual(manifest["exercise_ids"], expected)
+        self.assertEqual(len(set(manifest["exercise_ids"])), 24)
 
     def test_authenticated_bank_is_balanced_overall_and_by_attempt(self) -> None:
         block = s07_seed_block()
