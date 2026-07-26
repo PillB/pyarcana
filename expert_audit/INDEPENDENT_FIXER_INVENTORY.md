@@ -18,9 +18,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | integrated | `e12ac52` + `7627dc1` | — | Recovery and CI follow-up integrated as `63f5199` + `b2709c1`; lost ephemeral work was not accepted as evidence. |
-| S02 | integrated | `ce8815c` + `1ab1cc3` | — | Recovery and CI follow-up integrated as `105a691` + `1eac5cd`; lost ephemeral work was not accepted as evidence. |
-| S03 | integrated | `d8f1b4a` + `7bc21e5` | — | Recovery and CI follow-up integrated as `c410034` + `d1f308f`; lost ephemeral work was not accepted as evidence. |
+| S01 | deployed | `e12ac52` + `7627dc1` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
+| S02 | deployed | `ce8815c` + `1ab1cc3` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
+| S03 | deployed | `d8f1b4a` + `7bc21e5` | `8fd2f1d` | Recovery and CI follow-up deployed in B01; lost ephemeral work was not accepted as evidence. |
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
@@ -75,7 +75,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Batch | Sections | State | Branch/PR | Merge SHA | Pages evidence |
 |---|---|---|---|---|---|
-| B01 | S01–S03 | validating | `agent/independent-recovery-s01-s03` | — | Fresh recovery commits integrated; combined gates pass and publication is next. |
+| B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | parked | local commits `0272f98`, `0c06444`, `3939741` | — | Fresh owner commits preserved locally; review, integration and deployment resume after B01. |
 
@@ -100,6 +100,16 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   S01–S03 disappear from the packet/locality failures. The remaining failures
   are assigned to pending section owners.
 - Generated validation JSON was restored before this inventory update.
+- GitHub integration: PR #5 merged the reviewed head `cfb7242` into `main` at
+  `8fd2f1da2430f70c3444db4d1fc80235c04d4205`.
+- GitHub Pages: run `30212218843` built and deployed successfully for that
+  exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 17:17:37 GMT`. The deployed script
+  bundle SHA-256 was
+  `70088bb346097fc6dad79e9f788f4133544af26d3ff4bbf8ab7669394959783b`
+  and contained the typed S01 entrypoint plus the corrected S01/S02/S03
+  playground titles and PDF labels.
 
 ## Batch B02 validation note
 
