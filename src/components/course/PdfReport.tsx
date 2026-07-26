@@ -42,7 +42,7 @@ const SECTION_NAMES: Record<string, string> = {
   basics: '2. Basics',
   "data-structures": '3. Data Struct',
   "functions-modules": '4. Iteración',
-  oop: '5. OOP',
+  oop: '5. Funciones',
   numpy: '6. Colecciones',
   "data-acquisition": '7. Data Acq',
   pandas: '8. Pandas',

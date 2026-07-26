@@ -1043,46 +1043,39 @@ tasa_reject 0.4
 tasa_lote_vacio None`,
       hint: 'Cambia un status y observa cómo se actualizan el contador y la tasa; luego prueba una lista vacía.',
     },
+    // `oop` is the stable S05 compatibility id; its learner content is Functions.
     'oop': {
-      title: 'Practica clases y herencia',
-      code: `# Practica OOP
-class Animal:
-    def __init__(self, nombre, edad):
-        self.nombre = nombre
-        self.edad = edad
+      title: 'Practica funciones con contrato',
+      code: `# Datos sintéticos: practica el núcleo puro de CP-N1-B
+def normalize_nombre(raw: str) -> str:
+    return " ".join(raw.strip().split()).title()
 
-    def hacer_sonido(self):
-        return "sonido generico"
+def normalize_email(raw: str) -> str:
+    email = raw.strip().lower()
+    if "@" not in email:
+        raise ValueError("email sin @")
+    return email
 
-    def __str__(self):
-        return f"{self.nombre} ({self.edad} años)"
+def normalize_telefono(raw: str) -> str:
+    return "".join(c for c in raw if c.isdigit())
 
-class Perro(Animal):
-    def __init__(self, nombre, edad, raza):
-        super().__init__(nombre, edad)
-        self.raza = raza
+print(normalize_nombre("  maría  josé "))
+print(normalize_email("  Ana@Example.COM "))
+print(normalize_telefono("(999) 000-111"))
 
-    def hacer_sonido(self):
-        return "Guau!"
+try:
+    normalize_email("sin-arroba")
+except ValueError as error:
+    print(error)
 
-    def __str__(self):
-        return f"{self.nombre}, {self.raza}, {self.edad} años"
-
-# Crear instancias
-animal = Animal("Generico", 5)
-fido = Perro("Fido", 3, "Labrador")
-
-print(animal)
-print(f"Sonido: {animal.hacer_sonido()}")
-print()
-print(fido)
-print(f"Sonido: {fido.hacer_sonido()}")`,
-      expectedOutput: `Generico (5 años)
-Sonido: sonido generico
-
-Fido, Labrador, 3 años
-Sonido: Guau!`,
-      hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
+nombre = normalize_nombre("  ANA ")
+print("idempotente", normalize_nombre(nombre) == nombre)`,
+      expectedOutput: `María José
+ana@example.com
+999000111
+email sin @
+idempotente True`,
+      hint: 'Añade normalize_direccion: colapsa espacios, aplica upper y demuestra f(f(x)) == f(x)',
     },
     'numpy': {
       title: 'Practica colecciones y conflictos',

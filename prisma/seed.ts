@@ -1343,12 +1343,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un normalizador de intake, ¿qué devuelve una función Python si no hay `return` explícito?',
       options: [
-        '0',
         'None',
+        '0',
         'El último argumento',
         'Error de sintaxis siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin return, el resultado de la llamada es None. Un normalizador debe retornar el valor transformado, no depender de print.',
     },
@@ -1358,11 +1358,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál nombre de función alinea mejor con el estilo de normalizadores del curso?',
       options: [
         'email2',
-        'normalize_email',
         'Email',
+        'normalize_email',
         'x',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Verbos/acciones claras (normalize_*) documentan el contrato. PascalCase es para clases (S11); nombres opacos dificultan el review.',
     },
@@ -1372,11 +1372,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué los normalizadores deben `return` el valor en vez de solo `print` el resultado?',
       options: [
         'print es más rápido en CPython',
-        'El pipeline necesita el valor para componer y testear; print es efecto colateral de demo',
         'return está deprecado en 3.12',
         'print convierte a Decimal automáticamente',
+        'El pipeline necesita el valor para componer y testear; print es efecto colateral de demo',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'return habilita composición y asserts. print en el core puro ensucia stdout y rompe pureza.',
     },
@@ -1401,11 +1401,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es el patrón seguro para un acumulador opcional?',
       options: [
         'def f(x, acc={}): ...',
-        'def f(x, acc=None): if acc is None: acc = []; ...',
         'def f(x, acc=list): ...',
         'def f(x, acc=[]): siempre está bien',
+        'def f(x, acc=None): if acc is None: acc = []; ...',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'None + creación local evita compartir estado entre llamadas. dict/list defaults mutables son P1 en review.',
     },
@@ -1414,12 +1414,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En `def normalize_telefono(raw, *, country="PE")`, ¿qué indica el `*`?',
       options: [
-        'Que raw es opcional',
         'Que country es keyword-only: hay que pasarlo por nombre',
+        'Que raw es opcional',
         'Que la función es async',
         'Que country se evalúa en cada import del sistema',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Tras *, los parámetros solo aceptan keyword. Mejora legibilidad de políticas regionales en la llamada.',
     },
@@ -1430,11 +1430,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué es una precondición de `normalize_email` en el sentido del curso?',
       options: [
         'El valor ya normalizado que devuelve',
-        'Lo que debe cumplirse antes de llamar (p. ej. raw es str usable)',
         'Un assert que solo corre con -O',
+        'Lo que debe cumplirse antes de llamar (p. ej. raw es str usable)',
         'El color del banner en la UI',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Pre = entrada válida esperada. Post = garantía del return (p. ej. lower sin espacios extremos).',
     },
@@ -1443,12 +1443,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un docstring de normalizador debe principalmente…',
       options: [
-        'Copiar la firma sin añadir política',
         'Documentar qué hace, pre/post, retorno y errores de dominio (alineado al código)',
+        'Copiar la firma sin añadir política',
         'Listar todos los builtins de Python',
         'Prohibir type hints',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'PEP 257 + contrato de negocio. Si docstring y código discrepan, el revisor devuelve el PR.',
     },
@@ -1473,11 +1473,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Los type hints (`def f(x: str) -> str`) convierten el valor en runtime en CPython normal?',
       options: [
         'Sí; str("1") se aplica solo',
-        'No; son documentación/verificación estática (checkers), no coerción automática',
         'Solo si usas match/case',
         'Sí para int, no para str',
+        'No; son documentación/verificación estática (checkers), no coerción automática',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Hints graduales no castean. Sigue validando/parseando explícitamente en el cuerpo.',
     },
@@ -1501,11 +1501,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué evitar anotar `-> str` si la función puede devolver None en ausencia?',
       options: [
         'Porque None es str en Python',
-        'Porque el hint mentiría; usa Optional[str] / str | None',
         'Porque los hints prohíben None siempre en el bytecode',
+        'Porque el hint mentiría; usa Optional[str] / str | None',
         'Porque return None es ilegal',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Hints honestos documentan ausencia. str | None (o Optional) alinea contrato y checkers.',
     },
@@ -1515,12 +1515,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué hace un orquestador delgado `normalize_record` en el diseño de S05?',
       options: [
-        'Reimplementa strip en cada campo y escribe a disco',
         'Delega a normalizadores pequeños y arma el dict resultado',
+        'Reimplementa strip en cada campo y escribe a disco',
         'Hereda de una clase ABC obligatoria',
         'Abre un socket por campo',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Composición: el orquestador no duplica lógica. Un fix en strip_collapse beneficia a todos los campos.',
     },
@@ -1530,11 +1530,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Señal de que debes extraer otra función al descomponer un normalizador largo:',
       options: [
         'La función tiene un solo return',
-        'Necesitas un comentario de “sección” en medio del cuerpo para entender bloques distintos',
         'El nombre ya es un verbo',
+        'Necesitas un comentario de “sección” en medio del cuerpo para entender bloques distintos',
         'Hay un type hint',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Comentarios de sección suelen marcar otra unidad de abstracción. Extrae y nombra el paso.',
     },
@@ -1544,11 +1544,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Beneficio principal de funciones pequeñas en el inicio de CP-N1-B:',
       options: [
         'Obligan a usar clases de inmediato',
-        'Tests unitarios fáciles, reuso en CLI/ETL y orquestación clara',
         'Eliminan la necesidad de asserts',
         'Hacen mutables los defaults automáticamente',
+        'Tests unitarios fáciles, reuso en CLI/ETL y orquestación clara',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Descomposición es el puente a pipelines testeables. OOP de dominio llega en S11, no aquí.',
     },
@@ -1573,11 +1573,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Idempotencia de `normalize_telefono` significa que para entradas válidas…',
       options: [
         'f(x) != f(f(x)) siempre',
-        'f(f(x)) == f(x)',
         'f muta x in-place dos veces',
         'f lanza si se llama dos veces',
+        'f(f(x)) == f(x)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Aplicar dos veces no cambia el resultado canónico. Gate típico del inicio CP-N1-B.',
     },
@@ -1586,12 +1586,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué es inyección de I/O en el borde según S05?',
       options: [
-        'Hardcodear open("data.csv") dentro de normalize_email',
         'Pasar reader/path/función como argumento al orquestador; el core no toca disco',
+        'Hardcodear open("data.csv") dentro de normalize_email',
         'Usar global FILE obligatorio',
         'Prohibir tests con fakes',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Inyectar dependencias permite fakes en tests y mantiene normalizadores puros.',
     },
@@ -1602,11 +1602,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué significa LEGB al resolver un nombre en Python?',
       options: [
         'Lista, Entero, Generador, Bytes',
-        'Local → Enclosing → Global → Builtin (orden de búsqueda)',
         'Solo Global y Builtin',
+        'Local → Enclosing → Global → Builtin (orden de búsqueda)',
         'Un protocolo de red',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Python busca en ese orden; si no halla, NameError. Closures usan el enclosing scope.',
     },
@@ -1615,12 +1615,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un closure en el sentido del demo `make_phone_normalizer(prefix)` es…',
       options: [
-        'Una clase abstracta con MRO',
         'Una función interna que recuerda variables del scope que la envuelve',
+        'Una clase abstracta con MRO',
         'Un hilo del sistema operativo',
         'Un default mutable de lista',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'La factory devuelve norm configurado con prefix sin necesitar clases (S11) ni global mutable.',
     },
@@ -1645,11 +1645,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Antes de refactorizar `normalize_email`, ¿qué fija el curso como red de seguridad?',
       options: [
         'Borrar los tests para ir más rápido',
-        'Ejemplos/asserts ejecutables de la conducta actual (incl. idempotencia)',
         'Cambiar la política de negocio en el mismo commit sin asserts',
         'Renombrar a Email2 sin pruebas',
+        'Ejemplos/asserts ejecutables de la conducta actual (incl. idempotencia)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Rojo-verde-refactor: asserts primero; el refactor interno no debe cambiar resultados canónicos.',
     },
@@ -1658,14 +1658,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Tras extraer `strip` y `lower` en pasos internos, los asserts previos siguen verdes. ¿Qué concluimos?',
       options: [
-        'Que la conducta observable se preservó',
         'Que Python desactiva asserts en todos los modos',
+        'Que la conducta cubierta por esos asserts se preservó',
         'Que el docstring ya no importa',
         'Que hay que eliminar type hints',
       ],
       correctIndex: 1,
       explanation:
-        'Tests verdes tras el cambio de forma interna = refactor seguro. Actualiza docstring si la política sí cambió.',
+        'Los asserts respaldan solo la conducta que cubren. Si siguen verdes tras el cambio interno, esa conducta se preservó; añade casos para fronteras aún no cubiertas.',
     },
     {
       concept: 'examples-refactor',
@@ -1673,11 +1673,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué fronteras conviene cubrir al fijar ejemplos de un normalizador de texto sintético?',
       options: [
         'Solo el camino feliz con un email perfecto',
-        'Vacío/solo espacios, Unicode (Ñ/tildes), doble aplicación (idempotencia), None si el contrato lo admite',
         'Únicamente PII real de clientes',
+        'Vacío/solo espacios, Unicode (Ñ/tildes), doble aplicación (idempotencia), None si el contrato lo admite',
         'Solo números de tarjeta de crédito',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Fronteras y datos sintéticos; nunca PII real. Idempotencia y Unicode son gates típicos de calidad.',
     },
