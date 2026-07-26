@@ -1131,56 +1131,40 @@ conflictos: 1
       hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
     'pandas': {
-      title: 'Practica pandas DataFrame',
-      code: `# Practica pandas (se carga automaticamente)
-import pandas as pd
+      title: 'Practica ingesta con cuarentena y manifest',
+      code: `import csv, hashlib, io, json
+from decimal import Decimal, InvalidOperation
 
-# Crear DataFrame
-df = pd.DataFrame({
-    "producto": ["arroz", "aceite", "azucar", "arroz"],
-    "region": ["Lima", "Lima", "Arequipa", "Cusco"],
-    "ventas": [1500, 800, 900, 1200]
-})
+raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
+clean = []
+quarantine = []
 
-print("=== DataFrame ===")
-print(df)
-print(f"\\nShape: {df.shape}")
+for row in csv.DictReader(io.StringIO(raw)):
+    try:
+        clean.append({
+            "id": row["id"],
+            "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
+        })
+    except InvalidOperation:
+        quarantine.append({"raw": row, "reason": "cast_monto"})
 
-# GroupBy: ventas por producto
-print("\\n=== Ventas por producto ===")
-print(df.groupby("producto")["ventas"].sum())
+manifest = {
+    "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
+    "n_in": len(clean) + len(quarantine),
+    "n_clean": len(clean),
+    "n_quarantine": len(quarantine),
+}
+manifest["reconcile_ok"] = (
+    manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
+)
 
-# Filtrado
-print("\\n=== Solo Lima ===")
-print(df[df["region"] == "Lima"])
-
-# Estadisticas
-print(f"\\nVentas totales: {df['ventas'].sum()}")
-print(f"Ticket promedio: {df['ventas'].mean():.2f}")`,
-      expectedOutput: `=== DataFrame ===
-  producto    region  ventas
-0    arroz      Lima    1500
-1   aceite      Lima     800
-2   azucar  Arequipa     900
-3    arroz     Cusco    1200
-
-Shape: (4, 3)
-
-=== Ventas por producto ===
-producto
-aceite     800
-arroz     2700
-azucar     900
-Name: ventas, dtype: int64
-
-=== Solo Lima ===
-  producto region  ventas
-0    arroz   Lima    1500
-1   aceite   Lima     800
-
-Ventas totales: 4400
-Ticket promedio: 1100.00`,
-      hint: 'Agrega una quinta fila y observa cómo cambian los groupby',
+print("clean", json.dumps(clean, ensure_ascii=False, sort_keys=True))
+print("quarantine", json.dumps(quarantine, ensure_ascii=False, sort_keys=True))
+print("manifest", json.dumps(manifest, sort_keys=True))`,
+      expectedOutput: `clean [{"id": "C001", "monto": "10.50"}, {"id": "C003", "monto": "3.00"}]
+quarantine [{"raw": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
+manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha256_12": "0181876342b5"}`,
+      hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },
     'visualization': {
       title: 'Practica matplotlib',

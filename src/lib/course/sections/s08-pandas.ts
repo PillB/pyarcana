@@ -12,7 +12,7 @@ export const section08: CourseSection = {
   icon: "FileStack",
   accentColor: "bg-gradient-to-br from-green-500 to-emerald-600",
   jobRelevance:
-    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). Un groupby de demo impresiona menos en entrevista junior que un pipeline fail-closed con reconcile por fuente. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
+    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). En una entrevista junior, un pipeline fail-closed con reconciliación por fuente demuestra que sabes detectar pérdidas en vez de ocultarlas detrás de una salida aparentemente correcta. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
   learningOutcomes: [
     { text: "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito" },
     { text: "Manejar newlines y escritura atómica (temp + replace)" },
@@ -471,7 +471,7 @@ text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n"
 print(split_clean_quarantine(text))`,
           output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'}, {'raw': 'badonly', 'reason': 'col_count'}])`,
         },
-        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. El raw intacto permite reprocessar. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
+        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. El raw intacto permite reprocesar. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
         retrospective:
           "Irregular ≠ “casi bien”: es rechazo con traza. El misconception es truncar o rellenar columnas a ciegas. We Do: booleano col_count, escribir quarantine.csv y resumir motivos.",
       },
@@ -1827,7 +1827,7 @@ if __name__ == "__main__":
         options: ["Es más rápido", "Comprime el archivo", "Activa pathlib", "Evita depender del locale del SO (p. ej. Windows)"],
         correctIndex: 3,
         explanation:
-          "El default de texto no es portátil; UTF-8 explícito evita mojibake y DecodeError sorpresa.",
+          "El default de texto no es portátil; UTF-8 explícito evita mojibake y `UnicodeDecodeError` inesperados.",
       },
       {
         question: "¿Cuál es la escritura atómica típica en este curso?",
