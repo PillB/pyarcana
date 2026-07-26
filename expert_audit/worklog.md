@@ -2639,3 +2639,33 @@ Stage Summary:
 
 Section 3 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
 ---
+
+---
+Task ID: TEXT-FIRST-R2-S04
+Agent: Independent Section 4 text-first owner
+Task: Rewrite and independently validate every learner-facing Section 4
+surface while preserving executable and assessment contracts.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S04.md
+- Report:
+  course-state/curriculum_hardening/audits/fixer_reports/independent/S04_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s04-functions-modules.ts only
+- Coverage: 9/9 Theory blocks, 8/8 I Do demos, 24/24 We Do exercises, complete
+  You Do and 8/8 public self-check explanations.
+- Assessment: 24/24 authenticated questions re-audited; 8 concepts × 3
+  variants and 6/6/6/6 answer-position balance preserved.
+- Contract repair: active learner manifest improved from 17/24 to 24/24
+  ordered unique practice IDs by moving existing IDs beside instructions.
+- Validation: focused 10/10; runtime 64/64; V3, exam, TypeScript, ESLint,
+  Node 54/54, static export and local HTTP pass; Spanish 9.01 with no
+  high/critical finding.
+- Full Python suite: 80 inherited failures / 1 skip, no S04-owned failure.
+- Generated audit artifacts restored; no bulk-generated curriculum prose.
+
+Stage Summary:
+- S04 text-first rewrite is complete and independently evidenced for serial
+  integration by the parent.
+- Timestamp: 2026-07-26
+
+Ready for the next section.
