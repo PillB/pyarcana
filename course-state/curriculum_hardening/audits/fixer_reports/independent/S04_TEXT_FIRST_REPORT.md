@@ -49,7 +49,9 @@ Every present-day surface and executable claim was inspected again.
 - After: all eight demonstrations require a prediction, classification or
   hand trace before Run. Their closes ask the learner to explain a boundary,
   state an invariant, or transfer the decision to another domain.
-- Executable code and expected output were deliberately left unchanged.
+- The initial text-first pass left executable code and expected output
+  unchanged. The locality follow-up below changes only one exercise's three
+  region strings, with its starter, solution and expected output kept aligned.
 
 ### We Do
 
@@ -79,7 +81,9 @@ Every present-day surface and executable claim was inspected again.
 - Stable id `functions-modules`, index 4 and learner title.
 - Nine theory blocks, eight tagged subtopics, eight I Do demos and 24 We Do
   exercises.
-- Every learner code block and every expected-output oracle.
+- Every learner code/output contract. One repetitive region fixture was
+  consistently diversified from three Peruvian cities to Quito, Bogotá and
+  Madrid; its loop behavior and exact oracle remain unchanged in meaning.
 - You Do starter, fixture, raw assertion, rubric and gate.
 - Eight public self-check questions and their balanced positions.
 - Authenticated bank: eight concepts × three variants, exactly 6/6/6/6 answer
@@ -90,7 +94,7 @@ Every present-day surface and executable claim was inspected again.
 
 | Gate | Result |
 |---|---|
-| Text-first + independent focused suites | 10/10 pass |
+| Text-first + independent focused suites | 11/11 pass |
 | Learner packet manifest | 24/24 ordered unique S04 exercise IDs |
 | Scoped Python runtime audit | 64/64 artifacts pass; P0=0, P1=0 |
 | V3 count, structure and invariant gates | pass; 52 sections, warnings=0 |
@@ -101,11 +105,12 @@ Every present-day surface and executable claim was inspected again.
 | Static production export | pass; 3/3 pages |
 | Local exported site | HTTP 200; compiled bundle contains the new S04 prose |
 | Spanish heuristic (`--no-lt`) | 9.01/10; no high or critical findings |
-| Full Python adversarial suite | 80 inherited failures, 1 skip; no S04-owned failure |
+| Full Python adversarial suite | 79 inherited failures, 1 skip; no S04-owned failure |
 
-The broad Python suite previously had 81 inherited failures. Repairing S04's
-packet-ID exposure removes one section-owned heading; the remaining 80 failures
-belong to untouched sections and known fleet contracts.
+The broad Python suite initially had 81 failures. Repairing S04's packet-ID
+exposure removed one. A follow-up then reproduced and removed the remaining
+S04-owned locality-density failure, reducing the suite from 80 to 79. The
+remaining headings belong to untouched sections and known fleet contracts.
 
 Generated fleet-audit JSON and Spanish-quality summaries were restored before
 staging. No generated campaign artifact is part of this commit.
@@ -118,7 +123,31 @@ staging. No generated campaign artifact is part of this commit.
   inline code tokens (`print print`, escaped delimiters and TRACE labels), plus
   low findings dominated by numbered instruction fragments. Direct inspection
   found no corresponding learner-language defect.
-- The remaining 80 broad-suite failures are outside S04 and are assigned to
+- The remaining 79 broad-suite failures are outside S04 and are assigned to
   pending section owners.
+
+## Follow-up correction: locality-density contract
+
+The first closure incorrectly described all 80 global failures as inherited.
+Direct execution of `test_city_name_density_is_bounded` showed that S04 still
+owned one: 68 Peruvian city tokens against the active cap of 55.
+
+The repeated T1-A-E1 region fixture was hand-diversified from
+`Lima / Cusco / Piura` to `Quito / Bogotá / Madrid`. This preserves the lesson's
+international office-processing scenario, `for` behavior, stop-exclusive
+`range` contract and exact code/output alignment while reducing S04's active
+count to 53. The focused suite now imports the fleet's `PE_CITIES` expression
+and asserts the same cap, so this miss cannot recur unnoticed.
+
+Follow-up evidence:
+
+- Active locality count: 68 → 53, cap 55.
+- Focused text-first + independent suites: 11/11 pass.
+- Scoped runtime: 64/64 artifacts, P0=0, P1=0.
+- Full locality test: S04 passes; nine untouched sections remain above cap.
+- Full Python adversarial suite: 140 tests, 79 inherited failures, 1 skip;
+  no S04-owned failure heading.
+- V3 structure/invariants and TypeScript: pass.
+- Runtime-generated audit JSON restored before staging.
 
 Ready for the next section.

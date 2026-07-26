@@ -2655,10 +2655,12 @@ Work Log:
   variants and 6/6/6/6 answer-position balance preserved.
 - Contract repair: active learner manifest improved from 17/24 to 24/24
   ordered unique practice IDs by moving existing IDs beside instructions.
-- Validation: focused 10/10; runtime 64/64; V3, exam, TypeScript, ESLint,
+- Validation: focused 11/11 after locality coverage; runtime 64/64; V3, exam, TypeScript, ESLint,
   Node 54/54, static export and local HTTP pass; Spanish 9.01 with no
   high/critical finding.
-- Full Python suite: 80 inherited failures / 1 skip, no S04-owned failure.
+- Initial full Python suite: 80 failures / 1 skip. The follow-up below
+  correctly identifies and removes the one S04 locality failure, leaving 79
+  inherited failures.
 - Generated audit artifacts restored; no bulk-generated curriculum prose.
 
 Stage Summary:
@@ -2669,7 +2671,6 @@ Stage Summary:
 Ready for the next section.
 
 ---
-
 Task ID: TEXT-FIRST-S05
 Agent: Independent Section 5 text-first owner
 Task: Reopen S05 after its correctness deployment and make the learner-visible
@@ -2721,5 +2722,31 @@ Work Log:
 
 Stage Summary:
 - S06 text-first rewrite is complete, independently evidenced, and ready for serial integration.
+
+Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-R2-S04-LOCALITY-FOLLOWUP
+Agent: Independent Section 4 text-first owner
+Task: Correct the missed S04 active locality-density contract before
+publication.
+
+Work Log:
+- Reproduced S04 at 68 Peruvian city tokens against the fleet cap of 55.
+- Diversified the repeated T1-A-E1 fixture to Quito, Bogotá and Madrid,
+  preserving its region-loop purpose and synchronized starter/solution/output.
+- Added a focused assertion using the fleet's active `PE_CITIES` expression
+  and exact cap.
+- Final S04 count: 53.
+- Validation: focused 11/11; runtime 64/64; V3 and TypeScript pass.
+- Full locality test no longer names S04.
+- Full Python suite: 140 tests, 79 inherited failures / 1 skip, no S04 heading.
+- Corrected the earlier report's inaccurate 80-failure classification.
+- Generated runtime audit JSON restored before staging.
+
+Stage Summary:
+- S04 now clears both packet identity and locality-density global contracts.
+- Timestamp: 2026-07-26
 
 Ready for the next section.

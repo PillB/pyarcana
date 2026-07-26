@@ -578,7 +578,7 @@ skipped_first [20, 30]`,
         kind: "guided",
         title: "Imprimir regiones y range(3)",
         preamble:
-          "- **Contexto:** el primer paso de un lote de intake es recorrer cada fila y, a veces, numerar posiciones con `range`.\n- **Meta:** practicar `for` por valor y ver el stop exclusivo de `range`.\n- **Éxito:** tres líneas `Lima` / `Cusco` / `Piura` y luego `[0, 1, 2]`.\n- **Límites:** un for simple sin índices manuales; no mutes `regiones`; no dejes el `print('ok', True)` del starter.",
+          "- **Contexto:** un equipo internacional recibe filas de distintas oficinas y, a veces, necesita numerar posiciones con `range`.\n- **Meta:** practicar `for` por valor y ver el stop exclusivo de `range`.\n- **Éxito:** tres líneas `Quito` / `Bogotá` / `Madrid` y luego `[0, 1, 2]`.\n- **Límites:** un for simple sin índices manuales; no mutes `regiones`; no dejes el `print('ok', True)` del starter.",
         id: "S04-T1-A-E1",
         instruction:
           "1. Revisa el starter: el for de regiones ya está bien.\n2. El DEFECT es no imprimir `list(range(3))` (hay un `print('ok', True)` de relleno).\n3. Sustituye ese print por `print(list(range(3)))`.\n4. Ejecuta y compara con la salida esperada (sin texto extra).",
@@ -588,7 +588,7 @@ skipped_first [20, 30]`,
           "El stop de range es exclusivo: con 3 posiciones debes ver 0, 1 y 2 — no 1..3. Sustituye solo el print de relleno.",
         ],
         edgeCases: ["range stop exclusivo"],
-        tests: "Lima / Cusco / Piura + [0,1,2]",
+        tests: "Quito / Bogotá / Madrid + [0,1,2]",
         feedback:
           "El for de regiones ya estaba bien: el fallo era el print de relleno. Si tu salida termina en `[0, 1, 2]` y no en `ok True`, cerraste el contrato del stop exclusivo.",
         retrospective:
@@ -598,7 +598,7 @@ skipped_first [20, 30]`,
           title: "for_regiones.py",
           code: `# CASO-LIM-004 · for sobre lista
 # DEFECT: no imprime range(3)
-regiones = ["Lima", "Cusco", "Piura"]
+regiones = ["Quito", "Bogotá", "Madrid"]
 for r in regiones:
     print(r)
 print('ok', True)
@@ -607,13 +607,13 @@ print('ok', True)
         solutionCode: {
           language: 'python',
           title: "for_regiones.py",
-          code: `regiones = ["Lima", "Cusco", "Piura"]
+          code: `regiones = ["Quito", "Bogotá", "Madrid"]
 for r in regiones:
     print(r)
 print(list(range(3)))`,
-          output: `Lima
-Cusco
-Piura
+          output: `Quito
+Bogotá
+Madrid
 [0, 1, 2]`,
         },
       },

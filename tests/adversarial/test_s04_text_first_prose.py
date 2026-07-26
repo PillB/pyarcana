@@ -7,6 +7,7 @@ import re
 import unittest
 
 from scripts.newbie_packet_builder import active_manifest, parse_section_learner
+from tests.adversarial.test_over_localized_language import PE_CITIES
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -160,6 +161,23 @@ class Section04TextFirstProseTests(unittest.TestCase):
                 for exercise in range(1, 4)
             },
         )
+
+    def test_locality_flavor_stays_below_the_active_density_cap(self) -> None:
+        prose_lines = [
+            line
+            for line in self.source.splitlines()
+            if "CASO-" not in line
+        ]
+        locality_count = len(PE_CITIES.findall("\n".join(prose_lines)))
+
+        self.assertLessEqual(
+            locality_count,
+            55,
+            f"S04 has {locality_count} PE city tokens in prose (cap 55)",
+        )
+        self.assertIn("Quito", self.source)
+        self.assertIn("Bogotá", self.source)
+        self.assertIn("Madrid", self.source)
 
 
 if __name__ == "__main__":
