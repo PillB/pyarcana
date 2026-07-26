@@ -2566,3 +2566,25 @@ Stage Summary:
 - ROUND 2 FLEET COMPLETE: 52/52.
 - Summary: course-state/curriculum_hardening/audits/fixer_reports/ROUND2_FLEET_SUMMARY.md
 - Timestamp: 2026-07-25T18:13:14.724053+00:00
+
+---
+
+---
+Task ID: TEXT-FIRST-S01
+Agent: Independent Section 1 text-first owner
+Task: Rewrite Section 1 learner prose while preserving the deployed correctness contracts.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S01.md
+- Report: course-state/curriculum_hardening/audits/fixer_reports/independent/S01_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s01-setup.ts only
+- Coverage: 13/13 theory/nested blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 public self-check explanations
+- Assessment audit: 24/24 authenticated questions and four topic evaluations inspected; no bank edit required
+- Validation: 14/14 focused tests; first-use, glossary, runtime, self-check cycle, V3, exam pedagogy, TypeScript, ESLint and static build pass
+- Fleet comparison: 124 Python adversarial tests run; 81 inherited out-of-scope failures; no S01 failure
+- Generated audit JSON restored; no bulk content generation
+
+Stage Summary:
+- S01 text-first remediation complete with visible before/after evidence and preserved technical contracts.
+- Timestamp: 2026-07-26
+---
