@@ -2637,7 +2637,6 @@ Stage Summary:
 - Section 3 text-first rewrite is complete, independently evidenced, and ready for serial integration.
 
 Section 3 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
----
 
 ---
 Task ID: TEXT-FIRST-R2-S04
@@ -2699,5 +2698,28 @@ Stage Summary:
 - S05 text-first rewrite complete under one-section anti-aberration scope and
   ready for parent serial integration.
 - Timestamp: 2026-07-26
+
+Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-R2-S06
+Agent: Independent Section 6 text-first owner
+Task: Rewrite and independently validate every learner-facing S06 surface — theory, I Do, We Do, You Do, public self-check, and authenticated assessment.
+
+Work Log:
+- Full entry: expert_audit/independent_worklog/S06.md
+- Report: course-state/curriculum_hardening/audits/fixer_reports/independent/S06_TEXT_FIRST_REPORT.md
+- Product edit: src/lib/course/sections/s06-numpy.ts only
+- Canonical identity: Section 6 “Colecciones y estructuras de datos” under compatibility key `numpy`; playground and PDF mappings confirmed on-topic and unchanged.
+- Coverage: 1 map + 8 theory subtopics, 8 I Do demos, 24 We Do exercises, one You Do project, nine public self-check explanations, and 24 authenticated questions independently reviewed.
+- Rewrite: all theory surfaces, all I Do explanatory surfaces, all 24 We Do retrospectives, You Do framing/review, and all self-check explanations received hand-written causal, beginner-safe improvements.
+- Contract repairs: all 24 stable exercise IDs now parse uniquely in canonical order; locality density reduced from 57 to the fleet cap of 55 without changing fixtures or executable output.
+- Assessment: authenticated bank preserved after confirming 24 unique items, 8 concepts × 3, overall answer balance 6/6/6/6, and per-attempt balance 2/2/2/2.
+- Validation: 11/11 focused; 64/64 runtime; V3; exam P0=0/P1=0; Spanish 9.13/FH 86.7; TypeScript; ESLint; Node 54/54; static export. Full Python failures fell 81→79, with no remaining S06-owned failure.
+- Timestamp: 2026-07-26
+
+Stage Summary:
+- S06 text-first rewrite is complete, independently evidenced, and ready for serial integration.
 
 Ready for the next section.
