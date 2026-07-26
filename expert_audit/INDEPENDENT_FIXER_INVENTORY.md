@@ -24,7 +24,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` + `53d09e4` + `ddaf978` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations; locality follow-up clears the fleet cap. |
 | S05 | deployed | `9b9cda4` + `e2c018a` | `5ead24b` | Text-first rewrite deployed across 8/8 Theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations. |
 | S06 | deployed | `03ee8e3` + `bc17c75` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 9/9 self-check explanations. |
-| S07 | active | `0272f98` + `279e8c0` | pending T03 | Fresh one-section owner assigned for the final learner-reported text-first rewrite. |
+| S07 | integrated | `0272f98` + `279e8c0` + `b787718` | pending T03 | Text-first rewrite integrated across 10/10 Theory surfaces, 8/8 I Do, 24/24 We Do, You Do and 10/10 self-check explanations. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
 | S10 | pending | — | — | |
@@ -80,7 +80,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 | T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
 | T02 | S04–S06 | deployed | [PR #11](https://github.com/PillB/pyarcana/pull/11) | `5ead24b` | [Pages run 30216970467](https://github.com/PillB/pyarcana/actions/runs/30216970467) succeeded; public HTTP and learner-content bundle verified. |
-| T03 | S07 | active | `agent/text-first-s07` | pending | Started from deployed inventory head `97cbe63`; independent text-first owner active. |
+| T03 | S07 | integrated | `agent/text-first-s07` | pending | Text-first rewrite and combined validation complete; awaiting GitHub PR/CI/merge/Pages/public verification. |
 
 ## Text-first campaign diagnosis
 
@@ -178,6 +178,33 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   `101ecad4e9b5831924557d1845345452062cbff12bff3fa31e2f6f6601b4d68c`
   and contained the new S04 conveyor-belt, S05 reusable-core and S06
   classification-table prose markers.
+
+## Batch T03 integrated validation note
+
+- Independent owner coverage: S07 relevance/map, 10/10 Theory surfaces,
+  8/8 I Do, 24/24 We Do, complete You Do, 10/10 public self-check
+  explanations, 24/24 authenticated questions and both live mappings.
+- Learner-visible evidence: explicit I Do predictions rose from 0/8 to 8/8;
+  We Do retrospectives rose from a 32-word median to 57 words with causal
+  repair and transfer; all ten self-check explanations now repair plausible
+  distractors. The core learner source changed by 110 lines.
+- Executable preservation: all 64 code payloads, 40 outputs, You Do starter,
+  27 IDs, eight demo IDs and 40 subtopic references remain byte-identical to
+  the deployed baseline. Scoped runtime is 64/64 with P0=0/P1=0.
+- Learner packet: 24/24 ordered unique practice IDs; locality density 12
+  against the cap of 55; authenticated bank remains 6/6/6/6 overall and
+  2/2/2/2 per attempt.
+- Combined gates: focused 13/13, TypeScript, ESLint, all 52 V3
+  counts/structure/invariants, authenticated assessment (1,248 questions /
+  416 concepts, P0=0/P1=0) and Node adversarial 54/54 pass.
+- Full Python adversarial: 159 tests, 76 inherited failures and 1 skip; no
+  exact S07 failure heading. The inherited failure count is unchanged while
+  seven new S07 text-first tests run.
+- Production static export compiles, type-checks and generates 3/3 pages.
+  Local exported-site HTTP is 200; its learner page chunk contains the new
+  Unicode/system-responsibility opener and auditable-decision framing.
+- Generated runtime, exam and Spanish audit snapshots were restored before
+  this inventory update.
 
 ## Batch B03 validation note
 
