@@ -3231,19 +3231,19 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
 
-  // S07 V3 — Texto, Unicode y expresiones regulares (platform id: data-acquisition)
+  // S07 — Texto, Unicode y expresiones regulares
   'data-acquisition': [
     {
       concept: 'unicode-normalization-casefold',
       question:
         '¿Por qué dos strings visualmente iguales con tilde pueden comparar False en Python?',
       options: [
-        'Python no soporta tildes',
         'Formas Unicode distintas (NFC compuesta vs NFD base+combining); hay que normalizar antes de comparar',
+        'Python no soporta tildes',
         'casefold borra la comparación',
         'Son encodings latin-1 incompatibles siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'NFC/NFD unifican code points. unicodedata.normalize("NFC", s) antes de ==.',
     },
@@ -3267,11 +3267,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Orden recomendado del curso para comparar dos strings de cliente:',
       options: [
         'lower → comparar → normalize',
-        'normalize NFC → strip/collapse espacios → casefold (si política) → comparar',
         'regex primero siempre',
+        'normalize NFC → strip/collapse espacios → casefold (si política) → comparar',
         'encode latin-1 y comparar bytes crudos sin política',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Pipeline: NFC, limpieza de espacios, casefold opcional, luego igualdad.',
     },
@@ -3295,11 +3295,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Heurística demo: si solo hay 2 tokens de nombre, ¿qué hace un pipeline prudente?',
       options: [
         'Inventar segundo apellido vacío y marcar accept',
-        'Marcar review (o política documentada) en vez de afirmar estructura completa',
         'Borrar el registro',
+        'Marcar review (o política documentada) en vez de afirmar estructura completa',
         'Convertir a DNI',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Sin evidencia de segundo apellido, review > invención. Documenta límites del parser.',
     },
@@ -3309,11 +3309,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué se debe conservar siempre al normalizar un nombre con espacios múltiples y partículas?',
       options: [
         'Solo el primer token',
-        'El raw original además de tokens/campos normalizados',
         'Nada; raw es PII y se borra en demos sintéticas también',
         'Solo apellidos en ASCII sin tildes forzadas',
+        'El raw original además de tokens/campos normalizados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'raw + normalized + transforms: auditabilidad. No afirmar identidad legal.',
     },
@@ -3323,11 +3323,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Antes de escribir un regex para colapsar espacios múltiples, ¿qué debe intentar el curso?',
       options: [
         're.sub siempre primero',
-        'Métodos str: split/join, strip, replace — más legibles y suficientes en muchos casos',
         'pandas.str únicamente',
+        'Métodos str: split/join, strip, replace — más legibles y suficientes en muchos casos',
         'encode hex',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'str antes que regex. " ".join(s.split()) colapsa espacios sin patrón.',
     },
@@ -3337,25 +3337,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué hace `" ".join("  a   b  ".split())` en normalización de texto?',
       options: [
         'Deja dobles espacios',
-        'Colapsa whitespace y recorta extremos vía split sin args + join',
         'Elimina la letra a',
         'Convierte a lista de code points',
+        'Colapsa whitespace y recorta extremos vía split sin args + join',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'split() sin args parte en cualquier whitespace y descarta vacíos; join recompone.',
     },
     {
       concept: 'string-ops',
       question:
-        '¿Cuándo pasar de str methods a regex en S07?',
+        '¿Cuándo conviene pasar de métodos `str` a una expresión regular?',
       options: [
-        'Nunca hay razón para regex',
         'Cuando necesitas patrones, grupos o validación estructural que str no expresa limpio',
+        'Nunca hay razón para regex',
         'Para todo upper/lower',
         'Solo para sumar enteros',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Regex cuando el patrón lo justifica; over-regex reduce mantenibilidad.',
     },
@@ -3365,11 +3365,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Normalizar email en CP-N1-B: ¿cuál política es modestamente correcta?',
       options: [
         'Validar TLD contra lista ISO completa en cliente',
-        'strip, lower/casefold local conservador, forma básica local@dominio sin overvalidation de RFC completo',
         'Rechazar todo email con tilde en dominio visible',
         'Guardar solo el hash y borrar el email siempre',
+        'strip, lower/casefold local conservador, forma básica local@dominio sin overvalidation de RFC completo',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Reglas modestas: no reimplementar RFC 5322. Overvalidation genera FN falsos.',
     },
@@ -3378,12 +3378,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Teléfono peruano sintético de demo: ¿qué NO debes hacer en el normalizador del curso?',
       options: [
-        'Conservar dígitos y un formato canónico documentado',
         'Afirmar que el número existe en el padrón real o pertenece a una persona real',
+        'Conservar dígitos y un formato canónico documentado',
         'Marcar review si el largo no calza la política',
         'Guardar raw y normalizado',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Datos sintéticos; sin claims de existencia real ni PII real.',
     },
@@ -3406,12 +3406,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un patrón de código de cliente, ¿para qué sirven los grupos (...)?',
       options: [
-        'Solo decoración',
         'Capturar subcadenas para extracción (Match.group / finditer)',
+        'Solo decoración',
         'Acelerar el GIL',
         'Convertir a int automáticamente',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Grupos capturan partes del match. Útiles para extraer id y cola por separado.',
     },
@@ -3435,11 +3435,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Diferencia práctica re.search vs re.fullmatch para un código de intake:',
       options: [
         'Son alias exactos',
-        'search encuentra substring; fullmatch exige coincidencia de todo el string (como ^...$)',
         'fullmatch es más lento siempre por un factor 100',
+        'search encuentra substring; fullmatch exige coincidencia de todo el string (como ^...$)',
         'search no existe en 3.x',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'fullmatch/anchors evitan aceptar prefijos/sufijos no deseados.',
     },
@@ -3463,11 +3463,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'findall vs finditer para extraer varios ids de un texto de log:',
       options: [
         'findall devuelve match objects; finditer strings',
-        'findall → lista de strings/tuplas; finditer → iterador de Match (mejor si hay muchos)',
         'finditer borra el texto',
+        'findall → lista de strings/tuplas; finditer → iterador de Match (mejor si hay muchos)',
         'Ambos requieren pandas',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'finditer es lazy y da .start/.group. findall materializa lista.',
     },
@@ -3477,11 +3477,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Límite importante del regex en este curso:',
       options: [
         'Regex reemplaza Unicode normalization',
-        'No resuelve por sí solo identidad/parentesco; es herramienta de forma, no de verdad de negocio',
         'Solo funciona sin tildes',
         'Obliga a usar multiprocessing',
+        'No resuelve por sí solo identidad/parentesco; es herramienta de forma, no de verdad de negocio',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Regex extrae/valida forma. Matching de identidad es política + evidencia (T4).',
     },
@@ -3491,11 +3491,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Tras normalizar NFC+casefold, ¿qué es una comparación exacta de nombres?',
       options: [
         'Jaccard > 0.5',
-        'Igualdad de strings normalizados (o de tokens canónicos unidos)',
         'Distancia de Levenshtein obligatoria',
+        'Igualdad de strings normalizados (o de tokens canónicos unidos)',
         'Siempre True si comparten un apellido',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Exacta = igualdad post-normalización. Similitud por tokens es otra capa.',
     },
@@ -3505,25 +3505,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Jaccard simple de tokens entre conjuntos A y B se define como:',
       options: [
         '|A∪B| / |A∩B|',
-        '|A∩B| / |A∪B| (con unión vacía → política 0 o N/A)',
         '|A| - |B|',
         'len(A)+len(B)',
+        '|A∩B| / |A∪B| (si ambos conjuntos están vacíos, el contrato de esta sección devuelve 1.0)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Intersección sobre unión. Documenta división por cero si ambos vacíos.',
+        'Intersección sobre unión. Para dos entradas vacías, el contrato de la sección devuelve 1.0; si solo una está vacía, devuelve 0.0.',
     },
     {
       concept: 'exact-token-similarity',
       question:
         '¿Para qué sirve un score de tokens en CP-N1-B según el curso?',
       options: [
-        'Afirmar parentesco legal automáticamente',
         'Priorizar revisión humana / ranking de candidatos — no certificar identidad',
+        'Afirmar parentesco legal automáticamente',
         'Reemplazar el raw',
         'Borrar tildes del DNI',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Score ≠ veredicto legal. Es señal para review, no claim de parentesco.',
     },
@@ -3533,11 +3533,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En matching de clientes, un falso positivo (FP) es:',
       options: [
         'Rechazar dos registros que sí son la misma persona de negocio',
-        'Declarar match cuando no deberían considerarse la misma entidad',
         'Un error de sintaxis Python',
         'Siempre preferible a un FN',
+        'Declarar match cuando no deberían considerarse la misma entidad',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'FP = match erróneo (riesgo de fusión indebida). FN = miss de match real.',
     },
@@ -3546,12 +3546,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué evidencia mínima debe conservar el normalizador/matcher del curso?',
       options: [
-        'Solo el score final sin inputs',
         'raw, normalized, transforms aplicados y razón de match/review — sin PII real de producción',
+        'Solo el score final sin inputs',
         'El password del usuario',
         'Nada; evidencia es opcional',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Audit trail: raw + transforms + decisión. Datos sintéticos en demos.',
     },

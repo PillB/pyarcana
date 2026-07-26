@@ -209,7 +209,7 @@ full mid: False`,
       subtopicId: "S07-T3-B",
       paragraphs: [
         "`re.compile` reutiliza el patrón en bucles: deja clara la intención y evita reescribir el mismo *raw string* en cada iteración. `findall` y `finditer` extraen múltiples *matches* de un log sintético. Son herramientas de **extracción**, no de *overvalidation* de email (eso quedó en T2).",
-        "Límite duro de este subtema: **catastrophic backtracking** con cuantificadores anidados ambiguos (p. ej. `(a+)+b` sobre *strings* hostiles de `a`s). Prefiere patrones **aburridos y simples**, o vuelve a `str.find` o `split`. No ejecutes patrones peligrosos “para ver qué pasa” en producción.",
+        "Límite duro de este subtema: **catastrophic backtracking** con cuantificadores anidados ambiguos (p. ej. `(a+)+b` sobre *strings* hostiles de `a`s). El módulo `re` de la biblioteca estándar no expone un parámetro de *timeout*. Por eso, prefiere patrones **aburridos y simples**, limita el tamaño de la entrada y vuelve a `str.find` o `split` cuando alcancen.",
         "Si el patrón crece sin control (email + teléfono + DNI + dirección en una sola expresión), un parser por pasos con `str` y regex pequeñas suele ser más testeable. También es más fácil de explicar en una revisión de código (*code review*). La elegancia de una sola mega-regex es un defecto de producto disfrazado (*bug*): un fallo opaco en el medio no dice *qué* campo rompió el contrato.",
       ],
       code: {
@@ -232,7 +232,7 @@ span (29, 38) 988777666`,
         type: "warning",
         title: "Backtracking",
         content:
-          "Patrones tipo (a+)+b sobre strings hostiles pueden colgar el proceso. Mantén regex aburridas.",
+          "Patrones tipo (a+)+b sobre strings hostiles pueden colgar el proceso. `re` no ofrece timeout: mantén regex simples, limita la entrada y aísla cualquier patrón no confiable.",
       },
     },
     {
@@ -1327,9 +1327,9 @@ print(codes)`,
         kind: "transfer",
         title: "Riesgo de catastrophic backtracking",
         preamble:
-          "- **Contexto:** en pipelines de intake, un patrón «listo» con cuantificadores anidados puede colgar el proceso ante input hostil.\n- **Meta:** explicar el riesgo de `(a+)+b` y la mitigación sin ejecutar el caso hostil.\n- **Éxito:** 3–4 prints: patrón peligroso, riesgo (CPU/hang), mitigación (patrones simples / str / timeouts), preferencia por validación por pasos.\n- **Límites:** **no** ejecutes el patrón sobre strings largos de `a`; solo documenta.",
+          "- **Contexto:** en pipelines de intake, un patrón «listo» con cuantificadores anidados puede colgar el proceso ante input hostil.\n- **Meta:** explicar el riesgo de `(a+)+b` y la mitigación sin ejecutar el caso hostil.\n- **Éxito:** cuatro líneas: patrón peligroso, riesgo (CPU/bloqueo), mitigación (patrones simples, límite de entrada o `str`) y preferencia por validación por pasos.\n- **Límites:** **no** ejecutes el patrón sobre strings largos de `a`; recuerda que `re` no tiene un parámetro de timeout.",
         instruction:
-          "1. Reescribe los prints del starter para que coincidan con la política canónica del panel (patrón peligroso, riesgo hang/CPU, mitigación, preferir a+b o pasos).\n2. Nombra catastrophic backtracking en lenguaje claro.\n3. Propón mitigaciones concretas (`a+b`, `str.find`/`split`, timeouts).\n4. Superficie: juicio de ingeniería, no un match más.",
+          "1. Reescribe los prints del starter para que coincidan con la política canónica del panel (patrón peligroso, riesgo de CPU/bloqueo, mitigación, preferir `a+b` o pasos).\n2. Nombra *catastrophic backtracking* en lenguaje claro.\n3. Propón mitigaciones disponibles: simplificar a `a+b`, limitar la entrada, usar `str.find`/`split` o aislar patrones no confiables fuera del proceso.\n4. No prometas un timeout inexistente en `re`: esta superficie evalúa juicio de ingeniería, no un match más.",
         hint: "Cuantificadores anidados ambiguos",
         hints: [
           "Cuantificadores anidados ambiguos",
@@ -1346,7 +1346,7 @@ print(codes)`,
           title: "backtracking_note.py",
           code: `# TAREA: explica riesgo de backtracking (sin ejecutar hostiles)
 # DEFECT: recomienda (a+)+b en prod
-print('patrón recomendado: (a+)+b sobre strings largos de a\'s')
+print('patrón recomendado: (a+)+b sobre strings largos de letras a')
 print('riesgo: ninguno en Python')
 print('mitigación: no hace falta')
 print('preferir regex complejas siempre')`,
@@ -1356,11 +1356,11 @@ print('preferir regex complejas siempre')`,
           title: "backtracking_note.py",
           code: `print('patrón peligroso: (a+)+b sobre strings largos de a\\'s')
 print('riesgo: catastrophic backtracking → CPU alta / hang')
-print('mitigación: patrones simples, timeouts, o str.find/split')
+print('mitigación: patrón simple, entrada acotada o str.find/split')
 print('preferir a+b o validación por pasos')`,
           output: `patrón peligroso: (a+)+b sobre strings largos de a's
 riesgo: catastrophic backtracking → CPU alta / hang
-mitigación: patrones simples, timeouts, o str.find/split
+mitigación: patrón simple, entrada acotada o str.find/split
 preferir a+b o validación por pasos`,
         },
       },
@@ -1786,10 +1786,10 @@ if __name__ == "__main__":
       },
       {
         question: "Ante un patrón con cuantificadores anidados ambiguos, la postura del curso es…",
-        options: ["Usarlo siempre por elegancia", "Confiar en que Python optimiza todo", "Solo importa en JavaScript", "Preferir patrones simples, str methods o timeouts; evitar catastrophic backtracking"],
+        options: ["Usarlo siempre por elegancia", "Confiar en que Python optimiza todo", "Solo importa en JavaScript", "Preferir patrones simples, limitar la entrada o usar `str`; `re` no ofrece timeout"],
         correctIndex: 3,
         explanation:
-          "Patrones aburridos y límites claros son feature de producto: evitan hangs por catastrophic backtracking y son más fáciles de auditar.",
+          "Patrones simples y entradas acotadas reducen el riesgo de *catastrophic backtracking*. Si aceptas patrones no confiables, debes aislar su ejecución fuera de `re`.",
       },
       {
         question: "¿Para qué sirve `re.compile` en un loop de extracción sobre logs?",

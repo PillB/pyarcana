@@ -44,7 +44,7 @@ const SECTION_NAMES: Record<string, string> = {
   "functions-modules": '4. Iteración',
   oop: '5. Funciones',
   numpy: '6. Colecciones',
-  "data-acquisition": '7. Data Acq',
+  "data-acquisition": '7. Texto & Unicode',
   pandas: '8. Pandas',
   visualization: '9. Viz',
   sklearn: '10. sklearn',

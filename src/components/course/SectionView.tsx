@@ -1298,56 +1298,58 @@ print("\\n✅ Todos los tests pasaron!")`,
       hint: 'Agrega un test para verificar que funciona con notas negativas',
     },
     'data-acquisition': {
-      title: 'Practica scraping, regex y SQL',
-      code: `# Practica adquisicion de datos (sin librerias externas en Pyodide)
+      title: 'Practica Unicode, regex y evidencia',
+      code: `# Laboratorio de texto latinoamericano con datos sintéticos
 import re
-import sqlite3
-from collections import Counter, defaultdict
+import unicodedata
 
-# === REGEX: extraer datos de texto desestructurado ===
-texto_clientes = """
-Cliente 1: Maria Quispe, DNI 12345678, tel 999-888-777, maria@email.pe
-Cliente 2: Luis Garcia, DNI 87654321, tel 987-654-321, luis.garcia@empresa.com
-Cliente 3: Ana Flores, DNI 11223344, tel 999-111-222, ana.f@pe.org
-"""
+def normalize_text(raw):
+    nfc = unicodedata.normalize("NFC", raw)
+    return " ".join(nfc.split()).casefold()
 
-# Extraer todos los DNIs (8 digitos)
-dnis = re.findall(r'\\b\\d{8}\\b', texto_clientes)
-print(f"DNIs encontrados: {dnis}")
+def normalize_email(raw):
+    value = raw.strip().casefold()
+    if value.count("@") != 1 or any(ch.isspace() for ch in value):
+        raise ValueError("email requiere un @ y cero espacios")
+    local, domain = value.split("@")
+    if not local or not domain:
+        raise ValueError("email requiere local y dominio")
+    return value
 
-# Extraer emails
-emails = re.findall(r'[\\w.-]+@[\\w.-]+\\.\\w+', texto_clientes)
-print(f"Emails: {emails}")
+def token_jaccard(a, b):
+    def tokens(value):
+        clean = normalize_text(value.replace(".", " "))
+        return set(clean.split())
+    left, right = tokens(a), tokens(b)
+    if not left and not right:
+        return 1.0
+    if not left or not right:
+        return 0.0
+    return len(left & right) / len(left | right)
 
-# Extraer telefonos (formato XXX-XXX-XXX)
-telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', texto_clientes)
-print(f"Telefonos: {telefonos}")
+raw_a = "  José  Quispe "
+raw_b = "Jose\\u0301 Quispe"
+print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
+print("Email:", normalize_email(" Ana+demo@Example.COM "))
 
-# === COUNTER: frecuencias ===
-nombres = ["Maria", "Luis", "Ana", "Maria", "Carlos", "Maria", "Luis"]
-contador = Counter(nombres)
-print(f"\\nTop 2 nombres mas frecuentes: {contador.most_common(2)}")
+try:
+    normalize_email("ana@@example.com")
+except ValueError:
+    print("Email inválido → review:", True)
 
-# === DEFAULTDICT: agrupar ===
-ventas = [("Maria", 100), ("Luis", 200), ("Maria", 150), ("Ana", 300)]
-por_vendedor = defaultdict(list)
-for nombre, monto in ventas:
-    por_vendedor[nombre].append(monto)
+text = "DNI 12345678 PE"
+print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))
 
-print("\\nVentas por vendedor:")
-for vendedor, montos in por_vendedor.items():
-    print(f"  {vendedor}: {montos} (total: {sum(montos)})")`,
-      expectedOutput: `DNIs encontrados: ['12345678', '87654321', '11223344']
-Emails: ['maria@email.pe', 'luis.garcia@empresa.com', 'ana.f@pe.org']
-Telefonos: ['999-888-777', '987-654-321', '999-111-222']
-
-Top 2 nombres mas frecuentes: [('Maria', 3), ('Luis', 2)]
-
-Ventas por vendedor:
-  Maria: [100, 150] (total: 250)
-  Luis: [200] (total: 200)
-  Ana: [300] (total: 300)`,
-      hint: 'Intenta extraer los nombres del texto con regex (palabras despues de "Cliente N:")',
+score = token_jaccard("Juan Perez", "Juan P. Perez")
+print("Jaccard:", round(score, 3))
+print("Decisión:", "review" if 0.4 <= score < 1.0 else "exact")`,
+      expectedOutput: `NFC iguales: True
+Email: ana+demo@example.com
+Email inválido → review: True
+search/fullmatch: True False
+Jaccard: 0.667
+Decisión: review`,
+      hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
     },
     'performance': {
       title: 'Practica multiprocessing y logging',
