@@ -21,9 +21,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S01 | deployed | `e12ac52` + `7627dc1` + `65afe87` | `41038b2` | Text-first rewrite deployed with 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
 | S02 | deployed | `ce8815c` + `1ab1cc3` + `4680406` | `41038b2` | Text-first rewrite deployed with 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 self-check explanations covered. |
 | S03 | deployed | `d8f1b4a` + `7bc21e5` + `a202d30` | `41038b2` | Text-first rewrite deployed with 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
-| S04 | queued | `bf4111b` | `2e9fcd2` | Previously deployed correctness pass queued for text-first rewrite; its core lesson changed only 3 additions/3 deletions in the prior campaign. |
-| S05 | queued | `9b9cda4` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
-| S06 | queued | `03ee8e3` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
+| S04 | active | `bf4111b` | pending T02 | Fresh one-section owner assigned for the text-first rewrite; its prior correctness pass changed only 3 additions/3 deletions in the core lesson. |
+| S05 | active | `9b9cda4` | pending T02 | Fresh one-section owner assigned for a visible text-first rewrite. |
+| S06 | active | `03ee8e3` | pending T02 | Fresh one-section owner assigned for a visible text-first rewrite. |
 | S07 | queued | `0272f98` + `279e8c0` | `6f2a784` | Previously deployed correctness pass queued for visible text-first rewrite. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
@@ -79,7 +79,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 | T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
-| T02 | S04–S06 | queued | — | — | Starts after T01 is merged and publicly verified. |
+| T02 | S04–S06 | active | `agent/text-first-s04-s06` | pending | Started from deployed inventory head `771c6af`; independent text-first owners active. |
 | T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
 
 ## Text-first campaign diagnosis
