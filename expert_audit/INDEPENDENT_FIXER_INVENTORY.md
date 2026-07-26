@@ -21,9 +21,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S01 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
 | S02 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
 | S03 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
-| S04 | integrated | `bf4111b` | pending | Fresh owner report, focused tests and section-scoped product fixes integrated into B02. |
-| S05 | integrated | `9b9cda4` | pending | Fresh owner report, focused tests and section-scoped product fixes integrated into B02. |
-| S06 | integrated | `03ee8e3` | pending | Fresh owner report, focused tests and section-scoped product fixes integrated into B02. |
+| S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
+| S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
+| S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S07 | pending | — | — | |
 | S08 | pending | — | — | |
 | S09 | pending | — | — | |
@@ -76,7 +76,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | Batch | Sections | State | Branch/PR | Merge SHA | Pages evidence |
 |---|---|---|---|---|---|
 | B01 | S01–S03 | recovery_required | — | — | The independent ephemeral commits were not pushed before workspace loss. |
-| B02 | S04–S06 | ready_to_publish | `agent/independent-fixer-s04-s06` | — | 14 focused tests, TypeScript, ESLint, V3, exam pedagogy, static build and local HTTP 200 pass. Full adversarial suite retains the baseline's exact 177 failure-signature lines/88 failures in untouched sections; baseline had one additional skip. |
+| B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 
 ## Batch B02 validation note
 
@@ -93,3 +93,13 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   stale fleet fixtures; B02 introduces no new failure signature and removes
   the baseline's single skip. These inherited failures remain assigned to
   their future independent section owners.
+- GitHub integration: PR #3 merged the reviewed head `0a2bbc4` into `main` at
+  `2e9fcd2f99584419a4db83222423d39cc6f0fc20`.
+- GitHub Pages: run `30209398271` built, uploaded and deployed successfully for
+  that exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 16:01:15 GMT`. The deployed application
+  bundle SHA-256 was
+  `044eaf6ceb1138fb4520251967d7d16764092e57892d2711b42609ae24c46838`
+  and contained the corrected S04/S05/S06 playground titles plus PDF labels
+  `4. Iteración`, `5. Funciones` and `6. Colecciones`.
