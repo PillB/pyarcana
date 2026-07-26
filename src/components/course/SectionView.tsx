@@ -998,29 +998,37 @@ for edad_raw in [" 28 ", "  ", "abc"]:
       hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
     },
     'data-structures': {
-      title: 'Practica dict y list',
-      code: `# Practica estructuras de datos
-alumnos = [
-    {"nombre": "Ana", "nota": 18},
-    {"nombre": "Luis", "nota": 15},
-    {"nombre": "Carlos", "nota": 20}
+      title: 'Practica decisiones y reglas',
+      code: `# Valida campos sintéticos sin confundir ausencia con cero
+ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
+
+def validate_monto(monto):
+    if monto is None:
+        return {"status": "review", "code": "MISSING"}
+    if not isinstance(monto, int):
+        return {"status": "reject", "code": "BAD_TYPE"}
+    if monto < 0:
+        return {"status": "reject", "code": "OUT_OF_RANGE"}
+    return {"status": "accept", "code": "OK"}
+
+def validate_region(region):
+    if region is None:
+        return {"status": "review", "code": "MISSING"}
+    if region not in ALLOWED_REGIONS:
+        return {"status": "review", "code": "NOT_IN_ALLOWLIST"}
+    return {"status": "accept", "code": "OK"}
+
+cases = [
+    {"id": "A", "monto": 0, "region": "Lima"},
+    {"id": "B", "monto": None, "region": "Tacna"},
+    {"id": "C", "monto": -5, "region": "Cusco"},
 ]
-
-# List comprehension para extraer nombres
-nombres = [a["nombre"] for a in alumnos]
-print(f"Nombres: {nombres}")
-
-# Promedio de notas
-promedio = sum(a["nota"] for a in alumnos) / len(alumnos)
-print(f"Promedio: {promedio}")
-
-# Dict comprehension: nombre -> aprobado?
-resultados = {a["nombre"]: "Aprobado" if a["nota"] >= 14 else "Desaprobado" for a in alumnos}
-print(f"Resultados: {resultados}")`,
-      expectedOutput: `Nombres: ['Ana', 'Luis', 'Carlos']
-Promedio: 17.666666666666668
-Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
-      hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
+for case in cases:
+    print(case["id"], validate_monto(case["monto"]), validate_region(case["region"]))`,
+      expectedOutput: `A {'status': 'accept', 'code': 'OK'} {'status': 'accept', 'code': 'OK'}
+B {'status': 'review', 'code': 'MISSING'} {'status': 'review', 'code': 'NOT_IN_ALLOWLIST'}
+C {'status': 'reject', 'code': 'OUT_OF_RANGE'} {'status': 'accept', 'code': 'OK'}`,
+      hint: 'Cambia un monto a 0, None, negativo o texto y predice status y code antes de ejecutar.',
     },
     'functions-modules': {
       title: 'Practica un resumen por lotes',

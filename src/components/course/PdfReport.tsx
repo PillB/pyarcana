@@ -40,7 +40,7 @@ interface PdfReportProps {
 const SECTION_NAMES: Record<string, string> = {
   setup: '1. Entorno',
   basics: '2. Valores y tipos',
-  "data-structures": '3. Data Struct',
+  "data-structures": '3. Reglas',
   "functions-modules": '4. Iteración',
   oop: '5. Funciones',
   numpy: '6. Colecciones',
