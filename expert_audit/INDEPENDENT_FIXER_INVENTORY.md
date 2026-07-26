@@ -24,7 +24,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` + `53d09e4` + `ddaf978` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations; locality follow-up clears the fleet cap. |
 | S05 | deployed | `9b9cda4` + `e2c018a` | `5ead24b` | Text-first rewrite deployed across 8/8 Theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations. |
 | S06 | deployed | `03ee8e3` + `bc17c75` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 9/9 self-check explanations. |
-| S07 | integrated | `0272f98` + `279e8c0` + `b787718` | pending T03 | Text-first rewrite integrated across 10/10 Theory surfaces, 8/8 I Do, 24/24 We Do, You Do and 10/10 self-check explanations. |
+| S07 | deployed | `0272f98` + `279e8c0` + `b787718` | `b97732c` | Text-first rewrite deployed across 10/10 Theory surfaces, 8/8 I Do, 24/24 We Do, You Do and 10/10 self-check explanations. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
 | S10 | pending | — | — | |
@@ -80,7 +80,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 | T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
 | T02 | S04–S06 | deployed | [PR #11](https://github.com/PillB/pyarcana/pull/11) | `5ead24b` | [Pages run 30216970467](https://github.com/PillB/pyarcana/actions/runs/30216970467) succeeded; public HTTP and learner-content bundle verified. |
-| T03 | S07 | integrated | `agent/text-first-s07` | pending | Text-first rewrite and combined validation complete; awaiting GitHub PR/CI/merge/Pages/public verification. |
+| T03 | S07 | deployed | [PR #13](https://github.com/PillB/pyarcana/pull/13) | `b97732c` | [Pages run 30218200773](https://github.com/PillB/pyarcana/actions/runs/30218200773) succeeded; public HTTP and all S01–S07 learner markers verified. |
 
 ## Text-first campaign diagnosis
 
@@ -205,6 +205,16 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   Unicode/system-responsibility opener and auditable-decision framing.
 - Generated runtime, exam and Spanish audit snapshots were restored before
   this inventory update.
+- GitHub integration: PR #13 merged reviewed head `e17f858` into `main` at
+  `b97732c70e1910d44239dd9f482f452cf39e76bc`.
+- GitHub Pages: run `30218200773` built and deployed successfully for that
+  exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 20:05:37 GMT`. The deployed learner
+  page chunk SHA-256 was
+  `85eaf9353d0fb045c0615eb57dc29e98bd8a4026b1d6f5e27aab13602aa88252`
+  and contained representative rewritten prose markers for every section
+  from S01 through S07.
 
 ## Batch B03 validation note
 
