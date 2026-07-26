@@ -953,69 +953,82 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
 function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
   const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
     'setup': {
-      title: 'Tu primer programa en Python',
-      code: `# Tu primer programa en Python
-# Escribe tu nombre y ejecuta con Run
-nombre = "Estudiante"
-print(f"Hola {nombre}, bienvenido a PyArcana!")
+      title: 'Practica el intérprete y el entrypoint',
+      code: `# Primer script reproducible (usa un nombre sintético)
+import sys
 
-# Calcula tu edad en meses
-edad_anos = 25
-edad_meses = edad_anos * 12
-print(f"Tu edad en meses: {edad_meses}")`,
+nombre = "Estudiante"
+
+def main():
+    print(f"Hola {nombre}, bienvenido a PyArcana!")
+    print(f"Python mayor: {sys.version_info.major}")
+    print("Entrypoint ejecutado")
+
+if __name__ == "__main__":
+    main()`,
       expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
-Tu edad en meses: 300`,
-      hint: 'Cambia el valor de nombre y edad_anos por tus datos',
+Python mayor: 3
+Entrypoint ejecutado`,
+      hint: 'Mantén un nombre sintético. Observa que el guardián llama a main() y que sys confirma el intérprete.',
     },
     'basics': {
-      title: 'Practica variables y tipos',
-      code: `# Practica los tipos basicos de Python
-edad = 25
-altura = 1.75
-nombre = "Ana"
-es_alumno = True
+      title: 'Practica el contrato raw/clean',
+      code: `# Convierte texto de intake sin perder el valor original
+def safe_int(campo, valor):
+    raw = valor
+    texto = raw.strip()
+    if texto == "":
+        return {"campo": campo, "raw": raw, "clean": None, "error": "valor vacío"}
+    try:
+        return {"campo": campo, "raw": raw, "clean": int(texto), "error": None}
+    except ValueError:
+        return {"campo": campo, "raw": raw, "clean": None, "error": "entero inválido"}
 
-# Imprime el tipo de cada variable
-print(f"edad: {edad} -> {type(edad).__name__}")
-print(f"altura: {altura} -> {type(altura).__name__}")
-print(f"nombre: {nombre} -> {type(nombre).__name__}")
-print(f"es_alumno: {es_alumno} -> {type(es_alumno).__name__}")
-
-# Operacion: lista comprehension
-numeros = [1, 2, 3, 4, 5]
-cuadrados = [n**2 for n in numeros]
-print(f"Cuadrados: {cuadrados}")`,
-      expectedOutput: `edad: 25 -> int
-altura: 1.75 -> float
-nombre: Ana -> str
-es_alumno: True -> bool
-Cuadrados: [1, 4, 9, 16, 25]`,
-      hint: 'Cambia los valores y observa cómo cambia el output',
+for edad_raw in [" 28 ", "  ", "abc"]:
+    resultado = safe_int("edad", edad_raw)
+    print(
+        repr(resultado["raw"]),
+        "->",
+        resultado["clean"],
+        resultado["error"],
+    )`,
+      expectedOutput: `' 28 ' -> 28 None
+'  ' -> None valor vacío
+'abc' -> None entero inválido`,
+      hint: 'Cambia los tres valores de prueba y comprueba que raw se conserve incluso cuando clean sea None',
     },
     'data-structures': {
-      title: 'Practica dict y list',
-      code: `# Practica estructuras de datos
-alumnos = [
-    {"nombre": "Ana", "nota": 18},
-    {"nombre": "Luis", "nota": 15},
-    {"nombre": "Carlos", "nota": 20}
+      title: 'Practica decisiones y reglas',
+      code: `# Valida campos sintéticos sin confundir ausencia con cero
+ALLOWED_REGIONS = {"Lima", "Arequipa", "Cusco", "Piura"}
+
+def validate_monto(monto):
+    if monto is None:
+        return {"status": "review", "code": "MISSING"}
+    if not isinstance(monto, int):
+        return {"status": "reject", "code": "BAD_TYPE"}
+    if monto < 0:
+        return {"status": "reject", "code": "OUT_OF_RANGE"}
+    return {"status": "accept", "code": "OK"}
+
+def validate_region(region):
+    if region is None:
+        return {"status": "review", "code": "MISSING"}
+    if region not in ALLOWED_REGIONS:
+        return {"status": "review", "code": "NOT_IN_ALLOWLIST"}
+    return {"status": "accept", "code": "OK"}
+
+cases = [
+    {"id": "A", "monto": 0, "region": "Lima"},
+    {"id": "B", "monto": None, "region": "Tacna"},
+    {"id": "C", "monto": -5, "region": "Cusco"},
 ]
-
-# List comprehension para extraer nombres
-nombres = [a["nombre"] for a in alumnos]
-print(f"Nombres: {nombres}")
-
-# Promedio de notas
-promedio = sum(a["nota"] for a in alumnos) / len(alumnos)
-print(f"Promedio: {promedio}")
-
-# Dict comprehension: nombre -> aprobado?
-resultados = {a["nombre"]: "Aprobado" if a["nota"] >= 14 else "Desaprobado" for a in alumnos}
-print(f"Resultados: {resultados}")`,
-      expectedOutput: `Nombres: ['Ana', 'Luis', 'Carlos']
-Promedio: 17.666666666666668
-Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
-      hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
+for case in cases:
+    print(case["id"], validate_monto(case["monto"]), validate_region(case["region"]))`,
+      expectedOutput: `A {'status': 'accept', 'code': 'OK'} {'status': 'accept', 'code': 'OK'}
+B {'status': 'review', 'code': 'MISSING'} {'status': 'review', 'code': 'NOT_IN_ALLOWLIST'}
+C {'status': 'reject', 'code': 'OUT_OF_RANGE'} {'status': 'accept', 'code': 'OK'}`,
+      hint: 'Cambia un monto a 0, None, negativo o texto y predice status y code antes de ejecutar.',
     },
     'functions-modules': {
       title: 'Practica un resumen por lotes',

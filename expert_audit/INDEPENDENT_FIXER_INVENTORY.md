@@ -18,15 +18,15 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
-| S02 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
-| S03 | recovery_required | — | — | Independently reviewed and fixed in an earlier ephemeral worktree; Git objects were lost before push, so the section must be recovered or rerun. |
+| S01 | integrated | `e12ac52` + `7627dc1` | — | Recovery and CI follow-up integrated as `63f5199` + `b2709c1`; lost ephemeral work was not accepted as evidence. |
+| S02 | integrated | `ce8815c` + `1ab1cc3` | — | Recovery and CI follow-up integrated as `105a691` + `1eac5cd`; lost ephemeral work was not accepted as evidence. |
+| S03 | integrated | `d8f1b4a` + `7bc21e5` | — | Recovery and CI follow-up integrated as `c410034` + `d1f308f`; lost ephemeral work was not accepted as evidence. |
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | pending | — | — | |
-| S08 | pending | — | — | |
-| S09 | pending | — | — | |
+| S07 | parked | `0272f98` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
+| S08 | parked | `0c06444` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
+| S09 | parked | `3939741` | — | Fresh local owner commit preserved; integration deferred until B01 recovery deploys. |
 | S10 | pending | — | — | |
 | S11 | pending | — | — | |
 | S12 | pending | — | — | |
@@ -75,8 +75,31 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Batch | Sections | State | Branch/PR | Merge SHA | Pages evidence |
 |---|---|---|---|---|---|
-| B01 | S01–S03 | recovery_required | — | — | The independent ephemeral commits were not pushed before workspace loss. |
+| B01 | S01–S03 | validating | `agent/independent-recovery-s01-s03` | — | Fresh recovery commits integrated; combined gates pass and publication is next. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
+| B03 | S07–S09 | parked | local commits `0272f98`, `0c06444`, `3939741` | — | Fresh owner commits preserved locally; review, integration and deployment resume after B01. |
+
+## Batch B01 recovery validation note
+
+- Independent focused contracts after CI follow-up: S01 `9/9`, S02 `7/7`,
+  S03 `7/7`.
+- Reference execution: S02 and S03 each pass all `41` published code/output
+  pairs; scoped runtime audits report S01 `9/9`, S02 `65/65` and S03 `65/65`.
+- Learner-packet manifests expose all `24/24` canonical practice identifiers
+  uniquely for S01, S02 and S03. S01 follows its exact section-varying
+  self-check cycle; S03 locality density is `42`, below the active cap of `55`.
+- Fleet structure: 52 sections; V3 counts, structure and invariants pass with
+  zero warnings.
+- Authenticated assessment: 1,248 questions / 416 concepts; P0=0, P1=0.
+- S01 first-use and glossary checks pass with P0=0 and P1=0.
+- TypeScript and ESLint pass.
+- Production export: static compilation, TypeScript validation and 3/3 page
+  generation pass; local exported site returns HTTP 200 and contains all three
+  corrected playground and PDF mappings plus the typed S01 entrypoint.
+- Full Python adversarial failures fall from `88` on the first PR head to `84`;
+  S01–S03 disappear from the packet/locality failures. The remaining failures
+  are assigned to pending section owners.
+- Generated validation JSON was restored before this inventory update.
 
 ## Batch B02 validation note
 

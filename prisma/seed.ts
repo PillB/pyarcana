@@ -27,12 +27,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En una laptop nueva ejecutas `python --version` y obtienes un error de comando no encontrado. ¿Cuál es la mejor primera acción?',
       options: [
-        'Instalar pandas globalmente para forzar que Python aparezca',
         'Verificar si el intérprete se llama `python3` o está fuera del PATH, e instalar Python 3.12+ si falta',
+        'Instalar pandas globalmente para forzar que Python aparezca',
         'Crear un archivo .py y abrirlo en el navegador',
         'Ejecutar `git init` para registrar el runtime',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'El síntoma es de intérprete/PATH, no de paquetes ni Git. Primero se confirma que Python 3 está instalado y accesible (`python3` o el instalador/PATH).',
     },
@@ -56,11 +56,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un colega reporta `Python 3.9.0` y tú `Python 3.12.2` con el mismo comando. ¿Qué implica para el proyecto?',
       options: [
         'Que Git está mal configurado en una de las máquinas',
-        'Que cada uno está usando un intérprete distinto; conviene alinear la versión mínima del equipo (p. ej. 3.12+)',
         'Que el REPL está dañado y hay que reinstalar el sistema operativo',
+        'Que cada uno está usando un intérprete distinto; conviene alinear la versión mínima del equipo (p. ej. 3.12+)',
         'Que `pip` ya no es necesario en 3.12',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'La versión del intérprete define sintaxis y comportamiento. Discrepancias se resuelven eligiendo y verificando el mismo runtime de referencia del equipo.',
     },
@@ -85,11 +85,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'El comando `python mi_script.py` falla con "No such file or directory", pero el archivo existe en otra carpeta. ¿Cuál es el diagnóstico más probable?',
       options: [
         'Python no soporta archivos .py en macOS',
-        'El cwd (directorio de trabajo) no es el de ese archivo; PATH no busca scripts por nombre de proyecto',
         'Hay que ignorar el archivo en .gitignore',
+        'El cwd (directorio de trabajo) no es el de ese archivo; PATH no busca scripts por nombre de proyecto',
         'Falta un Pull Request antes de ejecutar scripts',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Rutas relativas se resuelven desde el cwd. PATH localiza ejecutables (python), no tus scripts de proyecto. Hay que `cd` al directorio correcto o usar la ruta completa.',
     },
@@ -99,11 +99,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En PowerShell, un comando termina y `$LASTEXITCODE` es `0`. ¿Qué conclusión es correcta?',
       options: [
         'El comando falló y hay que reinstalar Python',
-        'El comando terminó exitosamente según el código de salida',
         'El PATH está vacío',
         'Solo aplica a Git, no a Python',
+        'El comando terminó exitosamente según el código de salida',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'En PowerShell, `$LASTEXITCODE` (análogo a `$?` en bash) con valor 0 indica éxito del último proceso.',
     },
@@ -113,11 +113,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Para qué sirve un entorno virtual (`.venv`) en un proyecto Python?',
       options: [
         'Para acelerar la ejecución del código Python',
-        'Para aislar las dependencias por proyecto y evitar conflictos de versiones entre proyectos',
         'Para conectarse a internet más rápido al instalar paquetes',
+        'Para aislar las dependencias por proyecto y evitar conflictos de versiones entre proyectos',
         'Para compilar Python a código de máquina más eficiente',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         '`.venv` guarda un intérprete y paquetes locales del proyecto, evitando que un upgrade en un repo rompa otro.',
     },
@@ -127,25 +127,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es la práctica recomendada al crear el entorno virtual del proyecto de curso?',
       options: [
         'Instalar todos los paquetes en el Python global del sistema',
-        'Crear `.venv` en la raíz del repo (`python -m venv .venv`), activarlo y trabajar solo ahí',
         'Crear un venv distinto por cada archivo .py',
         'Usar el mismo venv compartido en OneDrive para todo el equipo sin requirements',
+        'Crear `.venv` en la raíz del repo (`python -m venv .venv`), activarlo y trabajar solo ahí',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Un proyecto = un entorno. El nombre `.venv` es el convención del curso; se regenera y no se versiona el contenido de la carpeta.',
+        'Un proyecto = un entorno. El nombre `.venv` es la convención del curso; se regenera y no se versiona el contenido de la carpeta.',
     },
     {
       concept: 'venv-purpose',
       question:
         'Tu colega tiene pandas 2.x y a ti te falla el mismo script con pandas 1.x instalado globalmente. ¿Qué explica mejor el problema y la solución?',
       options: [
-        'La laptop es más lenta; hay que comprar más RAM',
         'Sin `.venv` cada máquina/global puede tener versiones distintas; hay que usar un venv por proyecto y alinear dependencias',
+        'La laptop es más lenta; hay que comprar más RAM',
         'Python no es multiplataforma',
         'Git reescribe las versiones de pandas en cada clone',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'El clásico "a mí me funciona" suele ser desalineación de entornos. `.venv` + requirements pinneados aíslan y reproducen dependencias.',
     },
@@ -156,11 +156,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con el `.venv` activado, ¿qué comando es la forma más confiable de instalar las dependencias listadas por un colega?',
       options: [
         'pip install pandas numpy sin versiones',
-        'python -m pip install -r requirements.txt',
         'python -m venv .venv otra vez',
         'git clone del repositorio sin instalar nada',
+        'python -m pip install -r requirements.txt',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         '`python -m pip` usa el pip del mismo intérprete activo. `-r requirements.txt` instala las versiones documentadas del equipo.',
     },
@@ -168,12 +168,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'pip-install',
       question: '¿Para qué sirve `python -m pip freeze > requirements.txt`?',
       options: [
-        'Para congelar el intérprete y que no se actualice nunca',
         'Para exportar un snapshot de paquetes y versiones exactas instaladas en el entorno actual',
+        'Para congelar el intérprete y que no se actualice nunca',
         'Para borrar paquetes viejos del sistema',
-        'Para actualizar automáticamente a la última major de cada librería',
+        'Para actualizar automáticamente a la última versión mayor de cada librería',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'freeze lista `paquete==versión` del entorno activo. Guardarlo permite que otro clone reinstale con install -r.',
     },
@@ -196,12 +196,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'commit-message',
       question: '¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?',
       options: [
+        'feat: agregar cálculo de churn por segmento',
         'cambios',
         'wip',
-        'feat: agregar cálculo de churn por segmento',
         'arreglé el bug',
       ],
-      correctIndex: 2,
+      correctIndex: 0,
       explanation:
         'Conventional Commits usa prefijo (`feat:`, `fix:`, `docs:`) y descripción imperativa clara del cambio.',
     },
@@ -225,11 +225,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Corregiste un fallo que devolvía NaN en el total de una factura. ¿Qué mensaje es el más adecuado?',
       options: [
         'feat: nueva app de facturación completa',
-        'fix: corregir total NaN cuando el ítem viene vacío',
         'wip',
+        'fix: corregir total NaN cuando el ítem viene vacío',
         'update stuff',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         '`fix:` es para correcciones. El mensaje debe decir qué se arregló; `feat:` sería una funcionalidad nueva y `wip` no aporta historial útil.',
     },
@@ -239,8 +239,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Vas a implementar una feature nueva en un repo compartido. ¿Cuál es el flujo más seguro?',
       options: [
-        'Commitear directo en `main` y hacer force-push',
-        'Crear una rama (`git switch -c feat/...`), commitear ahí, pushear y abrir un Pull Request',
+        'Hacer commit directo en `main` y luego un force-push',
+        'Crear una rama (`git switch -c feat/...`), hacer commit ahí, publicarla y abrir un Pull Request',
         'Borrar el remoto y trabajar solo local para siempre',
         'Editar archivos en GitHub sin rama ni revisión',
       ],
@@ -253,11 +253,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Para qué sirve un Pull Request (PR) en GitHub en este curso?',
       options: [
         'Para instalar paquetes de pip más rápido',
-        'Para proponer e integrar cambios de una rama con descripción y revisión, sin pisar main a ciegas',
         'Para ocultar el historial de commits del equipo',
+        'Para proponer e integrar cambios de una rama con descripción y revisión, sin pisar main a ciegas',
         'Para reemplazar requirements.txt',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'El PR es el mecanismo de integración y revisión: resume cambios, permite comentarios y merge controlado.',
     },
@@ -267,11 +267,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Modificaste un archivo, aún no has hecho commit, y quieres descartar solo ese cambio de forma no destructiva para el historial remoto. ¿Qué opción es preferible como hábito seguro?',
       options: [
         'git push --force a main',
-        'git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main',
         'Borrar la carpeta .git y clonar de nuevo siempre',
         'Cambiar el mensaje del último commit ajeno con rebase público',
+        'git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         '`git restore` / `stash` recuperan el working tree sin reescribir historial compartido. Force-push a main está prohibido como práctica segura.',
     },
@@ -281,11 +281,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuál describe mejor el rol de Ruff en un proyecto Python de este curso?',
       options: [
         'Es un gestor de entornos virtuales que reemplaza a venv',
-        'Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples vía reglas configurables',
         'Es el cliente oficial de GitHub para abrir PRs',
+        'Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples mediante reglas configurables',
         'Es un REPL alternativo a python',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Ruff analiza código (`ruff check`) y puede formatear; no reemplaza venv ni Git. Se configura típicamente en pyproject.toml.',
     },
@@ -295,11 +295,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Dónde se declara normalmente la configuración mínima de Ruff en el repositorio?',
       options: [
         'En un archivo binario dentro de .venv',
-        'En `pyproject.toml` bajo la sección `[tool.ruff]` (p. ej. line-length y select de reglas)',
         'Solo en la configuración global del sistema operativo',
         'En `.env` junto a las API keys',
+        'En `pyproject.toml` bajo la sección `[tool.ruff]` (p. ej. line-length y select de reglas)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'La config versionable del linter vive en el repo (`pyproject.toml` → `[tool.ruff]`), no en secretos ni en el venv.',
     },
@@ -308,12 +308,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Ejecutas `ruff check` y reporta F401 por un `import os` sin usar. ¿Qué implica?',
       options: [
-        'Que hay que desactivar Git',
         'Que Ruff detectó un import no utilizado; conviene eliminarlo o usarlo, no ignorar ciegamente todas las reglas',
+        'Que hay que desactivar Git',
         'Que Python no está instalado',
         'Que el archivo debe listarse en .gitignore',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'F401 es import unused: señal de limpieza/calidad. El flujo es corregir el hallazgo (o un noqa justificado), no apagar Ruff por completo.',
     },
@@ -324,10 +324,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'requirements.txt',
         'README.md',
-        '.venv/',
         'src/main.py',
+        '.venv/',
       ],
-      correctIndex: 2,
+      correctIndex: 3,
       explanation:
         '`.venv/` es regenerable y pesado; no se versiona. El código y requirements/README sí van al repo.',
     },
@@ -336,12 +336,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Sobre secretos y plantillas de entorno, ¿cuál es la práctica correcta?',
       options: [
-        'Subir `.env` con API keys reales y no crear `.env.example`',
         'Ignorar `.env` (secretos locales) y versionar `.env.example` solo con claves/placeholders sin secretos',
+        'Subir `.env` con API keys reales y no crear `.env.example`',
         'Poner las contraseñas en el README para el equipo',
         'Commitear `.env` pero en una rama feature',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         '`.env` tiene secretos y no se sube. `.env.example` documenta las variables necesarias con valores vacíos o sintéticos.',
     },
@@ -350,14 +350,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un compañero casi sube un archivo con `API_KEY=sk-...` real. ¿Qué combinación protege mejor el repo?',
       options: [
-        'Incluir `.env` en `.gitignore`, usar `.env.example` sin secretos y nunca pegar keys en commits ni PRs',
         'Confiar en que GitHub borra secretos automáticamente al hacer push',
-        'Guardar la key en un comentario dentro de un .py trackeado',
+        'Incluir `.env` en `.gitignore`, usar `.env.example` sin secretos y nunca pegar keys en commits ni PRs',
+        'Guardar la clave en un comentario dentro de un .py versionado',
         'Nombrar el archivo `secrets.txt` y forzarlo con `git add -f`',
       ],
-      correctIndex: 0,
+      correctIndex: 1,
       explanation:
-        'Defensa en profundidad: ignore de `.env`, plantilla pública sin secretos, y disciplina de no commitear credenciales en ningún path.',
+        'Defensa en profundidad: exclusión de `.env`, plantilla pública sin secretos y disciplina de no versionar credenciales en ninguna ruta.',
     },
   ],
   basics: [
@@ -365,8 +365,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'literals-types',
       question: '¿Cuál es el tipo de `None` en Python?',
-      options: ['null', 'NoneType', 'void', 'str vacío'],
-      correctIndex: 1,
+      options: ['NoneType', 'null', 'void', 'str vacío'],
+      correctIndex: 0,
       explanation:
         'None es la única instancia de NoneType. No es lo mismo que "" ni que 0.',
     },
@@ -388,11 +388,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Por qué el teléfono `999000111` de un cliente sintético se modela como `str` y no como `int`?',
       options: [
         'Porque int no existe en Python',
-        'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
         'Porque str es más rápido que int',
+        'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
         'Porque PEP 8 prohíbe int para dígitos',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Teléfonos, DNI y códigos son identificadores de texto, no cantidades para sumar o multiplicar.',
     },
@@ -402,19 +402,19 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Tras `edad_txt = "  19  "`, ¿cuál es la conversión segura a entero en un parser de intake?',
       options: [
         'eval(edad_txt)',
-        'int(edad_txt.strip())',
         'float(edad_txt) sin strip',
         'edad_txt + 0',
+        'int(edad_txt.strip())',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'strip elimina espacios; int convierte. eval sobre input es inaceptable por seguridad.',
     },
     {
       concept: 'type-inspect-convert',
       question: 'Si `int("abc")` falla al parsear el campo edad, ¿qué excepción debes capturar y reportar con nombre de campo?',
-      options: ['TypeError', 'ValueError', 'NameError', 'KeyError'],
-      correctIndex: 1,
+      options: ['ValueError', 'TypeError', 'NameError', 'KeyError'],
+      correctIndex: 0,
       explanation:
         'int() con texto no numérico lanza ValueError. El mensaje debe nombrar el campo y el valor recibido.',
     },
@@ -437,31 +437,31 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuál es la diferencia entre `=` y `==` en Python?',
       options: [
         'Son lo mismo',
-        '`=` es asignación, `==` es comparación de igualdad',
         '`=` es comparación, `==` es asignación',
+        '`=` es asignación, `==` es comparación de igualdad',
         '`==` solo funciona con números',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: '`x = 5` asigna. `x == 5` compara y devuelve True/False.',
     },
     {
       concept: 'assignment-naming',
-      question: 'Según PEP 8 básico, ¿cuál es el mejor nombre para el apellido paterno en un schema de intake?',
-      options: ['Apellido1', 'AP', 'apellido_paterno', 'apellidoPaterno'],
-      correctIndex: 2,
+      question: 'Según PEP 8 básico, ¿cuál es el mejor nombre para el apellido paterno en el esquema de intake?',
+      options: ['AP', 'apellidoPaterno', 'Apellido1', 'apellido_paterno'],
+      correctIndex: 3,
       explanation:
-        'Variables en snake_case. apellido_paterno es el nombre estable del schema S02.',
+        'Variables en snake_case. apellido_paterno es el nombre estable del esquema de S02.',
     },
     {
       concept: 'assignment-naming',
       question: '¿Qué ocurre si escribes `if edad = 18:` en Python moderno (sin walrus)?',
       options: [
-        'Asigna 18 y entra al if',
         'SyntaxError: = es asignación, no comparación',
+        'Asigna 18 y entra al if',
         'Compara en silencio',
         'Crea una constante EDAD',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'En el if se usa == para comparar. = solo asigna; Python reporta SyntaxError.',
     },
@@ -476,11 +476,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'identity-mutability',
-      question: '¿Cuál es el idioma correcto para comprobar ausencia de valor con el singleton None?',
-      options: ['if x == None:', 'if x is None:', 'if x === null:', 'if not x == None:'],
-      correctIndex: 1,
+      question: '¿Cuál es la forma correcta de comprobar ausencia de valor con el único objeto `None`?',
+      options: ['if x == None:', 'if x === null:', 'if x is None:', 'if not x == None:'],
+      correctIndex: 2,
       explanation:
-        'Se recomienda `is None` / `is not None` por identidad del singleton None.',
+        'Se recomienda `is None` / `is not None` por identidad del único objeto `None`.',
     },
     {
       concept: 'identity-mutability',
@@ -488,11 +488,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En un parser, `raw = "  Ana  "` y `clean = raw.strip()`. Luego mutas un dict limpio. ¿Qué práctica preserva auditoría?',
       options: [
         'Sobrescribir raw con clean en la misma variable',
-        'Guardar *_raw aparte y trabajar el clean en otro nombre/clave',
         'Usar eval para clonar el string',
         'Borrar raw si el parse falla',
+        'Guardar *_raw aparte y trabajar el clean en otro nombre/clave',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'El contrato de intake es conservar el original (*_raw) aunque el clean se normalice o falle.',
     },
@@ -500,24 +500,24 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'operators-precedence',
       question: '¿Cuánto vale la expresión `-3**2` en Python?',
-      options: ['9', '-9', '6', 'Error de sintaxis'],
-      correctIndex: 1,
+      options: ['-9', '9', '6', 'Error de sintaxis'],
+      correctIndex: 0,
       explanation:
         '** tiene mayor precedencia que el unario menos: se evalúa 3**2 = 9 y luego el signo → -9. Usa (-3)**2 para 9.',
     },
     {
       concept: 'operators-precedence',
       question: 'Con `a, b, c = 10, 3, 2`, ¿cuánto es `a + b * c` frente a `(a + b) * c`?',
-      options: ['16 y 26', '26 y 16', '15 y 15', '10 y 30'],
-      correctIndex: 0,
+      options: ['26 y 16', '16 y 26', '15 y 15', '10 y 30'],
+      correctIndex: 1,
       explanation:
         '* precede a +: 10+3*2=16. Con paréntesis (10+3)*2=26.',
     },
     {
       concept: 'operators-precedence',
       question: '¿Qué devuelven `17 // 5` y `17 % 5` respectivamente?',
-      options: ['3.4 y 2', '3 y 2', '2 y 3', '3 y 0'],
-      correctIndex: 1,
+      options: ['3.4 y 2', '2 y 3', '3 y 2', '3 y 0'],
+      correctIndex: 2,
       explanation:
         '// es división entera (3); % es el resto (2). / daría 3.4 float.',
     },
@@ -527,11 +527,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Para montos en soles, ¿cuál es la forma correcta de construir un Decimal de 0.1?',
       options: [
         'Decimal(0.1)',
-        'Decimal("0.1")',
         'float("0.1")',
         '0.1 + 0',
+        'Decimal("0.1")',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Decimal desde str evita heredar el error binario del float. Decimal(0.1) ya arrastra basura.',
     },
@@ -539,12 +539,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'decimal-money',
       question: '¿Por qué `0.1 + 0.2` no es confiable para dinero y qué usas en su lugar?',
       options: [
-        'Es confiable; float es exacto en base 10',
         'Por representación binaria; usa decimal.Decimal desde str y quantize a 2 decimales',
+        'Es confiable; float es exacto en base 10',
         'Porque Python prohíbe sumar floats',
         'Porque hay que usar int siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         '0.1+0.2 produce 0.30000000000000004. En soles: Decimal + quantize(Decimal("0.01")).',
     },
@@ -566,8 +566,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
     {
       concept: 'io-fstrings',
       question: '¿Qué tipo devuelve siempre `input("Edad: ")` en Python?',
-      options: ['int si el usuario escribe dígitos', 'str', 'float', 'None'],
-      correctIndex: 1,
+      options: ['int si el usuario escribe dígitos', 'float', 'str', 'None'],
+      correctIndex: 2,
       explanation:
         'input siempre devuelve str. Hay que convertir después de strip si necesitas int/Decimal.',
     },
@@ -576,11 +576,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Con `nombre = "José"` y `monto = 150.5`, ¿cuál imprime el reporte con dos decimales?',
       options: [
         'print("José", monto)',
-        'print(f"Cliente: {nombre} | S/ {monto:.2f}")',
         'print(nombre + monto)',
         'print(format(nombre))',
+        'print(f"Cliente: {nombre} | S/ {monto:.2f}")',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Las f-strings interpolan expresiones; :.2f formatea el monto a dos decimales.',
     },
@@ -589,12 +589,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para tests del intake, ¿por qué es mejor `simular_intake(nombres, contacto)` que llamar `input()` real en la función de parse?',
       options: [
-        'Porque input no existe en Python 3',
         'Porque una función pura con parámetros es testeable sin consola interactiva',
+        'Porque input no existe en Python 3',
         'Porque f-strings no funcionan con input',
         'Porque str no puede venir de parámetros',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Separar captura de parse permite asserts reproducibles en CI/Pyodide.',
     },
@@ -615,14 +615,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
     {
       concept: 'parse-error-messages',
-      question: 'Al parsear `apellido_materno = "  Ñahui  "`, ¿cuál es el resultado correcto del round-trip Unicode?',
+      question: 'Al parsear `apellido_materno = "  Ñahui  "`, ¿qué resultado conserva Unicode de ida y vuelta?',
       options: [
         'Fallar con UnicodeEncodeError',
-        'raw con espacios originales y clean "Ñahui" sin error ASCII',
         'Convertir Ñ a N automáticamente',
+        'raw con espacios originales y clean "Ñahui" sin error ASCII',
         'Guardar solo bytes latin-1',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Python 3 str es Unicode. strip no destruye Ñ; raw y clean coexisten.',
     },
@@ -633,10 +633,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       options: [
         'Dejar que el programa termine con traceback no capturado',
         'except: pass y seguir en silencio',
-        'Agregar error que nombre el campo, conservar edad_raw="abc", no asignar edad limpia',
         'Asignar edad=0 por defecto sin avisar',
+        'Agregar error que nombre el campo, conservar edad_raw="abc", no asignar edad limpia',
       ],
-      correctIndex: 2,
+      correctIndex: 3,
       explanation:
         'ValueError se traduce a mensaje accionable; el raw permanece; no se inventa un 0 silencioso.',
     },
@@ -649,12 +649,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un registro sintético de intake, `region = "Lima"` y `ALLOWED = {"Lima", "Arequipa", "Cusco"}`. ¿Qué devuelve `region in ALLOWED` y por qué usas `in` aquí?',
       options: [
-        'False; in solo sirve con listas',
         'True; in prueba pertenencia en el set de regiones permitidas',
+        'False; in solo sirve con listas',
         'Error; hay que usar == con cada elemento a mano',
         'None; in no devuelve booleano',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'in/not in evalúan pertenencia. Un set de literales es el patrón de allowlist O(1) para códigos y regiones.',
     },
@@ -678,11 +678,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En un validador, `valor` puede faltar. ¿Cuál es la forma correcta de preguntar ausencia vs igualdad de valor?',
       options: [
         'if valor is 0: para ausencia; if valor == None: para cero',
-        'if valor is None: para ausencia; if valor == 0: para el valor cero',
         'if valor is None y if valor is 0 son intercambiables',
+        'if valor is None: para ausencia; if valor == 0: para el valor cero',
         'if not valor: siempre distingue None de 0',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'is None / is not None para el singleton de ausencia. == compara valores de negocio (p. ej. cero). No uses is para números.',
     },
@@ -706,11 +706,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Qué imprime la expresión `"" or "default"` en Python y por qué?',
       options: [
         'True, porque or siempre devuelve bool',
-        '"default", porque or con short-circuit devuelve el primer operando truthy (o el último)',
         'False, porque la cadena vacía gana',
+        '"default", porque or con short-circuit devuelve el primer operando truthy (o el último)',
         'None, porque or no evalúa strings',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'and/or devuelven un operando, no siempre True/False. "" es falsy, así que or evalúa y devuelve "default".',
     },
@@ -720,11 +720,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con la política `None → review`, `0 → accept`, negativo → reject: si `m = 0`, ¿cuál rama es correcta?',
       options: [
         'if m: return "accept" (porque 0 “existe”)',
-        'if m is None: review; elif m == 0: accept; elif m < 0: reject',
         'if not m: return "reject" siempre',
         'if m == False: accept',
+        'if m is None: review; elif m == 0: accept; elif m < 0: reject',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Separa presencia (is None) de valor (m == 0, m < 0). if m: fallaría el caso cero válido.',
     },
@@ -735,11 +735,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para clasificar un score en accept (≥80), review (≥50) o reject, ¿por qué prefieres `if/elif/else` a tres `if` independientes?',
       options: [
         'Porque elif es más rápido en el intérprete',
-        'Porque la primera condición verdadera gana y las ramas son excluyentes; tres if pueden sobrescribir el status',
         'Porque else es obligatorio en Python',
+        'Porque la primera condición verdadera gana y las ramas son excluyentes; tres if pueden sobrescribir el status',
         'Porque if no puede comparar enteros',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'if/elif/else garantiza una sola rama dominante. Encadenar if sueltos permite que dos ramas “disparen” y pisen el resultado.',
     },
@@ -749,11 +749,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con `def classify(score): if score >= 80: return "accept"; elif score >= 50: return "review"; else: return "reject"`, ¿qué devuelve `classify(80)` y `classify(50)`?',
       options: [
         'review y reject (las fronteras se excluyen)',
-        'accept y review (fronteras inclusive en el primer match)',
         'reject y accept',
         'Error de sintaxis en elif',
+        'accept y review (fronteras inclusive en el primer match)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         '80 cumple >= 80 → accept. 50 no es >= 80 pero sí >= 50 → review. El orden y las fronteras deben documentarse en la tabla de ejemplos.',
     },
@@ -762,12 +762,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un colega escribe dos `if` seguidos que asignan `status` (sin elif). Score=90 termina en "review" aunque el primer if era accept. ¿Qué falló?',
       options: [
-        'Python ignora el primer if siempre',
         'El segundo if también se evaluó y sobrescribió status; no hay exclusión mutua',
+        'Python ignora el primer if siempre',
         'Falta un match/case obligatorio',
         'score >= 80 es inválido en Python',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin elif, ambos if pueden ejecutarse. El motor de reglas necesita una sola decisión por campo: usa elif o return temprano.',
     },
@@ -778,11 +778,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es el orden típico de guard clauses en un validador de edad de intake?',
       options: [
         'Rango → tipo → is None → accept',
-        'is None → tipo → rango/allowlist → accept',
         'accept primero y luego los errores',
         'Solo if anidados de 4 niveles sin return',
+        'is None → tipo → rango/allowlist → accept',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Primero ausencia (is None), luego tipo, luego rango/allowlist; el camino feliz queda al final. Evita TypeError al comparar None.',
     },
@@ -791,12 +791,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si escribes `if edad < 18: ...` antes de `if edad is None:`, ¿qué riesgo concreto hay?',
       options: [
-        'Ninguno; None es menor que 18',
         'TypeError al comparar None con int; la guard de ausencia debe ir primero',
+        'Ninguno; None es menor que 18',
         'SyntaxError por el orden de if',
         'edad se convierte sola a 0',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'None < 18 no es comparable de forma segura: lanza TypeError. Valida ausencia y tipo antes del rango.',
     },
@@ -820,12 +820,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En S03, `ALLOWED_REG = {"Lima", "Arequipa", "Cusco"}` y `region = "Tacna"`. Con política “desconocido → review”, ¿qué status corresponde?',
       options: [
-        'accept, porque es un str no vacío',
         'review, porque no está en la allowlist (dato desconocido)',
+        'accept, porque es un str no vacío',
         'reject automático sin código de error',
         'Error de sintaxis al usar set',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Allowlist: si no está, suele ser review (desconocido) o reject (política estricta). Documenta el código NOT_IN_ALLOWLIST vs OUT_OF_RANGE.',
     },
@@ -849,11 +849,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué conviene nombrar la allowlist en `UPPER_CASE` (p. ej. `ALLOWED_DOC_TYPES`) en el motor de reglas?',
       options: [
         'Porque Python exige mayúsculas para sets',
-        'Por convención de constantes de módulo: deja claro que es política de dominio estable',
         'Porque in no funciona con nombres en minúsculas',
+        'Por convención de constantes de módulo: deja claro que es política de dominio estable',
         'Porque el linter borra las minúsculas',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'UPPER_CASE señala constantes de política (regiones, tipos de documento). No cambia la semántica de in, pero mejora legibilidad y revisiones.',
     },
@@ -878,11 +878,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Con `match code: case "MISSING" | "NEEDS_REVIEW": return "review"`, ¿qué expresa el patrón con `|`?',
       options: [
         'AND lógico de dos códigos a la vez',
-        'OR pattern: cualquiera de esos literales mapea a review',
         'Que code debe ser una lista',
+        'OR pattern: cualquiera de esos literales mapea a review',
         'Un default obligatorio',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'En match/case, A | B es un patrón OR. Útil para estados finitos del validador (códigos estables).',
     },
@@ -892,11 +892,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo prefieres `if/elif` frente a `match/case` para una regla de intake?',
       options: [
         'Siempre match; if está deprecado',
-        'Cuando hay rangos numéricos o combinaciones de varios campos que no son literales finitos',
         'Solo si Python es 2.7',
         'Nunca; match cubre todos los rangos con case _',
+        'Cuando hay rangos numéricos o combinaciones de varios campos que no son literales finitos',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'match brilla con literales/estados finitos. Rangos y multi-campo suelen ser más claros con if. El curso asume 3.12+ para match.',
     },
@@ -907,11 +907,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un invariante de campo dice: “`contacto` es str de 9 dígitos, o None si aún no se capturó”. ¿Qué falta para que sea usable en el gate?',
       options: [
         'Solo un comentario TODO',
-        'Ejemplos canónicos por estado (accept / reject / review) que demuestren el contrato',
         'Convertirlo a float',
+        'Ejemplos canónicos por estado (accept / reject / review) que demuestren el contrato',
         'Borrar el caso None',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Los ejemplos accept/reject/review/missing convierten el invariante en especificación ejecutable. Sin contraejemplos, la regla es vaga.',
     },
@@ -921,11 +921,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué no debes usar solo `assert` como validación de negocio en el intake de producción?',
       options: [
         'assert no existe en Python 3',
-        'python -O desactiva asserts; las reglas de negocio deben devolver status/code/message',
         'assert solo funciona con str',
         'assert siempre lanza KeyError',
+        'python -O desactiva asserts; las reglas de negocio deben devolver status/code/message',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'assert es útil en tests/desarrollo. El motor de reglas expone status/code/message para control de flujo y métricas.',
     },
@@ -934,12 +934,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Para `validate_contacto`, ¿cuál trío de ejemplos cubre bien el invariante de 9 dígitos o None?',
       options: [
-        'Solo "999000111" → accept',
         '"999000111"→accept, "12345"→reject, None→review (y vacío "  "→reject)',
+        'Solo "999000111" → accept',
         'None→accept y "abc"→accept',
         'Cualquier truthy → accept',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Mínimo: un ejemplo por estado que la regla produce. El camino feliz solo no basta para el gate CP-N1-A.',
     },
@@ -950,11 +950,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál mensaje es accionable al rechazar edad=-5 en el validador?',
       options: [
         'Error',
-        "Campo 'edad'=-5 fuera de rango; usa 0–120.",
         'inválido',
         'fail',
+        "Campo 'edad'=-5 fuera de rango; usa 0–120.",
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Un mensaje accionable nombra el campo, el problema y la acción esperada. Códigos estables (OUT_OF_RANGE) complementan el texto.',
     },
@@ -963,12 +963,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si el validador de edad tiene 4 caminos (None, tipo mal, rango, OK), ¿cuántos casos de prueba mínimos necesitas?',
       options: [
-        '1 (solo el camino feliz)',
         'Al menos 4: un test por rama, incluyendo el default',
+        '1 (solo el camino feliz)',
         '0 si el código “se ve bien”',
         'Solo tests de match/case',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Un test por rama del validador. Si solo pruebas accept, el off-by-one en fronteras no se detecta.',
     },
