@@ -18,9 +18,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 
 | Section | State | Independent commit | Batch deployment | Notes |
 |---|---|---|---|---|
-| S01 | integrated | `e12ac52` + `7627dc1` + `65afe87` | pending T01 | Text-first rewrite integrated with 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
-| S02 | integrated | `ce8815c` + `1ab1cc3` + `4680406` | pending T01 | Text-first rewrite integrated with 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 self-check explanations covered. |
-| S03 | integrated | `d8f1b4a` + `7bc21e5` + `a202d30` | pending T01 | Text-first rewrite integrated with 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
+| S01 | deployed | `e12ac52` + `7627dc1` + `65afe87` | `41038b2` | Text-first rewrite deployed with 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
+| S02 | deployed | `ce8815c` + `1ab1cc3` + `4680406` | `41038b2` | Text-first rewrite deployed with 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 self-check explanations covered. |
+| S03 | deployed | `d8f1b4a` + `7bc21e5` + `a202d30` | `41038b2` | Text-first rewrite deployed with 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
 | S04 | queued | `bf4111b` | `2e9fcd2` | Previously deployed correctness pass queued for text-first rewrite; its core lesson changed only 3 additions/3 deletions in the prior campaign. |
 | S05 | queued | `9b9cda4` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
 | S06 | queued | `03ee8e3` | `2e9fcd2` | Previously deployed correctness pass queued for visible text-first rewrite. |
@@ -78,7 +78,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
-| T01 | S01–S03 | integrated | `agent/text-first-s01-s03` | pending | Text-first rewrites and combined validation complete; awaiting GitHub PR/CI/merge/Pages/public verification. |
+| T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
 | T02 | S04–S06 | queued | — | — | Starts after T01 is merged and publicly verified. |
 | T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
 
@@ -126,6 +126,16 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   `0` versus `None` scenario.
 - Generated runtime, exam, Spanish and first-use audit snapshots were restored
   before this inventory update.
+- GitHub integration: PR #9 merged reviewed head `65b36f9` into `main` at
+  `41038b2ea16978c5a685f680dfbcc952de7e8fe3`.
+- GitHub Pages: run `30215320449` built and deployed successfully for that
+  exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 18:44:30 GMT`. The deployed learner
+  page chunk SHA-256 was
+  `2d5f809cde513a687e87f69f607cc5fc779463ad2682db1d8f58f184a5aa8932`
+  and contained the new S01 `equipo distribuido`, S02 `habitantes de mundos
+  distintos` and S03 `formulario internacional de ayuda` passages.
 
 ## Batch B03 validation note
 
