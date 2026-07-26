@@ -2568,7 +2568,6 @@ Stage Summary:
 - Timestamp: 2026-07-25T18:13:14.724053+00:00
 
 ---
----
 Task ID: TEXT-FIRST-S01
 Agent: Independent Section 1 text-first owner
 Task: Rewrite Section 1 learner prose while preserving the deployed correctness contracts.
@@ -2666,6 +2665,39 @@ Work Log:
 Stage Summary:
 - S04 text-first rewrite is complete and independently evidenced for serial
   integration by the parent.
+- Timestamp: 2026-07-26
+
+Ready for the next section.
+
+---
+
+Task ID: TEXT-FIRST-S05
+Agent: Independent Section 5 text-first owner
+Task: Reopen S05 after its correctness deployment and make the learner-visible
+educational rewrite sustained, causal and unmistakable.
+
+Work Log:
+- Dedicated independent evidence: `expert_audit/S05_TEXT_FIRST_REPORT.md`;
+  chronological reopening entry: `expert_audit/independent_worklog/S05.md`.
+- Canonical identity reconciled as learner-facing Functions under stable
+  compatibility id `oop`; current playground/PDF mappings verified.
+- Rewrote relevance/map; 8/8 Theory bridges and reasoning closes; 8/8 I Do
+  prediction prompts; 24/24 We Do misconception-repair retrospectives; the
+  complete You Do planning/evidence narrative; and 8/8 public self-check
+  explanations.
+- Preserved executable code/output, policies, stable ID values, counts,
+  authenticated questions/keys, 6/6/6/6 bank balance and live mappings.
+- Moved existing exercise ID metadata next to instructions so the expanded
+  prose remains fully visible to the bounded learner-packet parser: 20/24 →
+  24/24, reducing the broad inherited suite from 81 to 80 failures.
+- Validation: new text-first 6/6; S05 integrity 4/4; runtime 65/65; TypeScript,
+  ESLint, V3, exam audit and static export pass; Node adversarial 54/54; local
+  HTTP 200; Spanish 9.23 with no medium/high findings.
+- Generated audit snapshots restored before staging.
+
+Stage Summary:
+- S05 text-first rewrite complete under one-section anti-aberration scope and
+  ready for parent serial integration.
 - Timestamp: 2026-07-26
 
 Ready for the next section.
