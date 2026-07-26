@@ -24,9 +24,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S04 | deployed | `bf4111b` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S05 | deployed | `9b9cda4` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
 | S06 | deployed | `03ee8e3` | `2e9fcd2` | Fresh owner report, focused tests and section-scoped product fixes deployed in B02. |
-| S07 | integrated | `0272f98` + `279e8c0` | — | Fresh owner and packet-ID follow-up integrated as `9229218` + `890fdb7`. |
-| S08 | integrated | `0c06444` + `cb80d96` | — | Fresh owner and packet-ID follow-up integrated as `3031466` + `66b1d4f`. |
-| S09 | integrated | `3939741` + `e727205` + `b3f9bab` | — | Fresh owner, closer correction and packet-ID follow-up integrated as `370b1e4` + `ae83b3e` + `638d08d`. |
+| S07 | deployed | `0272f98` + `279e8c0` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
+| S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
+| S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
 | S10 | pending | — | — | |
 | S11 | pending | — | — | |
 | S12 | pending | — | — | |
@@ -77,7 +77,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 |---|---|---|---|---|---|
 | B01 | S01–S03 | deployed | [PR #5](https://github.com/PillB/pyarcana/pull/5) | `8fd2f1d` | [Pages run 30212218843](https://github.com/PillB/pyarcana/actions/runs/30212218843) succeeded; public HTTP/bundle verified. |
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
-| B03 | S07–S09 | validating | `agent/independent-fixer-s07-s09-final` | — | Fresh owner commits and CI follow-ups integrated; combined gates pass and publication is next. |
+| B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 
 ## Batch B03 validation note
 
@@ -99,6 +99,16 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   generation pass; local exported site returns HTTP 200 and contains the
   corrected S07/S08/S09 playground and PDF mappings while preserving S01–S06.
 - Generated validation JSON was restored before this inventory update.
+- GitHub integration: PR #7 merged the reviewed head `4fc4ece` into `main` at
+  `6f2a7849650ac6edcba4ecc21e6c449c2e036b1a`.
+- GitHub Pages: run `30213167525` built and deployed successfully for that
+  exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 17:44:26 GMT`. The deployed script
+  bundle SHA-256 was
+  `95492612ed55d495b42d17f73e43eb03e69b3d58681f1ec1218e223aae95b9a8`
+  and contained all corrected S07/S08/S09 playground titles and PDF labels
+  while retaining the deployed S01–S06 mappings.
 
 ## Batch B01 recovery validation note
 
