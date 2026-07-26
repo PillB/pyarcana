@@ -21,9 +21,9 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | S01 | deployed | `e12ac52` + `7627dc1` + `65afe87` | `41038b2` | Text-first rewrite deployed with 13/13 theory/nested openings, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
 | S02 | deployed | `ce8815c` + `1ab1cc3` + `4680406` | `41038b2` | Text-first rewrite deployed with 8/8 theory, 8/8 I Do, 24/24 We Do, You Do and 11/11 self-check explanations covered. |
 | S03 | deployed | `d8f1b4a` + `7bc21e5` + `a202d30` | `41038b2` | Text-first rewrite deployed with 9/9 theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations covered. |
-| S04 | integrated | `bf4111b` + `53d09e4` + `ddaf978` | pending T02 | Text-first rewrite integrated across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations; locality follow-up clears the fleet cap. |
-| S05 | integrated | `9b9cda4` + `e2c018a` | pending T02 | Text-first rewrite integrated across 8/8 Theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations. |
-| S06 | integrated | `03ee8e3` + `bc17c75` | pending T02 | Text-first rewrite integrated across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 9/9 self-check explanations. |
+| S04 | deployed | `bf4111b` + `53d09e4` + `ddaf978` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations; locality follow-up clears the fleet cap. |
+| S05 | deployed | `9b9cda4` + `e2c018a` | `5ead24b` | Text-first rewrite deployed across 8/8 Theory, 8/8 I Do, 24/24 We Do, You Do and 8/8 self-check explanations. |
+| S06 | deployed | `03ee8e3` + `bc17c75` | `5ead24b` | Text-first rewrite deployed across 9/9 Theory blocks, 8/8 I Do, 24/24 We Do, You Do and 9/9 self-check explanations. |
 | S07 | queued | `0272f98` + `279e8c0` | `6f2a784` | Previously deployed correctness pass queued for visible text-first rewrite. |
 | S08 | deployed | `0c06444` + `cb80d96` | `6f2a784` | Fresh owner and packet-ID follow-up deployed in B03. |
 | S09 | deployed | `3939741` + `e727205` + `b3f9bab` | `6f2a784` | Fresh owner, closer correction and packet-ID follow-up deployed in B03. |
@@ -79,7 +79,7 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
 | B02 | S04–S06 | deployed | [PR #3](https://github.com/PillB/pyarcana/pull/3) | `2e9fcd2` | [Pages run 30209398271](https://github.com/PillB/pyarcana/actions/runs/30209398271) succeeded; public HTTP/bundle verified. |
 | B03 | S07–S09 | deployed | [PR #7](https://github.com/PillB/pyarcana/pull/7) | `6f2a784` | [Pages run 30213167525](https://github.com/PillB/pyarcana/actions/runs/30213167525) succeeded; public HTTP/bundle verified. |
 | T01 | S01–S03 | deployed | [PR #9](https://github.com/PillB/pyarcana/pull/9) | `41038b2` | [Pages run 30215320449](https://github.com/PillB/pyarcana/actions/runs/30215320449) succeeded; public HTTP and learner-content bundle verified. |
-| T02 | S04–S06 | integrated | `agent/text-first-s04-s06` | pending | Text-first rewrites and combined validation complete; awaiting GitHub PR/CI/merge/Pages/public verification. |
+| T02 | S04–S06 | deployed | [PR #11](https://github.com/PillB/pyarcana/pull/11) | `5ead24b` | [Pages run 30216970467](https://github.com/PillB/pyarcana/actions/runs/30216970467) succeeded; public HTTP and learner-content bundle verified. |
 | T03 | S07 | queued | — | — | Starts after T02 is merged and publicly verified. |
 
 ## Text-first campaign diagnosis
@@ -168,6 +168,16 @@ A batch reaches `deployed` only when its exact commit is pushed, merged into
   classification-table opener.
 - Generated runtime, exam and Spanish audit snapshots were restored before
   this inventory update.
+- GitHub integration: PR #11 merged reviewed head `fe61c38` into `main` at
+  `5ead24b67cb79e188e37bcd4d9a4a1c21336c6a8`.
+- GitHub Pages: run `30216970467` built and deployed successfully for that
+  exact merge SHA.
+- Public observation: `https://pillb.github.io/pyarcana/` returned HTTP 200
+  with `last-modified: Sun, 26 Jul 2026 19:31:31 GMT`. The deployed learner
+  page chunk SHA-256 was
+  `101ecad4e9b5831924557d1845345452062cbff12bff3fa31e2f6f6601b4d68c`
+  and contained the new S04 conveyor-belt, S05 reusable-core and S06
+  classification-table prose markers.
 
 ## Batch B03 validation note
 
