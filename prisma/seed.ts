@@ -1689,12 +1689,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En el modelo en memoria de intake, ¿cuándo preferir una tuple sobre una list para headers de columnas?',
       options: [
-        'Siempre: list está deprecada',
         'Cuando el contrato de columnas debe ser inmutable (claves estables que no se mutan por accidente)',
+        'Siempre: list está deprecada',
         'Solo si hay más de 1000 columnas',
         'Nunca: tuple no soporta slicing',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'tuple es inmutable: ideal para contratos de headers. list es mutable y crece con append.',
     },
@@ -1718,11 +1718,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál es el costo de `x in seq` cuando seq es una list de n filas de clientes?',
       options: [
         'O(1) siempre',
-        'O(n) — membership lineal; para lookups masivos preferir set/dict',
         'O(log n) por binary search automático',
+        'O(n) — membership lineal; para lookups masivos preferir set/dict',
         'O(n²) por hashing',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'in sobre list/tuple recorre. Sets/dicts dan membership amortizado O(1) en T2.',
     },
@@ -1746,11 +1746,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si `b = a` y a es una list de dicts de clientes, y mutas `b[0]["region"] = "Cusco"`, ¿qué pasa con a?',
       options: [
         'a queda intacto porque b es copia',
-        'a también cambia: b es alias del mismo objeto, no copia',
         'Python lanza IsolationError',
+        'a también cambia: b es alias del mismo objeto, no copia',
         'Solo cambia si usas deepcopy',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Asignación alias: ambas variables apuntan al mismo objeto. Mutar por un nombre afecta al otro.',
     },
@@ -1760,11 +1760,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuándo basta `list.copy()` / `seq[:]` (shallow) frente a `copy.deepcopy` en intake anidado?',
       options: [
         'Siempre shallow; deep es ilegal',
-        'Shallow si solo reordenas filas sin mutar campos de dicts compartidos; deep si mutas dicts anidados clonados',
         'Deep solo para strings',
         'Shallow copia también los dicts internos',
+        'Shallow si solo reordenas filas sin mutar campos de dicts compartidos; deep si mutas dicts anidados clonados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Shallow copia la lista pero reutiliza referencias a dicts. Mutar campos internos requiere deep o reconstrucción.',
     },
@@ -1774,11 +1774,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para lookup O(1) de cliente por id en un lote, ¿qué estructura alinea con el curso?',
       options: [
         'list y búsqueda lineal siempre',
-        'dict id→fila (índice) además o en lugar de solo list[dict]',
         'tuple de tuples sin claves',
+        'dict id→fila (índice) además o en lugar de solo list[dict]',
         'set de strings de id y luego adivinar la fila',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'dict indexa por clave. list de filas es orden de inserción; el índice id→fila da acceso directo.',
     },
@@ -1788,11 +1788,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cómo lees un campo opcional sin KeyError si puede faltar en el dict del registro?',
       options: [
         'reg[\'email\'] siempre',
-        'reg.get(\'email\') o \'email\' in reg antes de indexar',
         'reg.email como atributo nativo',
         'list(reg)[0]',
+        'reg.get(\'email\') o \'email\' in reg antes de indexar',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'get/in evitan KeyError. Indexación directa falla si la clave no existe.',
     },
@@ -1801,12 +1801,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un dict de conteos por región, ¿qué patrón es idiomático para incrementar?',
       options: [
-        'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts[r] = counts.get(r, 0) + 1  (o defaultdict/Counter)',
+        'Solo counts[r] += 1 sin inicializar (siempre funciona)',
         'counts.append(r)',
         'counts + r',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'get con default 0 (o Counter) evita KeyError en la primera ocurrencia.',
     },
@@ -1816,11 +1816,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Al deduplicar ids de clientes vistos, ¿qué ventaja tiene un set frente a list?',
       options: [
         'Preserva orden de inserción siempre mejor que dict',
-        'Membership e inserción amortizados O(1); ideal para “¿ya vimos este id?”',
         'Permite dicts como elementos sin hash',
         'Automáticamente resuelve conflictos de campos distintos',
+        'Membership e inserción amortizados O(1); ideal para “¿ya vimos este id?”',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'set hashea elementos inmutables. Detecta duplicados rápido; conflictos de contenido se reportan aparte.',
     },
@@ -1829,12 +1829,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Dos filas con mismo id pero distinta región: ¿qué debe hacer un pipeline de calidad según el curso?',
       options: [
-        'Borrar ambas en silencio',
         'Reportar conflicto (no tratarlo como “duplicado inocente” sin evidencia)',
+        'Borrar ambas en silencio',
         'Quedarse con la última y no loguear',
         'Convertir id a list',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Conflicto ≠ duplicado inocente. Se reporta para revisión; no se “promedia” identidad.',
     },
@@ -1857,12 +1857,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Modelo cliente→contactos→txs como list[dict] anidados. ¿Cómo recorres todos los montos de un cliente?',
       options: [
-        'Solo client["monto"] en la raíz',
-        'for c in contactos: for t in c.get("txs", []): usar t["monto"] (recorrido anidado seguro)',
+        'for t in cliente.get("txs", []): usar t["monto"] (recorrido anidado seguro)',
+        'Solo cliente["monto"] en la raíz',
         'zip(client, contactos, txs) obligatorio',
         'json.loads una sola vez elimina la necesidad de bucles',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Estructuras anidadas se recorren nivel a nivel; get con default evita fallar si falta la lista.',
     },
@@ -1886,11 +1886,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si un cliente no tiene contactos, ¿qué default evita TypeError al iterar?',
       options: [
         'for c in client["contactos"] sin chequear (siempre hay lista)',
-        'for c in client.get("contactos") or []',
         'for c in None',
+        'for c in client.get("contactos") or []',
         'contactos debe ser un int',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'get(...) or [] (o default []) da iterable vacío. Iterar None lanza TypeError.',
     },
@@ -1914,11 +1914,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cuál patrón “dig” seguro evita KeyError/TypeError en reg["a"]["b"] si a puede faltar?',
       options: [
         'reg["a"]["b"] siempre',
-        'Paso a paso: nivel = reg.get(\'a\'); luego nivel.get(\'b\') si nivel es dict',
         'reg.a.b como en JS',
+        'Paso a paso: nivel = reg.get(\'a\'); luego nivel.get(\'b\') si nivel es dict',
         'eval("reg.a.b")',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Acceso por niveles con get y chequeo de tipo. Encadenar [] explota en el primer miss.',
     },
@@ -1928,11 +1928,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Un monto viene como None en el dict. ¿Qué NO debes hacer en el contador de aceptados?',
       options: [
         'Marcar review/reject según política',
-        'Hacer total += monto asumiendo que None es 0 sin documentar',
         'Separar missing de 0 legítimo',
         'Registrar el caso en evidencia',
+        'Hacer total += monto asumiendo que None es 0 sin documentar',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'None no es 0. Sumar sin política corrompe tasas y oculta datos faltantes.',
     },
@@ -1942,11 +1942,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Cómo ordenas filas de clientes por región y luego por id de forma estable en Python?',
       options: [
         'filas.sort() sin key siempre usa región',
-        'sorted(filas, key=lambda r: (r[\'region\'], r[\'id\']))',
         'filas.order_by("region") nativo en list',
+        'sorted(filas, key=lambda r: (r[\'region\'], r[\'id\']))',
         'set(filas) ordena alfabéticamente',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'sorted(..., key=) con tupla define criterios sucesivos. sort de list muta; sorted devuelve nueva.',
     },
@@ -1956,11 +1956,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Por qué el export determinista del modelo en memoria ordena antes de JSON?',
       options: [
         'JSON reordena keys al azar siempre',
-        'Mismo input → mismo orden de salida para diffs y hashes estables en el gate',
         'sorted borra duplicados',
         'Solo sirve para UI',
+        'Mismo input → mismo orden de salida para diffs y hashes estables en la entrega',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Orden estable hace salidas reproducibles para CP-N1-B y comparación de manifests.',
     },
@@ -1969,12 +1969,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'sorted es estable. Si dos filas tienen la misma key de región, ¿qué se preserva?',
       options: [
-        'Orden aleatorio garantizado',
         'El orden relativo original entre esas filas',
+        'Orden aleatorio garantizado',
         'Se convierten en set',
         'Se eliminan ambas',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Estabilidad: empates conservan orden previo. Útil al ordenar por criterios en cascada.',
     },
@@ -1984,32 +1984,32 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué estructura eliges para “conjunto de ids ya vistos” vs “lista ordenada de eventos”?',
       options: [
         'set para eventos ordenados; list para membership',
-        'set (o dict) para membership de ids; list para secuencia ordenada de eventos',
         'tuple mutable para ambos',
         'Solo str concatenado',
+        'set (o dict) para membership de ids; list para secuencia ordenada de eventos',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Elige por operación dominante: lookup → set/dict; orden/historial → list.',
     },
     {
       concept: 'structure-choice-determinism',
       question:
-        'Al serializar el modelo a JSON para el gate, ¿qué práctica favorece determinismo?',
+        'Al serializar el modelo a JSON para la entrega, ¿qué práctica favorece el determinismo?',
       options: [
-        'Dejar orden de dicts al azar del hash seed',
         'Ordenar listas por clave de negocio y usar keys estables; evitar timestamps no controlados en el payload canónico',
+        'Dejar orden de dicts al azar del hash seed',
         'Insertar uuid en cada fila siempre sin seed',
         'Usar set como tipo JSON nativo',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'JSON no tiene set; ordena y fija schema. Timestamps no canónicos rompen igualdad byte a byte.',
     },
     {
       concept: 'structure-choice-determinism',
       question:
-        'En S06 V3, ¿cuál es el target pedagógico correcto (id plataforma numpy conservado)?',
+        '¿Qué entrega demuestra mejor que sabes componer las colecciones de esta sección?',
       options: [
         'Broadcasting y axis de NumPy arrays',
         'Colecciones en memoria (list/dict/set anidados) para modelo tabular CP-N1-B',
@@ -2018,7 +2018,7 @@ const QUESTION_BANK: Record<string, Q[]> = {
       ],
       correctIndex: 1,
       explanation:
-        'V3 retarget: colecciones, no NumPy. NumPy se retoma en tramo DS posterior.',
+        'La entrega integra listas, diccionarios y conjuntos en un modelo tabular reproducible; NumPy se estudia en el bloque numérico posterior.',
     },
   ],
   // S08 V3 — Archivos, CSV, JSON y contratos de ingesta (platform id: pandas)

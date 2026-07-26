@@ -1085,41 +1085,44 @@ Sonido: Guau!`,
       hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
     },
     'numpy': {
-      title: 'Practica NumPy vectorizado',
-      code: `# Practica NumPy (se carga automaticamente)
-import numpy as np
+      title: 'Practica colecciones y conflictos',
+      code: `# Modelo tabular en memoria: solo biblioteca estándar
+import json
 
-# Crear array
-arr = np.array([1, 2, 3, 4, 5])
-print(f"Array: {arr}")
-print(f"Shape: {arr.shape}")
-print(f"Mean: {arr.mean()}")
+def dedup_report(rows, key="id"):
+    """Conserva la primera fila y reporta payloads incompatibles."""
+    seen = {}
+    unique = []
+    conflicts = []
+    for row in rows:
+        value = row[key]
+        if value not in seen:
+            seen[value] = row
+            unique.append(row)
+        elif seen[value] != row:
+            conflicts.append({
+                "id": value,
+                "kept": seen[value],
+                "other": row,
+            })
+    return unique, conflicts
 
-# Operaciones vectorizadas
-print(f"Cuadrados: {arr ** 2}")
-print(f"Doble: {arr * 2}")
+rows = [
+    {"id": "C002", "region": "Cusco"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Lima"},
+    {"id": "C001", "region": "Piura"},
+]
+unique, conflicts = dedup_report(rows)
+unique = sorted(unique, key=lambda row: row["id"])
 
-# Boolean masking
-print(f"Mayores a 3: {arr[arr > 3]}")
-
-# Matriz 2D
-matriz = np.array([[1, 2, 3], [4, 5, 6]])
-print(f"\\nMatriz:\\n{matriz}")
-print(f"Suma por columnas: {matriz.sum(axis=0)}")
-print(f"Suma por filas: {matriz.sum(axis=1)}")`,
-      expectedOutput: `Array: [1 2 3 4 5]
-Shape: (5,)
-Mean: 3.0
-Cuadrados: [ 1  4  9 16 25]
-Doble: [ 2  4  6  8 10]
-Mayores a 3: [4 5]
-
-Matriz:
-[[1 2 3]
- [4 5 6]]
-Suma por columnas: [5 7 9]
-Suma por filas: [ 6 15]`,
-      hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
+print("ids únicos:", [row["id"] for row in unique])
+print("conflictos:", len(conflicts))
+print(json.dumps(unique, sort_keys=True, ensure_ascii=False))`,
+      expectedOutput: `ids únicos: ['C001', 'C002']
+conflictos: 1
+[{"id": "C001", "region": "Lima"}, {"id": "C002", "region": "Cusco"}]`,
+      hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
     'pandas': {
       title: 'Practica pandas DataFrame',
