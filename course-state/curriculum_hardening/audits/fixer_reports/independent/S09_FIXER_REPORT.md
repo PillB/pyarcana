@@ -47,6 +47,7 @@ The current source and live bundle were rechecked directly. Historical reports w
 | S09-I06 | P1 | Retry guidance | Fixed backoff was presented as sufficient to prevent synchronized retries; zero attempts could produce `raise None` | Distinguished backoff from jitter and rejected `max_attempts < 1` |
 | S09-I07 | P2 | Authenticated bank | Grammar and orthography distracted from assessment constructs | Corrected `relanzar`, imperative agreement and informal/unclear phrasing |
 | S09-I08 | P1 | Regression coverage | Fleet gates allowed the stale mappings, false-pass starters and biased bank | Added a focused six-test S09 contract suite |
+| S09-I09 | P0 | Learner packet manifest | Long exercise preambles placed canonical IDs outside the packet parser's bounded lookback; S09 resolved only 22 unique IDs and associated later/nested IDs with the wrong instructions | Moved each existing canonical ID immediately before its instruction, preserving all instructional content and exposing the exact ordered 24-ID sequence |
 
 ## 5. Changes made
 
@@ -56,14 +57,16 @@ The current source and live bundle were rechecked directly. Historical reports w
 - Hand-balanced the 24 authenticated questions across answer positions, concepts and attempt slices.
 - Removed false success output from every We Do starter.
 - Tightened the explanation of broad exception boundaries, safe logging, PII masking, backoff/jitter and retry preconditions.
-- Added `tests/adversarial/test_s09_observability_contract.py` to protect structure, runtime behavior, privacy, mappings and assessment distribution.
+- Positioned all 24 existing exercise IDs at their packet-visible object boundary without changing any learner instruction, starter, solution or oracle.
+- Added `tests/adversarial/test_s09_observability_contract.py` to protect structure, runtime behavior, privacy, mappings, assessment distribution and the exact learner-packet ID sequence.
 - Used automation only for validation and a mechanical instruction-label normalization; learner-facing prose and question reordering were reviewed and edited manually.
 
 ## 6. Validation evidence
 
 | Gate | Result |
 |---|---|
-| `python3 -m unittest tests.adversarial.test_s09_observability_contract -v` | **PASS** — 6/6 focused tests |
+| `python3 -m unittest tests.adversarial.test_s09_observability_contract -v` | **PASS** — 7/7 focused tests, including exact ordered IDs `S09-T1-A-E1` through `S09-T4-B-E3` |
+| Exact fleet packet test, S09 subtest | **PASS** — S09 no longer appears among the failing subtests; the isolated owner branch still reports 50 failures owned by other, not-yet-integrated sections |
 | `python3 scripts/python_content_runtime_audit.py --only s09-visualization --workers 1` | **PASS** — 64 passed, 0 failed, 0 skipped |
 | `npx tsc --noEmit` | **PASS** |
 | `npm run lint` | **PASS** |

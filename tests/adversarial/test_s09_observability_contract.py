@@ -6,10 +6,16 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
+import sys
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from newbie_packet_builder import active_manifest, parse_section_learner  # noqa: E402
+
+
 SECTION = ROOT / "src/lib/course/sections/s09-visualization.ts"
 SECTION_VIEW = ROOT / "src/components/course/SectionView.tsx"
 PDF_REPORT = ROOT / "src/components/course/PdfReport.tsx"
@@ -23,6 +29,17 @@ def _between(text: str, start: str, end: str) -> str:
 
 
 class TestS09ObservabilityContract(unittest.TestCase):
+    def test_newbie_packet_resolves_all_practice_ids_in_canonical_order(self) -> None:
+        expected = [
+            f"S09-T{topic}-{half}-E{exercise}"
+            for topic in range(1, 5)
+            for half in ("A", "B")
+            for exercise in range(1, 4)
+        ]
+        parsed = parse_section_learner(SECTION)
+
+        self.assertEqual(active_manifest(parsed)["exercise_ids"], expected)
+
     def test_canonical_surface_retains_complete_gradual_release(self) -> None:
         source = SECTION.read_text(encoding="utf-8")
 

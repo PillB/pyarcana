@@ -776,12 +776,12 @@ print(with_retry(lambda a: (_ for _ in ()).throw(ValueError("monto"))))`,
     intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Ejecuta y compara con la solución. Solo stdlib; datos sintéticos; sin PII real.",
     steps: [
       {
-        id: "S09-T1-A-E1",
         subtopicId: "S09-T1-A",
         kind: "guided",
         title: "Mapear fallos de intake a tipos de excepción",
         preamble:
           "- **Contexto:** en el triage de CASO-LIM-009 el on-call necesita el **tipo** correcto, no un `Exception` genérico que lo obligue a leer el stack entero.\n- **Meta:** asociar cada fallo sintético al tipo más adecuado (stdlib + un custom de dominio).\n- **Éxito:** cinco líneas `fallo -> Tipo` en el orden del starter: ValueError, TypeError, KeyError, FileNotFoundError, ValidationError.\n- **Límites:** no uses `Exception` para todos; no inventes un sexto tipo; solo stdlib + la clase `ValidationError` que declares.",
+        id: "S09-T1-A-E1",
         instruction:
           "Paso 1: Abre el starter: el bucle imprime siempre `ValueError`.\nPaso 2: Declara `class ValidationError(Exception): pass` para la regla de negocio.\nPaso 3: Asigna cada string del array al tipo correcto (tipo incorrecto ≠ valor ilegal ≠ clave ≠ I/O ≠ dominio).\nPaso 4: Imprime `f\"{fallo} -> {tipo}\"` en el orden del array; sin texto extra.",
         hint: "Cinco clases distintas: no mapees todo a ValueError.",
@@ -833,12 +833,12 @@ regla de negocio: monto < 0 -> ValidationError`,
         },
       },
       {
-        id: "S09-T1-A-E2",
         subtopicId: "S09-T1-A",
         kind: "independent",
         title: "Parsear monto con Decimal y mensajes claros",
         preamble:
           "- **Contexto:** en el intake, un monto `12,50` o `N/A` no puede pasar por `float` (precisión y no-finitos).\n- **Meta:** implementar `parse_monto(raw)` robusto con `Decimal` y raise `ValueError` accionable.\n- **Éxito:** `10.5` → `10.50`; `3,25` → `3.25`; `abc` → mensaje con `monto no numérico`; `-1` → `monto negativo`; NaN/Infinity fallan.\n- **Límites:** prohíbe `float()`; construye desde texto; solo stdlib `decimal`.",
+        id: "S09-T1-A-E2",
         instruction:
           "Paso 1: Revisa el starter: usa `float` y no valida signo ni finitud.\nPaso 2: Normaliza coma → punto, `quantize(Decimal('0.01'))`, rechaza no finitos.\nPaso 3: Si no parsea: `ValueError` con el `raw` en el mensaje.\nPaso 4: Si es negativo: otro `ValueError` explícito. Demuestra con el loop del starter ampliado a [\"10.5\", \"3,25\", \"abc\", \"-1\"].",
         hint: "Construye Decimal desde texto, no desde float.",
@@ -896,12 +896,12 @@ abc ERR monto no numérico: 'abc'
         },
       },
       {
-        id: "S09-T1-A-E3",
         subtopicId: "S09-T1-A",
         kind: "transfer",
         title: "Encadenar OSError en DataLoadError",
         preamble:
           "- **Contexto:** al cargar el CSV de intake, el I/O (`FileNotFoundError`/`OSError`) no debe llegar al CLI como «fallo misterioso» sin causa.\n- **Meta:** definir `DataLoadError` y relanzar con `raise ... from e` capturando `OSError`.\n- **Éxito:** stdout con `DataLoadError` + mensaje y segunda línea `OSError` + causa; `__cause__` no es `None`.\n- **Límites:** captura `OSError` (cubre PermissionError); no dejes `raise` sin `from e`; sin PII en mensajes.",
+        id: "S09-T1-A-E3",
         instruction:
           "Paso 1: El starter relanza `DataLoadError` sin `from e` y solo captura `FileNotFoundError`.\nPaso 2: Amplía a `except OSError as e` y usa `from e`.\nPaso 3: Imprime tipo y mensaje del error y de `__cause__`.\nPaso 4: Usa un reader que lance `OSError` (como en la solución).",
         hint: "path_fn es un callable: cuando falle con OSError, envuélvelo en DataLoadError.",
@@ -959,12 +959,12 @@ OSError no such file: data/clientes.csv`,
         },
       },
       {
-        id: "S09-T1-B-E1",
         subtopicId: "S09-T1-B",
         kind: "guided",
         title: "Cerrar estado en finally aunque falle",
         preamble:
           "- **Contexto:** en un job de intake, el flag de «recurso cerrado / contadores listos» debe quedar True aunque la unidad falle.\n- **Meta:** usar `try/finally` para marcar `state['closed']=True` siempre.\n- **Éxito:** `ok {'closed': True}` y, tras capturar el fallo, `err {'closed': True}`.\n- **Límites:** no tragues `RuntimeError` en el camino de fail; déjalo propagar y marca closed en finally.",
+        id: "S09-T1-B-E1",
         instruction:
           "Paso 1: El starter no tiene finally y captura RuntimeError devolviendo `\"err\"`.\nPaso 2: Quita ese except de «éxito falso»; usa solo try/finally.\nPaso 3: En finally: `state[\"closed\"] = True`.\nPaso 4: Camino feliz: imprime el return y state; camino fail: captura fuera de `work` e imprime `err` + state.",
         hint: "El flag `closed` debe quedar True en éxito y en fallo.",
@@ -1020,12 +1020,12 @@ err {'closed': True}`,
         },
       },
       {
-        id: "S09-T1-B-E2",
         subtopicId: "S09-T1-B",
         kind: "independent",
         title: "Clasificar recover frente a fail-fast",
         preamble:
           "- **Contexto:** el on-call de las 02:10 no puede tratar un delimiter vacío igual que un email mal formado.\n- **Meta:** etiquetar cada error del starter como `fail-fast` o `recover`.\n- **Éxito:** seis líneas `nombre: política` en el orden del array (tres fail-fast de config/secretos, tres recover de fila/parse/timeout de un record).\n- **Límites:** recover ≠ silenciar (implica cuarentena o retry); no uses una sola política para todos.",
+        id: "S09-T1-B-E2",
         instruction:
           "Paso 1: El starter marca todo como `recover`.\nPaso 2: Config/schema/secretos ausentes → `fail-fast`.\nPaso 3: Fila/parse/timeout de un record → `recover`.\nPaso 4: Imprime `f\"{e}: {política}\"` sin reordenar.",
         hint: "En config inválida propaga; en fila mala recupera.",
@@ -1077,12 +1077,12 @@ timeout leyendo un record remoto: recover`,
         },
       },
       {
-        id: "S09-T1-B-E3",
         subtopicId: "S09-T1-B",
         kind: "transfer",
         title: "No tragar RuntimeError de config",
         preamble:
           "- **Contexto:** un `except Exception` en el borde del job convierte un fatal de config en «swallowed» y miente al reconcile.\n- **Meta:** capturar solo `ValueError` (cuarentena) y dejar propagar el resto.\n- **Éxito:** bad traga ambos; good_v → quarantine; good_r imprime `raised` con RuntimeError.\n- **Límites:** no uses `except:` bare ni tragues Exception en good_handler; solo ValueError de datos.",
+        id: "S09-T1-B-E3",
         instruction:
           "Paso 1: Deja `bad_handler` como anti-patrón (traga Exception).\nPaso 2: En `good_handler`, captura solo `ValueError` → `(\"quarantine\", str(e))`.\nPaso 3: Demuestra con `v()` (ValueError) y `r()` (RuntimeError capturado fuera).\nPaso 4: Imprime las etiquetas del contrato de tests.",
         hint: "bad traga todo; good solo ValueError a cuarentena.",
@@ -1151,12 +1151,12 @@ good_r raised config`,
         },
       },
       {
-        id: "S09-T2-A-E1",
         subtopicId: "S09-T2-A",
         kind: "guided",
         title: "Anotar tres frames del traceback",
         preamble:
           "- **Contexto:** el on-call recibe un stack de texto en el canal; debe leer marcos de afuera hacia adentro sin re-correr el job.\n- **Meta:** extraer tres nombres de función del traceback sintético.\n- **Éxito:** `frame1 main`, `frame2 run`, `frame3 normalize`.\n- **Límites:** no re-ejecutes el código original; parsea el string `tb`; no inventes frames de la stdlib.",
+        id: "S09-T2-A-E1",
         instruction:
           "Paso 1: El starter solo imprime la primera línea del traceback.\nPaso 2: Busca líneas con `, in ` y toma el nombre de función.\nPaso 3: Imprime frame1–frame3 en orden (main → run → normalize).\nPaso 4: No re-ejecutes el código original; parsea el string tb.",
         hint: "Busca cada línea `File ... in nombre_función`.",
@@ -1210,12 +1210,12 @@ frame3 normalize`,
         },
       },
       {
-        id: "S09-T2-A-E2",
         subtopicId: "S09-T2-A",
         kind: "independent",
         title: "Breakpoint seguro solo con id de fila",
         preamble:
           "- **Contexto:** en demo/CI no siempre hay `pdb`; aun así debes inspeccionar **sin** filtrar email al log.\n- **Meta:** si falta `email`, en DEBUG imprimir solo `id` y lanzar `KeyError('email')`.\n- **Éxito:** `break locals id= C009` y `raised 'email'`; sin volcar el row.\n- **Límites:** no imprimas email/teléfono/row completo; flag DEBUG controla el print de locals.",
+        id: "S09-T2-A-E2",
         instruction:
           "Paso 1: El starter usa `row.get(\"email\")` y no lanza.\nPaso 2: Si la clave no está: opcional print DEBUG con solo `id`, luego `raise KeyError(\"email\")`.\nPaso 3: Si está: devuelve email en minúsculas.\nPaso 4: Demuestra con `{\"id\": \"C009\"}` y captura el KeyError.",
         hint: "Imprime solo id (y opcional DEBUG), nunca el row.",
@@ -1265,12 +1265,12 @@ raised 'email'`,
         },
       },
       {
-        id: "S09-T2-A-E3",
         subtopicId: "S09-T2-A",
         kind: "transfer",
         title: "Frase de causa raíz desde el stack",
         preamble:
           "- **Contexto:** en el post mórtem hace falta una línea accionable, no el tb completo en Slack.\n- **Meta:** con solo el texto del traceback, imprimir la causa raíz.\n- **Éxito:** una línea `causa_raiz=normalize falta clave email`.\n- **Límites:** no re-ejecutes el código original; no culpes a `cli`/`app` si el index es en `normalize`.",
+        id: "S09-T2-A-E3",
         instruction:
           "Paso 1: El starter imprime todo el tb.\nPaso 2: Lee la línea `KeyError` y el frame de `normalize`.\nPaso 3: Emite exactamente el formato del contrato.\nPaso 4: No inventes otras causas.",
         hint: "Lee el texto del traceback; no vuelvas a ejecutar el código.",
@@ -1314,12 +1314,12 @@ print(f"causa_raiz=normalize falta clave {key}")`,
         },
       },
       {
-        id: "S09-T2-B-E1",
         subtopicId: "S09-T2-B",
         kind: "guided",
         title: "Recortar fixture al primer DNI inválido",
         preamble:
           "- **Contexto:** al validar DNI peruano sintético (8 dígitos), el fixture mezcla válidos e inválidos.\n- **Meta:** encontrar la primera entrada que hace fallar `parse_dni` y re-ejecutar solo esa.\n- **Éxito:** `minimal= 123` y `dni inválido: '123'`.\n- **Límites:** no re-proceses todo el fixture en el print final; datos sintéticos (no DNI real de persona).",
+        id: "S09-T2-B-E1",
         instruction:
           "Paso 1: El starter fija `minimal = fixture[0]` (válido).\nPaso 2: Recorre hasta el primer `ValueError`, guarda esa cadena y haz `break`.\nPaso 3: Imprime `minimal=` y vuelve a llamar `parse_dni` solo con ese valor.\nPaso 4: Captura e imprime el mensaje.",
         hint: "Recorta a la primera fila que hace fallar parse_dni.",
@@ -1372,12 +1372,12 @@ dni inválido: '123'`,
         },
       },
       {
-        id: "S09-T2-B-E2",
         subtopicId: "S09-T2-B",
         kind: "independent",
         title: "Hipótesis: +51 no es perder el país",
         preamble:
           "- **Contexto:** un reporte afirma que se «perdió el código de país +51»; el contrato de S07 es salida **solo dígitos**.\n- **Meta:** distinguir quitar el símbolo `+` de borrar los dígitos `51`.\n- **Éxito:** `with_country 51999111222`, `local 999111222`, `country_digits_preserved True`, `plus_symbol_expected False`.\n- **Límites:** no inventes formato E.164 con `+` en la salida; solo dígitos; datos sintéticos.",
+        id: "S09-T2-B-E2",
         instruction:
           "Paso 1: El starter quita espacios y `+` pero no deja el contrato explícito con asserts/flags.\nPaso 2: Normaliza a solo dígitos.\nPaso 3: Compara la entrada con código de país frente a la entrada local.\nPaso 4: Imprime las dos afirmaciones del contrato de tests.",
         hint: "Prueba cada hipótesis con un fixture mínimo.",
@@ -1422,12 +1422,12 @@ plus_symbol_expected False`,
         },
       },
       {
-        id: "S09-T2-B-E3",
         subtopicId: "S09-T2-B",
         kind: "transfer",
         title: "Rojo a verde en nombres con de/la",
         preamble:
           "- **Contexto:** `.title()` en nombres latam produce `De`/`La` y rompe el contrato de normalización del intake.\n- **Meta:** documentar el bug en rojo y una `good_title` que preserve partículas.\n- **Éxito:** líneas `RED`, `pass`, `GREEN` en ese orden.\n- **Límites:** el assert espera `Juan de la Cruz`; no «arregles» solo el print sin assert.",
+        id: "S09-T2-B-E3",
         instruction:
           "Paso 1: Deja `bad_title` con `.title()` para demostrar el fallo.\nPaso 2: Implementa `good_title` que deje `de/del/la/...` en minúsculas si no son el primer token.\nPaso 3: Un `test` con assert; captura AssertionError → imprime RED.\nPaso 4: Corre good_title → pass y GREEN.",
         hint: "title() no es suficiente para partículas latam.",
@@ -1490,12 +1490,12 @@ GREEN`,
         },
       },
       {
-        id: "S09-T3-A-E1",
         subtopicId: "S09-T3-A",
         kind: "guided",
         title: "Asignar niveles DEBUG a ERROR a eventos",
         preamble:
           "- **Contexto:** si todo es INFO/ERROR, el dashboard de ops entierra el incidente real.\n- **Meta:** etiquetar cada evento del starter con el nivel correcto.\n- **Éxito:** seis líneas `evento: NIVEL` (INFO, DEBUG, WARNING, ERROR, ERROR, INFO) en orden.\n- **Límites:** WARNING si el job continúa con anomalía recuperable; no uses CRITICAL aquí salvo que el starter lo pida (usa ERROR para config ilegible).",
+        id: "S09-T3-A-E1",
         instruction:
           "Paso 1: El starter imprime todo como INFO.\nPaso 2: Progreso de job → INFO; detalle de loop → DEBUG.\nPaso 3: Fila opcional rara → WARNING; parse/config ilegible → ERROR.\nPaso 4: Imprime sin reordenar.",
         hint: "Mapea cada evento al nivel correcto (INFO/WARNING/ERROR).",
@@ -1547,12 +1547,12 @@ lote terminado con conteos: INFO`,
         },
       },
       {
-        id: "S09-T3-A-E2",
         subtopicId: "S09-T3-A",
         kind: "independent",
         title: "Logger de módulo a buffer StringIO",
         preamble:
           "- **Contexto:** el job de ingest necesita bitácora con nivel, no `print` de progreso.\n- **Meta:** armar logger de módulo, handler a `StringIO`, emitir un INFO estructurado.\n- **Éxito:** una línea `INFO stage=ingest event=start`.\n- **Límites:** `propagate=False`; limpia handlers en demos; no uses print como log de progreso (el print final solo vuelca el buffer).",
+        id: "S09-T3-A-E2",
         instruction:
           "Paso 1: Elimina las llamadas a `print` que simulan INFO/DEBUG en el starter.\nPaso 2: `getLogger`, `setLevel(INFO)`, `StreamHandler(buf)`, formatter `%(levelname)s %(message)s`.\nPaso 3: `log.info(\"stage=ingest event=start\")`.\nPaso 4: Imprime `buf.getvalue().strip()`.",
         hint: "propagate=False; formatter simple.",
@@ -1592,12 +1592,12 @@ print(buf.getvalue().strip())`,
         },
       },
       {
-        id: "S09-T3-A-E3",
         subtopicId: "S09-T3-A",
         kind: "transfer",
         title: "RESULT limpio y progreso en el logger",
         preamble:
           "- **Contexto:** si mezclas «empezando/sumando» con el número de salida, rompes pipes y el contrato CLI de S10.\n- **Meta:** progreso a logs estructurados; stdout de datos solo con `RESULT=…`.\n- **Éxito:** `RESULT=3` y línea LOGS con `event=start` y `event=done`.\n- **Límites:** no imprimas progreso en el stream de datos; logger a buffer para el resumen.",
+        id: "S09-T3-A-E3",
         instruction:
           "Paso 1: El starter usa print para todo en `cli_stub_good`.\nPaso 2: Loguea start/done; calcula resultado; imprime solo `RESULT=`.\nPaso 3: Vuelca el buffer de logs en una segunda línea etiquetada.\nPaso 4: Con n=2 el resultado es 3.",
         hint: "Progreso al logger; RESULT al stdout de datos.",
@@ -1656,12 +1656,12 @@ LOGS: event=start op=inc | event=done op=inc |`,
         },
       },
       {
-        id: "S09-T3-B-E1",
         subtopicId: "S09-T3-B",
         kind: "guided",
         title: "Enmascarar email y teléfono sintéticos",
         preamble:
           "- **Contexto:** la bitácora de CP-N1-C solo puede mostrar PII parcialmente legible.\n- **Meta:** implementar `mask_email` y `mask_phone` estables.\n- **Éxito:** `c***@ejemplo.pe` y `***7666` con los fixtures del starter.\n- **Límites:** no imprimas el raw; email sin @ → `***`; teléfono corto → `***`.",
+        id: "S09-T3-B-E1",
         instruction:
           "Paso 1: El starter devuelve el string crudo.\nPaso 2: Email: primer carácter del local + `***@` + dominio.\nPaso 3: Phone: solo dígitos, `***` + últimos 4.\nPaso 4: Imprime ambas máscaras, una por línea.",
         hint: "Máscara estable: primer char + ***@dominio; phone ***+4.",
@@ -1710,12 +1710,12 @@ print(mask_phone("+51 988 777 666"))`,
         },
       },
       {
-        id: "S09-T3-B-E2",
         subtopicId: "S09-T3-B",
         kind: "independent",
         title: "Propagar correlation_id por tres capas",
         preamble:
           "- **Contexto:** sin el mismo id en CLI, service y repo, el post mórtem no une WARNING y ERROR de la misma corrida.\n- **Meta:** pasar `correlation_id` como argumento explícito (sin global).\n- **Éxito:** tres líneas con `correlation_id=corr-42` (cli, service, repo id=C001).\n- **Límites:** no uses variable global ni contextvars aquí; argumento explícito.",
+        id: "S09-T3-B-E2",
         instruction:
           "Paso 1: El starter imprime etiquetas sin el corr.\nPaso 2: Incluye `correlation_id={corr}` en cada print de capa.\nPaso 3: Repo también imprime `id` del item.\nPaso 4: Llama `cli_main(\"corr-42\", {\"id\": \"C001\"})`.",
         hint: "Pasa correlation_id como argumento en cada capa.",
@@ -1767,12 +1767,12 @@ repo correlation_id=corr-42 id=C001`,
         },
       },
       {
-        id: "S09-T3-B-E3",
         subtopicId: "S09-T3-B",
         kind: "transfer",
         title: "Auditar plantilla de log sin filtrar PII",
         preamble:
           "- **Contexto:** una auditoría de logging no debe reimprimir el email que intenta proteger.\n- **Meta:** detectar placeholders inseguros en la plantilla y emitir solo el log enmascarado.\n- **Éxito:** `detected_unsafe True` y `SAFE error en a***@ejemplo.pe tel=***1222`; stdout sin raw.\n- **Límites:** escanea el string plantilla; no hagas `format` con el row crudo en el camino final; datos sintéticos.",
+        id: "S09-T3-B-E3",
         instruction:
           "Paso 1: Detecta `\"{email}\"` y `\"{phone}\"` en `template_unsafe`.\nPaso 2: Sustituye las funciones que devuelven valores crudos por máscaras reales.\nPaso 3: `safe_log` arma el mensaje solo con máscaras.\nPaso 4: Imprime detected_unsafe y SAFE … sin volcar raw.",
         hint: "Revisa el string plantilla, no el row completo en stdout.",
@@ -1832,12 +1832,12 @@ SAFE error en a***@ejemplo.pe tel=***1222`,
         },
       },
       {
-        id: "S09-T4-A-E1",
         subtopicId: "S09-T4-A",
         kind: "guided",
         title: "Taxonomía data, config y provider",
         preamble:
           "- **Contexto:** reintentar un NaN de CSV o cuarentenar un YAML corrupto son errores de política, no de sintaxis.\n- **Meta:** etiquetar ocho fallos sintéticos como data, config o provider.\n- **Éxito:** ocho líneas `fallo: clase` (dos puntos, no `->`) en el orden del starter.\n- **Límites:** ROOT_PATH vacía es config; HTTP 503 y timeout S3 son provider; no uses Exception genérica.",
+        id: "S09-T4-A-E1",
         instruction:
           "Paso 1: El starter marca todo como `data`.\nPaso 2: Fila/CSV → data; arranque/schema/env → config; red/IO externo → provider.\nPaso 3: Imprime `f\"{f}: {c}\"` sin reordenar ni flechas.\nPaso 4: Incluye el caso ROOT_PATH.",
         hint: "Ocho casos: data | config | provider (sin Exception genérica).",
@@ -1894,12 +1894,12 @@ variable de entorno ROOT_PATH vacía: config`,
         },
       },
       {
-        id: "S09-T4-A-E2",
         subtopicId: "S09-T4-A",
         kind: "independent",
         title: "Cuarentena con reconcile del lote",
         preamble:
           "- **Contexto:** tirar filas sin id en silencio rompe el manifest y miente al dashboard.\n- **Meta:** `process_batch` devuelve ok, quarantined (con reason) e in; reconcile obligatorio.\n- **Éxito:** 2 ok, 1 quarantined `data:missing_id`, `in=3`; assert in == len(ok)+len(q).\n- **Límites:** no descartes filas sin reason; no mutes el contrato del dict de retorno.",
+        id: "S09-T4-A-E2",
         instruction:
           "Paso 1: El starter filtra sin llenar quarantined.\nPaso 2: Si falta id → append a q con reason.\nPaso 3: Retorna ok, quarantined, in=len(rows).\nPaso 4: Imprime el dict y deja el assert de reconcile.",
         hint: "Filas malas a quarantined; no las tires sin registro.",
@@ -1944,12 +1944,12 @@ assert r["in"] == len(r["ok"]) + len(r["quarantined"])`,
         },
       },
       {
-        id: "S09-T4-A-E3",
         subtopicId: "S09-T4-A",
         kind: "transfer",
         title: "Política de abort multi-regla testeable",
         preamble:
           "- **Contexto:** el on-call no adivina si abortar: el README y el código deben decir lo mismo.\n- **Meta:** `should_abort(metrics)` con tres reglas y camino ok.\n- **Éxito:** cuatro líneas case/abort/reason (config True, ratio_alto True, provider True, una_fila_data False reason=ok).\n- **Límites:** orden config → ratio > 0.5 → provider; in=0 evita división; umbral 0.5 es de lab.",
+        id: "S09-T4-A-E3",
         instruction:
           "Paso 1: El starter aborta si quarantined ≥ 1 (demasiado agresivo).\nPaso 2: Evalúa config_ok, ratio, provider_exhausted.\nPaso 3: Una sola fila en 10 no aborta.\nPaso 4: Imprime el formato exacto del contrato.",
         hint: "Evalúa en orden: config → umbral de cuarentena → provider agotado; si nada aplica, abort=False reason=ok.",
@@ -2016,12 +2016,12 @@ case=una_fila_data abort=False reason=ok`,
         },
       },
       {
-        id: "S09-T4-B-E1",
         subtopicId: "S09-T4-B",
         kind: "guided",
         title: "¿Qué errores merecen retry?",
         preamble:
           "- **Contexto:** reintentar un KeyError de fila no arregla el schema; solo multiplica logs.\n- **Meta:** marcar yes/no de retry para cinco tipos.\n- **Éxito:** TimeoutError yes; ValueError no; ConnectionError yes; KeyError no; PermissionError no.\n- **Límites:** solo transitorios de red aquí; no marques PermissionError como yes.",
+        id: "S09-T4-B-E1",
         instruction:
           "Paso 1: El starter pone yes en ValueError/KeyError/PermissionError.\nPaso 2: Solo TimeoutError y ConnectionError → yes.\nPaso 3: El resto → no.\nPaso 4: Imprime `error: yes|no` en el orden del dict.",
         hint: "TimeoutError/503 → retry; ValueError/400 → no.",
@@ -2069,12 +2069,12 @@ PermissionError: no`,
         },
       },
       {
-        id: "S09-T4-B-E2",
         subtopicId: "S09-T4-B",
         kind: "independent",
         title: "Reintentar TimeoutError hasta el tope",
         preamble:
           "- **Contexto:** el proveedor inestable del laboratorio falla dos veces y responde en el tercero.\n- **Meta:** `retry_call(fn, max_attempts=3)` reintenta solo TimeoutError y relanza el último si agota.\n- **Éxito:** `done calls 3`; un `max_attempts` menor que 1 produce `ValueError`.\n- **Límites:** no retries infinitos; max_attempts=1 no reintenta; otros errores no se piden aquí.",
+        id: "S09-T4-B-E2",
         instruction:
           "Paso 1: Rechaza `max_attempts < 1` con `ValueError`.\nPaso 2: Ejecuta un bucle hasta max_attempts capturando TimeoutError.\nPaso 3: Si agota, relanza el último TimeoutError.\nPaso 4: Imprime resultado y contador de calls; demuestra también el límite cero.",
         hint: "Bucle hasta max_attempts capturando solo TimeoutError; si agotas, relanza el último.",
@@ -2140,12 +2140,12 @@ boundary max_attempts debe ser >= 1`,
         },
       },
       {
-        id: "S09-T4-B-E3",
         subtopicId: "S09-T4-B",
         kind: "transfer",
         title: "Clave de idempotencia para re-ingesta",
         preamble:
           "- **Contexto:** reintentar un INSERT no idempotente duplica filas; el manifest de S08 ya te entrenó en conteos, ahora la clave de escritura.\n- **Meta:** construir `idem_key` con source, record_id, version y hash del payload.\n- **Éxito:** una línea `idem_key=banco_a:C001:v3:` + 12 hex del payload.\n- **Límites:** hash estable (`sort_keys` en JSON); no uses solo el id; datos sintéticos.",
+        id: "S09-T4-B-E3",
         instruction:
           "Paso 1: El starter imprime solo el id.\nPaso 2: Serializa payload con `json.dumps(..., sort_keys=True)`, sha256, 12 hex.\nPaso 3: Formato `source:id:v{version}:{hash}`.\nPaso 4: Prefija con `idem_key=`.",
         hint: "Clave = source + id + version + hash(payload).",
