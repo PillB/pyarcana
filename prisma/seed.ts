@@ -2028,14 +2028,14 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Por qué el curso exige encoding="utf-8" al leer/escribir texto de intake?',
       options: [
-        'UTF-8 es opcional en Windows y da igual',
         'El default del locale (p. ej. Windows) puede no ser UTF-8; utf-8 explícito evita corrupción de tildes/ñ',
-        'pathlib no soporta otros encodings',
-        'Solo para archivos binarios',
+        'Para que cada carácter del archivo ocupe exactamente un byte',
+        'Para que Path detecte por sí solo el delimitador del CSV',
+        'Para convertir bytes inválidos sin lanzar una excepción',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
-        'Nunca confíes en el locale para intake latam. Declara utf-8.',
+        'Nunca confíes en el locale para intake en Latam. Declara utf-8.',
     },
     {
       concept: 'pathlib-with-modes',
@@ -2056,12 +2056,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Ventaja de pathlib.Path frente a concatenar strings de rutas a mano:',
       options: [
-        'Es más lento siempre',
+        'Obliga a usar rutas absolutas en todo el pipeline',
+        'Normaliza por sí sola el contenido de cada archivo',
         'API unificada (/, exists, read_text) y menos errores de separadores entre OS',
-        'Solo funciona en Linux',
-        'Prohíbe encoding utf-8',
+        'Garantiza que la ruta exista antes de abrirla',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Path(/) une de forma portable. Ideal para data/ y out/ del gate.',
     },
@@ -2070,10 +2070,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Al usar el módulo csv, ¿por qué abrir el archivo con newline=""?',
       options: [
-        'Para borrar todas las newlines',
+        'Para que DictReader descarte automáticamente las filas vacías',
         'Para que el módulo csv controle terminadores y no se dupliquen retornos en Windows',
-        'Es obligatorio solo con JSON',
-        'Desactiva utf-8',
+        'Para forzar que toda salida use LF aunque la fuente use CRLF',
+        'Para seleccionar UTF-8 como encoding del archivo',
       ],
       correctIndex: 1,
       explanation:
@@ -2084,12 +2084,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Escritura atómica del curso: escribe a temp y luego…',
       options: [
-        'os.remove del destino sin reemplazar',
+        'Escribir directo al destino y llamar flush al final',
+        'Mover el temp desde cualquier otro filesystem',
         'os.replace(tmp, dest) en el mismo directorio para swap atómico',
-        'print del contenido',
-        'zip del archivo',
+        'Renombrar el destino antes de terminar de escribir el temp',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'replace es atómico en el mismo filesystem. Evita destino truncado si el proceso muere.',
     },
@@ -2099,11 +2099,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Si el proceso muere a mitad de write_text directo sobre dest, ¿qué riesgo hay?',
       options: [
         'Ninguno; POSIX garantiza archivo completo',
-        'dest puede quedar truncado/corrupto; por eso temp+replace',
-        'Solo afecta a JSONL',
         'pathlib revierte solo',
+        'Solo afecta a JSONL',
+        'dest puede quedar truncado/corrupto; por eso temp+replace',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Escritura no atómica deja basura. Patrón atomic_write del curso mitiga el riesgo.',
     },
@@ -2112,12 +2112,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En csv.DictReader, ¿de dónde salen las claves del dict por fila?',
       options: [
-        'Siempre de un schema SQL',
+        'De los índices posicionales convertidos a strings',
+        'Del primer dict que el reader encuentre en memoria',
         'De la fila de headers (o fieldnames provisto)',
-        'De los índices numéricos 0..n únicamente',
-        'De pathlib',
+        'De los tipos inferidos en cada columna',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Headers definen el contrato columnar. Sin header, debes proveer fieldnames.',
     },
@@ -2127,11 +2127,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Cast de tipos en CSV stdlib: los valores llegan como…',
       options: [
         'int/float automáticos siempre',
-        'str (o None según dialecto); el cast es responsabilidad del pipeline',
-        'decimal.Decimal por defecto',
         'bytes utf-16',
+        'decimal.Decimal por defecto',
+        'str (o None según dialecto); el cast es responsabilidad del pipeline',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'csv no tipa. int()/políticas de null se aplican en el normalizador.',
     },
@@ -2140,12 +2140,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Dialectos (delimitador ; vs ,): ¿qué práctica alinea con ingesta robusta?',
       options: [
-        'Asumir siempre coma y fallar en silencio',
         'Detectar/configurar delimiter y quotechar; documentar en provenance',
-        'Convertir CSV a imagen',
-        'Usar solo split(",") casero sin quotes',
+        'Asumir siempre coma y recortar las columnas sobrantes',
+        'Usar split(",") y recomponer después los campos entre comillas',
+        'Reemplazar todos los punto y coma antes de parsear',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'split casero rompe con comillas. csv module + dialecto documentado.',
     },
@@ -2154,12 +2154,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Fila CSV con número de columnas distinto al header: ¿qué hace el pipeline CP-N1-B?',
       options: [
-        'Rellenar con inventados y accept',
-        'Enviar a cuarentena con motivo (p. ej. bad_column_count) sin tumbar todo el lote',
-        'Borrar el header',
-        'Convertir a JSON automáticamente',
+        'Rellenar o truncar columnas hasta que la fila tenga el largo esperado',
+        'Omitirla y restarla de n_in para que los conteos cuadren',
+        'Inferir el valor faltante desde la fila anterior',
+        'Enviar a cuarentena con motivo estable (p. ej. col_count) sin tumbar todo el lote',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Cuarentena con motivo preserva el resto del lote y deja evidencia.',
     },
@@ -2168,12 +2168,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué debe incluir un registro de cuarentena mínimo?',
       options: [
-        'Solo el score de matching',
         'Fila/raw (o referencia), motivo de rechazo y correlación al input',
-        'El password de la base',
-        'Nada; se descarta el raw',
+        'Solo el motivo, sin conservar la fila ni una referencia',
+        'Solo la fila cruda, sin motivo ni fuente de origen',
+        'Una fila corregida, sin evidencia del valor que llegó',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Sin motivo y raw, no hay debug ni reconciliación de conteos.',
     },
@@ -2196,28 +2196,28 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Diferencia práctica JSON array vs JSONL para transacciones:',
       options: [
-        'No hay diferencia',
         'Array = un documento lista; JSONL = un objeto JSON por línea (streaming/append amigable)',
-        'JSONL requiere pandas',
-        'Array no puede tener objetos',
+        'Array = un objeto por línea; JSONL = una lista dentro de un documento',
+        'Ambos exigen reescribir el archivo completo para añadir una transacción',
+        'JSONL solo es válido si el archivo termina en .json',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'JSONL brilla en logs/streams. Array es un único parse de lista.',
     },
     {
       concept: 'json-serialize',
       question:
-        'json.dumps de un dict con un set o datetime sin default:',
+        'json.dumps de un dict con datetime, sin convertirlo primero:',
       options: [
-        'Siempre funciona en silencio',
-        'TypeError (o hay que default/convertir); set no es tipo JSON nativo',
-        'Convierte set a list solo si está vacío',
-        'Usa pickle automáticamente',
+        'Convierte datetime a ISO automáticamente',
+        'Lanza TypeError; convierte datetime explícitamente, por ejemplo con isoformat()',
+        'Omite el campo no serializable y continúa',
+        'Produce JSON parcial y después lanza ValueError',
       ],
       correctIndex: 1,
       explanation:
-        'Serializa tipos JSON-nativos o provee default. Sets → list ordenada si necesitas.',
+        'datetime no es un tipo JSON nativo. La conversión explícita a ISO deja un contrato visible y estable.',
     },
     {
       concept: 'json-serialize',
@@ -2225,11 +2225,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Para export determinista, ¿qué haces con ensure_ascii y orden?',
       options: [
         'ensure_ascii=True siempre es la única opción legible con tildes',
-        'ensure_ascii=False para utf-8 legible; ordenar listas/keys de negocio antes de dump',
         'indent=None prohíbe utf-8',
+        'ensure_ascii=False para utf-8 legible; ordenar listas/keys de negocio antes de dump',
         'sort_keys solo funciona en JSONL',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'utf-8 legible + orden canónico = diffs limpios. sort_keys ayuda en objetos.',
     },
@@ -2238,10 +2238,10 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Schema mínimo en ingesta JSON de clientes: ¿qué validas?',
       options: [
-        'Todas las keys del RFC de la industria',
+        'Todos los campos posibles, aunque la fuente nunca los produzca',
         'Campos requeridos presentes, tipos básicos y nulls según contrato (defaults documentados)',
-        'Solo que el archivo pese menos de 1MB',
-        'Que no haya tildes',
+        'Solo que el JSON sea sintácticamente válido',
+        'Solo que cada objeto tenga el mismo número de claves',
       ],
       correctIndex: 1,
       explanation:
@@ -2253,11 +2253,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Evolución compatible: llega un campo nuevo opcional en el JSON. ¿Qué hace un lector tolerante?',
       options: [
         'Rechazar todo el archivo',
-        'Ignorar keys desconocidas o guardarlas en extras según política; no romper si no son required',
         'Borrar el schema',
+        'Ignorar keys desconocidas o guardarlas en extras según política; no romper si no son required',
         'Convertir el archivo a CSV a la fuerza',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Forward-compatible: unknown optional ≠ hard fail. Required missing sí es quarantine.',
     },
@@ -2267,11 +2267,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Null vs omitido en JSON de intake:',
       options: [
         'idénticos siempre para cualquier parser',
-        'Pueden diferir: null explícito vs clave ausente — el contrato debe decir cómo tratarlos',
-        'omitido lanza SyntaxError',
         'null borra el archivo',
+        'omitido lanza SyntaxError',
+        'Pueden diferir: null explícito vs clave ausente — el contrato debe decir cómo tratarlos',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Contrato define si null y missing son equivalentes. No asumas.',
     },
@@ -2280,40 +2280,40 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Para qué calcula el pipeline un hash (p. ej. sha256) del input CSV?',
       options: [
-        'Para comprimir el archivo',
+        'Para deduplicar filas sin leer el contenido del CSV',
+        'Para guardar en caché el resultado ya parseado',
         'Integridad y provenance: saber qué bytes se procesaron y detectar cambios entre corridas',
-        'Para cifrar PII real del curso',
-        'Es requisito de matplotlib',
+        'Para demostrar que el input no contiene información sensible',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Hash en manifest amarra la corrida a un input exacto. Backup conserva copia.',
     },
     {
       concept: 'backups-hashes-provenance',
       question:
-        'Provenance mínima de una corrida de ingesta incluye:',
+        '¿Qué campos forman la provenance mínima por fuente en este gate?',
       options: [
-        'Solo el wall-clock del laptop',
-        'Rutas de input, hashes, timestamp de corrida, versión de reglas/código si está disponible',
-        'El contenido completo de node_modules',
-        'Nada si clean>0',
+        'Solo el nombre del archivo y la hora de inicio',
+        'El path del clean, su cantidad de filas y el exit code',
+        'El hash del manifest y el número de campos del schema',
+        'Path del input, sha256 del crudo y tamaño en bytes',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Reproducibilidad: qué se leyó, con qué reglas, cuándo.',
+        'Path, sha256 y bytes amarran cada fuente a la evidencia cruda exacta; el timestamp puede añadirse como dato opcional de corrida.',
     },
     {
       concept: 'backups-hashes-provenance',
       question:
         'Backup del input antes de transformar: ¿por qué copiar y no solo mover?',
       options: [
-        'Mover es ilegal en pathlib',
         'Preservas el original intacto si la transformación falla o se reprocesa',
-        'copy calcula groupby',
-        'No hay diferencia operativa',
+        'Mover basta porque el path de origen seguirá disponible',
+        'copy2 vuelve inmutable el contenido del archivo',
+        'El backup sustituye la necesidad de calcular un hash',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Backup inmutable del input. El working set puede reescribirse con atomic_write.',
     },
@@ -2322,12 +2322,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Un manifest de corrida CP-N1-B debe permitir verificar:',
       options: [
-        'Solo el color del log',
+        'Solo los totales agregados de toda la corrida',
+        'Solo las rutas de los archivos publicados',
+        'Solo el hash del input, sin resultado de procesamiento',
         'Conteos in/clean/quarantine reconciliados y referencias a salidas/hashes',
-        'El salary promedio con pandas',
-        'Que no hubo tildes en paths',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Manifest = contrato de la corrida. Conteos + paths + hashes.',
     },
@@ -2336,28 +2336,28 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Si in=50, clean=40, quarantine=9, ¿qué problema hay?',
       options: [
-        'Ninguno; 1 fila puede evaporarse',
         'Falta 1 fila: no reconcilia (40+9≠50) — bug de conteo o pérdida',
+        'Ninguno; 1 fila puede evaporarse',
         'quarantine debe ser > clean',
         'in se redefine como clean',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Toda fila cuenta. Descuadre = defecto del pipeline o del contador.',
     },
     {
       concept: 'reconciliation-manifest',
       question:
-        'En S08 V3 (id plataforma pandas), el target del gate es:',
+        '¿Qué entrega demuestra el cierre del gate CP-N1-B?',
       options: [
-        'df.groupby EDA como path principal',
+        'Un script que publica clean aunque pierda filas del input',
         'ETL stdlib CSV/JSON con cuarentena, hashes y manifest (cierre CP-N1-B)',
-        'NumPy broadcasting',
-        'Scraping de SUNAT en vivo con PII real',
+        'Un backup del crudo sin conteos, cuarentena ni reconciliación',
+        'Una descarga en vivo de datos personales sin contrato de fuente',
       ],
       correctIndex: 1,
       explanation:
-        'pandas EDA se difiere a L2. Aquí: archivos, contratos e integridad.',
+        'El gate se demuestra con archivos sintéticos, contratos de ingesta, provenance y reconciliación fail-closed.',
     },
   ],
   visualization: [
@@ -2365,17 +2365,17 @@ const QUESTION_BANK: Record<string, Q[]> = {
       concept: 'exception-types-raise-chaining',
       question: 'En un parser de montos de intake, el valor llega como texto no numérico. ¿Qué excepción es la más específica y correcta a lanzar?',
       options: [
-        'Exception genérica sin mensaje',
         'ValueError (o subtipo de dominio) con mensaje accionable sobre el campo/valor',
+        'Exception genérica sin mensaje',
         'SystemExit para abortar el intérprete',
         'KeyboardInterrupt simulando cancelación',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'ValueError comunica entrada inválida. Evita bare Exception y señales de control de proceso.',
     },
     {
       concept: 'exception-types-raise-chaining',
-      question: 'Al re-lanzar un fallo de I/O como DataLoadError de dominio, ¿cuál es la forma correcta de preservar la causa?',
+      question: 'Al relanzar un fallo de I/O como DataLoadError de dominio, ¿cuál es la forma correcta de preservar la causa?',
       options: [
         'raise DataLoadError("fallo") sin causa',
         'raise DataLoadError("no se pudo leer lote") from e',
@@ -2390,35 +2390,35 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuándo conviene definir una excepción custom ligera (p. ej. ValidationError) en el pipeline de familiaridad?',
       options: [
         'Siempre en vez de ValueError/KeyError del stdlib',
-        'Cuando capas superiores deben distinguir fallos de validación de I/O/config con tipos estables',
         'Solo para silenciar el traceback',
+        'Cuando capas superiores deben distinguir fallos de validación de I/O/config con tipos estables',
         'Nunca; las custom están prohibidas',
       ],
-      correctIndex: 1,
-      explanation: 'Custom ligera = frontera de dominio. No reemplace todos los tipos stdlib sin necesidad.',
+      correctIndex: 2,
+      explanation: 'Una excepción personalizada ligera crea una frontera de dominio. No reemplaza todos los tipos de la biblioteca estándar sin necesidad.',
     },
     {
       concept: 'recovery-boundaries-cleanup',
       question: '¿Cuál es el rol de finally (o with) al leer un lote de archivos?',
       options: [
         'Ignorar cualquier error y devolver None',
-        'Garantizar cleanup del recurso aunque falle el try; re-raise si el error no es recuperable',
         'Convertir todos los errores en warnings',
         'Ejecutarse solo si no hubo excepción',
+        'Garantizar el cierre del recurso aunque falle el try; relanzar si el error no es recuperable',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'finally/with aseguran cierre. No tragues bare except; propaga fatales.',
     },
     {
       concept: 'recovery-boundaries-cleanup',
       question: '¿Qué práctica es incorrecta en fronteras de recuperación?',
       options: [
+        'except: pass para ocultar el fallo del lote',
         'except OSError como recuperable de I/O y reintentar con política',
-        'except: pass para que no truene el batch',
         'with open(...) as f: para cleanup automático',
-        'Re-raise de config inválida sin procesar filas',
+        'Relanzar una config inválida sin procesar filas',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Bare except + swallow oculta bugs y rompe observabilidad.',
     },
     {
@@ -2438,11 +2438,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Al leer un traceback, ¿qué frame suele ser el más útil para el bug de tu código de aplicación?',
       options: [
         'El frame más profundo de site-packages de terceros sin tu módulo',
-        'El frame de tu módulo de aplicación donde ocurre la llamada incorrecta',
         'Solo la última línea de CPython interno',
+        'El frame de tu módulo de aplicación donde ocurre la llamada incorrecta',
         'El mensaje sin mirar archivos ni líneas',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: 'Prioriza frames de tu paquete; librerías a menudo solo re-lanzan.',
     },
     {
@@ -2450,23 +2450,23 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Qué hace un debugger (pdb/breakpoint) que un print suelto no garantiza bien?',
       options: [
         'Compila el código a más rápido',
-        'Pausa la ejecución e inspecciona variables/estado en el frame exacto',
         'Borra PII automáticamente',
         'Reemplaza unit tests',
+        'Pausa la ejecución e inspecciona variables y estado en el frame exacto',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'breakpoint() permite inspección interactiva del estado real.',
     },
     {
       concept: 'traceback-debugger',
       question: 'KeyError en un dict de fila normalizada. Primera acción de diagnóstico efectiva:',
       options: [
-        'Reinstalar Python',
         'Identificar key faltante, frame y forma real del dict (keys presentes)',
+        'Reinstalar Python',
         'Capturar Exception y devolver {}',
         'Ignorar la fila sin log',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Sin conocer key y shape del payload, el fix es a ciegas.',
     },
     {
@@ -2486,11 +2486,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Una buena hipótesis de causa raíz debe ser:',
       options: [
         'Vaga ("a veces falla") e irrefutable',
-        'Específica, falsable con un experimento/repro, y documentable',
         'Culpar siempre a la red',
+        'Específica, falsable con un experimento o repro, y documentable',
         'Cambiar 10 cosas a la vez',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: 'Hipótesis falsable + un cambio controlado = root cause real.',
     },
     {
@@ -2498,23 +2498,23 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Tras confirmar causa raíz de normalización de apellidos, el artefacto mínimo esperado es:',
       options: [
         'Solo un emoji en el chat',
-        'Nota breve: repro, causa, fix y cómo evitar regresión (test o check)',
         'Reescribir todo el monorepo',
         'Desactivar logging',
+        'Nota breve: repro, causa, corrección y cómo evitar regresión (test o check)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'Documentar repro/causa/fix cierra el ciclo y alimenta tests.',
     },
     {
       concept: 'log-levels-structure',
       question: '¿Qué nivel es apropiado para un fallo recuperable de una fila con cuarentena?',
       options: [
-        'DEBUG de cada variable local sin estructura',
         'WARNING o ERROR de fila con campos estables (row_id, code), no CRITICAL de proceso si el lote sigue',
+        'DEBUG de cada variable local sin estructura',
         'print() a stdout mezclado con resultados JSON',
         'FATAL siempre y sys.exit',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Niveles comunican severidad operativa; estructura permite filtrar.',
     },
     {
@@ -2534,11 +2534,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'INFO vs DEBUG en ingest de lotes:',
       options: [
         'INFO para cada byte leído; DEBUG solo al final',
-        'INFO hitos de lote (inicio/fin/conteos); DEBUG detalle fino de diagnóstico local',
         'Nunca uses INFO',
+        'INFO hitos de lote (inicio/fin/conteos); DEBUG detalle fino de diagnóstico local',
         'DEBUG va a stderr y es para usuarios finales',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: 'INFO narra la corrida; DEBUG es volumen alto de diagnóstico.',
     },
     {
@@ -2546,31 +2546,31 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Para qué sirve propagar correlation_id en logs del pipeline?',
       options: [
         'Cifrar el disco',
-        'Unir eventos de la misma corrida/request a través de etapas',
         'Reemplazar el traceback',
         'Autenticar usuarios en la UI',
+        'Unir eventos de la misma corrida o solicitud a través de etapas',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'correlation_id amarra la historia de una corrida entre módulos.',
     },
     {
       concept: 'correlation-ids-pii-redaction',
       question: 'Email, teléfono o dirección completa en logs de error:',
       options: [
-        'Se loguean en claro "para debug más fácil"',
-        'Se redactan/enmascaran; no se escriben PII completos en logs',
+        'Se enmascaran; los datos personales completos no se escriben en logs',
+        'Se registran en claro "para depurar más fácil"',
         'Solo el email se permite en claro',
         'Se suben a un gist público',
       ],
-      correctIndex: 1,
-      explanation: 'PII completa en logs es incidente de privacidad. Redacta.',
+      correctIndex: 0,
+      explanation: 'Exponer datos personales completos en logs es un incidente de privacidad. Enmascara antes de registrar.',
     },
     {
       concept: 'correlation-ids-pii-redaction',
       question: 'Un mensaje de error incluye documento de identidad. ¿Qué haces en logging producción-like?',
       options: [
         'Log del valor completo',
-        'Token/hash truncado o campo redacted=true sin valor crudo',
+        'Token/hash truncado o campo oculto=true sin valor crudo',
         'Enviar el log por WhatsApp',
         'Desactivar el logger',
       ],
@@ -2582,11 +2582,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Fila con schema inválido en un batch de 10k. Política típica del curso:',
       options: [
         'Abortar todo el proceso sin cuarentena ni conteos',
-        'Cuarentenar la fila, continuar el lote y reportar conteos de éxito/error',
         'Silenciar y marcar éxito 100%',
+        'Cuarentenar la fila, continuar el lote y reportar conteos de éxito/error',
         'Reintentar 100 veces el mismo schema roto',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: 'Errores de dato de fila → continue-with-quarantine; no finjas éxito.',
     },
     {
@@ -2594,23 +2594,23 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: '¿Cuándo es correcto fail-fast en el pipeline de familiaridad?',
       options: [
         'En cualquier warning de estilo',
-        'Config/credenciales/paths críticos inválidos o invariantes de sesión rotos',
         'Siempre al primer WARNING de fila',
         'Nunca; siempre continuar',
+        'Config, credenciales o paths críticos inválidos, o invariantes de sesión rotos',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'Fatales de sesión vs errores de fila: dos políticas distintas.',
     },
     {
       concept: 'failfast-vs-continue',
       question: 'Éxito parcial de un lote significa:',
       options: [
-        'Mentir el exit code 0 sin métricas',
         'Algunas filas OK, otras en cuarentena; manifiesto/conteos reflejan ambos',
+        'Mentir el exit code 0 sin métricas',
         'Borrar las fallidas del disco',
         'Ignorar el manifiesto',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation: 'Éxito parcial es observable y auditable, no opaco.',
     },
     {
@@ -2630,11 +2630,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Una operación de escritura a cuarentena debe ser preferentemente:',
       options: [
         'No determinista y con side-effects duplicados sin clave',
-        'Idempotente: re-ejecutar no duplica basura ni corrompe estado',
         'Sin path de destino fijo',
+        'Idempotente: volver a ejecutar no duplica registros ni corrompe el estado',
         'Solo en memoria RAM sin disco',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation: 'Idempotencia evita duplicados al reintentar jobs.',
     },
     {
@@ -2642,11 +2642,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question: 'Tras agotar retries de un proveedor, la acción correcta es:',
       options: [
         'Loop infinito',
-        'Enviar a cuarentena/dead-letter con motivo y fallar la unidad según política',
         'Inventar datos del proveedor',
         'Bajar el log level a DEBUG y fingir OK',
+        'Enviar a cuarentena o dead-letter con motivo y fallar la unidad según política',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation: 'Irrecuperable → cuarentena + señal clara; no datos inventados.',
     },
   ],
@@ -3231,19 +3231,19 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
 
-  // S07 V3 — Texto, Unicode y expresiones regulares (platform id: data-acquisition)
+  // S07 — Texto, Unicode y expresiones regulares
   'data-acquisition': [
     {
       concept: 'unicode-normalization-casefold',
       question:
         '¿Por qué dos strings visualmente iguales con tilde pueden comparar False en Python?',
       options: [
-        'Python no soporta tildes',
         'Formas Unicode distintas (NFC compuesta vs NFD base+combining); hay que normalizar antes de comparar',
+        'Python no soporta tildes',
         'casefold borra la comparación',
         'Son encodings latin-1 incompatibles siempre',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'NFC/NFD unifican code points. unicodedata.normalize("NFC", s) antes de ==.',
     },
@@ -3267,11 +3267,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Orden recomendado del curso para comparar dos strings de cliente:',
       options: [
         'lower → comparar → normalize',
-        'normalize NFC → strip/collapse espacios → casefold (si política) → comparar',
         'regex primero siempre',
+        'normalize NFC → strip/collapse espacios → casefold (si política) → comparar',
         'encode latin-1 y comparar bytes crudos sin política',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Pipeline: NFC, limpieza de espacios, casefold opcional, luego igualdad.',
     },
@@ -3295,11 +3295,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Heurística demo: si solo hay 2 tokens de nombre, ¿qué hace un pipeline prudente?',
       options: [
         'Inventar segundo apellido vacío y marcar accept',
-        'Marcar review (o política documentada) en vez de afirmar estructura completa',
         'Borrar el registro',
+        'Marcar review (o política documentada) en vez de afirmar estructura completa',
         'Convertir a DNI',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Sin evidencia de segundo apellido, review > invención. Documenta límites del parser.',
     },
@@ -3309,11 +3309,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué se debe conservar siempre al normalizar un nombre con espacios múltiples y partículas?',
       options: [
         'Solo el primer token',
-        'El raw original además de tokens/campos normalizados',
         'Nada; raw es PII y se borra en demos sintéticas también',
         'Solo apellidos en ASCII sin tildes forzadas',
+        'El raw original además de tokens/campos normalizados',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'raw + normalized + transforms: auditabilidad. No afirmar identidad legal.',
     },
@@ -3323,11 +3323,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Antes de escribir un regex para colapsar espacios múltiples, ¿qué debe intentar el curso?',
       options: [
         're.sub siempre primero',
-        'Métodos str: split/join, strip, replace — más legibles y suficientes en muchos casos',
         'pandas.str únicamente',
+        'Métodos str: split/join, strip, replace — más legibles y suficientes en muchos casos',
         'encode hex',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'str antes que regex. " ".join(s.split()) colapsa espacios sin patrón.',
     },
@@ -3337,25 +3337,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         '¿Qué hace `" ".join("  a   b  ".split())` en normalización de texto?',
       options: [
         'Deja dobles espacios',
-        'Colapsa whitespace y recorta extremos vía split sin args + join',
         'Elimina la letra a',
         'Convierte a lista de code points',
+        'Colapsa whitespace y recorta extremos vía split sin args + join',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'split() sin args parte en cualquier whitespace y descarta vacíos; join recompone.',
     },
     {
       concept: 'string-ops',
       question:
-        '¿Cuándo pasar de str methods a regex en S07?',
+        '¿Cuándo conviene pasar de métodos `str` a una expresión regular?',
       options: [
-        'Nunca hay razón para regex',
         'Cuando necesitas patrones, grupos o validación estructural que str no expresa limpio',
+        'Nunca hay razón para regex',
         'Para todo upper/lower',
         'Solo para sumar enteros',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Regex cuando el patrón lo justifica; over-regex reduce mantenibilidad.',
     },
@@ -3365,11 +3365,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Normalizar email en CP-N1-B: ¿cuál política es modestamente correcta?',
       options: [
         'Validar TLD contra lista ISO completa en cliente',
-        'strip, lower/casefold local conservador, forma básica local@dominio sin overvalidation de RFC completo',
         'Rechazar todo email con tilde en dominio visible',
         'Guardar solo el hash y borrar el email siempre',
+        'strip, lower/casefold local conservador, forma básica local@dominio sin overvalidation de RFC completo',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Reglas modestas: no reimplementar RFC 5322. Overvalidation genera FN falsos.',
     },
@@ -3378,12 +3378,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'Teléfono peruano sintético de demo: ¿qué NO debes hacer en el normalizador del curso?',
       options: [
-        'Conservar dígitos y un formato canónico documentado',
         'Afirmar que el número existe en el padrón real o pertenece a una persona real',
+        'Conservar dígitos y un formato canónico documentado',
         'Marcar review si el largo no calza la política',
         'Guardar raw y normalizado',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Datos sintéticos; sin claims de existencia real ni PII real.',
     },
@@ -3406,12 +3406,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         'En un patrón de código de cliente, ¿para qué sirven los grupos (...)?',
       options: [
-        'Solo decoración',
         'Capturar subcadenas para extracción (Match.group / finditer)',
+        'Solo decoración',
         'Acelerar el GIL',
         'Convertir a int automáticamente',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Grupos capturan partes del match. Útiles para extraer id y cola por separado.',
     },
@@ -3435,11 +3435,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Diferencia práctica re.search vs re.fullmatch para un código de intake:',
       options: [
         'Son alias exactos',
-        'search encuentra substring; fullmatch exige coincidencia de todo el string (como ^...$)',
         'fullmatch es más lento siempre por un factor 100',
+        'search encuentra substring; fullmatch exige coincidencia de todo el string (como ^...$)',
         'search no existe en 3.x',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'fullmatch/anchors evitan aceptar prefijos/sufijos no deseados.',
     },
@@ -3463,11 +3463,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'findall vs finditer para extraer varios ids de un texto de log:',
       options: [
         'findall devuelve match objects; finditer strings',
-        'findall → lista de strings/tuplas; finditer → iterador de Match (mejor si hay muchos)',
         'finditer borra el texto',
+        'findall → lista de strings/tuplas; finditer → iterador de Match (mejor si hay muchos)',
         'Ambos requieren pandas',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'finditer es lazy y da .start/.group. findall materializa lista.',
     },
@@ -3477,11 +3477,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Límite importante del regex en este curso:',
       options: [
         'Regex reemplaza Unicode normalization',
-        'No resuelve por sí solo identidad/parentesco; es herramienta de forma, no de verdad de negocio',
         'Solo funciona sin tildes',
         'Obliga a usar multiprocessing',
+        'No resuelve por sí solo identidad/parentesco; es herramienta de forma, no de verdad de negocio',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'Regex extrae/valida forma. Matching de identidad es política + evidencia (T4).',
     },
@@ -3491,11 +3491,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Tras normalizar NFC+casefold, ¿qué es una comparación exacta de nombres?',
       options: [
         'Jaccard > 0.5',
-        'Igualdad de strings normalizados (o de tokens canónicos unidos)',
         'Distancia de Levenshtein obligatoria',
+        'Igualdad de strings normalizados (o de tokens canónicos unidos)',
         'Siempre True si comparten un apellido',
       ],
-      correctIndex: 1,
+      correctIndex: 2,
       explanation:
         'Exacta = igualdad post-normalización. Similitud por tokens es otra capa.',
     },
@@ -3505,25 +3505,25 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'Jaccard simple de tokens entre conjuntos A y B se define como:',
       options: [
         '|A∪B| / |A∩B|',
-        '|A∩B| / |A∪B| (con unión vacía → política 0 o N/A)',
         '|A| - |B|',
         'len(A)+len(B)',
+        '|A∩B| / |A∪B| (si ambos conjuntos están vacíos, el contrato de esta sección devuelve 1.0)',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
-        'Intersección sobre unión. Documenta división por cero si ambos vacíos.',
+        'Intersección sobre unión. Para dos entradas vacías, el contrato de la sección devuelve 1.0; si solo una está vacía, devuelve 0.0.',
     },
     {
       concept: 'exact-token-similarity',
       question:
         '¿Para qué sirve un score de tokens en CP-N1-B según el curso?',
       options: [
-        'Afirmar parentesco legal automáticamente',
         'Priorizar revisión humana / ranking de candidatos — no certificar identidad',
+        'Afirmar parentesco legal automáticamente',
         'Reemplazar el raw',
         'Borrar tildes del DNI',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Score ≠ veredicto legal. Es señal para review, no claim de parentesco.',
     },
@@ -3533,11 +3533,11 @@ const QUESTION_BANK: Record<string, Q[]> = {
         'En matching de clientes, un falso positivo (FP) es:',
       options: [
         'Rechazar dos registros que sí son la misma persona de negocio',
-        'Declarar match cuando no deberían considerarse la misma entidad',
         'Un error de sintaxis Python',
         'Siempre preferible a un FN',
+        'Declarar match cuando no deberían considerarse la misma entidad',
       ],
-      correctIndex: 1,
+      correctIndex: 3,
       explanation:
         'FP = match erróneo (riesgo de fusión indebida). FN = miss de match real.',
     },
@@ -3546,12 +3546,12 @@ const QUESTION_BANK: Record<string, Q[]> = {
       question:
         '¿Qué evidencia mínima debe conservar el normalizador/matcher del curso?',
       options: [
-        'Solo el score final sin inputs',
         'raw, normalized, transforms aplicados y razón de match/review — sin PII real de producción',
+        'Solo el score final sin inputs',
         'El password del usuario',
         'Nada; evidencia es opcional',
       ],
-      correctIndex: 1,
+      correctIndex: 0,
       explanation:
         'Audit trail: raw + transforms + decisión. Datos sintéticos en demos.',
     },

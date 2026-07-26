@@ -12,7 +12,7 @@ export const section08: CourseSection = {
   icon: "FileStack",
   accentColor: "bg-gradient-to-br from-green-500 to-emerald-600",
   jobRelevance:
-    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). Un groupby de demo impresiona menos en entrevista junior que un pipeline fail-closed con reconcile por fuente. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
+    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). En una entrevista junior, un pipeline fail-closed con reconciliación por fuente demuestra que sabes detectar pérdidas en vez de ocultarlas detrás de una salida aparentemente correcta. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
   learningOutcomes: [
     { text: "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito" },
     { text: "Manejar newlines y escritura atómica (temp + replace)" },
@@ -471,7 +471,7 @@ text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n"
 print(split_clean_quarantine(text))`,
           output: `([{'id': 'C001', 'nombre': 'Ana'}], [{'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'}, {'raw': 'badonly', 'reason': 'col_count'}])`,
         },
-        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. El raw intacto permite reprocessar. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
+        why: "Cuarentena con `reason` estable (`col_count`) deja audit trail; clean solo tiene filas sanas. El raw intacto permite reprocesar. Sin este split, el reconcile de T4 no tiene de dónde sacar `n_quarantine` por fuente.",
         retrospective:
           "Irregular ≠ “casi bien”: es rechazo con traza. El misconception es truncar o rellenar columnas a ciegas. We Do: booleano col_count, escribir quarantine.csv y resumir motivos.",
       },
@@ -701,12 +701,12 @@ print(lines)`,
         },
       },
       {
-        id: "S08-T1-A-E3",
         subtopicId: "S08-T1-A",
         kind: "transfer",
         title: "Diagnosticar UTF-8 roto y cuarentenar",
         preamble:
           "- **Contexto:** un export sintético llega con bytes que no son UTF-8; el gate no “arregla” tildes a ojo.\n- **Meta:** capturar `UnicodeDecodeError` y nombrar una acción fail-closed.\n- **Éxito:** primera línea `UnicodeDecodeError`; segunda, una acción (cuarentenar o reintentar con encoding documentado).\n- **Límites:** no uses `latin-1` para “hacer que funcione”; no inventes PII real.",
+        id: "S08-T1-A-E3",
         instruction:
           "1. El starter lee con `latin-1` y siempre “funciona”: es el defecto.\n2. Intenta `read_text(encoding='utf-8')` dentro de `try`.\n3. En `except UnicodeDecodeError`, imprime `type(e).__name__` y la acción.\n4. No silencies la excepción con otro encoding mágico.",
         hint: "path.write_bytes(b'\\xff\\xfe\\xfa'); try/except UnicodeDecodeError",
@@ -749,12 +749,12 @@ acción: cuarentenar archivo o reintentar con encoding documentado`,
         },
       },
       {
-        id: "S08-T1-B-E1",
         subtopicId: "S08-T1-B",
         kind: "guided",
         title: "Detectar CRLF en samples win y unix",
         preamble:
           "- **Contexto:** exports de Excel en Windows suelen traer `\\r\\n`; documentar el origen ayuda al manifest/logs, sin reescribir el crudo.\n- **Meta:** detectar presencia de `b'\\r\\n'` en samples sintéticos.\n- **Éxito:** imprime `True` y luego `False`.\n- **Límites:** solo bytes; no “arregles” el archivo ni conviertas newlines aquí.",
+        id: "S08-T1-B-E1",
         instruction:
           "1. El starter usa `b'\\n' in data` (True en win y unix): es el defecto.\n2. Cambia a buscar `b'\\r\\n'`.\n3. Imprime el booleano de `win` y el de `unix`.\n4. No mutes los samples.",
         hint: "b'\\r\\n' in data",
@@ -789,12 +789,12 @@ False`,
         },
       },
       {
-        id: "S08-T1-B-E2",
         subtopicId: "S08-T1-B",
         kind: "independent",
         title: "Implementar write_atomic con tmp y replace",
         preamble:
           "- **Contexto:** clean, quarantine y manifest del CP-N1-B deben publicarse sin estados a medias.\n- **Meta:** implementar `write_atomic(path, text)` con el contrato del curso.\n- **Éxito:** tras escribir `'ok\\n'`, el contenido final es la línea `ok`.\n- **Límites:** `tmp = path.with_name(path.name + '.tmp')` + `os.replace`; UTF-8; no dejes el tmp.",
+        id: "S08-T1-B-E2",
         instruction:
           "1. El starter escribe directo al destino: corrígelo.\n2. Escribe el texto completo al `.tmp` en el mismo directorio.\n3. Haz `os.replace(tmp, path)`.\n4. Escribe `'ok\\n'`, relee e imprime el contenido (sin basura extra).",
         hint: "tmp + os.replace",
@@ -1354,12 +1354,12 @@ None`,
         },
       },
       {
-        id: "S08-T3-B-E3",
         subtopicId: "S08-T3-B",
         kind: "transfer",
         title: "Default segment sin pisar vip",
         preamble:
           "- **Contexto:** el contrato crece con un campo opcional `segment`; productores viejos no lo envían.\n- **Meta:** aplicar default `'standard'` sin destruir `'vip'`.\n- **Éxito:** `{'id': 'C1', 'segment': 'standard'}` y `{'id': 'C2', 'segment': 'vip'}`.\n- **Límites:** usa `setdefault`; no asignes a ciegas `obj['segment'] = 'standard'`.",
+        id: "S08-T3-B-E3",
         instruction:
           "1. El starter pisa `vip` con assignment.\n2. En ambos dicts llama `setdefault('segment', 'standard')`.\n3. Imprime `a` y `b`.\n4. Verifica que C2 sigue en vip.",
         hint: "setdefault",
@@ -1489,12 +1489,12 @@ print(bak.read_bytes() == src.read_bytes())`,
         },
       },
       {
-        id: "S08-T4-A-E3",
         subtopicId: "S08-T4-A",
         kind: "transfer",
         title: "Dict de provenance path sha256 bytes",
         preamble:
           "- **Contexto:** cada fuente del manifest carga provenance mínima del crudo.\n- **Meta:** armar `{path, sha256, bytes}` para `clients.csv` sintético.\n- **Éxito:** path `clients.csv`, sha256 completo que empieza en `b776a3a3…`, `bytes` 6.\n- **Límites:** hashea `read_bytes` del archivo; `bytes` vía `stat().st_size` (o len de bytes leídos).",
+        id: "S08-T4-A-E3",
         instruction:
           "1. El starter solo pone `path`.\n2. Añade `sha256` hex completo y `bytes` del tamaño.\n3. Imprime el dict (no solo keys parciales).\n4. Contenido del fixture: `id\\nC1\\n` (6 bytes).",
         hint: "stat().st_size",
@@ -1595,12 +1595,12 @@ True`,
         },
       },
       {
-        id: "S08-T4-B-E2",
         subtopicId: "S08-T4-B",
         kind: "independent",
         title: "Reconciliar por fuente sin compensación",
         preamble:
           "- **Contexto:** un sobrante en clients y un faltante en transactions pueden “cuadrar” en el total y mentir.\n- **Meta:** `reconcile_sources` exige igualdad **por cada fuente** y en agregados.\n- **Éxito:** imprime `True` (good) y luego `False` (compensated_bad).\n- **Fixtures:** `good = [{'n_in': 5, 'n_clean': 3, 'n_quarantine': 2}]`; `compensated_bad = [{'n_in': 5, 'n_clean': 5, 'n_quarantine': 1}, {'n_in': 5, 'n_clean': 4, 'n_quarantine': 0}]` (agregado 10=10; cada fuente no cuadra).\n- **Límites:** no baste la suma global; el contrato final devuelve un **solo booleano**.",
+        id: "S08-T4-B-E2",
         instruction:
           "1. El starter devuelve siempre True (y el contrato final es un **solo booleano**, no una tupla).\n2. Exige igualdad **por cada fuente** y también en los totales derivados.\n3. Prueba `good` y `compensated_bad` con los fixtures del preamble.\n4. Imprime solo los dos booleanos (`True` luego `False`).",
         hint: "all(...) por fuente, y también n_in == n_clean + n_quarantine en totales",
@@ -1654,12 +1654,12 @@ False`,
         },
       },
       {
-        id: "S08-T4-B-E3",
         subtopicId: "S08-T4-B",
         kind: "transfer",
         title: "run fail-closed con exit_code 0 o 1",
         preamble:
           "- **Contexto:** el núcleo de salida del ETL publica clean solo si **todas** las fuentes reconcilian.\n- **Meta:** implementar `run(sources)` fail-closed.\n- **Éxito:** good → `OK` / `exit_code 0`; compensated_bad → `ERROR sources=clients.csv,transactions.json` / `exit_code 1`.\n- **Límites:** reporta **todas** las fuentes rotas; no digas OK parcial.",
+        id: "S08-T4-B-E3",
         instruction:
           "1. El starter siempre imprime OK.\n2. Arma `broken` con nombres donde no cuadra `n_in`.\n3. Si hay broken: ERROR con join por coma, exit 1.\n4. Si no: OK, exit 0. Ejecuta good y bad en ese orden.",
         hint: "Lista nombres de fuentes donde n_in no cuadra; si hay alguna, ERROR + exit 1.",
@@ -1827,7 +1827,7 @@ if __name__ == "__main__":
         options: ["Es más rápido", "Comprime el archivo", "Activa pathlib", "Evita depender del locale del SO (p. ej. Windows)"],
         correctIndex: 3,
         explanation:
-          "El default de texto no es portátil; UTF-8 explícito evita mojibake y DecodeError sorpresa.",
+          "El default de texto no es portátil; UTF-8 explícito evita mojibake y `UnicodeDecodeError` inesperados.",
       },
       {
         question: "¿Cuál es la escritura atómica típica en este curso?",

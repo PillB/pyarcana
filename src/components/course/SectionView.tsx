@@ -1131,83 +1131,108 @@ conflictos: 1
       hint: 'Agrega un duplicado idéntico y comprueba que no aumenta el número de conflictos.',
     },
     'pandas': {
-      title: 'Practica pandas DataFrame',
-      code: `# Practica pandas (se carga automaticamente)
-import pandas as pd
+      title: 'Practica ingesta con cuarentena y manifest',
+      code: `import csv, hashlib, io, json
+from decimal import Decimal, InvalidOperation
 
-# Crear DataFrame
-df = pd.DataFrame({
-    "producto": ["arroz", "aceite", "azucar", "arroz"],
-    "region": ["Lima", "Lima", "Arequipa", "Cusco"],
-    "ventas": [1500, 800, 900, 1200]
-})
+raw = "id,monto\\nC001,10.5\\nC002,x\\nC003,3\\n"
+clean = []
+quarantine = []
 
-print("=== DataFrame ===")
-print(df)
-print(f"\\nShape: {df.shape}")
+for row in csv.DictReader(io.StringIO(raw)):
+    try:
+        clean.append({
+            "id": row["id"],
+            "monto": str(Decimal(row["monto"]).quantize(Decimal("0.01"))),
+        })
+    except InvalidOperation:
+        quarantine.append({"raw": row, "reason": "cast_monto"})
 
-# GroupBy: ventas por producto
-print("\\n=== Ventas por producto ===")
-print(df.groupby("producto")["ventas"].sum())
+manifest = {
+    "sha256_12": hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12],
+    "n_in": len(clean) + len(quarantine),
+    "n_clean": len(clean),
+    "n_quarantine": len(quarantine),
+}
+manifest["reconcile_ok"] = (
+    manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
+)
 
-# Filtrado
-print("\\n=== Solo Lima ===")
-print(df[df["region"] == "Lima"])
-
-# Estadisticas
-print(f"\\nVentas totales: {df['ventas'].sum()}")
-print(f"Ticket promedio: {df['ventas'].mean():.2f}")`,
-      expectedOutput: `=== DataFrame ===
-  producto    region  ventas
-0    arroz      Lima    1500
-1   aceite      Lima     800
-2   azucar  Arequipa     900
-3    arroz     Cusco    1200
-
-Shape: (4, 3)
-
-=== Ventas por producto ===
-producto
-aceite     800
-arroz     2700
-azucar     900
-Name: ventas, dtype: int64
-
-=== Solo Lima ===
-  producto region  ventas
-0    arroz   Lima    1500
-1   aceite   Lima     800
-
-Ventas totales: 4400
-Ticket promedio: 1100.00`,
-      hint: 'Agrega una quinta fila y observa cómo cambian los groupby',
+print("clean", json.dumps(clean, ensure_ascii=False, sort_keys=True))
+print("quarantine", json.dumps(quarantine, ensure_ascii=False, sort_keys=True))
+print("manifest", json.dumps(manifest, sort_keys=True))`,
+      expectedOutput: `clean [{"id": "C001", "monto": "10.50"}, {"id": "C003", "monto": "3.00"}]
+quarantine [{"raw": {"id": "C002", "monto": "x"}, "reason": "cast_monto"}]
+manifest {"n_clean": 2, "n_in": 3, "n_quarantine": 1, "reconcile_ok": true, "sha256_12": "0181876342b5"}`,
+      hint: 'Cambia el monto de C002 por 7.25 y comprueba cómo cambian clean, quarantine y el manifest.',
     },
     'visualization': {
-      title: 'Practica matplotlib',
-      code: `# Practica matplotlib (se carga automaticamente)
-import matplotlib.pyplot as plt
-import numpy as np
+      title: 'Practica un lote observable y sin PII',
+      code: `# Excepciones, cuarentena y logging seguro — solo datos sintéticos
+import io
+import logging
 
-# Datos
-meses = ["Ene", "Feb", "Mar", "Abr", "May"]
-ventas_2024 = [120, 145, 138, 165, 178]
-ventas_2025 = [135, 158, 162, 180, 195]
+class ConfigError(Exception):
+    pass
 
-# Crear grafico
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(meses, ventas_2024, marker='o', label='2024')
-ax.plot(meses, ventas_2025, marker='s', label='2025')
-ax.set_title('Ventas mensuales')
-ax.set_xlabel('Mes')
-ax.set_ylabel('Ventas')
-ax.legend()
-ax.grid(True, alpha=0.3)
+def mask_email(email):
+    local, separator, domain = email.partition("@")
+    if not separator or not local or not domain:
+        return "***"
+    return f"{local[0]}***@{domain}"
 
-plt.tight_layout()
-plt.savefig('plot.png', dpi=100)
-print("Grafico creado y guardado como plot.png")
-print(f"Crecimiento May: {((ventas_2025[-1] - ventas_2024[-1]) / ventas_2024[-1] * 100):.1f}%")`,
-      hint: 'Cambia los datos y vuelve a ejecutar para ver cómo cambia el gráfico',
+def process_batch(records, required_fields, correlation_id, log):
+    if not required_fields:
+        raise ConfigError("required_fields vacío")
+
+    ok = []
+    quarantined = []
+    for record in records:
+        missing = [field for field in required_fields if not record.get(field)]
+        if missing:
+            reason = "missing:" + ",".join(missing)
+            log.warning(
+                "correlation_id=%s record_id=%s event=quarantine reason=%s email=%s",
+                correlation_id,
+                record.get("id", "sin-id"),
+                reason,
+                mask_email(record.get("email", "")),
+            )
+            quarantined.append({"id": record.get("id"), "reason": reason})
+        else:
+            ok.append(record)
+
+    assert len(records) == len(ok) + len(quarantined)
+    return {"in": len(records), "ok": ok, "quarantined": quarantined}
+
+buffer = io.StringIO()
+logger = logging.getLogger("s09.playground")
+logger.handlers.clear()
+logger.setLevel(logging.WARNING)
+handler = logging.StreamHandler(buffer)
+handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+logger.addHandler(handler)
+logger.propagate = False
+
+rows = [
+    {"id": "C001", "email": "ana@ejemplo.pe"},
+    {"id": "C002", "email": ""},
+]
+result = process_batch(rows, ["id", "email"], "corr-demo", logger)
+print(buffer.getvalue().strip())
+print(
+    f"in={result['in']} ok={len(result['ok'])} "
+    f"quarantined={len(result['quarantined'])}"
+)
+
+try:
+    process_batch(rows, [], "corr-demo", logger)
+except ConfigError as error:
+    print("fatal:", error)`,
+      expectedOutput: `WARNING correlation_id=corr-demo record_id=C002 event=quarantine reason=missing:email email=***
+in=2 ok=1 quarantined=1
+fatal: required_fields vacío`,
+      hint: 'Agrega una fila sin id y comprueba que el reconcile siga cuadrando sin imprimir el email completo',
     },
     'sklearn': {
       title: 'Practica scikit-learn',
@@ -1298,56 +1323,58 @@ print("\\n✅ Todos los tests pasaron!")`,
       hint: 'Agrega un test para verificar que funciona con notas negativas',
     },
     'data-acquisition': {
-      title: 'Practica scraping, regex y SQL',
-      code: `# Practica adquisicion de datos (sin librerias externas en Pyodide)
+      title: 'Practica Unicode, regex y evidencia',
+      code: `# Laboratorio de texto latinoamericano con datos sintéticos
 import re
-import sqlite3
-from collections import Counter, defaultdict
+import unicodedata
 
-# === REGEX: extraer datos de texto desestructurado ===
-texto_clientes = """
-Cliente 1: Maria Quispe, DNI 12345678, tel 999-888-777, maria@email.pe
-Cliente 2: Luis Garcia, DNI 87654321, tel 987-654-321, luis.garcia@empresa.com
-Cliente 3: Ana Flores, DNI 11223344, tel 999-111-222, ana.f@pe.org
-"""
+def normalize_text(raw):
+    nfc = unicodedata.normalize("NFC", raw)
+    return " ".join(nfc.split()).casefold()
 
-# Extraer todos los DNIs (8 digitos)
-dnis = re.findall(r'\\b\\d{8}\\b', texto_clientes)
-print(f"DNIs encontrados: {dnis}")
+def normalize_email(raw):
+    value = raw.strip().casefold()
+    if value.count("@") != 1 or any(ch.isspace() for ch in value):
+        raise ValueError("email requiere un @ y cero espacios")
+    local, domain = value.split("@")
+    if not local or not domain:
+        raise ValueError("email requiere local y dominio")
+    return value
 
-# Extraer emails
-emails = re.findall(r'[\\w.-]+@[\\w.-]+\\.\\w+', texto_clientes)
-print(f"Emails: {emails}")
+def token_jaccard(a, b):
+    def tokens(value):
+        clean = normalize_text(value.replace(".", " "))
+        return set(clean.split())
+    left, right = tokens(a), tokens(b)
+    if not left and not right:
+        return 1.0
+    if not left or not right:
+        return 0.0
+    return len(left & right) / len(left | right)
 
-# Extraer telefonos (formato XXX-XXX-XXX)
-telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', texto_clientes)
-print(f"Telefonos: {telefonos}")
+raw_a = "  José  Quispe "
+raw_b = "Jose\\u0301 Quispe"
+print("NFC iguales:", normalize_text(raw_a) == normalize_text(raw_b))
+print("Email:", normalize_email(" Ana+demo@Example.COM "))
 
-# === COUNTER: frecuencias ===
-nombres = ["Maria", "Luis", "Ana", "Maria", "Carlos", "Maria", "Luis"]
-contador = Counter(nombres)
-print(f"\\nTop 2 nombres mas frecuentes: {contador.most_common(2)}")
+try:
+    normalize_email("ana@@example.com")
+except ValueError:
+    print("Email inválido → review:", True)
 
-# === DEFAULTDICT: agrupar ===
-ventas = [("Maria", 100), ("Luis", 200), ("Maria", 150), ("Ana", 300)]
-por_vendedor = defaultdict(list)
-for nombre, monto in ventas:
-    por_vendedor[nombre].append(monto)
+text = "DNI 12345678 PE"
+print("search/fullmatch:", bool(re.search(r"\\d{8}", text)), bool(re.fullmatch(r"\\d{8}", text)))
 
-print("\\nVentas por vendedor:")
-for vendedor, montos in por_vendedor.items():
-    print(f"  {vendedor}: {montos} (total: {sum(montos)})")`,
-      expectedOutput: `DNIs encontrados: ['12345678', '87654321', '11223344']
-Emails: ['maria@email.pe', 'luis.garcia@empresa.com', 'ana.f@pe.org']
-Telefonos: ['999-888-777', '987-654-321', '999-111-222']
-
-Top 2 nombres mas frecuentes: [('Maria', 3), ('Luis', 2)]
-
-Ventas por vendedor:
-  Maria: [100, 150] (total: 250)
-  Luis: [200] (total: 200)
-  Ana: [300] (total: 300)`,
-      hint: 'Intenta extraer los nombres del texto con regex (palabras despues de "Cliente N:")',
+score = token_jaccard("Juan Perez", "Juan P. Perez")
+print("Jaccard:", round(score, 3))
+print("Decisión:", "review" if 0.4 <= score < 1.0 else "exact")`,
+      expectedOutput: `NFC iguales: True
+Email: ana+demo@example.com
+Email inválido → review: True
+search/fullmatch: True False
+Jaccard: 0.667
+Decisión: review`,
+      hint: 'Prueba un nombre vacío, un email sin parte local y dos nombres sin tokens compartidos',
     },
     'performance': {
       title: 'Practica multiprocessing y logging',
