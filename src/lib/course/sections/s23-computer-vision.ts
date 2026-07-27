@@ -12,7 +12,7 @@ export const section23: CourseSection = {
   icon: "Monitor",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **adaptador web** de CP-N2-C automatiza un sitio local controlado con la mentalidad Playwright: locators de usuario, traces, retries y **API primero**. No evade CAPTCHA ni términos; el handoff humano es parte del contrato. En operaciones (p. ej. backoffice sintético en Lima) el valor es el dato verificado y auditable, no “haber automatizado el clic”.",
+    "El adaptador web de CP-N2-C automatiza un sitio local controlado con la mentalidad Playwright: locators de usuario, traces, retries y API primero. No evade CAPTCHA ni términos; el handoff humano es parte del contrato. En operaciones (p. ej. backoffice sintético en Lima) el valor es el dato verificado y auditable, no “haber automatizado el clic”.",
   learningOutcomes: [
     { text: "Usar locators orientados a usuario" },
     { text: "Aplicar auto-waiting y assertions fiables" },
@@ -27,7 +27,7 @@ export const section23: CourseSection = {
     {
       heading: "Browser RPA contra una fixture local controlada",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1). **Locator:** consulta estable de un control (preferir rol y nombre visibles). **Auto-wait:** esperar a que el control sea usable, no `sleep` fijo. **Page Object:** clase que encapsula selectores y acciones de una pantalla. **Trace:** paquete de evidencia de la corrida (pasos, red, DOM) para diagnosticar fallas. **storage_state:** cookies/localStorage reutilizables entre corridas. **API-first:** preferir endpoint o export al clic de la UI. **Handoff humano:** detener el robot ante CAPTCHA/ToS y pasar evidencia a una persona. **Flaky:** prueba que a veces pasa y a veces falla por timing o entorno inestable.",
+        "**Diccionario de la sección** (léelo antes de T1). **DOM:** árbol de objetos de la página (Document Object Model); lo recorres con locators. **Locator:** consulta estable de un control (preferir rol y nombre visibles). **Auto-wait:** esperar a que el control sea usable, no `sleep` fijo. **Page Object:** clase que encapsula selectores y acciones de una pantalla. **Trace:** paquete de evidencia de la corrida (pasos, red, DOM) para diagnosticar fallas. **storage_state:** cookies/localStorage reutilizables entre corridas. **API-first:** preferir endpoint o export al clic de la UI. **Handoff humano:** detener el robot ante CAPTCHA/ToS y pasar evidencia a una persona. **CI:** integración continua, el runner que ejecuta pruebas en cada push. **ToS:** términos del servicio (reglas contractuales del sitio). **CAPTCHA:** desafío automático para distinguir humano de bot. **PII:** información personal identificable (datos sensibles del cliente). **Flaky:** prueba que a veces pasa y a veces falla por timing o entorno inestable.",
         "En S22 dejaste el hilo de **CP-N2-C** en borrador de correo con aprobación humana. Aquí construyes el **adaptador web**: obtener un reporte desde un **sitio de práctica local** (HTML/CSV sintéticos), sin red externa ni credenciales reales de bancos o SUNAT. El dato debe salir con **trace** y, si hubo download, **integridad** verificada (hash o tamaño).",
         "Practicamos primero el **contrato** con DOM/sesión en dicts (reproducible en cualquier máquina sin Chromium). La misma lógica se mapea a Playwright real (`get_by_role`, `expect`, download, tracing) cuando instales el runtime en local — el sketch de abajo muestra esa forma. Orden: **T1 Navegación** (locators, auto-wait) → **T2 Flujos** (forms, auth, Page Objects) → **T3 Diagnóstico** (trace, retries, reanudación) → **T4 Límites** (API-first, ToS/CAPTCHA/handoff). RPA es último recurso tras API/export; nunca bypass de CAPTCHA ni términos. En **S24** el hilo CP-N2-C sigue con OCR/Document AI sobre el binario que aquí descargas con integridad verificada.",
       ],
@@ -538,7 +538,7 @@ keys ['error', 'ok', 'shot', 'step', 'trace']
 ok True`,
         },
         why:
-          "El trío mínimo trace + screenshot + error tipado hace la falla actuable para el on-call; un print suelto del mensaje no es paquete de evidencia. Keys estables permiten comparar la **forma** del paquete en CI aunque el texto del error cambie entre corridas. Paths deterministas por step (`traces/{step}.zip`) predicen el disco del runner. En We Do: keys vs values, filtro ERR en logs y adjuntar trace solo cuando ok es False.",
+          "El trío mínimo trace + screenshot + error tipado hace la falla actuable para el on-call; un print suelto del mensaje no es paquete de evidencia. Keys estables permiten comparar la **forma** del paquete en CI aunque el texto del error cambie entre corridas. Paths deterministas por step (`traces/{step}.zip`) predicen el disco del runner. En We Do: keys vs. values, filtro ERR en logs y adjuntar trace solo cuando ok es False.",
         retrospective:
           "Evidencia reproducible es parte del adaptador, no un extra de “cuando haya tiempo”. El misconception “un print del error basta” deja al on-call ciego a las 2 a.m. We Do: forma del paquete, señal en logs y path de trace en falla.",
       },
@@ -572,9 +572,9 @@ retry_ok True
 ok True`,
         },
         why:
-          "Retries solo para fallas transitorias (timeout, 429); CAPTCHA es stop condition del contrato del adapter — handoff humano, nunca “otro user-agent” ni granja. Handoff no es fracaso de carrera: es política ética y operativa. Un loop infinito ante captcha castiga al portal y viola el runbook. En We Do: codificar `should_retry`, recovery distinta para stale vs timeout, y `next_step` tras checkpoint `last_ok_step`.",
+          "Retries solo para fallas transitorias (timeout, 429); CAPTCHA es stop condition del contrato del adapter — handoff humano, nunca “otro user-agent” ni granja. Handoff no es fracaso de carrera: es política ética y operativa. Un loop infinito ante captcha castiga al portal y viola el runbook. En We Do: codificar `should_retry`, recovery distinta para stale vs. timeout, y `next_step` tras checkpoint `last_ok_step`.",
         retrospective:
-          "Si puedes separar “timeout reintentable” de “captcha no reintentable” sin mirar el código, ya tienes la política de recovery del adaptador. El error clásico es reintentar cualquier excepción. We Do: codificar `should_retry`, recovery distinta para stale vs timeout, y `next_step` tras checkpoint `last_ok_step`.",
+          "Si puedes separar “timeout reintentable” de “captcha no reintentable” sin mirar el código, ya tienes la política de recovery del adaptador. El error clásico es reintentar cualquier excepción. We Do: codificar `should_retry`, recovery distinta para stale vs. timeout, y `next_step` tras checkpoint `last_ok_step`.",
       },
       {
         demoId: "S23-T4-A-DEMO",
@@ -1329,7 +1329,7 @@ captcha False
 429 True`,
         },
         retrospective:
-          "`should_retry` es el runbook en una función: solo transitorios (`timeout`, `429`). Incluir captcha en el set no es un detalle del grader — es un anti-patrón ético que castiga al portal. Pregunta: ¿por qué un 403 de negocio tampoco debería reintentarse? Siguiente (E2): recovery distinta para stale DOM vs timeout.",
+          "`should_retry` es el runbook en una función: solo transitorios (`timeout`, `429`). Incluir captcha en el set no es un detalle del grader — es un anti-patrón ético que castiga al portal. Pregunta: ¿por qué un 403 de negocio tampoco debería reintentarse? Siguiente (E2): recovery distinta para stale DOM vs. timeout.",
       },
       {
         id: "S23-T3-B-E2",
@@ -1353,7 +1353,7 @@ captcha False
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-023 · recovery stale vs timeout
+          code: `# CASO-LIM-023 · recovery stale vs. timeout
 # Arregla: stale devuelve continue
 def recover(err):
     if err == 'stale':
@@ -1382,7 +1382,7 @@ print(recover('timeout'))`,
 retry`,
         },
         retrospective:
-          "Stale y timeout se sienten “igual de rojos” en el log, pero piden acciones distintas: renavegar vs reintentar el paso. El error clásico es un solo retry ciego. Luego (E3) reanudas por checkpoint sin rehacer login.",
+          "Stale y timeout se sienten “igual de rojos” en el log, pero piden acciones distintas: renavegar vs. reintentar el paso. El error clásico es un solo retry ciego. Luego (E3) reanudas por checkpoint sin rehacer login.",
       },
       {
         id: "S23-T3-B-E3",

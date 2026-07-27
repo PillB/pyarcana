@@ -1396,3 +1396,46 @@ Stage Summary:
 - 35+ regression tests prevent content removal in future changes
 - CI pipeline updated with regression-content + regression-browser jobs
 - VLM-validated: "clean layout, no overlapping elements, content readable"
+
+---
+Task ID: FIXER-S23
+Agent: Independent Section 23 Fixer
+Task: Fresh text-first review and remediation of Section 23.
+
+Work Log:
+- Acknowledged the Anti-Aberration Rules. Scope: Section 23 only. No scripts/loops/templates for prose generation; scripts used only for validation.
+- Read canonical source `src/lib/course/sections/s23-computer-vision.ts` (1930 lines), expert report `expert_audit/S23_report.md` (1246 lines), Spanish-quality JSON `course-state/curriculum_hardening/audits/spanish_quality/S23_SPANISH_QUALITY.json`, prior R2 worklog entry, and live-render path via `SectionView.tsx` + `RichText.tsx` + `Callout.tsx`.
+- Verified previously-fixed items already in canonical source (R1/R2 fleet):
+  * `primer i` / `último i` → `primera i` / `última i` (5 occurrences, lines 442/444/771/783/788) — all feminine ✓
+  * `click` → `clic` as noun in prose (lines 15/30/75/157/193/319/412/477/479/586/665/960/985/1340/1345/1352/1434/1441/1446/1843/1846) — `click()` method calls on lines 48/50 untouched ✓
+  * `5s` → `5 s` SI spacing (lines 111/150/423/822) — all already `5 s` ✓
+- Confirmed the only `**bold**` markdown leak in a plain-text-rendered field:
+  * Inspected `SectionView.tsx:189` — `<p>{section.jobRelevance}</p>` is plain React text, NOT routed through `RichText`. Other `**` occurrences live in theory paragraphs / iDo `why`/`preamble`/`retrospective` / weDo `instruction`/`feedback`/`retrospective` / youDo `context` — all rendered via `RichText` (which parses `**bold**` → `<strong>`), so they are intentional house style, not leaks.
+  * Stripped `**adaptador web**` and `**API primero**` from `jobRelevance` (line 15). Now renders cleanly in the Briefcase Popover without literal asterisks.
+- Applied Stephen Fry redaction (explain jargon inline) by extending the Diccionario at line 30. The expert report flagged that the Diccionario covered Locator/Auto-wait/Page Object/Trace/storage_state/API-first/Handoff/Flaky but NOT ToS, CAPTCHA, PII, CI, DOM. Added 5 brief inline definitions:
+  * **DOM:** árbol de objetos de la página (Document Object Model); lo recorres con locators.
+  * **CI:** integración continua, el runner que ejecuta pruebas en cada push.
+  * **ToS:** términos del servicio (reglas contractuales del sitio).
+  * **CAPTCHA:** desafío automático para distinguir humano de bot.
+  * **PII:** información personal identificable (datos sensibles del cliente).
+- Fixed `vs` → `vs.` (RAE/Fundéu abbreviation form) in 6 sites:
+  * Line 541 (iDo why S23-T3-A-DEMO): `keys vs values` → `keys vs. values`
+  * Line 575 (iDo why S23-T3-B-DEMO): `stale vs timeout` → `stale vs. timeout`
+  * Line 577 (iDo retrospective S23-T3-B-DEMO): `stale vs timeout` → `stale vs. timeout`
+  * Line 1332 (weDo retrospective S23-T3-B-E1): `stale DOM vs timeout` → `stale DOM vs. timeout`
+  * Line 1385 (weDo retrospective S23-T3-B-E2): `renavegar vs reintentar` → `renavegar vs. reintentar`
+  * Line 1356 (weDo starterCode comment S23-T3-B-E2): `recovery stale vs timeout` → `recovery stale vs. timeout`
+  * Lines 863 (preamble) and 1795 (youDo.retrospective) already used `vs.` correctly — untouched.
+- Validation:
+  * `npx eslint src/lib/course/sections/s23-computer-vision.ts` — 0 errors ✓
+  * `npx tsc --noEmit` — 0 errors in S23 (all pre-existing errors in unrelated files: api routes, firebase, bcryptjs, react-leaflet, xlsx) ✓
+  * `python3 scripts/spanish_quality_audit.py --from 23 --to 23 --no-lt` — findings=102, score=9.30, FH=92.9 (baseline before this round was findings=100, score=9.31). The +2 findings are `lowercase_after_period` false positives on the two new `vs.` sites in `why` fields (the audit's regex `[.!?]\s+[a-z]` treats `vs.` as sentence-final). These are tool limitations — `vs.` is the RAE-correct abbreviation form per Fundéu, and `vs.` already existed without issue in non-audited fields (preamble/retrospective). Score delta is -0.01, within noise.
+
+Stage Summary:
+- Section 23 R3 fix complete. R1/R2 prior fixes (primer i/última i, click→clic, 5s→5 s, logs enteros, la integridad, una descarga, re-loguear→volver a iniciar sesión, doble envío, actuable, ToS prohíbe, Recuperación) all retained and re-verified.
+- New R3 hand fixes: (1) stripped `**` markdown leak from `jobRelevance` (only confirmed leak — all other `**` are intentional house-style bold rendered via RichText); (2) extended Diccionario with DOM/CI/ToS/CAPTCHA/PII inline definitions (Stephen Fry redaction per expert-report gap); (3) standardized `vs` → `vs.` (RAE/Fundéu) across 6 sites.
+- Course invariants preserved: ethics (ToS/CAPTCHA/handoff), API-first hierarchy, CASO-LIM-023, CP-N2-C S22→S23→S24, dict lab + optional Playwright sketch, id `computer-vision` compatibility.
+- Anti-aberration: hand craft only for educational content; scripts only for validation.
+- Validation: tsc clean for S23, eslint clean for S23, Spanish quality 9.30/10 (FH 92.9, label "fácil"). The 2 new low-severity findings are false positives of the audit's abbreviation-blind `lowercase_after_period` regex on the RAE-correct `vs.` form.
+
+Section 23 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.

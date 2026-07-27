@@ -18,18 +18,18 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **394** | Paragraphs: **243**
+- Sentences: **464** | Paragraphs: **294**
 - Findings: **102** (high=0, medium=2, low=100)
-- Mean quality score (0–10): **9.18**
-- Mean Fernández-Huerta: **86.9** (fácil)
-- Mean words/sentence: **10.92**
+- Mean quality score (0–10): **9.3**
+- Mean Fernández-Huerta: **92.9** (muy fácil)
+- Mean words/sentence: **9.73**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S22 | 9.18 | 86.9 | 10.92 | 0/2/100 | `s22-rapidfuzz-entity.ts` |
+| S23 | 9.3 | 92.9 | 9.73 | 0/2/100 | `s23-computer-vision.ts` |
 
 ## Top failure rules (causes & improvements)
 
@@ -37,17 +37,13 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `space_before_punct` (n=2)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `missing_terminal_punct` (n=2)
-- **Cause:** Frases colgadas tras edición o plantillas.
-- **Improvement:** Toda oración asertiva cierra con punto.
-
-### `lowercase_after_period` (n=1)
+### `lowercase_after_period` (n=3)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
+
+### `repeated_word` (n=2)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.

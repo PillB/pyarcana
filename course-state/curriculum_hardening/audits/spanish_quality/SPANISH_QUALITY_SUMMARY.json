@@ -12,18 +12,18 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 394,
-  "total_paragraphs": 243,
+  "total_sentences": 464,
+  "total_paragraphs": 294,
   "total_findings": 102,
   "severity": {
     "low": 100,
     "medium": 2
   },
-  "mean_quality_score": 9.18,
-  "min_quality_score": 9.18,
-  "mean_fernandez_huerta": 86.9,
-  "mean_fh_label": "fácil",
-  "mean_wps": 10.92,
+  "mean_quality_score": 9.3,
+  "min_quality_score": 9.3,
+  "mean_fernandez_huerta": 92.9,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 9.73,
   "languagetool": false,
   "top_rules": [
     [
@@ -31,16 +31,12 @@
       96
     ],
     [
-      "space_before_punct",
-      2
-    ],
-    [
-      "missing_terminal_punct",
-      2
-    ],
-    [
       "lowercase_after_period",
-      1
+      3
+    ],
+    [
+      "repeated_word",
+      2
     ],
     [
       "comma_density",
@@ -55,22 +51,16 @@
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "space_before_punct",
-      "count": 2,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
-    },
-    {
-      "rule": "missing_terminal_punct",
-      "count": 2,
-      "cause": "Frases colgadas tras edición o plantillas.",
-      "fix": "Toda oración asertiva cierra con punto."
-    },
-    {
       "rule": "lowercase_after_period",
-      "count": 1,
+      "count": 3,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "repeated_word",
+      "count": 2,
+      "cause": "Typo o pegado doble.",
+      "fix": "Eliminar duplicado."
     },
     {
       "rule": "comma_density",
@@ -81,11 +71,11 @@
   ],
   "sections_ranked": [
     {
-      "section": 22,
-      "file": "s22-rapidfuzz-entity.ts",
-      "quality_score_0_10": 9.18,
-      "fernandez_huerta": 86.9,
-      "avg_words_per_sentence": 10.92,
+      "section": 23,
+      "file": "s23-computer-vision.ts",
+      "quality_score_0_10": 9.3,
+      "fernandez_huerta": 92.9,
+      "avg_words_per_sentence": 9.73,
       "findings_by_severity": {
         "low": 100,
         "medium": 2
