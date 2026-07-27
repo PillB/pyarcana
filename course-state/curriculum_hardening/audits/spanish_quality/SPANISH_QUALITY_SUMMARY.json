@@ -12,26 +12,22 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 421,
-  "total_paragraphs": 254,
-  "total_findings": 107,
+  "total_sentences": 381,
+  "total_paragraphs": 228,
+  "total_findings": 96,
   "severity": {
-    "low": 107
+    "low": 96
   },
   "mean_quality_score": 9.24,
   "min_quality_score": 9.24,
-  "mean_fernandez_huerta": 93.2,
+  "mean_fernandez_huerta": 93.7,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 8.71,
+  "mean_wps": 10.23,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
-    ],
-    [
-      "space_before_punct",
-      4
+      92
     ],
     [
       "lowercase_after_period",
@@ -39,29 +35,15 @@
     ],
     [
       "possible_plural_det_singular_noun",
-      2
-    ],
-    [
-      "comma_density",
-      1
-    ],
-    [
-      "missing_inverted_exclamation",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 92,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "space_before_punct",
-      "count": 4,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     },
     {
       "rule": "lowercase_after_period",
@@ -71,34 +53,22 @@
     },
     {
       "rule": "possible_plural_det_singular_noun",
-      "count": 2,
+      "count": 1,
       "cause": "Posible desacuerdo de número (heurística).",
       "fix": "Verificar concordancia determinante–sustantivo."
-    },
-    {
-      "rule": "comma_density",
-      "count": 1,
-      "cause": "Subordinación excesiva.",
-      "fix": "Listas o frases independientes."
-    },
-    {
-      "rule": "missing_inverted_exclamation",
-      "count": 1,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
     }
   ],
   "sections_ranked": [
     {
-      "section": 12,
-      "file": "s12-performance.ts",
+      "section": 13,
+      "file": "s13-rpa-automation.ts",
       "quality_score_0_10": 9.24,
-      "fernandez_huerta": 93.2,
-      "avg_words_per_sentence": 8.71,
+      "fernandez_huerta": 93.7,
+      "avg_words_per_sentence": 10.23,
       "findings_by_severity": {
-        "low": 107
+        "low": 96
       },
-      "findings_total": 107
+      "findings_total": 96
     }
   ]
 }

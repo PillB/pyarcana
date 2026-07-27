@@ -18,44 +18,32 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **421** | Paragraphs: **254**
-- Findings: **107** (high=0, medium=0, low=107)
+- Sentences: **381** | Paragraphs: **228**
+- Findings: **96** (high=0, medium=0, low=96)
 - Mean quality score (0–10): **9.24**
-- Mean Fernández-Huerta: **93.2** (muy fácil)
-- Mean words/sentence: **8.71**
+- Mean Fernández-Huerta: **93.7** (muy fácil)
+- Mean words/sentence: **10.23**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S12 | 9.24 | 93.2 | 8.71 | 0/0/107 | `s12-performance.ts` |
+| S13 | 9.24 | 93.7 | 10.23 | 0/0/96 | `s13-rpa-automation.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=92)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=4)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ### `lowercase_after_period` (n=3)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `possible_plural_det_singular_noun` (n=2)
+### `possible_plural_det_singular_noun` (n=1)
 - **Cause:** Posible desacuerdo de número (heurística).
 - **Improvement:** Verificar concordancia determinante–sustantivo.
-
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
-
-### `missing_inverted_exclamation` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
 
 ## How to use
 

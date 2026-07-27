@@ -1,27 +1,37 @@
 {
-  "generated_at": "2026-07-25T18:10:18.070480+00:00",
+  "generated_at": "2026-07-27T19:26:48.195185+00:00",
   "sections": 1,
   "totals": {
-    "pass": 62,
-    "fail": 0,
-    "skip": 2,
+    "pass": 63,
+    "fail": 1,
+    "skip": 0,
     "artifacts": 64
   },
-  "fail_count": 0,
+  "fail_count": 1,
   "p0_count": 0,
-  "p1_count": 0,
-  "ok": true,
+  "p1_count": 1,
+  "ok": false,
   "sections_detail": [
     {
-      "file": "src/lib/course/sections/s49-data-contracts.ts",
-      "section_id": "data-contracts",
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "section_id": "rpa-automation",
       "counts": {
-        "pass": 62,
-        "fail": 0,
-        "skip": 2
+        "pass": 63,
+        "fail": 1,
+        "skip": 0
       },
       "artifact_count": 64
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "section_id": "rpa-automation",
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-15",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/pyarcana_23y3wo9y/snippet.py\", line 7, in <module>\n    assert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    }
+  ]
 }

@@ -2944,3 +2944,74 @@ Stage Summary:
 Ready for the next section.
 
 Section 12 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S13
+Agent: Independent Section 13 Fixer
+Task: Fresh text-first review and remediation of active Section 13 only.
+Work Log:
+- Acknowledged the Anti-Aberration Rules; worked exclusively on Section 13 (Familiarity Evidence Dashboard y cierre de nivel) in `src/lib/course/sections/s13-rpa-automation.ts`.
+- Read primary Explorer report (`S13_EXPLORER_REPORT.md`, score 7.3), expert report (`S13_report.md`, score 8.0), shared grammar subplan (`_GRAMMAR_SUBPLAN.md`), `S13_SPANISH_QUALITY.json`, current canonical source (2,208 lines), public selfCheck (9 MCQs), Spanish audit script, prior R1/R2 worklog entries (including S10, S11, S12 entries for fix-pattern precedent), R2 fixer report (`fixer_reports/round2/S13_FIXER_REPORT.md`).
+- Second-expert audit: no dedicated S13 file under `expert_2_audit/`; the Playwright/RPA docx is off-topic (legacy section name drift). Not used to drive remediation.
+- Built issue-resolution ledger mapping every Explorer ISSUE-01..ISSUE-24, Expert #1..#22, and Spanish-quality finding to its current source status. Most P0 code/output integrity defects, meta-leaks, and Expert Spanish micro-defects were already closed by prior R1/R2 rounds (verified clean by greps + execute-and-diff).
+- Verified current state at start of round:
+  - Meta-leaks: 0 learner-visible `V3` / `retematiza` / `Material legado` / `author lane` / `section_passed` / `lane` / `TODO` / `FIXME` / `XXX` (R1 already cleaned).
+  - Anglicisms in prose: 0 hits for `grepea` / `setee` / `setear` / `tests green` / `sobreclaim` / `auto-etiqueta` / `instruction` (R2 already cleaned).
+  - `telefono` without accent: 0 hits (R2 already cleaned).
+  - Code/output integrity: `python_content_runtime_audit.py --only 13` → 63 pass / 1 fail (the 1 fail is the by-design AssertionError in T3-B-E1 starter — intentional DEFECT for the student to fix).
+  - TypeScript: `tsc --noEmit src/lib/course/sections/s13-rpa-automation.ts` → 0 errors.
+  - V3 invariant validator: ok=true, 0 failures, 52 sections tagged.
+  - Section structure check: ok=true, 8 subtopics/8 demos/24 exercises.
+  - Spanish-quality audit (`--no-lt`): score 9.0, FH 93.9 (muy fácil), 105 findings (7 medium missing_terminal_punct + 1 long_sentence + 1 comma_density + 3 lowercase_after_period false positives + 1 possible_plural_det_singular_noun false positive + 92 fragment false positives on numbered list items).
+- Active defects addressed this round, all hand-written (no scripts, loops, templates, or bulk mechanisms for educational prose):
+  - **Spanish-quality medium findings (7 × missing_terminal_punct)** — added terminal periods to telegraphic hints without changing pass contracts:
+    - weDo S13-T1-B-E3 `hint`: «…adjunta límites éticos al mismo report.»
+    - weDo S13-T1-B-E3 `hints[0]`: «FP no es auto_fraud: ops_action debe ser needs_review.»
+    - weDo S13-T2-A-E2 `hint` + `hints[0]`: «Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2.»
+    - weDo S13-T2-A-E3 `hint`: «Calcula rel con 0.5/0.3/0.2; adjunta disclaimer al dict; no infieras parentesco.»
+    - weDo S13-T2-A-E3 `edgeCases[0]`: «disclaimer UI debe viajar junto al score, no reemplazarlo.»
+    - weDo S13-T3-B-E2 `hints[0]`: «Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar.»
+  - **iDo.intro long_sentence (38 words → split into 3 shorter sentences, ~13/17/17 words each)**: split «Cubres ER por reglas, evaluación + cola clerical, señales de relación (fórmula canónica 0.5/0.3/0.2), graphlet de txs, ficha con uncertainty, umbrales sin auto_fraud, scaffold de 3 casos y runbook con regresión level-1.» into three sentences; replaced `+` with `y`; added Stephen-Fry glosses for `graphlet` (un mini-grafo de transacciones) and `DEFECT` (un defecto intencional que debes corregir); expanded «sin teatro» → «sin teatro, esto es, sin líneas que el código no produce».
+  - **Theory map (T0)**: added inline Stephen-Fry gloss for `CP-N1-C` (el gate práctico del Nivel 1) and `entity resolution` (—esto es, decidir si dos filas hablan de la misma persona—) at first mention.
+  - **Theory map dictionary**: added two new entries to the «Diccionario de la sección» list — `entity resolution (ER)` and `CP-N1-C` — so the section opens with a complete newbie-friendly glossary.
+  - **Theory T1-A**: glossed `casefold` (pasar todo a minúsculas), `producto cartesiano` (todas las combinaciones posibles), `parts[1]` (el apellido paterno).
+  - **Theory T1-B**: glossed `ground truth` (verdad de referencia).
+  - **Theory T2-A**: glossed the three signal names at first mention — `shared_phone` (teléfono compartido), `geo_close` (cercanía geográfica), `surname_jaccard` (similitud de apellidos).
+  - **Theory T3-A**: glossed `evidence_score` (score de evidencia), `bullets` (viñetas con la traza del cálculo).
+  - **Theory T3-B Ancla**: glossed the four ops-status code identifiers at first mention — `invalid_input`, `abstain`, `needs_review`, `accept_pair`.
+  - **Theory T3-B Human-in-the-loop**: glossed `human-in-the-loop` (un humano revisa la duda), `KYC` (verificación de identidad del cliente).
+  - **Theory T3-B Borde**: glossed `grep` (la herramienta de búsqueda en texto del repo).
+  - **Theory T4-A Ancla**: glossed `design system` (sistema visual completo), `Streamlit` (framework de UI de secciones futuras), `scaffold auditable` (un andamiaje mínimo que se puede revisar).
+  - **Theory T4-A Mecanismo**: glossed `egress` (lo que sale del sistema), `PII cruda` (datos personales identificables), `geocoder público` (servicio de coordenadas).
+  - **Theory T4-B Ancla CF-1**: glossed `privacy sheet` (la hoja de privacidad del cierre), `viewer` / `reviewer` (lectura / revisión).
+  - **Theory T4-B Mecanismo de entrega**: glossed `tests en verde` (pruebas automáticas que pasan sin fallos), `runbook` (manual de operación).
+  - **Theory T4-B Borde de gate**: glossed `gate formal` (la revisión humana del portafolio), `ledger` (registro interno).
+  - **weDo.intro**: added inline Stephen-Fry glosses for `starter` (el código inicial que recibes) and `DEFECT` (un defecto intencional que debes corregir).
+  - **youDo.context**: added inline glosses for `CP-N1-C` (el gate práctico del Nivel 1), `entity_resolution_score` vs `relationship_signal_score` (esto es, identidad y familiaridad operativa nunca se mezclan en un solo número), `starter` (el código inicial que recibes).
+  - **selfCheck Q1 explanation**: glossed «Son constructos distintos» → «Son constructos distintos —la identidad y la familiaridad operativa son preguntas separadas—».
+  - **selfCheck Q2 explanation**: glossed `FP` → «FP (falso positivo) es error de identidad estimada, no delito.»
+  - **selfCheck Q3 explanation**: glossed `Human-in-the-loop` → «Human-in-the-loop (un humano revisa la duda)»; changed «fraude auto.» → «fraude automático.»
+  - **selfCheck Q4 explanation**: expanded «Artefactos de operación y privacidad del cierre N1.» → «CF-1 reúne los artefactos de operación y privacidad del cierre N1: privacy sheet, acceso, tests, demo y runbook.»
+  - **selfCheck Q5 explanation**: glossed «La regresión de nivel» → «La regresión de nivel —volver a verificar los paths críticos S01–S13—».
+  - **selfCheck Q6 explanation**: glossed `needs_review` (revisión humana), `abstain` (abstenerse); wrapped code identifiers in backticks.
+  - **selfCheck Q7 explanation**: glossed `Blocking` (acotar pares candidatos por bloque paterno|región); wrapped in backticks.
+  - **selfCheck Q8 explanation**: added pedagogical tail «precision castiga falsos positivos, recall castiga falsos negativos.»
+  - **weDo S13-T4-B-E3 preamble**: replaced anglicism `re-check` (prose mention) → `revisión` («nota de revisión S01–S13»).
+  - **weDo S13-T4-B-E3 feedback**: replaced anglicism `re-checkear` → `volver a verificar`; wrapped the action-name list `rotate_secret` / `redact_logs` / `postmortem` in backticks (treating them as code identifiers, per R2 policy of keeping `postmortem` as a code action token in E3 contract).
+- Deferred (per campaign summary item #1 and S10/S11/S12 precedent): `id: "rpa-automation"` and filename `s13-rpa-automation.ts` left intact for routing/progress compatibility; coordinated platform migration required course-wide. The `id: "rpa-automation"` field remains the only learner-invisible legacy token; the live curriculum card and H1 both show «Familiarity Evidence Dashboard» / «Evidence Dashboard».
+- Deferred (platform residual, out of section scope): `SectionView.tsx` interactive playground dictionary keyed by `'rpa-automation'` still serves legacy tenacity/argparse code (Expert HIGH #1); global RichText rendering of `jobRelevance`/callouts/steps if still raw Markdown (campaign summary #4).
+- Kept (house style): `# DEFECT:` markers in starterCode (matches S27 convention, intentional pedagogical scaffold); `vs.`/`vs` (RAE accepts both forms); `→` spacing (both forms typographically valid); `postmortem` as Python string literal in code/output contracts (R2 policy: code action tokens retained where contracts require); `re-check` as Python string literal in T4-B-E3 solutionCode output (code identifier, not prose).
+- Anti-aberration: no scripts, generators, loops, templates, or bulk-production mechanisms were used to manufacture educational prose. Automation was used only for mechanical validation (tsc, eslint, spanish_quality_audit.py, v3_invariant_validator, check_section_structure, python_content_runtime_audit).
+Stage Summary:
+- Section 13 fully remediated under strict anti-aberration rules.
+- TypeScript clean (0 errors in `s13-rpa-automation.ts`); ESLint clean.
+- V3 invariant validator: ok=true, 0 failures, 52 sections tagged. Section structure check: ok=true, 8 subtopics/8 demos/24 exercises.
+- Python runtime audit: 64/64 code blocks executed; 63 pass / 1 by-design AssertionError in T3-B-E1 starter (intentional DEFECT for the student to fix — the inverted `review_low`/`accept_min` thresholds that fail the assert).
+- Spanish-quality audit (`--no-lt`): score **9.0 → 9.24**; FH 93.7 (muy fácil); findings **105 → 96**; **medium-severity findings: 7 → 0**; high-severity findings: 0. Remaining 96 low-severity findings are: 92 `fragment` (known false-positive class on numbered list items «1.»/«2.» as documented in S11/S12 worklogs), 3 `lowercase_after_period` (false positives on numbered list items like «2. precision = …»), 1 `possible_plural_det_singular_noun` (false positive on «los cuatro casos del starter»).
+- Meta-leaks: 0 learner-visible `V3` / `retematiza` / `Material legado` / `author lane` / `section_passed` / `lane` / `TODO` / `FIXME` / `XXX` (only the routing `id: "rpa-automation"` field remains, intentionally stable per coordinated-migration deferral).
+- Anglicisms in prose: 0 hits for `grepea` / `setee` / `setear` / `tests green` / `sobreclaim` / `auto-etiqueta` / `instruction` / `re-check` (the only residual `re-check` and `postmortem` tokens are inside Python string literals in solutionCode code/output contracts, treated as code identifiers per R2 policy).
+- Stephen Fry redaction pass applied: every major jargon noun at first mention in `theory[0..8]` (map + T1-A through T4-B), `iDo.intro`, `weDo.intro`, `youDo.context`, and 8 of 9 `selfCheck` explanations now carries an inline newbie-friendly Spanish gloss in the «(esto es, …)» / «(un …)» / «(la …)» parenthetical pattern. Readability improved (FH 93.7 muy fácil; avg WPS 10.23).
+
+Ready for the next section.
+
+Section 13 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
