@@ -18,48 +18,48 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **424** | Paragraphs: **266**
+- Sentences: **432** | Paragraphs: **285**
 - Findings: **121** (high=0, medium=19, low=102)
-- Mean quality score (0–10): **8.54**
-- Mean Fernández-Huerta: **99.4** (muy fácil)
-- Mean words/sentence: **10.52**
+- Mean quality score (0–10): **8.76**
+- Mean Fernández-Huerta: **92.9** (muy fácil)
+- Mean words/sentence: **12.02**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S24 | 8.54 | 99.4 | 10.52 | 0/19/102 | `s24-rpa-advanced.ts` |
+| S25 | 8.76 | 92.9 | 12.02 | 0/19/102 | `s25-streamlit-dashboards.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=90)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=15)
+### `missing_terminal_punct` (n=14)
 - **Cause:** Frases colgadas tras edición o plantillas.
 - **Improvement:** Toda oración asertiva cierra con punto.
 
-### `lowercase_after_period` (n=8)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `possible_plural_det_singular_noun` (n=3)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
-### `repeated_word` (n=4)
+### `repeated_word` (n=3)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
 
-### `long_sentence` (n=2)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
-
-### `missing_inverted_exclamation` (n=1)
+### `lowercase_after_period` (n=2)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
+
+### `missing_inverted_question` (n=2)
+- **Cause:** Calco del inglés o markdown incompleto.
+- **Improvement:** Usa ¿…? en todas las preguntas en español.
+
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 

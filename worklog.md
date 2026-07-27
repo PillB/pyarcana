@@ -1485,3 +1485,49 @@ Stage Summary:
 - Validation: tsc clean for S24, eslint clean for S24, Spanish quality 8.54/10 (FH 99.4, label "muy fácil"). All 13 non-structure audit findings are false positives in code-style content (formulas, identifiers, tests fields).
 
 Section 24 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S25
+Agent: Independent Section 25 Fixer
+Task: Fresh text-first review and remediation of Section 25.
+
+Work Log:
+- Acknowledged the Anti-Aberration Rules. Scope: Section 25 only. No scripts/loops/templates for prose generation; scripts used only for validation.
+- Read canonical source `src/lib/course/sections/s25-streamlit-dashboards.ts` (1951 lines), expert report `expert_audit/S25_report.md` (1308 lines), Spanish-quality JSON `course-state/curriculum_hardening/audits/spanish_quality/S25_SPANISH_QUALITY.json`, prior R3 worklog entries (S23/S24 patterns), and live-render path via `SectionView.tsx` + `RichText.tsx` + `Callout.tsx`.
+- Verified previously-fixed items already in canonical source (prior rounds):
+  * `El AI assist` (10×) → `El asistente de IA` — confirmed 0 matches for `\bAI assist\b` ✓
+  * `auto-etiqueta` / `auto-envío` / `auto-etiquetar` / `auto-fraude` (7×) → joined forms `autoetiqueta` / `autoenvío` / `autoetiquetar` / `autofraude` — confirmed 0 matches for `auto-[a-z]` ✓
+  * `vs` without period (8×) → `vs.` (RAE/Fundéu abbreviation form) — confirmed all 5 occurrences of `vs.` carry the period ✓
+  * `lowercase_after_period` on `vs.` sites — pre-existing false positives of audit regex; untouched ✓
+- Inspected `SectionView.tsx:189` — `<p className="text-sm text-foreground/80">{section.jobRelevance}</p>` renders `jobRelevance` as plain React text, NOT routed through `RichText`. Other `**` occurrences live in theory paragraphs / iDo `why`/`preamble`/`retrospective` / weDo `preamble`/`instruction`/`feedback`/`retrospective` / youDo `context` / `portfolioNote` / `retrospective` — all rendered via `RichText.tsx` (which parses `**bold**` → `<strong>` via `renderInline()` line 257), so they are intentional house style, not leaks. Same diagnosis as S23/S24 prior fixers.
+- Inspected `Callout.tsx` and `TheoryBlockView` in `RichText.tsx:343` — theory-block `callout.content` is rendered as plain React children inside `<Callout>`. Verified all 9 callout contents in S25 are free of `**` markers — no leaks.
+- R3 hand fixes applied this round (all manual, no scripts for prose):
+  * **Line 15 (jobRelevance):** stripped `**` markers around `asistente de IA` — only confirmed markdown leak in the section (renders as literal asterisks in the Briefcase Popover since `jobRelevance` bypasses `RichText`).
+  * **Stephen Fry redaction — added inline Spanish glosses on first occurrence of opaque English jargon in theory paragraphs:**
+    - Line 45 (T1-A p[0]): `**LLM**` → `**LLM** (modelo de lenguaje grande, *large language model*)`
+    - Line 79 (T1-B p[0]): `**model card**` → `**model card** (ficha del modelo)`; `*intended use*` → `*intended use*, uso contemplado por el autor`; `*not_for*` → `*not_for* (usos prohibidos)`
+    - Line 157 (T2-B p[1]): `**Circuit breaker simple:**` → `**Circuit breaker simple** (interruptor de circuito):`
+    - Line 211 (T3-A p[0]): `**Ejemplos** few-shot` → `**Ejemplos** *few-shot* (pocos ejemplos)`
+    - Line 212 (T3-A p[1]): `**constrained decoding** / structured outputs` → `**constrained decoding** / decodificación restringida, *structured outputs*`
+    - Line 247 (T3-B p[1]): `lista de permitidos (allowlist)` → `lista de permitidos (*allowlist*)` (italicize anglicism per house style)
+    - Line 285 (T4-A p[0]): `**golden set**` → `**golden set** (conjunto dorado de referencia)`; `**exact match**` → `**exact match** (coincidencia exacta; *pred == gold*)`; `**schema rate**` → `**schema rate** (tasa de cumplimiento de las keys requeridas)`; `baseline` → `baseline (línea base)`
+    - Line 286 (T4-A p[1]): `HITL (human-in-the-loop)` → `HITL (humano en el bucle, *human-in-the-loop*)`
+    - Line 331 (T4-B p[0]): `**Prompt injection:**` → `**Prompt injection** (inyección de instrucciones):`
+  * **Anglicism sweep — replaced English `assist` / `path` / `deploy` with Spanish equivalents across prose** (verified no code identifiers use these substrings via `grep -E '\.path|path\.|sys\.path|os\.path|pathlib'` returning no matches, and confirmed no compound words like `assistance`/`xpath`/`filepath` exist):
+    - `assist` → `asistente` (19 occurrences in iDo preambles, weDo preambles/hints/feedbacks/retrospectives, selfCheck questions) — fixes the residual anglicism left after prior rounds replaced only `El AI assist` → `El asistente de IA` but kept bare `assist` as a short form.
+    - `path` → `ruta` (9 occurrences) with article/adjective gender fixes: `el path` → `la ruta`, `El path` → `La ruta`, `path correcto` → `ruta correcta` (feminine agreement per RAE).
+    - `deploy` → `despliegue` (1 occurrence at line 887, weDo S25-T1-B-E3 preamble) — already used `despliegue` in learningOutcomes line 18 and theory T1-B.p[1] line 80; now consistent across the section.
+  * **Split long sentence in `iDo.intro` (line 372)** — the audit flagged this as both `long_sentence` and `comma_density` (a 36-word enumeration "(1) árbol de stack, (2) model card y despliegue, ..., (8) request segura"). Restructured into 4 sentences: (1) setup sentence (16 words), (2) "Cada demo calcula la salida..." moved before the enumeration (13 words), (3) "Orden de las ocho demos: (1)...(4)" using semicolons per RAE enumeration style (22 words), (4) "Continúa con: (5)...(8)" (18 words). Both `long_sentence` and `comma_density` findings resolved.
+- Validation:
+  * `npx eslint src/lib/course/sections/s25-streamlit-dashboards.ts` — exit code 0, 0 errors 0 warnings ✓
+  * `npx tsc --noEmit` — 0 errors in S25 (all pre-existing errors in unrelated files: api routes Prisma client, firebase-admin, bcryptjs, react-leaflet, xlsx, playwright.config) ✓
+  * `python3 scripts/spanish_quality_audit.py --from 25 --to 25 --no-lt` — findings=121 (was 123), score=8.76 (was 8.75), FH=92.9 (was 93.2, within noise). Top rules: fragment=96 (false positives on numbered list items `1.`/`2.`/`3.`/`4.` inside instruction strings, same as S24), missing_terminal_punct=14 (short hint statements, intentional), possible_plural_det_singular_noun=3 (false positives on `las required` / `las cuatro keys` mixed Spanish/English code-style), repeated_word=3 (false positives on `{'label': label}` Python dict literals), lowercase_after_period=2 (false positives on `vs.` abbreviation), missing_inverted_question=2 (false positives on imperative hints `Usa re.search...` / `Implementa signal...` — these are statements, not questions), space_before_punct=1 (false positive on `Lee el DEFECT:` code-style label). All 25 non-fragment findings are tool-limitation false positives in code-style content — no real orthography or grammar defects remain. The 2 real findings from the prior audit (`long_sentence` + `comma_density` on `iDo.intro`) are now resolved.
+
+Stage Summary:
+- Section 25 R3 fix complete. Prior R1/R2 fixes (`El AI assist` 10× → `El asistente de IA`, `auto-X` 7× → joined forms `autoetiqueta`/`autoenvío`/`autoetiquetar`/`autofraude`, `vs` 8× → `vs.`) all retained and re-verified.
+- New R3 hand fixes: (1) stripped `**` markdown leak from `jobRelevance` line 15 (only confirmed leak — all other `**` are intentional house-style bold rendered via `RichText`); (2) added 13 inline Spanish glosses for opaque English jargon on first occurrence in theory paragraphs (LLM, model card, intended use, not_for, circuit breaker, few-shot, constrained decoding, allowlist, golden set, exact match, schema rate, baseline, HITL, prompt injection) — Stephen Fry redaction per expert-report gap (issue #15 gloss-on-first-use); (3) anglicism sweep replacing residual bare `assist` (19×) → `asistente`, `path` (9×) → `ruta` with feminine article/adjective agreement, `deploy` (1×) → `despliegue` (consistency with `despliegue` already used in learningOutcomes and theory T1-B); (4) split long `iDo.intro` enumeration into 4 shorter sentences resolving the only real `long_sentence` + `comma_density` findings.
+- Course invariants preserved: CP-N2-C AI assist contract (clasificador `{model,label,score}` vs. narrativo `{hallazgo,n,mediana,evidence_ids,model}`), ethics spine (`auto_fraud_label=False`, `score ≠ fraude`, fail-closed to `human_review`), S24→S25→S26 capstone binding (OCR context → IA endpoints → Excel/IA/informe/correo orchestration), `CASO-LIM-025` fixture without PII, golden set + schema gate, allowlist + stop on tool denial, injection-by-design (`untrusted_document`, `allowed_tools=[]`, `requires_human_approval=True`), id `streamlit-dashboards` legacy slug compatibility.
+- Anti-aberration: hand craft only for educational content; scripts only for validation.
+- Validation: tsc clean for S25, eslint clean for S25 (exit 0), Spanish quality 8.76/10 (FH 92.9, label "fácil"). All 25 non-fragment audit findings are false positives in code-style content (numbered list items, hint statements, Python dict literals, `vs.` abbreviations, imperative hints, mixed Spanish/English `las required`).
+
+Section 25 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
