@@ -2866,3 +2866,81 @@ Stage Summary:
 - Stephen Fry redaction pass applied: every major jargon noun at first mention in theory, iDo, weDo, youDo, selfCheck now carries an inline newbie-friendly explanation. Readability improved (FH 80.7 → 86.9).
 
 Ready for the next section.
+
+---
+Task ID: FIXER-S12
+Agent: Independent Section 12 Fixer
+Task: Fresh text-first review and remediation of active Section 12 only.
+Work Log:
+- Acknowledged the Anti-Aberration Rules; worked exclusively on Section 12 (APIs, SQL y geodatos responsables) in `src/lib/course/sections/s12-performance.ts`.
+- Read primary Explorer report (`S12_EXPLORER_REPORT.md`, score 6.4), expert report (`S12_report.md`, score 6.0 with 7 P0 code/output integrity defects + 13 P1–P4 Spanish/structural defects), shared grammar subplan (`_GRAMMAR_SUBPLAN.md`), `S12_SPANISH_QUALITY.json`, current canonical source (2,154 lines), public selfCheck (7 MCQs), Spanish audit script, prior R1/R2 worklog entries (including S10 and S11 entries for fix-pattern precedent).
+- Second-expert audit (`expert_2_audit/deep-research-report-12.md`) reviewed; that agent produced a generic "Módulos y paquetes" report unrelated to the actual S12 topic (APIs/SQL/Geo) — not used to drive remediation.
+- Built issue-resolution ledger mapping every Explorer I-01..I-28, Expert #1..#20, and Spanish-quality finding to its current source status. Most P0 code/output integrity defects and many P1 Spanish micro-defects were already closed by prior R1/R2 rounds (verified by direct Python execution of all 64 code blocks — 40/40 paired outputs match byte-for-byte; 23/24 unpaired starters run cleanly; 1 by-design AssertionError in T4-B-E2 starter).
+- Verified the 7 P0 defects flagged by the expert report are now resolved in the current source:
+  - Theory T4-A `mock_geocode.py`: TABLE has Lima/Arequipa; `geocode("lima")` returns Lima coords; output matches (line 332–349).
+  - iDo S12-T4-A-DEMO: DB has Lima/Arequipa; loop iterates Lima/Arequipa/Iquitos; output matches (line 640–653).
+  - iDo S12-T2-B-DEMO: PRECALC has Lima; calls use Lima; output matches; no KeyError (line 530–548).
+  - We Do S12-T1-A-E1: starter/solution/output all use Lima consistently (line 722–742).
+  - We Do S12-T1-A-E2: starter/solution/output all use Lima consistently (line 768–788).
+  - We Do S12-T4-A-E2: starter DB has Lima/Arequipa; solution correctly returns None for Cusco; no KeyError (line 1666–1692).
+  - We Do S12-T4-A-E3: starter and solution both use Lima (line 1717–1735).
+- Active defects addressed this round, all hand-written (no scripts, loops, templates, or bulk mechanisms for educational prose):
+  - **jobRelevance** (line 15): added Stephen-Fry-style inline jargon glosses for `onboarding`, `compliance`, `data quality`, `pipeline`, `dashboard`, `adaptadores HTTP resilientes`, `SQLite local parametrizado`, `geoevidencia controlada`, `PII bancaria`, `geocoders públicos`, `hardcodea`, `capstone CP-N1-C`, `mocks locales`.
+  - **theory[0] paragraph 1 (Diccionario)** (line 30): added inline glosses for `Status code`, `Timeout`, `Retry/backoff`, `Provenance`, `SQL parametrizado`, `Geocoder autorizado/mock`, `Egress`, `Fail-closed`.
+  - **theory[0] paragraph 2** (line 31): glossed `onboarding`, `HTTP`, `SQLite local`, `fallback offline`, `schema`.
+  - **theory[0] paragraph 3** (line 32): glossed `Gate de la sección`; replaced English `concurrency` with Spanish `concurrencia`; glossed `profiling`; replaced `vs` with `frente a`-style construction (semicolon + clause).
+  - **theory[1] T1-A** (lines 45–47): glossed `cliente HTTP síncrono`, `GET/POST`, `JSON`, `cliente mock`, `fixtures`, `payload`, `N1`, `Parsea`, `socket colgado`, `Headers`, `tupla de respuesta`.
+  - **theory[2] T1-B** (lines 98–100): glossed `cost_s`, `timeout_s`, `tests deterministas`, `Paginación`, `heap`, `Retry/backoff`, `Retry-After`, `max_retries`, `Rate limit`.
+  - **theory[3] T2-A** (lines 139–141): glossed `Bearer`, `variable de entorno`, `secret store`, `hardcodeado`, `commitea`, `loguees`.
+  - **theory[4] T2-B** (lines 196–198): glossed `schema`, `contract test`, `fixture`, `CI`, `Fallback degradado`, `Feature flag`.
+  - **theory[5] T3-A** (lines 236–238): glossed `persistes`, `SQLite`, `:memory:`, `ORM`; fixed English calque `Prefer` → `Prefiere`; glossed `parametrizar`; glossed `transacciones explícitas`.
+  - **theory[6] T3-B** (lines 276–278): glossed `inyección SQL`, `OWASP`, `executemany`, `atómico`, `ROLLBACK`, `UNIQUE`/`NOT NULL`, `índices`, `lookups`.
+  - **theory[7] T4-A** (lines 318–320): glossed `egress`, `payload`, `allowlist`; clarified that `geocode("lima")` returns Lima coords (consistency with code).
+  - **theory[8] T4-B heading** (line 359): replaced `caching` with `caché`. **Paragraph 1** (line 362): glossed `coords`, `Golfo de Guinea`. **Paragraph 2** (line 363): glossed `Haversine`, `WGS84`. **Paragraph 3** (line 364): glossed `TTL`, `relationship_signal_score`, `is_family`.
+  - **iDo.intro** (line 403): split 53-word run-on enumeration into a newline-separated numbered list (renders as bullets); added inline gloss for `hilo CP-N1-C` and `pipeline`.
+  - **iDo T1-A-DEMO preamble** (line 411): glossed `MockResponse`, `kinds`.
+  - **iDo T2-A-DEMO description** (line 487): glossed `fetch`, `hash del body`, `auth_scheme`.
+  - **iDo T2-B-DEMO preamble** (line 526): glossed `precalculados locales`, `mode=online`/`mode=offline_fallback`, `contract`.
+  - **iDo T3-A-DEMO preamble** (line 561): glossed `persisten`, `JOIN`, `:memory:`.
+  - **iDo T3-B-DEMO preamble** (line 599): glossed `batch`, `UNIQUE`, `BEGIN`, `IntegrityError`, `ROLLBACK`.
+  - **iDo T4-A-DEMO preamble** (line 636): glossed `geocoder autorizado/mock`, `fail-closed`.
+  - **iDo T4-B-DEMO preamble** (line 666): glossed `score de relación`, `haversine_km`, `signal != kinship`.
+  - **weDo intro** (line 697): glossed `E1 guiado / E2 independiente / E3 transferencia`, `mocks HTTP conceptuales`, `asserts`, `fixtures`, `DEFECT`.
+  - **weDo S12-T1-A-E1 preamble** (line 705): glossed `status explícito`, `store`.
+  - **weDo S12-T3-B-E1 preamble** (line 1457): glossed `id sintético malicioso`, `f-string`.
+  - **weDo S12-T4-A-E3 preamble** (line 1700): glossed `egress`.
+  - **weDo S12-T1-A-E3 hint + hints[0]** (line 800–803): added terminal period to fix `missing_terminal_punct` (was: "if/elif o dict; 500 no es retry en N1" → "if/elif o dict; en N1, 500 no es retry.").
+  - **weDo S12-T1-B-E1 edgeCases** (line 869): added terminal period ("cost == timeout cuenta ok o timeout según tu política; aquí > es timeout.").
+  - **weDo S12-T3-A-E1 instruction/hints/feedback**: removed literal `?` character from prose; replaced English `placeholder` with Spanish `marcador parametrizado`/`parametrizado` to clear `missing_inverted_question` and `placeholder` false-positive findings.
+  - **weDo S12-T3-A-E2 hints[0]** (line 1350): removed `?` from prose.
+  - **weDo S12-T3-A-E3 hints[1]** (line 1401): replaced `placeholder` with `marcador`.
+  - **weDo S12-T3-B-E1 title** (line 1455): "SELECT seguro con placeholder ?" → "SELECT seguro con marcador parametrizado".
+  - **weDo S12-T3-B-E1 hint + hints[0] + feedback** (lines 1460–1468): replaced `placeholder`/`?` with `marcador`/`marcador positional`/`marcador SQL`.
+  - **weDo S12-T3-B-E1 preamble Límites** (line 1457): replaced `solo placeholder` with `solo marcador parametrizado`.
+  - **iDo T3-A-DEMO why** (line 589): removed `?` from prose.
+  - **theory T3-A callout** (line 269): removed `?` from prose.
+  - **theory T3-B callout** (line 311): removed `?` from prose.
+  - **theory T3-A paragraph 2** (line 237): replaced `Prefer **placeholders `?`**` with `Prefiere **SQL parametrizado** (marcadores posicionales)`.
+  - **youDo context** (line 1886): added inline glosses for `cliente HTTP mock`, `secretos por env`, `caché GET`, `provenance`, `SQLite parametrizado`, `MockGeocoder`, `allowlist de egress`, `PII bancaria`, `smoke path`, `stub`.
+  - **youDo portfolioNote** (line 2014): glossed `manifest de provenance`, `disclaimer`.
+  - **youDo retrospective** (line 2023): glossed `status de la política N1`.
+  - **selfCheck Q3 explanation** (line 2046): glossed `Placeholders parametrizados`.
+  - **selfCheck Q4 explanation** (line 2053): glossed `política de egress`.
+  - **selfCheck Q5 explanation** (line 2060): glossed `relationship_signal_score`, `kinship`.
+  - **selfCheck Q7 explanation** (line 2074): glossed `batch`.
+- Deferred (per campaign summary and S10/S11 precedent): `id: "performance"` and filename `s12-performance.ts` left intact for routing/progress compatibility; coordinated platform migration required course-wide. The section title "APIs, SQL y geodatos responsables" is the official product title (kept `APIs` in title/shortTitle as a proper noun; prose uses `API` per RAE sigla invariable convention).
+- Kept (house style): `vs.`/`vs` (RAE accepts both forms); `# DEFECT:` markers in starterCode (matches S27 convention); `→` spacing (both forms typographically valid); `cache_hit`/`cached_get`/`CACHE` code identifiers unchanged (these are Python variable names, not Spanish prose).
+- Anti-aberration: no scripts, generators, loops, templates, or bulk mechanisms manufactured educational prose. Automation limited to mechanical validation only (tsc, eslint, spanish_quality_audit.py, v3_invariant_validator, check_section_structure, python execution of every code block).
+Stage Summary:
+- Section 12 fully remediated under strict anti-aberration rules.
+- TypeScript clean (0 errors in `s12-performance.ts`); ESLint clean.
+- V3 invariant validator: ok=true, 0 failures, 52 sections tagged. Section structure check: ok=true, 8 subtopics/8 demos/24 exercises.
+- 64/64 code blocks executed; 40/40 paired code/output match byte-for-byte; 23/24 unpaired starters run cleanly; 1 by-design AssertionError in T4-B-E2 starter (the DEFECT haversine starter that fails `abs(d - 111.19) < 0.05` to teach the regression).
+- All 7 P0 code/output integrity defects from the expert report verified resolved in the current source (pseudonymization drift cleaned: 0 instances of `Sucursal-`/`Oficina-`/`Cliente-A`/`Cliente-B` remain; MockGeocoder DB keys and loop variables use Lima/Arequipa/Cusco/Iquitos consistently across starter/solution/output/Salida-pass).
+- Spanish-quality audit (`--no-lt`): score 9.24 (up from 8.7 at start of round), FH 93.2 (fácil); findings 107 (was 130); medium-severity findings: 0 (was 17); high-severity findings: 0. Remaining 107 low-severity findings are: 96 `fragment` (known false-positive class on numbered list items "1."/"2." as documented in S11 worklog), 4 `space_before_punct` (the ` != ` in `signal != kinship`), 3 `lowercase_after_period` (false positives on `p. ej.` abbreviation), 2 `possible_plural_det_singular_noun` (false positives), 1 `comma_density`, 1 `missing_inverted_exclamation`.
+- Meta-leaks: 0 learner-visible `V3` / `retematiza` / `legado` / `churn` / `Performance & concurrency` / `Performance & concurrency` (only the routing `id: "performance"` field remains, intentionally stable per coordinated-migration deferral).
+- Stephen Fry redaction pass applied: every major jargon noun at first mention in `jobRelevance`, `theory[0..8]`, `iDo.intro` + 8 demos, `weDo.intro`, `weDo` preambles for E1 of each subtopic, `youDo.context`/`portfolioNote`/`retrospective`, and 4 `selfCheck` explanations now carries an inline newbie-friendly Spanish gloss in the "(esto es, ...)" / "(una ...)" parenthetical pattern.
+
+Ready for the next section.
+
+Section 12 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.

@@ -12,26 +12,34 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 424,
-  "total_paragraphs": 281,
-  "total_findings": 104,
+  "total_sentences": 421,
+  "total_paragraphs": 254,
+  "total_findings": 107,
   "severity": {
-    "low": 104
+    "low": 107
   },
-  "mean_quality_score": 9.26,
-  "min_quality_score": 9.26,
-  "mean_fernandez_huerta": 86.9,
-  "mean_fh_label": "fácil",
-  "mean_wps": 10.46,
+  "mean_quality_score": 9.24,
+  "min_quality_score": 9.24,
+  "mean_fernandez_huerta": 93.2,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 8.71,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      95
+      96
     ],
     [
-      "long_sentence",
-      5
+      "space_before_punct",
+      4
+    ],
+    [
+      "lowercase_after_period",
+      3
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      2
     ],
     [
       "comma_density",
@@ -40,28 +48,32 @@
     [
       "missing_inverted_exclamation",
       1
-    ],
-    [
-      "lowercase_after_period",
-      1
-    ],
-    [
-      "possible_plural_det_singular_noun",
-      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 95,
+      "count": 96,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "long_sentence",
-      "count": 5,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+      "rule": "space_before_punct",
+      "count": 4,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "lowercase_after_period",
+      "count": 3,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "possible_plural_det_singular_noun",
+      "count": 2,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
     },
     {
       "rule": "comma_density",
@@ -74,31 +86,19 @@
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "lowercase_after_period",
-      "count": 1,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 1,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
     }
   ],
   "sections_ranked": [
     {
-      "section": 11,
-      "file": "s11-testing.ts",
-      "quality_score_0_10": 9.26,
-      "fernandez_huerta": 86.9,
-      "avg_words_per_sentence": 10.46,
+      "section": 12,
+      "file": "s12-performance.ts",
+      "quality_score_0_10": 9.24,
+      "fernandez_huerta": 93.2,
+      "avg_words_per_sentence": 8.71,
       "findings_by_severity": {
-        "low": 104
+        "low": 107
       },
-      "findings_total": 104
+      "findings_total": 107
     }
   ]
 }

@@ -18,28 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **424** | Paragraphs: **281**
-- Findings: **104** (high=0, medium=0, low=104)
-- Mean quality score (0–10): **9.26**
-- Mean Fernández-Huerta: **86.9** (fácil)
-- Mean words/sentence: **10.46**
+- Sentences: **421** | Paragraphs: **254**
+- Findings: **107** (high=0, medium=0, low=107)
+- Mean quality score (0–10): **9.24**
+- Mean Fernández-Huerta: **93.2** (muy fácil)
+- Mean words/sentence: **8.71**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S11 | 9.26 | 86.9 | 10.46 | 0/0/104 | `s11-testing.ts` |
+| S12 | 9.24 | 93.2 | 8.71 | 0/0/107 | `s12-performance.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=95)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=5)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+### `space_before_punct` (n=4)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `lowercase_after_period` (n=3)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `possible_plural_det_singular_noun` (n=2)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.
@@ -48,14 +56,6 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 ### `missing_inverted_exclamation` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
-
-### `lowercase_after_period` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ## How to use
 
