@@ -1,21 +1,11 @@
 {
-  "generated_at": "2026-07-27T19:26:48.195185+00:00",
+  "generated_at": "2026-07-27T20:09:47.316940+00:00",
   "p0": [],
-  "p1": [
-    {
-      "section_id": "rpa-automation",
-      "file": "src/lib/course/sections/s13-rpa-automation.ts",
-      "kind": "starter",
-      "artifact_id": "starterCode-15",
-      "reason": "starter_should_run_or_be_marked_incomplete",
-      "severity": "P1",
-      "stderr": "Traceback (most recent call last):\n  File \"/tmp/pyarcana_23y3wo9y/snippet.py\", line 7, in <module>\n    assert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
-    }
-  ],
+  "p1": [],
   "summary": {
     "p0": 0,
-    "p1": 1,
-    "pass": 63,
+    "p1": 0,
+    "pass": 128,
     "skip": 0
   }
 }

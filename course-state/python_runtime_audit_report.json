@@ -1,37 +1,37 @@
 {
-  "generated_at": "2026-07-27T19:26:48.195185+00:00",
-  "sections": 1,
+  "generated_at": "2026-07-27T20:09:47.316940+00:00",
+  "sections": 2,
   "totals": {
-    "pass": 63,
-    "fail": 1,
+    "pass": 128,
+    "fail": 0,
     "skip": 0,
-    "artifacts": 64
+    "artifacts": 128
   },
-  "fail_count": 1,
+  "fail_count": 0,
   "p0_count": 0,
-  "p1_count": 1,
-  "ok": false,
+  "p1_count": 0,
+  "ok": true,
   "sections_detail": [
     {
-      "file": "src/lib/course/sections/s13-rpa-automation.ts",
-      "section_id": "rpa-automation",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "section_id": "security",
       "counts": {
-        "pass": 63,
-        "fail": 1,
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "section_id": "microservices",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
         "skip": 0
       },
       "artifact_count": 64
     }
   ],
-  "failures": [
-    {
-      "section_id": "rpa-automation",
-      "file": "src/lib/course/sections/s13-rpa-automation.ts",
-      "kind": "starter",
-      "artifact_id": "starterCode-15",
-      "reason": "starter_should_run_or_be_marked_incomplete",
-      "severity": "P1",
-      "stderr": "Traceback (most recent call last):\n  File \"/tmp/pyarcana_23y3wo9y/snippet.py\", line 7, in <module>\n    assert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
-    }
-  ]
+  "failures": []
 }

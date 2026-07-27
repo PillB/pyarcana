@@ -18,32 +18,32 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **381** | Paragraphs: **228**
-- Findings: **96** (high=0, medium=0, low=96)
-- Mean quality score (0–10): **9.24**
-- Mean Fernández-Huerta: **93.7** (muy fácil)
-- Mean words/sentence: **10.23**
+- Sentences: **381** | Paragraphs: **226**
+- Findings: **98** (high=0, medium=0, low=98)
+- Mean quality score (0–10): **9.23**
+- Mean Fernández-Huerta: **93.6** (muy fácil)
+- Mean words/sentence: **10.33**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S13 | 9.24 | 93.7 | 10.23 | 0/0/96 | `s13-rpa-automation.ts` |
+| S14 | 9.23 | 93.6 | 10.33 | 0/0/98 | `s14-security.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=92)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=3)
+### `missing_inverted_exclamation` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 
