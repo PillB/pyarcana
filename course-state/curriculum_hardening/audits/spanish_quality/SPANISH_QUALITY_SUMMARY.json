@@ -12,27 +12,27 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 401,
-  "total_paragraphs": 243,
-  "total_findings": 105,
+  "total_sentences": 412,
+  "total_paragraphs": 258,
+  "total_findings": 108,
   "severity": {
-    "low": 102,
-    "medium": 3
+    "low": 106,
+    "medium": 2
   },
-  "mean_quality_score": 9.15,
-  "min_quality_score": 9.15,
-  "mean_fernandez_huerta": 89.6,
-  "mean_fh_label": "fácil",
-  "mean_wps": 10.09,
+  "mean_quality_score": 9.17,
+  "min_quality_score": 9.17,
+  "mean_fernandez_huerta": 90.8,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 12.62,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      95
+      92
     ],
     [
       "lowercase_after_period",
-      5
+      10
     ],
     [
       "long_sentence",
@@ -43,20 +43,20 @@
       2
     ],
     [
-      "run_on_sentence",
-      1
+      "space_before_punct",
+      2
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 95,
+      "count": 92,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 5,
+      "count": 10,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
@@ -73,24 +73,24 @@
       "fix": "Eliminar duplicado."
     },
     {
-      "rule": "run_on_sentence",
-      "count": 1,
-      "cause": "Oraciones con demasiadas cláusulas o listas embebidas.",
-      "fix": "Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración."
+      "rule": "space_before_punct",
+      "count": 2,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     }
   ],
   "sections_ranked": [
     {
-      "section": 16,
-      "file": "s16-wxpython-gui.ts",
-      "quality_score_0_10": 9.15,
-      "fernandez_huerta": 89.6,
-      "avg_words_per_sentence": 10.09,
+      "section": 17,
+      "file": "s17-packaging.ts",
+      "quality_score_0_10": 9.17,
+      "fernandez_huerta": 90.8,
+      "avg_words_per_sentence": 12.62,
       "findings_by_severity": {
-        "low": 102,
-        "medium": 3
+        "low": 106,
+        "medium": 2
       },
-      "findings_total": 105
+      "findings_total": 108
     }
   ]
 }

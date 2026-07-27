@@ -12,7 +12,7 @@ export const section17: CourseSection = {
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En un equipo de analytics de banca, fintech o retail en Perú (p. ej. un tablero de clientes y transacciones en Lima, Cusco o Arequipa), el analista que solo “hace merge y groupby” sin documentar **cardinalidad**, sin **anti-join** de huérfanos y sin **cutoff** anti-leakage es el que entrega números inflados al comité. Cerrar un **portfolio de data quality + EDA** exige unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Aquí cierras ese portfolio del nivel: script reproducible, evidencias numéricas, memo de límites y **sin PII real ni claims causales** no soportados.",
+ "En un equipo de analytics de banca, fintech o retail en Perú (p. ej. un tablero de clientes y transacciones en Lima, Cusco o Arequipa), el analista que solo “hace merge y groupby” sin documentar cardinalidad (cuántas filas del lado derecho tocan cada clave del izquierdo) entrega números inflados al comité. Lo mismo pasa si omites el anti-join (la operación inversa al join: filas que no encontraron pareja) o el cutoff (fecha de corte que separa el pasado del futuro en tus datos) anti-leakage. Cerrar un portfolio de data quality + EDA (carpeta de evidencias de calidad y exploración de datos) exige unir tablas con claves limpias, reshape long/wide con schema estable, agregaciones con contrato (suma vs. media) y reconciliación de totales que un stakeholder no técnico pueda auditar. Aquí cierras ese portfolio del nivel: script reproducible, evidencias numéricas, memo de límites y sin PII real (datos personales identificables reales) ni claims causales (afirmaciones de causa-efecto sin evidencia) no soportados.",
  learningOutcomes: [
  { text: "Diseñar joins (merge) con claves alineadas y cardinalidad 1:1 / 1:m documentada (filas pre/post)" },
  { text: "Usar validate y anti-join (indicator) para detectar fan-out y filas huérfanas" },
@@ -27,7 +27,7 @@ export const section17: CourseSection = {
  {
  heading: "Mapa de la sección: joins → forma → agregación → reconciliación",
  paragraphs: [
- "En esta sección **cierras el portfolio de calidad + EDA**: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación **sin leakage temporal**. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible que un stakeholder puede re-ejecutar.",
+ "En esta sección cierras el portfolio de calidad + EDA: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación sin leakage temporal. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible que un stakeholder puede re-ejecutar.",
  "El hilo conductor es un **portfolio ejecutivo** con regiones ficticias (Lima, Cusco, Arequipa), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real ni datos de producción. Cada bloque de teoría termina en un demo (I Do) y tres ejercicios (We Do); el You Do integra todo en un solo script.",
  "Orden pedagógico (gradual release): **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Ritmo sugerido (~18 h):** ~4 h T1, ~4 h T2, ~5 h T3, ~3 h T4 + We Do de integración, ~2 h You Do/memo. **Después, S18** abre la lectura de incertidumbre (hallazgo vs. hipótesis, intervalos): aquí dejas las tablas y los gates listos para esa capa.",
  ],
@@ -35,7 +35,7 @@ export const section17: CourseSection = {
  type: "info",
  title: "Qué empaquetas aquí",
  content:
- "No publicas un paquete en PyPI: empaquetas un **dataset limpio, un script reproducible y un memo de límites** para un stakeholder. Joins y groupby son el camino. Si no puedes re-ejecutar el script y recuperar los mismos números, el “paquete” no está listo.",
+ "No publicas un paquete en PyPI: empaquetas un dataset limpio, un script reproducible y un memo de límites para un stakeholder. Joins y groupby son el camino. Si no puedes re-ejecutar el script y recuperar los mismos números, el “paquete” no está listo.",
  },
  },
  {
@@ -44,7 +44,7 @@ export const section17: CourseSection = {
  "**Cardinalidad:** cuántas filas del lado derecho (o izquierdo) corresponden a cada clave (1:1, 1:m, m:m). **Fan-out:** explosión de filas por claves duplicadas en un join (típico m:m accidental).",
  "**Anti-join:** filas de un lado sin match (`left_only` / `right_only` con `indicator=True`). **Long/wide:** forma apilada por periodo (long) frente a una columna por periodo (wide).",
  "**Cohorte:** periodo de la primera observación válida de cada entidad (p. ej. mes de primera compra), no la fecha del batch de hoy. **Cutoff / as-of:** solo datos conocidos hasta la fecha *t* (`fecha <= t`).",
- "**Leakage temporal:** usar post-cutoff como si fuera pasado. **Reconciliación:** suma de partes ≈ total de referencia (tolerancia `eps`) o residual documentado en una **tabla puente** (bridge table).",
+ "**Leakage temporal:** usar post-cutoff como si fuera pasado. **Reconciliación:** suma de partes ≈ total de referencia (tolerancia `eps`) o residual documentado en una **tabla puente**.",
  "Úsalo como glosario de trabajo: cada demo y ejercicio de esta sección nombra al menos uno de estos términos. Si un término aparece en el memo del portfolio, debe poder mapearse a una línea de código o a un número impreso — no a una frase suelta del slide.",
  ],
  callout: {
@@ -86,7 +86,7 @@ tx_unique False
  type: "tip",
  title: "Cuenta filas pre/post",
  content:
- "Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia: detén el EDA, exporta el anti-join de duplicados y documenta `rows_cli → rows_merge` antes de sumar montos.",
+ "Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia. Detén el EDA, exporta el anti-join de duplicados y documenta `rows_cli → rows_merge` antes de sumar montos.",
  },
  },
  {
@@ -265,7 +265,7 @@ s17_th_6()`,
  type: "info",
  title: "Primera fecha = cohorte",
  content:
- "Define cohorte con la **primera** observación válida (`min` de fecha por cliente), no con la fecha del batch de hoy ni con `max` (última actividad). Documenta el periodo (mes/semana) en el memo.",
+ "Define cohorte con la primera observación válida (`min` de fecha por cliente), no con la fecha del batch de hoy ni con `max` (última actividad). Documenta el periodo (mes/semana) en el memo.",
  },
  },
  {
@@ -273,7 +273,7 @@ s17_th_6()`,
  subtopicId: "S17-T4-A",
  paragraphs: [
  "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
- "Contrato de **tabla puente** (bridge table): `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
+ "Contrato de **tabla puente**: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
  "Caso sintético: total nacional 100 PEN; partes Lima/Arequipa/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
@@ -336,12 +336,12 @@ leakage_delta 100.0`,
  type: "danger",
  title: "Cutoff estricto",
  content:
- "Cualquier feature o métrica con fecha > cutoff invalida el análisis before/after. Filtra `fecha <= cutoff`, compara `sum_total - sum_pre` y deja el **delta de leakage** escrito en el memo — no solo en un comentario del notebook.",
+ "Cualquier feature o métrica con fecha > cutoff invalida el análisis before/after. Filtra `fecha <= cutoff`, compara `sum_total - sum_pre` y deja el delta de leakage escrito en el memo — no solo en un comentario del notebook.",
  },
  }
  ],
  iDo: {
- intro: "Ocho demos (I Do) alineados a T1–T4: left join con conteo de filas, validate + anti-join, melt/pivot, schema estable, groupby/transform, cohorte + rolling, reconciliación de totales y cutoff anti-leakage. Lee cada `why` (qué se rompería si lo omitieras) y el output esperado antes de pasar al We Do. No copies a ciegas: el contrato de salida es el checklist del portfolio.",
+ intro: "Yo demuestro (I Do): ocho demos alineadas a T1–T4 sobre el mismo hilo de clientes y transacciones sintéticas. Verás left join con conteo de filas (esto es, comparar len antes y después del merge) y validate + anti-join (un merge que falla si la cardinalidad no cuadra, más la lista de filas sin pareja). También melt/pivot (apilar y desparramar columnas) y schema estable (el contrato de columnas que el dashboard espera). Luego groupby/transform (colapsar a una fila por grupo vs. reinyectar el agregado a cada fila) y cohorte + rolling (etiquetar a cada cliente por su primera fecha y promediar ventanas temporales). Cierras con reconciliación de totales (verificar que las partes sumen el total de referencia) y cutoff anti-leakage (fecha de corte para no mirar el futuro). Lee cada `why` (qué se rompería si lo omitieras) y el output esperado antes de pasar al We Do. No copies a ciegas: el contrato de salida es el checklist del portfolio.",
  steps: [
  {
  demoId: "S17-T1-A-DEMO",
@@ -366,7 +366,7 @@ s17_ido_1()`,
  output: `rows 2 -> 3 card 1:m
 {'C001': 2, 'C002': 1}`,
  },
- why: "El conteo pre/post es el gate de cardinalidad del join: documenta si el contrato es 1:1 o 1:m. Sin él, el fan-out multiplica filas y las sumas de monto se inflan en el tablero ejecutivo. El `assert` de unicidad en el lado 1 del maestro es el contrato *previo* al merge: si el maestro ya trae ids duplicados, el supuesto 1:m queda inválido antes de unir. En We Do corregirás inner vs left y documentarás fan-out con un dict de filas.",
+ why: "El conteo pre/post es el gate de cardinalidad del join: documenta si el contrato es 1:1 o 1:m. Sin él, el fan-out multiplica filas y las sumas de monto se inflan en el tablero ejecutivo. El `assert` de unicidad en el lado 1 del maestro es el contrato *previo* al merge: si el maestro ya trae ids duplicados, el supuesto 1:m queda inválido antes de unir. En We Do corregirás inner vs. left y documentarás fan-out con un dict de filas.",
  retrospective:
  "Si puedes explicar por qué 2 clientes pueden dar 3 filas tras un left join, ya tienes el hábito de cardinalidad. El error clásico es tratar cada fila del merge como un cliente distinto. En We Do T1-A practicarás left, unicidad y el dict `rows_cli → rows_merge`.",
  },
@@ -376,7 +376,7 @@ s17_ido_1()`,
  environment: "local-python",
  description: "Detectar fan-out con validate y anti-join de clientes sin tx",
  preamble:
- "El KPI de cobertura del maestro no es “el merge corrió”. En esta demo ves dos herramientas: anti-join con `indicator=True` (lista quién no matcheó) y `validate='one_to_one'` (falla si hay fan-out). Predice la lista `anti` y si `validate_caught_fanout` es True antes de mirar la salida. Sin exportar huérfanos, el dashboard de calidad queda opaco.",
+ "El KPI (esto es, el indicador clave de desempeño que mide cobertura del maestro) no es “el merge corrió”. En esta demo ves dos herramientas: anti-join con `indicator=True` (lista quién no matcheó) y `validate='one_to_one'` (falla si hay fan-out). Predice la lista `anti` y si `validate_caught_fanout` es True antes de mirar la salida. Sin exportar huérfanos, el dashboard de calidad queda opaco.",
  code: {
  language: 'python',
  title: "demo_anti.py",
@@ -397,7 +397,7 @@ s17_ido_2()`,
  output: `anti ['C002', 'C003']
 validate_caught_fanout True`,
  },
- why: "`validate` captura fan-out con `MergeError` específico: es un quality gate, no un crash a silenciar con `except Exception`. El anti-join (`left_only`) alimenta la tabla de evidencia de calidad con clientes sin transacciones; sin él, el KPI de cobertura del maestro queda opaco y el stakeholder no sabe a quién le faltan datos. Huérfanos y fan-out son problemas distintos: cobertura vs. cardinalidad rota.",
+ why: "`validate` captura fan-out con `MergeError` específico: es un quality gate, no un crash a silenciar con `except Exception`. El anti-join (`left_only`) alimenta la tabla de evidencia de calidad con clientes sin transacciones. Sin él, el KPI de cobertura del maestro queda opaco y el stakeholder no sabe a quién le faltan datos. Huérfanos y fan-out son problemas distintos: cobertura vs. cardinalidad rota.",
  retrospective:
  "Huérfanos y fan-out no son el mismo ticket: unos son cobertura del maestro, el otro es cardinalidad rota. Si el merge “no truena”, la cobertura aún puede estar mal. Pregunta: ¿qué exportarías a la tabla de evidencia, la lista o solo un bool? We Do: `left_only`, `MergeError` controlado y KPI de conteo.",
  },
@@ -458,7 +458,7 @@ s17_ido_4()`,
  environment: "local-python",
  description: "Agregar montos por región y reinyectar media con transform",
  preamble:
- "El stakeholder pide total de PEN por región y, a la vez, un score por fila (monto vs media regional). En esta demo `agg` colapsa a una fila por región y `transform('mean')` reinyecta la media al shape original. Observa el resumen y la lista `mean_reg`: si usas agg donde ibas a usar transform, “te quedas sin filas” en el feature store.",
+ "El stakeholder pide total de PEN por región y, a la vez, un score por fila (monto vs. media regional). En esta demo `agg` colapsa a una fila por región y `transform('mean')` reinyecta la media al shape original. Observa el resumen y la lista `mean_reg`. Si usas agg donde ibas a usar transform, “te quedas sin filas” en el feature store (esto es, el repositorio de variables por transacción que alimenta los modelos posteriores).",
  code: {
  language: 'python',
  title: "demo_groupby.py",
@@ -479,7 +479,7 @@ s17_ido_5()`,
  },
  why: "`agg` produce la tabla ejecutiva (una fila por grupo); `transform` reinyecta la media al shape original para scores por fila. Named agg documenta el schema del CSV ejecutivo (`total`, `n`); `as_index=False` facilita merges posteriores. No mezcles sum y mean sin contrato: confundir operadores es el bug clásico de “me quedé sin filas” en un feature store.",
  retrospective:
- "`agg` = tabla ejecutiva; `transform` = feature a nivel fila. Si “te quedaste sin filas”, usaste el operador del resumen donde ibas a scorear transacciones. Pregunta: ¿cuándo necesitas una fila por grupo y cuándo una por tx? We Do: sum vs mean, `transform('mean')` y named agg con schema `total`/`n`.",
+ "`agg` = tabla ejecutiva; `transform` = feature a nivel fila. Si “te quedaste sin filas”, usaste el operador del resumen donde ibas a scorear transacciones. Pregunta: ¿cuándo necesitas una fila por grupo y cuándo una por tx? We Do: sum vs. mean, `transform('mean')` y named agg con schema `total`/`n`.",
  },
  {
  demoId: "S17-T3-B-DEMO",
@@ -508,9 +508,9 @@ s17_ido_6()`,
  output: `{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}
 [None, 2.0, 2.5, 3.0]`,
  },
- why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series **ordenadas** por índice temporal; sin `sort_index` el EDA inventa tendencias. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
+ why: "Cohorte = `min(fecha)` por entidad (primera observación válida), nunca `max` ni la fecha del batch de hoy. Las ventanas rolling exigen series ordenadas por índice temporal; sin `sort_index` el EDA inventa tendencias. El memo declara no-claims: series bien definidas, no causalidad. En S18 añadirás la capa de incertidumbre sobre estos mismos cortes temporales.",
  retrospective:
- "Si sabes por qué C001 y C002 pueden compartir cohorte 2024-01, entiendes “entrada”, no “última actividad”. El error clásico es usar `max` o la fecha del informe de hoy. We Do: window=2 con NaN honesto, min vs max, y `sort_index` antes de rolling.",
+ "Si sabes por qué C001 y C002 pueden compartir cohorte 2024-01, entiendes “entrada”, no “última actividad”. El error clásico es usar `max` o la fecha del informe de hoy. We Do: window=2 con NaN honesto, min vs. max, y `sort_index` antes de rolling.",
  },
  {
  demoId: "S17-T4-A-DEMO",
@@ -539,7 +539,7 @@ tasa 0.75 den 200`,
  },
  why: "Totales y denominadores anclan el EDA ejecutivo. Imprime numerador, denominador y tasa juntos para que el hallazgo sea auditable. Si `sum(partes) ≠ total`, el residual se documenta en la tabla puente: es evidencia, no un error a redondear a ojo ni a ocultar en el slide. El denominador debe ser el mismo universo del texto del hallazgo.",
  retrospective:
- "Si puedes explicar por qué el denominador debe ser el mismo universo del hallazgo, ya evitas el error clásico del EDA ejecutivo. We Do: eps estricto, tasa bien orientada y residual de la bridge table.",
+ "Si puedes explicar por qué el denominador debe ser el mismo universo del hallazgo, ya evitas el error clásico del EDA ejecutivo. We Do: eps estricto, tasa bien orientada y residual de la tabla puente.",
  },
  {
  demoId: "S17-T4-B-DEMO",
@@ -577,7 +577,7 @@ delta 999.0`,
  ],
  },
  weDo: {
- intro: "24 ejercicios en liberación gradual: E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter trae un **bug intencional** a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El **E3 de T4-B** es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA — trátarlo como puente, no como drill suelto.",
+ intro: "Lo hacemos juntos (We Do): 24 ejercicios en liberación gradual, E1 (guiado) → E2 (independiente) → E3 (transferencia) por cada subtema T1–T4. Cada starter (el código inicial que recibes) trae un bug intencional a corregir; las pistas y el feedback nombran el error típico (inner vs. left, mean vs. sum, post-cutoff, etc.). Completa T1→T4 en orden: no saltes a agregar sin cardinalidad documentada. El E3 de T4-B es una mini-integración (join + pre-cutoff + delta de leakage) que prepara el You Do del portfolio de calidad + EDA — trátalo como puente, no como drill suelto.",
  steps: [
  {
  id: "S17-T1-A-E1",
@@ -1000,7 +1000,7 @@ print(list(w.columns))`,
  "expected debe listar exactamente las columnas reales del DF.",
  "Compara set(df.columns) == expected; no uses listas ordenadas para el gate de set.",
  ],
- edgeCases: ["orden importa en set? no", "list =="],
+ edgeCases: ["¿Orden importa en set? No", "list =="],
  tests: "salida coincide con solution output",
  feedback:
  "Si salió False, expected pedía monto_feb y el DF solo tiene monto_ene. El gate de schema compara sets reales; un expected inventado da falsos rojos.",
@@ -1385,7 +1385,7 @@ print(pagados / activos)`,
  kind: "transfer",
  title: "Tabla puente total–Lima–residual",
  preamble:
- "- **Contexto:** el memo del portfolio documenta total → segmento → residual, no un descuadre oculto.\n- **Meta:** construir el dict de la bridge table con residual = total − lima.\n- **Éxito:** `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`.\n- **Límites:** no restes lima−total; no imprimas solo un float suelto.",
+ "- **Contexto:** el memo del portfolio documenta total → segmento → residual, no un descuadre oculto.\n- **Meta:** construir el dict de la tabla puente con residual = total − lima.\n- **Éxito:** `{'total': 100.0, 'lima': 60.0, 'residual': 40.0}`.\n- **Límites:** no restes lima−total; no imprimas solo un float suelto.",
  instruction:
  "1. Lee el DEFECT: residual = lima − total (−40).\n2. Calcula residual = total − lima.\n3. Imprime el dict con las tres keys en floats.\n4. El residual es evidencia del resto del país, no un error a esconder.",
  hint: "residual = total - lima; imprime dict con total, lima y residual.",
@@ -1402,7 +1402,7 @@ print(pagados / activos)`,
  starterCode: {
  language: 'python',
  title: "exercise.py",
- code: `# CASO-LIM-017 · residual bridge
+ code: `# CASO-LIM-017 · residual tabla puente
 # Bug a corregir: signo invertido (lima - total) y sin keys de la tabla puente
 total = 100.0
 lima = 60.0
@@ -1436,7 +1436,7 @@ print({"total": total, "lima": lima, "residual": total - lima})`,
  feedback:
  "Si viste `[9.0]`, filtraste `fecha > cutoff` (post-periodo). El control as-of usa `fecha <= cutoff`; un signo al revés contamina el before/after y el score “a enero”.",
  retrospective:
- "`<=` vs `>` es el interruptor del as-of. Un signo al revés contamina el before/after. Siguiente (E2): reportar el delta de leakage, no solo el pre.",
+ "`<=` vs. `>` es el interruptor del as-of. Un signo al revés contamina el before/after. Siguiente (E2): reportar el delta de leakage, no solo el pre.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1559,7 +1559,7 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
  youDo: {
  title: "Portfolio ejecutivo de calidad + EDA (cierre del nivel)",
  context:
- "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims en español profesional. Sin PII real ni datos de producción. **Criterios de aceptación del dict** (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs. total bajo eps). Este entregable es la base tabular; en **S18** trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
+ "Tú lo haces (You Do). Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable (el contrato columna→tipo esperado), groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff (fecha de corte que separa el pasado del futuro). Entrega un script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y un memo de límites/no-claims (esto es, sin afirmar causalidad sin evidencia) en español profesional. Sin PII real (datos personales identificables reales) ni datos de producción. Criterios de aceptación del dict (mínimo): `rows_merge` (int), `n_huerfanos_left_only` (int), `total_monto` (float, todo el universo de tx del merge), `total_pre_cutoff` (float, solo `fecha <= cutoff`), `leakage_delta` (`total_monto - total_pre_cutoff`), `reconciled` (bool: p. ej. residual de partes vs. total bajo eps). Este entregable es la base tabular; en S18 trabajarás la lectura de incertidumbre (hallazgo vs. hipótesis) sobre estos mismos hallazgos.",
  objectives: [
  "Dataset limpio + script reproducible re-ejecutable por un colega",
  "Joins con filas pre/post, validate o anti-join documentados",

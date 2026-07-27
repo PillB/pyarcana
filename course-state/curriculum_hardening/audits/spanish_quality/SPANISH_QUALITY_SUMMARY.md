@@ -18,26 +18,26 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **401** | Paragraphs: **243**
-- Findings: **105** (high=0, medium=3, low=102)
-- Mean quality score (0–10): **9.15**
-- Mean Fernández-Huerta: **89.6** (fácil)
-- Mean words/sentence: **10.09**
+- Sentences: **412** | Paragraphs: **258**
+- Findings: **108** (high=0, medium=2, low=106)
+- Mean quality score (0–10): **9.17**
+- Mean Fernández-Huerta: **90.8** (muy fácil)
+- Mean words/sentence: **12.62**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S16 | 9.15 | 89.6 | 10.09 | 0/3/102 | `s16-wxpython-gui.ts` |
+| S17 | 9.17 | 90.8 | 12.62 | 0/2/106 | `s17-packaging.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=95)
+### `fragment` (n=92)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=5)
+### `lowercase_after_period` (n=10)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
@@ -49,9 +49,9 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
 
-### `run_on_sentence` (n=1)
-- **Cause:** Oraciones con demasiadas cláusulas o listas embebidas.
-- **Improvement:** Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración.
+### `space_before_punct` (n=2)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 
