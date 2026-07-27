@@ -12,7 +12,7 @@ export const section18: CourseSection = {
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y data products de banca, fintech y retail en Perú, un **EDA honesto** separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Tras el dataset limpio y el memo de límites de **S17 (CP-N2-A)**, aquí abres **CP-N2-B** con resúmenes robustos, sesgo muestral, intervalos básicos, correlación sin causalidad y notas de datos reproducibles — solo datos sintéticos. Ese paquete alimenta el dashboard accesible de S19.",
+ "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Tras el dataset limpio (el conjunto de datos depurado) y el memo de límites (el memorando que documenta cobertura y exclusiones) de S17 (CP-N2-A), aquí abres CP-N2-B. Practicas resúmenes robustos, sesgo muestral, intervalos básicos, correlación sin causalidad y notas de datos reproducibles — solo datos sintéticos. Ese paquete alimenta el dashboard accesible (el tablero visual) de S19.",
  learningOutcomes: [
  { text: "Resumir distribuciones con centro, dispersión y cuantiles" },
  { text: "Elegir métricas robustas y escalas honestas" },
@@ -28,7 +28,7 @@ export const section18: CourseSection = {
  heading: "Mapa de la sección: del dataset limpio al EDA con incertidumbre",
  paragraphs: [
  "En **S17** cerraste **CP-N2-A** con joins, agregaciones y un memo de límites sobre un dataset limpio. Aquí empiezas **CP-N2-B**: centro/dispersión, métricas robustas, sesgo muestral, intervalos básicos, correlación sin causalidad y notebooks con notas de datos reproducibles. Reutiliza la lógica de limpieza y el hábito de documentar cobertura; ahora cada hallazgo también declara incertidumbre.",
- "El hilo conductor es un **dataset sintético de tickets/montos** con regiones ficticias Lima, Arequipa y Cusco, ids `T00x` y montos en PEN. Cada hallazgo del portafolio debe citar un cálculo (n, métrica, IC o flag) y declarar incertidumbre: hallazgo ≠ hipótesis ≠ decisión de negocio. Los gráficos honestos y el dashboard se profundizan en **S19**.",
+ "El hilo conductor es un **dataset sintético de tickets/montos** con regiones ficticias Lima, Arequipa y Cusco, ids `T00x` y montos en PEN. Cada hallazgo del portafolio (esto es, el dossier de evidencias que entregas al negocio) debe citar un cálculo (n, métrica, IC o flag, una marca de anomalía) y declarar incertidumbre: hallazgo ≠ hipótesis ≠ decisión de negocio. Los gráficos honestos y el dashboard se profundizan en **S19**.",
  "Orden pedagógico: **T1 Distribuciones** (centro, cuantiles, robustez y escalas) → **T2 Inferencia básica** (población/muestra, IC, bootstrap conceptual y tamaño de efecto) → **T3 Relaciones** (Pearson/Spearman, confusión, segmentos y anomalías sin afirmación causal) → **T4 Comunicación** (plantilla Q→H→E y notas de datos). Solo numpy/pandas ya vistos; sin PII real.",
  ],
  callout: {
@@ -44,7 +44,7 @@ export const section18: CourseSection = {
  paragraphs: [
  "El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof=1`) o **IQR** (Q3−Q1). En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
  "Contrato operativo: reporta siempre **n**, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma **sin asumir normalidad** — no digas “distribución normal” solo porque calculaste media y std.",
- "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier de 120” — no “el ticket promedio es 39 y representa al cliente típico”.",
+ "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier (un valor atípico) de 120”; no “el ticket promedio es 39 y representa al cliente típico”.",
  ],
  code: {
  language: 'python',
@@ -254,7 +254,7 @@ nota Spearman=1 monotona; Pearson puede ser <1 en la escala original`,
  paragraphs: [
  "Segmenta por región, canal o cohorte con **reglas explícitas** (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son **candidatos a revisión**, nunca “fraudes demostrados” ni culpa de persona/región.",
  "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es afirmación causal no soportada.",
- "Caso sintético: montos con un 80 PEN en Arequipa → flag de anomalía en ese id; tasa Arequipa 0.2 vs. Lima 0.0 es hallazgo descriptivo. El portafolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni auto-fraude.",
+ "Caso sintético: montos con un 80 PEN en Arequipa → flag de anomalía en ese id; tasa Arequipa 0.2 vs. Lima 0.0 es hallazgo descriptivo. El portafolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. Sin PII real ni autofraude.",
  ],
  code: {
  language: 'python',
@@ -432,7 +432,7 @@ ratio_mean_median 2.43
 log1p_median 2.833`,
  },
  why:
-  "MAD ancla la dispersión en la mediana y resiste el outlier de 200. El ratio mean/median es un semáforo de cola: valores ≫ 1 avisan que “típico” no es la media. `log1p` reduce asimetría visual para EDA, pero no se reporta como diferencia en soles PEN sin antitransformar. Elige métrica según la pregunta de negocio, no por costumbre.",
+  "MAD ancla la dispersión en la mediana y resiste el outlier de 200. El ratio mean/median es un semáforo de cola: valores ≫ 1 avisan que “típico” no es la media. La función `log1p` reduce asimetría visual para EDA, pero no se reporta como diferencia en soles PEN sin antitransformar. Elige métrica según la pregunta de negocio, no por costumbre.",
  retrospective:
   "Si mean ≫ median, prioriza robustez y declara la cola en el memo; no vendas la media como ticket típico. El error clásico es “el cliente promedio gasta ~39 PEN” cuando el mediano está en 16. We Do: ratio, MAD y log1p honestas con ceros.",
  },
@@ -558,7 +558,7 @@ spearman_mono 1.0
 claim asociacion_observada_no_causal`,
  },
  why:
-  "Residualizar es un control exploratorio, no una prueba causal: r cae cuando Z era el confusor. Spearman captura asociaciones monótonas no lineales vía rangos. El claim `asociacion_observada_no_causal` protege el portafolio de lenguaje de fraude o causa automática. En CP-N2-B ese claim es tan importante como el número.",
+  "Residualizar es un control exploratorio, no una prueba causal: r cae cuando Z era el confusor. Spearman captura asociaciones monótonas no lineales vía rangos. El claim (la afirmación ética) `asociacion_observada_no_causal` protege el portafolio de lenguaje de fraude o causa automática. En CP-N2-B ese claim es tan importante como el número.",
  retrospective:
   "r alto es hallazgo de asociación, no veredicto. Si al controlar Z cae, el confusor era el relato. We Do: Pearson correcto, Spearman por rangos, residuales de confusor.",
  },
@@ -675,7 +675,7 @@ median_final 11.5`,
  ],
  },
  weDo: {
- intro: "Practica 24 ejercicios en liberación gradual (guiado → independiente → transferencia): centro/robustez, sesgo, IC y bootstrap, Pearson/Spearman sin causalidad, Tukey sin fraude, Q→H→E y notas de datos. Cada bug del código inicial es un hábito del portafolio CP-N2-B; no copies la solución antes de ejecutar.",
+ intro: "Practica 24 ejercicios en liberación gradual (guiado → independiente → transferencia). Los temas son centro y robustez, sesgo muestral, IC y bootstrap, Pearson/Spearman sin causalidad, Tukey sin fraude, y la plantilla Q→H→E con notas de datos. Cada bug del código inicial es un hábito del portafolio CP-N2-B; no copies la solución antes de ejecutar.",
  steps: [
  {
  id: "S18-T1-A-E1",
@@ -1278,7 +1278,7 @@ print("spearman", round(float(np.corrcoef(rx, ry)[0, 1]), 3))`,
  kind: "transfer",
  title: "Residualizar confusor y claim no causal",
  preamble:
-  "- **Contexto:** en CP-N2-B un r alto entre monto y visitas puede ser tamaño de ciudad (Z).\n- **Meta:** reportar r_raw, r_residual tras residualizar x,y vs z, y claim ético.\n- **Éxito:** `r_raw 0.828`, `r_residual 0.075`, `claim asociacion_observada_no_causal`.\n- **Límites:** seed 1 y coeficientes del starter fijos; no regeneres datos; no afirmes causa.",
+  "- **Contexto:** en CP-N2-B un r alto entre monto y visitas puede ser tamaño de ciudad (Z).\n- **Meta:** reportar r_raw, r_residual tras residualizar x,y vs. z, y claim ético.\n- **Éxito:** `r_raw 0.828`, `r_residual 0.075`, `claim asociacion_observada_no_causal`.\n- **Límites:** seed 1 y coeficientes del starter fijos; no regeneres datos; no afirmes causa.",
  instruction:
  "1. r_raw ya está; completa residuales.\n2. `polyfit(z, serie, 1)` para x e y; resta la predicción.\n3. Pearson de residuales a 3 decimales.\n4. Imprime claim exacto no causal.",
  hint: "Residualiza con polyfit(z, serie, 1); corrcoef de residuales; redondea a 3 decimales.",
@@ -1713,9 +1713,9 @@ print(note)`,
  objectives: [
  "Resumir distribuciones con n, centro, dispersión y cuantiles (y métrica robusta si hay cola)",
  "Diagnosticar sesgo muestral vs. cuotas y declarar cobertura LIMITADA/OK",
- "Reportar al menos un IC (z y/o bootstrap documentado) o tamaño de efecto (p. ej. d de Cohen) con n",
+ "Reportar al menos un IC (z y/o bootstrap documentado) o tamaño de efecto (p. ej. d de Cohen) con n.",
  "Interpretar correlación/Spearman o segmentos sin afirmaciones causales; flags Tukey ≠ fraude",
- "Entregar script/notebook con notas de datos, seed y huella de filas listo para S19",
+ "Entregar script/notebook con notas de datos, seed y huella de filas listo para S19.",
  ],
  requirements: [
  "Solo datos sintéticos o anonimizados de práctica (sin PII real)",

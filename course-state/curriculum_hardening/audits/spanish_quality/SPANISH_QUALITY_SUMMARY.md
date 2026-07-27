@@ -18,40 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **412** | Paragraphs: **258**
-- Findings: **108** (high=0, medium=2, low=106)
-- Mean quality score (0–10): **9.17**
-- Mean Fernández-Huerta: **90.8** (muy fácil)
-- Mean words/sentence: **12.62**
+- Sentences: **401** | Paragraphs: **255**
+- Findings: **99** (high=0, medium=1, low=98)
+- Mean quality score (0–10): **9.24**
+- Mean Fernández-Huerta: **92.4** (muy fácil)
+- Mean words/sentence: **9.89**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S17 | 9.17 | 90.8 | 12.62 | 0/2/106 | `s17-packaging.ts` |
+| S18 | 9.24 | 92.4 | 9.89 | 0/1/98 | `s18-data-engineering.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=92)
+### `fragment` (n=86)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=10)
+### `lowercase_after_period` (n=8)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=2)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `repeated_word` (n=2)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
-
-### `space_before_punct` (n=2)
+### `space_before_punct` (n=3)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
+
+### `repeated_word` (n=1)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ## How to use
 
