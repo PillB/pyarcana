@@ -2813,3 +2813,56 @@ Stage Summary:
 - Stephen Fry redaction pass applied: every major jargon noun at first mention in theory, iDo, weDo, youDo now carries an inline newbie-friendly explanation.
 
 Ready for the next section.
+
+---
+Task ID: FIXER-S11
+Agent: Independent Section 11 Fixer
+Task: Fresh text-first review and remediation of active Section 11 only.
+Work Log:
+- Acknowledged the Anti-Aberration Rules; worked exclusively on Section 11 (OOP y modelo de dominio) in `src/lib/course/sections/s11-testing.ts`.
+- Read primary Explorer report (S11_EXPLORER_REPORT.md, score 6.4), expert report (S11_report.md, score 8.0), shared grammar subplan, S11_SPANISH_QUALITY.json (score 9.87, FH 80.7), current canonical source (2,630 lines), public selfCheck (6 MCQs), Spanish audit script, prior R2 worklog entries (including S10 entry for precedent).
+- Second-expert audit (deep-research-report-11.md) reviewed; that agent failed to reach the live page (District XI redirect bug on their browser) and produced no S11-specific prose quotes — not used to drive remediation.
+- Built issue-resolution ledger mapping every Explorer I-01..I-24, Expert #1..#15, and Spanish-quality finding to its current source status. Most Explorer P0/P1 and Expert Spanish micro-defects were already closed by prior R1/R2 rounds (verified clean): jobRelevance, theory opening, youDo context/rubric, resource notes, weDo instructions, ClientRecord schema, CaseFile typing, youDo starter slimming, callout title translations, `0..1` → `[0, 1]`, `×`/`c/u` cleanup, `Person` → `PersonInfo`, `fixes`/`clamp` translations, `WHEN_NOT`/`INTRODUCE` gloss, T3-A-E1 instruction clarity, S10→S11 bridge, E1_relabel clarification, Q3 Spanglish option.
+- Deferred (per campaign summary item #1 and S10 precedent): `id: "testing"` and filename `s11-testing.ts` left intact for routing/progress compatibility; coordinated platform migration required course-wide.
+- Kept (house style): pluralized siglas `ORMs`/`APIs`/`DTOs` (Peruvian tech convention), `# DEFECT:` markers in starterCode (matches S27 convention), `vs.` with period (Spanish academic convention), `→` spacing (both forms typographically valid).
+- Active defects addressed this round, all hand-written:
+  - Theory tab (T1-A, T1-B, T2-A, T2-B, T3-A, T3-B, T4-A, T4-B): added inline Stephen-Fry-style jargon explanations at first mention for `@dataclass`, type hints, `default_factory`, Fail-closed, invariantes, PII, `__post_init__`, factories, side-effects, stdlib, ORM, Decimal, allowlist, `@property`, UI, logs, dashboard, raw, backoffice, sentinel, IndexError, stdout, identidad, hash, set de resolución, `field(compare=False)`, value objects, agregados, relabel, composición, has-a, is-a, par canónico, signal_score, Herencia, Mixins, MRO, funciones puras, serializar, grafo de evidencias, `typing.Protocol`, puerto, duck typing estructural, contrato, chequeo estático, `@runtime_checkable`, isinstance, runtime, fakes, ABC, adaptador real, I/O, borde de infraestructura, YAGNI, adapter SQL/HTTP, Repository, Service, `to_dict`/`from_dict`, borde de serialización, invariantes de negocio, DTOs, argparse, dict de borde, tests puros, CI, local-python, Assert, test de "no existe el método", finitud, fixtures.
+  - iDo intro: added "el entorno que corre en tu propia máquina" gloss for local-python; restructured long enumeration into "El recorrido cubre:" form to avoid run-on.
+  - iDo T1-A-DEMO preamble: added glosses for classmethod, repr, PII, stdlib.
+  - iDo T1-A-DEMO why: restructured into four short sentences, dropped redundant factory gloss.
+  - iDo T1-B-DEMO preamble/why: glossed `__post_init__`, side-effects, fail-on-construct, set de resolución, factories.
+  - iDo T2-A-DEMO preamble/why: glossed properties, logs, dashboard, Indexerror, sentinel, pipeline, raw.
+  - iDo T2-B-DEMO preamble/why: glossed identidad estable, frozen, compare=False, relabel, PII, key.
+  - iDo T3-A-DEMO preamble/why: glossed composición, fail-closed, par canónico, invariantes, value object.
+  - iDo T3-B-DEMO preamble/why: glossed puerto, FakeStore, adapter real, duck typing estructural, mock frameworks.
+  - iDo T4-A-DEMO preamble/why: glossed ClientService, repo, I/O, argparse, dict de borde, to_dict, invariante del tipo.
+  - iDo T4-B-DEMO preamble/why: glossed test, ausencia, no-APIs de veredicto, Fixtures, suite de dominio, hasattr, CI-rápido.
+  - weDo intro: glossed starter, tests de dominio.
+  - weDo S11-T2-A-E2 hint/hints/feedback: reworded "day - day_created" repeated-word false positive to "día dado / día de creación / diferencia entre ambos" (Spanish-quality SQ-01 fix).
+  - weDo S11-T2-A-E3 instruction: reworded "Prefijos `ok` / `reject` / `reject_nan`" to "Prefijos `ok`, `reject` y `reject_nan`" to avoid 'reject reject' false positive.
+  - weDo S11-T2-B-E2 preamble/feedback: glossed hasheable, claves inestables.
+  - weDo S11-T2-B-E3 preamble/feedback: glossed key de dict, lookup, bucket.
+  - weDo S11-T3-A-E1 hint/hints: reworded to "Construye `Client` con `client_id` y `person`, sin heredar..." to avoid 'Client client' false positive.
+  - weDo S11-T3-A-E3 instruction: glossed comparación lexicográfica.
+  - weDo S11-T3-B-E1 preamble/feedback: glossed fake, duck typing, call site, type checker.
+  - weDo S11-T3-B-E2 preamble: glossed callable.
+  - weDo S11-T4-A-E2 preamble: glossed roundtrip; reworded hint to "Implementa `save` y `get`; este último debe consultar..." to avoid 'get get' false positive.
+  - weDo S11-T4-A-E3 preamble: glossed capas (niveles de la arquitectura).
+  - weDo S11-T4-B-E2 preamble/feedback: glossed mocks, asserts reales, suite de dominio.
+  - weDo S11-T4-B-E3 preamble/feedback: glossed APIs de veredicto, anti-patrón, hasattr.
+  - youDo context: glossed invariantes, serialización, repo en memoria.
+  - youDo objectives: glossed equality consciente.
+  - youDo requirements: glossed type hints, eq/hash, orden canónico, side-effects de CLI.
+  - youDo portfolioNote: glossed fail-closed, oráculo.
+  - selfCheck Q3 explanation: glossed puerto estructural, ABC pesada.
+- Did NOT rename `id: "testing"` or the file name (compatibility residual; coordinated platform migration required). Did NOT edit SectionView, other sections, youDo starterCode body, any solutionCode, any correctIndex, or any output contract.
+- Anti-aberration: no scripts, generators, loops, templates, or bulk mechanisms manufactured educational prose. Automation limited to mechanical validation only (tsc, eslint, spanish_quality_audit.py, python execution of representative code blocks, v3_invariant_validator, check_section_structure).
+Stage Summary:
+- Section 11 fully remediated under strict anti-aberration rules.
+- TypeScript clean (no s11-testing.ts errors); ESLint clean.
+- V3 invariant validator: ok=true, 0 failures, 52 sections tagged. Section structure check: ok=true, 8 subtopics/8 demos/24 exercises.
+- Spanish-quality audit (`--no-lt`): score 9.26, FH 86.9 (fácil, improved from pre-R3 FH 80.7); findings 104 (was 10 before this round; the increase is from 95 fragments on numbered list items like "1.", "2." — a known false positive class — plus 9 low-severity long_sentence/comma_density flags from added Stephen-Fry glosses); medium-severity findings: 0; high-severity findings: 0.
+- Meta-leaks: 0 learner-visible `V3` / `retematiza` / `churn` / `id conservado` / `pytest/CI se reubicados` / `test suite churn` (only the routing `id: "testing"` field remains, intentionally stable per coordinated-migration deferral).
+- Stephen Fry redaction pass applied: every major jargon noun at first mention in theory, iDo, weDo, youDo, selfCheck now carries an inline newbie-friendly explanation. Readability improved (FH 80.7 → 86.9).
+
+Ready for the next section.

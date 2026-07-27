@@ -18,38 +18,38 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **424** | Paragraphs: **279**
-- Findings: **111** (high=0, medium=0, low=111)
-- Mean quality score (0–10): **9.21**
-- Mean Fernández-Huerta: **86.8** (fácil)
-- Mean words/sentence: **11.37**
+- Sentences: **424** | Paragraphs: **281**
+- Findings: **104** (high=0, medium=0, low=104)
+- Mean quality score (0–10): **9.26**
+- Mean Fernández-Huerta: **86.9** (fácil)
+- Mean words/sentence: **10.46**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S10 | 9.21 | 86.8 | 11.37 | 0/0/111 | `s10-sklearn.ts` |
+| S11 | 9.26 | 86.9 | 10.46 | 0/0/104 | `s11-testing.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=95)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=8)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=4)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `long_sentence` (n=1)
+### `long_sentence` (n=5)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `double_space` (n=1)
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
+
+### `missing_inverted_exclamation` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `lowercase_after_period` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 

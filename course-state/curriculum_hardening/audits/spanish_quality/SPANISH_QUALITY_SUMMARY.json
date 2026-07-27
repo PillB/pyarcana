@@ -13,36 +13,36 @@
   },
   "sections_audited": 1,
   "total_sentences": 424,
-  "total_paragraphs": 279,
-  "total_findings": 111,
+  "total_paragraphs": 281,
+  "total_findings": 104,
   "severity": {
-    "low": 111
+    "low": 104
   },
-  "mean_quality_score": 9.21,
-  "min_quality_score": 9.21,
-  "mean_fernandez_huerta": 86.8,
+  "mean_quality_score": 9.26,
+  "min_quality_score": 9.26,
+  "mean_fernandez_huerta": 86.9,
   "mean_fh_label": "fácil",
-  "mean_wps": 11.37,
+  "mean_wps": 10.46,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
-    ],
-    [
-      "lowercase_after_period",
-      8
-    ],
-    [
-      "space_before_punct",
-      4
+      95
     ],
     [
       "long_sentence",
+      5
+    ],
+    [
+      "comma_density",
       1
     ],
     [
-      "double_space",
+      "missing_inverted_exclamation",
+      1
+    ],
+    [
+      "lowercase_after_period",
       1
     ],
     [
@@ -53,30 +53,30 @@
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 95,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "long_sentence",
+      "count": 5,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "missing_inverted_exclamation",
+      "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 8,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "space_before_punct",
-      "count": 4,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
-    },
-    {
-      "rule": "long_sentence",
-      "count": 1,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
-    },
-    {
-      "rule": "double_space",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
@@ -90,15 +90,15 @@
   ],
   "sections_ranked": [
     {
-      "section": 10,
-      "file": "s10-sklearn.ts",
-      "quality_score_0_10": 9.21,
-      "fernandez_huerta": 86.8,
-      "avg_words_per_sentence": 11.37,
+      "section": 11,
+      "file": "s11-testing.ts",
+      "quality_score_0_10": 9.26,
+      "fernandez_huerta": 86.9,
+      "avg_words_per_sentence": 10.46,
       "findings_by_severity": {
-        "low": 111
+        "low": 104
       },
-      "findings_total": 111
+      "findings_total": 104
     }
   ]
 }
