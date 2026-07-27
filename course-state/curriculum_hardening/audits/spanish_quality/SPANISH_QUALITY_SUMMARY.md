@@ -18,26 +18,30 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **381** | Paragraphs: **226**
-- Findings: **98** (high=0, medium=0, low=98)
-- Mean quality score (0–10): **9.23**
-- Mean Fernández-Huerta: **93.6** (muy fácil)
-- Mean words/sentence: **10.33**
+- Sentences: **394** | Paragraphs: **234**
+- Findings: **99** (high=0, medium=2, low=97)
+- Mean quality score (0–10): **9.2**
+- Mean Fernández-Huerta: **92.2** (muy fácil)
+- Mean words/sentence: **9.21**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S14 | 9.23 | 93.6 | 10.33 | 0/0/98 | `s14-security.ts` |
+| S15 | 9.2 | 92.2 | 9.21 | 0/2/97 | `s15-stdlib-deep.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=95)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_inverted_exclamation` (n=1)
+### `repeated_word` (n=2)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
+
+### `lowercase_after_period` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 

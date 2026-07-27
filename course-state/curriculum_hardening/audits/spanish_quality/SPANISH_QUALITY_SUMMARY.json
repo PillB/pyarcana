@@ -12,25 +12,30 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 381,
-  "total_paragraphs": 226,
-  "total_findings": 98,
+  "total_sentences": 394,
+  "total_paragraphs": 234,
+  "total_findings": 99,
   "severity": {
-    "low": 98
+    "medium": 2,
+    "low": 97
   },
-  "mean_quality_score": 9.23,
-  "min_quality_score": 9.23,
-  "mean_fernandez_huerta": 93.6,
+  "mean_quality_score": 9.2,
+  "min_quality_score": 9.2,
+  "mean_fernandez_huerta": 92.2,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 10.33,
+  "mean_wps": 9.21,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      95
     ],
     [
-      "missing_inverted_exclamation",
+      "repeated_word",
+      2
+    ],
+    [
+      "lowercase_after_period",
       1
     ],
     [
@@ -41,12 +46,18 @@
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 95,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "missing_inverted_exclamation",
+      "rule": "repeated_word",
+      "count": 2,
+      "cause": "Typo o pegado doble.",
+      "fix": "Eliminar duplicado."
+    },
+    {
+      "rule": "lowercase_after_period",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
@@ -60,15 +71,16 @@
   ],
   "sections_ranked": [
     {
-      "section": 14,
-      "file": "s14-security.ts",
-      "quality_score_0_10": 9.23,
-      "fernandez_huerta": 93.6,
-      "avg_words_per_sentence": 10.33,
+      "section": 15,
+      "file": "s15-stdlib-deep.ts",
+      "quality_score_0_10": 9.2,
+      "fernandez_huerta": 92.2,
+      "avg_words_per_sentence": 9.21,
       "findings_by_severity": {
-        "low": 98
+        "medium": 2,
+        "low": 97
       },
-      "findings_total": 98
+      "findings_total": 99
     }
   ]
 }

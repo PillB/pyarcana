@@ -1,37 +1,73 @@
 {
-  "generated_at": "2026-07-27T20:09:47.316940+00:00",
-  "sections": 2,
+  "generated_at": "2026-07-27T20:27:21.239566+00:00",
+  "sections": 1,
   "totals": {
-    "pass": 128,
-    "fail": 0,
+    "pass": 59,
+    "fail": 5,
     "skip": 0,
-    "artifacts": 128
+    "artifacts": 64
   },
-  "fail_count": 0,
-  "p0_count": 0,
-  "p1_count": 0,
-  "ok": true,
+  "fail_count": 5,
+  "p0_count": 2,
+  "p1_count": 3,
+  "ok": false,
   "sections_detail": [
     {
-      "file": "src/lib/course/sections/s14-security.ts",
-      "section_id": "security",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "section_id": "stdlib-deep",
       "counts": {
-        "pass": 64,
-        "fail": 0,
-        "skip": 0
-      },
-      "artifact_count": 64
-    },
-    {
-      "file": "src/lib/course/sections/s32-microservices.ts",
-      "section_id": "microservices",
-      "counts": {
-        "pass": 64,
-        "fail": 0,
+        "pass": 59,
+        "fail": 5,
         "skip": 0
       },
       "artifact_count": 64
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "n <module>\n    print(int(df[\"b\"].isna().sum()))\n              ~~^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages/pandas/core/frame.py\", line 4102, in __getitem__\n    indexer = self.columns.get_loc(key)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py\", line 3812, in get_loc\n    raise KeyError(key) from err\nKeyError: 'b'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-3",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "exception:\n\nTraceback (most recent call last):\n  File \"/tmp/pyarcana_cfgvztul/snippet.py\", line 4, in <module>\n    print(int(df[\"b\"].isna().sum()))\n              ~~^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages/pandas/core/frame.py\", line 4102, in __getitem__\n    indexer = self.columns.get_loc(key)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-4",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-5",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-1",
+      "reason": "nonzero_exit",
+      "severity": "P0",
+      "stderr": "        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages/pandas/io/parsers/c_parser_wrapper.py\", line 161, in __init__\n    self._validate_parse_dates_presence(self.names)  # type: ignore[has-type]\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/z/.venv/lib/python3.12/site-packages/pandas/io/parsers/base_parser.py\", line 243, in _validate_parse"
+    }
+  ]
 }
