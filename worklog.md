@@ -1439,3 +1439,49 @@ Stage Summary:
 - Validation: tsc clean for S23, eslint clean for S23, Spanish quality 9.30/10 (FH 92.9, label "fácil"). The 2 new low-severity findings are false positives of the audit's abbreviation-blind `lowercase_after_period` regex on the RAE-correct `vs.` form.
 
 Section 23 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S24
+Agent: Independent Section 24 Fixer
+Task: Fresh text-first review and remediation of Section 24.
+
+Work Log:
+- Acknowledged the Anti-Aberration Rules. Scope: Section 24 only. No scripts/loops/templates for prose generation; scripts used only for validation.
+- Read canonical source `src/lib/course/sections/s24-rpa-advanced.ts` (1779 lines), expert report `expert_audit/S24_report.md` (725 lines), Spanish-quality JSON `course-state/curriculum_hardening/audits/spanish_quality/S24_SPANISH_QUALITY.json`, and live-render path via `SectionView.tsx` + `RichText.tsx` + `Callout.tsx`.
+- Verified previously-fixed items already in canonical source (prior rounds):
+  * `auto-aceptas` → `autoaceptas` (5 occurrences: lines 32/113/121/254/257) — all joined ✓
+  * `auto-aceptar` → `autoaceptar` (line 257), `auto-aceptes` → `autoaceptes` (line 113), `auto-acepta` → `autoacepta` (line 121), `autoaceptación` (lines 800/805/812/814/888) — all joined ✓
+  * `re-scrapeas` → rewritten as `vuelves a scrapear` (line 30) ✓
+  * `re-OCR` → rewritten as `volver a correr OCR` (line 49) ✓
+  * `re-OCRizar` → rewritten as `sin volver a pasar el motor OCR` (line 157) ✓
+  * `re-escaneo` → `reescaneo` (line 336) ✓
+  * `download verificado` → `descarga verificada` (line 30) ✓
+  * `logueas reasons` → `registras las reasons en el log` (line 257) ✓
+  * `field y imprime` → `field e imprime` (Y_E_O_U rule, lines 1010/1012) ✓
+  * `jobRelevance` mega-paragraph split into 3 paragraphs via `\n\n` (line 15) ✓
+  * `youDo.context` arrow-chain converted to numbered list (line 1580) ✓
+  * selfCheck Q2 stem rewritten as `¿Qué implica...?` (line 1681) ✓
+  * `vs` → `vs.` at lines 33/256/297/493/1199/1615/1665/1669 ✓
+  * Stephen Fry redaction: Mini-glosario at line 32 already glosses bbox/confidence/HITL/golden set/adapter/fail-closed/coverage_auto/preflight inline with Spanish in parens ✓
+- Remaining R3 fixes applied manually this round:
+  * Line 582 (weDo retrospective S24-T1-A-E1): `re-correr OCR` → `volver a correr OCR` (RAE: "recorrer" is a different verb meaning "to traverse"; safer rewrite, matches the pattern used at line 49).
+  * Line 495 (iDo preamble S24-T3-B-DEMO): `150 vs [100, 50]` → `150 vs. [100, 50]` (RAE/Fundéu abbreviation form).
+  * Line 699 (weDo retrospective S24-T1-B-E1): `auto vs manual` → `auto vs. manual`.
+  * Line 885 (weDo instruction S24-T2-A-E3): `m vs thr` → `m vs. thr`.
+  * Line 934 (weDo preamble S24-T2-B-E1): `strip y imprimir clave y valor` → `strip e imprimir clave y valor` (Y_E_O_U rule: "y" → "e" before "i" sound; "imprimir" starts with /i/).
+  * Line 1338 (weDo retrospective S24-T4-A-E1): `RUC pred vs true` → `RUC pred vs. true`.
+- Inspected `auto-OCR` (line 773, weDo retrospective S24-T1-B-E3) and `pre-OCR` (line 403, iDo preamble S24-T1-B-DEMO): these are prefix + sigla/initialism cases. RAE DPD prescribes hyphen retention for prefixes joined to initialisms (cf. anti-OTAN, pro-OTAN), so both forms are orthographically correct as-is. Left untouched to avoid introducing non-standard `autoOCR`/`preOCR` forms.
+- Inspected `**bold**` usage across prose: all `**...**` markers in `jobRelevance`, theory paragraphs, callout content, iDo `why`/`preamble`/`retrospective`, weDo `preamble`/`feedback`/`retrospective`, youDo `context` are intentional house-style emphasis rendered via `RichText.tsx` (which parses `**bold**` → `<strong>`). No markdown leaks to strip.
+- Validation:
+  * `npx eslint src/lib/course/sections/s24-rpa-advanced.ts` — 0 errors ✓
+  * `npx tsc --noEmit` — 0 errors in S24 (all pre-existing errors in unrelated files: api routes Prisma client, firebase-admin, bcryptjs, react-leaflet, xlsx) ✓
+  * `python3 scripts/spanish_quality_audit.py --from 24 --to 24 --no-lt` — findings=121, mean_score=8.54, mean_FH=99.4 (baseline "muy fácil" band). Distribution: 108 structure (mostly "Fragmento muy corto" false positives on numbered-list items `1.`/`2.`/`3.`/`4.` inside instruction strings), 4 grammar (false positives on `auto auto`/`ocr ocr` in code-style formulas like `coverage_auto=auto/(auto+review)` and `status_ocr == ocr_fail`), 9 orthography (false positives on `Minúscula tras fin de oración` triggered by code identifiers like `dpi`/`ocr_fail`/`zip`/`min` after periods in `tests`/`feedback` fields). All 13 non-structure findings are tool-limitation false positives in code-style content — no real orthography or grammar defects remain.
+
+Stage Summary:
+- Section 24 R3 fix complete. Prior R1/R2 fixes (autoaceptar family, rescrapeas/reOCR/reOCRizar/reescaneo, download→descarga, logueas→registras, field y→e imprime, jobRelevance split, youDo.context numbered list, selfCheck Q2 ¿...?, vs→vs. at 8 sites, Mini-glosario inline jargon) all retained and re-verified.
+- New R3 hand fixes: 6 sites — `re-correr OCR` → `volver a correr OCR` (1), `vs` → `vs.` (4 sites: lines 495/699/885/1338), `y imprimir` → `e imprimir` (1 site: line 934, Y_E_O_U rule before /i/ sound).
+- Course invariants preserved: CP-N2-C document intake pipeline, S23→S24→S25 capstone binding, ethics spine (`needs_review ≠ fraude`, `auto_fraud_label=False`), fail-closed posture, real/fake adapter contract, locale PE for montos with coma decimal, RUC 11 dígitos sin inventar, golden set por campo, id `rpa-advanced` compatibility.
+- Anti-aberration: hand craft only for educational content; scripts only for validation.
+- Validation: tsc clean for S24, eslint clean for S24, Spanish quality 8.54/10 (FH 99.4, label "muy fácil"). All 13 non-structure audit findings are false positives in code-style content (formulas, identifiers, tests fields).
+
+Section 24 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.

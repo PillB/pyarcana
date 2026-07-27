@@ -18,36 +18,48 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **464** | Paragraphs: **294**
-- Findings: **102** (high=0, medium=2, low=100)
-- Mean quality score (0–10): **9.3**
-- Mean Fernández-Huerta: **92.9** (muy fácil)
-- Mean words/sentence: **9.73**
+- Sentences: **424** | Paragraphs: **266**
+- Findings: **121** (high=0, medium=19, low=102)
+- Mean quality score (0–10): **8.54**
+- Mean Fernández-Huerta: **99.4** (muy fácil)
+- Mean words/sentence: **10.52**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S23 | 9.3 | 92.9 | 9.73 | 0/2/100 | `s23-computer-vision.ts` |
+| S24 | 8.54 | 99.4 | 10.52 | 0/19/102 | `s24-rpa-advanced.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=90)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=3)
+### `missing_terminal_punct` (n=15)
+- **Cause:** Frases colgadas tras edición o plantillas.
+- **Improvement:** Toda oración asertiva cierra con punto.
+
+### `lowercase_after_period` (n=8)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `repeated_word` (n=2)
+### `repeated_word` (n=4)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
+
+### `long_sentence` (n=2)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
 ### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
+
+### `missing_inverted_exclamation` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
 ## How to use
 
