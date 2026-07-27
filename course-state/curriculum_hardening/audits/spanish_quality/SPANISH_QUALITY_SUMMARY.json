@@ -12,18 +12,18 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 394,
-  "total_paragraphs": 234,
-  "total_findings": 99,
+  "total_sentences": 401,
+  "total_paragraphs": 243,
+  "total_findings": 105,
   "severity": {
-    "medium": 2,
-    "low": 97
+    "low": 102,
+    "medium": 3
   },
-  "mean_quality_score": 9.2,
-  "min_quality_score": 9.2,
-  "mean_fernandez_huerta": 92.2,
-  "mean_fh_label": "muy fácil",
-  "mean_wps": 9.21,
+  "mean_quality_score": 9.15,
+  "min_quality_score": 9.15,
+  "mean_fernandez_huerta": 89.6,
+  "mean_fh_label": "fácil",
+  "mean_wps": 10.09,
   "languagetool": false,
   "top_rules": [
     [
@@ -31,15 +31,19 @@
       95
     ],
     [
+      "lowercase_after_period",
+      5
+    ],
+    [
+      "long_sentence",
+      2
+    ],
+    [
       "repeated_word",
       2
     ],
     [
-      "lowercase_after_period",
-      1
-    ],
-    [
-      "space_before_punct",
+      "run_on_sentence",
       1
     ]
   ],
@@ -51,36 +55,42 @@
       "fix": "Revisar extractos en el informe por sección."
     },
     {
+      "rule": "lowercase_after_period",
+      "count": 5,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "long_sentence",
+      "count": 2,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
       "rule": "repeated_word",
       "count": 2,
       "cause": "Typo o pegado doble.",
       "fix": "Eliminar duplicado."
     },
     {
-      "rule": "lowercase_after_period",
+      "rule": "run_on_sentence",
       "count": 1,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "space_before_punct",
-      "count": 1,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+      "cause": "Oraciones con demasiadas cláusulas o listas embebidas.",
+      "fix": "Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración."
     }
   ],
   "sections_ranked": [
     {
-      "section": 15,
-      "file": "s15-stdlib-deep.ts",
-      "quality_score_0_10": 9.2,
-      "fernandez_huerta": 92.2,
-      "avg_words_per_sentence": 9.21,
+      "section": 16,
+      "file": "s16-wxpython-gui.ts",
+      "quality_score_0_10": 9.15,
+      "fernandez_huerta": 89.6,
+      "avg_words_per_sentence": 10.09,
       "findings_by_severity": {
-        "medium": 2,
-        "low": 97
+        "low": 102,
+        "medium": 3
       },
-      "findings_total": 99
+      "findings_total": 105
     }
   ]
 }

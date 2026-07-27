@@ -12,7 +12,7 @@ export const section16: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Los equipos de datos en banca, fintech y retail en Perú necesitan **quality gates explicables**: políticas de null por campo, duplicados con evidencia, normalización con columna raw al lado, outliers con dominio y cuarentena con audit trail (rastro de auditoría). Aquí construyes el gate de calidad de **CP-N2-A**: falla de forma cerrada (**fail-closed**: si el contrato se rompe, el job —la tarea programada— no “aprueba” en silencio), sin PII (datos personales identificables) real y sin arreglos silenciosos. Parte de la ingesta tipada de S15 y deja un conjunto limpio y métricas para S17.",
+    "Los equipos de datos en banca, fintech y retail en Perú necesitan quality gates (puertas de control de calidad) explicables. Es decir, políticas de null por campo, duplicados con evidencia, normalización con columna raw (valor original) al lado, outliers (valores atípicos) con dominio y cuarentena con audit trail (rastro de auditoría). Aquí construyes el gate de calidad de CP-N2-A (la etapa A del capstone Executive Data Quality & EDA del nivel Competente). El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job (la tarea programada) no aprueba en silencio. Trabajas sin PII (datos personales identificables) reales y sin arreglos silenciosos. El trabajo parte de la ingesta tipada de S15 y deja un conjunto limpio y métricas para S17.",
   learningOutcomes: [
     { text: "Definir políticas de null required/optional y listar violaciones con conteo verificable (`isna` + mapa de campos)" },
     { text: "Limitar imputación con cap, indicadores de ausencia (`was_null`) y bloqueo si el rate supera el umbral" },
@@ -27,7 +27,7 @@ export const section16: CourseSection = {
     {
       heading: "Mapa de la sección: del CSV tipado al quality gate",
       paragraphs: [
-        "En S15 leíste clientes y transacciones con dtypes controlados. Imagina el lunes siguiente: alguien hace `monto.fillna(0)` “para que no falle el job”, el KPI (indicador clave) de ticket promedio se infla y, en la reunión de gerencia, nadie puede decir **cuántas filas se inventaron**. En **S16** construyes el **quality gate de CP-N2-A** para que eso no pase. Abarca políticas de null, imputación limitada con indicadores, duplicados vs. conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail (rastro de auditoría append-only: solo se agregan eventos, nunca se modifican ni borran).",
+        "En S15 leíste clientes y transacciones con dtypes controlados. Imagina el lunes siguiente: alguien hace `monto.fillna(0)` «para que no falle el job». El KPI (indicador clave de desempeño) de ticket promedio se infla y, en la reunión de gerencia, nadie puede decir **cuántas filas se inventaron**.\n\nEn **S16** construyes el **quality gate de CP-N2-A** (la etapa A del capstone *Executive Data Quality & EDA* del nivel Competente) para que eso no pase. Abarca seis frentes: políticas de null, imputación limitada con indicadores, duplicados vs. conflictos, normalización y outliers. Suma contratos de schema/cross-field y una cuarentena con audit trail (rastro de auditoría append-only: solo se agregan eventos, nunca se modifican ni borran).",
         "Regla de oro: **nunca “arreglar” en silencio**. Toda transformación deja una métrica, un indicador o una fila en cuarentena. **Fail-closed** significa que, si el contrato se rompe, el job **no** aprueba en silencio: publica métricas y termina con error (exit code ≠ 0). Los datos son sintéticos — regiones Lima/Arequipa/Cusco, prefijos `S/`, ids `C00x` — y nunca incluyen PII real ni DNI de personas.",
         "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs. conflictos, evidencia de clave) → **T3 Normalización** (strings, números, fechas y categorías; outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16. El conjunto limpio alimenta los joins y el portfolio de **S17**.",
       ],
@@ -368,7 +368,7 @@ s16_th_8()`,
     }
   ],
   iDo: {
-    intro: "Ocho demos de un solo hilo: un batch sintético de clientes PE pasa por null policy, imputación con cap, duplicados y conflictos, evidencia, normalización PEN, outliers, schema/cross-field y métricas con audit. Observa el patrón fail-closed en cada paso.",
+    intro: "Yo demuestro (I Do): ocho demos sobre un mismo hilo. Un batch sintético de clientes PE recorre null policy, imputación con cap, duplicados y conflictos. Sigue con evidencia, normalización PEN, outliers y contratos schema/cross-field. Cierra con métricas y audit. Observa el patrón fail-closed (fallar de forma segura) en cada paso.",
     steps: [
       {
         demoId: "S16-T1-A-DEMO",
@@ -619,7 +619,7 @@ s16_ido_8()`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios (E1 guiado → E2 independiente → E3 transferencia) por subtema del gate. Cada starter trae un error de lógica a corregir; dos pistas conceptuales. No imprimas éxito a ciegas: el oracle es la métrica o etiqueta correcta.",
+    intro: "Lo hacemos juntos (We Do): 24 ejercicios (E1 guiado → E2 independiente → E3 transferencia) por subtema del gate. Cada starter (el código inicial que recibes) trae un error de lógica a corregir y dos pistas conceptuales. No imprimas éxito a ciegas: el oráculo es la métrica o etiqueta correcta.",
     steps: [
       {
         id: "S16-T1-A-E1",
@@ -793,7 +793,7 @@ print(df["was_null"].tolist())`,
         preamble:
           "- **Contexto:** si la mitad de los montos vienen vacíos, imputar “para que el KPI no falle” envenena el ticket promedio.\n- **Meta:** comparar `null_rate` con umbral 0.3 y decidir `blocked`/`ok`.\n- **Éxito:** con rate=0.5 imprimes `blocked`.\n- **Límites:** no imputes si está bloqueado; no inviertas la comparación del umbral.",
         instruction:
-          "1. Calcula `rate = isna().mean()` sobre la serie del fixture.\n2. El starter bloquea cuando rate es **bajo** (DEFECT).\n3. Corrige: `blocked` si `rate > 0.3`, si no `ok`.\n4. Imprime solo la etiqueta.",
+          "1. Calcula `rate = isna().mean()` sobre la serie del fixture.\n2. El starter bloquea cuando rate es bajo (DEFECT).\n3. Corrige: `blocked` si `rate > 0.3`, si no `ok`.\n4. Imprime solo la etiqueta.",
         hint: "rate = isna().mean(); bloquea si rate > 0.3.",
         hints: [
           "rate = s.isna().mean().",
@@ -1335,7 +1335,7 @@ print(s[mask].tolist())`,
         preamble:
           "- **Contexto:** el memo del gate no puede decir solo “raro”: debe distinguir error de dominio, flag estadístico y valor ok.\n- **Meta:** para probes `[5000, -1, 10]`, priorizar domain sobre IQR.\n- **Éxito:** `['flag', 'error', 'ok']`.\n- **Límites:** no marques error por IQR solo; no drops; dominio: <0 o >10000.",
         instruction:
-          "1. Calcula q1/q3/iqr sobre **toda** la serie.\n2. Para cada probe: si domain → `error`; elif stat → `flag`; else `ok`.\n3. El starter imprime tres `ok` (DEFECT).\n4. Imprime la lista de etiquetas.",
+          "1. Calcula q1/q3/iqr sobre toda la serie.\n2. Para cada valor de prueba: si domain → `error`; elif stat → `flag`; else `ok`.\n3. El starter imprime tres `ok` (DEFECT).\n4. Imprime la lista de etiquetas.",
         hint: "Domain primero; luego IQR; resto ok.",
         hints: [
           "Calcula q1/q3/iqr sobre toda la serie.",
@@ -1643,7 +1643,7 @@ print(metrics["pass"])`,
   youDo: {
     title: "Quality gate explicable ante schema drift",
     context:
-      "Implementa una suite de checks sobre un dataset sintético de clientes y transacciones (regiones Lima/Arequipa/Cusco, montos PEN ficticios). La suite debe cubrir: null policies required/optional; duplicados exactos vs. conflictos, con evidencia; normalización con columna raw lateral; outliers (dominio e IQR); contratos schema/cross-field; cuarentena y audit trail append-only. El conjunto limpio alimenta S17/CP-N2-A. El gate es fail-closed: si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real.\n\n**Tabla de aceptación mínima (fixture del starter):**\n| Señal en el fixture | Qué debe detectar el gate | reason / efecto |\n| --- | --- | --- |\n| `cliente_id` null (fila 3) | null required | `null_required` → cuarentena; no fillna mágico |\n| C001 con Lima y Cusco | conflicto de atributo | `conflict_region` (o similar); no `drop_duplicates` ciego |\n| monto `-1.0` (C003) | error de dominio | `domain_error`; no borrar solo por IQR |\n| Resultado del run | `metrics.pass == False` | JSON con `rows_in` / `rows_clean` / `rows_quarantine` |",
+      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Arequipa y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- outliers de dominio e IQR (rango intercuartílico)\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
     objectives: [
       "Suite de checks que falla explicablemente ante drift, null required y domain_error",
       "Cuantificar pérdida de filas/campos con metrics.rows_in / rows_clean / rows_quarantine",

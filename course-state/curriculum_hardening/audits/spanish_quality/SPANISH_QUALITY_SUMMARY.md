@@ -18,18 +18,18 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **394** | Paragraphs: **234**
-- Findings: **99** (high=0, medium=2, low=97)
-- Mean quality score (0–10): **9.2**
-- Mean Fernández-Huerta: **92.2** (muy fácil)
-- Mean words/sentence: **9.21**
+- Sentences: **401** | Paragraphs: **243**
+- Findings: **105** (high=0, medium=3, low=102)
+- Mean quality score (0–10): **9.15**
+- Mean Fernández-Huerta: **89.6** (fácil)
+- Mean words/sentence: **10.09**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S15 | 9.2 | 92.2 | 9.21 | 0/2/97 | `s15-stdlib-deep.ts` |
+| S16 | 9.15 | 89.6 | 10.09 | 0/3/102 | `s16-wxpython-gui.ts` |
 
 ## Top failure rules (causes & improvements)
 
@@ -37,17 +37,21 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
+### `lowercase_after_period` (n=5)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `long_sentence` (n=2)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
 ### `repeated_word` (n=2)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
 
-### `lowercase_after_period` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=1)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+### `run_on_sentence` (n=1)
+- **Cause:** Oraciones con demasiadas cláusulas o listas embebidas.
+- **Improvement:** Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración.
 
 ## How to use
 
