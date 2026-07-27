@@ -1531,3 +1531,51 @@ Stage Summary:
 - Validation: tsc clean for S25, eslint clean for S25 (exit 0), Spanish quality 8.76/10 (FH 92.9, label "fácil"). All 25 non-fragment audit findings are false positives in code-style content (numbered list items, hint statements, Python dict literals, `vs.` abbreviations, imperative hints, mixed Spanish/English `las required`).
 
 Section 25 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S26
+Agent: Independent Section 26 Fixer
+Task: Fresh text-first review and remediation of Section 26.
+
+Work Log:
+- Acknowledged the Anti-Aberration Rules. Scope: Section 26 only. No scripts/loops/templates for prose generation; scripts used only for validation.
+- Read canonical source `src/lib/course/sections/s26-integrator-phase1.ts` (1873 lines), expert report `expert_audit/S26_report.md` (604 lines), Spanish-quality JSON `course-state/curriculum_hardening/audits/spanish_quality/S26_SPANISH_QUALITY.json`, prior R3 worklog entries (S23/S24/S25 patterns), and live-render path via `SectionView.tsx:189` (`<p>{section.jobRelevance}</p>` — plain React text, NOT routed through `RichText`).
+- Verified previously-fixed items already in canonical source (prior rounds):
+  * `y interfaces` → `e interfaces` (G1, P0) — confirmed at lines 1585 and 1726 (rubric `criterion`) ✓
+  * `Thinking aloud` (M1, 5 demo descriptions + 4 code comments) → `pensando en voz alta` — confirmed 0 matches for `Thinking aloud`; 14 sites now correctly use `pensando en voz alta` ✓
+  * 57-word `Diccionario rápido` run-on (G7/L1) — already converted to bulleted definition list at lines 33–41 (`- **DAG**: …` through `- **page on-call**: …`) ✓
+  * `auto-etiqueta` → `autoetiqueta` (G2, line 328) — confirmed 0 matches for `auto-etiqueta` ✓
+  * `APIs` → `las API` (G4, line 104) — confirmed 0 matches for `\bAPIs\b`; 3 sites use `API` (invariable sigla per RAE) ✓
+  * `anti-fraude-auto` (G3, was at line 1389) — confirmed 0 matches; already rewritten ✓
+  * `CASO-LIM-026` internal tags (M2, was 24 occurrences) — confirmed 0 matches; already removed from starterCode comments ✓
+  * `print-theater` English coinage (M3) — confirmed 0 matches ✓
+  * Tagline terminal period (G9, line 8) — already terminates with `.` ✓
+  * `vs manual` → `frente al proceso manual` (G6, line 329) — confirmed ✓
+  * Curly-quote → angular-quote unification (O2, lines 31/227/361) — confirmed `«…»` already used ✓
+  * You-Do `portfolioNote` (O3, line 1718) — already split into 4 sentences ✓
+  * I-Do T1-B demo subset caveat (P3, line 415) — already added `Versión didáctica: en producción añade trigger, git_sha y data_cutoff.` ✓
+- Inspected `SectionView.tsx:189` — `<p className="text-sm text-foreground/80">{section.jobRelevance}</p>` renders `jobRelevance` as plain React text, NOT routed through `RichText`. Other `**` occurrences live in theory paragraphs / iDo `why`/`preamble`/`retrospective` / weDo `preamble`/`instruction`/`feedback`/`retrospective` / youDo `context` / `portfolioNote` / `retrospective` — all rendered via `RichText.tsx` (which parses `**bold**` → `<strong>` via `renderInline()`), so they are intentional house style, not leaks. Same diagnosis as S23/S24/S25 prior fixers.
+- Inspected all 9 theory `callout.content` strings (lines 47, 97, 131, 180, 219, 251, 281, 321, 361) — verified all are free of `**` markers, no leaks.
+- R3 hand fixes applied this round (all manual, no scripts for prose):
+  * **Line 15 (`jobRelevance`):** stripped `**CP-N2-C**` and `**RPA + AI Analyst**` markdown leaks (only confirmed leak in the section — `jobRelevance` bypasses `RichText` so `**` would render as literal asterisks in the Briefcase Popover). Also fixed `auto-fraude` → `autofraude` (RAE prefix-joining rule, same as S25 prior fixer).
+  * **Line 345 (Python code comment in `theory[7].code`):** `# debe ser 0: no auto-fraude` → `# debe ser 0: no autofraude` (consistency with RAE joined form).
+  * **Line 1557 (`weDo` edgeCases S26-T4-B-E2):** `["no auto-fraude", …]` → `["no autofraude", …]`.
+  * **Line 1562 (`weDo` feedback S26-T4-B-E2):** `Cero auto-fraude y approve humano…` → `Cero autofraude y approve humano…`.
+  * **Line 1729 (`weDo` retrospective S26-T4-B-E3, also serves as youDo final gate prompt):** `datos reales vs sintéticos` → `datos reales vs. sintéticos` (RAE/Fundéu abbreviation form — `vs.` requires the period in Spanish).
+  * **Line 31 (theory T0 paragraph 1, Stephen Fry redaction):** added inline Spanish glosses for the two opaque Phase-0/curriculum references flagged in audit L3. Before: `**CF-2** fija las interfaces entre Familiarity, reporting y automatización que la regresión N2 debe revalidar.` After: `**CF-2** (contrato cruzado de interfaces entre capstones) fija las interfaces entre Familiarity (producto de la Fase 0), reporting y automatización que la regresión N2 debe revalidar.` This closes the L3 gap ("Acronyms CF-2, CP-N2-A/B/C, Familiarity ↔ reporting ↔ automatización are referenced without re-anchoring. A learner who skipped Phase 0 will not know what CF-2 means").
+  * **Line 670 (`weDo.intro`):** split the 33-word audit-flagged long sentence (`En T1-A pasas de derivar un path parcial desde edges a armar aristas con zip y, al final, a agregar el estado global del flow: tres escalas del mismo contrato de orquestación.`) into two sentences: `… estado global del flow. Son tres escalas del mismo contrato de orquestación.` Resolves audit Finding 1 (`long_sentence`, 33 w).
+- Inspected `**bold**` usage across prose: all remaining `**…**` markers in theory paragraphs, iDo `why`/`preamble`/`retrospective`, weDo `preamble`/`instruction`/`feedback`/`retrospective`, youDo `context`/`portfolioNote`/`retrospective` are intentional house-style emphasis rendered via `RichText.tsx` (`renderInline()` parses `**bold**` → `<strong>`). No markdown leaks to strip beyond `jobRelevance`.
+- Inspected `tumba`/`tumbar` (lines 104, 417, 778, 780, 841, 853): per the S26 expert report §3.1 M3 and §6.4, the audit explicitly accepts these as es-PE informal register ("`tumba`/`tumbar` kept as es-PE informal"). Same posture as the S25 fixer's `tumba`/`tumbar` decisions. Left untouched.
+- Validation:
+  * `npx eslint src/lib/course/sections/s26-integrator-phase1.ts` — exit code 0, 0 errors 0 warnings ✓
+  * `npx tsc --noEmit` — 0 errors in S26 (all pre-existing errors in unrelated files: api routes Prisma client, firebase-admin, bcryptjs, react-leaflet, xlsx, playwright.config, prisma/seed) ✓
+  * `python3 scripts/spanish_quality_audit.py --from 26 --to 26 --no-lt` — findings=101, mean_score=9.19, mean_FH=94.8 ("muy fácil" band — improved from prior baseline FH 86.0 "fácil"). Distribution: 97 structure (96 `fragment` false positives on numbered-list items `1.`/`2.`/`3.`/`4.` inside `weDo.steps[*].instruction` strings, plus 1 `long_sentence` on a multi-sentence `iDo.steps[0].why` field parsed as one 38-word sentence due to periods inside code identifiers like `ai_assist`/`draft_email`), 2 grammar (`repeated_word` false positives on Python code `zip(nodes, nodes[1:])` and `len(audit), audit[-1]['action']`), 1 style (`space_before_punct` on `any(v>0 …)` code formula), 1 orthography (`lowercase_after_period` on `all(… success)` con `any(… approve)` code formula). All 5 non-fragment findings are tool-limitation false positives in code-style content — no real orthography or grammar defects remain. The prior-baseline `intro` long_sentence finding (33 w) is now resolved by the sentence split.
+
+Stage Summary:
+- Section 26 R3 fix complete. Prior R1/R2 fixes (`y interfaces` → `e interfaces` P0, `Thinking aloud` → `pensando en voz alta` across 14 sites, `Diccionario rápido` 57-word run-on → bulleted list, `auto-etiqueta` → `autoetiqueta`, `APIs` → `las API`, `anti-fraude-auto` rewrite, `CASO-LIM-026` tag removal, `print-theater` removal, tagline terminal period, `vs manual` → `frente al proceso manual`, curly→angular quotes, `portfolioNote` split, I-Do T1-B subset caveat) all retained and re-verified.
+- New R3 hand fixes: (1) stripped `**` markdown leak from `jobRelevance` line 15 (`**CP-N2-C**` and `**RPA + AI Analyst**`) — the only confirmed leak, since `jobRelevance` bypasses `RichText` and renders asterisks literally in the Briefcase Popover; (2) `auto-fraude` → `autofraude` across 4 sites (lines 15, 345, 1557, 1562) — RAE prefix-joining consistency with S25 prior fixer; (3) `vs sintéticos` → `vs. sintéticos` at line 1729 — RAE/Fundéu abbreviation form; (4) Stephen Fry redaction at line 31: added inline Spanish glosses for `CF-2` (`contrato cruzado de interfaces entre capstones`) and `Familiarity` (`producto de la Fase 0`) on first occurrence, closing audit L3 gap; (5) split the audit-flagged 33-word `weDo.intro` sentence into two sentences.
+- Course invariants preserved: CP-N2-C capstone closer contract (7-step canonical path `ingest → validate → analyze → ai_assist → report → approve → draft_email`), S25→S26 handoff (`ai_assist`), S14–S26 N2 regression, CF-2 (Familiarity ↔ reporting ↔ automatización interfaces), ethics spine (`fraud_labels=0`, `matching ≠ fraude`, fail-closed concurrency, zero real sends, synthetic data only, RUC/names prohibition), PE localisation (America/Lima tz, Lima/San Isidro cases, es-PE rubric criterion), gold-standard We-Do scaffolding (8 demos ↔ 8 subtopics ↔ 24 exercises 3-tier guided/independent/transfer ↔ 1 capstone with rubric summing to 100% + bonus checklist), id `integrator-phase1` legacy slug compatibility.
+- Anti-aberration: hand craft only for educational content; scripts only for validation.
+- Validation: tsc clean for S26, eslint clean for S26 (exit 0), Spanish quality 9.19/10 (FH 94.8 "muy fácil" — improved from prior baseline 86.0 "fácil"). All 5 non-fragment audit findings are tool-limitation false positives in code-style content (Python dict literals, code formulas, multi-sentence `why` strings parsed as one). The single real audit finding from the prior baseline (`long_sentence` on `weDo.intro`, 33 w) is now resolved.
+
+Section 26 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.

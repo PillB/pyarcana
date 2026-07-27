@@ -12,18 +12,18 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 432,
-  "total_paragraphs": 285,
-  "total_findings": 121,
+  "total_sentences": 398,
+  "total_paragraphs": 249,
+  "total_findings": 101,
   "severity": {
-    "low": 102,
-    "medium": 19
+    "low": 99,
+    "medium": 2
   },
-  "mean_quality_score": 8.76,
-  "min_quality_score": 8.76,
-  "mean_fernandez_huerta": 92.9,
+  "mean_quality_score": 9.19,
+  "min_quality_score": 9.19,
+  "mean_fernandez_huerta": 94.8,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 12.02,
+  "mean_wps": 9.56,
   "languagetool": false,
   "top_rules": [
     [
@@ -31,27 +31,19 @@
       96
     ],
     [
-      "missing_terminal_punct",
-      14
-    ],
-    [
-      "possible_plural_det_singular_noun",
-      3
-    ],
-    [
       "repeated_word",
-      3
-    ],
-    [
-      "lowercase_after_period",
       2
     ],
     [
-      "missing_inverted_question",
-      2
+      "long_sentence",
+      1
     ],
     [
       "space_before_punct",
+      1
+    ],
+    [
+      "lowercase_after_period",
       1
     ]
   ],
@@ -63,54 +55,42 @@
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "missing_terminal_punct",
-      "count": 14,
-      "cause": "Frases colgadas tras edición o plantillas.",
-      "fix": "Toda oración asertiva cierra con punto."
-    },
-    {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 3,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
-    },
-    {
       "rule": "repeated_word",
-      "count": 3,
+      "count": 2,
       "cause": "Typo o pegado doble.",
       "fix": "Eliminar duplicado."
     },
     {
-      "rule": "lowercase_after_period",
-      "count": 2,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "missing_inverted_question",
-      "count": 2,
-      "cause": "Calco del inglés o markdown incompleto.",
-      "fix": "Usa ¿…? en todas las preguntas en español."
+      "rule": "long_sentence",
+      "count": 1,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
       "rule": "space_before_punct",
       "count": 1,
       "cause": "Artefacto de formato.",
       "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "lowercase_after_period",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     }
   ],
   "sections_ranked": [
     {
-      "section": 25,
-      "file": "s25-streamlit-dashboards.ts",
-      "quality_score_0_10": 8.76,
-      "fernandez_huerta": 92.9,
-      "avg_words_per_sentence": 12.02,
+      "section": 26,
+      "file": "s26-integrator-phase1.ts",
+      "quality_score_0_10": 9.19,
+      "fernandez_huerta": 94.8,
+      "avg_words_per_sentence": 9.56,
       "findings_by_severity": {
-        "low": 102,
-        "medium": 19
+        "low": 99,
+        "medium": 2
       },
-      "findings_total": 121
+      "findings_total": 101
     }
   ]
 }

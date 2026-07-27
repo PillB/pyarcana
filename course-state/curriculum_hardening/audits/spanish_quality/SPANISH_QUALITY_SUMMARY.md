@@ -18,18 +18,18 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **432** | Paragraphs: **285**
-- Findings: **121** (high=0, medium=19, low=102)
-- Mean quality score (0–10): **8.76**
-- Mean Fernández-Huerta: **92.9** (muy fácil)
-- Mean words/sentence: **12.02**
+- Sentences: **398** | Paragraphs: **249**
+- Findings: **101** (high=0, medium=2, low=99)
+- Mean quality score (0–10): **9.19**
+- Mean Fernández-Huerta: **94.8** (muy fácil)
+- Mean words/sentence: **9.56**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S25 | 8.76 | 92.9 | 12.02 | 0/19/102 | `s25-streamlit-dashboards.ts` |
+| S26 | 9.19 | 94.8 | 9.56 | 0/2/99 | `s26-integrator-phase1.ts` |
 
 ## Top failure rules (causes & improvements)
 
@@ -37,29 +37,21 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=14)
-- **Cause:** Frases colgadas tras edición o plantillas.
-- **Improvement:** Toda oración asertiva cierra con punto.
-
-### `possible_plural_det_singular_noun` (n=3)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
-
-### `repeated_word` (n=3)
+### `repeated_word` (n=2)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
 
-### `lowercase_after_period` (n=2)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `missing_inverted_question` (n=2)
-- **Cause:** Calco del inglés o markdown incompleto.
-- **Improvement:** Usa ¿…? en todas las preguntas en español.
+### `long_sentence` (n=1)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
 ### `space_before_punct` (n=1)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `lowercase_after_period` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
 ## How to use
 
