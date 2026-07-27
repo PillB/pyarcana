@@ -2779,3 +2779,37 @@ Stage Summary:
   the independent/shared worklog entries only.
 
 Ready for the next section.
+
+---
+Task ID: FIXER-S10
+Agent: Independent Section 10 Fixer
+Task: Fresh text-first review and remediation of active Section 10 only.
+Work Log:
+- Acknowledged the Anti-Aberration Rules; worked exclusively on Section 10 (Módulos, packaging y CLI profesional) in `src/lib/course/sections/s10-sklearn.ts`.
+- Read primary Explorer report (S10_EXPLORER_REPORT.md, 7.0), expert report (S10_report.md, 7.3), shared grammar subplan, S10_SPANISH_QUALITY.json, current canonical source (2442 lines), live rendered section at https://pillb.github.io/pyarcana/#sklearn, public selfCheck (6 MCQs), Spanish audit script, prior R1/R2 Fixer reports and worklog entries.
+- Second-expert audit (deep-research-report-10.md) reviewed; findings are generic, no S10-specific prose quotes — not used to drive remediation.
+- Built issue-resolution ledger mapping every Explorer I-01..I-23, Expert #1..#28, and Spanish-quality finding to its current source status. Most Explorer P0/P1 and Expert Spanish micro-defects were already closed by R1/R2; verified clean.
+- Active defects addressed this round, all hand-written:
+  - Source dev comment: removed the literal word `sklearn` from the routing comment so the file no longer repeats the legacy slug in prose (kept `id: "sklearn"` for routing/progress compatibility per prior coordinated-migration deferral).
+  - Theory tab (T1-A, T1-B, T2-A, T2-B, T3-A, T3-B, T4-A, T4-B): added inline Stephen-Fry-style jargon explanations at first mention for `pyproject.toml`, CLI, config por precedencia, `__name__`, `__main__`, `__all__`, `sys.modules`, `sys.path`, lazy import, fachada, SemVer, src layout, build backend, editable install, venv, cwd, CHANGELOG, subparsers, exit codes, CI, stdout, stderr, pipe, stdin, StringIO, env, defaults, `.env`, `.gitignore`, PII, traceback.
+  - iDo intro: added prediction prompt and stdlib gloss.
+  - iDo T1-A-DEMO: added side-effects / entrypoint / function pura glosses; why field split for readability.
+  - iDo T2-B-DEMO why (long sentence): split into two sentences and shortened CHANGELOG clause.
+  - weDo T1-A-E1 feedback (long sentence): restructured split+join / casefold explanation into three shorter clauses.
+  - weDo T3-A-E3 instruction (placeholder mention): rephrased to remove the literal word "placeholder" and the «buen luck» relleno mention.
+  - weDo T3-B-E1 instruction + feedback (unbalanced_delimiters false positive): rewrote to describe `err.write` action in prose instead of inlining the `\\n`-escaped code display.
+  - weDo T3-B-E3 hint (repeated GOOD GOOD): rephrased as "Imprime BAD y luego GOOD; en GOOD solo el JSON final; el progreso va a err."
+  - youDo context: expanded "paquete instalable" with explicit newbie gloss.
+  - youDo requirements: added inline glosses for venv, console_scripts entry point, side-effects, clean/quarantine.
+- Did NOT rename `id: "sklearn"` or the file name (compatibility residual; coordinated platform migration required). Did NOT edit SectionView, other sections, youDo multi-file bootstrap body, or any solution code / correctIndex / output contract.
+- Anti-aberration: no scripts, generators, loops, templates, or bulk mechanisms manufactured educational prose. Automation limited to mechanical validation only (tsc, eslint, spanish_quality_audit.py, python execution of solution codes).
+Stage Summary:
+- Section 10 fully remediated under strict anti-aberration rules.
+- TypeScript clean (no s10-sklearn.ts errors); ESLint clean.
+- 24/24 weDo solutionCode blocks execute and match expected output exactly; 40/40 code/output pairs (theory + iDo + weDo) verified by direct Python execution.
+- selfCheck correctIndex [1,3,0,2,1,3] — balanced 1/2/1/2 across 0-3.
+- Spanish-quality audit (`--no-lt`): score 9.21, FH 86.8 (fácil); findings 111 all low severity (was 9.02 with 6 medium before this round); medium-severity findings: 0.
+- Meta-leaks: 0 learner-visible `sklearn` / `V3` / `CASO-LIM` / `retematiza` / `churn` / `incremento V3` (only the routing `id: "sklearn"` field remains, intentionally stable).
+- Stephen Fry redaction pass applied: every major jargon noun at first mention in theory, iDo, weDo, youDo now carries an inline newbie-friendly explanation.
+
+Ready for the next section.

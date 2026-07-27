@@ -18,32 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **301** | Paragraphs: **226**
-- Findings: **23** (high=0, medium=0, low=23)
-- Mean quality score (0–10): **10.0**
-- Mean Fernández-Huerta: **79.1** (bastante fácil)
-- Mean words/sentence: **17.41**
+- Sentences: **424** | Paragraphs: **279**
+- Findings: **111** (high=0, medium=0, low=111)
+- Mean quality score (0–10): **9.21**
+- Mean Fernández-Huerta: **86.8** (fácil)
+- Mean words/sentence: **11.37**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S49 | 10.0 | 79.1 | 17.41 | 0/0/23 | `s49-data-contracts.ts` |
+| S10 | 9.21 | 86.8 | 11.37 | 0/0/111 | `s10-sklearn.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `long_sentence` (n=15)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `lowercase_after_period` (n=6)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
+### `lowercase_after_period` (n=8)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `space_before_punct` (n=4)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `long_sentence` (n=1)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
+### `double_space` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
 ### `possible_plural_det_singular_noun` (n=1)
 - **Cause:** Posible desacuerdo de número (heurística).

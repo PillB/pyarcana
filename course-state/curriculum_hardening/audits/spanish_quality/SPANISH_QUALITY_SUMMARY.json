@@ -12,29 +12,37 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 301,
-  "total_paragraphs": 226,
-  "total_findings": 23,
+  "total_sentences": 424,
+  "total_paragraphs": 279,
+  "total_findings": 111,
   "severity": {
-    "low": 23
+    "low": 111
   },
-  "mean_quality_score": 10.0,
-  "min_quality_score": 10.0,
-  "mean_fernandez_huerta": 79.1,
-  "mean_fh_label": "bastante fácil",
-  "mean_wps": 17.41,
+  "mean_quality_score": 9.21,
+  "min_quality_score": 9.21,
+  "mean_fernandez_huerta": 86.8,
+  "mean_fh_label": "fácil",
+  "mean_wps": 11.37,
   "languagetool": false,
   "top_rules": [
     [
-      "long_sentence",
-      15
+      "fragment",
+      96
     ],
     [
       "lowercase_after_period",
-      6
+      8
     ],
     [
-      "comma_density",
+      "space_before_punct",
+      4
+    ],
+    [
+      "long_sentence",
+      1
+    ],
+    [
+      "double_space",
       1
     ],
     [
@@ -44,22 +52,34 @@
   ],
   "improvement_playbook": [
     {
-      "rule": "long_sentence",
-      "count": 15,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
-    },
-    {
-      "rule": "lowercase_after_period",
-      "count": 6,
+      "rule": "fragment",
+      "count": 96,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "comma_density",
+      "rule": "lowercase_after_period",
+      "count": 8,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 4,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "long_sentence",
       "count": 1,
-      "cause": "Subordinación excesiva.",
-      "fix": "Listas o frases independientes."
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "double_space",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "possible_plural_det_singular_noun",
@@ -70,15 +90,15 @@
   ],
   "sections_ranked": [
     {
-      "section": 49,
-      "file": "s49-data-contracts.ts",
-      "quality_score_0_10": 10.0,
-      "fernandez_huerta": 79.1,
-      "avg_words_per_sentence": 17.41,
+      "section": 10,
+      "file": "s10-sklearn.ts",
+      "quality_score_0_10": 9.21,
+      "fernandez_huerta": 86.8,
+      "avg_words_per_sentence": 11.37,
       "findings_by_severity": {
-        "low": 23
+        "low": 111
       },
-      "findings_total": 23
+      "findings_total": 111
     }
   ]
 }
