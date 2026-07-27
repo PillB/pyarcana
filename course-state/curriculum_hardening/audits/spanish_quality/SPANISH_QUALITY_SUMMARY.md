@@ -18,48 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **420** | Paragraphs: **270**
-- Findings: **111** (high=1, medium=6, low=104)
-- Mean quality score (0–10): **9.0**
-- Mean Fernández-Huerta: **92.8** (muy fácil)
-- Mean words/sentence: **10.71**
+- Sentences: **394** | Paragraphs: **243**
+- Findings: **102** (high=0, medium=2, low=100)
+- Mean quality score (0–10): **9.18**
+- Mean Fernández-Huerta: **86.9** (fácil)
+- Mean words/sentence: **10.92**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S21 | 9.0 | 92.8 | 10.71 | 1/6/104 | `s21-fastapi.ts` |
+| S22 | 9.18 | 86.9 | 10.92 | 0/2/100 | `s22-rapidfuzz-entity.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=97)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `space_before_punct` (n=5)
+### `space_before_punct` (n=2)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
-### `repeated_word` (n=5)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
-
-### `long_sentence` (n=1)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `meta_todo` (n=1)
-- **Cause:** Marcadores de ingeniería en contenido del curso.
-- **Improvement:** Sacar de la prosa del estudiante.
-
-### `missing_terminal_punct` (n=1)
+### `missing_terminal_punct` (n=2)
 - **Cause:** Frases colgadas tras edición o plantillas.
 - **Improvement:** Toda oración asertiva cierra con punto.
 
-### `missing_inverted_exclamation` (n=1)
+### `lowercase_after_period` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
+
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
 
 ## How to use
 

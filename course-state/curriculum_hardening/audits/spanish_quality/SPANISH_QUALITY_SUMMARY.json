@@ -12,107 +12,85 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 420,
-  "total_paragraphs": 270,
-  "total_findings": 111,
+  "total_sentences": 394,
+  "total_paragraphs": 243,
+  "total_findings": 102,
   "severity": {
-    "low": 104,
-    "high": 1,
-    "medium": 6
+    "low": 100,
+    "medium": 2
   },
-  "mean_quality_score": 9.0,
-  "min_quality_score": 9.0,
-  "mean_fernandez_huerta": 92.8,
-  "mean_fh_label": "muy fácil",
-  "mean_wps": 10.71,
+  "mean_quality_score": 9.18,
+  "min_quality_score": 9.18,
+  "mean_fernandez_huerta": 86.9,
+  "mean_fh_label": "fácil",
+  "mean_wps": 10.92,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      97
+      96
     ],
     [
       "space_before_punct",
-      5
-    ],
-    [
-      "repeated_word",
-      5
-    ],
-    [
-      "long_sentence",
-      1
-    ],
-    [
-      "meta_todo",
-      1
+      2
     ],
     [
       "missing_terminal_punct",
+      2
+    ],
+    [
+      "lowercase_after_period",
       1
     ],
     [
-      "missing_inverted_exclamation",
+      "comma_density",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 97,
+      "count": 96,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "space_before_punct",
-      "count": 5,
+      "count": 2,
       "cause": "Artefacto de formato.",
       "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     },
     {
-      "rule": "repeated_word",
-      "count": 5,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
-    },
-    {
-      "rule": "long_sentence",
-      "count": 1,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
-    },
-    {
-      "rule": "meta_todo",
-      "count": 1,
-      "cause": "Marcadores de ingeniería en contenido del curso.",
-      "fix": "Sacar de la prosa del estudiante."
-    },
-    {
       "rule": "missing_terminal_punct",
-      "count": 1,
+      "count": 2,
       "cause": "Frases colgadas tras edición o plantillas.",
       "fix": "Toda oración asertiva cierra con punto."
     },
     {
-      "rule": "missing_inverted_exclamation",
+      "rule": "lowercase_after_period",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
     }
   ],
   "sections_ranked": [
     {
-      "section": 21,
-      "file": "s21-fastapi.ts",
-      "quality_score_0_10": 9.0,
-      "fernandez_huerta": 92.8,
-      "avg_words_per_sentence": 10.71,
+      "section": 22,
+      "file": "s22-rapidfuzz-entity.ts",
+      "quality_score_0_10": 9.18,
+      "fernandez_huerta": 86.9,
+      "avg_words_per_sentence": 10.92,
       "findings_by_severity": {
-        "low": 104,
-        "high": 1,
-        "medium": 6
+        "low": 100,
+        "medium": 2
       },
-      "findings_total": 111
+      "findings_total": 102
     }
   ]
 }

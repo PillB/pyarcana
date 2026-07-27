@@ -3349,3 +3349,47 @@ Stage Summary:
 Ready for the next section.
 
 Section 21 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S22
+Agent: Independent Section 22 Fixer
+Task: Fresh text-first review and remediation of Section 22.
+Work Log:
+- Acknowledged Anti-Aberration Rules; confined all edits to `src/lib/course/sections/s22-rapidfuzz-entity.ts` (Section 22 only); no scripts/loops/templates used for prose generation.
+- Read source file (2081 lines), expert report (`S22_report.md`, 845 lines), Spanish quality JSON (`S22_SPANISH_QUALITY.json`), and prior R2 worklog entry (`expert_audit/worklog_entries_r2/S22.md`).
+- Verified prior-round state: R2 already fixed `la revisor` → `la revisora` (4 broken instances), `vs.` (3 instances), `similitud`, `autoaprueba`, `agrega`, `lista de verificación de cumplimiento`, `CASO-LIM-022` → `Caso 22`, `iDo.intro` run-on split into bulleted list, `jobRelevance` run-on split, T3-A ethics 0.86/0.92 sentence split, T1-B host-bypass split, T1 dictionary converted to bullet list with CP-N2-C and HITL glosses added.
+- Active issues found in fresh review and fixed:
+  (a) `URLs` plural sigla (RAE invariable) → `URL` (3 instances: T1-B-DEMO retrospective line 506, T1-B-E2 retrospective line 923, T1-B-E3 preamble line 950).
+  (b) `vs` without period → `vs.` (2 instances: T2-B-DEMO retrospective line 573 "status vs. key", T2-A-E2 retrospective line 1047 "expires_at vs. now").
+  (c) Gender agreement feminization completed (12 instances) to align with `revisora@example.pe`: `un revisor de turno` → `una revisora de turno` (jobRelevance line 16); `revisor humano de turno` → `revisora humana de turno` (theory T1 line 33); `un revisor de la mesa` → `una revisora de la mesa` (T1-B paragraph 2 line 111); `el revisor pide cambios` → `la revisora pide cambios` (T4-A paragraph 1 line 336); `el revisor de turno` → `la revisora de turno` (T4-A paragraph 2 line 337); `el revisor de la mesa` → `la revisora de la mesa` (T1-A-DEMO preamble line 439); `El revisor de la mesa audita` → `La revisora de la mesa audita` (T1-A-DEMO why line 468); `el revisor ve` → `la revisora ve` (T1-A-E1 feedback line 739); `miente al revisor` → `miente a la revisora` (T1-A-E1 retrospective line 741); `El revisor de la mesa abre` → `La revisora de la mesa abre` (T1-A-E2 feedback line 784); `el revisor solo ve` → `la revisora solo ve` (T1-A-E2 retrospective line 786); `un revisor humano` → `una revisora humana` (youDo.context line 1836). All `revisor` mentions are now feminine for full consistency.
+  (d) `checklist` anglicism at iDo T3-B-DEMO why line 641 → `lista de verificación` to match the same Spanish phrasing already used in theory T3-B paragraph 3 (line 294, fixed by R2).
+  (e) Split `iDo.intro` first 33-word sentence into two sentences: "...cola de aprobación — sin envío real ni inferencia de fraude" → "...cola de aprobación. Todo sin envío real ni inferencia de fraude." (line 431).
+  (f) Stripped `**bold**` and `*italic*` markdown markers from prose fields that render RAW (not wrapped in `<RichText>`) — SectionView.tsx:189 (jobRelevance) and :401 (callout.content). Per "work only on Section 22" constraint, I did NOT touch SectionView.tsx (a shared component); instead stripped the markers from S22 source prose so they no longer leak as literal asterisks on the live page. Three fields affected:
+      - `jobRelevance` (line 16): stripped `**enviarlo mal**`, `**borrador → aprobación humana → envío**`, `**CP-N2-C**`, `*(Capstone de Nivel 2, Canal C: notificación con aprobación humana)*` (italic), `**entrega correcta**`, `**no**`.
+      - T1-A callout content (line 59): stripped `**allowlist del curso**`.
+      - T3-B callout content (line 329): stripped `**expone**` (this is the leak the audit verified via DOM inspection).
+      Note: `**bold**` in theory paragraphs, step.preamble, step.instruction, step.feedback, project.context RETAINED — those fields ARE wrapped in `<RichText>` (SectionView.tsx:387, 444, 512, 518, 597, 646) and render correctly as bold.
+  (g) Stephen Fry redaction pass — added inline parenthetical Spanish glosses at first prose mention of opaque jargon acronyms (6 glosses):
+      - `SLA` (line 33 theory T1): "SLA de respuesta en cola" → "SLA (acuerdo de nivel de servicio) de respuesta en cola".
+      - `audit log` (line 34 theory T1 ordering map): "audit log, reintento sin duplicar" → "audit log (registro de auditoría), reintento sin duplicar".
+      - `XSS` (line 111 theory T1-B): "XSS en el cuerpo del correo" → "XSS (inyección de script en sitio) en el cuerpo del correo".
+      - `OCR` (line 144 T1-B callout): "documento OCR sin sanitizar" → "documento OCR (reconocimiento óptico de caracteres) sin sanitizar".
+      - `MCQ` (line 240 theory T3-A ethics spine): "número de un MCQ ético" → "número de un MCQ (pregunta de opción múltiple) ético".
+      - `PII` (line 617 iDo T3-B-DEMO preamble): "sin PII real" → "sin PII (información personal identificable) real".
+  (h) Split two semicolon-joined sentences flagged as 35- and 36-word `long_sentence` findings: T4-A-DEMO why line 680 "El actor es accountability; los estados canónicos son..." → "El actor es accountability. Los estados canónicos son..." (semicolon → period + capitalize); T1-A-E2 feedback line 784 "lo que ven los clientes; el `Name` del Content-Type..." → "lo que ven los clientes. El `Name` del Content-Type...".
+- Deferred (per R2 worklog and out-of-scope for "work only on Section 22" rule):
+  - SectionView.tsx:189/401 systemic RichText markdown leak fix (global React component change, would benefit all 52 sections — but constrained to S22 source only).
+  - Filename/`id` `rapidfuzz-entity` migration to `email-approval` (URL/progress compatibility — R2 deferred).
+  - Master roadmap `el_arte_de_python_roadmap_maestro_52_secciones.md` line 214 stale "FastAPI para Data Products" label for S22.
+- Validation:
+  - `npx tsc --noEmit --skipLibCheck`: 0 errors on `s22-rapidfuzz-entity.ts` (pre-existing errors in `src/app/api/subscription/*`, `src/lib/auth.ts`, `src/lib/firebase/admin.ts`, `src/components/course/FamiliarityDashboard.tsx`, `src/lib/familiarity.ts` are unrelated to Section 22).
+  - `npx eslint src/lib/course/sections/s22-rapidfuzz-entity.ts`: exit 0, clean.
+  - `python3 scripts/spanish_quality_audit.py --from 22 --to 22 --no-lt`: score=9.18, FH=86.9 ("fácil"), findings=102 (down from 104). All remaining findings are heuristic false positives: 96 `fragment` (numbered list items `1.`, `2.` in `instruction` fields), 2 `missing_terminal_punct` in `hints` arrays (semicolon-separated hint strings, intentional style), 2 `space_before_punct` (Python syntax `(..., 'html', ...)` and "Borrador .eml" file-extension typography), 1 `lowercase_after_period` (heuristic misfire after `vs.` abbreviation period), 1 `comma_density` (intro list of topics). Zero real orthography, gender-agreement, anglicism, or markdown-leak defects remain.
+Stage Summary:
+- 3 `URLs` → `URL` RAE invariable-acronym fixes; 2 `vs` → `vs.` RAE abbreviation fixes; 12 gender-agreement feminizations (`revisor` → `revisora`) completing the audit's recommended path (a) for consistency with `revisora@example.pe`; 1 `checklist` → `lista de verificación` anglicism cleanup; 1 iDo.intro sentence split; 3 raw-rendering prose fields stripped of `**bold**`/`*italic*` markdown leaks (jobRelevance + 2 callouts); 6 Stephen Fry inline jargon glosses (SLA, audit log, XSS, OCR, MCQ, PII); 2 long-sentence splits via semicolon → period.
+- TypeScript compiles cleanly on S22 file (0 errors); eslint clean; Spanish quality score 9.18/10 (FH 86.9 "fácil"); 0 real prose defects remain (all 102 findings are heuristic artifacts).
+- No anti-aberration rules violated: all prose hand-crafted, no generators/loops/templates used, scope confined to Section 22 source file.
+
+Ready for the next section.
+
+Section 22 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
