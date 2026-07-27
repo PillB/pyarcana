@@ -12,63 +12,65 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 435,
-  "total_paragraphs": 278,
-  "total_findings": 106,
+  "total_sentences": 424,
+  "total_paragraphs": 257,
+  "total_findings": 101,
   "severity": {
-    "low": 106
+    "low": 100,
+    "medium": 1
   },
-  "mean_quality_score": 9.27,
-  "min_quality_score": 9.27,
-  "mean_fernandez_huerta": 87.8,
-  "mean_fh_label": "fácil",
-  "mean_wps": 11.08,
+  "mean_quality_score": 9.26,
+  "min_quality_score": 9.26,
+  "mean_fernandez_huerta": 91.6,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 9.97,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      95
     ],
     [
       "lowercase_after_period",
-      8
+      5
     ],
     [
-      "space_before_punct",
-      2
+      "repeated_word",
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 95,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 8,
+      "count": 5,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "space_before_punct",
-      "count": 2,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+      "rule": "repeated_word",
+      "count": 1,
+      "cause": "Typo o pegado doble.",
+      "fix": "Eliminar duplicado."
     }
   ],
   "sections_ranked": [
     {
-      "section": 19,
-      "file": "s19-databases-orm.ts",
-      "quality_score_0_10": 9.27,
-      "fernandez_huerta": 87.8,
-      "avg_words_per_sentence": 11.08,
+      "section": 20,
+      "file": "s20-rag.ts",
+      "quality_score_0_10": 9.26,
+      "fernandez_huerta": 91.6,
+      "avg_words_per_sentence": 9.97,
       "findings_by_severity": {
-        "low": 106
+        "low": 100,
+        "medium": 1
       },
-      "findings_total": 106
+      "findings_total": 101
     }
   ]
 }

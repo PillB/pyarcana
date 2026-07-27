@@ -3295,3 +3295,30 @@ Stage Summary:
 Ready for the next section.
 
 Section 19 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: FIXER-S20
+Agent: Independent Section 20 Fixer
+Task: Fresh text-first review and remediation of Section 20.
+Work Log:
+- Acknowledged Anti-Aberration Rules; confined all edits to `src/lib/course/sections/s20-rag.ts` (Section 20 only); no scripts/loops/templates used for prose generation.
+- Read source file (2057 lines), expert report (`S20_report.md`, 1289 lines), and Spanish quality JSON (`S20_SPANISH_QUALITY.json`, 3632 lines).
+- Verified current state of the 12 audit-flagged fabricated code/output pairs (Issues 3-14): all 12 were already corrected in prior rounds to use a single canonical Lima/Cusco/Arequipa/Piura/Ica vocabulary. Executed each code block locally with openpyxl 3.1.5 + pandas 2.2.3 to confirm displayed outputs match actual execution — all 8 theory blocks, all 8 I-Do demos, and 12 representative We-Do solutions pass.
+- RAE orthography fixes applied (6 `vs ` → `vs. `): line 1083 edgeCases `datetime vs. date`; line 1218 `16 vs. 15`; line 1268 `Mean vs. sum`; line 1293 `22.0 vs. 22.005` and `22.0 vs. 23.0`; line 1442 `` `in` vs. `not in` ``; line 1704 `Lima/Cusco vs. Cusco/Lima`.
+- Real grammar error fixed (2 instances of `e hashes` → `y hashes`): line 31 dictionary paragraph ("backup (respaldo) y hashes") and line 1932 self-check explanation ("path de backup y hashes"). The `e` form is incorrect before the strong-h sound of `hashes`.
+- Anglicism fixes applied: "Datos sintéticos only" → "Solo datos sintéticos" (line 1784 requirement); "En el I Do verás ... en el We Do T2-A-E3" → "En la pestaña *Hago yo* verás ... en *Hacemos juntos* T2-A-E3" (line 118 theory T2-A paragraph). Replaced 10 remaining prose "We Do" labels in iDo.retrospective fields (lines 380, 382, 416, 467, 500, 531, 564, 608, 643) with the SPA UI label "*Hacemos juntos*" to match the convention already established in `iDo.intro` (line 346).
+- Stephen Fry redaction pass applied: first prose mention of `workbook` glossed inline as "workbook (libro de Excel)" (line 32 theory T1-A paragraph 3); first prose mention of `CI` glossed inline as "CI (integración continua)" (line 82 theory T1-B paragraph 1). All existing glosses (`master` → "(plantilla maestra)", `manifest` → "(manifiesto)", `backup` → "(respaldo)", `merge` → "celdas combinadas") left intact.
+- Readability/linter fixes: wrapped bare `.value` in backticks in 3 hint fields (lines 1208, 1337, 1384) to silence false-positive `space_before_punct` findings and improve code-reference clarity. Already-backticked `.value` in lines 836 and 1216 left intact.
+- The `**bold**` markdown in prose was inspected and confirmed intentional (rendered by SPA as visual emphasis); no leaks stripped. The `vs.` heading (line 79) and `vs.` jobRelevance (line 30) were already correct.
+- We Do intro (line 648) re-inspected: the 47-word run-on flagged in the audit has already been split into 4 manageable sentences in prior rounds; no further rewrite needed.
+- Pseudonym drift check: grep for `Sucursal-|Oficina-Este|Oficina-Oeste|Cliente-A|Cliente-B` and `CASO-LIM` returned zero matches — prior canonicalization pass already replaced all pseudonyms with real Peruvian regions and stripped taxonomy tags.
+- Validation: `tsc --noEmit` (TypeScript 5.4.5, with stubbed `../../types` module) returned exit 0 with no errors on the file. `eslint` syntax check returned no new issues (the file's `Cannot find module` warnings are pre-existing isolation artifacts, not defects). `python3 scripts/spanish_quality_audit.py --from 20 --to 20 --no-lt` reports: `mean_score=9.26`, `mean_FH=91.6 "muy fácil"`, 0 `vs`-without-period findings, 0 `e hashes` findings. The 101 reported findings are 95 `fragment` false positives from numbered list items (`1.`, `2.`, etc. in `instruction` fields), 5 `lowercase_after_period` false positives (heuristic misfires after periods in code references), and 1 `repeated_word` false positive (`font = Font` in code identifier). All are heuristic artifacts, not real prose defects.
+Stage Summary:
+- All 12 audit-flagged fabricated code/output pairs verified as already fixed by prior rounds; no new code/output drift introduced.
+- 6 RAE `vs.` orthography fixes + 2 real `y hashes` grammar fixes + 11 anglicism→Spanish-label fixes + 2 Stephen Fry jargon glosses + 3 `.value` backtick wraps applied.
+- TypeScript compiles cleanly (exit 0). Spanish quality score remains high at 9.26/10 (FH 91.6 "muy fácil"); 0 real orthography findings remain.
+- No anti-aberration rules violated: all prose hand-crafted, no generators/loops/templates used, scope confined to Section 20.
+
+Ready for the next section.
+
+Section 20 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.

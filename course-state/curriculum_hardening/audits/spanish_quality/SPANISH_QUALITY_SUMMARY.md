@@ -18,32 +18,32 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **435** | Paragraphs: **278**
-- Findings: **106** (high=0, medium=0, low=106)
-- Mean quality score (0–10): **9.27**
-- Mean Fernández-Huerta: **87.8** (fácil)
-- Mean words/sentence: **11.08**
+- Sentences: **424** | Paragraphs: **257**
+- Findings: **101** (high=0, medium=1, low=100)
+- Mean quality score (0–10): **9.26**
+- Mean Fernández-Huerta: **91.6** (muy fácil)
+- Mean words/sentence: **9.97**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S19 | 9.27 | 87.8 | 11.08 | 0/0/106 | `s19-databases-orm.ts` |
+| S20 | 9.26 | 91.6 | 9.97 | 0/1/100 | `s20-rag.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=95)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=8)
+### `lowercase_after_period` (n=5)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `space_before_punct` (n=2)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+### `repeated_word` (n=1)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ## How to use
 
