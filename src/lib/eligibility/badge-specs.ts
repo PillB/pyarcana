@@ -18,7 +18,7 @@ import { GAP_AFFECTED_COMPETENCIES } from './types'
 // Inline the catalog type so this file doesn't need a separate JSON
 // schema file. The actual catalog is imported as JSON via
 // `resolveJsonModule: true` in tsconfig.json.
-import badgeCatalog from '../../../industry_alignment/badge_catalog.json'
+import badgeCatalog from './badge_catalog.json'
 
 export interface BadgeCatalog {
   version: string
