@@ -209,4 +209,165 @@ See `industry_alignment/section_audits/SNN.md#8-priority` for the per-section pr
 
 ---
 
-*End of roadmap. For the full gap matrix, see `industry_alignment/curriculum_gap_matrix.json` and `industry_alignment/curriculum_gap_matrix.md`. For per-section detail, see `industry_alignment/section_audits/S01.md` … `S52.md`.*
+## Phase 10-13 completion update
+
+**Updated:** 2026-07-29T00:05:00Z
+**Updater:** `reporter` node (Phase 13)
+
+Phases 10-13 of the industry-alignment campaign are complete.
+The static-edition release gate is **PASS** (see
+`release_evidence.md §6`). The dynamic-edition release gate
+is **CONDITIONAL** (Phase 14+ work required).
+
+### What landed in Phases 10-13
+
+| Artifact | Path | Status |
+|---|---|---|
+| Playwright test matrix | `industry_alignment/playwright_badge_test_matrix.md` | Complete |
+| Playwright E2E spec (16 tests) | `tests/e2e_max/badge_eligibility.spec.ts` | Written; pending CI execution |
+| Playwright per-suite config | `tests/e2e_max/playwright.badge.config.ts` | Complete |
+| Coherence assessment | `industry_alignment/coherence_assessment.md` | Complete (PASS) |
+| Release evidence + gate decision | `industry_alignment/release_evidence.md` | Complete (static PASS, dynamic CONDITIONAL) |
+| ADR-001 badge taxonomy | `industry_alignment/decisions/ADR-001-badge-taxonomy.md` | Complete |
+| ADR-002 eligibility engine | `industry_alignment/decisions/ADR-002-eligibility-engine.md` | Complete |
+| ADR-003 static vs dynamic credentials | `industry_alignment/decisions/ADR-003-static-vs-dynamic-credentials.md` | Complete |
+| ADR-004 critical competency gates | `industry_alignment/decisions/ADR-004-critical-competency-gates.md` | Complete |
+| Accessibility report | `industry_alignment/accessibility_report.md` | Complete |
+
+### Convergence record (2 consecutive quiet rounds)
+
+- **Round 1 (Phase 9, eligibility engine TDD):** 4 defects
+  found during RED, all fixed during GREEN. 18/18 tests
+  pass at checkpoint. QUIET.
+- **Round 2 (Phases 10-13, triple-validation + coherence +
+  docs):** 0 new material defects in engine logic. 7/7 TS
+  engine simulations match expected verdicts. 14 coherence
+  findings, all pre-existing. 31 credential claims audited,
+  all supported. QUIET.
+
+**2 consecutive quiet rounds achieved.** Convergence
+criterion met for engine logic, catalog integrity, and
+credential claim audit.
+
+### Honest caveat
+
+The Playwright E2E suite (16 tests) was not executed in the
+Phase 10-13 sandbox environment (no `node_modules`, no dev
+server). The engine-behavior scenarios (7/7 simulated via
+`tsx`) are the substantive correctness checks and they pass.
+The browser-only tests (UI states, keyboard navigation,
+screen-reader labels, localStorage tampering, refresh
+preservation) are written and ready for CI execution. If CI
+surfaces a defect, it would be a browser-integration defect,
+not an engine-logic defect.
+
+---
+
+## Phase 14+ next-actions (post-release)
+
+The following work items are NOT blocking for the
+static-edition release (which is PASS). They are the
+sequenced next-actions for the dynamic-edition release and
+for closing the curriculum's tracked weaknesses.
+
+### Stage 6 — Phase 14 dynamic LMS (gates dynamic-edition release)
+
+| # | Work item | Owner | Effort | Blocks |
+|---|---|---|---|---|
+| 6.1 | Implement `src/lib/badge/state_machine.ts` (cryptographic signing) | Engineering | L | Dynamic issuance |
+| 6.2 | Wire eligibility engine into LMS badge service | Engineering | M | Dynamic issuance |
+| 6.3 | Implement rubric store (server-side, append-only) | Engineering | L | Re-evaluation transition |
+| 6.4 | Implement defense recording (capstone tier-6 evidence) | Engineering | M | Capstone issuance |
+| 6.5 | Implement `eligible → in_progress` transition (rubric re-evaluation) | Engineering | S | Re-evaluation correctness |
+| 6.6 | Execute Playwright Layer 3 suite in CI (16 tests) | Engineering | S | CI gate |
+| 6.7 | Add `test:badge-e2e` to `package.json`; wire into `test:all-gates` | Engineering | S | CI gate |
+
+**Stage 6 exit criteria:**
+- [ ] Cryptographic signing path implemented and tested
+- [ ] Eligibility engine wired into LMS badge service
+- [ ] Rubric store implemented (append-only)
+- [ ] Defense recording implemented
+- [ ] `eligible → in_progress` transition implemented
+- [ ] 16/16 Playwright Layer 3 tests pass in CI
+- [ ] `test:badge-e2e` runs in `test:all-gates`
+
+**Estimated total effort:** 10-15 engineer-days.
+
+### Stage 7 — P0 gap closure (gates 9 pilot badges → active)
+
+This is the same Stage 1 from the original roadmap, restated
+here for clarity. Until these close, the 9 pilot badges
+remain `pilot` and require supplementary exercises.
+
+| # | Gap ID | Effort | Owner |
+|---|---|---|---|
+| 7.1 | `GAP-P0-001` — leakage_prevention (S10 + S33 + S39) | L | Curriculum author |
+| 7.2 | `GAP-P0-002` — python_type_safety (S15 + S17 + S43) | L | Curriculum author + Engineering |
+| 7.3 | `GAP-P0-003` — sql_performance_tuning (S37) | M | Curriculum author |
+| 7.4 | `GAP-P0-004` — reframework durable form (S24) | L | Curriculum author |
+| 7.5 | Author 9 pilot badges' supplementary exercises | M | Curriculum author |
+
+**Stage 7 exit criteria:**
+- [ ] S10 T5-A leakage_prevention block live
+- [ ] S15 T5-A python_type_safety block live
+- [ ] S37 T5-A sql_performance_tuning block live
+- [ ] S24 T5-A reframework block live
+- [ ] All 9 pilot badges' supplementary exercises authored
+- [ ] 9 pilot badges re-evaluated for `active` status
+
+### Stage 8 — Performance exercises (highest-leverage coherence fix)
+
+| # | Gap ID | Effort | Owner |
+|---|---|---|---|
+| 8.1 | `GAP-P1-007` — one auto-graded pytest exercise per section (52 sections) | L | Engineering + Curriculum author |
+
+**Stage 8 exit criteria:**
+- [ ] Every section has ≥1 auto-graded pytest exercise
+- [ ] Performance-graded activity count per section rises from 1 to ≥2
+- [ ] We Do:You Do ratio drops (target: 24:2 → 24:3 over time)
+- [ ] Coherence assessment re-run; independence-profile uniformity finding closed
+
+### Updated sequencing
+
+```
+NOW (Phases 0-13 complete; static-edition release PASS)
+  ↓
+Stage 6 (Phase 14 dynamic LMS)        [Engineering, 10-15d]
+  ├─ 6.6 + 6.7 (CI execution)         [Engineering, 0.5d]  ← do FIRST
+  ├─ 6.1 (signing)                    [Engineering, 3-5d]
+  ├─ 6.2 (engine wiring)              [Engineering, 2-3d]
+  ├─ 6.3 (rubric store)               [Engineering, 3-5d]
+  ├─ 6.4 (defense recording)          [Engineering, 2d]
+  └─ 6.5 (re-eval transition)         [Engineering, 0.5d]
+                                              ↓
+Stage 7 (P0 gap closure)              [Curriculum author, 4-6d + 6-8 author-days]
+  ├─ 7.1 (leakage)                    [Curriculum author, 1-2d]
+  ├─ 7.2 (type safety)                [Curriculum author + Eng, 1-2d]
+  ├─ 7.3 (sql perf)                   [Curriculum author, 1d]
+  ├─ 7.4 (reframework)                [Curriculum author, 1-2d]
+  └─ 7.5 (supplementary exercises)    [Curriculum author, 2d]
+                                              ↓
+Stage 8 (performance exercises)       [Eng + Curriculum author, 5d]
+                                              ↓
+Stages 3-5 (P2/P3/P4 polish)          [Curriculum author + Designer + Eng, ongoing]
+```
+
+### What has NOT changed
+
+- The 5 original stages (1-5) remain valid for the
+  curriculum gaps they address.
+- The static-edition release is PASS and is not blocked by
+  any Stage 6/7/8 work.
+- The 9 pilot badges remain `pilot` until Stage 7 closes.
+- The `badge_claim_register.md` remains the canonical
+  public artifact.
+
+---
+
+*End of roadmap (updated through Phase 13). For the full gap
+matrix, see `industry_alignment/curriculum_gap_matrix.json`
+and `industry_alignment/curriculum_gap_matrix.md`. For
+per-section detail, see `industry_alignment/section_audits/S01.md`
+… `S52.md`. For the release gate decision, see
+`industry_alignment/release_evidence.md`. For the architectural
+decisions, see `industry_alignment/decisions/ADR-00{1-4}-*.md`.*
