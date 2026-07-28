@@ -18,44 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **401** | Paragraphs: **255**
-- Findings: **106** (high=0, medium=0, low=106)
-- Mean quality score (0–10): **9.01**
-- Mean Fernández-Huerta: **96.1** (muy fácil)
-- Mean words/sentence: **10.02**
+- Sentences: **380** | Paragraphs: **247**
+- Findings: **102** (high=0, medium=3, low=99)
+- Mean quality score (0–10): **9.12**
+- Mean Fernández-Huerta: **93.7** (muy fácil)
+- Mean words/sentence: **10.13**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S36 | 9.01 | 96.1 | 10.02 | 0/0/106 | `s36-ai-apis-advanced.ts` |
+| S37 | 9.12 | 93.7 | 10.13 | 0/3/99 | `s37-dbt-bigquery.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=93)
+### `fragment` (n=85)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=6)
+### `lowercase_after_period` (n=7)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=3)
+### `long_sentence` (n=7)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `missing_inverted_exclamation` (n=2)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=1)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
+### `repeated_word` (n=3)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ## How to use
 
