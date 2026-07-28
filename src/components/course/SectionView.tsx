@@ -3261,82 +3261,70 @@ GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4`,
       hint: 'Calcula la VRAM necesaria para un modelo de 70B en INT4',
     },
     'graph-rag': {
-      title: 'Practica knowledge graphs (simulado)',
-      code: `# Simulacion de knowledge graph y GraphRAG
-# Sin Neo4j - implementamos con dict de adyacencia
+      title: 'Practica el policy_engine fail-closed (simulado)',
+      code: `# Simulacion del policy_engine fail-closed de S42
+# Caso sintetico CASO-CUS-042 (mesa de soporte de Cusco)
+# Cadena: schema -> SSRF host -> path -> authz resource binding
 
-class KnowledgeGraph:
-    """Knowledge graph simple con dict de adyacencia."""
-    def __init__(self):
-        self.nodes = {}
-        self.edges = []
-    
-    def add_node(self, name, node_type):
-        self.nodes[name] = {"type": node_type}
-    
-    def add_edge(self, source, target, rel_type):
-        self.edges.append({"source": source, "target": target, "type": rel_type})
-    
-    def neighbors(self, node, rel_type=None):
-        """Encuentra vecinos de un nodo."""
-        result = []
-        for e in self.edges:
-            if e["source"] == node and (rel_type is None or e["type"] == rel_type):
-                result.append(e["target"])
-        return result
-    
-    def find_path(self, start, end, max_depth=3):
-        """Encuentra camino entre dos nodos (BFS)."""
-        queue = [(start, [start])]
-        visited = {start}
-        while queue:
-            node, path = queue.pop(0)
-            if node == end:
-                return path
-            if len(path) >= max_depth:
-                continue
-            for neighbor in self.neighbors(node):
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append((neighbor, path + [neighbor]))
-        return None
+ALLOWED_KEYS = {"case_id", "status"}
+ALLOWED_HOSTS = {"docs.local"}
+SAFE_ROOT = "/safe/reports"
 
-# Construir knowledge graph
-kg = KnowledgeGraph()
-kg.add_node("Ana", "Person")
-kg.add_node("Interbank", "Company")
-kg.add_node("Luis", "Person")
-kg.add_node("ChurnBot", "Project")
 
-kg.add_edge("Ana", "Interbank", "WORKS_AT")
-kg.add_edge("Luis", "Interbank", "WORKS_AT")
-kg.add_edge("Ana", "ChurnBot", "WORKS_ON")
-kg.add_edge("Luis", "ChurnBot", "WORKS_ON")
+def policy_engine(req, actor, owner, scopes, host, user_path="a.txt", root=SAFE_ROOT):
+    """Decide CONTINUE / REJECT_SCHEMA / REJECT_UNTRUSTED_INPUT / DENY_CROSS_TENANT."""
+    # 1. Schema estricto: solo las claves permitidas, nada extra
+    if not ALLOWED_KEYS.issubset(req) or set(req) - ALLOWED_KEYS:
+        return "REJECT_SCHEMA"
+    # 2. SSRF: el host debe estar en la allowlist
+    if host not in ALLOWED_HOSTS:
+        return "REJECT_UNTRUSTED_INPUT"
+    # 3. Path traversal: ni '..' ni escape de la raiz
+    if ".." in user_path.split("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    joined = f"{root.rstrip('/')}/{user_path.lstrip('/')}"
+    if not joined.startswith(root.rstrip("/") + "/") and joined != root.rstrip("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    # 4. Authz: el actor debe ser el dueno y tener el scope cases:read
+    if "cases:read" not in scopes or actor != owner:
+        return "DENY_CROSS_TENANT"
+    return "CONTINUE"
 
-# Query: colegas de Ana
-print("=== Knowledge Graph Queries ===")
-colegas = kg.neighbors("Ana", "WORKS_AT")
-print(f"Colegas de Ana: {colegas}")
 
-# Query: proyectos de Ana
-proyectos = kg.neighbors("Ana", "WORKS_ON")
-print(f"Proyectos de Ana: {proyectos}")
+print("=== Policy Engine (CASO-CUS-042) ===")
 
-# Multi-hop: quien mas trabaja en el mismo proyecto que Ana?
-print(f"\\nMulti-hop: colegas en mismo proyecto:")
-for proj in kg.neighbors("Ana", "WORKS_ON"):
-    workers = kg.neighbors(proj)  # pero edges van persona->proyecto
-    # Invertir: buscar quien tiene edge hacia este proyecto
-    for e in kg.edges:
-        if e["target"] == proj and e["source"] != "Ana":
-            print(f"  {e['source']} tambien trabaja en {proj}")`,
-      expectedOutput: `=== Knowledge Graph Queries ===
-Colegas de Ana: ['Interbank']
-Proyectos de Ana: ['ChurnBot']
+# 1. Happy path: analista abre su propio ticket
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
 
-Multi-hop: colegas en mismo proyecto:
-  Luis tambien trabaja en ChurnBot`,
-      hint: 'Anade un nodo "Maria" que tambien trabaja en Interbank y encuentra el camino',
+# 2. Schema reject: el cliente manda un campo extra (note_interna)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open", "note_interna": "x"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
+
+# 3. Cross-tenant: el analista user-a intenta leer el ticket de user-b
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-b", {"cases:read"}, "docs.local"))
+
+# 4. SSRF: el adjunto apunta a metadata cloud (169.254.169.254)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "169.254.169.254"))
+
+# 5. Path traversal: el adjunto intenta leer /etc/passwd
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local",
+    user_path="../etc/passwd"))`,
+      expectedOutput: `=== Policy Engine (CASO-CUS-042) ===
+CONTINUE
+REJECT_SCHEMA
+DENY_CROSS_TENANT
+REJECT_UNTRUSTED_INPUT
+REJECT_UNTRUSTED_INPUT`,
+      hint: 'Cambia user_path a "subdir/a.txt" y observa CONTINUE; prueba sin cases:read en scopes',
     },
     'llmops': {
       title: 'Practica tracing y eval (simulado)',

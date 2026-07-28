@@ -79,7 +79,7 @@ const SECTION_NAMES: Record<string, string> = {
   "integrator-phase2": '39. Capstone P2',
   "architecture-ddd-decisions": '40. Arq/DDD',
   "llm-finetuning": '41. API FastAPI',
-  "graph-rag": '42. GraphRAG',
+  "graph-rag": '42. Schemas y seguridad',
   llmops: '43. LLMOps',
   multimodal: '44. Multi-Modal',
   iac: '45. IaC',

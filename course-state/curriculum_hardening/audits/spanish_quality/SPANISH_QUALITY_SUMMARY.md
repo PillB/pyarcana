@@ -18,34 +18,42 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **535** | Paragraphs: **320**
-- Findings: **97** (high=0, medium=0, low=97)
-- Mean quality score (0–10): **9.46**
-- Mean Fernández-Huerta: **90.2** (muy fácil)
-- Mean words/sentence: **9.25**
+- Sentences: **383** | Paragraphs: **267**
+- Findings: **86** (high=0, medium=0, low=86)
+- Mean quality score (0–10): **9.33**
+- Mean Fernández-Huerta: **89.4** (fácil)
+- Mean words/sentence: **10.1**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S41 | 9.46 | 90.2 | 9.25 | 0/0/97 | `s41-llm-finetuning.ts` |
+| S42 | 9.33 | 89.4 | 10.1 | 0/0/86 | `s42-graph-rag.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=92)
+### `fragment` (n=76)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=2)
+### `comma_density` (n=4)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
 
-### `lowercase_after_period` (n=2)
+### `missing_inverted_exclamation` (n=2)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `anaphora_monotony` (n=1)
+### `possible_plural_det_singular_noun` (n=2)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
+
+### `long_sentence` (n=1)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
+### `lowercase_after_period` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 

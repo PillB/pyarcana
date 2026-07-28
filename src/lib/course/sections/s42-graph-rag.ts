@@ -12,7 +12,7 @@ export const section42: CourseSection = {
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (fintech, healthtech, retail y gobierno digital en el Perú), la API versionada de S41 no basta: hace falta un **control plane fail-closed**. Cuatro frentes lo sostienen. **Schemas estrictos** rechazan campos extra antes de tocar negocio. **Authn ≠ authz** con RBAC y resource binding evita que un analista de Cusco lea el ticket de otro tenant. **Scopes** deny-by-default cierran rutas no declaradas; **SSRF/path** y secretos fuera del repo evitan abusos de red y filtraciones. **Minimización, redacción y purga** cierran el ciclo de privacidad. El artefacto de esta sección es threat model + matriz de permisos con evidencia allow/deny auditable. Solo se promociona cuando se demuestra **CP-N4-A**: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.",
+    "En equipos de plataforma y producto (fintech, healthtech, retail y gobierno digital en el Perú), la API versionada de S41 no basta: hace falta un control plane fail-closed (la capa que orquesta los servicios y, ante la duda, deniega en lugar de abrir). Cuatro frentes lo sostienen. Los schemas estrictos rechazan campos extra antes de tocar negocio. La distinción authn ≠ authz (autenticación frente a autorización) con RBAC (control de acceso por roles) y resource binding (vínculo al dueño del recurso) evita que un analista de Cusco lea el ticket de otro tenant. Los scopes deny-by-default (permisos que deniegan por defecto lo no declarado) cierran rutas no declaradas. Los controles de SSRF (abuso de URL del servidor) y path traversal (escape de rutas del filesystem), junto con secretos fuera del repo, evitan abusos de red y filtraciones. La minimización, redacción y purga cierran el ciclo de privacidad. El artefacto de esta sección es un threat model (modelo de amenazas) y una matriz de permisos con evidencia allow/deny auditable. Solo se promociona cuando se demuestra CP-N4-A: un actor nunca lee el caso de otro y un campo redactado no reaparece en logs, respuestas ni backups activos.",
   learningOutcomes: [
     { text: "Definir un schema de borde estricto (tipos + rechazo de campos extra) y exportar fixtures válidos/inválidos." },
     { text: "Evolucionar contratos con cambios aditivos y discriminated unions exhaustivas sin romper lectores previos." },
@@ -613,7 +613,7 @@ must_purge_derived True`,
     ],
   },
   weDo: {
-    intro: "S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre `CASO-CUS-042`. **E1** repara el cuerpo de una función de decisión. **E2** separa válido, adverso real y evidencia ausente (missing ≠ breach). **E3** cierra fail-closed con códigos de acción (`CONTINUE`, DENY|REJECT o rama humana). Entrena el **control**, no el flip de un booleano precomputado. El adverso falla por contenido: extra key, cross-tenant, 169.254…, `/etc/passwd`, over-collection o audit ∩ PII.",
+    intro: "S42 · Laboratorio de threat model y matriz de permisos (CP-N4-A): 24 retos locales sobre `CASO-CUS-042`. E1 repara el cuerpo de una función de decisión. E2 separa válido, adverso real y evidencia ausente (missing ≠ breach). E3 cierra fail-closed con códigos de acción (`CONTINUE`, DENY|REJECT o rama humana). Entrena el **control**, no el flip de un booleano precomputado: el adverso falla por contenido (extra key, cross-tenant, 169.254…, `/etc/passwd`, over-collection o audit ∩ PII).",
     steps: [
       {
         id: "S42-T1-A-E1",
@@ -686,7 +686,7 @@ assert meets_contract is True` ,
         feedback:
           "Missing es incertidumbre de evidencia; extra es breach de forma. El revisor de borde no confunde un ticket incompleto con un ataque ni con un PASS.",
         retrospective:
-          "Un ticket incompleto no es un ataque: es evidencia ausente. Un `note_interna` sí es breach de forma. El error clásico es forzar PASS inventando `status` o tratar incompleto como REJECT. Pregunta: ¿en qué orden evalúas missing vs extras, y por qué? Luego (E3): enrutas CONTINUE / REJECT / REVIEW humana.",
+          "Un ticket incompleto no es un ataque: es evidencia ausente. Un `note_interna` sí es breach de forma. El error clásico es forzar PASS inventando `status` o tratar incompleto como REJECT. Pregunta: ¿en qué orden evalúas missing vs. extras, y por qué? Luego (E3): enrutas CONTINUE / REJECT / REVIEW humana.",
         starterCode: {
           language: 'python',
           title: "s42-t1-a-e2.py",
@@ -853,7 +853,7 @@ assert meets_contract is True` ,
         id: "S42-T1-B-E2",
         subtopicId: "S42-T1-B",
         kind: "independent",
-        title: "Assess evolución: PASS vs VERSION vs MISSING",
+        title: "Assess evolución: PASS vs. VERSION vs. MISSING",
         preamble:
           "- **Contexto:** el dueño de contrato en Cusco clasifica cada cambio: seguro, rupture o evidencia incompleta.\n- **Meta:** `assess` → PASS / VERSION_SCHEMA / MISSING:handled_tags.\n- **Éxito:** `PASS VERSION_SCHEMA MISSING:handled_tags`.\n- **Límites:** no inventes handled_tags; no trates rename como PASS.",
         instruction:
@@ -1640,7 +1640,7 @@ assert results == ["CONTINUE", "REJECT_UNTRUSTED_INPUT", "SECURITY_REVIEW"]` ,
           "El defecto no mira rotation_tested ni critical_cves: un promote «limpio» de secretos aún puede ser inseguro.",
         ],
         edgeCases: ["secret_in_repo", "deps unpinned", "critical_cves>0", "CASO-CUS-042-3B es sintético"],
-        tests: "promote_ok(False, False, True, True, 0) es True e imprime `S42-T3-B PASS`.",
+        tests: "El fixture limpio (sin secreto en repo ni log, rotación ensayada, deps con pin y 0 CVE críticas) pasa `promote_ok` e imprime `S42-T3-B PASS`.",
         feedback:
           "Promote fail-closed es conjunción de cinco controles: un solo hallazgo (secreto en artefacto o CVE crítica) bloquea el release.",
         retrospective:
@@ -2130,7 +2130,7 @@ assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
           "En E2, email en audit + export vivo es el adverso clásico de purga incompleta.",
         ],
         edgeCases: ["email en audit", "derived_deleted False", "key_separate False", "CASO-CUS-042-4B es sintético"],
-        tests: "purge_ok({actor,action,at,case_token}, {email,full_name}, True, True, True) es True e imprime `S42-T4-B PASS`.",
+        tests: "El fixture limpio (audit sin PII, primario y derivados borrados, llave de reidentificación separada) pasa `purge_ok` e imprime `S42-T4-B PASS`.",
         feedback:
           "Soft-delete del primario no basta: audit limpio + derivados purgados + llave separada cierran el ciclo de no-reaparición de CP-N4-A.",
         retrospective:

@@ -12,57 +12,77 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 535,
-  "total_paragraphs": 320,
-  "total_findings": 97,
+  "total_sentences": 383,
+  "total_paragraphs": 267,
+  "total_findings": 86,
   "severity": {
-    "low": 97
+    "low": 86
   },
-  "mean_quality_score": 9.46,
-  "min_quality_score": 9.46,
-  "mean_fernandez_huerta": 90.2,
-  "mean_fh_label": "muy fácil",
-  "mean_wps": 9.25,
+  "mean_quality_score": 9.33,
+  "min_quality_score": 9.33,
+  "mean_fernandez_huerta": 89.4,
+  "mean_fh_label": "fácil",
+  "mean_wps": 10.1,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      92
+      76
     ],
     [
       "comma_density",
+      4
+    ],
+    [
+      "missing_inverted_exclamation",
       2
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      2
+    ],
+    [
+      "long_sentence",
+      1
     ],
     [
       "lowercase_after_period",
-      2
-    ],
-    [
-      "anaphora_monotony",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 92,
+      "count": 76,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "comma_density",
-      "count": 2,
+      "count": 4,
       "cause": "Subordinación excesiva.",
       "fix": "Listas o frases independientes."
     },
     {
-      "rule": "lowercase_after_period",
+      "rule": "missing_inverted_exclamation",
       "count": 2,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "anaphora_monotony",
+      "rule": "possible_plural_det_singular_noun",
+      "count": 2,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
+    },
+    {
+      "rule": "long_sentence",
+      "count": 1,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "lowercase_after_period",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
@@ -70,15 +90,15 @@
   ],
   "sections_ranked": [
     {
-      "section": 41,
-      "file": "s41-llm-finetuning.ts",
-      "quality_score_0_10": 9.46,
-      "fernandez_huerta": 90.2,
-      "avg_words_per_sentence": 9.25,
+      "section": 42,
+      "file": "s42-graph-rag.ts",
+      "quality_score_0_10": 9.33,
+      "fernandez_huerta": 89.4,
+      "avg_words_per_sentence": 10.1,
       "findings_by_severity": {
-        "low": 97
+        "low": 86
       },
-      "findings_total": 97
+      "findings_total": 86
     }
   ]
 }
