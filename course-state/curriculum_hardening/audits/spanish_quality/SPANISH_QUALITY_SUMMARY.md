@@ -18,48 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **429** | Paragraphs: **287**
-- Findings: **103** (high=0, medium=3, low=100)
-- Mean quality score (0–10): **9.22**
-- Mean Fernández-Huerta: **91.0** (muy fácil)
-- Mean words/sentence: **9.98**
+- Sentences: **462** | Paragraphs: **308**
+- Findings: **104** (high=0, medium=4, low=100)
+- Mean quality score (0–10): **9.45**
+- Mean Fernández-Huerta: **81.2** (fácil)
+- Mean words/sentence: **10.56**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S46 | 9.22 | 91.0 | 9.98 | 0/3/100 | `s46-gpu-computing.ts` |
+| S47 | 9.45 | 81.2 | 10.56 | 0/4/100 | `s47-opensource.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=87)
+### `fragment` (n=93)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=10)
+### `lowercase_after_period` (n=3)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
-
-### `unbalanced_delimiters` (n=1)
-- **Cause:** Paréntesis/comillas abiertos en cortes de párrafo.
-- **Improvement:** Validar emparejamiento en revisión.
-
-### `missing_terminal_punct` (n=1)
+### `missing_terminal_punct` (n=3)
 - **Cause:** Frases colgadas tras edición o plantillas.
 - **Improvement:** Toda oración asertiva cierra con punto.
 
-### `missing_inverted_exclamation` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `comma_density` (n=3)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
 
-### `space_before_punct` (n=1)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+### `long_sentence` (n=1)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
 ### `repeated_word` (n=1)
 - **Cause:** Typo o pegado doble.
