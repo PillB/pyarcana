@@ -18,40 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **387** | Paragraphs: **219**
-- Findings: **101** (high=0, medium=2, low=99)
-- Mean quality score (0–10): **9.17**
-- Mean Fernández-Huerta: **92.8** (muy fácil)
-- Mean words/sentence: **8.54**
+- Sentences: **443** | Paragraphs: **273**
+- Findings: **97** (high=0, medium=2, low=95)
+- Mean quality score (0–10): **9.3**
+- Mean Fernández-Huerta: **94.6** (muy fácil)
+- Mean words/sentence: **9.25**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S31 | 9.17 | 92.8 | 8.54 | 0/2/99 | `s31-streaming-data.ts` |
+| S32 | 9.3 | 94.6 | 9.25 | 0/2/95 | `s32-microservices.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=91)
+### `fragment` (n=92)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=4)
+### `unbalanced_delimiters` (n=2)
+- **Cause:** Paréntesis/comillas abiertos en cortes de párrafo.
+- **Improvement:** Validar emparejamiento en revisión.
+
+### `lowercase_after_period` (n=2)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_inverted_exclamation` (n=2)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=2)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `repeated_word` (n=2)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
+### `gerund_pileup` (n=1)
+- **Cause:** Estilo gerundial en cadena.
+- **Improvement:** Preferir indicativo y oraciones finitas.
 
 ## How to use
 
