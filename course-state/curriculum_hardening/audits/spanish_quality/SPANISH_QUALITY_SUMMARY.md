@@ -18,56 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **445** | Paragraphs: **275**
-- Findings: **116** (high=0, medium=2, low=114)
-- Mean quality score (0–10): **8.98**
-- Mean Fernández-Huerta: **102.4** (muy fácil)
-- Mean words/sentence: **9.86**
+- Sentences: **427** | Paragraphs: **270**
+- Findings: **108** (high=0, medium=2, low=106)
+- Mean quality score (0–10): **9.0**
+- Mean Fernández-Huerta: **101.1** (muy fácil)
+- Mean words/sentence: **8.89**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S33 | 8.98 | 102.4 | 9.86 | 0/2/114 | `s33-advanced-models.ts` |
+| S34 | 9.0 | 101.1 | 8.89 | 0/2/106 | `s34-cv-ai-integration.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=90)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=16)
+### `lowercase_after_period` (n=9)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=3)
+### `missing_terminal_punct` (n=2)
+- **Cause:** Frases colgadas tras edición o plantillas.
+- **Improvement:** Toda oración asertiva cierra con punto.
+
+### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
-
-### `long_sentence` (n=2)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `run_on_sentence` (n=1)
-- **Cause:** Oraciones con demasiadas cláusulas o listas embebidas.
-- **Improvement:** Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración.
-
-### `missing_inverted_exclamation` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=1)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `repeated_word` (n=1)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
-
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ## How to use
 

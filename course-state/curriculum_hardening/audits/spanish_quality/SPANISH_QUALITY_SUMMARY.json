@@ -12,125 +12,75 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 445,
-  "total_paragraphs": 275,
-  "total_findings": 116,
+  "total_sentences": 427,
+  "total_paragraphs": 270,
+  "total_findings": 108,
   "severity": {
-    "low": 114,
+    "low": 106,
     "medium": 2
   },
-  "mean_quality_score": 8.98,
-  "min_quality_score": 8.98,
-  "mean_fernandez_huerta": 102.4,
+  "mean_quality_score": 9.0,
+  "min_quality_score": 9.0,
+  "mean_fernandez_huerta": 101.1,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 9.86,
+  "mean_wps": 8.89,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      90
+      96
     ],
     [
       "lowercase_after_period",
-      16
+      9
     ],
     [
-      "comma_density",
-      3
-    ],
-    [
-      "long_sentence",
+      "missing_terminal_punct",
       2
     ],
     [
-      "run_on_sentence",
-      1
-    ],
-    [
-      "missing_inverted_exclamation",
-      1
-    ],
-    [
-      "space_before_punct",
-      1
-    ],
-    [
-      "repeated_word",
-      1
-    ],
-    [
-      "possible_plural_det_singular_noun",
+      "comma_density",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 90,
+      "count": 96,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 16,
+      "count": 9,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "missing_terminal_punct",
+      "count": 2,
+      "cause": "Frases colgadas tras edición o plantillas.",
+      "fix": "Toda oración asertiva cierra con punto."
     },
     {
       "rule": "comma_density",
-      "count": 3,
+      "count": 1,
       "cause": "Subordinación excesiva.",
       "fix": "Listas o frases independientes."
-    },
-    {
-      "rule": "long_sentence",
-      "count": 2,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
-    },
-    {
-      "rule": "run_on_sentence",
-      "count": 1,
-      "cause": "Oraciones con demasiadas cláusulas o listas embebidas.",
-      "fix": "Límite blando ~25–32 palabras en prosa didáctica; una idea principal por oración."
-    },
-    {
-      "rule": "missing_inverted_exclamation",
-      "count": 1,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "space_before_punct",
-      "count": 1,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
-    },
-    {
-      "rule": "repeated_word",
-      "count": 1,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
-    },
-    {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 1,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
     }
   ],
   "sections_ranked": [
     {
-      "section": 33,
-      "file": "s33-advanced-models.ts",
-      "quality_score_0_10": 8.98,
-      "fernandez_huerta": 102.4,
-      "avg_words_per_sentence": 9.86,
+      "section": 34,
+      "file": "s34-cv-ai-integration.ts",
+      "quality_score_0_10": 9.0,
+      "fernandez_huerta": 101.1,
+      "avg_words_per_sentence": 8.89,
       "findings_by_severity": {
-        "low": 114,
+        "low": 106,
         "medium": 2
       },
-      "findings_total": 116
+      "findings_total": 108
     }
   ]
 }
