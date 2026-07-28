@@ -12,7 +12,7 @@ export const section45: CourseSection = {
   icon: "Cloud",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **cloud, almacenamiento, colas e infraestructura** operan el job asíncrono del control plane: object store de artefactos, estado durable, colas con reintentos y dead-letter (DLQ), e IAM de mínimo privilegio. Se promueve solo cuando los reintentos no duplican resultados y cuando costo, backup y recuperación están medidos. El foco es el contrato del job (almacenamiento + colas + ops), no aprender un vendor o herramienta de IaC como fin en sí mismo.",
+    "En equipos de plataforma y producto, cloud, almacenamiento, colas e infraestructura operan el job asíncrono (tarea en segundo plano que corre sin bloquear al llamador) del control plane (la capa que orquesta y supervisa esos jobs): object store (almacén de blobs por clave, p. ej. un PDF de reporte) de artefactos, estado durable (que sobrevive a reinicios), colas con reintentos y dead-letter o DLQ (cola aparte para mensajes fallidos tras N intentos), e IAM de mínimo privilegio (gestión de identidades y accesos reducida a lo que el job necesita). Se promueve solo cuando los reintentos no duplican resultados y cuando costo, backup y recuperación están medidos. El foco es el contrato del job (almacenamiento + colas + ops), no aprender un vendor (proveedor cloud como AWS, GCP o Azure) o una herramienta de IaC (infraestructura como código) como fin en sí mismo.",
   learningOutcomes: [
     { text: "Elegir object store, relacional o cache según el patrón de acceso y declarar la fuente de verdad" },
     { text: "Definir consistencia por operación, lifecycle y un restore sintético con RPO/RTO medidos" },
@@ -354,7 +354,7 @@ currency PEN`,
     },
   ],
   iDo: {
-    intro: "Ocho demos locales del job asíncrono de reportes sintéticos en Iquitos (`CASO-IQU-045`). Cada una calcula un contrato de S45 con stdlib — sin cuenta cloud ni egress real — y deja evidencia alineada al gate CP-N4-B.",
+    intro: "Ocho demos locales del job asíncrono de reportes sintéticos en Iquitos (`CASO-IQU-045`). Cada una calcula un contrato de S45 con stdlib (biblioteca estándar de Python, sin frameworks externos), sin cuenta cloud ni egress real (salida de red externa). La evidencia queda alineada al gate CP-N4-B.",
     steps: [
       {
         demoId: "S45-T1-A-DEMO",
@@ -606,7 +606,7 @@ recovery_blocked False`,
     ],
   },
   weDo: {
-    intro: "S45 · Laboratorio de arquitectura distribuida mínima: 24 retos locales sobre **ocho familias** de fixture de `CASO-IQU-045` (Iquitos sintético; mismos campos por familia, no ocho novelas distintas). Cada subtema sigue E1 → E2 → E3 con andamiaje que se retira. E1 repara un predicado de dominio con un defecto claro. E2 clasifica válido / adverso / campo faltante. E3 decide continue / breach / uncertainty con cierre por defecto (`fail-closed`: sin evidencia no hay éxito). Conserva los datos del starter; corrige solo la decisión defectuosa. Lee el contrato local del subtema antes de tocar el booleano.",
+    intro: "S45 · Laboratorio de arquitectura distribuida mínima: 24 retos locales sobre **ocho familias** de fixture de `CASO-IQU-045` (Iquitos sintético; mismos campos por familia, no ocho novelas distintas). Cada subtema sigue E1 → E2 → E3 con andamiaje que se retira. E1 repara un predicado de dominio con un defecto claro. E2 clasifica válido / adverso / campo faltante. E3 decide continue / breach / uncertainty con cierre por defecto (`fail-closed`: sin evidencia no hay éxito). Conserva los datos del starter (el código inicial que recibes); corrige solo la decisión defectuosa. Lee el contrato local del subtema antes de tocar el booleano.",
     steps: [
       {
         id: "S45-T1-A-E1",
@@ -950,7 +950,7 @@ assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]
         preamble:
           "- **Contexto:** el worker de reportes (`CASO-IQU-045-2A`) solo puede acker si la política de entrega es sana.\n- **Meta:** predicado delivery at-least-once + efecto durable + acked_after_effect + key no vacía + backoff.\n- **Éxito:** `S45-T2-A PASS`.\n- **Límites:** no mutes el fixture; no borres el assert; el DEFECT está en el booleano.",
         instruction:
-          "1. Starter: PASS si `not acked_after_effect` o key vacía (DEFECT).\n2. Invierte: exige los cinco campos de la política correcta.\n3. Status PASS vs NACK_AND_RETRY.\n4. Conserva el print.",
+          "1. Starter: PASS si `not acked_after_effect` o key vacía (DEFECT).\n2. Invierte: exige los cinco campos de la política correcta.\n3. Status PASS vs. NACK_AND_RETRY.\n4. Conserva el print.",
         hint: "El DEFECT aprueba si falta ack post-efecto o la key está vacía: at-least-once sin key es side-effect duplicado en reentrega.",
         hints: [
           "Ack solo después del efecto durable; `idempotency_key` no puede ser cadena vacía y el backoff debe estar activo.",
@@ -1451,7 +1451,7 @@ assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]
         preamble:
           "- **Contexto:** el rol del worker (`CASO-IQU-045-3B`) solo puede promoverse con prueba negativa.\n- **Meta:** requested_action ∈ allowed, private_path, egress_host ∈ egress_allow.\n- **Éxito:** `S45-T3-B PASS`.\n- **Límites:** no amplíes allowed_actions; no inventes hosts; corrige el predicado.",
         instruction:
-          "1. Starter: PASS en denegación (DEFECT).\n2. Invierte a membership + private_path.\n3. Status PASS vs DENY_IAM_OR_EGRESS.\n4. Conserva print.",
+          "1. Starter: PASS en denegación (DEFECT).\n2. Invierte a membership + private_path.\n3. Status PASS vs. DENY_IAM_OR_EGRESS.\n4. Conserva print.",
         hint: "El DEFECT invierte la allowlist: admin o host desconocido no pueden dar PASS. La prueba negativa es la evidencia.",
         hints: [
           "PASS solo si la acción pedida está en allowlist, el path es privado y el host de egress está listado.",
@@ -1618,7 +1618,7 @@ assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-4A` la cola y el bucket de reportes solo aplican si el plan es limpio.\n- **Meta:** declared==planned, env dev|staging|prod, sin secretos, destructive_changes==0.\n- **Éxito:** `S45-T4-A PASS`.\n- **Límites:** no mutes recursos; no «aceptes shared»; corrige el predicado.",
         instruction:
-          "1. Starter: PASS con secretos o destroys (DEFECT).\n2. Invierte y añade paridad de sets y entorno válido.\n3. Status PASS vs REJECT_IAC_PLAN.\n4. Conserva print.",
+          "1. Starter: PASS con secretos o destroys (DEFECT).\n2. Invierte y añade paridad de sets y entorno válido.\n3. Status PASS vs. REJECT_IAC_PLAN.\n4. Conserva print.",
         hint: "El DEFECT aprueba planes con secretos, entorno `shared` o destroys: un plan limpio es paridad declared==planned sin sorpresas.",
         hints: [
           "Rechaza si el entorno no es dev/staging/prod, hay secretos en el plan o `destructive_changes > 0` sin control.",
@@ -1785,7 +1785,7 @@ assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-4B` el responsable de costo congela scale-out si el forecast sintético rompe el presupuesto.\n- **Meta:** forecast_pen ≤ budget_pen, cuota OK, restore_tested y portable_export.\n- **Éxito:** `S45-T4-B PASS`.\n- **Límites:** no mutes montos PEN; no inventes restore=true; corrige el predicado.",
         instruction:
-          "1. Starter: PASS con sobrepresupuesto (DEFECT).\n2. Invierte desigualdades y exige restore + export.\n3. Status PASS vs FREEZE_SCALE_OUT.\n4. Conserva print.",
+          "1. Starter: PASS con sobrepresupuesto (DEFECT).\n2. Invierte desigualdades y exige restore + export.\n3. Status PASS vs. FREEZE_SCALE_OUT.\n4. Conserva print.",
         hint: "El DEFECT aprueba forecast > budget o cuota rota: en PEN sintéticos eso congela scale-out, no lo celebra.",
         hints: [
           "PASS: forecast_pen ≤ budget_pen, cuota bajo límite, restore ensayado y export portable.",
@@ -1948,7 +1948,7 @@ assert results == ["CONTINUE", "FREEZE_SCALE_OUT", "COST_OWNER_REVIEW"]
   },
   youDo: {
     title: "Cloud, almacenamiento, colas e infraestructura",
-    context: "Arquitectura distribuida mínima declarativa. Trabaja sobre procesamiento sintético de reportes para una organización ficticia en Iquitos. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas terminales en dead-letter queue. El gate se bloquea si hay mensaje duplicado con side-effect, cuota excedida, egress no autorizado o restore no probado.",
+    context: "Arquitectura distribuida mínima declarativa. Trabaja sobre procesamiento sintético de reportes para una organización ficticia en Iquitos. Entrada: job idempotente (un reintento no duplica efecto), artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas terminales en dead-letter queue. El gate se bloquea si hay mensaje duplicado con side-effect (efecto observable fuera del handler, como escribir un archivo o enviar un correo). También se bloquea si hay cuota excedida, egress no autorizado (salida de red fuera de la lista permitida) o restore no probado.",
     objectives: [
       "Convertir job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos en estado durable, resultado en object store y fallas terminales en dead-letter queue.",
       "Demostrar el gate CP-N4-B: reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos.",

@@ -18,40 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **458** | Paragraphs: **314**
-- Findings: **96** (high=0, medium=0, low=96)
-- Mean quality score (0–10): **9.57**
-- Mean Fernández-Huerta: **82.7** (fácil)
-- Mean words/sentence: **10.36**
+- Sentences: **491** | Paragraphs: **308**
+- Findings: **99** (high=0, medium=1, low=98)
+- Mean quality score (0–10): **9.58**
+- Mean Fernández-Huerta: **82.9** (fácil)
+- Mean words/sentence: **9.68**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S44 | 9.57 | 82.7 | 10.36 | 0/0/96 | `s44-multimodal.ts` |
+| S45 | 9.58 | 82.9 | 9.68 | 0/1/98 | `s45-iac.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=85)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=8)
+### `lowercase_after_period` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_inverted_exclamation` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `repeated_word` (n=1)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
-### `space_before_punct` (n=1)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
+### `possible_plural_det_singular_noun` (n=1)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ## How to use
 
