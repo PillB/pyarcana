@@ -18,36 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **380** | Paragraphs: **247**
-- Findings: **102** (high=0, medium=3, low=99)
-- Mean quality score (0–10): **9.12**
-- Mean Fernández-Huerta: **93.7** (muy fácil)
-- Mean words/sentence: **10.13**
+- Sentences: **421** | Paragraphs: **265**
+- Findings: **103** (high=0, medium=0, low=103)
+- Mean quality score (0–10): **9.07**
+- Mean Fernández-Huerta: **96.3** (muy fácil)
+- Mean words/sentence: **9.18**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S37 | 9.12 | 93.7 | 10.13 | 0/3/99 | `s37-dbt-bigquery.ts` |
+| S38 | 9.07 | 96.3 | 9.18 | 0/0/103 | `s38-performance-extreme.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=85)
+### `fragment` (n=92)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=7)
+### `lowercase_after_period` (n=6)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=7)
+### `long_sentence` (n=2)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `repeated_word` (n=3)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
+### `possible_plural_det_singular_noun` (n=2)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
+
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 

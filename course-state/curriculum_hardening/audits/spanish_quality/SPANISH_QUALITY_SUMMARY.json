@@ -12,75 +12,83 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 380,
-  "total_paragraphs": 247,
-  "total_findings": 102,
+  "total_sentences": 421,
+  "total_paragraphs": 265,
+  "total_findings": 103,
   "severity": {
-    "low": 99,
-    "medium": 3
+    "low": 103
   },
-  "mean_quality_score": 9.12,
-  "min_quality_score": 9.12,
-  "mean_fernandez_huerta": 93.7,
+  "mean_quality_score": 9.07,
+  "min_quality_score": 9.07,
+  "mean_fernandez_huerta": 96.3,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 10.13,
+  "mean_wps": 9.18,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      85
+      92
     ],
     [
       "lowercase_after_period",
-      7
+      6
     ],
     [
       "long_sentence",
-      7
+      2
     ],
     [
-      "repeated_word",
-      3
+      "possible_plural_det_singular_noun",
+      2
+    ],
+    [
+      "space_before_punct",
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 85,
+      "count": 92,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 7,
+      "count": 6,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "long_sentence",
-      "count": 7,
+      "count": 2,
       "cause": "Explicaciones densas sin cortes.",
       "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
-      "rule": "repeated_word",
-      "count": 3,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
+      "rule": "possible_plural_det_singular_noun",
+      "count": 2,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 1,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     }
   ],
   "sections_ranked": [
     {
-      "section": 37,
-      "file": "s37-dbt-bigquery.ts",
-      "quality_score_0_10": 9.12,
-      "fernandez_huerta": 93.7,
-      "avg_words_per_sentence": 10.13,
+      "section": 38,
+      "file": "s38-performance-extreme.ts",
+      "quality_score_0_10": 9.07,
+      "fernandez_huerta": 96.3,
+      "avg_words_per_sentence": 9.18,
       "findings_by_severity": {
-        "low": 99,
-        "medium": 3
+        "low": 103
       },
-      "findings_total": 102
+      "findings_total": 103
     }
   ]
 }

@@ -64,7 +64,7 @@ pii_in_logs_ok False`,
       subtopicId: "S38-T1-A",
       paragraphs: [
         "Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cuando el cuello es CPU (features densas, scoring vectorial) y quieres evadir el GIL de CPython. Async brilla con muchos I/O en un solo hilo de evento, siempre que no bloquees el loop con CPU pesada.",
-        "**Mide primero** (wall vs. CPU en el path caliente); la moda del framework no es un contrato.",
+        "**Mide primero** (wall vs. CPU en el path caliente, la ruta o tramo más costoso del código); la moda del framework no es un contrato.",
         "En stdlib, el modelo se materializa con `concurrent.futures.ThreadPoolExecutor` / `ProcessPoolExecutor` o `asyncio` + `wait_for` para timeouts. Aquí practicamos el **criterio de elección**, colas acotadas y contratos de fallo sin lanzar pools pesados ni red real en el navegador; el You Do pide ensayar el executor en tu entorno local.",
         "Contrato del tramo. Entrada: etiqueta de bound (`io` | `cpu` | `mixed`) medida en el path caliente del triage sintético y un tope de workers N. Salida: elección documentada `async_or_threads` | `processes` | `batch_then_io` y pool_size = N. Error: elegir async por moda sin medir, o lanzar cientos de procesos para I/O trivial. Criterio de éxito: la decisión se justifica con bottleneck observado y un plan de medición, no con preferencia de framework.",
         "Aplicación a `CASO-LIM-038-T1A` (Red Andina sintética): el caso `c-synth-1` entra por intake (I/O al proveedor mock de normalización) y luego calcula features locales (CPU). Primero midimos wall vs. CPU; si wall >> CPU en el tramo de red, usamos async/threads; si el tramo de features satura un core, movemos ese tramo a process pool con N acotado (p. ej. 4).\n\nDatos inventados; sin credenciales ni red real; sin PII en logs del bench.\n\nEl mismo `c-synth-1` reaparece en T2 (cola y timeout), T3 (corr y SLO) y T4 (checkpoint y DLQ): es un solo batch que se endurece por capas.",
@@ -606,7 +606,7 @@ ok True`,
         why:
           "SLI mide la realidad (p95); SLO es el acuerdo (≤200 ms). Error budget convierte la violación en acción de equipo: freeze de deploys no urgentes. Redacción siempre, aunque el email sea inventado. p95 120 ≤ 200 → aún se puede shippear. En We Do: máscara de teléfono, slo multi-SLI y freeze al agotar budget.",
         retrospective:
-          "Error budget convierte el SLO en decisión de equipo (ship vs freeze), no en eslogan del dashboard. El error clásico es celebrar p95 bueno e ignorar error_rate, o comparar al revés. Pregunta: si p95=250 y budget=200, ¿qué action debe salir? We Do: redactar teléfono, slo_ok compuesto y freeze al agotar budget.",
+          "Error budget convierte el SLO en decisión de equipo (ship vs. freeze), no en eslogan del dashboard. El error clásico es celebrar p95 bueno e ignorar error_rate, o comparar al revés. Pregunta: si p95=250 y budget=200, ¿qué action debe salir? We Do: redactar teléfono, slo_ok compuesto y freeze al agotar budget.",
       },
       {
         demoId: "S38-T4-A-DEMO",
