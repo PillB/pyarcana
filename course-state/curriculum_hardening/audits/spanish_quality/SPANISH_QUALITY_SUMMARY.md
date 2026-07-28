@@ -18,38 +18,42 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **412** | Paragraphs: **255**
-- Findings: **111** (high=0, medium=13, low=98)
-- Mean quality score (0–10): **8.91**
-- Mean Fernández-Huerta: **92.6** (muy fácil)
-- Mean words/sentence: **9.59**
+- Sentences: **410** | Paragraphs: **269**
+- Findings: **100** (high=0, medium=0, low=100)
+- Mean quality score (0–10): **9.27**
+- Mean Fernández-Huerta: **88.6** (fácil)
+- Mean words/sentence: **11.95**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S29 | 8.91 | 92.6 | 9.59 | 0/13/98 | `s29-mlops.ts` |
+| S30 | 9.27 | 88.6 | 11.95 | 0/0/100 | `s30-security-infra.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=93)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=7)
-- **Cause:** Frases colgadas tras edición o plantillas.
-- **Improvement:** Toda oración asertiva cierra con punto.
+### `lowercase_after_period` (n=3)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
-### `unbalanced_delimiters` (n=4)
-- **Cause:** Paréntesis/comillas abiertos en cortes de párrafo.
-- **Improvement:** Validar emparejamiento en revisión.
+### `long_sentence` (n=1)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `repeated_word` (n=2)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
 
-### `space_before_punct` (n=2)
+### `possible_plural_det_singular_noun` (n=1)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
+
+### `space_before_punct` (n=1)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 

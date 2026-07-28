@@ -12,85 +12,93 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 412,
-  "total_paragraphs": 255,
-  "total_findings": 111,
+  "total_sentences": 410,
+  "total_paragraphs": 269,
+  "total_findings": 100,
   "severity": {
-    "medium": 13,
-    "low": 98
+    "low": 100
   },
-  "mean_quality_score": 8.91,
-  "min_quality_score": 8.91,
-  "mean_fernandez_huerta": 92.6,
-  "mean_fh_label": "muy fácil",
-  "mean_wps": 9.59,
+  "mean_quality_score": 9.27,
+  "min_quality_score": 9.27,
+  "mean_fernandez_huerta": 88.6,
+  "mean_fh_label": "fácil",
+  "mean_wps": 11.95,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      93
     ],
     [
-      "missing_terminal_punct",
-      7
+      "lowercase_after_period",
+      3
     ],
     [
-      "unbalanced_delimiters",
-      4
+      "long_sentence",
+      1
     ],
     [
-      "repeated_word",
-      2
+      "comma_density",
+      1
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      1
     ],
     [
       "space_before_punct",
-      2
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 93,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "missing_terminal_punct",
-      "count": 7,
-      "cause": "Frases colgadas tras edición o plantillas.",
-      "fix": "Toda oración asertiva cierra con punto."
+      "rule": "lowercase_after_period",
+      "count": 3,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "unbalanced_delimiters",
-      "count": 4,
-      "cause": "Paréntesis/comillas abiertos en cortes de párrafo.",
-      "fix": "Validar emparejamiento en revisión."
+      "rule": "long_sentence",
+      "count": 1,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
-      "rule": "repeated_word",
-      "count": 2,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "possible_plural_det_singular_noun",
+      "count": 1,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
     },
     {
       "rule": "space_before_punct",
-      "count": 2,
+      "count": 1,
       "cause": "Artefacto de formato.",
       "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     }
   ],
   "sections_ranked": [
     {
-      "section": 29,
-      "file": "s29-mlops.ts",
-      "quality_score_0_10": 8.91,
-      "fernandez_huerta": 92.6,
-      "avg_words_per_sentence": 9.59,
+      "section": 30,
+      "file": "s30-security-infra.ts",
+      "quality_score_0_10": 9.27,
+      "fernandez_huerta": 88.6,
+      "avg_words_per_sentence": 11.95,
       "findings_by_severity": {
-        "medium": 13,
-        "low": 98
+        "low": 100
       },
-      "findings_total": 111
+      "findings_total": 100
     }
   ]
 }
