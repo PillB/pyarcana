@@ -3766,84 +3766,55 @@ for key, value in model_card.items():
       hint: 'Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece',
     },
     'data-contracts': {
-      title: 'Practica data contracts',
-      code: `# Simulacion de data contracts con validacion
-from dataclasses import dataclass
-from typing import Optional
+      title: 'Practica agentes y tools',
+      code: `# Mini-lab de agente acotado (stdlib) con tool registry, idempotencia y gate HITL
+# CASO-AYA-049 (entidad ficticia en Ayacucho) — sin PII real, sin red, sin secretos.
 
-# Definir contrato de datos (estilo pydantic)
-@dataclass
-class TransactionContract:
-    """Contrato para transacciones de clientes."""
-    transaction_id: str
-    user_id: str
-    amount: float
-    currency: str = "PEN"
-    
-    def validate(self):
-        """Valida el contrato y retorna errores."""
-        errors = []
-        if not self.transaction_id:
-            errors.append("transaction_id es requerido")
-        if not self.user_id:
-            errors.append("user_id es requerido")
-        if self.amount <= 0:
-            errors.append("amount debe ser positivo")
-        if self.currency not in ["PEN", "USD", "EUR"]:
-            errors.append("currency debe ser PEN, USD o EUR")
-        return errors
+TOOLS = {
+    "get_case": {"scope": "case:read", "side_effect": False},
+    "prepare_report": {"scope": "report:prepare", "side_effect": True},
+    "prod_send": {"scope": "prod:write", "side_effect": True},
+}
 
-# Simular Great Expectations
-def gx_validate(data, expectations):
-    """Simula Great Expectations: valida reglas de calidad."""
-    results = []
-    for exp in expectations:
-        name = exp["name"]
-        check = exp["check"](data)
-        results.append({"name": name, "passed": check})
-    return results
+# Allowlist de scopes concedidos en el lab (least privilege).
+GRANTED = {"case:read", "report:prepare"}
 
-# Datos de prueba
-transactions = [
-    {"id": "tx1", "user": "u1", "amount": 100.0},
-    {"id": "tx2", "user": "u2", "amount": 50.0},
-    {"id": "tx3", "user": "", "amount": -10.0},  # invalido
-]
+# Store de idempotencia: misma key => un solo side effect aplicado.
+idempotency_store: dict[str, dict] = {}
 
-# Validar contrato
-print("=== Data Contract Validation ===")
-for tx in transactions:
-    contract = TransactionContract(
-        transaction_id=tx["id"],
-        user_id=tx["user"],
-        amount=tx["amount"],
-    )
-    errors = contract.validate()
-    status = "OK" if not errors else f"ERROR: {errors}"
-    print(f"  {tx['id']}: {status}")
 
-# Simular Great Expectations
-print("\\n=== Great Expectations ===")
-expectations = [
-    {"name": "not_null_id", "check": lambda d: all(t["id"] for t in d)},
-    {"name": "positive_amount", "check": lambda d: all(t["amount"] > 0 for t in d)},
-    {"name": "unique_ids", "check": lambda d: len(set(t["id"] for t in d)) == len(d)},
-]
+def call_tool(name: str, key: str, human_ok: bool = False) -> dict:
+    """Llama una tool con schema estrecho, scope chequeado y replay seguro."""
+    tool = TOOLS[name]
+    # 1) Permiso: scope debe estar en el grant.
+    if tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    if not tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    # 2) Aprobacion humana si hay side effect.
+    if tool["side_effect"] and not human_ok:
+        return {"error": "needs_approval", "kind": "terminal"}
+    # 3) Replay idempotente: si la key ya se aplicó, devolvemos el mismo efecto.
+    if key in idempotency_store:
+        return idempotency_store[key]
+    # 4) Aplicamos el efecto una sola vez y lo guardamos.
+    result = {"ok": True, "name": name, "effect": 1 if tool["side_effect"] else 0}
+    idempotency_store[key] = result
+    return result
 
-results = gx_validate(transactions, expectations)
-for r in results:
-    status = "PASS" if r["passed"] else "FAIL"
-    print(f"  {r['name']}: {status}")`,
-      expectedOutput: `=== Data Contract Validation ===
-  tx1: OK
-  tx2: OK
-  tx3: ERROR: ['user_id es requerido', 'amount debe ser positivo']
 
-=== Great Expectations ===
-  not_null_id: PASS
-  positive_amount: FAIL
-  unique_ids: PASS`,
-      hint: 'Corrige la transaccion 3 y observa si todas las validaciones pasan',
+# Trayectoria feliz + fallas del catálogo (fail-closed, nunca exito silencioso).
+print(call_tool("get_case", "k1"))
+print(call_tool("prepare_report", "k2", human_ok=False))
+print(call_tool("prepare_report", "k2", human_ok=True))
+print(call_tool("prepare_report", "k2", human_ok=True))  # replay idempotente
+print(call_tool("prod_send", "k3", human_ok=True))       # scope fuera del grant`,
+      expectedOutput: `{'ok': True, 'name': 'get_case', 'effect': 0}
+{'error': 'needs_approval', 'kind': 'terminal'}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'error': 'forbidden', 'kind': 'terminal'}`,
+      hint: 'Cambia human_ok de False a True en la segunda llamada y observa que la cuarta linea es idempotente: mismo efecto, sin duplicar el side effect.',
     },
     'tech-leadership': {
       title: 'Practica design doc y postmortem',

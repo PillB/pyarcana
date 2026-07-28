@@ -86,7 +86,7 @@ const SECTION_NAMES: Record<string, string> = {
   "gpu-computing": '46. GPU',
   opensource: '47. OSS',
   "ai-governance": '48. Governance',
-  "data-contracts": '49. Contracts',
+  "data-contracts": '49. Agents',
   "tech-leadership": '50. Leadership',
   "integrator-final": '51. Capstone F',
   "career-strategy": '52. Career',
