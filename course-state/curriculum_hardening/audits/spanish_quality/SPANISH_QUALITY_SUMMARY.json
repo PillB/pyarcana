@@ -12,75 +12,73 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 481,
-  "total_paragraphs": 323,
-  "total_findings": 93,
+  "total_sentences": 493,
+  "total_paragraphs": 324,
+  "total_findings": 114,
   "severity": {
-    "low": 92,
-    "medium": 1
+    "low": 114
   },
-  "mean_quality_score": 9.6,
-  "min_quality_score": 9.6,
-  "mean_fernandez_huerta": 82.5,
-  "mean_fh_label": "fácil",
-  "mean_wps": 10.9,
+  "mean_quality_score": 9.51,
+  "min_quality_score": 9.51,
+  "mean_fernandez_huerta": 79.9,
+  "mean_fh_label": "bastante fácil",
+  "mean_wps": 11.25,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      86
+      93
     ],
     [
-      "possible_plural_det_singular_noun",
-      4
+      "comma_density",
+      12
     ],
     [
       "lowercase_after_period",
-      2
+      7
     ],
     [
-      "repeated_word",
-      1
+      "long_sentence",
+      2
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 86,
+      "count": 93,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 4,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
+      "rule": "comma_density",
+      "count": 12,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 2,
+      "count": 7,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "repeated_word",
-      "count": 1,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
+      "rule": "long_sentence",
+      "count": 2,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     }
   ],
   "sections_ranked": [
     {
-      "section": 51,
-      "file": "s51-integrator-final.ts",
-      "quality_score_0_10": 9.6,
-      "fernandez_huerta": 82.5,
-      "avg_words_per_sentence": 10.9,
+      "section": 52,
+      "file": "s52-career-strategy.ts",
+      "quality_score_0_10": 9.51,
+      "fernandez_huerta": 79.9,
+      "avg_words_per_sentence": 11.25,
       "findings_by_severity": {
-        "low": 92,
-        "medium": 1
+        "low": 114
       },
-      "findings_total": 93
+      "findings_total": 114
     }
   ]
 }

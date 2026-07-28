@@ -12,7 +12,7 @@ export const section52: CourseSection = {
   icon: "Rocket",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (fintech, retail, gobierno digital en Perú y LATAM), el cierre de carrera se juega con un **portfolio defendible**: demo reproducible, system/model cards, métricas con baseline y límites éticos. No basta con un CV de soft skills genérico. Esta sección integra tu **Enterprise Relationship & Operations Intelligence Platform** (caso sintético multi-región: Lima, Arequipa, Cusco, Piura) y solo promociona cuando 52/52, 12/12 capstones, CP-FINAL y la regresión completa pasan **sin compensar** CP-N4-C. En una entrevista senior te pedirán el trade-off, el reloj del drill y qué aportaste tú.",
+    "En equipos de plataforma y producto (fintech, retail, gobierno digital en Perú y LATAM), el cierre de carrera se juega con un portfolio defendible, esto es, una demo reproducible, system/model cards (documentos de límites y ownership del sistema y del modelo), métricas con baseline (la versión de referencia congelada) y límites éticos. No basta con un CV de soft skills genérico. Esta sección integra tu Enterprise Relationship & Operations Intelligence Platform (caso sintético multi-región: Lima, Arequipa, Cusco, Piura). La promoción llega solo cuando 52/52 secciones, 12/12 capstones, CP-FINAL (el capstone de integración del currículo completo) y la regresión completa pasan sin compensar CP-N4-C, lo que significa que el capstone crítico de nivel 4 no se tapa con un capstone parcial. En una entrevista senior te pedirán el trade-off, el reloj del drill (ejercicio cronometrado de recuperación) y qué aportaste tú.",
   learningOutcomes: [
     { text: "Revalidar CF-1 con matriz viva stakeholder/job/métrica y baseline sintético congelado (evidencia: change_log + fixtures)" },
     { text: "Firmar constraints, riesgos con responsable y no-go (real_pii, auto_fraud_label) con umbral escrito" },
@@ -619,7 +619,7 @@ assert meets_contract is True` ,
         feedback:
           "Missing es incertidumbre de schema; matriz vacía o jobs=0 es breach de CF-1. El revisor multi-región no rankea contenido sin el campo de baseline. En E3 enrutarás CONTINUE / REOPEN_CF1 / INTERVIEW_STAKEHOLDER.",
         retrospective:
-          "Un `baseline_frozen` ausente no es una matriz rota: es evidencia de schema incompleto. Solo ops + jobs=0 sí es breach de CF-1. El error clásico es rankear contenido sin el campo para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs predicado de stakeholders, y por qué? Luego (E3): CONTINUE / REOPEN_CF1 / INTERVIEW_STAKEHOLDER.",
+          "Un `baseline_frozen` ausente no es una matriz rota: es evidencia de schema incompleto. Solo ops + jobs=0 sí es breach de CF-1. El error clásico es rankear contenido sin el campo para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs. predicado de stakeholders, y por qué? Luego (E3): CONTINUE / REOPEN_CF1 / INTERVIEW_STAKEHOLDER.",
         starterCode: {
           language: 'python',
           title: "s52-t1-a-e2.py",
@@ -895,7 +895,7 @@ assert results == ["CONTINUE", "DECLARE_NO_GO", "INDEPENDENT_RISK_REVIEW"]` ,
         preamble:
           "- **Contexto:** en `CASO-PER-052-2A`, el ensamblaje multi-región exige mapa de contexts, OpenAPI/eventos versionados y ≥10 contract tests.\n- **Meta:** corregir `meets_contract` (seis contexts, apis/events versionados, not shared_database, contract_tests≥10).\n- **Éxito:** `S52-T2-A PASS`.\n- **Límites:** no borres el assert; no apruebes monólito; no inventes tests.",
         instruction:
-          "1. Starter: PASS si shared_database o APIs no versionadas (bug).\n2. Exige subset de los seis contexts (incluye relationship).\n3. `not shared_database` y `contract_tests >= 10`.\n4. Conserva print y status STOP_INTEGRATION_RELEASE.",
+          "1. Starter: PASS si shared_database o API no versionadas (bug).\n2. Exige subset de los seis contexts (incluye relationship).\n3. `not shared_database` y `contract_tests >= 10`.\n4. Conserva print y status STOP_INTEGRATION_RELEASE.",
         hint: "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
         hints: [
           "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
