@@ -12,7 +12,7 @@ export const section08: CourseSection = {
   icon: "FileStack",
   accentColor: "bg-gradient-to-br from-green-500 to-emerald-600",
   jobRelevance:
-    "En un onboarding de data en banca, fintech o retail en Perú, tu primer “ETL de verdad” casi nunca es un notebook de gráficos. Es **abrir un CSV de clientes y un JSON de transacciones** sin romper tildes ni montos, mandar filas irregulares a **cuarentena con motivo**, hashear el crudo y dejar un **manifest** que un auditor pueda releer. El gate **CP-N1-B** se cierra cuando demuestras eso en **stdlib** (pathlib, csv, json, hashlib, Decimal) con archivos **con forma de negocio** (sintéticos en el curso). En una entrevista junior, un pipeline fail-closed con reconciliación por fuente demuestra que sabes detectar pérdidas en vez de ocultarlas detrás de una salida aparentemente correcta. El análisis tabular con **pandas** llega más adelante en el nivel de datos; aquí cierras **ingesta confiable**.",
+    "En un onboarding (el alta y verificación de un nuevo cliente) de data en banca, fintech o retail en Perú, tu primer ETL (extract, transform, load) de verdad casi nunca es un notebook de gráficos. Es abrir un CSV de clientes y un JSON de transacciones sin romper tildes ni montos. También mandas las filas irregulares a cuarentena con motivo, hasheas el crudo y dejas un manifest (un JSON con los conteos de la corrida) que un auditor pueda releer. El gate CP-N1-B se cierra cuando demuestras eso en stdlib (la biblioteca estándar de Python: pathlib, csv, json, hashlib, Decimal) con archivos con forma de negocio (sintéticos en el curso). En una entrevista junior, un pipeline fail-closed (que aborta en vez de publicar a medias) con reconciliación por fuente demuestra que sabes detectar pérdidas en vez de ocultarlas detrás de una salida aparentemente correcta. El análisis tabular con pandas llega más adelante en el nivel de datos; aquí cierras ingesta confiable.",
   learningOutcomes: [
     { text: "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito" },
     { text: "Manejar newlines y escritura atómica (temp + replace)" },
@@ -856,7 +856,7 @@ print(p.read_text(encoding='utf-8'), end='')`,
           "Primero write no atómico parcial; luego write_atomic",
           "tmp = dest.with_name(dest.name + '.tmp')",
         ],
-        edgeCases: ["mid-write vs atomic"],
+        edgeCases: ["mid-write vs. atomic"],
         tests: "mid PARCIAL\\nfinal COMPLETO",
         feedback:
           "Atomic no reescribe la historia del parcial: evita que el **siguiente** lector vea un estado intermedio. El label `final` documenta el contrato de salida del gate.",
@@ -950,7 +950,7 @@ for row in csv.DictReader(io.StringIO(raw)):
         feedback:
           "Sin header, `DictReader` interpreta la primera fila de datos como nombres de columna o devuelve vacío según el buffer — el clean deja de ser contrato. `writeheader` es parte del artefacto, no un adorno.",
         retrospective:
-          "Salida con header estable = contrato de clean. Luego (E3) el cast de monto decide clean vs reject con motivo.",
+          "Salida con header estable = contrato de clean. Luego (E3) el cast de monto decide clean vs. reject con motivo.",
         starterCode: {
           language: 'python',
           title: "dictwriter.py",
@@ -1294,7 +1294,7 @@ print(json.dumps(fixed))`,
         edgeCases: ["required"],
         tests: "(False, ['email'])",
         feedback:
-          "Schema mínimo del contrato de ingesta: sin claves required no hay clean. Separar “falta clave” de “valor inválido” mantiene reasons estables (`schema` vs `cast_monto`).",
+          "Schema mínimo del contrato de ingesta: sin claves required no hay clean. Separar “falta clave” de “valor inválido” mantiene reasons estables (`schema` vs. `cast_monto`).",
         retrospective:
           "Listar missing es evidencia accionable, no un booleano opaco. El misconception es devolver solo True/False sin decir *qué* faltó. Siguiente (E2): null JSON con clave presente ≠ clave ausente.",
         starterCode: {
@@ -1368,7 +1368,7 @@ None`,
           "No uses assignment ciego que pisa vip",
         ],
         edgeCases: ["evolución compatible"],
-        tests: "standard vs vip",
+        tests: "standard vs. vip",
         feedback:
           "`setdefault` escribe solo si falta la clave; assignment siempre pisa. Defaults compatibles no rompen productores viejos ni clientes VIP sintéticos del laboratorio.",
         retrospective:
@@ -1818,7 +1818,7 @@ if __name__ == "__main__":
       { criterion: "README y reproducibilidad local", weight: "10%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante demuestras con el caso exit 1 (reconcile roto) y con al menos una fila en quarantine? (2) ¿qué cambiarías con datos reales vs sintéticos (PII, encodings, volumen)? (3) En el README, una frase de impacto medible (antes: “CSV a mano / sin traza”; después: “clean+quarantine+manifest con hash”) que puedas defender en 30 segundos ante un revisor junior de data.",
+      "Antes de marcar listo: (1) ¿qué invariante demuestras con el caso exit 1 (reconcile roto) y con al menos una fila en quarantine? (2) ¿qué cambiarías con datos reales vs. sintéticos (PII, encodings, volumen)? (3) En el README, una frase de impacto medible (antes: “CSV a mano / sin traza”; después: “clean+quarantine+manifest con hash”) que puedas defender en 30 segundos ante un revisor junior de data.",
   },
   selfCheck: {
     questions: [

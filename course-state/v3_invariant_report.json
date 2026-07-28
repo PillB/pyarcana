@@ -51,7 +51,7 @@
     "dbt-bigquery",
     "performance-extreme",
     "integrator-phase2",
-    "agentic-architecture",
+    "architecture-ddd-decisions",
     "llm-finetuning",
     "graph-rag",
     "llmops",
@@ -419,8 +419,8 @@
       "v3_tagged": true
     },
     {
-      "section_id": "agentic-architecture",
-      "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+      "section_id": "architecture-ddd-decisions",
+      "file": "src/lib/course/sections/s40-architecture-ddd.ts",
       "subtopics": 8,
       "demos": 8,
       "exercises": 24,

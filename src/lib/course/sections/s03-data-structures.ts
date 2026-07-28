@@ -12,7 +12,7 @@ export const section03: CourseSection = {
   icon: 'GitBranch',
   accentColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
   jobRelevance:
-    'Un parser puede convertir `"0"` en `0` y, aun así, tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos, becas o pacientes, la conversión responde **qué dato llegó**; el motor de reglas responde **qué hacemos con él**. Esa diferencia enlaza directamente con S02. Si tratas `None` como si fuera `0`, o usas `if monto:` y rechazas un cero válido, produces falsos positivos y trabajo manual evitable. En esta sección construirás el **motor de reglas** del proyecto CP-N1-A: comparaciones, valores verdaderos o falsos, `if/elif/else`, guardas, listas permitidas, tablas de decisión y pruebas de ramas con mensajes accionables.',
+    'Un parser, que es el programa que lee texto y lo convierte en datos con tipo, puede transformar `"0"` en `0` y aun así tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos, becas o pacientes, la conversión responde a qué dato llegó. El motor de reglas, que es la capa que decide qué hacer con ese dato, responde a qué hacemos con él. Esa diferencia enlaza directamente con S02. Si tratas `None` como si fuera `0`, o usas `if monto:` y rechazas un cero válido, produces falsos positivos y trabajo manual evitable. En esta sección construirás el motor de reglas del proyecto CP-N1-A, que es el primer incremento del capstone de datos. Lo harás con comparaciones, valores verdaderos o falsos, `if/elif/else`, guardas, listas permitidas, tablas de decisión y pruebas de ramas con mensajes accionables.',
   learningOutcomes: [
     { text: 'Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible' },
     { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de and/or' },
@@ -67,7 +67,7 @@ capstone_increment CP-N1-A`,
         type: 'info',
         title: 'Una capa por vez',
         content:
-          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos para concentrarte en una sola pregunta: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A**; colecciones y archivos llegarán después.',
+          'Aquí no construirás lectores CSV/JSON ni procesos de archivos. Trabajarás con registros sintéticos ya convertidos. La pregunta es una sola: **¿qué decisión permite la evidencia disponible?** Esa capa produce el motor de reglas de **CP-N1-A**. Las colecciones y los archivos llegarán después.',
       },
     },
     {
@@ -116,7 +116,7 @@ region in ALLOWED → True
         'En un portal de donaciones de Berlín, una contribución de cero puede representar una inscripción sin aporte inmediato; un campo ausente, en cambio, exige seguimiento. Un `if` ingenuo coloca ambos casos en la misma cesta porque Python no conoce la política del portal. El lenguaje decide la *truthiness*; tú debes decidir el significado.',
         'Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `""`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `"False"` — por eso **no** uses truthiness como “¿existe el campo?”.',
         'El error canónico del intake: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== ""` o `not s.strip()` según el contrato. **Nunca** conviertas ausencia en reject automático sin documentarlo.',
-        '`and` / `or` hacen **short-circuit** y **devuelven un operando** (no siempre `True`/`False`). `"" or "default"` → `"default"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`.',
+        '`and` / `or` hacen **short-circuit** (cortocircuito, que es detener la evaluación en cuanto saben la respuesta) y **devuelven un operando** (no siempre `True`/`False`). `"" or "default"` → `"default"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`.',
         '**Dos capas, dos preguntas.** `bool(valor)` responde “¿Python lo considera verdadero?”. `valor is None` responde “¿el productor declaró ausencia?”. Ninguna de las dos decide por sí sola si el negocio acepta el dato. La política aparece cuando escribes algo como: ausencia → review; cero → accept; negativo → reject.',
         '**Predice y repara.** Antes de ejecutar `truthiness_monto.py`, anota la salida de `bool(None)`, `bool(0)` y `bool(-5)`. Luego compárala con `decide_monto`. Si te sorprende que `-5` sea truthy y termine en reject, has encontrado la lección: truthiness describe al objeto, no su validez. En T2 convertirás esa política en ramas exclusivas.',
       ],
@@ -274,7 +274,7 @@ None 40 → review`,
       paragraphs: [
         'Cuando una mesa de ayuda global añade un estado nuevo, el peligro no es solo olvidar una línea de Python: es que dos equipos interpreten el código de manera distinta. Una tabla de decisión obliga a discutir primero el significado —condición y acción— y solo después la sintaxis que lo implementa.',
         'En T3-A combinaste allowlist y rango con `if`. Aquí el motor escala a **muchas ramas con el mismo sujeto** (un código de estado). Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla.',
-        '**`match` / `case`** (Python 3.10+) brilla cuando el sujeto es un **literal o estado finito** (`"OK"`, `"MISSING"`, códigos de error). Soporta **OR patterns** (`case "A" | "B":`) y el comodín **`case _:`** para el valor por defecto. El primer `case` que coincide gana. Es la misma semántica de negocio que un `if/elif` bien ordenado; cambia la forma, no la política.',
+        '**`match` / `case`** (Python 3.10+), que es una sintaxis para comparar un valor contra varios patrones, brilla cuando el sujeto es un **literal o estado finito** (`"OK"`, `"MISSING"`, códigos de error). Soporta **OR patterns** (`case "A" | "B":`) y el comodín **`case _:`** para el valor por defecto. El primer `case` que coincide gana. Es la misma semántica de negocio que un `if/elif` bien ordenado; cambia la forma, no la política.',
         '**Cuándo preferir `if`**: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. `match` no depreca `if`; elige por **claridad**. En el You Do usarás dicts `{status, code, message}`: la tabla decide el `code`; el mensaje lo redactas en T4.',
         '**Modelo mental: tabla primero, código después.** Si puedes escribir `OK → accept`, `MISSING → review` y `OUT_OF_RANGE → reject`, puedes implementar la misma política con un dict, `if/elif` o `match`. Cambiar de sintaxis no autoriza cambiar una fila. El comodín tampoco significa “aceptar todo”: aquí conserva lo desconocido en review.',
         '**Predice la equivalencia.** Antes de ejecutar, completa en papel las filas para `OK`, `MISSING`, `OUT_OF_RANGE` y `FOO`. Luego pregunta: ¿qué implementación hace más visible esta tabla? Para códigos finitos, `match` suele leer como la especificación; para `18 <= edad <= 65`, `if` expresa mejor el rango. En T4 convertirás la tabla en promesas y contraejemplos.',
@@ -411,7 +411,7 @@ PASS 35 OK`,
   ],
   iDo: {
     intro:
-      'En estas ocho demostraciones observarás cómo piensa una persona que revisa reglas, no solo cómo escribe Python. Antes de ejecutar cada bloque, detente en la pregunta de predicción del preámbulo y anota una salida. Después compara tu modelo con la salida real, recorre la decisión línea por línea y cierra con la retrospectiva: qué error evitó el diseño y dónde reaparecerá en el We Do. Puedes usar Pyodide o Python 3.12 local. Todos los registros son sintéticos; la evidencia debe provenir de la ejecución, nunca de una salida inventada.',
+      'En estas ocho demostraciones observarás cómo piensa una persona que revisa reglas, no solo cómo escribe Python. Antes de ejecutar cada bloque, detente en la pregunta de predicción del preámbulo y anota una salida. Después compara tu modelo con la salida real, recorre la decisión línea por línea y cierra con la retrospectiva: qué error evitó el diseño y dónde reaparecerá en el We Do. Puedes usar Pyodide, que es el intérprete de Python que corre dentro del navegador, o Python 3.12 local. Todos los registros son sintéticos; la evidencia debe provenir de la ejecución, nunca de una salida inventada.',
     steps: [
       {
         demoId: 'S03-T1-A-DEMO',
@@ -550,7 +550,7 @@ for e in [None, "25", -1, 15, 30, 200]:
 200 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}`,
         },
         why:
-          'Cada guarda elimina una clase de entrada antes de que una operación incompatible pueda tocarla. `None` no llega a la comparación numérica; `"25"` no se disfraza de 25 gracias a `repr`; el camino accept queda reservado a quien superó todas las precondiciones.',
+          'Cada guarda elimina una clase de entrada antes de que una operación incompatible pueda tocarla. `None` no llega a la comparación numérica. `"25"` no se disfraza de 25 gracias a `repr`. El camino accept queda reservado a quien superó todas las precondiciones.',
         retrospective:
           'Dibuja el embudo de casos y señala dónde sale `None`, dónde sale `"25"` y qué evidencia queda al llegar a accept. Después pregunta qué prueba detectaría que un refactor cambió review por reject. En We Do completarás guardas y convertirás una pirámide en salidas tempranas sin alterar su semántica.',
       },
@@ -629,7 +629,7 @@ FOO review review same= True
 NEEDS_REVIEW review review same= True`,
         },
         why:
-          'La columna `same=` actúa como una pequeña prueba de equivalencia: cambia la forma del programa sin permitir que cambie la política. `case _` hace visible la fila por defecto y evita que un código nuevo caiga accidentalmente en accept.',
+          'La columna `same=` actúa como una pequeña prueba de equivalencia. Cambia la forma del programa sin permitir que cambie la política. `case _` hace visible la fila por defecto y evita que un código nuevo caiga accidentalmente en accept.',
         retrospective:
           'Tapa una implementación y predice sus cinco resultados a partir de la tabla, no de la sintaxis. Luego explica por qué un rango como 18–65 se lee mejor con comparaciones que con una lista de `case`. En We Do corregirás una tabla y defenderás tu elección entre `if` y `match`.',
       },
@@ -733,7 +733,7 @@ PASS 35 OK
   },
   weDo: {
     intro:
-      'Ahora la responsabilidad pasa gradualmente a tus manos: **E1 guiado → E2 independiente → E3 transferencia** en cada uno de los ocho subtemas. Antes de tocar el starter, lee contexto, meta, éxito y límites; luego escribe una predicción concreta. Usa la primera pista para recuperar el modelo mental y la segunda solo si aún no puedes avanzar. Al ejecutar, compara evidencia, no apariencia: una salida correcta obtenida con `print(True)` no demuestra la habilidad. Cierra cada ejercicio respondiendo la retrospectiva y nombrando el error que ya sabrías detectar en una revisión de código. Los 24 ejercicios usan únicamente `CASO-LIM-003` y datos sintéticos.',
+      'Ahora la responsabilidad pasa gradualmente a tus manos: **E1 guiado → E2 independiente → E3 transferencia** en cada uno de los ocho subtemas. Antes de tocar el starter, que es el código inicial con un defecto deliberado que debes reparar, lee contexto, meta, éxito y límites; luego escribe una predicción concreta. Usa la primera pista para recuperar el modelo mental y la segunda solo si aún no puedes avanzar. Al ejecutar, compara evidencia, no apariencia: una salida correcta obtenida con `print(True)` no demuestra la habilidad. Cierra cada ejercicio respondiendo la retrospectiva y nombrando el error que ya sabrías detectar en una revisión de código. Los 24 ejercicios usan únicamente `CASO-LIM-003` y datos sintéticos.',
     steps: [
       // ——— S03-T1-A ———
       {
@@ -748,7 +748,7 @@ PASS 35 OK
         hint: 'Usa print(expresion) directamente; no hace falta if todavía.',
         hints: [
           'Usa print(expresion) directamente; no hace falta if todavía.',
-          'El encadenamiento 18 <= edad <= 65 es True para 25. region == "R-NORTE" es False (region es R-SUR).',
+          'El encadenamiento 18 <= edad <= 65 es True para 25. La región == "R-NORTE" es False (region es R-SUR).',
         ],
         edgeCases: ['igualdad en frontera min/max si cambias edad a 18 o 65'],
         tests: 'assert expected bools: True, True, True, False, True',
@@ -834,7 +834,7 @@ RUC → False`,
         kind: 'transfer',
         title: '`is None` frente a `==` en validadores',
         preamble:
-          '- **Contexto:** en validadores de intake, chequear ausencia con el operador equivocado genera bugs silenciosos.\n- **Meta:** diagnosticar `is` vs `==` con `None` y con `True`/`1`.\n- **Éxito:** salida `True` / `True` / `False` más una nota que diga cuándo usar cada operador.\n- **Límites:** no uses `is` para comparar enteros o strings de negocio; solo para `None` (identidad de singleton).',
+          '- **Contexto:** en validadores de intake, chequear ausencia con el operador equivocado genera bugs silenciosos.\n- **Meta:** diagnosticar `is` vs. `==` con `None` y con `True`/`1`.\n- **Éxito:** salida `True` / `True` / `False` más una nota que diga cuándo usar cada operador.\n- **Límites:** no uses `is` para comparar enteros o strings de negocio; solo para `None` (identidad de singleton).',
         id: 'S03-T1-A-E3',
         instruction:
           '1. Con `valor = None`, imprime el resultado de `valor is None` (corrige el DEFECT que usa `==`).\n2. Imprime `True == 1` y `True is 1` (corrige el cruce del starter).\n3. Añade un `print` de nota: cuándo usar `is` y cuándo `==` en intake.',
@@ -879,7 +879,7 @@ Nota: usa is solo para None; == para valores de negocio`,
       {
         subtopicId: 'S03-T1-B',
         kind: 'guided',
-        title: 'Tabla de truthiness (falsy vs truthy)',
+        title: 'Tabla de truthiness (falsy vs. truthy)',
         preamble:
           '- **Contexto:** el `if` de Python usa truthiness; en intake eso choca con ceros y strings vacíos válidos.\n- **Meta:** imprimir `repr(v) → bool(v)` para una lista canónica de valores.\n- **Éxito:** nueve `False` y tres `True` (`"x"`, `1`, `[0]`) en el orden del starter.\n- **Límites:** no reemplaces `bool(v)` por `v is not None`; no reordenes la lista.',
         id: 'S03-T1-B-E1',
@@ -893,7 +893,7 @@ Nota: usa is solo para None; == para valores de negocio`,
         edgeCases: ['range(0)', 'False', '[0] truthy'],
         tests: 'checklist: 9 falsy + 3 truthy en el orden dado',
         feedback:
-          'Si ves nueve `True` al inicio, aún imprimes `v is not None`. Sustituye por `bool(v)` y relee `[0]` vs `range(0)`: lista no vacía es truthy; rango vacío es falsy.',
+          'Si ves nueve `True` al inicio, aún imprimes `v is not None`. Sustituye por `bool(v)` y relee `[0]` vs. `range(0)`: lista no vacía es truthy; rango vacío es falsy.',
         retrospective:
           'No memorices doce valores como una letanía: agrúpalos por idea —ausencia, cero, colección vacía— y contrástalos con una colección no vacía como `[0]`. ¿Qué entrada es “no None” pero sigue siendo falsy? Si tu respuesta es varias, ya ves por qué presencia y truthiness no son sinónimos. E2 añadirá short-circuit a este modelo.',
         starterCode: {
@@ -1927,7 +1927,7 @@ Quispe None → review True
         edgeCases: ['regla demasiado estricta'],
         tests: 'identify broken claim; 15 → review tras fix',
         feedback:
-          'Si `fixed(15)` sigue en reject, no separaste menores (review) de fuera de 0–120 (reject). El contraejemplo debe *verse* en prints: strict vs fixed lado a lado, más el invariante corregido en español.',
+          'Si `fixed(15)` sigue en reject, no separaste menores (review) de fuera de 0–120 (reject). El contraejemplo debe *verse* en prints: strict vs. fixed lado a lado, más el invariante corregido en español.',
         retrospective:
           'El valor 15 demuestra que la frase “fuera de 18–65 → reject” era demasiado estricta para la política real. Explica qué cambió primero: ¿el código o el requisito? Debe cambiar la promesa y luego su implementación. Busca ahora un contraejemplo para 66–120 y documenta el destino elegido antes de añadir ramas. T4-B fijará esa decisión con mensajes y pruebas.',
         starterCode: {

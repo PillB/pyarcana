@@ -12,7 +12,7 @@ export const section09: CourseSection = {
   icon: "ShieldAlert",
   accentColor: "bg-gradient-to-br from-pink-500 to-rose-600",
   jobRelevance:
-    "En pipelines de familiaridad y data engineering junior en Perú (bancos, fintech, retail, salud), un crash opaco o un log con email completo te cuesta incidentes, multas de cumplimiento y confianza del on-call. Tras el ETL de S08 (cuarentena + manifest), el gate siguiente es convertir fallos en **señales operables**: excepciones específicas, tracebacks legibles, **logging estructurado sin PII** y políticas de **fail-fast vs. cuarentena**. Esta sección es el inicio operativo de **CP-N1-C**: bitácora auditable que un junior puede defender en code review y en un post mórtem a las 02:00.",
+    "En pipelines de familiaridad y data engineering junior en Perú (bancos, fintech, retail, salud), un crash opaco o un log con email completo te cuesta incidentes, multas de cumplimiento y la confianza del on-call (la persona de guardia que responde alertas fuera de horario). Tras el ETL (extracción, transformación y carga) de S08 — con su cuarentena de filas y manifest de conteos — el gate siguiente es convertir fallos en señales operables: excepciones específicas, tracebacks legibles, logging estructurado sin PII (datos personales como email, teléfono o dirección) y políticas de fail-fast (abortar pronto si la configuración está rota) vs. cuarentena (aislar la fila mala y seguir). Esta sección inicia el capstone CP-N1-C: una bitácora auditable que un junior puede defender en code review y en un post mórtem (la revisión posterior a un incidente) a las 02:00.",
   learningOutcomes: [
     { text: "Elegir tipos de excepción, raise con contexto y chaining con from" },
     { text: "Dibujar fronteras try/except/else/finally y with; separar recuperable vs. fatal" },
@@ -515,9 +515,9 @@ except ConfigError as e:
 finally: contadores listos
 fatal config: encoding requerido`,
         },
-        why: "`with` cierra el handle; el `else` del **try** (no del if) corre solo si no hubo excepción — camino feliz legible. `finally` corre siempre, incluso antes de propagar al llamador. Config inválida se re-lanza: fail-fast, no cuarentena disfrazada.",
+        why: "`with` cierra el handle; el `else` del **try** (no del if) corre solo si no hubo excepción — camino feliz legible. `finally` corre siempre, incluso antes de propagar al llamador. Config inválida se relanza: fail-fast, no cuarentena disfrazada.",
         retrospective:
-          "Si sabes por qué `finally` corre también en el fallo de config, ya no confundes cleanup con «éxito». El error clásico es `except Exception: pass` y mentir al on-call. We Do: cerrar estado en finally y clasificar recover vs fail-fast.",
+          "Si sabes por qué `finally` corre también en el fallo de config, ya no confundes cleanup con «éxito». El error clásico es `except Exception: pass` y mentir al on-call. We Do: cerrar estado en finally y clasificar recover vs. fail-fast.",
       },
       {
         demoId: "S09-T2-A-DEMO",
@@ -738,7 +738,7 @@ abort config: required_fields ausente`,
         environment: "local-python",
         description: "Retry 3× en TimeoutError; ValueError va a cuarentena sin retry.",
         preamble:
-          "Un fetch flaky del proveedor simula timeout dos veces y ok al tercero; un ValueError de monto va a cuarentena **sin** gastar reintentos. Observa las tuplas de retorno `('ok', 'payload')` vs `('quarantine', 'monto')` y el contador de attempts. No reescribas; predice por qué el segundo caso no llega a 3 intentos.",
+          "Un fetch flaky del proveedor simula timeout dos veces y ok al tercero; un ValueError de monto va a cuarentena **sin** gastar reintentos. Observa las tuplas de retorno `('ok', 'payload')` vs. `('quarantine', 'monto')` y el contador de attempts. No reescribas; predice por qué el segundo caso no llega a 3 intentos.",
         code: {
           language: 'python',
           title: "retry_quarantine.py",
@@ -977,7 +977,7 @@ OSError no such file: data/clientes.csv`,
         feedback:
           "`finally` corre antes de que la excepción salga de la función: por eso `closed` es True también con RuntimeError. Si capturas y devuelves `\"err\"` dentro de `work`, escondes el fatal al llamador.",
         retrospective:
-          "Cleanup ≠ recuperación: `finally` marca el flag; la política de reintentar o abortar es **otro** borde. El error clásico es capturar dentro de `work` y devolver `\"err\"` — el llamador cree que hubo éxito controlado. Siguiente (E2): clasificar recover vs fail-fast.",
+          "Cleanup ≠ recuperación: `finally` marca el flag; la política de reintentar o abortar es **otro** borde. El error clásico es capturar dentro de `work` y devolver `\"err\"` — el llamador cree que hubo éxito controlado. Siguiente (E2): clasificar recover vs. fail-fast.",
         starterCode: {
           language: 'python',
           title: "finally_close.py",
@@ -1155,10 +1155,10 @@ good_r raised config`,
         kind: "guided",
         title: "Anotar tres frames del traceback",
         preamble:
-          "- **Contexto:** el on-call recibe un stack de texto en el canal; debe leer marcos de afuera hacia adentro sin re-correr el job.\n- **Meta:** extraer tres nombres de función del traceback sintético.\n- **Éxito:** `frame1 main`, `frame2 run`, `frame3 normalize`.\n- **Límites:** no re-ejecutes el código original; parsea el string `tb`; no inventes frames de la stdlib.",
+          "- **Contexto:** el on-call recibe un stack de texto en el canal; debe leer marcos de afuera hacia adentro sin recorrer el job.\n- **Meta:** extraer tres nombres de función del traceback sintético.\n- **Éxito:** `frame1 main`, `frame2 run`, `frame3 normalize`.\n- **Límites:** no reejecutes el código original; parsea el string `tb`; no inventes frames de la stdlib.",
         id: "S09-T2-A-E1",
         instruction:
-          "Paso 1: El starter solo imprime la primera línea del traceback.\nPaso 2: Busca líneas con `, in ` y toma el nombre de función.\nPaso 3: Imprime frame1–frame3 en orden (main → run → normalize).\nPaso 4: No re-ejecutes el código original; parsea el string tb.",
+          "Paso 1: El starter solo imprime la primera línea del traceback.\nPaso 2: Busca líneas con `, in ` y toma el nombre de función.\nPaso 3: Imprime frame1–frame3 en orden (main → run → normalize).\nPaso 4: No reejecutes el código original; parsea el string tb.",
         hint: "Busca cada línea `File ... in nombre_función`.",
         hints: [
           "Busca líneas 'File' o patrones 'in nombre'.",
@@ -1269,7 +1269,7 @@ raised 'email'`,
         kind: "transfer",
         title: "Frase de causa raíz desde el stack",
         preamble:
-          "- **Contexto:** en el post mórtem hace falta una línea accionable, no el tb completo en Slack.\n- **Meta:** con solo el texto del traceback, imprimir la causa raíz.\n- **Éxito:** una línea `causa_raiz=normalize falta clave email`.\n- **Límites:** no re-ejecutes el código original; no culpes a `cli`/`app` si el index es en `normalize`.",
+          "- **Contexto:** en el post mórtem hace falta una línea accionable, no el tb completo en Slack.\n- **Meta:** con solo el texto del traceback, imprimir la causa raíz.\n- **Éxito:** una línea `causa_raiz=normalize falta clave email`.\n- **Límites:** no reejecutes el código original; no culpes a `cli`/`app` si el index es en `normalize`.",
         id: "S09-T2-A-E3",
         instruction:
           "Paso 1: El starter imprime todo el tb.\nPaso 2: Lee la línea `KeyError` y el frame de `normalize`.\nPaso 3: Emite exactamente el formato del contrato.\nPaso 4: No inventes otras causas.",
@@ -1318,7 +1318,7 @@ print(f"causa_raiz=normalize falta clave {key}")`,
         kind: "guided",
         title: "Recortar fixture al primer DNI inválido",
         preamble:
-          "- **Contexto:** al validar DNI peruano sintético (8 dígitos), el fixture mezcla válidos e inválidos.\n- **Meta:** encontrar la primera entrada que hace fallar `parse_dni` y re-ejecutar solo esa.\n- **Éxito:** `minimal= 123` y `dni inválido: '123'`.\n- **Límites:** no re-proceses todo el fixture en el print final; datos sintéticos (no DNI real de persona).",
+          "- **Contexto:** al validar DNI peruano sintético (8 dígitos), el fixture mezcla válidos e inválidos.\n- **Meta:** encontrar la primera entrada que hace fallar `parse_dni` y reejecutar solo esa.\n- **Éxito:** `minimal= 123` y `dni inválido: '123'`.\n- **Límites:** no reproceses todo el fixture en el print final; datos sintéticos (no DNI real de persona).",
         id: "S09-T2-B-E1",
         instruction:
           "Paso 1: El starter fija `minimal = fixture[0]` (válido).\nPaso 2: Recorre hasta el primer `ValueError`, guarda esa cadena y haz `break`.\nPaso 3: Imprime `minimal=` y vuelve a llamar `parse_dni` solo con ese valor.\nPaso 4: Captura e imprime el mensaje.",

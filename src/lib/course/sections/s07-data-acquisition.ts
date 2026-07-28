@@ -12,7 +12,7 @@ export const section07: CourseSection = {
   icon: "Languages",
   accentColor: "bg-gradient-to-br from-teal-500 to-cyan-600",
   jobRelevance:
-    "Una cita médica, una entrega o una membresía pueden perderse por un detalle invisible: dos textos que se ven iguales no siempre contienen los mismos *code points*. Los normalizadores pensados para ASCII o para un solo apellido fallan con tildes, ñ y partículas; después culpan a la persona por un error del sistema. En esta sección construyes el tramo textual de **CP-N1-B**: Unicode NFC, `str` antes que regex, contacto modesto y matching con rastro auditable. Un score es **evidencia para una decisión humana**, nunca prueba de identidad, parentesco o fraude.",
+    "Una cita médica, una entrega o una membresía pueden perderse por un detalle invisible: dos textos que se ven iguales no siempre contienen los mismos *code points* (los números que Unicode asigna a cada carácter). Los normalizadores pensados para ASCII (el estándar de texto anterior a Unicode, limitado a letras inglesas sin tildes ni ñ) o para un solo apellido fallan con tildes, ñ y partículas. Después culpan a la persona por un error del sistema. En esta sección construyes el tramo textual de `CP-N1-B` (la etapa B del capstone *Normalizador de registro* del nivel Intermedio). Trabajas con Unicode NFC (la forma «compuesta», que une la base y la tilde en un solo *code point*), métodos `str` antes que regex (expresiones regulares, patrones para buscar o validar texto), contacto modesto y matching con rastro auditable. Un score es evidencia para una decisión humana, nunca prueba de identidad, parentesco o fraude.",
   learningOutcomes: [
     { text: "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones" },
     { text: "Modelar nombres latam con dos apellidos y partículas sin forzar formato US" },
@@ -205,7 +205,7 @@ full mid: False`,
       },
       callout: {
         type: "tip",
-        title: "fullmatch vs search",
+        title: "fullmatch vs. search",
         content:
           "Validar código completo → fullmatch. Extraer de log → search/finditer.",
       },
@@ -334,13 +334,13 @@ nota: sin afirmaciones de parentesco ni identidad legal`,
     },
   ],
   iDo: {
-    intro: "Las ocho demos (I Do) modelan el pipeline T1→T4: NFC y `casefold`, nombres con dos apellidos, `str` antes que regex, contacto modesto, `fullmatch` disciplinado y matching con evidencia. Los datos son sintéticos; el editor ejecuta Python real en tu navegador (Pyodide) con stdlib (`unicodedata`, `re`).",
+    intro: "Las ocho demos (I Do) modelan el pipeline T1→T4: NFC y `casefold`, nombres con dos apellidos, `str` antes que regex, contacto modesto, `fullmatch` disciplinado, `compile` y `finditer` sobre logs, Jaccard por tokens, y FP/FN con evidencia empaquetada. Los datos son sintéticos; el editor ejecuta Python real en tu navegador (Pyodide, el intérprete de Python que corre en el navegador sin servidor) con stdlib (`unicodedata`, `re`).",
     steps: [
       {
         demoId: "S07-T1-A-DEMO",
         subtopicId: "S07-T1-A",
         environment: "browser-pyodide",
-        description: "Igualdad de 'José' vs forma NFD y casefold de mañANA",
+        description: "Igualdad de 'José' vs. forma NFD y casefold de mañANA",
         preamble:
           "**Predicción:** antes de ejecutar, anota el booleano y el número de code points de cada forma de «José». En intake, el texto pegado desde un PDF puede llegar descompuesto (base + tilde). Sigue la causa, no solo la salida: sin normalizar falla `==`; NFC alinea la forma; `casefold` aplica la política de mayúsculas. Si tu predicción falla, localiza cuál transformación cambió la evidencia.",
         code: {
@@ -475,17 +475,17 @@ overfit rejects plus? True`,
     text = "Cliente demo DNI 12345678 activo"
     m = pat.search(text)
     print(m.group("dni") if m else None)
-    print("fullmatch solo digitos:", bool(re.fullmatch(r"\\d{8}", "12345678")))
+    print("fullmatch solo dígitos:", bool(re.fullmatch(r"\\d{8}", "12345678")))
     print("fullmatch con prefijo:", bool(re.fullmatch(r"\\d{8}", "DNI 12345678")))
 
 s07_ido_5()`,
           output: `12345678
-fullmatch solo digitos: True
+fullmatch solo dígitos: True
 fullmatch con prefijo: False`,
         },
         why: "Los grupos con nombre documentan el contrato del campo (`m.group('dni')` en vez de índices mágicos). Confundir `search` con `fullmatch` genera falsos positivos de validación: un código embebido «pasa» cuando solo buscabas un substring en un log.",
         retrospective:
-          "Grupo nombrado > índice mágico. fullmatch para el campo exacto; search/finditer para logs. El error clásico es validar un formulario con el mismo patrón que usaste para extraer de un log. We Do: región de 3 letras, groupdict, y el contraste search vs fullmatch.",
+          "Grupo nombrado > índice mágico. fullmatch para el campo exacto; search/finditer para logs. El error clásico es validar un formulario con el mismo patrón que usaste para extraer de un log. We Do: región de 3 letras, groupdict, y el contraste search vs. fullmatch.",
       },
       {
         demoId: "S07-T3-B-DEMO",
@@ -678,12 +678,12 @@ print(match)`,
       {
         subtopicId: "S07-T1-A",
         kind: "transfer",
-        title: "Diagnosticar mismatch NFD vs NFC",
+        title: "Diagnosticar mismatch NFD vs. NFC",
         preamble:
-          "- **Contexto:** en datos copiados de PDF o de otros SO, la misma «José» puede llegar en forma compuesta o con combining mark.\n- **Meta:** contrastar igualdad cruda vs igualdad tras NFC e identificar la causa.\n- **Éxito:** `raw False`, `nfc True`, y una línea que nombre formas Unicode distintas (compuesta vs combining mark).\n- **Límites:** no ejecutes patrones peligrosos; no inventes parentesco; solo `unicodedata` + prints.",
+          "- **Contexto:** en datos copiados de PDF o de otros SO, la misma «José» puede llegar en forma compuesta o con combining mark.\n- **Meta:** contrastar igualdad cruda vs. igualdad tras NFC e identificar la causa.\n- **Éxito:** `raw False`, `nfc True`, y una línea que nombre formas Unicode distintas (compuesta vs. combining mark).\n- **Límites:** no ejecutes patrones peligrosos; no inventes parentesco; solo `unicodedata` + prints.",
         id: "S07-T1-A-E3",
         instruction:
-          "1. Compara `a == b` en crudo e imprime `raw …`.\n2. Compara tras `normalize('NFC', …)` en ambos lados e imprime `nfc …`.\n3. Escribe una línea `causa: …` que nombre formas compuesta vs combining mark (usa el texto canónico del panel de solución si el entorno compara salida exacta).\n4. Superficie nueva: el mensaje de diagnóstico, no solo aplicar NFC en silencio.",
+          "1. Compara `a == b` en crudo e imprime `raw …`.\n2. Compara tras `normalize('NFC', …)` en ambos lados e imprime `nfc …`.\n3. Escribe una línea `causa: …` que nombre formas compuesta vs. combining mark (usa el texto canónico del panel de solución si el entorno compara salida exacta).\n4. Superficie nueva: el mensaje de diagnóstico, no solo aplicar NFC en silencio.",
         hint: "Compara sin/con normalize",
         hints: [
           "Compara sin/con normalize",
@@ -952,7 +952,7 @@ Jr.-Unión-450`,
           "- **Contexto:** un teléfono sintético llega con máscaras (`.` y `-`); el normalizador debe quedarse con dígitos **sin** abrir regex.\n- **Meta:** obtener `999000111` por dos caminos (`replace` encadenado y filtro `isdigit`).\n- **Éxito:** dos líneas idénticas `999000111`.\n- **Límites:** sin `re`; no valides operadora ni longitud aquí.",
         id: "S07-T2-A-E3",
         instruction:
-          "1. Partiendo de `'999.000-111'`, elimina puntos y guiones (o filtra dígitos).\n2. Imprime el resultado de `replace` y el de `isdigit`.\n3. Ambos deben coincidir.\n4. Superficie: elegir herramienta `str` correcta (`isdigit` vs `isalnum`).",
+          "1. Partiendo de `'999.000-111'`, elimina puntos y guiones (o filtra dígitos).\n2. Imprime el resultado de `replace` y el de `isdigit`.\n3. Ambos deben coincidir.\n4. Superficie: elegir herramienta `str` correcta (`isdigit` vs. `isalnum`).",
         hint: "replace('.','').replace('-','') o filter isdigit",
         hints: [
           "replace('.','').replace('-','') o filter isdigit",
@@ -1142,7 +1142,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         edgeCases: ["anclas"],
         tests: "True False",
         feedback:
-          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede matchear `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
+          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede coincidir con `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
         retrospective:
           "`fullmatch` rechaza letras minúsculas, guiones y texto alrededor porque el contrato describe el campo entero. Si hubieras usado `search`, una cadena con basura podría parecer válida gracias a un fragmento interno. Transfiere la prueba a un código de pedido: construye un caso feliz, un prefijo extra y un sufijo extra; los dos últimos deben fallar por la misma causa.",
         starterCode: {
@@ -1209,7 +1209,7 @@ print(m.groupdict() if m else None)`,
       {
         subtopicId: "S07-T3-A",
         kind: "transfer",
-        title: "Search vs fullmatch en DNI embebido",
+        title: "Search vs. fullmatch en DNI embebido",
         preamble:
           "- **Contexto:** un DNI sintético aparece dentro de un log (`DNI 12345678`); confusión search/fullmatch cambia los falsos positivos de validación.\n- **Meta:** medir ambos y enunciar el uso correcto.\n- **Éxito:** `search True`, `fullmatch False`, y la línea de política (search=extraer; fullmatch=validar campo exacto).\n- **Límites:** no uses PII real; no afirmes identidad legal por un match.",
         id: "S07-T3-A-E3",
@@ -1220,7 +1220,7 @@ print(m.groupdict() if m else None)`,
           "search True fullmatch False",
           "Explica en una línea.",
         ],
-        edgeCases: ["anclar vs medio"],
+        edgeCases: ["anclar vs. medio"],
         tests: "True/False + nota",
         feedback:
           "El starter llamaba fullmatch donde iba search y viceversa, y enseñaba la política invertida. Elegir mal el API de `re` es un FP de validación en producción.",
@@ -1308,7 +1308,7 @@ no match 123 → []`,
         edgeCases: ["multi match"],
         tests: "LIM-01 CUS-02",
         feedback:
-          "`findall` lista todas las apariciones en orden. El error de case (`[a-z]` vs `[A-Z]`) es silencioso: lista vacía sin excepción.",
+          "`findall` lista todas las apariciones en orden. El error de case (`[a-z]` vs. `[A-Z]`) es silencioso: lista vacía sin excepción.",
         retrospective:
           "`findall` conserva el orden de aparición, pero solo devuelve lo que el patrón reconoce. Si una variante en minúsculas desaparece, no habrá excepción que te avise: una lista vacía también es una salida válida. Prueba de transferencia: añade una variante con guion distinto y decide si ajustar el patrón, normalizar antes o registrar el valor para revisión.",
         starterCode: {
@@ -1379,7 +1379,7 @@ preferir a+b o validación por pasos`,
         kind: "guided",
         title: "Exact match con NFC, colapso y casefold",
         preamble:
-          "- **Contexto:** antes de Jaccard, el matching de intake intenta igualdad tras el mismo pipeline de normalización.\n- **Meta:** NFC + colapsar espacios + casefold y comparar.\n- **Éxito:** `True` para `'  Juan  PEREZ '` vs `'juan perez'`.\n- **Límites:** no uses Jaccard aquí; no auto-fusionar; datos sintéticos.",
+          "- **Contexto:** antes de Jaccard, el matching de intake intenta igualdad tras el mismo pipeline de normalización.\n- **Meta:** NFC + colapsar espacios + casefold y comparar.\n- **Éxito:** `True` para `'  Juan  PEREZ '` vs. `'juan perez'`.\n- **Límites:** no uses Jaccard aquí; no auto-fusionar; datos sintéticos.",
         id: "S07-T4-A-E1",
         instruction:
           "1. Reescribe `norm`: el starter no hace NFC ni colapsa espacios internos.\n2. Pipeline: `normalize('NFC', s)` → `' '.join(...split())` → `casefold()`.\n3. Imprime el booleano de igualdad.\n4. No agregues scores.",
@@ -1747,7 +1747,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
-        options: ["Python no soporta tildes", "casefold borra la é", "Formas Unicode distintas (NFC vs NFD)", "Son de tipos distintos"],
+        options: ["Python no soporta tildes", "casefold borra la é", "Formas Unicode distintas (NFC vs. NFD)", "Son de tipos distintos"],
         correctIndex: 2,
         explanation:
           "La respuesta correcta es NFC frente a NFD: la pantalla oculta que una forma usa `é` compuesta y la otra `e` más marca combinante. Python sí soporta tildes, `casefold` no explica esa diferencia y ambos valores siguen siendo `str`. Normaliza ambos lados antes de comparar.",

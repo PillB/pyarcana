@@ -12,7 +12,7 @@ export const section05: CourseSection = {
   icon: "FunctionSquare",
   accentColor: "bg-gradient-to-br from-purple-500 to-fuchsia-600",
   jobRelevance:
-    "Un registro puede viajar de un formulario de salud a un sistema de citas, de una tienda a un almacén o de una aplicación bancaria a un proceso de revisión. En cada frontera, alguien debe decidir qué significa «limpio» y garantizar que la segunda limpieza no estropee la primera. Tras cerrar CP-N1-A, tu siguiente salto es **descomponer** esa responsabilidad en funciones con contrato: normalizar nombre, email, teléfono y dirección **sin** mezclar lectura de archivos. Un normalizador no idempotente, un default mutable o un `print` escondido en el núcleo puede contaminar un lote sin lanzar una excepción clara. Aquí construyes el inicio de **CP-N1-B**: un núcleo puro, explicable y reutilizable que más adelante podrá vivir detrás de una CLI, un ETL o clases de dominio.",
+    "Un registro puede viajar de un formulario de salud a un sistema de citas, de una tienda a un almacén o de una aplicación bancaria a un proceso de revisión. En cada frontera, alguien debe decidir qué significa «limpio» y garantizar que la segunda limpieza no estropee la primera. Tras cerrar CP-N1-A, tu siguiente salto es descomponer esa responsabilidad en funciones con contrato: normalizar nombre, email, teléfono y dirección sin mezclar lectura de archivos. Un lote puede contaminarse sin lanzar una excepción clara. Lo provocan un normalizador no idempotente (aplicarlo dos veces cambia el valor), un default mutable (lista o diccionario compartido entre llamadas) o un `print` escondido en el núcleo. Aquí construyes el inicio de CP-N1-B: un núcleo puro, sin archivos ni impresiones, explicable y reutilizable. Más adelante podrá vivir detrás de una CLI (interfaz de línea de comandos), un ETL (proceso de extracción, transformación y carga) o clases de dominio (objetos del modelo de negocio).",
   learningOutcomes: [
     { text: "Definir funciones con def, llamarlas y retornar valores (no None accidental)" },
     { text: "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)" },
@@ -98,7 +98,7 @@ None`,
       },
       callout: {
         type: "tip",
-        title: "return vs print",
+        title: "return vs. print",
         content:
           "Los normalizadores **retornan** el valor; el print es de demo. En pipelines, print dentro de la función pura es un efecto colateral indeseado.",
       },
@@ -221,7 +221,7 @@ abc → (False, None, 'no es entero')
       },
       callout: {
         type: "tip",
-        title: "ValueError vs return",
+        title: "ValueError vs. return",
         content:
           "Usa `raise` para API internas puras; devuelve tupla u objeto de resultado cuando el lote no debe abortar en la primera fila mala.",
       },
@@ -406,7 +406,7 @@ ana@example.com`,
         demoId: "S05-T1-A-DEMO",
         subtopicId: "S05-T1-A",
         environment: "browser-pyodide",
-        description: "def + return de normalize_nombre (colapsa + title-case)",
+        description: "def + return de normalize_nombre (colapso + title-case)",
         preamble:
           "Antes de tocar un archivo, el junior define el **núcleo puro** de nombres. `normalize_nombre` recibe texto sintético sucio y retorna la forma canónica del laboratorio: colapso + title-case. **Predicción:** escribe qué aparecerá a la derecha de la flecha para `\"  Ana  \"`, `\"María  José\"` y `\"QUISPE\"`; decide también qué vería el caller si faltara `return`. Después sigue el `for` y usa `repr` para distinguir espacios reales de los imaginados. No hay `print` dentro del normalizador ni PII real.",
         code: {
@@ -430,7 +430,7 @@ for s in ["  Ana  ", "María  José", "QUISPE"]:
         demoId: "S05-T1-B-DEMO",
         subtopicId: "S05-T1-B",
         environment: "browser-pyodide",
-        description: "Defaults seguros vs default mutable bug",
+        description: "Defaults seguros vs. default mutable bug",
         preamble:
           "Los defaults de Python se evalúan **una sola vez** al definir la función. En un lote, `bucket=[]` puede acumular datos de filas que jamás debieron conocerse. **Predicción:** dibuja cuántas listas existen en las dos llamadas a `good` y cuántas en las dos llamadas a `bad`; luego escribe ambas líneas de salida. Ejecuta y atribuye la diferencia al momento de creación del objeto, no al nombre de la función.",
         code: {
@@ -656,7 +656,7 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
           "return len(raw.strip().split())",
           "No uses print dentro de n_palabras; el print va en el caller.",
         ],
-        edgeCases: ["return vs print", "espacios múltiples"],
+        edgeCases: ["return vs. print", "espacios múltiples"],
         tests: "exact line 2",
         feedback:
           "Si el caller imprimía `None`, la función no devolvió nada: `print` dentro es un efecto del borde, no un contrato. `return` entrega el entero a quien llama; encadenar normalizadores sin return rompe el pipeline en silencio.",
@@ -665,7 +665,7 @@ print("refactor OK", normalize_direccion("  jr. unión 5 "))`,
         starterCode: {
           language: 'python',
           title: "n_palabras.py",
-          code: `# CASO-LIM-005 · return vs print (helper de intake)
+          code: `# CASO-LIM-005 · return vs. print (helper de intake)
 # FALLO: imprime dentro y no retorna (caller ve None)
 def n_palabras(raw):
     print(len(raw.strip().split()))
@@ -682,7 +682,7 @@ print(n_palabras('  Ana   María  '))`,
       },
       {
         subtopicId: "S05-T1-A",
-        title: "Normalizar nombre (colapsa + title)",
+        title: "Normalizar nombre (colapso + title)",
         preamble:
           "- **Contexto:** el gate CP-N1-B exige una forma canónica didáctica para comparar resultados y producir reportes sintéticos.\n- **Meta:** implementar `normalize_nombre` con la política completa del caso, no solo `strip`.\n- **Éxito:** imprime `Juan Pérez` y `Quispe` en dos líneas.\n- **Límites:** no uses regex; no presentes `.title()` como regla universal de nombres; datos sintéticos.",
         id: "S05-T1-A-E2",
@@ -912,7 +912,7 @@ print(normalize_telefono(' 999-000 ', digits_only=False))`,
         starterCode: {
           language: 'python',
           title: "doc_strip_collapse.py",
-          code: `# CASO-LIM-005 · docstring vs comentario (helper de normalizadores)
+          code: `# CASO-LIM-005 · docstring vs. comentario (helper de normalizadores)
 # FALLO: docstring es # comentario; __doc__ queda None
 def strip_collapse(s):
     # Colapsa espacios extremos y dobles en un campo de texto.
@@ -988,7 +988,7 @@ err email sin @`,
         subtopicId: "S05-T2-A",
         title: "Postcondición viva en normalize_nombre",
         preamble:
-          "- **Contexto:** un contrato solo en prosa se pudre; un `assert` de ejemplo lo mantiene vivo.\n- **Meta:** implementar nombre (colapsa + title) y **verificar** la post con asserts.\n- **Éxito:** `Ana María` y `post OK`.\n- **Límites:** no borres los asserts; no cambies el expected del gate.",
+          "- **Contexto:** un contrato solo en prosa se pudre; un `assert` de ejemplo lo mantiene vivo.\n- **Meta:** implementar nombre (colapso + title) y **verificar** la post con asserts.\n- **Éxito:** `Ana María` y `post OK`.\n- **Límites:** no borres los asserts; no cambies el expected del gate.",
         id: "S05-T2-A-E3",
         kind: "transfer",
         instruction:
@@ -1007,7 +1007,7 @@ err email sin @`,
         starterCode: {
           language: 'python',
           title: "post_nombre.py",
-          code: `# CASO-LIM-005 · postcondición nombre (colapsa + title)
+          code: `# CASO-LIM-005 · postcondición nombre (colapso + title)
 # BUG intencional: solo strip; deja dobles espacios (rompe post)
 def normalize_nombre(raw: str) -> str:
     """Post: sin extremos ni dobles espacios; title-case por palabra."""
@@ -1077,7 +1077,7 @@ hint no valida en runtime`,
         subtopicId: "S05-T2-B",
         title: "Parsear monto con tupla de dominio",
         preamble:
-          "- **Contexto:** montos sintéticos del intake pueden venir sucios; el lote no debe caerse en la primera basura.\n- **Meta:** devolver `(ok, value, err)` separando no-entero vs negativo.\n- **Éxito:** cuatro líneas para `0`, `10`, `-1`, `x` como en la solución.\n- **Límites:** `0` es válido; no uses `raise` aquí (estrategia tupla).",
+          "- **Contexto:** montos sintéticos del intake pueden venir sucios; el lote no debe caerse en la primera basura.\n- **Meta:** devolver `(ok, value, err)` separando no-entero vs. negativo.\n- **Éxito:** cuatro líneas para `0`, `10`, `-1`, `x` como en la solución.\n- **Límites:** `0` es válido; no uses `raise` aquí (estrategia tupla).",
         id: "S05-T2-B-E2",
         kind: "independent",
         instruction:
@@ -1141,7 +1141,7 @@ x (False, None, 'no es entero')`,
           "Lote: try/except por fila para no abortar todo",
           "Una fila mala no impide la buena; el raise vive en el core.",
         ],
-        edgeCases: ["borde I/O vs core"],
+        edgeCases: ["borde I/O vs. core"],
         tests: "OK + SKIP",
         feedback:
           "Core estricto + borde tolerante es un diseño limpio: tests del core no necesitan capturar “filas hermanas”. El error de una fila no borra el lote; el print de estrategia documenta esa decisión.",
@@ -1472,7 +1472,7 @@ print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
           "Local no pisa global sin global keyword",
           "Fuera sigue 1; el print de 'in' va dentro de f.",
         ],
-        edgeCases: ["local vs global"],
+        edgeCases: ["local vs. global"],
         tests: "in 2 out 1",
         feedback:
           "Asignar dentro crea local; el global no cambia sin `global`. El starter engañaba al imprimir dos veces el global: por eso ambas líneas salían `1`.",
@@ -1481,7 +1481,7 @@ print(process(' 999-a ', norm=lambda s: s.strip().upper()))`,
         starterCode: {
           language: 'python',
           title: "legb_local.py",
-          code: `# CASO-LIM-005 · LEGB local vs global
+          code: `# CASO-LIM-005 · LEGB local vs. global
 # FALLO: no imprime dentro; asume que f muta global x
 x = 1
 def f():
@@ -1555,7 +1555,7 @@ print(pe('999'), cl('999'))`,
         subtopicId: "S05-T4-A",
         title: "Factory multipolítica sin global",
         preamble:
-          "- **Contexto:** a veces la misma fábrica entrega políticas distintas (`digits` vs `lower`) sin variable global de modo.\n- **Meta:** `make_normalizer(mode)` devuelve la fn adecuada cerrando la política.\n- **Éxito:** `12 hola`.\n- **Límites:** sin `global mode`; modes desconocidos pueden fallar con ValueError.",
+          "- **Contexto:** a veces la misma fábrica entrega políticas distintas (`digits` vs. `lower`) sin variable global de modo.\n- **Meta:** `make_normalizer(mode)` devuelve la fn adecuada cerrando la política.\n- **Éxito:** `12 hola`.\n- **Límites:** sin `global mode`; modes desconocidos pueden fallar con ValueError.",
         id: "S05-T4-A-E3",
         kind: "transfer",
         instruction:
@@ -1654,7 +1654,7 @@ print('OK')`,
         subtopicId: "S05-T4-B",
         title: "Refactor sin romper upper",
         preamble:
-          "- **Contexto:** dirección del gate es colapsa + **upper**; un “refactor” a lower es un cambio de política disfrazado.\n- **Meta:** extraer `strip_collapse` y mantener asserts verdes.\n- **Éxito:** asserts de `AV 1` + idempotencia; línea final `JR 2`.\n- **Límites:** no cambies upper por lower; re-ejecuta asserts tras el cambio.",
+          "- **Contexto:** dirección del gate es colapso + **upper**; un “refactor” a lower es un cambio de política disfrazado.\n- **Meta:** extraer `strip_collapse` y mantener asserts verdes.\n- **Éxito:** asserts de `AV 1` + idempotencia; línea final `JR 2`.\n- **Límites:** no cambies upper por lower; re-ejecuta asserts tras el cambio.",
         id: "S05-T4-B-E2",
         kind: "independent",
         instruction:
@@ -1705,7 +1705,7 @@ print(normalize_dir(' jr 2 '))`,
         subtopicId: "S05-T4-B",
         title: "Suite tabla para normalize_nombre",
         preamble:
-          "- **Contexto:** la política colapsa+title del gate se defiende con una tabla `(input, expected)`.\n- **Meta:** recorrer casos con `assert` e imprimir `PASS` por fila.\n- **Éxito:** `PASS ... → A B`, `PASS X → X`, `all PASS`.\n- **Límites:** no declares PASS sin assert; no cambies expected sin cambiar política a propósito.",
+          "- **Contexto:** la política colapso+title del gate se defiende con una tabla `(input, expected)`.\n- **Meta:** recorrer casos con `assert` e imprimir `PASS` por fila.\n- **Éxito:** `PASS ... → A B`, `PASS X → X`, `all PASS`.\n- **Límites:** no declares PASS sin assert; no cambies expected sin cambiar política a propósito.",
         id: "S05-T4-B-E3",
         kind: "transfer",
         instruction:
@@ -1724,7 +1724,7 @@ print(normalize_dir(' jr 2 '))`,
         starterCode: {
           language: 'python',
           title: "suite_nombre.py",
-          code: `# CASO-LIM-005 · suite tabla de casos (colapsa + title)
+          code: `# CASO-LIM-005 · suite tabla de casos (colapso + title)
 # FALLO: no recorre cases; declara PASS a ciegas
 def normalize_nombre(raw):
     return ' '.join(raw.strip().split()).title()
