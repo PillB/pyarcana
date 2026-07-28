@@ -18,44 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **406** | Paragraphs: **269**
-- Findings: **126** (high=0, medium=23, low=103)
-- Mean quality score (0–10): **8.56**
-- Mean Fernández-Huerta: **92.8** (muy fácil)
-- Mean words/sentence: **11.73**
+- Sentences: **412** | Paragraphs: **255**
+- Findings: **111** (high=0, medium=13, low=98)
+- Mean quality score (0–10): **8.91**
+- Mean Fernández-Huerta: **92.6** (muy fácil)
+- Mean words/sentence: **9.59**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S28 | 8.56 | 92.8 | 11.73 | 0/23/103 | `s28-llm-agents.ts` |
+| S29 | 8.91 | 92.6 | 9.59 | 0/13/98 | `s29-mlops.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=88)
+### `fragment` (n=96)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=19)
+### `missing_terminal_punct` (n=7)
 - **Cause:** Frases colgadas tras edición o plantillas.
 - **Improvement:** Toda oración asertiva cierra con punto.
 
-### `space_before_punct` (n=6)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+### `unbalanced_delimiters` (n=4)
+- **Cause:** Paréntesis/comillas abiertos en cortes de párrafo.
+- **Improvement:** Validar emparejamiento en revisión.
 
-### `missing_inverted_exclamation` (n=5)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `repeated_word` (n=4)
+### `repeated_word` (n=2)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
 
-### `lowercase_after_period` (n=4)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `space_before_punct` (n=2)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 
